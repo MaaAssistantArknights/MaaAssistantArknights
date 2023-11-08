@@ -6508,6 +6508,41 @@
         "code": "CW-1",
         "dropInfos": [
             {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_01"
+    },
+    {
+        "apCost": 9,
+        "code": "CW-1",
+        "dropInfos": [
+            {
                 "dropType": "EXTRA_DROP",
                 "itemId": "30011"
             },
@@ -6545,6 +6580,41 @@
             }
         ],
         "stageId": "act25side_01_perm"
+    },
+    {
+        "apCost": 9,
+        "code": "CW-2",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_02"
     },
     {
         "apCost": 9,
@@ -6594,6 +6664,41 @@
         "code": "CW-3",
         "dropInfos": [
             {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30011"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30021"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30031"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30041"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30051"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30061"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_03"
+    },
+    {
+        "apCost": 9,
+        "code": "CW-3",
+        "dropInfos": [
+            {
                 "dropType": "EXTRA_DROP",
                 "itemId": "30011"
             },
@@ -6631,6 +6736,25 @@
             }
         ],
         "stageId": "act25side_03_perm"
+    },
+    {
+        "apCost": 12,
+        "code": "CW-4",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30032"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_04"
     },
     {
         "apCost": 12,
@@ -6676,6 +6800,25 @@
         "code": "CW-5",
         "dropInfos": [
             {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30042"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30052"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_05"
+    },
+    {
+        "apCost": 12,
+        "code": "CW-5",
+        "dropInfos": [
+            {
                 "dropType": "EXTRA_DROP",
                 "itemId": "2001"
             },
@@ -6715,6 +6858,25 @@
         "stageId": "act25side_05_perm"
     },
     {
+        "apCost": 15,
+        "code": "CW-6",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30012"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30022"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_06"
+    },
+    {
         "apCost": 12,
         "code": "CW-6",
         "dropInfos": [
@@ -6752,6 +6914,25 @@
             }
         ],
         "stageId": "act25side_06_perm"
+    },
+    {
+        "apCost": 15,
+        "code": "CW-7",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30042"
+            },
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30062"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_07"
     },
     {
         "apCost": 21,
@@ -6799,6 +6980,21 @@
             }
         ],
         "stageId": "act25side_07_perm"
+    },
+    {
+        "apCost": 21,
+        "code": "CW-8",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "30053"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_08"
     },
     {
         "apCost": 21,
@@ -6854,6 +7050,21 @@
             }
         ],
         "stageId": "act25side_08_perm"
+    },
+    {
+        "apCost": 21,
+        "code": "CW-9",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31043"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_09"
     },
     {
         "apCost": 21,
@@ -6917,6 +7128,21 @@
             }
         ],
         "stageId": "act25side_09_perm"
+    },
+    {
+        "apCost": 21,
+        "code": "CW-10",
+        "dropInfos": [
+            {
+                "dropType": "NORMAL_DROP",
+                "itemId": "31023"
+            },
+            {
+                "dropType": "FURNITURE",
+                "itemId": "furni"
+            }
+        ],
+        "stageId": "act25side_10"
     },
     {
         "apCost": 21,
@@ -7752,16 +7978,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-01"
@@ -7803,16 +8021,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-02"
@@ -7854,16 +8064,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-03"
@@ -7905,16 +8107,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-04"
@@ -7956,16 +8150,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-05"
@@ -8007,16 +8193,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-06"
@@ -8058,16 +8236,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-07"
@@ -8109,16 +8279,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-08"
@@ -8160,16 +8322,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-09"
@@ -8211,16 +8365,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-10"
@@ -8262,16 +8408,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_00-11"
@@ -8313,16 +8451,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-01"
@@ -8375,16 +8505,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-03"
@@ -8426,16 +8548,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-04"
@@ -8477,16 +8591,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-05"
@@ -8528,16 +8634,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-06"
@@ -8583,16 +8681,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-07"
@@ -8638,16 +8728,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-08"
@@ -8693,16 +8775,8 @@
                 "itemId": "3112"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-09"
@@ -8748,16 +8822,8 @@
                 "itemId": "3301"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-10"
@@ -8814,16 +8880,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_01-12"
@@ -8869,16 +8927,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-01"
@@ -8924,16 +8974,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-02"
@@ -8975,16 +9017,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-03"
@@ -9030,16 +9064,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-04"
@@ -9085,16 +9111,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-05"
@@ -9140,16 +9158,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-06"
@@ -9191,16 +9201,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-07"
@@ -9246,16 +9248,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-08"
@@ -9301,16 +9295,8 @@
                 "itemId": "30073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-09"
@@ -9356,16 +9342,8 @@
                 "itemId": "30103"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_02-10"
@@ -9411,16 +9389,8 @@
                 "itemId": "30053"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-01"
@@ -9462,16 +9432,8 @@
                 "itemId": "30083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-02"
@@ -9513,16 +9475,8 @@
                 "itemId": "30093"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-03"
@@ -9564,16 +9518,8 @@
                 "itemId": "30063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-04"
@@ -9615,16 +9561,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-05"
@@ -9666,16 +9604,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-06"
@@ -9717,16 +9647,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-07"
@@ -9784,16 +9706,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_03-08"
@@ -9847,16 +9761,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-01"
@@ -9918,16 +9824,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-02"
@@ -9985,16 +9883,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-03"
@@ -10052,16 +9942,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-04"
@@ -10119,16 +10001,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-05"
@@ -10186,16 +10060,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-06"
@@ -10257,16 +10123,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-07"
@@ -10328,16 +10186,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-08"
@@ -10399,16 +10249,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-09"
@@ -10462,16 +10304,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_04-10"
@@ -10525,16 +10359,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-01"
@@ -10596,16 +10422,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-02"
@@ -10623,16 +10441,8 @@
                 "itemId": "30033"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-03"
@@ -10690,16 +10500,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-04"
@@ -10761,16 +10563,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-05"
@@ -10828,16 +10622,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-06"
@@ -10855,16 +10641,8 @@
                 "itemId": "30093"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-07"
@@ -10922,16 +10700,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-08"
@@ -10989,16 +10759,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-09"
@@ -11016,16 +10778,8 @@
                 "itemId": "30063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_05-10"
@@ -11039,16 +10793,8 @@
                 "itemId": "30042"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-01"
@@ -11110,16 +10856,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-02"
@@ -11177,16 +10915,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-03"
@@ -11244,16 +10974,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-04"
@@ -11271,16 +10993,8 @@
                 "itemId": "30032"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-05"
@@ -11353,16 +11067,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-07"
@@ -11380,16 +11086,8 @@
                 "itemId": "30032"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-08"
@@ -11447,16 +11145,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-09"
@@ -11474,16 +11164,8 @@
                 "itemId": "30073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-10"
@@ -11545,16 +11227,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-11"
@@ -11612,16 +11286,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-12"
@@ -11679,16 +11345,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-13"
@@ -11706,16 +11364,8 @@
                 "itemId": "30063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_06-14"
@@ -11788,16 +11438,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-01"
@@ -11811,16 +11453,8 @@
                 "itemId": "30022"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-02"
@@ -11882,16 +11516,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-03"
@@ -11953,16 +11579,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-04"
@@ -11980,16 +11598,8 @@
                 "itemId": "30022"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-05"
@@ -12055,16 +11665,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-06"
@@ -12130,16 +11732,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-07"
@@ -12193,16 +11787,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-08"
@@ -12220,16 +11806,8 @@
                 "itemId": "30042"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-09"
@@ -12247,16 +11825,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-10"
@@ -12314,16 +11884,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-11"
@@ -12377,16 +11939,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-12"
@@ -12448,16 +12002,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-13"
@@ -12475,16 +12021,8 @@
                 "itemId": "30083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-14"
@@ -12550,16 +12088,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-15"
@@ -12577,16 +12107,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_07-16"
@@ -12640,16 +12162,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-01"
@@ -12715,16 +12229,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-02"
@@ -12786,16 +12292,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-03"
@@ -12809,16 +12307,8 @@
                 "itemId": "30032"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-04"
@@ -12836,16 +12326,8 @@
                 "itemId": "30022"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-05"
@@ -12903,16 +12385,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-06"
@@ -12974,16 +12448,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-07"
@@ -13001,16 +12467,8 @@
                 "itemId": "31013"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-08"
@@ -13028,16 +12486,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-09"
@@ -13091,16 +12541,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-10"
@@ -13162,16 +12604,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-11"
@@ -13189,16 +12623,8 @@
                 "itemId": "30042"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-12"
@@ -13256,16 +12682,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-13"
@@ -13319,16 +12737,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-14"
@@ -13405,16 +12815,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-16"
@@ -13476,16 +12878,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_08-17"
@@ -13539,16 +12933,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-01"
@@ -13562,16 +12948,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-02"
@@ -13629,16 +13007,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-03"
@@ -13700,16 +13070,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-04"
@@ -13767,16 +13129,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-05"
@@ -13834,16 +13188,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-06"
@@ -13901,16 +13247,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-07"
@@ -13972,16 +13310,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-08"
@@ -14039,16 +13369,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-09"
@@ -14110,16 +13432,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-10"
@@ -14177,16 +13491,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-11"
@@ -14240,16 +13546,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-12"
@@ -14311,16 +13609,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-13"
@@ -14338,16 +13628,8 @@
                 "itemId": "30093"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-14"
@@ -14409,16 +13691,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-15"
@@ -14484,16 +13758,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-16"
@@ -14551,16 +13817,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_09-17"
@@ -14614,16 +13872,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-01"
@@ -14689,16 +13939,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-02"
@@ -14716,16 +13958,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-03"
@@ -14787,16 +14021,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-04"
@@ -14846,16 +14072,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-05"
@@ -14913,16 +14131,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-06"
@@ -14980,16 +14190,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-07"
@@ -15047,16 +14249,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-08"
@@ -15114,16 +14308,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-09"
@@ -15185,16 +14371,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-10"
@@ -15256,16 +14434,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-11"
@@ -15331,16 +14501,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-12"
@@ -15406,16 +14568,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-13"
@@ -15433,16 +14587,8 @@
                 "itemId": "30083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-14"
@@ -15496,16 +14642,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_10-15"
@@ -15559,16 +14697,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-01"
@@ -15586,16 +14716,8 @@
                 "itemId": "31023"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-02"
@@ -15657,16 +14779,8 @@
                 "itemId": "31064"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-03"
@@ -15728,16 +14842,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-04"
@@ -15755,16 +14861,8 @@
                 "itemId": "30042"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-05"
@@ -15814,16 +14912,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-06"
@@ -15889,16 +14979,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-07"
@@ -15956,16 +15038,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-08"
@@ -16031,16 +15105,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-09"
@@ -16106,16 +15172,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-10"
@@ -16169,16 +15227,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-11"
@@ -16240,16 +15290,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-12"
@@ -16307,16 +15349,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-13"
@@ -16378,16 +15412,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-14"
@@ -16441,16 +15467,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-16"
@@ -16516,16 +15534,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_11-18"
@@ -16575,16 +15585,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-01"
@@ -16650,16 +15652,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-02"
@@ -16717,16 +15711,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-03"
@@ -16780,16 +15766,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-04"
@@ -16855,16 +15833,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-05"
@@ -16922,16 +15892,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-06"
@@ -16997,16 +15959,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-07"
@@ -17064,16 +16018,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-08"
@@ -17135,16 +16081,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-09"
@@ -17202,16 +16140,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-10"
@@ -17277,16 +16207,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-11"
@@ -17352,16 +16274,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-12"
@@ -17415,16 +16329,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-13"
@@ -17482,16 +16388,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-15"
@@ -17549,16 +16447,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-16"
@@ -17624,16 +16514,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-17"
@@ -17695,16 +16577,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "main_12-18"
@@ -18907,16 +17781,8 @@
                 "itemId": "3261"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_a_1"
@@ -18934,16 +17800,8 @@
                 "itemId": "3262"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_a_2"
@@ -18961,16 +17819,8 @@
                 "itemId": "3251"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_b_1"
@@ -18988,16 +17838,8 @@
                 "itemId": "3252"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_b_2"
@@ -19015,16 +17857,8 @@
                 "itemId": "3271"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_c_1"
@@ -19042,16 +17876,8 @@
                 "itemId": "3272"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_c_2"
@@ -19069,16 +17895,8 @@
                 "itemId": "3281"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_d_1"
@@ -19096,16 +17914,8 @@
                 "itemId": "3282"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "pro_d_2"
@@ -21150,16 +19960,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-01"
@@ -21201,16 +20003,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-02"
@@ -21252,16 +20046,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-03"
@@ -21303,16 +20089,8 @@
                 "itemId": "30061"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-04"
@@ -21354,16 +20132,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-05"
@@ -21405,16 +20175,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-06"
@@ -21456,16 +20218,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-07"
@@ -21507,16 +20261,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-08"
@@ -21558,16 +20304,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-09"
@@ -21613,16 +20351,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-10"
@@ -21664,16 +20394,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-11"
@@ -21711,16 +20433,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_02-12"
@@ -21762,16 +20476,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_03-1-1"
@@ -21809,16 +20515,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_03-1-2"
@@ -21860,16 +20558,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_03-2-1"
@@ -21907,16 +20597,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_03-2-2"
@@ -21958,16 +20640,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_03-2-3"
@@ -22009,16 +20683,8 @@
                 "itemId": "31023"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_03-3-1"
@@ -22036,16 +20702,8 @@
                 "itemId": "31033"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_03-3-2"
@@ -22107,16 +20765,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-1-1"
@@ -22170,16 +20820,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-1-2"
@@ -22237,16 +20879,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-1-3"
@@ -22304,16 +20938,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-2-1"
@@ -22367,16 +20993,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-2-2"
@@ -22434,16 +21052,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-2-3"
@@ -22501,16 +21111,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-3-1"
@@ -22564,16 +21166,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-3-2"
@@ -22631,16 +21225,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-3-3"
@@ -22694,16 +21280,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_04-4-1"
@@ -22721,16 +21299,8 @@
                 "itemId": "30012"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-1-1"
@@ -22788,16 +21358,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-1-2"
@@ -22811,16 +21373,8 @@
                 "itemId": "30032"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-2-1"
@@ -22838,16 +21392,8 @@
                 "itemId": "30022"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-2-2"
@@ -22861,16 +21407,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-3-1"
@@ -22928,16 +21466,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-3-2"
@@ -22999,16 +21529,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-4-1"
@@ -23070,16 +21592,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-4-2"
@@ -23145,16 +21659,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_05-4-3"
@@ -23212,16 +21718,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_06-1-1"
@@ -23235,16 +21733,8 @@
                 "itemId": "30012"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_06-1-2"
@@ -23262,16 +21752,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_06-2-1"
@@ -23325,16 +21807,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_06-2-2"
@@ -23388,16 +21862,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_07-1-1"
@@ -23411,16 +21877,8 @@
                 "itemId": "30052"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_07-1-2"
@@ -23486,16 +21944,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_09-1-1"
@@ -23553,16 +22003,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "sub_09-1-2"
@@ -23616,16 +22058,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-01"
@@ -23691,16 +22125,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-02"
@@ -23718,16 +22144,8 @@
                 "itemId": "30062"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-03"
@@ -23789,16 +22207,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-04"
@@ -23848,16 +22258,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-05"
@@ -23915,16 +22317,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-06"
@@ -23982,16 +22376,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-07"
@@ -24049,16 +22435,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-08"
@@ -24116,16 +22494,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-09"
@@ -24187,16 +22557,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-10"
@@ -24258,16 +22620,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-11"
@@ -24333,16 +22687,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-12"
@@ -24408,16 +22754,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-13"
@@ -24435,16 +22773,8 @@
                 "itemId": "30083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-14"
@@ -24498,16 +22828,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_10-15"
@@ -24561,16 +22883,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-01"
@@ -24588,16 +22902,8 @@
                 "itemId": "31023"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-02"
@@ -24659,16 +22965,8 @@
                 "itemId": "31064"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-03"
@@ -24730,16 +23028,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-04"
@@ -24757,16 +23047,8 @@
                 "itemId": "30042"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-05"
@@ -24816,16 +23098,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-06"
@@ -24891,16 +23165,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-07"
@@ -24958,16 +23224,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-08"
@@ -25033,16 +23291,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-09"
@@ -25108,16 +23358,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-10"
@@ -25171,16 +23413,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-11"
@@ -25242,16 +23476,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-12"
@@ -25309,16 +23535,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-13"
@@ -25380,16 +23598,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-14"
@@ -25443,16 +23653,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-16"
@@ -25518,16 +23720,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_11-18"
@@ -25577,16 +23771,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-01"
@@ -25652,16 +23838,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-02"
@@ -25719,16 +23897,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-03"
@@ -25782,16 +23952,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-04"
@@ -25857,16 +24019,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-05"
@@ -25924,16 +24078,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-06"
@@ -25999,16 +24145,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-07"
@@ -26066,16 +24204,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-08"
@@ -26137,16 +24267,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-09"
@@ -26204,16 +24326,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-10"
@@ -26279,16 +24393,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-11"
@@ -26354,16 +24460,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-12"
@@ -26417,16 +24515,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-13"
@@ -26484,16 +24574,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-15"
@@ -26551,16 +24633,8 @@
                 "itemId": "31073"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-16"
@@ -26626,16 +24700,8 @@
                 "itemId": "31063"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-17"
@@ -26697,16 +24763,8 @@
                 "itemId": "31083"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "tough_12-18"
@@ -27905,16 +25963,8 @@
                 "itemId": "3112"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_armor_1"
@@ -27928,16 +25978,8 @@
                 "itemId": "3112"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_armor_2"
@@ -27955,16 +25997,8 @@
                 "itemId": "3113"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_armor_3"
@@ -27982,16 +26016,8 @@
                 "itemId": "3114"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_armor_4"
@@ -28009,16 +26035,8 @@
                 "itemId": "3114"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_armor_5"
@@ -28032,16 +26050,8 @@
                 "itemId": "3301"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_fly_1"
@@ -28055,16 +26065,8 @@
                 "itemId": "3301"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_fly_2"
@@ -28082,16 +26084,8 @@
                 "itemId": "3302"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_fly_3"
@@ -28113,16 +26107,8 @@
                 "itemId": "3303"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_fly_4"
@@ -28144,16 +26130,8 @@
                 "itemId": "3303"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_fly_5"
@@ -28171,16 +26149,8 @@
                 "itemId": "2002"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_kc_1"
@@ -28198,16 +26168,8 @@
                 "itemId": "2002"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_kc_2"
@@ -28229,16 +26191,8 @@
                 "itemId": "2003"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_kc_3"
@@ -28264,16 +26218,8 @@
                 "itemId": "2004"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_kc_4"
@@ -28295,16 +26241,8 @@
                 "itemId": "2004"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_kc_5"
@@ -28322,16 +26260,8 @@
                 "itemId": "2004"
             },
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_kc_6"
@@ -28341,16 +26271,8 @@
         "code": "CE-1",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_melee_1"
@@ -28360,16 +26282,8 @@
         "code": "CE-2",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_melee_2"
@@ -28379,16 +26293,8 @@
         "code": "CE-3",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_melee_3"
@@ -28398,16 +26304,8 @@
         "code": "CE-4",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_melee_4"
@@ -28417,16 +26315,8 @@
         "code": "CE-5",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_melee_5"
@@ -28436,16 +26326,8 @@
         "code": "CE-6",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_melee_6"
@@ -28455,16 +26337,8 @@
         "code": "AP-1",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_toxic_1"
@@ -28474,16 +26348,8 @@
         "code": "AP-2",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_toxic_2"
@@ -28493,16 +26359,8 @@
         "code": "AP-3",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_toxic_3"
@@ -28512,16 +26370,8 @@
         "code": "AP-4",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_toxic_4"
@@ -28531,16 +26381,8 @@
         "code": "AP-5",
         "dropInfos": [
             {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "ap_supply_lt_010"
-            },
-            {
                 "dropType": "FURNITURE",
                 "itemId": "furni"
-            },
-            {
-                "dropType": "SPECIAL_DROP",
-                "itemId": "randomMaterial_8"
             }
         ],
         "stageId": "wk_toxic_5"

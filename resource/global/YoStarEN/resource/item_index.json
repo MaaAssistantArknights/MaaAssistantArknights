@@ -975,6 +975,14 @@
         "sortId": 10019,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10020,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1438,6 +1446,30 @@
         "name": "Rathalos Ruby",
         "sortId": -10000,
         "usage": "A material obtainable from battling a Rathalos. Perfect as melding material."
+    },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "Aside from the data hidden by Nasti all over the lands, new data are continually produced with the federal government's support. Columbia is gradually realizing the value of Kristen's research.",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "Flight Data Recorder Chip",
+        "sortId": -10000,
+        "usage": "A chip containing flight data recorded at various altitudes and environments. Collect a certain amount to exchange with the Special Case Contact C.U.D.O.D. for goods."
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key01.png",
+        "name": "Special Ops Permit α",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key02.png",
+        "name": "Special Ops Permit β",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
     },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -1965,6 +1997,14 @@
         "icon": "randomMaterial_8.png",
         "name": "Rhodes Island Supplies V",
         "sortId": 60108,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "A materials supply crate provided by the Maylander Foundation. Allocated based on the needs of each investigated area. As such, the materials in each crate can be different.",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "Technological Investigation Supply",
+        "sortId": 60109,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "return_credit_token": {

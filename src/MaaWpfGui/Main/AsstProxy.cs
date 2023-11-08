@@ -978,6 +978,11 @@ namespace MaaWpfGui.Main
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"]?.ToString();
+                            if (itemName == "furni")
+                            {
+                                itemName = LocalizationHelper.GetString("FurnitureDrop");
+                            }
+
                             int totalQuantity = (int)item["quantity"];
                             int addQuantity = (int)item["addQuantity"];
 
