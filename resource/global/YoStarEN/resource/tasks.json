@@ -49,6 +49,18 @@
             150
         ]
     },
+    "CW-Open": {
+        "text": [
+            "Lone Trail",
+            "is now open"
+        ]
+    },
+    "CWChapterToCW": {
+        "text": [
+            "THE COMING",
+            "THE FUTURE"
+        ]
+    },
     "CF-Open": {
         "text": [
             "Event <A Flurry to the Flame> is now",
@@ -196,18 +208,6 @@
             "Holiday",
             "Rerun",
             "open"
-        ]
-    },
-    "CW-Open": {
-        "text": [
-            "Lone Trail",
-            "is now open"
-        ]
-    },
-    "CWChapterToCW": {
-        "text": [
-            "THE COMING",
-            "THE FUTURE"
         ]
     },
     "CharsNameOcrReplace": {
