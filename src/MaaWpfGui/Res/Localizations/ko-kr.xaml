@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">테스트 보내기</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트 정보입니다. 이 콘텐츠가 표시되면 알림이 성공적으로 전송된 것입니다!</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan]이 키를 보냅니다.</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 서버</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 포트</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP]는 SSL을 사용합니다.</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP]에 로그인해야 합니다.</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 사용자 이름</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 비밀번호</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 보낸 사람</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 받는 사람</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 이 키를 보냅니다.</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP 서버</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">포트</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">는 SSL을 사용합니다.</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">에 로그인해야 합니다.</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">사용자 이름</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">비밀번호</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">보낸 사람</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">받는 사람</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
