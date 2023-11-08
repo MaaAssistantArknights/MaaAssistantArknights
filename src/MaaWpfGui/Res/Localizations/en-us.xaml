@@ -239,6 +239,8 @@
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
+    <system:String x:Key="BlockSleep">Prevent hibernation when running tasks</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">Keep screen on when preventing hibernation</system:String>
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>

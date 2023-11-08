@@ -775,6 +775,30 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
+
+        public bool BlockSleep
+        {
+            get => _blockSleep;
+            set
+            {
+                SetAndNotify(ref _blockSleep, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
+            }
+        }
+
+        private bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+
+        public bool BlockSleepWithScreenOn
+        {
+            get => _blockSleepWithScreenOn;
+            set
+            {
+                SetAndNotify(ref _blockSleepWithScreenOn, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
+            }
+        }
+
         public void RunScript(string str)
         {
             bool enable = str switch
@@ -3893,6 +3917,15 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+        }
+
+        public void SetupSleepManagement()
+        {
+            if (BlockSleep)
+            {
+                SleepManagement.BlockSleep(BlockSleepWithScreenOn);
+                _logger.Information("Blocking sleep.");
+            }
         }
     }
 }
