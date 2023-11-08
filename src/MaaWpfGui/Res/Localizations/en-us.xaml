@@ -295,6 +295,7 @@ Official(CN): Enter the mobile phone number displayed on the login interface, su
 Bilibili: Enter the account name displayed on the login interface, such as John
 Other client types are not supported</system:String>
     <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">The selected file name does not contain ADB. Please check if you have selected the wrong file or emulator executable.</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>

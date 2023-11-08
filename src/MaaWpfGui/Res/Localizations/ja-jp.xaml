@@ -295,6 +295,7 @@
 Bilibili: ログイン インターフェイスに表示されるアカウント名 (張三 など) を入力します。
 他の種類のクライアントはサポートされていません</system:String>
     <system:String x:Key="AdbPath">ADBパス（相対/絶対）</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名に ADB が含まれていません。間違ったファイルを選択しているか、エミュレータの実行ファイルを選択していないか確認してください。</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
