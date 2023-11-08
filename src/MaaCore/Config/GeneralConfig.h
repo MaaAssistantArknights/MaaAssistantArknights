@@ -14,6 +14,8 @@ namespace asst
     struct RequestInfo
     {
         std::string url;                                      // 上传地址
+        std::string drop_url;
+        std::string recruit_url;
         std::unordered_map<std::string, std::string> headers; // 请求头
         int timeout = 0;                                      // 超时时间
     };

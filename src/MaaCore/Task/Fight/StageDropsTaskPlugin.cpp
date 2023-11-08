@@ -420,7 +420,7 @@ void asst::StageDropsTaskPlugin::upload_to_yituliu()
         m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
     }
 
-    m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigData)
+    m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigDataStageDrops)
         .set_body(body.to_string())
         .set_extra_headers(extra_headers)
         .set_retry_times(5)
