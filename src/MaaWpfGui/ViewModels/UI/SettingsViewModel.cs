@@ -2777,6 +2777,20 @@ namespace MaaWpfGui.ViewModels.UI
             get => _adbPath;
             set
             {
+                if (!Path.GetFileName(value).ToLower().Contains("adb"))
+                {
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("AdbPathFileSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Tip"),
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Warning,
+                        cancel: LocalizationHelper.GetString("Cancel"));
+                    if (result == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+
                 SetAndNotify(ref _adbPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, value);
             }

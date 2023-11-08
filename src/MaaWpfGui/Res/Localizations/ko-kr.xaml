@@ -295,6 +295,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
 Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)을 입력하세요.
 다른 클라이언트 유형은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로 (상대/절대)</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다. 잘못된 파일을 선택하거나 에뮬레이터 실행 파일을 선택하지 않았는지 확인해주세요.</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
