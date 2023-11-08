@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] Send Key</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] Recipient</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] Server</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] Port</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] Use SSL</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] Authentication Required</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] Username</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] Password</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] Sender</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">Recipient</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP Server</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">Port</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">Use SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">Authentication Required</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">Username</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">Password</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">Sender</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>

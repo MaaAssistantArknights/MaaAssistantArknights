@@ -291,12 +291,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
 
-        public bool IsEnabled => _enabledExternalNotificationProvider != "Off";
-
-        public bool IsServerChan => _enabledExternalNotificationProvider == "ServerChan";
-
-        public bool IsSmtp => _enabledExternalNotificationProvider == "SMTP";
-
         public string EnabledExternalNotificationProvider
         {
             get => _enabledExternalNotificationProvider;
@@ -304,10 +298,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _enabledExternalNotificationProvider, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
-
-                NotifyOfPropertyChange(nameof(IsEnabled));
-                NotifyOfPropertyChange(nameof(IsSmtp));
-                NotifyOfPropertyChange(nameof(IsServerChan));
             }
         }
 

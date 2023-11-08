@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知テスト</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました。</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[ServerChan] Send Key</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] サーバ</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] ポート</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] SSL を使用します</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] ログインが必要です</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] ユーザー名</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] パスワード</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 送信者</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 受信者</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">ServerChan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP サーバ</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">ポート</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">SSL を使用します</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">ログインが必要です</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">ユーザー名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">パスワード</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">送信者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">受信者</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
