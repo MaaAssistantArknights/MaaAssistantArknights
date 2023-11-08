@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">這是 MAA 外部通知測試資訊。 如果你看到了這段內容，就說明通知發送成功了！</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] 發送金鑰</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 伺服器</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 埠</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] 使用 SSL</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] 需要登錄</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 使用者名</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 密碼</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 發件者</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 收件者</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 發送金鑰</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP 伺服器</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">埠</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">使用 SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">需要登錄</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">使用者名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">密碼</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">發件者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">收件者</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
     <system:String x:Key="SettingsGuide">設定指引</system:String>
