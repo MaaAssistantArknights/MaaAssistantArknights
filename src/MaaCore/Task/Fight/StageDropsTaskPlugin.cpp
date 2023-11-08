@@ -112,8 +112,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         return false;
     }
 
-    auto image_strip = ctrler()->get_image().clone();
-    StageDropsImageAnalyzer analyzer(image_strip);
+    StageDropsImageAnalyzer analyzer(ctrler()->get_image());
 
     bool ret = false;
     while (!need_exit()) {
@@ -127,35 +126,16 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
         ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
         sleep(Config.get_options().task_delay * 3);
 
-        const cv::Rect ref_roi = { image_strip.cols - 320, 530, 280, 100 };
         auto new_img = ctrler()->get_image();
 
-        // find relative position of old image on new one
-        Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
-        offset_match.set_templ(image_strip(ref_roi));
-        offset_match.set_threshold(0.7);
-        if (!offset_match.analyze()) break;
-
-        const int offset = (new_img.cols - offset_match.get_result().rect.x) - (image_strip.cols - ref_roi.x);
+        const auto offset_opt = analyzer.merge_image(new_img);
+        if (!offset_opt.has_value()) break;
+        const auto offset = offset_opt.value();
         Log.trace("new image offset:", offset);
         if (offset <= 4) {
             ret = true;
             break;
         }
-        const int rel_x = offset + image_strip.cols - new_img.cols;
-
-        const cv::Rect overlay_rect = { 540, 500, 740, 220 };
-        cv::Rect overlay_rect_on_strip = overlay_rect;
-        overlay_rect_on_strip.x += rel_x;
-
-        cv::Mat new_strip =
-            cv::Mat { image_strip.rows, overlay_rect_on_strip.br().x, image_strip.type(), cv::Scalar(0) };
-        image_strip.copyTo(new_strip(cv::Rect { 0, 0, image_strip.cols, image_strip.rows }));
-        new_img(overlay_rect).copyTo(new_strip(overlay_rect_on_strip));
-
-        image_strip = new_strip;
-
-        analyzer.set_image(image_strip);
     }
 
     // image strip constructed, start main step
