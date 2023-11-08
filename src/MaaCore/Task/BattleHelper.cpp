@@ -327,6 +327,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
 
         m_inst_helper.sleep(use_oper_task_ptr->post_delay);
         m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
+        // 仅简单复用，该延迟含义与此处逻辑无关 by MistEO
         m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
     }
 
