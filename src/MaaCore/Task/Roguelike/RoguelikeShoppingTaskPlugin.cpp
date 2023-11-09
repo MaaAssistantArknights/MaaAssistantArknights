@@ -46,7 +46,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         return false;
     }
 
-    bool no_longer_buy = status()->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
+    bool no_longer_buy = m_config->get_trader_no_longer_buy();
 
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
@@ -184,7 +184,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             }
         }
         if (goods.no_longer_buy) {
-            status()->set_number(Status::RoguelikeTraderNoLongerBuy, 1);
+            m_config->set_trader_no_longer_buy(true);
         }
         break;
     }
