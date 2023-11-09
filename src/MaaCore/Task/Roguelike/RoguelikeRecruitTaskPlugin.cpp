@@ -61,7 +61,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     m_config->set_recruitment_count(recruit_count);
 
     // 是否有开局干员，阵容中必须有开局干员，没有前仅招募start干员或预备干员
-    bool start_complete = status()->get_number(Status::RoguelikeRecruitmentStartsComplete).value_or(0);
+    bool start_complete = m_config->get_recruitment_starts_complete();
     // 是否阵容完备，阵容完备前，仅招募key干员或预备干员
     bool team_complete = status()->get_number(Status::RoguelikeRecruitmentTeamComplete).value_or(0);
 
@@ -144,8 +144,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         team_complete = true;
     }
 
-    status()->set_number(Status::RoguelikeRecruitmentStartsComplete,
-                         start_complete); // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
+    m_config->set_recruitment_starts_complete(start_complete); // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
     status()->set_number(Status::RoguelikeRecruitmentTeamComplete,
                          team_complete); // 阵容完备前，仅招募key干员或预备干员
 
