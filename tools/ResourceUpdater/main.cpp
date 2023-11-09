@@ -45,6 +45,9 @@ static inline void trim(std::string& s)
     rtrim(s);
 }
 
+bool cloneOrUpdateRepo(const std::filesystem::path& repo_dir, const std::string& repo_url,
+                       const std::string& branch = "");
+
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir,
                        bool with_imgs = true);
 bool cvt_single_item_template(const std::filesystem::path& input, const std::filesystem::path& output);
@@ -91,60 +94,24 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto txwy_data_dir = cur_path / "arknights-toolbox-update";
     const auto overseas_data_dir = cur_path;
     const auto resource_dir = solution_dir / "resource";
-    std::unordered_map<std::string, std::string> global_dirs = {
-        { "ArknightsGameData_YoStar\\en_US\\gamedata", "YoStarEN" },
-        { "ArknightsGameData_YoStar\\ja_JP\\gamedata", "YoStarJP" },
-        { "ArknightsGameData_YoStar\\ko_KR\\gamedata", "YoStarKR" },
-        { "arknights-toolbox-update\\tw", "txwy" },
+    std::unordered_map<std::filesystem::path, std::string> global_dirs = {
+        { yostar_data_dir / "en_US" / "gamedata", "YoStarEN" },
+        { yostar_data_dir / "ja_JP" / "gamedata", "YoStarJP" },
+        { yostar_data_dir / "ko_KR" / "gamedata", "YoStarKR" },
+        { txwy_data_dir / "tw", "txwy" },
     };
 
     /* METHODS CALLS */
 
-    /* Clone or update official data from ArknightsGameResource*/
     std::cout << "------------Clone ArknightsGameResource------------" << std::endl;
-    std::string git_cmd;
-    if (!std::filesystem::exists(official_data_dir)) {
-        git_cmd = "git clone https://github.com/yuanyan3060/ArknightsGameResource.git --depth=1 \"" +
-                  official_data_dir.string() + "\"";
-    }
-    else {
-        git_cmd = "git -C \"" + official_data_dir.string() + "\" pull --autostash";
-    }
-    int git_ret = system(git_cmd.c_str());
-    if (git_ret != 0) {
-        std::cerr << "git cmd failed" << std::endl;
-        return -1;
-    }
+    if (!cloneOrUpdateRepo(official_data_dir, "https://github.com/yuanyan3060/ArknightsGameResource.git")) return -1;
 
-    /* Clone or update overseas data from ArknightsGameData_YoStar*/
     std::cout << "------------Clone ArknightsGameData_Yostar------------" << std::endl;
-    if (!std::filesystem::exists(yostar_data_dir)) {
-        git_cmd = "git clone https://github.com/Kengxxiao/ArknightsGameData_YoStar.git --depth=1 \"" +
-                  yostar_data_dir.string() + "\"";
-    }
-    else {
-        git_cmd = "git -C \"" + yostar_data_dir.string() + "\" pull --autostash";
-    }
-    git_ret = system(git_cmd.c_str());
-    if (git_ret != 0) {
-        std::cerr << "git cmd failed" << std::endl;
-        return -1;
-    }
+    if (!cloneOrUpdateRepo(yostar_data_dir, "https://github.com/Kengxxiao/ArknightsGameData_YoStar.git")) return -1;
 
-    /* Clone or update txwy data from arknights-toolbox-update*/
     std::cout << "------------Clone arknights-toolbox-update------------" << std::endl;
-    if (!std::filesystem::exists(txwy_data_dir)) {
-        git_cmd = "git clone -b data https://github.com/arkntools/arknights-toolbox-update.git --depth=1 \"" +
-                  txwy_data_dir.string() + "\"";
-    }
-    else {
-        git_cmd = "git -C \"" + txwy_data_dir.string() + "\" pull --autostash";
-    }
-    git_ret = system(git_cmd.c_str());
-    if (git_ret != 0) {
-        std::cerr << "git cmd failed" << std::endl;
+    if (!cloneOrUpdateRepo(txwy_data_dir, "https://github.com/arkntools/arknights-toolbox-update.git", "data"))
         return -1;
-    }
 
     /* Update levels.json from ArknightsGameResource*/
     std::cout << "------------Update levels.json for Official------------" << std::endl;
@@ -281,7 +248,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update global version info from ArknightsGameData_tar*/
+    /* Update global version info from ArknightsGameData_Yostar*/
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
         if (!update_version_info(overseas_data_dir / in / "excel", resource_dir / "global" / out / "resource")) {
@@ -299,11 +266,28 @@ int main([[maybe_unused]] int argc, char** argv)
 
 /* METHODS DEFINITIONS */
 
+bool cloneOrUpdateRepo(const std::filesystem::path& repo_dir, const std::string& repo_url, const std::string& branch)
+{
+    std::string git_cmd;
+    if (!std::filesystem::exists(repo_dir)) {
+        git_cmd = "git clone " + (branch.empty() ? "" : "-b " + branch + " ") + "--depth=1 \"" + repo_url + "\" \"" +
+                  repo_dir.string() + "\"";
+    }
+    else {
+        git_cmd = "git -C \"" + repo_dir.string() + "\" pull --autostash";
+    }
+    if (system(git_cmd.c_str()) != 0) {
+        std::cerr << "git cmd failed" << std::endl;
+        return false;
+    }
+    return true;
+}
+
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, bool with_imgs)
 {
 
-    const auto input_json_path = with_imgs ? input_dir / "gamedata" / "excel" / "item_table.json"
-                                           : input_dir / "item_table.json";
+    const auto input_json_path =
+        with_imgs ? input_dir / "gamedata" / "excel" / "item_table.json" : input_dir / "item_table.json";
 
     auto parse_ret = json::open(input_json_path);
     if (!parse_ret) {
@@ -839,18 +823,15 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
     return true;
 }
 
-bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
-                              const std::filesystem::path& txwy_data_dir, const std::filesystem::path& output_dir)
+bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& yostar_dir,
+                              const std::filesystem::path& txwy_dir, const std::filesystem::path& output_dir)
 {
     auto range_opt = json::open(input_dir / "range_table.json");
     auto chars_cn_opt = json::open(input_dir / "character_table.json");
-    auto chars_en_opt = json::open(overseas_dir / "en_US" / "gamedata" / "excel" / "character_table.json");
-    auto chars_jp_opt = json::open(overseas_dir / "ja_JP" / "gamedata" / "excel" / "character_table.json");
-    auto chars_kr_opt = json::open(overseas_dir / "ko_KR" / "gamedata" / "excel" / "character_table.json");
-    auto chars_tw_opt = json::open(txwy_data_dir / "tw" / "excel" / "character_table.json");
-    // auto battle_data_opt = json::open(output_dir / "battle_data.json");
-    //  https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/7074
-    //  https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/7079#issuecomment-1780467372
+    auto chars_en_opt = json::open(yostar_dir / "en_US" / "gamedata" / "excel" / "character_table.json");
+    auto chars_jp_opt = json::open(yostar_dir / "ja_JP" / "gamedata" / "excel" / "character_table.json");
+    auto chars_kr_opt = json::open(yostar_dir / "ko_KR" / "gamedata" / "excel" / "character_table.json");
+    auto chars_tw_opt = json::open(txwy_dir / "tw" / "excel" / "character_table.json");
 
     if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
         return false;
