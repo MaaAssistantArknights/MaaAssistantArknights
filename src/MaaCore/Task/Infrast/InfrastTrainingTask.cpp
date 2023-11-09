@@ -23,6 +23,19 @@ bool asst::InfrastTrainingTask::_run()
 
     if (!analyze_status()) return false;
 
+    if (m_continue_training) {
+        click_bottom_left_tab();
+        RegionOCRer choose_skill_analyzer(ctrler()->get_image());
+        choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
+        choose_skill_analyzer.set_required({ m_skill_name });
+        if (!choose_skill_analyzer.analyze()) {
+            Log.error(__FUNCTION__, "choose skill failed");
+            return false;
+        }
+        
+        continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().rect));
+    }
+
     return true;
 }
 
@@ -32,6 +45,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     RegionOCRer idle_analyzer(image);
     idle_analyzer.set_task_info("InfrastTrainingIdle");
     if (idle_analyzer.analyze()) {
+        m_continue_training = false;
         return true;
     }
 
@@ -66,6 +80,8 @@ bool asst::InfrastTrainingTask::analyze_status()
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
         return true;
     }
+
+    m_continue_training = false;
 
     RegionOCRer progress_analyzer(image);
     progress_analyzer.set_task_info("InfrastTrainingProgressRec");
@@ -109,4 +125,25 @@ bool asst::InfrastTrainingTask::training_completed()
 {
     ProcessTask task(*this, { "InfrastTrainingCompleted" });
     return task.run();
+}
+
+asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool continue_training) noexcept
+{
+    m_continue_training = continue_training;
+    return *this;
+}
+
+bool asst::InfrastTrainingTask::continue_train(int index)
+{
+    static const std::vector<std::string> continue_train_task = { "InfrastTrainingContinue1", "InfrastTrainingContinue2",
+                                                                  "InfrastTrainingContinue3" };
+    return ProcessTask { *this, { continue_train_task[index - 1] } }.run();
+}
+
+int asst::InfrastTrainingTask::skill_index_from_rect(const Rect& r)
+{
+    int cy = r.y + r.height / 2;
+    if (cy <= 300) return 1;
+    if (cy <= 500) return 2;
+    return 3;
 }

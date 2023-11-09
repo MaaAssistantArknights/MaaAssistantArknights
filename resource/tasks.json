@@ -7644,6 +7644,72 @@
             35
         ]
     },
+    "InfrastTrainingChooseSkillRec": {
+        "algorithm": "OcrDetect",
+        "isAscii": false,
+        "text": [],
+        "roi": [
+            470,
+            80,
+            145,
+            615
+        ]
+    },
+    "InfrastTrainingContinue1": {
+        "template": "InfrastTrainingContinue.png",
+        "action": "ClickSelf",
+        "roi": [
+            310,
+            145,
+            195,
+            185
+        ],
+        "next": [
+            "InfrastTrainingConfirm"
+        ]
+    },
+    "InfrastTrainingContinue2": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingContinue.png",
+        "roi": [
+            310,
+            350,
+            195,
+            185
+        ]
+    },
+    "InfrastTrainingContinue3": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingContinue.png",
+        "roi": [
+            310,
+            570,
+            195,
+            185
+        ]
+    },
+    "InfrastTrainingConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1000,
+            550,
+            280,
+            150
+        ],
+        "postDelay": 1000,
+        "next": [
+            "InfrastTrainingLocked"
+        ]
+    },
+    "InfrastTrainingLocked": {
+        "action": "DoNothing",
+        "roi": [
+            890,
+            10,
+            200,
+            200
+        ]
+    },
     "InfrastOperListTabSkillUnClicked": {
         "action": "ClickSelf",
         "roi": [
