@@ -76,11 +76,17 @@ namespace MaaWpfGui.Models
         {
             var ret = await Update();
 
-            if (ret == UpdateResult.Success)
+            string toastMessage = ret switch
+            {
+                UpdateResult.Failed => LocalizationHelper.GetString("GameResourceFailed"),
+                UpdateResult.Success => LocalizationHelper.GetString("GameResourceUpdated"),
+                _ => string.Empty,
+            };
+            if (!string.IsNullOrEmpty(toastMessage))
             {
                 _ = Execute.OnUIThreadAsync(() =>
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    using var toast = new ToastNotification(toastMessage);
                     toast.Show();
                 });
             }
