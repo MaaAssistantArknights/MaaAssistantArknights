@@ -38,6 +38,8 @@ namespace asst
         bool get_recruitment_team_complete() { return m_recruitment_team_complete; }
         void set_trader_no_longer_buy(bool no_longer_buy) { m_trader_no_longer_buy = no_longer_buy; }
         bool get_trader_no_longer_buy() { return m_trader_no_longer_buy; }
+        void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
+        std::string get_core_char() { return m_core_char; }
 
     protected:
         // 肉鸽主题
@@ -53,5 +55,6 @@ namespace asst
         // 阵容是否完备
         bool m_recruitment_team_complete = false;
         bool m_trader_no_longer_buy = false;
+        std::string m_core_char;
     };
 }
