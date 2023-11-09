@@ -80,7 +80,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
-    bool team_full_without_rookie = status()->get_number(Status::RoguelikeTeamFullWithoutRookie).value_or(0);
+    bool team_full_without_rookie = m_config->get_team_full_without_rookie();
     // Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
@@ -596,7 +596,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char()
     LogTraceFunction;
 
     auto core_opt = m_config->get_core_char();
-    if ( core_opt.empty()) {
+    if (core_opt.empty()) {
         return false;
     }
     m_config->set_core_char("");
