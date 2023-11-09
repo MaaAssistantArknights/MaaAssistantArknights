@@ -29,6 +29,8 @@ namespace asst
         RoguelikeMode get_mode() { return m_mode; }
         void set_recruitment_count(int count) { m_recruitment_count = count; }
         int get_recruitment_count() { return m_recruitment_count; }
+        void set_recruitment_starts_complete(bool complete) { m_recruitment_starts_complete = complete; }
+        bool get_recruitment_starts_complete() { return m_recruitment_starts_complete; }
 
     protected:
         // 肉鸽主题
@@ -36,5 +38,7 @@ namespace asst
         RoguelikeMode m_mode = RoguelikeMode::Exp;
         // 肉鸽招募次数
         int m_recruitment_count = 0;
+        // 开局干员是否已经招募
+        bool m_recruitment_starts_complete = false;
     };
 }
