@@ -57,8 +57,7 @@ bool asst::RoguelikeLastRewardTaskPlugin::_run()
     }
 
     // 需要开局凹直升
-    bool start_with_elite_two =
-        status()->get_properties(Status::RoguelikeStartWithEliteTwo).value() == std::to_string(true);
+    bool start_with_elite_two = m_config->get_start_with_elite_two();
     if (m_config->get_theme() != "Phantom" && mode == RoguelikeMode::Collectible) {
         if (m_is_next_hardest) {
             m_config->set_difficulty(INT_MAX);
