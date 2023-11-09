@@ -57,8 +57,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     LogTraceFunction;
 
     // 这是第几次招募
-    size_t recruit_count = status()->get_number(Status::RoguelikeRecruitmentCount).value_or(0) + 1;
-    status()->set_number(Status::RoguelikeRecruitmentCount, recruit_count);
+    int recruit_count = m_config->get_recruitment_count() + 1;
+    m_config->set_recruitment_count(recruit_count);
 
     // 是否有开局干员，阵容中必须有开局干员，没有前仅招募start干员或预备干员
     bool start_complete = status()->get_number(Status::RoguelikeRecruitmentStartsComplete).value_or(0);

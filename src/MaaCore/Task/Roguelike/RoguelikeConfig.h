@@ -27,10 +27,14 @@ namespace asst
         std::string get_theme() { return m_theme; }
         void set_mode(RoguelikeMode mode) { m_mode = mode; }
         RoguelikeMode get_mode() { return m_mode; }
+        void set_recruitment_count(int count) { m_recruitment_count = count; }
+        int get_recruitment_count() { return m_recruitment_count; }
 
     protected:
         // 肉鸽主题
         std::string m_theme;
         RoguelikeMode m_mode = RoguelikeMode::Exp;
+        // 肉鸽招募次数
+        int m_recruitment_count = 0;
     };
 }
