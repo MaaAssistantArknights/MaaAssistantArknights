@@ -36,9 +36,9 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
     // todo:以后可以根据传入的难度值选择难度?
 
     // 当前难度
-    std::string difficulty = status()->get_properties(Status::RoguelikeDifficulty).value();
+    int difficulty = m_config->get_difficulty();
     if (m_config->get_theme() != "Phantom" && mode == RoguelikeMode::Collectible) {
-        if (difficulty == "max") {
+        if (difficulty == INT_MAX) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
         }
         else {

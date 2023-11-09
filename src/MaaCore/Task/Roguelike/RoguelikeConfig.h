@@ -27,6 +27,9 @@ namespace asst
         std::string get_theme() { return m_theme; }
         void set_mode(RoguelikeMode mode) { m_mode = mode; }
         RoguelikeMode get_mode() { return m_mode; }
+        void set_difficulty(int difficulty) { m_difficulty = difficulty; }
+        int get_difficulty() { return m_difficulty; }
+
         void set_recruitment_count(int count) { m_recruitment_count = count; }
         int get_recruitment_count() { return m_recruitment_count; }
         void set_recruitment_starts_complete(bool complete) { m_recruitment_starts_complete = complete; }
@@ -40,6 +43,9 @@ namespace asst
         // 肉鸽主题
         std::string m_theme;
         RoguelikeMode m_mode = RoguelikeMode::Exp;
+        int m_difficulty = 0;
+
+        /* 每次重置 */
         // 肉鸽招募次数
         int m_recruitment_count = 0;
         // 开局干员是否已经招募

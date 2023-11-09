@@ -435,7 +435,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     // 是否凹直升
     std::string start_with_elite_two = status()->get_properties(Status::RoguelikeStartWithEliteTwo).value();
     // 当前肉鸽难度
-    std::string difficulty = status()->get_properties(Status::RoguelikeDifficulty).value();
+    int difficulty = m_config->get_difficulty();
 
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
@@ -459,13 +459,13 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
 
             if (it != chars.cend()) {
                 // 需要凹直升且当前为max难度时
-                if (start_with_elite_two == "1" && difficulty == "max") {
+                if (start_with_elite_two == "1" && difficulty == INT_MAX) {
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
                     }
                     else {
                         // 重置难度并放弃
-                        status()->set_properties(Status::RoguelikeDifficulty, "0");
+                        m_config->set_difficulty(0);
                         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
                             .set_times_limit("Roguelike@Abandon", 0)
                             .run();
