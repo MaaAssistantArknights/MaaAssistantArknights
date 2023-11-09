@@ -29,6 +29,8 @@ namespace asst
         RoguelikeMode get_mode() { return m_mode; }
         void set_difficulty(int difficulty) { m_difficulty = difficulty; }
         int get_difficulty() { return m_difficulty; }
+        void set_start_with_elite_two(bool start_with_elite_two) { m_start_with_elite_two = start_with_elite_two; }
+        bool get_start_with_elite_two() { return m_start_with_elite_two; }
 
         void set_recruitment_count(int count) { m_recruitment_count = count; }
         int get_recruitment_count() { return m_recruitment_count; }
@@ -46,6 +48,7 @@ namespace asst
         std::string m_theme;
         RoguelikeMode m_mode = RoguelikeMode::Exp;
         int m_difficulty = 0;
+        bool m_start_with_elite_two = false;
 
         /* 每次重置 */
         // 肉鸽招募次数

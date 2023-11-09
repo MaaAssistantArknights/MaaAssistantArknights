@@ -433,7 +433,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     bool has_been_same = false;
     int i = 0;
     // 是否凹直升
-    std::string start_with_elite_two = status()->get_properties(Status::RoguelikeStartWithEliteTwo).value();
+    bool start_with_elite_two = m_config->get_start_with_elite_two();
     // 当前肉鸽难度
     int difficulty = m_config->get_difficulty();
 
@@ -459,7 +459,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
 
             if (it != chars.cend()) {
                 // 需要凹直升且当前为max难度时
-                if (start_with_elite_two == "1" && difficulty == INT_MAX) {
+                if (start_with_elite_two && difficulty == INT_MAX) {
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
                     }

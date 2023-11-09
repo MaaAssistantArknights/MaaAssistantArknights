@@ -106,8 +106,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     bool start_with_elite_two = params.get("start_with_elite_two", false);
 
     m_roguelike_config_ptr->set_difficulty(0);
-    status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
-
+    m_roguelike_config_ptr->set_start_with_elite_two(start_with_elite_two);
+    
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
         Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
