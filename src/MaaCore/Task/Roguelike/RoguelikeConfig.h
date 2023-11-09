@@ -33,6 +33,8 @@ namespace asst
         bool get_recruitment_starts_complete() { return m_recruitment_starts_complete; }
         void set_recruitment_team_complete(bool complete) { m_recruitment_team_complete = complete; }
         bool get_recruitment_team_complete() { return m_recruitment_team_complete; }
+        void set_trader_no_longer_buy(bool no_longer_buy) { m_trader_no_longer_buy = no_longer_buy; }
+        bool get_trader_no_longer_buy() { return m_trader_no_longer_buy; }
 
     protected:
         // 肉鸽主题
@@ -44,5 +46,6 @@ namespace asst
         bool m_recruitment_starts_complete = false;
         // 阵容是否完备
         bool m_recruitment_team_complete = false;
+        bool m_trader_no_longer_buy = false;
     };
 }
