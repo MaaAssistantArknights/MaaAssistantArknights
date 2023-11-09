@@ -24,8 +24,9 @@ using namespace asst::battle;
 using namespace asst::battle::roguelike;
 
 asst::RoguelikeBattleTaskPlugin::RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst,
-                                                           std::string_view task_chain)
-    : AbstractTaskPlugin(callback, inst, task_chain), BattleHelper(inst)
+                                                           std::string_view task_chain,
+                                                           std::shared_ptr<RoguelikeConfig> roguelike_config_ptr)
+    : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, roguelike_config_ptr), BattleHelper(inst)
 {}
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -34,11 +35,11 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -94,7 +95,7 @@ bool asst::RoguelikeBattleTaskPlugin::_run()
 
 void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
 {
-    ProcessTask(*this, { m_roguelike_theme + "@Roguelike@WaitForStartButtonClicked" })
+    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@WaitForStartButtonClicked" })
         .set_task_delay(0)
         .set_retry_times(0)
         .run();
@@ -330,7 +331,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     // 构造当前地图的部署指令列表
     std::vector<DeployPlanInfo> deploy_plan_list;
     // 获取当前肉鸽的分组信息[干员组1名称,干员组2名称,...]
-    const auto& groups = RoguelikeRecruit.get_group_info(m_roguelike_theme);
+    const auto& groups = RoguelikeRecruit.get_group_info(m_config->get_theme());
     // 获取当前肉鸽的分组内排名信息
     // const auto& group_rank = RoguelikeRecruit.get_group_rank(rogue_theme);
     for (const auto& [name, oper] : m_cur_deployment_opers) {
@@ -342,9 +343,9 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
 
         const std::string& oper_name = oper_name_in_config(oper);
         // 获取招募信息
-        const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, oper_name);
+        const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_name);
         // 获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_roguelike_theme, oper_name);
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), oper_name);
 
         for (const auto& group_id : group_ids) {
             // 当前干员组名,string类型
@@ -393,7 +394,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
             // 获取技能用法和使用次数
-            const auto& oper_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, deploy_plan.oper_name);
+            const auto& oper_info =
+                RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
             m_skill_usage[deploy_plan.oper_name] = oper_info.skill_usage;
             m_skill_times[deploy_plan.oper_name] = oper_info.skill_times;
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
@@ -422,7 +424,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 
     auto pre_battlefield = m_battlefield_opers;
     for (const auto& [name, loc] : pre_battlefield) {
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, name);
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
         auto iter = m_deployed_time.find(name);
         if (iter != m_deployed_time.end() && oper_info.auto_retreat > 0) {
             if (std::chrono::steady_clock::now() - m_deployed_time.at(name) >=
@@ -518,7 +520,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         auto deployed_time = std::chrono::steady_clock::now();
         m_deployed_time.insert_or_assign(best_oper.name, deployed_time);
         // 获取技能用法和使用次数
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, best_oper.name);
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), best_oper.name);
         m_skill_usage[best_oper.name] = oper_info.skill_usage;
         m_skill_times[best_oper.name] = oper_info.skill_times;
 
@@ -794,10 +796,10 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(ba
 {
     std::vector<Point> result;
     for (const auto& [loc, tile] : m_normal_tile_info) {
-        bool position_mathced = tile.buildable == type || tile.buildable == battle::LocationType::All;
-        position_mathced |= (type == battle::LocationType::All) && (tile.buildable == battle::LocationType::Melee ||
+        bool position_matched = tile.buildable == type || tile.buildable == battle::LocationType::All;
+        position_matched |= (type == battle::LocationType::All) && (tile.buildable == battle::LocationType::Melee ||
                                                                     tile.buildable == battle::LocationType::Ranged);
-        if (position_mathced &&
+        if (position_matched &&
             tile.key != TilePack::TileKey::DeepSea && // 水上要先放板子才能放人，肉鸽里也没板子，那就当作不可放置
             !m_used_tiles.contains(loc) && !m_blacklist_location.contains(loc)) {
             result.emplace_back(loc);

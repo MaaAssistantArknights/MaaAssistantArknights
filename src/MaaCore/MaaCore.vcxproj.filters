@@ -216,6 +216,9 @@
     <ClInclude Include="Config\TemplResource.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
@@ -307,6 +310,9 @@
       <Filter>Source\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\ImageIo.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\JsonMisc.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Utils\Locale.hpp">
@@ -438,6 +444,15 @@
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -447,7 +462,13 @@
     <ClInclude Include="Task\Roguelike\RoguelikeDebugTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeFormationTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeRecruitTaskPlugin.h">
@@ -463,6 +484,9 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="InstHelper.h">
@@ -532,9 +556,6 @@
       <Filter>Source\Controller</Filter>
     </ClInclude>
     <ClInclude Include="Controller\ControlScaleProxy.h">
-      <Filter>Source\Controller</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller\MaaThriftController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
     <ClInclude Include="Controller\MaatouchController.h">
@@ -615,12 +636,6 @@
     <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>Source\Vision\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Fight\SanityBeforeStagePlugin.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
@@ -648,6 +663,13 @@
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Fight\MedicineCounterPlugin.h">
+      <Filter>Source\Task\Fight</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -718,6 +740,9 @@
     </ClCompile>
     <ClCompile Include="Config\TemplResource.cpp">
       <Filter>Source\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
@@ -893,6 +918,15 @@
     <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeControlTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
@@ -902,7 +936,13 @@
     <ClCompile Include="Task\Roguelike\RoguelikeDebugTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeFormationTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeRecruitTaskPlugin.cpp">
@@ -918,6 +958,9 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="InstHelper.cpp">
@@ -1046,12 +1089,6 @@
     <ClCompile Include="Vision\Config\OCRerConfig.cpp">
       <Filter>Source\Vision\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Fight\SanityBeforeStagePlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
@@ -1073,11 +1110,13 @@
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
+    <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
+    <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
+      <Filter>Source\Task\Fight</Filter>
     </ClCompile>
+    <ClCompile Include="Controller\MaaThriftController.h" />
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
   </ItemGroup>
 </Project>

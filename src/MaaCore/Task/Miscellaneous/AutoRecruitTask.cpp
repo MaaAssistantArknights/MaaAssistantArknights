@@ -140,6 +140,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(bool select_extra_tags) noexcept
+{
+    m_select_extra_tags = select_extra_tags;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) noexcept
 {
     m_skip_robot = skip_robot;
@@ -213,13 +219,11 @@ bool asst::AutoRecruitTask::_run()
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
             if (need_exit()) return false;
+            if (m_slot_fail >= slot_retry_limit) return false;
             if (recruit_one(start_rect.value()))
                 ++m_cur_times;
             else
                 ++m_slot_fail;
-            if (m_slot_fail >= slot_retry_limit) {
-                return false;
-            }
             if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) return true;
         }
         else {
@@ -574,8 +578,10 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
+        auto final_select = m_select_extra_tags ? get_select_tags(result_vec) : final_combination.tags;
+
         // select tags
-        for (const std::string& final_tag_name : final_combination.tags) {
+        for (const std::string& final_tag_name : final_select) {
             auto tag_rect_iter = ranges::find_if(tags, [&](const TextRect& r) { return r.text == final_tag_name; });
             if (tag_rect_iter != tags.cend()) {
                 ctrler()->click(tag_rect_iter->rect);
@@ -585,7 +591,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         {
             json::value cb_info = basic_info();
             cb_info["what"] = "RecruitTagsSelected";
-            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_combination.tags)) } };
+            cb_info["details"] = json::object { { "tags", json::array(get_tag_names(final_select)) } };
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
         }
 
@@ -699,6 +705,25 @@ std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<
         names.emplace_back(RecruitData.get_tag_name(id));
     }
     return names;
+}
+
+std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vector<RecruitCombs>& conbinations)
+{
+    LogTraceFunction;
+    std::unordered_set<std::string> unique_tags;
+    std::vector<std::string> select;
+
+    while (select.size() < 3) {
+        for (const asst::RecruitCombs& comb : conbinations)
+            for (const std::string& tag : comb.tags) {
+                if (unique_tags.find(tag) == unique_tags.cend()) {
+                    unique_tags.insert(tag);
+                    select.emplace_back(tag);
+                    if (select.size() == 3) return select;
+                }
+            }
+    }
+    return select;
 }
 
 template <typename Rng>

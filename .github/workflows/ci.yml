@@ -227,16 +227,51 @@ jobs:
           $CARGO_CMD build --release --locked --package maa-cli
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
 
+      - name: Build Appimage
+        run: |
+          sudo add-apt-repository universe
+          sudo apt update
+          sudo apt install libfuse2
+          mkdir -pv release
+          mkdir -pv Maa.AppDir/usr/share/maa
+          cp -r install/* Maa.AppDir/usr/share/maa/
+          wget -c https://raw.githubusercontent.com/MaaAssistantArknights/design/main/logo/maa-logo_512x512.png -O Maa.AppDir/maa.png
+          mkdir -pv Maa.AppDir/usr/share/icons/hicolor/512x512/apps/
+          cp -v Maa.AppDir/maa.png Maa.AppDir/usr/share/icons/hicolor/512x512/apps/
+          chmod a+x Maa.AppDir/usr/share/maa/maa
+          
+          cat > Maa.AppDir/maa.desktop <<EOF
+          [Desktop Entry]
+          Type=Application
+          Name=MaaAssistantArknights
+          Icon=maa
+          Exec=AppRun
+          Terminal=true
+          Categories=Game;StrategyGame;
+          Comment=An Arknights assistant
+          EOF
+          
+          ln -sv usr/share/maa/maa Maa.AppDir/AppRun
+          mkdir -pv Maa.AppDir/usr/share/metainfo/
+          cp -v tools/AppImage/io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
+          wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod a+x appimagetool-x86_64.AppImage
+          ./appimagetool-x86_64.AppImage Maa.AppDir
+          chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
+          mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
+
       - name: tar files
         run: |
           mkdir -p release
           cd install
           tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
-
+      
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-linux-${{ matrix.arch }}
-          path: 'release/*.tar.gz'
+          path: |
+            release/*.AppImage
+            release/*.tar.gz
 
   macOS-Core:
     needs: meta

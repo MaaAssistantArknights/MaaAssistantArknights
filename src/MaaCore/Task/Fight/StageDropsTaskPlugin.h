@@ -42,11 +42,13 @@ namespace asst
 
         static inline constexpr int64_t RecognitionTimeOffset = 20;
         static inline const std::string LastStartTimeKey = Status::ProcessTaskLastTimePrefix + "Fight@StartButton2";
+        static inline const std::string LastPRTS1TimeKey = Status::ProcessTaskLastTimePrefix + "Fight@PRTS1";
         static inline const std::string RecognitionRestrictionsKey = "StageDropsTaskPluginRestrictions";
 
         std::string m_stage_code;
         StageDifficulty m_stage_difficulty = StageDifficulty::Normal;
         int m_stars = 0;
+        int m_times = -2; // -2 means recognition failed, -1 means not found
         std::vector<StageDropInfo> m_cur_drops;
         std::unordered_map<std::string, int> m_drop_stats;
         json::value m_cur_info_json;

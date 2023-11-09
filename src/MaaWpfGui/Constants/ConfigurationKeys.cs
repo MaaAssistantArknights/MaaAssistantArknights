@@ -69,6 +69,8 @@ namespace MaaWpfGui.Constants
         public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
         public const string StartsWithScript = "Start.StartsWithScript";
         public const string EndsWithScript = "Start.EndsWithScript";
+        public const string BlockSleep = "Start.BlockSleep";
+        public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
 
         public const string ChooseLevel3 = "Recruit.ChooseLevel3";
         public const string ChooseLevel4 = "Recruit.ChooseLevel4";
@@ -114,10 +116,12 @@ namespace MaaWpfGui.Constants
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
+        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
         public const string ForceRefresh = "AutoRecruit.ForceRefresh";
+        public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
         public const string IsLevel3UseShortTime = "AutoRecruit.IsLevel3UseShortTime";
         public const string IsLevel3UseShortTime2 = "AutoRecruit.IsLevel3UseShortTime2";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
@@ -142,6 +146,7 @@ namespace MaaWpfGui.Constants
         public const string VersionType = "VersionUpdate.VersionType";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
+        public const string ResourceApi = "VersionUpdate.ResourceApi";
 
         // 这个已经废弃了，还要留着吗？
         // ReSharper disable once UnusedMember.Global

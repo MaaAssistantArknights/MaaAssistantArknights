@@ -5,7 +5,7 @@
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">アップグレード版は、.NET 8.0ランタイムがインストールされていないコンピュータをサポートしないため、手動でダウンロードする必要があります。 \n\nその間に、Windows 7オペレーティングシステムはサポートされなくなります。 \n\n「はい」をクリックすると、新しいランタイムのダウンロード・リンクを開きます。 「いいえ」をクリックすると、不要なソフトウェア更新を防ぐために自動ダウンロードを無効にします。 自動ダウンロードを無効にした場合でも、ソフトウェア設定でこの機能を手動で再度有効にすることができます。</system:String>
     <system:String x:Key="Dotnet8Caption">ソフトウェアバージョンのアップグレードとサポートの変更</system:String>
-    <!--  .Net 8  -->
+    <!-- !.Net 8  -->
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -20,6 +20,7 @@
     <system:String x:Key="StartupSettings">起動設定</system:String>
     <system:String x:Key="ScheduleSettings">スケジュール実行設定</system:String>
     <system:String x:Key="UiSettings">UI設定</system:String>
+    <system:String x:Key="UiTheme">UI主題</system:String>
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
     <system:String x:Key="AboutUs">About</system:String>
@@ -35,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知テスト</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました。</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[ServerChan] Send Key</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] サーバ</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] ポート</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] SSL を使用します</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] ログインが必要です</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] ユーザー名</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] パスワード</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 送信者</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 受信者</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">ServerChan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP サーバ</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">ポート</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">SSL を使用します</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">ログインが必要です</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">ユーザー名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">パスワード</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">送信者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">受信者</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -55,6 +56,7 @@
     <system:String x:Key="OftenUsedGuide">↓よく使われる</system:String>
     <system:String x:Key="SometimesUsedGuide">あまり使われていない↑</system:String>
     <system:String x:Key="LinkStartGuide">← タスクを開始</system:String>
+    <!-- !設定ガイド  -->
     <system:String x:Key="Dorm">宿舎</system:String>
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">処理ステーション</system:String>
@@ -237,6 +239,8 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
+    <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
     <system:String x:Key="RoguelikeTheme">主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
@@ -293,6 +297,7 @@
 Bilibili: ログイン インターフェイスに表示されるアカウント名 (張三 など) を入力します。
 他の種類のクライアントはサポートされていません</system:String>
     <system:String x:Key="AdbPath">ADBパス（相対/絶対）</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名に ADB が含まれていません。間違ったファイルを選択しているか、エミュレータの実行ファイルを選択していないか確認してください。</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
@@ -300,7 +305,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RetryOnDisconnectedTip">再接続に20回失敗した後、エミュレータを再起動してみてください，バックグラウンドのタイムドタスクを使用し、終了時にエミュレータを終了させるタスクを設定する場合は、必ずチェックを入れること</system:String>
     <system:String x:Key="AllowAdbRestart">接続失敗後にADBサーバーの再起動を試みる</system:String>
     <system:String x:Key="AllowAdbHardRestart">接続失敗後にADBプロセスの再起動を試みる</system:String>
-    <!--  設定  -->
+    <!-- !設定  -->
     <!--  スタート  -->
     <system:String x:Key="Farming">スタート</system:String>
     <system:String x:Key="WakeUp">ウェイクアップ</system:String>
@@ -381,7 +386,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="PR-DTip">PR-D（前衛/特殊SoC）</system:String>
     <system:String x:Key="Pormpt1">月曜です。殲滅作戦がリセットされています〜</system:String>
     <system:String x:Key="Pormpt2">日曜です。殲滅作戦は忘れてないですか〜</system:String>
-    <!--  戦闘設定  -->
+    <!-- !戦闘設定  -->
     <!--  Logs  -->
     <system:String x:Key="ConnectingToEmulator">エミュレータ接続中……</system:String>
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
@@ -400,8 +405,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>
-    <!--  Logs  -->
-    <!--  動作不明  -->
+    <!-- !Logs  -->
+    <!-- !動作不明  -->
     <system:String x:Key="Toolbox">ツールボックス</system:String>
     <!--  公開求人  -->
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
@@ -414,7 +419,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="AutoSelectLevel5Tags">星5タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">星6タグを自動的に選択する</system:String>
     <system:String x:Key="StartToRecruit">認識開始</system:String>
-    <!--  公開求人  -->
+    <!-- !公開求人  -->
     <!--  倉庫アイテム認識  -->
     <system:String x:Key="DepotRecognition">倉庫アイテム認識</system:String>
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
@@ -422,14 +427,14 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
     <system:String x:Key="ExportToLolicon">Loliconへ出力</system:String>
     <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
-    <!--  倉庫アイテム認識  -->
-    <!--  馴染みのあるステージ名での表記  -->
+    <!-- !倉庫アイテム認識  -->
+    <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
     <system:String x:Key="OperBoxRecognitionTip">この機能はまだテスト中です。もし統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">所有していない: {0} : \n\n{1}\n\n所有している: {2} : \n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">クリップボードにコピー</system:String>
-    <!--  Please use the "Operator" to get information  -->
+    <!-- !Operator Recognition  -->
     <!--  VideoRecognition  -->
     <system:String x:Key="VideoRecognition">映像</system:String>
     <system:String x:Key="StartToVideoRecognition">認識を始める</system:String>
@@ -437,6 +442,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、「自動戦闘」ページを開き、映像をドラッグしてください。\n
 映像の解像度は16: 9である必要があり、黒枠、エミュレータ枠、特殊な形状、画面効果などが無いことを確認してください。</system:String>
     <!--  VideoRecognition  -->
+    <!--  Gacha Recognition  -->
     <system:String x:Key="Gacha">ガチャ</system:String>
     <system:String x:Key="GachaOnce">ガチャを一回引く</system:String>
     <system:String x:Key="GachaTenTimes">10回ガチャ</system:String>
@@ -462,13 +468,16 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="GachaDisclaimerEmphasize">本物のガチャです</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">理解した</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">再度表示しない</system:String>
-    <!--  Listen, the wailing has stopped. This is the calm before the happy peace arrives.  -->
+    <!-- !Gacha Recognition  -->
+    <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
     <system:String x:Key="IdentificationCompleted">認識完了</system:String>
-    <!--  Depot  -->
-    <!--  Export to Lolicon  -->
+    <!-- !Logs  -->
+    <!--  Copilot  -->
     <system:String x:Key="Copilot">自動戦闘</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
+    <system:String x:Key="CopilotTaskName">ステージコード</system:String>
+    <system:String x:Key="CopilotTaskNameTip">ステージコード, 例えば 1-7</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードの貼り付け</system:String>
@@ -488,7 +497,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
-    <!--  Export to Lolicon  -->
+    <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         ヒント: \n\n
         1. この機能を使用する際には、メインストーリー、ストーリーコレクション、またはサイドストーリーに「行動開始」ボタンが表示されている場合に限ります。\n\n
@@ -511,8 +520,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="CopilotJsonError">攻略ファイルの解析中にエラーが発生しました！</system:String>
     <system:String x:Key="NotCopilotJson">攻略ファイルではありません</system:String>
     <system:String x:Key="CheckTheFile">ファイルの内容を確認してください！</system:String>
-    <!--  Logs  -->
-    <!--  Copilot  -->
+    <!-- !Logs  -->
+    <!-- !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">エラー</system:String>
     <system:String x:Key="ErrorProlog">MAA に問題が発生しました</system:String>
@@ -524,7 +533,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ErrorFeedbackLinkText">GitHub issueを作成する</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQグループに参加して問題をフィードバックする</system:String>
     <system:String x:Key="CopyErrorMessage">エラー情報をコピーする</system:String>
-    <!--  Game crashed pending restart  -->
+    <!-- !ErrorView  -->
+    <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">リソースファイルが破損しています。完全なパッケージを再度ダウンロードしてください</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADBファイルが存在しません</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADBのダウンロードに失敗しました</system:String>
@@ -589,13 +599,15 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
-    <system:String x:Key="Encounter">ステージ: 思わぬ遭遇</system:String>
     <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
+    <system:String x:Key="RoguelikeEvent">ローグライクイベント:</system:String>
+    <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">ドロップ統計: </system:String>
+    <system:String x:Key="FurnitureDrop">家具</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">現在の施設: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">オペレータ グループ、グループ リストの一致に失敗しました: </system:String>
@@ -611,8 +623,11 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
     <system:String x:Key="ContinueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
     <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
+    <system:String x:Key="SelectExtraTags">タグを選択すると、常に 3 つのタグが選択されます</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
+    <system:String x:Key="UseFormation">使用編成</system:String>
+    <system:String x:Key="Current">現在</system:String>
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
@@ -623,11 +638,11 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
     <system:String x:Key="CheckSettings">接続設定を確認するか、エミュレータとADBを再起動するか、コンピューターを再起動してください</system:String>
-    <!--  AsstProxy  -->
+    <!-- !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>
     <system:String x:Key="Exit">終了</system:String>
-    <!--  TrayIcon  -->
+    <!-- !TrayIcon  -->
     <!--  About  -->
     <system:String x:Key="Website">MAA公式サイト</system:String>
     <system:String x:Key="Github">ソースコード: GitHub</system:String>
@@ -639,7 +654,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">よくある質問</system:String>
     <system:String x:Key="Issue">フィードバック</system:String>
-    <!--  About  -->
+    <!-- !About  -->
     <!--  自動募集設定  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
     <system:String x:Key="ForceRefresh">採用許可なしでタグの更新を続けます</system:String>
@@ -654,28 +669,29 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel6">星6を自動的に確認する</system:String>
     <system:String x:Key="Level1Tip">チェックの際に星1タグが特定された場合、募集はスキップされ、チェックされていない場合、星1タグは無視されます。</system:String>
-    <!--  自動募集設定  -->
+    <!-- !自動募集設定  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">尊敬なるドクター、クロージャ様のお店で「酒」の新しいリストがあると聞いたことがありませんか？一緒に確認しませんか？</system:String>
     <system:String x:Key="Burping">うぅ……オエッ</system:String>
     <system:String x:Key="DrunkAndStaggering">あれ、ドクター。どうしてそんなフラフラと歩いておられるのですか？</system:String>
     <system:String x:Key="Hangover">つ、次は飲みすぎないようにしないと……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
-    <!--  EasterEggs  -->
+    <!-- !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>
     <system:String x:Key="VersionUpdated">バージョンが更新されました</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">バージョン: </system:String>
-    <!--  VersionUpdatePopup  -->
+    <!-- !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAAがタスクを実行しています</system:String>
     <system:String x:Key="ConfirmExitText">終了しますか？</system:String>
-    <!--  RootViewModel  -->
+    <!-- !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
-    <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。MAAを閉じないでください。</system:String>
-    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください</system:String>
-    <!--  Api  -->
+    <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
+    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください。</system:String>
+    <system:String x:Key="GameResourceFailed">ゲームリソースの更新に失敗しました。後でもう一度お試しください。</system:String>
+    <!-- !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">リモートコントロール</system:String>
     <system:String x:Key="RemoteControlDeviceIdentityLabel">デバイス識別子（読み取り専用）</system:String>
@@ -693,17 +709,17 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RemoteControlTooltips">注意：知らない出所のアドレスを入力すると、あなたの明日方舟のアカウントが損失する可能性があります。</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">関連機能の開発方法については、訪問してください</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">リモートコントロール機能開発者ドキュメント</system:String>
-    <!--  Remote Control  -->
+    <!-- !Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">ドクター、新しいお知らせがあります!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">このメッセージが表示されるのは、MAA で SMTP サーバーをセットアップし、メール通知サービスを有効にしているためです。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">このメールは自動的に送信されますので、返信しないでください。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">公式サイト</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">Copilot（中国語）</system:String>
-    <!--  External Notification  -->
+    <!-- !External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">公告</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">公告を見ます</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">このお知らせをもう表示しない</system:String>
-    <!--  Announcement  -->
+    <!-- !Announcement  -->
 </ResourceDictionary>

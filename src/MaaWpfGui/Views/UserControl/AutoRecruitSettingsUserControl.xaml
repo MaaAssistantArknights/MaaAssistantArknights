@@ -25,6 +25,7 @@
                 ToolTip="{DynamicResource CheckBoxesNotSaved}" />
             <hc:NumericUpDown
                 Margin="0,5"
+                Minimum="0"
                 hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
@@ -36,6 +37,11 @@
                 Margin="0,10"
                 Content="{DynamicResource AutoRefresh}"
                 IsChecked="{Binding RefreshLevel3}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource SelectExtraTags}"
+                IsChecked="{Binding SelectExtraTags}"
+                IsEnabled="True" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource ForceRefresh}"

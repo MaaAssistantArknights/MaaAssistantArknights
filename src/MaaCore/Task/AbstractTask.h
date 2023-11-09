@@ -2,8 +2,8 @@
 
 #include <memory>
 #include <meojson/json.hpp>
-#include <set>
 #include <type_traits>
+#include <vector>
 
 #include "Common/AsstMsg.h"
 #include "InstHelper.h"
@@ -39,12 +39,12 @@ namespace asst
         virtual AbstractTask& set_ignore_error(bool ignore) noexcept;
         virtual AbstractTask& set_task_id(int task_id) noexcept;
 
-        template <typename PluginType>
+        template <typename PluginType, typename... Args>
         requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
-        std::shared_ptr<PluginType> register_plugin()
+        std::shared_ptr<PluginType> register_plugin(Args&&... args)
         {
-            auto plugin = std::make_shared<PluginType>(m_callback, m_inst, m_task_chain);
-            m_plugins.emplace(plugin);
+            auto plugin = std::make_shared<PluginType>(m_callback, m_inst, m_task_chain, std::forward<Args>(args)...);
+            m_plugins.emplace_back(plugin);
             return plugin;
         }
         void clear_plugin() noexcept;
@@ -52,6 +52,7 @@ namespace asst
         bool get_enable() const noexcept { return m_enable; }
         bool get_ignore_error() const noexcept { return m_ignore_error; }
         std::string_view get_task_chain() const noexcept { return m_task_chain; }
+        std::vector<TaskPluginPtr> get_plugins() const noexcept { return m_plugins; }
         int get_task_id() const noexcept { return m_task_id; }
         virtual json::value basic_info() const;
 
@@ -77,7 +78,7 @@ namespace asst
 
         mutable json::value m_basic_info_cache;
         int m_task_id = 0;
-        std::set<TaskPluginPtr> m_plugins;
+        std::vector<TaskPluginPtr> m_plugins;
         std::map<std::filesystem::path, size_t> m_save_file_cnt;
     };
 } // namespace asst

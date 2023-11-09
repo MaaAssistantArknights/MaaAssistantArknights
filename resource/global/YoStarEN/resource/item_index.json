@@ -975,6 +975,14 @@
         "sortId": 10019,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10020,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -990,6 +998,14 @@
         "name": "Headhunting Data Contract",
         "sortId": 10010,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "Logistics_Special_Permit": {
+        "classifyType": "NONE",
+        "description": "A Logistics Special Permit issued by Rhodes Island to ensure the successful execution of emergency dispatches, owing to ever-increasing activity on the battlefield. With this, operators may request top priority support from Logistics via PRTS. Logistics operators will prioritize delivering extra supplies and assist in locating nearby resources.",
+        "icon": "Logistics_Special_Permit.png",
+        "name": "Logistics Special Permit",
+        "sortId": 30200,
+        "usage": "When the Logistics Special Permit is used, operations consume no Sanity and the normal Regular Drops are changed to Guaranteed Drops with 3x quantity."
     },
     "REP_COIN": {
         "classifyType": "NORMAL",
@@ -1431,6 +1447,30 @@
         "sortId": -10000,
         "usage": "A material obtainable from battling a Rathalos. Perfect as melding material."
     },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "Aside from the data hidden by Nasti all over the lands, new data are continually produced with the federal government's support. Columbia is gradually realizing the value of Kristen's research.",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "Flight Data Recorder Chip",
+        "sortId": -10000,
+        "usage": "A chip containing flight data recorded at various altitudes and environments. Collect a certain amount to exchange with the Special Case Contact C.U.D.O.D. for goods."
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key01.png",
+        "name": "Special Ops Permit α",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key02.png",
+        "name": "Special Ops Permit β",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -1631,6 +1671,30 @@
         "sortId": -10000,
         "usage": "Used to get preregistration rewards."
     },
+    "classic_gacha": {
+        "classifyType": "NORMAL",
+        "description": "Rhodes Island's expansion is inseparable from the help and support it has received from kernel personnel. This headhunting item will assist the Doctor in recruiting talent within specified bounds.",
+        "icon": "classic_gacha.png",
+        "name": "Kernel Headhunting Permit",
+        "sortId": 40011,
+        "usage": "A special permit from Rhodes Island's HR distribution for recruiting a single kernel talent."
+    },
+    "classic_gacha_10": {
+        "classifyType": "NORMAL",
+        "description": "Rhodes Island's expansion is inseparable from the help and support it has received from kernel personnel. These headhunting items will assist the Doctor in recruiting talent within specified bounds.",
+        "icon": "classic_gacha_10.png",
+        "name": "Ten-roll Kernel Headhunting Permit",
+        "sortId": 40001,
+        "usage": "A special permit from Rhodes Island HR distribution for recruiting multiple kernel talents. Can be used to recruit ten operators."
+    },
+    "classic_normal_ticket": {
+        "classifyType": "NORMAL",
+        "description": "Time has allowed these operators to gain a deep understanding of Rhodes Island's affairs. They will provide you the rare resources you need.",
+        "icon": "classic_normal_ticket.png",
+        "name": "Universal Certificates",
+        "sortId": 10006,
+        "usage": "A certificate that attests an operator possesses core abilities. Can be exchanged for rare materials."
+    },
     "et_ObsidianPass": {
         "classifyType": "NONE",
         "description": "A through ticket system has been implemented across the various venues at this Obsidian Festival, which means tickets are required for most events. So please make good use of the tickets you have!",
@@ -1756,7 +1820,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_1.png",
         "name": "Half Year Anniversary Red Envelope",
-        "sortId": 60108,
+        "sortId": 60109,
         "usage": "Red envelopes passed out to every member of Rhodes Island. The goods inside may be random, but they are always filled to the brim with blessings."
     },
     "randomDiamondShd_2": {
@@ -1764,7 +1828,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_2.png",
         "name": "Celebratory Box",
-        "sortId": 60109,
+        "sortId": 60110,
         "usage": "Gift boxes distributed to all members of Rhodes Island, random in amount, and full of the joy that comes with celebration."
     },
     "randomMaterialRune_0": {
@@ -1925,6 +1989,22 @@
         "icon": "randomMaterial_7.png",
         "name": "Rhodes Island Supplies IV",
         "sortId": 60107,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_8": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_8.png",
+        "name": "Rhodes Island Supplies V",
+        "sortId": 60108,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "A materials supply crate provided by the Maylander Foundation. Allocated based on the needs of each investigated area. As such, the materials in each crate can be different.",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "Technological Investigation Supply",
+        "sortId": 60109,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "return_credit_token": {

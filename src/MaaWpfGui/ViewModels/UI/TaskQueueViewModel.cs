@@ -29,6 +29,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -329,6 +330,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ResetFightVariables();
+                RefreshCustomInfrastPlanIndexByPeriod();
             }
 
             LinkStart();
@@ -797,7 +799,6 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.SetIdle(true);
             SetStopped();
             return false;
-
         }
 
         /// <summary>
@@ -805,6 +806,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
+            Instances.SettingsViewModel.SetupSleepManagement();
+
             if (!_runningState.GetIdle())
             {
                 return;
@@ -815,7 +818,8 @@ namespace MaaWpfGui.ViewModels.UI
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
-            RefreshCustomInfrastPlanIndexByPeriod();
+
+            InfrastTaskRunning = true;
 
             ClearLog();
 
@@ -1001,6 +1005,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SetStopped()
         {
+            SleepManagement.AllowSleep();
+
             if (!_runningState.GetIdle() || Stopping)
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));
@@ -1241,6 +1247,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
+                Instances.SettingsViewModel.CreditFightSelectFormation,
                 Instances.SettingsViewModel.CreditShopping,
                 buyFirst,
                 blackList,
@@ -1286,7 +1293,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                Instances.SettingsViewModel.SelectExtraTags,Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()

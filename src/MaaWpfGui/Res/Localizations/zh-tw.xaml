@@ -5,7 +5,7 @@
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即將升級，升級後的版本不支援未安裝 .NET 8.0 執行時 的電腦，需要您手動前往下載。\n\n同時，我們將不再支援 Windows 7 作業系統。\n\n如果您點擊 '是'，我們將為您打開新的執行時下載連結。如果您點擊 '否'，我們將停用您的自動下載功能，以防止不必要的軟體更新。如果您選擇停用自動下載，您仍然可以在軟體設定中手動重新開啟此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">軟體版本升級及支援變更</system:String>
-    <!--  .Net 8  -->
+    <!-- !.Net 8  -->
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">常規設定</system:String>
@@ -20,6 +20,7 @@
     <system:String x:Key="StartupSettings">啟動設定</system:String>
     <system:String x:Key="ScheduleSettings">定時執行</system:String>
     <system:String x:Key="UiSettings">介面設定</system:String>
+    <system:String x:Key="UiTheme">介面主題</system:String>
     <system:String x:Key="HotKeySettings">熱鍵設定</system:String>
     <system:String x:Key="UpdateSettings">軟體更新</system:String>
     <system:String x:Key="AboutUs">關於我們</system:String>
@@ -35,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">這是 MAA 外部通知測試資訊。 如果你看到了這段內容，就說明通知發送成功了！</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] 發送金鑰</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 伺服器</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 埠</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] 使用 SSL</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] 需要登錄</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 使用者名</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 密碼</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 發件者</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 收件者</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 發送金鑰</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP 伺服器</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">埠</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">使用 SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">需要登錄</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">使用者名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">密碼</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">發件者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">收件者</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
     <system:String x:Key="SettingsGuide">設定指引</system:String>
@@ -55,6 +56,7 @@
     <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>
     <system:String x:Key="LinkStartGuide">← 開始任務</system:String>
+    <!-- !設定指引  -->
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">製造站</system:String>
     <system:String x:Key="Processing">加工站</system:String>
@@ -237,6 +239,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
+    <system:String x:Key="BlockSleep">運行任務時阻止休眠</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
@@ -293,6 +297,7 @@
  B服輸入登錄界面顯示的賬號名，如「張三」，可輸入「張」或「三」
 暫不支持其他服</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或模擬器本體程式。</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
@@ -300,7 +305,7 @@
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
     <system:String x:Key="AllowAdbRestart">連接失敗後嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="AllowAdbHardRestart">連接失敗後嘗試重開 ADB 程式</system:String>
-    <!--  設定  -->
+    <!-- !設定  -->
     <!--  一鍵長草  -->
     <system:String x:Key="Farming">一鍵長草</system:String>
     <system:String x:Key="WakeUp">開始喚醒</system:String>
@@ -381,7 +386,7 @@
     <system:String x:Key="PR-DTip">PR-D（近/特晶片）</system:String>
     <system:String x:Key="Pormpt1">週一了，可以打剿滅了 ~</system:String>
     <system:String x:Key="Pormpt2">週日了，記得打剿滅喔 ~</system:String>
-    <!--  戰鬥設定  -->
+    <!-- !戰鬥設定  -->
     <!--  日誌  -->
     <system:String x:Key="ConnectingToEmulator">正在連接模擬器……</system:String>
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
@@ -400,8 +405,8 @@
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效</system:String>
-    <!--  設定失敗  -->
-    <!--  一鍵長草  -->
+    <!-- !設定失敗  -->
+    <!-- !一鍵長草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
     <!--  公招辨識  -->
     <system:String x:Key="RecruitmentRecognition">公招辨識</system:String>
@@ -414,7 +419,7 @@
     <system:String x:Key="AutoSelectLevel5Tags">自動選擇 5 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自動選擇 6 星 Tags</system:String>
     <system:String x:Key="StartToRecruit">開始辨識</system:String>
-    <!--  公招辨識  -->
+    <!-- !公招辨識  -->
     <!--  倉庫辨識  -->
     <system:String x:Key="DepotRecognition">倉庫辨識</system:String>
     <system:String x:Key="DepotRecognitionTip">該功能尚處於測試階段，請檢查結果是否準確再行使用。若有誤，歡迎打包 debug/depot 文件夾後向我們提交 issue ~</system:String>
@@ -422,21 +427,22 @@
     <system:String x:Key="ExportToArkplanner">匯出到企鵝物流刷圖規劃</system:String>
     <system:String x:Key="ExportToLolicon">匯出到明日方舟工具箱</system:String>
     <system:String x:Key="CopiedToClipboard">已複製到剪貼簿</system:String>
-    <!--  倉庫辨識  -->
+    <!-- !倉庫辨識  -->
     <!--  日誌  -->
     <system:String x:Key="OperBoxRecognition">幹員辨識</system:String>
     <system:String x:Key="OperBoxRecognitionTip">該功能尚處於測試階段，若統計有誤，歡迎打包 debug/oper 文件後向我們提交 issue ~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">未擁有: {0} 名: \n\n{1}\n\n已擁有: {2} 名: \n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">開始辨識</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">複製到剪貼簿</system:String>
-    <!--  日誌  -->
+    <!-- !日誌  -->
     <!--  自動戰鬥  -->
     <system:String x:Key="VideoRecognition">影片辨識</system:String>
     <system:String x:Key="StartToVideoRecognition">開始辨識</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">打開資料夾</system:String>
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">請打開「自動戰鬥」頁，將攻略影片文件拖入後開始即可。
 需要影片分辨率為 16:9，且無黑邊、模擬器邊框、異形屏矯正等干擾因素。</system:String>
-    <!--  日誌  -->
+    <!-- !自動戰鬥  -->
+    <!--  Gacha Recognition  -->
     <system:String x:Key="Gacha">牛牛抽卡</system:String>
     <system:String x:Key="GachaOnce">尋訪一次</system:String>
     <system:String x:Key="GachaTenTimes">尋訪十次</system:String>
@@ -462,13 +468,16 @@
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
+    <!-- !Gacha Recognition -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
     <system:String x:Key="IdentificationCompleted">辨識完成</system:String>
-    <!--  自動戰鬥  -->
-    <!--  ErrorView  -->
+    <!-- !日誌  -->
+    <!--  Copilot  -->
     <system:String x:Key="Copilot">自動戰鬥</system:String>
     <system:String x:Key="CopilotLocation">作業路徑 / 神秘代碼</system:String>
+    <system:String x:Key="CopilotTaskName">關卡名</system:String>
+    <system:String x:Key="CopilotTaskNameTip">關卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">從剪貼簿貼上</system:String>
@@ -488,7 +497,7 @@
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
-    <!--  影片連結  -->
+    <!--  日誌  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n
         1. 主線、故事集、SideStory 請在有「開始行動」按鈕的介面再使用本功能；\n\n
@@ -511,9 +520,9 @@
     <system:String x:Key="CopilotJsonError">解析作業檔案錯誤！</system:String>
     <system:String x:Key="NotCopilotJson">非作業檔案</system:String>
     <system:String x:Key="CheckTheFile">請檢查檔案內容！</system:String>
-    <!--  未找到對應作業！  -->
-    <!--  TrayIcon  -->
-    <!--  TrayIcon  -->
+    <!-- !日誌  -->
+    <!-- !Copilot  -->
+    <!--  ErrorView  -->
     <system:String x:Key="Error">錯誤</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了問題</system:String>
     <system:String x:Key="ErrorDetails">詳細資訊</system:String>
@@ -524,7 +533,8 @@
     <system:String x:Key="ErrorFeedbackLinkText">建立 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入 QQ 群反應問題</system:String>
     <system:String x:Key="CopyErrorMessage">複製錯誤資訊</system:String>
-    <!--  解決方案  -->
+    <!-- !ErrorView  -->
+    <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">檔案損毀，請重新下載完整安裝檔</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路徑不存在</system:String>
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下載失敗</system:String>
@@ -589,13 +599,15 @@
     <system:String x:Key="SSSGamePass">保全通關啦！</system:String>
     <system:String x:Key="Trader">關卡: 詭意行商</system:String>
     <system:String x:Key="SafeHouse">關卡: 安全的角落</system:String>
-    <system:String x:Key="Encounter">關卡: 不期而遇</system:String>
     <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
+    <system:String x:Key="RoguelikeEvent">肉鴿事件:</system:String>
+    <system:String x:Key="CurTimes">目前次數</system:String>
     <system:String x:Key="NoDrop">無</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
     <system:String x:Key="TotalDrop" xml:space="preserve">掉落統計: </system:String>
+    <system:String x:Key="FurnitureDrop">家具</system:String>
     <system:String x:Key="ThisFacility" xml:space="preserve">當前設施: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">匹配編組: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">匹配幹員編組失敗，編組列表: </system:String>
@@ -612,7 +624,10 @@
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
+    <system:String x:Key="SelectExtraTags">選擇 Tags 時總是選擇三個 Tag</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
+    <system:String x:Key="UseFormation">使用編隊</system:String>
+    <system:String x:Key="Current">當前</system:String>
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
@@ -623,12 +638,12 @@
     <system:String x:Key="RestartAdb">正在嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="HardRestartAdb">正在嘗試重開 ADB 程式</system:String>
     <system:String x:Key="CheckSettings">請檢查連接設定、嘗試重開模擬器與 ADB 或重開電腦</system:String>
-    <!--  About  -->
-    <!--  AutoRecruitSettings  -->
+    <!-- !AsstProxy  -->
+    <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">強制顯示 MAA</system:String>
     <system:String x:Key="Exit">退出</system:String>
-    <!--  AutoRecruitSettings  -->
-    <!--  EasterEggs  -->
+    <!-- !TrayIcon  -->
+    <!--  About  -->
     <system:String x:Key="Website">MAA 官網</system:String>
     <system:String x:Key="Github">原始碼: GitHub</system:String>
     <system:String x:Key="PrtsPlus">自動戰鬥作業分享</system:String>
@@ -639,7 +654,7 @@
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">常見問題</system:String>
     <system:String x:Key="Issue">問題回饋</system:String>
-    <!--  EasterEggs  -->
+    <!-- !About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自動刷新 3 星 Tags</system:String>
     <system:String x:Key="ForceRefresh">無招募許可時繼續嘗試刷新 Tags</system:String>
@@ -654,28 +669,29 @@
     <system:String x:Key="AutoSelectLevel5">自動確認 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自動確認 6 星</system:String>
     <system:String x:Key="Level1Tip">勾選時辨識到 1 星詞條時跳過該次招募，未勾選時將忽略 1 星詞條。</system:String>
-    <!--  AutoRecruitSettings  -->
+    <!-- !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">博士，歡迎加入這盛大的魚人慶典！聽說可露希爾小姐的商店裡新上架了美酒，要去來一杯嗎？</system:String>
     <system:String x:Key="Burping">呃……咳嗯</system:String>
     <system:String x:Key="DrunkAndStaggering">呀，博士。你今天走起路來，怎麼看著搖搖晃晃的？</system:String>
     <system:String x:Key="Hangover">下次不能喝、喝這麼多了……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
-    <!--  EasterEggs  -->
+    <!-- !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">好的！</system:String>
     <system:String x:Key="VersionUpdated">版本已更新</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">已更新: </system:String>
-    <!--  VersionUpdatePopup  -->
+    <!-- !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA 正在執行任務</system:String>
     <system:String x:Key="ConfirmExitText">確定要退出嗎？</system:String>
-    <!--  RootViewModel  -->
+    <!-- !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">關卡數據獲取成功</system:String>
-    <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA</system:String>
-    <system:String x:Key="GameResourceUpdating">遊戲資源正在更新，請勿關閉 MAA</system:String>
-    <!--  Api  -->
+    <system:String x:Key="GameResourceUpdating">遊戲資源正在更新</system:String>
+    <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA。</system:String>
+    <system:String x:Key="GameResourceFailed">遊戲資源更新失敗，請稍後嘗試。</system:String>
+    <!-- !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">遠程控制</system:String>
     <system:String x:Key="RemoteControlDeviceIdentityLabel">設備標識符（唯讀）</system:String>
@@ -693,17 +709,17 @@
     <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的地址可能會導致您的明日方舟帳戶受到損失。</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">了解如何開發相關功能，可以訪問</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">遠程控制功能開發者文檔</system:String>
-    <!--  Remote Control  -->
+    <!-- !Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您會收到此郵件，是因為您在 MAA 中設置了 SMTP 伺服器並開啟了郵件通知服務。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">此郵件為系統自動發送，請勿回復。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官網</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作業站</system:String>
-    <!--  External Notification  -->
+    <!-- !External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">公告</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
-    <!--  Announcement  -->
+    <!-- !Announcement  -->
 </ResourceDictionary>

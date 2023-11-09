@@ -35,6 +35,7 @@ using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Notification;
 using MaaWpfGui.Services.RemoteControl;
@@ -61,9 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly ILogger _logger = Log.ForContext<SettingsViewModel>();
 
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
@@ -75,7 +73,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the core version.
         /// </summary>
-        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(AsstGetVersion());
+        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
 
         private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
 
@@ -258,7 +256,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-
         private string _remoteControlDeviceIdentity = ConfigurationHelper.GetValue(ConfigurationKeys.RemoteControlDeviceIdentity, string.Empty);
 
         public string RemoteControlDeviceIdentity
@@ -271,7 +268,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        #endregion
+        #endregion Remote Control
 
         #region External Notifications
 
@@ -294,12 +291,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
 
-        public bool IsEnabled => _enabledExternalNotificationProvider != "Off";
-
-        public bool IsServerChan => _enabledExternalNotificationProvider == "ServerChan";
-
-        public bool IsSmtp => _enabledExternalNotificationProvider == "SMTP";
-
         public string EnabledExternalNotificationProvider
         {
             get => _enabledExternalNotificationProvider;
@@ -307,10 +298,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _enabledExternalNotificationProvider, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
-
-                NotifyOfPropertyChange(nameof(IsEnabled));
-                NotifyOfPropertyChange(nameof(IsSmtp));
-                NotifyOfPropertyChange(nameof(IsServerChan));
             }
         }
 
@@ -513,6 +500,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
 
+            FormationSelectList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Current"), Value = "0" },
+                new CombinedData { Display = "1", Value = "1" },
+                new CombinedData { Display = "2", Value = "2" },
+                new CombinedData { Display = "3", Value = "3" },
+                new CombinedData { Display = "4", Value = "4" },
+            };
+
             RoguelikeModeList = new List<CombinedData>
             {
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
@@ -520,7 +516,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
             };
 
@@ -770,6 +765,30 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
+
+        public bool BlockSleep
+        {
+            get => _blockSleep;
+            set
+            {
+                SetAndNotify(ref _blockSleep, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
+            }
+        }
+
+        private bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+
+        public bool BlockSleepWithScreenOn
+        {
+            get => _blockSleepWithScreenOn;
+            set
+            {
+                SetAndNotify(ref _blockSleepWithScreenOn, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
+            }
+        }
+
         public void RunScript(string str)
         {
             bool enable = str switch
@@ -885,6 +904,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var link = (IShellLink)new ShellLink();
+
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var file = (IPersistFile)link;
                     file.Load(EmulatorPath, 0); // STGM_READ
@@ -1715,7 +1735,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeMode = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeMode, "0");
 
         /// <summary>
-        /// 策略，往后打 / 刷一层就退 / 烧热水
+        /// Gets or sets 策略，往后打 / 刷一层就退 / 烧热水
         /// </summary>
         public string RoguelikeMode
         {
@@ -1781,7 +1801,7 @@ namespace MaaWpfGui.ViewModels.UI
         private ObservableCollection<string> _roguelikeCoreCharList = new ObservableCollection<string>();
 
         /// <summary>
-        /// Gets or sets the roguelike core character.
+        /// Gets the roguelike core character.
         /// </summary>
         public ObservableCollection<string> RoguelikeCoreCharList
         {
@@ -2001,6 +2021,27 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _creditFightTaskEnabled, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightTaskEnabled, value.ToString());
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets 设置选择的编队
+        /// </summary>
+        // ReSharper disable once MemberCanBePrivate.Global
+        public List<CombinedData> FormationSelectList { get; set; }
+
+        private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
+
+        /// <summary>
+        /// Gets or sets a value indicating which formation will be select in credit fight.
+        /// </summary>
+        public int CreditFightSelectFormation
+        {
+            get => _creditFightSelectFormation;
+            set
+            {
+                SetAndNotify(ref _creditFightSelectFormation, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditFightSelectFormation, value.ToString());
             }
         }
 
@@ -2336,6 +2377,21 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useExpedited, value);
         }
 
+        private bool _selectExtraTags = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether three tags are alway selected when selecting tags.
+        /// </summary>
+        public bool SelectExtraTags
+        {
+            get => _selectExtraTags;
+            set
+            {
+                SetAndNotify(ref _selectExtraTags, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value.ToString());
+            }
+        }
+
         private bool _isLevel3UseShortTime = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsLevel3UseShortTime, bool.FalseString));
 
         /// <summary>
@@ -2618,6 +2674,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.OnlyGameResourceUpdated:
                     toastMessage = LocalizationHelper.GetString("GameResourceUpdated");
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -2736,6 +2793,20 @@ namespace MaaWpfGui.ViewModels.UI
             get => _adbPath;
             set
             {
+                if (!Path.GetFileName(value).ToLower().Contains("adb"))
+                {
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("AdbPathFileSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Tip"),
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Warning,
+                        cancel: LocalizationHelper.GetString("Cancel"));
+                    if (result == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+
                 SetAndNotify(ref _adbPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, value);
             }
@@ -3408,6 +3479,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case DarkModeType.SyncWithOs:
                     ThemeHelper.SwitchToSyncWithOsMode();
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -3448,15 +3520,18 @@ namespace MaaWpfGui.ViewModels.UI
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
+
                     case InverseClearType.Inverse:
                         Instances.TaskQueueViewModel.InverseMode = true;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
+
                     case InverseClearType.ClearInverse:
                         Instances.TaskQueueViewModel.ShowInverse = true;
                         Instances.TaskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -3834,6 +3909,15 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+        }
+
+        public void SetupSleepManagement()
+        {
+            if (BlockSleep)
+            {
+                SleepManagement.BlockSleep(BlockSleepWithScreenOn);
+                _logger.Information("Blocking sleep.");
+            }
         }
     }
 }
