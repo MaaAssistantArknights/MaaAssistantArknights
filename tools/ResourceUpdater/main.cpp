@@ -45,7 +45,7 @@ static inline void trim(std::string& s)
     rtrim(s);
 }
 
-bool cloneOrUpdateRepo(const std::filesystem::path& repo_dir, const std::string& repo_url,
+bool clone_update_repo(const std::filesystem::path& repo_dir, const std::string& repo_url,
                        const std::string& branch = "");
 
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir,
@@ -75,7 +75,7 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
 
 int main([[maybe_unused]] int argc, char** argv)
 {
-    /* PATH DECLARATION */
+    /* ---- PATH DECLARATION ---- */
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
 
@@ -94,6 +94,7 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto txwy_data_dir = cur_path / "arknights-toolbox-update";
     const auto overseas_data_dir = cur_path;
     const auto resource_dir = solution_dir / "resource";
+
     std::unordered_map<std::filesystem::path, std::string> global_dirs = {
         { yostar_data_dir / "en_US" / "gamedata", "YoStarEN" },
         { yostar_data_dir / "ja_JP" / "gamedata", "YoStarJP" },
@@ -101,19 +102,19 @@ int main([[maybe_unused]] int argc, char** argv)
         { txwy_data_dir / "tw", "txwy" },
     };
 
-    /* METHODS CALLS */
+    /* ---- METHODS CALLS ---- */
 
     std::cout << "------------Clone ArknightsGameResource------------" << std::endl;
-    if (!cloneOrUpdateRepo(official_data_dir, "https://github.com/yuanyan3060/ArknightsGameResource.git")) return -1;
+    if (!clone_update_repo(official_data_dir, "https://github.com/yuanyan3060/ArknightsGameResource.git")) return -1;
 
     std::cout << "------------Clone ArknightsGameData_Yostar------------" << std::endl;
-    if (!cloneOrUpdateRepo(yostar_data_dir, "https://github.com/Kengxxiao/ArknightsGameData_YoStar.git")) return -1;
+    if (!clone_update_repo(yostar_data_dir, "https://github.com/Kengxxiao/ArknightsGameData_YoStar.git")) return -1;
 
     std::cout << "------------Clone arknights-toolbox-update------------" << std::endl;
-    if (!cloneOrUpdateRepo(txwy_data_dir, "https://github.com/arkntools/arknights-toolbox-update.git", "data"))
+    if (!clone_update_repo(txwy_data_dir, "https://github.com/arkntools/arknights-toolbox-update.git", "data"))
         return -1;
 
-    /* Update levels.json from ArknightsGameResource*/
+    /* Update levels.json from ArknightsGameResource */
     std::cout << "------------Update levels.json for Official------------" << std::endl;
     if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
         std::cerr << "update levels.json failed" << std::endl;
@@ -124,9 +125,10 @@ int main([[maybe_unused]] int argc, char** argv)
     }
 
     // 这个 en_levels.json 是自己手动生成放进去的
-    generate_english_roguelike_stage_name_replacement(official_data_dir / "levels.json", cur_path / "en_levels.json");
+    // Will never work without en_levels.json in proj_dir, commented for now
+    //generate_english_roguelike_stage_name_replacement(official_data_dir / "levels.json", cur_path / "en_levels.json");
 
-    /* Update infrast data from ArknightsGameResource*/
+    /* Update infrast data from ArknightsGameResource */
     std::cout << "------------Update infrast data for Official------------" << std::endl;
     if (!update_infrast_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update infrast data failed" << std::endl;
@@ -136,7 +138,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update infrast templates from ArknightsGameResource*/
+    /* Update infrast templates from ArknightsGameResource */
     std::cout << "------------Update infrast templates for Official------------" << std::endl;
     if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "Update infrast templates failed" << std::endl;
@@ -146,7 +148,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update roguelike recruit data from ArknightsGameResource*/
+    /* Update roguelike recruit data from ArknightsGameResource */
     // std::cout << "------------Update roguelike recruit data------------" << std::endl;
     // if (!update_roguelike_recruit(arkbot_res_dir, resource_dir, solution_dir)) {
     //     std::cerr << "Update roguelike recruit data failed" << std::endl;
@@ -155,7 +157,7 @@ int main([[maybe_unused]] int argc, char** argv)
     //    std::cout << "Done" << std::endl;
     //}
 
-    /* Update base_name.json from Penguin Stats*/
+    /* Update base_name.json from Penguin Stats */
     std::cout << "------------Update stage.json for Official------------" << std::endl;
     if (!update_stages_data(cur_path, resource_dir)) {
         std::cerr << "Update stages data failed" << std::endl;
@@ -165,7 +167,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update battle chars info for ALL CLIENTS*/
+    /* Update battle chars info for all clients */
     std::cout << "------------Update battle chars info for all clients------------" << std::endl;
     if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", yostar_data_dir, txwy_data_dir,
                                   resource_dir)) {
@@ -176,7 +178,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update recruitment data from ArknightsGameResource*/
+    /* Update recruitment data from ArknightsGameResource */
     std::cout << "------------Update recruitment data for Official------------" << std::endl;
     if (!update_recruitment_data(official_data_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
@@ -186,7 +188,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update recruitment data from ArknightsGameData_YoStar*/
+    /* Update recruitment data from ArknightsGameData_YoStar */
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
         if (!update_recruitment_data(overseas_data_dir / in / "excel",
@@ -199,7 +201,7 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update items template and json from ArknightsGameResource*/
+    /* Update items template and json from ArknightsGameResource */
     std::cout << "------------Update items template and json for Official------------" << std::endl;
     if (!update_items_data(official_data_dir, resource_dir)) {
         std::cerr << "Update items data failed" << std::endl;
@@ -209,7 +211,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update items global json from ArknightsGameData_YoStar*/
+    /* Update items global json from ArknightsGameData_YoStar */
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
         if (!update_items_data(overseas_data_dir / in / "excel", resource_dir / "global" / out / "resource", false)) {
@@ -221,7 +223,7 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update roguelike replace for overseas from ArknightsGameData_YoStar*/
+    /* Update roguelike replace for overseas from ArknightsGameData_YoStar */
     for (const auto& [in, out] : global_dirs) {
         // Temporary, until roguelike_topic_table is added to arknights-toolbox-update
         if (out != "txwy") {
@@ -238,7 +240,7 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update version info from ArknightsGameData*/
+    /* Update version info from ArknightsGameData */
     std::cout << "------------Update version info for Official------------" << std::endl;
     if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update version info failed" << std::endl;
@@ -248,7 +250,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update global version info from ArknightsGameData_Yostar*/
+    /* Update global version info from ArknightsGameData_Yostar */
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
         if (!update_version_info(overseas_data_dir / in / "excel", resource_dir / "global" / out / "resource")) {
@@ -264,9 +266,9 @@ int main([[maybe_unused]] int argc, char** argv)
     return 0;
 }
 
-/* METHODS DEFINITIONS */
+/* ---- METHODS DEFINITIONS ---- */
 
-bool cloneOrUpdateRepo(const std::filesystem::path& repo_dir, const std::string& repo_url, const std::string& branch)
+bool clone_update_repo(const std::filesystem::path& repo_dir, const std::string& repo_url, const std::string& branch)
 {
     std::string git_cmd;
     if (!std::filesystem::exists(repo_dir)) {
