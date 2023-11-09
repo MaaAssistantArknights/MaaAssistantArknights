@@ -510,10 +510,10 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char()
     LogTraceFunction;
     const int MaxRefreshTimes = Task.get("RoguelikeRefreshSupportBtnOcr")->special_params.front();
 
-    auto core_opt = status()->get_str(Status::RoguelikeCoreChar);
-    status()->set_str(Status::RoguelikeCoreChar, "");
-    if (core_opt && !core_opt->empty()) {
-        if (recruit_support_char(core_opt.value(), MaxRefreshTimes)) return true;
+    auto core_opt = m_config->get_core_char();
+    m_config->set_core_char("");
+    if (!core_opt.empty()) {
+        if (recruit_support_char(core_opt, MaxRefreshTimes)) return true;
     }
     return false;
 }
@@ -595,12 +595,12 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_own_char()
 {
     LogTraceFunction;
 
-    auto core_opt = status()->get_str(Status::RoguelikeCoreChar);
-    if (!core_opt || core_opt->empty()) {
+    auto core_opt = m_config->get_core_char();
+    if ( core_opt.empty()) {
         return false;
     }
-    status()->set_str(Status::RoguelikeCoreChar, "");
-    return recruit_appointed_char(core_opt.value());
+    m_config->set_core_char("");
+    return recruit_appointed_char(core_opt);
 }
 
 void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recruitment& oper)
