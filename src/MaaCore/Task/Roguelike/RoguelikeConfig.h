@@ -31,6 +31,8 @@ namespace asst
         int get_recruitment_count() { return m_recruitment_count; }
         void set_recruitment_starts_complete(bool complete) { m_recruitment_starts_complete = complete; }
         bool get_recruitment_starts_complete() { return m_recruitment_starts_complete; }
+        void set_recruitment_team_complete(bool complete) { m_recruitment_team_complete = complete; }
+        bool get_recruitment_team_complete() { return m_recruitment_team_complete; }
 
     protected:
         // 肉鸽主题
@@ -40,5 +42,7 @@ namespace asst
         int m_recruitment_count = 0;
         // 开局干员是否已经招募
         bool m_recruitment_starts_complete = false;
+        // 阵容是否完备
+        bool m_recruitment_team_complete = false;
     };
 }
