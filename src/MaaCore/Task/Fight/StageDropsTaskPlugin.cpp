@@ -417,7 +417,7 @@ void asst::StageDropsTaskPlugin::upload_to_yituliu()
     }
 
     if (!m_report_yituliu_task_ptr) {
-        m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
+        m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_yituliu_callback, this);
     }
 
     m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigDataStageDrops)
@@ -425,6 +425,18 @@ void asst::StageDropsTaskPlugin::upload_to_yituliu()
         .set_extra_headers(extra_headers)
         .set_retry_times(5)
         .run();
+}
+
+void asst::StageDropsTaskPlugin::report_yituliu_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
+{
+    LogTraceFunction;
+
+    auto p_this = dynamic_cast<StageDropsTaskPlugin*>(task_ptr);
+    if (!p_this) {
+        return;
+    }
+
+    p_this->callback(msg, detail);
 }
 
 bool asst::StageDropsTaskPlugin::check_stage_valid()
