@@ -96,9 +96,9 @@ int main([[maybe_unused]] int argc, char** argv)
     const auto resource_dir = solution_dir / "resource";
 
     std::unordered_map<std::filesystem::path, std::string> global_dirs = {
-        { yostar_data_dir / "en_US" / "gamedata", "YoStarEN" },
-        { yostar_data_dir / "ja_JP" / "gamedata", "YoStarJP" },
-        { yostar_data_dir / "ko_KR" / "gamedata", "YoStarKR" },
+        { yostar_data_dir / "en_US", "YoStarEN" },
+        { yostar_data_dir / "ja_JP", "YoStarJP" },
+        { yostar_data_dir / "ko_KR", "YoStarKR" },
         { txwy_data_dir / "tw", "txwy" },
     };
 
@@ -126,7 +126,8 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // 这个 en_levels.json 是自己手动生成放进去的
     // Will never work without en_levels.json in proj_dir, commented for now
-    //generate_english_roguelike_stage_name_replacement(official_data_dir / "levels.json", cur_path / "en_levels.json");
+    // generate_english_roguelike_stage_name_replacement(official_data_dir / "levels.json", cur_path /
+    // "en_levels.json");
 
     /* Update infrast data from ArknightsGameResource */
     std::cout << "------------Update infrast data for Official------------" << std::endl;
@@ -191,7 +192,7 @@ int main([[maybe_unused]] int argc, char** argv)
     /* Update recruitment data from ArknightsGameData_YoStar */
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update recruitment data for " << out << "------------" << std::endl;
-        if (!update_recruitment_data(overseas_data_dir / in / "excel",
+        if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
                                      resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
             std::cerr << "Update recruitment data failed" << std::endl;
             return -1;
@@ -214,7 +215,8 @@ int main([[maybe_unused]] int argc, char** argv)
     /* Update items global json from ArknightsGameData_YoStar */
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update items json for " << out << "------------" << std::endl;
-        if (!update_items_data(overseas_data_dir / in / "excel", resource_dir / "global" / out / "resource", false)) {
+        if (!update_items_data(overseas_data_dir / in / "gamedata" / "excel",
+                               resource_dir / "global" / out / "resource", false)) {
             std::cerr << "Update items json failed" << std::endl;
             return -1;
         }
@@ -226,17 +228,15 @@ int main([[maybe_unused]] int argc, char** argv)
     /* Update roguelike replace for overseas from ArknightsGameData_YoStar */
     for (const auto& [in, out] : global_dirs) {
         // Temporary, until roguelike_topic_table is added to arknights-toolbox-update
-        if (out != "txwy") {
-            std::cout << "------------Update roguelike replace for " << out << "------------" << std::endl;
-            if (!check_roguelike_replace_for_overseas(overseas_data_dir / in / "excel",
-                                                      resource_dir / "global" / out / "resource" / "tasks.json",
-                                                      official_data_dir / "gamedata" / "excel", cur_path / in)) {
-                std::cerr << "Update roguelike replace for overseas failed" << std::endl;
-                return -1;
-            }
-            else {
-                std::cout << "Done" << std::endl;
-            }
+        std::cout << "------------Update roguelike replace for " << out << "------------" << std::endl;
+        if (!check_roguelike_replace_for_overseas(overseas_data_dir / in / "gamedata" / "excel",
+                                                  resource_dir / "global" / out / "resource" / "tasks.json",
+                                                  official_data_dir / "gamedata" / "excel", cur_path / in)) {
+            std::cerr << "Update roguelike replace for overseas failed" << std::endl;
+            return -1;
+        }
+        else {
+            std::cout << "Done" << std::endl;
         }
     }
 
@@ -253,7 +253,8 @@ int main([[maybe_unused]] int argc, char** argv)
     /* Update global version info from ArknightsGameData_Yostar */
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------------Update version info for " << out << "------------" << std::endl;
-        if (!update_version_info(overseas_data_dir / in / "excel", resource_dir / "global" / out / "resource")) {
+        if (!update_version_info(overseas_data_dir / in / "gamedata" / "excel",
+                                 resource_dir / "global" / out / "resource")) {
             std::cerr << "Update version info failed" << std::endl;
             return -1;
         }
@@ -828,12 +829,14 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
 bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& yostar_dir,
                               const std::filesystem::path& txwy_dir, const std::filesystem::path& output_dir)
 {
+    const auto to_char_json = "gamedata/excel/character_table.json";
+
     auto range_opt = json::open(input_dir / "range_table.json");
     auto chars_cn_opt = json::open(input_dir / "character_table.json");
-    auto chars_en_opt = json::open(yostar_dir / "en_US" / "gamedata" / "excel" / "character_table.json");
-    auto chars_jp_opt = json::open(yostar_dir / "ja_JP" / "gamedata" / "excel" / "character_table.json");
-    auto chars_kr_opt = json::open(yostar_dir / "ko_KR" / "gamedata" / "excel" / "character_table.json");
-    auto chars_tw_opt = json::open(txwy_dir / "tw" / "excel" / "character_table.json");
+    auto chars_en_opt = json::open(yostar_dir / "en_US" / to_char_json);
+    auto chars_jp_opt = json::open(yostar_dir / "ja_JP" / to_char_json);
+    auto chars_kr_opt = json::open(yostar_dir / "ko_KR" / to_char_json);
+    auto chars_tw_opt = json::open(txwy_dir / "tw" / to_char_json);
 
     if (!chars_cn_opt || !chars_en_opt || !chars_jp_opt || !chars_kr_opt || !chars_tw_opt || !range_opt) {
         return false;
