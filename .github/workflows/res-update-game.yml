@@ -36,7 +36,7 @@ jobs:
         env:
           ARKNTOOLS_MAA_RESOURCE_UPDATER_TOKEN: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER }}
         run: |
-          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe $ARKNTOOLS_MAA_RESOURCE_UPDATER_TOKEN
+          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe "$env:ARKNTOOLS_MAA_RESOURCE_UPDATER_TOKEN"
       - name: Overseas Tasks Ordering
         run: |
           python3 tools/TaskSorter/TaskSorter.py
