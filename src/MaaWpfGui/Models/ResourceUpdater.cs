@@ -189,7 +189,7 @@ namespace MaaWpfGui.Models
                 return UpdateResult.NotModified;
             }
 
-            OutputDownloadProgress("Preparing update……");
+            OutputDownloadProgress(1, LocalizationHelper.GetString("GameResourceUpdatePreparing"));
             var ret1 = await UpdateFilesWithIndex(baseUrl);
 
             if (ret1 == UpdateResult.Failed)
@@ -201,6 +201,7 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
+            OutputDownloadProgress(2, LocalizationHelper.GetString("GameResourceUpdatePreparing"));
             var ret2 = await UpdateSingleFiles(baseUrl);
 
             if (ret2 == UpdateResult.Failed)
