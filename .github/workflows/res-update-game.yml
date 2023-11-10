@@ -43,7 +43,7 @@ jobs:
           MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
       - name: Run Resource Updater
         run: |
-          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe ${{secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
       # - name: Download txwy game data
       #   uses: ./arkntools-data-downloader
       #   with:
