@@ -43,7 +43,7 @@ jobs:
       - name: Run Resource Updater
         run: |
           .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
-      - name: Download twxy game data
+      - name: Download txwy game data
         uses: ./arkntools-data-downloader
         with:
           cmd: downloadExcel
@@ -64,7 +64,7 @@ jobs:
             gacha_table
             character_table
             activity_table
-      - name: Copy twxy game data
+      - name: Copy txwy game data
         run: mv ${{ runner.temp }}/data/tw/excel/* ./tools/ResourceUpdater/ArknightsGameData_Yostar
       - name: Overseas Tasks Ordering
         run: |
