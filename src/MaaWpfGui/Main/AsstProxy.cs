@@ -1773,13 +1773,14 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        private static JObject SerializeInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, double dormThreshold, bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
+        private static JObject SerializeInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, bool continueTraining, double dormThreshold, bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {
             var taskParams = new JObject
             {
                 ["facility"] = new JArray(order.ToArray<object>()),
                 ["drones"] = usesOfDrones,
+                ["continue_training"] = continueTraining,
                 ["threshold"] = dormThreshold,
                 ["dorm_notstationed_enabled"] = dormFilterNotStationedEnabled,
                 ["dorm_trust_enabled"] = dormDormTrustEnabled,
@@ -1808,6 +1809,7 @@ namespace MaaWpfGui.Main
         /// <item><c>Chip</c></item>
         /// </list>
         /// </param>
+        /// <param name="continueTraining">训练室是否尝试连续专精</param>
         /// <param name="dormThreshold">宿舍进驻心情阈值。</param>
         /// <param name="dormFilterNotStationedEnabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dormDormTrustEnabled">宿舍是否使用蹭信赖功能</param>
@@ -1816,12 +1818,12 @@ namespace MaaWpfGui.Main
         /// <param name="filename">自定义配置文件路径</param>
         /// <param name="planIndex">自定义配置计划编号</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(IEnumerable<string> order, string usesOfDrones, double dormThreshold,
+        public bool AsstAppendInfrast(IEnumerable<string> order, string usesOfDrones, bool continueTraining, double dormThreshold,
             bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {
             var taskParams = SerializeInfrastTaskParams(
-                order, usesOfDrones, dormThreshold,
+                order, usesOfDrones, continueTraining, dormThreshold,
                 dormFilterNotStationedEnabled, dormDormTrustEnabled, originiumShardAutoReplenishment,
                 isCustom, filename, planIndex);
             AsstTaskId id = AsstAppendTaskWithEncoding("Infrast", taskParams);
@@ -1829,7 +1831,7 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        public bool AsstSetInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, double dormThreshold,
+        public bool AsstSetInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, bool continueTraining, double dormThreshold,
             bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {
@@ -1846,7 +1848,7 @@ namespace MaaWpfGui.Main
             }
 
             var taskParams = SerializeInfrastTaskParams(
-                order, usesOfDrones, dormThreshold,
+                order, usesOfDrones,continueTraining, dormThreshold,
                 dormFilterNotStationedEnabled, dormDormTrustEnabled, originiumShardAutoReplenishment,
                 isCustom, filename, planIndex);
             return AsstSetTaskParamsWithEncoding(id, taskParams);
