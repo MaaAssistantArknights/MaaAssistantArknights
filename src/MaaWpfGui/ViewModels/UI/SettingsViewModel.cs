@@ -1710,6 +1710,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _continueTraining = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to continue training after current training completed.
+        /// </summary>
+        public bool ContinueTraining
+        {
+            get => _continueTraining;
+            set
+            {
+                SetAndNotify(ref _continueTraining, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ContinueTraining, value.ToString());
+            }
+        }
+
         private string _defaultInfrast = ConfigurationHelper.GetValue(ConfigurationKeys.DefaultInfrast, UserDefined);
 
         private const string UserDefined = "user_defined";

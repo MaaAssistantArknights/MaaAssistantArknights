@@ -112,6 +112,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
         }
     }
 
+    bool continue_training = params.get("continueTraining", false);
+    m_training_task_ptr->set_continue_training(continue_training);
+
     if (!is_custom) {
         std::string drones = params.get("drones", "_NotUse");
         m_mfg_task_ptr->set_uses_of_drone(drones);
