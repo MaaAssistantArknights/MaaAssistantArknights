@@ -142,6 +142,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 
     status()->set_str(Status::RoguelikeUseSupport, m_customs[RoguelikeCustomType::UseSupport]);
     status()->set_str(Status::RoguelikeUseNonfriendSupport, m_customs[RoguelikeCustomType::UseNonfriendSupport]);
-    status()->set_str(Status::RoguelikeCoreChar, char_name);
+    m_config->set_core_char(char_name);
     return true;
 }

@@ -92,35 +92,30 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_config_ptr->set_theme(theme);
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
-    // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
-    // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
-    // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
-    // 3 - 尝试通关，激进策略（TODO）
-    // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
-    int mode = params.get("mode", 0);
-    if (mode != 0 && mode != 1 && mode != 4) {
+    auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
+    m_roguelike_config_ptr->set_mode(mode);
+    if (mode != RoguelikeMode::Exp && mode != RoguelikeMode::Investment && mode != RoguelikeMode::Collectible) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
-        Log.error(__FUNCTION__, "| Unknown mode", mode);
+        Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
         return false;
     }
 
-    m_debug_plugin_ptr->set_enable(mode != 1);
+    m_debug_plugin_ptr->set_enable(mode != RoguelikeMode::Investment);
 
     // 是否凹指定干员开局直升
     bool start_with_elite_two = params.get("start_with_elite_two", false);
 
-    status()->set_properties(Status::RoguelikeMode, std::to_string(mode));
-    status()->set_properties(Status::RoguelikeDifficulty, "0");
-    status()->set_properties(Status::RoguelikeStartWithEliteTwo, std::to_string(start_with_elite_two));
-
+    m_roguelike_config_ptr->set_difficulty(0);
+    m_roguelike_config_ptr->set_start_with_elite_two(start_with_elite_two);
+    
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
         Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
         std::string strategy_task = theme + "@Roguelike@StrategyChange";
-        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(mode);
+        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(static_cast<int>(mode));
         if (Task.get(strategy_task_with_mode) == nullptr) {
             strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
-            Log.warn(__FUNCTION__, "No strategy for mode", mode);
+            Log.warn(__FUNCTION__, "No strategy for mode", static_cast<int>(mode));
         }
         Task.set_task_base(strategy_task, strategy_task_with_mode);
     }
@@ -132,7 +127,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
     Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
 
-    if (mode == 1) {
+    if (mode == RoguelikeMode::Investment) {
         // 战斗后奖励只拿钱
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
         // 刷源石锭模式是否进入第二层

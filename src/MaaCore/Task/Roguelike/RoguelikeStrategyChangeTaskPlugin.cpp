@@ -36,7 +36,6 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
     LogTraceFunction;
 
     std::string theme = m_config->get_theme();
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
 
     // TODO: 这段识别有点冗余，要是 plugin 能获取识别结果就好了
     std::string task_name = theme + "@Roguelike@StrategyChange";
