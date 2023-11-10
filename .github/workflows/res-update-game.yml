@@ -17,9 +17,19 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        name: Checkout MAA
         with:
+          show-progress: false
           token: ${{ secrets.MISTEOWORKFLOW }}
+      - uses: actions/checkout@v4
+        name: Checkout arkntools/data-downloader
+        with:
+          show-progress: false
+          repository: arkntools/data-downloader
+          ref: dist
+          path: ../data-downloader
+          token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER }}
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -33,6 +43,29 @@ jobs:
       - name: Run Resource Updater
         run: |
           .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+      - name: Download twxy game data
+        uses: ./../data-downloader
+        with:
+          cmd: downloadExcel
+          save-path: ${{ runner.temp }}/data
+          # 要下载哪些服务器的 (cn, us, jp, kr, tw)，如果全下载就不用加这个参数，默认全下载
+          servers: |
+            tw
+          # 每个服对应的 fbs commit - https://github.com/MooncellWiki/OpenArknightsFBS
+          # 这个需要自己维护，因为外服跟国服版本号不一样所以没找到高效的自动化的办法
+          # 不下载的 server 可以不写，国服不用写因为必定用的是最新的
+          fbs-heads: |
+            tw: 324260f
+          # 要下载的文件，目前只能下载 excel 里的，如果需要下载 excel 外的文件再跟我说吧
+          excel-files: |
+            roguelike_topic_table
+            item_table
+            building_data
+            gacha_table
+            character_table
+            activity_table
+      - name: Copy twxy game data
+        run: mv ${{ runner.temp }}/data/tw/excel/* ./tools/ResourceUpdater/ArknightsGameData_Yostar
       - name: Overseas Tasks Ordering
         run: |
           python3 tools/TaskSorter/TaskSorter.py
