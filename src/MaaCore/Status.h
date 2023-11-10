@@ -41,7 +41,6 @@ namespace asst
 
         static inline const std::string RoguelikeCharElitePrefix = "RoguelikeElite-";
         static inline const std::string RoguelikeCharLevelPrefix = "RoguelikeLevel-";
-        static inline const std::string RoguelikeCharRarityPrefix = "RoguelikeRarity-";
         static inline const std::string RoguelikeCharOverview = "RoguelikeOverview";
         static inline const std::string RoguelikeUseSupport = "RoguelikeUseSupport";
         static inline const std::string RoguelikeUseNonfriendSupport = "RoguelikeUseNonfriendSupport";
