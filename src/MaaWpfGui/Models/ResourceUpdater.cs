@@ -210,10 +210,12 @@ namespace MaaWpfGui.Models
 
             if (ret1 != UpdateResult.Success && ret2 != UpdateResult.Success)
             {
+                OutputDownloadProgress(LocalizationHelper.GetString("GameResourceNotModified"));
                 return UpdateResult.NotModified;
             }
 
             PostProcVersionChecks();
+            OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
             return UpdateResult.Success;
         }
 
@@ -244,6 +246,7 @@ namespace MaaWpfGui.Models
                 }
             }
 
+            OutputDownloadProgress(2, "Update completed");
             return ret;
         }
 
@@ -299,6 +302,7 @@ namespace MaaWpfGui.Models
                 }
             }
 
+            OutputDownloadProgress(1, "Update completed");
             return ret;
         }
 
@@ -346,8 +350,12 @@ namespace MaaWpfGui.Models
 
         private static void OutputDownloadProgress(int index, int count = 0, int maxCount = 1)
         {
-            OutputDownloadProgress(
-                $"index {index}/2: {count}/{maxCount}({100 * count / maxCount}%)");
+            OutputDownloadProgress(index, $"{count}/{maxCount}({100 * count / maxCount}%)");
+        }
+
+        private static void OutputDownloadProgress(int index, string output)
+        {
+            OutputDownloadProgress($"index {index}/2: {output}");
         }
 
         private static void OutputDownloadProgress(string output)

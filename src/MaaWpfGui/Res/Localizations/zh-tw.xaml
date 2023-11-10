@@ -689,6 +689,7 @@
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">關卡數據獲取成功</system:String>
     <system:String x:Key="GameResourceUpdating">遊戲資源正在更新</system:String>
+    <system:String x:Key="GameResourceNotModified">遊戲資源已更新。</system:String>
     <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA。</system:String>
     <system:String x:Key="GameResourceFailed">遊戲資源更新失敗，請稍後嘗試。</system:String>
     <!-- !Api  -->

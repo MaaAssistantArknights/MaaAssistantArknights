@@ -689,6 +689,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">스테이지 데이터 획득 성공</system:String>
     <system:String x:Key="GameResourceUpdating">게임 자원이 업데이트 중입니다.</system:String>
+    <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었으니.</system:String>
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니 MAA를 다시 시작해주세요.</system:String>
     <system:String x:Key="GameResourceFailed">게임 자원 업데이트 실패, 나중에 다시 시도해주세요.</system:String>
     <!-- !Api  -->
