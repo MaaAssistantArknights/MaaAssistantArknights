@@ -70,8 +70,10 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
 int main([[maybe_unused]] int argc, char** argv)
 {
     /* ---- PATH DECLARATION ---- */
+
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
+    std::string arkntool_token = argv[1];
 
     auto solution_dir = cur_path;
     for (int i = 0; i != 10; ++i) {
@@ -108,7 +110,8 @@ int main([[maybe_unused]] int argc, char** argv)
 
     std::cout << "------- Clone arknights-toolbox-update for Taiwan -------" << std::endl;
     if (!clone_update_repo(overseas_data_dir / "zh_TW" / "gamedata" / "excel",
-                           "https://github.com/arkntools/arknights-toolbox-update.git", "data-tw")) {
+                           "https://" + arkntool_token + "@github.com/arkntools/arknights-toolbox-update.git",
+                           "data-tw")) {
         return -1;
     }
 
