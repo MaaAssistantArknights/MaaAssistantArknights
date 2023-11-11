@@ -43,8 +43,8 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
         ocr_analyzer.set_image(new_image);
     }
     else {
-        ocr_analyzer.set_roi(new_roi);
         ocr_analyzer.set_image(m_image);
+        ocr_analyzer.set_roi(new_roi);
     }
     auto config = m_params;
     config.without_det = true;
