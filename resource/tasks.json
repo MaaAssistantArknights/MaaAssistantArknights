@@ -7791,6 +7791,13 @@
         "action": "ClickSelf",
         "postDelay": 1000
     },
+    "BattleStartPre@UseMedicine": {
+        "doc": "绑定MedicineCounter来使用理智药",
+        "template": "UseMedicine.png",
+        "next": [
+            "BattleStartPre"
+        ]
+    },
     "BattleStart": {
         "Doc": "base_task",
         "template": "empty.png",
