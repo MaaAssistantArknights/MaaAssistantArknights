@@ -32,11 +32,40 @@ jobs:
       - name: Build Resource Updater
         run: |
           MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
+      - name: Clone ArknightsGameResource for Official
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          repository: yuanyan3060/ArknightsGameResource
+          ref: main
+          path: .\tools\ResourceUpdater\x64\Release\Official
+          sparse-checkout: |
+            levels.json
+            item
+            building_skill
+            gamedata/excel
+      - name: Clone ArknightsGameResource_Yostar for Overseas
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          repository: Kengxxiao/ArknightsGameData_YoStar
+          ref: main
+          path: .\tools\ResourceUpdater\x64\Release\Overseas
+          sparse-checkout: |
+            en_US/gamedata/excel
+            ja_JP/gamedata/excel
+            ko_kr/gamedata/excel
+      - name: Clone arknights-toolbox-update for Taiwan
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          repository: arkntools/arknights-toolbox-update
+          ref: data-tw
+          path: .\tools\ResourceUpdater\x64\Release\Overseas\zh_TW\gamedata\excel
+          token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
       - name: Run Resource Updater
-        env:
-          ARKNTOOLS_MAA_RESOURCE_UPDATER_TOKEN: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER }}
         run: |
-          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe "$env:ARKNTOOLS_MAA_RESOURCE_UPDATER_TOKEN"
+          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
       - name: Overseas Tasks Ordering
         run: |
           python3 tools/TaskSorter/TaskSorter.py
