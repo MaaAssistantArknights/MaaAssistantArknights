@@ -1,12 +1,11 @@
 {
     "chars": {
         "char_002_amiya": {
-            "": "阿米娅",
             "name": "阿米娅",
             "name_en": "Amiya",
             "name_jp": "アーミヤ",
             "name_kr": "아미야",
-            "name_tw": "阿米娅",
+            "name_tw": "阿米婭",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -17,12 +16,11 @@
             "rarity": 5
         },
         "char_003_kalts": {
-            "": "凯尔希",
             "name": "凯尔希",
             "name_en": "Kal'tsit",
             "name_jp": "ケルシー",
             "name_kr": "켈시",
-            "name_tw": "凯尔希",
+            "name_tw": "凱爾希",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -33,7 +31,6 @@
             "rarity": 6
         },
         "char_009_12fce": {
-            "": "12F",
             "name": "12F",
             "name_en": "12F",
             "name_jp": "12F",
@@ -49,12 +46,11 @@
             "rarity": 2
         },
         "char_010_chen": {
-            "": "陈",
             "name": "陈",
             "name_en": "Ch'en",
             "name_jp": "チェン",
             "name_kr": "첸",
-            "name_tw": "陈",
+            "name_tw": "陳",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -65,7 +61,6 @@
             "rarity": 6
         },
         "char_017_huang": {
-            "": "煌",
             "name": "煌",
             "name_en": "Blaze",
             "name_jp": "ブレイズ",
@@ -96,12 +91,11 @@
             "rarity": 5
         },
         "char_1011_lava2": {
-            "": "炎狱炎熔",
             "name": "炎狱炎熔",
             "name_en": "Lava the Purgatory",
             "name_jp": "炎獄ラヴァ",
             "name_kr": "라바 더 퍼거토리",
-            "name_tw": "炎狱炎熔",
+            "name_tw": "炎獄炎熔",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -112,12 +106,11 @@
             "rarity": 5
         },
         "char_1012_skadi2": {
-            "": "浊心斯卡蒂",
             "name": "浊心斯卡蒂",
             "name_en": "Skadi the Corrupting Heart",
             "name_jp": "濁心スカジ",
             "name_kr": "스카디 더 커럽팅 하트",
-            "name_tw": "浊心斯卡蒂",
+            "name_tw": "濁心斯卡蒂",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -128,12 +121,11 @@
             "rarity": 6
         },
         "char_1013_chen2": {
-            "": "假日威龙陈",
             "name": "假日威龙陈",
             "name_en": "Ch'en the Holungday",
             "name_jp": "遊龍チェン",
             "name_kr": "첸 더 홀룽데이",
-            "name_tw": "假日威龙陈",
+            "name_tw": "假日威龍陳",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -144,12 +136,11 @@
             "rarity": 6
         },
         "char_1014_nearl2": {
-            "": "耀骑士临光",
             "name": "耀骑士临光",
             "name_en": "Nearl the Radiant Knight",
             "name_jp": "耀騎士ニアール",
             "name_kr": "니어 더 래디언트 나이트",
-            "name_tw": "耀骑士临光",
+            "name_tw": "耀騎士臨光",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -163,7 +154,6 @@
             ]
         },
         "char_1016_agoat2": {
-            "": "纯烬艾雅法拉",
             "name": "纯烬艾雅法拉",
             "name_en": "纯烬艾雅法拉",
             "name_jp": "纯烬艾雅法拉",
@@ -179,7 +169,6 @@
             "rarity": 6
         },
         "char_101_sora": {
-            "": "空",
             "name": "空",
             "name_en": "Sora",
             "name_jp": "ソラ",
@@ -195,12 +184,11 @@
             "rarity": 5
         },
         "char_1020_reed2": {
-            "": "焰影苇草",
             "name": "焰影苇草",
             "name_en": "Reed the Flame Shadow",
             "name_jp": "焔影リード",
             "name_kr": "리드 더 플레임 섀도우",
-            "name_tw": "焰影苇草",
+            "name_tw": "焰影葦草",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -211,12 +199,11 @@
             "rarity": 6
         },
         "char_1021_kroos2": {
-            "": "寒芒克洛丝",
             "name": "寒芒克洛丝",
             "name_en": "Kroos the Keen Glint",
             "name_jp": "寒芒クルース",
             "name_kr": "크루스 더 킨 글린트",
-            "name_tw": "寒芒克洛丝",
+            "name_tw": "寒芒克洛絲",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -227,12 +214,11 @@
             "rarity": 5
         },
         "char_1023_ghost2": {
-            "": "归溟幽灵鲨",
             "name": "归溟幽灵鲨",
             "name_en": "Specter the Unchained",
             "name_jp": "帰溟スペクター",
             "name_kr": "스펙터 디 언체인드",
-            "name_tw": "归溟幽灵鲨",
+            "name_tw": "歸溟幽靈鯊",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -243,12 +229,11 @@
             "rarity": 6
         },
         "char_1024_hbisc2": {
-            "": "濯尘芙蓉",
             "name": "濯尘芙蓉",
             "name_en": "Hibiscus the Purifier",
             "name_jp": "濯塵ハイビスカス",
             "name_kr": "히비스커스 더 퓨리파이어",
-            "name_tw": "濯尘芙蓉",
+            "name_tw": "濯塵芙蓉",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -259,12 +244,11 @@
             "rarity": 5
         },
         "char_1026_gvial2": {
-            "": "百炼嘉维尔",
             "name": "百炼嘉维尔",
             "name_en": "Gavial the Invincible",
             "name_jp": "百錬ガヴィル",
             "name_kr": "가비알 디 인빈서블",
-            "name_tw": "百炼嘉维尔",
+            "name_tw": "百煉嘉維爾",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -275,7 +259,6 @@
             "rarity": 6
         },
         "char_1027_greyy2": {
-            "": "承曦格雷伊",
             "name": "承曦格雷伊",
             "name_en": "Greyy the Lightningbearer",
             "name_jp": "承曦グレイ",
@@ -291,12 +274,11 @@
             "rarity": 5
         },
         "char_1028_texas2": {
-            "": "缄默德克萨斯",
             "name": "缄默德克萨斯",
             "name_en": "Texas the Omertosa",
             "name_jp": "血掟テキサス",
             "name_kr": "텍사스 디 오메르토사",
-            "name_tw": "缄默德克萨斯",
+            "name_tw": "緘默德克薩斯",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -307,7 +289,6 @@
             "rarity": 6
         },
         "char_1029_yato2": {
-            "": "麒麟R夜刀",
             "name": "麒麟R夜刀",
             "name_en": "Kirin R Yato",
             "name_jp": "キリンRヤトウ",
@@ -323,12 +304,11 @@
             "rarity": 6
         },
         "char_102_texas": {
-            "": "德克萨斯",
             "name": "德克萨斯",
             "name_en": "Texas",
             "name_jp": "テキサス",
             "name_kr": "텍사스",
-            "name_tw": "德克萨斯",
+            "name_tw": "德克薩斯",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -339,7 +319,6 @@
             "rarity": 5
         },
         "char_1030_noirc2": {
-            "": "火龙S黑角",
             "name": "火龙S黑角",
             "name_en": "Rathalos S Noir Corne",
             "name_jp": "レウスSノイルホーン",
@@ -355,7 +334,6 @@
             "rarity": 5
         },
         "char_1031_slent2": {
-            "": "淬羽赫默",
             "name": "淬羽赫默",
             "name_en": "Silence the Paradigmatic",
             "name_jp": "淬羽サイレンス",
@@ -374,7 +352,6 @@
             ]
         },
         "char_1032_excu2": {
-            "": "圣约送葬人",
             "name": "圣约送葬人",
             "name_en": "圣约送葬人",
             "name_jp": "圣约送葬人",
@@ -390,7 +367,6 @@
             "rarity": 6
         },
         "char_1033_swire2": {
-            "": "琳琅诗怀雅",
             "name": "琳琅诗怀雅",
             "name_en": "琳琅诗怀雅",
             "name_jp": "琳琅诗怀雅",
@@ -409,7 +385,6 @@
             ]
         },
         "char_1034_jesca2": {
-            "": "涤火杰西卡",
             "name": "涤火杰西卡",
             "name_en": "涤火杰西卡",
             "name_jp": "涤火杰西卡",
@@ -425,7 +400,6 @@
             "rarity": 6
         },
         "char_103_angel": {
-            "": "能天使",
             "name": "能天使",
             "name_en": "Exusiai",
             "name_jp": "エクシア",
@@ -441,12 +415,11 @@
             "rarity": 6
         },
         "char_106_franka": {
-            "": "芙兰卡",
             "name": "芙兰卡",
             "name_en": "Franka",
             "name_jp": "フランカ",
             "name_kr": "프란카",
-            "name_tw": "芙兰卡",
+            "name_tw": "芙蘭卡",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -457,7 +430,6 @@
             "rarity": 5
         },
         "char_107_liskam": {
-            "": "雷蛇",
             "name": "雷蛇",
             "name_en": "Liskarm",
             "name_jp": "リスカム",
@@ -473,7 +445,6 @@
             "rarity": 5
         },
         "char_108_silent": {
-            "": "赫默",
             "name": "赫默",
             "name_en": "Silence",
             "name_jp": "サイレンス",
@@ -492,12 +463,11 @@
             ]
         },
         "char_109_fmout": {
-            "": "远山",
             "name": "远山",
             "name_en": "Gitano",
             "name_jp": "ギターノ",
             "name_kr": "기타노",
-            "name_tw": "远山",
+            "name_tw": "遠山",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -508,7 +478,6 @@
             "rarity": 4
         },
         "char_110_deepcl": {
-            "": "深海色",
             "name": "深海色",
             "name_en": "Deepcolor",
             "name_jp": "ディピカ",
@@ -524,12 +493,11 @@
             "rarity": 4
         },
         "char_112_siege": {
-            "": "推进之王",
             "name": "推进之王",
             "name_en": "Siege",
             "name_jp": "シージ",
             "name_kr": "시즈",
-            "name_tw": "推进之王",
+            "name_tw": "推進之王",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -540,7 +508,6 @@
             "rarity": 6
         },
         "char_113_cqbw": {
-            "": "W",
             "name": "W",
             "name_en": "W",
             "name_jp": "W",
@@ -559,12 +526,11 @@
             ]
         },
         "char_115_headbr": {
-            "": "凛冬",
             "name": "凛冬",
             "name_en": "Zima",
             "name_jp": "ズィマー",
             "name_kr": "지마",
-            "name_tw": "凛冬",
+            "name_tw": "凜冬",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -575,12 +541,11 @@
             "rarity": 5
         },
         "char_117_myrrh": {
-            "": "末药",
             "name": "末药",
             "name_en": "Myrrh",
             "name_jp": "ミルラ",
             "name_kr": "미르",
-            "name_tw": "末药",
+            "name_tw": "末藥",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -591,7 +556,6 @@
             "rarity": 4
         },
         "char_118_yuki": {
-            "": "白雪",
             "name": "白雪",
             "name_en": "Shirayuki",
             "name_jp": "シラユキ",
@@ -607,7 +571,6 @@
             "rarity": 4
         },
         "char_120_hibisc": {
-            "": "芙蓉",
             "name": "芙蓉",
             "name_en": "Hibiscus",
             "name_jp": "ハイビスカス",
@@ -623,7 +586,6 @@
             "rarity": 3
         },
         "char_121_lava": {
-            "": "炎熔",
             "name": "炎熔",
             "name_en": "Lava",
             "name_jp": "ラヴァ",
@@ -639,12 +601,11 @@
             "rarity": 3
         },
         "char_122_beagle": {
-            "": "米格鲁",
             "name": "米格鲁",
             "name_en": "Beagle",
             "name_jp": "ビーグル",
             "name_kr": "비글",
-            "name_tw": "米格鲁",
+            "name_tw": "米格魯",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -655,7 +616,6 @@
             "rarity": 3
         },
         "char_123_fang": {
-            "": "芬",
             "name": "芬",
             "name_en": "Fang",
             "name_jp": "フェン",
@@ -671,12 +631,11 @@
             "rarity": 3
         },
         "char_124_kroos": {
-            "": "克洛丝",
             "name": "克洛丝",
             "name_en": "Kroos",
             "name_jp": "クルース",
             "name_kr": "크루스",
-            "name_tw": "克洛丝",
+            "name_tw": "克洛絲",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -687,7 +646,6 @@
             "rarity": 3
         },
         "char_126_shotst": {
-            "": "流星",
             "name": "流星",
             "name_en": "Meteor",
             "name_jp": "メテオ",
@@ -703,12 +661,11 @@
             "rarity": 4
         },
         "char_127_estell": {
-            "": "艾丝黛尔",
             "name": "艾丝黛尔",
             "name_en": "Estelle",
             "name_jp": "エステル",
             "name_kr": "에스텔",
-            "name_tw": "艾丝黛尔",
+            "name_tw": "艾絲黛爾",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -719,12 +676,11 @@
             "rarity": 4
         },
         "char_128_plosis": {
-            "": "白面鸮",
             "name": "白面鸮",
             "name_en": "Ptilopsis",
             "name_jp": "フィリオプシス",
             "name_kr": "프틸롭시스",
-            "name_tw": "白面鸮",
+            "name_tw": "白面鴞",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -735,12 +691,11 @@
             "rarity": 5
         },
         "char_129_bluep": {
-            "": "蓝毒",
             "name": "蓝毒",
             "name_en": "Blue Poison",
             "name_jp": "アズリウス",
             "name_kr": "블루포이즌",
-            "name_tw": "蓝毒",
+            "name_tw": "藍毒",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -751,12 +706,11 @@
             "rarity": 5
         },
         "char_130_doberm": {
-            "": "杜宾",
             "name": "杜宾",
             "name_en": "Dobermann",
             "name_jp": "ドーベルマン",
             "name_kr": "도베르만",
-            "name_tw": "杜宾",
+            "name_tw": "杜賓",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -767,7 +721,6 @@
             "rarity": 4
         },
         "char_131_flameb": {
-            "": "炎客",
             "name": "炎客",
             "name_en": "Flamebringer",
             "name_jp": "エンカク",
@@ -783,7 +736,6 @@
             "rarity": 5
         },
         "char_133_mm": {
-            "": "梅",
             "name": "梅",
             "name_en": "May",
             "name_jp": "メイ",
@@ -799,7 +751,6 @@
             "rarity": 4
         },
         "char_134_ifrit": {
-            "": "伊芙利特",
             "name": "伊芙利特",
             "name_en": "Ifrit",
             "name_jp": "イフリータ",
@@ -815,7 +766,6 @@
             "rarity": 6
         },
         "char_135_halo": {
-            "": "星源",
             "name": "星源",
             "name_en": "Astgenne",
             "name_jp": "アステジーニ",
@@ -831,7 +781,6 @@
             "rarity": 5
         },
         "char_136_hsguma": {
-            "": "星熊",
             "name": "星熊",
             "name_en": "Hoshiguma",
             "name_jp": "ホシグマ",
@@ -847,12 +796,11 @@
             "rarity": 6
         },
         "char_137_brownb": {
-            "": "猎蜂",
             "name": "猎蜂",
             "name_en": "Beehunter",
             "name_jp": "ビーハンター",
             "name_kr": "비헌터",
-            "name_tw": "猎蜂",
+            "name_tw": "獵蜂",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -863,12 +811,11 @@
             "rarity": 4
         },
         "char_140_whitew": {
-            "": "拉普兰德",
             "name": "拉普兰德",
             "name_en": "Lappland",
             "name_jp": "ラップランド",
             "name_kr": "라플란드",
-            "name_tw": "拉普兰德",
+            "name_tw": "拉普蘭德",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -879,12 +826,11 @@
             "rarity": 5
         },
         "char_141_nights": {
-            "": "夜烟",
             "name": "夜烟",
             "name_en": "Haze",
             "name_jp": "ヘイズ",
             "name_kr": "헤이즈",
-            "name_tw": "夜烟",
+            "name_tw": "夜煙",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -895,12 +841,11 @@
             "rarity": 4
         },
         "char_143_ghost": {
-            "": "幽灵鲨",
             "name": "幽灵鲨",
             "name_en": "Specter",
             "name_jp": "スペクター",
             "name_kr": "스펙터",
-            "name_tw": "幽灵鲨",
+            "name_tw": "幽靈鯊",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -911,12 +856,11 @@
             "rarity": 5
         },
         "char_144_red": {
-            "": "红",
             "name": "红",
             "name_en": "Projekt Red",
             "name_jp": "レッド",
             "name_kr": "레드",
-            "name_tw": "红",
+            "name_tw": "紅",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -927,12 +871,11 @@
             "rarity": 5
         },
         "char_145_prove": {
-            "": "普罗旺斯",
             "name": "普罗旺斯",
             "name_en": "Provence",
             "name_jp": "プロヴァンス",
             "name_kr": "프로방스",
-            "name_tw": "普罗旺斯",
+            "name_tw": "普羅旺斯",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -943,12 +886,11 @@
             "rarity": 5
         },
         "char_147_shining": {
-            "": "闪灵",
             "name": "闪灵",
             "name_en": "Shining",
             "name_jp": "シャイニング",
             "name_kr": "샤이닝",
-            "name_tw": "闪灵",
+            "name_tw": "閃靈",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -959,12 +901,11 @@
             "rarity": 6
         },
         "char_148_nearl": {
-            "": "临光",
             "name": "临光",
             "name_en": "Nearl",
             "name_jp": "ニアール",
             "name_kr": "니어",
-            "name_tw": "临光",
+            "name_tw": "臨光",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -975,7 +916,6 @@
             "rarity": 5
         },
         "char_149_scave": {
-            "": "清道夫",
             "name": "清道夫",
             "name_en": "Scavenger",
             "name_jp": "スカベンジャー",
@@ -991,7 +931,6 @@
             "rarity": 4
         },
         "char_150_snakek": {
-            "": "蛇屠箱",
             "name": "蛇屠箱",
             "name_en": "Cuora",
             "name_jp": "クオーラ",
@@ -1007,7 +946,6 @@
             "rarity": 4
         },
         "char_151_myrtle": {
-            "": "桃金娘",
             "name": "桃金娘",
             "name_en": "Myrtle",
             "name_jp": "テンニンカ",
@@ -1023,7 +961,6 @@
             "rarity": 4
         },
         "char_154_morgan": {
-            "": "摩根",
             "name": "摩根",
             "name_en": "Morgan",
             "name_jp": "モーガン",
@@ -1039,12 +976,11 @@
             "rarity": 5
         },
         "char_155_tiger": {
-            "": "因陀罗",
             "name": "因陀罗",
             "name_en": "Indra",
             "name_jp": "インドラ",
             "name_kr": "인드라",
-            "name_tw": "因陀罗",
+            "name_tw": "因陀羅",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1055,12 +991,11 @@
             "rarity": 5
         },
         "char_157_dagda": {
-            "": "达格达",
             "name": "达格达",
             "name_en": "Dagda",
             "name_jp": "ダグザ",
             "name_kr": "다그다",
-            "name_tw": "达格达",
+            "name_tw": "達格達",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1071,7 +1006,6 @@
             "rarity": 5
         },
         "char_158_milu": {
-            "": "守林人",
             "name": "守林人",
             "name_en": "Firewatch",
             "name_jp": "ファイヤーウォッチ",
@@ -1087,12 +1021,11 @@
             "rarity": 5
         },
         "char_159_peacok": {
-            "": "断罪者",
             "name": "断罪者",
             "name_en": "Conviction",
             "name_jp": "コンビクション",
             "name_kr": "컨빅션",
-            "name_tw": "断罪者",
+            "name_tw": "斷罪者",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1103,7 +1036,6 @@
             "rarity": 4
         },
         "char_163_hpsts": {
-            "": "火神",
             "name": "火神",
             "name_en": "Vulcan",
             "name_jp": "ヴァルカン",
@@ -1119,7 +1051,6 @@
             "rarity": 5
         },
         "char_164_nightm": {
-            "": "夜魔",
             "name": "夜魔",
             "name_en": "Nightmare",
             "name_jp": "ナイトメア",
@@ -1135,7 +1066,6 @@
             "rarity": 5
         },
         "char_166_skfire": {
-            "": "天火",
             "name": "天火",
             "name_en": "Skyfire",
             "name_jp": "スカイフレア",
@@ -1151,12 +1081,11 @@
             "rarity": 5
         },
         "char_171_bldsk": {
-            "": "华法琳",
             "name": "华法琳",
             "name_en": "Warfarin",
             "name_jp": "ワルファリン",
             "name_kr": "와파린",
-            "name_tw": "华法琳",
+            "name_tw": "華法琳",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1167,12 +1096,11 @@
             "rarity": 5
         },
         "char_172_svrash": {
-            "": "银灰",
             "name": "银灰",
             "name_en": "SilverAsh",
             "name_jp": "シルバーアッシュ",
             "name_kr": "실버애쉬",
-            "name_tw": "银灰",
+            "name_tw": "銀灰",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1183,7 +1111,6 @@
             "rarity": 6
         },
         "char_173_slchan": {
-            "": "崖心",
             "name": "崖心",
             "name_en": "Cliffheart",
             "name_jp": "クリフハート",
@@ -1199,7 +1126,6 @@
             "rarity": 5
         },
         "char_174_slbell": {
-            "": "初雪",
             "name": "初雪",
             "name_en": "Pramanix",
             "name_jp": "プラマニクス",
@@ -1215,12 +1141,11 @@
             "rarity": 5
         },
         "char_179_cgbird": {
-            "": "夜莺",
             "name": "夜莺",
             "name_en": "Nightingale",
             "name_jp": "ナイチンゲール",
             "name_kr": "나이팅게일",
-            "name_tw": "夜莺",
+            "name_tw": "夜鶯",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1231,7 +1156,6 @@
             "rarity": 6
         },
         "char_180_amgoat": {
-            "": "艾雅法拉",
             "name": "艾雅法拉",
             "name_en": "Eyjafjalla",
             "name_jp": "エイヤフィヤトラ",
@@ -1247,12 +1171,11 @@
             "rarity": 6
         },
         "char_181_flower": {
-            "": "调香师",
             "name": "调香师",
             "name_en": "Perfumer",
             "name_jp": "パフューマー",
             "name_kr": "퍼퓨머",
-            "name_tw": "调香师",
+            "name_tw": "調香師",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1263,12 +1186,11 @@
             "rarity": 4
         },
         "char_183_skgoat": {
-            "": "地灵",
             "name": "地灵",
             "name_en": "Earthspirit",
             "name_jp": "アーススピリット",
             "name_kr": "어스스피릿",
-            "name_tw": "地灵",
+            "name_tw": "地靈",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1279,7 +1201,6 @@
             "rarity": 4
         },
         "char_185_frncat": {
-            "": "慕斯",
             "name": "慕斯",
             "name_en": "Mousse",
             "name_jp": "ムース",
@@ -1295,12 +1216,11 @@
             "rarity": 4
         },
         "char_187_ccheal": {
-            "": "嘉维尔",
             "name": "嘉维尔",
             "name_en": "Gavial",
             "name_jp": "ガヴィル",
             "name_kr": "가비알",
-            "name_tw": "嘉维尔",
+            "name_tw": "嘉維爾",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1311,7 +1231,6 @@
             "rarity": 4
         },
         "char_188_helage": {
-            "": "赫拉格",
             "name": "赫拉格",
             "name_en": "Hellagur",
             "name_jp": "ヘラグ",
@@ -1327,12 +1246,11 @@
             "rarity": 6
         },
         "char_190_clour": {
-            "": "红云",
             "name": "红云",
             "name_en": "Vermeil",
             "name_jp": "ヴァーミル",
             "name_kr": "버메일",
-            "name_tw": "红云",
+            "name_tw": "紅雲",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1343,7 +1261,6 @@
             "rarity": 4
         },
         "char_192_falco": {
-            "": "翎羽",
             "name": "翎羽",
             "name_en": "Plume",
             "name_jp": "プリュム",
@@ -1359,12 +1276,11 @@
             "rarity": 3
         },
         "char_193_frostl": {
-            "": "霜叶",
             "name": "霜叶",
             "name_en": "Frostleaf",
             "name_jp": "フロストリーフ",
             "name_kr": "프로스트리프",
-            "name_tw": "霜叶",
+            "name_tw": "霜葉",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1375,7 +1291,6 @@
             "rarity": 4
         },
         "char_195_glassb": {
-            "": "真理",
             "name": "真理",
             "name_en": "Istina",
             "name_jp": "イースチナ",
@@ -1391,7 +1306,6 @@
             "rarity": 5
         },
         "char_196_sunbr": {
-            "": "古米",
             "name": "古米",
             "name_en": "Gummy",
             "name_jp": "グム",
@@ -1407,7 +1321,6 @@
             "rarity": 4
         },
         "char_197_poca": {
-            "": "早露",
             "name": "早露",
             "name_en": "Rosa",
             "name_jp": "ロサ",
@@ -1423,12 +1336,11 @@
             "rarity": 6
         },
         "char_198_blackd": {
-            "": "讯使",
             "name": "讯使",
             "name_en": "Courier",
             "name_jp": "クーリエ",
             "name_kr": "쿠리어",
-            "name_tw": "讯使",
+            "name_tw": "訊使",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -1439,7 +1351,6 @@
             "rarity": 4
         },
         "char_199_yak": {
-            "": "角峰",
             "name": "角峰",
             "name_en": "Matterhorn",
             "name_jp": "マッターホルン",
@@ -1455,7 +1366,6 @@
             "rarity": 4
         },
         "char_2012_typhon": {
-            "": "提丰",
             "name": "提丰",
             "name_en": "提丰",
             "name_jp": "提丰",
@@ -1471,7 +1381,6 @@
             "rarity": 6
         },
         "char_2013_cerber": {
-            "": "刻俄柏",
             "name": "刻俄柏",
             "name_en": "Ceobe",
             "name_jp": "ケオベ",
@@ -1487,7 +1396,6 @@
             "rarity": 6
         },
         "char_2014_nian": {
-            "": "年",
             "name": "年",
             "name_en": "Nian",
             "name_jp": "ニェン",
@@ -1503,7 +1411,6 @@
             "rarity": 6
         },
         "char_2015_dusk": {
-            "": "夕",
             "name": "夕",
             "name_en": "Dusk",
             "name_jp": "シー",
@@ -1522,12 +1429,11 @@
             ]
         },
         "char_201_moeshd": {
-            "": "可颂",
             "name": "可颂",
             "name_en": "Croissant",
             "name_jp": "クロワッサン",
             "name_kr": "크루아상",
-            "name_tw": "可颂",
+            "name_tw": "可頌",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -1538,7 +1444,6 @@
             "rarity": 5
         },
         "char_2023_ling": {
-            "": "令",
             "name": "令",
             "name_en": "Ling",
             "name_jp": "リィン",
@@ -1559,7 +1464,6 @@
             ]
         },
         "char_2024_chyue": {
-            "": "重岳",
             "name": "重岳",
             "name_en": "Chongyue",
             "name_jp": "チョンユエ",
@@ -1575,12 +1479,11 @@
             "rarity": 6
         },
         "char_202_demkni": {
-            "": "塞雷娅",
             "name": "塞雷娅",
             "name_en": "Saria",
             "name_jp": "サリア",
             "name_kr": "사리아",
-            "name_tw": "塞雷娅",
+            "name_tw": "塞雷婭",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -1591,7 +1494,6 @@
             "rarity": 6
         },
         "char_204_platnm": {
-            "": "白金",
             "name": "白金",
             "name_en": "Platinum",
             "name_jp": "プラチナ",
@@ -1607,12 +1509,11 @@
             "rarity": 5
         },
         "char_206_gnosis": {
-            "": "灵知",
             "name": "灵知",
             "name_en": "Gnosis",
             "name_jp": "ノーシス",
             "name_kr": "노시스",
-            "name_tw": "灵知",
+            "name_tw": "靈知",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1623,12 +1524,11 @@
             "rarity": 6
         },
         "char_208_melan": {
-            "": "玫兰莎",
             "name": "玫兰莎",
             "name_en": "Melantha",
             "name_jp": "メランサ",
             "name_kr": "멜란사",
-            "name_tw": "玫兰莎",
+            "name_tw": "玫蘭莎",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -1639,12 +1539,11 @@
             "rarity": 3
         },
         "char_209_ardign": {
-            "": "卡缇",
             "name": "卡缇",
             "name_en": "Cardigan",
             "name_jp": "カーディ",
             "name_kr": "카디건",
-            "name_tw": "卡缇",
+            "name_tw": "卡緹",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -1655,12 +1554,11 @@
             "rarity": 3
         },
         "char_210_stward": {
-            "": "史都华德",
             "name": "史都华德",
             "name_en": "Steward",
             "name_jp": "スチュワード",
             "name_kr": "스튜어드",
-            "name_tw": "史都华德",
+            "name_tw": "史都華德",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -1671,12 +1569,11 @@
             "rarity": 3
         },
         "char_211_adnach": {
-            "": "安德切尔",
             "name": "安德切尔",
             "name_en": "Adnachiel",
             "name_jp": "アドナキエル",
             "name_kr": "아드나키엘",
-            "name_tw": "安德切尔",
+            "name_tw": "安德切爾",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1687,12 +1584,11 @@
             "rarity": 3
         },
         "char_212_ansel": {
-            "": "安赛尔",
             "name": "安赛尔",
             "name_en": "Ansel",
             "name_jp": "アンセル",
             "name_kr": "안셀",
-            "name_tw": "安赛尔",
+            "name_tw": "安賽爾",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -1703,12 +1599,11 @@
             "rarity": 3
         },
         "char_213_mostma": {
-            "": "莫斯提马",
             "name": "莫斯提马",
             "name_en": "Mostima",
             "name_jp": "モスティマ",
             "name_kr": "모스티마",
-            "name_tw": "莫斯提马",
+            "name_tw": "莫斯提馬",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -1719,7 +1614,6 @@
             "rarity": 6
         },
         "char_214_kafka": {
-            "": "卡夫卡",
             "name": "卡夫卡",
             "name_en": "Kafka",
             "name_jp": "カフカ",
@@ -1735,12 +1629,11 @@
             "rarity": 5
         },
         "char_215_mantic": {
-            "": "狮蝎",
             "name": "狮蝎",
             "name_en": "Manticore",
             "name_jp": "マンティコア",
             "name_kr": "맨티코어",
-            "name_tw": "狮蝎",
+            "name_tw": "獅蠍",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -1751,7 +1644,6 @@
             "rarity": 5
         },
         "char_218_cuttle": {
-            "": "安哲拉",
             "name": "安哲拉",
             "name_en": "Andreana",
             "name_jp": "アンドレアナ",
@@ -1767,12 +1659,11 @@
             "rarity": 5
         },
         "char_219_meteo": {
-            "": "陨星",
             "name": "陨星",
             "name_en": "Meteorite",
             "name_jp": "メテオリーテ",
             "name_kr": "메테오라이트",
-            "name_tw": "陨星",
+            "name_tw": "隕星",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1783,7 +1674,6 @@
             "rarity": 5
         },
         "char_220_grani": {
-            "": "格拉尼",
             "name": "格拉尼",
             "name_en": "Grani",
             "name_jp": "グラニ",
@@ -1799,12 +1689,11 @@
             "rarity": 5
         },
         "char_222_bpipe": {
-            "": "风笛",
             "name": "风笛",
             "name_en": "Bagpipe",
             "name_jp": "バグパイプ",
             "name_kr": "백파이프",
-            "name_tw": "风笛",
+            "name_tw": "風笛",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -1815,7 +1704,6 @@
             "rarity": 6
         },
         "char_225_haak": {
-            "": "阿",
             "name": "阿",
             "name_en": "Aak",
             "name_jp": "ア",
@@ -1831,7 +1719,6 @@
             "rarity": 6
         },
         "char_226_hmau": {
-            "": "吽",
             "name": "吽",
             "name_en": "Hung",
             "name_jp": "ウン",
@@ -1847,7 +1734,6 @@
             "rarity": 5
         },
         "char_230_savage": {
-            "": "暴行",
             "name": "暴行",
             "name_en": "Savage",
             "name_jp": "サベージ",
@@ -1863,12 +1749,11 @@
             "rarity": 5
         },
         "char_235_jesica": {
-            "": "杰西卡",
             "name": "杰西卡",
             "name_en": "Jessica",
             "name_jp": "ジェシカ",
             "name_kr": "제시카",
-            "name_tw": "杰西卡",
+            "name_tw": "潔西卡",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -1879,7 +1764,6 @@
             "rarity": 4
         },
         "char_236_rope": {
-            "": "暗索",
             "name": "暗索",
             "name_en": "Rope",
             "name_jp": "ロープ",
@@ -1895,12 +1779,11 @@
             "rarity": 4
         },
         "char_237_gravel": {
-            "": "砾",
             "name": "砾",
             "name_en": "Gravel",
             "name_jp": "グラベル",
             "name_kr": "그라벨",
-            "name_tw": "砾",
+            "name_tw": "礫",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -1911,7 +1794,6 @@
             "rarity": 4
         },
         "char_240_wyvern": {
-            "": "香草",
             "name": "香草",
             "name_en": "Vanilla",
             "name_jp": "バニラ",
@@ -1927,12 +1809,11 @@
             "rarity": 3
         },
         "char_241_panda": {
-            "": "食铁兽",
             "name": "食铁兽",
             "name_en": "FEater",
             "name_jp": "エフイーター",
             "name_kr": "에프이터",
-            "name_tw": "食铁兽",
+            "name_tw": "食鐵獸",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -1943,12 +1824,11 @@
             "rarity": 5
         },
         "char_242_otter": {
-            "": "梅尔",
             "name": "梅尔",
             "name_en": "Mayer",
             "name_jp": "メイヤー",
             "name_kr": "메이어",
-            "name_tw": "梅尔",
+            "name_tw": "梅爾",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -1959,7 +1839,6 @@
             "rarity": 5
         },
         "char_243_waaifu": {
-            "": "槐琥",
             "name": "槐琥",
             "name_en": "Waai Fu",
             "name_jp": "ワイフー",
@@ -1975,7 +1854,6 @@
             "rarity": 5
         },
         "char_245_cello": {
-            "": "塑心",
             "name": "塑心",
             "name_en": "塑心",
             "name_jp": "塑心",
@@ -1991,12 +1869,11 @@
             "rarity": 6
         },
         "char_248_mgllan": {
-            "": "麦哲伦",
             "name": "麦哲伦",
             "name_en": "Magallan",
             "name_jp": "マゼラン",
             "name_kr": "마젤란",
-            "name_tw": "麦哲伦",
+            "name_tw": "麥哲倫",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2012,7 +1889,6 @@
             ]
         },
         "char_249_mlyss": {
-            "": "缪尔赛思",
             "name": "缪尔赛思",
             "name_en": "Muelsyse",
             "name_jp": "ミュルジス",
@@ -2028,7 +1904,6 @@
             "rarity": 6
         },
         "char_250_phatom": {
-            "": "傀影",
             "name": "傀影",
             "name_en": "Phantom",
             "name_jp": "ファントム",
@@ -2044,7 +1919,6 @@
             "rarity": 6
         },
         "char_252_bibeak": {
-            "": "柏喙",
             "name": "柏喙",
             "name_en": "Bibeak",
             "name_jp": "バイビーク",
@@ -2060,7 +1934,6 @@
             "rarity": 5
         },
         "char_253_greyy": {
-            "": "格雷伊",
             "name": "格雷伊",
             "name_en": "Greyy",
             "name_jp": "グレイ",
@@ -2076,12 +1949,11 @@
             "rarity": 4
         },
         "char_254_vodfox": {
-            "": "巫恋",
             "name": "巫恋",
             "name_en": "Shamare",
             "name_jp": "シャマレ",
             "name_kr": "샤마르",
-            "name_tw": "巫恋",
+            "name_tw": "巫戀",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2095,7 +1967,6 @@
             ]
         },
         "char_258_podego": {
-            "": "波登可",
             "name": "波登可",
             "name_en": "Podenco",
             "name_jp": "ポデンコ",
@@ -2111,12 +1982,11 @@
             "rarity": 4
         },
         "char_260_durnar": {
-            "": "坚雷",
             "name": "坚雷",
             "name_en": "Dur-nar",
             "name_jp": "ジュナー",
             "name_kr": "듀나",
-            "name_tw": "坚雷",
+            "name_tw": "堅雷",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -2127,12 +1997,11 @@
             "rarity": 4
         },
         "char_261_sddrag": {
-            "": "苇草",
             "name": "苇草",
             "name_en": "Reed",
             "name_jp": "リード",
             "name_kr": "리드",
-            "name_tw": "苇草",
+            "name_tw": "葦草",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -2143,7 +2012,6 @@
             "rarity": 5
         },
         "char_263_skadi": {
-            "": "斯卡蒂",
             "name": "斯卡蒂",
             "name_en": "Skadi",
             "name_jp": "スカジ",
@@ -2159,7 +2027,6 @@
             "rarity": 6
         },
         "char_264_f12yin": {
-            "": "山",
             "name": "山",
             "name_en": "Mountain",
             "name_jp": "マウンテン",
@@ -2175,7 +2042,6 @@
             "rarity": 6
         },
         "char_265_sophia": {
-            "": "鞭刃",
             "name": "鞭刃",
             "name_en": "Whislash",
             "name_jp": "ウィスラッシュ",
@@ -2191,7 +2057,6 @@
             "rarity": 5
         },
         "char_271_spikes": {
-            "": "芳汀",
             "name": "芳汀",
             "name_en": "Arene",
             "name_jp": "アレーン",
@@ -2207,7 +2072,6 @@
             "rarity": 4
         },
         "char_272_strong": {
-            "": "孑",
             "name": "孑",
             "name_en": "Jaye",
             "name_jp": "ジェイ",
@@ -2223,12 +2087,11 @@
             "rarity": 4
         },
         "char_274_astesi": {
-            "": "星极",
             "name": "星极",
             "name_en": "Astesia",
             "name_jp": "アステシア",
             "name_kr": "아스테시아",
-            "name_tw": "星极",
+            "name_tw": "星極",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2239,12 +2102,11 @@
             "rarity": 5
         },
         "char_275_breeze": {
-            "": "微风",
             "name": "微风",
             "name_en": "Breeze",
             "name_jp": "ブリーズ",
             "name_kr": "브리즈",
-            "name_tw": "微风",
+            "name_tw": "微風",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2255,7 +2117,6 @@
             "rarity": 5
         },
         "char_277_sqrrel": {
-            "": "阿消",
             "name": "阿消",
             "name_en": "Shaw",
             "name_jp": "ショウ",
@@ -2271,12 +2132,11 @@
             "rarity": 4
         },
         "char_278_orchid": {
-            "": "梓兰",
             "name": "梓兰",
             "name_en": "Orchid",
             "name_jp": "オーキッド",
             "name_kr": "오키드",
-            "name_tw": "梓兰",
+            "name_tw": "梓蘭",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2287,7 +2147,6 @@
             "rarity": 3
         },
         "char_279_excu": {
-            "": "送葬人",
             "name": "送葬人",
             "name_en": "Executor",
             "name_jp": "イグゼキュター",
@@ -2303,7 +2162,6 @@
             "rarity": 5
         },
         "char_281_popka": {
-            "": "泡普卡",
             "name": "泡普卡",
             "name_en": "Popukar",
             "name_jp": "ポプカル",
@@ -2319,7 +2177,6 @@
             "rarity": 3
         },
         "char_282_catap": {
-            "": "空爆",
             "name": "空爆",
             "name_en": "Catapult",
             "name_jp": "カタパルト",
@@ -2335,12 +2192,11 @@
             "rarity": 3
         },
         "char_283_midn": {
-            "": "月见夜",
             "name": "月见夜",
             "name_en": "Midnight",
             "name_jp": "ミッドナイト",
             "name_kr": "미드나이트",
-            "name_tw": "月见夜",
+            "name_tw": "月見夜",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2351,12 +2207,11 @@
             "rarity": 3
         },
         "char_284_spot": {
-            "": "斑点",
             "name": "斑点",
             "name_en": "Spot",
             "name_jp": "スポット",
             "name_kr": "스팟",
-            "name_tw": "斑点",
+            "name_tw": "斑點",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -2367,7 +2222,6 @@
             "rarity": 3
         },
         "char_285_medic2": {
-            "": "Lancet-2",
             "name": "Lancet-2",
             "name_en": "Lancet-2",
             "name_jp": "Lancet-2",
@@ -2383,7 +2237,6 @@
             "rarity": 1
         },
         "char_286_cast3": {
-            "": "Castle-3",
             "name": "Castle-3",
             "name_en": "Castle-3",
             "name_jp": "Castle-3",
@@ -2399,12 +2252,11 @@
             "rarity": 1
         },
         "char_289_gyuki": {
-            "": "缠丸",
             "name": "缠丸",
             "name_en": "Matoimaru",
             "name_jp": "マトイマル",
             "name_kr": "마토이마루",
-            "name_tw": "缠丸",
+            "name_tw": "纏丸",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2415,12 +2267,11 @@
             "rarity": 4
         },
         "char_290_vigna": {
-            "": "红豆",
             "name": "红豆",
             "name_en": "Vigna",
             "name_jp": "ヴィグナ",
             "name_kr": "비그나",
-            "name_tw": "红豆",
+            "name_tw": "紅豆",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -2431,12 +2282,11 @@
             "rarity": 4
         },
         "char_291_aglina": {
-            "": "安洁莉娜",
             "name": "安洁莉娜",
             "name_en": "Angelina",
             "name_jp": "アンジェリーナ",
             "name_kr": "안젤리나",
-            "name_tw": "安洁莉娜",
+            "name_tw": "安潔莉娜",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2447,7 +2297,6 @@
             "rarity": 6
         },
         "char_293_thorns": {
-            "": "棘刺",
             "name": "棘刺",
             "name_en": "Thorns",
             "name_jp": "ソーンズ",
@@ -2463,12 +2312,11 @@
             "rarity": 6
         },
         "char_294_ayer": {
-            "": "断崖",
             "name": "断崖",
             "name_en": "Ayerscarpe",
             "name_jp": "エアースカーペ",
             "name_kr": "에이어스카르페",
-            "name_tw": "断崖",
+            "name_tw": "斷崖",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2479,7 +2327,6 @@
             "rarity": 5
         },
         "char_297_hamoni": {
-            "": "和弦",
             "name": "和弦",
             "name_en": "Harmonie",
             "name_jp": "ハーモニー",
@@ -2495,12 +2342,11 @@
             "rarity": 5
         },
         "char_298_susuro": {
-            "": "苏苏洛",
             "name": "苏苏洛",
             "name_en": "Sussurro",
             "name_jp": "ススーロ",
             "name_kr": "수수로",
-            "name_tw": "苏苏洛",
+            "name_tw": "蘇蘇洛",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2511,12 +2357,11 @@
             "rarity": 4
         },
         "char_300_phenxi": {
-            "": "菲亚梅塔",
             "name": "菲亚梅塔",
             "name_en": "Fiammetta",
             "name_jp": "フィアメッタ",
             "name_kr": "피아메타",
-            "name_tw": "菲亚梅塔",
+            "name_tw": "菲亞梅塔",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -2527,7 +2372,6 @@
             "rarity": 6
         },
         "char_301_cutter": {
-            "": "刻刀",
             "name": "刻刀",
             "name_en": "Cutter",
             "name_jp": "カッター",
@@ -2543,12 +2387,11 @@
             "rarity": 4
         },
         "char_302_glaze": {
-            "": "安比尔",
             "name": "安比尔",
             "name_en": "Ambriel",
             "name_jp": "アンブリエル",
             "name_kr": "엠브리엘",
-            "name_tw": "安比尔",
+            "name_tw": "安比爾",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -2559,7 +2402,6 @@
             "rarity": 4
         },
         "char_304_zebra": {
-            "": "暴雨",
             "name": "暴雨",
             "name_en": "Heavyrain",
             "name_jp": "ヘビーレイン",
@@ -2575,12 +2417,11 @@
             "rarity": 5
         },
         "char_306_leizi": {
-            "": "惊蛰",
             "name": "惊蛰",
             "name_en": "Leizi",
             "name_jp": "レイズ",
             "name_kr": "레이즈",
-            "name_tw": "惊蛰",
+            "name_tw": "驚蟄",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2591,12 +2432,11 @@
             "rarity": 5
         },
         "char_308_swire": {
-            "": "诗怀雅",
             "name": "诗怀雅",
             "name_en": "Swire",
             "name_jp": "スワイヤー",
             "name_kr": "스와이어",
-            "name_tw": "诗怀雅",
+            "name_tw": "詩懷雅",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2607,7 +2447,6 @@
             "rarity": 5
         },
         "char_311_mudrok": {
-            "": "泥岩",
             "name": "泥岩",
             "name_en": "Mudrock",
             "name_jp": "マドロック",
@@ -2623,12 +2462,11 @@
             "rarity": 6
         },
         "char_322_lmlee": {
-            "": "老鲤",
             "name": "老鲤",
             "name_en": "Lee",
             "name_jp": "リー",
             "name_kr": "리",
-            "name_tw": "老鲤",
+            "name_tw": "老鯉",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -2639,7 +2477,6 @@
             "rarity": 6
         },
         "char_325_bison": {
-            "": "拜松",
             "name": "拜松",
             "name_en": "Bison",
             "name_jp": "バイソン",
@@ -2655,12 +2492,11 @@
             "rarity": 5
         },
         "char_326_glacus": {
-            "": "格劳克斯",
             "name": "格劳克斯",
             "name_en": "Glaucus",
             "name_jp": "グラウコス",
             "name_kr": "글라우쿠스",
-            "name_tw": "格劳克斯",
+            "name_tw": "格勞克斯",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2671,12 +2507,11 @@
             "rarity": 5
         },
         "char_328_cammou": {
-            "": "卡达",
             "name": "卡达",
             "name_en": "Click",
             "name_jp": "カシャ",
             "name_kr": "클릭",
-            "name_tw": "卡达",
+            "name_tw": "卡達",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2687,7 +2522,6 @@
             "rarity": 4
         },
         "char_332_archet": {
-            "": "空弦",
             "name": "空弦",
             "name_en": "Archetto",
             "name_jp": "アルケット",
@@ -2703,12 +2537,11 @@
             "rarity": 6
         },
         "char_333_sidero": {
-            "": "铸铁",
             "name": "铸铁",
             "name_en": "Sideroca",
             "name_jp": "シデロカ",
             "name_kr": "시데로카",
-            "name_tw": "铸铁",
+            "name_tw": "鑄鐵",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2719,7 +2552,6 @@
             "rarity": 5
         },
         "char_336_folivo": {
-            "": "稀音",
             "name": "稀音",
             "name_en": "Scene",
             "name_jp": "シーン",
@@ -2735,7 +2567,6 @@
             "rarity": 5
         },
         "char_337_utage": {
-            "": "宴",
             "name": "宴",
             "name_en": "Utage",
             "name_jp": "ウタゲ",
@@ -2751,12 +2582,11 @@
             "rarity": 4
         },
         "char_338_iris": {
-            "": "爱丽丝",
             "name": "爱丽丝",
             "name_en": "Iris",
             "name_jp": "アイリス",
             "name_kr": "아이리스",
-            "name_tw": "爱丽丝",
+            "name_tw": "愛麗絲",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2767,7 +2597,6 @@
             "rarity": 5
         },
         "char_340_shwaz": {
-            "": "黑",
             "name": "黑",
             "name_en": "Schwarz",
             "name_jp": "シュヴァルツ",
@@ -2783,7 +2612,6 @@
             "rarity": 6
         },
         "char_341_sntlla": {
-            "": "寒檀",
             "name": "寒檀",
             "name_en": "寒檀",
             "name_jp": "寒檀",
@@ -2799,7 +2627,6 @@
             "rarity": 5
         },
         "char_343_tknogi": {
-            "": "月禾",
             "name": "月禾",
             "name_en": "Tsukinogi",
             "name_jp": "ツキノギ",
@@ -2815,12 +2642,11 @@
             "rarity": 5
         },
         "char_344_beewax": {
-            "": "蜜蜡",
             "name": "蜜蜡",
             "name_en": "Beeswax",
             "name_jp": "ビーズワクス",
             "name_kr": "비즈왁스",
-            "name_tw": "蜜蜡",
+            "name_tw": "蜜蠟",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -2834,12 +2660,11 @@
             ]
         },
         "char_345_folnic": {
-            "": "亚叶",
             "name": "亚叶",
             "name_en": "Folinic",
             "name_jp": "フォリニック",
             "name_kr": "폴리닉",
-            "name_tw": "亚叶",
+            "name_tw": "亞葉",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2850,7 +2675,6 @@
             "rarity": 5
         },
         "char_346_aosta": {
-            "": "奥斯塔",
             "name": "奥斯塔",
             "name_en": "Aosta",
             "name_jp": "アオスタ",
@@ -2866,12 +2690,11 @@
             "rarity": 5
         },
         "char_347_jaksel": {
-            "": "杰克",
             "name": "杰克",
             "name_en": "Jackie",
             "name_jp": "ジャッキー",
             "name_kr": "재키",
-            "name_tw": "杰克",
+            "name_tw": "傑克",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2882,12 +2705,11 @@
             "rarity": 4
         },
         "char_348_ceylon": {
-            "": "锡兰",
             "name": "锡兰",
             "name_en": "Ceylon",
             "name_jp": "セイロン",
             "name_kr": "실론",
-            "name_tw": "锡兰",
+            "name_tw": "錫蘭",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -2898,12 +2720,11 @@
             "rarity": 5
         },
         "char_349_chiave": {
-            "": "贾维",
             "name": "贾维",
             "name_en": "Chiave",
             "name_jp": "キアーベ",
             "name_kr": "키아베",
-            "name_tw": "贾维",
+            "name_tw": "賈維",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -2914,12 +2735,11 @@
             "rarity": 5
         },
         "char_350_surtr": {
-            "": "史尔特尔",
             "name": "史尔特尔",
             "name_en": "Surtr",
             "name_jp": "スルト",
             "name_kr": "수르트",
-            "name_tw": "史尔特尔",
+            "name_tw": "史爾特爾",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -2930,7 +2750,6 @@
             "rarity": 6
         },
         "char_355_ethan": {
-            "": "伊桑",
             "name": "伊桑",
             "name_en": "Ethan",
             "name_jp": "イーサン",
@@ -2946,7 +2765,6 @@
             "rarity": 4
         },
         "char_356_broca": {
-            "": "布洛卡",
             "name": "布洛卡",
             "name_en": "Broca",
             "name_jp": "ブローカ",
@@ -2962,12 +2780,11 @@
             "rarity": 5
         },
         "char_358_lisa": {
-            "": "铃兰",
             "name": "铃兰",
             "name_en": "Suzuran",
             "name_jp": "スズラン",
             "name_kr": "스즈란",
-            "name_tw": "铃兰",
+            "name_tw": "鈴蘭",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -2978,7 +2795,6 @@
             "rarity": 6
         },
         "char_362_saga": {
-            "": "嵯峨",
             "name": "嵯峨",
             "name_en": "Saga",
             "name_jp": "サガ",
@@ -2994,7 +2810,6 @@
             "rarity": 6
         },
         "char_363_toddi": {
-            "": "熔泉",
             "name": "熔泉",
             "name_en": "Toddifons",
             "name_jp": "トギフォンス",
@@ -3010,7 +2825,6 @@
             "rarity": 5
         },
         "char_365_aprl": {
-            "": "四月",
             "name": "四月",
             "name_en": "April",
             "name_jp": "エイプリル",
@@ -3026,7 +2840,6 @@
             "rarity": 5
         },
         "char_366_acdrop": {
-            "": "酸糖",
             "name": "酸糖",
             "name_en": "Aciddrop",
             "name_jp": "アシッドドロップ",
@@ -3042,7 +2855,6 @@
             "rarity": 4
         },
         "char_367_swllow": {
-            "": "灰喉",
             "name": "灰喉",
             "name_en": "GreyThroat",
             "name_jp": "グレースロート",
@@ -3058,12 +2870,11 @@
             "rarity": 5
         },
         "char_369_bena": {
-            "": "贝娜",
             "name": "贝娜",
             "name_en": "Bena",
             "name_jp": "ベナ",
             "name_kr": "베나",
-            "name_tw": "贝娜",
+            "name_tw": "貝娜",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3074,12 +2885,11 @@
             "rarity": 5
         },
         "char_373_lionhd": {
-            "": "莱恩哈特",
             "name": "莱恩哈特",
             "name_en": "Leonhardt",
             "name_jp": "レオンハルト",
             "name_kr": "레온하르트",
-            "name_tw": "莱恩哈特",
+            "name_tw": "萊恩哈特",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3090,7 +2900,6 @@
             "rarity": 5
         },
         "char_376_therex": {
-            "": "THRM-EX",
             "name": "THRM-EX",
             "name_en": "THRM-EX",
             "name_jp": "THRM-EX",
@@ -3106,12 +2915,11 @@
             "rarity": 1
         },
         "char_377_gdglow": {
-            "": "澄闪",
             "name": "澄闪",
             "name_en": "Goldenglow",
             "name_jp": "ゴールデングロー",
             "name_kr": "골든글로우",
-            "name_tw": "澄闪",
+            "name_tw": "澄閃",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3122,7 +2930,6 @@
             "rarity": 6
         },
         "char_378_asbest": {
-            "": "石棉",
             "name": "石棉",
             "name_en": "Asbestos",
             "name_jp": "アスベストス",
@@ -3138,12 +2945,11 @@
             "rarity": 5
         },
         "char_379_sesa": {
-            "": "慑砂",
             "name": "慑砂",
             "name_en": "Sesa",
             "name_jp": "シェーシャ",
             "name_kr": "세사",
-            "name_tw": "慑砂",
+            "name_tw": "懾砂",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3154,7 +2960,6 @@
             "rarity": 5
         },
         "char_381_bubble": {
-            "": "泡泡",
             "name": "泡泡",
             "name_en": "Bubble",
             "name_jp": "バブル",
@@ -3170,7 +2975,6 @@
             "rarity": 4
         },
         "char_383_snsant": {
-            "": "雪雉",
             "name": "雪雉",
             "name_en": "Snowsant",
             "name_jp": "スノーズント",
@@ -3186,7 +2990,6 @@
             "rarity": 5
         },
         "char_385_finlpp": {
-            "": "清流",
             "name": "清流",
             "name_en": "Purestream",
             "name_jp": "セイリュウ",
@@ -3202,12 +3005,11 @@
             "rarity": 4
         },
         "char_388_mint": {
-            "": "薄绿",
             "name": "薄绿",
             "name_en": "Mint",
             "name_jp": "ミント",
             "name_kr": "민트",
-            "name_tw": "薄绿",
+            "name_tw": "薄綠",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3218,7 +3020,6 @@
             "rarity": 5
         },
         "char_391_rosmon": {
-            "": "迷迭香",
             "name": "迷迭香",
             "name_en": "Rosmontis",
             "name_jp": "ロスモンティス",
@@ -3237,12 +3038,11 @@
             ]
         },
         "char_4000_jnight": {
-            "": "正义骑士号",
             "name": "正义骑士号",
             "name_en": "'Justice Knight'",
             "name_jp": "ジャスティスナイト",
             "name_kr": "저스티스 나이트",
-            "name_tw": "正义骑士号",
+            "name_tw": "正義騎士號",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3253,7 +3053,6 @@
             "rarity": 1
         },
         "char_4004_pudd": {
-            "": "布丁",
             "name": "布丁",
             "name_en": "Pudding",
             "name_jp": "プリン",
@@ -3269,7 +3068,6 @@
             "rarity": 4
         },
         "char_4006_melnte": {
-            "": "玫拉",
             "name": "玫拉",
             "name_en": "Melanite",
             "name_jp": "メラナイト",
@@ -3285,12 +3083,11 @@
             "rarity": 5
         },
         "char_4009_irene": {
-            "": "艾丽妮",
             "name": "艾丽妮",
             "name_en": "Irene",
             "name_jp": "アイリーニ",
             "name_kr": "아이린",
-            "name_tw": "艾丽妮",
+            "name_tw": "艾麗妮",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3301,12 +3098,11 @@
             "rarity": 6
         },
         "char_400_weedy": {
-            "": "温蒂",
             "name": "温蒂",
             "name_en": "Weedy",
             "name_jp": "ウィーディ",
             "name_kr": "위디",
-            "name_tw": "温蒂",
+            "name_tw": "溫蒂",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3317,7 +3113,6 @@
             "rarity": 6
         },
         "char_4011_lessng": {
-            "": "止颂",
             "name": "止颂",
             "name_en": "止颂",
             "name_jp": "止颂",
@@ -3333,7 +3128,6 @@
             "rarity": 6
         },
         "char_4013_kjera": {
-            "": "耶拉",
             "name": "耶拉",
             "name_en": "Kjera",
             "name_jp": "イェラ",
@@ -3349,7 +3143,6 @@
             "rarity": 5
         },
         "char_4014_lunacu": {
-            "": "子月",
             "name": "子月",
             "name_en": "Lunacub",
             "name_jp": "ルナカブ",
@@ -3365,7 +3158,6 @@
             "rarity": 5
         },
         "char_4015_spuria": {
-            "": "空构",
             "name": "空构",
             "name_en": "空构",
             "name_jp": "空构",
@@ -3381,12 +3173,11 @@
             "rarity": 5
         },
         "char_4016_kazema": {
-            "": "风丸",
             "name": "风丸",
             "name_en": "Kazemaru",
             "name_jp": "カゼマル",
             "name_kr": "카제마루",
-            "name_tw": "风丸",
+            "name_tw": "風丸",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3400,12 +3191,11 @@
             ]
         },
         "char_4017_puzzle": {
-            "": "谜图",
             "name": "谜图",
             "name_en": "Puzzle",
             "name_jp": "パズル",
             "name_kr": "퍼즐",
-            "name_tw": "谜图",
+            "name_tw": "謎圖",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -3416,7 +3206,6 @@
             "rarity": 5
         },
         "char_4019_ncdeer": {
-            "": "九色鹿",
             "name": "九色鹿",
             "name_en": "Nine-Colored Deer",
             "name_jp": "九色鹿",
@@ -3432,12 +3221,11 @@
             "rarity": 5
         },
         "char_401_elysm": {
-            "": "极境",
             "name": "极境",
             "name_en": "Elysium",
             "name_jp": "エリジウム",
             "name_kr": "엘리시움",
-            "name_tw": "极境",
+            "name_tw": "極境",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -3448,7 +3236,6 @@
             "rarity": 5
         },
         "char_4025_aprot2": {
-            "": "暮落",
             "name": "暮落",
             "name_en": "Shalem",
             "name_jp": "シャレム",
@@ -3464,7 +3251,6 @@
             "rarity": 5
         },
         "char_4027_heyak": {
-            "": "霍尔海雅",
             "name": "霍尔海雅",
             "name_en": "Ho'olheyak",
             "name_jp": "ホルハイヤ",
@@ -3480,12 +3266,11 @@
             "rarity": 6
         },
         "char_402_tuye": {
-            "": "图耶",
             "name": "图耶",
             "name_en": "Tuye",
             "name_jp": "トゥイエ",
             "name_kr": "투예",
-            "name_tw": "图耶",
+            "name_tw": "圖耶",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -3496,12 +3281,11 @@
             "rarity": 5
         },
         "char_4032_provs": {
-            "": "但书",
             "name": "但书",
             "name_en": "Proviso",
             "name_jp": "プロヴァイゾ",
             "name_kr": "프로바이조",
-            "name_tw": "但书",
+            "name_tw": "但書",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -3512,12 +3296,11 @@
             "rarity": 5
         },
         "char_4036_forcer": {
-            "": "见行者",
             "name": "见行者",
             "name_en": "Enforcer",
             "name_jp": "エンフォーサー",
             "name_kr": "인포서",
-            "name_tw": "见行者",
+            "name_tw": "見行者",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3528,12 +3311,11 @@
             "rarity": 5
         },
         "char_4039_horn": {
-            "": "号角",
             "name": "号角",
             "name_en": "Horn",
             "name_jp": "ホルン",
             "name_kr": "혼",
-            "name_tw": "号角",
+            "name_tw": "號角",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -3544,7 +3326,6 @@
             "rarity": 6
         },
         "char_4040_rockr": {
-            "": "洛洛",
             "name": "洛洛",
             "name_en": "Rockrock",
             "name_jp": "ロックロック",
@@ -3560,7 +3341,6 @@
             "rarity": 5
         },
         "char_4041_chnut": {
-            "": "褐果",
             "name": "褐果",
             "name_en": "Chestnut",
             "name_jp": "チェストナット",
@@ -3576,7 +3356,6 @@
             "rarity": 4
         },
         "char_4042_lumen": {
-            "": "流明",
             "name": "流明",
             "name_en": "Lumen",
             "name_jp": "ルーメン",
@@ -3592,7 +3371,6 @@
             "rarity": 6
         },
         "char_4043_erato": {
-            "": "埃拉托",
             "name": "埃拉托",
             "name_en": "Erato",
             "name_jp": "エラト",
@@ -3608,7 +3386,6 @@
             "rarity": 5
         },
         "char_4045_heidi": {
-            "": "海蒂",
             "name": "海蒂",
             "name_en": "Heidi",
             "name_jp": "ハイディ",
@@ -3624,12 +3401,11 @@
             "rarity": 5
         },
         "char_4046_ebnhlz": {
-            "": "黑键",
             "name": "黑键",
             "name_en": "Ebenholz",
             "name_jp": "エーベンホルツ",
             "name_kr": "에벤홀츠",
-            "name_tw": "黑键",
+            "name_tw": "黑鍵",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3643,12 +3419,11 @@
             ]
         },
         "char_4047_pianst": {
-            "": "车尔尼",
             "name": "车尔尼",
             "name_en": "Czerny",
             "name_jp": "ツェルニー",
             "name_kr": "체르니",
-            "name_tw": "车尔尼",
+            "name_tw": "車爾尼",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -3659,12 +3434,11 @@
             "rarity": 5
         },
         "char_4048_doroth": {
-            "": "多萝西",
             "name": "多萝西",
             "name_en": "Dorothy",
             "name_jp": "ドロシー",
             "name_kr": "도로시",
-            "name_tw": "多萝西",
+            "name_tw": "多蘿西",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3675,12 +3449,11 @@
             "rarity": 6
         },
         "char_4054_malist": {
-            "": "至简",
             "name": "至简",
             "name_en": "Minimalist",
             "name_jp": "ミニマリスト",
             "name_kr": "미니멀리스트",
-            "name_tw": "至简",
+            "name_tw": "至簡",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -3691,12 +3464,11 @@
             "rarity": 5
         },
         "char_4055_bgsnow": {
-            "": "鸿雪",
             "name": "鸿雪",
             "name_en": "Pozëmka",
             "name_jp": "パゼオンカ",
             "name_kr": "파죰카",
-            "name_tw": "鸿雪",
+            "name_tw": "鴻雪",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3707,7 +3479,6 @@
             "rarity": 6
         },
         "char_405_absin": {
-            "": "苦艾",
             "name": "苦艾",
             "name_en": "Absinthe",
             "name_jp": "アブサント",
@@ -3723,12 +3494,11 @@
             "rarity": 5
         },
         "char_4062_totter": {
-            "": "铅踝",
             "name": "铅踝",
             "name_en": "Totter",
             "name_jp": "トター",
             "name_kr": "토터",
-            "name_tw": "铅踝",
+            "name_tw": "鉛踝",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3739,7 +3509,6 @@
             "rarity": 4
         },
         "char_4063_quartz": {
-            "": "石英",
             "name": "石英",
             "name_en": "Quartz",
             "name_jp": "クォーツ",
@@ -3755,12 +3524,11 @@
             "rarity": 4
         },
         "char_4064_mlynar": {
-            "": "玛恩纳",
             "name": "玛恩纳",
             "name_en": "Młynar",
             "name_jp": "ムリナール",
             "name_kr": "무에나",
-            "name_tw": "玛恩纳",
+            "name_tw": "瑪恩納",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3771,7 +3539,6 @@
             "rarity": 6
         },
         "char_4065_judge": {
-            "": "斥罪",
             "name": "斥罪",
             "name_en": "Penance",
             "name_jp": "ペナンス",
@@ -3787,7 +3554,6 @@
             "rarity": 6
         },
         "char_4066_highmo": {
-            "": "海沫",
             "name": "海沫",
             "name_en": "Highmore",
             "name_jp": "ハイモア",
@@ -3803,12 +3569,11 @@
             "rarity": 5
         },
         "char_4067_lolxh": {
-            "": "罗小黑",
             "name": "罗小黑",
             "name_en": "Luo Xiaohei",
             "name_jp": "羅小黒",
             "name_kr": "나소흑",
-            "name_tw": "罗小黑",
+            "name_tw": "羅小黑",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3819,7 +3584,6 @@
             "rarity": 4
         },
         "char_4071_peper": {
-            "": "明椒",
             "name": "明椒",
             "name_en": "Paprika",
             "name_jp": "パプリカ",
@@ -3835,12 +3599,11 @@
             "rarity": 5
         },
         "char_4072_ironmn": {
-            "": "白铁",
             "name": "白铁",
             "name_en": "Stainless",
             "name_jp": "ステインレス",
             "name_kr": "스테인리스",
-            "name_tw": "白铁",
+            "name_tw": "白鐵",
             "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
@@ -3856,7 +3619,6 @@
             ]
         },
         "char_4077_palico": {
-            "": "泰拉大陆调查团",
             "name": "泰拉大陆调查团",
             "name_en": "Terra Research Commission",
             "name_jp": "テラ大陸調査団",
@@ -3872,7 +3634,6 @@
             "rarity": 1
         },
         "char_4078_bdhkgt": {
-            "": "截云",
             "name": "截云",
             "name_en": "Jieyun",
             "name_jp": "ジエユン",
@@ -3888,7 +3649,6 @@
             "rarity": 5
         },
         "char_4080_lin": {
-            "": "林",
             "name": "林",
             "name_en": "Lin",
             "name_jp": "リン",
@@ -3904,7 +3664,6 @@
             "rarity": 6
         },
         "char_4082_qiubai": {
-            "": "仇白",
             "name": "仇白",
             "name_en": "Qiubai",
             "name_jp": "チューバイ",
@@ -3920,7 +3679,6 @@
             "rarity": 6
         },
         "char_4083_chimes": {
-            "": "铎铃",
             "name": "铎铃",
             "name_en": "Wind Chimes",
             "name_jp": "ウィンドチャイム",
@@ -3936,7 +3694,6 @@
             "rarity": 5
         },
         "char_4087_ines": {
-            "": "伊内丝",
             "name": "伊内丝",
             "name_en": "Ines",
             "name_jp": "イネス",
@@ -3952,7 +3709,6 @@
             "rarity": 6
         },
         "char_4088_hodrer": {
-            "": "赫德雷",
             "name": "赫德雷",
             "name_en": "赫德雷",
             "name_jp": "赫德雷",
@@ -3968,7 +3724,6 @@
             "rarity": 6
         },
         "char_4091_ulika": {
-            "": "U-Official",
             "name": "U-Official",
             "name_en": "U-Official",
             "name_jp": "U-Official",
@@ -3984,7 +3739,6 @@
             "rarity": 1
         },
         "char_4093_frston": {
-            "": "Friston-3",
             "name": "Friston-3",
             "name_en": "Friston-3",
             "name_jp": "Friston-3",
@@ -4000,7 +3754,6 @@
             "rarity": 1
         },
         "char_4098_vvana": {
-            "": "薇薇安娜",
             "name": "薇薇安娜",
             "name_en": "薇薇安娜",
             "name_jp": "薇薇安娜",
@@ -4016,7 +3769,6 @@
             "rarity": 6
         },
         "char_4100_caper": {
-            "": "跃跃",
             "name": "跃跃",
             "name_en": "跃跃",
             "name_jp": "跃跃",
@@ -4032,7 +3784,6 @@
             "rarity": 4
         },
         "char_4102_threye": {
-            "": "凛视",
             "name": "凛视",
             "name_en": "凛视",
             "name_jp": "凛视",
@@ -4048,7 +3799,6 @@
             "rarity": 5
         },
         "char_4104_coldst": {
-            "": "冰酿",
             "name": "冰酿",
             "name_en": "冰酿",
             "name_jp": "冰酿",
@@ -4064,7 +3814,6 @@
             "rarity": 5
         },
         "char_4105_almond": {
-            "": "杏仁",
             "name": "杏仁",
             "name_en": "杏仁",
             "name_jp": "杏仁",
@@ -4080,7 +3829,6 @@
             "rarity": 5
         },
         "char_4106_bryota": {
-            "": "苍苔",
             "name": "苍苔",
             "name_en": "苍苔",
             "name_jp": "苍苔",
@@ -4096,7 +3844,6 @@
             "rarity": 5
         },
         "char_4107_vrdant": {
-            "": "维荻",
             "name": "维荻",
             "name_en": "维荻",
             "name_jp": "维荻",
@@ -4112,7 +3859,6 @@
             "rarity": 4
         },
         "char_4109_baslin": {
-            "": "深律",
             "name": "深律",
             "name_en": "深律",
             "name_jp": "深律",
@@ -4128,7 +3874,6 @@
             "rarity": 5
         },
         "char_4110_delphn": {
-            "": "戴菲恩",
             "name": "戴菲恩",
             "name_en": "戴菲恩",
             "name_jp": "戴菲恩",
@@ -4144,7 +3889,6 @@
             "rarity": 5
         },
         "char_411_tomimi": {
-            "": "特米米",
             "name": "特米米",
             "name_en": "Tomimi",
             "name_jp": "トミミ",
@@ -4160,7 +3904,6 @@
             "rarity": 5
         },
         "char_415_flint": {
-            "": "燧石",
             "name": "燧石",
             "name_en": "Flint",
             "name_jp": "フリント",
@@ -4176,7 +3919,6 @@
             "rarity": 5
         },
         "char_416_zumama": {
-            "": "森蚺",
             "name": "森蚺",
             "name_en": "Eunectes",
             "name_jp": "ユーネクテス",
@@ -4192,7 +3934,6 @@
             "rarity": 6
         },
         "char_420_flamtl": {
-            "": "焰尾",
             "name": "焰尾",
             "name_en": "Flametail",
             "name_jp": "フレイムテイル",
@@ -4208,12 +3949,11 @@
             "rarity": 6
         },
         "char_421_crow": {
-            "": "羽毛笔",
             "name": "羽毛笔",
             "name_en": "La Pluma",
             "name_jp": "ラ・プルマ",
             "name_kr": "라 플루마",
-            "name_tw": "羽毛笔",
+            "name_tw": "羽毛筆",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -4224,12 +3964,11 @@
             "rarity": 5
         },
         "char_422_aurora": {
-            "": "极光",
             "name": "极光",
             "name_en": "Aurora",
             "name_jp": "オーロラ",
             "name_kr": "오로라",
-            "name_tw": "极光",
+            "name_tw": "極光",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -4240,7 +3979,6 @@
             "rarity": 5
         },
         "char_423_blemsh": {
-            "": "瑕光",
             "name": "瑕光",
             "name_en": "Blemishine",
             "name_jp": "ブレミシャイン",
@@ -4256,7 +3994,6 @@
             "rarity": 6
         },
         "char_426_billro": {
-            "": "卡涅利安",
             "name": "卡涅利安",
             "name_en": "Carnelian",
             "name_jp": "カーネリアン",
@@ -4272,7 +4009,6 @@
             "rarity": 6
         },
         "char_427_vigil": {
-            "": "伺夜",
             "name": "伺夜",
             "name_en": "Vigil",
             "name_jp": "ヴィジェル",
@@ -4288,12 +4024,11 @@
             "rarity": 6
         },
         "char_430_fartth": {
-            "": "远牙",
             "name": "远牙",
             "name_en": "Fartooth",
             "name_jp": "ファートゥース",
             "name_kr": "파투스",
-            "name_tw": "远牙",
+            "name_tw": "遠牙",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -4304,7 +4039,6 @@
             "rarity": 6
         },
         "char_431_ashlok": {
-            "": "灰毫",
             "name": "灰毫",
             "name_en": "Ashlock",
             "name_jp": "アッシュロック",
@@ -4320,12 +4054,11 @@
             "rarity": 5
         },
         "char_433_windft": {
-            "": "掠风",
             "name": "掠风",
             "name_en": "Windflit",
             "name_jp": "ウインドフリット",
             "name_kr": "윈드플릿",
-            "name_tw": "掠风",
+            "name_tw": "掠風",
             "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
@@ -4336,7 +4069,6 @@
             "rarity": 5
         },
         "char_436_whispr": {
-            "": "絮雨",
             "name": "絮雨",
             "name_en": "Whisperain",
             "name_jp": "ウィスパーレイン",
@@ -4352,7 +4084,6 @@
             "rarity": 5
         },
         "char_437_mizuki": {
-            "": "水月",
             "name": "水月",
             "name_en": "Mizuki",
             "name_jp": "ミヅキ",
@@ -4368,7 +4099,6 @@
             "rarity": 6
         },
         "char_440_pinecn": {
-            "": "松果",
             "name": "松果",
             "name_en": "Pinecone",
             "name_jp": "パインコーン",
@@ -4384,7 +4114,6 @@
             "rarity": 4
         },
         "char_449_glider": {
-            "": "蜜莓",
             "name": "蜜莓",
             "name_en": "Honeyberry",
             "name_jp": "ハニーベリー",
@@ -4400,12 +4129,11 @@
             "rarity": 5
         },
         "char_451_robin": {
-            "": "罗宾",
             "name": "罗宾",
             "name_en": "Robin",
             "name_jp": "ロビン",
             "name_kr": "로빈",
-            "name_tw": "罗宾",
+            "name_tw": "羅賓",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4416,7 +4144,6 @@
             "rarity": 5
         },
         "char_452_bstalk": {
-            "": "豆苗",
             "name": "豆苗",
             "name_en": "Beanstalk",
             "name_jp": "ビーンストーク",
@@ -4432,12 +4159,11 @@
             "rarity": 4
         },
         "char_455_nothin": {
-            "": "乌有",
             "name": "乌有",
             "name_en": "Mr. Nothing",
             "name_jp": "ウユウ",
             "name_kr": "우요우",
-            "name_tw": "乌有",
+            "name_tw": "烏有",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4448,12 +4174,11 @@
             "rarity": 5
         },
         "char_456_ash": {
-            "": "灰烬",
             "name": "灰烬",
             "name_en": "Ash",
             "name_jp": "Ash",
             "name_kr": "Ash",
-            "name_tw": "灰烬",
+            "name_tw": "ASH",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -4464,12 +4189,11 @@
             "rarity": 6
         },
         "char_457_blitz": {
-            "": "闪击",
             "name": "闪击",
             "name_en": "Blitz",
             "name_jp": "Blitz",
             "name_kr": "Blitz",
-            "name_tw": "闪击",
+            "name_tw": "BLITZ",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -4480,12 +4204,11 @@
             "rarity": 5
         },
         "char_458_rfrost": {
-            "": "霜华",
             "name": "霜华",
             "name_en": "Frost",
             "name_jp": "Frost",
             "name_kr": "Frost",
-            "name_tw": "霜华",
+            "name_tw": "FROST",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4496,12 +4219,11 @@
             "rarity": 5
         },
         "char_459_tachak": {
-            "": "战车",
             "name": "战车",
             "name_en": "Tachanka",
             "name_jp": "Tachanka",
             "name_kr": "Tachanka",
-            "name_tw": "战车",
+            "name_tw": "TACHANKA",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -4512,7 +4234,6 @@
             "rarity": 5
         },
         "char_464_cement": {
-            "": "洋灰",
             "name": "洋灰",
             "name_en": "Cement",
             "name_jp": "セメント",
@@ -4528,12 +4249,11 @@
             "rarity": 5
         },
         "char_466_qanik": {
-            "": "雪绒",
             "name": "雪绒",
             "name_en": "Qanipalaat",
             "name_jp": "カニパラート",
             "name_kr": "카니팔라트",
-            "name_tw": "雪绒",
+            "name_tw": "雪絨",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4544,7 +4264,6 @@
             "rarity": 5
         },
         "char_469_indigo": {
-            "": "深靛",
             "name": "深靛",
             "name_en": "Indigo",
             "name_jp": "インディゴ",
@@ -4560,12 +4279,11 @@
             "rarity": 4
         },
         "char_472_pasngr": {
-            "": "异客",
             "name": "异客",
             "name_en": "Passenger",
             "name_jp": "パッセンジャー",
             "name_kr": "패신저",
-            "name_tw": "异客",
+            "name_tw": "異客",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4576,7 +4294,6 @@
             "rarity": 6
         },
         "char_473_mberry": {
-            "": "桑葚",
             "name": "桑葚",
             "name_en": "Mulberry",
             "name_jp": "マルベリー",
@@ -4592,12 +4309,11 @@
             "rarity": 5
         },
         "char_474_glady": {
-            "": "歌蕾蒂娅",
             "name": "歌蕾蒂娅",
             "name_en": "Gladiia",
             "name_jp": "グレイディーア",
             "name_kr": "글래디아",
-            "name_tw": "歌蕾蒂娅",
+            "name_tw": "歌蕾蒂婭",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4608,7 +4324,6 @@
             "rarity": 6
         },
         "char_475_akafyu": {
-            "": "赤冬",
             "name": "赤冬",
             "name_en": "Akafuyu",
             "name_jp": "アカフユ",
@@ -4624,7 +4339,6 @@
             "rarity": 5
         },
         "char_476_blkngt": {
-            "": "夜半",
             "name": "夜半",
             "name_en": "Blacknight",
             "name_jp": "ブラックナイト",
@@ -4640,12 +4354,11 @@
             "rarity": 5
         },
         "char_478_kirara": {
-            "": "绮良",
             "name": "绮良",
             "name_en": "Kirara",
             "name_jp": "キララ",
             "name_kr": "키라라",
-            "name_tw": "绮良",
+            "name_tw": "綺良",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4656,7 +4369,6 @@
             "rarity": 5
         },
         "char_479_sleach": {
-            "": "琴柳",
             "name": "琴柳",
             "name_en": "Saileach",
             "name_jp": "サイラッハ",
@@ -4672,12 +4384,11 @@
             "rarity": 6
         },
         "char_484_robrta": {
-            "": "罗比菈塔",
             "name": "罗比菈塔",
             "name_en": "Roberta",
             "name_jp": "ロベルタ",
             "name_kr": "로베르타",
-            "name_tw": "罗比菈塔",
+            "name_tw": "羅比菈塔",
             "position": "MELEE",
             "profession": "SUPPORT",
             "rangeId": [
@@ -4688,7 +4399,6 @@
             "rarity": 4
         },
         "char_485_pallas": {
-            "": "帕拉斯",
             "name": "帕拉斯",
             "name_en": "Pallas",
             "name_jp": "パラス",
@@ -4704,12 +4414,11 @@
             "rarity": 6
         },
         "char_486_takila": {
-            "": "龙舌兰",
             "name": "龙舌兰",
             "name_en": "Tequila",
             "name_jp": "テキーラ",
             "name_kr": "테킬라",
-            "name_tw": "龙舌兰",
+            "name_tw": "龍舌蘭",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -4720,7 +4429,6 @@
             "rarity": 5
         },
         "char_488_buildr": {
-            "": "青枳",
             "name": "青枳",
             "name_en": "青枳",
             "name_jp": "青枳",
@@ -4736,12 +4444,11 @@
             "rarity": 5
         },
         "char_489_serum": {
-            "": "蚀清",
             "name": "蚀清",
             "name_en": "Corroserum",
             "name_jp": "コロセラム",
             "name_kr": "코로세럼",
-            "name_tw": "蚀清",
+            "name_tw": "蝕清",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4752,7 +4459,6 @@
             "rarity": 5
         },
         "char_491_humus": {
-            "": "休谟斯",
             "name": "休谟斯",
             "name_en": "Humus",
             "name_jp": "ヒューマス",
@@ -4768,12 +4474,11 @@
             "rarity": 4
         },
         "char_492_quercu": {
-            "": "夏栎",
             "name": "夏栎",
             "name_en": "Quercus",
             "name_jp": "クエルクス",
             "name_kr": "퀘르쿠스",
-            "name_tw": "夏栎",
+            "name_tw": "夏櫟",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -4784,7 +4489,6 @@
             "rarity": 5
         },
         "char_493_firwhl": {
-            "": "火哨",
             "name": "火哨",
             "name_en": "Firewhistle",
             "name_jp": "ファイヤーホイッスル",
@@ -4800,7 +4504,6 @@
             "rarity": 5
         },
         "char_494_vendla": {
-            "": "刺玫",
             "name": "刺玫",
             "name_en": "刺玫",
             "name_jp": "刺玫",
@@ -4816,7 +4519,6 @@
             "rarity": 5
         },
         "char_496_wildmn": {
-            "": "野鬃",
             "name": "野鬃",
             "name_en": "Wild Mane",
             "name_jp": "ワイルドメイン",
@@ -4832,12 +4534,11 @@
             "rarity": 5
         },
         "char_497_ctable": {
-            "": "晓歌",
             "name": "晓歌",
             "name_en": "Cantabile",
             "name_jp": "カンタービレ",
             "name_kr": "칸타빌레",
-            "name_tw": "晓歌",
+            "name_tw": "曉歌",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -4848,7 +4549,6 @@
             "rarity": 5
         },
         "char_498_inside": {
-            "": "隐现",
             "name": "隐现",
             "name_en": "隐现",
             "name_jp": "隐现",
@@ -4864,7 +4564,6 @@
             "rarity": 5
         },
         "char_499_kaitou": {
-            "": "折光",
             "name": "折光",
             "name_en": "折光",
             "name_jp": "折光",
@@ -4880,7 +4579,6 @@
             "rarity": 5
         },
         "char_500_noirc": {
-            "": "黑角",
             "name": "黑角",
             "name_en": "Noir Corne",
             "name_jp": "ノイルホーン",
@@ -4896,7 +4594,6 @@
             "rarity": 2
         },
         "char_501_durin": {
-            "": "杜林",
             "name": "杜林",
             "name_en": "Durin",
             "name_jp": "ドゥリン",
@@ -4912,7 +4609,6 @@
             "rarity": 2
         },
         "char_502_nblade": {
-            "": "夜刀",
             "name": "夜刀",
             "name_en": "Yato",
             "name_jp": "ヤトウ",
@@ -4928,7 +4624,6 @@
             "rarity": 2
         },
         "char_503_rang": {
-            "": "巡林者",
             "name": "巡林者",
             "name_en": "Rangers",
             "name_jp": "レンジャー",
@@ -4944,12 +4639,11 @@
             "rarity": 2
         },
         "char_504_rguard": {
-            "": "预备干员-近战",
             "name": "预备干员-近战",
             "name_en": "Reserve Operator - Melee",
             "name_jp": "予備隊員-近距離",
             "name_kr": "예비 인원 - 근거리",
-            "name_tw": "预备干员-近战",
+            "name_tw": "預備幹員-近戰",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -4960,12 +4654,11 @@
             "rarity": 3
         },
         "char_505_rcast": {
-            "": "预备干员-术师",
             "name": "预备干员-术师",
             "name_en": "Reserve Operator - Caster",
             "name_jp": "予備隊員-術師",
             "name_kr": "예비 인원 - 캐스터",
-            "name_tw": "预备干员-术师",
+            "name_tw": "預備幹員-術師",
             "position": "RANGED",
             "profession": "CASTER",
             "rangeId": [
@@ -4976,12 +4669,11 @@
             "rarity": 3
         },
         "char_506_rmedic": {
-            "": "预备干员-后勤",
             "name": "预备干员-后勤",
             "name_en": "Reserve Operator - Logistics",
             "name_jp": "予備隊員-支援",
             "name_kr": "예비 인원 - 지원",
-            "name_tw": "预备干员-后勤",
+            "name_tw": "預備幹員-後勤",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -4992,12 +4684,11 @@
             "rarity": 3
         },
         "char_507_rsnipe": {
-            "": "预备干员-狙击",
             "name": "预备干员-狙击",
             "name_en": "Reserve Operator - Sniper",
             "name_jp": "予備隊員-狙撃",
             "name_kr": "예비 인원 - 스나이퍼",
-            "name_tw": "预备干员-狙击",
+            "name_tw": "預備幹員-狙擊",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -5008,7 +4699,6 @@
             "rarity": 3
         },
         "char_508_aguard": {
-            "": "Sharp",
             "name": "Sharp",
             "name_en": "Sharp",
             "name_jp": "Sharp",
@@ -5024,7 +4714,6 @@
             "rarity": 5
         },
         "char_509_acast": {
-            "": "Pith",
             "name": "Pith",
             "name_en": "Pith",
             "name_jp": "Pith",
@@ -5040,7 +4729,6 @@
             "rarity": 5
         },
         "char_510_amedic": {
-            "": "Touch",
             "name": "Touch",
             "name_en": "Touch",
             "name_jp": "Touch",
@@ -5056,7 +4744,6 @@
             "rarity": 5
         },
         "char_511_asnipe": {
-            "": "Stormeye",
             "name": "Stormeye",
             "name_en": "Stormeye",
             "name_jp": "Stormeye",
@@ -5072,7 +4759,6 @@
             "rarity": 5
         },
         "char_512_aprot": {
-            "": "暮落",
             "name": "暮落",
             "name_en": "Shalem",
             "name_jp": "シャレム",
@@ -5088,12 +4774,11 @@
             "rarity": 5
         },
         "char_513_apionr": {
-            "": "郁金香",
             "name": "郁金香",
             "name_en": "Tulip",
             "name_jp": "チューリップ",
             "name_kr": "튤립",
-            "name_tw": "郁金香",
+            "name_tw": "鬱金香",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -5104,12 +4789,11 @@
             "rarity": 5
         },
         "char_514_rdfend": {
-            "": "预备干员-重装",
             "name": "预备干员-重装",
             "name_en": "Reserve Operator - Defender",
             "name_jp": "予備隊員-重装",
             "name_kr": "예비 인원 - 디펜더",
-            "name_tw": "预备干员-重装",
+            "name_tw": "預備幹員-重裝",
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": [
@@ -5120,12 +4804,11 @@
             "rarity": 3
         },
         "token_10000_silent_healrb": {
-            "": "医疗探机",
             "name": "医疗探机",
             "name_en": "Medic Drone",
             "name_jp": "医療ドローン",
             "name_kr": "메딕프로브",
-            "name_tw": "医疗探机",
+            "name_tw": "醫療探機",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5136,12 +4819,11 @@
             "rarity": 5
         },
         "token_10001_deepcl_tentac": {
-            "": "触手",
             "name": "触手",
             "name_en": "Tentacle",
             "name_jp": "触手",
             "name_kr": "촉수",
-            "name_tw": "触手",
+            "name_tw": "觸手",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5152,7 +4834,6 @@
             "rarity": 4
         },
         "token_10002_kalts_mon3tr": {
-            "": "Mon3tr",
             "name": "Mon3tr",
             "name_en": "Mon3tr",
             "name_jp": "Mon3tr",
@@ -5168,7 +4849,6 @@
             "rarity": 6
         },
         "token_10003_cgbird_bird": {
-            "": "幻影",
             "name": "幻影",
             "name_en": "Mirage",
             "name_jp": "幻影",
@@ -5184,12 +4864,11 @@
             "rarity": 6
         },
         "token_10004_otter_motter": {
-            "": "机械水獭",
             "name": "机械水獭",
             "name_en": "Robotter",
             "name_jp": "メカ・カワウソ",
             "name_kr": "기계수달",
-            "name_tw": "机械水獭",
+            "name_tw": "機械水獺",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5200,12 +4879,11 @@
             "rarity": 5
         },
         "token_10005_mgllan_drone1": {
-            "": "龙腾.F",
             "name": "龙腾.F",
             "name_en": "Soaring Dragon F",
             "name_jp": "DDF・F",
             "name_kr": "드래곤플라이.F",
-            "name_tw": "龙腾.F",
+            "name_tw": "龍騰.F",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5216,12 +4894,11 @@
             "rarity": 6
         },
         "token_10005_mgllan_drone2": {
-            "": "龙腾.L",
             "name": "龙腾.L",
             "name_en": "Soaring Dragon L",
             "name_jp": "DDF・L",
             "name_kr": "드래곤플라이.L",
-            "name_tw": "龙腾.L",
+            "name_tw": "龍騰.L",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5232,12 +4909,11 @@
             "rarity": 6
         },
         "token_10005_mgllan_drone3": {
-            "": "龙腾.A",
             "name": "龙腾.A",
             "name_en": "Soaring Dragon A",
             "name_jp": "DDF・A",
             "name_kr": "드래곤플라이.A",
-            "name_tw": "龙腾.A",
+            "name_tw": "龍騰.A",
             "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
@@ -5248,12 +4924,11 @@
             "rarity": 6
         },
         "token_10006_vodfox_doll": {
-            "": "诅咒娃娃",
             "name": "诅咒娃娃",
             "name_en": "Cursed Doll",
             "name_jp": "呪いの人形",
             "name_kr": "저주인형",
-            "name_tw": "诅咒娃娃",
+            "name_tw": "詛咒娃娃",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5264,12 +4939,11 @@
             "rarity": 5
         },
         "token_10007_phatom_twin": {
-            "": "镜中虚影",
             "name": "镜中虚影",
             "name_en": "Phantom in the Mirror",
             "name_jp": "鏡映虚影",
             "name_kr": "거울 속의 환영",
-            "name_tw": "镜中虚影",
+            "name_tw": "鏡中虛影",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5280,12 +4954,11 @@
             "rarity": 6
         },
         "token_10008_cqbw_box": {
-            "": "此面向敌",
             "name": "此面向敌",
             "name_en": "Front Toward Enemy",
             "name_jp": "サプライズ！",
             "name_kr": "적 방향",
-            "name_tw": "此面向敌",
+            "name_tw": "此面向敵",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5296,7 +4969,6 @@
             "rarity": 6
         },
         "token_10009_weedy_cannon": {
-            "": "工程蓄水炮",
             "name": "工程蓄水炮",
             "name_en": "Industrial Water Cannon",
             "name_jp": "工事用蓄水砲",
@@ -5312,12 +4984,11 @@
             "rarity": 6
         },
         "token_10010_folivo_car": {
-            "": "移动摄影器",
             "name": "移动摄影器",
             "name_en": "Mobile Buggy Cam",
             "name_jp": "撮影ロボット",
             "name_kr": "이동촬영기",
-            "name_tw": "移动摄影器",
+            "name_tw": "移動攝影器",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5328,7 +4999,6 @@
             "rarity": 5
         },
         "token_10011_beewax_oblisk": {
-            "": "沙之碑",
             "name": "沙之碑",
             "name_en": "Sand Obelisk",
             "name_jp": "砂の碑",
@@ -5344,12 +5014,11 @@
             "rarity": 5
         },
         "token_10012_rosmon_shield": {
-            "": "迷迭香的战术装备",
             "name": "迷迭香的战术装备",
             "name_en": "Rosmontis's Tactical Equipment",
             "name_jp": "ロスモンティスの戦術装備",
             "name_kr": "로즈몬티스의 전술 장비",
-            "name_tw": "迷迭香的战术装备",
+            "name_tw": "迷迭香的戰術裝備",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5360,12 +5029,11 @@
             "rarity": 6
         },
         "token_10013_robin_mine": {
-            "": "“夹子”",
             "name": "“夹子”",
             "name_en": "'Clip'",
             "name_jp": "「クリップ」",
             "name_kr": "'클립'",
-            "name_tw": "“夹子”",
+            "name_tw": "\"夾子\"",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5376,12 +5044,11 @@
             "rarity": 5
         },
         "token_10014_bstalk_crab": {
-            "": "磐蟹护卫队",
             "name": "磐蟹护卫队",
             "name_en": "Metal Crab Guard Team",
             "name_jp": "ハガネガニ守備隊",
             "name_kr": "메탈 크랩 호위대",
-            "name_tw": "磐蟹护卫队",
+            "name_tw": "磐蟹護衛隊",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5392,12 +5059,11 @@
             "rarity": 4
         },
         "token_10015_dusk_drgn": {
-            "": "“小自在”",
             "name": "“小自在”",
             "name_en": "'Freeling'",
             "name_jp": "「小自在」",
             "name_kr": "'작은 즈자이'",
-            "name_tw": "“小自在”",
+            "name_tw": "\"小自在\"",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5408,12 +5074,11 @@
             "rarity": 6
         },
         "token_10016_rfrost_mine": {
-            "": "迎宾踏垫",
             "name": "迎宾踏垫",
             "name_en": "Welcome Mat",
             "name_jp": "ウェルカムマット",
             "name_kr": "전술 함정",
-            "name_tw": "迎宾踏垫",
+            "name_tw": "迎賓踏墊",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5424,7 +5089,6 @@
             "rarity": 5
         },
         "token_10017_skadi2_dedant": {
-            "": "斯卡蒂的海嗣",
             "name": "斯卡蒂的海嗣",
             "name_en": "Skadi's Seaborn",
             "name_jp": "スカジのシーボーン",
@@ -5440,12 +5104,11 @@
             "rarity": 6
         },
         "token_10018_robrta_mach": {
-            "": "全自动造型仪",
             "name": "全自动造型仪",
             "name_en": "Full Auto Modeler",
             "name_jp": "メイクアップマシン",
             "name_kr": "전자동 스타일러",
-            "name_tw": "全自动造型仪",
+            "name_tw": "全自動造型儀",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5456,12 +5119,11 @@
             "rarity": 4
         },
         "token_10019_nearl2_sword": {
-            "": "“耀阳”",
             "name": "“耀阳”",
             "name_en": "'Blazing Sun'",
             "name_jp": "「ブレイジング・サン」",
             "name_kr": "'눈 부신 태양'",
-            "name_tw": "“耀阳”",
+            "name_tw": "“耀陽”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5472,7 +5134,6 @@
             "rarity": 6
         },
         "token_10020_ling_soul1": {
-            "": "“清平”",
             "name": "“清平”",
             "name_en": "'Tranquility'",
             "name_jp": "「清平」",
@@ -5488,12 +5149,11 @@
             "rarity": 6
         },
         "token_10020_ling_soul2": {
-            "": "“逍遥”",
             "name": "“逍遥”",
             "name_en": "'Peripateticism'",
             "name_jp": "「逍遥」",
             "name_kr": "'샤오야오'",
-            "name_tw": "“逍遥”",
+            "name_tw": "“逍遙”",
             "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
@@ -5504,12 +5164,11 @@
             "rarity": 6
         },
         "token_10020_ling_soul3": {
-            "": "“弦惊”",
             "name": "“弦惊”",
             "name_en": "'Thunderer'",
             "name_jp": "「弦驚」",
             "name_kr": "'시엔징'",
-            "name_tw": "“弦惊”",
+            "name_tw": "“弦驚”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5520,12 +5179,11 @@
             "rarity": 6
         },
         "token_10021_blkngt_hypnos": {
-            "": "眠兽",
             "name": "眠兽",
             "name_en": "Slumberfoot",
             "name_jp": "眠獣",
             "name_kr": "슬럼버풋",
-            "name_tw": "眠兽",
+            "name_tw": "眠獸",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5536,12 +5194,11 @@
             "rarity": 5
         },
         "token_10022_kazema_shadow": {
-            "": "纸偶",
             "name": "纸偶",
             "name_en": "Kaminingyo",
             "name_jp": "紙人形",
             "name_kr": "종이 인형",
-            "name_tw": "纸偶",
+            "name_tw": "紙偶",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5552,12 +5209,11 @@
             "rarity": 5
         },
         "token_10023_windft_wrench": {
-            "": "可靠电池",
             "name": "可靠电池",
             "name_en": "Reliable Battery",
             "name_jp": "高信頼性バッテリー",
             "name_kr": "안정적인 배터리",
-            "name_tw": "可靠电池",
+            "name_tw": "可靠電池",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5568,12 +5224,11 @@
             "rarity": 5
         },
         "token_10024_ebnhlz_rcube": {
-            "": "旧日残影",
             "name": "旧日残影",
             "name_en": "Remnants of Days Past",
             "name_jp": "過去の残像",
             "name_kr": "지난날의 잔상",
-            "name_tw": "旧日残影",
+            "name_tw": "舊日殘影",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5584,12 +5239,11 @@
             "rarity": 6
         },
         "token_10025_doroth_recttp": {
-            "": "共振装置",
             "name": "共振装置",
             "name_en": "Resonator",
             "name_jp": "共振装置",
             "name_kr": "공진 장치",
-            "name_tw": "共振装置",
+            "name_tw": "共振裝置",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5600,12 +5254,11 @@
             "rarity": 6
         },
         "token_10026_bgsnow_subbow": {
-            "": "“打字机”",
             "name": "“打字机”",
             "name_en": "'Typewriter'",
             "name_jp": "「タイプライター」",
             "name_kr": "'타자기'",
-            "name_tw": "“打字机”",
+            "name_tw": "“打字機”",
             "position": "RANGED",
             "profession": "TOKEN",
             "rangeId": [
@@ -5616,12 +5269,11 @@
             "rarity": 6
         },
         "token_10027_ironmn_pile1": {
-            "": "白铁™多功能平台",
             "name": "白铁™多功能平台",
             "name_en": "Stainless™ Multifunctional Platform",
             "name_jp": "ステインレス™多機能プラットフォーム",
             "name_kr": "스테인리스™ 멀티 플랫폼",
-            "name_tw": "白铁™多功能平台",
+            "name_tw": "白鐵™多功能平台",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5632,12 +5284,11 @@
             "rarity": 6
         },
         "token_10027_ironmn_pile2": {
-            "": "白铁™多功能平台",
             "name": "白铁™多功能平台",
             "name_en": "Stainless™ Multifunctional Platform",
             "name_jp": "ステインレス™多機能プラットフォーム",
             "name_kr": "스테인리스™ 멀티 플랫폼",
-            "name_tw": "白铁™多功能平台",
+            "name_tw": "白鐵™多功能平台",
             "position": "ALL",
             "profession": "TOKEN",
             "rangeId": [
@@ -5648,12 +5299,11 @@
             "rarity": 6
         },
         "token_10027_ironmn_pile3": {
-            "": "铁钳号·原型机",
             "name": "铁钳号·原型机",
             "name_en": "Prototype of Feist's Metal Crab",
             "name_jp": "鉄鉗号･プロトタイプ",
             "name_kr": "글룸핀서호 - 프로토타입",
-            "name_tw": "铁钳号·原型机",
+            "name_tw": "鐵鉗號·原型機",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5664,7 +5314,6 @@
             "rarity": 6
         },
         "token_10028_vigil_wolf": {
-            "": "狼群",
             "name": "狼群",
             "name_en": "Wolfpack",
             "name_jp": "狼の群れ",
@@ -5680,7 +5329,6 @@
             "rarity": 6
         },
         "token_10029_slent2_protrb": {
-            "": "夜灯",
             "name": "夜灯",
             "name_en": "Night Banisher",
             "name_jp": "夜の灯火",
@@ -5696,7 +5344,6 @@
             "rarity": 6
         },
         "token_10030_mlyss_wtrman": {
-            "": "流形",
             "name": "流形",
             "name_en": "Flowing Shape",
             "name_jp": "うつろう水影",
@@ -5712,7 +5359,6 @@
             "rarity": 6
         },
         "token_10031_swire2_gdtrap": {
-            "": "香槟炸弹",
             "name": "香槟炸弹",
             "name_en": "香槟炸弹",
             "name_jp": "香槟炸弹",
@@ -5728,7 +5374,6 @@
             "rarity": 6
         },
         "token_10032_jesca2_jckshd": {
-            "": "机动盾牌",
             "name": "机动盾牌",
             "name_en": "机动盾牌",
             "name_jp": "机动盾牌",
@@ -5744,12 +5389,11 @@
             "rarity": 6
         },
         "trap_001_crate": {
-            "": "障碍物",
             "name": "障碍物",
             "name_en": "Roadblock",
             "name_jp": "障害物",
             "name_kr": "장애물",
-            "name_tw": "障碍物",
+            "name_tw": "障礙物",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5760,12 +5404,11 @@
             "rarity": 1
         },
         "trap_002_emp": {
-            "": "震撼装置",
             "name": "震撼装置",
             "name_en": "Stun Generator",
             "name_jp": "EMP発生装置",
             "name_kr": "충격장치",
-            "name_tw": "震撼装置",
+            "name_tw": "震撼裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5776,12 +5419,11 @@
             "rarity": 1
         },
         "trap_003_gate": {
-            "": "闸门",
             "name": "闸门",
             "name_en": "Gate",
             "name_jp": "シャッター",
             "name_kr": "게이트",
-            "name_tw": "闸门",
+            "name_tw": "閘門",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5792,12 +5434,11 @@
             "rarity": 1
         },
         "trap_005_sensor": {
-            "": "侦测器",
             "name": "侦测器",
             "name_en": "Detector",
             "name_jp": "探知機",
             "name_kr": "탐지기",
-            "name_tw": "侦测器",
+            "name_tw": "偵測器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5808,12 +5449,11 @@
             "rarity": 1
         },
         "trap_006_antidr": {
-            "": "干扰装置",
             "name": "干扰装置",
             "name_en": "Jammer",
             "name_jp": "妨害装置",
             "name_kr": "방해장치",
-            "name_tw": "干扰装置",
+            "name_tw": "干擾裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5824,7 +5464,6 @@
             "rarity": 1
         },
         "trap_007_ballis": {
-            "": "弩炮",
             "name": "弩炮",
             "name_en": "Turret",
             "name_jp": "バリスタ",
@@ -5840,12 +5479,11 @@
             "rarity": 1
         },
         "trap_008_farm": {
-            "": "指挥终端",
             "name": "指挥终端",
             "name_en": "Command Terminal",
             "name_jp": "コマンドシステム",
             "name_kr": "지휘 단말기",
-            "name_tw": "指挥终端",
+            "name_tw": "指揮終端",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5856,12 +5494,11 @@
             "rarity": 1
         },
         "trap_009_battery": {
-            "": "便携式补给站",
             "name": "便携式补给站",
             "name_en": "Portable Supply Station",
             "name_jp": "簡易補給所",
             "name_kr": "휴대용 보급기",
-            "name_tw": "便携式补给站",
+            "name_tw": "可攜式補給站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5872,7 +5509,6 @@
             "rarity": 1
         },
         "trap_010_frosts": {
-            "": "源石冰晶",
             "name": "源石冰晶",
             "name_en": "Originium Ice Crystal",
             "name_jp": "源石氷晶",
@@ -5888,12 +5524,11 @@
             "rarity": 1
         },
         "trap_011_ore": {
-            "": "源石祭坛",
             "name": "源石祭坛",
             "name_en": "Originium Altar",
             "name_jp": "源石祭壇",
             "name_kr": "오리지늄 제단",
-            "name_tw": "源石祭坛",
+            "name_tw": "源石祭壇",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5904,12 +5539,11 @@
             "rarity": 1
         },
         "trap_012_mine": {
-            "": "干扰地雷",
             "name": "干扰地雷",
             "name_en": "Interference Mine",
             "name_jp": "妨害地雷",
             "name_kr": "방해지뢰",
-            "name_tw": "干扰地雷",
+            "name_tw": "干擾地雷",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5920,12 +5554,11 @@
             "rarity": 1
         },
         "trap_013_blower": {
-            "": "源石流发生装置",
             "name": "源石流发生装置",
             "name_en": "Originium Flow Generator",
             "name_jp": "源石気流発生装置",
             "name_kr": "오리지늄 기류 발생 장치",
-            "name_tw": "源石流发生装置",
+            "name_tw": "源石流發生裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5936,12 +5569,11 @@
             "rarity": 1
         },
         "trap_014_tower": {
-            "": "L-44\"留声机\"",
             "name": "L-44\"留声机\"",
             "name_en": "L-44 'Gramophone'",
             "name_jp": "L-44「蓄音機」",
             "name_kr": "L-44 '축음기'",
-            "name_tw": "L-44\"留声机\"",
+            "name_tw": "L-44\"留聲機\"",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5952,7 +5584,6 @@
             "rarity": 1
         },
         "trap_015_tree": {
-            "": "巨蕈",
             "name": "巨蕈",
             "name_en": "Giant Mushroom",
             "name_jp": "おばけ茸",
@@ -5968,12 +5599,11 @@
             "rarity": 1
         },
         "trap_016_peon": {
-            "": "罗德岛临时雇员",
             "name": "罗德岛临时雇员",
             "name_en": "Temporary Rhodes Island Employee",
             "name_jp": "伐採作業員",
             "name_kr": "로도스 아일랜드 임시 직원",
-            "name_tw": "罗德岛临时雇员",
+            "name_tw": "羅德島臨時雇員",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -5984,12 +5614,11 @@
             "rarity": 1
         },
         "trap_018_bomb": {
-            "": "轰隆隆先生",
             "name": "轰隆隆先生",
             "name_en": "Mr. Boom",
             "name_jp": "ミスターランブル",
             "name_kr": "미스터 럼블",
-            "name_tw": "轰隆隆先生",
+            "name_tw": "轟隆隆先生",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6000,12 +5629,11 @@
             "rarity": 1
         },
         "trap_019_electric": {
-            "": "梅什科线圈",
             "name": "梅什科线圈",
             "name_en": "Mieszko Coil",
             "name_jp": "ミェシュココイル",
             "name_kr": "미에슈코 코일",
-            "name_tw": "梅什科线圈",
+            "name_tw": "梅什科線圈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6016,12 +5644,11 @@
             "rarity": 1
         },
         "trap_020_roadblock": {
-            "": "道路障碍物",
             "name": "道路障碍物",
             "name_en": "Static Roadblock",
             "name_jp": "道路障害物",
             "name_kr": "도로 장애물",
-            "name_tw": "道路障碍物",
+            "name_tw": "道路障礙物",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6032,12 +5659,11 @@
             "rarity": 1
         },
         "trap_021_flame": {
-            "": "能量聚合体",
             "name": "能量聚合体",
             "name_en": "Energy Aggregate",
             "name_jp": "エネルギークリスタル",
             "name_kr": "에너지 중합체",
-            "name_tw": "能量聚合体",
+            "name_tw": "能量聚合體",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6048,7 +5674,6 @@
             "rarity": 1
         },
         "trap_022_frosts_friend": {
-            "": "霜星的源石冰晶",
             "name": "霜星的源石冰晶",
             "name_en": "FrostNova's Originium Ice Crystal",
             "name_jp": "フロストノヴァの源石氷晶",
@@ -6064,12 +5689,11 @@
             "rarity": 1
         },
         "trap_023_ore_friend": {
-            "": "爱国者的源石祭坛",
             "name": "爱国者的源石祭坛",
             "name_en": "Patriot's Originium Altar",
             "name_jp": "パトリオットの源石祭壇",
             "name_kr": "패트리어트의 오리지늄 제단",
-            "name_tw": "爱国者的源石祭坛",
+            "name_tw": "愛國者的源石祭壇",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6080,12 +5704,11 @@
             "rarity": 1
         },
         "trap_024_npcsld": {
-            "": "盾卫",
             "name": "盾卫",
             "name_en": "Shieldguard",
             "name_jp": "盾兵",
             "name_kr": "방패병",
-            "name_tw": "盾卫",
+            "name_tw": "盾衛",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6096,12 +5719,11 @@
             "rarity": 1
         },
         "trap_025_prison": {
-            "": "禁锢装置",
             "name": "禁锢装置",
             "name_en": "Imprisonment Device",
             "name_jp": "禁固装置",
             "name_kr": "구속 장치",
-            "name_tw": "禁锢装置",
+            "name_tw": "禁錮裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6112,12 +5734,11 @@
             "rarity": 1
         },
         "trap_026_inverter": {
-            "": "改良型二踢脚",
             "name": "改良型二踢脚",
             "name_en": "Two-Step Firecracker mk2",
             "name_jp": "改良型爆竹",
             "name_kr": "개량형 양자폭죽",
-            "name_tw": "改良型二踢脚",
+            "name_tw": "改良型二踢腳",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6128,7 +5749,6 @@
             "rarity": 1
         },
         "trap_027_stone": {
-            "": "碎石",
             "name": "碎石",
             "name_en": "Rubble",
             "name_jp": "礫岩",
@@ -6144,12 +5764,11 @@
             "rarity": 1
         },
         "trap_028_cannon": {
-            "": "脉冲防御模组",
             "name": "脉冲防御模组",
             "name_en": "Pulse Defense Module",
             "name_jp": "衝撃防御モジュール",
             "name_kr": "펄스 방어 모듈",
-            "name_tw": "脉冲防御模组",
+            "name_tw": "脈衝防禦模組",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6160,12 +5779,11 @@
             "rarity": 1
         },
         "trap_029_poison": {
-            "": "催泪瓦斯控制阀",
             "name": "催泪瓦斯控制阀",
             "name_en": "Teargas Control Valve",
             "name_jp": "催涙ガス制御弁",
             "name_kr": "최루 가스 제어 밸브",
-            "name_tw": "催泪瓦斯控制阀",
+            "name_tw": "催淚瓦斯控制閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6176,12 +5794,11 @@
             "rarity": 1
         },
         "trap_030_factory": {
-            "": "无人机工厂",
             "name": "无人机工厂",
             "name_en": "Drone Factory",
             "name_jp": "ドローン工場",
             "name_kr": "드론 공장",
-            "name_tw": "无人机工厂",
+            "name_tw": "無人機工廠",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6192,12 +5809,11 @@
             "rarity": 1
         },
         "trap_031_sleep": {
-            "": "雪雉的安全起重机",
             "name": "雪雉的安全起重机",
             "name_en": "Snowsant's Safe Escape Crane",
             "name_jp": "スノーズントの安全クレーン",
             "name_kr": "스노우상트의 안전한 크레인",
-            "name_tw": "雪雉的安全起重机",
+            "name_tw": "雪雉的安全起重機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6208,12 +5824,11 @@
             "rarity": 1
         },
         "trap_032_mound": {
-            "": "土石结构",
             "name": "土石结构",
             "name_en": "Dirt Mound",
             "name_jp": "土石構造",
             "name_kr": "토석 구조물",
-            "name_tw": "土石结构",
+            "name_tw": "土石結構",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6224,12 +5839,11 @@
             "rarity": 1
         },
         "trap_033_sbomb": {
-            "": "高能源石炸弹",
             "name": "高能源石炸弹",
             "name_en": "High-Energy Originium Bomb",
             "name_jp": "高威力源石爆弾",
             "name_kr": "고에너지 오리지늄 폭탄",
-            "name_tw": "高能源石炸弹",
+            "name_tw": "高能源石炸彈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6240,12 +5854,11 @@
             "rarity": 1
         },
         "trap_034_machst": {
-            "": "加固装置",
             "name": "加固装置",
             "name_en": "Reinforcement Device",
             "name_jp": "補強装置",
             "name_kr": "강화재",
-            "name_tw": "加固装置",
+            "name_tw": "加固裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6256,7 +5869,6 @@
             "rarity": 1
         },
         "trap_035_emperor": {
-            "": "大帝",
             "name": "大帝",
             "name_en": "Emperor",
             "name_jp": "エンペラー",
@@ -6272,12 +5884,11 @@
             "rarity": 1
         },
         "trap_036_storm": {
-            "": "沙尘暴",
             "name": "沙尘暴",
             "name_en": "Sandstorm",
             "name_jp": "砂嵐",
             "name_kr": "모래 폭풍",
-            "name_tw": "沙尘暴",
+            "name_tw": "沙塵暴",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6288,12 +5899,11 @@
             "rarity": 1
         },
         "trap_037_airsup": {
-            "": "可移动战术机库",
             "name": "可移动战术机库",
             "name_en": "Mobile Tactical Hangar",
             "name_jp": "可動式戦術格納庫",
             "name_kr": "이동식 전술 격납고",
-            "name_tw": "可移动战术机库",
+            "name_tw": "可移動戰術機庫",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6304,12 +5914,11 @@
             "rarity": 1
         },
         "trap_038_dsbell": {
-            "": "应急救治设施",
             "name": "应急救治设施",
             "name_en": "Emergency Aid Building",
             "name_jp": "応急治療施設",
             "name_kr": "응급처치 시설",
-            "name_tw": "应急救治设施",
+            "name_tw": "應急救治設施",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6320,7 +5929,6 @@
             "rarity": 1
         },
         "trap_039_dstnta": {
-            "": "子代",
             "name": "子代",
             "name_en": "Offspring",
             "name_jp": "生まれしもの",
@@ -6336,12 +5944,11 @@
             "rarity": 1
         },
         "trap_040_canoe": {
-            "": "特制水上平台",
             "name": "特制水上平台",
             "name_en": "Custom Floating Platform",
             "name_jp": "特設ボート",
             "name_kr": "특제 수상 플랫폼",
-            "name_tw": "特制水上平台",
+            "name_tw": "特製水上平台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6352,12 +5959,11 @@
             "rarity": 1
         },
         "trap_041_fcanon": {
-            "": "风筝",
             "name": "风筝",
             "name_en": "Kite",
             "name_jp": "カイト",
             "name_kr": "연",
-            "name_tw": "风筝",
+            "name_tw": "風箏",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6368,12 +5974,11 @@
             "rarity": 1
         },
         "trap_042_tidectrl": {
-            "": "涨潮控制",
             "name": "涨潮控制",
             "name_en": "Tide Controller",
             "name_jp": "潮高制御装置",
             "name_kr": "밀물 제어 장치",
-            "name_tw": "涨潮控制",
+            "name_tw": "漲潮控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6384,7 +5989,6 @@
             "rarity": 1
         },
         "trap_043_dupilr": {
-            "": "破碎支柱",
             "name": "破碎支柱",
             "name_en": "Tattered Pillar",
             "name_jp": "脆い石柱",
@@ -6400,12 +6004,11 @@
             "rarity": 1
         },
         "trap_044_duruin": {
-            "": "战场废墟",
             "name": "战场废墟",
             "name_en": "Battlefield Ruins",
             "name_jp": "瓦礫",
             "name_kr": "전장의 폐허",
-            "name_tw": "战场废墟",
+            "name_tw": "戰場廢墟",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6416,12 +6019,11 @@
             "rarity": 1
         },
         "trap_045_dublst": {
-            "": "爆破装置",
             "name": "爆破装置",
             "name_en": "Demolition Device",
             "name_jp": "爆破装置",
             "name_kr": "폭파 장치",
-            "name_tw": "爆破装置",
+            "name_tw": "爆破裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6432,12 +6034,11 @@
             "rarity": 1
         },
         "trap_046_oxygen": {
-            "": "防水蚀镀膜装置",
             "name": "防水蚀镀膜装置",
             "name_en": "Erosion-Resistant Coating Application Device",
             "name_jp": "耐水蝕コーティング装置",
             "name_kr": "수식 방지 코팅 장치",
-            "name_tw": "防水蚀镀膜装置",
+            "name_tw": "防水蝕鍍膜裝置",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6448,7 +6049,6 @@
             "rarity": 1
         },
         "trap_048_neonlamp": {
-            "": "城市霓虹",
             "name": "城市霓虹",
             "name_en": "City Neon",
             "name_jp": "都市のネオン",
@@ -6464,12 +6064,11 @@
             "rarity": 1
         },
         "trap_049_candle": {
-            "": "骑士之徽",
             "name": "骑士之徽",
             "name_en": "Knight Crest",
             "name_jp": "騎士の紋章",
             "name_kr": "기사 훈장",
-            "name_tw": "骑士之徽",
+            "name_tw": "騎士之徽",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6480,12 +6079,11 @@
             "rarity": 1
         },
         "trap_050_blizzard": {
-            "": "暴风雪",
             "name": "暴风雪",
             "name_en": "Blizzard",
             "name_jp": "猛吹雪",
             "name_kr": "눈보라",
-            "name_tw": "暴风雪",
+            "name_tw": "暴風雪",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6496,12 +6094,11 @@
             "rarity": 1
         },
         "trap_051_vultres": {
-            "": "无主的财富",
             "name": "无主的财富",
             "name_en": "Unowned Treasure",
             "name_jp": "主なき財宝",
             "name_kr": "주인 없는 재화",
-            "name_tw": "无主的财富",
+            "name_tw": "無主的財富",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6512,12 +6109,11 @@
             "rarity": 1
         },
         "trap_052_slowfd": {
-            "": "失修舞台雾机",
             "name": "失修舞台雾机",
             "name_en": "Broken Fog Machine",
             "name_jp": "壊れたスモークマシン",
             "name_kr": "고장난 포그머신",
-            "name_tw": "失修舞台雾机",
+            "name_tw": "失修舞台霧機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6528,12 +6124,11 @@
             "rarity": 1
         },
         "trap_053_airbomb": {
-            "": "便携气罐",
             "name": "便携气罐",
             "name_en": "Gas Tank P.",
             "name_jp": "ガスボンベ",
             "name_kr": "휴대용 가스통",
-            "name_tw": "便携气罐",
+            "name_tw": "便攜氣罐",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6544,12 +6139,11 @@
             "rarity": 1
         },
         "trap_054_dancdol": {
-            "": "“报幕助手”",
             "name": "“报幕助手”",
             "name_en": "'Host's Assistant'",
             "name_jp": "「司会アシスタント」",
             "name_kr": "'호스트 어시스턴트'",
-            "name_tw": "“报幕助手”",
+            "name_tw": "“報幕助手”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6560,7 +6154,6 @@
             "rarity": 1
         },
         "trap_055_tileblock": {
-            "": "封印的地面",
             "name": "封印的地面",
             "name_en": "Sealed Floor",
             "name_jp": "封じられた地面",
@@ -6576,7 +6169,6 @@
             "rarity": 1
         },
         "trap_056_sfsuifire": {
-            "": "丹田",
             "name": "丹田",
             "name_en": "Dantian",
             "name_jp": "丹田",
@@ -6592,12 +6184,11 @@
             "rarity": 1
         },
         "trap_057_wpnsts": {
-            "": "“冰淇淋机”",
             "name": "“冰淇淋机”",
             "name_en": "'Gelato Stop'",
             "name_jp": "「ジェラート供給所」",
             "name_kr": "'젤라토 머신'",
-            "name_tw": "“冰淇淋机”",
+            "name_tw": "“冰淇淋機”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6608,12 +6199,11 @@
             "rarity": 1
         },
         "trap_058_gunctrl": {
-            "": "伦蒂尼姆城防副炮",
             "name": "伦蒂尼姆城防副炮",
             "name_en": "Londinium Secondary Defense Artillery",
             "name_jp": "ロンディニウム都市防衛副砲",
             "name_kr": "런디니움 수성 부포",
-            "name_tw": "伦蒂尼姆城防副炮",
+            "name_tw": "倫蒂尼姆城防副炮",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6624,12 +6214,11 @@
             "rarity": 1
         },
         "trap_059_peacokfool": {
-            "": "断罪者",
             "name": "断罪者",
             "name_en": "Conviction",
             "name_jp": "コンビクション",
             "name_kr": "컨빅션",
-            "name_tw": "断罪者",
+            "name_tw": "斷罪者",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6640,12 +6229,11 @@
             "rarity": 1
         },
         "trap_060_bouncy": {
-            "": "圣徒之手",
             "name": "圣徒之手",
             "name_en": "Hand of the Saint",
             "name_jp": "聖徒の御手",
             "name_kr": "성도의 손",
-            "name_tw": "圣徒之手",
+            "name_tw": "聖徒之手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6656,7 +6244,6 @@
             "rarity": 1
         },
         "trap_061_creep": {
-            "": "溟痕",
             "name": "溟痕",
             "name_en": "Nethersea Brand",
             "name_jp": "溟痕",
@@ -6672,12 +6259,11 @@
             "rarity": 1
         },
         "trap_062_magicstart": {
-            "": "“低音号”",
             "name": "“低音号”",
             "name_en": "'Tuba'",
             "name_jp": "「チューバ」",
             "name_kr": "'튜바'",
-            "name_tw": "“低音号”",
+            "name_tw": "“低音號”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6688,7 +6274,6 @@
             "rarity": 1
         },
         "trap_063_magicturn": {
-            "": "L-7 “回音壁”",
             "name": "L-7 “回音壁”",
             "name_en": "L-7 'Whisperer'",
             "name_jp": "L-7「ウィスパラー」",
@@ -6704,12 +6289,11 @@
             "rarity": 1
         },
         "trap_064_magiccircle": {
-            "": "“谐振器”",
             "name": "“谐振器”",
             "name_en": "'Resonator'",
             "name_jp": "「レゾネーター」",
             "name_kr": "'공명기'",
-            "name_tw": "“谐振器”",
+            "name_tw": "“諧振器”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6720,12 +6304,11 @@
             "rarity": 1
         },
         "trap_065_normbox": {
-            "": "宝箱",
             "name": "宝箱",
             "name_en": "Treasure Chest",
             "name_jp": "宝箱",
             "name_kr": "보물 상자",
-            "name_tw": "宝箱",
+            "name_tw": "寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6736,12 +6319,11 @@
             "rarity": 1
         },
         "trap_066_rarebox": {
-            "": "尖刺宝箱",
             "name": "尖刺宝箱",
             "name_en": "Spiked Treasure Chest",
             "name_jp": "トゲトゲ宝箱",
             "name_kr": "가시 돋은 보물 상자",
-            "name_tw": "尖刺宝箱",
+            "name_tw": "尖刺寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6752,7 +6334,6 @@
             "rarity": 1
         },
         "trap_067_dice": {
-            "": "骰子",
             "name": "骰子",
             "name_en": "Dice",
             "name_jp": "ダイス",
@@ -6768,12 +6349,11 @@
             "rarity": 1
         },
         "trap_068_badbox": {
-            "": "箱形恐鱼",
             "name": "箱形恐鱼",
             "name_en": "Chest Seaborn",
             "name_jp": "宝箱形恐魚",
             "name_kr": "상자 시테러",
-            "name_tw": "箱形恐鱼",
+            "name_tw": "箱形恐魚",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6784,12 +6364,11 @@
             "rarity": 1
         },
         "trap_069_buffcard": {
-            "": "战备激活阀",
             "name": "战备激活阀",
             "name_en": "Equipment Activation Valve",
             "name_jp": "装備起動用バルブ",
             "name_kr": "장비 활성화 밸브",
-            "name_tw": "战备激活阀",
+            "name_tw": "戰備啟動閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6800,12 +6379,11 @@
             "rarity": 1
         },
         "trap_070_supplycard": {
-            "": "预备区发讯器",
             "name": "预备区发讯器",
             "name_en": "Preparation Area Transmitter",
             "name_jp": "準備エリア送信機",
             "name_kr": "준비 구역 송신기",
-            "name_tw": "预备区发讯器",
+            "name_tw": "預備區發訊器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6816,12 +6394,11 @@
             "rarity": 1
         },
         "trap_071_recyclecard": {
-            "": "紧急召回情报箱",
             "name": "紧急召回情报箱",
             "name_en": "Emergency Recall Box",
             "name_jp": "緊急召還情報ボックス",
             "name_kr": "긴급 리콜 박스",
-            "name_tw": "紧急召回情报箱",
+            "name_tw": "緊急召回情報箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6832,12 +6409,11 @@
             "rarity": 1
         },
         "trap_072_revivecard": {
-            "": "休整区发讯器",
             "name": "休整区发讯器",
             "name_en": "Recuperation Area Transmitter",
             "name_jp": "休憩エリア送信機",
             "name_kr": "정비 구역 송신기",
-            "name_tw": "休整区发讯器",
+            "name_tw": "休整區發訊器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6848,7 +6424,6 @@
             "rarity": 1
         },
         "trap_073_btauntcard": {
-            "": "污染晶石",
             "name": "污染晶石",
             "name_en": "Contaminated Mineral",
             "name_jp": "汚染晶石",
@@ -6864,12 +6439,11 @@
             "rarity": 1
         },
         "trap_074_bbombcard": {
-            "": "聚热晶簇",
             "name": "聚热晶簇",
             "name_en": "Heat Cluster",
             "name_jp": "集熱晶洞",
             "name_kr": "열 클러스터",
-            "name_tw": "聚热晶簇",
+            "name_tw": "聚熱晶簇",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6880,12 +6454,11 @@
             "rarity": 1
         },
         "trap_075_bgarmn": {
-            "": "R-31重型动力装甲",
             "name": "R-31重型动力装甲",
             "name_en": "R-31 Heavy Power Armor",
             "name_jp": "R-31大型パワードスーツ",
             "name_kr": "R-31 중형 기동 장갑",
-            "name_tw": "R-31重型动力装甲",
+            "name_tw": "R-31重型動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6896,12 +6469,11 @@
             "rarity": 1
         },
         "trap_076_bgarms": {
-            "": "R-31a重型动力装甲",
             "name": "R-31a重型动力装甲",
             "name_en": "R-31a Heavy Power Armor",
             "name_jp": "R-31a大型パワードスーツ",
             "name_kr": "R-31a 중형 기동 장갑",
-            "name_tw": "R-31a重型动力装甲",
+            "name_tw": "R-31a重型動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6912,12 +6484,11 @@
             "rarity": 1
         },
         "trap_077_rmtarmn": {
-            "": "R-11突击动力装甲",
             "name": "R-11突击动力装甲",
             "name_en": "R-11 Assault Power Armor",
             "name_jp": "R-11突撃型パワードスーツ",
             "name_kr": "R-11 돌격 기동 장갑",
-            "name_tw": "R-11突击动力装甲",
+            "name_tw": "R-11突擊動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6928,12 +6499,11 @@
             "rarity": 1
         },
         "trap_078_rmtarms": {
-            "": "R-11a突击动力装甲",
             "name": "R-11a突击动力装甲",
             "name_en": "R-11a Assault Power Armor",
             "name_jp": "R-11a突撃型パワードスーツ",
             "name_kr": "R-11a 돌격 기동 장갑",
-            "name_tw": "R-11a突击动力装甲",
+            "name_tw": "R-11a突擊動力裝甲",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6944,12 +6514,11 @@
             "rarity": 1
         },
         "trap_079_allydonq": {
-            "": "猎潮的骑士",
             "name": "猎潮的骑士",
             "name_en": "Tide-Hunt Knight",
             "name_jp": "猟潮の騎士",
             "name_kr": "파도 사냥의 기사",
-            "name_tw": "猎潮的骑士",
+            "name_tw": "獵潮的騎士",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -6960,12 +6529,11 @@
             "rarity": 1
         },
         "trap_080_garage": {
-            "": "自走车出发点",
             "name": "自走车出发点",
             "name_en": "Self-Driving Cart Launchpoint",
             "name_jp": "セルカースターター",
             "name_kr": "자율차 출발점",
-            "name_tw": "自走车出发点",
+            "name_tw": "自走車出發點",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6976,12 +6544,11 @@
             "rarity": 1
         },
         "trap_081_turngear": {
-            "": "自走车单行道",
             "name": "自走车单行道",
             "name_en": "Self-Driving Cart One-Way Road",
             "name_jp": "ターンテーブル",
             "name_kr": "자율차 트랙",
-            "name_tw": "自走车单行道",
+            "name_tw": "自走車單行道",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6992,12 +6559,11 @@
             "rarity": 1
         },
         "trap_082_salecard": {
-            "": "改派发讯器",
             "name": "改派发讯器",
             "name_en": "Reassignment Transmitter",
             "name_jp": "再配置送信機",
             "name_kr": "재파견 송신기",
-            "name_tw": "改派发讯器",
+            "name_tw": "改派發訊器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7008,12 +6574,11 @@
             "rarity": 1
         },
         "trap_083_bunker": {
-            "": "掩体",
             "name": "掩体",
             "name_en": "Barrier",
             "name_jp": "掩体",
             "name_kr": "엄폐물",
-            "name_tw": "掩体",
+            "name_tw": "掩體",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7024,7 +6589,6 @@
             "rarity": 1
         },
         "trap_084_aidkit": {
-            "": "急救包",
             "name": "急救包",
             "name_en": "First-aid Kit",
             "name_jp": "救急バッグ",
@@ -7040,12 +6604,11 @@
             "rarity": 1
         },
         "trap_085_paras": {
-            "": "荧光孢子",
             "name": "荧光孢子",
             "name_en": "Fluorescent Spores",
             "name_jp": "蛍光胞子",
             "name_kr": "형광 포자",
-            "name_tw": "荧光孢子",
+            "name_tw": "螢光孢子",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7056,12 +6619,11 @@
             "rarity": 1
         },
         "trap_086_larva": {
-            "": "“汲营枯枝” ",
             "name": "“汲营枯枝” ",
             "name_en": "'Twigs That Crave'",
             "name_jp": "「渇欲の枯枝」 ",
             "name_kr": "'부식된 고목'",
-            "name_tw": "“汲营枯枝” ",
+            "name_tw": "“汲營枯枝”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7072,12 +6634,11 @@
             "rarity": 1
         },
         "trap_087_allady": {
-            "": "阿勒黛的卫护",
             "name": "阿勒黛的卫护",
             "name_en": "Allerdale's Guard",
             "name_jp": "アラデルの衛護",
             "name_kr": "알레데일의 가호",
-            "name_tw": "阿勒黛的卫护",
+            "name_tw": "阿勒黛的衛護",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7088,7 +6649,6 @@
             "rarity": 1
         },
         "trap_088_dice2": {
-            "": "8面骰子",
             "name": "8面骰子",
             "name_en": "8-Sided Dice",
             "name_jp": "8面ダイス",
@@ -7104,7 +6664,6 @@
             "rarity": 1
         },
         "trap_089_dice3": {
-            "": "12面骰子",
             "name": "12面骰子",
             "name_en": "12-Sided Dice",
             "name_jp": "12面ダイス",
@@ -7120,12 +6679,11 @@
             "rarity": 1
         },
         "trap_090_recodr": {
-            "": "实体程式",
             "name": "实体程式",
             "name_en": "Entitative Program",
             "name_jp": "実体プログラム",
             "name_kr": "실체화 모듈",
-            "name_tw": "实体程式",
+            "name_tw": "實體程式",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7136,12 +6694,11 @@
             "rarity": 1
         },
         "trap_091_brctrl": {
-            "": "实体程式控制",
             "name": "实体程式控制",
             "name_en": "Entitative Program Controller",
             "name_jp": "実体プログラム制御",
             "name_kr": "실체화 모듈 제어",
-            "name_tw": "实体程式控制",
+            "name_tw": "實體程式控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7152,12 +6709,11 @@
             "rarity": 1
         },
         "trap_092_vgctrl": {
-            "": "复仇黑手",
             "name": "复仇黑手",
             "name_en": "Vengeful Mafioso",
             "name_jp": "報復の爪痕",
             "name_kr": "벤데타",
-            "name_tw": "复仇黑手",
+            "name_tw": "復仇黑手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7168,12 +6724,11 @@
             "rarity": 1
         },
         "trap_093_tbattbc": {
-            "": "钳兽壳粉",
             "name": "钳兽壳粉",
             "name_en": "Gloompincer Shell Meal",
             "name_jp": "鉗獣殻パウダー",
             "name_kr": "글룸핀서 파우더",
-            "name_tw": "钳兽壳粉",
+            "name_tw": "鉗獸殼粉",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7184,7 +6739,6 @@
             "rarity": 1
         },
         "trap_094_tbpsnc": {
-            "": "高效泡打粉",
             "name": "高效泡打粉",
             "name_en": "High-Efficiency Baking Powder",
             "name_jp": "ベーキングパウダー",
@@ -7200,7 +6754,6 @@
             "rarity": 1
         },
         "trap_095_tbsmmc": {
-            "": "芳香精油",
             "name": "芳香精油",
             "name_en": "Fragrant Essential Oil",
             "name_jp": "エッセンシャルオイル",
@@ -7216,7 +6769,6 @@
             "rarity": 1
         },
         "trap_096_gflag": {
-            "": "山海密语仪",
             "name": "山海密语仪",
             "name_en": "Shanhaizhong Cipher Machine",
             "name_jp": "山海密令柱",
@@ -7232,7 +6784,6 @@
             "rarity": 1
         },
         "trap_097_hstone": {
-            "": "城防路障",
             "name": "城防路障",
             "name_en": "Roadblocks",
             "name_jp": "都市防衛柵",
@@ -7248,12 +6799,11 @@
             "rarity": 1
         },
         "trap_098_mire": {
-            "": "沼泽控制",
             "name": "沼泽控制",
             "name_en": "Mire Control",
             "name_jp": "沼地制御",
             "name_kr": "늪지대 제어",
-            "name_tw": "沼泽控制",
+            "name_tw": "沼澤控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7264,7 +6814,6 @@
             "rarity": 1
         },
         "trap_099_mhflsb": {
-            "": "眩光手雷",
             "name": "眩光手雷",
             "name_en": "Flash Grenade",
             "name_jp": "閃光爆弾",
@@ -7280,7 +6829,6 @@
             "rarity": 1
         },
         "trap_100_mhlbmb": {
-            "": "高能源石爆桶",
             "name": "高能源石爆桶",
             "name_en": "High-Energy Originium Barrel Bomb",
             "name_jp": "源石タル爆弾",
@@ -7296,7 +6844,6 @@
             "rarity": 1
         },
         "trap_101_mhshok": {
-            "": "高压脉冲诡雷",
             "name": "高压脉冲诡雷",
             "name_en": "High-Voltage Shock Trap",
             "name_jp": "高電圧シビレ罠",
@@ -7312,7 +6859,6 @@
             "rarity": 1
         },
         "trap_102_mhwrbg": {
-            "": "滞空牵引无人机",
             "name": "滞空牵引无人机",
             "name_en": "Wiredrone",
             "name_jp": "滞空牽引ドローン",
@@ -7328,7 +6874,6 @@
             "rarity": 1
         },
         "trap_103_ymdgct": {
-            "": "地形增伤控制",
             "name": "地形增伤控制",
             "name_en": "Mire Controller",
             "name_jp": "地形ダメージ制御",
@@ -7344,7 +6889,6 @@
             "rarity": 1
         },
         "trap_104_dplant": {
-            "": "改性植物激素",
             "name": "改性植物激素",
             "name_en": "Modified Phytohormone",
             "name_jp": "改良型植物ホルモン",
@@ -7360,7 +6904,6 @@
             "rarity": 1
         },
         "trap_105_mhwrct": {
-            "": "滞空牵引无人机",
             "name": "滞空牵引无人机",
             "name_en": "Wiredrone",
             "name_jp": "滞空牽引ドローン",
@@ -7376,7 +6919,6 @@
             "rarity": 1
         },
         "trap_106_smtree": {
-            "": "积雪银凇 ",
             "name": "积雪银凇 ",
             "name_en": "积雪银凇 ",
             "name_jp": "积雪银凇 ",
@@ -7392,7 +6934,6 @@
             "rarity": 1
         },
         "trap_107_smpow": {
-            "": "空间稳定设施",
             "name": "空间稳定设施",
             "name_en": "空间稳定设施",
             "name_jp": "空间稳定设施",
@@ -7408,7 +6949,6 @@
             "rarity": 1
         },
         "trap_108_smbox": {
-            "": "宝箱",
             "name": "宝箱",
             "name_en": "宝箱",
             "name_jp": "宝箱",
@@ -7424,7 +6964,6 @@
             "rarity": 1
         },
         "trap_109_smrbox": {
-            "": "尖刺宝箱",
             "name": "尖刺宝箱",
             "name_en": "尖刺宝箱",
             "name_jp": "尖刺宝箱",
@@ -7440,7 +6979,6 @@
             "rarity": 1
         },
         "trap_110_smbbox": {
-            "": "巨壳藤蔓",
             "name": "巨壳藤蔓",
             "name_en": "巨壳藤蔓",
             "name_jp": "巨壳藤蔓",
@@ -7456,7 +6994,6 @@
             "rarity": 1
         },
         "trap_111_wdfarm": {
-            "": "街头应急储备",
             "name": "街头应急储备",
             "name_en": "Roadside Emergency Reserves",
             "name_jp": "街の緊急用備蓄",
@@ -7472,7 +7009,6 @@
             "rarity": 1
         },
         "trap_112_crsbow": {
-            "": "解雇者清债程序",
             "name": "解雇者清债程序",
             "name_en": "Post-Firing Debt Relief Program",
             "name_jp": "解雇者清算プログラム",
@@ -7488,7 +7024,6 @@
             "rarity": 1
         },
         "trap_113_snflwr": {
-            "": "全自动划账器",
             "name": "全自动划账器",
             "name_en": "Full-Auto Debit Machine",
             "name_jp": "全自動送金機",
@@ -7504,7 +7039,6 @@
             "rarity": 1
         },
         "trap_114_smkbmb": {
-            "": "爆裂毒气罐",
             "name": "爆裂毒气罐",
             "name_en": "Rupturing Canister",
             "name_jp": "毒ガスタンク",
@@ -7520,7 +7054,6 @@
             "rarity": 1
         },
         "trap_115_gasctrl": {
-            "": "毒雾塔控制",
             "name": "毒雾塔控制",
             "name_en": "Gas Controller",
             "name_jp": "毒霧タワー制御装置",
@@ -7536,7 +7069,6 @@
             "rarity": 1
         },
         "trap_116_stdurk": {
-            "": "“过去的我”",
             "name": "“过去的我”",
             "name_en": "“过去的我”",
             "name_jp": "“过去的我”",
@@ -7552,7 +7084,6 @@
             "rarity": 1
         },
         "trap_117_ltstat": {
-            "": "圣像",
             "name": "圣像",
             "name_en": "圣像",
             "name_jp": "圣像",
@@ -7568,7 +7099,6 @@
             "rarity": 1
         },
         "trap_118_rockfl": {
-            "": "塌落的墙垣",
             "name": "塌落的墙垣",
             "name_en": "塌落的墙垣",
             "name_jp": "塌落的墙垣",
@@ -7584,7 +7114,6 @@
             "rarity": 1
         },
         "trap_119_rdrepair": {
-            "": "备用木材",
             "name": "备用木材",
             "name_en": "备用木材",
             "name_jp": "备用木材",
@@ -7600,7 +7129,6 @@
             "rarity": 1
         },
         "trap_120_rdblock": {
-            "": "破旧的木篱",
             "name": "破旧的木篱",
             "name_en": "破旧的木篱",
             "name_jp": "破旧的木篱",
@@ -7616,7 +7144,6 @@
             "rarity": 1
         },
         "trap_121_gractrl": {
-            "": "重力",
             "name": "重力",
             "name_en": "Gravity",
             "name_jp": "重力",
@@ -7632,7 +7159,6 @@
             "rarity": 1
         },
         "trap_122_stmpq": {
-            "": "景观喷泉",
             "name": "景观喷泉",
             "name_en": "景观喷泉",
             "name_jp": "景观喷泉",
@@ -7648,7 +7174,6 @@
             "rarity": 1
         },
         "trap_123_stmbot": {
-            "": "水汽汽水瓶",
             "name": "水汽汽水瓶",
             "name_en": "水汽汽水瓶",
             "name_jp": "水汽汽水瓶",
@@ -7664,7 +7189,6 @@
             "rarity": 1
         },
         "trap_124_eradio": {
-            "": "废热喷口",
             "name": "废热喷口",
             "name_en": "废热喷口",
             "name_jp": "废热喷口",
@@ -7680,7 +7204,6 @@
             "rarity": 1
         },
         "trap_125_bonore": {
-            "": "唤血祭坛",
             "name": "唤血祭坛",
             "name_en": "唤血祭坛",
             "name_jp": "唤血祭坛",
@@ -7696,7 +7219,6 @@
             "rarity": 1
         },
         "trap_126_outset": {
-            "": "炸弹载荷点",
             "name": "炸弹载荷点",
             "name_en": "炸弹载荷点",
             "name_jp": "炸弹载荷点",
@@ -7712,7 +7234,6 @@
             "rarity": 1
         },
         "trap_127_bldore": {
-            "": "沥血王座",
             "name": "沥血王座",
             "name_en": "沥血王座",
             "name_jp": "沥血王座",
@@ -7728,7 +7249,6 @@
             "rarity": 1
         },
         "trap_128_toolore": {
-            "": "祭坛式雷达",
             "name": "祭坛式雷达",
             "name_en": "祭坛式雷达",
             "name_jp": "祭坛式雷达",
@@ -7744,7 +7264,6 @@
             "rarity": 1
         },
         "trap_129_tooltower": {
-            "": "R-45便携式“留声机”",
             "name": "R-45便携式“留声机”",
             "name_en": "R-45便携式“留声机”",
             "name_jp": "R-45便携式“留声机”",
@@ -7760,7 +7279,6 @@
             "rarity": 1
         },
         "trap_130_tooltree": {
-            "": "景观巨蕈",
             "name": "景观巨蕈",
             "name_en": "景观巨蕈",
             "name_jp": "景观巨蕈",
@@ -7776,7 +7294,6 @@
             "rarity": 1
         },
         "trap_131_toolgun": {
-            "": "战场装置LUD-99X",
             "name": "战场装置LUD-99X",
             "name_en": "战场装置LUD-99X",
             "name_jp": "战场装置LUD-99X",
@@ -7792,7 +7309,6 @@
             "rarity": 1
         },
         "trap_132_toolinvert": {
-            "": "“二踢脚”型数据收集装置",
             "name": "“二踢脚”型数据收集装置",
             "name_en": "“二踢脚”型数据收集装置",
             "name_jp": "“二踢脚”型数据收集装置",
@@ -7808,7 +7324,6 @@
             "rarity": 1
         },
         "trap_133_toolgarage": {
-            "": "勘察用自走车",
             "name": "勘察用自走车",
             "name_en": "勘察用自走车",
             "name_jp": "勘察用自走车",
@@ -7824,7 +7339,6 @@
             "rarity": 1
         },
         "trap_134_condtr": {
-            "": "调谐节点",
             "name": "调谐节点",
             "name_en": "调谐节点",
             "name_jp": "调谐节点",
@@ -7840,7 +7354,6 @@
             "rarity": 1
         },
         "trap_135_portlent": {
-            "": "湮灭之相",
             "name": "湮灭之相",
             "name_en": "湮灭之相",
             "name_jp": "湮灭之相",
@@ -7856,7 +7369,6 @@
             "rarity": 1
         },
         "trap_136_portlexi": {
-            "": "创生之相",
             "name": "创生之相",
             "name_en": "创生之相",
             "name_jp": "创生之相",
@@ -7872,7 +7384,6 @@
             "rarity": 1
         },
         "trap_400_xbfarm": {
-            "": "便携式种植槽",
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
             "name_jp": "栽培ポット",
@@ -7888,7 +7399,6 @@
             "rarity": 1
         },
         "trap_401_xbfato": {
-            "": "采集实习站",
             "name": "采集实习站",
             "name_en": "Basic Gathering Hub",
             "name_jp": "採取ロボ用基地",
@@ -7904,7 +7414,6 @@
             "rarity": 1
         },
         "trap_403_wfactory": {
-            "": "蟹蟹抽水泵",
             "name": "蟹蟹抽水泵",
             "name_en": "Crabbie Pumpie",
             "name_jp": "カニカニポンプ",
@@ -7920,7 +7429,6 @@
             "rarity": 1
         },
         "trap_404_xbfortress": {
-            "": "坚固筑台",
             "name": "坚固筑台",
             "name_en": "Firm Platform",
             "name_jp": "堅牢な台",
@@ -7936,7 +7444,6 @@
             "rarity": 1
         },
         "trap_405_xbroadblock": {
-            "": "都市风壁障",
             "name": "都市风壁障",
             "name_en": "Urban Style Barrier",
             "name_jp": "都市様式障壁",
@@ -7952,7 +7459,6 @@
             "rarity": 1
         },
         "trap_406_xboverwatch": {
-            "": "监控塔",
             "name": "监控塔",
             "name_en": "Monitoring Tower",
             "name_jp": "監視塔",
@@ -7968,7 +7474,6 @@
             "rarity": 1
         },
         "trap_408_xbbase": {
-            "": "基地",
             "name": "基地",
             "name_en": "Base",
             "name_jp": "基地",
@@ -7984,7 +7489,6 @@
             "rarity": 1
         },
         "trap_409_xbwood": {
-            "": "杂木林",
             "name": "杂木林",
             "name_en": "Thickets",
             "name_jp": "雑木林",
@@ -8000,7 +7504,6 @@
             "rarity": 1
         },
         "trap_410_xbstone": {
-            "": "巨大岩石",
             "name": "巨大岩石",
             "name_en": "Monoliths",
             "name_jp": "巨大な岩",
@@ -8016,7 +7519,6 @@
             "rarity": 1
         },
         "trap_411_xbiron": {
-            "": "奇异矿脉",
             "name": "奇异矿脉",
             "name_en": "Strange Ore Vein",
             "name_jp": "レアな鉱脈",
@@ -8032,7 +7534,6 @@
             "rarity": 1
         },
         "trap_412_redtower": {
-            "": "移动战塔",
             "name": "移动战塔",
             "name_en": "Mobile Battle Tower",
             "name_jp": "可動式戦術塔",
@@ -8048,7 +7549,6 @@
             "rarity": 1
         },
         "trap_413_hiddenstone": {
-            "": "遗迹残骸",
             "name": "遗迹残骸",
             "name_en": "Historical Remains",
             "name_jp": "遺跡の残骸",
@@ -8064,7 +7564,6 @@
             "rarity": 1
         },
         "trap_414_vegetation": {
-            "": "灌木丛",
             "name": "灌木丛",
             "name_en": "Bush",
             "name_jp": "茂み",
@@ -8080,7 +7579,6 @@
             "rarity": 1
         },
         "trap_415_trademan": {
-            "": "联络员",
             "name": "联络员",
             "name_en": "Liaison",
             "name_jp": "連絡員",
@@ -8096,7 +7594,6 @@
             "rarity": 1
         },
         "trap_416_gtreasure": {
-            "": "埋没金属箱",
             "name": "埋没金属箱",
             "name_en": "Buried Metal Chest",
             "name_jp": "埋もれた金属の箱",
@@ -8112,7 +7609,6 @@
             "rarity": 1
         },
         "trap_417_shielder": {
-            "": "护盾遥控器",
             "name": "护盾遥控器",
             "name_en": "Remote Shield Generator",
             "name_jp": "シールドリモコン",
@@ -8128,7 +7624,6 @@
             "rarity": 1
         },
         "trap_418_smokebomb": {
-            "": "安眠迷香",
             "name": "安眠迷香",
             "name_en": "Hypnotic Censer",
             "name_jp": "安眠のお香",
@@ -8144,7 +7639,6 @@
             "rarity": 1
         },
         "trap_419_enhancer": {
-            "": "醒神秘药",
             "name": "醒神秘药",
             "name_en": "Refreshing Potion",
             "name_jp": "覚醒の秘薬",
@@ -8160,7 +7654,6 @@
             "rarity": 1
         },
         "trap_420_umbrella": {
-            "": "反侦察藏匿机",
             "name": "反侦察藏匿机",
             "name_en": "Camouflage Device",
             "name_jp": "隠密支援用マシン",
@@ -8176,7 +7669,6 @@
             "rarity": 1
         },
         "trap_421_repairman": {
-            "": "应急修理车",
             "name": "应急修理车",
             "name_en": "Emergency Repair Vehicle",
             "name_jp": "緊急修理車両",
@@ -8192,7 +7684,6 @@
             "rarity": 1
         },
         "trap_422_streasure": {
-            "": "宝刺金属箱",
             "name": "宝刺金属箱",
             "name_en": "Thorned Treasure Chest",
             "name_jp": "棘の生えた金属の箱",
@@ -8208,7 +7699,6 @@
             "rarity": 1
         },
         "trap_423_bondtw": {
-            "": "缚网发射台",
             "name": "缚网发射台",
             "name_en": "Trap Net Launcher",
             "name_jp": "捕縛網発射台",
@@ -8224,7 +7714,6 @@
             "rarity": 1
         },
         "trap_424_pushtw": {
-            "": "喷拒器",
             "name": "喷拒器",
             "name_en": "Gas Jet Thrower",
             "name_jp": "噴射式強制移動機",
@@ -8240,7 +7729,6 @@
             "rarity": 1
         },
         "trap_425_xbwall": {
-            "": "防御工事",
             "name": "防御工事",
             "name_en": "Fortification",
             "name_jp": "防御施設",
@@ -8256,7 +7744,6 @@
             "rarity": 1
         },
         "trap_426_xbmrcl": {
-            "": "模块演算设施",
             "name": "模块演算设施",
             "name_en": "Modular Computing Station",
             "name_jp": "モジュラー演算所",
@@ -8272,7 +7759,6 @@
             "rarity": 1
         },
         "trap_427_xbprsh": {
-            "": "资源规划站",
             "name": "资源规划站",
             "name_en": "Resource Planning Station",
             "name_jp": "資源計画所",
@@ -8288,7 +7774,6 @@
             "rarity": 1
         },
         "trap_428_xblrsh": {
-            "": "备勤激活站",
             "name": "备勤激活站",
             "name_en": "Combat Readiness Station",
             "name_jp": "戦闘計画所",
@@ -8304,7 +7789,6 @@
             "rarity": 1
         },
         "trap_429_xbescp": {
-            "": "跨地块通讯站",
             "name": "跨地块通讯站",
             "name_en": "Transregional Communication Station",
             "name_jp": "越境通信所",
@@ -8320,7 +7804,6 @@
             "rarity": 1
         },
         "trap_430_wdescp": {
-            "": "逃脱点",
             "name": "逃脱点",
             "name_en": "Escape Route",
             "name_jp": "脱出地点",
@@ -8336,7 +7819,6 @@
             "rarity": 1
         },
         "trap_431_xbgldn": {
-            "": "冶铸台",
             "name": "冶铸台",
             "name_en": "Mint",
             "name_jp": "金床",
@@ -8352,7 +7834,6 @@
             "rarity": 1
         },
         "trap_432_oldisin": {
-            "": "老伊辛",
             "name": "老伊辛",
             "name_en": "Old Isin",
             "name_jp": "イシン",
@@ -8368,7 +7849,6 @@
             "rarity": 1
         },
         "trap_433_sandsdr": {
-            "": "“沙卒”",
             "name": "“沙卒”",
             "name_en": "'Sand Soldier'",
             "name_jp": "「サンドソルジャー」",
@@ -8384,7 +7864,6 @@
             "rarity": 1
         },
         "trap_434_klmantc": {
-            "": "曼提柯杀手",
             "name": "曼提柯杀手",
             "name_en": "Manticore Killer",
             "name_jp": "殺し屋のマンティコア",
@@ -8400,7 +7879,6 @@
             "rarity": 1
         },
         "trap_435_trsrhuntr": {
-            "": "寻宝人",
             "name": "寻宝人",
             "name_en": "Treasure Hunter",
             "name_jp": "トレジャーハンター",
@@ -8416,7 +7894,6 @@
             "rarity": 1
         },
         "trap_437_poachr": {
-            "": "老练猎手",
             "name": "老练猎手",
             "name_en": "Veteran Hunter",
             "name_jp": "手練れのハンター",
@@ -8432,7 +7909,6 @@
             "rarity": 1
         },
         "trap_438_xbfato2": {
-            "": "采集专员站",
             "name": "采集专员站",
             "name_en": "Advanced Gathering Hub",
             "name_jp": "スーパー採取ロボ用基地",
@@ -8448,7 +7924,6 @@
             "rarity": 1
         },
         "trap_439_xbfato3": {
-            "": "采集主任站",
             "name": "采集主任站",
             "name_en": "Executive Gathering Hub",
             "name_jp": "ハイパー採取ロボ用基地",
@@ -8464,12 +7939,11 @@
             "rarity": 1
         },
         "trap_700_cdabyss": {
-            "": "阿戈尔示波器",
             "name": "阿戈尔示波器",
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8480,12 +7954,11 @@
             "rarity": 1
         },
         "trap_701_cdabyssa": {
-            "": "阿戈尔示波器",
             "name": "阿戈尔示波器",
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8496,12 +7969,11 @@
             "rarity": 1
         },
         "trap_702_cdabyssb": {
-            "": "阿戈尔示波器",
             "name": "阿戈尔示波器",
             "name_en": "Ægirian Oscilloscope",
             "name_jp": "エーギル式振波計",
             "name_kr": "에기르 오실로스코프",
-            "name_tw": "阿戈尔示波器",
+            "name_tw": "阿戈爾示波器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8512,12 +7984,11 @@
             "rarity": 1
         },
         "trap_703_cdcredit": {
-            "": "自适应补给元件",
             "name": "自适应补给元件",
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8528,12 +7999,11 @@
             "rarity": 1
         },
         "trap_704_cdcredita": {
-            "": "自适应补给元件",
             "name": "自适应补给元件",
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8544,12 +8014,11 @@
             "rarity": 1
         },
         "trap_705_cdcreditb": {
-            "": "自适应补给元件",
             "name": "自适应补给元件",
             "name_en": "Adaptive Supply Component",
             "name_jp": "多機能補給デバイス",
             "name_kr": "다목적 공급장치",
-            "name_tw": "自适应补给元件",
+            "name_tw": "自適應補給元件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8560,12 +8029,11 @@
             "rarity": 1
         },
         "trap_706_cdshield": {
-            "": "镀膜装置导能阀",
             "name": "镀膜装置导能阀",
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
-            "name_tw": "镀膜装置导能阀",
+            "name_tw": "鍍膜裝置導能閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8576,12 +8044,11 @@
             "rarity": 1
         },
         "trap_707_cdshielda": {
-            "": "重整导能组件",
             "name": "重整导能组件",
             "name_en": "Redeployment Conduction Component",
             "name_jp": "再稼働コンポーネント",
             "name_kr": "에너지 재정비 유닛",
-            "name_tw": "重整导能组件",
+            "name_tw": "重整導能組件",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8592,12 +8059,11 @@
             "rarity": 1
         },
         "trap_708_cdshieldb": {
-            "": "镀膜装置导能阀",
             "name": "镀膜装置导能阀",
             "name_en": "Coating Device Conduction Valve",
             "name_jp": "コーティングデバイス",
             "name_kr": "코팅 장치 전도 밸브",
-            "name_tw": "镀膜装置导能阀",
+            "name_tw": "鍍膜裝置導能閥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8608,12 +8074,11 @@
             "rarity": 1
         },
         "trap_709_cdbeacon": {
-            "": "丛林用示踪信标",
             "name": "丛林用示踪信标",
             "name_en": "Eunectes' Beacon",
             "name_jp": "ジャングル用追跡ビーコン",
             "name_kr": "정글용 추적 비콘",
-            "name_tw": "丛林用示踪信标",
+            "name_tw": "叢林用示蹤信標",
             "position": "MELEE",
             "profession": "TRAP",
             "rangeId": [
@@ -8624,12 +8089,11 @@
             "rarity": 1
         },
         "trap_710_cdbeacona": {
-            "": "阻断波长",
             "name": "阻断波长",
             "name_en": "Block Wavelength",
             "name_jp": "遮断電波",
             "name_kr": "차단 파장",
-            "name_tw": "阻断波长",
+            "name_tw": "阻斷波長",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8640,12 +8104,11 @@
             "rarity": 1
         },
         "trap_711_cdbeaconb": {
-            "": "干扰波长",
             "name": "干扰波长",
             "name_en": "Jam Wavelength",
             "name_jp": "妨害電波",
             "name_kr": "간섭 파장",
-            "name_tw": "干扰波长",
+            "name_tw": "干擾波長",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8656,12 +8119,11 @@
             "rarity": 1
         },
         "trap_712_cdhvrk": {
-            "": "超重绝缘水泥",
             "name": "超重绝缘水泥",
             "name_en": "Heavy Insulated Concrete",
             "name_jp": "超過重絶縁セメント",
             "name_kr": "과중 단열 시멘트",
-            "name_tw": "超重绝缘水泥",
+            "name_tw": "超重絕緣水泥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8672,12 +8134,11 @@
             "rarity": 1
         },
         "trap_713_cdflsb": {
-            "": "劣质闪光弹",
             "name": "劣质闪光弹",
             "name_en": "Shoddy Flashbang",
             "name_jp": "粗悪なスタングレネード",
             "name_kr": "불량 섬광탄",
-            "name_tw": "劣质闪光弹",
+            "name_tw": "劣質閃光彈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8688,7 +8149,6 @@
             "rarity": 1
         },
         "trap_714_cdaltar": {
-            "": "能量扰动放大器",
             "name": "能量扰动放大器",
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
@@ -8704,7 +8164,6 @@
             "rarity": 1
         },
         "trap_715_cdaltara": {
-            "": "能量扰动放大器",
             "name": "能量扰动放大器",
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
@@ -8720,7 +8179,6 @@
             "rarity": 1
         },
         "trap_716_cdaltarb": {
-            "": "能量扰动放大器",
             "name": "能量扰动放大器",
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
@@ -8736,7 +8194,6 @@
             "rarity": 1
         },
         "trap_717_cddiff": {
-            "": "战术装备整理箱",
             "name": "战术装备整理箱",
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
@@ -8752,7 +8209,6 @@
             "rarity": 1
         },
         "trap_718_cddiffa": {
-            "": "战术装备整理箱",
             "name": "战术装备整理箱",
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
@@ -8768,7 +8224,6 @@
             "rarity": 1
         },
         "trap_719_cddiffb": {
-            "": "战术装备整理箱",
             "name": "战术装备整理箱",
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
@@ -8784,7 +8239,6 @@
             "rarity": 1
         },
         "trap_720_cdheal": {
-            "": "便携式医疗设备",
             "name": "便携式医疗设备",
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
@@ -8800,7 +8254,6 @@
             "rarity": 1
         },
         "trap_721_cdheala": {
-            "": "便携式医疗设备",
             "name": "便携式医疗设备",
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
@@ -8816,7 +8269,6 @@
             "rarity": 1
         },
         "trap_722_cdhealb": {
-            "": "便携式医疗设备",
             "name": "便携式医疗设备",
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
@@ -8832,7 +8284,6 @@
             "rarity": 1
         },
         "trap_723_cdcvrt": {
-            "": "溢能回收转化器",
             "name": "溢能回收转化器",
             "name_en": "溢能回收转化器",
             "name_jp": "溢能回收转化器",
@@ -8848,7 +8299,6 @@
             "rarity": 1
         },
         "trap_724_cdcvrta": {
-            "": "溢能回收转化器",
             "name": "溢能回收转化器",
             "name_en": "溢能回收转化器",
             "name_jp": "溢能回收转化器",
@@ -8864,7 +8314,6 @@
             "rarity": 1
         },
         "trap_725_cdcvrtb": {
-            "": "溢能回收转化器",
             "name": "溢能回收转化器",
             "name_en": "溢能回收转化器",
             "name_jp": "溢能回收转化器",
@@ -8880,7 +8329,6 @@
             "rarity": 1
         },
         "trap_726_cdrone": {
-            "": "战地援护无人机",
             "name": "战地援护无人机",
             "name_en": "战地援护无人机",
             "name_jp": "战地援护无人机",
@@ -8896,7 +8344,6 @@
             "rarity": 1
         },
         "trap_727_cdronea": {
-            "": "战地援护无人机",
             "name": "战地援护无人机",
             "name_en": "战地援护无人机",
             "name_jp": "战地援护无人机",
@@ -8912,7 +8359,6 @@
             "rarity": 1
         },
         "trap_728_cdroneb": {
-            "": "战地援护无人机",
             "name": "战地援护无人机",
             "name_en": "战地援护无人机",
             "name_jp": "战地援护无人机",
@@ -8928,7 +8374,6 @@
             "rarity": 1
         },
         "trap_729_cdkzmr": {
-            "": "竞技记录分析仪",
             "name": "竞技记录分析仪",
             "name_en": "竞技记录分析仪",
             "name_jp": "竞技记录分析仪",
@@ -8944,7 +8389,6 @@
             "rarity": 1
         },
         "trap_730_truamr": {
-            "": "“甜蜜狂搅”",
             "name": "“甜蜜狂搅”",
             "name_en": "“甜蜜狂搅”",
             "name_jp": "“甜蜜狂搅”",
@@ -8960,7 +8404,6 @@
             "rarity": 1
         },
         "trap_732_ltnova": {
-            "": "神经再生",
             "name": "神经再生",
             "name_en": "神经再生",
             "name_jp": "神经再生",
@@ -8976,7 +8419,6 @@
             "rarity": 1
         },
         "trap_733_cdkzmra": {
-            "": "竞技记录分析仪",
             "name": "竞技记录分析仪",
             "name_en": "竞技记录分析仪",
             "name_jp": "竞技记录分析仪",
@@ -8992,7 +8434,6 @@
             "rarity": 1
         },
         "trap_734_cdkzmrb": {
-            "": "竞技记录分析仪",
             "name": "竞技记录分析仪",
             "name_en": "竞技记录分析仪",
             "name_jp": "竞技记录分析仪",
@@ -9008,7 +8449,6 @@
             "rarity": 1
         },
         "trap_735_platre": {
-            "": "汲取体",
             "name": "汲取体",
             "name_en": "汲取体",
             "name_jp": "汲取体",
