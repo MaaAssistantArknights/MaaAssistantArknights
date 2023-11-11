@@ -73,8 +73,9 @@ int main([[maybe_unused]] int argc, char** argv)
 
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
-    //std::string arkntool_token = argv[1];
-    //std::cout << "\n" << arkntool_token << "\n";
+    
+    std::string arkntool_token = argv[1];
+    std::cout << "\n\n" << arkntool_token << "\n\n";
 
     auto solution_dir = cur_path;
     for (int i = 0; i != 10; ++i) {
