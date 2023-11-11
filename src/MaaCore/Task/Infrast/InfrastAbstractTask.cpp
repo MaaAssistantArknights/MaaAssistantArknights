@@ -303,6 +303,11 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         pre_partial_result = partial_result;
         swipe_of_operlist();
         ++swipe_times;
+        // 最后一页会触底反弹，先糊个屎避免一下
+        // 总不能有成体系的干员了还没160个人吧）
+        if(swipe_times > 20) {
+            sleep(1500);
+        }
     }
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
