@@ -38,13 +38,14 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
 
     OCRer ocr_analyzer;
     if (m_normalize) {
-        ocr_analyzer.set_roi(new_roi);
+        auto new_image = make_roi(m_image, new_roi);
+        cv::normalize(new_image, new_image, 255.0, 0.0, cv::NormTypes::NORM_MINMAX);
+        ocr_analyzer.set_image(new_image);
     }
     else {
-        auto new_image = make_roi(m_image, new_roi);
-        cv::normalize(new_image, m_image, 255.0, 0.0, cv::NormTypes::NORM_MINMAX);
+        ocr_analyzer.set_roi(new_roi);
+        ocr_analyzer.set_image(m_image);
     }
-    ocr_analyzer.set_image(m_image);
     auto config = m_params;
     config.without_det = true;
     ocr_analyzer.set_params(std::move(config));
