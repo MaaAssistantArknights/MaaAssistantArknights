@@ -635,6 +635,11 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
     if (loop_times < 0) {
         loop_times = operlist_swipe_times();
     }
+    // 如果大于10，说明选择了排在很后面或者干脆不是这个站的技能的角色，例如加工站放红脸小车
+    // 连续快速的滑动可能会丢失滑动距离，干脆多滑几次
+    if (loop_times > 10) {
+        loop_times = 2 * loop_times;
+    }
     for (int i = 0; i < loop_times; ++i) {
         ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();
     }
