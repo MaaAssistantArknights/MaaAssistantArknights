@@ -110,12 +110,12 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-    //std::cout << "------- Clone arknights-toolbox-update for Taiwan -------" << std::endl;
-    //if (!clone_update_repo(overseas_data_dir / "zh_TW" / "gamedata" / "excel",
-    //                       "https://" + arkntool_token + "@github.com/arkntools/arknights-toolbox-update.git",
-    //                       "data-tw")) {
-    //    return -1;
-    //}
+    std::cout << "------- Clone arknights-toolbox-update for Taiwan -------" << std::endl;
+    if (!clone_update_repo(overseas_data_dir / "zh_TW" / "gamedata" / "excel",
+                           "https://" + arkntool_token + "@github.com/arkntools/arknights-toolbox-update.git",
+                           "data-tw")) {
+        return -1;
+    }
 
     /* Update levels.json from ArknightsGameResource */
     std::cout << "------- Update levels.json for Official -------" << std::endl;
