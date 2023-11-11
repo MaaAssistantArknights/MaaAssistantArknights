@@ -669,7 +669,9 @@
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1117,6 +1119,8 @@
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
     <ClCompile Include="Controller\MaaThriftController.h" />
-    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
