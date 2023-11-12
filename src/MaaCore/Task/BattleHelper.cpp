@@ -691,7 +691,7 @@ void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width,
     };
 
     if (auto point_distance = Point::distance(adjust, { 0, 0 }); point_distance > max_distance) {
-        adjust = adjust = {
+        adjust = {
             static_cast<int>(adjust.x * max_distance / point_distance),
             static_cast<int>(adjust.y * max_distance / point_distance),
         };
