@@ -12,5 +12,4 @@
         "MaaDeps/vcpkg/packages": true
     },
     "C_Cpp.exclusionPolicy": "checkFilesAndFolders",
-    "cmake.configureOnOpen": false
 }
