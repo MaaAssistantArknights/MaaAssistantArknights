@@ -692,8 +692,8 @@ void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width,
         static_cast<int>(std::get<1>(adjust_scale) / adjust_more * distance),
     };
 
-    if (auto distance = Point::distance(adjust, { 0, 0 }); distance > max_distance) {
-        adjust = adjust * static_cast<int>(max_distance / distance);
+    if (auto point_distance = Point::distance(adjust, { 0, 0 }); point_distance > max_distance) {
+        adjust = adjust * static_cast<int>(max_distance / point_distance);
     }
 
     Log.info(__FUNCTION__, "swipe end_point out of limit, start:", p1, ", end:", p2, ", adjust:", adjust);
