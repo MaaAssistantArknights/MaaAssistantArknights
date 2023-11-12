@@ -11,5 +11,6 @@
         "MaaDeps/vcpkg/buildtrees": true,
         "MaaDeps/vcpkg/packages": true
     },
-    "C_Cpp.exclusionPolicy": "checkFilesAndFolders"
+    "C_Cpp.exclusionPolicy": "checkFilesAndFolders",
+    "cmake.configureOnOpen": false
 }
