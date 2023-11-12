@@ -602,7 +602,7 @@
     <system:String x:Key="CombatDps">关卡: 普通作战</system:String>
     <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
-    <system:String x:Key="RoguelikeEvent">肉鸽事件:</system:String>
+    <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="CurTimes">当前次数</system:String>
     <system:String x:Key="NoDrop">无</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
