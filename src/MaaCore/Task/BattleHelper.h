@@ -62,7 +62,7 @@ namespace asst
         bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
         // 修正终点超出范围的滑动，纠正时是否需要顺时针旋转
-        void fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, double radian = 0);
+        void fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, int max_distance = INT_MAX, double radian = 0);
         bool move_camera(const std::pair<double, double>& delta);
 
         std::string analyze_detail_page_oper_name(const cv::Mat& image);
