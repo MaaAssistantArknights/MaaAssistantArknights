@@ -237,7 +237,7 @@ namespace MaaWpfGui.Models
                 if (sRet == UpdateResult.Failed)
                 {
                     OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
-                    ret = UpdateResult.Failed;
+                    return UpdateResult.Failed;
                 }
 
                 OutputDownloadProgress(2, ++count, maxCount);
@@ -280,26 +280,19 @@ namespace MaaWpfGui.Models
                          .Where(file => !string.IsNullOrEmpty(file))
                          .Where(file => !File.Exists(Path.Combine(Environment.CurrentDirectory, file))))
             {
-                try
+                await Task.Delay(1000);
+
+                var sRet = await UpdateFileWithETag(baseUrl, file, file);
+                if (sRet == UpdateResult.Failed)
                 {
-                    await Task.Delay(1000);
-
-                    var sRet = await UpdateFileWithETag(baseUrl, file, file);
-                    if (sRet == UpdateResult.Failed)
-                    {
-                        OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
-                        return UpdateResult.Failed;
-                    }
-
-                    OutputDownloadProgress(1, ++count, maxCount);
-                    if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
-                    {
-                        ret = UpdateResult.Success;
-                    }
+                    OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
+                    return UpdateResult.Failed;
                 }
-                catch (Exception)
+
+                OutputDownloadProgress(1, ++count, maxCount);
+                if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
                 {
-                    // ignore
+                    ret = UpdateResult.Success;
                 }
             }
 
