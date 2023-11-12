@@ -1,11 +1,7 @@
 #include "SanityBeforeStagePlugin.h"
 
-#include <meojson/json.hpp>
-
-#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
-#include "Utils/NoWarningCV.h"
 #include "Utils/StringMisc.hpp"
 #include "Vision/RegionOCRer.h"
 
@@ -31,29 +27,16 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
 
 bool asst::SanityBeforeStagePlugin::_run()
 {
-    int retry = 0;
-    while (!need_exit() && retry < 3) {
-        if (get_sanity_before_stage() || retry >= 3) {
-            break;
-        }
-        ++retry;
-        Log.warn(__FUNCTION__, "Sanity ocr failed, retry:", retry);
-        sleep(Config.get_options().task_delay);
-    }
-
-    return true;
+    return get_sanity_before_stage();
 }
 
 bool asst::SanityBeforeStagePlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
-    const static auto task = Task.get<OcrTaskInfo>("SanityMatch");
-    auto img = make_roi(ctrler()->get_image(), task->roi);
-    cv::normalize(img, img, 255.0, 0.0, cv::NormTypes::NORM_MINMAX);
-
-    RegionOCRer analyzer(img);
-    analyzer.set_replace(task->replace_map);
+    RegionOCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info("SanityMatch");
+    analyzer.set_bin_threshold(0, 255);
     auto res_opt = analyzer.analyze();
 
     json::value sanity_info = basic_info_with_what("SanityBeforeStage");
