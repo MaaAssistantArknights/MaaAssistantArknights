@@ -321,10 +321,8 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
             static_cast<int>(swipe_oper_task_ptr->special_params.at(0) * scale_size.second / 720.0);
         Point end_point = target_point + (direction_target * coeff);
 
-        // 经粗略测算，方向区域倾斜大概是 1/5
-        const static auto radian = -std::atan(0.2);
         fix_swipe_out_of_limit(target_point, end_point, scale_size.first, scale_size.second,
-                               swipe_oper_task_ptr->special_params.at(1), radian);
+                               swipe_oper_task_ptr->special_params.at(1));
 
         m_inst_helper.sleep(use_oper_task_ptr->post_delay);
         m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
@@ -693,7 +691,10 @@ void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width,
     };
 
     if (auto point_distance = Point::distance(adjust, { 0, 0 }); point_distance > max_distance) {
-        adjust = adjust * static_cast<int>(max_distance / point_distance);
+        adjust = adjust = {
+            static_cast<int>(adjust.x * max_distance / point_distance),
+            static_cast<int>(adjust.y * max_distance / point_distance),
+        };
     }
 
     Log.info(__FUNCTION__, "swipe end_point out of limit, start:", p1, ", end:", p2, ", adjust:", adjust);
