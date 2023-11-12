@@ -602,7 +602,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
-    <system:String x:Key="RoguelikeEvent">ローグライクイベント:</system:String>
+    <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
