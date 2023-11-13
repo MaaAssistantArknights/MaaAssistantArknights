@@ -303,6 +303,11 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         pre_partial_result = partial_result;
         swipe_of_operlist();
         ++swipe_times;
+        // 最后一页会触底反弹，先糊个屎避免一下
+        // 总不能有成体系的干员了还没160个人吧）
+        if(swipe_times > 20) {
+            sleep(1500);
+        }
     }
 
     // 先按任意其他的tab排序，游戏会自动把已经选中的人放到最前面
@@ -634,6 +639,11 @@ void asst::InfrastAbstractTask::swipe_to_the_left_of_operlist(int loop_times)
 {
     if (loop_times < 0) {
         loop_times = operlist_swipe_times();
+    }
+    // 如果大于10，说明选择了排在很后面或者干脆不是这个站的技能的角色，例如加工站放红脸小车
+    // 连续快速的滑动可能会丢失滑动距离，干脆多滑几次
+    if (loop_times > 10) {
+        loop_times = static_cast<int>(1.2 * loop_times) + 1;
     }
     for (int i = 0; i < loop_times; ++i) {
         ProcessTask(*this, { "InfrastOperListSwipeToTheLeft" }).run();

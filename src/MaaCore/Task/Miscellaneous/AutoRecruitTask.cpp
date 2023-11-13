@@ -327,7 +327,7 @@ bool asst::AutoRecruitTask::recruit_one(const Rect& button)
 
     if (need_exit()) return false;
 
-    if (true) {
+    if (!confirm()) {
         Log.info("Failed to confirm current recruit config.");
         click_return_button();
         return false;

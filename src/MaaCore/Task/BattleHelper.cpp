@@ -287,7 +287,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         Log.error("No loc", loc);
         return false;
     }
-    const Point& target_point = target_iter->second.pos;
+    Point target_point = target_iter->second.pos;
 
     int dist = static_cast<int>(
         Point::distance(target_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
@@ -295,32 +295,38 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
     // 时间太短了的压根放不上去，故意加长一点
-    if (int min_duration = swipe_oper_task_ptr->special_params.at(3); duration < min_duration) {
+    if (int min_duration = swipe_oper_task_ptr->special_params.at(4); duration < min_duration) {
         duration = min_duration;
     }
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
-    m_inst_helper.ctrler()->swipe(oper_point, target_point, duration, false, swipe_oper_task_ptr->special_params.at(1),
-                                  swipe_oper_task_ptr->special_params.at(2), deploy_with_pause);
+    m_inst_helper.ctrler()->swipe(oper_point, target_point, duration, false, swipe_oper_task_ptr->special_params.at(2),
+                                  swipe_oper_task_ptr->special_params.at(3), deploy_with_pause);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {
         static const std::unordered_map<DeployDirection, Point> DirectionMap = {
-            { DeployDirection::Right, Point(1, 0) }, { DeployDirection::Down, Point(0, 1) },
-            { DeployDirection::Left, Point(-1, 0) }, { DeployDirection::Up, Point(0, -1) },
-            { DeployDirection::None, Point(0, 0) },
+            { DeployDirection::Right, Point::right() }, { DeployDirection::Down, Point::down() },
+            { DeployDirection::Left, Point::left() },   { DeployDirection::Up, Point::up() },
+            { DeployDirection::None, Point::zero() },
         };
 
         // 计算往哪边拖动
         const Point& direction_target = DirectionMap.at(direction);
 
-        // 将方向转换为实际的 swipe end 坐标点
-        static const int coeff = swipe_oper_task_ptr->special_params.at(0);
+        // 将方向转换为实际的 swipe end 坐标点，并对滑动距离进行缩放
+        const auto scale_size = m_inst_helper.ctrler()->get_scale_size();
+        static const int coeff =
+            static_cast<int>(swipe_oper_task_ptr->special_params.at(0) * scale_size.second / 720.0);
         Point end_point = target_point + (direction_target * coeff);
+
+        fix_swipe_out_of_limit(target_point, end_point, scale_size.first, scale_size.second,
+                               swipe_oper_task_ptr->special_params.at(1));
 
         m_inst_helper.sleep(use_oper_task_ptr->post_delay);
         m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
+        // 仅简单复用，该延迟含义与此处逻辑无关 by MistEO
         m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
     }
 
@@ -640,6 +646,60 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
 bool asst::BattleHelper::cancel_oper_selection()
 {
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
+}
+
+void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, int max_distance,
+                                                double radian)
+{
+    Point direct = Point::zero();
+    int distance = 0;
+    if (p2.y > height) {
+        // 下边界超限
+        direct = Point::up();
+        distance = p2.y - height;
+    }
+    else if (p2.x > width) {
+        // 右边界超限
+        direct = Point::left();
+        distance = p2.x - width;
+    }
+    else if (p2.y < 0) {
+        // 上边界超限
+        direct = Point::down();
+        distance = -p2.y;
+    }
+    else if (p2.x < 0) {
+        // 左边界超限
+        direct = Point::right();
+        distance = -p2.x;
+    }
+    else {
+        return;
+    }
+
+    std::tuple<double, double> adjust_scale = {
+        direct.x * std::cos(radian) - direct.y * std::sin(radian),
+        direct.y * std::cos(radian) + direct.x * std::sin(radian),
+    };
+
+    // 旋转后偏移值会不够，计算补偿比例
+    double adjust_more = std::get<0>(adjust_scale) * direct.x + std::get<1>(adjust_scale) * direct.y;
+
+    Point adjust = {
+        static_cast<int>(std::get<0>(adjust_scale) / adjust_more * distance),
+        static_cast<int>(std::get<1>(adjust_scale) / adjust_more * distance),
+    };
+
+    if (auto point_distance = Point::distance(adjust, { 0, 0 }); point_distance > max_distance) {
+        adjust = {
+            static_cast<int>(adjust.x * max_distance / point_distance),
+            static_cast<int>(adjust.y * max_distance / point_distance),
+        };
+    }
+
+    Log.info(__FUNCTION__, "swipe end_point out of limit, start:", p1, ", end:", p2, ", adjust:", adjust);
+    p1 += adjust;
+    p2 += adjust;
 }
 
 bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)

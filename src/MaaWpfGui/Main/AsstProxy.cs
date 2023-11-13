@@ -978,6 +978,11 @@ namespace MaaWpfGui.Main
                         foreach (var item in statistics)
                         {
                             string itemName = item["itemName"]?.ToString();
+                            if (itemName == "furni")
+                            {
+                                itemName = LocalizationHelper.GetString("FurnitureDrop");
+                            }
+
                             int totalQuantity = (int)item["quantity"];
                             int addQuantity = (int)item["addQuantity"];
 
@@ -2022,9 +2027,10 @@ namespace MaaWpfGui.Main
         /// <param name="isAdverse">是不是突袭</param>
         /// <param name="type">任务类型</param>
         /// <param name="loopTimes">任务重复执行次数</param>
+        /// <param name="useSanityPotion">是否使用理智药</param>
         /// <param name="asstStart">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool asstStart = true)
+        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool useSanityPotion, bool asstStart = true)
         {
             var taskParams = new JObject
             {
@@ -2037,6 +2043,7 @@ namespace MaaWpfGui.Main
                 ["navigate_name"] = navigateName,
                 ["is_adverse"] = isAdverse,
                 ["loop_times"] = loopTimes,
+                ["use_sanity_potion"] = useSanityPotion,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, taskParams);
             _latestTaskId[TaskType.Copilot] = id;

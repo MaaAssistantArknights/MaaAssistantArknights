@@ -1,13 +1,12 @@
 #pragma once
-#include "RoguelikeConfig.h"
-#include "Task/AbstractTaskPlugin.h"
+#include "AbstractRoguelikeTaskPlugin.h"
 
 namespace asst
 {
-    class RoguelikeFoldartalUseTaskPlugin : public AbstractTaskPlugin, public RoguelikeConfig
+    class RoguelikeFoldartalUseTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        using AbstractTaskPlugin::AbstractTaskPlugin;
+        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeFoldartalUseTaskPlugin() override = default;
 
     public:
