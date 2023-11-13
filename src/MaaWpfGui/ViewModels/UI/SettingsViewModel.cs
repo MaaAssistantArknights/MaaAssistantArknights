@@ -2289,6 +2289,36 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _enablePenguin = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable penguin upload.
+        /// </summary>
+        public bool EnablePenguin
+        {
+            get => _enablePenguin;
+            set
+            {
+                SetAndNotify(ref _enablePenguin, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EnablePenguin, value.ToString());
+            }
+        }
+
+        private bool _enableYituliu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to enable yituliu upload.
+        /// </summary>
+        public bool EnableYituliu
+        {
+            get => _enableYituliu;
+            set
+            {
+                SetAndNotify(ref _enableYituliu, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EnableYituliu, value.ToString());
+            }
+        }
+
         private bool _isDrGrandet = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsDrGrandet, bool.FalseString));
 
         /// <summary>
@@ -3388,36 +3418,6 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 Instances.TaskQueueViewModel.UpdateStageList(true);
-            }
-        }
-
-        private bool _enablePenguin = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to hide unavailable stages.
-        /// </summary>
-        public bool EnablePenguin
-        {
-            get => _enablePenguin;
-            set
-            {
-                SetAndNotify(ref _enablePenguin, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EnablePenguin, value.ToString());
-            }
-        }
-
-        private bool _enableYituliu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, bool.TrueString));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether to hide unavailable stages.
-        /// </summary>
-        public bool EnableYituliu
-        {
-            get => _enableYituliu;
-            set
-            {
-                SetAndNotify(ref _enableYituliu, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.EnableYituliu, value.ToString());
             }
         }
 
