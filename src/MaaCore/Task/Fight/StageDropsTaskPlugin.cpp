@@ -58,6 +58,12 @@ bool asst::StageDropsTaskPlugin::set_penguin_id(std::string id)
     return true;
 }
 
+bool asst::StageDropsTaskPlugin::set_enable_yituliu(bool enable)
+{
+    m_enable_yituliu = enable;
+    return true;
+}
+
 bool asst::StageDropsTaskPlugin::set_server(std::string server)
 {
     m_server = std::move(server);
@@ -95,9 +101,10 @@ bool asst::StageDropsTaskPlugin::_run()
         if (!upload_to_penguin()) {
             save_img(utils::path("debug") / utils::path("drops"));
         }
-        else {
-            upload_to_yituliu();
-        }
+    }
+
+    if (m_enable_yituliu && !m_is_annihilation) {
+        upload_to_yituliu();
     }
 
     return true;

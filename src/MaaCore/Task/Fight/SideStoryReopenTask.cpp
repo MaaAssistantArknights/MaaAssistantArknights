@@ -43,6 +43,12 @@ bool asst::SideStoryReopenTask::set_penguin_id(std::string id)
     m_penguin_id = std::move(id);
     return true;
 }
+bool asst::SideStoryReopenTask::set_enable_yituliu(bool enable)
+{
+    // 暂时没用上，其他地方加了这里也加一个
+    m_enable_yituliu = enable;
+    return true;
+}
 bool asst::SideStoryReopenTask::_run()
 {
     LogTraceFunction;
@@ -191,6 +197,7 @@ bool asst::SideStoryReopenTask::fight(bool use_medicine, bool use_stone)
     auto plugin = fight_task.register_plugin<StageQueueMissionCompletedPlugin>();
     plugin->set_drop_stats(std::move(m_drop_stats));
     plugin->set_enable_penguin(m_enable_penguin);
+    plugin->set_enable_yituliu(m_enable_yituliu);
     plugin->set_server(m_server);
     plugin->set_penguin_id(m_penguin_id);
     auto result = fight_task.run();

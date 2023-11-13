@@ -19,6 +19,8 @@ namespace asst
         bool set_penguin_id(std::string id);
         bool set_server(std::string server);
 
+        bool set_enable_yituliu(bool enable);
+
     private:
         virtual bool _run() override;
         // 判断如果处于普通关页面，直接短路导航
@@ -45,6 +47,8 @@ namespace asst
         bool m_enable_penguin = false;
         std::string m_penguin_id;
         std::string m_server = "CN";
+        // 一图流上报用
+        bool m_enable_yituliu = false;
     };
 
 }

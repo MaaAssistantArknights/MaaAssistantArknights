@@ -29,6 +29,8 @@ namespace asst
         bool set_server(std::string server);
         bool set_specify_quantity(std::unordered_map<std::string, int> quantity);
 
+        bool set_enable_yituliu(bool enable);
+
     private:
         virtual bool _run() override;
 
@@ -64,6 +66,7 @@ namespace asst
         std::shared_ptr<ReportDataTask> m_report_yituliu_task_ptr = nullptr;
         bool m_enable_penguin = false;
         std::string m_penguin_id;
+        bool m_enable_yituliu = false;
         std::string m_server = "CN";
         std::unordered_map<std::string, int> m_specify_quantity;
     };

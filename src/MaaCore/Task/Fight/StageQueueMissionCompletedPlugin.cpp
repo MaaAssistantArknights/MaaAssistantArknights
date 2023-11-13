@@ -143,6 +143,12 @@ bool asst::StageQueueMissionCompletedPlugin::set_penguin_id(std::string id)
     m_penguin_id = std::move(id);
     return true;
 }
+bool asst::StageQueueMissionCompletedPlugin::set_enable_yituliu(bool enable)
+{
+    // 暂时没用上，其他地方加了这里也加一个
+    m_enable_yituliu = enable;
+    return true;
+}
 void asst::StageQueueMissionCompletedPlugin::upload_to_penguin(std::string stage_code, int stars)
 {
     LogTraceFunction;
