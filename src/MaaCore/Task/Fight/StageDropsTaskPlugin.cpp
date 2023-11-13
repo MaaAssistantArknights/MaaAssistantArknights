@@ -46,9 +46,9 @@ void asst::StageDropsTaskPlugin::set_task_ptr(AbstractTask* ptr)
     m_cast_ptr = dynamic_cast<ProcessTask*>(ptr);
 }
 
-bool asst::StageDropsTaskPlugin::set_enable_penguid(bool enable)
+bool asst::StageDropsTaskPlugin::set_enable_penguin(bool enable)
 {
-    m_enable_penguid = enable;
+    m_enable_penguin = enable;
     return true;
 }
 
@@ -91,7 +91,7 @@ bool asst::StageDropsTaskPlugin::_run()
         stop_task();
     }
 
-    if (m_enable_penguid && !m_is_annihilation) {
+    if (m_enable_penguin && !m_is_annihilation) {
         if (!upload_to_penguin()) {
             save_img(utils::path("debug") / utils::path("drops"));
         }

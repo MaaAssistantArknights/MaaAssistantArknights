@@ -24,7 +24,7 @@ namespace asst
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
         virtual void set_task_ptr(AbstractTask* ptr) override;
 
-        bool set_enable_penguid(bool enable);
+        bool set_enable_penguin(bool enable);
         bool set_penguin_id(std::string id);
         bool set_server(std::string server);
         bool set_specify_quantity(std::unordered_map<std::string, int> quantity);
@@ -62,7 +62,7 @@ namespace asst
         ProcessTask* m_cast_ptr = nullptr;
         std::shared_ptr<ReportDataTask> m_report_penguin_task_ptr = nullptr;
         std::shared_ptr<ReportDataTask> m_report_yituliu_task_ptr = nullptr;
-        bool m_enable_penguid = false;
+        bool m_enable_penguin = false;
         std::string m_penguin_id;
         std::string m_server = "CN";
         std::unordered_map<std::string, int> m_specify_quantity;
