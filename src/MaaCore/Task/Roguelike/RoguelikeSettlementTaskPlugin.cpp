@@ -32,7 +32,10 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     json_msg["details"]["game_pass"] = m_game_pass;
 
     sleep(task->special_params[0]);
-    save_img(utils::path("achievement") / utils::path("roguelike"));
+
+    if (m_game_pass) {
+        save_img(utils::path("achievement") / utils::path("roguelike"));
+    }
 
     const static auto rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
     ctrler()->click(rect);
@@ -41,10 +44,13 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     cv::Mat image;
     if (!wait_for_whole_page(image)) {
         Log.error(__FUNCTION__, "wait for whole page failed");
+        save_img(utils::path("debug") / utils::path("roguelike"));
         return true;
     }
-    save_img(utils::path("achievement") / utils::path("roguelike"));
 
+    if (m_game_pass) {
+        save_img(utils::path("achievement") / utils::path("roguelike"));
+    }
     get_settlement_info(json_msg, image);
     callback(AsstMsg::SubTaskExtraInfo, json_msg);
     return true;
