@@ -77,7 +77,8 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
 
     auto analyze_text_data = [&](const std::string& task_name) {
         RegionOCRer ocr(image);
-        ocr.set_task_info(task_name);
+        ocr.set_task_info(m_config->get_theme() + "@" + task_name);
+        ocr.set_bin_threshold(50, 255);
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
             return;
@@ -92,9 +93,12 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
                                    "RoguelikeSettlementOcr-Combat",   "RoguelikeSettlementOcr-Recruit",
                                    "RoguelikeSettlementOcr-Object",   "RoguelikeSettlementOcr-BOSS",
                                    "RoguelikeSettlementOcr-Emergency" };
-    static const auto text_task_name =
+    static auto text_task_name =
         std::vector<std::string> { "RoguelikeSettlementOcr-Difficulty", "RoguelikeSettlementOcr-Score",
                                    "RoguelikeSettlementOcr-Exp", "RoguelikeSettlementOcr-Skill" };
+    if (m_config->get_theme() == "Phantom") {
+        text_task_name.pop_back();
+    }
 
     ranges::for_each(battle_task_name, analyze_battle_data);
     ranges::for_each(text_task_name, analyze_text_data);
