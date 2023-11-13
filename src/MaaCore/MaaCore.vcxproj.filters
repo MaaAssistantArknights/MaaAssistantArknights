@@ -675,6 +675,9 @@
     <ClInclude Include="Task\Fight\FightTimesPlugin.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -1126,6 +1129,9 @@
     </ClCompile>
     <ClCompile Include="Task\Fight\FightTimesPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>

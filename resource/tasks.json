@@ -11007,7 +11007,7 @@
         ]
     },
     "Roguelike@GamePass": {
-        "Doc": "base_task",
+        "Doc": "base_task, 注册了RoguelikeSettlement插件用于存储结算图",
         "template": "empty.png",
         "cache": false,
         "roi": [
@@ -11069,6 +11069,122 @@
         ],
         "next": [
             "Roguelike@GamePass"
+        ]
+    },
+    "RoguelikeSettlementConfirm": {
+        "preDelayDoc": "结算界面Part2检测是否加载完成的延迟，减少截图消耗",
+        "preDelay": 6000,
+        "roi": [
+            600,
+            610,
+            80,
+            80
+        ],
+        "specialParamsDoc": [
+            "结算界面Part1等待加载完的延迟"
+        ],
+        "specialParams": [
+            2000
+        ]
+    },
+    "RoguelikeSettlementOcr-Floor": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            132,
+            170,
+            70,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Step": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            132,
+            238,
+            70,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Combat": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            132,
+            304,
+            70,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Recruit": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            132,
+            374,
+            70,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Object": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            705,
+            170,
+            70,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-BOSS": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            705,
+            238,
+            70,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Emergency": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            705,
+            304,
+            70,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Difficulty": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false,
+        "roi": [
+            750,
+            370,
+            120,
+            35
+        ]
+    },
+    "RoguelikeSettlementOcr-Score": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            280,
+            525,
+            160,
+            55
+        ]
+    },
+    "RoguelikeSettlementOcr-Exp": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            667,
+            525,
+            140,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Skill": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            950,
+            530,
+            60,
+            40
         ]
     },
     "Roguelike@GetDrop": {
@@ -11411,7 +11527,7 @@
         ]
     },
     "Roguelike@MissionFailedFlag2": {
-        "Doc": "base_task",
+        "Doc": "base_task, 注册了RoguelikeSettlement插件用于存储结算图",
         "template": "empty.png",
         "cache": false,
         "roi": [
