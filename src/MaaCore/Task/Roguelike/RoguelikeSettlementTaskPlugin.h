@@ -13,7 +13,7 @@ namespace asst
     private:
         virtual bool _run() override;
         bool get_settlement_info(json::value& info, const cv::Mat& image);
-        bool wait_for_whole_page(cv::Mat& image);
+        bool wait_for_whole_page();
 
         mutable bool m_game_pass = false;
     };
