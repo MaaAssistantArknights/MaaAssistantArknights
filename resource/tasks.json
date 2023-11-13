@@ -11090,63 +11090,63 @@
     "RoguelikeSettlementOcr-Floor": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            132,
+            102,
             170,
-            70,
+            100,
             40
         ]
     },
     "RoguelikeSettlementOcr-Step": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            132,
+            102,
             238,
-            70,
+            100,
             40
         ]
     },
     "RoguelikeSettlementOcr-Combat": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            132,
+            102,
             304,
-            70,
+            100,
             40
         ]
     },
     "RoguelikeSettlementOcr-Recruit": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            132,
+            102,
             374,
-            70,
+            100,
             40
         ]
     },
     "RoguelikeSettlementOcr-Object": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            705,
+            680,
             170,
-            70,
+            95,
             40
         ]
     },
     "RoguelikeSettlementOcr-BOSS": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            705,
+            680,
             238,
-            70,
+            95,
             40
         ]
     },
     "RoguelikeSettlementOcr-Emergency": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            705,
+            680,
             304,
-            70,
+            95,
             40
         ]
     },
@@ -11155,9 +11155,9 @@
         "isAscii": false,
         "roi": [
             750,
-            370,
+            372,
             120,
-            35
+            31
         ]
     },
     "RoguelikeSettlementOcr-Score": {
@@ -11172,18 +11172,34 @@
     "RoguelikeSettlementOcr-Exp": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            667,
+            643,
             525,
-            140,
+            160,
             40
         ]
     },
     "RoguelikeSettlementOcr-Skill": {
         "baseTask": "NumberOcrReplace",
         "roi": [
-            950,
+            920,
             530,
-            60,
+            100,
+            40
+        ]
+    },
+    "Phantom@RoguelikeSettlementOcr-Score": {
+        "roi": [
+            460,
+            525,
+            160,
+            55
+        ]
+    },
+    "Phantom@RoguelikeSettlementOcr-Exp": {
+        "roi": [
+            760,
+            525,
+            160,
             40
         ]
     },
