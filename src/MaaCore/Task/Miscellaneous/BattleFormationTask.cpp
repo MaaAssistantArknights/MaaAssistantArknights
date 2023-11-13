@@ -267,7 +267,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
                 return std::abs(pre.flag_rect.x - res.flag_rect.x) < kMinDistance &&
                        std::abs(pre.flag_rect.y - res.flag_rect.y) < kMinDistance;
             });
-            if (find_it != opers_result.end()) {
+            if (find_it != opers_result.end() || res.text.empty()) {
                 continue;
             }
             opers_result.emplace_back(std::move(res));

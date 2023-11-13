@@ -1,6 +1,10 @@
 #include "RoguelikeConfig.h"
 
-void asst::RoguelikeConfig::set_roguelike_theme(std::string roguelike_theme)
-{
-    m_roguelike_theme = std::move(roguelike_theme);
+void asst::RoguelikeConfig::clear() {
+    m_recruitment_count = 0;
+    m_recruitment_starts_complete = false;
+    m_recruitment_team_complete = false;
+    m_trader_no_longer_buy = false;
+    m_core_char = std::string();
+    m_team_full_without_rookie = false;
 }

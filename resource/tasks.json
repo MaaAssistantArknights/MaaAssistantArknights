@@ -4321,11 +4321,43 @@
             150
         ],
         "cache": false,
-        "postDelay": 1000,
+        "postDelay": 500,
+        "reduceOtherTimes": [
+            "MedicineNotConfirmed*5"
+        ],
+        "next": [
+            "MedicineConfirm@LoadingText",
+            "MedicineConfirmed",
+            "MedicineNotConfirmed"
+        ]
+    },
+    "MedicineConfirm@LoadingText": {
         "next": [
             "#self",
-            "Stop"
+            "MedicineConfirmed"
         ]
+    },
+    "MedicineNotConfirmed": {
+        "baseTask": "MedicineConfirm",
+        "template": "MedicineConfirm.png",
+        "action": "DoNothing",
+        "reduceOtherTimes": [],
+        "maxTimes": 5,
+        "postDelay": 1000,
+        "exceededNext": [
+            "MedicineNotConfirmed@LoadingText",
+            "MedicineConfirmed",
+            "MedicineConfirm"
+        ]
+    },
+    "MedicineConfirmed": {
+        "baseTask": "StartButton1",
+        "action": "Stop",
+        "preDelay": 0,
+        "postDelay": 0,
+        "exceededNext": [],
+        "reduceOtherTimes": [],
+        "next": []
     },
     "MedicineReduceIcon": {
         "preDelay": 500,
@@ -4675,12 +4707,20 @@
             200,
             150
         ],
-        "roi_crop_doc": [
-            935,
-            480,
-            145,
-            61
-        ],
+        "crop_doc": {
+            "roi": [
+                935,
+                480,
+                145,
+                61
+            ],
+            "mask": [
+                125,
+                0,
+                25,
+                20
+            ]
+        },
         "maskRange": [
             1,
             255
@@ -5025,19 +5065,22 @@
             130,
             130
         ],
-        "roi_crop_doc": [
-            720,
-            553,
-            75,
-            70
-        ],
         "next": [
             "ReceiveAward",
             "DailyTask",
             "WeeklyTask",
             "Award",
             "Award@CloseAnnos#next"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                720,
+                553,
+                75,
+                70
+            ],
+            "mask": []
+        }
     },
     "ReceiveAward": {
         "action": "ClickSelf",
@@ -5228,17 +5271,20 @@
             200,
             150
         ],
-        "roi_crop_doc": [
-            300,
-            550,
-            128,
-            41
-        ],
         "next": [
             "FriendsList",
             "Visit",
             "Visit@CloseAnnos#next"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                300,
+                550,
+                128,
+                41
+            ],
+            "mask": []
+        }
     },
     "FriendsList": {
         "action": "ClickSelf",
@@ -5335,6 +5381,7 @@
         "action": "ClickSelf",
         "text": [
             "采购",
+            "购中",
             "中心"
         ],
         "roi": [
@@ -5466,12 +5513,15 @@
             180,
             120
         ],
-        "roi_crop_doc": [
-            903,
-            120,
-            97,
-            58
-        ]
+        "crop_doc": {
+            "roi": [
+                903,
+                120,
+                97,
+                58
+            ],
+            "mask": []
+        }
     },
     "CreditShop-Commodities": {
         "template": "CreditPoint.png",
@@ -5736,12 +5786,6 @@
             160,
             160
         ],
-        "roi_crop_doc": [
-            935,
-            570,
-            85,
-            75
-        ],
         "action": "ClickSelf",
         "next": [
             "InfrastEnteredFlag",
@@ -5749,7 +5793,16 @@
             "Infrast@CloseAnnos#next",
             "Infrast@OfflineConfirm"
         ],
-        "postDelay": 5000
+        "postDelay": 5000,
+        "crop_doc": {
+            "roi": [
+                935,
+                570,
+                85,
+                75
+            ],
+            "mask": []
+        }
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
@@ -7774,6 +7827,13 @@
         "action": "ClickSelf",
         "postDelay": 1000
     },
+    "BattleStartPre@UseMedicine": {
+        "doc": "绑定MedicineCounter来使用理智药",
+        "template": "UseMedicine.png",
+        "next": [
+            "BattleStartPre"
+        ]
+    },
     "BattleStart": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -8162,12 +8222,14 @@
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
         "specialParams": [
             400,
+            100,
             2,
             0,
             100
         ],
         "specialParamsDoc": [
             "设置朝向时的滑动距离",
+            "补偿距离上限",
             "滑动初速度（平均速度是固定的，初速度快末速度慢相当于一直减速）",
             "滑动末速度",
             "将干员滑动到场上的 最小滑动 duration"
@@ -8916,16 +8978,19 @@
             265,
             110
         ],
-        "roi_crop_doc": [
-            945,
-            301,
-            85,
-            78
-        ],
         "next": [
             "OperBoxRoleTabSelect",
             "OperBoxRoleTab"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                945,
+                301,
+                85,
+                78
+            ],
+            "mask": []
+        }
     },
     "OperBoxRoleTabSelect": {
         "action": "ClickSelf",
@@ -9898,17 +9963,20 @@
             228,
             156
         ],
-        "roi_crop_doc": [
-            1095,
-            497,
-            167,
-            56
-        ],
         "next": [
             "GachaEnter",
             "GachaEnter@LoadingText",
             "DoGacha"
-        ]
+        ],
+        "crop_doc": {
+            "roi": [
+                1095,
+                497,
+                167,
+                56
+            ],
+            "mask": []
+        }
     },
     "GachaLastOnceResult": {
         "algorithm": "OcrDetect",
