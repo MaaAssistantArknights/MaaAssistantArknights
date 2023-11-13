@@ -124,7 +124,7 @@ void asst::StageQueueMissionCompletedPlugin::drop_info_callback(std::string stag
     callback(AsstMsg::SubTaskExtraInfo, info);
     m_cur_info_json = std::move(details);
 
-    if (m_enable_penguid) {
+    if (m_enable_penguin) {
         upload_to_penguin(stage_code, analyzer.get_stars());
     }
 }
@@ -133,9 +133,9 @@ bool asst::StageQueueMissionCompletedPlugin::set_server(std::string server)
     m_server = std::move(server);
     return true;
 }
-bool asst::StageQueueMissionCompletedPlugin::set_enable_penguid(bool enable)
+bool asst::StageQueueMissionCompletedPlugin::set_enable_penguin(bool enable)
 {
-    m_enable_penguid = enable;
+    m_enable_penguin = enable;
     return true;
 }
 bool asst::StageQueueMissionCompletedPlugin::set_penguin_id(std::string id)
