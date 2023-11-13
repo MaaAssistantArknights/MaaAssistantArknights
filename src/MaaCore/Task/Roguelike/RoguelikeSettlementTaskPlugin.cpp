@@ -12,11 +12,11 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
     }
 
     auto task_name = details.at("details").at("task").as_string();
-    if (/*m_config->get_mode() == RoguelikeMode::Exp && */ task_name.ends_with("Roguelike@GamePass")) {
+    if (m_config->get_mode() == RoguelikeMode::Exp && task_name.ends_with("Roguelike@GamePass")) {
         m_game_pass = true;
         return true;
     }
-    else if (/*m_config->get_mode() == RoguelikeMode::Exp && */ task_name.ends_with("Roguelike@MissionFailedFlag2")) {
+    else if (m_config->get_mode() == RoguelikeMode::Exp && task_name.ends_with("Roguelike@MissionFailedFlag2")) {
         m_game_pass = false;
         return true;
     }
@@ -32,7 +32,7 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     json_msg["details"]["game_pass"] = m_game_pass;
 
     sleep(task->special_params[0]);
-    save_img(utils::path("debug") / utils::path("roguelike") / utils::path("settlement"));
+    save_img(utils::path("achievement") / utils::path("roguelike"));
 
     const static auto rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
     ctrler()->click(rect);
@@ -43,7 +43,7 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
         Log.error(__FUNCTION__, "wait for whole page failed");
         return true;
     }
-    save_img(utils::path("debug") / utils::path("roguelike") / utils::path("settlement"));
+    save_img(utils::path("achievement") / utils::path("roguelike"));
 
     get_settlement_info(json_msg, image);
     callback(AsstMsg::SubTaskExtraInfo, json_msg);
