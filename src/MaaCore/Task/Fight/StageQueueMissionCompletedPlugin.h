@@ -26,6 +26,8 @@ namespace asst
         bool set_penguin_id(std::string id);
         bool set_server(std::string server);
 
+        bool set_enable_yituliu(bool enable);
+
     private:
         virtual bool _run() override;
 
@@ -42,5 +44,7 @@ namespace asst
         std::string m_penguin_id;
         std::string m_server = "CN";
         std::shared_ptr<ReportDataTask> m_report_penguin_task_ptr = nullptr;
+        // 一图流上报用
+        bool m_enable_yituliu = false;
     };
 }

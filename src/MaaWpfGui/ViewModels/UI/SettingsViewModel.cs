@@ -3391,6 +3391,36 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _enablePenguin = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnablePenguin, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide unavailable stages.
+        /// </summary>
+        public bool EnablePenguin
+        {
+            get => _enablePenguin;
+            set
+            {
+                SetAndNotify(ref _enablePenguin, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EnablePenguin, value.ToString());
+            }
+        }
+
+        private bool _enableYituliu = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.EnableYituliu, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide unavailable stages.
+        /// </summary>
+        public bool EnableYituliu
+        {
+            get => _enableYituliu;
+            set
+            {
+                SetAndNotify(ref _enableYituliu, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.EnableYituliu, value.ToString());
+            }
+        }
+
         private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
 
         /// <summary>

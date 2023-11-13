@@ -68,6 +68,7 @@ bool asst::FightTask::set_params(const json::value& params)
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     bool enable_penguin = params.get("report_to_penguin", false);
+    bool enable_yituliu = params.get("report_to_yituliu", false);
     std::string penguin_id = params.get("penguin_id", "");
     std::string server = params.get("server", "CN");
     std::string client_type = params.get("client_type", std::string());
@@ -121,12 +122,14 @@ bool asst::FightTask::set_params(const json::value& params)
     m_dr_grandet_task_plugin_ptr->set_enable(is_dr_grandet);
     m_stage_drops_plugin_ptr->set_enable_penguin(enable_penguin);
     m_stage_drops_plugin_ptr->set_penguin_id(penguin_id);
+    m_stage_drops_plugin_ptr->set_enable_yituliu(enable_yituliu);
 
     m_sidestory_reopen_task_ptr->set_medicine(medicine);
     m_sidestory_reopen_task_ptr->set_expiring_medicine(expiring_medicine);
     m_sidestory_reopen_task_ptr->set_stone(stone);
     m_sidestory_reopen_task_ptr->set_enable_penguin(enable_penguin);
     m_sidestory_reopen_task_ptr->set_penguin_id(std::move(penguin_id));
+    m_sidestory_reopen_task_ptr->set_enable_yituliu(enable_yituliu);
     m_sidestory_reopen_task_ptr->set_server(server);
 
     return true;
