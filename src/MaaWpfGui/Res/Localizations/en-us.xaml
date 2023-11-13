@@ -603,6 +603,13 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
     <system:String x:Key="RoguelikeEvent">Event:</system:String>
+    <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Explore">Explore: {0} Floor {1} Step</system:String>
+    <system:String x:Key="RoguelikeSettlement-Combat">Combat: {0} / {1} Emergency / {2} BOSS</system:String>
+    <system:String x:Key="RoguelikeSettlement-Recruit">Recruit: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Collection">Collection: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Difficulty">Difficulty: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Global">Score: {0}, Exp: {1}, Skill: {2}</system:String>
     <system:String x:Key="CurTimes">Current times</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
     <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>
