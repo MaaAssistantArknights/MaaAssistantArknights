@@ -8,6 +8,7 @@
 
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Status.h"
+#include "Task/ReportDataTask.h"
 
 namespace asst
 {
@@ -37,6 +38,7 @@ namespace asst
         bool check_stage_valid();
         bool check_specify_quantity() const;
         void stop_task();
+        bool upload_to_server(const std::string& subtask, ReportType report_type);
         bool upload_to_penguin(); // 返回值表示该次掉落是否通过企鹅检查
         void upload_to_yituliu();
         static void report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr);
