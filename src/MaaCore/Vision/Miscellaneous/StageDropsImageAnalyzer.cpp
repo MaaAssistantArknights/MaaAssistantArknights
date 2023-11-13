@@ -1,7 +1,6 @@
 #include "StageDropsImageAnalyzer.h"
 
 #include <numbers>
-#include <opencv2/core/mat.hpp>
 #include <regex>
 
 #include "Utils/Ranges.hpp"
@@ -709,7 +708,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     }
 
     Matcher analyzer(m_image);
-    analyzer.set_threshold(0.8);
+    analyzer.set_threshold(0.76); // temporary fix for #7282
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);
