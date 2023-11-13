@@ -41,12 +41,13 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     ctrler()->click(rect);
     sleep(task->pre_delay);
 
-    cv::Mat image;
-    if (!wait_for_whole_page(image)) {
+    if (!wait_for_whole_page()) {
         Log.error(__FUNCTION__, "wait for whole page failed");
         save_img(utils::path("debug") / utils::path("roguelike"));
         return true;
     }
+    sleep(task->post_delay);
+    auto image = ctrler()->get_image();
 
     if (m_game_pass) {
         save_img(utils::path("achievement") / utils::path("roguelike"));
@@ -112,8 +113,9 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
     return true;
 }
 
-bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page(cv::Mat& image)
+bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
 {
+    cv::Mat image;
     Matcher matcher;
     matcher.set_task_info("RoguelikeSettlementConfirm");
     do {

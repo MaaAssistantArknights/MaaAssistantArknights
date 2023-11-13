@@ -11080,6 +11080,7 @@
             80,
             80
         ],
+        "postDelay": 1000,
         "specialParamsDoc": [
             "结算界面Part1等待加载完的延迟"
         ],
