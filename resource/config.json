@@ -41,7 +41,7 @@
         "yituliuReport": {
             "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
             "recruitUrl": "https://backend.yituliu.site/maa/upload/recruit",
-            "dropUrl": "https://backend.yituliu.site/maa/upload/drop",
+            "dropUrl": "https://developer.yituliu.site/stage/drop/upload",
             "timeout": 5000,
             "headers": {
                 "Content-Type": "application/json"
