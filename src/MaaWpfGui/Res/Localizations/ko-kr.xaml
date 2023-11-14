@@ -252,7 +252,9 @@
     <system:String x:Key="InvestmentEnabled">오리지늄각뿔 투자</system:String>
     <system:String x:Key="InvestmentEnterSecondFloor">투자 후 2 층 진입</system:String>
     <system:String x:Key="RefreshTraderWithDice">상점 새로고침（指路鳞）</system:String>
-    <system:String x:Key="PenguinId">펭귄 물류 보고 ID (숫자만)</system:String>
+    <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자만)</system:String>
+    <system:String x:Key="EnablePenguin">Penguin-Stats 신고</system:String>
+    <system:String x:Key="EnableYituliu">Yituliu 신고</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
     <system:String x:Key="DrGrandetTip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
@@ -442,7 +444,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">“자동 지휘” 페이지에서 영상 파일을 드래그하여 시작하세요.
 동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
     <!--  영상 인식  -->
-    <!--  Gacha Recognition -->
+    <!--  Gacha Recognition  -->
     <system:String x:Key="Gacha">헤드헌팅</system:String>
     <system:String x:Key="GachaOnce">1회 진행</system:String>
     <system:String x:Key="GachaTenTimes">10회 진행</system:String>
@@ -468,7 +470,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="GachaDisclaimerEmphasize">실제 뽑기입니다</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">다시 보지 않기</system:String>
-    <!-- !Gacha Recognition -->
+    <!-- !Gacha Recognition  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">식별 중……</system:String>
     <system:String x:Key="IdentificationCompleted">식별 완료</system:String>

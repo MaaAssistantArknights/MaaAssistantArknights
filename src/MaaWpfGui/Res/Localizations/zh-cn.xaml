@@ -253,6 +253,8 @@
     <system:String x:Key="InvestmentEnterSecondFloor">投资后进入第二层</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
     <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
+    <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>
+    <system:String x:Key="EnableYituliu">上报一图流</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
@@ -442,7 +444,7 @@
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开「自动战斗」页，将攻略视频文件拖入后开始即可。
 需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
     <!-- !视频识别  -->
-    <!--  Gacha  Recognition -->
+    <!--  Gacha  Recognition  -->
     <system:String x:Key="Gacha">牛牛抽卡</system:String>
     <system:String x:Key="GachaOnce">寻访一次</system:String>
     <system:String x:Key="GachaTenTimes">寻访十次</system:String>
