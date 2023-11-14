@@ -14,7 +14,7 @@ bool asst::FightTimesPlugin::verify(AsstMsg msg, const json::value& details) con
 bool asst::FightTimesPlugin::_run()
 {
     // 目前也可以做成subtask，但是给以后糊屎留个地方
-    bool result = ProcessTask(*this, { "FightSeries-Default-1", "FightSeries-Icon" }).run();
+    bool result = ProcessTask(*this, { "FightSeries-Default-1", "FightSeries-Icon", "Stop" }).run();
 
     if (!result) {
         return false;
