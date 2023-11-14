@@ -561,6 +561,9 @@
     <ClInclude Include="Controller\MaatouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\MaaThriftController.h">
+      <Filter>Source\Controller</Filter>
+    </ClInclude>
     <ClInclude Include="Controller\MinitouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -1121,10 +1124,9 @@
     <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
-    <ClCompile Include="Controller\MaaThriftController.h" />
     <ClCompile Include="Task\Fight\FightTimesPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
-    </ClInclude>
+    </ClCompile>
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
