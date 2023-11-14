@@ -4,7 +4,9 @@
 #include <regex>
 #include <thread>
 
+#include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
@@ -13,6 +15,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -133,7 +136,33 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     StageDropsImageAnalyzer analyzer(ctrler()->get_image());
-    bool ret = analyzer.analyze();
+
+    bool ret = false;
+    while (!need_exit()) {
+        ret = false;
+
+        // more materials to reveal?
+
+        auto swipe_begin = Point { WindowWidthDefault - 40, 632 };
+
+        const int swipe_dist = 200;
+        ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
+        sleep(Config.get_options().task_delay * 3);
+
+        auto new_img = ctrler()->get_image();
+
+        const auto offset_opt = analyzer.merge_image(new_img);
+        if (!offset_opt.has_value()) break;
+        const auto offset = offset_opt.value();
+        Log.trace("new image offset:", offset);
+        if (offset <= 4) {
+            ret = true;
+            break;
+        }
+    }
+
+    // image strip constructed, start main step
+    ret &= analyzer.analyze();
 
     auto&& [code, difficulty] = analyzer.get_stage_key();
     m_stage_code = std::move(code);
