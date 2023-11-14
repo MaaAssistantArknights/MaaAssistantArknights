@@ -37,7 +37,7 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 
     // 当前难度
     int difficulty = m_config->get_difficulty();
-    if (m_config->get_theme() != "Phantom" && mode == RoguelikeMode::Collectible) {
+    if (m_config->get_theme() != RoguelikeTheme::Phantom && mode == RoguelikeMode::Collectible) {
         if (difficulty == INT_MAX) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
         }
