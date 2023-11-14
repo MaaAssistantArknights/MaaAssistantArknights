@@ -74,13 +74,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    std::string theme = params.get("theme", std::string(RoguelikePhantomThemeName));
-    static constexpr std::array all_themes = {
-        RoguelikePhantomThemeName,
-        RoguelikeMizukiThemeName,
-        RoguelikeSamiThemeName,
-    };
-    if (ranges::find(all_themes, theme) == all_themes.end()) {
+    std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
+    if (RoguelikeConfig::is_valid_theme(theme)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error("Unknown roguelike theme", theme);
         return false;
