@@ -18,7 +18,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(AsstMsg msg, const json::valu
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    if (m_config->get_theme() != "Sami") {
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
     auto mode = m_config->get_mode();
