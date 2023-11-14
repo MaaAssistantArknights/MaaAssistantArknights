@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知テスト</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました。</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[ServerChan] Send Key</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] サーバ</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] ポート</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] SSL を使用します</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] ログインが必要です</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] ユーザー名</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] パスワード</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 送信者</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 受信者</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">ServerChan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP サーバ</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">ポート</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">SSL を使用します</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">ログインが必要です</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">ユーザー名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">パスワード</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">送信者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">受信者</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -239,6 +239,8 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
+    <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
     <system:String x:Key="RoguelikeTheme">主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
@@ -297,6 +299,7 @@
 Bilibili: ログイン インターフェイスに表示されるアカウント名 (張三 など) を入力します。
 他の種類のクライアントはサポートされていません</system:String>
     <system:String x:Key="AdbPath">ADBパス（相対/絶対）</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">選択されたファイル名に ADB が含まれていません。間違ったファイルを選択しているか、エミュレータの実行ファイルを選択していないか確認してください。</system:String>
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
@@ -475,6 +478,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <!--  Copilot  -->
     <system:String x:Key="Copilot">自動戦闘</system:String>
     <system:String x:Key="CopilotLocation">攻略ファイルパス/ミステリーコード</system:String>
+    <system:String x:Key="CopilotTaskName">ステージコード</system:String>
+    <system:String x:Key="CopilotTaskNameTip">ステージコード, 例えば 1-7</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">クリップボードの貼り付け</system:String>
@@ -599,7 +604,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
-    <system:String x:Key="RoguelikeEvent">ローグライクイベント:</system:String>
+    <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
@@ -686,8 +691,11 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
-    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください</system:String>
-    <!--  !Api  -->
+    <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
+    <system:String x:Key="GameResourceNotModified">ゲームリソースが更新されました。</system:String>
+    <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください。</system:String>
+    <system:String x:Key="GameResourceFailed">ゲームリソースの更新に失敗しました。後でもう一度お試しください。</system:String>
+    <!-- !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">リモートコントロール</system:String>
     <system:String x:Key="RemoteControlDeviceIdentityLabel">デバイス識別子（読み取り専用）</system:String>

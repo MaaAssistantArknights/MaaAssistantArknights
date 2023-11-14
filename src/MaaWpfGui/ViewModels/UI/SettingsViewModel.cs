@@ -291,12 +291,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
 
-        public bool IsEnabled => _enabledExternalNotificationProvider != "Off";
-
-        public bool IsServerChan => _enabledExternalNotificationProvider == "ServerChan";
-
-        public bool IsSmtp => _enabledExternalNotificationProvider == "SMTP";
-
         public string EnabledExternalNotificationProvider
         {
             get => _enabledExternalNotificationProvider;
@@ -304,10 +298,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _enabledExternalNotificationProvider, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationEnabled, value);
-
-                NotifyOfPropertyChange(nameof(IsEnabled));
-                NotifyOfPropertyChange(nameof(IsSmtp));
-                NotifyOfPropertyChange(nameof(IsServerChan));
             }
         }
 
@@ -772,6 +762,30 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _endsWithScript, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.EndsWithScript, value);
+            }
+        }
+
+        private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
+
+        public bool BlockSleep
+        {
+            get => _blockSleep;
+            set
+            {
+                SetAndNotify(ref _blockSleep, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleep, value.ToString());
+            }
+        }
+
+        private bool _blockSleepWithScreenOn = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleepWithScreenOn, bool.TrueString));
+
+        public bool BlockSleepWithScreenOn
+        {
+            get => _blockSleepWithScreenOn;
+            set
+            {
+                SetAndNotify(ref _blockSleepWithScreenOn, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
             }
         }
 
@@ -2807,6 +2821,20 @@ namespace MaaWpfGui.ViewModels.UI
             get => _adbPath;
             set
             {
+                if (!Path.GetFileName(value).ToLower().Contains("adb"))
+                {
+                    var result = MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("AdbPathFileSelectionErrorPrompt"),
+                        LocalizationHelper.GetString("Tip"),
+                        MessageBoxButton.OKCancel,
+                        MessageBoxImage.Warning,
+                        cancel: LocalizationHelper.GetString("Cancel"));
+                    if (result == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+
                 SetAndNotify(ref _adbPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, value);
             }
@@ -3909,6 +3937,15 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+        }
+
+        public void SetupSleepManagement()
+        {
+            if (BlockSleep)
+            {
+                SleepManagement.BlockSleep(BlockSleepWithScreenOn);
+                _logger.Information("Blocking sleep.");
+            }
         }
     }
 }

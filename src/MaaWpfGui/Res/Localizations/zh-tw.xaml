@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">發送測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知測試</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">這是 MAA 外部通知測試資訊。 如果你看到了這段內容，就說明通知發送成功了！</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] 發送金鑰</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 伺服器</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 埠</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] 使用 SSL</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] 需要登錄</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 使用者名</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 密碼</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 發件者</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 收件者</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 發送金鑰</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP 伺服器</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">埠</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">使用 SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">需要登錄</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">使用者名</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">密碼</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">發件者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">收件者</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
     <system:String x:Key="SettingsGuide">設定指引</system:String>
@@ -239,6 +239,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">開始前腳本</system:String>
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
+    <system:String x:Key="BlockSleep">運行任務時阻止休眠</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
@@ -297,6 +299,7 @@
  B服輸入登錄界面顯示的賬號名，如「張三」，可輸入「張」或「三」
 暫不支持其他服</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或模擬器本體程式。</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
@@ -475,6 +478,8 @@
     <!--  Copilot  -->
     <system:String x:Key="Copilot">自動戰鬥</system:String>
     <system:String x:Key="CopilotLocation">作業路徑 / 神秘代碼</system:String>
+    <system:String x:Key="CopilotTaskName">關卡名</system:String>
+    <system:String x:Key="CopilotTaskNameTip">關卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">從剪貼簿貼上</system:String>
@@ -599,7 +604,7 @@
     <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
-    <system:String x:Key="RoguelikeEvent">肉鴿事件:</system:String>
+    <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="CurTimes">目前次數</system:String>
     <system:String x:Key="NoDrop">無</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
@@ -685,9 +690,12 @@
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">關卡數據獲取成功</system:String>
-    <system:String x:Key="GameResourceUpdating">遊戲資源正在更新</system:String>
-    <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA</system:String>
-    <!--  !Api  -->
+    <system:String x:Key="GameResourceUpdating">遊戲資源正在更新。</system:String>
+    <system:String x:Key="GameResourceUpdatePreparing">正在編製索引</system:String>
+    <system:String x:Key="GameResourceNotModified">遊戲資源已更新。</system:String>
+    <system:String x:Key="GameResourceUpdated">遊戲資源已更新，請重啟 MAA。</system:String>
+    <system:String x:Key="GameResourceFailed">遊戲資源更新失敗，請稍後嘗試。</system:String>
+    <!-- !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">遠程控制</system:String>
     <system:String x:Key="RemoteControlDeviceIdentityLabel">設備標識符（唯讀）</system:String>

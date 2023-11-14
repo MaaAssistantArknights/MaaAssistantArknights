@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">테스트 보내기</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트 정보입니다. 이 콘텐츠가 표시되면 알림이 성공적으로 전송된 것입니다!</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan]이 키를 보냅니다.</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] 서버</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] 포트</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP]는 SSL을 사용합니다.</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP]에 로그인해야 합니다.</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] 사용자 이름</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] 비밀번호</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] 보낸 사람</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] 받는 사람</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 이 키를 보냅니다.</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP 서버</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">포트</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">는 SSL을 사용합니다.</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">에 로그인해야 합니다.</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">사용자 이름</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">비밀번호</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">보낸 사람</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">받는 사람</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
@@ -239,6 +239,8 @@
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
+    <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">절전 모드 방지 시 항상 밝게 표시</system:String>
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
@@ -297,6 +299,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
 Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)을 입력하세요.
 다른 클라이언트 유형은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로 (상대/절대)</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다. 잘못된 파일을 선택하거나 에뮬레이터 실행 파일을 선택하지 않았는지 확인해주세요.</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
@@ -475,6 +478,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Copilot  -->
     <system:String x:Key="Copilot">자동 지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
+    <system:String x:Key="CopilotTaskName">무대 코드</system:String>
+    <system:String x:Key="CopilotTaskNameTip">무대 코드, 예를 들어 1-7</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기</system:String>
@@ -599,7 +604,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="CombatDps">레벨: 작전</system:String>
     <system:String x:Key="EmergencyDps">레벨: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
-    <system:String x:Key="RoguelikeEvent">로그라이크 이벤트:</system:String>
+    <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="CurTimes">현재 횟수</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
     <system:String x:Key="Drop" xml:space="preserve">드롭: </system:String>
@@ -686,8 +691,11 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">스테이지 데이터 획득 성공</system:String>
     <system:String x:Key="GameResourceUpdating">게임 자원이 업데이트 중입니다.</system:String>
+    <system:String x:Key="GameResourceUpdatePreparing">색인 작성 중</system:String>
+    <system:String x:Key="GameResourceNotModified">게임 리소스가 업데이트되었으니.</system:String>
     <system:String x:Key="GameResourceUpdated">게임 리소스가 업데이트되었으니 MAA를 다시 시작해주세요.</system:String>
-    <!--  !Api  -->
+    <system:String x:Key="GameResourceFailed">게임 자원 업데이트 실패, 나중에 다시 시도해주세요.</system:String>
+    <!-- !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">원격 제어</system:String>
     <system:String x:Key="RemoteControlDeviceIdentityLabel">장치 식별자(읽기 전용)</system:String>

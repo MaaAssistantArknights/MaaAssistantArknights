@@ -9,11 +9,11 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -29,8 +29,11 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
 
 bool asst::RoguelikeResetTaskPlugin::_run()
 {
+    // 改完全部肉鸽数据之后一起删掉！
     // 简单粗暴，后面如果多任务间有联动可能要改改
     status()->clear_number();
     status()->clear_str();
+
+    m_config->clear();
     return true;
 }

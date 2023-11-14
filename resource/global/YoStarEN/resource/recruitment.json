@@ -599,6 +599,17 @@
             ]
         },
         {
+            "id": "char_328_cammou",
+            "name": "Click",
+            "rarity": 4,
+            "tags": [
+                "输出",
+                "控场",
+                "远程位",
+                "术师干员"
+            ]
+        },
+        {
             "id": "char_155_tiger",
             "name": "Indra",
             "rarity": 5,
@@ -1072,6 +1083,18 @@
             ]
         },
         {
+            "id": "char_294_ayer",
+            "name": "Ayerscarpe",
+            "rarity": 5,
+            "tags": [
+                "输出",
+                "群攻",
+                "近战位",
+                "资深干员",
+                "近卫干员"
+            ]
+        },
+        {
             "id": "char_103_angel",
             "name": "Exusiai",
             "rarity": 6,
@@ -1324,6 +1347,19 @@
                 "远程位",
                 "高级资深干员",
                 "狙击干员"
+            ]
+        },
+        {
+            "id": "char_358_lisa",
+            "name": "Suzuran",
+            "rarity": 6,
+            "tags": [
+                "减速",
+                "支援",
+                "输出",
+                "远程位",
+                "高级资深干员",
+                "辅助干员"
             ]
         }
     ],

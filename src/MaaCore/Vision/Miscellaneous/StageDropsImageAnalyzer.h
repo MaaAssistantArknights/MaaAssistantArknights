@@ -23,6 +23,11 @@ namespace asst
         // <drop_type, <item_id, quantity>>
         const auto& get_drops() const noexcept { return m_drops; }
 
+        // merge a new image with a different material position into m_image
+        // might resize m_image.
+        // return offset in pixels
+        std::optional<int> merge_image(const cv::Mat& new_img);
+
     protected:
         bool analyze_stage_code();
         bool analyze_times();

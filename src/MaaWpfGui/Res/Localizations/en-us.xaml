@@ -36,15 +36,15 @@
     <system:String x:Key="ExternalNotificationSendTest">Send Test</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">[Server Chan] Send Key</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">[SMTP] Recipient</system:String>
-    <system:String x:Key="ExternalNotificationSmtpServer">[SMTP] Server</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPort">[SMTP] Port</system:String>
-    <system:String x:Key="ExternalNotificationSmtpSsl">[SMTP] Use SSL</system:String>
-    <system:String x:Key="ExternalNotificationSmtpAuth">[SMTP] Authentication Required</system:String>
-    <system:String x:Key="ExternalNotificationSmtpUser">[SMTP] Username</system:String>
-    <system:String x:Key="ExternalNotificationSmtpPassword">[SMTP] Password</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">[SMTP] Sender</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">Recipient</system:String>
+    <system:String x:Key="ExternalNotificationSmtpServer">SMTP Server</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPort">Port</system:String>
+    <system:String x:Key="ExternalNotificationSmtpSsl">Use SSL</system:String>
+    <system:String x:Key="ExternalNotificationSmtpAuth">Authentication Required</system:String>
+    <system:String x:Key="ExternalNotificationSmtpUser">Username</system:String>
+    <system:String x:Key="ExternalNotificationSmtpPassword">Password</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">Sender</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
@@ -239,6 +239,8 @@
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
+    <system:String x:Key="BlockSleep">Prevent hibernation when running tasks</system:String>
+    <system:String x:Key="BlockSleepWithScreenOn">Keep screen on when preventing hibernation</system:String>
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
@@ -297,6 +299,7 @@ Official(CN): Enter the mobile phone number displayed on the login interface, su
 Bilibili: Enter the account name displayed on the login interface, such as John
 Other client types are not supported</system:String>
     <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">The selected file name does not contain ADB. Please check if you have selected the wrong file or emulator executable.</system:String>
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
@@ -475,6 +478,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
+    <system:String x:Key="CopilotTaskName">Stage Code</system:String>
+    <system:String x:Key="CopilotTaskNameTip">Stage Code, e.g. 1-7</system:String>
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Paste Clipboard</system:String>
@@ -599,7 +604,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
-    <system:String x:Key="RoguelikeEvent">Roguelike event:</system:String>
+    <system:String x:Key="RoguelikeEvent">Event:</system:String>
     <system:String x:Key="CurTimes">Current times</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
     <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>
@@ -686,8 +691,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
-    <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA</system:String>
-    <!--  !Api  -->
+    <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
+    <system:String x:Key="GameResourceNotModified">Game resource updated.</system:String>
+    <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA.</system:String>
+    <system:String x:Key="GameResourceFailed">Game resource update failed, please try again later.</system:String>
+    <!-- !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">Remote Control</system:String>
     <system:String x:Key="RemoteControlDeviceIdentityLabel">Device Identifier (Read-only)</system:String>

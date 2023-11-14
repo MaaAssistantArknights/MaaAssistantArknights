@@ -558,9 +558,6 @@
     <ClInclude Include="Controller\ControlScaleProxy.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\MaaThriftController.h">
-      <Filter>Source\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Controller\MaatouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -671,6 +668,12 @@
     </ClInclude>
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Fight\FightTimesPlugin.h">
+      <Filter>Source\Task\Fight</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1117,6 +1120,13 @@
     </ClCompile>
     <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\MaaThriftController.h" />
+    <ClCompile Include="Task\Fight\FightTimesPlugin.cpp">
+      <Filter>Source\Task\Fight</Filter>
+    </ClInclude>
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
