@@ -75,7 +75,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     LogTraceFunction;
 
     std::string theme = params.get("theme", std::string(RoguelikePhantomThemeName));
-    if (theme != RoguelikePhantomThemeName && theme != RoguelikeMizukiThemeName && theme != RoguelikeSamiThemeName) {
+    static constexpr std::array all_themes = {
+        RoguelikePhantomThemeName,
+        RoguelikeMizukiThemeName,
+        RoguelikeSamiThemeName,
+    };
+    if (ranges::find(all_themes, theme) == all_themes.end()) {
+        m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error("Unknown roguelike theme", theme);
         return false;
     }
@@ -86,24 +92,24 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    m_roguelike_config_ptr->set_theme(theme);
-    m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
-
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
-    m_roguelike_config_ptr->set_mode(mode);
-    if (mode != RoguelikeMode::Exp && mode != RoguelikeMode::Investment && mode != RoguelikeMode::Collectible) {
+    static constexpr std::array all_modes = {
+        RoguelikeMode::Exp,
+        RoguelikeMode::Investment,
+        RoguelikeMode::Collectible,
+    };
+    if (ranges::find(all_modes, mode) == all_modes.end()) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
         return false;
     }
 
-    m_debug_plugin_ptr->set_enable(mode != RoguelikeMode::Investment);
-
-    // 是否凹指定干员开局直升
-    bool start_with_elite_two = params.get("start_with_elite_two", false);
-
+    m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
+    m_roguelike_config_ptr->set_theme(theme);
+    m_roguelike_config_ptr->set_mode(mode);
     m_roguelike_config_ptr->set_difficulty(0);
-    m_roguelike_config_ptr->set_start_with_elite_two(start_with_elite_two);
+    // 是否凹指定干员开局直升
+    m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
 
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
@@ -125,11 +131,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
 
     if (mode == RoguelikeMode::Investment) {
+        m_debug_plugin_ptr->set_enable(false);
         // 战斗后奖励只拿钱
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
         // 刷源石锭模式是否进入第二层
-        bool investment_enter_second_floor = params.get("investment_enter_second_floor", true);
-        if (investment_enter_second_floor) {
+        if (params.get("investment_enter_second_floor", true)) {
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         }
@@ -139,50 +145,37 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         }
     }
     else {
+        m_debug_plugin_ptr->set_enable(true);
         // 重置战斗后奖励next
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
 
-    int number_of_starts = params.get("starts_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", number_of_starts);
+    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", params.get("starts_count", INT_MAX));
+    // 通过 exceededNext 禁用投资系统，进入商店购买逻辑
+    m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystem",
+                                          params.get("investment_enabled", true) ? INT_MAX : 0);
+    m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice",
+                                          params.get("refresh_trader_with_dice", false) ? INT_MAX : 0);
+    m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", params.get("investments_count", INT_MAX));
 
-    bool investment_enabled = params.get("investment_enabled", true);
-    if (!investment_enabled) {
-        // 禁用投资系统，通过 exceededNext 进入商店购买逻辑
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystem", 0);
-    }
-    bool refresh_trader_with_dice = params.get("refresh_trader_with_dice", false);
-    if (!refresh_trader_with_dice) {
-        m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice", 0);
-    }
-
-    int number_of_investments = params.get("investments_count", INT_MAX);
-    m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", number_of_investments);
-
-    bool stop_when_full = params.get("stop_when_investment_full", false);
-    if (stop_when_full) {
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", 0);
+    if (params.get("stop_when_investment_full", false)) {
         constexpr int InvestLimit = 999;
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", 0);
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", InvestLimit);
     }
-
-    if (auto squad_opt = params.find<std::string>("squad"); squad_opt && !squad_opt->empty()) {
-        m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, *squad_opt);
-    }
-    if (auto roles_opt = params.find<std::string>("roles"); roles_opt && !roles_opt->empty()) {
-        m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, *roles_opt);
-    }
-    if (auto core_char_opt = params.find<std::string>("core_char"); core_char_opt && !core_char_opt->empty()) {
-        m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, *core_char_opt);
-    }
-    if (auto use_support_opt = params.find<bool>("use_support"); use_support_opt) {
-        m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseSupport, *use_support_opt ? "1" : "0");
-    }
-    if (auto use_nonfriend_opt = params.find<bool>("use_nonfriend_support"); use_nonfriend_opt) {
-        m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseNonfriendSupport, *use_nonfriend_opt ? "1" : "0");
+    else {
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", INT_MAX);
+        m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", INT_MAX);
     }
 
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseSupport,
+                                          params.get("use_support", false) ? "1" : "0");
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseNonfriendSupport,
+                                          params.get("use_nonfriend_support", false) ? "1" : "0");
     return true;
 }
