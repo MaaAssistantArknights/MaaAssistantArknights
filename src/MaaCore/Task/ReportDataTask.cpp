@@ -155,13 +155,13 @@ void asst::ReportDataTask::report_to_yituliu(ReportType reportType)
     LogTraceFunction;
 
     constexpr std::string_view yituliu_subtask_name = "ReportToYituliu";
-    const std::string* url_ptr = nullptr;
+    std::string url;
     switch (reportType) {
     case ReportType::YituliuBigDataAutoRecruit:
-        url_ptr = &Config.get_options().yituliu_report.recruit_url;
+        url = Config.get_options().yituliu_report.recruit_url;
         break;
     case ReportType::YituliuBigDataStageDrops:
-        url_ptr = &Config.get_options().yituliu_report.drop_url;
+        url = Config.get_options().yituliu_report.drop_url;
         break;
     default:
         return;
@@ -177,7 +177,7 @@ void asst::ReportDataTask::report_to_yituliu(ReportType reportType)
         headers.emplace(field);
     }
 
-    report(yituliu_subtask_name, *url_ptr, headers, timeout);
+    report(yituliu_subtask_name, url, headers, timeout);
 }
 
 cpr::Response asst::ReportDataTask::report(std::string_view subtask, const std::string& url, const cpr::Header& headers,
