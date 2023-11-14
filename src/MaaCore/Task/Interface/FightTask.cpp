@@ -82,6 +82,9 @@ bool asst::FightTask::set_params(const json::value& params)
         }
         m_stage_drops_plugin_ptr->set_specify_quantity(drops);
     }
+    else {
+        m_stage_drops_plugin_ptr->set_specify_quantity({});
+    }
 
     if (!m_running) {
         if (stage.empty()) {
