@@ -5,7 +5,7 @@
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA가 곧 업그레이드될 예정입니다. 업그레이드된 버전은 .NET 8.0 런타임이 설치되지 않은 컴퓨터는 지원되지 않으므로 수동으로 다운로드해야 합니다.\n\nWindows 7 운영체제 또한 더 이상 지원되지 않을 것입니다.\n\n'예'를 클릭하면 새로운 런타임 다운로드 링크가 열립니다. '아니요'를 클릭하면 원치 않는 소프트웨어 업데이트를 방지하기 위해 자동 다운로드가 비활성화됩니다. 자동 다운로드를 비활성화하더라도 소프트웨어 설정에서 수동으로 다시 기능을 활성화할 수 있습니다.</system:String>
     <system:String x:Key="Dotnet8Caption">소프트웨어 버전 업그레이드 및 지원 변경 사항</system:String>
-    <!--  !.Net 8  -->
+    <!-- !.Net 8  -->
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -56,7 +56,7 @@
     <system:String x:Key="OftenUsedGuide">↓자주 쓰는 설정</system:String>
     <system:String x:Key="SometimesUsedGuide">가끔 쓰는 설정↑</system:String>
     <system:String x:Key="LinkStartGuide">← 연결 및 동작 시작</system:String>
-    <!--  !설정 가이드  -->
+    <!-- !설정 가이드  -->
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
     <system:String x:Key="Processing">처리 스테이션</system:String>
@@ -307,7 +307,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
     <system:String x:Key="AllowAdbRestart">연결 실패 후 ADB 서버 재시작 시도</system:String>
     <system:String x:Key="AllowAdbHardRestart">연결 실패 후 ADB 프로세스 재시작 시도</system:String>
-    <!--  !설정  -->
+    <!-- !설정  -->
     <!--  자동화  -->
     <system:String x:Key="Farming">시작</system:String>
     <system:String x:Key="WakeUp">로그인</system:String>
@@ -388,7 +388,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="PR-DTip">PR-D (가드/스페셜리스트 칩)</system:String>
     <system:String x:Key="Pormpt1">월요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
-    <!--  !작전 설정  -->
+    <!-- !작전 설정  -->
     <!--  로그  -->
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
@@ -407,8 +407,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="HibernatePrompt">작업을 완료했습니다. 곧 절전 모드에 진입합니다</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
     <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>
-    <!--  !로그  -->
-    <!--  !메인 화면  -->
+    <!-- !로그  -->
+    <!-- !메인 화면  -->
     <system:String x:Key="Toolbox">툴박스</system:String>
     <!--  공개모집 인식  -->
     <system:String x:Key="RecruitmentRecognition">공개모집 태그 인식</system:String>
@@ -421,7 +421,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">★6 태그를 자동 선택</system:String>
     <system:String x:Key="StartToRecruit">인식 시작</system:String>
-    <!--  !공개모집 인식  -->
+    <!-- !공개모집 인식  -->
     <!--  창고 정리  -->
     <system:String x:Key="DepotRecognition">창고 정리</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후에 사용해 주세요. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요</system:String>
@@ -429,14 +429,14 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
     <system:String x:Key="ExportToLolicon">Lolicon으로 내보내기</system:String>
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>
-    <!--  !창고 정리  -->
+    <!-- !창고 정리  -->
     <!--  오퍼레이터 식별  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 식별</system:String>
     <system:String x:Key="OperBoxRecognitionTip">이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">미소유: {0}\n목록:\n\n{1}\n소유: {2}\n목록:\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">식별 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
-    <!--  !오퍼레이터 식별  -->
+    <!-- !오퍼레이터 식별  -->
     <!--  영상 인식  -->
     <system:String x:Key="VideoRecognition">영상 인식</system:String>
     <system:String x:Key="StartToVideoRecognition">식별 시작</system:String>
@@ -470,11 +470,11 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="GachaDisclaimerEmphasize">실제 뽑기입니다</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">다시 보지 않기</system:String>
-    <!--  !Gacha Recognition  -->
+    <!-- !Gacha Recognition  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">식별 중……</system:String>
     <system:String x:Key="IdentificationCompleted">식별 완료</system:String>
-    <!--  !로그  -->
+    <!-- !로그  -->
     <!--  Copilot  -->
     <system:String x:Key="Copilot">자동 지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
@@ -522,8 +522,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="CopilotJsonError">전략 파일 분석 중 오류가 발생했습니다!</system:String>
     <system:String x:Key="NotCopilotJson">전략 파일이 아닙니다</system:String>
     <system:String x:Key="CheckTheFile">파일 내용을 확인해주세요!</system:String>
-    <!--  !로그  -->
-    <!--  !Copilot  -->
+    <!-- !로그  -->
+    <!-- !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">오류</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다</system:String>
@@ -535,7 +535,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
-    <!--  !ErrorView  -->
+    <!-- !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">리소스가 손상되었습니다. 전체 패키지를 다시 다운로드하세요</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 파일이 존재하지 않습니다</system:String>
@@ -640,11 +640,11 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RestartAdb">ADB 서버 재시작을 시도 중입니다</system:String>
     <system:String x:Key="HardRestartAdb">ADB 프로세스 재시작을 시도 중입니다</system:String>
     <system:String x:Key="CheckSettings">연결 설정을 확인하거나 에뮬레이터와 ADB를 다시 시작하거나 컴퓨터를 재시작해주세요</system:String>
-    <!--  !AsstProxy  -->
+    <!-- !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAA 강제 표시</system:String>
     <system:String x:Key="Exit">종료</system:String>
-    <!--  !TrayIcon  -->
+    <!-- !TrayIcon  -->
     <!--  About  -->
     <system:String x:Key="Website">MAA 공식 웹사이트</system:String>
     <system:String x:Key="Github">소스 코드: GitHub</system:String>
@@ -656,7 +656,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">자주 묻는 질문</system:String>
     <system:String x:Key="Issue">이슈</system:String>
-    <!--  !About  -->
+    <!-- !About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고침하기</system:String>
     <system:String x:Key="ForceRefresh">채용 허가 없이 계속 태그 새로고침 시도</system:String>
@@ -671,23 +671,23 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel6">★6 자동 모집</system:String>
     <system:String x:Key="Level1Tip">체크 시, ★1 태그를 인식할 때 이번 모집을 건너뜁니다. 체크하지 않으면 ★1 태그를 무시합니다.</system:String>
-    <!--  !AutoRecruitSettings  -->
+    <!-- !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">의사님, Ms. Closure의 가게에서 「술」의 새로운 상품 목록을 들어보셨나요? 함께 확인해 볼까요?</system:String>
     <system:String x:Key="Burping">으…… 우웁</system:String>
     <system:String x:Key="DrunkAndStaggering">어머, 박사님. 왜 그렇게 비틀비틀 걷고 계시나요?</system:String>
     <system:String x:Key="Hangover">다, 다음엔 적당히 마셔야지……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
-    <!--  !EasterEggs  -->
+    <!-- !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">좋아요!</system:String>
     <system:String x:Key="VersionUpdated">업데이트 완료</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">버전: </system:String>
-    <!--  !VersionUpdatePopup  -->
+    <!-- !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA가 작업을 진행 중입니다</system:String>
     <system:String x:Key="ConfirmExitText">정말로 종료하시겠습니까?</system:String>
-    <!--  !RootViewModel  -->
+    <!-- !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">스테이지 데이터 획득 성공</system:String>
     <system:String x:Key="GameResourceUpdating">게임 자원이 업데이트 중입니다.</system:String>
@@ -713,17 +713,17 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RemoteControlTooltips">주의: 알려지지 않은 출처의 주소를 입력하면 당신의 아크나이츠 계정에 손실이 발생할 수 있습니다.</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">관련 기능을 개발하는 방법을 알고 싶다면, 방문하세요</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">원격 제어 기능 개발자 문서</system:String>
-    <!--  !Remote Control  -->
+    <!-- !Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">박사님, 새로운 발표가 있습니다!</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">MAA에서 SMTP 서버를 설정하고 메일 알림 서비스가 켜져 있기 때문에 이 메시지가 표시됩니다.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">이 이메일은 자동으로 전송되므로 회신하지 마십시오.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">공식 홈페이지</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">워크 스테이션</system:String>
-    <!--  !External Notification  -->
+    <!-- !External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">공고패</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공고패</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지를 더 이상 표시하지 않음</system:String>
-    <!--  !Announcement  -->
+    <!-- !Announcement  -->
 </ResourceDictionary>

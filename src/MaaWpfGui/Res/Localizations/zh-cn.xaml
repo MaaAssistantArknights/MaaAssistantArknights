@@ -5,7 +5,7 @@
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即将升级，升级后的版本不支持未安装 .NET 8.0 运行时 的电脑，需要您手动前往下载。\n\n同时，我们将不再支持 Windows 7 操作系统。\n\n如果您点击 '是'，我们将为您打开新的运行时下载链接。如果您点击 '否'，我们将禁用您的自动下载功能，以防止不必要的软件更新。如果您选择禁用自动下载，您仍然可以在软件设置中手动重新启用此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">软件版本升级及支持变更</system:String>
-    <!--  !.Net 8  -->
+    <!-- !.Net 8  -->
     <!--  设置  -->
     <system:String x:Key="Settings">设置</system:String>
     <system:String x:Key="GeneralSettings">常规设置</system:String>
@@ -56,7 +56,7 @@
     <system:String x:Key="OftenUsedGuide">↓常用的</system:String>
     <system:String x:Key="SometimesUsedGuide">不常用的↑</system:String>
     <system:String x:Key="LinkStartGuide">← 开始任务</system:String>
-    <!--  !设置指引  -->
+    <!-- !设置指引  -->
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
     <system:String x:Key="Processing">加工站</system:String>
@@ -307,7 +307,7 @@
     <system:String x:Key="RetryOnDisconnectedTip">重连失败 20 次后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
     <system:String x:Key="AllowAdbRestart">连接失败后尝试重启 ADB Server</system:String>
     <system:String x:Key="AllowAdbHardRestart">连接失败后尝试关闭并重启 ADB 进程</system:String>
-    <!--  !设置  -->
+    <!-- !设置  -->
     <!--  一键长草  -->
     <system:String x:Key="Farming">一键长草</system:String>
     <system:String x:Key="WakeUp">开始唤醒</system:String>
@@ -388,7 +388,7 @@
     <system:String x:Key="PR-DTip">PR-D（近/特芯片）</system:String>
     <system:String x:Key="Pormpt1">周一了，可以打剿灭了~</system:String>
     <system:String x:Key="Pormpt2">周日了，记得打剿灭哦~</system:String>
-    <!--  !战斗设置  -->
+    <!-- !战斗设置  -->
     <!--  日志  -->
     <system:String x:Key="ConnectingToEmulator">正在连接模拟器……</system:String>
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
@@ -407,8 +407,8 @@
     <system:String x:Key="HibernatePrompt">已刷完，即将休眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的结束动作</system:String>
     <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效</system:String>
-    <!--  !日志  -->
-    <!--  !一键长草  -->
+    <!-- !日志  -->
+    <!-- !一键长草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
     <!--  公招识别  -->
     <system:String x:Key="RecruitmentRecognition">公招识别</system:String>
@@ -421,7 +421,7 @@
     <system:String x:Key="AutoSelectLevel5Tags">自动选择 5 星 Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">自动选择 6 星 Tags</system:String>
     <system:String x:Key="StartToRecruit">开始识别</system:String>
-    <!--  !公招识别  -->
+    <!-- !公招识别  -->
     <!--  仓库识别  -->
     <system:String x:Key="DepotRecognition">仓库识别</system:String>
     <system:String x:Key="DepotRecognitionTip">该功能尚处于测试阶段，请检查结果是否准确再行使用。若有误，欢迎打包 debug/depot 文件夹后向我们提交 issue ~</system:String>
@@ -429,21 +429,21 @@
     <system:String x:Key="ExportToArkplanner">导出至企鹅物流刷图规划</system:String>
     <system:String x:Key="ExportToLolicon">导出至明日方舟工具箱</system:String>
     <system:String x:Key="CopiedToClipboard">已复制到剪切板</system:String>
-    <!--  !仓库识别  -->
+    <!-- !仓库识别  -->
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">干员识别</system:String>
     <system:String x:Key="OperBoxRecognitionTip">该功能尚处于测试阶段，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">未拥有: {0} 名: \n\n{1}\n\n已拥有: {2} 名: \n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">复制到剪切板</system:String>
-    <!--  !干员识别  -->
+    <!-- !干员识别  -->
     <!--  视频识别  -->
     <system:String x:Key="VideoRecognition">视频识别</system:String>
     <system:String x:Key="StartToVideoRecognition">开始识别</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">打开文件夹</system:String>
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">请打开「自动战斗」页，将攻略视频文件拖入后开始即可。
 需要视频分辨率为 16:9，且无黑边、模拟器边框、异形屏矫正等干扰因素。</system:String>
-    <!--  !视频识别  -->
+    <!-- !视频识别  -->
     <!--  Gacha  Recognition  -->
     <system:String x:Key="Gacha">牛牛抽卡</system:String>
     <system:String x:Key="GachaOnce">寻访一次</system:String>
@@ -470,11 +470,11 @@
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
-    <!--  !Gacha Recognition  -->
+    <!-- !Gacha Recognition  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
     <system:String x:Key="IdentificationCompleted">识别完成</system:String>
-    <!--  !日志  -->
+    <!-- !日志  -->
     <!--  自动战斗  -->
     <system:String x:Key="Copilot">自动战斗</system:String>
     <system:String x:Key="CopilotLocation">作业路径/神秘代码</system:String>
@@ -522,8 +522,8 @@
     <system:String x:Key="CopilotJsonError">解析作业文件错误！</system:String>
     <system:String x:Key="NotCopilotJson">非作业文件</system:String>
     <system:String x:Key="CheckTheFile">请检查文件内容！</system:String>
-    <!--  !日志  -->
-    <!--  !自动战斗  -->
+    <!-- !日志  -->
+    <!-- !自动战斗  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">错误</system:String>
     <system:String x:Key="ErrorProlog">MAA 遇到了问题</system:String>
@@ -535,7 +535,7 @@
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
-    <!--  !ErrorView  -->
+    <!-- !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">资源损坏，请重新下载完整安装包</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB 路径不存在</system:String>
@@ -640,11 +640,11 @@
     <system:String x:Key="RestartAdb">正在尝试重启 ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">正在尝试关闭并重启 ADB 进程</system:String>
     <system:String x:Key="CheckSettings">请检查连接设置或尝试重启模拟器与 ADB 或重启电脑</system:String>
-    <!--  !AsstProxy  -->
+    <!-- !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">强制显示MAA</system:String>
     <system:String x:Key="Exit">退出</system:String>
-    <!--  !TrayIcon  -->
+    <!-- !TrayIcon  -->
     <!--  About  -->
     <system:String x:Key="Website">MAA 官网</system:String>
     <system:String x:Key="Github">源码: GitHub</system:String>
@@ -656,7 +656,7 @@
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">常见问题</system:String>
     <system:String x:Key="Issue">问题反馈</system:String>
-    <!--  !About  -->
+    <!-- !About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
     <system:String x:Key="ForceRefresh">无招聘许可时继续尝试刷新 Tags</system:String>
@@ -671,23 +671,23 @@
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
     <system:String x:Key="AutoSelectLevel6">自动确认 6 星</system:String>
     <system:String x:Key="Level1Tip">勾选时识别到 1 星词条时跳过该次招募，未勾选时将忽略 1 星词条。</system:String>
-    <!--  !AutoRecruitSettings  -->
+    <!-- !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">博士，欢迎加入这盛大的鱼人庆典！听说可露希尔小姐的商店里新上架了美酒，要去来一杯吗？</system:String>
     <system:String x:Key="Burping">呃……咳嗯</system:String>
     <system:String x:Key="DrunkAndStaggering">呀，博士。你今天走起路来，怎么看着摇摇晃晃的？</system:String>
     <system:String x:Key="Hangover">下次不能喝、喝这么多了……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
-    <!--  !EasterEggs  -->
+    <!-- !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">好的！</system:String>
     <system:String x:Key="VersionUpdated">版本已更新</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">已更新: </system:String>
-    <!--  !VersionUpdatePopup  -->
+    <!-- !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA 正在运行任务</system:String>
     <system:String x:Key="ConfirmExitText">确定要退出吗？</system:String>
-    <!--  !RootViewModel  -->
+    <!-- !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
     <system:String x:Key="GameResourceUpdating">游戏资源正在更新</system:String>
@@ -713,17 +713,17 @@
     <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的明日方舟账户受到损失。</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">了解如何开发相关功能，可以访问</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">远程控制功能开发者文档</system:String>
-    <!--  !Remote Control  -->
+    <!-- !Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateHello">博士，有新的通知哦！</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">您会收到此邮件，是因为您在 MAA 中设置了 SMTP 服务器并开启了邮件通知服务。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">此邮件为系统自动发送，请勿回复。</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">官网</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">作业站</system:String>
-    <!--  !External Notification  -->
+    <!-- !External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">公告</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
-    <!--  !Announcement  -->
+    <!-- !Announcement  -->
 </ResourceDictionary>
