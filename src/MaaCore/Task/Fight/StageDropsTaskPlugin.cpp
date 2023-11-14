@@ -97,14 +97,27 @@ bool asst::StageDropsTaskPlugin::_run()
         stop_task();
     }
 
-    if (m_enable_penguin && !m_is_annihilation) {
+    if (m_is_annihilation) {
+        Log.info(__FUNCTION__, "Annihilation is not supported by PenguinStats");
+        Log.info(__FUNCTION__, "Annihilation is not supported by Yituliu");
+        return true;
+    }
+
+    if (m_enable_penguin) {
         if (!upload_to_penguin()) {
+            Log.error(__FUNCTION__, "upload_to_penguin failed");
             save_img(utils::path("debug") / utils::path("drops"));
         }
     }
+    else {
+        Log.info(__FUNCTION__, "PenguinStats is disabled");
+    }
 
-    if (m_enable_yituliu && !m_is_annihilation) {
+    if (m_enable_yituliu) {
         upload_to_yituliu();
+    }
+    else {
+        Log.info(__FUNCTION__, "Yituliu is disabled");
     }
 
     return true;
