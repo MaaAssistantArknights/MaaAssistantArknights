@@ -14,7 +14,8 @@ namespace asst
     {
         Invalid,
         PenguinStats,
-        YituliuBigData,
+        YituliuBigDataAutoRecruit,
+        YituliuBigDataStageDrops,
     };
 
     using TaskCallback = std::function<void(AsstMsg, const json::value&, AbstractTask*)>;
@@ -40,7 +41,7 @@ namespace asst
         virtual void callback(AsstMsg msg, const json::value& detail) override;
 
         void report_to_penguin();
-        void report_to_yituliu();
+        void report_to_yituliu(ReportType reportType);
         cpr::Response report(
             std::string_view subtask, const std::string& url, const cpr::Header& headers, const int timeout,
             HttpResponsePred success_cond = [](const cpr::Response& response) -> bool {

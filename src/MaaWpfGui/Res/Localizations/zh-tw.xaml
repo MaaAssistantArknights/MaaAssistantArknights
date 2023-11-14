@@ -253,6 +253,8 @@
     <system:String x:Key="InvestmentEnterSecondFloor">投資後進入第二層</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
     <system:String x:Key="PenguinId">企鵝物流匯報 ID（僅數字部分）</system:String>
+    <system:String x:Key="EnablePenguin">上報企鵝物流</system:String>
+    <system:String x:Key="EnableYituliu">上報一圖流</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢復理智確認界面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="SocialPtShop">信用購物</system:String>
@@ -468,7 +470,7 @@
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
-    <!-- !Gacha Recognition -->
+    <!-- !Gacha Recognition  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
     <system:String x:Key="IdentificationCompleted">辨識完成</system:String>

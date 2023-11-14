@@ -157,6 +157,9 @@ namespace MaaWpfGui.Constants
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
+        public const string EnablePenguin = "Penguin.EnablePenguin";
+
+        public const string EnableYituliu = "Yituliu.EnableYituliu";
 
         public const string BluestacksConfigPath = "Bluestacks.Config.Path";
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";

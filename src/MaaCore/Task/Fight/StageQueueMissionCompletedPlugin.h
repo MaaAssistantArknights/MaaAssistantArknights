@@ -22,9 +22,11 @@ namespace asst
         void set_drop_stats(std::unordered_map<std::string, int> m_drop_stats);
         std::unordered_map<std::string, int> get_drop_stats();
 
-        bool set_enable_penguid(bool enable);
+        bool set_enable_penguin(bool enable);
         bool set_penguin_id(std::string id);
         bool set_server(std::string server);
+
+        bool set_enable_yituliu(bool enable);
 
     private:
         virtual bool _run() override;
@@ -38,9 +40,11 @@ namespace asst
         std::unordered_map<std::string, int> m_drop_stats;
         json::value m_cur_info_json;
         // 企鹅物流上报用
-        bool m_enable_penguid = false;
+        bool m_enable_penguin = false;
         std::string m_penguin_id;
         std::string m_server = "CN";
         std::shared_ptr<ReportDataTask> m_report_penguin_task_ptr = nullptr;
+        // 一图流上报用
+        bool m_enable_yituliu = false;
     };
 }
