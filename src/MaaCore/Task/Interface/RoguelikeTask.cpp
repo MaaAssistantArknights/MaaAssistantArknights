@@ -88,12 +88,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
-    static constexpr std::array all_modes = {
-        RoguelikeMode::Exp,
-        RoguelikeMode::Investment,
-        RoguelikeMode::Collectible,
-    };
-    if (ranges::find(all_modes, mode) == all_modes.end()) {
+    if (RoguelikeConfig::is_valid_mode(mode)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
         return false;
