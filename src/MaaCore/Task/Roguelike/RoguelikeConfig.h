@@ -31,6 +31,12 @@ namespace asst
         {
             return theme == RoguelikeTheme::Phantom || theme == RoguelikeTheme::Mizuki || theme == RoguelikeTheme::Sami;
         }
+        static constexpr bool is_valid_mode(RoguelikeMode mode)
+        {
+            return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment ||
+                   mode == RoguelikeMode::Collectible;
+        }
+
     public:
         // 清理缓存的肉鸽数据
         void clear();
