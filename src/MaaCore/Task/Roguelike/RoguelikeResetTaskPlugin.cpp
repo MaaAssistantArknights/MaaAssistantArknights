@@ -29,7 +29,7 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
 
 bool asst::RoguelikeResetTaskPlugin::_run()
 {
-    // 改完全部肉鸽数据之后一起删掉！
+    // 迁移完RoguelikeConfig后，这里可以去掉
     // 简单粗暴，后面如果多任务间有联动可能要改改
     status()->clear_number();
     status()->clear_str();
