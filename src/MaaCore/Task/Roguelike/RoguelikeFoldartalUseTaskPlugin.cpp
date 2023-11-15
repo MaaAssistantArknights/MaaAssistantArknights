@@ -18,10 +18,10 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(AsstMsg msg, const json::valu
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    if (m_config->get_theme() != "Sami") {
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
+    auto mode = m_config->get_mode();
     std::string task_name_pre = m_config->get_theme() + "@Roguelike@Stage";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
@@ -39,28 +39,28 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(AsstMsg msg, const json::valu
         task_view.remove_suffix(task_name_suf.length());
     }
     if (task_view == "CombatDps" || task_view == "EmergencyDps" || task_view == "FerociousPresage") {
-        if (mode == "1" || mode == "4") {
+        if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
             m_stage = "SkipBattle";
         }
-        else if (mode == "0") {
+        else if (mode == RoguelikeMode::Exp) {
             m_stage = "Battle";
         }
         return true;
     }
-    if (task_view == "DreadfulFoe-5" && mode == "0") {
+    if (task_view == "DreadfulFoe-5" && mode == RoguelikeMode::Exp) {
         m_stage = "Boss";
         return true;
     }
-    if (task_view == "Trader" && mode == "0") {
+    if (task_view == "Trader" && mode == RoguelikeMode::Exp) {
         m_stage = "Trader";
         return true;
     }
-    if (task_view == "Encounter" && mode == "0") {
+    if (task_view == "Encounter" && mode == RoguelikeMode::Exp) {
         m_stage = "Encounter";
         return true;
     }
     if ((task_view == "Gambling" || task_view == "EmergencyTransportation" || task_view == "WindAndRain") &&
-        mode == "0") {
+        mode == RoguelikeMode::Exp) {
         m_stage = "Gambling";
         return true;
     }

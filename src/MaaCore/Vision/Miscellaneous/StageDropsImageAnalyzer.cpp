@@ -361,9 +361,40 @@ bool asst::StageDropsImageAnalyzer::analyze_drops_for_12()
     return !flag_analyzer.analyze();
 }
 
+std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new_img)
+{
+    LogTraceFunction;
+
+    const cv::Rect ref_roi = { m_image.cols - 320, 530, 280, 100 };
+    Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
+    offset_match.set_templ(m_image(ref_roi));
+    offset_match.set_threshold(0.7);
+    if (!offset_match.analyze()) {
+        Log.error("Unable to merge images");
+        return std::nullopt;
+    }
+    const int offset = (new_img.cols - offset_match.get_result().rect.x) - (m_image.cols - ref_roi.x);
+
+    const int rel_x = offset + m_image.cols - new_img.cols;
+
+    const cv::Rect overlay_rect = { 540, 500, 740, 220 };
+    cv::Rect overlay_rect_on_strip = overlay_rect;
+    overlay_rect_on_strip.x += rel_x;
+
+    cv::Mat new_strip = cv::Mat { m_image.rows, overlay_rect_on_strip.br().x, m_image.type(), cv::Scalar(0) };
+    m_image.copyTo(new_strip(cv::Rect { 0, 0, m_image.cols, m_image.rows }));
+    new_img(overlay_rect).copyTo(new_strip(overlay_rect_on_strip));
+
+    m_image = new_strip;
+
+    return offset;
+}
+
 bool asst::StageDropsImageAnalyzer::analyze_baseline()
 {
     LogTraceFunction;
+
+    m_baseline.clear();
 
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-BaseLine");
 
@@ -386,7 +417,9 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
                          cv::getStructuringElement(cv::MORPH_RECT, { 3, 1 }));
 
         // cropping after derivatives, dilation, and erosion
-        cv::cvtColor(preprocessed_roi(make_rect<cv::Rect>(task_ptr->roi)), preprocessed_roi, cv::COLOR_BGR2GRAY);
+        auto roi = make_rect<cv::Rect>(task_ptr->roi);
+        roi.width = WindowWidthDefault - roi.br().x + m_image.cols; // image may be wider than 1280
+        cv::cvtColor(preprocessed_roi(roi), preprocessed_roi, cv::COLOR_BGR2GRAY);
     }
 
     cv::Mat preprocessed_bin;
@@ -456,6 +489,10 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     for (const auto& key : m_baseline | views::keys) {
         Log.trace(__FUNCTION__, "baseline", key.to_string());
     }
+
+    if (m_image.cols - (x_offset + bounding_rect.width) < 30 + max_spacing) {
+        Log.trace("bounding_rect.right=", x_offset + bounding_rect.width, ", more materials to reveal?");
+    } // TODO: else tell caller to prevent unnecessary swipe
 
     return !m_baseline.empty();
 }
@@ -671,7 +708,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     }
 
     Matcher analyzer(m_image);
-    analyzer.set_threshold(0.8);
+    analyzer.set_threshold(0.76); // temporary fix for #7282
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);

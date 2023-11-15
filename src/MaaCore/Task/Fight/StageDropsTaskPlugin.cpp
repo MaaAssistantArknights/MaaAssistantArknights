@@ -4,7 +4,9 @@
 #include <regex>
 #include <thread>
 
+#include "Common/AsstTypes.h"
 #include "Common/AsstVersion.h"
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/Miscellaneous/StageDropsConfig.h"
 #include "Config/TaskData.h"
@@ -13,6 +15,7 @@
 #include "Task/ProcessTask.h"
 #include "Task/ReportDataTask.h"
 #include "Utils/Logger.hpp"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 
 bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details) const
@@ -46,15 +49,21 @@ void asst::StageDropsTaskPlugin::set_task_ptr(AbstractTask* ptr)
     m_cast_ptr = dynamic_cast<ProcessTask*>(ptr);
 }
 
-bool asst::StageDropsTaskPlugin::set_enable_penguid(bool enable)
+bool asst::StageDropsTaskPlugin::set_enable_penguin(bool enable)
 {
-    m_enable_penguid = enable;
+    m_enable_penguin = enable;
     return true;
 }
 
 bool asst::StageDropsTaskPlugin::set_penguin_id(std::string id)
 {
     m_penguin_id = std::move(id);
+    return true;
+}
+
+bool asst::StageDropsTaskPlugin::set_enable_yituliu(bool enable)
+{
+    m_enable_yituliu = enable;
     return true;
 }
 
@@ -91,10 +100,27 @@ bool asst::StageDropsTaskPlugin::_run()
         stop_task();
     }
 
-    if (m_enable_penguid && !m_is_annihilation) {
+    if (m_is_annihilation) {
+        Log.info(__FUNCTION__, "Annihilation is not supported by PenguinStats");
+        Log.info(__FUNCTION__, "Annihilation is not supported by Yituliu");
+        return true;
+    }
+
+    if (m_enable_penguin) {
         if (!upload_to_penguin()) {
+            Log.error(__FUNCTION__, "upload_to_penguin failed");
             save_img(utils::path("debug") / utils::path("drops"));
         }
+    }
+    else {
+        Log.info(__FUNCTION__, "PenguinStats is disabled");
+    }
+
+    if (m_enable_yituliu) {
+        upload_to_yituliu();
+    }
+    else {
+        Log.info(__FUNCTION__, "Yituliu is disabled");
     }
 
     return true;
@@ -110,7 +136,33 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     }
 
     StageDropsImageAnalyzer analyzer(ctrler()->get_image());
-    bool ret = analyzer.analyze();
+
+    bool ret = false;
+    while (!need_exit()) {
+        ret = false;
+
+        // more materials to reveal?
+
+        auto swipe_begin = Point { WindowWidthDefault - 40, 632 };
+
+        const int swipe_dist = 200;
+        ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
+        sleep(Config.get_options().task_delay * 3);
+
+        auto new_img = ctrler()->get_image();
+
+        const auto offset_opt = analyzer.merge_image(new_img);
+        if (!offset_opt.has_value()) break;
+        const auto offset = offset_opt.value();
+        Log.trace("new image offset:", offset);
+        if (offset <= 4) {
+            ret = true;
+            break;
+        }
+    }
+
+    // image strip constructed, start main step
+    ret &= analyzer.analyze();
 
     auto&& [code, difficulty] = analyzer.get_stage_key();
     m_stage_code = std::move(code);
@@ -230,7 +282,7 @@ void asst::StageDropsTaskPlugin::set_start_button_delay()
     m_cast_ptr->set_post_delay("StartButton2WaitTime", static_cast<int>(delay));
 }
 
-bool asst::StageDropsTaskPlugin::upload_to_penguin()
+bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, ReportType report_type)
 {
     LogTraceFunction;
 
@@ -239,9 +291,8 @@ bool asst::StageDropsTaskPlugin::upload_to_penguin()
     }
 
     json::value cb_info = basic_info();
-    cb_info["subtask"] = "ReportToPenguinStats";
+    cb_info["subtask"] = subtask;
 
-    // Doc: https://developer.penguin-stats_vec.io/public-api/api-v2-instruction/report-api
     std::string stage_id = m_cur_info_json.get("stage", "stageId", std::string());
     if (stage_id.empty()) {
         cb_info["why"] = "UnknownStage";
@@ -301,16 +352,35 @@ bool asst::StageDropsTaskPlugin::upload_to_penguin()
         extra_headers.insert({ "authorization", "PenguinID " + m_penguin_id });
     }
 
-    if (!m_report_penguin_task_ptr) {
-        m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
+    std::shared_ptr<ReportDataTask> report_task_ptr;
+    if (report_type == ReportType::PenguinStats) {
+        report_task_ptr = m_report_penguin_task_ptr;
+        if (!m_report_penguin_task_ptr) {
+            report_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
+        }
+    }
+    else if (report_type == ReportType::YituliuBigDataStageDrops) {
+        report_task_ptr = m_report_yituliu_task_ptr;
+        if (!m_report_yituliu_task_ptr) {
+            report_task_ptr = std::make_shared<ReportDataTask>(report_yituliu_callback, this);
+        }
     }
 
-    m_report_penguin_task_ptr->set_report_type(ReportType::PenguinStats)
+    report_task_ptr->set_report_type(report_type)
         .set_body(body.to_string())
         .set_extra_headers(extra_headers)
         .set_retry_times(5)
         .run();
+
     return true;
+}
+
+bool asst::StageDropsTaskPlugin::upload_to_penguin()
+{
+    LogTraceFunction;
+
+    const bool result = upload_to_server("ReportToPenguinStats", ReportType::PenguinStats);
+    return result;
 }
 
 void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
@@ -325,6 +395,25 @@ void asst::StageDropsTaskPlugin::report_penguin_callback(AsstMsg msg, const json
     if (msg == AsstMsg::SubTaskExtraInfo && detail.get("what", std::string()) == "PenguinId") {
         std::string id = detail.get("details", "id", std::string());
         p_this->m_penguin_id = id;
+    }
+
+    p_this->callback(msg, detail);
+}
+
+void asst::StageDropsTaskPlugin::upload_to_yituliu()
+{
+    LogTraceFunction;
+
+    upload_to_server("ReportToYituliu", ReportType::YituliuBigDataStageDrops);
+}
+
+void asst::StageDropsTaskPlugin::report_yituliu_callback(AsstMsg msg, const json::value& detail, AbstractTask* task_ptr)
+{
+    LogTraceFunction;
+
+    auto p_this = dynamic_cast<StageDropsTaskPlugin*>(task_ptr);
+    if (!p_this) {
+        return;
     }
 
     p_this->callback(msg, detail);

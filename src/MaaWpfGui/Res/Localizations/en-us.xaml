@@ -257,6 +257,8 @@
     <system:String x:Key="InvestmentEnterSecondFloor">Enter 2nd floor after investing</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part only)</system:String>
+    <system:String x:Key="EnablePenguin">Report Penguin</system:String>
+    <system:String x:Key="EnableYituliu">Report Yituliu</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
     <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
@@ -446,7 +448,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the 「Copilot」 tab and drag the strategy video into it.
 The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
     <!-- !Video Recognition  -->
-    <!--  Gacha Recognition -->
+    <!--  Gacha Recognition  -->
     <system:String x:Key="Gacha">Gacha</system:String>
     <system:String x:Key="GachaOnce">Gacha Once</system:String>
     <system:String x:Key="GachaTenTimes">Gacha Ten Times</system:String>
@@ -472,7 +474,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
-    <!-- !Gacha Recognition -->
+    <!-- !Gacha Recognition  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
@@ -606,7 +608,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
-    <system:String x:Key="RoguelikeEvent">Roguelike event:</system:String>
+    <system:String x:Key="RoguelikeEvent">Event:</system:String>
     <system:String x:Key="CurTimes">Current times</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
     <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>
@@ -693,6 +695,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
+    <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
+    <system:String x:Key="GameResourceNotModified">Game resource updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA.</system:String>
     <system:String x:Key="GameResourceFailed">Game resource update failed, please try again later.</system:String>
     <!-- !Api  -->

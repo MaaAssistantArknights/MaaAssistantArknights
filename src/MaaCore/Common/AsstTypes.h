@@ -421,7 +421,4 @@ namespace asst
     };
 
     inline static const std::string UploadDataSource = "MeoAssistant";
-    inline static constexpr std::string_view RoguelikePhantomThemeName = "Phantom";
-    inline static constexpr std::string_view RoguelikeMizukiThemeName = "Mizuki";
-    inline static constexpr std::string_view RoguelikeSamiThemeName = "Sami";
 } // namespace asst

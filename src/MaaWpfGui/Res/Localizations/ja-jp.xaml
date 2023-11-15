@@ -257,6 +257,8 @@
     <system:String x:Key="InvestmentEnterSecondFloor">投資後に階層2へ</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
+    <system:String x:Key="EnablePenguin">Penguin-Statsの報告</system:String>
+    <system:String x:Key="EnableYituliu">Yituliuの報告</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
@@ -606,7 +608,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
-    <system:String x:Key="RoguelikeEvent">ローグライクイベント:</system:String>
+    <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
@@ -693,6 +695,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">ステージデータの取得に成功しました</system:String>
     <system:String x:Key="GameResourceUpdating">ゲームリソースが更新中です。</system:String>
+    <system:String x:Key="GameResourceUpdatePreparing">索引の作成中</system:String>
+    <system:String x:Key="GameResourceNotModified">ゲームリソースが更新されました。</system:String>
     <system:String x:Key="GameResourceUpdated">ゲームリソースが更新されました。MAAを再起動してください。</system:String>
     <system:String x:Key="GameResourceFailed">ゲームリソースの更新に失敗しました。後でもう一度お試しください。</system:String>
     <!-- !Api  -->

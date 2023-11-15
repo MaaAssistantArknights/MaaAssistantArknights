@@ -3948,7 +3948,43 @@
             "StartButton1"
         ]
     },
+    "FightSeries-Default-1": {
+        "action": "DoNothing",
+        "roi": [
+            945,
+            580,
+            100,
+            50
+        ]
+    },
+    "FightSeries-Icon": {
+        "action": "ClickSelf",
+        "roi": [
+            945,
+            580,
+            100,
+            50
+        ],
+        "next": [
+            "FightSeries-List-1"
+        ]
+    },
+    "FightSeries-List": {
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [
+            950,
+            180,
+            100,
+            400
+        ]
+    },
+    "FightSeries-List-1": {
+        "baseTask": "FightSeries-List",
+        "template": "FightSeries-List-1.png"
+    },
     "StartButton1": {
+        "doc": "绑定插件调整连战次数",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -7927,6 +7963,13 @@
         "action": "ClickSelf",
         "postDelay": 1000
     },
+    "BattleStartPre@UseMedicine": {
+        "doc": "绑定MedicineCounter来使用理智药",
+        "template": "UseMedicine.png",
+        "next": [
+            "BattleStartPre"
+        ]
+    },
     "BattleStart": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -8311,16 +8354,18 @@
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 400,
-        "postDelay": 170,
+        "postDelay": 100,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
         "specialParams": [
-            200,
+            400,
+            100,
             2,
             0,
             100
         ],
         "specialParamsDoc": [
             "设置朝向时的滑动距离",
+            "补偿距离上限",
             "滑动初速度（平均速度是固定的，初速度快末速度慢相当于一直减速）",
             "滑动末速度",
             "将干员滑动到场上的 最小滑动 duration"

@@ -1551,7 +1551,7 @@ namespace MaaWpfGui.Main
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
 
         private static JObject SerializeFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes,
-            string dropsItemId, int dropsItemQuantity, bool reportToPenguin = true)
+            string dropsItemId, int dropsItemQuantity)
         {
             var taskParams = new JObject
             {
@@ -1559,7 +1559,8 @@ namespace MaaWpfGui.Main
                 ["medicine"] = maxMedicine,
                 ["stone"] = maxStone,
                 ["times"] = maxTimes,
-                ["report_to_penguin"] = reportToPenguin,
+                ["report_to_penguin"] = Instances.SettingsViewModel.EnablePenguin,
+                ["report_to_yituliu"] = Instances.SettingsViewModel.EnableYituliu,
             };
             if (dropsItemQuantity != 0 && !string.IsNullOrWhiteSpace(dropsItemId))
             {
@@ -1763,8 +1764,8 @@ namespace MaaWpfGui.Main
                 };
             }
 
-            taskParams["report_to_penguin"] = true;
-            taskParams["report_to_yituliu"] = true;
+            taskParams["report_to_penguin"] = Instances.SettingsViewModel.EnablePenguin;
+            taskParams["report_to_yituliu"] = Instances.SettingsViewModel.EnableYituliu;
             taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
 
@@ -1964,8 +1965,8 @@ namespace MaaWpfGui.Main
                 ["set_time"] = setTime,
                 ["expedite"] = false,
                 ["expedite_times"] = 0,
-                ["report_to_penguin"] = true,
-                ["report_to_yituliu"] = true,
+                ["report_to_penguin"] = false,
+                ["report_to_yituliu"] = false,
             };
             int recruitmentTime;
             if (Instances.RecognizerViewModel.IsLevel3UseShortTime)
@@ -2039,9 +2040,10 @@ namespace MaaWpfGui.Main
         /// <param name="isAdverse">是不是突袭</param>
         /// <param name="type">任务类型</param>
         /// <param name="loopTimes">任务重复执行次数</param>
+        /// <param name="useSanityPotion">是否使用理智药</param>
         /// <param name="asstStart">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool asstStart = true)
+        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool useSanityPotion, bool asstStart = true)
         {
             var taskParams = new JObject
             {
@@ -2054,6 +2056,7 @@ namespace MaaWpfGui.Main
                 ["navigate_name"] = navigateName,
                 ["is_adverse"] = isAdverse,
                 ["loop_times"] = loopTimes,
+                ["use_sanity_potion"] = useSanityPotion,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding(type, taskParams);
             _latestTaskId[TaskType.Copilot] = id;

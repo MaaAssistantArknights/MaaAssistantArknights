@@ -295,14 +295,14 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
     // 时间太短了的压根放不上去，故意加长一点
-    if (int min_duration = swipe_oper_task_ptr->special_params.at(3); duration < min_duration) {
+    if (int min_duration = swipe_oper_task_ptr->special_params.at(4); duration < min_duration) {
         duration = min_duration;
     }
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
-    m_inst_helper.ctrler()->swipe(oper_point, target_point, duration, false, swipe_oper_task_ptr->special_params.at(1),
-                                  swipe_oper_task_ptr->special_params.at(2), deploy_with_pause);
+    m_inst_helper.ctrler()->swipe(oper_point, target_point, duration, false, swipe_oper_task_ptr->special_params.at(2),
+                                  swipe_oper_task_ptr->special_params.at(3), deploy_with_pause);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {
@@ -321,9 +321,8 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
             static_cast<int>(swipe_oper_task_ptr->special_params.at(0) * scale_size.second / 720.0);
         Point end_point = target_point + (direction_target * coeff);
 
-        // 经粗略测算，方向区域倾斜大概是 1/5
-        const static auto radian = -std::atan(0.2);
-        fix_swipe_out_of_limit(target_point, end_point, scale_size.first, scale_size.second, radian);
+        fix_swipe_out_of_limit(target_point, end_point, scale_size.first, scale_size.second,
+                               swipe_oper_task_ptr->special_params.at(1));
 
         m_inst_helper.sleep(use_oper_task_ptr->post_delay);
         m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
@@ -649,7 +648,8 @@ bool asst::BattleHelper::cancel_oper_selection()
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
 }
 
-void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, double radian)
+void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, int max_distance,
+                                                double radian)
 {
     Point direct = Point::zero();
     int distance = 0;
@@ -689,6 +689,13 @@ void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width,
         static_cast<int>(std::get<0>(adjust_scale) / adjust_more * distance),
         static_cast<int>(std::get<1>(adjust_scale) / adjust_more * distance),
     };
+
+    if (auto point_distance = Point::distance(adjust, { 0, 0 }); point_distance > max_distance) {
+        adjust = {
+            static_cast<int>(adjust.x * max_distance / point_distance),
+            static_cast<int>(adjust.y * max_distance / point_distance),
+        };
+    }
 
     Log.info(__FUNCTION__, "swipe end_point out of limit, start:", p1, ", end:", p2, ", adjust:", adjust);
     p1 += adjust;
