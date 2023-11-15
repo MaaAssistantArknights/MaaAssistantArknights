@@ -10567,6 +10567,123 @@
             5
         ]
     },
+    "RoguelikeSettlementConfirm": {
+        "preDelayDoc": "结算界面Part2检测是否加载完成的延迟，减少截图消耗",
+        "preDelay": 6000,
+        "roi": [
+            600,
+            610,
+            80,
+            80
+        ],
+        "postDelay": 1000,
+        "specialParamsDoc": [
+            "结算界面Part1等待加载完的延迟"
+        ],
+        "specialParams": [
+            2000
+        ]
+    },
+    "RoguelikeSettlementOcr-BOSS": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            680,
+            238,
+            95,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Combat": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            102,
+            304,
+            100,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Difficulty": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false,
+        "roi": [
+            750,
+            372,
+            120,
+            31
+        ]
+    },
+    "RoguelikeSettlementOcr-Emergency": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            680,
+            304,
+            95,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Exp": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            643,
+            525,
+            160,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Floor": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            102,
+            170,
+            100,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Object": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            680,
+            170,
+            95,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Recruit": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            102,
+            374,
+            100,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Score": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            280,
+            525,
+            160,
+            55
+        ]
+    },
+    "RoguelikeSettlementOcr-Skill": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            920,
+            530,
+            100,
+            40
+        ]
+    },
+    "RoguelikeSettlementOcr-Step": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            102,
+            238,
+            100,
+            40
+        ]
+    },
     "RoguelikeSkillSelectionFlag": {
         "templThreshold": 0.9,
         "maskRange": [
@@ -11069,139 +11186,6 @@
         ],
         "next": [
             "Roguelike@GamePass"
-        ]
-    },
-    "RoguelikeSettlementConfirm": {
-        "preDelayDoc": "结算界面Part2检测是否加载完成的延迟，减少截图消耗",
-        "preDelay": 6000,
-        "roi": [
-            600,
-            610,
-            80,
-            80
-        ],
-        "postDelay": 1000,
-        "specialParamsDoc": [
-            "结算界面Part1等待加载完的延迟"
-        ],
-        "specialParams": [
-            2000
-        ]
-    },
-    "RoguelikeSettlementOcr-Floor": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            102,
-            170,
-            100,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Step": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            102,
-            238,
-            100,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Combat": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            102,
-            304,
-            100,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Recruit": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            102,
-            374,
-            100,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Object": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            680,
-            170,
-            95,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-BOSS": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            680,
-            238,
-            95,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Emergency": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            680,
-            304,
-            95,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Difficulty": {
-        "baseTask": "NumberOcrReplace",
-        "isAscii": false,
-        "roi": [
-            750,
-            372,
-            120,
-            31
-        ]
-    },
-    "RoguelikeSettlementOcr-Score": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            280,
-            525,
-            160,
-            55
-        ]
-    },
-    "RoguelikeSettlementOcr-Exp": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            643,
-            525,
-            160,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Skill": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            920,
-            530,
-            100,
-            40
-        ]
-    },
-    "Phantom@RoguelikeSettlementOcr-Score": {
-        "roi": [
-            460,
-            525,
-            160,
-            55
-        ]
-    },
-    "Phantom@RoguelikeSettlementOcr-Exp": {
-        "roi": [
-            760,
-            525,
-            160,
-            40
         ]
     },
     "Roguelike@GetDrop": {
@@ -13023,6 +13007,22 @@
     "Phantom@Roguelike@TodoEnter": {},
     "Phantom@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
+    },
+    "Phantom@RoguelikeSettlementOcr-Exp": {
+        "roi": [
+            760,
+            525,
+            160,
+            40
+        ]
+    },
+    "Phantom@RoguelikeSettlementOcr-Score": {
+        "roi": [
+            460,
+            525,
+            160,
+            55
+        ]
     },
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
