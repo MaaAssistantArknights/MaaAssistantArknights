@@ -609,7 +609,10 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _startSelf, value);
-                AutoStart.SetStart(value);
+                if (!AutoStart.SetStart(value))
+                {
+                    _logger.Error("Failed to set startup.");
+                }
             }
         }
 
