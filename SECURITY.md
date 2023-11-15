@@ -14,8 +14,8 @@ The Nightly Release version and the Beta Release version are for testing only, a
 
 如果该漏洞可以公开发表，请通过 [issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&projects=&template=cn-bug-report.yaml) 发布。
 
-如果该漏洞**不可以**公开发表，请通过[秘密途径](https://github.com/MaaAssistantArknights/MaaAssistantArknights/security/advisories/new)报告。
+如果该漏洞**不可以**公开发表（例如远程控制功能等可能被用于入侵用户的），请通过[秘密途径](https://github.com/MaaAssistantArknights/MaaAssistantArknights/security/advisories/new)报告。
 
 If the vulnerability can be published publicly, please [publish it through an issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&projects=&template=cn-bug-report.yaml).
 
-If the vulnerability **cannot be published publicly**, please [report it privately](https://github.com/MaaAssistantArknights/MaaAssistantArknights/security/advisories/new).
+If the vulnerability **cannot be published publicly** (For example, the vulnerability that can be used to invade the user's devices), please [report it privately](https://github.com/MaaAssistantArknights/MaaAssistantArknights/security/advisories/new).
