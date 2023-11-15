@@ -7,4 +7,5 @@ void asst::RoguelikeConfig::clear() {
     m_trader_no_longer_buy = false;
     m_core_char = std::string();
     m_team_full_without_rookie = false;
+    m_foldartal_floor = std::nullopt;
 }

@@ -56,41 +56,44 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string theme = m_config->get_theme();
-    auto image = ctrler()->get_image();
-
-    OCRer analyzer(image);
-    std::string foldartal = "None";
     if (m_ocr_next_level) {
-        analyzer.set_task_info(theme + "@Roguelike@FoldartalGainOcrNextLevel");
-        if (analyzer.analyze()) {
-            foldartal = analyzer.get_result().front().text;
-        }
-        store_to_status(foldartal, Status::RoguelikeFoldartalFloor);
-        json::array foldartal_floor_array = get_array(Status::RoguelikeFoldartalFloor);
-        // 到达第二层后，获得上一层预见的密文板
-        if (foldartal_floor_array.size() >= 2) {
-            std::string foldartal_last_floor = (foldartal_floor_array.end() - 2)->to_string();
-            if (foldartal_last_floor.size() >= 2 && foldartal_last_floor.front() == '"' &&
-                foldartal_last_floor.back() == '"') {
-                foldartal_last_floor = foldartal_last_floor.substr(1, foldartal_last_floor.size() - 2);
-            }
-            if (foldartal_last_floor != "None") {
-                store_to_status(foldartal_last_floor, Status::RoguelikeFoldartalOverview);
-            }
-        }
+        enter_next_floor();
         return true;
-    };
+    }
+    else {
+        return after_combat();
+    }
+}
 
-    std::string task_name =
-        m_ocr_after_combat ? theme + "@Roguelike@FoldartalGainOcrAfterCombat" : theme + "@Roguelike@FoldartalGainOcr";
-    analyzer.set_task_info(task_name);
+void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
+{
+    auto foldartal_floor = m_config->get_foldartal_floor();
 
+    // 到达第二层后，获得上一层预见的密文板
+    if (foldartal_floor) {
+        store_to_status(*foldartal_floor, Status::RoguelikeFoldartalOverview);
+    }
+
+    foldartal_floor.reset();
+    OCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info(m_config->get_theme() + "@Roguelike@FoldartalGainOcrNextLevel");
+    if (analyzer.analyze()) {
+        foldartal_floor = analyzer.get_result().front().text;
+    }
+    m_config->set_foldartal_floor(std::move(foldartal_floor));
+}
+
+bool asst::RoguelikeFoldartalGainTaskPlugin::after_combat()
+{
+    OCRer analyzer(ctrler()->get_image());
+    analyzer.set_task_info(m_config->get_theme() + (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat"
+                                                                       : "@Roguelike@FoldartalGainOcr"));
     if (!analyzer.analyze()) {
         return false;
     }
-    foldartal = analyzer.get_result().front().text;
-    store_to_status(foldartal, Status::RoguelikeFoldartalOverview);
+
+    auto foldartal = analyzer.get_result().front().text;
+    store_to_status(std::move(foldartal), Status::RoguelikeFoldartalOverview);
     if (m_ocr_after_combat) {
         ctrler()->click(analyzer.get_result().front().rect);
     }

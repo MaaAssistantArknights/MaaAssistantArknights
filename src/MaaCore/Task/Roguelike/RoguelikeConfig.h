@@ -1,5 +1,8 @@
 #pragma once
 #include <string>
+#include <vector>
+#include <queue>
+#include <optional>
 
 namespace asst
 {
@@ -64,6 +67,9 @@ namespace asst
         void set_team_full_without_rookie(bool without_rookie) { m_team_full_without_rookie = without_rookie; }
         bool get_team_full_without_rookie() { return m_team_full_without_rookie; }
 
+        void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
+        const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
+
     protected:
         // 肉鸽主题
         std::string m_theme;
@@ -81,5 +87,9 @@ namespace asst
         bool m_trader_no_longer_buy = false;
         std::string m_core_char;
         bool m_team_full_without_rookie = false;
+
+        /* 密文板 */
+        // 当前层的预见密文板，在下一层获得
+        std::optional<std::string> m_foldartal_floor;
     };
 } // namespace asst
