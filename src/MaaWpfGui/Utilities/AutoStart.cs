@@ -34,6 +34,8 @@ namespace MaaWpfGui.Utilities
         private static readonly string _registryKeyName = $"MAA_{_uniqueIdentifier}";
         private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, _registryKeyName + ".lnk");
 
+        private static readonly string _currentUserRunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+
         private static string GetUniqueIdentifierFromPath(string path)
         {
             int hash = path.GetHashCode();
@@ -55,7 +57,7 @@ namespace MaaWpfGui.Utilities
                     SetStart(true);
                 }
 
-                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false);
+                using var key = Registry.CurrentUser.OpenSubKey(_currentUserRunKey, false);
                 return key?.GetValue(_registryKeyName) != null;
             }
             catch (Exception e)
@@ -74,7 +76,7 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+                using var key = Registry.CurrentUser.OpenSubKey(_currentUserRunKey, true);
                 if (key == null)
                 {
                     _logger.Error("Failed to open registry key.");
@@ -84,6 +86,7 @@ namespace MaaWpfGui.Utilities
                 if (set)
                 {
                     key.SetValue(_registryKeyName, "\"" + _fileValue + "\"");
+                    _logger.Information($"Set [{_registryKeyName}, \"{_fileValue}\"] into \"{_currentUserRunKey}\"");
                 }
                 else
                 {
@@ -92,8 +95,9 @@ namespace MaaWpfGui.Utilities
 
                 return set == CheckStart();
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error("Failed to set startup: " + e.Message);
                 return false;
             }
         }
