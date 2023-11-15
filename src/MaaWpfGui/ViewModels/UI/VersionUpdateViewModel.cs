@@ -473,8 +473,7 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(UpdateUrl);
                         }
-                    }
-                );
+                    });
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);

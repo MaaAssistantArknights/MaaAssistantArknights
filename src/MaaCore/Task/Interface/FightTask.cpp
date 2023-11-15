@@ -4,6 +4,7 @@
 
 #include "Config/TaskData.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
+#include "Task/Fight/FightTimesPlugin.h"
 #include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/Fight/SanityBeforeStagePlugin.h"
 #include "Task/Fight/SideStoryReopenTask.h"
@@ -50,6 +51,7 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
     m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
     m_dr_grandet_task_plugin_ptr->set_enable(false);
     m_fight_task_ptr->register_plugin<SanityBeforeStagePlugin>();
+    m_fight_task_ptr->register_plugin<FightTimesPlugin>();
     m_medicine_plugin = m_fight_task_ptr->register_plugin<MedicineCounterPlugin>();
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
@@ -67,7 +69,8 @@ bool asst::FightTask::set_params(const json::value& params)
     const int expiring_medicine = params.get("expiring_medicine", 0);
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
-    bool enable_penguid = params.get("report_to_penguin", false);
+    bool enable_penguin = params.get("report_to_penguin", false);
+    bool enable_yituliu = params.get("report_to_yituliu", false);
     std::string penguin_id = params.get("penguin_id", "");
     std::string server = params.get("server", "CN");
     std::string client_type = params.get("client_type", std::string());
@@ -79,6 +82,9 @@ bool asst::FightTask::set_params(const json::value& params)
             drops.insert_or_assign(item_id, quantity.as_integer());
         }
         m_stage_drops_plugin_ptr->set_specify_quantity(drops);
+    }
+    else {
+        m_stage_drops_plugin_ptr->set_specify_quantity({});
     }
 
     if (!m_running) {
@@ -119,14 +125,16 @@ bool asst::FightTask::set_params(const json::value& params)
     m_medicine_plugin->set_use_expiring(expiring_medicine != 0);
     m_medicine_plugin->set_dr_grandet(is_dr_grandet);
     m_dr_grandet_task_plugin_ptr->set_enable(is_dr_grandet);
-    m_stage_drops_plugin_ptr->set_enable_penguid(enable_penguid);
+    m_stage_drops_plugin_ptr->set_enable_penguin(enable_penguin);
     m_stage_drops_plugin_ptr->set_penguin_id(penguin_id);
+    m_stage_drops_plugin_ptr->set_enable_yituliu(enable_yituliu);
 
     m_sidestory_reopen_task_ptr->set_medicine(medicine);
     m_sidestory_reopen_task_ptr->set_expiring_medicine(expiring_medicine);
     m_sidestory_reopen_task_ptr->set_stone(stone);
-    m_sidestory_reopen_task_ptr->set_enable_penguid(enable_penguid);
+    m_sidestory_reopen_task_ptr->set_enable_penguin(enable_penguin);
     m_sidestory_reopen_task_ptr->set_penguin_id(std::move(penguin_id));
+    m_sidestory_reopen_task_ptr->set_enable_yituliu(enable_yituliu);
     m_sidestory_reopen_task_ptr->set_server(server);
 
     return true;

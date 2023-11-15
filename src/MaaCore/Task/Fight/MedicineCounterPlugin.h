@@ -33,16 +33,16 @@ namespace asst
         };
 
         // 库存量, 移除按钮的位置
-        struct InitialMedicineResult
+        struct MedicineResult
         {
             int using_count = 0;
             std::vector<Medicine> medicines;
         };
 
         // 识别使用的药量
-        std::optional<InitialMedicineResult> init_count(cv::Mat image);
+        std::optional<MedicineResult> init_count(cv::Mat image);
         // 减少药品使用
-        void reduce_excess(const InitialMedicineResult& using_medicine);
+        void reduce_excess(const MedicineResult& using_medicine);
         std::optional<int> get_target_of_sanity(const cv::Mat& image);
         std::optional<int> get_maximun_of_sanity(const cv::Mat& image);
 

@@ -54,6 +54,7 @@
         <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
             <hc:NumericUpDown
                 Margin="0,5"
+                Minimum="0"
                 hc:InfoElement.Title="{DynamicResource StartTimesLimit}"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
@@ -87,6 +88,7 @@
             </CheckBox>
             <hc:NumericUpDown
                 Margin="0,5"
+                Minimum="0"
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
                 Visibility="{c:Binding ElementName=InvestmentEnabled, Path=IsChecked}"
                 Style="{StaticResource NumericUpDownExtend}"

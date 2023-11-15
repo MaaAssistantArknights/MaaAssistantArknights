@@ -213,7 +213,7 @@ char_1021_kroos2|寒芒克洛丝|Kroos the Keen Glint|寒芒クルース|크루�
 char_1024_hbisc2|濯尘芙蓉|Hibiscus the Purifier|濯塵ハイビスカス|히비스커스 더 퓨리파이어
 char_1027_greyy2|承曦格雷伊|Greyy the Lightningbearer|承曦グレイ|그레이 더 라이트닝베어러
 char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホーン|레우스S 느와르 코르네
-char_4006_melnte|玫拉|Melanite||
+char_4006_melnte|玫拉|Melanite|メラナイト|
 char_4013_kjera|耶拉|Kjera|イェラ|쉐라
 char_4014_lunacu|子月|Lunacub|ルナカブ|루나컵
 char_4015_spuria|空构|Spuria||
@@ -258,7 +258,7 @@ char_213_mostma|莫斯提马|Mostima|モスティマ|모스티마
 char_222_bpipe|风笛|Bagpipe|バグパイプ|백파이프
 char_225_haak|阿|Aak|ア|아
 char_248_mgllan|麦哲伦|Magallan|マゼラン|마젤란
-char_249_mlyss|缪尔赛思|Muelsyse||
+char_249_mlyss|缪尔赛思|Muelsyse|ミュルジス|
 char_250_phatom|傀影|Phantom|ファントム|팬텀
 char_263_skadi|斯卡蒂|Skadi|スカジ|스카디
 char_264_f12yin|山|Mountain|マウンテン|마운틴
@@ -296,7 +296,7 @@ char_1023_ghost2|归溟幽灵鲨|Specter the Unchained|帰溟スペクター|스
 char_1026_gvial2|百炼嘉维尔|Gavial the Invincible|百錬ガヴィル|가비알 디 인빈서블
 char_1028_texas2|缄默德克萨斯|Texas the Omertosa|血掟テキサス|텍사스 디 오메르토사
 char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
-char_1031_slent2|淬羽赫默|Silence the Paradigmatic||
+char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere||
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
 char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
@@ -307,7 +307,7 @@ char_2015_dusk|夕|Dusk|シー|시
 char_2023_ling|令|Ling|リィン|링
 char_2024_chyue|重岳|Chongyue|チョンユエ|총웨
 char_4009_irene|艾丽妮|Irene|アイリーニ|아이린
-char_4027_heyak|霍尔海雅|Ho'olheyak||
+char_4027_heyak|霍尔海雅|Ho'olheyak|ホルハイヤ|
 char_4039_horn|号角|Horn|ホルン|혼
 char_4042_lumen|流明|Lumen|ルーメン|루멘
 char_4046_ebnhlz|黑键|Ebenholz|エーベンホルツ|에벤홀츠

@@ -69,6 +69,8 @@ namespace MaaWpfGui.Constants
         public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
         public const string StartsWithScript = "Start.StartsWithScript";
         public const string EndsWithScript = "Start.EndsWithScript";
+        public const string BlockSleep = "Start.BlockSleep";
+        public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
 
         public const string ChooseLevel3 = "Recruit.ChooseLevel3";
         public const string ChooseLevel4 = "Recruit.ChooseLevel4";
@@ -155,6 +157,9 @@ namespace MaaWpfGui.Constants
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
+        public const string EnablePenguin = "Penguin.EnablePenguin";
+
+        public const string EnableYituliu = "Yituliu.EnableYituliu";
 
         public const string BluestacksConfigPath = "Bluestacks.Config.Path";
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";

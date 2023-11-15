@@ -25,6 +25,7 @@
                 ToolTip="{DynamicResource CheckBoxesNotSaved}" />
             <hc:NumericUpDown
                 Margin="0,5"
+                Minimum="0"
                 hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"

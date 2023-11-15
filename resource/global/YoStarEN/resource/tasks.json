@@ -49,6 +49,18 @@
             150
         ]
     },
+    "CW-Open": {
+        "text": [
+            "Lone Trail",
+            "is now open"
+        ]
+    },
+    "CWChapterToCW": {
+        "text": [
+            "THE COMING",
+            "THE FUTURE"
+        ]
+    },
     "CF-Open": {
         "text": [
             "Event <A Flurry to the Flame> is now",
@@ -2138,6 +2150,10 @@
                 "寻宝人"
             ],
             [
+                "^[Iil]?nes$",
+                "Ines"
+            ],
+            [
                 "Ines",
                 "伊内丝"
             ],
@@ -2156,6 +2172,86 @@
             [
                 "Roadside Emergency Reserves",
                 "街头应急储备"
+            ],
+            [
+                "Gravity",
+                "重力"
+            ],
+            [
+                "Portable First-aid Kit",
+                "便携式医疗设备"
+            ],
+            [
+                "Silence the Paradigmatic",
+                "淬羽赫默"
+            ],
+            [
+                "Full-Auto Debit Machine",
+                "全自动划账器"
+            ],
+            [
+                "Muelsyse",
+                "缪尔赛思"
+            ],
+            [
+                "Gas Controller",
+                "毒雾塔控制"
+            ],
+            [
+                "Flowing Shape",
+                "流形"
+            ],
+            [
+                "Ho'olheyak",
+                "霍尔海雅"
+            ],
+            [
+                "Energy Perturbation Amplifier",
+                "能量扰动放大器"
+            ],
+            [
+                "Melanite",
+                "玫拉"
+            ],
+            [
+                "Energy Perturbation Amplifier",
+                "能量扰动放大器"
+            ],
+            [
+                "Post-Firing Debt Relief Program",
+                "解雇者清债程序"
+            ],
+            [
+                "Night Banisher",
+                "夜灯"
+            ],
+            [
+                "Rupturing Canister",
+                "爆裂毒气罐"
+            ],
+            [
+                "Energy Perturbation Amplifier",
+                "能量扰动放大器"
+            ],
+            [
+                "Tactical Equipment Toolbox",
+                "战术装备整理箱"
+            ],
+            [
+                "Tactical Equipment Toolbox",
+                "战术装备整理箱"
+            ],
+            [
+                "Tactical Equipment Toolbox",
+                "战术装备整理箱"
+            ],
+            [
+                "Portable First-aid Kit",
+                "便携式医疗设备"
+            ],
+            [
+                "Portable First-aid Kit",
+                "便携式医疗设备"
             ]
         ]
     },
@@ -4947,8 +5043,16 @@
                 "尖叫樱桃"
             ],
             [
+                "Game Room Admin Access.*",
+                "Game Room Admin Access Card"
+            ],
+            [
                 "Game Room Admin Access Card",
                 "游戏室管理员权限卡"
+            ],
+            [
+                "Advanced Guard Recruitment.*",
+                "Advanced Guard Recruitment Voucher"
             ],
             [
                 "Advanced Guard Recruitment Voucher",
@@ -5019,8 +5123,16 @@
                 "林间夜话"
             ],
             [
+                "Advanced Sniper Recruitment.*",
+                "Advanced Sniper Recruitment Voucher"
+            ],
+            [
                 "Advanced Sniper Recruitment Voucher",
                 "精锐狙击招募券"
+            ],
+            [
+                "Advanced Defender Recruitment.*",
+                "Advanced Defender Recruitment Voucher"
             ],
             [
                 "Advanced Defender Recruitment Voucher",
@@ -5079,20 +5191,40 @@
                 "鸭爵金砖"
             ],
             [
+                "Advanced Caster Recruitment.*",
+                "Advanced Caster Recruitment Voucher"
+            ],
+            [
                 "Advanced Caster Recruitment Voucher",
                 "精锐术师招募券"
+            ],
+            [
+                "Advanced Medic Recruitment.*",
+                "Advanced Medic Recruitment Voucher"
             ],
             [
                 "Advanced Medic Recruitment Voucher",
                 "精锐医疗招募券"
             ],
             [
+                "Advanced Vanguard Recruitment.*",
+                "Advanced Vanguard Recruitment Voucher"
+            ],
+            [
                 "Advanced Vanguard Recruitment Voucher",
                 "精锐先锋招募券"
             ],
             [
+                "Advanced Specialist Recruitment.*",
+                "Advanced Specialist Recruitment Voucher"
+            ],
+            [
                 "Advanced Specialist Recruitment Voucher",
                 "精锐特种招募券"
+            ],
+            [
+                "Advanced Supporter Recruitment.*",
+                "Advanced Supporter Recruitment Voucher"
             ],
             [
                 "Advanced Supporter Recruitment Voucher",
@@ -5269,6 +5401,10 @@
             [
                 "Acahuallan Bowl",
                 "阿卡胡拉饭碗"
+            ],
+            [
+                "Three-Dimensional Art.*",
+                "Three-Dimensional Art Display"
             ],
             [
                 "Three-Dimensional Art Display",

@@ -13,12 +13,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels;
 using Stylet;
 
 namespace MaaWpfGui.Models
@@ -76,11 +79,17 @@ namespace MaaWpfGui.Models
         {
             var ret = await Update();
 
-            if (ret == UpdateResult.Success)
+            string toastMessage = ret switch
+            {
+                UpdateResult.Failed => LocalizationHelper.GetString("GameResourceFailed"),
+                UpdateResult.Success => LocalizationHelper.GetString("GameResourceUpdated"),
+                _ => string.Empty,
+            };
+            if (!string.IsNullOrEmpty(toastMessage))
             {
                 _ = Execute.OnUIThreadAsync(() =>
                 {
-                    using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdated"));
+                    using var toast = new ToastNotification(toastMessage);
                     toast.Show();
                 });
             }
@@ -180,6 +189,7 @@ namespace MaaWpfGui.Models
                 return UpdateResult.NotModified;
             }
 
+            OutputDownloadProgress(1, LocalizationHelper.GetString("GameResourceUpdatePreparing"));
             var ret1 = await UpdateFilesWithIndex(baseUrl);
 
             if (ret1 == UpdateResult.Failed)
@@ -191,6 +201,7 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
+            OutputDownloadProgress(2, LocalizationHelper.GetString("GameResourceUpdatePreparing"));
             var ret2 = await UpdateSingleFiles(baseUrl);
 
             if (ret2 == UpdateResult.Failed)
@@ -200,10 +211,12 @@ namespace MaaWpfGui.Models
 
             if (ret1 != UpdateResult.Success && ret2 != UpdateResult.Success)
             {
+                OutputDownloadProgress(LocalizationHelper.GetString("GameResourceNotModified"));
                 return UpdateResult.NotModified;
             }
 
             PostProcVersionChecks();
+            OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
             return UpdateResult.Success;
         }
 
@@ -211,24 +224,30 @@ namespace MaaWpfGui.Models
         {
             UpdateResult ret = UpdateResult.NotModified;
 
+            var maxCount = _maaSingleFiles.Count;
+            var count = 0;
+
             // TODO: 加个文件存这些文件的 hash，如果 hash 没变就不下载了，只需要请求一次
             foreach (var file in _maaSingleFiles)
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file, file);
+                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file);
 
                 if (sRet == UpdateResult.Failed)
                 {
-                    ret = UpdateResult.Failed;
+                    OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
+                    return UpdateResult.Failed;
                 }
 
+                OutputDownloadProgress(2, ++count, maxCount);
                 if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
                 {
                     ret = UpdateResult.Success;
                 }
             }
 
+            OutputDownloadProgress(2, "Update completed");
             return ret;
         }
 
@@ -250,32 +269,34 @@ namespace MaaWpfGui.Models
 
             var ret = UpdateResult.NotModified;
             var context = File.ReadAllText(indexPath);
+            var maxCount = context
+                .Split('\n')
+                .ToList()
+                .Where(file => !string.IsNullOrEmpty(file))
+                .Count(file => !File.Exists(Path.Combine(Environment.CurrentDirectory, file)));
+            var count = 0;
 
             foreach (var file in context.Split('\n').ToList()
                          .Where(file => !string.IsNullOrEmpty(file))
                          .Where(file => !File.Exists(Path.Combine(Environment.CurrentDirectory, file))))
             {
-                try
+                await Task.Delay(1000);
+
+                var sRet = await UpdateFileWithETag(baseUrl, file, file);
+                if (sRet == UpdateResult.Failed)
                 {
-                    await Task.Delay(1000);
-
-                    var sRet = await UpdateFileWithETag(baseUrl, file, file);
-                    if (sRet == UpdateResult.Failed)
-                    {
-                        return UpdateResult.Failed;
-                    }
-
-                    if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
-                    {
-                        ret = UpdateResult.Success;
-                    }
+                    OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
+                    return UpdateResult.Failed;
                 }
-                catch (Exception)
+
+                OutputDownloadProgress(1, ++count, maxCount);
+                if (ret == UpdateResult.NotModified && sRet == UpdateResult.Success)
                 {
-                    // ignore
+                    ret = UpdateResult.Success;
                 }
             }
 
+            OutputDownloadProgress(1, "Update completed");
             return ret;
         }
 
@@ -317,6 +338,49 @@ namespace MaaWpfGui.Models
             ETagCache.Set(response);
 
             return UpdateResult.Success;
+        }
+
+        private static ObservableCollection<LogItemViewModel> _logItemViewModels;
+
+        private static void OutputDownloadProgress(int index, int count = 0, int maxCount = 1)
+        {
+            OutputDownloadProgress(index, $"{count}/{maxCount}({100 * count / maxCount}%)");
+        }
+
+        private static void OutputDownloadProgress(int index, string output)
+        {
+            OutputDownloadProgress($"index {index}/2: {output}");
+        }
+
+        private static void OutputDownloadProgress(string output)
+        {
+            _logItemViewModels = Instances.TaskQueueViewModel.LogItemViewModels;
+            if (_logItemViewModels == null)
+            {
+                return;
+            }
+
+            var log = new LogItemViewModel(LocalizationHelper.GetString("GameResourceUpdating") + "\n" + output, UiLogColor.Download);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UiLogColor.Download)
+                {
+                    if (!string.IsNullOrEmpty(output))
+                    {
+                        _logItemViewModels[0] = log;
+                    }
+                    else
+                    {
+                        _logItemViewModels.RemoveAt(0);
+                    }
+                }
+                else if (!string.IsNullOrEmpty(output))
+                {
+                    _logItemViewModels.Clear();
+                    _logItemViewModels.Add(log);
+                }
+            });
         }
     }
 }

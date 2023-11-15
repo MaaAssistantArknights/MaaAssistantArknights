@@ -1335,6 +1335,22 @@
         "sortId": -10000,
         "usage": "隨手抄下了塔拉歌謠與傳說的紙頁。收集到一定數量，可以向河谷巡迴商隊換取物資。"
     },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "試煉經驗",
+        "sortId": -10000,
+        "usage": "試煉結束後獲得的經驗，可以提升試煉等級。"
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解碼的數據方塊。永遠記住，資訊轉換往往伴隨著不可避免的損耗。善用資訊儲存工具，但別依賴它們。",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "數據黑盒",
+        "sortId": -10000,
+        "usage": "用於對遏制單元進行數據迭代。"
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "無論是任務回饋、戰利品收集、材料研究、論文交流還是戰場清掃，羅德島那高效的情報系統會不斷地運作，從種種行動中收集龐雜的資訊，並分別計算歸納以得出各類結論；作為情報黑箱外的人，看看已經量化的數值就好。",

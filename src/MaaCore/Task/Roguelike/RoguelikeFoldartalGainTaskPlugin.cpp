@@ -11,14 +11,14 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::val
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    if (m_roguelike_theme != "Sami") {
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
 
@@ -56,9 +56,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string theme = m_roguelike_theme;
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
-
+    std::string theme = m_config->get_theme();
     auto image = ctrler()->get_image();
 
     OCRer analyzer(image);

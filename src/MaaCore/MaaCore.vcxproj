@@ -48,15 +48,13 @@
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Config\OnnxSessions.h" />
-    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h" />
     <ClInclude Include="Controller\adb-lite\client.hpp" />
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
     <ClInclude Include="Controller\ControllerAPI.h" />
     <ClInclude Include="Controller\ControllerFactory.h" />
     <ClInclude Include="Controller\ControlScaleProxy.h" />
-    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp" />
-    <ClCompile Include="Controller\MaaThriftController.h" />
+    <ClInclude Include="Controller\MaaThriftController.h" />
     <ClInclude Include="Controller\MaatouchController.h" />
     <ClInclude Include="Controller\MinitouchController.h" />
     <ClInclude Include="Controller\PlayToolsController.h" />
@@ -69,6 +67,7 @@
     <ClInclude Include="InstHelper.h" />
     <ClInclude Include="Task\Experiment\CombatRecordRecognitionTask.h" />
     <ClInclude Include="Task\Experiment\SingleStepBattleProcessTask.h" />
+    <ClInclude Include="Task\Fight\FightTimesPlugin.h" />
     <ClInclude Include="Task\Fight\MedicineCounterPlugin.h" />
     <ClInclude Include="Task\Fight\SanityBeforeStagePlugin.h" />
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h" />
@@ -89,11 +88,13 @@
     <ClInclude Include="Task\BattleHelper.h" />
     <ClInclude Include="Task\Interface\SingleStepTask.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
@@ -146,6 +147,7 @@
     <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h" />
     <ClInclude Include="Config\TaskData.h" />
     <ClInclude Include="Config\TemplResource.h" />
     <ClInclude Include="Status.h" />
@@ -241,6 +243,7 @@
     <ClCompile Include="InstHelper.cpp" />
     <ClCompile Include="Task\Experiment\CombatRecordRecognitionTask.cpp" />
     <ClCompile Include="Task\Experiment\SingleStepBattleProcessTask.cpp" />
+    <ClCompile Include="Task\Fight\FightTimesPlugin.cpp" />
     <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp" />
     <ClCompile Include="Task\Fight\SanityBeforeStagePlugin.cpp" />
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp" />
@@ -260,11 +263,13 @@
     <ClCompile Include="Task\BattleHelper.cpp" />
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
@@ -313,6 +318,7 @@
     <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp" />
     <ClCompile Include="Config\TaskData.cpp" />
     <ClCompile Include="Config\TemplResource.cpp" />
     <ClCompile Include="Status.cpp" />
