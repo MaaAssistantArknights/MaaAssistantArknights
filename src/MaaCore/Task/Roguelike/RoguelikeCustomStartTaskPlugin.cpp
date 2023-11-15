@@ -14,11 +14,11 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -142,6 +142,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 
     status()->set_str(Status::RoguelikeUseSupport, m_customs[RoguelikeCustomType::UseSupport]);
     status()->set_str(Status::RoguelikeUseNonfriendSupport, m_customs[RoguelikeCustomType::UseNonfriendSupport]);
-    status()->set_str(Status::RoguelikeCoreChar, char_name);
+    m_config->set_core_char(char_name);
     return true;
 }

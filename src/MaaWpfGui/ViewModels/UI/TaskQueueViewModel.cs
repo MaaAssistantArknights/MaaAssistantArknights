@@ -29,6 +29,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -805,6 +806,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
+            Instances.SettingsViewModel.SetupSleepManagement();
+
             if (!_runningState.GetIdle())
             {
                 return;
@@ -1002,6 +1005,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SetStopped()
         {
+            SleepManagement.AllowSleep();
+
             if (!_runningState.GetIdle() || Stopping)
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));

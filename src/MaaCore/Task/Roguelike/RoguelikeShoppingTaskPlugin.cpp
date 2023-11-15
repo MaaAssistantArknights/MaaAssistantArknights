@@ -16,11 +16,11 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -46,7 +46,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         return false;
     }
 
-    bool no_longer_buy = status()->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
+    bool no_longer_buy = m_config->get_trader_no_longer_buy();
 
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
@@ -104,8 +104,8 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     }
 
     bool bought = false;
-    auto& all_goods = RoguelikeShopping.get_goods(m_roguelike_theme);
-    std::vector<std::string> all_foldartal = m_roguelike_theme == "Sami"
+    auto& all_goods = RoguelikeShopping.get_goods(m_config->get_theme());
+    std::vector<std::string> all_foldartal = m_config->get_theme() == RoguelikeTheme::Sami
                                                  ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
                                                  : std::vector<std::string>();
     for (const auto& goods : all_goods) {
@@ -170,7 +170,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         Log.info("Ready to buy", goods.name);
         ctrler()->click(find_it->rect);
         bought = true;
-        if (m_roguelike_theme == "Sami") {
+        if (m_config->get_theme() == RoguelikeTheme::Sami) {
 
             auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
             if (iter != all_foldartal.end()) {
@@ -184,7 +184,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             }
         }
         if (goods.no_longer_buy) {
-            status()->set_number(Status::RoguelikeTraderNoLongerBuy, 1);
+            m_config->set_trader_no_longer_buy(true);
         }
         break;
     }

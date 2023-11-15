@@ -7631,6 +7631,240 @@
         "stageId": "act29side_10",
         "width": 12
     },
+    "act29side_ex01#f#-activities/act29side/level_act29side_ex01": {
+        "code": "ZT-EX-1",
+        "filename": "act29side_ex01#f#-activities-act29side-level_act29side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_ex01",
+        "name": "急板",
+        "stageId": "act29side_ex01#f#",
+        "width": 11
+    },
+    "act29side_ex01-activities/act29side/level_act29side_ex01": {
+        "code": "ZT-EX-1",
+        "filename": "act29side_ex01-activities-act29side-level_act29side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_ex01",
+        "name": "急板",
+        "stageId": "act29side_ex01",
+        "width": 11
+    },
+    "act29side_ex02#f#-activities/act29side/level_act29side_ex02": {
+        "code": "ZT-EX-2",
+        "filename": "act29side_ex02#f#-activities-act29side-level_act29side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex02",
+        "name": "对位法",
+        "stageId": "act29side_ex02#f#",
+        "width": 12
+    },
+    "act29side_ex02-activities/act29side/level_act29side_ex02": {
+        "code": "ZT-EX-2",
+        "filename": "act29side_ex02-activities-act29side-level_act29side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex02",
+        "name": "对位法",
+        "stageId": "act29side_ex02",
+        "width": 12
+    },
+    "act29side_ex03#f#-activities/act29side/level_act29side_ex03": {
+        "code": "ZT-EX-3",
+        "filename": "act29side_ex03#f#-activities-act29side-level_act29side_ex03.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex03",
+        "name": "跳进",
+        "stageId": "act29side_ex03#f#",
+        "width": 10
+    },
+    "act29side_ex03-activities/act29side/level_act29side_ex03": {
+        "code": "ZT-EX-3",
+        "filename": "act29side_ex03-activities-act29side-level_act29side_ex03.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex03",
+        "name": "跳进",
+        "stageId": "act29side_ex03",
+        "width": 10
+    },
+    "act29side_ex04#f#-activities/act29side/level_act29side_ex04": {
+        "code": "ZT-EX-4",
+        "filename": "act29side_ex04#f#-activities-act29side-level_act29side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_ex04",
+        "name": "序列法",
+        "stageId": "act29side_ex04#f#",
+        "width": 11
+    },
+    "act29side_ex04-activities/act29side/level_act29side_ex04": {
+        "code": "ZT-EX-4",
+        "filename": "act29side_ex04-activities-act29side-level_act29side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_ex04",
+        "name": "序列法",
+        "stageId": "act29side_ex04",
+        "width": 11
+    },
+    "act29side_ex05#f#-activities/act29side/level_act29side_ex05": {
+        "code": "ZT-EX-5",
+        "filename": "act29side_ex05#f#-activities-act29side-level_act29side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex05",
+        "name": "和谐进行",
+        "stageId": "act29side_ex05#f#",
+        "width": 11
+    },
+    "act29side_ex05-activities/act29side/level_act29side_ex05": {
+        "code": "ZT-EX-5",
+        "filename": "act29side_ex05-activities-act29side-level_act29side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex05",
+        "name": "和谐进行",
+        "stageId": "act29side_ex05",
+        "width": 11
+    },
+    "act29side_ex06#f#-activities/act29side/level_act29side_ex06": {
+        "code": "ZT-EX-6",
+        "filename": "act29side_ex06#f#-activities-act29side-level_act29side_ex06.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex06",
+        "name": "术式转换",
+        "stageId": "act29side_ex06#f#",
+        "width": 11
+    },
+    "act29side_ex06-activities/act29side/level_act29side_ex06": {
+        "code": "ZT-EX-6",
+        "filename": "act29side_ex06-activities-act29side-level_act29side_ex06.json",
+        "height": 7,
+        "levelId": "activities/act29side/level_act29side_ex06",
+        "name": "术式转换",
+        "stageId": "act29side_ex06",
+        "width": 11
+    },
+    "act29side_ex07#f#-activities/act29side/level_act29side_ex07": {
+        "code": "ZT-EX-7",
+        "filename": "act29side_ex07#f#-activities-act29side-level_act29side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_ex07",
+        "name": "无调性",
+        "stageId": "act29side_ex07#f#",
+        "width": 12
+    },
+    "act29side_ex07-activities/act29side/level_act29side_ex07": {
+        "code": "ZT-EX-7",
+        "filename": "act29side_ex07-activities-act29side-level_act29side_ex07.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_ex07",
+        "name": "无调性",
+        "stageId": "act29side_ex07",
+        "width": 12
+    },
+    "act29side_ex08#f#-activities/act29side/level_act29side_ex08": {
+        "code": "ZT-EX-8",
+        "filename": "act29side_ex08#f#-activities-act29side-level_act29side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_ex08",
+        "name": "永恒主题",
+        "stageId": "act29side_ex08#f#",
+        "width": 12
+    },
+    "act29side_ex08-activities/act29side/level_act29side_ex08": {
+        "code": "ZT-EX-8",
+        "filename": "act29side_ex08-activities-act29side-level_act29side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_ex08",
+        "name": "永恒主题",
+        "stageId": "act29side_ex08",
+        "width": 12
+    },
+    "act29side_s01#f#-activities/act29side/level_act29side_sub-1-1": {
+        "code": "ZT-S-1",
+        "filename": "act29side_s01#f#-activities-act29side-level_act29side_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_sub-1-1",
+        "name": "司律者",
+        "stageId": "act29side_s01#f#",
+        "width": 13
+    },
+    "act29side_s01-activities/act29side/level_act29side_sub-1-1": {
+        "code": "ZT-S-1",
+        "filename": "act29side_s01-activities-act29side-level_act29side_sub-1-1.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_sub-1-1",
+        "name": "司律者",
+        "stageId": "act29side_s01",
+        "width": 13
+    },
+    "act29side_s02#f#-activities/act29side/level_act29side_sub-1-2": {
+        "code": "ZT-S-2",
+        "filename": "act29side_s02#f#-activities-act29side-level_act29side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_sub-1-2",
+        "name": "管乐团",
+        "stageId": "act29side_s02#f#",
+        "width": 12
+    },
+    "act29side_s02-activities/act29side/level_act29side_sub-1-2": {
+        "code": "ZT-S-2",
+        "filename": "act29side_s02-activities-act29side-level_act29side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_sub-1-2",
+        "name": "管乐团",
+        "stageId": "act29side_s02",
+        "width": 12
+    },
+    "act29side_s03#f#-activities/act29side/level_act29side_sub-1-3": {
+        "code": "ZT-S-3",
+        "filename": "act29side_s03#f#-activities-act29side-level_act29side_sub-1-3.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_sub-1-3",
+        "name": "拜谒途",
+        "stageId": "act29side_s03#f#",
+        "width": 13
+    },
+    "act29side_s03-activities/act29side/level_act29side_sub-1-3": {
+        "code": "ZT-S-3",
+        "filename": "act29side_s03-activities-act29side-level_act29side_sub-1-3.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_sub-1-3",
+        "name": "拜谒途",
+        "stageId": "act29side_s03",
+        "width": 13
+    },
+    "act29side_s04#f#-activities/act29side/level_act29side_sub-1-4": {
+        "code": "ZT-S-4",
+        "filename": "act29side_s04#f#-activities-act29side-level_act29side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_sub-1-4",
+        "name": "六重奏",
+        "stageId": "act29side_s04#f#",
+        "width": 12
+    },
+    "act29side_s04-activities/act29side/level_act29side_sub-1-4": {
+        "code": "ZT-S-4",
+        "filename": "act29side_s04-activities-act29side-level_act29side_sub-1-4.json",
+        "height": 8,
+        "levelId": "activities/act29side/level_act29side_sub-1-4",
+        "name": "六重奏",
+        "stageId": "act29side_s04",
+        "width": 12
+    },
+    "act29side_s05#f#-activities/act29side/level_act29side_sub-1-5": {
+        "code": "ZT-S-5",
+        "filename": "act29side_s05#f#-activities-act29side-level_act29side_sub-1-5.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_sub-1-5",
+        "name": "王座厅",
+        "stageId": "act29side_s05#f#",
+        "width": 13
+    },
+    "act29side_s05-activities/act29side/level_act29side_sub-1-5": {
+        "code": "ZT-S-5",
+        "filename": "act29side_s05-activities-act29side-level_act29side_sub-1-5.json",
+        "height": 9,
+        "levelId": "activities/act29side/level_act29side_sub-1-5",
+        "name": "王座厅",
+        "stageId": "act29side_s05",
+        "width": 13
+    },
     "act29side_tr01-activities/act29side/level_act29side_tr01": {
         "code": "ZT-TR-1",
         "filename": "act29side_tr01-activities-act29side-level_act29side_tr01.json",

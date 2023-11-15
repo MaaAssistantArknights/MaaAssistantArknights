@@ -83,14 +83,14 @@
                     Margin="5"
                     Command="{s:Action ExternalNotificationSendTest}"
                     Content="{DynamicResource ExternalNotificationSendTest}"
-                    IsEnabled="{c:Binding IsEnabled}" />
+                    IsEnabled="{c:Binding 'EnabledExternalNotificationProvider != &quot;Off&quot;'}" />
             </Grid>
         </StackPanel>
 
         <StackPanel
             Grid.Row="2"
             Grid.Column="0"
-            IsEnabled="{c:Binding IsServerChan}"
+            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;ServerChan&quot;'}"
             Orientation="Horizontal">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -120,7 +120,7 @@
         <StackPanel
             Grid.Row="3"
             Grid.Column="0"
-            IsEnabled="{c:Binding IsSmtp}"
+            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;SMTP&quot;'}"
             Orientation="Horizontal">
             <Grid>
                 <Grid.RowDefinitions>

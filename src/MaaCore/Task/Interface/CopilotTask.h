@@ -27,6 +27,7 @@ namespace asst
         std::shared_ptr<TaskFileReloadTask> m_task_file_reload_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_navigate_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_not_use_prts_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> m_medicine_task_ptr= nullptr;
         std::shared_ptr<ProcessTask> m_adverse_select_task_ptr = nullptr;
         std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
         std::shared_ptr<BattleProcessTask> m_battle_task_ptr = nullptr;

@@ -219,13 +219,11 @@ bool asst::AutoRecruitTask::_run()
         auto start_rect = try_get_start_button(ctrler()->get_image());
         if (start_rect) {
             if (need_exit()) return false;
+            if (m_slot_fail >= slot_retry_limit) return false;
             if (recruit_one(start_rect.value()))
                 ++m_cur_times;
             else
                 ++m_slot_fail;
-            if (m_slot_fail >= slot_retry_limit) {
-                return false;
-            }
             if (!m_has_permit && (!m_force_refresh || !m_has_refresh)) return true;
         }
         else {
@@ -789,7 +787,7 @@ void asst::AutoRecruitTask::upload_to_yituliu(const json::value& details)
         m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_yituliu_callback, this);
     }
 
-    m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigData)
+    m_report_yituliu_task_ptr->set_report_type(ReportType::YituliuBigDataAutoRecruit)
         .set_body(body.to_string())
         .set_retry_times(0)
         .run();

@@ -975,6 +975,14 @@
         "sortId": 10019,
         "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
     },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "限定契約証",
+        "sortId": 10020,
+        "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
@@ -1438,6 +1446,30 @@
         "name": "火竜の紅玉",
         "sortId": -10000,
         "usage": "リオレウスとの戦いを経て手に入れた素材。アーツ錬金にはもってこい。"
+    },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "ナスティによって各地に隠されていたデータのほかにも、各国の支援を受け、次々と新しいデータが生み出された。クルビアはついにクリステンが行っていた研究の価値に気づき始めているのだ。",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "飛行データチップ",
+        "sortId": -10000,
+        "usage": "さまざまな高度と環境下における飛行データが記録されたチップ。一定数を集めると、特別連絡室で必要な物資と交換できる。"
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？",
+        "icon": "act25side_token_key01.png",
+        "name": "特殊作戦許可α",
+        "sortId": -10000,
+        "usage": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？"
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？",
+        "icon": "act25side_token_key02.png",
+        "name": "特殊作戦許可β",
+        "sortId": -10000,
+        "usage": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？"
     },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -1965,6 +1997,14 @@
         "icon": "randomMaterial_8.png",
         "name": "補給物資・ロドスV",
         "sortId": 60108,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "マイレンダー基金から提供された素材補給箱。各調査エリアごとに個別で割り振られるため、どの箱になんの素材が入っているのか誰にもわからない。",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "技術調査補給",
+        "sortId": 60109,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "return_credit_token": {
