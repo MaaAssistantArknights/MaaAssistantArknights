@@ -18,4 +18,4 @@ The Nightly Release version and the Beta Release version are for testing only, a
 
 If the vulnerability can be published publicly, please [publish it through an issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&projects=&template=cn-bug-report.yaml).
 
-If the vulnerability **cannot be published publicly** (For example, the vulnerability that can be used to invade the user's devices), please [report it privately](https://github.com/MaaAssistantArknights/MaaAssistantArknights/security/advisories/new).
+If the vulnerability **cannot be published publicly** (for example, the vulnerability that can be used to invade the user's devices), please [report it privately](https://github.com/MaaAssistantArknights/MaaAssistantArknights/security/advisories/new).
