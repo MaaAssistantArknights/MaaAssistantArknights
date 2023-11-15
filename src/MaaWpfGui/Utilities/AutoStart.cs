@@ -56,7 +56,7 @@ namespace MaaWpfGui.Utilities
                 }
 
                 using var key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false);
-                return key?.GetValue(_startupShortcutPath) != null;
+                return key?.GetValue(_registryKeyName) != null;
             }
             catch (Exception e)
             {
