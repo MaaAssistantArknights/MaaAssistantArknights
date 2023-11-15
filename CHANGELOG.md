@@ -64,6 +64,7 @@
 - 修复干员识别没有收起职业栏导致最后一列干员可能识别错误的问题 @zzyyyl
 - update recruit m_slot_fail @horror-proton
 - minimum 0 for Recruit Time, Invest and Roguelike Start times @Constrat
+- 修复地图资源特殊文件名下载失败 @ABA2396
 
 ### 其他
 
@@ -89,4 +90,4 @@
 - 调整GetImageFromROI对未声明`template`任务截图时，直接使用任务名命名输出图片 (#7207) @status102
 - Update sync-resource.yml @Cryolitia
 - Add Sync-Resource-CI (#7186) @Cryolitia
-- choreUpdate 153_layout_3_times_a_day.json @ABA2396
+- 修改 153 基建排班表 @ABA2396
