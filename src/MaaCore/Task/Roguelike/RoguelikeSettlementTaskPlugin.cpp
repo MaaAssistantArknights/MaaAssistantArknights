@@ -12,13 +12,13 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
     }
 
     auto task_name = details.at("details").at("task").as_string();
-    if (m_config->get_mode() == RoguelikeMode::Exp && task_name.ends_with("Roguelike@GamePass")) {
+    if (task_name.ends_with("Roguelike@GamePass")) {
         m_game_pass = true;
-        return true;
+        return m_config->get_mode() == RoguelikeMode::Exp;
     }
-    else if (m_config->get_mode() == RoguelikeMode::Exp && task_name.ends_with("Roguelike@MissionFailedFlag2")) {
+    else if (task_name.ends_with("Roguelike@MissionFailedFlag2")) {
         m_game_pass = false;
-        return true;
+        return m_config->get_mode() == RoguelikeMode::Exp;
     }
     else {
         return false;
@@ -115,6 +115,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
 
 bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
 {
+    int retry = 0;
     cv::Mat image;
     Matcher matcher;
     matcher.set_task_info("RoguelikeSettlementConfirm");
@@ -124,7 +125,9 @@ bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
         if (matcher.analyze()) {
             return true;
         }
+        Log.error(__FUNCTION__, "RoguelikeSettlementConfirm match failed, retry:", retry);
+        ++retry;
         sleep(Config.get_options().task_delay);
-    } while (!need_exit());
+    } while (!need_exit() && retry < 20);
     return false;
 }
