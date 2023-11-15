@@ -74,13 +74,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    std::string theme = params.get("theme", std::string(RoguelikePhantomThemeName));
-    static constexpr std::array all_themes = {
-        RoguelikePhantomThemeName,
-        RoguelikeMizukiThemeName,
-        RoguelikeSamiThemeName,
-    };
-    if (ranges::find(all_themes, theme) == all_themes.end()) {
+    std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
+    if (RoguelikeConfig::is_valid_theme(theme)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error("Unknown roguelike theme", theme);
         return false;
@@ -93,12 +88,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
-    static constexpr std::array all_modes = {
-        RoguelikeMode::Exp,
-        RoguelikeMode::Investment,
-        RoguelikeMode::Collectible,
-    };
-    if (ranges::find(all_modes, mode) == all_modes.end()) {
+    if (RoguelikeConfig::is_valid_mode(mode)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
         return false;

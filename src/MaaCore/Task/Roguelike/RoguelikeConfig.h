@@ -16,8 +16,27 @@ namespace asst
         Collectible = 4,
     };
 
+    class RoguelikeTheme
+    {
+    public:
+        static constexpr std::string_view Phantom = "Phantom";
+        static constexpr std::string_view Mizuki = "Mizuki";
+        static constexpr std::string_view Sami = "Sami";
+    };
+
     class RoguelikeConfig
     {
+    public:
+        static constexpr bool is_valid_theme(std::string_view theme)
+        {
+            return theme == RoguelikeTheme::Phantom || theme == RoguelikeTheme::Mizuki || theme == RoguelikeTheme::Sami;
+        }
+        static constexpr bool is_valid_mode(RoguelikeMode mode)
+        {
+            return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment ||
+                   mode == RoguelikeMode::Collectible;
+        }
+
     public:
         // 清理缓存的肉鸽数据
         void clear();

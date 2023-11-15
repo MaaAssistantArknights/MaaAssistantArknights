@@ -15,7 +15,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::val
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    if (m_config->get_theme() != "Sami") {
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
