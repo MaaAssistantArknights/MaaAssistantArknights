@@ -16,6 +16,9 @@ namespace asst
         virtual bool _run() override;
 
     private:
+        void enter_next_floor();
+        bool after_combat();
+
         json::array get_array(auto& status_string);
         bool store_to_status(std::string foldartal, auto& status_string);
         // 战斗后识别密文板
