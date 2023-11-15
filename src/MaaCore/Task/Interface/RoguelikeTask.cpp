@@ -76,12 +76,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     LogTraceFunction;
 
     std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
-    if (RoguelikeConfig::is_valid_theme(theme)) {
+    if (!RoguelikeConfig::is_valid_theme(theme)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error("Unknown roguelike theme", theme);
         return false;
     }
 
+    // 迁移完RoguelikeConfig后，这里可以去掉
     if (status() == nullptr) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "status() is null");
@@ -89,7 +90,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
-    if (RoguelikeConfig::is_valid_mode(mode)) {
+    if (!RoguelikeConfig::is_valid_mode(mode)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
         return false;
