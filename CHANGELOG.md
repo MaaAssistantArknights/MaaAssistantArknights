@@ -25,7 +25,6 @@
 - 移除未使用的变量 (#7281) @status102
 - 优化理智识别模块，取消预处理，取消内部重试 (#7280) @status102
 - 修改游戏资源更新后的显示内容 @ABA2396
-- 修改游戏资源更新后的显示内容 @ABA2396
 - 优化萨米肉鸽部分关卡逻辑 (#7255) @Lancarus
 - 重构肉鸽数据存储，迁移肉鸽主题 (#7138) @status102
 - 详细介绍：抄作业:优化 + 刷理智:自动重复代理相关 (#7180) @Yanstory
@@ -69,14 +68,12 @@
 ### 其他
 
 - Update SECURITY.md @AnnAngela
-- Update SECURITY.md @AnnAngela
 - Create SECURITY.md @AnnAngela
 - 迁移肉鸽主题，迁移肉鸽主题和模式检查 (#7304) @status102
 - 修改adb pair部分 (#7286) @Rbqwow
 - revert: 回调部署干员朝向滑动距离为400，回调滑动duration为100，增加补偿距离上限 (#7277) @status102
 - 基建少滑几次 @ABA2396
 - Resource Update - TXWY data fix @Constrat
-- Update main.cpp @Constrat
 - Update main.cpp @Constrat
 - Auto Update Game Resources - 2023-11-10 @Constrat
 - 迁移肉鸽部分数据 (#7184) @status102
@@ -86,17 +83,10 @@
 - 补充使用BattleUseOper->preDelay的注释 @status102
 - Auto Update Game Resources - 2023-11-08 @MistEO
 - Auto Update Game Resources - 2023-11-07 @MistEO
-- Auto Update Game Resources - 2023-11-07 @MistEO
 - Update JP/LONETRAIL 孤星 (#7236) @wallsman
-- Auto Update Game Resources - 2023-11-07 @MistEO
-- Auto Update Game Resources - 2023-11-07 @MistEO
 - removed unused templates @Constrat
 - name @Constrat
 - 调整GetImageFromROI对未声明`template`任务截图时，直接使用任务名命名输出图片 (#7207) @status102
-- Update sync-resource.yml @Cryolitia
-- Update sync-resource.yml @Cryolitia
-- Update sync-resource.yml @Cryolitia
-- Update sync-resource.yml @Cryolitia
 - Update sync-resource.yml @Cryolitia
 - Add Sync-Resource-CI (#7186) @Cryolitia
 - choreUpdate 153_layout_3_times_a_day.json @ABA2396
