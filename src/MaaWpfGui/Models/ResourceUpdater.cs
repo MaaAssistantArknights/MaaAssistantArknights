@@ -232,7 +232,7 @@ namespace MaaWpfGui.Models
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file, file);
+                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file);
 
                 if (sRet == UpdateResult.Failed)
                 {
