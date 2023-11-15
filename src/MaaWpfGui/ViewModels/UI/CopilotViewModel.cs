@@ -435,7 +435,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Clipboard.ContainsText())
             {
-                Filename = Clipboard.GetText();
+                Filename = Clipboard.GetText().Trim();
             }
             else if (Clipboard.ContainsFileDropList())
             {
