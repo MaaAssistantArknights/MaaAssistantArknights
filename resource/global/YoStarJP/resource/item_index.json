@@ -975,6 +975,14 @@
         "sortId": 10019,
         "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
     },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "限定契約証",
+        "sortId": 10020,
+        "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "人材派遣会社との長期的かつ安定的な協力態勢の賜物。支出のコントロールに効果が期待できる。しかし、毎回この手段を使わざるを得ないような状況にはなってほしくないものだ。",
@@ -990,6 +998,14 @@
         "name": "限定契約証",
         "sortId": 10010,
         "usage": "新型採用契約による期限付きポイント。一定数溜まると対象スカウトのオペレーターを指名できる。"
+    },
+    "Logistics_Special_Permit": {
+        "classifyType": "NONE",
+        "description": "戦場での動きが活発化する中、緊急派遣任務を確実に遂行させるために、ロドスが発行した特別支援申請許可証。この許可証を所持しているオペレーターはPRTSを通じて、直接本艦の後方支援部に支援を要請できる。その要請に対し支援オペレーターは優先的に追加支援物資を手配し、さらに付近の資源探索にも協力する。",
+        "icon": "Logistics_Special_Permit.png",
+        "name": "特別支援申請許可証",
+        "sortId": 30200,
+        "usage": "「特別支援申請許可証」を使用すると、作戦で理性を消費せず、クリア時の通常報酬が確定入手になり、報酬量が3倍になる。"
     },
     "REP_COIN": {
         "classifyType": "NORMAL",
@@ -1431,6 +1447,30 @@
         "sortId": -10000,
         "usage": "リオレウスとの戦いを経て手に入れた素材。アーツ錬金にはもってこい。"
     },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "ナスティによって各地に隠されていたデータのほかにも、各国の支援を受け、次々と新しいデータが生み出された。クルビアはついにクリステンが行っていた研究の価値に気づき始めているのだ。",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "飛行データチップ",
+        "sortId": -10000,
+        "usage": "さまざまな高度と環境下における飛行データが記録されたチップ。一定数を集めると、特別連絡室で必要な物資と交換できる。"
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？",
+        "icon": "act25side_token_key01.png",
+        "name": "特殊作戦許可α",
+        "sortId": -10000,
+        "usage": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？"
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？",
+        "icon": "act25side_token_key02.png",
+        "name": "特殊作戦許可β",
+        "sortId": -10000,
+        "usage": "秘密エリアに入るための許可証。内部の仕掛けに少し違いがあるようだが？"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "試練の成否はそれほど重要ではない、これは貴殿が実戦において正確な選択を行うためのサポートである。",
@@ -1631,6 +1671,30 @@
         "sortId": -10000,
         "usage": "事前登録特典"
     },
+    "classic_gacha": {
+        "classifyType": "NORMAL",
+        "description": "ロドスが発展を遂げるうえで、中堅層の協力と援助は必要不可欠である。この券を使えば一定範囲内の特定の人材をスカウトできる。",
+        "icon": "classic_gacha.png",
+        "name": "中堅スカウト券",
+        "sortId": 40011,
+        "usage": "ロドス人事部が発行した許可証。中堅オペレーターを1名スカウトできる。"
+    },
+    "classic_gacha_10": {
+        "classifyType": "NORMAL",
+        "description": "ロドスが発展を遂げるうえで、中堅層の協力と援助は必要不可欠である。この券たちを使えば一定範囲内の特定の人材をスカウトできる。",
+        "icon": "classic_gacha_10.png",
+        "name": "10回中堅スカウト券",
+        "sortId": 40001,
+        "usage": "ロドス人事部が発行した許可証。一回で10名の中堅オペレーターをスカウトできる。"
+    },
+    "classic_normal_ticket": {
+        "classifyType": "NORMAL",
+        "description": "ロドスで過ごした時間の長さが、オペレーターたちの業務への理解をより一層深める。いつかきっと貴重かつ必要不可欠な物資を提供してくれるだろう。",
+        "icon": "classic_normal_ticket.png",
+        "name": "中堅資格証",
+        "sortId": 10006,
+        "usage": "中堅たる能力を持つオペレーターであると証明する資格証。資格交換所で物資と交換できる。"
+    },
     "et_ObsidianPass": {
         "classifyType": "NONE",
         "description": "今回の各フェス会場では趣向を凝らし共通回数券制を採用しました。各種イベントに参加するにはチケットが必要です。ふるってご活用ください。",
@@ -1756,7 +1820,7 @@
         "description": "一体誰が自腹を切ったのかはわからないが、贈り主がロドスに溢れんばかりの希望を持っているのは明らかだ。",
         "icon": "randomDiamondShd_1.png",
         "name": "お祝いポチ袋",
-        "sortId": 60108,
+        "sortId": 60109,
         "usage": "ロドスの全員に贈られる特別ボーナスが入ったぽち袋。金額はバラバラだが、どの袋にもお祝いの気持ちがたっぷり詰まっている。"
     },
     "randomDiamondShd_2": {
@@ -1764,7 +1828,7 @@
         "description": "一体誰が自腹を切ったのかはわからないが、贈り主がロドスに溢れんばかりの希望を持っているのは明らかだ。",
         "icon": "randomDiamondShd_2.png",
         "name": "感謝祭ギフトボックス",
-        "sortId": 60109,
+        "sortId": 60110,
         "usage": "ロドスの全員に贈られるギフトボックス。入れられた数はランダムだが、それ以上にどの箱にも感謝の気持ちがこれでもかと詰められている。"
     },
     "randomMaterialRune_0": {
@@ -1797,6 +1861,14 @@
         "icon": "randomMaterialRune_11.png",
         "name": "補給物資・「贋波」",
         "sortId": 60022,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
+    "randomMaterialRune_12": {
+        "classifyType": "CONSUME",
+        "description": "危機契約で入手した素材補給箱。満身創痍の大地を治療するために奮闘している人々へのせめてものお返しです。――危機契約",
+        "icon": "randomMaterialRune_12.png",
+        "name": "補給物資・「起源」",
+        "sortId": 60023,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "randomMaterialRune_2": {
@@ -1917,6 +1989,22 @@
         "icon": "randomMaterial_7.png",
         "name": "補給物資・ロドスIV",
         "sortId": 60107,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
+    "randomMaterial_8": {
+        "classifyType": "CONSUME",
+        "description": "ロドスが各地から買い集め、貯蔵した素材の補給箱。しかし整理整頓ができていないためか、どの箱になんの素材が入っているのか誰にもわからない。",
+        "icon": "randomMaterial_8.png",
+        "name": "補給物資・ロドスV",
+        "sortId": 60108,
+        "usage": "補給物資としてランダムに様々な素材が入っている。"
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "マイレンダー基金から提供された素材補給箱。各調査エリアごとに個別で割り振られるため、どの箱になんの素材が入っているのか誰にもわからない。",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "技術調査補給",
+        "sortId": 60109,
         "usage": "補給物資としてランダムに様々な素材が入っている。"
     },
     "return_credit_token": {

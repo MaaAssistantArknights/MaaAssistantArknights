@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -53,13 +54,12 @@ namespace MaaWpfGui.Helper
                     return local;
                 }
 
-                foreach (var lang in SupportedLanguages)
+                foreach (var lang in from lang in SupportedLanguages
+                         let key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key
+                         where local.StartsWith(key) || key.StartsWith(local)
+                         select lang)
                 {
-                    var key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key;
-                    if (local.StartsWith(key) || key.StartsWith(local))
-                    {
-                        return lang.Key;
-                    }
+                    return lang.Key;
                 }
 
                 return "en-us";
@@ -149,16 +149,16 @@ namespace MaaWpfGui.Helper
             return $"{{{{ {key} }}}}";
         }
 
-        private static readonly string[] _PallasChars = { "💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻", };
-        private static readonly Random _PallasRand = new Random();
+        private static readonly string[] _pallasChars = { "💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻", };
+        private static readonly Random _pallasRand = new Random();
 
         private static string GetPallasString()
         {
-            int len = _PallasRand.Next(3, 6);
+            int len = _pallasRand.Next(3, 6);
             string cheers = string.Empty;
             for (int i = 0; i < len; i++)
             {
-                cheers += _PallasChars[_PallasRand.Next(0, _PallasChars.Length)];
+                cheers += _pallasChars[_pallasRand.Next(0, _pallasChars.Length)];
             }
 
             return cheers;

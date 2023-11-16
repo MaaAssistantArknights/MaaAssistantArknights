@@ -132,7 +132,7 @@ void asst::InfrastOperImageAnalyzer::mood_analyze()
     LogTraceFunction;
 
     const auto prg_task_ptr = Task.get<MatchTaskInfo>("InfrastOperMoodProgressBar");
-    uint8_t prg_lower_limit = static_cast<uint8_t>(prg_task_ptr->templ_threshold);
+    uint8_t prg_lower_limit = static_cast<uint8_t>(prg_task_ptr->templ_thresholds.front());
     int prg_diff_thres = prg_task_ptr->special_params.front();
     Rect rect_move = prg_task_ptr->rect_move;
 
@@ -229,7 +229,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
     Matcher skill_analyzer(m_image);
 
     skill_analyzer.set_mask_range(task_ptr->mask_range.first, task_ptr->mask_range.second);
-    skill_analyzer.set_threshold(task_ptr->templ_threshold);
+    skill_analyzer.set_threshold(task_ptr->templ_thresholds.front());
 
     for (auto&& oper : m_result) {
         Rect roi = task_ptr->rect_move;
@@ -371,7 +371,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
             }
         }
         Log.trace("selected_analyze |", count);
-        oper.selected = count >= selected_task_ptr->templ_threshold;
+        oper.selected = count >= selected_task_ptr->templ_thresholds.front();
         oper.rect = selected_rect; // 先凑合用（
     }
 }

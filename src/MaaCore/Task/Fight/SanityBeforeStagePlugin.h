@@ -1,10 +1,7 @@
 #pragma once
 #include "Task/AbstractTaskPlugin.h"
-
-#include <meojson/json.hpp>
 namespace asst
 {
-
     class SanityBeforeStagePlugin final : public AbstractTaskPlugin
     {
     public:
@@ -15,6 +12,8 @@ namespace asst
     private:
         virtual bool _run() override;
 
-        void get_sanity();
+        // 获取 当前理智/最大理智
+        // 返回 是否获取成功
+        bool get_sanity_before_stage();
     };
 }

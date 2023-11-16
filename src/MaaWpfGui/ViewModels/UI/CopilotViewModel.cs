@@ -38,11 +38,12 @@ namespace MaaWpfGui.ViewModels.UI
     /// <summary>
     /// The view model of copilot.
     /// </summary>
-    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例，需要添加 qodana ignore rule
+    // 通过 container.Get<CopilotViewModel>(); 实例化或获取实例
     // ReSharper disable once ClassNeverInstantiated.Global
     public class CopilotViewModel : Screen
     {
         private readonly RunningState _runningState;
+        private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
 
         /// <summary>
         /// Gets the view models of log items.
@@ -66,19 +67,21 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.IdleChanged += RunningState_IdleChanged;
 
             var copilotTaskList = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotTaskList, string.Empty);
-            if (!string.IsNullOrEmpty(copilotTaskList))
+            if (string.IsNullOrEmpty(copilotTaskList))
             {
-                JArray jArray = JArray.Parse(copilotTaskList);
-                foreach (var item in jArray)
-                {
-                    if ((item as JObject).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
-                    {
-                        CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], (bool)item["is_checked"]));
-                    }
-                }
-
-                CopilotItemIndexChanged();
+                return;
             }
+
+            JArray jArray = JArray.Parse(copilotTaskList);
+            foreach (var item in jArray)
+            {
+                if (((JObject)item).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
+                {
+                    CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], (bool)item["is_checked"]));
+                }
+            }
+
+            CopilotItemIndexChanged();
         }
 
         private void RunningState_IdleChanged(object sender, bool e)
@@ -99,7 +102,7 @@ namespace MaaWpfGui.ViewModels.UI
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -157,7 +160,8 @@ namespace MaaWpfGui.ViewModels.UI
         private async Task UpdateFileDoc(string filename)
         {
             ClearLog();
-            Url = CopilotUiUrl;
+            CopilotUrl = CopilotUiUrl;
+            MapUrl = MapUiUrl;
             _isVideoTask = false;
 
             string jsonStr;
@@ -222,7 +226,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri($"https://prts.maa.plus/copilot/get/{copilotId}"));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
                 var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
@@ -241,6 +245,31 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX)-)?(?:\d{1,2})";
+
+        /// <summary>
+        /// 为自动战斗列表匹配名字
+        /// </summary>
+        /// <param name="names">用于匹配的名字</param>
+        /// <returns>关卡名 or string.Empty</returns>
+        private static string FindStageName(params string[] names)
+        {
+            names = names.Where(str => !str.IsNullOrEmpty()).ToArray();
+            if (names.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            // 一旦有由小写字母、数字、'-'组成的name则视为关卡名直接使用
+            var directName = names.FirstOrDefault(name => name.ToLower().All(c => (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-'));
+            if (!directName.IsNullOrEmpty())
+            {
+                return directName;
+            }
+
+            var regex = new Regex(StageNameRegex, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            return names.Select(str => regex.Match(str)).FirstOrDefault(result => result.Success)?.Value ?? string.Empty;
+        }
 
         private void ParseJsonAndShowInfo(string jsonStr)
         {
@@ -253,20 +282,20 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                var doc = (JObject)json["doc"];
+                if (json.TryGetValue("stage_name", out var stageNameValue))
+                {
+                    MapUrl = MapUiUrl.Replace("areas", "map/" + stageNameValue);
+                }
 
+                AddLog(LocalizationHelper.GetString("CopilotTip"));
+
+                var doc = (JObject)json["doc"];
                 string title = string.Empty;
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
 
-                    // 为自动作战列表匹配名字
-                    var linkParser = new Regex(@"([a-z]{0,3})(\d{0,2})-(EX-)?(\d{1,2})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                    foreach (Match match in linkParser.Matches(title))
-                    {
-                        CopilotTaskName = match.Value;
-                        break;
-                    }
+                    CopilotTaskName = FindStageName(title, _filename.Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty);
                 }
 
                 if (title.Length != 0)
@@ -296,21 +325,21 @@ namespace MaaWpfGui.ViewModels.UI
 
                     AddLog(details, detailsColor);
                     {
-                        Url = CopilotUiUrl;
-                        var linkParser = new Regex(@"AV\d+|(BV.*?).{10}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                        CopilotUrl = CopilotUiUrl;
+                        var linkParser = new Regex(@"(?:av\d+|bv[a-z0-9]{10})(?:\/\?p=\d+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                         foreach (Match match in linkParser.Matches(details))
                         {
-                            Url = "https://www.bilibili.com/video/" + match.Value;
+                            CopilotUrl = MaaUrls.BilibiliVideo + match.Value;
                             break;
                         }
 
-                        if (string.IsNullOrEmpty(Url))
+                        if (string.IsNullOrEmpty(CopilotUrl))
                         {
                             linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
                             foreach (Match m in linkParser.Matches(details))
                             {
-                                Url = m.Value;
+                                CopilotUrl = m.Value;
                                 break;
                             }
                         }
@@ -367,13 +396,13 @@ namespace MaaWpfGui.ViewModels.UI
                     _taskType = "Copilot";
                 }
 
-                if (IsDataFromWeb)
+                if (!IsDataFromWeb)
                 {
-                    File.Delete(TempCopilotFile);
-                    File.WriteAllText(TempCopilotFile, json.ToString());
+                    return;
                 }
 
-                AddLog(LocalizationHelper.GetString("CopilotTip"));
+                File.Delete(TempCopilotFile);
+                File.WriteAllText(TempCopilotFile, json.ToString());
             }
             catch (Exception)
             {
@@ -406,12 +435,102 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Clipboard.ContainsText())
             {
-                Filename = Clipboard.GetText();
+                Filename = Clipboard.GetText().Trim();
             }
             else if (Clipboard.ContainsFileDropList())
             {
                 DropFile(Clipboard.GetFileDropList()[0]);
             }
+        }
+
+        /// <summary>
+        /// Import copilot json files from dictionary
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global
+        public async void ImportFiles()
+        {
+            var dialog = new OpenFileDialog
+            {
+                Filter = "JSON|*.json",
+                Multiselect = true,
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            Dictionary<string, string> taskPairs = new Dictionary<string, string>();
+            foreach (var file in dialog.FileNames)
+            {
+                var fileInfo = new FileInfo(file);
+                if (!fileInfo.Exists)
+                {
+                    AddLog($"{file} not exists");
+                    return;
+                }
+
+                try
+                {
+                    using var reader = new StreamReader(File.OpenRead(file));
+                    var jsonStr = await reader.ReadToEndAsync();
+
+                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
+                    {
+                        AddLog($"{file} is broken", UiLogColor.Error);
+                        return;
+                    }
+
+                    var fileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+                    var stageName = FindStageName(fileName);
+                    if (fileInfo.Name.Contains("突袭") || fileInfo.Name.Contains("-Adverse"))
+                    {
+                        stageName += "-Adverse";
+                    }
+
+                    if (stageName.IsNullOrEmpty())
+                    {
+                        AddLog($"invalid name to navigate: {fileName}[{fileInfo.FullName}]", UiLogColor.Error);
+                        return;
+                    }
+
+                    taskPairs.Add(stageName, file);
+                }
+                catch (Exception)
+                {
+                    AddLog($"{file}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    return;
+                }
+            }
+
+            try
+            {
+                Directory.CreateDirectory(CopilotJsonDir);
+            }
+            catch (Exception)
+            {
+                // ignored
+            }
+
+            foreach (var taskPair in taskPairs)
+            {
+                var jsonPath = $"{CopilotJsonDir}/{taskPair.Key}.json";
+                if (new FileInfo(jsonPath).FullName != taskPair.Value)
+                {
+                    // 相同路径跳拷贝
+                    File.Copy(taskPair.Value, jsonPath, true);
+                }
+
+                var item = new CopilotItemViewModel(taskPair.Key, jsonPath)
+                {
+                    Index = CopilotItemViewModels.Count,
+                };
+                CopilotItemViewModels.Add(item);
+                AddLog("append task: " + taskPair.Key);
+            }
+
+            SaveCopilotTask();
         }
 
         private static readonly string[] _supportExt = { ".json", ".mp4", ".m4s", ".mkv", ".flv", ".avi" };
@@ -504,6 +623,14 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _addTrust, value);
         }
 
+        private bool _useSanityPotion;
+
+        public bool UseSanityPotion
+        {
+            get => _useSanityPotion;
+            set => SetAndNotify(ref _useSanityPotion, value);
+        }
+
         private bool _addUserAdditional = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false.ToString()));
 
         /// <summary>
@@ -519,7 +646,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, "W,2;Friston-3,1");
+        private string _userAdditional = ConfigurationHelper.GetValue(ConfigurationKeys.CopilotUserAdditional, string.Empty);
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -537,7 +664,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
         /// </summary>
-        private bool _useCopilotList = false;
+        private bool _useCopilotList;
 
         public bool UseCopilotList
         {
@@ -570,45 +697,55 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string CopilotJsonDir = "cache/copilot";
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask()
         {
-            var stage_name = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
-            if (!stage_name.IsNullOrEmpty())
+            var stageName = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
+            if (!stageName.IsNullOrEmpty())
             {
-                AddCopilotTaskToList(stage_name);
+                AddCopilotTaskToList(stageName);
             }
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask_Adverse()
         {
-            var stage_name = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
-            if (!stage_name.EndsWith("-Adverse"))
+            var stageName = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
+            if (!stageName.EndsWith("-Adverse"))
             {
-                stage_name += "-Adverse";
+                stageName += "-Adverse";
             }
 
-            if (!stage_name.IsNullOrEmpty())
+            if (!stageName.IsNullOrEmpty())
             {
-                AddCopilotTaskToList(stage_name);
+                AddCopilotTaskToList(stageName);
             }
         }
 
-        public void AddCopilotTaskToList(string stage_name)
+        private void AddCopilotTaskToList(string stageName)
         {
-            var jsonPath = $"{CopilotJsonDir}/{stage_name}.json";
+            var jsonPath = $"{CopilotJsonDir}/{stageName}.json";
 
             try
             {
                 Directory.CreateDirectory(CopilotJsonDir);
             }
-            catch (Exception)
+            catch
             {
+                // ignored
             }
 
             try
             {
-                File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, jsonPath, true);
-                var item = new CopilotItemViewModel(stage_name, jsonPath)
+                if (jsonPath != (IsDataFromWeb ? TempCopilotFile : Filename))
+                {
+                    // 相同路径跳拷贝
+                    File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, jsonPath, true);
+                }
+
+                var item = new CopilotItemViewModel(stageName, jsonPath)
                 {
                     Index = CopilotItemViewModels.Count,
                 };
@@ -633,12 +770,16 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void DeleteCopilotTask(int index)
         {
             CopilotItemViewModels.RemoveAt(index);
             CopilotItemIndexChanged();
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void CleanUnableCopilotTask()
         {
             foreach (var item in CopilotItemViewModels.Where(model => !model.IsChecked).ToList())
@@ -649,23 +790,36 @@ namespace MaaWpfGui.ViewModels.UI
             CopilotItemIndexChanged();
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
         public void ClearCopilotTask()
         {
             CopilotItemViewModels.Clear();
             SaveCopilotTask();
+
+            try
+            {
+                Directory.Delete(CopilotJsonDir, true);
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         public void EnterCopilotTask()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                for (int i = 0; i < CopilotItemViewModels.Count; i++)
+                foreach (var model in CopilotItemViewModels)
                 {
-                    if (CopilotItemViewModels[i].IsChecked)
+                    if (!model.IsChecked)
                     {
-                        CopilotItemViewModels[i].IsChecked = false;
-                        break;
+                        continue;
                     }
+
+                    model.IsChecked = false;
+                    break;
                 }
 
                 SaveCopilotTask();
@@ -675,6 +829,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 更新任务顺序
         /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once MemberCanBePrivate.Global
         public void CopilotItemIndexChanged()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
@@ -707,7 +863,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Starts copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public async void Start()
         {
@@ -761,25 +917,31 @@ namespace MaaWpfGui.ViewModels.UI
                 bool startAny = false;
                 foreach (var model in CopilotItemViewModels)
                 {
-                    if (model.IsChecked)
+                    if (!model.IsChecked)
                     {
-                        ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, false);
-                        startAny = true;
+                        continue;
                     }
+
+                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
+                    startAny = true;
                 }
 
                 ret &= Instances.AsstProxy.AsstStart();
                 if (!startAny)
                 {
                     // 一个都没启动，怎会有如此无聊之人
-                    Instances.AsstProxy.AsstStop();
+                    if (!Instances.AsstProxy.AsstStop())
+                    {
+                        _logger.Warning("Failed to stop Asst");
+                    }
+
                     _runningState.SetIdle(true);
                     return;
                 }
             }
             else
             {
-                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1);
+                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
             }
 
             if (ret)
@@ -788,7 +950,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                Instances.AsstProxy.AsstStop();
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+
                 _runningState.SetIdle(true);
                 AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
             }
@@ -802,17 +968,20 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Stops copilot.
         /// </summary>
-        // xaml 中绑定了 action
+        // UI 绑定的方法
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            Instances.AsstProxy.AsstStop();
+            if (!Instances.AsstProxy.AsstStop())
+            {
+                _logger.Warning("Failed to stop Asst");
+            }
+
             _runningState.SetIdle(true);
         }
 
         private bool _isVideoTask;
 
-        private const string CopilotRatingUrl = "https://prts.maa.plus/copilot/rating";
         private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
 
         private bool _couldLikeWebJson;
@@ -883,7 +1052,7 @@ namespace MaaWpfGui.ViewModels.UI
                 rating,
             });
             */
-            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(CopilotRatingUrl), new { id = CopilotId, rating });
+            var response = await Instances.HttpService.PostAsJsonAsync(new Uri(MaaUrls.PrtsPlusCopilotRating), new { id = CopilotId, rating });
             if (response == null)
             {
                 AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);
@@ -894,8 +1063,6 @@ namespace MaaWpfGui.ViewModels.UI
             AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info);
         }
 
-        private const string CopilotUiUrl = MaaUrls.PrtsPlus;
-        private string _url = MaaUrls.PrtsPlus;
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
 
         /// <summary>
@@ -907,17 +1074,31 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _urlText, value);
         }
 
+        private const string CopilotUiUrl = MaaUrls.PrtsPlus;
+
+        private string _copilotUrl = CopilotUiUrl;
+
         /// <summary>
         /// Gets or private sets the copilot URL.
         /// </summary>
-        public string Url
+        public string CopilotUrl
         {
-            get => _url;
+            get => _copilotUrl;
             private set
             {
                 UrlText = value == CopilotUiUrl ? LocalizationHelper.GetString("PrtsPlus") : LocalizationHelper.GetString("VideoLink");
-                SetAndNotify(ref _url, value);
+                SetAndNotify(ref _copilotUrl, value);
             }
+        }
+
+        private const string MapUiUrl = MaaUrls.MapPrts;
+
+        private string _mapUrl = MapUiUrl;
+
+        public string MapUrl
+        {
+            get => _mapUrl;
+            private set => SetAndNotify(ref _mapUrl, value);
         }
 
         /// <summary>

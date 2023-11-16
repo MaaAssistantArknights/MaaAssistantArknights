@@ -1,14 +1,15 @@
 #pragma once
-#include "Task/AbstractTaskPlugin.h"
 
 #include <unordered_map>
 
+#include "AbstractRoguelikeTaskPlugin.h"
+
 namespace asst
 {
-    class RoguelikeSkillSelectionTaskPlugin final : public AbstractTaskPlugin
+    class RoguelikeSkillSelectionTaskPlugin final : public AbstractRoguelikeTaskPlugin
     {
     public:
-        using AbstractTaskPlugin::AbstractTaskPlugin;
+        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeSkillSelectionTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;

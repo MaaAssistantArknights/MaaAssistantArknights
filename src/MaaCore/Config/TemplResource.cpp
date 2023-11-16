@@ -34,7 +34,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
                 m_templ_paths.insert_or_assign(name, filepath);
             }
         }
-        else if (m_loaded) {
+        else if (m_templ_paths.contains(name)) {
             continue;
         }
         else {
@@ -51,7 +51,6 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
         return false;
     }
 #endif
-    m_loaded = true;
     return true;
 }
 

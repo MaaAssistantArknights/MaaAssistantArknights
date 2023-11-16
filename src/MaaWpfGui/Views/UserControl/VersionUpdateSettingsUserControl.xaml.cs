@@ -12,48 +12,102 @@
 // </copyright>
 
 using System;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Helper;
+using MaaWpfGui.ViewModels.UI;
+using Serilog;
 
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
-    /// OtherCombatSettingsUserControl.xaml 的交互逻辑
+    /// VersionUpdateSettingsUserControl.xaml 的交互逻辑
     /// </summary>
     public partial class VersionUpdateSettingsUserControl : System.Windows.Controls.UserControl
     {
+        private static readonly ILogger _logger = Log.ForContext<VersionUpdateSettingsUserControl>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="VersionUpdateSettingsUserControl"/> class.
         /// </summary>
         public VersionUpdateSettingsUserControl()
         {
             InitializeComponent();
-            timer.Tick += (s, e1) =>
+            _timer.Tick += (s, e1) =>
             {
-                timer.IsEnabled = false;
+                _timer.IsEnabled = false;
             };
         }
 
-        private readonly DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 1500), };
+        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 6000), };
 
-        private void EasterEggs(object sender, MouseButtonEventArgs e)
+        private void CoreVersionClick(object sender, MouseButtonEventArgs e)
         {
-            if (!timer.IsEnabled)
-            {
-                timer.IsEnabled = true;
-                var growinfo = new GrowlInfo
-                {
-                    IsCustom = true,
-                    Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
-                    IconKey = "HangoverGeometry",
-                    IconBrushKey = "PallasBrush",
-                };
+            CopyToClipboardAsync("Core Version: " + SettingsViewModel.CoreVersion);
+            EasterEggs();
+        }
 
-                Growl.Info(growinfo);
+        private void UiVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync("UI Version: " + SettingsViewModel.UiVersion);
+        }
+
+        private void ResourceVersionClick(object sender, MouseButtonEventArgs e)
+        {
+            CopyToClipboardAsync("Resource Version: " + Instances.SettingsViewModel.ResourceVersion);
+        }
+
+        private static void CopyToClipboardAsync(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+            {
+                return;
             }
+
+            try
+            {
+                Thread clipboardThread = new Thread(() =>
+                {
+                    try
+                    {
+                        Clipboard.SetData(DataFormats.Text, text);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error("Clipboard operation failed: " + e.Message);
+                    }
+                });
+
+                clipboardThread.SetApartmentState(ApartmentState.STA);
+                clipboardThread.Start();
+            }
+            catch (Exception e)
+            {
+                _logger.Error("Clipboard operation failed: " + e.Message);
+            }
+        }
+
+        private void EasterEggs()
+        {
+            if (_timer.IsEnabled)
+            {
+                return;
+            }
+
+            _timer.IsEnabled = true;
+            var growlInfo = new GrowlInfo
+            {
+                IsCustom = true,
+                Message = LocalizationHelper.GetString("BuyWineOnAprilFoolsDay"),
+                IconKey = "HangoverGeometry",
+                IconBrushKey = "PallasBrush",
+            };
+
+            Growl.Info(growlInfo);
         }
     }
 }

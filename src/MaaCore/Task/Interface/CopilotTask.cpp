@@ -4,6 +4,7 @@
 
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/TaskData.h"
+#include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
 #include "Task/Miscellaneous/CopilotListNotificationPlugin.h"
@@ -36,12 +37,22 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
     m_subtasks.emplace_back(start_1_tp);
 
+    m_medicine_task_ptr = std::make_shared<ProcessTask>(callback, inst, TaskType);
+    m_medicine_task_ptr->set_tasks({ "BattleStartPre@UseMedicine" }).set_retry_times(0).set_ignore_error(true);
+    m_medicine_task_ptr->register_plugin<MedicineCounterPlugin>()->set_count(999999);
+    m_subtasks.emplace_back(m_medicine_task_ptr);
+
     m_subtasks.emplace_back(m_formation_task_ptr)->set_retry_times(0);
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
     m_copilot_list_notification_ptr = start_2_tp->register_plugin<CopilotListNotificationPlugin>();
     m_subtasks.emplace_back(start_2_tp);
+
+    // 跳过“以下干员出战后将被禁用，是否继续？”对话框
+    auto start_3_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
+    start_3_tp->set_tasks({ "SkipForbiddenOperConfirm", "Stop" }).set_ignore_error(false);
+    m_subtasks.emplace_back(start_3_tp);
 
     m_subtasks.emplace_back(m_battle_task_ptr)->set_retry_times(0);
 
@@ -87,8 +98,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
         return false;
     }
 
-    bool with_formation = params.get("formation", false);
-    m_formation_task_ptr->set_enable(with_formation);
+    m_medicine_task_ptr->set_enable(params.get("use_sanity_potion", false));
+
+    // 选择指定编队
+    m_formation_task_ptr->set_select_formation(params.get("select_formation", 0));
 
     // 自动补信赖
     m_formation_task_ptr->set_add_trust(params.get("add_trust", false));
@@ -113,6 +126,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     // 启用队列的话，这项为true
     bool need_navigate = params.get("need_navigate", false);
     m_task_file_reload_task_ptr->set_enable(need_navigate);
+    m_battle_task_ptr->set_wait_until_end(need_navigate);
 
     // 不使用代理指挥
     m_not_use_prts_task_ptr->set_enable(need_navigate);
@@ -128,6 +142,10 @@ bool asst::CopilotTask::set_params(const json::value& params)
     Task.get(m_navigate_name + "@Copilot@FullStageNavigation")->specific_rect = Rect(600, 100, 20, 20);
     m_navigate_task_ptr->set_tasks({ m_navigate_name + "@Copilot@StageNavigationBegin" });
     m_navigate_task_ptr->set_enable(need_navigate);
+
+    bool with_formation = params.get("formation", false);
+    // 关卡名含有"TR"的为教学关,不需要编队
+    m_formation_task_ptr->set_enable(with_formation && m_navigate_name.find("TR") == std::string::npos);
 
     std::string support_unit_name = params.get("support_unit_name", std::string());
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));

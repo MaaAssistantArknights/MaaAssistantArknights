@@ -43,10 +43,12 @@ bool asst::CreditShopImageAnalyzer::commodities_analyze()
     mm_analyzer.set_task_info(commodity_task_ptr);
 
     if (!mm_analyzer.analyze()) {
+        save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
     auto credit_points_result = mm_analyzer.get_result();
     if (credit_points_result.empty()) {
+        save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
 

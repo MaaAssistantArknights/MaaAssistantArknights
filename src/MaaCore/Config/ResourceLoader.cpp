@@ -16,6 +16,7 @@
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
+#include "Roguelike/RoguelikeFoldartalConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
 #include "Roguelike/RoguelikeStageEncounterConfig.h"
@@ -153,9 +154,9 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
 
     // 重要的资源，实时加载（图片还是惰性的）
     LoadResourceWithTemplAndCheckRet(TaskData, "tasks.json"_p, "template"_p);
+    // 下面这几个资源都是会带OTA功能的，路径不能动
     LoadResourceWithTemplAndCheckRet(InfrastConfig, "infrast.json"_p, "template"_p / "infrast"_p);
     LoadResourceWithTemplAndCheckRet(ItemConfig, "item_index.json"_p, "template"_p / "items"_p);
-
     LoadResourceAndCheckRet(StageDropsConfig, "stages.json"_p);
     LoadResourceAndCheckRet(TilePack, "Arknights-Tile-Pos"_p / "overview.json"_p);
 
@@ -183,6 +184,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
                             "roguelike"_p / "Phantom"_p / "encounter_for_deposit.json"_p);
     LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "Mizuki"_p / "encounter_for_deposit.json"_p);
     LoadResourceAndCheckRet(RoguelikeStageEncounterConfig, "roguelike"_p / "Sami"_p / "encounter_for_deposit.json"_p);
+
+    LoadResourceAndCheckRet(RoguelikeFoldartalConfig, "roguelike"_p / "Sami"_p / "foldartal.json"_p);
 
 #undef LoadTemplByConfigAndCheckRet
 #undef LoadResourceAndCheckRet

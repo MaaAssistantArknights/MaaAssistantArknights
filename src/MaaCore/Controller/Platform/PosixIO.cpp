@@ -101,17 +101,34 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
             ::shutdown(client_socket, SHUT_RDWR);
             ::close(client_socket);
         }
-        else {
-            do {
-                ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
-                while (read_num > 0) {
+
+        // has the child exited in the loop?
+        bool child_exited = false;
+
+        // whether we recv_by_socket or not, we have to
+        // drain the output pipe so that it doesn't block I/O.
+        do {
+            ssize_t read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+            while (read_num > 0) {
+                if (!recv_by_socket) {
                     pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
-                    read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
                 }
-            } while (::waitpid(m_child, &exit_ret, WNOHANG) == 0 && !check_timeout());
+                read_num = ::read(m_pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+            }
+            if (::waitpid(m_child, &exit_ret, WNOHANG) != 0) {
+                child_exited = true;
+                break;
+            }
+            if (check_timeout()) {
+                Log.warn("timeout when reading the output, will kill the child: ", m_child);
+                break;
+            }
+        } while (true);
+
+        if (!child_exited) {
+            ::kill(m_child, SIGKILL);
+            ::waitpid(m_child, &exit_ret, 0);
         }
-        ::waitpid(m_child, &exit_ret, 0); // if ::waitpid(m_child, &exit_ret, WNOHANG) == 0, repeat it will cause
-        // ECHILD, so not check the return value
     }
     else {
         // failed to create child process
