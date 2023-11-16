@@ -71,7 +71,7 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
 
     // 到达第二层后，获得上一层预见的密文板
     if (foldartal_floor) {
-        store_to_status(*foldartal_floor, Status::RoguelikeFoldartalOverview);
+        gain_foldartal(*foldartal_floor);
     }
 
     foldartal_floor.reset();
@@ -93,7 +93,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::after_combat()
     }
 
     auto foldartal = analyzer.get_result().front().text;
-    store_to_status(std::move(foldartal), Status::RoguelikeFoldartalOverview);
+    gain_foldartal(std::move(foldartal));
     if (m_ocr_after_combat) {
         ctrler()->click(analyzer.get_result().front().rect);
     }
@@ -101,17 +101,9 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::after_combat()
     return true;
 }
 
-bool asst::RoguelikeFoldartalGainTaskPlugin::store_to_status(std::string foldartal, auto& status_string)
+void asst::RoguelikeFoldartalGainTaskPlugin::gain_foldartal(std::string name)
 {
-    json::array overview = get_array(status_string);
-    overview.emplace_back(foldartal);
-    status()->set_str(status_string, overview.to_string());
-    return true;
-}
-
-json::array asst::RoguelikeFoldartalGainTaskPlugin::get_array(auto& status_string)
-{
-    std::string overview_str = status()->get_str(status_string).value_or(json::value().to_string());
-    json::value overview_json = json::parse(overview_str).value_or(json::value());
-    return overview_json.as_array();
+    auto foldartal_list = m_config->get_foldartal();
+    foldartal_list.emplace_back(std::move(name));
+    m_config->set_foldartal(std::move(foldartal_list));
 }
