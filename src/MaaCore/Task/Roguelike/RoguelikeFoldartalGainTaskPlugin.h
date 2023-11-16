@@ -19,8 +19,7 @@ namespace asst
         void enter_next_floor();
         bool after_combat();
 
-        json::array get_array(auto& status_string);
-        bool store_to_status(std::string foldartal, auto& status_string);
+        void gain_foldartal(std::string name);
         // 战斗后识别密文板
         mutable bool m_ocr_after_combat = false;
         // 进入新一层后识别密文板
