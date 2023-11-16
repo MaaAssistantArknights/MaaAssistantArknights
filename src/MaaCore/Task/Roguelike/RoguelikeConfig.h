@@ -1,8 +1,7 @@
 #pragma once
+#include <optional>
 #include <string>
 #include <vector>
-#include <queue>
-#include <optional>
 
 namespace asst
 {
@@ -69,6 +68,8 @@ namespace asst
 
         void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
         const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
+        void set_foldartal(std::vector<std::string> foldartal) { m_foldartal = std::move(foldartal); }
+        const std::vector<std::string>& get_foldartal() { return m_foldartal; }
 
     protected:
         // 肉鸽主题
@@ -91,5 +92,6 @@ namespace asst
         /* 密文板 */
         // 当前层的预见密文板，在下一层获得
         std::optional<std::string> m_foldartal_floor;
+        std::vector<std::string> m_foldartal;
     };
 } // namespace asst

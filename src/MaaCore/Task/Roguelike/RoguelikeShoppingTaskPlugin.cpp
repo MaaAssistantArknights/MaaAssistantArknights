@@ -174,13 +174,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
             auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
             if (iter != all_foldartal.end()) {
-                std::string overview_str =
-                    status()->get_str(Status::RoguelikeFoldartalOverview).value_or(json::value().to_string());
-
-                auto& overview = json::parse(overview_str).value_or(json::value()).as_array();
+                auto foldartal = m_config->get_foldartal();
                 // 把goods.name存到密文板overview里
-                overview.push_back(goods.name);
-                status()->set_str(Status::RoguelikeFoldartalOverview, overview.to_string());
+                foldartal.emplace_back(goods.name);
+                m_config->set_foldartal(std::move(foldartal));
             }
         }
         if (goods.no_longer_buy) {
