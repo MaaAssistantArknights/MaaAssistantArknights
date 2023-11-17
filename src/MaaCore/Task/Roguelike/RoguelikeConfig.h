@@ -1,6 +1,7 @@
 #pragma once
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace asst
@@ -24,6 +25,14 @@ namespace asst
         static constexpr std::string_view Phantom = "Phantom";
         static constexpr std::string_view Mizuki = "Mizuki";
         static constexpr std::string_view Sami = "Sami";
+    };
+
+    struct RoguelikeOper
+    {
+        // 精英化
+        int elite = 0;
+        // 干员等级
+        int level = 0;
     };
 
     class RoguelikeConfig
@@ -69,6 +78,8 @@ namespace asst
         bool get_use_support() { return m_use_support; }
         void set_use_nonfriend_support(bool use_nonfriend_support) { m_use_nonfriend_support = use_nonfriend_support; }
         bool get_use_nonfriend_support() { return m_use_nonfriend_support; }
+        void set_oper(std::unordered_map<std::string, RoguelikeOper> oper) { m_oper = std::move(oper); }
+        const std::unordered_map<std::string, RoguelikeOper>& get_oper() { return m_oper; }
 
         void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
         const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
@@ -94,6 +105,7 @@ namespace asst
         bool m_team_full_without_rookie = false;
         bool m_use_support = false;
         bool m_use_nonfriend_support = false;
+        std::unordered_map<std::string, RoguelikeOper> m_oper;
 
         /* 密文板 */
         // 当前层的预见密文板，在下一层获得

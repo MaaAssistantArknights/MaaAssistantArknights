@@ -67,15 +67,16 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         }
     }
 
-    if (!status()->get_str(Status::RoguelikeCharOverview)) {
-        json::value overview;
+    if (m_config->get_oper().empty()) {
+        auto opers = m_config->get_oper();
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
-            overview[name] = json::object {
+            opers[name] = { .elite = 1, .level = 80 };
+            json::object {
                 { "elite", 1 }, { "level", 80 },
                 // 不知道是啥等级随便填一个
             };
         }
-        status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
+        m_config->set_oper(std::move(opers));
     }
 
     if (analyzer.get_team_full() && !has_rookie) {

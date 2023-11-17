@@ -39,10 +39,6 @@ namespace asst
     public:
         static inline const std::string InfrastAvailableOpersForGroup = "InfrastAvailableOpersForGroup";
 
-        static inline const std::string RoguelikeCharElitePrefix = "RoguelikeElite-";
-        static inline const std::string RoguelikeCharLevelPrefix = "RoguelikeLevel-";
-        static inline const std::string RoguelikeCharOverview = "RoguelikeOverview";
-
         static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
 
     private:
