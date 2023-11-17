@@ -2,6 +2,7 @@
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
+#include "Utils/ImageIo.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -32,9 +33,8 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     json_msg["details"]["game_pass"] = m_game_pass;
 
     sleep(task->special_params[0]);
-
     if (m_game_pass) {
-        save_img(utils::path("achievement") / utils::path("roguelike"));
+        save_img(ctrler()->get_image(), utils::path("achievement") / utils::path("roguelike"), "Page1");
     }
 
     const static auto rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
@@ -43,14 +43,14 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
 
     if (!wait_for_whole_page()) {
         Log.error(__FUNCTION__, "wait for whole page failed");
-        save_img(utils::path("debug") / utils::path("roguelike"));
+        save_img(ctrler()->get_image(), utils::path("debug") / utils::path("roguelike"), "Page2_Error");
         return true;
     }
     sleep(task->post_delay);
     auto image = ctrler()->get_image();
 
     if (m_game_pass) {
-        save_img(utils::path("achievement") / utils::path("roguelike"));
+        save_img(image, utils::path("achievement") / utils::path("roguelike"), "Page2");
     }
     get_settlement_info(json_msg, image);
     callback(AsstMsg::SubTaskExtraInfo, json_msg);
@@ -130,4 +130,28 @@ bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
         sleep(Config.get_options().task_delay);
     } while (!need_exit() && retry < 20);
     return false;
+}
+
+void asst::RoguelikeSettlementTaskPlugin::save_img(const cv::Mat& image, const std::filesystem::path& relative_dir,
+                                                   std::string name)
+{
+    if (image.empty()) {
+        return;
+    }
+    std::string stem = utils::get_time_filestem();
+
+    if (true) {
+        // 第1次或每执行 debug.clean_files_freq(100) 次后执行清理
+        // 限制文件数量 debug.max_debug_file_num
+        if (m_save_file_cnt[relative_dir] == 0) {
+            filenum_ctrl(relative_dir, Config.get_options().debug.max_debug_file_num);
+            m_save_file_cnt[relative_dir] = 0;
+        }
+        m_save_file_cnt[relative_dir] =
+            (m_save_file_cnt[relative_dir] + 1) % Config.get_options().debug.clean_files_freq;
+    }
+
+    auto relative_path = relative_dir / (stem + "_" + name + ".png");
+    Log.trace("Save image", relative_path);
+    asst::imwrite(relative_path, image);
 }
