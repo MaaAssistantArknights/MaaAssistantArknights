@@ -546,7 +546,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
             if (analyzer_char.analyze()) {
                 auto& chars_page = analyzer_char.get_result_char();
 
-                bool use_nonfriend_support = get_status_bool(Status::RoguelikeUseNonfriendSupport);
+                bool use_nonfriend_support = m_config->get_use_nonfriend_support();
                 auto check_satisfy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
@@ -618,11 +618,6 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recr
         { "level", oper.level },
     };
     status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
-}
-
-bool asst::RoguelikeRecruitTaskPlugin::get_status_bool(const std::string& key)
-{
-    return status()->get_str(key).value_or("") == "1";
 }
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)
