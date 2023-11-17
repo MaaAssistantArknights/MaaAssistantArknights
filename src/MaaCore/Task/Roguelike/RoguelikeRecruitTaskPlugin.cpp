@@ -66,8 +66,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     bool team_complete = m_config->get_recruitment_team_complete();
 
     // 是否使用助战干员开局
-    bool use_support = get_status_bool(Status::RoguelikeUseSupport);
-    if (use_support) {
+    if (m_config->get_use_support()) {
         if (recruit_support_char()) {
             start_complete = true;
             return true;

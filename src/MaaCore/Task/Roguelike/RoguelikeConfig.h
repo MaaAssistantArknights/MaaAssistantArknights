@@ -65,6 +65,8 @@ namespace asst
         std::string get_core_char() { return m_core_char; }
         void set_team_full_without_rookie(bool without_rookie) { m_team_full_without_rookie = without_rookie; }
         bool get_team_full_without_rookie() { return m_team_full_without_rookie; }
+        void set_use_support(bool use_support) { m_use_support = use_support; }
+        bool get_use_support() { return m_use_support; }
 
         void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
         const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
@@ -88,6 +90,7 @@ namespace asst
         bool m_trader_no_longer_buy = false;
         std::string m_core_char;
         bool m_team_full_without_rookie = false;
+        bool m_use_support = false;
 
         /* 密文板 */
         // 当前层的预见密文板，在下一层获得
