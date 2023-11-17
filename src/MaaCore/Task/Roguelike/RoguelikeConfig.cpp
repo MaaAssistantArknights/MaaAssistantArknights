@@ -8,6 +8,7 @@ void asst::RoguelikeConfig::clear() {
     m_core_char = std::string();
     m_team_full_without_rookie = false;
     m_use_support = false;
+    m_oper.clear();
 
     m_foldartal_floor.reset();
     m_foldartal.clear();
