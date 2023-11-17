@@ -67,6 +67,8 @@ namespace asst
         bool get_team_full_without_rookie() { return m_team_full_without_rookie; }
         void set_use_support(bool use_support) { m_use_support = use_support; }
         bool get_use_support() { return m_use_support; }
+        void set_use_nonfriend_support(bool use_nonfriend_support) { m_use_nonfriend_support = use_nonfriend_support; }
+        bool get_use_nonfriend_support() { return m_use_nonfriend_support; }
 
         void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
         const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
@@ -91,6 +93,7 @@ namespace asst
         std::string m_core_char;
         bool m_team_full_without_rookie = false;
         bool m_use_support = false;
+        bool m_use_nonfriend_support = false;
 
         /* 密文板 */
         // 当前层的预见密文板，在下一层获得
