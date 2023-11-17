@@ -17,7 +17,7 @@ namespace asst
 
     private:
         void enter_next_floor();
-        bool after_combat();
+        bool gain_stage_award();
 
         void gain_foldartal(std::string name);
         // 战斗后识别密文板
