@@ -1795,7 +1795,7 @@
                 "骰子"
             ],
             [
-                "First-aid Kit",
+                "^First-aid Kit",
                 "急救包"
             ],
             [
@@ -2187,7 +2187,7 @@
                 "重力"
             ],
             [
-                "Silence the Paradigmatic",
+                "Silence the Paradigmatic.?",
                 "淬羽赫默"
             ],
             [
@@ -3523,11 +3523,11 @@
                 "镀膜装置导能阀"
             ],
             [
-                "Portable First*aid Kit",
+                "Portable First-*aid Kit",
                 "便携式医疗设备"
             ],
             [
-                "Energy Perturbation Amplifier",
+                "Energy Perturbation Amplifier?",
                 "能量扰动放大器"
             ],
             [
@@ -3631,7 +3631,7 @@
                 "知难而进"
             ],
             [
-                "Barrenlands.*",
+                "Bar*enlands.*",
                 "荒地的手段"
             ],
             [
@@ -3647,7 +3647,7 @@
                 "消息传递"
             ],
             [
-                "Show of Power",
+                "Show of Power.*",
                 "力量的炫耀"
             ],
             [
