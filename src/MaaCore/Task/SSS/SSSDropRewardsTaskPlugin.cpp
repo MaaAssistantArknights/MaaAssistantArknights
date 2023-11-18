@@ -41,12 +41,15 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
     std::vector<DropRecruitment> opers;
     for (const auto& result : analyzer.get_result()) {
         if (SSSCopilot.get_data().blacklist.contains(result.text)) {
+            Log.info("Operator is banned:", result.text);
             continue;
         }
         auto role = BattleData.get_role(result.text);
         opers.emplace_back(DropRecruitment {
             .ocr_res = result, .role = role == Role::Unknown ? std::nullopt : std::optional<Role>(role) });
     }
+
+    bool operSelect = false;
 
     for (const std::string& name : SSSCopilot.get_data().order_of_drops) {
         auto role = get_role_type(name);
@@ -57,8 +60,14 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
         if (iter != opers.cend()) {
             ctrler()->click(iter->ocr_res.rect);
             sleep(Task.get("SSSDropRecruitmentOCR")->post_delay);
+            operSelect = true;
             break;
         }
+    }
+
+    if (!operSelect) {
+        Log.warn("No operator selected, select the first not banned");
+        ctrler()->click(opers.at(0).ocr_res.rect);
     }
 
     return ProcessTask(*this, { "SSSDropRecruitmentConfirm" }).set_retry_times(5).run();
