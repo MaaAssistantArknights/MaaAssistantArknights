@@ -217,6 +217,7 @@
                 VerticalAlignment="Top"
                 HorizontalScrollBarVisibility="Auto"
                 IsInertiaEnabled="True"
+                PanningMode="Both"
                 VerticalScrollBarVisibility="Auto">
                 <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
                     <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
@@ -271,6 +272,7 @@
                 Margin="0,10,10,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
+                PanningMode="Both"
                 IsInertiaEnabled="True">
                 <controls:TextBlock Text="{Binding StagesOfToday}" TextWrapping="Wrap" />
             </hc:ScrollViewer>
@@ -286,6 +288,7 @@
             properties:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled"
             IsInertiaEnabled="True"
+            PanningMode="Both"
             Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
             <ItemsControl
                 HorizontalAlignment="Stretch"
