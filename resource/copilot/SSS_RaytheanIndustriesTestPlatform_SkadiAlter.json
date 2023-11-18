@@ -196,7 +196,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -208,7 +208,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "support": 3,
                         "caster": 1
@@ -220,7 +220,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -305,7 +305,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -327,7 +327,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "support": 3,
                         "caster": 1
@@ -339,7 +339,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -414,7 +414,7 @@
             "stage_name": "为了生存",
             "strategies": [
                 {
-                    "core": "Nearl",
+                    "core": "临光",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -435,7 +435,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -458,7 +458,7 @@
                     "kills": 15
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -470,7 +470,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Suzuran",
+                    "core": "铃兰",
                     "tool_men": {
                         "support": 3,
                         "sniper": 2,
@@ -556,7 +556,7 @@
             "stage_name": "混合毒气",
             "strategies": [
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -578,7 +578,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Nearl",
+                    "core": "临光",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -599,7 +599,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -632,7 +632,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "support": 3,
                         "caster": 2
@@ -718,7 +718,7 @@
             "stage_name": "枯朽孕育",
             "strategies": [
                 {
-                    "core": "Nearl",
+                    "core": "临光",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -739,7 +739,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -751,7 +751,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -774,7 +774,7 @@
                     "kills": 12
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 2
                     },
@@ -785,7 +785,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Suzuran",
+                    "core": "铃兰",
                     "tool_men": {
                         "support": 2,
                         "sniper": 3
@@ -891,7 +891,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -903,7 +903,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -926,7 +926,7 @@
                     "kills": 10
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "support": 1,
                         "caster": 2
@@ -948,7 +948,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "Suzuran",
+                    "core": "铃兰",
                     "tool_men": {
                         "sniper": 3
                     },
