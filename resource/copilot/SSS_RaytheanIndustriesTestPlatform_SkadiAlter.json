@@ -23,22 +23,7 @@
     "opers": [
         {
             "name": "Saria",
-            "skill": 1,
-            "skill_usage": 0
-        },
-        {
-            "name": "Penance",
-            "skill": 3,
-            "skill_usage": 1
-        },
-        {
-            "name": "Mudrock",
             "skill": 2,
-            "skill_usage": 0
-        },
-        {
-            "name": "Ch'en the Holungday",
-            "skill": 3,
             "skill_usage": 0
         },
         {
@@ -47,8 +32,28 @@
             "skill_usage": 0
         },
         {
+            "name": "Suzuran",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "Ptilopsis",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "Nightingale",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
             "name": "Skadi the Corrupting Heart",
             "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "Nearl",
+            "skill": 1,
             "skill_usage": 0
         }
     ],
