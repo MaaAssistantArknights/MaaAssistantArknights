@@ -83,7 +83,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
 <<<<<<< HEAD
     }
     else {
-        return gain_stage_award();
+        return after_combat();
     }
 }
 =======
@@ -109,7 +109,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
     m_config->set_foldartal_floor(std::move(foldartal_floor));
 }
 
-bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()
+bool asst::RoguelikeFoldartalGainTaskPlugin::after_combat()
 {
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(m_config->get_theme() + (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat"

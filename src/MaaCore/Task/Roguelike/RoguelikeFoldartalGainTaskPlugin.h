@@ -18,7 +18,7 @@ namespace asst
     private:
 <<<<<<< HEAD
         void enter_next_floor();
-        bool gain_stage_award();
+        bool after_combat();
 
         void gain_foldartal(std::string name);
 =======
