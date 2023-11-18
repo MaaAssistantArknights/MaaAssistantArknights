@@ -16,10 +16,15 @@ namespace asst
         virtual bool _run() override;
 
     private:
+<<<<<<< HEAD
         void enter_next_floor();
         bool gain_stage_award();
 
         void gain_foldartal(std::string name);
+=======
+        json::array get_array(auto& status_string);
+        bool store_to_status(std::string foldartal, auto& status_string);
+>>>>>>> parent of 94439e87c (refactor: 重构肉鸽每一层的预见密文板获取)
         // 战斗后识别密文板
         mutable bool m_ocr_after_combat = false;
         // 进入新一层后识别密文板

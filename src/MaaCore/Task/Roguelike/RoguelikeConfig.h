@@ -1,7 +1,10 @@
 #pragma once
 #include <optional>
 #include <string>
+<<<<<<< HEAD
 #include <vector>
+=======
+>>>>>>> parent of 94439e87c (refactor: 重构肉鸽每一层的预见密文板获取)
 
 namespace asst
 {
@@ -66,11 +69,14 @@ namespace asst
         void set_team_full_without_rookie(bool without_rookie) { m_team_full_without_rookie = without_rookie; }
         bool get_team_full_without_rookie() { return m_team_full_without_rookie; }
 
+<<<<<<< HEAD
         void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
         const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
         void set_foldartal(std::vector<std::string> foldartal) { m_foldartal = std::move(foldartal); }
         const std::vector<std::string>& get_foldartal() { return m_foldartal; }
 
+=======
+>>>>>>> parent of 94439e87c (refactor: 重构肉鸽每一层的预见密文板获取)
     protected:
         // 肉鸽主题
         std::string m_theme;
@@ -88,10 +94,13 @@ namespace asst
         bool m_trader_no_longer_buy = false;
         std::string m_core_char;
         bool m_team_full_without_rookie = false;
+<<<<<<< HEAD
 
         /* 密文板 */
         // 当前层的预见密文板，在下一层获得
         std::optional<std::string> m_foldartal_floor;
         std::vector<std::string> m_foldartal;
+=======
+>>>>>>> parent of 94439e87c (refactor: 重构肉鸽每一层的预见密文板获取)
     };
 } // namespace asst
