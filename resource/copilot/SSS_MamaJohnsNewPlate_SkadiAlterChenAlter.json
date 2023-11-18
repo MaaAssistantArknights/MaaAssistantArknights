@@ -32,7 +32,7 @@
             "skill_usage": 1
         },
         {
-            "name": "澄闪",
+            "name": "泥岩",
             "skill": 2,
             "skill_usage": 0
         },
@@ -42,7 +42,7 @@
             "skill_usage": 0
         },
         {
-            "name": "泥岩",
+            "name": "澄闪",
             "skill": 2,
             "skill_usage": 0
         },
@@ -187,7 +187,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 2
                     },
@@ -309,7 +309,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -320,7 +320,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "泥岩",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -445,7 +445,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -456,7 +456,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "泥岩",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -611,7 +611,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "泥岩",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -623,7 +623,7 @@
                     "kills": 2
                 },
                 {
-                    "core": "泥岩",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3,
                         "caster": 2
@@ -818,7 +818,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "泥岩",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -853,7 +853,7 @@
                     "kills": 11
                 },
                 {
-                    "core": "泥岩",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -1000,7 +1000,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "泥岩",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -1102,7 +1102,7 @@
                     "kills": 12
                 },
                 {
-                    "core": "澄闪",
+                    "core": "泥岩",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -1113,7 +1113,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "澄闪",
                     "tool_men": {
                         "sniper": 3
                     },
