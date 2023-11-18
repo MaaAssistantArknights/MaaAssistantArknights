@@ -138,9 +138,8 @@ void asst::RoguelikeSettlementTaskPlugin::save_img(const cv::Mat& image, const s
     if (image.empty()) {
         return;
     }
-    std::string stem = utils::get_time_filestem();
 
-    if (true) {
+    {
         // 第1次或每执行 debug.clean_files_freq(100) 次后执行清理
         // 限制文件数量 debug.max_debug_file_num
         if (m_save_file_cnt[relative_dir] == 0) {
@@ -151,7 +150,7 @@ void asst::RoguelikeSettlementTaskPlugin::save_img(const cv::Mat& image, const s
             (m_save_file_cnt[relative_dir] + 1) % Config.get_options().debug.clean_files_freq;
     }
 
-    auto relative_path = relative_dir / (stem + "_" + name + ".png");
+    auto relative_path = relative_dir / (utils::get_time_filestem() + "_" + name + ".png");
     Log.trace("Save image", relative_path);
     asst::imwrite(relative_path, image);
 }
