@@ -112,7 +112,7 @@
             "stage_name": "知难而进",
             "strategies": [
                 {
-                    "core": "煌",
+                    "core": "Blaze",
                     "tool_men": {
                         "近卫": 1
                     },
@@ -133,7 +133,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 1
                     },
@@ -203,7 +203,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "棘刺",
+                    "core": "Thorns",
                     "tool_men": {
                         "近卫": 2
                     },
@@ -214,7 +214,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "Mudrock",
                     "tool_men": {
                         "重装": 2
                     },
@@ -243,7 +243,7 @@
                 },
                 {
                     "type": "部署",
-                    "name": "塞雷娅",
+                    "name": "Saria",
                     "location": [
                         2,
                         2
@@ -294,7 +294,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "棘刺",
+                    "core": "Thorns",
                     "tool_men": {
                         "近卫": 4
                     },
@@ -305,7 +305,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 3,
                         "近卫": 2
@@ -328,7 +328,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "Mudrock",
                     "tool_men": {
                         "重装": 1
                     },
@@ -407,7 +407,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "棘刺",
+                    "core": "Thorns",
                     "tool_men": {
                         "近卫": 3
                     },
@@ -418,7 +418,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 3
                     },
@@ -429,7 +429,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "Mudrock",
                     "tool_men": {
                         "重装": 3
                     },
@@ -518,7 +518,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "煌",
+                    "core": "Blaze",
                     "tool_men": {
                         "近卫": 4
                     },
@@ -529,7 +529,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 3,
                         "近卫": 2
@@ -556,11 +556,11 @@
             "actions": [
                 {
                     "type": "CheckIfStartOver",
-                    "name": "铃兰"
+                    "name": "Suzuran"
                 },
                 {
                     "type": "部署",
-                    "name": "铃兰",
+                    "name": "Suzuran",
                     "location": [
                         3,
                         4

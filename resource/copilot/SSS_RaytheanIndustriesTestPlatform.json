@@ -101,7 +101,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "白面鸮",
+                    "core": "Ptilopsis",
                     "tool_men": {
                         "医疗": 1
                     },
@@ -112,7 +112,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "夜莺",
+                    "core": "Nightingale",
                     "tool_men": {
                         "医疗": 0
                     },
@@ -123,7 +123,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 0
                     },
@@ -134,7 +134,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "Goldenglow",
                     "tool_men": {
                         "狙击": 2
                     },
@@ -187,7 +187,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 1
                     },
@@ -198,7 +198,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "白面鸮",
+                    "core": "Ptilopsis",
                     "tool_men": {
                         "狙击": 0
                     },
@@ -209,7 +209,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "夜莺",
+                    "core": "Nightingale",
                     "tool_men": {
                         "狙击": 0
                     },
@@ -220,7 +220,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "Goldenglow",
                     "tool_men": {
                         "狙击": 2
                     },
@@ -283,7 +283,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "白面鸮",
+                    "core": "Ptilopsis",
                     "tool_men": {
                         "狙击": 0
                     },
@@ -294,7 +294,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "夜莺",
+                    "core": "Nightingale",
                     "tool_men": {
                         "狙击": 0
                     },
@@ -305,7 +305,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "Goldenglow",
                     "tool_men": {
                         "狙击": 3
                     },
@@ -316,7 +316,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "铃兰",
+                    "core": "Suzuran",
                     "tool_men": {
                         "狙击": 2
                     },
@@ -327,7 +327,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "先锋": 1,
                         "重装": 1
@@ -421,7 +421,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "夜莺",
+                    "core": "Nightingale",
                     "tool_men": {
                         "医疗": 0
                     },
@@ -432,7 +432,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "白面鸮",
+                    "core": "Ptilopsis",
                     "tool_men": {
                         "狙击": 0
                     },
@@ -443,7 +443,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "Goldenglow",
                     "tool_men": {
                         "狙击": 3
                     },
@@ -464,7 +464,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 1,
                         "先锋": 1
@@ -568,7 +568,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "白面鸮",
+                    "core": "Ptilopsis",
                     "tool_men": {
                         "医疗": 1
                     },
@@ -579,7 +579,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 1,
                         "先锋": 2
@@ -591,7 +591,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "Goldenglow",
                     "tool_men": {
                         "狙击": 3
                     },
@@ -602,7 +602,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "夜莺",
+                    "core": "Nightingale",
                     "tool_men": {
                         "狙击": 1
                     },
@@ -613,7 +613,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "铃兰",
+                    "core": "Suzuran",
                     "tool_men": {
                         "狙击": 3
                     },
@@ -715,7 +715,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "夜莺",
+                    "core": "Nightingale",
                     "tool_men": {
                         "狙击": 1
                     },
@@ -726,7 +726,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "Saria",
                     "tool_men": {
                         "重装": 1
                     },
@@ -737,7 +737,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "澄闪",
+                    "core": "Goldenglow",
                     "tool_men": {
                         "狙击": 3
                     },
@@ -748,7 +748,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "铃兰",
+                    "core": "Suzuran",
                     "tool_men": {
                         "狙击": 3
                     },
@@ -759,7 +759,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "白面鸮",
+                    "core": "Ptilopsis",
                     "tool_men": {
                         "狙击": 3
                     },
