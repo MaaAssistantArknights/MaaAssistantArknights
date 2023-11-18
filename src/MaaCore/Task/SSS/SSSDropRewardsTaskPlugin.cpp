@@ -41,7 +41,7 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
     std::vector<DropRecruitment> opers;
     for (const auto& result : analyzer.get_result()) {
         if (SSSCopilot.get_data().blacklist.contains(result.text)) {
-            Log.info("Operator is banned:", result.text);
+            Log.info("Operator is blacklisted:", result.text);
             continue;
         }
         auto role = BattleData.get_role(result.text);
@@ -50,12 +50,10 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
     }
 
     bool operSelect = false;
-
     for (const std::string& name : SSSCopilot.get_data().order_of_drops) {
-        auto role = get_role_type(name);
-        bool is_role = role != Role::Unknown;
-        auto iter = ranges::find_if(opers, [&](const DropRecruitment& props) {
-            return (is_role && props.role) ? *props.role == role : props.ocr_res.text == name;
+        auto iter = ranges::find_if(opers, [&](const auto& props) {
+            auto role = get_role_type(name);
+            return (role != Role::Unknown && props.role) ? *props.role == role : props.ocr_res.text == name;
         });
         if (iter != opers.cend()) {
             ctrler()->click(iter->ocr_res.rect);
@@ -64,9 +62,8 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
             break;
         }
     }
-
     if (!operSelect) {
-        Log.warn("No operator selected, select the first not banned");
+        Log.warn("No operator selected. Bypassing blacklist...");
         ctrler()->click(opers.at(0).ocr_res.rect);
     }
 
