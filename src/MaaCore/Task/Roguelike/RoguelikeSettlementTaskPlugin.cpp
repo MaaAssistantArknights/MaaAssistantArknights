@@ -2,7 +2,6 @@
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Utils/ImageIo.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
@@ -33,8 +32,9 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
     json_msg["details"]["game_pass"] = m_game_pass;
 
     sleep(task->special_params[0]);
+
     if (m_game_pass) {
-        save_img(ctrler()->get_image(), utils::path("achievement") / utils::path("roguelike"), "Page1");
+        save_img(utils::path("achievement") / utils::path("roguelike"));
     }
 
     const static auto rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
@@ -43,14 +43,14 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
 
     if (!wait_for_whole_page()) {
         Log.error(__FUNCTION__, "wait for whole page failed");
-        save_img(ctrler()->get_image(), utils::path("debug") / utils::path("roguelike"), "Page2_Error");
+        save_img(utils::path("debug") / utils::path("roguelike"));
         return true;
     }
     sleep(task->post_delay);
     auto image = ctrler()->get_image();
 
     if (m_game_pass) {
-        save_img(image, utils::path("achievement") / utils::path("roguelike"), "Page2");
+        save_img(utils::path("achievement") / utils::path("roguelike"));
     }
     get_settlement_info(json_msg, image);
     callback(AsstMsg::SubTaskExtraInfo, json_msg);
@@ -131,6 +131,7 @@ bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
     } while (!need_exit() && retry < 20);
     return false;
 }
+<<<<<<< HEAD
 
 void asst::RoguelikeSettlementTaskPlugin::save_img(const cv::Mat& image, const std::filesystem::path& relative_dir,
                                                    std::string name)
@@ -154,3 +155,5 @@ void asst::RoguelikeSettlementTaskPlugin::save_img(const cv::Mat& image, const s
     Log.trace("Save image", relative_path);
     asst::imwrite(relative_path, image);
 }
+=======
+>>>>>>> parent of 1f7b6330e (fix: 优化部分情况下肉鸽技结算时技能增长未完全显示导致识别不正确)
