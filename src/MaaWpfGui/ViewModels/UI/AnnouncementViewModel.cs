@@ -56,13 +56,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 检查更新
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task CheckAndDownloadAnnouncement()
         {
             const string Path = "announcements/wpf.md";
             const string Url = MaaUrls.MaaApi + Path;
 
-            using var response = await ETagCache.FetchResponseWithEtag(Url, string.IsNullOrEmpty(AnnouncementInfo));
+            var response = await ETagCache.FetchResponseWithEtag(Url, string.IsNullOrEmpty(AnnouncementInfo));
 
             if (response == null ||
                 response.StatusCode == System.Net.HttpStatusCode.NotModified ||

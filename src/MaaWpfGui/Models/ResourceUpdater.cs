@@ -97,8 +97,8 @@ namespace MaaWpfGui.Models
 
         private static async Task<string> GetResourceApi()
         {
-            string mirror = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
-            if (mirror != MaaUrls.MaaResourceApi && await IsMirrorAccessible(mirror))
+            string mirror = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, string.Empty);
+            if (!string.IsNullOrEmpty(mirror))
             {
                 return mirror;
             }
@@ -116,7 +116,8 @@ namespace MaaWpfGui.Models
                 var index = new Random().Next(0, mirrorList.Count);
                 var mirrorUrl = mirrorList[index];
 
-                if (await IsMirrorAccessible(mirrorUrl))
+                var response = await Instances.HttpService.GetAsync(new Uri(mirrorUrl + MaaResourceVersion), httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
+                if (response is { StatusCode: System.Net.HttpStatusCode.OK })
                 {
                     mirror = mirrorUrl;
                     break;
@@ -125,28 +126,20 @@ namespace MaaWpfGui.Models
                 mirrorList.RemoveAt(index);
             }
 
-            if (mirror != MaaUrls.MaaResourceApi)
+            if (string.IsNullOrEmpty(mirror))
             {
-                ConfigurationHelper.SetValue(ConfigurationKeys.ResourceApi, mirror);
+                mirror = MaaUrls.MaaResourceApi;
             }
 
+            ConfigurationHelper.SetValue(ConfigurationKeys.ResourceApi, mirror);
             return mirror;
-        }
-
-        private static async Task<bool> IsMirrorAccessible(string mirrorUrl)
-        {
-            using var response = await Instances.HttpService.GetAsync(
-                new Uri(mirrorUrl + MaaResourceVersion),
-                httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
-
-            return response is { StatusCode: System.Net.HttpStatusCode.OK };
         }
 
         private static async Task<bool> CheckUpdate(string baseUrl)
         {
             var url = baseUrl + MaaResourceVersion;
 
-            using var response = await ETagCache.FetchResponseWithEtag(url);
+            var response = await ETagCache.FetchResponseWithEtag(url);
             if (!(response is { StatusCode: System.Net.HttpStatusCode.OK }))
             {
                 return false;
@@ -227,7 +220,7 @@ namespace MaaWpfGui.Models
             return UpdateResult.Success;
         }
 
-        private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl, int maxRetryTime = 2)
+        private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl)
         {
             UpdateResult ret = UpdateResult.NotModified;
 
@@ -239,7 +232,7 @@ namespace MaaWpfGui.Models
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
+                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file);
 
                 if (sRet == UpdateResult.Failed)
                 {
@@ -260,9 +253,9 @@ namespace MaaWpfGui.Models
 
         // 地图文件、掉落材料的图片、基建技能图片
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
-        private static async Task<UpdateResult> UpdateFilesWithIndex(string baseUrl, int maxRetryTime = 2)
+        private static async Task<UpdateResult> UpdateFilesWithIndex(string baseUrl)
         {
-            var indexSRet = await UpdateFileWithETag(baseUrl, MaaDynamicFilesIndex, MaaDynamicFilesIndex, maxRetryTime);
+            var indexSRet = await UpdateFileWithETag(baseUrl, MaaDynamicFilesIndex, MaaDynamicFilesIndex);
             if (indexSRet == UpdateResult.Failed)
             {
                 return UpdateResult.Failed;
@@ -289,7 +282,7 @@ namespace MaaWpfGui.Models
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file, file, maxRetryTime);
+                var sRet = await UpdateFileWithETag(baseUrl, file, file);
                 if (sRet == UpdateResult.Failed)
                 {
                     OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
@@ -324,37 +317,27 @@ namespace MaaWpfGui.Models
                 : UpdateResult.Failed;
         }
 
-        private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo, int maxRetryTime = 0)
+        private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
             var url = baseUrl + file;
 
-            int retryCount = 0;
-            UpdateResult updateResult;
-            do
+            var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(saveTo));
+
+            var updateResult = ResponseToUpdateResult(response);
+            if (updateResult != UpdateResult.Success)
             {
-                using var response = await ETagCache.FetchResponseWithEtag(url, !File.Exists(saveTo));
-                updateResult = ResponseToUpdateResult(response);
-
-                switch (updateResult)
-                {
-                    case UpdateResult.Success
-                        when !await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo):
-                        return UpdateResult.Failed;
-                    case UpdateResult.Success:
-                        ETagCache.Set(response);
-                        return UpdateResult.Success;
-                    case UpdateResult.NotModified:
-                        return UpdateResult.NotModified;
-                    case UpdateResult.Failed:
-                    default:
-                        await Task.Delay(5000);
-                        break;
-                }
+                return updateResult;
             }
-            while (retryCount++ < maxRetryTime);
 
-            return updateResult;
+            if (!await HttpResponseHelper.SaveResponseToFileAsync(response, saveTo))
+            {
+                return UpdateResult.Failed;
+            }
+
+            ETagCache.Set(response);
+
+            return UpdateResult.Success;
         }
 
         private static ObservableCollection<LogItemViewModel> _logItemViewModels;
