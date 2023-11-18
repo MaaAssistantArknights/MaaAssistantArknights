@@ -39,7 +39,7 @@
         {
             "name": "假日威龙陈",
             "skill": 3,
-            "skill_usage": 0
+            "skill_usage": 1
         },
         {
             "name": "澄闪",
@@ -54,7 +54,6 @@
     ],
     "tool_men": {
         "pioneer": 6,
-        "tank": 0,
         "sniper": 4,
         "caster": 4
     },
@@ -227,11 +226,6 @@
                     "type": "二倍速"
                 },
                 {
-                    "type": "SkillUsage",
-                    "name": "斥罪",
-                    "skill_usage": 1
-                },
-                {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "location": [
@@ -369,11 +363,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "type": "SkillUsage",
-                    "name": "斥罪",
-                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -548,11 +537,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "type": "SkillUsage",
-                    "name": "斥罪",
-                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -746,11 +730,6 @@
                     "type": "二倍速"
                 },
                 {
-                    "type": "SkillUsage",
-                    "name": "斥罪",
-                    "skill_usage": 1
-                },
-                {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "location": [
@@ -927,11 +906,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "type": "SkillUsage",
-                    "name": "斥罪",
-                    "skill_usage": 1
                 },
                 {
                     "type": "Deploy",
@@ -1178,11 +1152,6 @@
                     "type": "二倍速"
                 },
                 {
-                    "type": "SkillUsage",
-                    "name": "斥罪",
-                    "skill_usage": 1
-                },
-                {
                     "type": "Deploy",
                     "name": "战备激活阀",
                     "location": [
@@ -1191,11 +1160,6 @@
                     ],
                     "direction": "Down",
                     "kills": 40
-                },
-                {
-                    "type": "Skill",
-                    "name": "假日威龙陈",
-                    "kills": 56
                 },
                 {
                     "type": "Deploy",
