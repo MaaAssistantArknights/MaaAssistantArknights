@@ -3,7 +3,7 @@
     "stage_name": "Raythean Industries Test Platform",
     "minimum_required": "v4.26.0",
     "doc": {
-        "title": "Raythean Industries Test Platform - Goldenglow, Suzuran, Saria, Nightingale, Nearl, Ptilopsis, Skadi Alter",
+        "title": "Raythean Industries Test Platform - Goldenglow 2, Suzuran 2, Saria 2, Nightingale 3, Nearl 1, Ptilopsis 2, Skadi Alter 2",
         "title_color": "skyblue",
         "details": "Author: DL_Junyihan\nEN Adaptation: Constrat\nDemo Video: BV16M411G79i\nYour support is my motivation to create and maintain!\n\nThis script is suitable for the Doctors who are in no short of core operators!\n\nSince the vanguard needs to stand on the field to receive the enemy, it is recommended to bring a block 2 vanguard that can actively return the cost! \n\nDon't bring Tactician Vanguard, block one vanguards, flagbearer vanguard! Except Bagpipe\nDo not bring more Supporter!\nDon't bring carts!\nPay attention to the default skills of the operators, for example, don't bring a 3-skill Fartooth!\n\nYou can click on the file to refer to the blacklist, and then decide which operators to bring!\n\nBecause the blacklist adds too much, may lead to the MAA in the selection of operators to do not choose, they look at the point of relatively small impact (medical close guards special 100% do not point)\n\nNormal difficulty steady, emergency mode needs a drop of luck (already very hard in the save!)\nEmergency difficulty does not require a life to pass, but relatively good to get the chapter, let him let himself cycle a few times!\n\nToolman:\nVanguard: 3\nDefender: 1\nSniper: 5\nCaster: 2\nSupporter: 2\n\nConducted Energy Original: Portable First-aid Kit\nTactical equipment: Caster B, Medic B, all others A.\nPlease manually form your team and click start after confirming the lineup.\n\nScript Reference:\n自在道爷 BV1Ko4y1L7c4\n萧然q BV1Sm4y117e3",
         "details_color": "skyblue"
@@ -22,37 +22,37 @@
     "strategy": "Main Strategy",
     "opers": [
         {
-            "name": "Saria",
+            "name": "塞雷娅",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Goldenglow",
+            "name": "澄闪",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Suzuran",
+            "name": "铃兰",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Ptilopsis",
+            "name": "白面鸮",
             "skill": 2,
             "skill_usage": 1
         },
         {
-            "name": "Nightingale",
+            "name": "夜莺",
             "skill": 3,
             "skill_usage": 1
         },
         {
-            "name": "Skadi the Corrupting Heart",
+            "name": "浊心斯卡蒂",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Nearl",
+            "name": "临光",
             "skill": 1,
             "skill_usage": 0
         }

@@ -3,7 +3,7 @@
     "stage_name": "Mama John's New Plate",
     "minimum_required": "v4.26.0",
     "doc": {
-        "title": "Mama John's New Plate - Goldenglow, Saria, Mudrock, Penance, Ch'en Alter, Skadi Alter",
+        "title": "Mama John's New Plate - Mudrock 2, Saria 1, Goldenglow 2, Penance 3, Ch'en Alter 3, Skadi Alter 2",
         "title_color": "yellow",
         "details": "Author: DL_Junyihan\nEN Adaptation: Constrat\nDemo Video: BV1Rs4y1g7Dq\nYour support is my motivation to create and maintain!\n\nThis script is suitable for the Doctors who are in no short of core operators!\n\nSince the vanguard needs to stand on the field to receive the enemy, it is recommended to bring a block 2 vanguard that can actively return the cost! Don't bring other branches except Bagpipe with Skill 3! If you are bringing Siege, please set it to Skill 1 in the character management screen and in the squad!\nToolman Cadets should be able to fight as much as possible!\nDon't bring a cart!\nPay attention to the default skills of the cadres, for example, don't bring a 3-skill Fartooth!\n\nYou can click on the file to refer to the blacklist, and then decide which cadre to bring!\n\nBecause the blacklist adds too much, may lead to the MAA in the selection of cadres to do not choose, they look at the point of relatively small impact (heavy armour, medical, guards, special try not to point, because they are not written at all).\n\nNormal difficulty steady, emergency mode needs luck (I really tried!)\n\nEmergency difficulty doesn't require one life to pass, just let him cycle through a few more times on his own.\n\nToolman:\nVanguard: 6\nDefender: 0\nSniper: 4\nCaster: 4\n\nConducted Energy Primary: Energy Perturbation Amplifier\nTactical Gear: Caster B, all others choose A\n\nScript idea reference:\nFigured it out myself after hundreds of defeats!",
         "details_color": "yellow"
@@ -22,32 +22,32 @@
     "strategy": "Main Strategy",
     "opers": [
         {
-            "name": "Saria",
+            "name": "塞雷娅",
             "skill": 1,
             "skill_usage": 0
         },
         {
-            "name": "Penance",
+            "name": "斥罪",
             "skill": 3,
             "skill_usage": 1
         },
         {
-            "name": "Mudrock",
+            "name": "澄闪",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Ch'en the Holungday",
+            "name": "假日威龙陈",
             "skill": 3,
             "skill_usage": 0
         },
         {
-            "name": "Goldenglow",
+            "name": "泥岩",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Skadi the Corrupting Heart",
+            "name": "浊心斯卡蒂",
             "skill": 2,
             "skill_usage": 0
         }
@@ -175,7 +175,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "Penance",
+                    "core": "斥罪",
                     "tool_men": {
                         "pioneer": 1,
                         "tank": 1
@@ -187,7 +187,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "泥岩",
                     "tool_men": {
                         "sniper": 2
                     },
@@ -198,7 +198,7 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 2
                     },
@@ -228,7 +228,7 @@
                 },
                 {
                     "type": "SkillUsage",
-                    "name": "Penance",
+                    "name": "斥罪",
                     "skill_usage": 1
                 },
                 {
@@ -278,7 +278,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -309,7 +309,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "泥岩",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -320,7 +320,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Mudrock",
+                    "core": "澄闪",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -331,7 +331,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 1,
                         "pioneer": 2
@@ -372,7 +372,7 @@
                 },
                 {
                     "type": "SkillUsage",
-                    "name": "Penance",
+                    "name": "斥罪",
                     "skill_usage": 1
                 },
                 {
@@ -422,7 +422,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Ch'en the Holungday",
+                    "core": "假日威龙陈",
                     "tool_men": {
                         "pioneer": 2,
                         "caster": 1
@@ -434,7 +434,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -445,7 +445,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "泥岩",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -456,7 +456,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Mudrock",
+                    "core": "澄闪",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -467,7 +467,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Penance",
+                    "core": "斥罪",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -478,7 +478,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 2,
                         "pioneer": 1
@@ -551,7 +551,7 @@
                 },
                 {
                     "type": "SkillUsage",
-                    "name": "Penance",
+                    "name": "斥罪",
                     "skill_usage": 1
                 },
                 {
@@ -611,7 +611,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Mudrock",
+                    "core": "澄闪",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -623,7 +623,7 @@
                     "kills": 2
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "泥岩",
                     "tool_men": {
                         "sniper": 3,
                         "caster": 2
@@ -636,7 +636,7 @@
                     "kills": 3
                 },
                 {
-                    "core": "Penance",
+                    "core": "斥罪",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -648,7 +648,7 @@
                     "kills": 7
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -672,7 +672,7 @@
                     "kills": 13
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 2
                     },
@@ -747,7 +747,7 @@
                 },
                 {
                     "type": "SkillUsage",
-                    "name": "Penance",
+                    "name": "斥罪",
                     "skill_usage": 1
                 },
                 {
@@ -807,7 +807,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "Penance",
+                    "core": "斥罪",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -818,7 +818,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "Mudrock",
+                    "core": "澄闪",
                     "tool_men": {
                         "pioneer": 1
                     },
@@ -841,7 +841,7 @@
                     "kills": 9
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 2
                     },
@@ -853,7 +853,7 @@
                     "kills": 11
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "泥岩",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -865,7 +865,7 @@
                     "kills": 11
                 },
                 {
-                    "core": "Ch'en the Holungday",
+                    "core": "假日威龙陈",
                     "tool_men": {
                         "pioneer": 3,
                         "caster": 2
@@ -930,7 +930,7 @@
                 },
                 {
                     "type": "SkillUsage",
-                    "name": "Penance",
+                    "name": "斥罪",
                     "skill_usage": 1
                 },
                 {
@@ -1000,7 +1000,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "Mudrock",
+                    "core": "澄闪",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -1021,7 +1021,7 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "Penance",
+                    "core": "斥罪",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -1044,7 +1044,7 @@
                     "kills": 6
                 },
                 {
-                    "core": "Saria",
+                    "core": "塞雷娅",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -1067,7 +1067,7 @@
                     "kills": 8
                 },
                 {
-                    "core": "Skadi the Corrupting Heart",
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 1
                     },
@@ -1102,7 +1102,7 @@
                     "kills": 12
                 },
                 {
-                    "core": "Mudrock",
+                    "core": "澄闪",
                     "tool_men": {
                         "pioneer": 0
                     },
@@ -1113,7 +1113,7 @@
                     "direction": "Up"
                 },
                 {
-                    "core": "Goldenglow",
+                    "core": "泥岩",
                     "tool_men": {
                         "sniper": 3
                     },
@@ -1125,7 +1125,7 @@
                     "kills": 15
                 },
                 {
-                    "core": "Ch'en the Holungday",
+                    "core": "假日威龙陈",
                     "tool_men": {
                         "caster": 2,
                         "pioneer": 2
@@ -1179,7 +1179,7 @@
                 },
                 {
                     "type": "SkillUsage",
-                    "name": "Penance",
+                    "name": "斥罪",
                     "skill_usage": 1
                 },
                 {
@@ -1194,7 +1194,7 @@
                 },
                 {
                     "type": "Skill",
-                    "name": "Ch'en the Holungday",
+                    "name": "假日威龙陈",
                     "kills": 56
                 },
                 {
