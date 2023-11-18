@@ -514,7 +514,8 @@
         添加: 左键添加正常难度，右键添加突袭难度。\n
         清除: 左键清空列表，右键仅移除未激活的任务。\n
         开始前，需要切换至对应关卡的选择界面，不支持跨章节导航。\n
-        遇到 理智不足、战斗失败、未能以三星结算 时将会中止运行。\n\n
+        遇到 理智不足、战斗失败、未能以三星结算 时将会中止运行。\n
+        批量导入时，添加突袭关需参照已添加任务格式修改文件名\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
