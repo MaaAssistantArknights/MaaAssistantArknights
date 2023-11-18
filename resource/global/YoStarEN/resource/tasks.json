@@ -2261,6 +2261,10 @@
             [
                 "Stimulation Shot",
                 "增活针剂"
+            ],
+            [
+                "No more operators needed",
+                "无需增调干员"
             ]
         ]
     },
@@ -3579,6 +3583,10 @@
         ],
         "ocrReplace": [
             [
+                "\\.",
+                ""
+            ],
+            [
                 "Jungle Greetings",
                 "丛林式寒暄"
             ],
@@ -3647,7 +3655,7 @@
                 "消息传递"
             ],
             [
-                "Show of Power.*",
+                "Show of Power",
                 "力量的炫耀"
             ],
             [
@@ -3710,7 +3718,8 @@
     "SSSDropRecruitmentConfirm": {
         "text": [
             "Confirm assignment",
-            "Confirm Selection"
+            "Confirm Selection",
+            "Abandon Assignment"
         ],
         "roi": [
             1105,
