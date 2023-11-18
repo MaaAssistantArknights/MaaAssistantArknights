@@ -45,16 +45,6 @@
             "name": "Saria",
             "skill": 1,
             "skill_usage": 0
-        },
-        {
-            "name": "Eyjafjalla",
-            "skill": 2,
-            "skill_usage": 0
-        },
-        {
-            "name": "Suzuran",
-            "skill": 2,
-            "skill_usage": 0
         }
     ],
     "tool_men": {
