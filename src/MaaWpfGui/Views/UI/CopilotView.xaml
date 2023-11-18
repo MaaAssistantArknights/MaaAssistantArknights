@@ -308,6 +308,7 @@
                 Margin="0,10"
                 properties:AutoScroll.AutoScroll="True"
                 HorizontalScrollBarVisibility="Disabled"
+                PanningMode="VerticalOnly"
                 IsInertiaEnabled="True">
                 <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
                     <ItemsControl.ItemTemplate>
