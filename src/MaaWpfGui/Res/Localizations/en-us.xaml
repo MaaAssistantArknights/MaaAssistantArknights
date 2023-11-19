@@ -514,7 +514,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         Add: Left click to add normal difficulty, right click to add raid difficulty. \n
         Clear: Left click to clear the list, right click to remove only inactive tasks. \n
         Before starting, you need to switch to the level selection interface. Cross-chapter navigation is not supported. \n
-        The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars. \n\n
+        The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars. \n
+        When you want to use the batch import to add a adverse level, you need to modify the file name according to the format of an added task. \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
