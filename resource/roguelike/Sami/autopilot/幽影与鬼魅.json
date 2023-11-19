@@ -29,7 +29,11 @@
                 2,
                 5
             ],
-            "direction": "left"
+            "direction": "left",
+            "condition": [
+                0,
+                22
+            ]
         },
         {
             "groups": [
@@ -86,7 +90,7 @@
             "direction": "right"
         },
         {
-            "groups": [                
+            "groups": [
                 "高台输出",
                 "盾法",
                 "辅助",
@@ -97,6 +101,29 @@
                 3
             ],
             "direction": "down"
+        },
+        {
+            "groups": [
+                "玛恩纳",
+                "领主",
+                "地刺"
+            ],
+            "location": [
+                4,
+                4
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "地面远程",
+                "地刺"
+            ],
+            "location": [
+                2,
+                5
+            ],
+            "direction": "right"
         },
         {
             "groups": [
@@ -141,16 +168,6 @@
         },
         {
             "groups": [
-                "地面远程"
-            ],
-            "location": [
-                2,
-                5
-            ],
-            "direction": "right"
-        },
-        {
-            "groups": [
                 "地面阻挡"
             ],
             "location": [
@@ -168,6 +185,6 @@
                 3
             ],
             "direction": "left"
-        }            
+        }
     ]
 }

@@ -12,9 +12,14 @@ void OCRerConfig::set_params(Params params)
 
 void OCRerConfig::set_required(std::vector<std::string> required) noexcept
 {
-    ranges::transform(required, required.begin(),
-                      [](const std::string& str) { return OcrConfig::get_instance().process_equivalence_class(str); });
-    m_params.required = std::move(required);
+    m_params.required.clear();
+    m_params.required.reserve(required.size());
+
+    auto& ocr_config = OcrConfig::get_instance();
+    for (auto& str : required) {
+        std::string equ_str = ocr_config.process_equivalence_class(str);
+        m_params.required.emplace_back(std::move(str), std::move(equ_str));
+    }
 }
 
 void OCRerConfig::set_replace(const std::vector<std::pair<std::string, std::string>>& replace,
@@ -24,9 +29,23 @@ void OCRerConfig::set_replace(const std::vector<std::pair<std::string, std::stri
     m_params.replace.reserve(replace.size());
 
     for (auto&& [key, val] : replace) {
-        auto new_key = OcrConfig::get_instance().process_equivalence_class(key);
+        auto& ocr_config = OcrConfig::get_instance();
+        std::string new_key = key;
+        for (const auto& eq_class : ocr_config.get_eq_classes()) {
+            if (eq_class.size() <= 1) continue;
+
+            // eq_class: [s, S] -> regex: "(?:s|S)"
+            std::string eq_classes_regex = "(?:";
+            for (const auto& elem : eq_class)
+                (eq_classes_regex += elem) += '|';
+            eq_classes_regex.pop_back();
+            eq_classes_regex += ')';
+            ranges::for_each(eq_class, [&](std::string_view elem) {
+                utils::string_replace_all_in_place(new_key, elem, eq_classes_regex);
+            });
+        }
         // do not create new_val as val is user-provided, and can avoid issues like 夕 and katakana タ
-        m_params.replace.emplace_back(std::make_pair(std::move(new_key), val));
+        m_params.replace.emplace_back(std::move(new_key), val);
     }
     m_params.replace_full = replace_full;
 }

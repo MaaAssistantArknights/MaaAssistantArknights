@@ -1,0 +1,8 @@
+
+/pkg
+/.vs
+/build
+/woolang
+/debug_*
+/release_*
+    

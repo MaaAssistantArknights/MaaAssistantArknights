@@ -15,7 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -54,30 +53,36 @@ namespace MaaWpfGui.Helper
 
             _logger.Debug("Read configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
 
-            return hasValue
-                ? value
-                : defaultValue;
+            if (hasValue)
+            {
+                return value;
+            }
+
+            // return hasValue ? value : defaultValue;
+            SetValue(key, defaultValue);
+            return defaultValue;
         }
 
         public static string GetGlobalValue(string key, string defaultValue)
         {
             var hasValue = _globalKvs.TryGetValue(key, out var value);
             _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
-            if (!hasValue)
+            if (hasValue)
             {
-                hasValue = _kvs.TryGetValue(key, out value);
-                if (hasValue)
-                {
-                    _logger.Debug("Read global configuration key {Key} with current configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, hasValue, value);
-                    SetGlobalValue(key, value);
-                    return value;
-                }
-
-                SetGlobalValue(key, defaultValue);
-                return defaultValue;
+                return value;
             }
 
-            return value;
+            hasValue = _kvs.TryGetValue(key, out value);
+            if (hasValue)
+            {
+                _logger.Information("Read global configuration key {Key} with current configuration value {Value}, configuration hit: {HasValue}, configuration value {Value}", key, value, true, value);
+                SetGlobalValue(key, value);
+                return value;
+            }
+
+            // 保证有全局配置
+            SetGlobalValue(key, defaultValue);
+            return defaultValue;
         }
 
         /// <summary>
@@ -151,6 +156,7 @@ namespace MaaWpfGui.Helper
         /// </summary>
         /// <param name="key">The configuration key.</param>
         /// <returns>The return value of <see cref="Save"/>.</returns>
+        // ReSharper disable once UnusedMember.Global
         public static bool DeleteValue(string key)
         {
             lock (_lock)
@@ -217,8 +223,10 @@ namespace MaaWpfGui.Helper
                 if (parsed.ContainsKey(ConfigurationKeys.ConfigurationMap))
                 {
                     // new version
-                    _kvsMap = parsed[ConfigurationKeys.ConfigurationMap].ToObject<Dictionary<string, Dictionary<string, string>>>();
-                    _current = parsed[ConfigurationKeys.CurrentConfiguration].ToString();
+                    _kvsMap = parsed[ConfigurationKeys.ConfigurationMap]?.ToObject<Dictionary<string, Dictionary<string, string>>>()
+                        ?? new Dictionary<string, Dictionary<string, string>>();
+                    _current = parsed[ConfigurationKeys.CurrentConfiguration]?.ToString()
+                        ?? ConfigurationKeys.DefaultConfiguration;
                     _kvs = _kvsMap[_current];
                 }
                 else
@@ -232,14 +240,9 @@ namespace MaaWpfGui.Helper
                     _kvs = _kvsMap[_current];
                 }
 
-                if (parsed.ContainsKey(ConfigurationKeys.GlobalConfiguration))
-                {
-                    _globalKvs = parsed[ConfigurationKeys.GlobalConfiguration].ToObject<Dictionary<string, string>>();
-                }
-                else
-                {
-                    _globalKvs = new Dictionary<string, string>();
-                }
+                _globalKvs = parsed.ContainsKey(ConfigurationKeys.GlobalConfiguration)
+                    ? parsed[ConfigurationKeys.GlobalConfiguration]?.ToObject<Dictionary<string, string>>()
+                    : new Dictionary<string, string>();
 
                 return true;
             }
@@ -369,12 +372,7 @@ namespace MaaWpfGui.Helper
             try
             {
                 var obj = (JObject)JsonConvert.DeserializeObject(str);
-                if (obj is null)
-                {
-                    throw new Exception("Failed to parse json file");
-                }
-
-                return obj;
+                return obj ?? throw new Exception("Failed to parse json file");
             }
             catch (Exception ex)
             {

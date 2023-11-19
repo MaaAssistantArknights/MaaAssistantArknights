@@ -13,6 +13,7 @@ on:
       - 'cmake/**'
       - 'CMakeLists.txt'
       - 'MAA.sln'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches:
       - 'dev'
@@ -113,7 +114,28 @@ jobs:
       - if: startsWith(github.ref, 'refs/tags/v')
         shell: bash
         run: |
-          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json
+          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json	
+
+      - name: Taggify Version
+        run: |
+          $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
+          $csprojPath = Resolve-Path -Path $csprojPath
+          $tag = '${{ needs.meta.outputs.tag }}' -replace '.*?/', ''
+          if ($tag -match '\d+(\.\d+){1,3}') {
+              $match = $Matches[0]
+          } else {
+              $match = "0.0.1"
+          }
+          [xml]$csproj = Get-Content -Path $csprojPath
+          $node = $csproj.Project.PropertyGroup | where {$_.AssemblyName -ne $null}
+          $node.InformationalVersion = $tag
+          $node.Version = $match
+          $node.FileVersion = $match
+          $node.AssemblyVersion = $match
+          $csproj.Save($csprojPath)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build
         run: |
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
@@ -139,6 +161,8 @@ jobs:
         arch: [aarch64, x86_64]
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
 
       - name: Install cross compile toolchains
         if: ${{ matrix.arch != 'x86_64' }}
@@ -174,16 +198,66 @@ jobs:
           mkdir -p install
           cmake --install build --prefix install
 
+      - name: Install cross compile tool (CLI)
+        if: ${{ matrix.arch != 'x86_64' }}
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cross
+
+      - name: Build CLI
+        working-directory: src/maa-cli
+        env:
+          CARGO_CMD: ${{ matrix.arch == 'x86_64' && 'cargo' || 'cross' }}
+          CARGO_BUILD_TARGET: ${{ matrix.arch }}-unknown-linux-gnu
+        run: |
+          $CARGO_CMD build --release --locked --package maa-cli
+          cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
+
+      - name: Build Appimage
+        run: |
+          sudo add-apt-repository universe
+          sudo apt update
+          sudo apt install libfuse2
+          mkdir -pv release
+          mkdir -pv Maa.AppDir/usr/share/maa
+          cp -r install/* Maa.AppDir/usr/share/maa/
+          wget -c https://raw.githubusercontent.com/MaaAssistantArknights/design/main/logo/maa-logo_512x512.png -O Maa.AppDir/maa.png
+          mkdir -pv Maa.AppDir/usr/share/icons/hicolor/512x512/apps/
+          cp -v Maa.AppDir/maa.png Maa.AppDir/usr/share/icons/hicolor/512x512/apps/
+          chmod a+x Maa.AppDir/usr/share/maa/maa
+          
+          cat > Maa.AppDir/maa.desktop <<EOF
+          [Desktop Entry]
+          Type=Application
+          Name=MaaAssistantArknights
+          Icon=maa
+          Exec=AppRun
+          Terminal=true
+          Categories=Game;StrategyGame;
+          Comment=An Arknights assistant
+          EOF
+          
+          ln -sv usr/share/maa/maa Maa.AppDir/AppRun
+          mkdir -pv Maa.AppDir/usr/share/metainfo/
+          cp -v tools/AppImage/io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
+          wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod a+x appimagetool-x86_64.AppImage
+          ./appimagetool-x86_64.AppImage Maa.AppDir
+          chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
+          mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
+
       - name: tar files
         run: |
           mkdir -p release
           cd install
           tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
-
+      
       - uses: actions/upload-artifact@v3
         with:
           name: MAA-linux-${{ matrix.arch }}
-          path: 'release/*.tar.gz'
+          path: |
+            release/*.AppImage
+            release/*.tar.gz
 
   macOS-Core:
     needs: meta

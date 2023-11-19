@@ -15,6 +15,7 @@ namespace asst
         virtual ~BattleProcessTask() override = default;
 
         virtual bool set_stage_name(const std::string& stage_name) override;
+        void set_wait_until_end(bool wait_until_end);
 
     protected:
         virtual bool _run() override;
@@ -27,7 +28,7 @@ namespace asst
             return false;
         }
         virtual battle::copilot::CombatData& get_combat_data() { return m_combat_data; }
-        virtual bool need_to_wait_until_end() const { return false; }
+        virtual bool need_to_wait_until_end() const { return m_need_to_wait_until_end; }
 
         bool to_group();
         bool do_action(const battle::copilot::Action& action, size_t index);
@@ -38,9 +39,12 @@ namespace asst
         bool enter_bullet_time(const std::string& name, const Point& location);
         void sleep_and_do_strategy(unsigned millisecond);
 
+        virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true) override;
+
         battle::copilot::CombatData m_combat_data;
         std::unordered_map</*group*/ std::string, /*oper*/ std::string> m_oper_in_group;
 
         bool m_in_bullet_time = false;
+        bool m_need_to_wait_until_end = false;
     };
 }

@@ -5,6 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/Miscellaneous/OcrPack.h"
 #include "Config/ResourceLoader.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -34,6 +35,24 @@ using namespace asst;
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
 {
     Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
+
+    switch (key) {
+    case StaticOptionKey::CpuOCR: {
+        WordOcr::get_instance().use_cpu();
+        CharOcr::get_instance().use_cpu();
+        return true;
+    } break;
+    case StaticOptionKey::GpuOCR: {
+        int device_id = std::stoi(value);
+        WordOcr::get_instance().use_gpu(device_id);
+        CharOcr::get_instance().use_gpu(device_id);
+        return true;
+    } break;
+    default:
+        Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));
+        break;
+    }
+
     return false;
 }
 
@@ -340,7 +359,6 @@ bool asst::Assistant::start(bool block)
     if (block) { // 外部调用
         lock = std::unique_lock<std::mutex>(m_mutex);
     }
-
     m_thread_idle = false;
     m_running = true;
     m_condvar.notify_one();
@@ -362,7 +380,6 @@ bool Assistant::stop(bool block)
     m_tasks_list.clear();
 
     clear_cache();
-
     return true;
 }
 
@@ -425,6 +442,7 @@ void Assistant::working_proc()
             callback_json["finished_tasks"] = json::array(finished_tasks);
             append_callback(AsstMsg::AllTasksCompleted, callback_json);
             finished_tasks.clear();
+            clear_cache();
         }
 
         const int delay = Config.get_options().task_delay;

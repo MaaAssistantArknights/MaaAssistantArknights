@@ -38,7 +38,8 @@
             "groups": [
                 "焰苇",
                 "凯尔希",
-                "水陈"
+                "水陈",
+                "召唤"
             ],
             "location": [
                 3,
@@ -48,20 +49,10 @@
         },
         {
             "groups": [
-                "地面远程"
-            ],
-            "location": [
-                4,
-                2
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
                 "召唤",
                 "高台输出",
-                "辅助",
-                "盾法"
+                "盾法",
+                "辅助"
             ],
             "location": [
                 3,
@@ -79,6 +70,16 @@
                 4
             ],
             "direction": "right"
+        },
+        {
+            "groups": [
+                "地面远程"
+            ],
+            "location": [
+                4,
+                2
+            ],
+            "direction": "down"
         },
         {
             "groups": [
@@ -114,5 +115,5 @@
             ],
             "direction": "down"
         }
-    ]    
+    ]
 }

@@ -41,6 +41,15 @@
                 ],
                 "template": "Bskill_ctrl_ash.png"
             },
+            "bskill_ctrl_bd_spd": {
+                "desc": [
+                    "进驻控制中枢时，自身心情每小时消耗+0.5；每个进驻在制造站的黑钢国际干员，生产力+5%"
+                ],
+                "name": [
+                    "老友相聚"
+                ],
+                "template": "Bskill_ctrl_bd_spd.png"
+            },
             "bskill_ctrl_c_spd": {
                 "desc": [
                     "进驻控制中枢时，会客室线索搜集速度+25%"
@@ -120,6 +129,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
+                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05"
                 ],
                 "efficient": {
@@ -134,7 +144,8 @@
                     "必要责任",
                     "护卫",
                     "小小的领袖",
-                    "独善其身"
+                    "独善其身",
+                    "笑靥如春"
                 ],
                 "template": "Bskill_ctrl_cost.png"
             },
@@ -515,6 +526,15 @@
                     "天生丽质"
                 ],
                 "template": "Bskill_dorm_all&one3.png"
+            },
+            "bskill_dorm_all&single": {
+                "desc": [
+                    "进驻宿舍时，使心情未满的宿舍成员，平均分配到总计每小时心情恢复+0.8的加成（该技能对单名干员和多名干员生效时，同种效果分别取最高）"
+                ],
+                "name": [
+                    "小酌怡情"
+                ],
+                "template": "Bskill_dorm_all&single.png"
             },
             "bskill_dorm_all1": {
                 "desc": [
@@ -935,6 +955,15 @@
                 ],
                 "template": "Bskill_man_exp3.png"
             },
+            "bskill_man_gold&blacksteel": {
+                "desc": [
+                    "进驻制造站时，基建内（不包含副手）每有1名黑钢国际干员（最多3名），贵金属类配方的生产力+2%，心情每小时消耗-0.15"
+                ],
+                "name": [
+                    "挑大梁"
+                ],
+                "template": "Bskill_man_gold&blacksteel.png"
+            },
             "bskill_man_gold1": {
                 "desc": [
                     "进驻制造站时，贵金属类配方的生产力+30%"
@@ -959,6 +988,15 @@
                     "金属工艺·β"
                 ],
                 "template": "Bskill_man_gold2.png"
+            },
+            "bskill_man_gold3": {
+                "desc": [
+                    "进驻制造站时，贵金属类配方的生产力+25%，心情每小时消耗+0.25"
+                ],
+                "name": [
+                    "小奇思"
+                ],
+                "template": "Bskill_man_gold3.png"
             },
             "bskill_man_limit&cost1": {
                 "desc": [
@@ -1452,6 +1490,18 @@
                 ],
                 "optional": [
                     {
+                        "desc": "莱茵科技·γ",
+                        "efficient": {
+                            "all": 35
+                        },
+                        "filter": [
+                            "淬羽赫默"
+                        ],
+                        "skills": [
+                            "bskill_man_spd3"
+                        ]
+                    },
+                    {
                         "desc": "莱茵科技·β",
                         "efficient": {
                             "all": 30
@@ -1495,6 +1545,18 @@
                     }
                 ],
                 "optional": [
+                    {
+                        "desc": "莱茵科技·γ",
+                        "efficient": {
+                            "all": 35
+                        },
+                        "filter": [
+                            "淬羽赫默"
+                        ],
+                        "skills": [
+                            "bskill_man_spd3"
+                        ]
+                    },
                     {
                         "desc": "莱茵科技·β",
                         "efficient": {

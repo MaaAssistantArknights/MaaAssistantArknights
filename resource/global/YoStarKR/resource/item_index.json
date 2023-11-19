@@ -879,6 +879,22 @@
         "sortId": 40003,
         "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 특정 시간 동안 특수한 인재를 모집하는 데 쓰인다. 1회 모집으로 10명을 채용할 수 있다."
     },
+    "LINKAGE_TKT_GACHA_10_3601": {
+        "classifyType": "NORMAL",
+        "description": "인재 확보를 위해 박사가 준비해달라 요구했던 긴급수단. 해당 헤드헌팅 항목은 타겟팅과 타임 리미트가 적용되었으며, 그리고 아주 작은 리스크가 존재한다.",
+        "icon": "LINKAGE_TKT_GACHA_10_3601.png",
+        "name": "가이딩 라이트 헤드헌팅 허가증",
+        "sortId": 40003,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 특정 시간 동안 특수한 인재를 모집하는 데 쓰인다. 1회 모집으로 10명을 채용할 수 있다."
+    },
+    "LINKAGE_TKT_GACHA_10_3602": {
+        "classifyType": "NORMAL",
+        "description": "인재 확보를 위해 박사가 준비해달라 요구했던 긴급수단. 해당 헤드헌팅 항목은 타겟팅과 타임 리미트가 적용되었으며, 그리고 아주 작은 리스크가 존재한다.",
+        "icon": "LINKAGE_TKT_GACHA_10_3602.png",
+        "name": "콜라보 한정 헤드헌팅 10회 허가증",
+        "sortId": 40003,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 특정 시간 동안 특수한 인재를 모집하는 데 쓰인다. 1회 모집으로 10명을 채용할 수 있다."
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -959,6 +975,14 @@
         "sortId": 10019,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10020,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -974,6 +998,14 @@
         "name": "헤드헌팅 데이터 계약",
         "sortId": 10010,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
+    "Logistics_Special_Permit": {
+        "classifyType": "NONE",
+        "description": "날로 늘어나는 전투 속에서 로도스 아일랜드는, 긴급 파견 임무의 원활한 수행을 위해 이 후방지원 특별 허가증을 발급했다. 오퍼레이터는 이 허가증으로 PRTS를 통해, 즉시 본함의 후방 지원부로부터 최고 우선순위의 지원 보급을 신청할 수 있으며, 후방 지원부는 우선적으로 신청자에게 별도의 추가 물자 배송 및 즉각적인 현장 자원 수급을 지원해 준다.",
+        "icon": "Logistics_Special_Permit.png",
+        "name": "후방지원 특별 허가증",
+        "sortId": 30200,
+        "usage": "후방지원 특별 허가증을 사용하여 작전 시 이성을 소모하지 않고, 기존의 일반 드랍 보상이 고정 드랍으로 변경되며 수량이 3배로 증가한다."
     },
     "REP_COIN": {
         "classifyType": "NORMAL",
@@ -1199,6 +1231,14 @@
         "sortId": -10000,
         "usage": "기사의 나라 축소형 모델로, 늘 응접실의 정교한 선물함 안에 놓여 있다."
     },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "모선 마을 주민들이 직접 조각한 평안을 기원하는 부적. 이산묘에 가져가 묘축이 주사로 글을 써주면 마음이 더 편안해진다.",
+        "icon": "act14mini_token_fu.png",
+        "name": "호신부",
+        "sortId": -10000,
+        "usage": "복숭아나무로 조각한 목패. 경기가 좋을 때, 어떤 이들은 길조를 위해 약간의 곡물로 솜씨가 좋은 노인들로부터 이런 목패를 교환한다."
+    },
     "act14side_token_stone": {
         "classifyType": "NONE",
         "description": "쉐라간드의 의지가 깃들어 있어, 쉐라그인들은 행복과 평안을 위해 이 돌에 기도한다.",
@@ -1319,6 +1359,14 @@
         "sortId": -10000,
         "usage": "금속으로 만든 소형 훈장. 일정 수량을 수집하면 상응하는 보상을 획득할 수 있다."
     },
+    "act1sandbox_milestone_point": {
+        "classifyType": "NONE",
+        "description": "삶이 번성하고 대대로 전해 내려온다. 이것이 그 증명이다.",
+        "icon": "act1sandbox_milestone_point.png",
+        "name": "번영의 배지",
+        "sortId": -10000,
+        "usage": "이정표에서 보상 교환할 때 사용된다."
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "수많은 필체의 흔적으로부터 잡지가 얼마나 많은 사람들의 손을 거쳐 갔는지 알 수 있다. 대부분은 무의미한 낙서이지만, 반짝이는 지성 또한 사이사이에 숨어 있다.",
@@ -1350,6 +1398,94 @@
         "name": "새로 빚은 소주",
         "sortId": -10000,
         "usage": "새로 빚은 독한 술 한 항아리로 대장장이와 새로 날 세운 검을 바꾼다. “물을 피 삼아, 술을 칼 삼아, 벗과 함께 잔을 기울이면 원수마저 잊노라.”"
+    },
+    "act24side_melding_1": {
+        "classifyType": "NONE",
+        "description": "황무지에 방치된 해골. 오랜 세월의 풍화로 인해 산산조각이 나서 완전한 형태를 알아볼 수 없게 됐다. 과거에는 어쩌면 위대한 생명체였을지 모르겠으나, 지금은 흔하디흔한 하급 소재일 뿐이다.",
+        "icon": "act24side_melding_1.png",
+        "name": "부서진 뼛조각",
+        "sortId": -10000,
+        "usage": "쉽게 구할 수 있는 하급 소재로 연금술에 사용된다."
+    },
+    "act24side_melding_2": {
+        "classifyType": "NONE",
+        "description": "원석충의 단단한 껍데기. 작은 오리지늄 결정이 가득하며 핥으면 살짝 쓴맛이 난다. 원석충은 종류가 다양하지만, 산출하는 소재의 품질은 다 똑같다.",
+        "icon": "act24side_melding_2.png",
+        "name": "원석충 껍데기",
+        "sortId": -10000,
+        "usage": "노력하면 구할 수 있는 일반적인 소재로 연금술에 사용된다."
+    },
+    "act24side_melding_3": {
+        "classifyType": "NONE",
+        "description": "케라토비스트의 날카로운 송곳니. 몸을 찢어버릴 만큼 날카로운 양질의 연금 소재다. 다시 한번 말하지만, 틀니로는 쓸 수 없다.",
+        "icon": "act24side_melding_3.png",
+        "name": "케라토비스트 송곳니",
+        "sortId": -10000,
+        "usage": "공을 들여야만 구할 수 있는 고품질 소재로 연금술에 사용된다."
+    },
+    "act24side_melding_4": {
+        "classifyType": "NONE",
+        "description": "트리케라비스트의 두꺼운 표피. 근성이 풍부하여 강한 충격도 막을 수 있다. 이러한 재료를 구하려면 반드시 처절한 싸움을 치러야 한다. 편육 한번 먹기 참 어렵다.",
+        "icon": "act24side_melding_4.png",
+        "name": "트리케라비스트 가죽",
+        "sortId": -10000,
+        "usage": "수량이 적은 상급 소재로 연금술에 사용된다."
+    },
+    "act24side_melding_5": {
+        "classifyType": "NONE",
+        "description": "눈물처럼 투명한 광물. 어떤 멸종생물의 해골에서 응결되어 만들어졌다고 한다. 빛 아래에서 자세히 들여다보면 마치 별이 흐르는 것처럼 보인다.",
+        "icon": "act24side_melding_5.png",
+        "name": "'짐승의 눈물'",
+        "sortId": -10000,
+        "usage": "매우 희귀한 최상급 소재로 연금술에 사용된다."
+    },
+    "act24side_melding_6": {
+        "classifyType": "NONE",
+        "description": "비룡 체내에서 가끔 생성되는 희귀한 옥석. 운 좋게 이 옥석을 획득한 헌터도 막상 세공하려면 한참을 망설인다.",
+        "icon": "act24side_melding_6.png",
+        "name": "화룡의 홍옥",
+        "sortId": -10000,
+        "usage": "리오레우스와의 전투를 통해 입수한 소재. 아츠 연금에 안성맞춤이다."
+    },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "내스티가 각지에 숨긴 데이터 외에도 국가의 지원으로 새로운 데이터가 끊임없이 생성되고 있다. 컬럼비아도 점차 크리스틴의 이 연구의 가치를 깨닫게 되었다.",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "비행 데이터 메모리칩",
+        "sortId": -10000,
+        "usage": "다양한 고도와 환경에서의 비행 데이터를 기록한 칩으로, 일정 수량을 모으면 특별 안건 연락처에서 필요한 물자를 교환할 수 있다."
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "비밀 구역에 들어갈 때 필요한 허가증. 안에 있는 장치가 어딘가 좀 달라 보이는데?",
+        "icon": "act25side_token_key01.png",
+        "name": "특수 작전 허가증·α",
+        "sortId": -10000,
+        "usage": "비밀 구역에 들어갈 때 필요한 허가증. 안에 있는 장치가 어딘가 좀 달라 보이는데?"
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "비밀 구역에 들어갈 때 필요한 허가증. 안에 있는 장치가 어딘가 좀 달라 보이는데?",
+        "icon": "act25side_token_key02.png",
+        "name": "특수 작전 허가증·β",
+        "sortId": -10000,
+        "usage": "비밀 구역에 들어갈 때 필요한 허가증. 안에 있는 장치가 어딘가 좀 달라 보이는데?"
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1535,6 +1671,30 @@
         "sortId": -10000,
         "usage": "사전예약 보상 획득에 사용된다."
     },
+    "classic_gacha": {
+        "classifyType": "NORMAL",
+        "description": "로도스 아일랜드의 발전은 중견 오퍼레이터들의 헌신과 갈라놓을 수 없다. 이 헤드헌팅은 일정 범위 내에서 특정 인재를 모집하는 데 도움을 줄 것이다.",
+        "icon": "classic_gacha.png",
+        "name": "커널 헤드헌팅 허가증",
+        "sortId": 40011,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 중견 인재 1명을 모집할 수 있다."
+    },
+    "classic_gacha_10": {
+        "classifyType": "NORMAL",
+        "description": "로도스 아일랜드의 발전은 중견 오퍼레이터들의 헌신과 갈라놓을 수 없다. 이 헤드헌팅은 일정 범위 내에서 특정 인재를 대량 모집하는 데 도움을 줄 것이다.",
+        "icon": "classic_gacha_10.png",
+        "name": "커널 헤드헌팅 10회 허가증",
+        "sortId": 40001,
+        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 중견 인재를 대량으로 모집할 수 있으며, 1회 모집으로 10명을 채용할 수 있다."
+    },
+    "classic_normal_ticket": {
+        "classifyType": "NORMAL",
+        "description": "시간이 흐르면서 이 오퍼레이터들은 로도스 아일랜드의 업무에 대해 더 깊이 이해하게 되었고, 항상 당신에게 희소하고 필요한 물자를 제공해준다.",
+        "icon": "classic_normal_ticket.png",
+        "name": "범용증명서",
+        "sortId": 10006,
+        "usage": "중견 오퍼레이터임을 증명하는 증명서. 희귀한 물자와 교환할 수 있다."
+    },
     "et_ObsidianPass": {
         "classifyType": "NONE",
         "description": "이번 페스티벌의 각 스테이지에는 특별히 티켓 제도를 도입했습니다. 즉, 티켓이 있어야만 여러 이벤트에 참여할 수 있다는 뜻이죠. 많은 이용 바랍니다.",
@@ -1543,13 +1703,21 @@
         "sortId": -10000,
         "usage": "옵시디언 페스티벌 주최 측에서 판매한 티켓. 각종 특수 스테이지에 진입할 때 사용된다."
     },
+    "itempack_gacha_1": {
+        "classifyType": "CONSUME",
+        "description": "노화마을의 이색 소원 이벤트에서 획득할 수 있는 복주머니로, 당신의 미래에 대한 아름다운 축복이 깃들어 있다.",
+        "icon": "itempack_gacha_1.png",
+        "name": "복 가득한 주머니",
+        "sortId": -10000,
+        "usage": "'콜라보 한정 헤드헌팅 10회 허가증'과 프로필 '아오쿠레의 인상'을 획득할 수 있다. '콜라보 한정 헤드헌팅 10회 허가증' 유효 기간: 2023/09/21 03:59"
+    },
     "itempack_mod_10": {
         "classifyType": "CONSUME",
         "description": "훈련 데이터 부족 문제에 관해 엔지니어링부는 새로운 칩셋 각인기를 제작하여, 오퍼레이터들이 스스로 각인할 수 있도록 했다.",
         "icon": "itempack_mod_10.png",
         "name": "스나이퍼 칩셋 각인기",
         "sortId": -10000,
-        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 스나이퍼 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
     },
     "itempack_mod_11": {
         "classifyType": "CONSUME",
@@ -1557,7 +1725,7 @@
         "icon": "itempack_mod_11.png",
         "name": "캐스터 칩셋 각인기",
         "sortId": -10000,
-        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 캐스터 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
     },
     "itempack_mod_12": {
         "classifyType": "CONSUME",
@@ -1565,7 +1733,7 @@
         "icon": "itempack_mod_12.png",
         "name": "메딕 칩셋 각인기",
         "sortId": -10000,
-        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 메딕 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
     },
     "itempack_mod_13": {
         "classifyType": "CONSUME",
@@ -1573,7 +1741,7 @@
         "icon": "itempack_mod_13.png",
         "name": "서포터 칩셋 각인기",
         "sortId": -10000,
-        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 서포터 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
     },
     "itempack_mod_14": {
         "classifyType": "CONSUME",
@@ -1581,7 +1749,23 @@
         "icon": "itempack_mod_14.png",
         "name": "스페셜리스트 칩셋 각인기",
         "sortId": -10000,
-        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 스페셜리스트 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "엔지니어링부 동료들이 심혈을 기울여 만든 통합 블록으로, 포함된 데이터는 오퍼레이터의 기본 요구 사항을 충족할 수 있다.",
+        "icon": "itempack_mod_4.png",
+        "name": "모듈 데이터 통합 블록",
+        "sortId": -10000,
+        "usage": "오퍼레이터의 모듈 개방 및 업그레이드에 사용할 수 있는 아이템이 들어 있다."
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "엔지니어링부 동료들이 심혈을 기울여 만든 통합 상자로, 비축된 방대한 데이터는 오퍼레이터의 모든 요구 사항을 충족할 수 있다.",
+        "icon": "itempack_mod_6.png",
+        "name": "모듈 데이터 통합 상자",
+        "sortId": -10000,
+        "usage": "오퍼레이터의 모듈 개방 및 업그레이드에 사용할 수 있는 아이템이 들어 있다."
     },
     "itempack_mod_7": {
         "classifyType": "CONSUME",
@@ -1597,7 +1781,7 @@
         "icon": "itempack_mod_8.png",
         "name": "가드 칩셋 각인기",
         "sortId": -10000,
-        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
     },
     "itempack_mod_9": {
         "classifyType": "CONSUME",
@@ -1605,7 +1789,7 @@
         "icon": "itempack_mod_9.png",
         "name": "디펜더 칩셋 각인기",
         "sortId": -10000,
-        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 뱅가드 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
+        "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 디펜더 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
@@ -1636,7 +1820,7 @@
         "description": "누가 꺼낸건지 알 수 없는 돈봉투. 하지만 로도스 아일랜드의 모두에게 희망이 가득하길 바라는 마음만은 진심이다.",
         "icon": "randomDiamondShd_1.png",
         "name": "로도스 아일랜드 상여금",
-        "sortId": 60108,
+        "sortId": 60109,
         "usage": "로도스 아일랜드의 모두에게 나눠주는 세뱃돈. 안에는 랜덤한 액수의 재화와 축복이 담겨있다."
     },
     "randomDiamondShd_2": {
@@ -1644,7 +1828,7 @@
         "description": "누가 꺼낸건지 알 수 없는 돈봉투. 하지만 로도스 아일랜드의 모두에게 희망이 가득하길 바라는 마음만은 진심이다.",
         "icon": "randomDiamondShd_2.png",
         "name": "감사 축제 선물 상자",
-        "sortId": 60109,
+        "sortId": 60110,
         "usage": "로도스 아일랜드의 모두에게 나눠주는 선물 상자. 안에는 랜덤한 액수의 재화와 축제의 기쁨이 담겨있다."
     },
     "randomMaterialRune_0": {
@@ -1677,6 +1861,14 @@
         "icon": "randomMaterialRune_11.png",
         "name": "페이크웨이브 작전 보급 물자",
         "sortId": 60022,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterialRune_12": {
+        "classifyType": "CONSUME",
+        "description": "위기 협약에서 온 보급 재료 상자. 이 땅을 치료하기 위해 늘 노력하는 분들께 드리는 작은 보답입니다.——위기 협약",
+        "icon": "randomMaterialRune_12.png",
+        "name": "베이스포인트 작전 보급 물자",
+        "sortId": 60023,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "randomMaterialRune_2": {
@@ -1797,6 +1989,22 @@
         "icon": "randomMaterial_7.png",
         "name": "로도스 아일랜드 물자 보급 IV",
         "sortId": 60107,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterial_8": {
+        "classifyType": "CONSUME",
+        "description": "로도스 아일랜드가 방방곡곡에서 조달하여 준비한 보급 상자. 하지만 시스템적으로 정리 수납이 잘 되지 않아, 상자에는 각기 다른 자재가 들어가 있다.",
+        "icon": "randomMaterial_8.png",
+        "name": "로도스 아일랜드 물자 보급 V",
+        "sortId": 60108,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "메이랜더 재단에서 제공한 재료 보급 상자. 조사 구역별로 배분되므로 상자에는 각기 다른 자재가 들어가 있다.",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "기술 조사 보급",
+        "sortId": 60109,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
     "return_credit_token": {

@@ -3,22 +3,22 @@
 #include <queue>
 #include <stack>
 
+#include "AbstractRoguelikeTaskPlugin.h"
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
-#include "Task/AbstractTaskPlugin.h"
 #include "Task/BattleHelper.h"
 
 namespace asst
 {
-    class RoguelikeBattleTaskPlugin : public AbstractTaskPlugin, private BattleHelper
+    class RoguelikeBattleTaskPlugin : public AbstractRoguelikeTaskPlugin, private BattleHelper
     {
         using Time_Point = std::chrono::time_point<std::chrono::system_clock>;
 
         inline static const std::unordered_set<std::string> DiceSet = { "骰子", "8面骰子", "12面骰子" };
 
     public:
-        RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+        RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain, std::shared_ptr<RoguelikeConfig>roguelike_config_ptr);
         virtual ~RoguelikeBattleTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
@@ -31,14 +31,15 @@ namespace asst
         bool do_once();
         struct DeployPlanInfo
         {
-            std::string oper_name;
-            int oper_priority;
-            int rank;
-            Point placed;
-            battle::DeployDirection direction;
-            bool operator<(const DeployPlanInfo& x) const
+            // int oper_priority;                         // 干员招募优先级
+            std::string oper_name;                        // 干员名称
+            int oper_order_in_group;                      // 干员在干员组中排名
+            int rank;                                     // 干员组在部署指令扁平化后的排名
+            Point placed;                                 // 指令坐标
+            battle::DeployDirection direction;            // 部署朝向
+            bool operator<(const DeployPlanInfo& x) const // 重载小于号,同rank时先部署组内排名靠前的
             {
-                return (rank < x.rank) || (rank == x.rank && oper_priority > x.oper_priority);
+                return (rank < x.rank) || (rank == x.rank && oper_order_in_group < x.oper_order_in_group);
             }
         };
         bool do_best_deploy();
@@ -139,5 +140,11 @@ namespace asst
         std::priority_queue<DroneTile> m_need_clear_tiles;
         std::unordered_map<std::string, std::vector<battle::roguelike::DeployInfoWithRank>> m_deploy_plan;
         std::vector<battle::roguelike::DeployInfoWithRank> m_retreat_plan;
+        std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_deployed_time;
+
+        // 缓存干员精英
+        std::unordered_map<std::string, int64_t> m_oper_elite;
+        // 缓存干员精英情况
+        void cache_oper_elite_status();
     };
 } // namespace asst

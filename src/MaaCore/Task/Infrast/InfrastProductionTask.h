@@ -6,7 +6,7 @@
 
 namespace asst
 {
-    // 生产类设施的任务，适用于制造站/贸易站
+    // 生产类设施的任务，适用于制造站、贸易站、控制中枢
     class InfrastProductionTask : public InfrastAbstractTask
     {
     public:
@@ -22,7 +22,8 @@ namespace asst
         bool shift_facility_list();
         bool facility_list_detect();
         bool opers_detect_with_swipe();
-        size_t opers_detect(); // 返回当前页面的干员数
+        // 返回当前页面的干员数 (可用?
+        size_t opers_detect();
         bool optimal_calc();
         bool opers_choose();
         bool use_drone();

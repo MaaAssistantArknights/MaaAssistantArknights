@@ -2,160 +2,6 @@
     "theme": "Sami_deposit",
     "stage": [
         {
-            "name": "低地市集",
-            "option_num": 3,
-            "choose": 3,
-            "choice_require": [
-                {
-                    "name": "选择碎草药",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "选择好看的织物",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "选择湿膏药",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "选择好看的木刻",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "选择纯霜露",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "选择琥珀核",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "雪与木的笆篱",
-            "option_num": 3,
-            "choose": 3,
-            "choice_require": [
-                {
-                    "name": "“活力”",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "“金钱”",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "安玛塔卢",
-            "option_num": 3,
-            "choose": 3,
-            "choice_require": [
-                {
-                    "name": "寻求希望",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "寻求护佑",
-                    "ChaosLevel": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "北地巫师竞技",
-            "option_num": 2,
-            "choose": 2,
-            "choice_require": [
-                {
-                    "name": "接过名册木板，是该选择了！",
-                    "OriginiumIngot": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "没来过萨米的人一定没见过！",
-                    "OriginiumIngot": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "最好的朋友",
-            "option_num": 2,
-            "choose": 2,
-            "choice_require": [
-                {
-                    "name": "仓皇离开",
-                    "Shield": {
-                        "value": "1",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "留下",
-                    "LivePointCap": {
-                        "value": "1",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "再喝一口",
-                    "LivePoint": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "深渊入口",
-            "option_num": 2,
-            "choose": 2,
-            "choice_require": [
-                {
-                    "name": "再试试看吧",
-                    "Vision": {
-                        "value": "1",
-                        "type": ">"
-                    }
-                }
-            ]
-        },
-        {
             "name": "吉兆",
             "option_num": 2,
             "choose": 1
@@ -347,56 +193,6 @@
             "choose": 1
         },
         {
-            "name": "鲍勃杂货店",
-            "option_num": 3,
-            "choose": 1,
-            "choice_require": [
-                {
-                    "name": "选择他脚边的货品",
-                    "Vision": {
-                        "value": "1",
-                        "type": ">"
-                    }
-                },
-                {
-                    "name": "选择仓库深处的货品",
-                    "Vision": {
-                        "value": "3",
-                        "type": ">"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "科考站",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "走过萨米的臂膀",
-            "option_num": 2,
-            "choose": 1,
-            "choice_require": [
-                {
-                    "name": "戴上头盔",
-                    "Relic": {
-                        "value": "树痕之盔",
-                        "type": "have"
-                    }
-                }
-            ]
-        },
-        {
-            "name": "木裂前兆",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "悲观者囚笼",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
             "name": "沼泽里的抽泣声",
             "option_num": 3,
             "choose": 3
@@ -436,7 +232,16 @@
         {
             "name": "邪恶计划鸭",
             "option_num": 2,
-            "choose": 2
+            "choose": 2,
+            "choice_require": [
+                {
+                    "name": "你在做什么?",
+                    "LivePoint": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
         },
         {
             "name": "百里连营",
@@ -498,9 +303,227 @@
             ]
         },
         {
-            "name": "前行的林地",
+            "name": "走过萨米的臂膀",
+            "option_num": 2,
+            "choose": 1,
+            "choice_require": [
+                {
+                    "name": "戴上头盔",
+                    "Relic": {
+                        "value": "树痕之盔",
+                        "type": "have"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "木裂前兆",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "悲观者囚笼",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "鲍勃杂货店",
+            "option_num": 3,
+            "choose": 1,
+            "choice_require": [
+                {
+                    "name": "选择他脚边的货品",
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "选择仓库深处的货品",
+                    "Vision": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "科考站",
+            "option_num": 3,
+            "choose": 1,
+            "choice_require": [
+                {
+                    "name": "无人机好像有新发现",
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "北地巫师竞技",
             "option_num": 2,
             "choose": 2,
+            "choice_require": [
+                {
+                    "name": "接过名册木板，是该选择了！",
+                    "OriginiumIngot": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "没来过萨米的人一定没见过！",
+                    "OriginiumIngot": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "最好的朋友",
+            "option_num": 2,
+            "choose": 2,
+            "choice_require": [
+                {
+                    "name": "仓皇离开",
+                    "Shield": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "留下",
+                    "LivePointCap": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "再喝一口",
+                    "LivePoint": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "深渊入口",
+            "option_num": 2,
+            "choose": 2,
+            "choice_require": [
+                {
+                    "name": "再试试看吧",
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "低地市集",
+            "option_num": 3,
+            "choose": 3,
+            "choice_require": [
+                {
+                    "name": "选择碎草药",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "选择好看的织物",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "选择湿膏药",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "选择好看的木刻",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "选择纯霜露",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "选择琥珀核",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "雪与木的笆篱",
+            "option_num": 3,
+            "choose": 3,
+            "choice_require": [
+                {
+                    "name": "“活力”",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "“金钱”",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "安玛塔卢",
+            "option_num": 3,
+            "choose": 3,
+            "choice_require": [
+                {
+                    "name": "寻求希望",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "寻求护佑",
+                    "ChaosLevel": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "探寻前路",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "前行的林地",
+            "option_num": 2,
+            "choose": 1,
             "choice_require": [
                 {
                     "name": "树上就不能走吗？",

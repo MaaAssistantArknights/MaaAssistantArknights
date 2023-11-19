@@ -12,8 +12,6 @@
 // </copyright>
 
 using System;
-using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using MaaWpfGui.Constants;
@@ -43,16 +41,18 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// Center other windows in MaaWpfGui.RootView
         /// </summary>
-        private void MoveWindowToDisplay(Window window)
+        private static void MoveWindowToDisplay(Window window)
         {
             var mainWindow = Application.Current.MainWindow;
-            if (mainWindow.WindowState == WindowState.Normal)
+            if (!(mainWindow is { WindowState: WindowState.Normal }))
             {
-                // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
-                window.WindowStartupLocation = WindowStartupLocation.Manual;
-                window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
-                window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
+                return;
             }
+
+            // In Stylet, CreateWindow().WindowStartupLocation is CenterScreen or CenterOwner (if w.WSLoc == Manual && w.Left == NaN && w.Top == NaN && ...)
+            window.WindowStartupLocation = WindowStartupLocation.Manual;
+            window.Left = mainWindow!.Left + ((mainWindow.Width - window.Width) / 2);
+            window.Top = mainWindow.Top + ((mainWindow.Height - window.Height) / 2);
         }
 
         /// <inheritdoc/>
@@ -61,7 +61,7 @@ namespace MaaWpfGui.Helper
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
             if (window is RootView)
             {
-                if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp, window))
+                if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp))
                 {
                     window.SourceInitialized += (s, e) =>
                     {
@@ -74,8 +74,14 @@ namespace MaaWpfGui.Helper
                 {
                     window.Closing += (s, e) =>
                     {
-                        GetWindowPlacement(window, out WindowPlacement wp);
-                        SetConfiguration(wp);
+                        if (!GetWindowPlacement(window, out WindowPlacement windowPlacement))
+                        {
+                            _logger.Error("Failed to get window placement");
+                        }
+                        if (!SetConfiguration(windowPlacement))
+                        {
+                            _logger.Error("Failed to save window placement");
+                        }
                     };
                 }
 
@@ -84,6 +90,7 @@ namespace MaaWpfGui.Helper
                     window.WindowState = WindowState.Minimized;
                 }
 
+                // ReSharper disable once InvertIf
                 if (_minimizeDirectly && _minimizeToTray)
                 {
                     window.ShowInTaskbar = false;
@@ -117,14 +124,12 @@ namespace MaaWpfGui.Helper
             return false;
         }
 
-        private bool GetConfiguration(out WindowPlacement wp, Window window)
+        private static bool GetConfiguration(out WindowPlacement wp)
         {
             wp = default;
             var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
             if (string.IsNullOrEmpty(jsonStr))
             {
-                SetOldConfiguration(window);
-                DeleteOldConfiguration();
                 return false;
             }
 
@@ -167,42 +172,45 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private bool GetWindowPlacement(WindowHandle window, out WindowPlacement wp)
+        private static bool GetWindowPlacement(WindowHandle window, out WindowPlacement wp)
         {
-            if (GetWindowPlacement(window.Handle, out wp))
+            if (!GetWindowPlacement(window.Handle, out wp))
             {
-                // get the aero snap position of the window
-                if (wp.ShowCmd == SwShownormal && GetWindowRect(window.Handle, out Rect rect))
-                {
-                    wp.NormalPosition = rect;
+                return false;
+            }
 
-                    // rect is screen coordinates, wp is workspace coordinates
-                    if (SetWindowPlacement(window.Handle, ref wp)
-                        && GetWindowPlacement(window.Handle, out WindowPlacement currentWp)
-                        && GetWindowRect(window.Handle, out Rect currentRect))
-                    {
-                        var taskbarWidth = currentRect.Left - currentWp.NormalPosition.Left;
-                        var taskbarHeight = currentRect.Top - currentWp.NormalPosition.Top;
-                        if (taskbarWidth != 0 || taskbarHeight != 0)
-                        {
-                            rect.Left -= taskbarWidth;
-                            rect.Right -= taskbarWidth;
-                            rect.Top -= taskbarHeight;
-                            rect.Bottom -= taskbarHeight;
-                            wp.NormalPosition = rect;
-                            SetWindowPlacement(window.Handle, ref wp);
-                        }
-                    }
-                }
-
+            // get the Aero Snap position of the window
+            if (wp.ShowCmd != SwShownormal || !GetWindowRect(window.Handle, out Rect rect))
+            {
                 return true;
             }
 
-            return false;
+            wp.NormalPosition = rect;
+
+            // rect is screen coordinates, wp is workspace coordinates
+            if (!SetWindowPlacement(window.Handle, ref wp) || !GetWindowPlacement(window.Handle, out WindowPlacement currentWp) || !GetWindowRect(window.Handle, out Rect currentRect))
+            {
+                return true;
+            }
+
+            var taskBarWidth = currentRect.Left - currentWp.NormalPosition.Left;
+            var taskBarHeight = currentRect.Top - currentWp.NormalPosition.Top;
+            if (taskBarWidth == 0 && taskBarHeight == 0)
+            {
+                return true;
+            }
+
+            rect.Left -= taskBarWidth;
+            rect.Right -= taskBarWidth;
+            rect.Top -= taskBarHeight;
+            rect.Bottom -= taskBarHeight;
+            wp.NormalPosition = rect;
+            SetWindowPlacement(window.Handle, ref wp);
+
+            return true;
         }
 
         #region Win32 API declarations to set and get window placement
-
         [DllImport("user32.dll")]
         private static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WindowPlacement lpwndpl);
 
@@ -216,60 +224,5 @@ namespace MaaWpfGui.Helper
         private const int SwShowminimized = 2;
 
         #endregion
-
-        /// <summary>
-        /// TODO: Delete this
-        /// 兼容旧配置，过几个版本删（请直接revert）
-        /// </summary>
-        private void SetOldConfiguration(Window window)
-        {
-            // 初始化
-            string screenName = ConfigurationHelper.GetValue(ConfigurationKeys.MonitorNumber, string.Empty);
-            int screenWidth = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorWidth, "-1"));
-            int screenHeight = int.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MonitorHeight, "-1"));
-
-            double defaultDouble = -114514;
-            double left = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionLeft, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-            double top = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.PositionTop, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-            double width = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowWidth, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-            double height = double.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.WindowHeight, defaultDouble.ToString(CultureInfo.InvariantCulture)), CultureInfo.InvariantCulture);
-
-            // Move MaaWpfGui.RootView
-            if (Math.Abs(left - defaultDouble) < 0.01f || Math.Abs(top - defaultDouble) < 0.01f)
-            {
-                return;
-            }
-
-            var screen = System.Windows.Forms.Screen.AllScreens.FirstOrDefault(x => x.DeviceName == screenName);
-            if (screen != null)
-            {
-                var screenRect = screen.Bounds;
-                if (screenRect.Height == screenHeight && screenRect.Width == screenWidth)
-                {
-                    window.WindowStartupLocation = WindowStartupLocation.Manual;
-                    window.Left = (int)(screenRect.Left + left);
-                    window.Top = (int)(screenRect.Top + top);
-                    window.Width = width;
-                    window.Height = height;
-                }
-            }
-        }
-
-        /// <summary>
-        /// TODO: Delete this
-        /// 兼容旧配置，过几个版本删（请直接revert）
-        /// </summary>
-        private void DeleteOldConfiguration()
-        {
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.MonitorNumber);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.MonitorWidth);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.MonitorHeight);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.PositionLeft);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.PositionTop);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.WindowWidth);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.WindowHeight);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.LoadPositionAndSize);
-            ConfigurationHelper.DeleteValue(ConfigurationKeys.SavePositionAndSize);
-        }
     }
 }

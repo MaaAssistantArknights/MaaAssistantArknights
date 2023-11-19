@@ -23,10 +23,6 @@
 #include <unistd.h>
 #endif
 
-#ifdef _WIN32
-#include <io.h>
-#endif
-
 namespace asst
 {
     template <typename Stream, typename T>
@@ -116,6 +112,113 @@ namespace asst
     {
         return x;
     }
+
+    namespace detail
+    {
+        class scope_slice
+        {
+        public:
+            using id = int;
+
+            scope_slice() = default;
+
+            std::string push(id& i)
+            {
+                i = 0;
+                if (auto iter = std::find_if(m_state.rbegin(), m_state.rend(), [](int e) { return e != -1; });
+                    iter != m_state.rend()) {
+                    i = *iter + 1;
+                }
+
+                std::string result;
+                result.reserve(m_state.size() * 3);
+                for (auto e : m_state) {
+                    result += (e == -1 ? " " : "│");
+                }
+
+                m_state.push_back(i);
+                result += "┌";
+
+                return result;
+            }
+
+            std::string pop(id i)
+            {
+                std::string result;
+                result.reserve(m_state.size() * 3);
+                std::string sym = "│";
+                std::string emp = " ";
+                for (auto& e : m_state) {
+                    if (i != -1 && e == i) {
+                        result += "└";
+                        e = -1;
+                        sym = "┼";
+                        emp = "─";
+                    }
+                    else
+                        result += (e == -1 ? emp : sym);
+                }
+
+                while (!m_state.empty() && m_state.back() == -1)
+                    m_state.pop_back();
+                return result;
+            }
+
+            std::string next()
+            {
+                while (!m_state.empty() && m_state.back() == -1)
+                    m_state.pop_back();
+
+                std::string result;
+                result.reserve(m_state.size() * 3);
+                auto lhs = m_state.end();
+                auto rhs = m_state.end();
+                auto iter = m_state.begin();
+                //      | <- rhs
+                // ------
+                // | <- lhs
+                for (; iter != m_state.end(); ++iter) {
+                    if (*iter != -1) {
+                        result += "│";
+                        continue;
+                    }
+
+                    lhs = iter;
+                    result += "┌";
+                    // if (iter != m_state.end())
+                    ++iter;
+
+                    for (; iter != m_state.end(); ++iter) {
+                        if (*iter == -1)
+                            result += "─";
+                        else
+                            break;
+                    }
+                    rhs = iter;
+                    result += "┘";
+
+                    if (iter != m_state.end()) ++iter;
+
+                    for (; iter != m_state.end(); ++iter) {
+                        result += (*iter == -1 ? " " : "│");
+                    }
+                    break;
+                }
+
+                if (lhs != m_state.end()) {
+                    if (rhs == m_state.end())
+                        m_state.erase(lhs, rhs);
+                    else
+                        std::swap(*lhs, *rhs);
+                }
+
+                return result;
+            }
+
+        private:
+            std::vector<id> m_state {};
+        };
+    } // namespace detail
 
     class toansi_ostream
     {
@@ -271,6 +374,12 @@ namespace asst
             {
                 ((*this << lv) << ... << std::forward<Args>(buff));
             }
+            template <typename _stream_t = stream_t, typename... Args>
+            LogStream(std::unique_lock<std::mutex>&& lock, _stream_t&& ofs, Logger::level lv, Args&&... buff)
+                : m_trace_lock(std::move(lock)), m_ofs(ofs)
+            {
+                ((*this << lv) << ... << std::forward<Args>(buff));
+            }
             LogStream(LogStream&&) = delete;
             LogStream(const LogStream&) = delete;
             LogStream& operator=(LogStream&&) = delete;
@@ -294,10 +403,10 @@ namespace asst
 #else  // ! _MSC_VER
                     sprintf(buff,
 #endif // END _MSC_VER
-                              "[%s][%s][Px%x][Tx%lx]", asst::utils::get_format_time().c_str(), v.str.data(), _getpid(),
-                              ::GetCurrentThreadId());
+                              "[%s][%s][Px%x][Tx%4.4lx]", asst::utils::get_format_time().c_str(), v.str.data(),
+                              _getpid(), ::GetCurrentThreadId());
 #else  // ! _WIN32
-                    sprintf(buff, "[%s][%s][Px%x][Tx%hx]", asst::utils::get_format_time().c_str(), v.str.data(),
+                    sprintf(buff, "[%s][%s][Px%x][Tx%4.4hx]", asst::utils::get_format_time().c_str(), v.str.data(),
                             ::getpid(),
                             static_cast<unsigned short>(std::hash<std::thread::id> {}(std::this_thread::get_id())));
 #endif // END _WIN32
@@ -350,6 +459,9 @@ namespace asst
         template <typename stream_t, typename... Args>
         LogStream(std::mutex&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
+        template <typename stream_t, typename... Args>
+        LogStream(std::unique_lock<std::mutex>&&, stream_t&&, Args&&...) -> LogStream<stream_t>;
+
     public:
         virtual ~Logger() override { flush(); }
 
@@ -367,17 +479,7 @@ namespace asst
         auto operator<<(T&& arg)
         {
             if (!m_ofs || !m_ofs.is_open()) {
-
-#ifdef _WIN32
-                // https://stackoverflow.com/questions/55513974/controlling-inheritability-of-file-handles-created-by-c-stdfstream-in-window
-                std::string str_log_path = utils::path_to_crt_string(m_log_path);
-                FILE* file_ptr = nullptr;
-                fopen_s(&file_ptr, str_log_path.c_str(), "a");
-                SetHandleInformation((HANDLE)_get_osfhandle(_fileno(file_ptr)), HANDLE_FLAG_INHERIT, 0);
-                m_ofs = std::ofstream(file_ptr);
-#else
                 m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
-#endif
             }
             if constexpr (std::same_as<level, remove_cvref_t<T>>) {
 #ifdef ASST_DEBUG
@@ -395,37 +497,72 @@ namespace asst
             }
         }
 
+#ifdef ASST_DEBUG
+#define LOGGER_FUNC_WITH_LEVEL(lv)                                                     \
+    template <typename... Args>                                                        \
+    inline void lv(Args&&... args)                                                     \
+    {                                                                                  \
+        std::unique_lock lock { m_trace_mutex };                                       \
+        log(std::move(lock), level::lv, m_scopes.next(), std::forward<Args>(args)...); \
+    }
+#else
+#define LOGGER_FUNC_WITH_LEVEL(lv)                   \
+    template <typename... Args>                      \
+    inline void lv(Args&&... args)                   \
+    {                                                \
+        log(level::lv, std::forward<Args>(args)...); \
+    }
+#endif
+
+        LOGGER_FUNC_WITH_LEVEL(trace)
+        LOGGER_FUNC_WITH_LEVEL(info)
+        LOGGER_FUNC_WITH_LEVEL(warn)
+        LOGGER_FUNC_WITH_LEVEL(error)
         template <typename... Args>
         inline void debug([[maybe_unused]] Args&&... args)
         {
 #ifdef ASST_DEBUG
-            log(level::debug, std::forward<Args>(args)...);
+            std::unique_lock lock { m_trace_mutex };
+            log(std::move(lock), level::debug, std::forward<Args>(args)...);
 #endif
         }
+
+#undef LOGGER_FUNC_WITH_LEVEL
+
         template <typename... Args>
-        inline void trace(Args&&... args)
+        inline int push(Args&&... args)
         {
-            log(level::trace, std::forward<Args>(args)...);
+            int id = -1;
+            std::unique_lock lock { m_trace_mutex };
+            log(std::move(lock), level::trace, m_scopes.push(id), std::forward<Args>(args)...);
+            return id;
         }
         template <typename... Args>
-        inline void info(Args&&... args)
+        inline void pop(int id, Args&&... args)
         {
-            log(level::info, std::forward<Args>(args)...);
+            std::unique_lock lock { m_trace_mutex };
+            log(std::move(lock), level::trace, m_scopes.pop(id), std::forward<Args>(args)...);
         }
-        template <typename... Args>
-        inline void warn(Args&&... args)
-        {
-            log(level::warn, std::forward<Args>(args)...);
-        }
-        template <typename... Args>
-        inline void error(Args&&... args)
-        {
-            log(level::error, std::forward<Args>(args)...);
-        }
+
         template <typename... Args>
         inline void log(level lv, Args&&... args)
         {
             ((*this << lv) << ... << std::forward<Args>(args));
+        }
+        template <typename... Args>
+        inline void log(std::unique_lock<std::mutex>&& lock, level lv, Args&&... args)
+        {
+            if (!m_ofs || !m_ofs.is_open()) {
+                m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
+            }
+            (LogStream(std::move(lock),
+#ifdef ASST_DEBUG
+                       ostreams { toansi_ostream(std::cout), m_ofs },
+#else
+                       m_ofs,
+#endif
+                       lv)
+             << ... << std::forward<Args>(args));
         }
 
         void flush()
@@ -471,6 +608,8 @@ namespace asst
             trace("-----------------------------");
         }
 
+        detail::scope_slice m_scopes;
+
         std::filesystem::path m_directory;
 
         std::filesystem::path m_log_path = m_directory / "debug" / "asst.log";
@@ -497,13 +636,23 @@ namespace asst
         explicit LoggerAux(std::string_view func_name)
             : m_func_name(func_name), m_start_time(std::chrono::steady_clock::now())
         {
-            Logger::get_instance().trace(m_func_name, "| enter");
+#ifdef ASST_DEBUG
+            m_id = Logger::get_instance().push
+#else
+            Logger::get_instance().trace
+#endif
+                   (m_func_name, "| enter");
         }
         ~LoggerAux()
         {
             const auto duration = std::chrono::steady_clock::now() - m_start_time;
-            Logger::get_instance().trace(m_func_name, "| leave,",
-                                         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
+#ifdef ASST_DEBUG
+            Logger::get_instance().pop(m_id,
+#else
+            Logger::get_instance().trace(
+#endif
+                                       m_func_name, "| leave,",
+                                       std::chrono::duration_cast<std::chrono::milliseconds>(duration).count(), "ms");
         }
         LoggerAux(const LoggerAux&) = default;
         LoggerAux(LoggerAux&&) = default;
@@ -513,6 +662,7 @@ namespace asst
     private:
         std::string m_func_name;
         std::chrono::time_point<std::chrono::steady_clock> m_start_time;
+        int m_id [[maybe_unused]] = -1;
     };
 
 #define _Cat_(a, b) a##b

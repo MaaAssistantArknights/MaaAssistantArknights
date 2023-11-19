@@ -33,7 +33,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿<br>
 ## Features
 
 - Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/).
-- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room. (Only CN client is supported now.)
+- Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room.
 - Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://yituliu.site/maarecruitdata).
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
@@ -56,7 +56,8 @@ Talk is cheap. Show me the pictures!<br>
 ### Basic Settings
 
 1. Please refer to [Emulator Supports](./1.3-EMULATOR_SUPPORTS.md) to configure your emulator.
-2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.
+2. Change your emulator resolution to `1280 * 720` or higher with `16:9` aspect ratio.<br>
+   For YostarEN, due to game interfaces issues, we recommend changing the resolution to `1920 * 1080`.
 3. Enjoy it!
 
 See also: [User Manual](./1.1-USER_MANUAL.md)
@@ -121,7 +122,7 @@ If you encounter a bug, or have a strong demand for a certain function, welcome 
 
 Thanks to all friends who contribute to development/testing for making MAA better! (\*´▽｀)ノノ
 
-[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
 ## Development Related Information
 
@@ -178,7 +179,7 @@ Please refer to [Issue Bot Usage](./2.3-ISSUE_BOT_USAGE.md)
 User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
 [Copilot JSON Sharing](https://prts.plus)<br>
 [Bilibili Live](https://live.bilibili.com/2808861): live coding on this program<br>
-[Technical Discussion & Talk(QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
+[Technical Discussion (QQ Group)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 Please click "Star" if you consider it helpful! Thank you for your support!

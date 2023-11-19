@@ -13,6 +13,16 @@ namespace asst
         Normal,
         Tough
     };
+    inline std::string enum_to_string(StageDifficulty algo)
+    {
+        static const std::unordered_map<StageDifficulty, std::string> algorithm_map = {
+            { StageDifficulty::Normal, "Normal" }, { StageDifficulty::Tough, "Tough" }
+        };
+        if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
     struct StageKey
     {
         std::string code;

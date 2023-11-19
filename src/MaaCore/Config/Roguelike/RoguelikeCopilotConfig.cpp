@@ -9,7 +9,9 @@ using namespace asst::battle::roguelike;
 
 bool asst::RoguelikeCopilotConfig::load(const std::filesystem::path& path)
 {
+#ifdef ASST_DEBUG
     LogTraceFunction;
+#endif
 
     bool ret = true;
     for (auto& entry : std::filesystem::recursive_directory_iterator(path)) {
@@ -32,7 +34,9 @@ std::optional<CombatData> asst::RoguelikeCopilotConfig::get_stage_data(const std
 
 bool asst::RoguelikeCopilotConfig::parse(const json::value& json)
 {
+#ifdef ASST_DEBUG
     LogTraceFunction;
+#endif
 
     std::string stage_name = json.at("stage_name").as_string();
     CombatData data;

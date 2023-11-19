@@ -879,6 +879,22 @@
         "sortId": 40003,
         "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
     },
+    "LINKAGE_TKT_GACHA_10_3601": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_3601.png",
+        "name": "Scouting the Light Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
+    "LINKAGE_TKT_GACHA_10_3602": {
+        "classifyType": "NORMAL",
+        "description": "In order to ensure the available talent pool can be scaled upwards to satisfy the Doctor's emergency preparation request, this batch of headhunting items carries specificity, time-sensitivity, and of course, a degree of risk.",
+        "icon": "LINKAGE_TKT_GACHA_10_3602.png",
+        "name": "Collaboration Limited Ten-roll Headhunting Permit",
+        "sortId": 40003,
+        "usage": "A batch headhunting permit issued by the Rhodes Island HR Department; Can be used at a certain time to recruit talented Operators, 10 rolls at once."
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -959,6 +975,14 @@
         "sortId": 10019,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10020,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -974,6 +998,14 @@
         "name": "Headhunting Data Contract",
         "sortId": 10010,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
+    "Logistics_Special_Permit": {
+        "classifyType": "NONE",
+        "description": "A Logistics Special Permit issued by Rhodes Island to ensure the successful execution of emergency dispatches, owing to ever-increasing activity on the battlefield. With this, operators may request top priority support from Logistics via PRTS. Logistics operators will prioritize delivering extra supplies and assist in locating nearby resources.",
+        "icon": "Logistics_Special_Permit.png",
+        "name": "Logistics Special Permit",
+        "sortId": 30200,
+        "usage": "When the Logistics Special Permit is used, operations consume no Sanity and the normal Regular Drops are changed to Guaranteed Drops with 3x quantity."
     },
     "REP_COIN": {
         "classifyType": "NORMAL",
@@ -1199,6 +1231,14 @@
         "sortId": -10000,
         "usage": "A scale miniature of the Land of the Knights, often elaborately laid out in the decorative cases of parlors."
     },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "A wellbeing charm hand-carved by the Moushan villagers to pray for blessings. Take it to Yishan Temple, have the censer acolyte bestow it a stroke of cinnabar, and it may put you all the more at ease.\n",
+        "icon": "act14mini_token_fu.png",
+        "name": "Wellbeing Charm",
+        "sortId": -10000,
+        "usage": "A plaque carved of crude peachwood. When a year's harvest is good, some are willing to exchange their foodstuffs with the elderly, whose consummate craft produces these charms, by which auspiciousness is sought."
+    },
     "act14side_token_stone": {
         "classifyType": "NONE",
         "description": "Kjeragandr's will dwells within. Kjerag's people pray to these, to be blessed and for good health.",
@@ -1319,6 +1359,14 @@
         "sortId": -10000,
         "usage": "A small medal made from metal. Gain certain amounts and receive corresponding competition rewards."
     },
+    "act1sandbox_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Life prospers, age passes down to age, and this is their proof.",
+        "icon": "act1sandbox_milestone_point.png",
+        "name": "Badge of Prosperity",
+        "sortId": -10000,
+        "usage": "Can be exchanged at milestones for rewards."
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "The pages retain handwriting of all shapes and sizes, the amount even serving to tell you how often the magazine's changed hands. Most of it is meaningless scrawls, but flashes of wisdom are scattered throughout.",
@@ -1350,6 +1398,94 @@
         "name": "Freshly-Brewed Liedaozi",
         "sortId": -10000,
         "usage": "Take a jar of freshly brewed spirit, and trade it with the old smith for a newly-edged sword of fine craft. 'Blood for water, wine for a blade. A close friend crossed by, grace and vengeance all too willing.'"
+    },
+    "act24side_melding_1": {
+        "classifyType": "NONE",
+        "description": "Shattered bone fragments found in the barrens, weathered by wind for years. Their original, complete form can no longer be identified. Perhaps they once belonged to some great beast, but now they are nothing but low-grade materials that can be found anywhere.",
+        "icon": "act24side_melding_1.png",
+        "name": "Bone Fragments",
+        "sortId": -10000,
+        "usage": "A common low-grade material usable in Alchemy."
+    },
+    "act24side_melding_2": {
+        "classifyType": "NONE",
+        "description": "The hard outer shell of an Originium Slug covered in tiny clusters of Originium. Tastes slightly bitter when licked. Even though there are many types of Originium Slugs out there, the quality of the materials they yield doesn't vary much at all.",
+        "icon": "act24side_melding_2.png",
+        "name": "Originium Slug Shell",
+        "sortId": -10000,
+        "usage": "A regular material usable in Alchemy, obtainable by putting in just a little bit of work."
+    },
+    "act24side_melding_3": {
+        "classifyType": "NONE",
+        "description": "The sharp fangs of an Oxmane, so sharp that they can tear apart flesh with ease. They serve as an excellent Alchemy material. As a reminder, they must <i>not</i> be used in place of dentures.",
+        "icon": "act24side_melding_3.png",
+        "name": "Sharp Oxmane Fangs",
+        "sortId": -10000,
+        "usage": "A fine material usable in Alchemy, obtainable by putting in a fair amount of work."
+    },
+    "act24side_melding_4": {
+        "classifyType": "NONE",
+        "description": "The thick hide of Direswines, elastic and able to withstand great impact force. To obtain this material, one must first go through very intense battles. It takes lots of effort to get a taste of Direswine rind jelly.",
+        "icon": "act24side_melding_4.png",
+        "name": "Thick Direswine Hide",
+        "sortId": -10000,
+        "usage": "A rare, high-grade material usable in Alchemy."
+    },
+    "act24side_melding_5": {
+        "classifyType": "NONE",
+        "description": "A kind of crystal as clear as tears. Supposedly, they formed in the carcasses of a now extinct creature. When observed closely under light, you can even see the stars flow and circulate.",
+        "icon": "act24side_melding_5.png",
+        "name": "'Monster Tears'",
+        "sortId": -10000,
+        "usage": "An extremely rare, top-of-the-line material usable in Alchemy."
+    },
+    "act24side_melding_6": {
+        "classifyType": "NONE",
+        "description": "A rare gem that occasionally grows in the wyvern's body. Hunters who are lucky enough to get their hands on them often find themselves hesitant when processing them.",
+        "icon": "act24side_melding_6.png",
+        "name": "Rathalos Ruby",
+        "sortId": -10000,
+        "usage": "A material obtainable from battling a Rathalos. Perfect as melding material."
+    },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "Aside from the data hidden by Nasti all over the lands, new data are continually produced with the federal government's support. Columbia is gradually realizing the value of Kristen's research.",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "Flight Data Recorder Chip",
+        "sortId": -10000,
+        "usage": "A chip containing flight data recorded at various altitudes and environments. Collect a certain amount to exchange with the Special Case Contact C.U.D.O.D. for goods."
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key01.png",
+        "name": "Special Ops Permit α",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "Grants permission to enter the secret zone. The mechanisms within seem to work differently.",
+        "icon": "act25side_token_key02.png",
+        "name": "Special Ops Permit β",
+        "sortId": -10000,
+        "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1535,6 +1671,30 @@
         "sortId": -10000,
         "usage": "Used to get preregistration rewards."
     },
+    "classic_gacha": {
+        "classifyType": "NORMAL",
+        "description": "Rhodes Island's expansion is inseparable from the help and support it has received from kernel personnel. This headhunting item will assist the Doctor in recruiting talent within specified bounds.",
+        "icon": "classic_gacha.png",
+        "name": "Kernel Headhunting Permit",
+        "sortId": 40011,
+        "usage": "A special permit from Rhodes Island's HR distribution for recruiting a single kernel talent."
+    },
+    "classic_gacha_10": {
+        "classifyType": "NORMAL",
+        "description": "Rhodes Island's expansion is inseparable from the help and support it has received from kernel personnel. These headhunting items will assist the Doctor in recruiting talent within specified bounds.",
+        "icon": "classic_gacha_10.png",
+        "name": "Ten-roll Kernel Headhunting Permit",
+        "sortId": 40001,
+        "usage": "A special permit from Rhodes Island HR distribution for recruiting multiple kernel talents. Can be used to recruit ten operators."
+    },
+    "classic_normal_ticket": {
+        "classifyType": "NORMAL",
+        "description": "Time has allowed these operators to gain a deep understanding of Rhodes Island's affairs. They will provide you the rare resources you need.",
+        "icon": "classic_normal_ticket.png",
+        "name": "Universal Certificates",
+        "sortId": 10006,
+        "usage": "A certificate that attests an operator possesses core abilities. Can be exchanged for rare materials."
+    },
     "et_ObsidianPass": {
         "classifyType": "NONE",
         "description": "A through ticket system has been implemented across the various venues at this Obsidian Festival, which means tickets are required for most events. So please make good use of the tickets you have!",
@@ -1543,13 +1703,21 @@
         "sortId": -10000,
         "usage": "A ticket to the Obsidian Festival. Can be used to enter special stages."
     },
+    "itempack_gacha_1": {
+        "classifyType": "CONSUME",
+        "description": "A gift bag obtained during the Roka Village's special prayer event, containing well wishes that will guide you toward a merry future.",
+        "icon": "itempack_gacha_1.png",
+        "name": "Bounteous Fortunes Gift Bag",
+        "sortId": -10000,
+        "usage": "Obtain 'Collaboration Limited Ten-roll Headhunting Permit' and avatar 'Soubo Impressions.' 'Collaboration Limited Ten-roll Headhunting Permit' expires 09/21/2023 03:59"
+    },
     "itempack_mod_10": {
         "classifyType": "CONSUME",
         "description": "Faced with the issue of insufficient training data, the Engineering Department has produced an all-new chip etching apparatus to provide Operators with a self-printing service.",
         "icon": "itempack_mod_10.png",
         "name": "Sniper Chip Pack Etcher",
         "sortId": -10000,
-        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Sniper Operators' needs."
     },
     "itempack_mod_11": {
         "classifyType": "CONSUME",
@@ -1557,7 +1725,7 @@
         "icon": "itempack_mod_11.png",
         "name": "Caster Chip Pack Etcher",
         "sortId": -10000,
-        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Caster Operators' needs."
     },
     "itempack_mod_12": {
         "classifyType": "CONSUME",
@@ -1565,7 +1733,7 @@
         "icon": "itempack_mod_12.png",
         "name": "Medic Chip Pack Etcher",
         "sortId": -10000,
-        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Medic Operators' needs."
     },
     "itempack_mod_13": {
         "classifyType": "CONSUME",
@@ -1573,7 +1741,7 @@
         "icon": "itempack_mod_13.png",
         "name": "Supporter Chip Pack Etcher",
         "sortId": -10000,
-        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Supporter Operators' needs."
     },
     "itempack_mod_14": {
         "classifyType": "CONSUME",
@@ -1581,7 +1749,23 @@
         "icon": "itempack_mod_14.png",
         "name": "Specialist Chip Pack Etcher",
         "sortId": -10000,
-        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Specialist Operators' needs."
+    },
+    "itempack_mod_4": {
+        "classifyType": "NONE",
+        "description": "Fruit of the blood and sweat of our colleagues in Engineering, this data chunk includes the data and information to meet an Operator Module's foundational requirements.",
+        "icon": "itempack_mod_4.png",
+        "name": "Integrated Module Data Chunk",
+        "sortId": -10000,
+        "usage": "Contains items for unlocking and upgrading Operator Modules."
+    },
+    "itempack_mod_6": {
+        "classifyType": "NONE",
+        "description": "Fruit of the blood and sweat of our colleagues in Engineering, this data box stockpiles a ridiculous amount of data, able to meet an Operator Module's requirements on all fronts at once.",
+        "icon": "itempack_mod_6.png",
+        "name": "Integrated Module Data Box",
+        "sortId": -10000,
+        "usage": "Contains items for unlocking and upgrading Operator Modules."
     },
     "itempack_mod_7": {
         "classifyType": "CONSUME",
@@ -1597,7 +1781,7 @@
         "icon": "itempack_mod_8.png",
         "name": "Guard Chip Pack Etcher",
         "sortId": -10000,
-        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Guard Operators' needs."
     },
     "itempack_mod_9": {
         "classifyType": "CONSUME",
@@ -1605,7 +1789,7 @@
         "icon": "itempack_mod_9.png",
         "name": "Defender Chip Pack Etcher",
         "sortId": -10000,
-        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can etch chip packs hassle-free, in accordance with Vanguard Operators' needs."
+        "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Defender Operators' needs."
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
@@ -1636,7 +1820,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_1.png",
         "name": "Half Year Anniversary Red Envelope",
-        "sortId": 60108,
+        "sortId": 60109,
         "usage": "Red envelopes passed out to every member of Rhodes Island. The goods inside may be random, but they are always filled to the brim with blessings."
     },
     "randomDiamondShd_2": {
@@ -1644,7 +1828,7 @@
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
         "icon": "randomDiamondShd_2.png",
         "name": "Celebratory Box",
-        "sortId": 60109,
+        "sortId": 60110,
         "usage": "Gift boxes distributed to all members of Rhodes Island, random in amount, and full of the joy that comes with celebration."
     },
     "randomMaterialRune_0": {
@@ -1677,6 +1861,14 @@
         "icon": "randomMaterialRune_11.png",
         "name": "Operation Fake Waves Supplies",
         "sortId": 60022,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterialRune_12": {
+        "classifyType": "CONSUME",
+        "description": "A supply crate from the Contingency Contract network. Provides a bit of a reward to those who work hard to heal this land. -Contingency Contract",
+        "icon": "randomMaterialRune_12.png",
+        "name": "Operation Base Point Supplies",
+        "sortId": 60023,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterialRune_2": {
@@ -1797,6 +1989,22 @@
         "icon": "randomMaterial_7.png",
         "name": "Rhodes Island Supplies IV",
         "sortId": 60107,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_8": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_8.png",
+        "name": "Rhodes Island Supplies V",
+        "sortId": 60108,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "A materials supply crate provided by the Maylander Foundation. Allocated based on the needs of each investigated area. As such, the materials in each crate can be different.",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "Technological Investigation Supply",
+        "sortId": 60109,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "return_credit_token": {

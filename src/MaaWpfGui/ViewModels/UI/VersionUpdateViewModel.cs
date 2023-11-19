@@ -22,14 +22,12 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.States;
-using Markdig;
-using Markdig.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
@@ -53,9 +51,6 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState = RunningState.Instance;
         }
 
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         private static readonly ILogger _logger = Log.ForContext<VersionUpdateViewModel>();
 
         private static string AddContributorLink(string text)
@@ -69,7 +64,7 @@ namespace MaaWpfGui.ViewModels.UI
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
-        private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
         private string _latestVersion;
 
         private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
@@ -115,8 +110,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public FlowDocument UpdateInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(UpdateInfo,
-            new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
 
         private string _updateUrl;
 
@@ -194,7 +187,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            Execute.OnUIThread(() =>
+            Execute.OnUIThreadAsync(() =>
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
@@ -219,7 +212,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (InvalidDataException)
             {
                 File.Delete(UpdatePackageName);
-                Execute.OnUIThread(() =>
+                Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
                     toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
@@ -370,9 +363,15 @@ namespace MaaWpfGui.ViewModels.UI
             /// 新版正在构建中
             /// </summary>
             NewVersionIsBeingBuilt,
+
+            /// <summary>
+            /// 只更新了游戏资源
+            /// </summary>
+            OnlyGameResourceUpdated,
         }
 
         // ReSharper disable once IdentifierTypo
+        // ReSharper disable once UnusedMember.Global
         public enum Downloader
         {
             /// <summary>
@@ -393,25 +392,48 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
+#if RELEASE
                 var ret = await CheckAndDownloadUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
                     AskToRestart();
                 }
+#else
+                // 跑个空任务避免 async warning
+                await Task.Run(() => { });
+#endif
             }
+        }
+
+        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        {
+            Instances.SettingsViewModel.IsCheckingForUpdates = true;
+            var ret = await CheckAndDownloadVersionUpdate();
+            if (ret == CheckUpdateRetT.OK)
+            {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
+                return ret;
+            }
+
+            var resRet = await ResourceUpdater.Update();
+            if (resRet == ResourceUpdater.UpdateResult.Success)
+            {
+                Instances.SettingsViewModel.IsCheckingForUpdates = false;
+                return CheckUpdateRetT.OnlyGameResourceUpdated;
+            }
+
+            Instances.SettingsViewModel.IsCheckingForUpdates = false;
+            return ret;
         }
 
         /// <summary>
         /// 检查更新，并下载更新包。
         /// </summary>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
-        public async Task<CheckUpdateRetT> CheckAndDownloadUpdate()
+        private async Task<CheckUpdateRetT> CheckAndDownloadVersionUpdate()
         {
-            Instances.SettingsViewModel.IsCheckingForUpdates = true;
-
             var checkResult = await CheckUpdateInner();
 
-            Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return checkResult;
 
             async Task<CheckUpdateRetT> CheckUpdateInner()
@@ -451,9 +473,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(UpdateUrl);
                         }
-                    }
-                );
-                await Execute.OnUIThreadAsync(() =>
+                    });
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
@@ -570,7 +591,7 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                    await Execute.OnUIThreadAsync(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
@@ -614,11 +635,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 await _runningState.UntilIdleAsync(60000);
 
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    Application.Current.Shutdown();
-                    Bootstrapper.RestartApplication();
-                });
+                Application.Current.Dispatcher.Invoke(Bootstrapper.ShutdownAndRestartWithOutArgs);
                 return;
             }
 
@@ -629,8 +646,7 @@ namespace MaaWpfGui.ViewModels.UI
                 MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
-                Application.Current.Shutdown();
-                Bootstrapper.RestartApplication();
+                Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
         }
 
@@ -948,17 +964,5 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
         */
-
-        /// <summary>
-        /// The event handler of opening hyperlink.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The event arguments.</param>
-        // xaml 里用到了
-        // ReSharper disable once UnusedMember.Global
-        public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
-        {
-            Process.Start(e.Parameter.ToString());
-        }
     }
 }

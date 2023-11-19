@@ -1,10 +1,11 @@
 {
     "activity": {
-        "name": "Invitation to Wine - Rerun",
-        "time": 1691773200
+        "name": "Lone Trail",
+        "time": 1699376400
     },
     "gacha": {
-        "pool": "Solitude Universal",
-        "time": 1690563600
-    }
+        "pool": "Here I Stand",
+        "time": 1699376400
+    },
+    "last_updated": "2023-11-15 09:07:36.150"
 }

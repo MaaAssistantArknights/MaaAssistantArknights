@@ -22,13 +22,18 @@ namespace MaaWpfGui.Constants
         public const string DefaultConfiguration = "Default";
         public const string GlobalConfiguration = "Global";
         public const string ConfigurationMap = "Configurations";
+
+        // ReSharper disable once UnusedMember.Global
         public const string ConfigurationData = "Data";
+
+        // ReSharper disable once UnusedMember.Global
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
-        public const string UseNotify = "GUI.UseNotify";
+        public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat";
+        public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
         public const string WindowPlacement = "GUI.Placement";
         public const string LoadWindowPlacement = "GUI.Placement.Load";
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
@@ -37,17 +42,6 @@ namespace MaaWpfGui.Constants
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
-        public const string DarkMode = "GUI.DarkMode";
-
-        public const string MonitorNumber = "GUI.Monitor.Number";
-        public const string MonitorWidth = "GUI.Monitor.Width";
-        public const string MonitorHeight = "GUI.Monitor.Height";
-        public const string PositionLeft = "GUI.Position.Left";
-        public const string PositionTop = "GUI.Position.Top";
-        public const string WindowWidth = "GUI.Size.Width";
-        public const string WindowHeight = "GUI.Size.Height";
-        public const string LoadPositionAndSize = "GUI.PositionAndSize.Load";
-        public const string SavePositionAndSize = "GUI.PositionAndSize.SaveOnClosing";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -56,14 +50,15 @@ namespace MaaWpfGui.Constants
         public const string AdbPath = "Connect.AdbPath";
         public const string ConnectConfig = "Connect.ConnectConfig";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
-        public const string AllowADBRestart = "Connect.AllowADBRestart";
-        public const string AllowADBHardRestart = "Connect.AllowADBHardRestart";
+        public const string AllowAdbRestart = "Connect.AllowADBRestart";
+        public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
         public const string AdbLiteEnabled = "Connect.AdbLiteEnabled";
         public const string KillAdbOnExit = "Connect.KillAdbOnExit";
         public const string TouchMode = "Connect.TouchMode";
         public const string AdbReplaced = "Connect.AdbReplaced";
 
         public const string ClientType = "Start.ClientType";
+        public const string AccountName = "Start.AccountName";
         public const string RunDirectly = "Start.RunDirectly";
         public const string MinimizeDirectly = "Start.MinimizeDirectly";
         public const string StartEmulator = "Start.StartEmulator";
@@ -74,6 +69,8 @@ namespace MaaWpfGui.Constants
         public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
         public const string StartsWithScript = "Start.StartsWithScript";
         public const string EndsWithScript = "Start.EndsWithScript";
+        public const string BlockSleep = "Start.BlockSleep";
+        public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
 
         public const string ChooseLevel3 = "Recruit.ChooseLevel3";
         public const string ChooseLevel4 = "Recruit.ChooseLevel4";
@@ -105,10 +102,13 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeSquad = "Roguelike.Squad";
         public const string RoguelikeRoles = "Roguelike.Roles";
         public const string RoguelikeCoreChar = "Roguelike.CoreChar";
+        public const string RoguelikeStartWithEliteTwo = "Roguelike.RoguelikeStartWithEliteTwo";
         public const string RoguelikeUseSupportUnit = "Roguelike.RoguelikeUseSupportUnit";
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
+        public const string RoguelikeDelayAbortUntilCombatComplete = "Roguelike.RoguelikeDelayAbortUntilCombatComplete";
         public const string RoguelikeStartsCount = "Roguelike.StartsCount";
         public const string RoguelikeInvestmentEnabled = "Roguelike.InvestmentEnabled";
+        public const string RoguelikeInvestmentEnterSecondFloor = "Roguelike.InvestmentEnterSecondFloor";
         public const string RoguelikeRefreshTraderWithDice = "Roguelike.RefreshTraderWithDice";
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
@@ -116,9 +116,12 @@ namespace MaaWpfGui.Constants
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
+        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
+        public const string ForceRefresh = "AutoRecruit.ForceRefresh";
+        public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
         public const string IsLevel3UseShortTime = "AutoRecruit.IsLevel3UseShortTime";
         public const string IsLevel3UseShortTime2 = "AutoRecruit.IsLevel3UseShortTime2";
         public const string NotChooseLevel1 = "AutoRecruit.NotChooseLevel1";
@@ -131,18 +134,32 @@ namespace MaaWpfGui.Constants
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
 
+        public const string ReceiveAward = "Mission.ReceiveAward";
+        public const string ReceiveMail = "Mission.ReceiveMail";
+
+        public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
+        public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
+        public const string CopilotTaskList = "Copilot.CopilotTaskList";
 
         public const string UpdateProxy = "VersionUpdate.Proxy";
         public const string VersionType = "VersionUpdate.VersionType";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
-        public const string UpdatAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
+        public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
+        public const string ResourceApi = "VersionUpdate.ResourceApi";
+
+        // 这个已经废弃了，还要留着吗？
+        // ReSharper disable once UnusedMember.Global
         public const string UseAria2 = "VersionUpdate.UseAria2";
+
         public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
         public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
+        public const string EnablePenguin = "Penguin.EnablePenguin";
+
+        public const string EnableYituliu = "Yituliu.EnableYituliu";
 
         public const string BluestacksConfigPath = "Bluestacks.Config.Path";
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
@@ -163,6 +180,22 @@ namespace MaaWpfGui.Constants
         public const string DropsItemName = "MainFunction.Drops.ItemName";
         public const string DropsQuantity = "MainFunction.Drops.Quantity";
 
+        public const string RemoteControlGetTaskEndpointUri = "RemoteControl.RemoteControlGetTaskEndpointUri";
+        public const string RemoteControlReportStatusUri = "RemoteControl.RemoteControlReportStatusUri";
+        public const string RemoteControlUserIdentity = "RemoteControl.RemoteControlUserIdentity";
+        public const string RemoteControlDeviceIdentity = "RemoteControl.RemoteControlDeviceIdentity";
+
+        public const string ExternalNotificationEnabled = "ExternalNotification.Enabled";
+        public const string ExternalNotificationSmtpServer = "ExternalNotification.Smtp.Server";
+        public const string ExternalNotificationSmtpPort = "ExternalNotification.Smtp.Port";
+        public const string ExternalNotificationSmtpUser = "ExternalNotification.Smtp.User";
+        public const string ExternalNotificationSmtpPassword = "ExternalNotification.Smtp.Password";
+        public const string ExternalNotificationSmtpUseSsl = "ExternalNotification.Smtp.UseSsl";
+        public const string ExternalNotificationSmtpRequiresAuthentication = "ExternalNotification.Smtp.RequiresAuthentication";
+        public const string ExternalNotificationSmtpFrom = "ExternalNotification.Smtp.From";
+        public const string ExternalNotificationSmtpTo = "ExternalNotification.Smtp.To";
+        public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
+
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";
 
@@ -178,5 +211,8 @@ namespace MaaWpfGui.Constants
 
         public const string ForceScheduledStart = "Timer.ForceScheduledStart";
         public const string CustomConfig = "Timer.CustomConfig";
+
+        public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
+        public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
     }
 }

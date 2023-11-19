@@ -1,10 +1,11 @@
 #pragma once
 #include "Task/InterfaceTask.h"
-#include "Task/Miscellaneous/StartGameTaskPlugin.h"
 
 namespace asst
 {
+    class StartGameTaskPlugin;
     class ProcessTask;
+    class AccountSwitchTask;
 
     class StartUpTask final : public InterfaceTask
     {
@@ -19,5 +20,6 @@ namespace asst
     private:
         std::shared_ptr<StartGameTaskPlugin> m_start_game_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> m_start_up_task_ptr = nullptr;
+        std::shared_ptr<AccountSwitchTask> m_account_switch_task_ptr = nullptr;
     };
 }

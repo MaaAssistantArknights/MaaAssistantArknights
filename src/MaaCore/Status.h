@@ -37,21 +37,13 @@ namespace asst
         Status& operator=(Status&& rhs) noexcept = delete;
 
     public:
+        static inline const std::string InfrastAvailableOpersForGroup = "InfrastAvailableOpersForGroup";
+
         static inline const std::string RoguelikeCharElitePrefix = "RoguelikeElite-";
         static inline const std::string RoguelikeCharLevelPrefix = "RoguelikeLevel-";
-        static inline const std::string RoguelikeCharRarityPrefix = "RoguelikeRarity-";
         static inline const std::string RoguelikeCharOverview = "RoguelikeOverview";
-        static inline const std::string RoguelikeCoreChar = "RoguelikeCoreChar";
         static inline const std::string RoguelikeUseSupport = "RoguelikeUseSupport";
         static inline const std::string RoguelikeUseNonfriendSupport = "RoguelikeUseNonfriendSupport";
-        static inline const std::string RoguelikeTraderNoLongerBuy = "RoguelikeNoLongerBuy";
-        static inline const std::string RoguelikeSkillUsagePrefix = "RoguelikeSkillUsage-";
-        static inline const std::string RoguelikeTeamFullWithoutRookie = "RoguelikeTeamFullWithoutRookie";
-        static inline const std::string RoguelikeTheme = "RoguelikeTheme";
-        static inline const std::string RoguelikeRecruitmentStartsComplete = "RoguelikeRecruitmentStartsComplete";
-        static inline const std::string RoguelikeRecruitmentTeamComplete = "RoguelikeRecruitmentTeamComplete";
-        static inline const std::string RoguelikeRecruitmentCount = "RoguelikeRecruitmentCount";
-        static inline const std::string RoguelikeMode = "RoguelikeMode";
 
         static inline const std::string ProcessTaskLastTimePrefix = "#LastTime#";
 

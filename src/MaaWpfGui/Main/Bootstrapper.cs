@@ -12,8 +12,11 @@
 // </copyright>
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
@@ -21,6 +24,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
@@ -69,16 +73,16 @@ namespace MaaWpfGui.Main
                 Directory.CreateDirectory("debug");
             }
 
-            string logFilename = "debug/gui.log";
-            string logBakFilename = "debug/gui.bak.log";
-            if (File.Exists(logFilename) && new FileInfo(logFilename).Length > 4 * 1024 * 1024)
+            const string LogFilename = "debug/gui.log";
+            const string LogBakFilename = "debug/gui.bak.log";
+            if (File.Exists(LogFilename) && new FileInfo(LogFilename).Length > 4 * 1024 * 1024)
             {
-                if (File.Exists(logBakFilename))
+                if (File.Exists(LogBakFilename))
                 {
-                    File.Delete(logBakFilename);
+                    File.Delete(LogBakFilename);
                 }
 
-                File.Move(logFilename, logBakFilename);
+                File.Move(LogFilename, LogBakFilename);
             }
 
             // Bootstrap serilog
@@ -86,12 +90,14 @@ namespace MaaWpfGui.Main
                 .WriteTo.Debug(
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    logFilename,
+                    LogFilename,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
+            var uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
+            uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
@@ -103,8 +109,14 @@ namespace MaaWpfGui.Main
             _logger = Log.Logger.ForContext<Bootstrapper>();
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
+            _logger.Information("Version {UiVersion}", uiVersion);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
+            if (IsUserAdministrator())
+            {
+                _logger.Information("Run as Administrator");
+            }
+
             _logger.Information("===================================");
 
             try
@@ -131,6 +143,16 @@ namespace MaaWpfGui.Main
             base.OnStart();
             ConfigurationHelper.Load();
             LocalizationHelper.Load();
+            ETagCache.Load();
+        }
+
+        private static bool IsUserAdministrator()
+        {
+            WindowsIdentity identity = WindowsIdentity.GetCurrent();
+            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            SecurityIdentifier adminSid = new SecurityIdentifier(WellKnownSidType.BuiltinAdministratorsSid, null);
+
+            return principal.IsInRole(adminSid);
         }
 
         /// <inheritdoc/>
@@ -149,6 +171,8 @@ namespace MaaWpfGui.Main
 
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
+
+            builder.Bind<RemoteControlService>().To<RemoteControlService>().InSingletonScope();
 
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
 
@@ -172,6 +196,16 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void OnLaunch()
         {
+            Task.Run(async () =>
+            {
+                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
+                {
+                    return;
+                }
+
+                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+            });
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
@@ -186,6 +220,7 @@ namespace MaaWpfGui.Main
             */
 
             // MessageBox.Show("O(∩_∩)O 拜拜");
+            ETagCache.Save();
             Instances.SettingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
@@ -205,20 +240,19 @@ namespace MaaWpfGui.Main
             base.OnExit(e);
         }
 
-        public static void RestartApplication()
+        /// <summary>
+        /// 重启，不带参数
+        /// </summary>
+        public static void ShutdownAndRestartWithOutArgs()
         {
-            //// 释放互斥量
-            /*
-            _mutex?.ReleaseMutex();
-            _mutex?.Dispose();
-
-            // 避免 OnExit 时再次释放
-            _mutex = null;
-            */
-
-            // 有时候软件自重启时 gui.log 会无法正常写入
+            Application.Current.Shutdown();
             Log.CloseAndFlush();
-            System.Windows.Forms.Application.Restart();
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = System.Windows.Forms.Application.ExecutablePath,
+            };
+
+            Process.Start(startInfo);
         }
 
         /// <inheritdoc/>

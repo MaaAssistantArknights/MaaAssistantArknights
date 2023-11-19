@@ -8,7 +8,6 @@
             ],
             "direction": "left"
         }
-        
     ],
     "blacklist_location": [
         [
@@ -21,6 +20,18 @@
         ]
     ],
     "deploy_plan": [
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "其他地面"
+            ],
+            "location": [
+                6,
+                3
+            ],
+            "direction": "left"
+        },
         {
             "groups": [
                 "焰苇"
@@ -43,18 +54,6 @@
         },
         {
             "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                3
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
                 "水陈"
             ],
             "location": [
@@ -74,11 +73,11 @@
                 3
             ],
             "direction": "right"
-        },        
+        },
         {
             "groups": [
                 "高台输出",
-                "辅助",                
+                "辅助",
                 "其他高台"
             ],
             "location": [
@@ -92,7 +91,7 @@
                 "高台输出",
                 "辅助",
                 "群奶",
-                "盾法",                
+                "盾法",
                 "其他高台"
             ],
             "location": [
@@ -115,7 +114,7 @@
         {
             "groups": [
                 "高台输出",
-                "辅助",                              
+                "辅助",
                 "其他高台"
             ],
             "location": [

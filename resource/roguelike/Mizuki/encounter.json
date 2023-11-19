@@ -87,6 +87,12 @@
             "choose": 1
         },
         {
+            "name": "梦中之会",
+            "note": "多次选择",
+            "option_num": 4,
+            "choose": 4
+        },
+        {
             "name": "噬尘扩散",
             "option_num": 1,
             "choose": 1
@@ -103,31 +109,37 @@
         },
         {
             "name": "孤行的老者",
+            "note": "存在多次选择",
             "option_num": 2,
             "choose": 1
         },
         {
             "name": "为了生存",
+            "note": "存在多次选择",
             "option_num": 2,
             "choose": 1
         },
         {
             "name": "苦路",
+            "note": "存在多次选择",
             "option_num": 2,
             "choose": 2
         },
         {
             "name": "设身处地",
+            "note": "存在多次选择",
             "option_num": 2,
             "choose": 1
         },
         {
             "name": "信念",
             "option_num": 2,
+            "note": "存在多次选择",
             "choose": 1
         },
         {
             "name": "是非黑白",
+            "note": "存在多次选择",
             "option_num": 2,
             "choose": 1
         },
@@ -138,6 +150,7 @@
         },
         {
             "name": "诸王不再",
+            "note": "存在多次选择",
             "option_num": 2,
             "choose": 2
         },
@@ -187,7 +200,7 @@
             "choose": 2
         },
         {
-            "name": "商业帝国",
+            "name": "商业帝国?",
             "option_num": 2,
             "choose": 2
         },
@@ -203,13 +216,18 @@
         },
         {
             "name": "开端",
-            "option_num": 2,
+            "option_num": 3,
             "choose": 2
         },
         {
             "name": "深蓝之心",
             "option_num": 4,
             "choose": 4
+        },
+        {
+            "name": "赞歌",
+            "option_num": 1,
+            "choose": 1
         },
         {
             "name": "深蓝仪式",
@@ -219,11 +237,6 @@
         {
             "name": "升华",
             "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "赞歌",
-            "option_num": 1,
             "choose": 1
         },
         {
@@ -237,12 +250,12 @@
             "choose": 1
         },
         {
-            "name": "守望相助",
+            "name": "消失的习俗",
             "option_num": 2,
             "choose": 2
         },
         {
-            "name": "消失的习俗",
+            "name": "守望相助",
             "option_num": 2,
             "choose": 2
         },

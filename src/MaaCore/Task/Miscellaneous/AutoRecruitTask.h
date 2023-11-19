@@ -23,8 +23,10 @@ namespace asst
         AutoRecruitTask& set_need_refresh(bool need_refresh) noexcept;
         AutoRecruitTask& set_max_times(int max_times) noexcept;
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
+        AutoRecruitTask& set_select_extra_tags(bool select_extra_tags) noexcept;
         AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
+        AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
         AutoRecruitTask& set_recruitment_time(std::unordered_map<int, int>) noexcept;
 
         AutoRecruitTask& set_penguin_enabled(bool enable, std::string penguin_id = std::string()) noexcept;
@@ -47,6 +49,7 @@ namespace asst
         bool hire_all();
         bool initialize_dirty_slot_info(const cv::Mat&);
         std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
+        std::vector<std::string> get_select_tags(const std::vector<RecruitCombs>& combinations);
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
         template <typename Rng>
@@ -69,15 +72,17 @@ namespace asst
 
         calc_task_result_type recruit_calc_task(slot_index = 0);
 
-        bool m_force_discard_flag = false;
-
         std::vector<int> m_select_level;
         std::vector<int> m_confirm_level;
         bool m_need_refresh = false;
         bool m_use_expedited = false;
+        bool m_select_extra_tags = false;
         int m_max_times = 0;
+        bool m_has_permit = true;
+        bool m_has_refresh = true;
         bool m_skip_robot = true;
         bool m_set_time = true;
+        bool m_force_refresh = true;
         std::unordered_map<int /*level*/, int /*minutes*/> m_desired_time_map;
 
         int m_slot_fail = 0;

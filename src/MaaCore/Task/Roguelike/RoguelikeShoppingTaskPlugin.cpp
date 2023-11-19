@@ -2,6 +2,7 @@
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Roguelike/RoguelikeShoppingConfig.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
@@ -15,12 +16,11 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
         return false;
     }
 
-    auto roguelike_name_opt = status()->get_properties(Status::RoguelikeTheme);
-    if (!roguelike_name_opt) {
+    if (m_config->get_theme().empty()) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = std::move(roguelike_name_opt.value()) + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -46,7 +46,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         return false;
     }
 
-    bool no_longer_buy = status()->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
+    bool no_longer_buy = m_config->get_trader_no_longer_buy();
 
     std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
     json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
@@ -104,7 +104,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     }
 
     bool bought = false;
-    auto& all_goods = RoguelikeShopping.get_goods(status()->get_properties(Status::RoguelikeTheme).value());
+    auto& all_goods = RoguelikeShopping.get_goods(m_config->get_theme());
+    std::vector<std::string> all_foldartal = m_config->get_theme() == RoguelikeTheme::Sami
+                                                 ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
+                                                 : std::vector<std::string>();
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
@@ -121,33 +124,33 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
 
         if (!goods.roles.empty()) {
-            bool role_mathced = false;
+            bool role_matched = false;
             for (const auto& role : goods.roles) {
                 if (map_roles_count[role] != 0) {
-                    role_mathced = true;
+                    role_matched = true;
                     break;
                 }
             }
-            if (!role_mathced) {
+            if (!role_matched) {
                 Log.trace("Ready to buy", goods.name, ", but there is no such professional operator, skip");
                 continue;
             }
         }
-        
+
         if (goods.promotion != 0) {
             if (total_wait_promotion == 0) {
                 Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
                 continue;
             }
             if (!goods.roles.empty()) {
-                bool role_mathced = false;
+                bool role_matched = false;
                 for (const auto& role : goods.roles) {
                     if (map_wait_promotion[role] != 0) {
-                        role_mathced = true;
+                        role_matched = true;
                         break;
                     }
                 }
-                if (!role_mathced) {
+                if (!role_matched) {
                     Log.trace("Ready to buy", goods.name, ", but there is no one waiting for promotion, skip");
                     continue;
                 }
@@ -167,8 +170,18 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         Log.info("Ready to buy", goods.name);
         ctrler()->click(find_it->rect);
         bought = true;
+        if (m_config->get_theme() == RoguelikeTheme::Sami) {
+
+            auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
+            if (iter != all_foldartal.end()) {
+                auto foldartal = m_config->get_foldartal();
+                // 把goods.name存到密文板overview里
+                foldartal.emplace_back(goods.name);
+                m_config->set_foldartal(std::move(foldartal));
+            }
+        }
         if (goods.no_longer_buy) {
-            status()->set_number(Status::RoguelikeTraderNoLongerBuy, 1);
+            m_config->set_trader_no_longer_buy(true);
         }
         break;
     }

@@ -37,7 +37,7 @@ void asst::BattleHelper::clear()
     m_side_tile_info.clear();
     m_normal_tile_info.clear();
     m_skill_usage.clear();
-    m_skill_need_use_count.clear();
+    m_skill_times.clear();
     m_skill_error_count.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
@@ -132,14 +132,16 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
-            static const double cooling_threshold = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_threshold;
+            static const double cooling_threshold =
+                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
             static const auto cooling_mask_range = Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
             avatar_analyzer.set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
-            static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_threshold;
-            static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
+            static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
+            static const double drone_threshold =
+                Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }
 
@@ -181,6 +183,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             return false;
         }
 
+        cv::Mat name_image;
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
             if (oper.cooling) {
@@ -189,9 +192,23 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 continue;
             }
 
-            click_oper_on_deployment(oper.rect);
+            Rect oper_rect = oper.rect;
+            // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
+            // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
+            if (!name_image.empty()) {
+                Matcher re_matcher;
+                re_matcher.set_task_info("BattleAvatarReMatch");
+                re_matcher.set_image(name_image);
+                re_matcher.set_templ(oper.avatar);
+                auto rematched = re_matcher.analyze();
+                if (rematched) {
+                    oper_rect = rematched->rect;
+                }
+            }
 
-            cv::Mat name_image = m_inst_helper.ctrler()->get_image();
+            click_oper_on_deployment(oper_rect);
+
+            name_image = m_inst_helper.ctrler()->get_image();
             if (!check_in_battle(name_image)) {
                 return false;
             }
@@ -270,7 +287,7 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         Log.error("No loc", loc);
         return false;
     }
-    const Point& target_point = target_iter->second.pos;
+    Point target_point = target_iter->second.pos;
 
     int dist = static_cast<int>(
         Point::distance(target_point, { oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2 }));
@@ -278,32 +295,38 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
     // 1000 是随便取的一个系数，把整数的 pre_delay 转成小数用的
     int duration = static_cast<int>(dist / 1000.0 * swipe_oper_task_ptr->pre_delay);
     // 时间太短了的压根放不上去，故意加长一点
-    if (int min_duration = swipe_oper_task_ptr->special_params.at(3); duration < min_duration) {
+    if (int min_duration = swipe_oper_task_ptr->special_params.at(4); duration < min_duration) {
         duration = min_duration;
     }
     bool deploy_with_pause =
         ControlFeat::support(m_inst_helper.ctrler()->support_features(), ControlFeat::SWIPE_WITH_PAUSE);
     Point oper_point(oper_rect.x + oper_rect.width / 2, oper_rect.y + oper_rect.height / 2);
-    m_inst_helper.ctrler()->swipe(oper_point, target_point, duration, false, swipe_oper_task_ptr->special_params.at(1),
-                                  swipe_oper_task_ptr->special_params.at(2), deploy_with_pause);
+    m_inst_helper.ctrler()->swipe(oper_point, target_point, duration, false, swipe_oper_task_ptr->special_params.at(2),
+                                  swipe_oper_task_ptr->special_params.at(3), deploy_with_pause);
 
     // 拖动干员朝向
     if (direction != DeployDirection::None) {
         static const std::unordered_map<DeployDirection, Point> DirectionMap = {
-            { DeployDirection::Right, Point(1, 0) }, { DeployDirection::Down, Point(0, 1) },
-            { DeployDirection::Left, Point(-1, 0) }, { DeployDirection::Up, Point(0, -1) },
-            { DeployDirection::None, Point(0, 0) },
+            { DeployDirection::Right, Point::right() }, { DeployDirection::Down, Point::down() },
+            { DeployDirection::Left, Point::left() },   { DeployDirection::Up, Point::up() },
+            { DeployDirection::None, Point::zero() },
         };
 
         // 计算往哪边拖动
         const Point& direction_target = DirectionMap.at(direction);
 
-        // 将方向转换为实际的 swipe end 坐标点
-        static const int coeff = swipe_oper_task_ptr->special_params.at(0);
+        // 将方向转换为实际的 swipe end 坐标点，并对滑动距离进行缩放
+        const auto scale_size = m_inst_helper.ctrler()->get_scale_size();
+        static const int coeff =
+            static_cast<int>(swipe_oper_task_ptr->special_params.at(0) * scale_size.second / 720.0);
         Point end_point = target_point + (direction_target * coeff);
+
+        fix_swipe_out_of_limit(target_point, end_point, scale_size.first, scale_size.second,
+                               swipe_oper_task_ptr->special_params.at(1));
 
         m_inst_helper.sleep(use_oper_task_ptr->post_delay);
         m_inst_helper.ctrler()->swipe(target_point, end_point, swipe_oper_task_ptr->post_delay);
+        // 仅简单复用，该延迟含义与此处逻辑无关 by MistEO
         m_inst_helper.sleep(use_oper_task_ptr->pre_delay);
     }
 
@@ -390,6 +413,18 @@ bool asst::BattleHelper::check_pause_button(const cv::Mat& reusable)
     ret &= battle_result_opt && battle_result_opt->pause_button;
     return ret;
 }
+bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+
+    Matcher battle_plot_analyzer(image);
+    battle_plot_analyzer.set_task_info("SkipThePreBattlePlot");
+    bool ret = battle_plot_analyzer.analyze().has_value();
+    if (ret) {
+        ProcessTask(this_task(), { "SkipThePreBattlePlot" }).run();
+    }
+    return ret;
+}
 
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
@@ -445,8 +480,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
     for (const auto& [name, loc] : m_battlefield_opers) {
         auto& usage = m_skill_usage[name];
         auto& retry = m_skill_error_count[name];
-        auto& times = m_skill_need_use_count[name];
-
+        auto& times = m_skill_times[name];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Times) {
             continue;
         }
@@ -466,9 +500,10 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         }
         used = true;
         retry = 0;
-        times--;
-        if (usage == SkillUsage::Times && times == 0) {
-            usage = SkillUsage::TimesUsed;
+
+        if (usage == SkillUsage::Times) {
+            times--;
+            if (times == 0) usage = SkillUsage::TimesUsed;
         }
         image = m_inst_helper.ctrler()->get_image();
     }
@@ -611,6 +646,60 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
 bool asst::BattleHelper::cancel_oper_selection()
 {
     return ProcessTask(this_task(), { "BattleCancelSelection" }).run();
+}
+
+void asst::BattleHelper::fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, int max_distance,
+                                                double radian)
+{
+    Point direct = Point::zero();
+    int distance = 0;
+    if (p2.y > height) {
+        // 下边界超限
+        direct = Point::up();
+        distance = p2.y - height;
+    }
+    else if (p2.x > width) {
+        // 右边界超限
+        direct = Point::left();
+        distance = p2.x - width;
+    }
+    else if (p2.y < 0) {
+        // 上边界超限
+        direct = Point::down();
+        distance = -p2.y;
+    }
+    else if (p2.x < 0) {
+        // 左边界超限
+        direct = Point::right();
+        distance = -p2.x;
+    }
+    else {
+        return;
+    }
+
+    std::tuple<double, double> adjust_scale = {
+        direct.x * std::cos(radian) - direct.y * std::sin(radian),
+        direct.y * std::cos(radian) + direct.x * std::sin(radian),
+    };
+
+    // 旋转后偏移值会不够，计算补偿比例
+    double adjust_more = std::get<0>(adjust_scale) * direct.x + std::get<1>(adjust_scale) * direct.y;
+
+    Point adjust = {
+        static_cast<int>(std::get<0>(adjust_scale) / adjust_more * distance),
+        static_cast<int>(std::get<1>(adjust_scale) / adjust_more * distance),
+    };
+
+    if (auto point_distance = Point::distance(adjust, { 0, 0 }); point_distance > max_distance) {
+        adjust = {
+            static_cast<int>(adjust.x * max_distance / point_distance),
+            static_cast<int>(adjust.y * max_distance / point_distance),
+        };
+    }
+
+    Log.info(__FUNCTION__, "swipe end_point out of limit, start:", p1, ", end:", p2, ", adjust:", adjust);
+    p1 += adjust;
+    p2 += adjust;
 }
 
 bool asst::BattleHelper::move_camera(const std::pair<double, double>& delta)

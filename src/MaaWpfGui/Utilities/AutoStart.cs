@@ -11,8 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Win32;
+using Serilog;
 
 namespace MaaWpfGui.Utilities
 {
@@ -21,7 +25,22 @@ namespace MaaWpfGui.Utilities
     /// </summary>
     public static class AutoStart
     {
-        private static readonly string fileValue = Process.GetCurrentProcess().MainModule?.FileName;
+        private static readonly ILogger _logger = Log.ForContext("SourceContext", "AutoStart");
+
+        private static readonly string _fileValue = Process.GetCurrentProcess().MainModule?.FileName;
+        private static readonly string _uniqueIdentifier = GetUniqueIdentifierFromPath(_fileValue);
+
+        private static readonly string _startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+        private static readonly string _registryKeyName = $"MAA_{_uniqueIdentifier}";
+        private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, _registryKeyName + ".lnk");
+
+        private static readonly string _currentUserRunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+
+        private static string GetUniqueIdentifierFromPath(string path)
+        {
+            int hash = path.GetHashCode();
+            return hash.ToString("X");
+        }
 
         /// <summary>
         /// Checks whether this program starts up with OS.
@@ -31,11 +50,19 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", false);
-                return key.GetValue("MeoAsst") != null;
+                // 管理员权限下无法通过启动文件夹开机自启，因此需要检查注册表
+                if (File.Exists(_startupShortcutPath))
+                {
+                    File.Delete(_startupShortcutPath);
+                    SetStart(true);
+                }
+
+                using var key = Registry.CurrentUser.OpenSubKey(_currentUserRunKey, false);
+                return key?.GetValue(_registryKeyName) != null;
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error("Failed to check startup: " + e.Message);
                 return false;
             }
         }
@@ -49,20 +76,28 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                using var key = Registry.CurrentUser.OpenSubKey(_currentUserRunKey, true);
+                if (key == null)
+                {
+                    _logger.Error("Failed to open registry key.");
+                    return false;
+                }
+
                 if (set)
                 {
-                    key.SetValue("MeoAsst", "\"" + fileValue + "\"");
+                    key.SetValue(_registryKeyName, "\"" + _fileValue + "\"");
+                    _logger.Information($"Set [{_registryKeyName}, \"{_fileValue}\"] into \"{_currentUserRunKey}\"");
                 }
                 else
                 {
-                    key.DeleteValue("MeoAsst");
+                    key.DeleteValue(_registryKeyName);
                 }
 
                 return set == CheckStart();
             }
-            catch
+            catch (Exception e)
             {
+                _logger.Error("Failed to set startup: " + e.Message);
                 return false;
             }
         }

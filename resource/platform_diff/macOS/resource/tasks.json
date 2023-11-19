@@ -1,8 +1,0 @@
-{
-    "VisitNextBlack": {
-        "templThreshold": 0.9
-    },
-    "SSSDrawCard": {
-        "templThreshold": 0.97
-    }
-}

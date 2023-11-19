@@ -19,6 +19,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using HandyControl.Controls;
+using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
@@ -36,15 +38,12 @@ namespace MaaWpfGui.Services
     /// </summary>
     public class StageManager
     {
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         private const string StageApi = "gui/StageActivity.json";
         private const string TasksApi = "resource/tasks.json";
 
         private static readonly ILogger _logger = Log.ForContext<StageManager>();
 
-        // datas
+        // data
         private Dictionary<string, StageInfo> _stages;
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace MaaWpfGui.Services
                 await UpdateStageWeb();
                 if (Instances.TaskQueueViewModel != null)
                 {
-                    Execute.OnUIThread(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         Instances.TaskQueueViewModel.UpdateDatePrompt();
                         Instances.TaskQueueViewModel.UpdateStageList(true);
@@ -87,8 +86,14 @@ namespace MaaWpfGui.Services
 
             _ = Execute.OnUIThreadAsync(() =>
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("ApiUpdateSuccess"));
-                toast.Show();
+                var growlInfo = new GrowlInfo
+                {
+                    IsCustom = true,
+                    Message = LocalizationHelper.GetString("ApiUpdateSuccess"),
+                    IconKey = "HangoverGeometry",
+                    IconBrushKey = "PallasBrush",
+                };
+                Growl.Info(growlInfo);
             });
 
             return;
@@ -103,7 +108,7 @@ namespace MaaWpfGui.Services
             }
         }
 
-        private string GetClientType()
+        private static string GetClientType()
         {
             var clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
@@ -116,35 +121,33 @@ namespace MaaWpfGui.Services
             return clientType;
         }
 
-        private JObject LoadLocalStages()
+        private static JObject LoadLocalStages()
         {
             JObject activity = Instances.MaaApiService.LoadApiCache(StageApi);
             return activity;
         }
 
-        private async Task<bool> CheckWebUpdate()
+        private static async Task<bool> CheckWebUpdate()
         {
             // Check if we need to update from the web
-            string lastUpdateTimeFile = "lastUpdateTime.json";
-            string allFileDownloadCompleteFile = "allFileDownloadComplete.json";
-            JObject localLastUpdatedJson = Instances.MaaApiService.LoadApiCache(lastUpdateTimeFile);
-            JObject allFileDownloadCompleteJson = Instances.MaaApiService.LoadApiCache(allFileDownloadCompleteFile);
-            JObject webLastUpdatedJson = await Instances.MaaApiService.RequestMaaApiWithCache(lastUpdateTimeFile).ConfigureAwait(false);
-            if (localLastUpdatedJson != null && webLastUpdatedJson != null)
+            const string LastUpdateTimeFile = "lastUpdateTime.json";
+            const string AllFileDownloadCompleteFile = "allFileDownloadComplete.json";
+            JObject localLastUpdatedJson = Instances.MaaApiService.LoadApiCache(LastUpdateTimeFile);
+            JObject allFileDownloadCompleteJson = Instances.MaaApiService.LoadApiCache(AllFileDownloadCompleteFile);
+            JObject webLastUpdatedJson = await Instances.MaaApiService.RequestMaaApiWithCache(LastUpdateTimeFile).ConfigureAwait(false);
+
+            if (localLastUpdatedJson?["timestamp"] == null || webLastUpdatedJson?["timestamp"] == null)
             {
-                long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
-                long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
-                bool allFileDownloadComplete = allFileDownloadCompleteJson?["allFileDownloadComplete"]?.ToObject<bool>() ?? false;
-                if (webTimestamp <= localTimestamp && allFileDownloadComplete)
-                {
-                    return false;
-                }
+                return true;
             }
 
-            return true;
+            long localTimestamp = localLastUpdatedJson["timestamp"].ToObject<long>();
+            long webTimestamp = webLastUpdatedJson["timestamp"].ToObject<long>();
+            bool allFileDownloadComplete = allFileDownloadCompleteJson?["allFileDownloadComplete"]?.ToObject<bool>() ?? false;
+            return webTimestamp > localTimestamp || !allFileDownloadComplete;
         }
 
-        private async Task<JObject> LoadWebStages()
+        private static async Task<JObject> LoadWebStages()
         {
             var clientType = GetClientType();
 
@@ -181,8 +184,8 @@ namespace MaaWpfGui.Services
 
             var clientType = GetClientType();
 
-            bool isDebugVersion = Marshal.PtrToStringAnsi(AsstGetVersion()).Contains("DEBUG");
-            bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
+            bool isDebugVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion())!.Contains("DEBUG");
+            bool curVerParsed = SemVersion.TryParse(Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()), SemVersionStyles.AllowLowerV, out var curVersionObj);
 
             // bool curResourceVerParsed = SemVersion.TryParse(
             //    tasksJsonClient?["ResourceVersion"]?.ToString() ?? tasksJson?["ResourceVersion"]?.ToString() ?? string.Empty,
@@ -191,11 +194,6 @@ namespace MaaWpfGui.Services
             {
                 IsResourceCollection = true,
             };
-
-            static DateTime GetDateTime(JToken keyValuePairs, string key)
-                => DateTime.ParseExact(keyValuePairs[key].ToString(),
-                   "yyyy/MM/dd HH:mm:ss",
-                   CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs?["TimeZone"].ToString() ?? "0"));
 
             if (activity?[clientType] != null)
             {
@@ -218,7 +216,7 @@ namespace MaaWpfGui.Services
                         // bool minResourceRequiredParsed = SemVersion.TryParse(stageObj?["MinimumResourceRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minResourceRequiredObj);
                         bool minRequiredParsed = SemVersion.TryParse(stageObj?["MinimumRequired"]?.ToString() ?? string.Empty, SemVersionStyles.AllowLowerV, out var minRequiredObj);
 
-                        var stageInfo = new StageInfo();
+                        StageInfo stageInfo;
 
                         // && (!minResourceRequiredParsed || curResourceVerParsed))
                         if (isDebugVersion || (curVerParsed && minRequiredParsed))
@@ -227,7 +225,7 @@ namespace MaaWpfGui.Services
                             if (!isDebugVersion)
                             {
                                 // &&(!minResourceRequiredParsed || curResourceVersionObj.CompareSortOrderTo(minResourceRequiredObj) < 0)
-                                if (isDebugVersion || curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
+                                if (curVersionObj.CompareSortOrderTo(minRequiredObj) < 0)
                                 {
                                     if (!tempStage.ContainsKey(LocalizationHelper.GetString("UnsupportedStages")))
                                     {
@@ -236,13 +234,13 @@ namespace MaaWpfGui.Services
                                             Display = LocalizationHelper.GetString("UnsupportedStages"),
                                             Value = LocalizationHelper.GetString("UnsupportedStages"),
                                             Drop = LocalizationHelper.GetString("LowVersion") + '\n' +
-                                                   LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj.ToString(),
+                                                   LocalizationHelper.GetString("MinimumRequirements") + minRequiredObj,
                                             Activity = new StageActivityInfo()
                                             {
-                                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
-                                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
-                                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                                Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
+                                                StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
+                                                UtcStartTime = GetDateTime(stageObj?["Activity"], "UtcStartTime"),
+                                                UtcExpireTime = GetDateTime(stageObj?["Activity"], "UtcExpireTime"),
                                             },
                                         };
 
@@ -261,14 +259,14 @@ namespace MaaWpfGui.Services
                         stageInfo = new StageInfo
                         {
                             Display = stageObj?["Display"]?.ToString() ?? string.Empty,
-                            Value = stageObj["Value"].ToString(),
+                            Value = stageObj?["Value"]?.ToString(),
                             Drop = stageObj?["Drop"]?.ToString(),
                             Activity = new StageActivityInfo()
                             {
-                                Tip = stageObj["Activity"]?["Tip"]?.ToString(),
-                                StageName = stageObj["Activity"]?["StageName"]?.ToString(),
-                                UtcStartTime = GetDateTime(stageObj["Activity"], "UtcStartTime"),
-                                UtcExpireTime = GetDateTime(stageObj["Activity"], "UtcExpireTime"),
+                                Tip = stageObj?["Activity"]?["Tip"]?.ToString(),
+                                StageName = stageObj?["Activity"]?["StageName"]?.ToString(),
+                                UtcStartTime = GetDateTime(stageObj?["Activity"], "UtcStartTime"),
+                                UtcExpireTime = GetDateTime(stageObj?["Activity"], "UtcExpireTime"),
                             },
                         };
 
@@ -317,6 +315,12 @@ namespace MaaWpfGui.Services
             }
 
             _stages = tempStage;
+            return;
+
+            static DateTime GetDateTime(JToken keyValuePairs, string key)
+                => DateTime.ParseExact(keyValuePairs[key].ToString(),
+                    "yyyy/MM/dd HH:mm:ss",
+                    CultureInfo.InvariantCulture).AddHours(-Convert.ToInt32(keyValuePairs["TimeZone"].ToString()));
         }
 
         /// <summary>
@@ -356,31 +360,28 @@ namespace MaaWpfGui.Services
         {
             var builder = new StringBuilder();
             var sideStoryFlags = new Dictionary<string, bool>();
-            foreach (var item in _stages)
+            foreach (var item in _stages.Where(item => item.Value.IsStageOpen(dayOfWeek)))
             {
-                if (item.Value.IsStageOpen(dayOfWeek))
+                if (!string.IsNullOrEmpty(item.Value.Activity?.StageName)
+                    && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
                 {
-                    if (!string.IsNullOrEmpty(item.Value.Activity?.StageName)
-                        && !sideStoryFlags.ContainsKey(item.Value.Activity.StageName))
-                    {
-                        DateTime dateTime = DateTime.UtcNow;
-                        var daysleftopen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
-                        builder.AppendLine(item.Value.Activity.StageName
-                            + " "
-                            + LocalizationHelper.GetString("Daysleftopen")
-                            + (daysleftopen > 0 ? daysleftopen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
-                        sideStoryFlags[item.Value.Activity.StageName] = true;
-                    }
+                    DateTime dateTime = DateTime.UtcNow;
+                    var daysLeftOpen = (item.Value.Activity.UtcExpireTime - dateTime).Days;
+                    builder.AppendLine(item.Value.Activity.StageName
+                        + " "
+                        + LocalizationHelper.GetString("DaysLeftOpen")
+                        + (daysLeftOpen > 0 ? daysLeftOpen.ToString() : LocalizationHelper.GetString("LessThanOneDay")));
+                    sideStoryFlags[item.Value.Activity.StageName] = true;
+                }
 
-                    if (!string.IsNullOrEmpty(item.Value.Tip))
-                    {
-                        builder.AppendLine(item.Value.Tip);
-                    }
+                if (!string.IsNullOrEmpty(item.Value.Tip))
+                {
+                    builder.AppendLine(item.Value.Tip);
+                }
 
-                    if (!string.IsNullOrEmpty(item.Value.Drop))
-                    {
-                        builder.AppendLine(item.Value.Display + ": " + ItemListHelper.GetItemName(item.Value.Drop));
-                    }
+                if (!string.IsNullOrEmpty(item.Value.Drop))
+                {
+                    builder.AppendLine(item.Value.Display + ": " + ItemListHelper.GetItemName(item.Value.Drop));
                 }
             }
 

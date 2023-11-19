@@ -1,12 +1,12 @@
 #pragma once
-#include "Task/AbstractTaskPlugin.h"
+#include "AbstractRoguelikeTaskPlugin.h"
 
 namespace asst
 {
-    class RoguelikeResetTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeResetTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        using AbstractTaskPlugin::AbstractTaskPlugin;
+        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeResetTaskPlugin() = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
