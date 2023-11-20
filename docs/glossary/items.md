@@ -53,9 +53,9 @@ RMA70-24|RMA70-24|RMA70-24|RMA70-24
 双极纳米片|Bipolar Nanoflake|ナノフレーク|바이폴라 나노칩
 D32钢|D32 Steel|D32鋼|D32강
 晶体电子单元|Crystalline Electronic Unit|結晶制御装置|결정 전자 장치
-转质盐组||転化塩|합성 소금 번들
-转质盐聚块||上級転化塩|합성 소금 팩
-烧结核凝晶||焼結核凝晶|핵결정체 소결물
+转质盐组|Transmuted Salt|転化塩|합성 소금 번들
+转质盐聚块|Transmuted Salt Agglomerate|上級転化塩|합성 소금 팩
+烧结核凝晶|Nucleic Crystal Sinter|焼結核凝晶|핵결정체 소결물
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -88,8 +88,8 @@ D32钢|D32 Steel|D32鋼|D32강
 传承信物|Rare Token|★4○○の印|레어 증표
 遗产信物|Epic Token|★5○○の印|에픽 증표
 皇家信物|Royal Token|★6○○の印|로열 증표
-||★6印交換券|
-
+私人信件|Personal Letter|○○の手紙|개인 우편물
+中坚信物|Kernel Token|○○の印（中堅）|커널 증표
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -108,6 +108,11 @@ D32钢|D32 Steel|D32鋼|D32강
 寻访数据契约|Headhunting Data Contract|限定契約証|헤드헌팅 데이터 계약
 事相碎片|Information Fragment|事象の欠片|기록 조각
 事相结晶|Event Crystal|事象の結晶|기록 결정
+PRTS剿灭代理卡|PRTS Proxy Annihilation Card|PRTS殲滅代理カード|PRTS 섬멸 작전 대리권
+合约赏金|Contract Bounty|契約賞金|협약 상금
+行动协议|Operation Agreement|協約の証|작전 협의
+晶化源石|||
+晶体合约赏金|||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -125,7 +130,7 @@ D32钢|D32 Steel|D32鋼|D32강
 十连寻访凭证|Ten-roll Headhunting Permit|10回スカウト券|헤드헌팅 10회 허가증
 公开招募★3兑换券·I|★3 Recruitment Exchange Voucher I|公開求人★3指名券 I|공개 모집 ★3 교환권·I
 公开招募★4兑换券·I|★4 Recruitment Exchange Voucher I|公開求人★4指名券 I|공개 모집 ★4 교환권·I
-预约干员随机4选1|Preregister to get 1 of 4 Operators randomly||
+预约干员随机4选1|Preregister to get 1 of 4 Operators randomly|オペレーター指定券|오퍼레이터 지정권V
 干员兑换券|Operator Voucher|オペレーター指名券|오퍼레이터 교환권
 资深干员特训邀请函|Senior Operator Training Invitation Letter|★5特訓招待状|특별 채용 훈련 초대장
 资深干员调用凭证|Senior Operator Transfer Permit|★5招聘指名券|특별 채용 조달 허가증
@@ -133,12 +138,32 @@ D32钢|D32 Steel|D32鋼|D32강
 庆典干员凭证|Thank-You Celebration Headhunting Permit|感謝祭記念★6招聘指名券|감사 축제 헤드헌팅 10회 허가증
 火神因陀罗招募券|Vulcan and Indra Recruitment Voucher|公開求人★5特別指名券|벌컨/인드라 모집권
 时装自选凭证|Outfit Voucher|コーデ引換券|컬렉션 자유 선택권
+高级资深干员特训装置|Top Operator Training Apparatus|上級エリート特訓装置|고급 특별 채용 특훈 장치
+资深干员特训装置|Senior Operator Training Apparatus|エリート特訓装置|특별 채용 특훈 장치
+高级资深干员特训邀请函|Advanced Senior Operator Training Invitation Letter|★6特訓招待状|고급 특별 채용 특훈 초대장
+资深干员特训邀请函|Senior Operator Training Invitation Letter|★5特訓招待状|특별 채용 훈련 초대장
+
+中文|English|日本語|한국어
+---|---|---|---
+模组数据块|Module Data Block|モジュールデータ|모듈 데이터 칩
+数据增补条|Data Supplement Stick|データ補完チップ|데이터 메모리
+数据增补仪|Data Supplement Instrument|データ補完マシン|데이터 리더기
+模组数据整合箱|Integrated Module Data Box|モジュールデータボックス|모듈 데이터 통합 상자
+模组数据整合块|Integrated Module Data Chunk|モジュールデータブロック|모듈 데이터 통합 블록
+
+中文|English|日本語|한국어
+---|---|---|---
+蜡烛|Candle|キャンドル|양초
+昏暗的灵感|Caliginous Insights|昏きセンス|어두운 영감
+生机细胞|Living Cells|有機細胞|생체 세포
+主观想象|Subjective Imagination|主観的構想|주관적 상상
+生态标本|||
+理性视阈|||
 
 中文|English|日本語|한국어
 ---|---|---|---
 罗德岛物资补给|Rhodes Island Supplies|補給物資・ロドス|로도스 아일랜드 보급 물자
 ID信息更新卡|ID Info Update Card|ID情報更新カード|ID 정보 갱신 카드
-模组数据块|Module Data Block|モジュールデータ|모듈 데이터 칩
 理智|Sanity|理性|이성
 声望|EXP|名声|경험치
 演习券|Drill Plan|演習券|연습권

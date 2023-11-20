@@ -91,7 +91,7 @@ char_440_pinecn|松果|Pinecone|パインコーン|파인콘
 char_452_bstalk|豆苗|Beanstalk|ビーンストーク|빈스토크
 char_469_indigo|深靛|Indigo|インディゴ|인디고
 char_484_robrta|罗比菈塔|Roberta|ロベルタ|로베르타
-char_491_humus|休谟斯|Humus|ヒューマス|
+char_491_humus|休谟斯|Humus|ヒューマス|휴머스
 char_4004_pudd|布丁|Pudding|プリン|푸딩
 char_4041_chnut|褐果|Chestnut|チェストナット|체스트넛
 char_4062_totter|铅踝|Totter|トター|토터
@@ -116,7 +116,7 @@ char_143_ghost|幽灵鲨|Specter|スペクター|스펙터
 char_144_red|红|Projekt Red|レッド|레드
 char_145_prove|普罗旺斯|Provence|プロヴァンス|프로방스
 char_148_nearl|临光|Nearl|ニアール|니어
-char_154_morgan|摩根|Morgan|モーガン|
+char_154_morgan|摩根|Morgan|モーガン|모건
 char_155_tiger|因陀罗|Indra|インドラ|인드라
 char_157_dagda|达格达|Dagda|ダグザ|다그다
 char_158_milu|守林人|Firewatch|ファイヤーウォッチ|파이어워치
@@ -189,7 +189,7 @@ char_455_nothin|乌有|Mr. Nothing|ウユウ|우요우
 char_457_blitz|闪击|Blitz|Blitz|Blitz
 char_458_rfrost|霜华|Frost|Frost|Frost
 char_459_tachak|战车|Tachanka|Tachanka|Tachanka
-char_464_cement|洋灰|Cement|セメント|
+char_464_cement|洋灰|Cement|セメント|시멘트
 char_466_qanik|雪绒|Qanipalaat|カニパラート|카니팔라트
 char_473_mberry|桑葚|Mulberry|マルベリー|멀베리
 char_475_akafyu|赤冬|Akafuyu|アカフユ|아카후유
@@ -213,7 +213,7 @@ char_1021_kroos2|寒芒克洛丝|Kroos the Keen Glint|寒芒クルース|크루�
 char_1024_hbisc2|濯尘芙蓉|Hibiscus the Purifier|濯塵ハイビスカス|히비스커스 더 퓨리파이어
 char_1027_greyy2|承曦格雷伊|Greyy the Lightningbearer|承曦グレイ|그레이 더 라이트닝베어러
 char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホーン|레우스S 느와르 코르네
-char_4006_melnte|玫拉|Melanite|メラナイト|
+char_4006_melnte|玫拉|Melanite|メラナイト|멜라나이트
 char_4013_kjera|耶拉|Kjera|イェラ|쉐라
 char_4014_lunacu|子月|Lunacub|ルナカブ|루나컵
 char_4015_spuria|空构|Spuria||
@@ -258,7 +258,7 @@ char_213_mostma|莫斯提马|Mostima|モスティマ|모스티마
 char_222_bpipe|风笛|Bagpipe|バグパイプ|백파이프
 char_225_haak|阿|Aak|ア|아
 char_248_mgllan|麦哲伦|Magallan|マゼラン|마젤란
-char_249_mlyss|缪尔赛思|Muelsyse|ミュルジス|
+char_249_mlyss|缪尔赛思|Muelsyse|ミュルジス|뮤엘시스
 char_250_phatom|傀影|Phantom|ファントム|팬텀
 char_263_skadi|斯卡蒂|Skadi|スカジ|스카디
 char_264_f12yin|山|Mountain|マウンテン|마운틴
@@ -296,7 +296,7 @@ char_1023_ghost2|归溟幽灵鲨|Specter the Unchained|帰溟スペクター|스
 char_1026_gvial2|百炼嘉维尔|Gavial the Invincible|百錬ガヴィル|가비알 디 인빈서블
 char_1028_texas2|缄默德克萨斯|Texas the Omertosa|血掟テキサス|텍사스 디 오메르토사
 char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
-char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|
+char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|사일런스 더 패러디그매틱
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere||
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
 char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
@@ -307,7 +307,7 @@ char_2015_dusk|夕|Dusk|シー|시
 char_2023_ling|令|Ling|リィン|링
 char_2024_chyue|重岳|Chongyue|チョンユエ|총웨
 char_4009_irene|艾丽妮|Irene|アイリーニ|아이린
-char_4027_heyak|霍尔海雅|Ho'olheyak|ホルハイヤ|
+char_4027_heyak|霍尔海雅|Ho'olheyak|ホルハイヤ|오올헤약
 char_4039_horn|号角|Horn|ホルン|혼
 char_4042_lumen|流明|Lumen|ルーメン|루멘
 char_4046_ebnhlz|黑键|Ebenholz|エーベンホルツ|에벤홀츠
@@ -318,4 +318,4 @@ char_4065_judge|斥罪|Penance|ペナンス|페넌스
 char_4072_ironmn|白铁|Stainless|ステインレス|스테인리스
 char_4080_lin|林|Lin|リン|린
 char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
-char_4087_ines|伊内丝|Ines|イネス|
+char_4087_ines|伊内丝|Ines|イネス|이네스
