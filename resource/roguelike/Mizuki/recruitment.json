@@ -644,9 +644,14 @@
                     "recruit_priority": 412
                 },
                 {
-                    "name": "星极",
+                    "name": "薇薇安娜",
                     "skill": 2,
                     "recruit_priority": 411
+                },
+                {
+                    "name": "星极",
+                    "skill": 2,
+                    "recruit_priority": 410
                 },
                 {
                     "name": "泡普卡",
@@ -658,7 +663,8 @@
                     "name": "月见夜",
                     "skill": 1,
                     "recruit_priority": 466,
-                    "is_key": true
+                    "is_key": true,
+                    "is_start": true
                 },
                 {
                     "name": "拉普兰德",
@@ -871,10 +877,27 @@
             "name": "单奶",
             "opers": [
                 {
+                    "name": "纯烬艾雅法拉",
+                    "skill": 1,
+                    "recruit_priority": 742,
+                    "promote_priority": 450,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "蜜莓",
                     "skill": 1,
                     "recruit_priority": 741,
-                    "promote_priority": 0,
+                    "promote_priority": 350,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1063,6 +1086,7 @@
                     "recruit_priority": 635,
                     "promote_priority": 0,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1353,6 +1377,7 @@
                     "recruit_priority": 511,
                     "promote_priority": 0,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1568,6 +1593,11 @@
                     ]
                 },
                 {
+                    "name": "止颂",
+                    "skill": 2,
+                    "auto_retreat": 12
+                },
+                {
                     "name": "玫兰莎",
                     "skill": 1,
                     "recruit_priority": 525,
@@ -1638,6 +1668,32 @@
                     ]
                 },
                 {
+                    "name": "深律",
+                    "skill": 1,
+                    "recruit_priority": 612,
+                    "promote_priority": 490,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 120
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装",
+                                "近卫"
+                            ],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "古米",
                     "skill": 1,
                     "recruit_priority": 626,
@@ -1667,6 +1723,7 @@
                     "recruit_priority": 625,
                     "promote_priority": 0,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1972,6 +2029,7 @@
                     "name": "史都华德",
                     "skill": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 462,
                     "promote_priority": 0
                 },
@@ -2036,6 +2094,7 @@
                     "name": "克洛丝",
                     "skill": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 488,
                     "promote_priority": 0
                 },
@@ -2072,6 +2131,13 @@
                     "promote_priority": 302
                 },
                 {
+                    "name": "塑心",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 405,
+                    "promote_priority": 402
+                },
+                {
                     "name": "巫恋",
                     "skill": 2,
                     "recruit_priority": 462,
@@ -2084,9 +2150,13 @@
                     "promote_priority": 255
                 },
                 {
+                    "name": "跃跃"
+                },
+                {
                     "name": "梓兰",
                     "skill": 1,
                     "is_key": true,
+                    "is_start": true,
                     "recruit_priority": 323,
                     "promote_priority": 0
                 }
@@ -2160,6 +2230,9 @@
                 },
                 {
                     "name": "临光"
+                },
+                {
+                    "name": "深律"
                 },
                 {
                     "name": "吽"
@@ -2264,6 +2337,10 @@
                 },
                 {
                     "name": "洋灰"
+                },
+                {
+                    "name": "赫德雷",
+                    "skill": 1
                 },
                 {
                     "name": "伊内丝"
@@ -2380,6 +2457,9 @@
                 },
                 {
                     "name": "铸铁"
+                },
+                {
+                    "name": "薇薇安娜"
                 },
                 {
                     "name": "星极"
@@ -2809,6 +2889,10 @@
                     "skill": 2
                 },
                 {
+                    "name": "折光",
+                    "skill": 2
+                },
+                {
                     "name": "夜魔"
                 },
                 {
@@ -2816,6 +2900,10 @@
                 },
                 {
                     "name": "麦哲伦"
+                },
+                {
+                    "name": "跃跃",
+                    "skill": 2
                 },
                 {
                     "name": "史都华德"

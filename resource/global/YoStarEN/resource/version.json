@@ -1,10 +1,11 @@
 {
     "activity": {
-        "name": "Reclamation Algorithm - Fire Within the Sand",
-        "time": 1694088000
+        "name": "Lone Trail",
+        "time": 1699376400
     },
     "gacha": {
-        "pool": "Sharpened By Flame",
-        "time": 1694088000
-    }
+        "pool": "Here I Stand",
+        "time": 1699376400
+    },
+    "last_updated": "2023-11-15 09:07:36.150"
 }

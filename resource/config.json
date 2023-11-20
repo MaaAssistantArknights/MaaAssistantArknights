@@ -32,6 +32,7 @@
         "penguinReport": {
             "Doc": "企鹅物流汇报: https://penguin-stats.cn/",
             "url": "https://penguin-stats.io/PenguinStats/api/v2/report",
+            "url_Doc": "企鹅的汇报用的同一个url，就不区分recruit和drop了",
             "timeout": 10000,
             "headers": {
                 "Content-Type": "application/json"
@@ -39,7 +40,8 @@
         },
         "yituliuReport": {
             "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
-            "url": "https://backend.yituliu.site/maa/upload/recruit",
+            "recruitUrl": "https://backend.yituliu.site/maa/upload/recruit",
+            "dropUrl": "https://developer.yituliu.site/stage/drop/upload",
             "timeout": 5000,
             "headers": {
                 "Content-Type": "application/json"
@@ -81,7 +83,7 @@
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
-            "stop": "[Adb] -s [AdbSerial] shell \"PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E '(packageName|Activities)=[^\\n]+arknights' 2>/dev/null | grep -i -o -E '[^= ]*arknights[^ /\\n]*' | head -n 1); if [ -n \\\"$PACKAGE_NAME\\\" ]; then echo \\\"Closing $PACKAGE_NAME\\\"; am force-stop $PACKAGE_NAME; else echo \\\"app not running or arknights package name not found\\\"; fi\"",
+            "stop": "[Adb] -s [AdbSerial] shell \"PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E '(packageName|Activities)=[^\\n]+rknights' 2>/dev/null | grep -i -o -E '[^= ]*rknights[^ /\\n]*' | head -n 1); if [ -n \\\"$PACKAGE_NAME\\\" ]; then echo \\\"Closing $PACKAGE_NAME\\\"; am force-stop $PACKAGE_NAME; else echo \\\"app not running or arknights package name not found\\\"; fi\"",
             "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
             "orientation": "[Adb] -s [AdbSerial] shell dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
@@ -110,7 +112,8 @@
         },
         {
             "configName": "LDPlayer",
-            "baseConfig": "CapWithShell"
+            "baseConfig": "CapWithShell",
+            "screencapRawByNC": "[Adb] -s [AdbSerial] shell \"screencap | busybox nc -w 3 [NcAddress] [NcPort]\""
         },
         {
             "configName": "Nox",
@@ -142,13 +145,13 @@
             "configName": "CompatMac",
             "baseConfig": "Compatible",
             "ncAddress": "[Adb] -s [AdbSerial] shell \"cat /proc/net/arp | grep : | sort\"",
-            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+arknights\" 2>/dev/null | grep -i -o -E \"[^= ]*arknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'",
+            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+rknights\" 2>/dev/null | grep -i -o -E \"[^= ]*rknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'",
             "screencapRawWithGzip": ""
         },
         {
             "configName": "CompatPOSIXShell",
             "baseConfig": "General",
-            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+arknights\" 2>/dev/null | grep -i -o -E \"[^= ]*arknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'"
+            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+rknights\" 2>/dev/null | grep -i -o -E \"[^= ]*rknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'"
         },
         {
             "configName": "GeneralWithoutScreencapErr",

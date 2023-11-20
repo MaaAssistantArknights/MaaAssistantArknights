@@ -142,7 +142,7 @@ bool asst::InfrastProductionTask::shift_facility_list()
                     current_room_config() = m_custom_config.at(m_cur_facility_index);
                 }
                 else {
-                    Log.warn("tab size is lager than config size", m_cur_facility_index, m_custom_config.size());
+                    Log.warn("index out of range:", m_cur_facility_index, m_custom_config.size());
                     break;
                 }
             }
@@ -620,10 +620,8 @@ bool asst::InfrastProductionTask::opers_choose()
         auto cur_all_opers = oper_analyzer.get_result();
         Log.trace("before mood filter, opers size:", cur_all_opers.size());
         // 小于心情阈值的干员则不可用
-        auto remove_iter = ranges::remove_if(cur_all_opers, [&](const infrast::Oper& rhs) -> bool {
-                               return rhs.mood_ratio < m_mood_threshold;
-                           }).begin();
-        cur_all_opers.erase(remove_iter, cur_all_opers.end());
+        std::erase_if(cur_all_opers,
+                      [&](const infrast::Oper& rhs) -> bool { return rhs.mood_ratio < m_mood_threshold; });
         Log.trace("after mood filter, opers size:", cur_all_opers.size());
         for (auto opt_iter = m_optimal_combs.begin(); opt_iter != m_optimal_combs.end();) {
             Log.trace("to find", opt_iter->skills.begin()->names.front());

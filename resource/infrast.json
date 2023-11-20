@@ -1490,6 +1490,18 @@
                 ],
                 "optional": [
                     {
+                        "desc": "莱茵科技·γ",
+                        "efficient": {
+                            "all": 35
+                        },
+                        "filter": [
+                            "淬羽赫默"
+                        ],
+                        "skills": [
+                            "bskill_man_spd3"
+                        ]
+                    },
+                    {
                         "desc": "莱茵科技·β",
                         "efficient": {
                             "all": 30
@@ -1533,6 +1545,18 @@
                     }
                 ],
                 "optional": [
+                    {
+                        "desc": "莱茵科技·γ",
+                        "efficient": {
+                            "all": 35
+                        },
+                        "filter": [
+                            "淬羽赫默"
+                        ],
+                        "skills": [
+                            "bskill_man_spd3"
+                        ]
+                    },
                     {
                         "desc": "莱茵科技·β",
                         "efficient": {

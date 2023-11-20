@@ -7,7 +7,7 @@ namespace asst
     {
     public:
         using AbstractTask::AbstractTask;
-        //SideStoryReopenTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
+        // SideStoryReopenTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain);
         virtual ~SideStoryReopenTask() noexcept override = default;
 
         void set_sidestory_name(std::string sidestory_name);
@@ -15,9 +15,11 @@ namespace asst
         void set_expiring_medicine(int expiring_medicine);
         void set_stone(int stone);
 
-        bool set_enable_penguid(bool enable);
+        bool set_enable_penguin(bool enable);
         bool set_penguin_id(std::string id);
         bool set_server(std::string server);
+
+        bool set_enable_yituliu(bool enable);
 
     private:
         virtual bool _run() override;
@@ -42,9 +44,11 @@ namespace asst
         bool m_sanity_not_enough = false;
         std::unordered_map<std::string, int> m_drop_stats;
         // 企鹅物流上报用
-        bool m_enable_penguid = false;
+        bool m_enable_penguin = false;
         std::string m_penguin_id;
         std::string m_server = "CN";
+        // 一图流上报用
+        bool m_enable_yituliu = false;
     };
 
 }

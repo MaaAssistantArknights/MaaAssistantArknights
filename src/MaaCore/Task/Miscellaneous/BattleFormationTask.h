@@ -1,4 +1,6 @@
 #pragma once
+#include <set>
+
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
 
@@ -34,6 +36,8 @@ namespace asst
         void set_add_trust(bool add_trust);
         // 是否允许使用助战
         void set_use_support(bool use_support);
+        // 设置对指定编队自动编队
+        void set_select_formation(int index);
 
         enum class DataResource
         {
@@ -62,6 +66,7 @@ namespace asst
         bool click_support_role_table();
         bool parse_formation();
         bool on_run_fails();
+        bool select_formation(int select_index);
         bool select_random_support_unit();
         bool select_support_oper();
 
@@ -94,5 +99,6 @@ namespace asst
         size_t m_unselected_cnt = 0;
 
         std::string m_support_unit_name;
+        int m_select_formation_index = 0;
     };
 } // namespace asst
