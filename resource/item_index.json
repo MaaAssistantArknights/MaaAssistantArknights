@@ -887,6 +887,14 @@
         "sortId": 10201,
         "usage": "完成危机合约后得到的报酬。可用于兑换补给品。"
     },
+    "CRISIS_SHOP_COIN_V2": {
+        "classifyType": "NORMAL",
+        "description": "冷酷有效的赏金机制，是危机合约系统正常运作的唯一保证。",
+        "icon": "CRISIS_SHOP_COIN_V2.png",
+        "name": "晶体合约赏金",
+        "sortId": 10202,
+        "usage": "完成危机合约后得到的报酬。可用于兑换补给品。"
+    },
     "EPGS_COIN": {
         "classifyType": "NORMAL",
         "description": "能够考虑到这一点，多少可以证明猎头公司的诚意。需要注意的是，如果试图用这种手段来补充资源，恐怕会得不偿失。",
