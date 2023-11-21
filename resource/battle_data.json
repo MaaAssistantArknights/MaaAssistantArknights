@@ -3638,7 +3638,7 @@
             "name_en": "Jieyun",
             "name_jp": "ジエユン",
             "name_kr": "지에윈",
-            "name_tw": "截云",
+            "name_tw": "截雲",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -6773,7 +6773,7 @@
             "name_en": "Shanhaizhong Cipher Machine",
             "name_jp": "山海密令柱",
             "name_kr": "산해중 송신기",
-            "name_tw": "山海密语仪",
+            "name_tw": "山海密語儀",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6878,7 +6878,7 @@
             "name_en": "Mire Controller",
             "name_jp": "地形ダメージ制御",
             "name_kr": "지형 대미지 제어",
-            "name_tw": "地形增伤控制",
+            "name_tw": "地形增傷控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
