@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
+#include "Config/Roguelike/RoguelikeFoldartalConfig.h"
 
 namespace asst
 {
@@ -17,7 +18,7 @@ namespace asst
 
     private:
         // 遍历配置里的组合
-        bool search_enable_pair(const auto& usage);
+        bool search_enable_pair(std::vector<std::string>& list, const asst::RoguelikeFoldartalCombination& usage);
         // 查询是否有能使用的板子对
         bool board_pair(const std::string& up_board, const std::string& down_board);
         // 使用板子对
@@ -32,6 +33,5 @@ namespace asst
         void slowly_swipe(bool to_down, int swipe_dist = 200);
         // 节点类型
         mutable std::string m_stage;
-        mutable json::array m_all_boards;
     };
 }

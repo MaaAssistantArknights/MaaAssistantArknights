@@ -245,7 +245,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
-        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX)-)?(?:\d{1,2})";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR)-)?(?:\d{1,2})";
 
         /// <summary>
         /// 为自动战斗列表匹配名字
@@ -435,7 +435,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Clipboard.ContainsText())
             {
-                Filename = Clipboard.GetText();
+                Filename = Clipboard.GetText().Trim();
             }
             else if (Clipboard.ContainsFileDropList())
             {

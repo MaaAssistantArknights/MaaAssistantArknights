@@ -951,6 +951,14 @@
         "sortId": 10019,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_3501": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_3501.png",
+        "name": "尋訪數據契約",
+        "sortId": 10019,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1335,6 +1343,14 @@
         "sortId": -10000,
         "usage": "隨手抄下了塔拉歌謠與傳說的紙頁。收集到一定數量，可以向河谷巡迴商隊換取物資。"
     },
+    "act23side_token_spirit": {
+        "classifyType": "NONE",
+        "description": "玉門特產的高純度烈酒。人人好飲，家家會釀。取塞上風沙、長空烈日、胡楊飛絮一同釀入酒，一口入喉，仿佛吞刀飲火，再冷的寒夜也不用怕。",
+        "icon": "act23side_token_spirit.png",
+        "name": "新釀烈刀子",
+        "sortId": -10000,
+        "usage": "帶上一罈新釀的烈酒，去和老鐵匠換一把新開刃的好劍。“血換水，酒換刀，適逢知己，快意恩仇”。"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -1543,6 +1559,46 @@
         "sortId": -10000,
         "usage": "黑曜石節官方發售的門票，用於進入各類特殊關卡。"
     },
+    "itempack_mod_10": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_10.png",
+        "name": "狙擊晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_11": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_11.png",
+        "name": "術士晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_12": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_12.png",
+        "name": "醫療晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_13": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_13.png",
+        "name": "輔助晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_14": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_14.png",
+        "name": "特種晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
     "itempack_mod_4": {
         "classifyType": "NONE",
         "description": "凝結了工程部同事心血的數據塊，內含的數據資訊可以滿足幹員模組的基礎需求。",
@@ -1558,6 +1614,30 @@
         "name": "模組數據整合箱",
         "sortId": -10000,
         "usage": "內含解鎖與升級幹員模組的道具。"
+    },
+    "itempack_mod_7": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_7.png",
+        "name": "先鋒晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_8": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_8.png",
+        "name": "近衛晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_9": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_9.png",
+        "name": "重裝晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",

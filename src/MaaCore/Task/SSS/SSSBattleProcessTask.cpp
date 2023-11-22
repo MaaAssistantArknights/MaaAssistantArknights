@@ -224,5 +224,5 @@ bool asst::SSSBattleProcessTask::check_and_get_drops(const cv::Mat& reusable)
         task_name = inst_string() + "@SSSHalfTimeDropsBegin";
     }
     Log.info("Get drops", drops);
-    return ProcessTask(*this, { task_name }).set_reusable_image(image).run();
+    return ProcessTask(*this, { task_name }).set_reusable_image(image).set_retry_times(3).run();
 }
