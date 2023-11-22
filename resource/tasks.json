@@ -8340,9 +8340,8 @@
     "BattleOperRoleTank": {},
     "BattleOperRoleWarrior": {},
     "BattleOperRoleDrone": {},
-    "BattleOperCostRange": {
-        "algorithm": "Hash",
-        "hash": [],
+    "BattleOperCost": {
+        "template": "empty.png",
         "rectMove": [
             -10,
             12,
