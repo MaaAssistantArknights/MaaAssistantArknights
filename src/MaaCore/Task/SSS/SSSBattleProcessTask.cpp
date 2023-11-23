@@ -104,11 +104,7 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     }
     else {
         replace_count = 4;
-        int pioneer_count = 0; // 先锋数量
-        for ([[maybe_unused]] const auto& _ :
-             opers | views::filter([](const auto& oper) { return oper.role == Role::Pioneer; })) {
-            ++pioneer_count;
-        }
+        int pioneer_count = ranges::count_if(opers, [](const auto& oper) { return oper.role == Role::Pioneer; }); // 先锋数量
         if (pioneer_count < 2) {
             cost_limit = 25; // 先锋低于2个时，降低费用阈值，以试图换出先锋
         }
