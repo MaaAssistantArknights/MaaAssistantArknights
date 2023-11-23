@@ -23,12 +23,22 @@ jobs:
           pr_title="docs: Auto Update Changelogs of "$tag_name
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
 
+          latest=$(git tag -l 'v*' | grep -v '-' | sort -V | tail -n 1) # 当新版本为 stable 版本时，将 latest 参数设置为上一个 stable 版本
+
+          if [[ $tag_name == *-* ]]; then                         # 判断新版本是否为 beta 版本
+            latest=$(git describe --tags --match "v*" --abbrev=0) # 若是，则将 latest 参数设置为当前的最新版本
+          fi
+
+          echo "latest=$latest" >> $GITHUB_OUTPUT
+
+          cat $GITHUB_OUTPUT
+
       - name: Generate Changelog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git switch dev
-          python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}"
+          python3 tools/ChangelogGenerator/changelog_generator.py --tag "${{ steps.extract_tag.outputs.tag_name }}" --latest "${{ steps.extract_tag.outputs.latest }}"
 
       - name: Add files to git
         run: |
