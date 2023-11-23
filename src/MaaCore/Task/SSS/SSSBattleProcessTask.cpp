@@ -86,11 +86,11 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
 {
     LogTraceFunction;
-    if (!ProcessTask(*this, { "SSSFightStart-Preselect-Match" }).set_retry_times(300).run()) {
+    if (!ProcessTask(*this, { "SSSFightStart-PreSelect-Match" }).set_retry_times(300).run()) {
         return false;
     }
     update_deployment();
-    ProcessTask(*this, { "SSSFightStart-Preselect-Clear" }).run();
+    ProcessTask(*this, { "SSSFightStart-PreSelect-Clear" }).run();
 
     auto m_cur_deployment_opers_value = m_cur_deployment_opers | views::values;
     std::vector<DeploymentOper> opers(m_cur_deployment_opers_value.begin(), m_cur_deployment_opers_value.end());
@@ -125,7 +125,7 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
             --replace_limit;
         }
     }
-    return ProcessTask(*this, { "SSSFightStart-Preselect", "SSSFightStart-Preselect-Confirm" }).run() &&
+    return ProcessTask(*this, { "SSSFightStart-PreSelect", "SSSFightStart-PreSelect-Confirm" }).run() &&
            BattleProcessTask::wait_until_start(weak);
 }
 

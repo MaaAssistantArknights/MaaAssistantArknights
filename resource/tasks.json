@@ -9302,7 +9302,7 @@
             "Stop"
         ]
     },
-    "SSSFightStart-Preselect": {
+    "SSSFightStart-PreSelect": {
         "action": "ClickSelf",
         "roi": [
             1052,
@@ -9311,13 +9311,13 @@
             144
         ]
     },
-    "SSSFightStart-Preselect-Match": {
+    "SSSFightStart-PreSelect-Match": {
         "Doc": "等待并匹配图标",
-        "baseTask": "SSSFightStart-Preselect",
+        "baseTask": "SSSFightStart-PreSelect",
         "action": "DoNothing",
-        "template": "SSSFightStart-Preselect.png"
+        "template": "SSSFightStart-PreSelect.png"
     },
-    "SSSFightStart-Preselect-Confirm": {
+    "SSSFightStart-PreSelect-Confirm": {
         "action": "ClickSelf",
         "roi": [
             1052,
@@ -9326,7 +9326,7 @@
             144
         ]
     },
-    "SSSFightStart-Preselect-Clear": {
+    "SSSFightStart-PreSelect-Clear": {
         "Doc": "清除预选",
         "action": "ClickSelf",
         "roi": [
