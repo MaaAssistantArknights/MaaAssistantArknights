@@ -3427,6 +3427,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _useExpiringMedicine, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
+                Instances.TaskQueueViewModel.SetFightParams();
             }
         }
 

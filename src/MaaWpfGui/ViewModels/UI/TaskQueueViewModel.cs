@@ -1160,7 +1160,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Sets parameters.
         /// </summary>
-        private void SetFightParams()
+        public void SetFightParams()
         {
             if (!EnableSetFightParams)
             {
