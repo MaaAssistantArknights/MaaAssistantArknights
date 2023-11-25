@@ -212,13 +212,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_info.name);
+            const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_info.name);
             int priority = 0;
 
             // 查询编队是否已持有该干员
-            const auto& char_opt = chars_map.find(oper_info.name);
-
-            if (char_opt != chars_map.end()) {
+            if (const auto& char_opt = chars_map.find(oper_info.name); char_opt != chars_map.end()) {
                 // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
                     // 预备干员可以重复招募，但是最好不要重复招募预备干员占用编队位置

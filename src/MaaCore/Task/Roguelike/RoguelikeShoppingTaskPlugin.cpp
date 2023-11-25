@@ -52,7 +52,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     std::unordered_map<battle::Role, size_t> map_wait_promotion;
     size_t total_wait_promotion = 0;
     std::unordered_set<std::string> chars_list;
-    for (auto& [name, oper] : m_config->get_oper()) {
+    for (const auto& [name, oper] : m_config->get_oper()) {
         int elite = oper.elite;
         int level = oper.level;
         Log.info(name, elite, level);

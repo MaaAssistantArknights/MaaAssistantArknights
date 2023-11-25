@@ -71,10 +71,6 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         auto opers = m_config->get_oper();
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
             opers[name] = { .elite = 1, .level = 80 };
-            json::object {
-                { "elite", 1 }, { "level", 80 },
-                // 不知道是啥等级随便填一个
-            };
         }
         m_config->set_oper(std::move(opers));
     }
