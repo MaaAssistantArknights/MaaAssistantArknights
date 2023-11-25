@@ -8,15 +8,11 @@ namespace asst
 {
     enum class RoguelikeMode
     {
-        // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
-        Exp = 0,
-        // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
-        Investment = 1,
-        // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
-        // 3 - 尝试通关，激进策略（TODO）
-
-        // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
-        Collectible = 4,
+        Exp = 0,        // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
+        Investment = 1, // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
+                        // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
+                        // 3 - 尝试通关，激进策略（TODO）
+        Collectible = 4, // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
     };
 
     class RoguelikeTheme
@@ -29,15 +25,15 @@ namespace asst
 
     struct RoguelikeOper
     {
-        // 精英化
-        int elite = 0;
-        // 干员等级
-        int level = 0;
+        int elite = 0; // 精英化
+        int level = 0; // 干员等级
     };
 
     class RoguelikeConfig
     {
     public:
+        // 清理缓存的肉鸽数据
+        void clear();
         static constexpr bool is_valid_theme(std::string_view theme)
         {
             return theme == RoguelikeTheme::Phantom || theme == RoguelikeTheme::Mizuki || theme == RoguelikeTheme::Sami;
@@ -49,10 +45,6 @@ namespace asst
         }
 
     public:
-        // 清理缓存的肉鸽数据
-        void clear();
-
-    public:
         void set_theme(std::string theme) { m_theme = std::move(theme); }
         std::string get_theme() { return m_theme; }
         void set_mode(RoguelikeMode mode) { m_mode = mode; }
@@ -62,6 +54,14 @@ namespace asst
         void set_start_with_elite_two(bool start_with_elite_two) { m_start_with_elite_two = start_with_elite_two; }
         bool get_start_with_elite_two() { return m_start_with_elite_two; }
 
+    private:
+        std::string m_theme; // 肉鸽主题
+        RoguelikeMode m_mode = RoguelikeMode::Exp;
+        int m_difficulty = 0;
+        bool m_start_with_elite_two = false;
+
+        /* 以下为每次重置 */
+    public:
         void set_recruitment_count(int count) { m_recruitment_count = count; }
         int get_recruitment_count() { return m_recruitment_count; }
         void set_recruitment_starts_complete(bool complete) { m_recruitment_starts_complete = complete; }
@@ -80,36 +80,22 @@ namespace asst
         bool get_use_nonfriend_support() { return m_use_nonfriend_support; }
         void set_oper(std::unordered_map<std::string, RoguelikeOper> oper) { m_oper = std::move(oper); }
         const std::unordered_map<std::string, RoguelikeOper>& get_oper() { return m_oper; }
-
         void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
         const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
         void set_foldartal(std::vector<std::string> foldartal) { m_foldartal = std::move(foldartal); }
         const std::vector<std::string>& get_foldartal() { return m_foldartal; }
 
-    protected:
-        // 肉鸽主题
-        std::string m_theme;
-        RoguelikeMode m_mode = RoguelikeMode::Exp;
-        int m_difficulty = 0;
-        bool m_start_with_elite_two = false;
-
-        /* 每次重置 */
-        // 肉鸽招募次数
-        int m_recruitment_count = 0;
-        // 开局干员是否已经招募
-        bool m_recruitment_starts_complete = false;
-        // 阵容是否完备
-        bool m_recruitment_team_complete = false;
+    private:
+        int m_recruitment_count = 0;                // 肉鸽招募次数
+        bool m_recruitment_starts_complete = false; // 开局干员是否已经招募
+        bool m_recruitment_team_complete = false;   // 阵容是否完备
         bool m_trader_no_longer_buy = false;
         std::string m_core_char;
         bool m_team_full_without_rookie = false;
         bool m_use_support = false;
         bool m_use_nonfriend_support = false;
-        std::unordered_map<std::string, RoguelikeOper> m_oper;
-
-        /* 密文板 */
-        // 当前层的预见密文板，在下一层获得
-        std::optional<std::string> m_foldartal_floor;
-        std::vector<std::string> m_foldartal;
+        std::unordered_map<std::string, RoguelikeOper> m_oper; // 干员精英&等级
+        std::optional<std::string> m_foldartal_floor;          // 当前层的预见密文板，在下一层获得
+        std::vector<std::string> m_foldartal;                  // 所有密文板
     };
 } // namespace asst
