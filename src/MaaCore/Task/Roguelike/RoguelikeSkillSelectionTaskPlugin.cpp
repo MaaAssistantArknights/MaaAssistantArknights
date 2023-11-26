@@ -13,7 +13,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -67,15 +67,13 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         }
     }
 
-    if (!status()->get_str(Status::RoguelikeCharOverview)) {
-        json::value overview;
+    if (m_config->get_oper().empty()) {
+        std::unordered_map<std::string, RoguelikeOper> opers;
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
-            overview[name] = json::object {
-                { "elite", 1 }, { "level", 80 },
-                // 不知道是啥等级随便填一个
-            };
+            opers[name] = { .elite = 1, .level = 80 };
+            // 不知道是啥等级随便填一个
         }
-        status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
+        m_config->set_oper(std::move(opers));
     }
 
     if (analyzer.get_team_full() && !has_rookie) {
