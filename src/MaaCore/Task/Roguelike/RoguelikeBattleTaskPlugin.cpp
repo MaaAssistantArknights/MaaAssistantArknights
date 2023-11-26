@@ -35,7 +35,7 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -250,8 +250,9 @@ asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(co
 
 void asst::RoguelikeBattleTaskPlugin::cache_oper_elite_status()
 {
+    const auto& oper_list = m_config->get_oper();
     for (const std::string& name : m_cur_deployment_opers | views::keys) {
-        m_oper_elite.emplace(name, status()->get_number(Status::RoguelikeCharElitePrefix + name).value_or(0));
+        m_oper_elite.emplace(name, oper_list.contains(name) ? oper_list.at(name).elite : 0);
     }
 }
 
@@ -394,8 +395,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
             // 获取技能用法和使用次数
-            const auto& oper_info =
-                RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
+            const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
             m_skill_usage[deploy_plan.oper_name] = oper_info.skill_usage;
             m_skill_times[deploy_plan.oper_name] = oper_info.skill_times;
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);

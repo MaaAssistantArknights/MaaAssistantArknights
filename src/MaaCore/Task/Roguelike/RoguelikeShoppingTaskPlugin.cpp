@@ -16,7 +16,7 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -48,16 +48,13 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     bool no_longer_buy = m_config->get_trader_no_longer_buy();
 
-    std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
-    json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
-
     std::unordered_map<battle::Role, size_t> map_roles_count;
     std::unordered_map<battle::Role, size_t> map_wait_promotion;
     size_t total_wait_promotion = 0;
     std::unordered_set<std::string> chars_list;
-    for (auto& [name, json_info] : json_chars_info.as_object()) {
-        int elite = static_cast<int>(json_info.get("elite", 0));
-        int level = static_cast<int>(json_info.get("level", 0));
+    for (const auto& [name, oper] : m_config->get_oper()) {
+        int elite = oper.elite;
+        int level = oper.level;
         Log.info(name, elite, level);
 
         // 等级太低的干员没必要为他专门买收藏品什么的

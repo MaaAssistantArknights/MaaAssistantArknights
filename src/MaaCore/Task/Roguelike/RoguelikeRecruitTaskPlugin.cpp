@@ -21,7 +21,7 @@ bool asst::RoguelikeRecruitTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -66,8 +66,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     bool team_complete = m_config->get_recruitment_team_complete();
 
     // 是否使用助战干员开局
-    bool use_support = get_status_bool(Status::RoguelikeUseSupport);
-    if (use_support) {
+    if (m_config->get_use_support()) {
         if (recruit_support_char()) {
             start_complete = true;
             return true;
@@ -84,24 +83,22 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     // Log.info("team_full_without_rookie", team_full_without_rookie);
 
     // 编队信息 (已有角色)
-    std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
-    json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
-    const auto& chars_map = json_chars_info.as_object();
+    const auto& chars_map = m_config->get_oper();
 
     // __________________will-be-removed-begin__________________
     std::unordered_map<battle::Role, int> team_roles;
     int offset_melee_num = 0;
-    for (const auto& oper : chars_map) {
-        if (oper.first.starts_with("预备干员")) continue;
-        team_roles[battle::get_role_type(oper.first)]++;
-        if (is_oper_melee(oper.first)) offset_melee_num++;
+    for (const auto& [name, oper] : chars_map) {
+        if (name.starts_with("预备干员")) continue;
+        team_roles[battle::get_role_type(name)]++;
+        if (is_oper_melee(name)) offset_melee_num++;
     }
     // __________________will-be-removed-end__________________
 
     std::unordered_map<std::string, int> group_count;
     const auto& group_list = RoguelikeRecruit.get_group_info(m_config->get_theme());
-    for (const auto& oper : chars_map) {
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), oper.first);
+    for (const auto& [name, oper] : chars_map) {
+        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), name);
         for (const auto& group_id : group_ids) {
             const std::string& group_name = group_list[group_id];
             group_count[group_name]++;
@@ -215,13 +212,11 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
             }
 
             // 查询招募配置
-            auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_info.name);
+            const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_info.name);
             int priority = 0;
 
             // 查询编队是否已持有该干员
-            const auto& char_opt = chars_map.find(oper_info.name);
-
-            if (char_opt.has_value()) {
+            if (const auto& char_opt = chars_map.find(oper_info.name); char_opt != chars_map.end()) {
                 // 干员已在编队中，又出现在招募列表，只有待晋升和预备干员两种情况
                 if (recruit_info.is_alternate) {
                     // 预备干员可以重复招募，但是最好不要重复招募预备干员占用编队位置
@@ -547,7 +542,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
             if (analyzer_char.analyze()) {
                 auto& chars_page = analyzer_char.get_result_char();
 
-                bool use_nonfriend_support = get_status_bool(Status::RoguelikeUseNonfriendSupport);
+                bool use_nonfriend_support = m_config->get_use_nonfriend_support();
                 auto check_satisfy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
@@ -609,21 +604,9 @@ void asst::RoguelikeRecruitTaskPlugin::select_oper(const battle::roguelike::Recr
 
     ctrler()->click(oper.rect);
 
-    status()->set_number(Status::RoguelikeCharElitePrefix + oper.name, oper.elite);
-    status()->set_number(Status::RoguelikeCharLevelPrefix + oper.name, oper.level);
-
-    std::string overview_str = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
-    json::value overview = json::parse(overview_str).value_or(json::value());
-    overview[oper.name] = json::object {
-        { "elite", oper.elite },
-        { "level", oper.level },
-    };
-    status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
-}
-
-bool asst::RoguelikeRecruitTaskPlugin::get_status_bool(const std::string& key)
-{
-    return status()->get_str(key).value_or("") == "1";
+    auto opers = m_config->get_oper();
+    opers[oper.name] = { .elite = oper.elite, .level = oper.level };
+    m_config->set_oper(std::move(opers));
 }
 
 void asst::RoguelikeRecruitTaskPlugin::swipe_to_the_left_of_operlist(int loop_times)

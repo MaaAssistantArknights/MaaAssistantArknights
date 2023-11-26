@@ -9,7 +9,7 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -29,11 +29,6 @@ bool asst::RoguelikeResetTaskPlugin::verify(AsstMsg msg, const json::value& deta
 
 bool asst::RoguelikeResetTaskPlugin::_run()
 {
-    // 迁移完RoguelikeConfig后，这里可以去掉
-    // 简单粗暴，后面如果多任务间有联动可能要改改
-    status()->clear_number();
-    status()->clear_str();
-
     m_config->clear();
     return true;
 }
