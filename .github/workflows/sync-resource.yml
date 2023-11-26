@@ -41,3 +41,6 @@ jobs:
           git status
           git commit -m "$commit_msg" || exit 0
           git push
+      - name: Setup resource update
+        run: |
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
