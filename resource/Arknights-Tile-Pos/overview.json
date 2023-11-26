@@ -9800,6 +9800,69 @@
         "stageId": "level_act38rune_01-04",
         "width": 11
     },
+    "level_crisis_v2_01-01-obt/crisis/v2/level_crisis_v2_01-01": {
+        "code": "level_crisis_v2_01-01",
+        "filename": "level_crisis_v2_01-01-obt-crisis-v2-level_crisis_v2_01-01.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-01",
+        "name": "level_crisis_v2_01-01",
+        "stageId": "level_crisis_v2_01-01",
+        "width": 12
+    },
+    "level_crisis_v2_01-02-obt/crisis/v2/level_crisis_v2_01-02": {
+        "code": "level_crisis_v2_01-02",
+        "filename": "level_crisis_v2_01-02-obt-crisis-v2-level_crisis_v2_01-02.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-02",
+        "name": "level_crisis_v2_01-02",
+        "stageId": "level_crisis_v2_01-02",
+        "width": 12
+    },
+    "level_crisis_v2_01-03-obt/crisis/v2/level_crisis_v2_01-03": {
+        "code": "level_crisis_v2_01-03",
+        "filename": "level_crisis_v2_01-03-obt-crisis-v2-level_crisis_v2_01-03.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-03",
+        "name": "level_crisis_v2_01-03",
+        "stageId": "level_crisis_v2_01-03",
+        "width": 14
+    },
+    "level_crisis_v2_01-04-obt/crisis/v2/level_crisis_v2_01-04": {
+        "code": "level_crisis_v2_01-04",
+        "filename": "level_crisis_v2_01-04-obt-crisis-v2-level_crisis_v2_01-04.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-04",
+        "name": "level_crisis_v2_01-04",
+        "stageId": "level_crisis_v2_01-04",
+        "width": 12
+    },
+    "level_crisis_v2_01-05-obt/crisis/v2/level_crisis_v2_01-05": {
+        "code": "level_crisis_v2_01-05",
+        "filename": "level_crisis_v2_01-05-obt-crisis-v2-level_crisis_v2_01-05.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-05",
+        "name": "level_crisis_v2_01-05",
+        "stageId": "level_crisis_v2_01-05",
+        "width": 12
+    },
+    "level_crisis_v2_01-06-obt/crisis/v2/level_crisis_v2_01-06": {
+        "code": "level_crisis_v2_01-06",
+        "filename": "level_crisis_v2_01-06-obt-crisis-v2-level_crisis_v2_01-06.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-06",
+        "name": "level_crisis_v2_01-06",
+        "stageId": "level_crisis_v2_01-06",
+        "width": 12
+    },
+    "level_crisis_v2_01-07-obt/crisis/v2/level_crisis_v2_01-07": {
+        "code": "level_crisis_v2_01-07",
+        "filename": "level_crisis_v2_01-07-obt-crisis-v2-level_crisis_v2_01-07.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-07",
+        "name": "level_crisis_v2_01-07",
+        "stageId": "level_crisis_v2_01-07",
+        "width": 11
+    },
     "level_rune_01-01-obt/rune/level_rune_01-01": {
         "code": "level_rune_01-01",
         "filename": "level_rune_01-01-obt-rune-level_rune_01-01.json",
