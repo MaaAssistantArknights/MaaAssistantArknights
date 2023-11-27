@@ -1,0 +1,29 @@
+name: PR Checker
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  no_merge_commit_in_pr:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check Commits
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: commits } = await github.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            
+            const regex = /^Merge/;
+            const invalidCommits = commits.filter(commit => regex.test(commit.commit.message));
+            
+            if (invalidCommits.length > 0) {
+              const invalidCommitNames = invalidCommits.map(commit => commit.commit.message);
+              core.setFailed(`Invalid commit names found: ${invalidCommitNames.join(", ")}`);
+            }
