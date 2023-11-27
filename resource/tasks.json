@@ -3751,7 +3751,8 @@
         "algorithm": "JustReturn",
         "next": [
             "ReturnButton",
-            "FromStageSN"
+            "FromStageSN",
+            "FromAnnihilation"
         ]
     },
     "ReturnButton": {
@@ -3795,6 +3796,25 @@
             20,
             135,
             35
+        ],
+        "next": [
+            "ReturnButton"
+        ]
+    },
+    "FromAnnihilation": {
+        "template": "AnnihilationReturnFlag.png",
+        "action": "ClickRect",
+        "roi": [
+            100,
+            20,
+            400,
+            250
+        ],
+        "specificRect": [
+            0,
+            0,
+            90,
+            720
         ],
         "next": [
             "ReturnButton"
