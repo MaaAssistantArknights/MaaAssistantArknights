@@ -92,10 +92,6 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     update_deployment();
     ProcessTask(*this, { "SSSFightStart-PreSelect-Clear" }).run();
 
-    auto m_cur_deployment_opers_value = m_cur_deployment_opers;
-    std::vector<DeploymentOper> opers(m_cur_deployment_opers_value.begin(), m_cur_deployment_opers_value.end());
-    ranges::sort(opers, [](const DeploymentOper& a, const DeploymentOper& b) { return a.cost > b.cost; });
-
     int replace_count;     // 替换干员数量，装置不计数
     int replace_limit = 4; // 替换数量限制，最多替换4个
     int cost_limit = 29;   // 费用阈值，低于该费用的干员不替换
@@ -104,11 +100,13 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     }
     else {
         replace_count = 4;
-        if (ranges::count_if(opers, [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */ < 2) {
+        if (ranges::count_if(m_cur_deployment_opers,
+                             [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */
+            < 2) {
             cost_limit = 25; // 先锋低于2个时，降低费用阈值，以试图换出先锋
         }
     }
-    for (const auto& oper : opers) {
+    for (const auto& oper : m_cur_deployment_opers | views::reverse) {
         if (replace_limit <= 0 || oper.cost < cost_limit) {
             break;
         }
