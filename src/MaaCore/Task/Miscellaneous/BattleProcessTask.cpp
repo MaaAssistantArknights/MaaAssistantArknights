@@ -94,7 +94,7 @@ bool asst::BattleProcessTask::to_group()
     }
 
     std::unordered_set<std::string> char_set;
-    for (const auto& oper : m_cur_deployment_opers | views::values) {
+    for (const auto& oper : m_cur_deployment_opers) {
         char_set.emplace(oper.name);
     }
 
@@ -323,8 +323,8 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             if (!update_deployment(false, image)) {
                 return false;
             }
-            size_t cooling_count = ranges::count_if(m_cur_deployment_opers | views::values,
-                                                    [](const auto& oper) -> bool { return oper.cooling; });
+            size_t cooling_count =
+                ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
             if (cooling_count == static_cast<size_t>(action.cooling)) {
                 break;
             }
@@ -342,9 +342,10 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
             }
             else if (!update_deployment(false, image)) {
                 return false;
-            }
-            if (auto iter = m_cur_deployment_opers.find(name);
-                iter != m_cur_deployment_opers.cend() && iter->second.available) {
+            };
+            if (auto iter =
+                    ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
+                iter != m_cur_deployment_opers.end() && iter->available) {
                 break;
             }
             do_strategy_and_update_image();
