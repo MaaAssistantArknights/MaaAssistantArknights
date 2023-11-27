@@ -106,6 +106,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
     m_cur_deployment_opers.clear();
 
+    // 从场上干员和已占用格子中移除冷却中的干员
     auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
         if (!oper.cooling) {
             return;
@@ -151,13 +152,13 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         }
         if (avatar_analyzer.analyze()) {
             set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
-            m_cur_deployment_opers.insert_or_assign(oper.name, oper);
             remove_cooling_from_battlefield(oper);
         }
         else {
             Log.info("unknown oper", oper.index);
             unknown_opers.emplace_back(oper);
         }
+        m_cur_deployment_opers.emplace_back(oper);
 
         if (oper.cooling) {
             Log.trace("stop matching cooling", oper.index);
@@ -222,7 +223,11 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             set_oper_name(oper, name);
             remove_cooling_from_battlefield(oper);
 
-            m_cur_deployment_opers.insert_or_assign(name, oper);
+            auto oper_it = ranges::find_if(m_cur_deployment_opers,
+                                           [&](const auto& oper_in_list) { return oper_in_list.index == oper.index; });
+            if (oper_it != m_cur_deployment_opers.end()) {
+                *oper_it = oper;
+            }
             AvatarCache.set_avatar(name, oper.role, oper.avatar);
         }
         pause();
@@ -756,11 +761,11 @@ std::optional<asst::Rect> asst::BattleHelper::get_oper_rect_on_deployment(const 
 {
     LogTraceFunction;
 
-    auto oper_iter = m_cur_deployment_opers.find(name);
-    if (oper_iter == m_cur_deployment_opers.cend()) {
+    auto oper_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
+    if (oper_iter == m_cur_deployment_opers.end()) {
         Log.error("No oper", name);
         return std::nullopt;
     }
 
-    return oper_iter->second.rect;
+    return oper_iter->rect;
 }
