@@ -2,83 +2,156 @@
 
 #include "AbstractConfigWithTempl.h"
 
+#include <memory>
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 
 #include "Common/AsstTypes.h"
-#include "TaskData/TaskDataSymbol.h"
 
 namespace asst
 {
+    struct TaskInfo;
+
     class TaskData final : public SingletonHolder<TaskData>, public AbstractConfigWithTempl
     {
     private:
-        static MatchTaskConstPtr _default_match_task_info();
-        static OcrTaskConstPtr _default_ocr_task_info();
-        static HashTaskConstPtr _default_hash_task_info();
-        static TaskConstPtr _default_task_info();
+        using tasklist_t = std::vector<std::string>;
+        using tasklistptr_t = std::shared_ptr<tasklist_t>;
+        using taskptr_t = std::shared_ptr<TaskInfo>;
+
+        std::shared_ptr<MatchTaskInfo> _default_match_task_info();
+        std::shared_ptr<OcrTaskInfo> _default_ocr_task_info();
+        std::shared_ptr<HashTaskInfo> _default_hash_task_info();
+        taskptr_t _default_task_info();
 
         // 从模板任务生成
-        static inline const MatchTaskConstPtr default_match_task_info_ptr = _default_match_task_info();
-        static inline const OcrTaskConstPtr default_ocr_task_info_ptr = _default_ocr_task_info();
-        static inline const HashTaskConstPtr default_hash_task_info_ptr = _default_hash_task_info();
-        static inline const TaskConstPtr default_task_info_ptr = _default_task_info();
+        const std::shared_ptr<MatchTaskInfo> default_match_task_info_ptr = _default_match_task_info();
+        const std::shared_ptr<OcrTaskInfo> default_ocr_task_info_ptr = _default_ocr_task_info();
+        const std::shared_ptr<HashTaskInfo> default_hash_task_info_ptr = _default_hash_task_info();
+        const taskptr_t default_task_info_ptr = _default_task_info();
 
-        static std::string append_prefix(std::string_view task_name, std::string_view task_prefix);
-        static TaskList append_prefix(const TaskList& base_task_list, std::string_view task_prefix);
+        // 这是下面几个函数的封装
+        taskptr_t generate_task_info(std::string_view name, const json::value&, taskptr_t default_ptr,
+                                     std::string_view task_prefix = "");
 
+        taskptr_t generate_match_task_info(std::string_view name, const json::value&,
+                                           std::shared_ptr<MatchTaskInfo> default_ptr);
+        taskptr_t generate_ocr_task_info(std::string_view name, const json::value&,
+                                         std::shared_ptr<OcrTaskInfo> default_ptr);
+        taskptr_t generate_hash_task_info(std::string_view name, const json::value&,
+                                          std::shared_ptr<HashTaskInfo> default_ptr);
+        // TaskInfo 的基础成员
+        bool append_base_task_info(taskptr_t task_info_ptr, std::string_view name, const json::value& task_json,
+                                   taskptr_t default_ptr, std::string_view task_prefix = "");
+        static std::string append_prefix(std::string_view task_name, std::string_view task_prefix)
+        {
+            if (task_prefix.ends_with('@')) [[unlikely]] {
+                task_prefix.remove_suffix(1);
+            }
+            if (task_prefix.empty()) [[unlikely]] {
+                return std::string(task_name);
+            }
+            if (task_name.empty()) {
+                return std::string(task_prefix);
+            }
+            if (task_name.starts_with('#')) {
+                return std::string(task_prefix) + std::string(task_name);
+            }
+            return std::string(task_prefix) + '@' + std::string(task_name);
+        }
+        static tasklist_t append_prefix(const tasklist_t& base_task_list, std::string_view task_prefix)
+        {
+            if (task_prefix.ends_with('@')) [[unlikely]] {
+                task_prefix.remove_suffix(1);
+            }
+            if (task_prefix.empty()) {
+                return base_task_list;
+            }
+            tasklist_t task_list = {};
+            for (const std::string& base : base_task_list) {
+                std::string_view base_view = base;
+                size_t l = 0;
+                bool has_same_prefix = false;
+                // base 任务里已经存在相同前缀，则不加前缀
+                // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/2116#issuecomment-1270115238
+                for (size_t r = base_view.find('@'); r != std::string_view::npos; r = base_view.find('@', l)) {
+                    if (task_prefix == base_view.substr(l, r - l)) [[unlikely]] {
+                        has_same_prefix = true;
+                        break;
+                    }
+                    l = r + 1;
+                }
+                task_list.emplace_back(has_same_prefix ? base : append_prefix(base_view, task_prefix));
+            }
+            return task_list;
+        };
+
+        // 运行时动态生成任务
+        static taskptr_t _generate_task_info(const taskptr_t& base_ptr)
+        {
+            if (!base_ptr) [[unlikely]] {
+                return nullptr;
+            }
+            switch (base_ptr->algorithm) {
+            case AlgorithmType::MatchTemplate:
+                return std::make_shared<MatchTaskInfo>(*std::dynamic_pointer_cast<MatchTaskInfo>(base_ptr));
+            case AlgorithmType::OcrDetect:
+                return std::make_shared<OcrTaskInfo>(*std::dynamic_pointer_cast<OcrTaskInfo>(base_ptr));
+            case AlgorithmType::Hash:
+                return std::make_shared<HashTaskInfo>(*std::dynamic_pointer_cast<HashTaskInfo>(base_ptr));
+            default:
+                return std::make_shared<TaskInfo>(*base_ptr);
+            }
+        }
+        static taskptr_t _generate_task_info(const taskptr_t& base_ptr, std::string_view task_prefix)
+        {
+            taskptr_t task_info_ptr = _generate_task_info(base_ptr);
+            if (!task_prefix.empty()) {
+                task_info_ptr->name = append_prefix(base_ptr->name, task_prefix);
+                task_info_ptr->sub = append_prefix(base_ptr->sub, task_prefix);
+                task_info_ptr->next = append_prefix(base_ptr->next, task_prefix);
+                task_info_ptr->exceeded_next = append_prefix(base_ptr->exceeded_next, task_prefix);
+                task_info_ptr->on_error_next = append_prefix(base_ptr->on_error_next, task_prefix);
+                task_info_ptr->reduce_other_times = append_prefix(base_ptr->reduce_other_times, task_prefix);
+            }
+            return task_info_ptr;
+        }
         template <ranges::forward_range ListType>
         requires(!std::same_as<ranges::range_value_t<ListType>, std::string> &&
                  requires { std::declval<ranges::range_value_t<ListType>>().as_string(); })
-        static TaskList to_string_list(const ListType& other_string_list)
+        static tasklist_t to_string_list(const ListType& other_string_list)
         {
-            TaskList task_list = {};
+            tasklist_t task_list = {};
             task_list.reserve(other_string_list.size());
             ranges::copy(other_string_list | views::transform(&ranges::range_value_t<ListType>::as_string),
                          std::back_inserter(task_list));
             return task_list;
         }
 
-        static inline std::unordered_set<std::string> m_task_names {};
-        static const std::string& task_name_view(std::string_view name) { return *m_task_names.emplace(name).first; }
-
-        struct RawCompileResult
-        {
-            bool task_changed;
-            TaskDataSymbol::Symbols symbols;
-        };
-        static ResultOrError<RawCompileResult> compile_raw_tasklist(
-            const TaskList& raw_tasks, std::string_view self_name,
-            std::function<TaskDerivedConstPtr(std::string_view)> get_raw, bool allow_duplicate);
-
-    private:
-        TaskPtr generate_task_info(std::string_view name);
-        TaskPtr generate_match_task_info(std::string_view name, const json::value&, MatchTaskConstPtr default_ptr,
-                                         TaskDerivedType derived_type);
-        TaskPtr generate_ocr_task_info(std::string_view name, const json::value&, OcrTaskConstPtr default_ptr);
-        TaskPtr generate_hash_task_info(std::string_view name, const json::value&, HashTaskConstPtr default_ptr);
-        decltype(auto) insert_or_assign_raw_task(std::string_view task_name, TaskDerivedPtr task_info_ptr)
+        std::string_view task_name_view(std::string_view task_name) { return *m_task_names.emplace(task_name).first; }
+        decltype(auto) insert_or_assign_raw_task(std::string_view task_name, taskptr_t task_info_ptr)
         {
             return m_raw_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
-        decltype(auto) insert_or_assign_task(std::string_view task_name, TaskPtr task_info_ptr)
+        decltype(auto) insert_or_assign_task(std::string_view task_name, taskptr_t task_info_ptr)
         {
             return m_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);
         }
-        struct CompileResult
-        {
-            bool task_changed;
-            TaskList tasks;
-        };
-        ResultOrError<CompileResult> compile_tasklist(const TaskList& raw_tasks, std::string_view self_name,
-                                                      bool allow_duplicate);
-        bool generate_raw_task_info(std::string_view name, std::string_view prefix, std::string_view base_name,
-                                    const json::value& task_json, TaskDerivedType type);
-        bool generate_raw_task_and_base(std::string_view name, bool must_true);
+        bool compile_tasklist(tasklist_t& new_tasks, const tasklist_t& raw_tasks, std::string_view name,
+                              bool& task_changed, bool multi);
+        bool generate_task_and_its_base(std::string_view name, bool must_true);
 #ifdef ASST_DEBUG
         bool syntax_check(std::string_view task_name, const json::value& task_json);
 #endif
-        TaskDerivedConstPtr get_raw(std::string_view name);
+        taskptr_t get_raw(std::string_view name);
+        template <typename TargetTaskInfoType>
+        requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
+                 !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
+        std::shared_ptr<TargetTaskInfoType> get_raw(std::string_view name)
+        {
+            return std::dynamic_pointer_cast<TargetTaskInfoType>(get_raw(name));
+        }
 
     public:
         virtual ~TaskData() override = default;
@@ -87,14 +160,20 @@ namespace asst
         void set_task_base(const std::string_view task_name, std::string base_task_name);
         bool lazy_parse(const json::value& json);
 
-        TaskPtr get(std::string_view name);
+        taskptr_t get(std::string_view name);
         template <typename TargetTaskInfoType>
         requires(std::derived_from<TargetTaskInfoType, TaskInfo> &&
                  !std::same_as<TargetTaskInfoType, TaskInfo>) // Parameter must be a TaskInfo
         std::shared_ptr<TargetTaskInfoType> get(std::string_view name)
         {
-            // TODO: should be const
             return std::dynamic_pointer_cast<TargetTaskInfoType>(get(name));
+        }
+        std::optional<json::object> get_json(std::string_view name) const
+        {
+            if (m_json_all_tasks_info.find(name) != m_json_all_tasks_info.cend())
+                return m_json_all_tasks_info.at(name);
+            else
+                return std::nullopt;
         }
 
     protected:
@@ -108,11 +187,12 @@ namespace asst
 
         virtual bool parse(const json::value& json) override;
 
+        std::unordered_set<std::string> m_task_names;
         std::unordered_set<std::string> m_templ_required;
         std::unordered_map<std::string_view, TaskStatus> m_task_status;
-        std::unordered_map<std::string_view, json::object> m_json_all_tasks_info;  // 原始的 json 信息
-        std::unordered_map<std::string_view, TaskDerivedPtr> m_raw_all_tasks_info; // 未展开虚任务的任务信息
-        std::unordered_map<std::string_view, TaskPtr> m_all_tasks_info;            // 已展开虚任务的任务信息
+        std::unordered_map<std::string_view, json::object> m_json_all_tasks_info; // 原始的 json 信息
+        std::unordered_map<std::string_view, taskptr_t> m_raw_all_tasks_info;     // 未展开虚任务的任务信息
+        std::unordered_map<std::string_view, taskptr_t> m_all_tasks_info;         // 已展开虚任务的任务信息
     };
 
     inline static auto& Task = TaskData::get_instance();

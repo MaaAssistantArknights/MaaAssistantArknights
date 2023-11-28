@@ -9,8 +9,6 @@
 
 #include "Common/AsstTypes.h"
 #include "GeneralConfig.h"
-#include "TaskData/TaskDataSymbolStream.h"
-#include "TaskData/TaskDataTypes.h"
 #include "TemplResource.h"
 #include "Utils/JsonMisc.hpp"
 #include "Utils/Logger.hpp"
@@ -21,9 +19,9 @@ const std::unordered_set<std::string>& asst::TaskData::get_templ_required() cons
 {
     return m_templ_required;
 }
-asst::TaskDerivedConstPtr asst::TaskData::get_raw(std::string_view name)
+asst::TaskData::taskptr_t asst::TaskData::get_raw(std::string_view name)
 {
-    if (!generate_raw_task_and_base(name, true)) [[unlikely]] {
+    if (!generate_task_and_its_base(name, true)) [[unlikely]] {
         return nullptr;
     }
 
@@ -37,27 +35,32 @@ asst::TaskDerivedConstPtr asst::TaskData::get_raw(std::string_view name)
         return nullptr;
     }
 
+    // 隐式 TemplateTask
+    if (auto base_task_iter = get_raw(name.substr(name_len + 1))) {
+        return _generate_task_info(base_task_iter, name.substr(0, name_len));
+    }
+
     return nullptr;
 }
 
-asst::TaskPtr asst::TaskData::get(std::string_view name)
+asst::TaskData::taskptr_t asst::TaskData::get(std::string_view name)
 {
     // 普通任务 或 已经生成过的高级任务
-    if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) {
+    if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) [[likely]] {
         return it->second;
     }
 
-    auto task = generate_task_info(name);
+    auto raw_task = get_raw(name);
+    auto task = _generate_task_info(raw_task);
     if (!task) [[unlikely]] {
         return nullptr;
     }
-#define ASST_TASKDATA_GET_IF_BRANCH(list, m)                                                     \
-    if (auto opt = compile_tasklist(task->list, name, m); !opt) [[unlikely]] {                   \
-        Log.error("Generate task_list", std::string(name) + "->" #list, "failed.", opt.error()); \
-        return nullptr;                                                                          \
-    }                                                                                            \
-    else {                                                                                       \
-        task->list = std::move(opt.value().tasks);                                               \
+    bool changed = false; // 任务列表是否发生变化（是否包含虚任务）
+#define ASST_TASKDATA_GET_IF_BRANCH(list, m)                                            \
+    task->list.clear();                                                                 \
+    if (!compile_tasklist(task->list, raw_task->list, name, changed, m)) [[unlikely]] { \
+        Log.error("Generate task_list", std::string(name) + "->" #list, "failed.");     \
+        return nullptr;                                                                 \
     }
     // 展开五个任务列表中的虚任务
     ASST_TASKDATA_GET_IF_BRANCH(next, false);
@@ -70,12 +73,12 @@ asst::TaskPtr asst::TaskData::get(std::string_view name)
     constexpr size_t MAX_TASKS_SIZE = 65535;
     if (m_all_tasks_info.size() < MAX_TASKS_SIZE) [[likely]] {
         // 保存最终生成的任务，下次查询时可以直接返回
-        return insert_or_assign_task(name, task).first->second;
+        return insert_or_assign_task(name, changed ? task : raw_task).first->second;
     }
     else {
         // 个数超过上限时不保存，直接返回，防止内存占用过大
         Log.warn("Task count has exceeded the upper limit:", MAX_TASKS_SIZE, "current task:", name);
-        return task;
+        return changed ? task : raw_task;
     }
 }
 
@@ -141,7 +144,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                 validity = false;
                 continue;
             }
-            auto check_tasklist = [&](const TaskList& task_list, std::string_view list_type,
+            auto check_tasklist = [&](const tasklist_t& task_list, std::string_view list_type,
                                       bool enable_justreturn_check = false) {
                 std::unordered_set<std::string_view> tasks_set {};
                 std::string justreturn_task_name = "";
@@ -157,7 +160,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
                         validity = false;
                     }
 
-                    if (auto ptr = get(task_name); ptr == nullptr) [[unlikely]] {
+                    if (auto ptr = get_raw(task_name); ptr == nullptr) [[unlikely]] {
                         Log.error(task_name, "in", (std::string(name) += "->") += list_type, "is null");
                         validity = false;
                         continue;
@@ -209,7 +212,7 @@ bool asst::TaskData::parse(const json::value& json)
 
     // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
     for (std::string_view name : m_json_all_tasks_info | views::keys) {
-        generate_task_info(name);
+        generate_task_and_its_base(name, true);
     }
 
     return true;
@@ -232,37 +235,19 @@ void asst::TaskData::set_task_base(const std::string_view task_name, std::string
     clear_tasks();
 }
 
-bool asst::TaskData::generate_raw_task_info(std::string_view name, std::string_view prefix, std::string_view base,
-                                            const json::value& json, TaskDerivedType type)
+bool asst::TaskData::generate_task_and_its_base(std::string_view name, bool must_true)
 {
-    TaskPipelineConstPtr base_task = base.empty() ? nullptr : get_raw(base);
-    if (base_task == nullptr) {
-        base_task = default_task_info_ptr;
-        prefix = "";
-    }
-
-    TaskDerivedPtr task = std::make_shared<TaskDerivedInfo>();
-    task->name = name;
-    task->type = type;
-    task->base = base;
-    task->prefix = prefix;
-    utils::get_value_or(name, json, "next", task->next, [&]() { return append_prefix(base_task->next, prefix); });
-    utils::get_value_or(name, json, "sub", task->sub, [&]() { return append_prefix(base_task->sub, prefix); });
-    utils::get_value_or(name, json, "exceededNext", task->exceeded_next,
-                        [&]() { return append_prefix(base_task->exceeded_next, prefix); });
-    utils::get_value_or(name, json, "onErrorNext", task->on_error_next,
-                        [&]() { return append_prefix(base_task->on_error_next, prefix); });
-    utils::get_value_or(name, json, "reduceOtherTimes", task->reduce_other_times,
-                        [&]() { return append_prefix(base_task->reduce_other_times, prefix); });
-    m_task_status[task_name_view(name)] = NotToBeGenerate;
-
-    // 保存虚任务未展开的任务
-    insert_or_assign_raw_task(name, task);
-    return true;
-}
-
-bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must_true)
-{
+    auto generate_task = [&](std::string_view name, std::string_view prefix, taskptr_t base_ptr,
+                             const json::value& task_json) {
+        auto task_info_ptr = generate_task_info(name, task_json, base_ptr, prefix);
+        if (task_info_ptr == nullptr) {
+            return false;
+        }
+        m_task_status[task_name_view(name)] = NotToBeGenerate;
+        // 保存虚任务未展开的任务
+        insert_or_assign_raw_task(name, task_info_ptr);
+        return true;
+    };
     switch (m_task_status[task_name_view(name)]) {
     case NotToBeGenerate:
         // 已经显式生成
@@ -272,12 +257,7 @@ bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must
 
         // 隐式生成的资源
         if (size_t p = name.find('@'); p != std::string::npos) {
-            if (generate_raw_task_and_base(name.substr(p + 1), must_true)) {
-                // 隐式 TemplateTask
-                generate_raw_task_info(name, name.substr(0, p), name.substr(p + 1), {}, TaskDerivedType::Implicit);
-                return true;
-            }
-            return false;
+            return generate_task_and_its_base(name.substr(p + 1), must_true);
         }
 
         m_task_status[name] = NotExists;
@@ -303,17 +283,22 @@ bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must
         // BaseTask
         if (auto opt = task_json.find<std::string>("baseTask")) {
             std::string base = opt.value();
-            return generate_raw_task_and_base(base, must_true) &&
-                   generate_raw_task_info(name, "", base, task_json, TaskDerivedType::BaseTask);
+            return generate_task_and_its_base(base, must_true) && generate_task(name, "", get_raw(base), task_json);
         }
 
         // TemplateTask
         if (size_t p = name.find('@'); p != std::string::npos) {
-            if (std::string_view base = name.substr(p + 1); generate_raw_task_and_base(base, false)) {
-                return generate_raw_task_info(name, name.substr(0, p), base, task_json, TaskDerivedType::Template);
+            if (std::string_view base = name.substr(p + 1); generate_task_and_its_base(base, false)) {
+#ifdef ASST_DEBUG
+                if (task_json.as_object().empty() && get_raw(base)->algorithm != AlgorithmType::MatchTemplate) {
+                    // 多余的空任务
+                    Log.warn("Task", name, "is a redundant empty task because it is not MatchTemplate");
+                }
+#endif
+                return generate_task(name, name.substr(0, p), get_raw(base), task_json);
             }
         }
-        return generate_raw_task_info(name, "", "", task_json, TaskDerivedType::Raw);
+        return generate_task(name, "", nullptr, task_json);
     }
     [[unlikely]] case Generating:
         Log.error("Task", name, "is generated cyclically");
@@ -324,123 +309,59 @@ bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must
     }
 }
 
-asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
+asst::TaskData::taskptr_t asst::TaskData::generate_task_info(std::string_view name, const json::value& task_json,
+                                                             taskptr_t default_ptr, std::string_view task_prefix)
 {
-    auto raw = get_raw(name);
-    if (!raw) [[unlikely]] {
-        Log.error("Task", name, "not found");
-        return nullptr;
-    }
-
-    auto json_it = m_json_all_tasks_info.find(name);
-    const json::value& json = json_it == m_json_all_tasks_info.cend() ? json::value {} : json_it->second;
-    if (raw->type == TaskDerivedType::Raw && json_it == m_json_all_tasks_info.cend()) [[unlikely]] {
-        Log.error("Task", name, "of type Raw has no json");
-        return nullptr;
-    }
-    if (raw->type == TaskDerivedType::Raw && !raw->base.empty()) [[unlikely]] {
-        Log.error("Task", name, "of type Raw has base", raw->base);
-        return nullptr;
-    }
-    if (raw->type != TaskDerivedType::Raw && raw->base.empty()) [[unlikely]] {
-        Log.error("Task", name, "of type", enum_to_string(raw->type), "has no base");
-        return nullptr;
-    }
-    if ((raw->type == TaskDerivedType::Implicit || raw->type == TaskDerivedType::Template) && raw->prefix.empty())
-        [[unlikely]] {
-        Log.error("Task", name, "of type", enum_to_string(raw->type), "has no prefix");
-        return nullptr;
-    }
-    if ((raw->type == TaskDerivedType::Raw || raw->type == TaskDerivedType::BaseTask) && !raw->prefix.empty())
-        [[unlikely]] {
-        Log.error("Task", name, "of type", enum_to_string(raw->type), "has prefix", raw->prefix);
-        return nullptr;
-    }
-
-    TaskConstPtr base = default_task_info_ptr;
-    if (!raw->base.empty()) {
-        base = get(raw->base);
-        if (!base) [[unlikely]] {
-            Log.error("Base task", raw->base, "of task", name, "not found");
-            return nullptr;
-        }
+    if (default_ptr == nullptr) {
+        default_ptr = default_task_info_ptr;
+        task_prefix = "";
     }
 
     // 获取 algorithm 并按照 algorithm 生成 TaskInfo
     AlgorithmType algorithm;
-    utils::get_value_or(name, json, "algorithm", algorithm, base->algorithm);
-    TaskPtr task = nullptr;
+    utils::get_value_or(name, task_json, "algorithm", algorithm, default_ptr->algorithm);
+
+    taskptr_t task_ptr = nullptr;
     switch (algorithm) {
     case AlgorithmType::MatchTemplate:
-        task = generate_match_task_info(name, json, std::dynamic_pointer_cast<const MatchTaskInfo>(base), raw->type);
+        task_ptr = generate_match_task_info(name, task_json, std::dynamic_pointer_cast<MatchTaskInfo>(default_ptr));
         break;
     case AlgorithmType::OcrDetect:
-        task = generate_ocr_task_info(name, json, std::dynamic_pointer_cast<const OcrTaskInfo>(base));
+        task_ptr = generate_ocr_task_info(name, task_json, std::dynamic_pointer_cast<OcrTaskInfo>(default_ptr));
         break;
     case AlgorithmType::Hash:
-        task = generate_hash_task_info(name, json, std::dynamic_pointer_cast<const HashTaskInfo>(base));
+        task_ptr = generate_hash_task_info(name, task_json, std::dynamic_pointer_cast<HashTaskInfo>(default_ptr));
         break;
     case AlgorithmType::JustReturn:
-        task = std::make_shared<TaskInfo>();
+        task_ptr = std::make_shared<TaskInfo>();
         break;
     default:
         Log.error("Unknown algorithm in task", name);
         return nullptr;
     }
 
-    if (task == nullptr) {
+    if (task_ptr == nullptr) {
         return nullptr;
     }
 
-    const auto& prefix = raw->prefix;
-
-#define ASST_TASKDATA_GET_VALUE_OR(key, value) utils::get_value_or(name, json, key, task->value, base->value)
-#define ASST_TASKDATA_GET_VALUE_OR_LAZY(key, value) \
-    utils::get_value_or(name, json, key, task->value, [&]() { return append_prefix(base->value, prefix); })
-
-    ASST_TASKDATA_GET_VALUE_OR("action", action);
-    ASST_TASKDATA_GET_VALUE_OR("cache", cache);
-    ASST_TASKDATA_GET_VALUE_OR("maxTimes", max_times);
-    ASST_TASKDATA_GET_VALUE_OR("preDelay", pre_delay);
-    ASST_TASKDATA_GET_VALUE_OR("postDelay", post_delay);
-    ASST_TASKDATA_GET_VALUE_OR("roi", roi);
-    ASST_TASKDATA_GET_VALUE_OR("subErrorIgnored", sub_error_ignored);
-    ASST_TASKDATA_GET_VALUE_OR("rectMove", rect_move);
-    ASST_TASKDATA_GET_VALUE_OR("specificRect", specific_rect);
-    ASST_TASKDATA_GET_VALUE_OR("specialParams", special_params);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("next", next);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("sub", sub);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("exceededNext", exceeded_next);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("onErrorNext", on_error_next);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("reduceOtherTimes", reduce_other_times);
-
-#undef ASST_TASKDATA_GET_VALUE_OR
-#undef ASST_TASKDATA_GET_VALUE_OR_LAZY
-
-#ifdef ASST_DEBUG
-    // Debug 模式下检查 roi 是否超出边界
-    if (auto [x, y, w, h] = task->roi; x + w > WindowWidthDefault || y + h > WindowHeightDefault) {
-        Log.warn(name, "roi is out of bounds");
+    // 不管什么algorithm，都有基础成员（next, roi, 等等）
+    if (!append_base_task_info(task_ptr, name, task_json, default_ptr, task_prefix)) {
+        return nullptr;
     }
-#endif
-    task->algorithm = algorithm;
-    task->name = name;
-
-    return task;
+    task_ptr->algorithm = algorithm;
+    task_ptr->name = name;
+    return task_ptr;
 }
 
-asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, const json::value& task_json,
-                                                       MatchTaskConstPtr default_ptr, TaskDerivedType derived_type)
+asst::TaskData::taskptr_t asst::TaskData::generate_match_task_info(std::string_view name, const json::value& task_json,
+                                                                   std::shared_ptr<MatchTaskInfo> default_ptr)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_match_task_info_ptr;
     }
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-    if (!utils::get_value_or(name, task_json, "template", match_task_info_ptr->templ_names, [&]() {
-            return derived_type == TaskDerivedType::Implicit // 隐式 Template Task 时继承，其它时默认值使用任务名
-                       ? default_ptr->templ_names
-                       : std::vector { std::string(name) + ".png" };
-        })) {
+    if (!utils::get_value_or(name, task_json, "template", match_task_info_ptr->templ_names,
+                             [&]() { return std::vector { std::string(name) + ".png" }; })) {
         return nullptr;
     }
 
@@ -460,7 +381,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
                                                      threshold_opt->as_double());
     }
     else if (threshold_opt->is_array()) {
-        ranges::copy(threshold_opt->as_array() | views::transform(&json::value::as_double),
+        ranges::copy(threshold_opt->as_array() | views::transform(&ranges::range_value_t<json::array>::as_double),
                      std::back_inserter(match_task_info_ptr->templ_thresholds));
     }
     else {
@@ -482,8 +403,8 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
     return match_task_info_ptr;
 }
 
-asst::TaskPtr asst::TaskData::generate_ocr_task_info(std::string_view name, const json::value& task_json,
-                                                     OcrTaskConstPtr default_ptr)
+asst::TaskData::taskptr_t asst::TaskData::generate_ocr_task_info(std::string_view name, const json::value& task_json,
+                                                                 std::shared_ptr<OcrTaskInfo> default_ptr)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_ocr_task_info_ptr;
@@ -506,8 +427,8 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(std::string_view name, cons
     return ocr_task_info_ptr;
 }
 
-asst::TaskPtr asst::TaskData::generate_hash_task_info(std::string_view name, const json::value& task_json,
-                                                      HashTaskConstPtr default_ptr)
+asst::TaskData::taskptr_t asst::TaskData::generate_hash_task_info(std::string_view name, const json::value& task_json,
+                                                                  std::shared_ptr<HashTaskInfo> default_ptr)
 {
     if (default_ptr == nullptr) {
         default_ptr = default_hash_task_info_ptr;
@@ -527,149 +448,44 @@ asst::TaskPtr asst::TaskData::generate_hash_task_info(std::string_view name, con
     return hash_task_info_ptr;
 }
 
-asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_raw_tasklist(
-    const TaskList& raw_tasks, std::string_view self_name, std::function<TaskDerivedConstPtr(std::string_view)> get_raw,
-    bool allow_duplicate)
+bool asst::TaskData::append_base_task_info(taskptr_t task_info_ptr, std::string_view name, const json::value& task_json,
+                                           taskptr_t default_ptr, std::string_view task_prefix)
 {
-    RawCompileResult ret { .task_changed = false, .symbols = {} };
-    std::unordered_set<std::string_view> tasks_set; // 记录任务列表中已有的任务（内容元素与 new_tasks 基本一致）
-
-    for (std::string_view task_expr : raw_tasks) {
-        if (task_expr.empty() || (!allow_duplicate && tasks_set.contains(task_expr))) {
-            ret.task_changed = true;
-            continue;
-        }
-
-        TaskDataSymbolStream symbol_stream;
-        if (auto opt = symbol_stream.parse(task_expr); opt) [[likely]] {
-            ret.task_changed = ret.task_changed || opt.value();
-        }
-        else {
-            return { std::nullopt, std::move(opt.error()) };
-        }
-
-        auto opt = symbol_stream.decode(
-            [&](const TaskDataSymbol& symbol, const TaskDataSymbol& prefix) -> TaskDataSymbol::SymbolsOrError {
-                return TaskDataSymbol::append_prefix(
-                    symbol, prefix, self_name, get_raw,
-                    [&](const TaskList& raw_or_empty) -> TaskDataSymbol::SymbolsOrError {
-                        if (auto opt = compile_raw_tasklist(raw_or_empty, self_name, get_raw, allow_duplicate)) {
-                            return opt.value().symbols;
-                        }
-                        return { std::nullopt, "" };
-                    });
-            },
-            self_name);
-
-        // 记号流处理
-        if (!opt) {
-            return { std::nullopt, std::move(opt.error()) };
-        }
-
-        for (const auto& task : *opt) {
-            if (task.name().empty() || (!allow_duplicate && tasks_set.contains(task.name()))) {
-                ret.task_changed = true;
-                continue;
-            }
-            tasks_set.emplace(ret.symbols.emplace_back(task).name());
-        }
-
-        tasks_set.emplace(task_name_view(task_expr));
+    if (default_ptr == nullptr) {
+        default_ptr = default_task_info_ptr;
     }
 
-    return ret;
+    utils::get_value_or(name, task_json, "action", task_info_ptr->action, default_ptr->action);
+    utils::get_value_or(name, task_json, "cache", task_info_ptr->cache, default_ptr->cache);
+    utils::get_value_or(name, task_json, "maxTimes", task_info_ptr->max_times, default_ptr->max_times);
+    utils::get_value_or(name, task_json, "exceededNext", task_info_ptr->exceeded_next,
+                        [&]() { return append_prefix(default_ptr->exceeded_next, task_prefix); });
+    utils::get_value_or(name, task_json, "onErrorNext", task_info_ptr->on_error_next,
+                        [&]() { return append_prefix(default_ptr->on_error_next, task_prefix); });
+    utils::get_value_or(name, task_json, "preDelay", task_info_ptr->pre_delay, default_ptr->pre_delay);
+    utils::get_value_or(name, task_json, "postDelay", task_info_ptr->post_delay, default_ptr->post_delay);
+    utils::get_value_or(name, task_json, "reduceOtherTimes", task_info_ptr->reduce_other_times,
+                        [&]() { return append_prefix(default_ptr->reduce_other_times, task_prefix); });
+    utils::get_value_or(name, task_json, "roi", task_info_ptr->roi, default_ptr->roi);
+    utils::get_value_or(name, task_json, "sub", task_info_ptr->sub,
+                        [&]() { return append_prefix(default_ptr->sub, task_prefix); });
+    utils::get_value_or(name, task_json, "subErrorIgnored", task_info_ptr->sub_error_ignored,
+                        default_ptr->sub_error_ignored);
+    utils::get_value_or(name, task_json, "next", task_info_ptr->next,
+                        [&]() { return append_prefix(default_ptr->next, task_prefix); });
+    utils::get_value_or(name, task_json, "rectMove", task_info_ptr->rect_move, default_ptr->rect_move);
+    utils::get_value_or(name, task_json, "specificRect", task_info_ptr->specific_rect, default_ptr->specific_rect);
+    utils::get_value_or(name, task_json, "specialParams", task_info_ptr->special_params, default_ptr->special_params);
+#ifdef ASST_DEBUG
+    // Debug 模式下检查 roi 是否超出边界
+    if (auto [x, y, w, h] = task_info_ptr->roi; x + w > WindowWidthDefault || y + h > WindowHeightDefault) {
+        Log.warn(name, "roi is out of bounds");
+    }
+#endif
+    return true;
 }
 
-asst::ResultOrError<asst::TaskData::CompileResult> asst::TaskData::compile_tasklist(const TaskList& raw_tasks,
-                                                                                    std::string_view self_name,
-                                                                                    bool allow_duplicate)
-{
-    CompileResult ret { .task_changed = false, .tasks = {} };
-    std::vector<TaskDataSymbol> new_symbols;
-    if (auto opt = compile_raw_tasklist(
-            raw_tasks, self_name, [&](std::string_view name) { return get_raw(name); }, allow_duplicate);
-        !opt) {
-        return { std::nullopt, std::move(opt.error()) };
-    }
-    else {
-        new_symbols = std::move(opt.value().symbols);
-        ret.task_changed = opt.value().task_changed;
-    }
-    std::unordered_set<std::string_view> tasks_set;
-    for (const auto& task : new_symbols) {
-        std::string_view task_name;
-        if (task == TaskDataSymbol::SharpSelf) {
-            task_name = self_name;
-            ret.task_changed = true;
-        }
-        else if (task.is_name()) {
-            task_name = task.name();
-        }
-        else {
-            ret.task_changed = true;
-            continue;
-        }
-        if (task_name.empty()) {
-            Log.error("Empty task name in", self_name);
-            ret.task_changed = true;
-            continue;
-        }
-        if (!allow_duplicate && tasks_set.contains(task_name)) {
-            ret.task_changed = true;
-            continue;
-        }
-        ret.tasks.emplace_back(task_name_view(task_name));
-        tasks_set.emplace(task_name);
-    }
-
-    return ret;
-}
-
-std::string asst::TaskData::append_prefix(std::string_view task_name, std::string_view task_prefix)
-{
-    if (task_prefix.ends_with('@')) [[unlikely]] {
-        task_prefix.remove_suffix(1);
-    }
-    if (task_prefix.empty()) [[unlikely]] {
-        return std::string(task_name);
-    }
-    if (task_name.empty()) {
-        return std::string(task_prefix);
-    }
-    if (task_name.starts_with('#')) {
-        return std::string(task_prefix) + std::string(task_name);
-    }
-    return std::string(task_prefix) + '@' + std::string(task_name);
-}
-
-asst::TaskList asst::TaskData::append_prefix(const TaskList& base_task_list, std::string_view task_prefix)
-{
-    if (task_prefix.ends_with('@')) [[unlikely]] {
-        task_prefix.remove_suffix(1);
-    }
-    if (task_prefix.empty()) {
-        return base_task_list;
-    }
-    TaskList task_list = {};
-    for (const std::string& base : base_task_list) {
-        std::string_view base_view = base;
-        size_t l = 0;
-        bool has_same_prefix = false;
-        // base 任务里已经存在相同前缀，则不加前缀
-        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/2116#issuecomment-1270115238
-        for (size_t r = base_view.find('@'); r != std::string_view::npos; r = base_view.find('@', l)) {
-            if (task_prefix == base_view.substr(l, r - l)) [[unlikely]] {
-                has_same_prefix = true;
-                break;
-            }
-            l = r + 1;
-        }
-        task_list.emplace_back(has_same_prefix ? base : append_prefix(base_view, task_prefix));
-    }
-    return task_list;
-}
-
-asst::MatchTaskConstPtr asst::TaskData::_default_match_task_info()
+std::shared_ptr<asst::MatchTaskInfo> asst::TaskData::_default_match_task_info()
 {
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
     match_task_info_ptr->templ_names = { "__INVALID__" };
@@ -678,7 +494,7 @@ asst::MatchTaskConstPtr asst::TaskData::_default_match_task_info()
     return match_task_info_ptr;
 }
 
-asst::OcrTaskConstPtr asst::TaskData::_default_ocr_task_info()
+std::shared_ptr<asst::OcrTaskInfo> asst::TaskData::_default_ocr_task_info()
 {
     auto ocr_task_info_ptr = std::make_shared<OcrTaskInfo>();
     ocr_task_info_ptr->full_match = false;
@@ -689,7 +505,7 @@ asst::OcrTaskConstPtr asst::TaskData::_default_ocr_task_info()
     return ocr_task_info_ptr;
 }
 
-asst::HashTaskConstPtr asst::TaskData::_default_hash_task_info()
+std::shared_ptr<asst::HashTaskInfo> asst::TaskData::_default_hash_task_info()
 {
     auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
     hash_task_info_ptr->dist_threshold = 0;
@@ -698,7 +514,7 @@ asst::HashTaskConstPtr asst::TaskData::_default_hash_task_info()
     return hash_task_info_ptr;
 }
 
-asst::TaskConstPtr asst::TaskData::_default_task_info()
+asst::TaskData::taskptr_t asst::TaskData::_default_task_info()
 {
     auto task_info_ptr = std::make_shared<TaskInfo>();
     task_info_ptr->algorithm = AlgorithmType::MatchTemplate;
@@ -713,6 +529,396 @@ asst::TaskConstPtr asst::TaskData::_default_task_info()
     task_info_ptr->specific_rect = Rect();
 
     return task_info_ptr;
+}
+
+// new_tasks 是目的任务列表
+// raw_tasks 是源任务表达式列表
+// task_name 是任务名
+// task_changed 记录 raw_tasks 在转换为 new_tasks 时是否发生变化
+// allow_duplicate 是否允许重复
+bool asst::TaskData::compile_tasklist(tasklist_t& new_tasks, const tasklist_t& raw_tasks, std::string_view task_name,
+                                      bool& task_changed, bool allow_duplicate)
+{
+    std::unordered_set<std::string_view> tasks_set; // 记录任务列表中已有的任务（内容元素与 new_tasks 基本一致）
+
+    using symbl_t = size_t;
+    [[maybe_unused]] constexpr symbl_t symbl_end = 0;
+    [[maybe_unused]] constexpr symbl_t symbl_lambda_task_sep = 1;
+    [[maybe_unused]] constexpr symbl_t symbl_lparen = 2;
+    [[maybe_unused]] constexpr symbl_t symbl_rparen = 3;
+    [[maybe_unused]] constexpr symbl_t symbl_lbrace = 4;
+    [[maybe_unused]] constexpr symbl_t symbl_rbrace = 5;
+    [[maybe_unused]] constexpr symbl_t symbl_at = 6;
+    [[maybe_unused]] constexpr symbl_t symbl_sharp = 7;
+    [[maybe_unused]] constexpr symbl_t symbl_mul = 8;
+    [[maybe_unused]] constexpr symbl_t symbl_add = 9;
+    [[maybe_unused]] constexpr symbl_t symbl_sub = 10;
+
+    [[maybe_unused]] constexpr symbl_t symbl_name_start = 11;
+    [[maybe_unused]] constexpr symbl_t symbl_name_sub = 11;
+    [[maybe_unused]] constexpr symbl_t symbl_name_next = 12;
+    [[maybe_unused]] constexpr symbl_t symbl_name_on_error_next = 13;
+    [[maybe_unused]] constexpr symbl_t symbl_name_exceeded_next = 14;
+    [[maybe_unused]] constexpr symbl_t symbl_name_reduce_other_times = 15;
+    [[maybe_unused]] constexpr symbl_t symbl_name_self = 16;
+    [[maybe_unused]] constexpr symbl_t symbl_name_back = 17;
+    [[maybe_unused]] constexpr symbl_t symbl_name_none = 18;
+
+    static const std::vector<std::string> symbl_table = {
+        "__END__",            // 0
+        ",",                  // 1
+        "(",                  // 2
+        ")",                  // 3
+        "{",                  // 4
+        "}",                  // 5
+        "@",                  // 6
+        "#",                  // 7
+        "*",                  // 8
+        "+",                  // 9
+        "^",                  // 10
+        "sub",                // 11
+        "next",               // 12
+        "on_error_next",      // 13
+        "exceeded_next",      // 14
+        "reduce_other_times", // 15
+        "self",               // 16
+        "back",               // 17
+        "none",               // 18
+    };
+
+    auto is_symbl_name = [&](symbl_t x) { return x >= symbl_name_start; };
+    auto is_symbl_subtask_type = [&](symbl_t x) {
+        switch (x) {
+        case symbl_name_sub:
+        case symbl_name_next:
+        case symbl_name_on_error_next:
+        case symbl_name_exceeded_next:
+        case symbl_name_reduce_other_times:
+            return true;
+        default:
+            return false;
+        }
+    };
+    [[maybe_unused]] auto is_symbl_sharp_type = [&](symbl_t x) {
+        switch (x) {
+        case symbl_name_self:
+        case symbl_name_back:
+        case symbl_name_none:
+            return true;
+        default:
+            return is_symbl_subtask_type(x);
+        }
+    };
+
+    // perform_op 的结果不保证符合参数 multi 的要求
+    auto perform_op = [&](std::string_view task_expr, symbl_t op, tasklistptr_t x,
+                          tasklistptr_t y) -> std::optional<asst::TaskData::tasklistptr_t> {
+        auto ret = std::make_shared<tasklist_t>();
+
+        switch (op) {
+        case symbl_add:
+            ranges::copy(*x, std::back_inserter(*ret));
+            ranges::copy(*y, std::back_inserter(*ret));
+            break;
+        case symbl_sub:
+            for (std::string_view sx : *x) {
+                bool flag = true;
+                for (std::string_view sy : *y) {
+                    if (sx == sy) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) ret->emplace_back(sx);
+            }
+            break;
+        case symbl_mul: {
+            if (y->size() != 1) {
+                Log.error("There is more than one y:", *y, "while perform op", symbl_table[op], "in", task_expr,
+                          "of task:", task_name);
+                return std::nullopt;
+            }
+            int times = 0;
+            try {
+                times = std::stoi(y->front());
+            }
+            catch (...) {
+                Log.error("y:", y->front(), "is not number while perform op", symbl_table[op], "in", task_expr,
+                          "of task:", task_name);
+                return std::nullopt;
+            }
+            for (int i = 0; i < times; ++i) {
+                ranges::copy(*x, std::back_inserter(*ret));
+            }
+            break;
+        }
+        case symbl_at: {
+            if (y->empty()) { // A@#none = A
+                ranges::copy(*x, std::back_inserter(*ret));
+            }
+            else if (x->empty()) { // #none@A = A
+                ranges::copy(*y, std::back_inserter(*ret));
+            }
+            else { // (A+B)@(C+D) = A@C + A@D + B@C + B@D
+                ranges::for_each(
+                    *x, [&](std::string_view s) { ranges::copy(append_prefix(*y, s), std::back_inserter(*ret)); });
+            }
+            break;
+        }
+        case symbl_sharp: {
+            if (y->empty()) {
+                Log.error("There is no sharp_type while perform op", symbl_table[op], "in", task_expr,
+                          "of task:", task_name);
+                return std::nullopt;
+            }
+            for (std::string_view type : *y) {
+                if (!x || x->empty()) { // unary
+                    x = std::make_shared<tasklist_t>(tasklist_t { "" });
+                }
+                for (const auto& task : *x) {
+                    if (type == "self") {
+                        ret->emplace_back(task_name);
+                        continue;
+                    }
+                    if (type == "none") {
+                        continue;
+                    }
+                    if (type == "back") {
+                        // "A#back" === "A", "B@A#back" === "B@A", "#back" === null
+                        if (!task.empty()) ret->emplace_back(task);
+                        continue;
+                    }
+                    taskptr_t other_task_info_ptr = task.empty() ? default_task_info_ptr : get_raw(task);
+
+#define ASST_TASKDATA_PERFORM_OP_IF_BRANCH(t, m)                                                                      \
+    else if (type == #t)                                                                                              \
+    {                                                                                                                 \
+        bool task_changed = false;                                                                                    \
+        if (!compile_tasklist(*ret, other_task_info_ptr->t, task_name, task_changed, m)) {                            \
+            Log.error("Failed to compile task", task + "->" #t, "while perform op", symbl_table[op], "in", task_expr, \
+                      "of task:", task_name);                                                                         \
+            return std::nullopt;                                                                                      \
+        }                                                                                                             \
+    }
+                    if (other_task_info_ptr == nullptr) [[unlikely]] {
+                        Log.error("Task", task, "not found while perform op", symbl_table[op], "in", task_expr,
+                                  "of task:", task_name);
+                        return std::nullopt;
+                    }
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(next, false)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(sub, true)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(on_error_next, false)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(exceeded_next, false)
+                    ASST_TASKDATA_PERFORM_OP_IF_BRANCH(reduce_other_times, true)
+                    else [[unlikely]]
+                    {
+                        Log.error("Unknown symbol", type, "while perform op", symbl_table[op], "in", task_expr,
+                                  "of task:", task_name);
+                        return std::nullopt;
+                    }
+#undef ASST_TASKDATA_PERFORM_OP_IF_BRANCH
+                }
+            }
+
+            break;
+        }
+        default:
+            Log.error("Unknown op", symbl_table[op], "in", task_expr, "of task:", task_name);
+            return std::nullopt;
+        }
+        return ret;
+    };
+
+    for (std::string_view task_expr : raw_tasks) {
+        if (task_expr.empty() || (!allow_duplicate && tasks_set.contains(task_expr))) {
+            task_changed = true;
+            continue;
+        }
+
+        std::vector<std::string> symbols_table = symbl_table;
+
+        std::unordered_map<std::string, symbl_t> symbols_id = {};
+        for (symbl_t i = 0; i != symbols_table.size(); ++i) {
+            symbols_id.emplace(symbols_table[i], i);
+        }
+
+        std::vector<symbl_t> symbol_stream;
+        auto emplace_symbol_if_not_empty = [&](const auto l, const auto r) {
+            if (l < r) {
+                auto symbol = std::string(l, r);
+                if (!symbols_id.contains(symbol)) {
+                    symbl_t id = symbols_table.size();
+                    symbols_id.emplace(symbol, id);
+                    symbols_table.emplace_back(symbol);
+                    symbol_stream.emplace_back(id);
+                }
+                else {
+                    symbol_stream.emplace_back(symbols_id[symbol]);
+                }
+            }
+        };
+
+        // 记号流分析
+        auto y_begin = task_expr.begin();
+        for (auto p = task_expr.begin(); p != task_expr.end(); ++p) {
+            switch (*p) {
+            case ' ':
+            case '\t':
+            case '\r':
+            case '\n':
+                emplace_symbol_if_not_empty(y_begin, p);
+                y_begin = p + 1;
+                break;
+            case ',':
+            case '(':
+            case ')':
+            case '{':
+            case '}':
+            case '#':
+            case '*':
+            case '+':
+            case '^':
+                task_changed = true;
+                [[fallthrough]];
+            case '@':
+                emplace_symbol_if_not_empty(y_begin, p);
+                y_begin = p + 1;
+                symbol_stream.emplace_back(symbols_id[std::string(1, *p)]);
+                break;
+            default:
+                break;
+            }
+        }
+        emplace_symbol_if_not_empty(y_begin, task_expr.end());
+        symbol_stream.emplace_back(symbl_end); // 结束符
+        // Log.debug(symbol_stream | views::transform([&](symbl_t id) { return symbols_table[id]; }));
+        // Log.debug(symbol_stream);
+
+        /*
+        $name         = 至少一位的任务名
+        $numbers      = 至少一位的数字
+
+        $subtask_type = sub
+                      | next
+                      | on_error_next
+                      | exceeded_next
+                      | reduce_other_times
+
+        $sharp_type   = $subtask_type
+                      | self
+                      | back
+                      | none
+
+        $subtask      = $subtask_type ( $tasks )
+
+        $lambda_task  = { $subtask , ... }         // 暂未实现
+                      | { $tasks }                 // 暂未实现；不写 subtask_type 默认为 sub
+
+        $parens       = # $sharp_type
+                      | $name
+                      | $name $lambda_task         // 暂未实现
+                      | ( $tasks )
+
+        $top_tasks    = $top_tasks @ $parens
+                      | $top_tasks # $sharp_type
+                      | $parens
+
+        $mul_tasks    = $top_tasks * $numbers
+                      | $top_tasks
+
+        $tasks        = $mul_tasks + $tasks
+                      | $mul_tasks ^ $tasks         // 删除 $mul_tasks 中所有在 $tasks 中的任务
+                      | $mul_tasks
+        */
+        // 记号流处理
+        auto cur = symbol_stream.cbegin();
+        using decode_func_t = std::function<std::optional<tasklistptr_t>()>;
+        decode_func_t decode_name, decode_tasks, decode_multasks, decode_vtasks, decode_parens;
+        decode_name = [&]() -> std::optional<tasklistptr_t> {
+            if (is_symbl_name(*cur)) {
+                return std::make_shared<tasklist_t>(tasklist_t { symbols_table[*(cur++)] });
+            }
+            return std::nullopt;
+        };
+        decode_tasks = [&]() -> std::optional<tasklistptr_t> {
+            auto l = decode_multasks();
+            if (!l) return std::nullopt;
+            while (*cur == symbl_add || *cur == symbl_sub) {
+                symbl_t op = *(cur++);
+                auto r = decode_multasks();
+                if (!r) return std::nullopt;
+                l = perform_op(task_expr, op, *l, *r);
+                if (!l) return std::nullopt;
+            }
+            return l;
+        };
+        decode_multasks = [&]() -> std::optional<tasklistptr_t> {
+            auto l = decode_vtasks();
+            if (!l) return std::nullopt;
+            while (*cur == symbl_mul) {
+                symbl_t op = *(cur++);
+                auto r = decode_name();
+                if (!r) return std::nullopt;
+                l = perform_op(task_expr, op, *l, *r);
+                if (!l) return std::nullopt;
+            }
+            return l;
+        };
+        decode_vtasks = [&]() -> std::optional<tasklistptr_t> {
+            auto l = decode_parens();
+            if (!l) return std::nullopt;
+            while (*cur == symbl_at || *cur == symbl_sharp) {
+                symbl_t op = *(cur++);
+                auto r = decode_parens();
+                if (!r) return std::nullopt;
+                l = perform_op(task_expr, op, *l, *r);
+                if (!l) return std::nullopt;
+            }
+            return l;
+        };
+        decode_parens = [&]() -> std::optional<tasklistptr_t> {
+            if (*cur == symbl_lparen) {
+                ++cur;
+                auto l = decode_tasks();
+                if (!l) return std::nullopt;
+                if (*cur != symbl_rparen) [[unlikely]] {
+                    Log.error("Invalid symbol", *cur, "at", cur - symbol_stream.cbegin(), "in", symbol_stream,
+                              "(should be ')')");
+                    return std::nullopt;
+                }
+                ++cur;
+                return l;
+            }
+            if (*cur == symbl_sharp) {
+                ++cur;
+                auto r = decode_name();
+                if (!r) return std::nullopt;
+                return perform_op(task_expr, symbl_sharp, nullptr, *r);
+            }
+            if (is_symbl_name(*cur)) {
+                return decode_name();
+            }
+            Log.error("Invalid symbol", *cur, "at", cur - symbol_stream.cbegin(), "in", symbol_stream);
+            return std::nullopt;
+        };
+        auto opt = decode_tasks();
+        if (!opt || (*cur != symbl_end && cur != symbol_stream.cend())) {
+            return false;
+        }
+
+        for (const auto& task : **opt) {
+            if (task.empty() || (!allow_duplicate && tasks_set.contains(task))) {
+                task_changed = true;
+                continue;
+            }
+            new_tasks.emplace_back(task);
+            tasks_set.emplace(task_name_view(task));
+        }
+
+        tasks_set.emplace(task_name_view(task_expr));
+    }
+
+    return true;
 }
 
 #ifdef ASST_DEBUG
