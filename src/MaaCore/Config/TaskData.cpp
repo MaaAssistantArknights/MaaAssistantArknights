@@ -195,7 +195,7 @@ bool asst::TaskData::parse(const json::value& json)
 
     // 本来重构之后完全支持惰性加载，但是发现模板图片不支持（
     for (std::string_view name : m_json_all_tasks_info | views::keys) {
-        generate_raw_task_and_base(name, true);
+        generate_task_info(name);
     }
 
     return true;
