@@ -95,6 +95,9 @@
     <Filter Include="Source\Vision\Config">
       <UniqueIdentifier>{bf83678b-e9d7-4cf1-8616-aba2009072b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Resource\TaskData">
+      <UniqueIdentifier>{8d436f0b-8dad-42b2-9549-f9073b808104}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -681,6 +684,15 @@
     <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Config\TaskData\TaskDataSymbol.h">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\TaskData\TaskDataSymbolStream.h">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\TaskData\TaskDataTypes.h">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1135,6 +1147,12 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\TaskData\TaskDataSymbol.cpp">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp">
+      <Filter>Source\Resource\TaskData</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
