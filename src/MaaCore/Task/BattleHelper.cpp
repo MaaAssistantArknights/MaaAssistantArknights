@@ -223,11 +223,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             set_oper_name(oper, name);
             remove_cooling_from_battlefield(oper);
 
-            auto oper_it = ranges::find_if(m_cur_deployment_opers,
-                                           [&](const auto& oper_in_list) { return oper_in_list.index == oper.index; });
-            if (oper_it != m_cur_deployment_opers.end()) {
-                *oper_it = oper;
-            }
+            m_cur_deployment_opers[oper.index] = oper;
             AvatarCache.set_avatar(name, oper.role, oper.avatar);
         }
         pause();
