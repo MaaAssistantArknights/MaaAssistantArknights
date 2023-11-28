@@ -95,6 +95,11 @@ jobs:
                   $isAllEqual = $false
                   break
               }
+
+              if ($firstNumber -gt 1) {
+                  $isAllEqual = $false
+                  break
+              }
           }
           echo "isAllEqual: "$isAllEqual
           echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
