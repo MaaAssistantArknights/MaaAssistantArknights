@@ -2,7 +2,7 @@ name: PR Checker
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, synchronize]
 
 jobs:
   no_merge_commit_in_pr:
@@ -10,11 +10,11 @@ jobs:
     
     steps:
       - name: Check Commits
-        uses: actions/github-script@v4
+        uses: actions/github-script@v7
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: commits } = await github.pulls.listCommits({
+            const { data: commits } = await github.rest.pulls.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
