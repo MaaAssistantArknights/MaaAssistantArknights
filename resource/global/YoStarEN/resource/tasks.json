@@ -2296,6 +2296,13 @@
     "StartButton1": {
         "text": [
             "Start"
+        ],
+        "doc": "temporary roi change for Stultifera Navis GUI",
+        "roi": [
+            1036,
+            630,
+            208,
+            56
         ]
     },
     "PRTS2": {
