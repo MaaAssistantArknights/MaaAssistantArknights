@@ -51,21 +51,6 @@ asst::TaskPtr asst::TaskData::get(std::string_view name)
     if (!task) [[unlikely]] {
         return nullptr;
     }
-#define ASST_TASKDATA_GET_IF_BRANCH(list, m)                                                     \
-    if (auto opt = compile_tasklist(task->list, name, m); !opt) [[unlikely]] {                   \
-        Log.error("Generate task_list", std::string(name) + "->" #list, "failed.", opt.error()); \
-        return nullptr;                                                                          \
-    }                                                                                            \
-    else {                                                                                       \
-        task->list = std::move(opt.value().tasks);                                               \
-    }
-    // 展开五个任务列表中的虚任务
-    ASST_TASKDATA_GET_IF_BRANCH(next, false);
-    ASST_TASKDATA_GET_IF_BRANCH(sub, true);
-    ASST_TASKDATA_GET_IF_BRANCH(exceeded_next, false);
-    ASST_TASKDATA_GET_IF_BRANCH(on_error_next, false);
-    ASST_TASKDATA_GET_IF_BRANCH(reduce_other_times, true);
-#undef ASST_TASKDATA_GET_IF_BRANCH
 
     constexpr size_t MAX_TASKS_SIZE = 65535;
     if (m_all_tasks_info.size() < MAX_TASKS_SIZE) [[likely]] {
@@ -117,6 +102,7 @@ bool asst::TaskData::lazy_parse(const json::value& json)
 
 #ifdef ASST_DEBUG
     {
+        LogTraceScope("syntax_check");
         bool validity = true;
         std::queue<std::string_view> task_queue;
         std::unordered_set<std::string_view> checking_task_set;
@@ -392,11 +378,16 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
         return nullptr;
     }
 
-    const auto& prefix = raw->prefix;
-
 #define ASST_TASKDATA_GET_VALUE_OR(key, value) utils::get_value_or(name, json, key, task->value, base->value)
-#define ASST_TASKDATA_GET_VALUE_OR_LAZY(key, value) \
-    utils::get_value_or(name, json, key, task->value, [&]() { return append_prefix(base->value, prefix); })
+#define ASST_TASKDATA_GET_VALUE_OR_LAZY(key, value, m)                                          \
+    utils::get_value_or(name, json, key, task->value, raw->value);                              \
+    if (auto opt = compile_tasklist(task->value, name, m); !opt) [[unlikely]] {                 \
+        Log.error("Generate task_list", std::string(name) + "->"##key, "failed.", opt.error()); \
+        return nullptr;                                                                         \
+    }                                                                                           \
+    else {                                                                                      \
+        task->value = std::move((*opt).tasks);                                                  \
+    }
 
     ASST_TASKDATA_GET_VALUE_OR("action", action);
     ASST_TASKDATA_GET_VALUE_OR("cache", cache);
@@ -408,11 +399,13 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
     ASST_TASKDATA_GET_VALUE_OR("rectMove", rect_move);
     ASST_TASKDATA_GET_VALUE_OR("specificRect", specific_rect);
     ASST_TASKDATA_GET_VALUE_OR("specialParams", special_params);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("next", next);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("sub", sub);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("exceededNext", exceeded_next);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("onErrorNext", on_error_next);
-    ASST_TASKDATA_GET_VALUE_OR_LAZY("reduceOtherTimes", reduce_other_times);
+
+    // 展开五个任务列表中的虚任务
+    ASST_TASKDATA_GET_VALUE_OR_LAZY("next", next, false);
+    ASST_TASKDATA_GET_VALUE_OR_LAZY("sub", sub, true);
+    ASST_TASKDATA_GET_VALUE_OR_LAZY("exceededNext", exceeded_next, false);
+    ASST_TASKDATA_GET_VALUE_OR_LAZY("onErrorNext", on_error_next, false);
+    ASST_TASKDATA_GET_VALUE_OR_LAZY("reduceOtherTimes", reduce_other_times, true);
 
 #undef ASST_TASKDATA_GET_VALUE_OR
 #undef ASST_TASKDATA_GET_VALUE_OR_LAZY
