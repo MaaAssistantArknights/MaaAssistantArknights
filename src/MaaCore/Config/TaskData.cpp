@@ -385,14 +385,14 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
     }
 
 #define ASST_TASKDATA_GET_VALUE_OR(key, value) utils::get_value_or(name, json, key, task->value, base->value)
-#define ASST_TASKDATA_GET_VALUE_OR_LAZY(key, value, m)                                          \
-    utils::get_value_or(name, json, key, task->value, raw->value);                              \
-    if (auto opt = compile_tasklist(task->value, name, m); !opt) [[unlikely]] {                 \
-        Log.error("Generate task_list", std::string(name) + "->"##key, "failed.", opt.error()); \
-        return nullptr;                                                                         \
-    }                                                                                           \
-    else {                                                                                      \
-        task->value = std::move((*opt).tasks);                                                  \
+#define ASST_TASKDATA_GET_VALUE_OR_LAZY(key, value, m)                                         \
+    utils::get_value_or(name, json, key, task->value, raw->value);                             \
+    if (auto opt = compile_tasklist(task->value, name, m); !opt) [[unlikely]] {                \
+        Log.error("Generate task_list", std::string(name) + "->" key, "failed.", opt.error()); \
+        return nullptr;                                                                        \
+    }                                                                                          \
+    else {                                                                                     \
+        task->value = std::move((*opt).tasks);                                                 \
     }
 
     ASST_TASKDATA_GET_VALUE_OR("action", action);
