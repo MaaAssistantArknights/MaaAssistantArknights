@@ -1,7 +1,8 @@
 ---
+order: 3
 icon: teenyicons:linux-alt-solid
 ---
-# Linux 模拟器支持
+# Linux 模拟器
 
 ## 准备工作
 
@@ -13,7 +14,7 @@ icon: teenyicons:linux-alt-solid
 
 ::: tip
 预编译的版本包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库，如果您系统中的 libstdc++ 版本较老，可能遇到 ABI 不兼容的问题
-可以参考 [2.1-Linux编译教程](./2.1-Linux编译教程.md) 重新编译或使用容器运行
+可以参考 [Linux编译教程](../../开发文档/Linux编译教程.md) 重新编译或使用容器运行
 :::
 
 - Arch Linux 系列发行版可以选择使用 aur 包 [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights),
@@ -53,7 +54,7 @@ icon: teenyicons:linux-alt-solid
 
 ### 3. 任务配置
 
-自定义任务： 根据需要参考 [3.x 集成文档](https://maa.plus/docs/3.1-%E9%9B%86%E6%88%90%E6%96%87%E6%A1%A3.html) 对 `sample.py` 的 [`# 任务及参数请参考 docs/集成文档.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一栏进行修改
+自定义任务： 根据需要参考 [集成文档](../../协议文档/集成文档.md) 对 `sample.py` 的 [`# 任务及参数请参考 docs/集成文档.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一栏进行修改
 
 ## 模拟器支持
 

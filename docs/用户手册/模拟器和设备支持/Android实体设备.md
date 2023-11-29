@@ -1,7 +1,8 @@
 ---
+order: 4
 icon: mingcute:android-fill
 ---
-# Android 实体设备支持
+# Android 实体设备
 
 ::: info 注意
 实体设备指的是手机，平板等，不是模拟器。
