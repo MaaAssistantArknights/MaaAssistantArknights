@@ -2305,6 +2305,15 @@
             56
         ]
     },
+    "SanityMatch": {
+        "doc": "temporary roi change for Stultifera Navis GUI",
+        "roi": [
+            1090,
+            20,
+            190,
+            40
+        ]
+    },
     "PRTS2": {
         "text": [
             "Takeover"
