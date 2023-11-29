@@ -22,11 +22,11 @@ namespace asst
 
         void clear_and_reselect();
         bool analyze();
-        bool select(asst::RoguelikeFormationImageAnalyzer::FormationOper oper);
+        bool select(RoguelikeFormationImageAnalyzer::FormationOper oper);
 
     private:
         int cur_page = 0;
         int max_page = 0;
-        std::vector<asst::RoguelikeFormationImageAnalyzer::FormationOper> oper_list;
+        std::vector<RoguelikeFormationImageAnalyzer::FormationOper> oper_list;
     };
 }
