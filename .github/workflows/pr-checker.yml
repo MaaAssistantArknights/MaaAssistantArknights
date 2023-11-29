@@ -14,10 +14,10 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: commits } = await github.getOctokit(process.env.GITHUB_TOKEN).pulls.listCommits({
-              owner: github.context.repo.owner,
-              repo: github.context.repo.repo,
-              pull_number: github.context.payload.pull_request.number
+            const { data: commits } = await github.pulls.commits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
             });
             
             const regex = /^Merge/;
