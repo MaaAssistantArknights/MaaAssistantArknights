@@ -74,7 +74,7 @@ namespace asst
                                                       bool allow_duplicate);
         bool generate_raw_task_info(std::string_view name, std::string_view prefix, std::string_view base_name,
                                     const json::value& task_json, TaskDerivedType type);
-        bool generate_raw_task_and_base(std::string_view name, bool must_true);
+        bool generate_raw_task_and_base(std::string_view name, bool must_true, bool allow_implicit = true);
 #ifdef ASST_DEBUG
         bool syntax_check(std::string_view task_name, const json::value& task_json);
 #endif

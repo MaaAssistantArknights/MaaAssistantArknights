@@ -247,7 +247,10 @@ bool asst::TaskData::generate_raw_task_info(std::string_view name, std::string_v
     return true;
 }
 
-bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must_true)
+// name: 待生成的任务名
+// must_true: 必须有名字为 name 的资源
+// allow_implicit: 允许隐式生成（解决 A@B@LoadingText 时 B 不存在的问题）
+bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must_true, bool allow_implicit)
 {
     switch (m_task_status[task_name_view(name)]) {
     case NotToBeGenerate:
@@ -256,21 +259,23 @@ bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must
             return true;
         }
 
+        if (!allow_implicit) {
+            return false;
+        }
+
         // 隐式生成的资源
-        if (size_t p = name.find('@'); p != std::string::npos) {
-            if (generate_raw_task_and_base(name.substr(p + 1), must_true)) {
+        for (size_t p = name.find('@'); p != std::string::npos; p = name.find('@', p + 1)) {
+            if (generate_raw_task_and_base(name.substr(p + 1), false, false)) {
                 // 隐式 TemplateTask
                 generate_raw_task_info(name, name.substr(0, p), name.substr(p + 1), {}, TaskDerivedType::Implicit);
                 return true;
             }
-            return false;
         }
-
         m_task_status[name] = NotExists;
+
         [[fallthrough]];
     case NotExists:
         if (must_true) {
-            // 必须有名字为 name 的资源
             Log.error("Unknown task:", name);
         }
         // 不一定必须有名字为 name 的资源，例如 Roguelike@Abandon 不必有 Abandon.
@@ -294,11 +299,12 @@ bool asst::TaskData::generate_raw_task_and_base(std::string_view name, bool must
         }
 
         // TemplateTask
-        if (size_t p = name.find('@'); p != std::string::npos) {
-            if (std::string_view base = name.substr(p + 1); generate_raw_task_and_base(base, false)) {
+        for (size_t p = name.find('@'); p != std::string::npos; p = name.find('@', p + 1)) {
+            if (std::string_view base = name.substr(p + 1); generate_raw_task_and_base(base, false, false)) {
                 return generate_raw_task_info(name, name.substr(0, p), base, task_json, TaskDerivedType::Template);
             }
         }
+
         return generate_raw_task_info(name, "", "", task_json, TaskDerivedType::Raw);
     }
     [[unlikely]] case Generating:
