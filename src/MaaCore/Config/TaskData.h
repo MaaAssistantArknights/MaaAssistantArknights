@@ -94,6 +94,12 @@ namespace asst
         std::shared_ptr<TargetTaskInfoType> get(std::string_view name)
         {
             // TODO: should be const
+            // any `Task.get(name)->x = y` could be transformed to
+            // ```
+            // json::object json = {};
+            // json[name][x] = y;
+            // Task.lazy_parse(json);
+            // ```
             return std::dynamic_pointer_cast<TargetTaskInfoType>(get(name));
         }
 
