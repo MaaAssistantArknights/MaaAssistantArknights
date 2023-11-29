@@ -14,7 +14,11 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const { data: commits } = await github.pulls.listCommits({
+            const github = require('@actions/github');
+            const core = require('@actions/core');
+            const context = github.context;
+
+            const { data: commits } = await github.getOctokit(process.env.GITHUB_TOKEN).pulls.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
