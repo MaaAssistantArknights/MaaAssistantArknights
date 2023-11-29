@@ -2458,6 +2458,7 @@
         "text": [
             "行動開始"
         ],
+        "doc": "temporary roi change for Stultifera Navis GUI",
         "roi": [
             1038,
             628,
@@ -2471,6 +2472,7 @@
         ]
     },
     "SanityMatch": {
+        "doc": "temporary roi change for Stultifera Navis GUI",
         "roi": [
             1090,
             20,

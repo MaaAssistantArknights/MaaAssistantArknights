@@ -88,13 +88,18 @@ jobs:
           $length = $numbers.Length
           $isAllEqual = $true
           for ($i = 0; $i -lt $length; $i += 2) {
-              $firstNumber = $numbers[$i]
-              $secondNumber = $numbers[$i+1]
+            $firstNumber = $numbers[$i]
+            $secondNumber = $numbers[$i+1]
 
-              if ($firstNumber -ne $secondNumber) {
-                  $isAllEqual = $false
-                  break
-              }
+            if ($firstNumber -gt 1) {
+              $isAllEqual = $false
+              break
+            }
+            
+            if ($firstNumber -ne $secondNumber) {
+                $isAllEqual = $false
+                break
+            }
           }
           echo "isAllEqual: "$isAllEqual
           echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
