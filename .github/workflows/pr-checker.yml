@@ -2,7 +2,7 @@ name: PR Checker
 
 on:
   pull_request:
-    types: [opened, edited]
+    types: [opened, synchronize]
 
 jobs:
   no_merge_commit_in_pr:
