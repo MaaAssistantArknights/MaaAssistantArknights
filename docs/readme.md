@@ -21,7 +21,7 @@
 </div>
 <br>
 
-[简体中文](readme.md) | [繁體中文](./zh-tw/readme.md) | [English](./en-us/readme.md) | [日本語](./ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
+[简体中文](readme.md) | [繁體中文](./zh-tw/readme.md) | [English](./en-us/readme.md) | [日本語](./ja-jp/readme.md) | [한국어](./ko-kr/readme.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -63,7 +63,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-1. 请根据 [模拟器支持情况](./1.3-模拟器支持.md)，进行对应的操作；
+1. 请根据 [模拟器支持情况](./1.3-Windows模拟器支持.md)，进行对应的操作；
 2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，更高不限；<br>
    对于国际服（美服）玩家，由于界面布局、字号等问题，我们则建议您将分辨率修改为 `1920 * 1080`；
 3. 开始使用吧！
@@ -89,7 +89,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### CLI支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](./1.6-CLI使用指南.md)
+MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](./1.7-CLI使用指南.md)
 
 ## 加入我们
 

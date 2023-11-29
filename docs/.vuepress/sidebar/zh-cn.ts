@@ -23,14 +23,14 @@ export const zhcnSidebar = sidebar({
           link: "/1.2-常见问题",
         },
         {
-          text: "模拟器支持",
+          text: "模拟器/设备支持",
           icon: "mingcute:laptop-fill",
           collapsible: true,
           children: [
             {
               text: "Windows",
               icon: "ri:windows-fill",
-              link: "/1.3-模拟器支持",
+              link: "/1.3-Windows模拟器支持",
             },
             {
               text: "Mac",
@@ -42,12 +42,17 @@ export const zhcnSidebar = sidebar({
               icon: "teenyicons:linux-alt-solid",
               link: "/1.5-Linux模拟器支持",
             },
+            {
+              text: "Android",
+              icon: "mingcute:android-fill",
+              link: "/1.6-实体安卓设备支持",
+            },
           ],
         },
         {
           text: "CLI使用指南",
           icon: "material-symbols:terminal",
-          link: "/1.6-CLI使用指南",
+          link: "/1.7-CLI使用指南",
         },
       ],
     },
