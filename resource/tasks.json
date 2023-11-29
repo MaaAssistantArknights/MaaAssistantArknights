@@ -620,6 +620,13 @@
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
+        "specificRect_Doc": "防止在关卡名展开的情况下无法滑动，调整滑动区域",
+        "specificRect": [
+            600,
+            100,
+            20,
+            20
+        ],
         "exceededNext": [
             "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
@@ -1015,10 +1022,10 @@
         "template": "UsePrtsSuccess.png",
         "action": "DoNothing",
         "roi": [
-            1000,
-            550,
-            280,
-            90
+            985,
+            523,
+            159,
+            165
         ]
     },
     "StageQueue": {
