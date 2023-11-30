@@ -620,6 +620,13 @@
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
+        "specificRect_Doc": "防止在关卡名展开的情况下无法滑动，调整滑动区域",
+        "specificRect": [
+            600,
+            100,
+            20,
+            20
+        ],
         "exceededNext": [
             "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
@@ -1015,10 +1022,10 @@
         "template": "UsePrtsSuccess.png",
         "action": "DoNothing",
         "roi": [
-            1000,
-            550,
-            280,
-            90
+            985,
+            523,
+            159,
+            165
         ]
     },
     "StageQueue": {
@@ -3153,6 +3160,10 @@
                 "Lancet-2"
             ],
             [
+                ".*HRM-EX$",
+                "THRM-EX"
+            ],
+            [
                 ".*心斯卡蒂$",
                 "浊心斯卡蒂"
             ],
@@ -3175,6 +3186,10 @@
             [
                 "^预备干员-重.*",
                 "预备干员-重装"
+            ],
+            [
+                "^折光.*",
+                "折光"
             ]
         ]
     },
@@ -3743,7 +3758,8 @@
         "algorithm": "JustReturn",
         "next": [
             "ReturnButton",
-            "FromStageSN"
+            "FromStageSN",
+            "FromAnnihilation"
         ]
     },
     "ReturnButton": {
@@ -3787,6 +3803,25 @@
             20,
             135,
             35
+        ],
+        "next": [
+            "ReturnButton"
+        ]
+    },
+    "FromAnnihilation": {
+        "template": "AnnihilationReturnFlag.png",
+        "action": "ClickRect",
+        "roi": [
+            100,
+            20,
+            400,
+            250
+        ],
+        "specificRect": [
+            0,
+            0,
+            90,
+            720
         ],
         "next": [
             "ReturnButton"
@@ -8340,9 +8375,8 @@
     "BattleOperRoleTank": {},
     "BattleOperRoleWarrior": {},
     "BattleOperRoleDrone": {},
-    "BattleOperCostRange": {
-        "algorithm": "Hash",
-        "hash": [],
+    "BattleOperCost": {
+        "template": "empty.png",
         "rectMove": [
             -10,
             12,
@@ -9295,13 +9329,38 @@
             "Stop"
         ]
     },
-    "SSSFightDirectly": {
+    "SSSFightStart-PreSelect": {
         "action": "ClickSelf",
         "roi": [
             1052,
             360,
             154,
             144
+        ]
+    },
+    "SSSFightStart-PreSelect-Match": {
+        "Doc": "等待并匹配图标",
+        "baseTask": "SSSFightStart-PreSelect",
+        "action": "DoNothing",
+        "template": "SSSFightStart-PreSelect.png"
+    },
+    "SSSFightStart-PreSelect-Confirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1052,
+            360,
+            154,
+            144
+        ]
+    },
+    "SSSFightStart-PreSelect-Clear": {
+        "Doc": "清除预选",
+        "action": "ClickSelf",
+        "roi": [
+            1060,
+            440,
+            120,
+            120
         ]
     },
     "SSSDrawCard": {
@@ -10580,7 +10639,7 @@
             80,
             80
         ],
-        "postDelay": 1000,
+        "postDelay": 3000,
         "specialParamsDoc": [
             "结算界面Part1等待加载完的延迟"
         ],
@@ -14011,6 +14070,10 @@
             [
                 "黜",
                 "黜人"
+            ],
+            [
+                "\"",
+                ""
             ]
         ]
     },

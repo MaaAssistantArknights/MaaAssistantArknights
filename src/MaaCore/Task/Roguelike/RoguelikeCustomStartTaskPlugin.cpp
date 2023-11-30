@@ -14,7 +14,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -140,8 +140,8 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
 
     sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
-    status()->set_str(Status::RoguelikeUseSupport, m_customs[RoguelikeCustomType::UseSupport]);
-    status()->set_str(Status::RoguelikeUseNonfriendSupport, m_customs[RoguelikeCustomType::UseNonfriendSupport]);
+    m_config->set_use_support(m_customs[RoguelikeCustomType::UseSupport] == "1");
+    m_config->set_use_nonfriend_support(m_customs[RoguelikeCustomType::UseNonfriendSupport] == "1");
     m_config->set_core_char(char_name);
     return true;
 }

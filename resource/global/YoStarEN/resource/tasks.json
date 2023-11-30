@@ -1795,7 +1795,7 @@
                 "骰子"
             ],
             [
-                "First-aid Kit",
+                "^First-aid Kit",
                 "急救包"
             ],
             [
@@ -1885,6 +1885,14 @@
             [
                 ".*girian Oscilloscope",
                 "阿戈尔示波器"
+            ],
+            [
+                "Assault Chip Circuit",
+                "强攻电路芯片"
+            ],
+            [
+                "Ambush Chip Circuit",
+                "伏击电路芯片"
             ],
             [
                 "Heavy Insulated Concrete",
@@ -2179,11 +2187,7 @@
                 "重力"
             ],
             [
-                "Portable First-aid Kit",
-                "便携式医疗设备"
-            ],
-            [
-                "Silence the Paradigmatic",
+                "Silence the Paradigmatic.?",
                 "淬羽赫默"
             ],
             [
@@ -2207,24 +2211,16 @@
                 "霍尔海雅"
             ],
             [
-                "Energy Perturbation Amplifier",
-                "能量扰动放大器"
-            ],
-            [
                 "Melanite",
                 "玫拉"
             ],
             [
-                "Energy Perturbation Amplifier",
-                "能量扰动放大器"
+                "Night Banisher",
+                "夜灯"
             ],
             [
                 "Post-Firing Debt Relief Program",
                 "解雇者清债程序"
-            ],
-            [
-                "Night Banisher",
-                "夜灯"
             ],
             [
                 "Rupturing Canister",
@@ -2235,24 +2231,40 @@
                 "能量扰动放大器"
             ],
             [
-                "Tactical Equipment Toolbox",
-                "战术装备整理箱"
+                "Signal Blocker",
+                "信号阻断插件"
+            ],
+            [
+                "Heteromorphic Accelerator",
+                "异态激化插件"
             ],
             [
                 "Tactical Equipment Toolbox",
                 "战术装备整理箱"
             ],
             [
-                "Tactical Equipment Toolbox",
-                "战术装备整理箱"
+                "Equipment Expansion Box",
+                "装备扩充箱"
             ],
             [
-                "Portable First-aid Kit",
+                "Equipment Collection Box",
+                "装备储集箱"
+            ],
+            [
+                "Portable First-*aid Kit",
                 "便携式医疗设备"
             ],
             [
-                "Portable First-aid Kit",
-                "便携式医疗设备"
+                "Efficiency Capsule",
+                "能效胶囊"
+            ],
+            [
+                "Stimulation Shot",
+                "增活针剂"
+            ],
+            [
+                "No more operators needed",
+                "无需增调干员"
             ]
         ]
     },
@@ -2282,8 +2294,15 @@
         "templThreshold": 0.7
     },
     "StartButton1": {
+        "doc": "temporary roi change for Stultifera Navis GUI",
         "text": [
             "Start"
+        ],
+        "roi": [
+            1036,
+            630,
+            208,
+            56
         ]
     },
     "PRTS2": {
@@ -2312,6 +2331,15 @@
             126,
             386,
             208
+        ]
+    },
+    "SanityMatch": {
+        "doc": "temporary roi change for Stultifera Navis GUI",
+        "roi": [
+            1090,
+            20,
+            190,
+            40
         ]
     },
     "MedicineExpiringTime": {
@@ -3513,6 +3541,18 @@
             [
                 "Coating Device Conduction Valve",
                 "镀膜装置导能阀"
+            ],
+            [
+                "Portable First-*aid Kit",
+                "便携式医疗设备"
+            ],
+            [
+                "Energy Perturbation Amplifier?",
+                "能量扰动放大器"
+            ],
+            [
+                "Tactical Equipment Toolbox",
+                "战术装备整理箱"
             ]
         ]
     },
@@ -3558,6 +3598,10 @@
             33
         ],
         "ocrReplace": [
+            [
+                "\\.",
+                ""
+            ],
             [
                 "Jungle Greetings",
                 "丛林式寒暄"
@@ -3605,6 +3649,54 @@
             [
                 "A Piece of Steak",
                 "一块肉排"
+            ],
+            [
+                "I Know the Risks",
+                "知难而进"
+            ],
+            [
+                "Bar*enlands.*",
+                "荒地的手段"
+            ],
+            [
+                "Numb Wa[yv].*",
+                "麻木前行"
+            ],
+            [
+                "Chaotic Part[yv]",
+                "混乱“派对”"
+            ],
+            [
+                "Messenger",
+                "消息传递"
+            ],
+            [
+                "Show of Power",
+                "力量的炫耀"
+            ],
+            [
+                "Fatal Attraction",
+                "致命吸引"
+            ],
+            [
+                "Drunk Hammer",
+                "烂醉铁锤"
+            ],
+            [
+                "For Survival",
+                "为了生存"
+            ],
+            [
+                "Mixed Gas",
+                "混合毒气"
+            ],
+            [
+                "Nurturing Wither",
+                "枯朽孕育"
+            ],
+            [
+                "Suffocation",
+                "窒息"
             ]
         ]
     },
@@ -3642,7 +3734,8 @@
     "SSSDropRecruitmentConfirm": {
         "text": [
             "Confirm assignment",
-            "Confirm Selection"
+            "Confirm Selection",
+            "Abandon Assignment"
         ],
         "roi": [
             1105,

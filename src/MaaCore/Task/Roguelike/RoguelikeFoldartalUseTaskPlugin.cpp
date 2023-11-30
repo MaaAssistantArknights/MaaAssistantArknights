@@ -14,7 +14,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(AsstMsg msg, const json::valu
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -73,65 +73,58 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string theme = m_config->get_theme();
-
     std::vector<RoguelikeFoldartalCombination> combination = RoguelikeFoldartal.get_combination(m_config->get_theme());
 
-    std::string overview_str =
-        status()->get_str(Status::RoguelikeFoldartalOverview).value_or(json::value().to_string());
-    json::value overview_json = json::parse(overview_str).value_or(json::value());
-    m_all_boards = overview_json.as_array();
-    Log.debug("All foldartal got yet:", m_all_boards);
-    for (const auto& usage : combination) {
-        if (need_exit()) {
-            return false;
-        }
-        if (m_stage == usage.usage) {
-            // 用到没得用为止,但是只要没有使用成功就不继续使用
-            while (search_enable_pair(usage) && !need_exit()) {
-                Log.info("Use board pairs");
-            }
-            break;
-        }
+    auto foldartal_list = m_config->get_foldartal();
+    Log.debug("All foldartal got yet:", foldartal_list);
+    if (auto it = ranges::find_if(combination,
+                                  [&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
+        it != combination.end()) {
+        search_enable_pair(foldartal_list, *it);
     }
 
     return true;
 }
 
-bool asst::RoguelikeFoldartalUseTaskPlugin::search_enable_pair(const auto& usage)
+bool asst::RoguelikeFoldartalUseTaskPlugin::search_enable_pair(std::vector<std::string>& list,
+                                                               const asst::RoguelikeFoldartalCombination& usage)
 {
     LogTraceFunction;
-
-    for (const auto& pair : usage.pairs) {
-        // 遍历上板子
-        for (const auto& up_board : pair.up_board) {
-            // 遍历下板子
-            for (const auto& down_board : pair.down_board) {
-                if (board_pair(up_board, down_board)) return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-bool asst::RoguelikeFoldartalUseTaskPlugin::board_pair(const std::string& up_board, const std::string& down_board)
-{
-
-    auto iter_up = std::find(m_all_boards.begin(), m_all_boards.end(), up_board);
-    auto iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
-    // 如果两个板子同时存在m_all_boards中
-    if (iter_up != m_all_boards.end() && iter_down != m_all_boards.end()) {
+    auto check_pair_succ = [&](const std::string& up_board, const std::string& down_board, const auto& iter_up) {
         if (use_board(up_board, down_board)) {
             // 用完删除上板子和下板子
-            m_all_boards.erase(iter_up);
-            iter_down = std::find(m_all_boards.begin(), m_all_boards.end(), down_board);
-            m_all_boards.erase(iter_down);
-            status()->set_str(Status::RoguelikeFoldartalOverview, m_all_boards.to_string());
-            Log.debug("Board pair used");
-            return true;
+            list.erase(iter_up);
+            auto iter_down = std::find(list.begin(), list.end(), down_board);
+            list.erase(iter_down);
+            Log.debug("Board pair used, up:", up_board, ", down:", down_board);
         }
-    }
+    };
+    auto check_pair = [&](const auto& pair) {
+        // 遍历上板子
+        for (const std::string& up_board : pair.up_board) {
+            if (need_exit()) {
+                break;
+            }
+            auto iter_up = std::find(list.begin(), list.end(), up_board);
+            if (iter_up == list.end()) {
+                continue;
+            }
+            // 遍历下板子
+            for (const std::string& down_board : pair.down_board) {
+                if (need_exit()) {
+                    break;
+                }
+                auto iter_down = std::find(list.begin(), list.end(), down_board);
+                if (iter_down == list.end()) {
+                    continue;
+                }
+                check_pair_succ(up_board, down_board, iter_up);
+            }
+        }
+    };
+
+    ranges::for_each(usage.pairs, check_pair);
+
     return false;
 }
 

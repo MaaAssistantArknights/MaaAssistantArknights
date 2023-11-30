@@ -81,8 +81,46 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
 {
     LogTraceFunction;
+    if (!ProcessTask(*this, { "SSSFightStart-PreSelect-Match" }).set_retry_times(300).run()) {
+        return false;
+    }
+    update_deployment();
+    ProcessTask(*this, { "SSSFightStart-PreSelect-Clear" }).run();
 
-    return ProcessTask(*this, { "SSSFightDirectly" }).set_retry_times(300).run() &&
+    auto m_cur_deployment_opers_value = m_cur_deployment_opers | views::values;
+    std::vector<DeploymentOper> opers(m_cur_deployment_opers_value.begin(), m_cur_deployment_opers_value.end());
+    ranges::sort(opers, [](const DeploymentOper& a, const DeploymentOper& b) { return a.cost > b.cost; });
+
+    int replace_count;     // 替换干员数量，装置不计数
+    int replace_limit = 4; // 替换数量限制，最多替换4个
+    int cost_limit = 29;   // 费用阈值，低于该费用的干员不替换
+    if (m_all_action_opers.contains("超重绝缘水泥")) {
+        replace_count = 1; // 只换水泥+1个，以防换出水泥
+    }
+    else {
+        replace_count = 4;
+        if (ranges::count_if(opers, [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */ < 2) {
+            cost_limit = 25; // 先锋低于2个时，降低费用阈值，以试图换出先锋
+        }
+    }
+    for (const auto& oper : opers) {
+        if (replace_limit <= 0 || oper.cost < cost_limit) {
+            break;
+        }
+        if (oper.role == Role::Drone) {
+            // 直接抛弃水泥
+            ctrler()->click(oper.rect);
+            Log.info(__FUNCTION__, "replace Drone, name:", oper.name);
+            --replace_limit;
+        }
+        else if (replace_count > 0 && !m_all_cores.contains(oper.name)) {
+            ctrler()->click(oper.rect);
+            Log.info(__FUNCTION__, "replace oper, name:", oper.name);
+            --replace_count;
+            --replace_limit;
+        }
+    }
+    return ProcessTask(*this, { "SSSFightStart-PreSelect", "SSSFightStart-PreSelect-Confirm" }).run() &&
            BattleProcessTask::wait_until_start(weak);
 }
 
@@ -224,5 +262,5 @@ bool asst::SSSBattleProcessTask::check_and_get_drops(const cv::Mat& reusable)
         task_name = inst_string() + "@SSSHalfTimeDropsBegin";
     }
     Log.info("Get drops", drops);
-    return ProcessTask(*this, { task_name }).set_reusable_image(image).run();
+    return ProcessTask(*this, { task_name }).set_reusable_image(image).set_retry_times(3).run();
 }
