@@ -556,6 +556,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
+    <system:String x:Key="FastestWayToScreencap">가장 빠른 스크린샷 방법: {0}, 소요 시간: {1:#,#}ms</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>

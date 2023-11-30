@@ -427,6 +427,16 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::Encode, "Encode" },
         };
         Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
+        json::value info = json::object {
+            { "uuid", m_uuid },
+            { "what", "FastestWayToScreencap" },
+            { "details",
+              json::object {
+                  { "method", MethodName.at(m_adb.screencap_method) },
+                  { "cost", min_cost.count() },
+              } },
+        };
+        callback(AsstMsg::ConnectionInfo, info);
         clear_lf_info();
         return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     } break;
