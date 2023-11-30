@@ -5,7 +5,7 @@ on:
     types: [opened, synchronize]
 
 jobs:
-  no_merge_commit_in_pr:
+  check_commit_name_in_pr:
     runs-on: ubuntu-latest
     
     steps:
