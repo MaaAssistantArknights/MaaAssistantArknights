@@ -556,7 +556,7 @@
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
-    <system:String x:Key="FastestWayToScreencap">最快截圖方式: {0}, 耗時: {1:#,#}ms</system:String>
+    <system:String x:Key="FastestWayToScreencap">最快截圖: {0}, 耗時: {1:#,#}ms</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
