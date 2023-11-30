@@ -20,8 +20,10 @@ jobs:
               pull_number: context.payload.pull_request.number
             });
             
-            const regex = /^Merge/;
-            const invalidCommits = commits.filter(commit => regex.test(commit.commit.message));
+            const regex = /^(build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Rr]evert|[Rr]elease/;
+            const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message));
+            
+            console.log(`check ${commits.length} commit(s)`);
             
             if (invalidCommits.length > 0) {
               const invalidCommitNames = invalidCommits.map(commit => commit.commit.message);
