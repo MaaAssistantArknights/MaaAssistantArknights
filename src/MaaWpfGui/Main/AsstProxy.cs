@@ -457,7 +457,20 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "FastestWayToScreencap":
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), details["details"]?["method"]?.ToString(), details["details"]?["cost"]?.ToString()));
+                    string color = UiLogColor.Trace;
+                    if (!int.TryParse(details["details"]?["cost"]?.ToString() ?? "-1", out var timeCost))
+                    {
+                    }
+                    else if (timeCost > 800)
+                    {
+                        color = UiLogColor.Error;
+                    }
+                    else if (timeCost > 400)
+                    {
+                        color = UiLogColor.Warning;
+                    }
+
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), details["details"]?["method"]?.ToString(), details["details"]?["cost"]?.ToString()), color);
                     break;
             }
         }
