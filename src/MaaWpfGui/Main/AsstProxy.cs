@@ -455,6 +455,29 @@ namespace MaaWpfGui.Main
                 case "TouchModeNotAvailable":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TouchModeNotAvailable"), UiLogColor.Error);
                     break;
+
+                case "FastestWayToScreencap":
+                    var detailsObj = details["details"];
+                    string costString = detailsObj?["cost"]?.ToString() ?? "???";
+                    string method = detailsObj?["method"]?.ToString() ?? "???";
+
+                    string color = UiLogColor.Trace;
+                    if (!int.TryParse(costString, out var timeCost))
+                    {
+                        color = UiLogColor.Error;
+                    }
+                    else if (timeCost > 800)
+                    {
+                        color = UiLogColor.Error;
+                    }
+                    else if (timeCost > 400)
+                    {
+                        color = UiLogColor.Warning;
+                    }
+
+                    string logMessage = string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), method, costString);
+                    Instances.TaskQueueViewModel.AddLog(logMessage, color);
+                    break;
             }
         }
 
