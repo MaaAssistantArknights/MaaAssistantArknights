@@ -7833,14 +7833,15 @@
         "action": "ClickRect",
         "specificRect": [
             15,
-            710,
+            650,
             80,
-            10
+            30
         ]
     },
     "BattleQuickFormationSkill-SwipeToTheDown": {
         "algorithm": "JustReturn",
         "action": "Swipe",
+        "postDelay": 100,
         "specificRect": [
             15,
             710,
