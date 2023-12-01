@@ -46,6 +46,7 @@ extern "C"
     AsstBool ASSTAPI AsstStop(AsstHandle handle);
     AsstBool ASSTAPI AsstRunning(AsstHandle handle);
     AsstBool ASSTAPI AsstConnected(AsstHandle handle);
+    AsstBool ASSTAPI AsstBackToHome(AsstHandle handle);
 
     /* Async with AsstMsg::AsyncCallInfo Callback*/
     AsstAsyncCallId ASSTAPI AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address,

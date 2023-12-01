@@ -1698,6 +1698,11 @@ namespace MaaWpfGui.Main
             return AsstAppendCloseDown() && AsstStart();
         }
 
+        public bool AsstBackToHome()
+        {
+            return MaaService.AsstBackToHome(_handle);
+        }
+
         /// <summary>
         /// 领取信用及商店购物。
         /// </summary>

@@ -364,6 +364,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
@@ -1949,6 +1951,11 @@ namespace MaaWpfGui.ViewModels.UI
             /// Exits MAA and, if no other processes of MAA are running, computer shutdown.
             /// </summary>
             ExitSelfIfOtherMaaElseShutdown,
+
+            /// <summary>
+            /// Switch the game to background without killing it.
+            /// </summary>
+            BackToAndroidHome,
         }
 
         /// <summary>
@@ -2067,6 +2074,10 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         goto case ActionType.Shutdown;
                     }
+
+                case ActionType.BackToAndroidHome:
+                    Instances.AsstProxy.AsstBackToHome();
+                    break;
 
                 default:
                     Execute.OnUIThread(() =>
