@@ -87,10 +87,6 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     update_deployment();
     ProcessTask(*this, { "SSSFightStart-PreSelect-Clear" }).run();
 
-    auto m_cur_deployment_opers_value = m_cur_deployment_opers | views::values;
-    std::vector<DeploymentOper> opers(m_cur_deployment_opers_value.begin(), m_cur_deployment_opers_value.end());
-    ranges::sort(opers, [](const DeploymentOper& a, const DeploymentOper& b) { return a.cost > b.cost; });
-
     int replace_count;     // 替换干员数量，装置不计数
     int replace_limit = 4; // 替换数量限制，最多替换4个
     int cost_limit = 29;   // 费用阈值，低于该费用的干员不替换
@@ -99,11 +95,13 @@ bool asst::SSSBattleProcessTask::wait_until_start(bool weak)
     }
     else {
         replace_count = 4;
-        if (ranges::count_if(opers, [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */ < 2) {
+        if (ranges::count_if(m_cur_deployment_opers,
+                             [](const auto& oper) { return oper.role == Role::Pioneer; }) /* 先锋数量 */
+            < 2) {
             cost_limit = 25; // 先锋低于2个时，降低费用阈值，以试图换出先锋
         }
     }
-    for (const auto& oper : opers) {
+    for (const auto& oper : m_cur_deployment_opers | views::reverse) {
         if (replace_limit <= 0 || oper.cost < cost_limit) {
             break;
         }
@@ -137,14 +135,14 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
 
     std::unordered_map<std::string, DeploymentOper> exist_core;
     std::vector<DeploymentOper> tool_men;
-    for (const auto& [name, oper] : m_cur_deployment_opers) {
-        if (m_all_cores.contains(name)) {
-            exist_core.emplace(name, oper);
+    for (const auto& oper : m_cur_deployment_opers) {
+        if (m_all_cores.contains(oper.name)) {
+            exist_core.emplace(oper.name, oper);
         }
         else if (oper.is_unusual_location && !m_all_action_opers.contains(oper.name)) {
             tool_men.emplace_back(oper);
             // 工具人的技能一概好了就用
-            m_skill_usage.try_emplace(name, SkillUsage::Possibly);
+            m_skill_usage.try_emplace(oper.name, SkillUsage::Possibly);
         }
     }
 
@@ -204,13 +202,15 @@ bool asst::SSSBattleProcessTask::check_if_start_over(const battle::copilot::Acti
     update_deployment();
 
     bool to_abandon = false;
-    if (!action.name.empty() && !m_cur_deployment_opers.contains(action.name) &&
+
+    if (!action.name.empty() &&
+        !ranges::any_of(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == action.name; }) &&
         !m_battlefield_opers.contains(action.name)) {
         to_abandon = true;
     }
     else if (!action.role_counts.empty()) {
         std::unordered_map<Role, size_t> cur_counts;
-        for (const auto& oper : m_cur_deployment_opers | views::values) {
+        for (const auto& oper : m_cur_deployment_opers) {
             cur_counts[oper.role] += 1;
         }
         for (const auto& [role, number] : action.role_counts) {
