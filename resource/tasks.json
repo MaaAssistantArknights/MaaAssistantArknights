@@ -7838,6 +7838,28 @@
             10
         ]
     },
+    "BattleQuickFormationSkill-SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            15,
+            710,
+            80,
+            10
+        ],
+        "rectMove": [
+            15,
+            385,
+            80,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
+        ]
+    },
     "BattleQuickFormationConfirm": {
         "action": "ClickSelf",
         "roi": [
