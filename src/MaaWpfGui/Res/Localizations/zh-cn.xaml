@@ -338,6 +338,7 @@
     <system:String x:Key="ShutdownWithoutPersist">关机（仅一次）</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，如无其他 MAA 进程则休眠</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如无其他 MAA 进程则关机</system:String>
+    <system:String x:Key="BackToAndroidHome">模拟器 返回主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>

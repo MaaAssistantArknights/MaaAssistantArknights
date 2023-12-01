@@ -82,6 +82,7 @@ namespace asst
         std::string chmod_minitouch;
         std::string call_minitouch;
         std::string call_maatouch;
+        std::string back_to_home;
     };
 
     class GeneralConfig final : public SingletonHolder<GeneralConfig>, public AbstractConfig
