@@ -1,117 +1,57 @@
-## v4.27.0
+## v4.28.0-beta.1
 
 ### 新增
 
-- SSS#2 YostarEN implementation (#7346) @Constrat
-- YoStarJP SSS#2 (#7322) @Manicsteiner
-- 新增一些开机自启设置的日志 @ABA2396
-- 肉鸽刷等级模式新增结算输出并保存截图至achievement文件夹 (#7276) @status102
-- 关卡掉落汇报至一图流 (#7235) @ChingCdesu @MistEO @ABA2396
-- 自动战斗-战斗列表新增无限吃理智药选项 (#7240) @status102
-- txwy resource updater (#7259) @Constrat @AnnAngela
-- 支持识别长于一页的掉落列表 (#7202) @horror-proton
-- updated txwy resources with #7259 @Constrat
-- 游戏资源热更进度显示 #6666 @ABA2396
-- 添加游戏资源更新失败提示 @ABA2396
-- 外部通知设置显示移至UI判断 (#7244) @SherkeyXD
-- 支持运行任务时阻止休眠 (#7218) @SherkeyXD
-- YoStarJP 孤星 sidestory navigation (#7242) @Manicsteiner
-- adb路径填写错误时弹窗提醒 @ABA2396
-- adapted MiningActivityDigging YostarEN @Constrat
-- YostarEN Sidestory Lone Trail navigation @Constrat
-- 战斗列表输入关卡名的文本框新增提示文本 (#7239) @status102
-- Furniture Drop localization (#7203) @Constrat @ABA2396
-- GetImageFromRoi小工具支持直接上mask (#7223) @SherkeyXD
+- 新增检测最快截图方式后输出截图方法和截图测试耗时 (#7441) @status102 @ABA2396
+- 完成后选项 模拟器返回桌面 (#7185) @Manicsteiner
+- 重构 TaskData (#7426) @zzyyyl
+- YoStarJP 狂人号 navigation (#7417) @Manicsteiner
+- 重构 TaskData (#7410) @zzyyyl
+- 保全支持开局替换部分满足条件的非核心干员 (#7347) @zzyyyl @status102
 
 ### 改进
 
-- perf：优化傀影肉鸽部分逻辑 (#7368) @Lancarus
-- do not rotate logs that are symbolic links @horror-proton
-- 更新MUMU12后台保活相关 @AnnAngela
-- 移除未使用的变量 (#7281) @status102
-- 优化理智识别模块，取消预处理，取消内部重试 (#7280) @status102
-- 修改游戏资源更新后的显示内容 @ABA2396
-- 优化萨米肉鸽部分关卡逻辑 (#7255) @Lancarus
-- 重构肉鸽数据存储，迁移肉鸽主题 (#7138) @status102
-- 详细介绍：抄作业:优化 + 刷理智:自动重复代理相关 (#7180) @Yanstory
-- 统一 views::reverse @zzyyyl
-- 肉鸽适配新干员默认技能 (#7181) @Lancarus
-- 使用 `std::erase` 取代 erase-remove 惯用法 (#7179) @zzyyyl
-- 优化账号切换日志输出 @zzyyyl
-- 自动在刷理智第一次执行时调整连战次数为1 (#7210) @status102
+- 自动战斗部分操作增加时间输出并输出至gui.log (#7453) @status102
+- 更新 Qodana 版本到 2023.3 EAP (#7424) @SherkeyXD
+- 重构BattleHelper的m_cur_deployment_opers为vector (#7412) @status102
+- Revert "feat: 重构 TaskData (#7410)" @zzyyyl
+- 资源更新时发起资源同步 @AnnAngela
+- resource: 更新新版危机合约地图 (#7399) @status102
+- 优化更新日志生成逻辑 (#7374) @AnnAngela
 
 ### 修复
 
-- 自动战斗一直点击查看折光 @ABA2396
-- 自定义基建计划找不到 THRM-EX @ABA2396
-- 优化部分情况下肉鸽技结算时技能增长未完全显示导致识别不正确 (#7332) @status102
-- 游戏资源下载失败 (#7329) @ABA2396
-- 修复战斗列表关卡名匹配正则无法匹配S关、TR关的错误 @status102
-- 干员识别错漏 @ABA2396
-- 在启动时错误显示开机自启的状态（实际功能不受影响） @ABA2396
-- 修复Wpf自动战斗-作业代码直接读取剪贴板会带入换行的错误 (#7313) @status102
-- 修复肉鸽主题迁移导致的错误 (#7308) @status102
-- YoStarJP 孤星 sidestory navigation update (#7305) @Manicsteiner
-- 修复 刷理智-指定材料 选项取消无效的问题 (#7303) @zzyyyl
-- 修复肉鸽修改参数后不生效的问题 (#7289) @zzyyyl
-- vcxproj & filters @zzyyyl
-- 修复外服未实装连续战斗导致多次尝试 (#7294) @status102
-- 修复在部分情况下，自动战斗-自动编队时干员页面最边缘干员名字未露出，导致编队时表现错误 (#7253) @status102
-- update threshold for StageDropsImageAnalyzer @horror-proton
-- 修复部署时补偿距离过大，导致部署朝向滑动起始点超出范围 (#7284) @status102
-- 修复错误的下载提示，在某个文件下载错误后直接返回 @ABA2396
-- 修复因为触底反弹选中的错误的干员 @ABA2396
-- 修复滑动次数过少导致加工站放入错误的干员 @ABA2396
-- TXWY resource updater FINAL  fix @Constrat
-- 移动cpp文件的位置 (#7269) @status102
-- resource updater clone token @Constrat
-- 尝试修复部署时滑动超出范围 (#7215) @status102
-- Exit Arknights of YoStar servers (#7243) @Manicsteiner
-- WordOcr for navigation @Constrat
-- 修复吃理智药在网络波动时可能产生重复使用的错误 (#7190) @status102 @zzyyyl
-- 153_3换加工站异常 @ABA2396
-- Missing Text OCR when Limited + Expire monthly (#7229) @Constrat
-- 统一 views::range @status102
-- 修复移除超额理智药后，如果没有使用任何药品会导致反复识别的错误 (#7195) @status102
-- 设置为管理员权限启动的 MAA 无法开机自启 @ABA2396
-- 移除游戏资源更新中提示信息的`请勿关闭MAA`说明 (#7191) @status102
-- 修复干员识别没有收起职业栏导致最后一列干员可能识别错误的问题 @zzyyyl
-- update recruit m_slot_fail @horror-proton
-- minimum 0 for Recruit Time, Invest and Roguelike Start times @Constrat
-- 修复地图资源特殊文件名下载失败 @ABA2396
+- fix crashing after minitouch fails to restart @horror-proton
+- 修复重岳等干员带三技能时点错的问题 (#7450) @zzyyyl
+- fix unable to stop in ReportDataTask @horror-proton
+- pointer assignment in StageDropsTaskPlugin @horror-proton
+- 修复肉鸽编队时选择干员重复点击导致未选中的问题 (#7393) @zzyyyl
+- 对理智药识别结果排序 @status102
+- 移除不必要的引用 @status102
+- 修复 #7410 导致的 Release 下模板图片加载失败的问题 @zzyyyl
+- 修复剿灭退出时卡在情报汇总的问题 (#7409) @zzyyyl
+- YostarJP regex for alter and common error operators fix #7402 @Constrat
+- 修复傀影肉鸽结算识别可能导致崩溃的错误 @status102
+- 修复使用临期理智药设置无法在任务中修改的错误 (#7383) @status102
+- 信用商店购物时如有干员合同无法购物 @ABA2396
+- 修正命名大小写 (#7384) @status102
+- 添加-i -o @AnnAngela
+- 繁中服“退出明日方舟”无效的问题 @AnnAngela
 
 ### 其他
 
-- Auto Update Game Resources - 2023-11-21 @Constrat
-- 繁中服「登臨意」活動導航 (#7367) @momomochi987
-- Auto Update Game Resources - 2023-11-21 @Constrat
-- Auto Update Game Resources - 2023-11-21 @Constrat
-- update glossary (#7361) @Manicsteiner
-- 增加Wpf自动战斗-战斗列表关于批量导入的提示 (#7338) @status102
-- revert: 还原 `630c453de54ea19ece3e4554b9792767d28b484b` 中涉及连续战斗的部分以符合当前逻辑 (#7339) @status102
-- docs：update萨米肉鸽密文板文档 (#7341) @Lancarus
-- 迁移肉鸽密文板 (#7310) @status102
-- tools: all client templates [ski changelog] @Constrat
-- Update SECURITY.md @AnnAngela
-- Create SECURITY.md @AnnAngela
-- 迁移肉鸽主题，迁移肉鸽主题和模式检查 (#7304) @status102
-- 修改adb pair部分 (#7286) @Rbqwow
-- revert: 回调部署干员朝向滑动距离为400，回调滑动duration为100，增加补偿距离上限 (#7277) @status102
-- 基建少滑几次 @ABA2396
-- Resource Update - TXWY data fix @Constrat
-- Update main.cpp @Constrat
-- Auto Update Game Resources - 2023-11-10 @Constrat
-- 迁移肉鸽部分数据 (#7184) @status102
-- format devcontainer.json @horror-proton
-- add GitHub codespace to dev instructions @horror-proton
-- add devcontainer.json for GitHub codespace @horror-proton
-- 补充使用BattleUseOper->preDelay的注释 @status102
-- Auto Update Game Resources - 2023-11-08 @MistEO
-- Auto Update Game Resources - 2023-11-07 @MistEO
-- Update JP/LONETRAIL 孤星 (#7236) @wallsman
-- removed unused templates @Constrat
-- name @Constrat
-- 调整GetImageFromROI对未声明`template`任务截图时，直接使用任务名命名输出图片 (#7207) @status102
-- Update sync-resource.yml @Cryolitia
-- Add Sync-Resource-CI (#7186) @Cryolitia
-- 修改 153 基建排班表 @ABA2396
+- PR Checker增加edited触发 @status102
+- Auto Update Game Resources - 2023-11-30 @Constrat
+- 对PR提交的commit名进行检查 (#7414) @status102
+- Auto Update Game Resources - 2023-11-29 @Constrat
+- line overwrite bypass in res-update (#7418) + SN GUI changes @Constrat
+- Manual YostarEN Auto Update Game Resources @Constrat
+- Auto Update Game Resources - 2023-11-28 @Constrat
+- 补全战斗流程协议 actions 的 skill_times 参数 (#7413) @hmydgz
+- 修正 gh_token @AnnAngela
+- Auto Update Game Resources - 2023-11-26 @status102
+- 迁移剩下的肉鸽数据，移除Status相关逻辑 (#7331) @status102
+- Auto Update Game Resources - 2023-11-26 @status102
+- c -> C, total downloas @Constrat
+- c -> C + total downloads @Constrat
+- Update CHANGELOG.md @ABA2396
