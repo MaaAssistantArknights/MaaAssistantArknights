@@ -1,17 +1,17 @@
 ## v4.28.0-beta.1
 
-### 新增
+### 新增 | New
 
 - 新增检测最快截图方式后输出截图方法和截图测试耗时 (#7441) @status102 @ABA2396
 - 完成后选项 模拟器返回桌面 (#7185) @Manicsteiner
 - YoStarJP 狂人号 navigation (#7417) @Manicsteiner
 - 保全支持开局替换部分满足条件的非核心干员 (#7347) @zzyyyl @status102
 
-### 改进
+### 改进 | Improved
 
 - 自动战斗部分操作增加时间输出并输出至gui.log (#7453) @status102
 
-### 修复
+### 修复 | Fix
 
 - fix crashing after minitouch fails to restart @horror-proton
 - 修复重岳等干员带三技能时点错的问题 (#7450) @zzyyyl
@@ -26,7 +26,7 @@
 - 信用商店购物时如有干员合同无法购物 @ABA2396
 - 繁中服“退出明日方舟”无效的问题 @AnnAngela
 
-### 其他
+### 其他 | Other
 
 - 更新 Qodana 版本到 2023.3 EAP (#7424) @SherkeyXD
 - 优化更新日志生成逻辑 (#7374) @AnnAngela
