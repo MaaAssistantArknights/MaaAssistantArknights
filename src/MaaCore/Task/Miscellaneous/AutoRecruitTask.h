@@ -23,7 +23,7 @@ namespace asst
         AutoRecruitTask& set_need_refresh(bool need_refresh) noexcept;
         AutoRecruitTask& set_max_times(int max_times) noexcept;
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
-        AutoRecruitTask& set_select_extra_tags(bool select_extra_tags) noexcept;
+        AutoRecruitTask& set_select_extra_tags(int select_extra_tags_mode) noexcept;
         AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
         AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;

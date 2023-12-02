@@ -1300,9 +1300,11 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
+            int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.SelectExtraTags, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()

@@ -140,9 +140,26 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(bool select_extra_tags) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(int select_extra_tags_mode) noexcept
 {
-    m_select_extra_tags = select_extra_tags;
+    switch (select_extra_tags_mode) {
+    case 0:
+        m_select_extra_tags = false;
+        m_select_extra_onlyrare_tags = false;
+        break;
+    case 1:
+        m_select_extra_tags = true;
+        m_select_extra_onlyrare_tags = false;
+        break;
+    case 2:
+        m_select_extra_tags = false;
+        m_select_extra_onlyrare_tags = true;
+        break;
+    default:
+        m_select_extra_tags = false;
+        m_select_extra_onlyrare_tags = false;
+        break;
+    }
     return *this;
 }
 
