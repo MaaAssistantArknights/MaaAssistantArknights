@@ -77,6 +77,7 @@ namespace asst
         bool m_need_refresh = false;
         bool m_use_expedited = false;
         bool m_select_extra_tags = false;
+        bool m_select_extra_onlyrare_tags = false;
         int m_max_times = 0;
         bool m_has_permit = true;
         bool m_has_refresh = true;

@@ -578,7 +578,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        auto final_select = m_select_extra_tags ? get_select_tags(result_vec) : final_combination.tags;
+        auto final_select = m_select_extra_tags||m_select_extra_onlyrare_tags ? get_select_tags(result_vec) : final_combination.tags;
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
@@ -713,15 +713,43 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vecto
     std::unordered_set<std::string> unique_tags;
     std::vector<std::string> select;
 
-    while (select.size() < 3) {
-        for (const asst::RecruitCombs& comb : conbinations)
+    if (m_select_extra_tags) {
+        while (select.size() < 3) {
+            for (const asst::RecruitCombs& comb : conbinations)
+                for (const std::string& tag : comb.tags) {
+                    if (unique_tags.find(tag) == unique_tags.cend()) {
+                        unique_tags.insert(tag);
+                        select.emplace_back(tag);
+                        if (select.size() == 3) return select;
+                    }
+                }
+        }
+    }
+    else if (m_select_extra_onlyrare_tags) {
+        //only select rare tags ( > 3 rank) and select as much as possible.
+        
+        //when exist higher rank tags, won't select lower rank tags.
+        int min_level = conbinations.front().min_level; 
+        //tag combo will be either full selected,or abandoned. 
+        int emplace_back_count = 0;
+        if (min_level == 3) return select;
+        for (const asst::RecruitCombs& comb : conbinations) {
+            if (comb.min_level < min_level) return select;
+            emplace_back_count = 0;
             for (const std::string& tag : comb.tags) {
                 if (unique_tags.find(tag) == unique_tags.cend()) {
                     unique_tags.insert(tag);
                     select.emplace_back(tag);
-                    if (select.size() == 3) return select;
+                    ++emplace_back_count;
                 }
             }
+            if (select.size() > 3) {
+                while (emplace_back_count--) {
+                    unique_tags.erase(select.back());
+                    select.pop_back();
+                }
+            }
+        }
     }
     return select;
 }
