@@ -21,7 +21,7 @@ jobs:
               pull_number: context.payload.pull_request.number
             });
             
-            const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
+            const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|i18n)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
             const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message));
             
             console.log(`check ${commits.length} commit(s)`);
