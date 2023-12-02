@@ -41,4 +41,5 @@
 - 补全战斗流程协议 actions 的 skill_times 参数 (#7413) @hmydgz
 - 修正 gh_token @AnnAngela
 - 迁移剩下的肉鸽数据，移除Status相关逻辑 (#7331) @status102
+- YostarEN Stultifera Navis navigation @Constrat
 - Update CHANGELOG.md @ABA2396
