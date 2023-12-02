@@ -36,9 +36,7 @@
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
-                <Grid
-                    Width="190"
-                    Margin="0">
+                <Grid Width="190" Margin="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="40" />
@@ -73,7 +71,7 @@
                                         IsChecked="{Binding IsChecked}"
                                         IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
                                     <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Left">
-                                        <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
+                                        <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
                                         <RadioButton
                                             Margin="0"
                                             Padding="45,0,0,0"
@@ -301,7 +299,7 @@
 
                             <controls:TextBlock
                                 Grid.Column="0"
-                                Margin="0,5,20,0"
+                                Margin="0,5,14,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Stretch"
                                 Foreground="{DynamicResource TraceLogBrush}"
