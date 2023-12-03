@@ -23,7 +23,7 @@ namespace asst
         AutoRecruitTask& set_need_refresh(bool need_refresh) noexcept;
         AutoRecruitTask& set_max_times(int max_times) noexcept;
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
-        AutoRecruitTask& set_select_extra_tags(int select_extra_tags_mode) noexcept;
+        AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
         AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
         AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
@@ -76,8 +76,7 @@ namespace asst
         std::vector<int> m_confirm_level;
         bool m_need_refresh = false;
         bool m_use_expedited = false;
-        bool m_select_extra_tags = false;
-        bool m_select_extra_onlyrare_tags = false;
+        ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::default_noextra_mode;
         int m_max_times = 0;
         bool m_has_permit = true;
         bool m_has_refresh = true;

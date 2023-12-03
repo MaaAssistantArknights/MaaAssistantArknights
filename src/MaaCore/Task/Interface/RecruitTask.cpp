@@ -39,12 +39,17 @@ bool asst::RecruitTask::set_params(const json::value& params)
         confirm.emplace_back(confirm_num_json.as_integer());
     }
 
+    ExtraTagsMode extra_tags_mode = static_cast<ExtraTagsMode>(params.get("extra_tags_mode", 0));
+    // 若出现未知 extra_tags_mod ， 将 extra_tags_mod 置为 default 。
+    if (!RecruitConfig::is_valid_extra_tags_mode(extra_tags_mode)) {
+        extra_tags_mode = ExtraTagsMode::default_noextra_mode;
+    }
+
     bool refresh = params.get("refresh", false);
     bool set_time = params.get("set_time", true);
     bool force_refresh = params.get("force_refresh", true);
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
-    int extra_tags_mode = params.get("extra_tags_mode", 0);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     bool skip_robot = params.get("skip_robot", true);
 

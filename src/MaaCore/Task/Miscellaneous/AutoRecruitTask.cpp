@@ -140,10 +140,9 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
     return *this;
 }
 
-asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(int select_extra_tags_mode) noexcept
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept
 {
-    m_select_extra_tags = (select_extra_tags_mode == 1);
-    m_select_extra_onlyrare_tags = (select_extra_tags_mode == 2);
+    m_select_extra_tags_mode = select_extra_tags_mode;
     return *this;
 }
 
@@ -579,8 +578,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        auto final_select =
-            m_select_extra_tags || m_select_extra_onlyrare_tags ? get_select_tags(result_vec) : final_combination.tags;
+        auto final_select = 
+            (m_select_extra_tags_mode != ExtraTagsMode::default_noextra_mode) ? get_select_tags(result_vec) : final_combination.tags;
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
@@ -709,15 +708,15 @@ std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<
     return names;
 }
 
-std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vector<RecruitCombs>& conbinations)
+std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vector<RecruitCombs>& combinations)
 {
     LogTraceFunction;
     std::unordered_set<std::string> unique_tags;
     std::vector<std::string> select;
 
-    if (m_select_extra_tags) {
+    if (m_select_extra_tags_mode == ExtraTagsMode::select_extra_mode) {
         while (select.size() < 3) {
-            for (const asst::RecruitCombs& comb : conbinations)
+            for (const asst::RecruitCombs& comb : combinations)
                 for (const std::string& tag : comb.tags) {
                     if (unique_tags.find(tag) == unique_tags.cend()) {
                         unique_tags.insert(tag);
@@ -727,15 +726,15 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vecto
                 }
         }
     }
-    else if (m_select_extra_onlyrare_tags) {
+    else if (m_select_extra_tags_mode == ExtraTagsMode::select_extra_onlyrare_mode) {
         // only select rare tags ( > 3 rank) and select as many as possible.
 
         // do not select lower rank tags when higher rank tags exist.
-        int min_level = conbinations.front().min_level;
+        int min_level = combinations.front().min_level;
         // tag combo will be either full selected, or abandoned.
         int emplace_back_count = 0;
         if (min_level == 3) return select;
-        for (const asst::RecruitCombs& comb : conbinations) {
+        for (const asst::RecruitCombs& comb : combinations) {
             if (comb.min_level < min_level) return select;
             emplace_back_count = 0;
             for (const std::string& tag : comb.tags) {
