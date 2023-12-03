@@ -28,10 +28,10 @@ translations = {
 }
 
 translations_resort = {
-    '新增': 'feat',
-    '改进': 'perf',
-    '修复': 'fix', 
-    '其他': 'other'
+    '新增 \\| New': 'feat',
+    '改进 \\| Improved': 'perf',
+    '修复 \\| Fix': 'fix', 
+    '其他 \\| Other': 'other'
 }
 
 def individual_commits(commits: dict, indent: str = "") -> (str, list):
