@@ -142,24 +142,8 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_use_expedited(bool use_or_not)
 
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(int select_extra_tags_mode) noexcept
 {
-    switch (select_extra_tags_mode) {
-    case 0:
-        m_select_extra_tags = false;
-        m_select_extra_onlyrare_tags = false;
-        break;
-    case 1:
-        m_select_extra_tags = true;
-        m_select_extra_onlyrare_tags = false;
-        break;
-    case 2:
-        m_select_extra_tags = false;
-        m_select_extra_onlyrare_tags = true;
-        break;
-    default:
-        m_select_extra_tags = false;
-        m_select_extra_onlyrare_tags = false;
-        break;
-    }
+    m_select_extra_tags = (select_extra_tags_mode == 1);
+    m_select_extra_onlyrare_tags = (select_extra_tags_mode == 2);
     return *this;
 }
 
@@ -595,7 +579,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        auto final_select = m_select_extra_tags||m_select_extra_onlyrare_tags ? get_select_tags(result_vec) : final_combination.tags;
+        auto final_select =
+            m_select_extra_tags || m_select_extra_onlyrare_tags ? get_select_tags(result_vec) : final_combination.tags;
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
@@ -743,11 +728,11 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vecto
         }
     }
     else if (m_select_extra_onlyrare_tags) {
-        //only select rare tags ( > 3 rank) and select as much as possible.
-        
-        //when exist higher rank tags, won't select lower rank tags.
-        int min_level = conbinations.front().min_level; 
-        //tag combo will be either full selected,or abandoned. 
+        // only select rare tags ( > 3 rank) and select as many as possible.
+
+        // do not select lower rank tags when higher rank tags exist.
+        int min_level = conbinations.front().min_level;
+        // tag combo will be either full selected, or abandoned.
         int emplace_back_count = 0;
         if (min_level == 3) return select;
         for (const asst::RecruitCombs& comb : conbinations) {
