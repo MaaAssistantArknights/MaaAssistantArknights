@@ -41,3 +41,8 @@ jobs:
           git status
           git commit -m "$commit_msg" || exit 0
           git push
+      - name: Setup resource update
+        env:
+          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+        run: |
+          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml

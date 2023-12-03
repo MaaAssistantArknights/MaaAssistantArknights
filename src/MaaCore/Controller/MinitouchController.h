@@ -35,6 +35,8 @@ namespace asst
         MinitouchController& operator=(const MinitouchController&) = delete;
         MinitouchController& operator=(MinitouchController&&) = delete;
 
+        virtual void back_to_home() noexcept override;
+
     protected:
         virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout,
                                                      bool recv_by_socket) override;

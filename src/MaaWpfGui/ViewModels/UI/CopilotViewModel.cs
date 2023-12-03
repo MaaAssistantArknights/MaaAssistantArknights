@@ -95,9 +95,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
+        /// <param name="showTime">Wether show time.</param>
+        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = false)
         {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight));
+            LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
+            if (showTime)
+            {
+                _logger.Information(content);
+            }
 
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
@@ -306,7 +311,7 @@ namespace MaaWpfGui.ViewModels.UI
                         titleColor = titleColorValue.ToString();
                     }
 
-                    AddLog(title, titleColor);
+                    AddLog(title, titleColor, showTime: false);
                 }
 
                 string details = string.Empty;

@@ -5,85 +5,112 @@ labels:
 # <!-- [Ss]kip `LABEL` --> 跳过一个 label
 # <!-- [Rr]emove `LABEL` --> 去掉一个 label
 
-# skip and remove
+# skips and removes
 - name: skip all
   content:
   regexes: '[Ss]kip (?:[Aa]ll |)[Ll]abels?'
 - name: remove all
   content:
   regexes: '[Rr]emove (?:[Aa]ll |)[Ll]abels?'
+
 - name: skip module
   content:
   regexes: '[Ss]kip [Mm]odule [Ll]abels?'
 - name: remove module
   content:
   regexes: '[Rr]emove [Mm]odule [Ll]abels?'
-- name: skip client
-  content:
-  regexes: '[Ss]kip [Cc]lient [Ll]abels?'
-- name: remove client
-  content:
-  regexes: '[Rr]emove [Cc]lient [Ll]abels?'
 - name: skip copilot
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)copilot(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)copilot(?:`|)'
 - name: remove copilot
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)copilot(?:`|)'
-- name: skip core
-  content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)core(?:`|)'
-- name: remove core
-  content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)core(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)copilot(?:`|)'
 - name: skip depot
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)depot(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)depot(?:`|)'
 - name: remove depot
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)depot(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)depot(?:`|)'
 - name: skip drop
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)drop(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)drop(?:`|)'
 - name: remove drop
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)drop(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)drop(?:`|)'
 - name: skip fight
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)fight(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)fight(?:`|)'
 - name: remove fight
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)fight(?:`|)'
-- name: skip GUI
-  content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)GUI(?:`|)'
-- name: remove GUI
-  content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)GUI(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)fight(?:`|)'
 - name: skip infrast
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)infrast(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)infrast(?:`|)'
 - name: remove infrast
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)infrast(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)infrast(?:`|)'
 - name: skip others
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)others(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)others(?:`|)'
 - name: remove others
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)others(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)others(?:`|)'
 - name: skip recruit
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)recruit(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)recruit(?:`|)'
 - name: remove recruit
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)recruit(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)recruit(?:`|)'
 - name: skip roguelike
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:module: |)roguelike(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)roguelike(?:`|)'
 - name: remove roguelike
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:module: |)roguelike(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)roguelike(?:`|)'
+
+- name: skip client
+  content:
+  regexes: '[Ss]kip [Cc]li(?:ent|) [Ll]abels?'
+- name: remove client
+  content:
+  regexes: '[Rr]emove [Cc]li(?:ent|) [Ll]abels?'
+- name: skip WpfGui
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)[Ww][Pp][Ff][Gg][Uu][Ii](?:`|)'
+- name: remove WpfGui
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)[Ww][Pp][Ff][Gg][Uu][Ii](?:`|)'
+- name: skip MacGui
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)[Mm][Aa][Cc][Gg][Uu][Ii](?:`|)'
+- name: remove MacGui
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)[Mm][Aa][Cc][Gg][Uu][Ii](?:`|)'
+- name: skip client-JP
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)JP(?:`|)'
+- name: remove client-JP
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)JP(?:`|)'
+- name: skip client-EN
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)EN(?:`|)'
+- name: remove client-EN
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)EN(?:`|)'
+- name: skip client-KR
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)KR(?:`|)'
+- name: remove client-KR
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)KR(?:`|)'
+- name: skip client-ZH_TW
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)ZH_TW(?:`|)'
+- name: remove client-ZH_TW
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Cc]li(?:ent|): |)ZH_TW(?:`|)'
+
 - name: skip ambiguous
   content:
   regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)ambiguous(?:`|)'
@@ -98,46 +125,16 @@ labels:
   regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)release(?:`|)'
 - name: skip documentation
   content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)documentation(?:`|)'
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)doc(?:umentation|)(?:`|)'
 - name: remove documentation
   content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)documentation(?:`|)'
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)doc(?:umentation|)(?:`|)'
 - name: skip translation required
   content:
   regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)translation required(?:`|)'
 - name: remove translation required
   content:
   regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)translation required(?:`|)'
-- name: skip client-JP
-  content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: JP(?:`|)'
-- name: remove client-JP
-  content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: JP(?:`|)'
-- name: skip client-EN
-  content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: EN(?:`|)'
-- name: remove client-EN
-  content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: EN(?:`|)'
-- name: skip client-KR
-  content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: KR(?:`|)'
-- name: remove client-KR
-  content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: KR(?:`|)'
-- name: skip client-ZH_TW
-  content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)Client: ZH_TW(?:`|)'
-- name: remove client-ZH_TW
-  content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)Client: ZH_TW(?:`|)'
-- name: skip macOS
-  content:
-  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)macOS(?:`|)'
-- name: remove macOS
-  content:
-  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)macOS(?:`|)'
 - name: skip incomplete
   content:
   regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)incomplete(?:`|)'
@@ -259,7 +256,7 @@ labels:
 - name: others
   content: "module: others"
   regexes:
-    "信用|拜访|登录|开始唤醒|连接模拟器|[Vv]isit|[Ll]ogin|[Ss]tartup"
+    "信用|拜访|登录|开始唤醒|连接模拟器|[Vv]isit|[Ll]ogin|[Ss]tartup|MaaCore(?!.dll)"
   skip-if:
   - skip all
   - skip module
@@ -284,25 +281,87 @@ labels:
   - remove module
   - remove recruit
 
-# `module: GUI`
-- name: GUI
-  content: "module: GUI"
+# `MacGui`
+- name: MacGui
+  content: "client: MacGui"
+  regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|电脑|版))'
+  skip-if:
+  - skip all
+  - skip client
+  - skip MacGui
+  remove-if:
+  - remove all
+  - remove client
+  - remove MacGui
+
+# `WpfGui`
+- name: WpfGui
+  content: "client: WpfGui"
   regexes:
     '软件更新|自动下载|图形化?界面|gui(?!\.)|GUI|Gui'
   skip-if:
   - skip all
-  - skip module
-  - skip GUI
+  - skip client
+  - skip WpfGui
+  - MacGui
   remove-if:
   - remove all
-  - remove module
-  - remove GUI
+  - remove client
+  - remove WpfGui
+
+# `client: JP`
+- name: "client: JP"
+  regexes: '(?:日[文语本]?服|[Yy]o[Ss]tar\-?(?:JP|jp)|(?:JP|jp)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-JP
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-JP
+
+# `client: EN`
+- name: "client: EN"
+  regexes: '(?:英[文语]?服|国际服|美服|[Yy]o[Ss]tar\-?(?:EN|en)|(?:EN|en)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-EN
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-EN
+
+# `client: KR`
+- name: "client: KR"
+  regexes: '(?:韩[文语国]?服|[Yy]o[Ss]tar\-?(?:KR|kr)|(?:KR|kr)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-KR
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-KR
+
+# `client: ZH_TW`
+- name: "client: ZH_TW"
+  regexes: '(?:繁中服|台(?:湾|灣|)服|繁体中文服|[龙龍]成|天下网游|txwy)'
+  skip-if:
+  - skip all
+  - skip client
+  - skip client-ZH_TW
+  remove-if:
+  - remove all
+  - remove client
+  - remove client-ZH_TW
 
 # `ambiguous`
 - name: pr-ambiguous
   # 不符合 commitizen 的 PR
   content: ambiguous
-  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test)[\:\.\(\,]|[Mm]erge|[Rr]evert|[Rr]elease)'
+  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|i18n|perf|refactor|rft|style|test)[\:\.\(\,]|[Rr]evert|[Rr]elease)'
   mode:
     pull_request_target:
   skip-if:
@@ -326,11 +385,11 @@ labels:
   - remove ambiguous
   - copilot1
   - copilot2
-  - core
   - depot
   - drop
   - fight
-  - GUI
+  - WpfGui
+  - MacGui
   - infrast
   - others
   - recruit
@@ -377,64 +436,6 @@ labels:
   remove-if:
   - remove all
   - remove translation required
-
-# `Client: JP`
-- name: "Client: JP"
-  regexes: '(?:日[文语本]?服|[Yy]o[Ss]tar\-?(?:JP|jp)|(?:JP|jp)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
-  skip-if:
-  - skip all
-  - skip client
-  - skip client-JP
-  remove-if:
-  - remove all
-  - remove client
-  - remove client-JP
-
-# `Client: EN`
-- name: "Client: EN"
-  regexes: '(?:英[文语]?服|国际服|美服|[Yy]o[Ss]tar\-?(?:EN|en)|(?:EN|en)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
-  skip-if:
-  - skip all
-  - skip client
-  - skip client-EN
-  remove-if:
-  - remove all
-  - remove client
-  - remove client-EN
-
-# `Client: KR`
-- name: "Client: KR"
-  regexes: '(?:韩[文语国]?服|[Yy]o[Ss]tar\-?(?:KR|kr)|(?:KR|kr)[\- ]*(?:[Yy]o[Ss]tar|服|[Cc]lient))'
-  skip-if:
-  - skip all
-  - skip client
-  - skip client-KR
-  remove-if:
-  - remove all
-  - remove client
-  - remove client-KR
-
-# `Client: ZH_TW`
-- name: "Client: ZH_TW"
-  regexes: '(?:繁中服|台(?:湾|灣|)服|繁体中文服|[龙龍]成|天下网游|txwy)'
-  skip-if:
-  - skip all
-  - skip client
-  - skip client-ZH_TW
-  remove-if:
-  - remove all
-  - remove client
-  - remove client-ZH_TW
-
-# `macOS`
-- name: macOS
-  regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|电脑|版))'
-  skip-if:
-  - skip all
-  - skip macOS
-  remove-if:
-  - remove all
-  - remove macOS
 
 # `fixed`
 - name: fixed

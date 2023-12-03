@@ -620,6 +620,13 @@
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
+        "specificRect_Doc": "防止在关卡名展开的情况下无法滑动，调整滑动区域",
+        "specificRect": [
+            600,
+            100,
+            20,
+            20
+        ],
         "exceededNext": [
             "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
@@ -1015,10 +1022,10 @@
         "template": "UsePrtsSuccess.png",
         "action": "DoNothing",
         "roi": [
-            1000,
-            550,
-            280,
-            90
+            985,
+            523,
+            159,
+            165
         ]
     },
     "StageQueue": {
@@ -3751,7 +3758,8 @@
         "algorithm": "JustReturn",
         "next": [
             "ReturnButton",
-            "FromStageSN"
+            "FromStageSN",
+            "FromAnnihilation"
         ]
     },
     "ReturnButton": {
@@ -3795,6 +3803,25 @@
             20,
             135,
             35
+        ],
+        "next": [
+            "ReturnButton"
+        ]
+    },
+    "FromAnnihilation": {
+        "template": "AnnihilationReturnFlag.png",
+        "action": "ClickRect",
+        "roi": [
+            100,
+            20,
+            400,
+            250
+        ],
+        "specificRect": [
+            0,
+            0,
+            90,
+            720
         ],
         "next": [
             "ReturnButton"
@@ -7806,9 +7833,32 @@
         "action": "ClickRect",
         "specificRect": [
             15,
+            650,
+            80,
+            30
+        ]
+    },
+    "BattleQuickFormationSkill-SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 100,
+        "specificRect": [
+            15,
             710,
             80,
             10
+        ],
+        "rectMove": [
+            15,
+            385,
+            80,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
         ]
     },
     "BattleQuickFormationConfirm": {
@@ -8348,9 +8398,8 @@
     "BattleOperRoleTank": {},
     "BattleOperRoleWarrior": {},
     "BattleOperRoleDrone": {},
-    "BattleOperCostRange": {
-        "algorithm": "Hash",
-        "hash": [],
+    "BattleOperCost": {
+        "template": "empty.png",
         "rectMove": [
             -10,
             12,
@@ -9303,13 +9352,38 @@
             "Stop"
         ]
     },
-    "SSSFightDirectly": {
+    "SSSFightStart-PreSelect": {
         "action": "ClickSelf",
         "roi": [
             1052,
             360,
             154,
             144
+        ]
+    },
+    "SSSFightStart-PreSelect-Match": {
+        "Doc": "等待并匹配图标",
+        "baseTask": "SSSFightStart-PreSelect",
+        "action": "DoNothing",
+        "template": "SSSFightStart-PreSelect.png"
+    },
+    "SSSFightStart-PreSelect-Confirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1052,
+            360,
+            154,
+            144
+        ]
+    },
+    "SSSFightStart-PreSelect-Clear": {
+        "Doc": "清除预选",
+        "action": "ClickSelf",
+        "roi": [
+            1060,
+            440,
+            120,
+            120
         ]
     },
     "SSSDrawCard": {

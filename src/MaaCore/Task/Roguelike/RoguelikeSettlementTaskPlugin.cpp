@@ -100,15 +100,18 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
                                    "RoguelikeSettlementOcr-Combat",   "RoguelikeSettlementOcr-Recruit",
                                    "RoguelikeSettlementOcr-Object",   "RoguelikeSettlementOcr-BOSS",
                                    "RoguelikeSettlementOcr-Emergency" };
-    static auto text_task_name =
+    static const auto text_task_name =
         std::vector<std::string> { "RoguelikeSettlementOcr-Difficulty", "RoguelikeSettlementOcr-Score",
                                    "RoguelikeSettlementOcr-Exp", "RoguelikeSettlementOcr-Skill" };
-    if (m_config->get_theme() == "Phantom") {
-        text_task_name.pop_back();
-    }
 
     ranges::for_each(battle_task_name, analyze_battle_data);
-    ranges::for_each(text_task_name, analyze_text_data);
+
+    if (m_config->get_theme() == RoguelikeTheme::Phantom) {
+        ranges::for_each(text_task_name | views::take(3), analyze_text_data);
+    }
+    else {
+        ranges::for_each(text_task_name, analyze_text_data);
+    }
 
     return true;
 }

@@ -130,6 +130,12 @@ bool asst::MinitouchController::use_swipe_with_pause() const noexcept
 
 bool asst::MinitouchController::click(const Point& p)
 {
+
+    if (!m_minitoucher) {
+        Log.error("minitoucher is not initialized");
+        return false;
+    }
+
     if (p.x < 0 || p.x >= m_width || p.y < 0 || p.y >= m_height) {
         Log.error("click point out of range");
     }
@@ -143,6 +149,11 @@ bool asst::MinitouchController::click(const Point& p)
 bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double slope_in,
                                       double slope_out, bool with_pause)
 {
+    if (!m_minitoucher) {
+        Log.error("minitoucher is not initialized");
+        return false;
+    }
+
     int x1 = p1.x, y1 = p1.y;
     int x2 = p2.x, y2 = p2.y;
 
@@ -373,4 +384,10 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
     }
 
     return true;
+}
+
+void asst::MinitouchController::back_to_home() noexcept
+{
+    AdbController::back_to_home();
+    return;
 }

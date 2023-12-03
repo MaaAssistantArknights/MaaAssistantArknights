@@ -48,6 +48,8 @@ namespace asst
         AdbController& operator=(const AdbController&) = delete;
         AdbController& operator=(AdbController&&) = delete;
 
+        virtual void back_to_home() noexcept override;
+
     protected:
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
@@ -96,6 +98,8 @@ namespace asst
 
             std::string start;
             std::string stop;
+
+            std::string back_to_home;
 
             /* properties */
             enum class ScreencapEndOfLine

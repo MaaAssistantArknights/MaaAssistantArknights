@@ -70,6 +70,12 @@ void asst::Controller::sync_params()
     m_controller->set_kill_adb_on_exit(m_kill_adb_on_exit);
 }
 
+bool asst::Controller::back_to_home()
+{
+    m_controller->back_to_home();
+    return true;
+}
+
 cv::Mat asst::Controller::get_resized_image_cache() const
 {
     const static cv::Size d_size(m_scale_size.first, m_scale_size.second);

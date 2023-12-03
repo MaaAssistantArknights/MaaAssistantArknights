@@ -338,6 +338,7 @@
     <system:String x:Key="ShutdownWithoutPersist">關機（僅一次）</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，如無其他 MAA 程式則休眠</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如無其他 MAA 程式則關機</system:String>
+    <system:String x:Key="BackToAndroidHome">模擬器 返回主荧幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
@@ -556,6 +557,7 @@
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
+    <system:String x:Key="FastestWayToScreencap">最快截圖: {0} ({1:#,#}ms)</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
