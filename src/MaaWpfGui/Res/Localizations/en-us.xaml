@@ -338,6 +338,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="ShutdownWithoutPersist">Shutdown (only once)</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate if no other running MAA</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">Exit MAA and Emulator, then Shutdown if no other running MAA</system:String>
+    <system:String x:Key="BackToAndroidHome">Emulator returns to home screen</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
@@ -556,6 +557,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
     <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to 「Settings - Connection Settings」 to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
+    <system:String x:Key="FastestWayToScreencap">Fastest screenshot method: {0} ({1:#,#}ms)</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>

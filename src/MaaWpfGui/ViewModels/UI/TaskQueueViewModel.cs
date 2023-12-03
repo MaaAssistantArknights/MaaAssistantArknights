@@ -364,6 +364,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
@@ -1160,7 +1162,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Sets parameters.
         /// </summary>
-        private void SetFightParams()
+        public void SetFightParams()
         {
             if (!EnableSetFightParams)
             {
@@ -1231,26 +1233,33 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
+        private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new Dictionary<string, IEnumerable<string>>
+        {
+            { string.Empty, new[] { "讯使","嘉维尔","坚雷" } },
+            { "Official", new[] { "讯使", "嘉维尔", "坚雷" } },
+            { "Bilibili", new[] { "讯使", "嘉维尔", "坚雷" } },
+            { "YoStarEN", new[] { "Courier", "Gavial", "Dur-nar" } },
+            { "YoStarJP", new[] { "クーリエ", "ガヴィル", "ジュナー" } },
+            { "YoStarKR", new[] { "쿠리어", "가비알", "듀나" } },
+            { "txwy", new[] { "訊使", "嘉維爾", "堅雷" } },
+        };
+
         private bool AppendMall()
         {
-            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；');
-            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；');
-            for (var i = 0; i < buyFirst.Length; ++i)
-            {
-                buyFirst[i] = buyFirst[i].Trim();
-            }
+            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；')
+                .Select(s => s.Trim());
 
-            for (var i = 0; i < blackList.Length; ++i)
-            {
-                blackList[i] = blackList[i].Trim();
-            }
+            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；')
+                .Select(s => s.Trim());
+
+            blackList = blackList.Union(_blackCharacterListMapping[Instances.SettingsViewModel.ClientType]);
 
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditFightSelectFormation,
                 Instances.SettingsViewModel.CreditShopping,
-                buyFirst,
-                blackList,
+                buyFirst.ToArray(),
+                blackList.ToArray(),
                 Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
         }
 
@@ -1293,7 +1302,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.SelectExtraTags,Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                Instances.SettingsViewModel.SelectExtraTags, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()
@@ -1942,6 +1951,11 @@ namespace MaaWpfGui.ViewModels.UI
             /// Exits MAA and, if no other processes of MAA are running, computer shutdown.
             /// </summary>
             ExitSelfIfOtherMaaElseShutdown,
+
+            /// <summary>
+            /// Switch the game to background without killing it.
+            /// </summary>
+            BackToAndroidHome,
         }
 
         /// <summary>
@@ -2060,6 +2074,10 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         goto case ActionType.Shutdown;
                     }
+
+                case ActionType.BackToAndroidHome:
+                    Instances.AsstProxy.AsstBackToHome();
+                    break;
 
                 default:
                     Execute.OnUIThread(() =>

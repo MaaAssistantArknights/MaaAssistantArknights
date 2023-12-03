@@ -165,8 +165,6 @@ bool asst::SideStoryReopenTask::select_stage(int stage_index)
 
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickStageName")->text = { m_stage_code };
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStage")->text = { m_stage_code };
-    // 防止在关卡名展开的情况下无法滑动，调整滑动区域
-    Task.get(m_stage_code + "@FullStageNavigation")->specific_rect = Rect(600, 100, 20, 20);
     return ProcessTask(*this, { m_stage_code + "@StageNavigationBegin" }).run();
 }
 /// <summary>
@@ -175,8 +173,6 @@ bool asst::SideStoryReopenTask::select_stage(int stage_index)
 bool asst::SideStoryReopenTask::activate_prts()
 {
     LogTraceFunction;
-    // 复制一下UnableToAgent2的roi
-    Task.get("StageQueue@UsePrtsSuccess")->roi = Task.get("UnableToAgent2")->roi;
     return ProcessTask(*this, { "StageQueue@CheckPrts" }).run();
 }
 

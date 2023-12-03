@@ -186,21 +186,20 @@
     },
     "SN-Open": {
         "text": [
+            "Stultifera Navis",
             "open"
         ]
     },
     "SN-Chapter2": {
         "text": [
-            "Lost Flagship",
-            "Lost",
-            "Flagship"
+            "LOST",
+            "FLAGSHIP"
         ]
     },
     "SN-Chapter3": {
         "text": [
-            "Nameless Ocean",
-            "Nameless",
-            "Ocean"
+            "NAMELESS",
+            "OCEAN"
         ]
     },
     "DH-Open": {
@@ -2294,8 +2293,15 @@
         "templThreshold": 0.7
     },
     "StartButton1": {
+        "doc": "temporary roi change for Stultifera Navis GUI",
         "text": [
             "Start"
+        ],
+        "roi": [
+            1036,
+            630,
+            208,
+            56
         ]
     },
     "PRTS2": {
@@ -2324,6 +2330,15 @@
             126,
             386,
             208
+        ]
+    },
+    "SanityMatch": {
+        "doc": "temporary roi change for Stultifera Navis GUI",
+        "roi": [
+            1090,
+            20,
+            190,
+            40
         ]
     },
     "MedicineExpiringTime": {

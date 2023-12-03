@@ -54,6 +54,8 @@ namespace asst
         MaaThriftController& operator=(const MaaThriftController&) = delete;
         MaaThriftController& operator=(MaaThriftController&&) = delete;
 
+        virtual void back_to_home() noexcept override;
+
     protected:
         virtual void clear_info() noexcept;
         void callback(AsstMsg msg, const json::value& details);

@@ -47,6 +47,8 @@ namespace asst
         PlayToolsController& operator=(const PlayToolsController&) = delete;
         PlayToolsController& operator=(PlayToolsController&&) = delete;
 
+        virtual void back_to_home() noexcept override;
+
     protected:
         AsstCallback m_callback;
 

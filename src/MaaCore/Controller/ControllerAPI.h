@@ -49,6 +49,8 @@ namespace asst
 
         ControllerAPI& operator=(const ControllerAPI&) = delete;
         ControllerAPI& operator=(ControllerAPI&&) = delete;
+
+        virtual void back_to_home() noexcept {}
     };
 
     struct InputEvent

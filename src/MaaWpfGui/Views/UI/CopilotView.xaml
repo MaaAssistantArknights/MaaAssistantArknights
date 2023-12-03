@@ -330,15 +330,31 @@
                 <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
                                 <controls:TextBlock
-                                    Width="350"
-                                    Margin="5"
+                                    Grid.Column="0"
+                                    Margin="0,5,12,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch"
+                                    Foreground="{DynamicResource TraceLogBrush}"
+                                    Text="{Binding Time}"
+                                    TextWrapping="Wrap"
+                                    Visibility="{c:Binding ShowTime}" />
+                                <controls:TextBlock
+                                    Grid.Column="1"
+                                    Margin="0,5"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Stretch"
                                     FontWeight="{Binding Weight}"
                                     ForegroundKey="{Binding Color}"
                                     Text="{Binding Content}"
                                     TextWrapping="Wrap" />
-                            </StackPanel>
+                            </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

@@ -10,7 +10,7 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }

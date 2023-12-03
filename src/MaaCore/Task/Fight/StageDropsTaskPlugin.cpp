@@ -354,16 +354,16 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
 
     std::shared_ptr<ReportDataTask> report_task_ptr;
     if (report_type == ReportType::PenguinStats) {
-        report_task_ptr = m_report_penguin_task_ptr;
         if (!m_report_penguin_task_ptr) {
-            report_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
+            m_report_penguin_task_ptr = std::make_shared<ReportDataTask>(report_penguin_callback, this);
         }
+        report_task_ptr = m_report_penguin_task_ptr;
     }
     else if (report_type == ReportType::YituliuBigDataStageDrops) {
-        report_task_ptr = m_report_yituliu_task_ptr;
         if (!m_report_yituliu_task_ptr) {
-            report_task_ptr = std::make_shared<ReportDataTask>(report_yituliu_callback, this);
+            m_report_yituliu_task_ptr = std::make_shared<ReportDataTask>(report_yituliu_callback, this);
         }
+        report_task_ptr = m_report_yituliu_task_ptr;
     }
 
     report_task_ptr->set_report_type(report_type)

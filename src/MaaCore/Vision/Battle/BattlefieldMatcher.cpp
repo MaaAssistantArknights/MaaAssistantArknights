@@ -90,6 +90,7 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
     const Rect& avlb_move = Task.get("BattleOperAvailable")->rect_move;
     const Rect& cooling_move = Task.get("BattleOperCooling")->rect_move;
     const Rect& avatar_move = Task.get("BattleOperAvatar")->rect_move;
+    const Rect& cost_move = Task.get("BattleOperCost")->rect_move;
 
     std::vector<battle::DeploymentOper> oper_result;
     size_t index = 0;
@@ -127,6 +128,9 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
         if (oper.cooling && oper.available) {
             Log.error("oper is available, but with cooling");
         }
+
+        Rect cost_rect = correct_rect(flag_res.rect.move(cost_move), m_image);
+        oper.cost = oper_cost_analyze(cost_rect);
 
         oper.index = index++;
 
@@ -205,8 +209,20 @@ bool BattlefieldMatcher::oper_cooling_analyze(const Rect& roi) const
 
 int BattlefieldMatcher::oper_cost_analyze(const Rect& roi) const
 {
-    std::ignore = roi;
-    return 0;
+    int cost = -1;
+    RegionOCRer cost_analyzer(m_image, roi);
+    cost_analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+    cost_analyzer.set_use_char_model(true);
+    cost_analyzer.set_bin_threshold(80, 255);
+    if (!cost_analyzer.analyze()) {
+        Log.warn("oper cost analyze failed");
+        return cost;
+    }
+    if (!utils::chars_to_number(cost_analyzer.get_result().text, cost)) {
+        Log.warn("oper cost convert failed, str:", cost_analyzer.get_result().text);
+        return cost;
+    }
+    return cost;
 }
 
 bool BattlefieldMatcher::oper_available_analyze(const Rect& roi) const

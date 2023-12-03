@@ -71,6 +71,8 @@ namespace asst
         Controller& operator=(const Controller&) = delete;
         Controller& operator=(Controller&&) = delete;
 
+        bool back_to_home();
+
     private:
         cv::Mat get_resized_image_cache() const;
 
