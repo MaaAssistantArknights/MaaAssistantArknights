@@ -238,6 +238,7 @@
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
     <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">절전 모드 방지 시 항상 밝게 표시</system:String>
+    <system:String x:Key="ScreencapCost">스크린샷을 찍는 데는 시간이 걸립니다 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
