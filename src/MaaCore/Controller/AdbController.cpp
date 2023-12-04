@@ -455,13 +455,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 }
 
 bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect,
-                                    bool by_socket, int time_out)
+                                    bool by_socket, int timeout)
 {
     if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
 
-    auto ret = call_command(cmd, time_out, allow_reconnect, by_socket);
+    auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
 
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.warn("data is empty!");
