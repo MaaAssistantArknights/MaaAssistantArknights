@@ -461,7 +461,7 @@ bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& de
         return false;
     }
 
-    auto ret = call_command(cmd, 20000, allow_reconnect, by_socket);
+    auto ret = call_command(cmd, 5000, allow_reconnect, by_socket);
 
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.warn("data is empty!");
