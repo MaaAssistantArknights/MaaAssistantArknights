@@ -63,7 +63,7 @@ namespace asst
 
         using DecodeFunc = std::function<bool(const std::string&)>;
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect = false,
-                       bool by_socket = false);
+                       bool by_socket = false, int max_timeout = 20000);
         void clear_lf_info();
 
         virtual void clear_info() noexcept;
