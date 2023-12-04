@@ -40,9 +40,9 @@ bool asst::RecruitTask::set_params(const json::value& params)
     }
 
     ExtraTagsMode extra_tags_mode = static_cast<ExtraTagsMode>(params.get("extra_tags_mode", 0));
-    // 若出现未知 extra_tags_mod ， 将 extra_tags_mod 置为 default 。
+    // 若出现未知 extra_tags_mode ， 将 extra_tags_mod 置为默认的 NoExtra 。
     if (!RecruitConfig::is_valid_extra_tags_mode(extra_tags_mode)) {
-        extra_tags_mode = ExtraTagsMode::default_noextra_mode;
+        extra_tags_mode = ExtraTagsMode::NoExtra;
     }
 
     bool refresh = params.get("refresh", false);

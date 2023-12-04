@@ -579,7 +579,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         auto final_select = 
-            (m_select_extra_tags_mode != ExtraTagsMode::default_noextra_mode) ? get_select_tags(result_vec) : final_combination.tags;
+            (m_select_extra_tags_mode != ExtraTagsMode::NoExtra) ? get_select_tags(result_vec) : final_combination.tags;
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
@@ -714,7 +714,7 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vecto
     std::unordered_set<std::string> unique_tags;
     std::vector<std::string> select;
 
-    if (m_select_extra_tags_mode == ExtraTagsMode::select_extra_mode) {
+    if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
         while (select.size() < 3) {
             for (const asst::RecruitCombs& comb : combinations)
                 for (const std::string& tag : comb.tags) {
@@ -726,7 +726,7 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vecto
                 }
         }
     }
-    else if (m_select_extra_tags_mode == ExtraTagsMode::select_extra_onlyrare_mode) {
+    else if (m_select_extra_tags_mode == ExtraTagsMode::ExtraOnlyRare) {
         // only select rare tags ( > 3 rank) and select as many as possible.
 
         // do not select lower rank tags when higher rank tags exist.

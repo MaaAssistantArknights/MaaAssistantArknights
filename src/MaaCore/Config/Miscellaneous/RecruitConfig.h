@@ -89,12 +89,12 @@ namespace asst
         }
     };
 
-    // 选择更多 Tags 的模式
-    enum struct ExtraTagsMode : int
+    // 选择额外 Tags 的模式
+    enum class ExtraTagsMode
     {
-        default_noextra_mode,             // 0 - 默认行为
-        select_extra_mode,                // 1 - 选 3 个 Tags, 即使可能冲突
-        select_extra_onlyrare_mode,       // 2 - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突
+        NoExtra,              // 0 - 默认行为
+        Extra,                // 1 - 选 3 个 Tags, 即使可能冲突
+        ExtraOnlyRare,        // 2 - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突
     };
 
     class RecruitConfig final : public SingletonHolder<RecruitConfig>, public AbstractConfig
@@ -105,8 +105,7 @@ namespace asst
     public:
         static constexpr bool is_valid_extra_tags_mode(ExtraTagsMode mode)
         {
-            return mode == ExtraTagsMode::default_noextra_mode || mode == ExtraTagsMode::select_extra_mode ||
-                   mode == ExtraTagsMode::select_extra_onlyrare_mode;
+            return mode == ExtraTagsMode::NoExtra || mode == ExtraTagsMode::Extra || mode == ExtraTagsMode::ExtraOnlyRare;
         }
 
     public:

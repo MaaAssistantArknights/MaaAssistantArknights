@@ -76,7 +76,7 @@ namespace asst
         std::vector<int> m_confirm_level;
         bool m_need_refresh = false;
         bool m_use_expedited = false;
-        ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::default_noextra_mode;
+        ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
         int m_max_times = 0;
         bool m_has_permit = true;
         bool m_has_refresh = true;
