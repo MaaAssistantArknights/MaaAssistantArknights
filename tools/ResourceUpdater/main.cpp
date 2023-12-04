@@ -59,6 +59,7 @@ bool generate_english_roguelike_stage_name_replacement(const std::filesystem::pa
 bool update_battle_chars_info(const std::filesystem::path& input_dir, const std::filesystem::path& overseas_dir,
                               const std::filesystem::path& output_dir);
 bool update_recruitment_data(const std::filesystem::path& input_dir, const std::filesystem::path& output, bool is_base);
+bool generate_char_skill_mapping(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir);
 bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir,
                                           const std::filesystem::path& tasks_path,
                                           const std::filesystem::path& base_dir,
@@ -153,6 +154,16 @@ int main([[maybe_unused]] int argc, char** argv)
     std::cout << "------- Update battle chars info for all clients -------" << std::endl;
     if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
         std::cerr << "Update battle chars info failed" << std::endl;
+        return -1;
+    }
+    else {
+        std::cout << "Done" << std::endl;
+    }
+
+    /* Generate chars - skill names mapping */
+    std::cout << "------- Generate chars - skill names mapping -------" << std::endl;
+    if (!generate_char_skill_mapping(official_data_dir / "gamedata" / "excel", resource_dir)) {
+        std::cerr << "Generate chars - skill names mapping failed" << std::endl;
         return -1;
     }
     else {
@@ -886,6 +897,55 @@ bool update_battle_chars_info(const std::filesystem::path& official_dir, const s
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
     ofs << result.format() << std::endl;
+    ofs.close();
+
+    return true;
+}
+
+bool generate_char_skill_mapping(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
+{
+    auto chars_opt = json::open(input_dir / "character_table.json");
+    auto skills_opt = json::open(input_dir / "skill_table.json");
+    
+    if (!chars_opt || !skills_opt) {
+        return false;
+    }
+
+    auto skill_mapping = std::unordered_map<std::string, std::string>();
+    for (auto& [id, skill_opt] : skills_opt->as_object()) {
+        auto& skill_data = skill_opt.as_object();
+        auto& skill_levels_data = skill_data["levels"].as_array();
+        if (skill_levels_data.empty()) {
+            continue;
+        }
+        auto& first_skill_level_data = skill_levels_data[0].as_object();
+        skill_mapping.emplace(id, first_skill_level_data["name"].as_string());
+    }
+
+    json::value result = json::object();
+    for (auto& [id, char_data] : chars_opt->as_object()) {
+        auto name = char_data["name"].as_string();
+
+        std::vector<std::string> skills;
+        for (auto& skill_opt : char_data["skills"].as_array()) {
+            auto& skill_obj = skill_opt.as_object();
+            if (skill_obj["skillId"].empty()) continue;
+
+            std::string skill_id = skill_obj["skillId"].as_string();
+            auto skill_iter = skill_mapping.find(skill_id);
+            if (skill_iter == skill_mapping.cend()) {
+                std::cerr << "Unknown skill id: " << skill_id << std::endl;
+                continue;
+            }
+            skills.emplace_back(skill_iter->second);
+        }
+        result[name]["zh_CN"] = json::array(skills);
+    }
+
+
+
+    std::ofstream ofs = std::ofstream(output_dir / "char_skill_mapping.json", std::ios::out);
+    ofs << result.format();
     ofs.close();
 
     return true;
