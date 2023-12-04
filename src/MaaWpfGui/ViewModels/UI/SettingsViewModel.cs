@@ -853,6 +853,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
+
+        public string ScreencapCost
+        {
+            get => _screencapCost;
+            set => SetAndNotify(ref _screencapCost, value);
+        }
+
         public void RunScript(string str)
         {
             bool enable = str switch

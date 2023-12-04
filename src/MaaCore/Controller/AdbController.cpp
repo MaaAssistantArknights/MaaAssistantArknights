@@ -4,6 +4,7 @@
 #include "Common/AsstConf.h"
 #include "Utils/NoWarningCV.h"
 #include <cstdint>
+#include <numeric>
 
 #ifdef _MSC_VER
 #pragma warning(push)
@@ -133,8 +134,8 @@ std::optional<std::string> asst::AdbController::call_command(const std::string& 
 
     callcmd_lock.unlock();
 
-    auto duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
-    Log.info("Call `", cmd, "` ret", exit_ret, ", cost", duration, "ms , stdout size:", pipe_data.size(),
+    m_last_command_duration = duration_cast<milliseconds>(steady_clock::now() - start_time).count();
+    Log.info("Call `", cmd, "` ret", exit_ret, ", cost", m_last_command_duration, "ms , stdout size:", pipe_data.size(),
              ", socket size:", sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
         Log.trace("stdout output:", Logger::separator::newline, pipe_data);
@@ -462,9 +463,31 @@ bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& de
     if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
-
     auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
+    { // 记录截图耗时，每10次截图回传一次最值+平均值
+        m_screencap_duration.emplace_back(m_last_command_duration); // 记录截图耗时
+        ++m_screencap_time;
 
+        if (m_screencap_duration.size() > 30) {
+            m_screencap_duration.pop_front();
+        }
+        if (m_screencap_time > 9) { // 每 10 次截图计算一次平均耗时
+            m_screencap_time = 0;
+            auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(m_screencap_duration);
+            json::value info = json::object {
+                { "uuid", m_uuid },
+                { "what", "ScreencapCost" },
+                { "details",
+                  json::object {
+                      { "min", screencap_cost_min },
+                      { "max", screencap_cost_max },
+                      { "avg", std::accumulate(m_screencap_duration.begin(), m_screencap_duration.end(), 0ll) /
+                                   m_screencap_duration.size() },
+                  } },
+            };
+            callback(AsstMsg::ConnectionInfo, info);
+        }
+    }
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.warn("data is empty!");
         return false;
