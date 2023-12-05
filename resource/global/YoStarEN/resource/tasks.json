@@ -185,9 +185,14 @@
         ]
     },
     "SN-Open": {
-        "text": [
-            "Stultifera Navis",
-            "open"
+        "action": "ClickSelf",
+        "algorithm": "MatchTemplate",
+        "template": "SN-Open.png",
+        "roi": [
+            537,
+            66,
+            398,
+            402
         ]
     },
     "SN-Chapter2": {
@@ -3369,26 +3374,6 @@
             [
                 "Glory of Humanity",
                 "人之光辉"
-            ],
-            [
-                "Mutual Aid",
-                "互助"
-            ],
-            [
-                "Hunger and Thirst",
-                "饥渴"
-            ],
-            [
-                "Looking Forward, Looking Back",
-                "瞻前顾后"
-            ],
-            [
-                "Guns and Order",
-                "铳与秩序"
-            ],
-            [
-                "Ember Phalanx",
-                "余烬方阵"
             ],
             [
                 "Mutual Aid",
