@@ -91,9 +91,9 @@
         ]
     },
     "SN-Open": {
-        "algorithm": "MatchTemplate",
-        "template": "SN-Open.png",
         "cache": false,
+        "template": "SN-Open.png",
+        "algorithm": "MatchTemplate",
         "roi": [
             554,
             104,
