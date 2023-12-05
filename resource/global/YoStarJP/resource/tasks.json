@@ -91,8 +91,14 @@
         ]
     },
     "SN-Open": {
-        "text": [
-            "狂人号"
+        "algorithm": "MatchTemplate",
+        "template": "SN-Open.png",
+        "cache": false,
+        "roi": [
+            554,
+            104,
+            362,
+            346
         ]
     },
     "SN-Chapter2": {
