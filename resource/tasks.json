@@ -1092,6 +1092,88 @@
             550
         ]
     },
+    "RS-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-8@SideStoryStage",
+            "RS-8@SwipeToStage"
+        ]
+    },
+    "RS-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-7@SideStoryStage",
+            "RS-7@SwipeToStage"
+        ]
+    },
+    "RS-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-6@SideStoryStage",
+            "RS-6@SwipeToStage"
+        ]
+    },
+    "RS-OpenOcr": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "银心",
+            "列车",
+            "特快"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "RSChapterToRS"
+        ]
+    },
+    "RSChapterToRS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "站台"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1027,
+            443,
+            158,
+            137
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "RS-8@SideStoryStage": {
+        "text": [
+            "RS-8"
+        ]
+    },
+    "RS-7@SideStoryStage": {
+        "text": [
+            "RS-7"
+        ]
+    },
+    "RS-9@SideStoryStage": {
+        "text": [
+            "RS-9"
+        ]
+    },
     "ZT-9": {
         "algorithm": "JustReturn",
         "sub": [
