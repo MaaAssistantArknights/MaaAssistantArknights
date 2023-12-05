@@ -130,6 +130,7 @@
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
+                    "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05",
                     "进驻控制中枢时，控制中枢内所有干员的心情每小时恢复+0.05"
                 ],
                 "efficient": {
@@ -145,7 +146,8 @@
                     "护卫",
                     "小小的领袖",
                     "独善其身",
-                    "笑靥如春"
+                    "笑靥如春",
+                    "金盏花诗会"
                 ],
                 "template": "Bskill_ctrl_cost.png"
             },
@@ -232,6 +234,24 @@
                     "团队合作"
                 ],
                 "template": "Bskill_ctrl_felyne.png"
+            },
+            "bskill_ctrl_fraction_knight": {
+                "desc": [
+                    "进驻控制中枢时，每个进驻在制造站的骑士干员生产力+7%"
+                ],
+                "name": [
+                    "烛骑士微光"
+                ],
+                "template": "Bskill_ctrl_fraction_knight.png"
+            },
+            "bskill_ctrl_g_limit&spd": {
+                "desc": [
+                    "进驻控制中枢时，同一贸易站中，每有1名格拉斯哥帮干员，订单获取效率+10%"
+                ],
+                "name": [
+                    "运筹好手"
+                ],
+                "template": "Bskill_ctrl_g_limit&spd.png"
             },
             "bskill_ctrl_h_spd": {
                 "desc": [
@@ -575,6 +595,33 @@
                 ],
                 "template": "Bskill_dorm_all3.png"
             },
+            "bskill_dorm_all4": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.15（同种效果取最高）"
+                ],
+                "name": [
+                    "芬芳疗养·α"
+                ],
+                "template": "Bskill_dorm_all4.png"
+            },
+            "bskill_dorm_all_tired": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员心情每小时恢复+0.15，同时该宿舍内心情18以下的干员恢复效果额外+0.1（同种效果取最高）"
+                ],
+                "name": [
+                    "芬芳疗养·β"
+                ],
+                "template": "Bskill_dorm_all_tired.png"
+            },
+            "bskill_dorm_bdnum": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内每有1名干员，无声共鸣+1"
+                ],
+                "name": [
+                    "无声共鸣"
+                ],
+                "template": "Bskill_dorm_bdnum.png"
+            },
             "bskill_dorm_exchangeAp": {
                 "desc": [
                     "进驻宿舍时，如果自身为满心情，则与当前宿舍前一位进驻的干员互换心情"
@@ -686,6 +733,15 @@
                     "火山温泉浴"
                 ],
                 "template": "Bskill_dorm_rec_all&profession.png"
+            },
+            "bskill_dorm_rec_allbd": {
+                "desc": [
+                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2，每有5点无声共鸣，该宿舍内所有干员的心情每小时恢复额外+0.01（同种效果取最高）"
+                ],
+                "name": [
+                    "无词颂歌"
+                ],
+                "template": "Bskill_dorm_rec_allbd.png"
             },
             "bskill_dorm_single&one01": {
                 "desc": [
@@ -845,6 +901,15 @@
             "Chip"
         ],
         "skills": {
+            "bskill_formula_spd_sunbr": {
+                "desc": [
+                    "进驻制造站时，若古米在贸易站，则作战记录类配方的生产力+35%"
+                ],
+                "name": [
+                    "患难拍档"
+                ],
+                "template": "Bskill_formula_spd_sunbr.png"
+            },
             "bskill_man_bd1": {
                 "desc": [
                     "进驻制造站时，每5点人间烟火转化为1点巫术结晶"
@@ -2051,6 +2116,15 @@
             "HR"
         ],
         "skills": {
+            "bskill_hire_bd_B": {
+                "desc": [
+                    "进驻人力办公室时，每个招募位（不包含初始招募位）+15点无声共鸣"
+                ],
+                "name": [
+                    "心声图绘"
+                ],
+                "template": "Bskill_hire_bd_B.png"
+            },
             "bskill_hire_blitz": {
                 "desc": [
                     "进驻人力办公室时，人脉资源的联络速度+20%，每1点情报储备额外+5%联络速度，每1瓶乌萨斯特饮额外+5%联络速度"
@@ -2170,6 +2244,24 @@
                 ],
                 "template": "Bskill_hire_spd&cost4.png"
             },
+            "bskill_hire_spd&cost5": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+10%，心情每小时消耗-0.25"
+                ],
+                "name": [
+                    "宫廷礼仪"
+                ],
+                "template": "Bskill_hire_spd&cost5.png"
+            },
+            "bskill_hire_spd&cost6": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+30%，心情每小时消耗-0.25"
+                ],
+                "name": [
+                    "威权谕使"
+                ],
+                "template": "Bskill_hire_spd&cost6.png"
+            },
             "bskill_hire_spd&extra1": {
                 "desc": [
                     "进驻人力办公室时，每个招募位（不包含初始招募位）+10%人脉资源的联络速度"
@@ -2178,6 +2270,15 @@
                     "用人唯才"
                 ],
                 "template": "Bskill_hire_spd&extra1.png"
+            },
+            "bskill_hire_spd&glasgow": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+20%，每产生1次联络次数，增加格拉斯哥帮线索的概率（工作时长和招募位影响概率）"
+                ],
+                "name": [
+                    "旧识新交"
+                ],
+                "template": "Bskill_hire_spd&glasgow.png"
             },
             "bskill_hire_spd&ursus2": {
                 "desc": [
@@ -2469,6 +2570,15 @@
             "No7"
         ],
         "skills": {
+            "bskil_meet_team&char": {
+                "desc": [
+                    "进驻会客室时，提升会客室内另一干员所属派系的线索倾向效果（如会客室没有另一干员则不提升）"
+                ],
+                "name": [
+                    "交个朋友"
+                ],
+                "template": "Bskil_meet_team&char.png"
+            },
             "bskill_meet_blacksteel2": {
                 "desc": [
                     "进驻会客室时，线索搜集速度提升10%，且更容易获得黑钢国际线索（工作时长影响概率）",
@@ -2494,6 +2604,15 @@
                     "得心应手"
                 ],
                 "template": "Bskill_meet_condChar.png"
+            },
+            "bskill_meet_exchange": {
+                "desc": [
+                    "进驻会客室时，处于线索交流时线索搜集速度提升30%"
+                ],
+                "name": [
+                    "无辜笑脸"
+                ],
+                "template": "Bskill_meet_exchange.png"
             },
             "bskill_meet_flag_glasgow": {
                 "desc": [
@@ -3048,6 +3167,15 @@
                 ],
                 "template": "Bskill_tra_limit&cost.png"
             },
+            "bskill_tra_limit2spd": {
+                "desc": [
+                    "进驻贸易站时，当前贸易站内干员提升的每5个订单上限，提供25%订单获取效率，最多提供100%效率"
+                ],
+                "name": [
+                    "冠军风采"
+                ],
+                "template": "Bskill_tra_limit2spd.png"
+            },
             "bskill_tra_limit_count": {
                 "desc": [
                     "进驻贸易站时，当前贸易站内其他干员提供的每10%订单获取效率使订单上限-1（订单最少为1），同时每有1笔订单就+4%订单获取效率（与部分技能有特殊叠加规则）"
@@ -3083,6 +3211,24 @@
                     "投资·β"
                 ],
                 "template": "Bskill_tra_long2.png"
+            },
+            "bskill_tra_par&per1": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+25%；当伊内丝入驻工作场所时（不包含副手），订单获取效率额外+5%"
+                ],
+                "name": [
+                    "白手起家·α"
+                ],
+                "template": "Bskill_tra_par&per1.png"
+            },
+            "bskill_tra_par&per2": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+30%；当伊内丝、W入驻工作场所时（不包含副手），订单获取效率分别额外+5%"
+                ],
+                "name": [
+                    "白手起家·β"
+                ],
+                "template": "Bskill_tra_par&per2.png"
             },
             "bskill_tra_par1": {
                 "desc": [
@@ -3239,6 +3385,24 @@
                 ],
                 "template": "Bskill_tra_spd&limit7.png"
             },
+            "bskill_tra_spd&limit_down1": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+20%，且订单上限-2（订单最少为1）"
+                ],
+                "name": [
+                    "威压"
+                ],
+                "template": "Bskill_tra_spd&limit_down1.png"
+            },
+            "bskill_tra_spd&limit_down2": {
+                "desc": [
+                    "进驻贸易站时，订单获取效率+25%，且订单上限-6（订单最少为1）"
+                ],
+                "name": [
+                    "不怒自威"
+                ],
+                "template": "Bskill_tra_spd&limit_down2.png"
+            },
             "bskill_tra_spd&limit_felyne": {
                 "desc": [
                     "进驻贸易站时，订单获取效率+5%，且订单上限+2，同时每有1个木天蓼，则订单获取效率+3%"
@@ -3385,22 +3549,26 @@
             "bskill_tra_wt&cost1": {
                 "desc": [
                     "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
+                    "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
                     "进驻贸易站时，小幅提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25"
                 ],
                 "name": [
                     "裁缝·α",
-                    "手工艺品·α"
+                    "手工艺品·α",
+                    "鉴定师的眼光"
                 ],
                 "template": "Bskill_tra_wt&cost1.png"
             },
             "bskill_tra_wt&cost2": {
                 "desc": [
                     "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
+                    "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25",
                     "进驻贸易站时，提升当前贸易站高品质贵金属订单的出现概率（工作时长影响概率），心情每小时消耗-0.25"
                 ],
                 "name": [
                     "裁缝·β",
-                    "手工艺品·β"
+                    "手工艺品·β",
+                    "鉴定师的手段"
                 ],
                 "template": "Bskill_tra_wt&cost2.png"
             },
