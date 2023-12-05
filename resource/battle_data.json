@@ -1290,6 +1290,21 @@
             ],
             "rarity": 4
         },
+        "char_194_leto": {
+            "name": "烈夏",
+            "name_en": "烈夏",
+            "name_jp": "烈夏",
+            "name_kr": "烈夏",
+            "name_tw": "烈夏",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-3",
+                "3-12",
+                "3-12"
+            ],
+            "rarity": 5
+        },
         "char_195_glassb": {
             "name": "真理",
             "name_en": "Istina",
@@ -3887,6 +3902,36 @@
                 "3-14"
             ],
             "rarity": 5
+        },
+        "char_4114_harold": {
+            "name": "哈洛德",
+            "name_en": "哈洛德",
+            "name_jp": "哈洛德",
+            "name_kr": "哈洛德",
+            "name_tw": "哈洛德",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-3",
+                "3-17",
+                "3-17"
+            ],
+            "rarity": 5
+        },
+        "char_4116_blkkgt": {
+            "name": "锏",
+            "name_en": "锏",
+            "name_jp": "锏",
+            "name_kr": "锏",
+            "name_tw": "锏",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6
         },
         "char_411_tomimi": {
             "name": "特米米",
@@ -7383,6 +7428,36 @@
             ],
             "rarity": 1
         },
+        "trap_137_winfire": {
+            "name": "紧急供暖器",
+            "name_en": "紧急供暖器",
+            "name_jp": "紧急供暖器",
+            "name_kr": "紧急供暖器",
+            "name_tw": "紧急供暖器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_138_winstone": {
+            "name": "点火石",
+            "name_en": "点火石",
+            "name_jp": "点火石",
+            "name_kr": "点火石",
+            "name_tw": "点火石",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
@@ -9641,6 +9716,52 @@
             [
                 4,
                 0
+            ]
+        ],
+        "4-10": [
+            [
+                0,
+                2
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                0,
+                -2
             ]
         ],
         "4-2": [
