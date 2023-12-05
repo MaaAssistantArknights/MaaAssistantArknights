@@ -1789,6 +1789,7 @@ namespace MaaWpfGui.ViewModels.UI
             int pid = 0;
             string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
             var port = address.StartsWith("127") ? address.Substring(10) : "5555";
+            _logger.Information($"address: {address}, port: {port}");
 
             string portCmd = "netstat -ano|findstr \"" + port + "\"";
             Process checkCmd = new Process
