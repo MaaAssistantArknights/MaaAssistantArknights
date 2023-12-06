@@ -91,9 +91,8 @@
         ]
     },
     "SN-Open": {
-        "cache": false,
-        "template": "SN-Open.png",
-        "algorithm": "MatchTemplate",
+        "baseTask": "#none",
+        "action": "ClickSelf",
         "roi": [
             554,
             104,
