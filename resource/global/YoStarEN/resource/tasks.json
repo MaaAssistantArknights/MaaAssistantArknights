@@ -185,6 +185,7 @@
         ]
     },
     "SN-Open": {
+        "baseTask": "#none",
         "template": "SN-Open.png",
         "algorithm": "MatchTemplate",
         "roi": [
