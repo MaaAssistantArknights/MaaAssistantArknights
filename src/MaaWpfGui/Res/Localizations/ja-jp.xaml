@@ -554,7 +554,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ReconnectFailed">再接続に失敗、切断されました！</system:String>
     <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。設定-接続設定に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
-    <system:String x:Key="FastestWayToScreencap">最速のスクリーンショット方法: {0} ({1:#,#}ms)</system:String>
+    <system:String x:Key="FastestWayToScreencap">スクリーンショット テストには: {0:#,#}ms</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります。 シミュレーターを再起動または変更してみることをお勧めします。</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>

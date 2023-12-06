@@ -554,7 +554,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
     <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to 「Settings - Connection Settings」 to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
-    <system:String x:Key="FastestWayToScreencap">Fastest screenshot method: {0} ({1:#,#}ms)</system:String>
+    <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0:#,#}ms</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long, so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
