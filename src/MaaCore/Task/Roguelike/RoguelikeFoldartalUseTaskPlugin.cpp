@@ -253,16 +253,16 @@ void asst::RoguelikeFoldartalUseTaskPlugin::swipe_to_top() const
     }
 }
 
-void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(bool to_up, int swipe_dist) const
+void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(const bool direction, int swipe_dist) const
 {
-    std::string swipe_task_name = to_up ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
+    std::string swipe_task_name = direction ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
     if (!ControlFeat::support(ctrler()->support_features(),
                               ControlFeat::PRECISE_SWIPE)) { // 不能精准滑动时不使用 swipe_dist 参数
         ProcessTask(*this, { swipe_task_name }).run();
         return;
     }
 
-    if (!to_up) swipe_dist = -swipe_dist;
+    if (!direction) swipe_dist = -swipe_dist;
     const auto swipe_task = Task.get(swipe_task_name);
     const Rect& start_point = swipe_task->specific_rect;
     ctrler()->swipe(start_point,

@@ -41,8 +41,8 @@ namespace asst
         bool search_and_click_stage() const;
         // 滑到最上面
         void swipe_to_top() const;
-        // 往下滑
-        void slowly_swipe(bool to_down, int swipe_dist = 200) const;
+        // 缓慢滑动
+        void slowly_swipe(bool direction, int swipe_dist = 200) const;
         // 节点类型
         mutable std::string m_stage;
     };
