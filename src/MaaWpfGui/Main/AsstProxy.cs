@@ -479,6 +479,7 @@ namespace MaaWpfGui.Main
 
                     fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), method, costString));
                     Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
+                    Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
                     break;
             }
         }
