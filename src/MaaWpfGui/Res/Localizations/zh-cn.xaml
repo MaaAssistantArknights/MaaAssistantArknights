@@ -555,6 +555,8 @@
     <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截图: {0} ({1:#,#}ms)</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长，使用自动战斗类功能（如自动肉鸽）时，可能出现部分异常表现</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
