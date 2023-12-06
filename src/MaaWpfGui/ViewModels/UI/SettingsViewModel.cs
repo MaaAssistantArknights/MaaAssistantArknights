@@ -2470,7 +2470,24 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public string SelectExtraTags
         {
-            get => _selectExtraTags;
+            get
+            {
+                if (int.TryParse(_selectExtraTags, out _))
+                {
+                    return _selectExtraTags;
+                }
+
+                var value = "0";
+                if (bool.TryParse(_selectExtraTags, out bool boolValue))
+                {
+                    value = boolValue ? "1" : "0";
+                }
+
+                SetAndNotify(ref _selectExtraTags, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
+                return value;
+            }
+
             set
             {
                 SetAndNotify(ref _selectExtraTags, value);
