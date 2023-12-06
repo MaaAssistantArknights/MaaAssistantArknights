@@ -35,6 +35,16 @@ jobs:
         run: npm ci
         working-directory: './docs'
 
+      - name: Cleanup files
+        run: rm tsconfig.json
+        working-directory: './docs'
+
       - name: Build
         run: npm run build
         working-directory: './docs'
+
+      - name: Upload artifact to GitHub
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: './docs/.vuepress/dist'
