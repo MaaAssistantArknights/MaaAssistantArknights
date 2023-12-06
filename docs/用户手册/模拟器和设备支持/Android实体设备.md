@@ -2,6 +2,7 @@
 order: 4
 icon: mingcute:android-fill
 ---
+
 # Android 实体设备
 
 ::: info 注意
@@ -24,27 +25,27 @@ icon: mingcute:android-fill
 4. 手机开启 `USB 调试`，每个品牌的手机进入方式可能不同，请善用搜索引擎。厂商可能会提供有关 USB 调试的额外选项，如 MIUI 中的 `USB安装` 和 `USB调试（安全设置）`，请同时开启。
 5. 将手机通过数据线连接至电脑，在刚刚的命令提示符窗口中输入以下命令。
 
-    ```bash
-    adb devices
-    ```
+   ```bash
+   adb devices
+   ```
 
 - 成功执行后会给出已连接 `USB 调试` 设备的信息。
 
   - 连接成功的例子：
 
-      ```bash
-      List of devices attached
-      VFNDU1682100xxxx        device
-      ```
+    ```bash
+    List of devices attached
+    VFNDU1682100xxxx        device
+    ```
 
   - **`device` 前的英文数字组合为设备序列号，同时也作为 MAA 的 `连接地址`。**
 
 - 现代安卓设备进行 `USB调试` 需在被调试设备上点击弹窗授权，若未授权则例子如下：
 
-    ```bash
-    List of devices attached
-    VFNDU1682100xxxx        unauthorized
-    ```
+  ```bash
+  List of devices attached
+  VFNDU1682100xxxx        unauthorized
+  ```
 
 - 若无论如何都提示未授权或设备序列号后显示 `offline`，则需重启设备及电脑后重试。如仍未解决问题，可删除当前用户个人文件夹下的 `.android` 文件夹并再次重启后重试，具体位置请自行搜索。
 
@@ -56,63 +57,63 @@ icon: mingcute:android-fill
 
 - 如果上文设备列表内仅有一台设备，则可直接运行以下命令更改/还原分辨率。
 
-    ```bash
-    :: 查看当前分辨率
-    adb shell wm size
-    :: 还原默认分辨率
-    adb shell wm size reset
-    
-    :: 更改分辨率为 720p
-    adb shell wm size 720x1280
-    :: 更改分辨率为 1080p
-    adb shell wm size 1080x1920
-    ```
+  ```bash
+  :: 查看当前分辨率
+  adb shell wm size
+  :: 还原默认分辨率
+  adb shell wm size reset
+
+  :: 更改分辨率为 720p
+  adb shell wm size 720x1280
+  :: 更改分辨率为 1080p
+  adb shell wm size 1080x1920
+  ```
 
 - 若存在多台设备，则需在 `adb` 和 `shell` 中间添加参数 `-s <目标设备序列号>`，例子如下。
 
-    ```bash
-    :: 查看当前分辨率
-    adb -s VFNDU1682100xxxx shell wm size
-    :: 还原默认分辨率
-    adb -s VFNDU1682100xxxx shell wm size reset
+  ```bash
+  :: 查看当前分辨率
+  adb -s VFNDU1682100xxxx shell wm size
+  :: 还原默认分辨率
+  adb -s VFNDU1682100xxxx shell wm size reset
 
-    :: 更改分辨率为 720p
-    adb -s VFNDU1682100xxxx shell wm size 720x1280
-    :: 更改分辨率为 1080p
-    adb -s VFNDU1682100xxxx shell wm size 1080x1920
-    ```
+  :: 更改分辨率为 720p
+  adb -s VFNDU1682100xxxx shell wm size 720x1280
+  :: 更改分辨率为 1080p
+  adb -s VFNDU1682100xxxx shell wm size 1080x1920
+  ```
 
 - 部分设计不规范的应用可能在还原分辨率后内容布局仍然错乱，一般重启对应应用或设备即可解决。
 
 ::: danger 注意
-务必于**重启设备前**还原分辨率 ，否则因设备而定可能会导致不可预料的后果 ~~，包括但不限于布局混乱，触控错位，应用闪退，无法开机等。~~ 
+务必于**重启设备前**还原分辨率 ，否则因设备而定可能会导致不可预料的后果 ~~，包括但不限于布局混乱，触控错位，应用闪退，无法开机等。~~
 :::
 
 ## 自动化更改分辨率
 
 1. 在 MAA 目录下新建两个文本文件，分别在其中填入以下内容。
 
-    ```bash
-    :: 调整分辨率为 1080p
-    adb -s <目标设备序列号> shell wm size 1080x1920
-    :: 降低屏幕亮度（可选）
-    adb -s <目标设备序列号> shell settings put system screen_brightness 1 
-    ```
+   ```bash
+   :: 调整分辨率为 1080p
+   adb -s <目标设备序列号> shell wm size 1080x1920
+   :: 降低屏幕亮度（可选）
+   adb -s <目标设备序列号> shell settings put system screen_brightness 1
+   ```
 
-    ```bash
-    :: 还原分辨率
-    adb -s <目标设备序列号> shell wm size reset
-    :: 提高屏幕亮度（可选）
-    adb -s <目标设备序列号> shell settings put system screen_brightness 20
-    :: 返回桌面（可选）
-    adb -s <目标设备序列号> shell input keyevent 3
-    :: 锁屏（可选）
-    adb -s <目标设备序列号> shell input keyevent 26
-    ```
+   ```bash
+   :: 还原分辨率
+   adb -s <目标设备序列号> shell wm size reset
+   :: 提高屏幕亮度（可选）
+   adb -s <目标设备序列号> shell settings put system screen_brightness 20
+   :: 返回桌面（可选）
+   adb -s <目标设备序列号> shell input keyevent 3
+   :: 锁屏（可选）
+   adb -s <目标设备序列号> shell input keyevent 26
+   ```
 
 2. 将第一个文件重命名为 `startup.bat`，第二个文件重命名为 `finish.bat`。
 
-    - 如果重命名后没有弹出修改扩展名的二次确认对话框，且文件图标没有变化，请自行搜索“Windows如何显示文件扩展名”。
+   - 如果重命名后没有弹出修改扩展名的二次确认对话框，且文件图标没有变化，请自行搜索“Windows 如何显示文件扩展名”。
 
 3. 在 MAA 的 `设置` - `连接设置` - `开始前脚本` 和 `结束后脚本` 中分别填入 `startup.bat` 和 `finish.bat`。
 
@@ -141,15 +142,15 @@ icon: mingcute:android-fill
 
 1. 在刚刚的命令提示符窗口中输入以下命令以开启无线调试。
 
-    ```bash
-    adb tcpip 5555
-    :: 存在多台设备则添加参数 -s 以指定序列号
-    ```
+   ```bash
+   adb tcpip 5555
+   :: 存在多台设备则添加参数 -s 以指定序列号
+   ```
 
 2. 查看设备 IP 地址。
 
-    - 进入手机 `设置` - `WLAN`，点击当前已连接的无线网络查看 IP 地址。
-    - 各类品牌设备设置位置不同，请自行查找。
+   - 进入手机 `设置` - `WLAN`，点击当前已连接的无线网络查看 IP 地址。
+   - 各类品牌设备设置位置不同，请自行查找。
 
 3. 将 `<IP>:5555` 填入 MAA `设置` - `连接设置` - `连接地址` 中，如 `192.168.1.2:5555`。
 4. Link Start!
@@ -165,9 +166,9 @@ icon: mingcute:android-fill
 
 2. 进行配对。
 
-    1. 在命令提示符中输入 `adb pair <设备弹窗给出的 IP 地址和端口>`，回车。
-    2. 输入 `<设备弹窗给出的六位配对码>`，回车。
-    3. 窗口出现 `Successfully paired to <IP:端口>` 等内容，同时设备上的弹窗自动消失，底部已配对的设备中出现计算机名称。
+   1. 在命令提示符中输入 `adb pair <设备弹窗给出的 IP 地址和端口>`，回车。
+   2. 输入 `<设备弹窗给出的六位配对码>`，回车。
+   3. 窗口出现 `Successfully paired to <IP:端口>` 等内容，同时设备上的弹窗自动消失，底部已配对的设备中出现计算机名称。
 
 3. 将当前设备屏幕上给出的 `<IP 地址和端口>` 填入 MAA `设置` - `连接设置` - `连接地址` 中，如 `192.168.1.2:11451`，**一定和刚刚填写的不一样**。
 4. Link Start!
