@@ -9841,10 +9841,10 @@
             427
         ],
         "next": [
-            "ChangeOrderComfirm"
+            "ChangeOrderConfirm"
         ]
     },
-    "ChangeOrderComfirm": {
+    "ChangeOrderConfirm": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -9854,7 +9854,7 @@
             140
         ],
         "next": [
-            "ChangeOrderComfirm@LoadingText",
+            "ChangeOrderConfirm@LoadingText",
             "Stop"
         ]
     },
@@ -9885,7 +9885,7 @@
             427
         ],
         "next": [
-            "ChangeOrderComfirm"
+            "ChangeOrderConfirm"
         ]
     },
     "ChooseProductList": {
@@ -9906,7 +9906,7 @@
             487
         ]
     },
-    "ComfirmProductChange": {
+    "ConfirmProductChange": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ReplenishToMaxConfirm.png",
@@ -9918,7 +9918,7 @@
             120
         ],
         "next": [
-            "ProductFinalComfirm"
+            "ProductFinalConfirm"
         ]
     },
     "ClickProductMax": {
@@ -9933,7 +9933,7 @@
             60
         ],
         "next": [
-            "ComfirmProductChange"
+            "ConfirmProductChange"
         ]
     },
     "ChooseBattleRecord": {
@@ -9951,7 +9951,7 @@
             "ClickProductMax"
         ]
     },
-    "ProductFinalComfirm": {
+    "ProductFinalConfirm": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SSSSettlementConfirm.png",
@@ -9963,7 +9963,7 @@
             100
         ],
         "next": [
-            "ProductFinalComfirm@LoadingText",
+            "ProductFinalConfirm@LoadingText",
             "Stop"
         ]
     },
