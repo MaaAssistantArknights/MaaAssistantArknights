@@ -91,6 +91,7 @@
         ]
     },
     "SN-Open": {
+        "baseTask": "#none",
         "cache": false,
         "template": "SN-Open.png",
         "algorithm": "MatchTemplate",
