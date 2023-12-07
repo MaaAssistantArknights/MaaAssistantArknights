@@ -216,15 +216,16 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            if (ret1 != UpdateResult.Success && ret2 != UpdateResult.Success)
+            PostProcVersionChecks();
+
+            if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
             {
-                OutputDownloadProgress(LocalizationHelper.GetString("GameResourceNotModified"));
-                return UpdateResult.NotModified;
+                OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
+                return UpdateResult.Success;
             }
 
-            PostProcVersionChecks();
-            OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
-            return UpdateResult.Success;
+            OutputDownloadProgress(LocalizationHelper.GetString("GameResourceNotModified"));
+            return UpdateResult.NotModified;
         }
 
         private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl, int maxRetryTime = 2)
