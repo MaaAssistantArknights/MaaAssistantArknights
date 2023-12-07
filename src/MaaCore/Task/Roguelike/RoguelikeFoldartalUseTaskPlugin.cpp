@@ -186,7 +186,7 @@ asst::RoguelikeFoldartalUseTaskPlugin::use_board_result asst::RoguelikeFoldartal
         result = use_board_result::stage_not_found;
     }
     else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" }).run()) {
-        result = use_board_result::use_board_result_success;
+        return use_board_result::use_board_result_success;
     }
     else {
         result = use_board_result::can_not_use_confirm;
