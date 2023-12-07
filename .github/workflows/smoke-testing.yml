@@ -11,6 +11,8 @@ on:
       - 'MAA.sln'
       - 'resource/**'
       - 'MaaDeps/**'
+    paths-ignore:
+      - '**/*.md'
   pull_request:
     paths:
       - '3rdparty/include/**'
@@ -21,6 +23,8 @@ on:
       - 'MAA.sln'
       - 'resource/**'
       - 'MaaDeps/**'
+    paths-ignore:
+      - '**/*.md'
   workflow_dispatch:
 
 jobs:

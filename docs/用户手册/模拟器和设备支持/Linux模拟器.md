@@ -1,7 +1,9 @@
 ---
+order: 3
 icon: teenyicons:linux-alt-solid
 ---
-# Linux模拟器支持
+
+# Linux 模拟器
 
 ## 准备工作
 
@@ -13,7 +15,7 @@ icon: teenyicons:linux-alt-solid
 
 ::: tip
 预编译的版本包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库，如果您系统中的 libstdc++ 版本较老，可能遇到 ABI 不兼容的问题
-可以参考 [2.1-Linux编译教程](./2.1-Linux编译教程.md) 重新编译或使用容器运行
+可以参考 [Linux 编译教程](../../开发文档/Linux编译教程.md) 重新编译或使用容器运行
 :::
 
 - Arch Linux 系列发行版可以选择使用 aur 包 [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights),
@@ -27,9 +29,9 @@ icon: teenyicons:linux-alt-solid
 
    - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 `adb` 。可以直接在 `adb.exe` 一栏填写 `adb` 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
 
-    ```python
-    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 adb 地址"):
-    ```
+   ```python
+   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 adb 地址"):
+   ```
 
    - 如果使用其他模拟器须先下载 `adb` ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可
 
@@ -37,23 +39,23 @@ icon: teenyicons:linux-alt-solid
 
    - 可以直接使用 adb 工具： `$ adb路径 devices` ，例如：
 
-    ```shell
-    $ /home/foo/Android/Sdk/platform-tools/adb devices
-    List of devices attached
-    emulator-5554 device
-    ```
+   ```shell
+   $ /home/foo/Android/Sdk/platform-tools/adb devices
+   List of devices attached
+   emulator-5554 device
+   ```
 
-   - 返回的 `emulator-5554` 就是模拟器的adb地址，覆盖掉 `127.0.0.1:5555` ，例如：
+   - 返回的 `emulator-5554` 就是模拟器的 adb 地址，覆盖掉 `127.0.0.1:5555` ，例如：
 
-    ```python
-    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
-    ```
+   ```python
+   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
+   ```
 
 4. 这时候可以测试下： `$ python3 sample.py` ，如果返回 `连接成功` 则基本成功了
 
 ### 3. 任务配置
 
-自定义任务： 根据需要参考 [3.x 集成文档](https://maa.plus/docs/3.1-%E9%9B%86%E6%88%90%E6%96%87%E6%A1%A3.html) 对 `sample.py` 的 [`# 任务及参数请参考 docs/集成文档.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一栏进行修改
+自定义任务： 根据需要参考 [集成文档](../../协议文档/集成文档.md) 对 `sample.py` 的 [`# 任务及参数请参考 docs/集成文档.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一栏进行修改
 
 ## 模拟器支持
 
@@ -61,11 +63,11 @@ icon: teenyicons:linux-alt-solid
 
 必选配置： 16:9 的屏幕分辨率，且分辨率需大于 720p
 
-推荐配置： x86\_64 的框架 (R - 30 - x86\_64 - Android 11.0) 配合 MAA 的 Linux x64 动态库
+推荐配置： x86_64 的框架 (R - 30 - x86_64 - Android 11.0) 配合 MAA 的 Linux x64 动态库
 
 ### ⚠️ [Genymotion](https://www.genymotion.com/)
 
-高版本安卓自带 x86\_64 框架，轻量但是运行明日方舟时易闪退
+高版本安卓自带 x86_64 框架，轻量但是运行明日方舟时易闪退
 
 暂未严格测试， adb 功能和路径获取没有问题
 

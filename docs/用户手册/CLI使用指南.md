@@ -1,14 +1,15 @@
 ---
 icon: material-symbols:terminal
 ---
-# CLI使用指南
+
+# CLI 使用指南
 
 ## 功能介绍
 
 - 通过 TOML，JSON，YAML 格式的配置文件定义 MAA 任务流程，并通过 `maa run <task>` 命令执行任务。
 - 通过 `maa list` 命令列出所有可用任务。
-- 通过 `maa install` 和 `maa update` 命令安装和更新MAA共享库和资源。
-- 通过 `maa self update` 命令更新CLI自身。
+- 通过 `maa install` 和 `maa update` 命令安装和更新 MAA 共享库和资源。
+- 通过 `maa self update` 命令更新 CLI 自身。
 
 ## 安装
 
@@ -28,7 +29,7 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 #### Linux
 
-ArchLinux 用户可以安装[AUR包](https://aur.archlinux.org/packages/maa-cli/):
+ArchLinux 用户可以安装[AUR 包](https://aur.archlinux.org/packages/maa-cli/):
 
 ```bash
 yay -S maa-cli
@@ -100,7 +101,7 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 #### 基本结构
 
-一个任务文件包含多个子任务，每一个子任务是一个[MAA任务](https://maa.plus/docs/3.1-集成文档.html#asstappendtask)：
+一个任务文件包含多个子任务，每一个子任务是一个[MAA 任务](../协议文档/集成文档.md#asstappendtask)：
 
 ```toml
 [[tasks]]
@@ -313,7 +314,7 @@ config = "CompatMac" # maa connect的配置
 
 两者都需要提供 `config`，这个值将被传给 MaaCore，用于指定一些平台和模拟器相关的配置。对于 Linux 他默认为 `CompatPOSIXShell`，对于 macOS 他默认为 `CompatMac`，对于 Windows 他默认为 `General`。更多可选配置可以在资源文件夹中的 `config.json` 文件中找到。
 
-`[instance_options]` 相关字段用于指定 MaaCore 实例的选项，详见 [集成](https://maa.plus/docs/3.1-集成文档.html#asstsetinstanceoption)：
+`[instance_options]` 相关字段用于指定 MaaCore 实例的选项，详见 [集成文档](../协议文档/集成文档.md#asstsetinstanceoption)：
 
 ```toml
 [instance_options]
