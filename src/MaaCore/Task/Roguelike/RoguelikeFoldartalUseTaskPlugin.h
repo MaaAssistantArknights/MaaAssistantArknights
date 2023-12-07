@@ -19,10 +19,7 @@ namespace asst
 
     private:
         // 遍历配置里的组合
-        bool search_enable_pair(std::vector<std::string>& list, const asst::RoguelikeFoldartalCombination& usage);
-        // 查询是否有能使用的板子对
-        // 似乎没实现，先注释掉了
-        // bool board_pair(const std::string& up_board, const std::string& down_board);
+        void use_enable_pair(std::vector<std::string>& list, const asst::RoguelikeFoldartalCombination& usage);
         // 使用板子对结果
         enum class use_board_result
         {
@@ -31,6 +28,7 @@ namespace asst
             up_board_not_found,
             down_board_not_found,
             stage_not_found,
+            can_not_use_confirm,
             unknown_error,
         };
         // 使用板子对

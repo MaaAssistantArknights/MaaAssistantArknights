@@ -76,42 +76,48 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     auto foldartal_list = m_config->get_foldartal();
     Log.debug("All foldartal got yet:", foldartal_list);
-    if (const auto it = ranges::find_if(combination,
-                                        [&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
+    if (const auto it = ranges::find_if(
+            combination, [&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
         it != combination.end()) {
-        search_enable_pair(foldartal_list, *it);
+        use_enable_pair(foldartal_list, *it);
     }
 
     return true;
 }
 
-bool asst::RoguelikeFoldartalUseTaskPlugin::search_enable_pair(std::vector<std::string>& list,
+void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::string>& list,
                                                                const asst::RoguelikeFoldartalCombination& usage)
 {
     LogTraceFunction;
     auto check_pair = [&](const auto& pair) {
         // 存储需要跳过的板子
-        std::vector<std::string> boards_to_remove;
+        std::vector<std::string> boards_to_skip;
         // 遍历上板子
         for (const std::string& up_board : pair.up_board) {
             if (need_exit()) {
-                break;
+                return;
             }
             auto iter_up = ranges::find(list, up_board);
-            if (iter_up == list.end() || ranges::find(boards_to_remove, up_board) != boards_to_remove.end()) {
+            if (iter_up == list.end() || ranges::find(boards_to_skip, up_board) != boards_to_skip.end()) {
                 continue;
             }
 
             // 遍历下板子
             for (const std::string& down_board : pair.down_board) {
                 if (need_exit()) {
-                    break;
+                    return;
                 }
                 auto iter_down = ranges::find(list, down_board);
-                if (iter_down == list.end() || ranges::find(boards_to_remove, down_board) != boards_to_remove.end()) {
+                if (iter_down == list.end() || ranges::find(boards_to_skip, down_board) != boards_to_skip.end()) {
                     continue;
                 }
                 const auto result = use_board(up_board, down_board);
+                /*
+                 * 现在的做法是上/下板子未找到就删除对应板子
+                 * 关卡找不到通常是选择了预见的上板子，本轮跳过对应上板子
+                 * 宣告不了通常是选择了预见的下板子，本轮跳过对应下板子
+                 * 其他错误直接结束任务
+                 */
                 // 直接结束任务
                 if (result == use_board_result::click_foldartal_error) {
                     Log.error("Click foldartal error!");
@@ -122,22 +128,25 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_enable_pair(std::vector<std::
                     return;
                 }
                 // 涉及上板子的错误，跳出循环
-                // 通常是预见板子用不了
                 if (result == use_board_result::stage_not_found) {
-                    boards_to_remove.push_back(up_board);
-                    boards_to_remove.push_back(down_board);
-                    Log.error("Stage not found!");
+                    boards_to_skip.push_back(up_board);
+                    Log.error("Stage not found! Skip up board:", up_board);
                     break;
                 }
                 if (result == use_board_result::up_board_not_found) {
                     list.erase(iter_up);
-                    Log.error("Up board not found!Delete up board:", up_board);
+                    Log.error("Up board not found! Delete up board:", up_board);
                     break;
                 }
                 // 涉及下板子的错误，继续循环
+                if (result == use_board_result::can_not_use_confirm) {
+                    boards_to_skip.erase(iter_down);
+                    Log.error("Can not use confirm! Skip down board:", down_board);
+                    continue;
+                }
                 if (result == use_board_result::down_board_not_found) {
                     list.erase(iter_down);
-                    Log.error("Down board not found!Delete down board:", down_board);
+                    Log.error("Down board not found! Delete down board:", down_board);
                     continue;
                 }
                 // 正常使用板子，用完删除上板子和下板子
@@ -152,36 +161,39 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_enable_pair(std::vector<std::
 
     ranges::for_each(usage.pairs, check_pair);
 
-    return false;
+    return;
 }
 
 asst::RoguelikeFoldartalUseTaskPlugin::use_board_result asst::RoguelikeFoldartalUseTaskPlugin::use_board(
     const std::string& up_board, const std::string& down_board) const
 {
+    auto result = use_board_result::click_foldartal_error;
     Log.trace("Try to use the board pair", up_board, down_board);
 
     if (!ProcessTask(*this, { m_config->get_theme() + "@Roguelike@Foldartal" }).run()) {
-        return use_board_result::click_foldartal_error;
+        return result;
     }
 
     swipe_to_top();
     // todo:插入一个滑动时顺便更新密文板overview,因为有的板子可以用两次
     if (!search_and_click_board(up_board)) {
-        return use_board_result::up_board_not_found;
+        result = use_board_result::up_board_not_found;
     }
-    if (!search_and_click_board(down_board)) {
-        return use_board_result::down_board_not_found;
+    else if (!search_and_click_board(down_board)) {
+        result = use_board_result::down_board_not_found;
     }
-    if (!search_and_click_stage()) {
-        return use_board_result::stage_not_found;
+    else if (!search_and_click_stage()) {
+        result = use_board_result::stage_not_found;
     }
-
-    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" }).run()) {
-        return use_board_result::use_board_result_success;
+    else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" }).run()) {
+        result = use_board_result::use_board_result_success;
+    }
+    else {
+        result = use_board_result::can_not_use_confirm;
     }
 
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalBack" }).run();
-    return use_board_result::unknown_error;
+    return result;
 }
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_board(const std::string& board) const
@@ -255,7 +267,8 @@ void asst::RoguelikeFoldartalUseTaskPlugin::swipe_to_top() const
 
 void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(const bool direction, int swipe_dist) const
 {
-    std::string swipe_task_name = direction ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
+    std::string swipe_task_name =
+        direction ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
     if (!ControlFeat::support(ctrler()->support_features(),
                               ControlFeat::PRECISE_SWIPE)) { // 不能精准滑动时不使用 swipe_dist 参数
         ProcessTask(*this, { swipe_task_name }).run();
@@ -265,11 +278,12 @@ void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(const bool direction, i
     if (!direction) swipe_dist = -swipe_dist;
     const auto swipe_task = Task.get(swipe_task_name);
     const Rect& start_point = swipe_task->specific_rect;
-    ctrler()->swipe(start_point,
-                    { start_point.x + swipe_dist - start_point.width, start_point.y, start_point.width, start_point.height },
-                    swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
-                    (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
-                    (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
-                    (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
+    ctrler()->swipe(
+        start_point,
+        { start_point.x + swipe_dist - start_point.width, start_point.y, start_point.width, start_point.height },
+        swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
+        (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
+        (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),
+        (swipe_task->special_params.size() < 4) ? 1 : swipe_task->special_params.at(3));
     sleep(swipe_task->post_delay);
 }
