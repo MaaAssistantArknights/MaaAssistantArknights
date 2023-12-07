@@ -14,8 +14,7 @@ on:
       - 'CMakeLists.txt'
       - 'MAA.sln'
       - '.github/workflows/ci.yml'
-    paths-ignore:
-      - '**/*.md'
+      - '!**/*.md'
   pull_request:
     branches:
       - 'dev'
@@ -26,8 +25,7 @@ on:
       - 'cmake/**'
       - 'CMakeLists.txt'
       - 'MAA.sln'
-    paths-ignore:
-      - '**/*.md'
+      - '!**/*.md'
   workflow_dispatch:
 
 jobs:
