@@ -1,6 +1,8 @@
 ---
+order: 2
 icon: teenyicons:linux-alt-solid
 ---
+
 # Linux 编译教程
 
 **本教程需要读者有一定的 Linux 环境配置能力及编程基础！**
@@ -13,53 +15,55 @@ MAA 的构建方法仍在讨论中, 本教程的内容可能过时, 请以 [GitH
 
 1. 下载编译所需的依赖
 
-    - Ubuntu/Debian
+   - Ubuntu/Debian
 
-    ```bash
-    sudo apt install gcc-12 g++-12 cmake zlib1g-dev
-    ```
+   ```bash
+   sudo apt install gcc-12 g++-12 cmake zlib1g-dev
+   ```
 
 2. 构建第三方库
 
-    - 下载预构建的第三方库
+   - 下载预构建的第三方库
 
-        > **Note**
-        > 包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库, 如果您系统中的 libstdc++ 版本较老, 可能遇到 ABI 不兼容的问题.
-        ```cmd
-        python maadeps-download.py
-        ```
+     > **Note**
+     > 包含在相对较新的 Linux 发行版 (Ubuntu 22.04) 中编译的动态库, 如果您系统中的 libstdc++ 版本较老, 可能遇到 ABI 不兼容的问题.
 
-    - 自行构建第三方库
+     ```cmd
+     python maadeps-download.py
+     ```
 
-        ```cmd
-        git submodule update --init --recursive
-        python maadeps-build.py
-        ```
+   - 自行构建第三方库
+
+     ```cmd
+     git submodule update --init --recursive
+     python maadeps-build.py
+     ```
 
 3. 编译 MAA
 
-    ```bash
-    mkdir -p build
-    CC=gcc-12 CXX=g++-12 cmake -B build \
-        -DINSTALL_THIRD_LIBS=ON \
-        -DINSTALL_RESOURCE=ON \
-        -DINSTALL_PYTHON=ON
-    cmake --build build
-    ```
+   ```bash
+   mkdir -p build
+   CC=gcc-12 CXX=g++-12 cmake -B build \
+       -DINSTALL_THIRD_LIBS=ON \
+       -DINSTALL_RESOURCE=ON \
+       -DINSTALL_PYTHON=ON
+   cmake --build build
+   ```
 
-    来将 MAA 安装到目标位置, 注意 MAA 推荐通过指定 `LD_LIBRARY_PATH` 来运行, 不要使用管理员权限将 MAA 装入 `/`
+   来将 MAA 安装到目标位置, 注意 MAA 推荐通过指定 `LD_LIBRARY_PATH` 来运行, 不要使用管理员权限将 MAA 装入 `/`
 
-    ```bash
-    cmake --install build --prefix <target_directory>
-    ```
+   ```bash
+   cmake --install build --prefix <target_directory>
+   ```
 
 ## 其他安装方法
+
 - AUR: [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)
 - NUR: [nur.repos.cryolitia.MaaAssistantArknights](https://github.com/nix-community/nur-combined/tree/master/repos/cryolitia/pkgs/MaaAssistantArknights/default.nix#L138)
 
 ## 集成文档
 
-[~~或许算不上文档~~](3.1-集成文档.md)
+[~~或许算不上文档~~](../协议文档/集成文档.md)
 
 ### Python
 

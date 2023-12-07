@@ -1,6 +1,8 @@
 ---
+order: 4
 icon: bxs:bot
 ---
+
 # Issue Bot 使用方法
 
 Issue Bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-checker)，配置文件为 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
