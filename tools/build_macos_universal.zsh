@@ -23,7 +23,7 @@ done
 
 pushd build
 xcodebuild -create-xcframework -library libMaaCore.dylib -headers ../include -output MaaCore.xcframework
-xcodebuild -create-xcframework -library libMaaDerpLearning.dylib -output MaaDerpLearning.xcframework
+xcodebuild -create-xcframework -library libMaaDeepLearning.dylib -output MaaDeepLearning.xcframework
 xcodebuild -create-xcframework -library libonnxruntime.*.dylib -output ONNXRuntime.xcframework
 xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
 rm -rf *.dylib

@@ -77,7 +77,7 @@ endif (BUILD_TEST)
 
 find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs videoio)
 find_package(ZLIB REQUIRED)
-find_package(MaaDerpLearning REQUIRED)
+find_package(MaaDeepLearning REQUIRED)
 find_package(asio REQUIRED)
 find_package(ONNXRuntime)
 find_package(cpr CONFIG REQUIRED)
@@ -85,7 +85,7 @@ if(WITH_THRIFT)
     find_package(Thrift CONFIG REQUIRED)
 endif(WITH_THRIFT)
 
-target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime cpr::cpr header_only_libraries)
+target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDeepLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime cpr::cpr header_only_libraries)
 
 if(WITH_THRIFT)
     add_subdirectory(src/MaaThriftController)
