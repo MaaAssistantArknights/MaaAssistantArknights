@@ -36,7 +36,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number,
-                body: `Invalid commit(s) found:\n\n${invalidCommitInfoList}`
+                body: `Invalid commit(s) found:\n\n${invalidCommitInfoList}\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
               });
 
               core.setFailed(`Invalid commit(s) found: ${invalidCommitNames.join(", ")}`);
