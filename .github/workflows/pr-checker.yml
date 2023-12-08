@@ -20,12 +20,12 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
             });
-            
+
             const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|i18n)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
             const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message) || commit.parents.length > 1);
-            
+
             console.log(`check ${commits.length} commit(s)`);
-            
+
             if (invalidCommits.length > 0) {
               const invalidCommitNames = invalidCommits.map(commit => commit.commit.message);
               core.setFailed(`Invalid commit found: ${invalidCommitNames.join(", ")}`);
