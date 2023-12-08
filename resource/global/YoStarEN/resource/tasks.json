@@ -2297,15 +2297,8 @@
         "templThreshold": 0.7
     },
     "StartButton1": {
-        "doc": "temporary roi change for Stultifera Navis GUI",
         "text": [
             "Start"
-        ],
-        "roi": [
-            1036,
-            630,
-            208,
-            56
         ]
     },
     "PRTS2": {
@@ -2334,15 +2327,6 @@
             126,
             386,
             208
-        ]
-    },
-    "SanityMatch": {
-        "doc": "temporary roi change for Stultifera Navis GUI",
-        "roi": [
-            1090,
-            20,
-            190,
-            40
         ]
     },
     "MedicineExpiringTime": {

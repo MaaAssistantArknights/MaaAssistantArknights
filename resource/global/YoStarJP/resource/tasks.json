@@ -2460,29 +2460,13 @@
         ]
     },
     "StartButton1": {
-        "doc": "temporary roi change for Stultifera Navis GUI",
         "text": [
             "行動開始"
-        ],
-        "roi": [
-            1038,
-            628,
-            206,
-            60
         ]
     },
     "PRTS3": {
         "text": [
             "残り配置可能数"
-        ]
-    },
-    "SanityMatch": {
-        "doc": "temporary roi change for Stultifera Navis GUI",
-        "roi": [
-            1090,
-            20,
-            190,
-            40
         ]
     },
     "MedicineExpiringTime": {
