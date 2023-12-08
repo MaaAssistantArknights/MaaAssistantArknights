@@ -1092,6 +1092,88 @@
             550
         ]
     },
+    "RS-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-8@SideStoryStage",
+            "RS-8@SwipeToStage"
+        ]
+    },
+    "RS-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-7@SideStoryStage",
+            "RS-7@SwipeToStage"
+        ]
+    },
+    "RS-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-6@SideStoryStage",
+            "RS-6@SwipeToStage"
+        ]
+    },
+    "RS-OpenOcr": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "银心",
+            "列车",
+            "特快"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "RSChapterToRS"
+        ]
+    },
+    "RSChapterToRS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "站台"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1027,
+            443,
+            158,
+            137
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "RS-8@SideStoryStage": {
+        "text": [
+            "RS-8"
+        ]
+    },
+    "RS-7@SideStoryStage": {
+        "text": [
+            "RS-7"
+        ]
+    },
+    "RS-9@SideStoryStage": {
+        "text": [
+            "RS-9"
+        ]
+    },
     "ZT-9": {
         "algorithm": "JustReturn",
         "sub": [
@@ -7833,9 +7915,32 @@
         "action": "ClickRect",
         "specificRect": [
             15,
+            650,
+            80,
+            30
+        ]
+    },
+    "BattleQuickFormationSkill-SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 100,
+        "specificRect": [
+            15,
             710,
             80,
             10
+        ],
+        "rectMove": [
+            15,
+            385,
+            80,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
         ]
     },
     "BattleQuickFormationConfirm": {
@@ -9736,10 +9841,10 @@
             427
         ],
         "next": [
-            "ChangeOrderComfirm"
+            "ChangeOrderConfirm"
         ]
     },
-    "ChangeOrderComfirm": {
+    "ChangeOrderConfirm": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -9749,7 +9854,7 @@
             140
         ],
         "next": [
-            "ChangeOrderComfirm@LoadingText",
+            "ChangeOrderConfirm@LoadingText",
             "Stop"
         ]
     },
@@ -9780,7 +9885,7 @@
             427
         ],
         "next": [
-            "ChangeOrderComfirm"
+            "ChangeOrderConfirm"
         ]
     },
     "ChooseProductList": {
@@ -9801,7 +9906,7 @@
             487
         ]
     },
-    "ComfirmProductChange": {
+    "ConfirmProductChange": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ReplenishToMaxConfirm.png",
@@ -9813,7 +9918,7 @@
             120
         ],
         "next": [
-            "ProductFinalComfirm"
+            "ProductFinalConfirm"
         ]
     },
     "ClickProductMax": {
@@ -9828,7 +9933,7 @@
             60
         ],
         "next": [
-            "ComfirmProductChange"
+            "ConfirmProductChange"
         ]
     },
     "ChooseBattleRecord": {
@@ -9846,7 +9951,7 @@
             "ClickProductMax"
         ]
     },
-    "ProductFinalComfirm": {
+    "ProductFinalConfirm": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SSSSettlementConfirm.png",
@@ -9858,7 +9963,7 @@
             100
         ],
         "next": [
-            "ProductFinalComfirm@LoadingText",
+            "ProductFinalConfirm@LoadingText",
             "Stop"
         ]
     },

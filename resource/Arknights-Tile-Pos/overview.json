@@ -7955,6 +7955,87 @@
         "stageId": "act2bossrush_tm04",
         "width": 21
     },
+    "act30side_01-activities/act30side/level_act30side_01": {
+        "code": "RS-1",
+        "filename": "act30side_01-activities-act30side-level_act30side_01.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_01",
+        "name": "注意事项",
+        "stageId": "act30side_01",
+        "width": 10
+    },
+    "act30side_02-activities/act30side/level_act30side_02": {
+        "code": "RS-2",
+        "filename": "act30side_02-activities-act30side-level_act30side_02.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_02",
+        "name": "同车异图",
+        "stageId": "act30side_02",
+        "width": 10
+    },
+    "act30side_03-activities/act30side/level_act30side_03": {
+        "code": "RS-3",
+        "filename": "act30side_03-activities-act30side-level_act30side_03.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_03",
+        "name": "临时停车",
+        "stageId": "act30side_03",
+        "width": 12
+    },
+    "act30side_04-activities/act30side/level_act30side_04": {
+        "code": "RS-4",
+        "filename": "act30side_04-activities-act30side-level_act30side_04.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_04",
+        "name": "重回正轨",
+        "stageId": "act30side_04",
+        "width": 12
+    },
+    "act30side_05-activities/act30side/level_act30side_05": {
+        "code": "RS-5",
+        "filename": "act30side_05-activities-act30side-level_act30side_05.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_05",
+        "name": "逃票？",
+        "stageId": "act30side_05",
+        "width": 11
+    },
+    "act30side_06-activities/act30side/level_act30side_06": {
+        "code": "RS-6",
+        "filename": "act30side_06-activities-act30side-level_act30side_06.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_06",
+        "name": "补票！",
+        "stageId": "act30side_06",
+        "width": 11
+    },
+    "act30side_07-activities/act30side/level_act30side_07": {
+        "code": "RS-7",
+        "filename": "act30side_07-activities-act30side-level_act30side_07.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_07",
+        "name": "制动失灵",
+        "stageId": "act30side_07",
+        "width": 11
+    },
+    "act30side_08-activities/act30side/level_act30side_08": {
+        "code": "RS-8",
+        "filename": "act30side_08-activities-act30side-level_act30side_08.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_08",
+        "name": "极限时速",
+        "stageId": "act30side_08",
+        "width": 12
+    },
+    "act30side_tr01-activities/act30side/level_act30side_tr01": {
+        "code": "RS-TR-1",
+        "filename": "act30side_tr01-activities-act30side-level_act30side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_tr01",
+        "name": "安全线内",
+        "stageId": "act30side_tr01",
+        "width": 11
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
@@ -14300,6 +14381,15 @@
         "stageId": "mem_glider_1",
         "width": 11
     },
+    "mem_gnosis_1-obt/memory/level_memory_gnosis_1": {
+        "code": "mem_gnosis_1",
+        "filename": "mem_gnosis_1-obt-memory-level_memory_gnosis_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_gnosis_1",
+        "name": "俯瞰风雪",
+        "stageId": "mem_gnosis_1",
+        "width": 7
+    },
     "mem_grani_1-obt/memory/level_memory_grani_1": {
         "code": "mem_grani_1",
         "filename": "mem_grani_1-obt-memory-level_memory_grani_1.json",
@@ -14361,6 +14451,15 @@
         "levelId": "obt/memory/level_memory_halo_1",
         "name": "群星闪烁相映",
         "stageId": "mem_halo_1",
+        "width": 11
+    },
+    "mem_hamoni_1-obt/memory/level_memory_hamoni_1": {
+        "code": "mem_hamoni_1",
+        "filename": "mem_hamoni_1-obt-memory-level_memory_hamoni_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_hamoni_1",
+        "name": "沉重舞步",
+        "stageId": "mem_hamoni_1",
         "width": 11
     },
     "mem_hbisc2_1-obt/memory/level_memory_hbisc2_1": {
@@ -14524,6 +14623,15 @@
         "name": "最佳拍档",
         "stageId": "mem_kirara_1",
         "width": 10
+    },
+    "mem_kjera_1-obt/memory/level_memory_kjera_1": {
+        "code": "mem_kjera_1",
+        "filename": "mem_kjera_1-obt-memory-level_memory_kjera_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_kjera_1",
+        "name": "群山相伴",
+        "stageId": "mem_kjera_1",
+        "width": 11
     },
     "mem_kroos_1-obt/memory/level_memory_kroos_1": {
         "code": "mem_kroos_1",

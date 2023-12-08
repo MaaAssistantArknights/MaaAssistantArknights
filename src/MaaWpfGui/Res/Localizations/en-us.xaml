@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA is about to be upgraded, and the upgraded version does not support PCs that do not have the .NET 8.0 runtime installed, so you need to manually download and install it. \n\nAt the same time, we will no longer support Windows 7. \n\nIf you click 'Yes', we will open the .NET 8 runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unwanted software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.</system:String>
     <system:String x:Key="Dotnet8Caption">Software Version Upgrade and Support Changes</system:String>
@@ -338,6 +335,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="ShutdownWithoutPersist">Shutdown (only once)</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate if no other running MAA</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">Exit MAA and Emulator, then Shutdown if no other running MAA</system:String>
+    <system:String x:Key="BackToAndroidHome">Emulator returns to home screen</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
@@ -547,7 +545,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AdbDownloadFailedDesc">Please do it manually (rename adb.exe and replace the ADB file in the emulator)</system:String>
     <system:String x:Key="SuccessfullyReplacedAdb">Successfully replaced ADB File</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">Failed to replace ADB file</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Temporarily connected using local ADB.</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">Connected using local ADB. If you want to try again, please disconnect the emulator from ADB and close it, or restart your computer and open MAA with administrator privileges without starting the emulator.</system:String>
     <system:String x:Key="InitializationError">Initialization error!</system:String>
     <system:String x:Key="ResolutionNotSupported">Emulator resolution not supported, please set a resolution of at least 1280x720 with a 16:9 aspect ratio</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">Failed to obtain emulator resolution. It is recommended to restart the emulator and ADB, or restart the computer, or consider switching to another emulator</system:String>
@@ -556,6 +554,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
     <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to 「Settings - Connection Settings」 to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
+    <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0:#,#}ms</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long, so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>

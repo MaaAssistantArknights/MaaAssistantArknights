@@ -154,6 +154,15 @@ AsstBool AsstConnected(AsstHandle handle)
     return handle->connected() ? AsstTrue : AsstFalse;
 }
 
+AsstBool ASSTAPI AsstBackToHome(AsstHandle handle)
+{
+    if (!inited() || handle == nullptr) {
+        return AsstFalse;
+    }
+
+    return handle->back_to_home() ? AsstTrue : AsstFalse;
+}
+
 AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config,
                                  AsstBool block)
 {
