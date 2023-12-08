@@ -119,38 +119,38 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                  * 其他错误直接结束任务
                  */
                 // 直接结束任务
-                if (result == use_board_result::click_foldartal_error) {
+                if (result == UseBoardResult::ClickFoldartalError) {
                     Log.error("Click foldartal error!");
                     return;
                 }
-                if (result == use_board_result::unknown_error) {
+                if (result == UseBoardResult::UnknownError) {
                     Log.error("Unknown error!");
                     return;
                 }
                 // 涉及上板子的错误，跳出循环
-                if (result == use_board_result::stage_not_found) {
+                if (result == UseBoardResult::StageNotFound) {
                     boards_to_skip.push_back(up_board);
                     Log.error("Stage not found! Skip up board:", up_board);
                     break;
                 }
-                if (result == use_board_result::up_board_not_found) {
+                if (result == UseBoardResult::UpBoardNotFound) {
                     list.erase(iter_up);
                     Log.error("Up board not found! Delete up board:", up_board);
                     break;
                 }
                 // 涉及下板子的错误，继续循环
-                if (result == use_board_result::can_not_use_confirm) {
+                if (result == UseBoardResult::CanNotUseConfirm) {
                     boards_to_skip.erase(iter_down);
                     Log.error("Can not use confirm! Skip down board:", down_board);
                     continue;
                 }
-                if (result == use_board_result::down_board_not_found) {
+                if (result == UseBoardResult::DownBoardNotFound) {
                     list.erase(iter_down);
                     Log.error("Down board not found! Delete down board:", down_board);
                     continue;
                 }
                 // 正常使用板子，用完删除上板子和下板子
-                if (result == use_board_result::use_board_result_success) {
+                if (result == UseBoardResult::UseBoardResultSuccess) {
                     list.erase(iter_up);
                     list.erase(iter_down);
                     Log.debug("Board pair used, up:", up_board, ", down:", down_board);
@@ -164,10 +164,10 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
     return;
 }
 
-asst::RoguelikeFoldartalUseTaskPlugin::use_board_result asst::RoguelikeFoldartalUseTaskPlugin::use_board(
+asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult asst::RoguelikeFoldartalUseTaskPlugin::use_board(
     const std::string& up_board, const std::string& down_board) const
 {
-    auto result = use_board_result::click_foldartal_error;
+    auto result = UseBoardResult::ClickFoldartalError;
     Log.trace("Try to use the board pair", up_board, down_board);
 
     if (!ProcessTask(*this, { m_config->get_theme() + "@Roguelike@Foldartal" }).run()) {
@@ -177,19 +177,19 @@ asst::RoguelikeFoldartalUseTaskPlugin::use_board_result asst::RoguelikeFoldartal
     swipe_to_top();
     // todo:插入一个滑动时顺便更新密文板overview,因为有的板子可以用两次
     if (!search_and_click_board(up_board)) {
-        result = use_board_result::up_board_not_found;
+        result = UseBoardResult::UpBoardNotFound;
     }
     else if (!search_and_click_board(down_board)) {
-        result = use_board_result::down_board_not_found;
+        result = UseBoardResult::DownBoardNotFound;
     }
     else if (!search_and_click_stage()) {
-        result = use_board_result::stage_not_found;
+        result = UseBoardResult::StageNotFound;
     }
     else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" }).run()) {
-        return use_board_result::use_board_result_success;
+        return UseBoardResult::UseBoardResultSuccess;
     }
     else {
-        result = use_board_result::can_not_use_confirm;
+        result = UseBoardResult::CanNotUseConfirm;
     }
 
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalBack" }).run();

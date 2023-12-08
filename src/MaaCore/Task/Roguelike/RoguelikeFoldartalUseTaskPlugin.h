@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
 #include "Config/Roguelike/RoguelikeFoldartalConfig.h"
 
@@ -21,18 +20,18 @@ namespace asst
         // 遍历配置里的组合
         void use_enable_pair(std::vector<std::string>& list, const asst::RoguelikeFoldartalCombination& usage);
         // 使用板子对结果
-        enum class use_board_result
+        enum class UseBoardResult
         {
-            click_foldartal_error,
-            use_board_result_success,
-            up_board_not_found,
-            down_board_not_found,
-            stage_not_found,
-            can_not_use_confirm,
-            unknown_error,
+            ClickFoldartalError,
+            UseBoardResultSuccess,
+            UpBoardNotFound,
+            DownBoardNotFound,
+            StageNotFound,
+            CanNotUseConfirm,
+            UnknownError,
         };
         // 使用板子对
-        use_board_result use_board(const std::string& up_board, const std::string& down_board) const;
+        UseBoardResult use_board(const std::string& up_board, const std::string& down_board) const;
         // 找到并点击指定板子
         bool search_and_click_board(const std::string& board) const;
         // 找到并点击指定节点
