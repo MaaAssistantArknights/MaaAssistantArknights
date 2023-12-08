@@ -259,6 +259,26 @@
                     ]
                 },
                 {
+                    "name": "锏",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 810,
+                    "promote_priority": 899,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 3,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
                     "name": "山",
                     "skill": 2,
                     "skill_usage": 2,
@@ -1130,6 +1150,22 @@
                     "name": "桑葚",
                     "skill": 2,
                     "recruit_priority": 640,
+                    "promote_priority": 290,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "哈洛德",
+                    "skill": 2,
+                    "recruit_priority": 639,
                     "promote_priority": 290,
                     "recruit_priority_offsets": [
                         {
@@ -2411,6 +2447,9 @@
                     "name": "斑点"
                 },
                 {
+                    "name": "锏"
+                },
+                {
                     "name": "仇白"
                 },
                 {
@@ -2476,6 +2515,10 @@
                 },
                 {
                     "name": "柏喙",
+                    "skill": 2
+                },
+                {
+                    "name": "烈夏",
                     "skill": 2
                 },
                 {
@@ -2671,6 +2714,9 @@
                     "name": "拉普兰德"
                 },
                 {
+                    "name": "烈夏"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -2742,6 +2788,9 @@
                     "name": "拉普兰德"
                 },
                 {
+                    "name": "烈夏"
+                },
+                {
                     "name": "断崖"
                 },
                 {
@@ -2781,6 +2830,9 @@
                 },
                 {
                     "name": "桑葚"
+                },
+                {
+                    "name": "哈洛德"
                 },
                 {
                     "name": "闪灵"
