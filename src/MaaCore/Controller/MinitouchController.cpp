@@ -142,7 +142,7 @@ bool asst::MinitouchController::click(const Point& p)
 
     Log.trace(m_use_maa_touch ? "maatouch" : "minitouch", "click:", p);
     bool ret = m_minitoucher->down(p.x, p.y) && m_minitoucher->up();
-    m_minitoucher->extra_sleep();
+    if (ret) m_minitoucher->extra_sleep();
     return ret;
 }
 
@@ -213,7 +213,7 @@ bool asst::MinitouchController::swipe(const Point& p1, const Point& p2, int dura
         minitouch_move(x2, y2, x2, y2 - opt.minitouch_extra_swipe_dist, opt.minitouch_extra_swipe_duration);
     }
     bool ret = m_minitoucher->up();
-    m_minitoucher->extra_sleep();
+    if (ret) m_minitoucher->extra_sleep();
     return ret;
 }
 
