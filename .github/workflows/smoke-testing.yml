@@ -49,9 +49,21 @@ jobs:
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
 
-      - name: Run tests
+      - name: Run tests - YoStarJP
         run: |
-          .\x64\Debug\Sample.exe
+          .\x64\Debug\Sample.exe YoStarJP
+          
+      - name: Run tests - YoStarEN
+        run: |
+          .\x64\Debug\Sample.exe YoStarEN
+        
+      - name: Run tests - YoStarKR
+        run: |
+          .\x64\Debug\Sample.exe YoStarKR
+        
+      - name: Run tests - txwy
+        run: |
+          .\x64\Debug\Sample.exe txwy
 
       - name: Upload logs
         if: always()
