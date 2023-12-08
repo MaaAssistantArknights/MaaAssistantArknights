@@ -80,6 +80,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
             combination, [&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
         it != combination.end()) {
         use_enable_pair(foldartal_list, *it);
+        m_config->set_foldartal(std::move(foldartal_list));
     }
 
     return true;
@@ -129,7 +130,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                 }
                 // 涉及上板子的错误，跳出循环
                 if (result == UseBoardResult::StageNotFound) {
-                    boards_to_skip.push_back(up_board);
+                    boards_to_skip.emplace_back(up_board);
                     Log.info("Stage not found! Skip up board:", up_board);
                     break;
                 }
@@ -140,7 +141,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                 }
                 // 涉及下板子的错误，继续循环
                 if (result == UseBoardResult::CanNotUseConfirm) {
-                    boards_to_skip.erase(iter_down);
+                    boards_to_skip.emplace_back(down_board);
                     Log.info("Can not use confirm! Skip down board:", down_board);
                     continue;
                 }
