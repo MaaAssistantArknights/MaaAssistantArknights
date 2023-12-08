@@ -120,40 +120,40 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                  */
                 // 直接结束任务
                 if (result == UseBoardResult::ClickFoldartalError) {
-                    Log.error("Click foldartal error!");
+                    Log.info("Click foldartal error! Return");
                     return;
                 }
                 if (result == UseBoardResult::UnknownError) {
-                    Log.error("Unknown error!");
+                    Log.info("Unknown error! Return");
                     return;
                 }
                 // 涉及上板子的错误，跳出循环
                 if (result == UseBoardResult::StageNotFound) {
                     boards_to_skip.push_back(up_board);
-                    Log.error("Stage not found! Skip up board:", up_board);
+                    Log.info("Stage not found! Skip up board:", up_board);
                     break;
                 }
                 if (result == UseBoardResult::UpBoardNotFound) {
                     list.erase(iter_up);
-                    Log.error("Up board not found! Delete up board:", up_board);
+                    Log.info("Up board not found! Delete up board:", up_board);
                     break;
                 }
                 // 涉及下板子的错误，继续循环
                 if (result == UseBoardResult::CanNotUseConfirm) {
                     boards_to_skip.erase(iter_down);
-                    Log.error("Can not use confirm! Skip down board:", down_board);
+                    Log.info("Can not use confirm! Skip down board:", down_board);
                     continue;
                 }
                 if (result == UseBoardResult::DownBoardNotFound) {
                     list.erase(iter_down);
-                    Log.error("Down board not found! Delete down board:", down_board);
+                    Log.info("Down board not found! Delete down board:", down_board);
                     continue;
                 }
                 // 正常使用板子，用完删除上板子和下板子
                 if (result == UseBoardResult::UseBoardResultSuccess) {
                     list.erase(iter_up);
                     list.erase(iter_down);
-                    Log.debug("Board pair used, up:", up_board, ", down:", down_board);
+                    Log.trace("Board pair used, up:", up_board, ", down:", down_board);
                 }
             }
         }
