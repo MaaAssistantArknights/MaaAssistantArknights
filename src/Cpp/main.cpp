@@ -20,7 +20,18 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-#ifdef ASST_DEBUG
+#ifdef SMOKE_TESTING
+    if (argc >= 2) {
+        std::string overseas_type(argv[1]); // "YoStarJP", "YoStarEN", "YoStarKR", "txwy"
+        std::cout << "load overseas_type:" << overseas_type << std::endl;
+
+        const auto overseas_path = cur_path / "resource" / "global" / overseas_type;
+        if (!AsstLoadResource(overseas_path.string().c_str())) {
+            std::cerr << "-------- load resource failed: " << overseas_type << " --------" << std::endl;
+            return -1;
+        }
+    }
+#elif defined(ASST_DEBUG)
     bool load_error = false;
     const auto overseas_dir = cur_path / "resource" / "global";
     for (const auto& client : { "YoStarJP", "YoStarEN", "YoStarKR", "txwy" }) {
