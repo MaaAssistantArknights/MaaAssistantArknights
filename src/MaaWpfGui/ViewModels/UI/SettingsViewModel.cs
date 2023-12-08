@@ -206,20 +206,57 @@ namespace MaaWpfGui.ViewModels.UI
                 "Processing",
             };
 
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
+            var defaultFacilityDictionary = new Dictionary<string, int>
+            {
+                { "Mfg", 0 },
+                { "Trade", 1 },
+                { "Control", 2 },
+                { "Power", 3 },
+                { "Reception", 4 },
+                { "Office", 5 },
+                { "Dorm", 6 },
+                { "Processing", 7 },
+            };
+
+            // Get all key-value pairs
+            var userFacilityDictionary = new Dictionary<string, int>();
             for (int i = 0; i != facilityList.Length; ++i)
             {
                 var facility = facilityList[i];
                 bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
 
-                if (!parsed || order < 0)
+                if (!parsed)
                 {
-                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    throw new ArgumentOutOfRangeException(
+                        "Infrast.Order." + facility + " in gui.json", "The input must be an integer. Please check gui.json");
                 }
-                else
+
+                userFacilityDictionary.Add(facility, order);
+            }
+
+            // Duplicate check
+            bool hasDuplicateValues = userFacilityDictionary.GroupBy(pair => pair.Value).Any(group => group.Count() > 1);
+            if (hasDuplicateValues)
+            {// invalid.
+                userFacilityDictionary = defaultFacilityDictionary;
+            }
+            else
+            {// valid. Sort and renumber
+                userFacilityDictionary = userFacilityDictionary.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+                int newnumber = 0;
+                var dictionaryCopy = userFacilityDictionary.ToDictionary(entry => entry.Key, entry => entry.Value);
+                foreach (var kvp in dictionaryCopy)
                 {
-                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    userFacilityDictionary[kvp.Key] = newnumber;
+                    newnumber = (newnumber + 1) % facilityList.Length;
                 }
+            }
+
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]) { };
+            for (int i = 0; i != facilityList.Length; ++i)
+            {
+                string facility = userFacilityDictionary.FirstOrDefault(pair => pair.Value == i).Key;
+                tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
             }
 
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
