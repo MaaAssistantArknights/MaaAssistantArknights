@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   check_commit_name_in_pr:
-    if: github.head_ref != 'dev'
+    if: ${{ !github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
       - name: Check Commits
