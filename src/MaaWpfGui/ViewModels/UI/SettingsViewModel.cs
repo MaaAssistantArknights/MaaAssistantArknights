@@ -169,6 +169,7 @@ namespace MaaWpfGui.ViewModels.UI
             InitTitleBar();
             InitInfrast();
             InitRoguelike();
+            InitAutoRecruit();
             InitConfiguration();
             InitUiSettings();
             InitUpdate();
@@ -277,6 +278,16 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
                 new CombinedData { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
                 new CombinedData { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+            };
+        }
+
+        private void InitAutoRecruit()
+        {
+            AutoRecruitSelectExtraTagsList = new List<CombinedData>
+            {
+            new CombinedData { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
+            new CombinedData { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
+            new CombinedData { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             };
         }
 
