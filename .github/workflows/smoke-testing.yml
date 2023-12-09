@@ -49,6 +49,10 @@ jobs:
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
 
+      - name: Run tests - Official #用来判断是不是国服资源出错导致外服全炸
+        run: |
+          .\x64\Debug\Sample.exe
+
       - name: Run tests - YoStarJP
         run: |
           .\x64\Debug\Sample.exe YoStarJP
