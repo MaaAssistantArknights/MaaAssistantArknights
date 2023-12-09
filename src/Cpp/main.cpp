@@ -16,7 +16,7 @@ int main([[maybe_unused]] int argc, char** argv)
     // 这里默认读取的是可执行文件同目录下 resource 文件夹里的资源
     bool loaded = AsstLoadResource(cur_path.string().c_str());
     if (!loaded) {
-        std::cerr << "-------- load resource failed --------" << std::endl;
+        std::cerr << "-------- load resource failed: official --------" << std::endl;
         return -1;
     }
 
