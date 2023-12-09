@@ -250,6 +250,18 @@ struct MatchRect
     double score = 0.0;
     std::string templ_name;
 };
+
+struct FeatureMatchRect
+{
+    std::string to_string() const
+    {
+        return "{ rect: " + rect.to_string() + ", count: " + std::to_string(count) + " }";
+    }
+    explicit operator std::string() const { return to_string(); }
+
+    Rect rect;
+    int count = 0;
+};
 } // namespace asst
 
 namespace std
