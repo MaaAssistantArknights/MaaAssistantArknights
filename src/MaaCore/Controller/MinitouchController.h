@@ -87,29 +87,32 @@ namespace asst
 
             ~Minitoucher() = default;
 
-            bool reset() { return m_input_func(reset_cmd()); }
-            bool commit() { return m_input_func(commit_cmd()); }
-            bool down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            // nodiscard! for false return value may indicating *this got replaced in m_input_func
+            [[nodiscard]] bool reset() { return m_input_func(reset_cmd()); }
+            [[nodiscard]] bool commit() { return m_input_func(commit_cmd()); }
+            [[nodiscard]] bool down(int x, int y, int wait_ms = DefaultClickDelay, bool with_commit = true,
+                                    int contact = 0)
             {
                 return m_input_func(down_cmd(x, y, wait_ms, with_commit, contact));
             }
-            bool move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true, int contact = 0)
+            [[nodiscard]] bool move(int x, int y, int wait_ms = DefaultSwipeDelay, bool with_commit = true,
+                                    int contact = 0)
             {
                 return m_input_func(move_cmd(x, y, wait_ms, with_commit, contact));
             }
-            bool up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
+            [[nodiscard]] bool up(int wait_ms = DefaultClickDelay, bool with_commit = true, int contact = 0)
             {
                 return m_input_func(up_cmd(wait_ms, with_commit, contact));
             }
-            bool key_down(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
+            [[nodiscard]] bool key_down(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
             {
                 return m_input_func(key_down_cmd(key_code, wait_ms, with_commit));
             }
-            bool key_up(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
+            [[nodiscard]] bool key_up(int key_code, int wait_ms = DefaultClickDelay, bool with_commit = true)
             {
                 return m_input_func(key_up_cmd(key_code, wait_ms, with_commit));
             }
-            bool wait(int ms) { return m_input_func(wait_cmd(ms)); }
+            [[nodiscard]] bool wait(int ms) { return m_input_func(wait_cmd(ms)); }
             void clear() noexcept { m_wait_ms_count = 0; }
 
             void extra_sleep() { sleep(); }
