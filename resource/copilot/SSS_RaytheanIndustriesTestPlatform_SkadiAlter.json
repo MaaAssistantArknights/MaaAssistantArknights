@@ -173,7 +173,7 @@
     ],
     "stages": [
         {
-            "stage_name": "致命吸引",
+            "stage_name": "LT-1",
             "strategies": [
                 {
                     "tool_men": {
@@ -292,7 +292,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "烂醉铁锤",
+            "stage_name": "LT-2",
             "strategies": [
                 {
                     "tool_men": {
@@ -411,7 +411,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "为了生存",
+            "stage_name": "LT-3",
             "strategies": [
                 {
                     "core": "临光",
@@ -553,7 +553,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "混合毒气",
+            "stage_name": "LT-4",
             "strategies": [
                 {
                     "core": "塞雷娅",
@@ -715,7 +715,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "枯朽孕育",
+            "stage_name": "LT-5",
             "strategies": [
                 {
                     "core": "临光",
@@ -868,7 +868,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "窒息",
+            "stage_name": "LT-6",
             "strategies": [
                 {
                     "tool_men": {

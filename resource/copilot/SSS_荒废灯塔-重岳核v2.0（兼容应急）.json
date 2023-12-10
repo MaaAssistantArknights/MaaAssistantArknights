@@ -84,7 +84,7 @@
     ],
     "stages": [
         {
-            "stage_name": "海涎",
+            "stage_name": "LT-1",
             "strategies": [
                 {
                     "tool_men": {
@@ -162,7 +162,7 @@
             "retry_times": 3
         },
         {
-            "stage_name": "走肉",
+            "stage_name": "LT-2",
             "strategies": [
                 {
                     "tool_men": {
@@ -258,7 +258,7 @@
             "retry_times": 3
         },
         {
-            "stage_name": "驱逐",
+            "stage_name": "LT-3",
             "strategies": [
                 {
                     "tool_men": {
@@ -373,7 +373,7 @@
             "retry_times": 3
         },
         {
-            "stage_name": "幻景",
+            "stage_name": "LT-4",
             "strategies": [
                 {
                     "tool_men": {
@@ -480,7 +480,7 @@
             "retry_times": 3
         },
         {
-            "stage_name": "裂流",
+            "stage_name": "LT-5",
             "strategies": [
                 {
                     "tool_men": {
@@ -617,7 +617,7 @@
             "retry_times": 3
         },
         {
-            "stage_name": "落潮",
+            "stage_name": "LT-6",
             "strategies": [
                 {
                     "tool_men": {

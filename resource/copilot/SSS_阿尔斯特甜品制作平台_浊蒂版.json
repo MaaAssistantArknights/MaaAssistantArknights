@@ -159,7 +159,7 @@
     ],
     "stages": [
         {
-            "stage_name": "糖霜硬壳",
+            "stage_name": "LT-1",
             "strategies": [
                 {
                     "tool_men": {
@@ -280,7 +280,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "甜美派对",
+            "stage_name": "LT-2",
             "strategies": [
                 {
                     "tool_men": {
@@ -413,7 +413,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "干酪封锁",
+            "stage_name": "LT-3",
             "strategies": [
                 {
                     "tool_men": {
@@ -568,7 +568,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "先进工艺",
+            "stage_name": "LT-4",
             "strategies": [
                 {
                     "tool_men": {
@@ -724,7 +724,7 @@
             "retry_times": 18
         },
         {
-            "stage_name": "奶油四溅",
+            "stage_name": "LT-5",
             "strategies": [
                 {
                     "tool_men": {
@@ -890,7 +890,7 @@
             "retry_times": 18
         },
         {
-            "stage_name": "微笑必达",
+            "stage_name": "LT-6",
             "strategies": [
                 {
                     "tool_men": {

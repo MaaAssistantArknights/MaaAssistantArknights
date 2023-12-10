@@ -160,7 +160,7 @@
     ],
     "stages": [
         {
-            "stage_name": "知难而进",
+            "stage_name": "LT-1",
             "strategies": [
                 {
                     "tool_men": {
@@ -258,7 +258,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "荒地的手段",
+            "stage_name": "LT-2",
             "strategies": [
                 {
                     "tool_men": {
@@ -397,7 +397,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "麻木前行",
+            "stage_name": "LT-3",
             "strategies": [
                 {
                     "tool_men": {
@@ -581,7 +581,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "混乱“派对”",
+            "stage_name": "LT-4",
             "strategies": [
                 {
                     "tool_men": {
@@ -772,7 +772,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "消息传递",
+            "stage_name": "LT-5",
             "strategies": [
                 {
                     "tool_men": {
@@ -960,7 +960,7 @@
             "retry_times": 9
         },
         {
-            "stage_name": "力量的炫耀",
+            "stage_name": "LT-6",
             "strategies": [
                 {
                     "tool_men": {
