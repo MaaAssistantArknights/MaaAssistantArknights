@@ -7,6 +7,8 @@
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
+#include <set>
+
 bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
@@ -92,14 +94,14 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
     LogTraceFunction;
     auto check_pair = [&](const auto& pair) {
         // 存储需要跳过的板子
-        std::vector<std::string> boards_to_skip;
+        std::set<std::string> boards_to_skip;
         // 遍历上板子
         for (const std::string& up_board : pair.up_board) {
             if (need_exit()) {
                 return;
             }
             auto iter_up = ranges::find(list, up_board);
-            if (iter_up == list.end() || ranges::find(boards_to_skip, up_board) != boards_to_skip.end()) {
+            if (iter_up == list.end() || boards_to_skip.contains(up_board)) {
                 continue;
             }
 
@@ -130,7 +132,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                 }
                 // 涉及上板子的错误，跳出循环
                 if (result == UseBoardResult::StageNotFound) {
-                    boards_to_skip.emplace_back(up_board);
+                    boards_to_skip.emplace(up_board);
                     Log.info("Stage not found! Skip up board:", up_board);
                     break;
                 }
@@ -141,7 +143,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                 }
                 // 涉及下板子的错误，继续循环
                 if (result == UseBoardResult::CanNotUseConfirm) {
-                    boards_to_skip.emplace_back(down_board);
+                    boards_to_skip.emplace(down_board);
                     Log.info("Can not use confirm! Skip down board:", down_board);
                     continue;
                 }
