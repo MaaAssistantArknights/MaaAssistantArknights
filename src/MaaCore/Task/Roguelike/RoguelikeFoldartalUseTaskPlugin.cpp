@@ -78,13 +78,14 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 
     auto foldartal_list = m_config->get_foldartal();
     Log.debug("All foldartal got yet:", foldartal_list);
-    if (const auto it = ranges::find_if(
-            combination, [&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
-        it != combination.end()) {
-        use_enable_pair(foldartal_list, *it);
-        m_config->set_foldartal(std::move(foldartal_list));
+    auto filter = views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
+    for (const auto& comb : combination | filter) {
+        if (need_exit()) {
+            break;
+        }
+        use_enable_pair(foldartal_list, comb);
     }
-
+    m_config->set_foldartal(std::move(foldartal_list));
     return true;
 }
 
