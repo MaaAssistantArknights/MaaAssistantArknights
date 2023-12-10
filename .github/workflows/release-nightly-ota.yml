@@ -4,26 +4,25 @@ on:
   workflow_dispatch:
     inputs:
       release_body:
-        description: 'Release note'
+        description: "Release note"
         type: string
         required: false
       ref:
-        description: 'Commit to build (git checkout)'
+        description: "Commit to build (git checkout)"
         type: string
         required: false
       limit:
-        description: 'Number of releases to fetch from MaaAssistantArknights'
+        description: "Number of releases to fetch from MaaAssistantArknights"
         required: true
         default: 30
         type: number
       limit_2:
-        description: 'Number of releases to fetch from MaaRelease'
+        description: "Number of releases to fetch from MaaRelease"
         required: true
         default: 30
         type: number
 
 jobs:
-
   build-win-nightly:
     runs-on: windows-latest
     strategy:
@@ -39,19 +38,23 @@ jobs:
       pre_version: ${{ steps.set_tag.outputs.pre_version }}
       main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # repository: 'MaaAssistantArknights/MaaAssistantArknights'
           submodules: recursive
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          show-progress: false
+
       - name: Checkout ref
         run: |
           if ("${{ inputs.ref }}" -ne "") {
             git checkout --progress --recurse-submodules ${{ inputs.ref || 'dev' }}
           }
-      - run: |
+
+      - name: Install semver
+        run: |
           npm install --global --progress semver
 
       - name: Set tag
@@ -81,7 +84,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          
+
           $main_tag_name=$(echo "alpha/${{ steps.set_tag.outputs.tag }}")
           git tag $main_tag_name -f
           git push --tags origin HEAD:refs/tags/$main_tag_name -f
@@ -94,11 +97,13 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
       - name: Bootstrap MaaDeps
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run './build.cmd DevBuild'
         run: |
           $env:GITHUB_WORKFLOW = 'dev-build-win' # pretend this is a dev-build-win workflow
@@ -107,24 +112,27 @@ jobs:
 
           ./build.cmd DevBuild
         env:
-          Reason: 'Build nightly version'
+          Reason: "Build nightly version"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload MAA to Github
+        uses: actions/upload-artifact@v3
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
-
 
   push-tag:
     needs: build-win-nightly
     runs-on: ubuntu-latest
     steps:
       - name: Fetch MaaRelease
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
+          show-progress: false
+
       - name: Commit and setup tag
         run: |
           git config user.name 'github-actions[bot]'
@@ -142,21 +150,26 @@ jobs:
         target: [x64]
     runs-on: ubuntu-latest
     steps:
-      - run: echo ${{ needs.build-win-nightly.outputs.tag }}
-      - uses: actions/checkout@v3
+      - name: Echo tag version
+        run: |
+          echo ${{ needs.build-win-nightly.outputs.tag }}
+
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           path: MaaAssistantArknights
           token: ${{ secrets.MAARELEASE_RELEASE }}
-      - uses: actions/download-artifact@v3
+          show-progress: false
+
+      - name: Download MAA from Github
+        uses: actions/download-artifact@v3
         with:
           name: MAA-win-${{ matrix.target }}
           path: ${{ format('{0}/{1}', 'build-ota', needs.build-win-nightly.outputs.tag) }}
+
       - name: Fetch release info
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -pv build-ota && cd build-ota
-
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
           gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
@@ -171,9 +184,10 @@ jobs:
           cat ./config
 
           echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_ENV
-      - name: Build OTA
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build OTA
         run: |
           cd build-ota
 
@@ -184,6 +198,8 @@ jobs:
 
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ./config ${{ matrix.target }} "${{ github.repository_owner }}/MaaRelease"
           mv -v ${{ needs.build-win-nightly.outputs.tag }}/*.zip ./MAA-${{ env.release_tag }}-win-${{ matrix.target }}.zip
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Make release body
         id: make_release_body
@@ -193,7 +209,7 @@ jobs:
           cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
           echo -e "${{ inputs.release_body || '' }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
           export r=$(cat alpha_changelog.md)
-          
+
           # https://github.com/svenstaro/upload-release-action
           r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
           r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
@@ -215,6 +231,6 @@ jobs:
 
       - name: Setup release mirror
         run: |
-            gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
+          gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
         env:
-            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}

@@ -2,7 +2,7 @@ name: release-ota
 
 on:
   release:
-    types: 
+    types:
       - published
   workflow_dispatch:
     inputs:
@@ -31,6 +31,7 @@ jobs:
           path: MaaRelease
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
+
       - name: Fetch release info
         id: fetchReleaseInfo
         run: |
@@ -49,6 +50,7 @@ jobs:
 
           echo "prerelease=$([ $(head -n 1 release_maa.txt | awk '{ print $2}') = 'Pre-release' ] && echo true || echo false)" >> $GITHUB_OUTPUT
           echo "release_tag=$(head -n 1 ./config)" >> $GITHUB_OUTPUT
+
       - name: Commit and setup tag
         run: |
           cd MaaRelease
@@ -61,10 +63,13 @@ jobs:
           git push --tags
         env:
           PUSH_REMOTE: https://github-actions[bot]:${{ secrets.MAARELEASE_RELEASE }}@github.com/${{ github.repository_owner }}/MaaRelease
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload release config to GitHub
+        uses: actions/upload-artifact@v3
         with:
           name: MaaReleaseConfig
           path: ./build-ota/config
+
     outputs:
       prerelease: ${{ steps.fetchReleaseInfo.outputs.prerelease }}
       release_tag: ${{ steps.fetchReleaseInfo.outputs.release_tag }}
@@ -73,11 +78,13 @@ jobs:
     needs: create-tag
     runs-on: ubuntu-latest
     strategy:
-      matrix: 
-        target: 
+      matrix:
+        target:
           - x64
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download release config
+        uses: actions/download-artifact@v3
+
       - name: Fetch MaaRelease
         uses: actions/checkout@v3
         with:
@@ -85,19 +92,24 @@ jobs:
           path: MaaRelease
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
-      - uses: actions/checkout@v3
+
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
           path: MaaAssistantArknights
+
       - name: Download latest version for server
         run: |
           mkdir -pv build-ota/${{ needs.create-tag.outputs.release_tag }}
           cd build-ota/${{ needs.create-tag.outputs.release_tag }}
           gh release download ${{ needs.create-tag.outputs.release_tag }} --repo 'MaaAssistantArknights/MaaAssistantArknights' --pattern "MAA-${{ needs.create-tag.outputs.release_tag }}-win-${{ matrix.target }}.zip" --clobber
           cp *.zip ..
+
       - name: Build OTA
         run: |
           cd build-ota
           $GITHUB_WORKSPACE/MaaAssistantArknights/tools/OTAPacker/build.sh 'MaaAssistantArknights/MaaAssistantArknights' ../MaaReleaseConfig/config ${{ matrix.target }} 'MaaAssistantArknights/MaaRelease'
+
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
@@ -115,6 +127,7 @@ jobs:
     steps:
       - name: Fetch release info
         run: gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
+
       - name: Download release packages
         run: |
           cat ./release_maa.txt | awk '{ print $1 }' | while read tag; do
@@ -123,8 +136,11 @@ jobs:
             gh api /markdown -f text="$RELEASE_NOTES" | tee ./packages/MAA-"$tag"-macos-universal.html
           done
           curl -fsSL -o packages/appcast.xml https://maa-release.hguandl.com/macos/appcast.xml
+
       - name: Setup Sparkle
-        run: gh release download --repo 'sparkle-project/Sparkle' --clobber -O - -p 'Sparkle-*.tar.xz' | tar xf -
+        run: |
+          gh release download --repo 'sparkle-project/Sparkle' --clobber -O - -p 'Sparkle-*.tar.xz' | tar xf -
+
       - name: Generate Update Packages
         run: |
           if [ $(head -n 1 release_maa.txt | awk '{ print $2 }') = 'Pre-release' ]; then
@@ -132,8 +148,11 @@ jobs:
           else
             echo ${{ secrets.SPARKLE_PRIV_KEY }} | ./bin/generate_appcast --ed-key-file - ./packages
           fi
+
       - name: Cleanup files
-        run: find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
+        run: |
+          find ./packages -type f ! \( -name 'MAA-${{ needs.create-tag.outputs.release_tag }}-macos-universal.dmg' -o -name '*.delta' -o -name '*.xml' \) -print -delete
+
       - name: Unpack the .dmg files for .dylib
         run: |
           cd ${{ runner.temp }}
@@ -158,6 +177,7 @@ jobs:
           echo ::group::Detaching release package...
           hdiutil detach /Volumes/MAA
           echo ::endgroup::
+
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
@@ -170,7 +190,7 @@ jobs:
           overwrite: true
 
   release:
-    needs: 
+    needs:
       - make-ota
       - make-ota-mac
     runs-on: ubuntu-latest
@@ -180,6 +200,7 @@ jobs:
       - name: Setup release mirror
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
+
       - name: Deploy docs
         run: |
           mkdir -p ${{ runner.temp }}/new
