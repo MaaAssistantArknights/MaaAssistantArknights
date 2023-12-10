@@ -90,7 +90,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 }
 
 void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::string>& list,
-                                                               const asst::RoguelikeFoldartalCombination& usage)
+                                                            const asst::RoguelikeFoldartalCombination& usage)
 {
     LogTraceFunction;
     auto check_pair = [&](const auto& pair) {
@@ -112,7 +112,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                     return;
                 }
                 auto iter_down = ranges::find(list, down_board);
-                if (iter_down == list.end() || ranges::find(boards_to_skip, down_board) != boards_to_skip.end()) {
+                if (iter_down == list.end() || boards_to_skip.contains(down_board)) {
                     continue;
                 }
                 const auto result = use_board(up_board, down_board);
