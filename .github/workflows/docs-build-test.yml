@@ -1,18 +1,18 @@
 name: Build Test for docs
 
 on:
-    push:
-      branches-ignore:
-        - 'master'
-      paths:
-        - 'docs/**'
-    pull_request:
-      branches:
-        - 'dev'
-      paths:
-        - 'docs/**'
-    workflow_dispatch:
-  
+  push:
+    branches-ignore:
+      - "master"
+    paths:
+      - "docs/**"
+  pull_request:
+    branches:
+      - "dev"
+    paths:
+      - "docs/**"
+  workflow_dispatch:
+
 jobs:
   build-test:
     timeout-minutes: 20
@@ -28,23 +28,23 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: './docs/package-lock.json'
+          cache: "npm"
+          cache-dependency-path: "./docs/package-lock.json"
 
       - name: Install dependencies
         run: npm ci
-        working-directory: './docs'
+        working-directory: "./docs"
 
       - name: Cleanup files
         run: rm tsconfig.json
-        working-directory: './docs'
+        working-directory: "./docs"
 
       - name: Build
         run: npm run build
-        working-directory: './docs'
+        working-directory: "./docs"
 
       - name: Upload artifact to GitHub
         uses: actions/upload-artifact@v3
         with:
           name: docs
-          path: './docs/.vuepress/dist'
+          path: "./docs/.vuepress/dist"

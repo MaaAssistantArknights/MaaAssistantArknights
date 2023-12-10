@@ -3,46 +3,52 @@ name: test
 on:
   push:
     paths:
-      - '3rdparty/include/**'
-      - 'include/**'
-      - 'src/**'
-      - 'cmake/**'
-      - 'CMakeLists.txt'
-      - 'MAA.sln'
-      - 'resource/**'
-      - 'MaaDeps/**'
-      - '!**/*.md'
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - "resource/**"
+      - "MaaDeps/**"
+      - "!**/*.md"
   pull_request:
     paths:
-      - '3rdparty/include/**'
-      - 'include/**'
-      - 'src/**'
-      - 'cmake/**'
-      - 'CMakeLists.txt'
-      - 'MAA.sln'
-      - 'resource/**'
-      - 'MaaDeps/**'
-      - '!**/*.md'
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - "resource/**"
+      - "MaaDeps/**"
+      - "!**/*.md"
   workflow_dispatch:
 
 jobs:
   smoke-testing:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - uses: NuGet/setup-nuget@v1.2.0
-      - run: |
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.2.0
+
+      - name: Restore NuGet packages
+        run: |
           nuget restore MAA.sln
           if ($LASTEXITCODE) { nuget restore MAA.sln }
           if ($LASTEXITCODE) { nuget restore MAA.sln }
-      
+
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py x64-windows
-          
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1
       - name: Build MaaSample
