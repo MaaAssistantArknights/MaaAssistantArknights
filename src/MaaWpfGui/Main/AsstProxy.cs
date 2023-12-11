@@ -470,6 +470,7 @@ namespace MaaWpfGui.Main
                     {
                         color = UiLogColor.Error;
                         fastestScreencapStringBuilder.AppendLine().Append(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"));
+                        costString = timeCost.ToString("#,#");
                     }
                     else if (timeCost > 400)
                     {
