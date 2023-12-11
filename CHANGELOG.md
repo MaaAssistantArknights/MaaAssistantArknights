@@ -38,22 +38,7 @@
 
 ### 其他 | Other
 
-- revert db4171b684a182021e57426bef819d2b746ee198 SN changes @Constrat
-- Auto Update Game Resources - 2023-12-08 @Constrat
-- Update ci.yml @ABA2396
-- smoke-testing.yml @ABA2396
-- [skip ci] i18n: Translations update from MAA Weblate (#7480) @LiamSho @ABA2396
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
 - 修改NoStone图片模板 @ABA2396
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
 - KillEmulator记录地址和端口 @ABA2396
-- Update sync-resource.yml @Cryolitia
 - PR Checker增加对提交父项数量的检查以避免通过改名应对 @status102
 - furni忽略拼写检测 @ABA2396
-- Auto Update Changelogs of v4.28.0-beta.1 (#7456) @github-actions[bot] @status102 @Constrat @zzyyyl
