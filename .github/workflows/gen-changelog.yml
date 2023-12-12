@@ -7,7 +7,7 @@ on:
 
 jobs:
   gen:
-    if: github.event.pull_request.draft == false && (startsWith(github.event.pull_request.title, 'Release v') || startsWith(github.event.pull_request.title, 'release v'))
+    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v') # startsWith 表达式不区分大小写
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -67,3 +67,17 @@ jobs:
           base: "dev"
           branch: "changelog"
           delete-branch: true
+          reviewers: |
+            AnnAngela
+          assignees: |
+            AnnAngela
+
+      - name: Add reviewers to release PR
+        uses: kentaro-m/auto-assign-action@v1.2.5
+        with:
+          configuration-path: ".github/release_reviewers.yaml"
+
+      - name: Add reviewers to release PR
+        uses: kentaro-m/auto-assign-action@v1.2.5
+        with:
+          configuration-path: ".github/release_reviewers.yaml"
