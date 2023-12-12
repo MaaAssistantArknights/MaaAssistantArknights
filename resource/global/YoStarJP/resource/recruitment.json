@@ -45,6 +45,17 @@
             ]
         },
         {
+            "id": "char_4093_frston",
+            "name": "Friston-3",
+            "rarity": 1,
+            "tags": [
+                "支援机械",
+                "防护",
+                "近战位",
+                "重装干员"
+            ]
+        },
+        {
             "id": "char_502_nblade",
             "name": "ヤトウ",
             "rarity": 2,

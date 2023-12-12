@@ -13,8 +13,8 @@
 
 using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -38,23 +38,6 @@ namespace MaaWpfGui.Views.UserControl
         private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
         {
             _setText?.Invoke(sender, _paras);
-        }
-
-        private void ToggleCheckBoxNullOnRightClick(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton != MouseButton.Right)
-            {
-                return;
-            }
-
-            CheckBox checkBox = (CheckBox)sender;
-            checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
-        }
-
-        private void ToggleCheckBoxNullOnLeftClick(object sender, RoutedEventArgs e)
-        {
-            CheckBox checkBox = (CheckBox)sender;
-            checkBox.IsChecked = checkBox.IsChecked == true ? null : (bool?)false;
         }
     }
 }

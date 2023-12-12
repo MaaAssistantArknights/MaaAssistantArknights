@@ -378,7 +378,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 
         auto start_time = high_resolution_clock::now();
         if (m_support_socket && m_server_started &&
-            screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true)) {
+            screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true, 5000)) {
             auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
             if (duration < min_cost) {
                 m_adb.screencap_method = AdbProperty::ScreencapMethod::RawByNc;
@@ -427,16 +427,18 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             { AdbProperty::ScreencapMethod::Encode, "Encode" },
         };
         Log.info("The fastest way is", MethodName.at(m_adb.screencap_method), ", cost:", min_cost.count(), "ms");
-        json::value info = json::object {
-            { "uuid", m_uuid },
-            { "what", "FastestWayToScreencap" },
-            { "details",
-              json::object {
-                  { "method", MethodName.at(m_adb.screencap_method) },
-                  { "cost", min_cost.count() },
-              } },
-        };
-        callback(AsstMsg::ConnectionInfo, info);
+        if (m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet) {
+            json::value info = json::object {
+                { "uuid", m_uuid },
+                { "what", "FastestWayToScreencap" },
+                { "details",
+                  json::object {
+                      { "method", MethodName.at(m_adb.screencap_method) },
+                      { "cost", min_cost.count() },
+                  } },
+            };
+            callback(AsstMsg::ConnectionInfo, info);
+        }
         clear_lf_info();
         return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     } break;
@@ -455,13 +457,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
 }
 
 bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect,
-                                    bool by_socket)
+                                    bool by_socket, int timeout)
 {
     if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
         return false;
     }
 
-    auto ret = call_command(cmd, 20000, allow_reconnect, by_socket);
+    auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
 
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.warn("data is empty!");

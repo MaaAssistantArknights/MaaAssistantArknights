@@ -173,10 +173,18 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Running { get; set; }
 
+        public bool Closing { get; set; }
+
         private readonly DispatcherTimer _timer = new DispatcherTimer();
 
-        private bool ConfirmExit()
+        public bool ConfirmExit()
         {
+            if (Closing)
+            {
+                return false;
+            }
+
+            Closing = true;
             if (Application.Current.IsShuttingDown())
             {
                 // allow close if application is shutting down
@@ -195,8 +203,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            var window = Instances.MainWindowManager.GetWindowIfVisible();
-            var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("ConfirmExitText"),
+                LocalizationHelper.GetString("ConfirmExitTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            Closing = false;
             return result == MessageBoxResult.Yes;
         }
 
@@ -808,14 +820,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            Instances.SettingsViewModel.SetupSleepManagement();
-
             if (!_runningState.GetIdle())
             {
                 return;
             }
 
             _runningState.SetIdle(false);
+
+            Instances.SettingsViewModel.SetupSleepManagement();
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
@@ -1789,6 +1801,7 @@ namespace MaaWpfGui.ViewModels.UI
             int pid = 0;
             string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
             var port = address.StartsWith("127") ? address.Substring(10) : "5555";
+            _logger.Information($"address: {address}, port: {port}");
 
             string portCmd = "netstat -ano|findstr \"" + port + "\"";
             Process checkCmd = new Process
@@ -1838,9 +1851,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     string[] arr = line.Split(',');
                     if (arr.Length >= 2
-                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal))
-                        && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal))
-                        && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
+                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)))
                     {
                         continue;
                     }

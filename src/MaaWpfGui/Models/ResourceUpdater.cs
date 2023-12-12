@@ -216,15 +216,16 @@ namespace MaaWpfGui.Models
                 return UpdateResult.Failed;
             }
 
-            if (ret1 != UpdateResult.Success && ret2 != UpdateResult.Success)
+            PostProcVersionChecks();
+
+            if (ret1 == UpdateResult.Success || ret2 == UpdateResult.Success)
             {
-                OutputDownloadProgress(LocalizationHelper.GetString("GameResourceNotModified"));
-                return UpdateResult.NotModified;
+                OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
+                return UpdateResult.Success;
             }
 
-            PostProcVersionChecks();
-            OutputDownloadProgress(LocalizationHelper.GetString("GameResourceUpdated"));
-            return UpdateResult.Success;
+            OutputDownloadProgress(LocalizationHelper.GetString("GameResourceNotModified"));
+            return UpdateResult.NotModified;
         }
 
         private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl, int maxRetryTime = 2)
@@ -289,7 +290,7 @@ namespace MaaWpfGui.Models
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file, file, maxRetryTime);
+                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
                 if (sRet == UpdateResult.Failed)
                 {
                     OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));

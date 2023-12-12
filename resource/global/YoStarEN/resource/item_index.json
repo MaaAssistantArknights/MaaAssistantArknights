@@ -1487,6 +1487,14 @@
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
     },
+    "act38d1_token_coin": {
+        "classifyType": "NONE",
+        "description": "A chunk of flawless Originium crystal. The Sanctuary considers it a precious treasure.",
+        "icon": "act38d1_token_coin.png",
+        "name": "Crystalized Originium",
+        "sortId": -10000,
+        "usage": "Reward obtained by completing Pinch-Out Experimental Operation. Can be exchanged for supplies."
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "Whether it's providing mission feedback, collecting spoils, analyzing materials, facilitating communications, or streamlining operations, Rhodes Island's efficient intelligence system continues to collect complex data from a vast array of actions and operations in order to provide the best course of action. For those unfamiliar to the mechanisms of this black box, just looking at the results will suffice.",

@@ -185,9 +185,13 @@
         ]
     },
     "SN-Open": {
-        "text": [
-            "Stultifera Navis",
-            "open"
+        "baseTask": "#none",
+        "action": "ClickSelf",
+        "roi": [
+            537,
+            66,
+            398,
+            402
         ]
     },
     "SN-Chapter2": {
@@ -2293,15 +2297,8 @@
         "templThreshold": 0.7
     },
     "StartButton1": {
-        "doc": "temporary roi change for Stultifera Navis GUI",
         "text": [
             "Start"
-        ],
-        "roi": [
-            1036,
-            630,
-            208,
-            56
         ]
     },
     "PRTS2": {
@@ -2330,15 +2327,6 @@
             126,
             386,
             208
-        ]
-    },
-    "SanityMatch": {
-        "doc": "temporary roi change for Stultifera Navis GUI",
-        "roi": [
-            1090,
-            20,
-            190,
-            40
         ]
     },
     "MedicineExpiringTime": {
@@ -3365,6 +3353,30 @@
             [
                 "A New Day, A New Duck",
                 "鸭本运作"
+            ],
+            [
+                "Glory of Humanity",
+                "人之光辉"
+            ],
+            [
+                "Mutual Aid",
+                "互助"
+            ],
+            [
+                "Hunger and Thirst",
+                "饥渴"
+            ],
+            [
+                "Looking Forward, Looking Back",
+                "瞻前顾后"
+            ],
+            [
+                "Guns and Order",
+                "铳与秩序"
+            ],
+            [
+                "Ember Phalanx",
+                "余烬方阵"
             ]
         ]
     },
@@ -3587,116 +3599,6 @@
             576,
             288,
             144
-        ]
-    },
-    "SSSStageNameOCR": {
-        "roi": [
-            126,
-            266,
-            175,
-            33
-        ],
-        "ocrReplace": [
-            [
-                "\\.",
-                ""
-            ],
-            [
-                "Jungle Greetings",
-                "丛林式寒暄"
-            ],
-            [
-                "Biodiversity",
-                "生物多样性"
-            ],
-            [
-                "^Adaptation.*",
-                "习以为常"
-            ],
-            [
-                "Glade",
-                "林间空地"
-            ],
-            [
-                "Not Letting Go",
-                "纠缠不休"
-            ],
-            [
-                "Man And Nature",
-                "人与自然"
-            ],
-            [
-                "The Swarming.*",
-                "蜂拥而上"
-            ],
-            [
-                "Passing Down.*",
-                "见者有份"
-            ],
-            [
-                "Industrial.*",
-                "产业升级"
-            ],
-            [
-                "Bad Company",
-                "同流合污"
-            ],
-            [
-                "Tips[yv] Trip",
-                "酩酊之旅"
-            ],
-            [
-                "A Piece of Steak",
-                "一块肉排"
-            ],
-            [
-                "I Know the Risks",
-                "知难而进"
-            ],
-            [
-                "Bar*enlands.*",
-                "荒地的手段"
-            ],
-            [
-                "Numb Wa[yv].*",
-                "麻木前行"
-            ],
-            [
-                "Chaotic Part[yv]",
-                "混乱“派对”"
-            ],
-            [
-                "Messenger",
-                "消息传递"
-            ],
-            [
-                "Show of Power",
-                "力量的炫耀"
-            ],
-            [
-                "Fatal Attraction",
-                "致命吸引"
-            ],
-            [
-                "Drunk Hammer",
-                "烂醉铁锤"
-            ],
-            [
-                "For Survival",
-                "为了生存"
-            ],
-            [
-                "Mixed Gas",
-                "混合毒气"
-            ],
-            [
-                "Nurturing Wither",
-                "枯朽孕育"
-            ],
-            [
-                "Suffocation",
-                "窒息"
-            ]
         ]
     },
     "SSSStartFighting": {
@@ -4808,7 +4710,11 @@
                 "投币玩具"
             ],
             [
-                "Chivalric Commandments *-* *New Edition",
+                "Chivalric Commandments.*",
+                "Chivalric Commandments - New Edition"
+            ],
+            [
+                "Chivalric Commandments - New Edition",
                 "骑士戒律·新编"
             ],
             [
@@ -5626,6 +5532,102 @@
             [
                 "6-Star Random Promotion Temporary Recruitment Voucher",
                 "6星随机直升临时招募券"
+            ],
+            [
+                "Hand of Branding",
+                "刻勋之手"
+            ],
+            [
+                "Iron Guard - Wall",
+                "铁卫-城墙"
+            ],
+            [
+                "Iron Guard - Tower",
+                "铁卫-高塔"
+            ],
+            [
+                "Broken Wand - Solving",
+                "断杖-破解"
+            ],
+            [
+                "Broken Wand - Light of Wisdom",
+                "断杖-智慧之光"
+            ],
+            [
+                "Broken Wand - Learning",
+                "断杖-学识"
+            ],
+            [
+                "Mercenary Insurance",
+                "佣兵保单"
+            ],
+            [
+                "Survivor Contract",
+                "生还者合约"
+            ],
+            [
+                "Caerula Arbor",
+                "深蓝之树"
+            ],
+            [
+                "'Endless Life'",
+                "“未尽的生命”"
+            ],
+            [
+                "Caerula Memory",
+                "深蓝回忆"
+            ],
+            [
+                "Wrankwood Safety Suit",
+                "蓝卡坞安全衣"
+            ],
+            [
+                "'Flashing Swords'",
+                "《刀光剑影》"
+            ],
+            [
+                "HR Bronze Seal",
+                "人事部铜印"
+            ],
+            [
+                "Doctor Silver Seal",
+                "博士银印"
+            ],
+            [
+                "Wordless Coral",
+                "无字珊瑚"
+            ],
+            [
+                "Underground Scorch",
+                "地底的灼痕"
+            ],
+            [
+                "Great Machinations",
+                "铸阳巨械"
+            ],
+            [
+                "Solidified Lamp Oil",
+                "凝固灯油"
+            ],
+            [
+                "Sanctified Lamp Oil",
+                "崇圣灯油"
+            ],
+            [
+                "'King's Crystal'",
+                "“国王的水晶”"
+            ],
+            [
+                "'Determination'",
+                "“决心”"
+            ],
+            [
+                "'Vigil'",
+                "“观望”"
+            ],
+            [
+                "'Hesitation'",
+                "“犹疑”"
             ]
         ]
     },

@@ -4,11 +4,13 @@ on:
   pull_request:
     types: [opened, edited, ready_for_review, reopened, synchronize]
 
+permissions:
+  pull-requests: write
+
 jobs:
   check_commit_name_in_pr:
-    if: github.head_ref != 'dev'
+    if: ${{ !github.event.pull_request.merged && github.base_ref != 'master' }}
     runs-on: ubuntu-latest
-
     steps:
       - name: Check Commits
         uses: actions/github-script@v7
@@ -20,13 +22,22 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.payload.pull_request.number
             });
-            
-            const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|i18n)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
-            const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message));
-            
-            console.log(`check ${commits.length} commit(s)`);
-            
+
+            const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|i18n|typo)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
+            const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message) || commit.parents.length > 1);
+
+            console.log(`Check ${commits.length} commit(s)`);
+
             if (invalidCommits.length > 0) {
               const invalidCommitNames = invalidCommits.map(commit => commit.commit.message);
-              core.setFailed(`Invalid commit names found: ${invalidCommitNames.join(", ")}`);
+              const invalidCommitInfoList = invalidCommits.map(commit => `- ${commit.commit.message} [\`${commit.sha.substring(0, 7)}\`](${commit.html_url})`).join("\n");
+
+              github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                body: `Invalid commit(s) found:\n\n${invalidCommitInfoList}\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
+              });
+
+              core.setFailed(`Invalid commit(s) found: ${invalidCommitNames.join(", ")}`);
             }

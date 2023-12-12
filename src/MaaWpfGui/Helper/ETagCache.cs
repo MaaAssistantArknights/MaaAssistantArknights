@@ -65,13 +65,13 @@ namespace MaaWpfGui.Helper
                 return string.Empty;
             }
 
-            return _cache.TryGetValue(url.Replace("#", "%23"), out string ret) ? ret : string.Empty;
+            return _cache.TryGetValue(url.Replace("%23", "#"), out string ret) ? ret : string.Empty;
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
         public static void Set(string url, string etag)
         {
-            _cache[url.Replace("#", "%23")] = etag;
+            _cache[url.Replace("%23", "#")] = etag;
             Save();
         }
 
