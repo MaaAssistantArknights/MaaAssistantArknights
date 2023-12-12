@@ -323,7 +323,7 @@
             "name_en": "Rathalos S Noir Corne",
             "name_jp": "レウスSノイルホーン",
             "name_kr": "레우스S 느와르 코르네",
-            "name_tw": "火龙S黑角",
+            "name_tw": "火龍S黑角",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3638,7 +3638,7 @@
             "name_en": "Terra Research Commission",
             "name_jp": "テラ大陸調査団",
             "name_kr": "테라 대륙 조사단",
-            "name_tw": "泰拉大陆调查团",
+            "name_tw": "泰拉大陸調查團",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -6863,7 +6863,7 @@
             "name_en": "Flash Grenade",
             "name_jp": "閃光爆弾",
             "name_kr": "섬광 폭탄",
-            "name_tw": "眩光手雷",
+            "name_tw": "眩光手榴彈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6893,7 +6893,7 @@
             "name_en": "High-Voltage Shock Trap",
             "name_jp": "高電圧シビレ罠",
             "name_kr": "고압 펄스 트랩",
-            "name_tw": "高压脉冲诡雷",
+            "name_tw": "高壓脈衝詭雷",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6908,7 +6908,7 @@
             "name_en": "Wiredrone",
             "name_jp": "滞空牽引ドローン",
             "name_kr": "공중 견인 드론",
-            "name_tw": "滞空牵引无人机",
+            "name_tw": "滯空牽引無人機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -6953,7 +6953,7 @@
             "name_en": "Wiredrone",
             "name_jp": "滞空牽引ドローン",
             "name_kr": "공중 견인 드론",
-            "name_tw": "滞空牵引无人机",
+            "name_tw": "滯空牽引無人機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7463,7 +7463,7 @@
             "name_en": "Portable Planting Trough",
             "name_jp": "栽培ポット",
             "name_kr": "간이 재배용기",
-            "name_tw": "便携式种植槽",
+            "name_tw": "可擕式種植槽",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7478,7 +7478,7 @@
             "name_en": "Basic Gathering Hub",
             "name_jp": "採取ロボ用基地",
             "name_kr": "초보자용 채집 허브",
-            "name_tw": "采集实习站",
+            "name_tw": "採集實習站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7508,7 +7508,7 @@
             "name_en": "Firm Platform",
             "name_jp": "堅牢な台",
             "name_kr": "견고한 플랫폼",
-            "name_tw": "坚固筑台",
+            "name_tw": "堅固築台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7523,7 +7523,7 @@
             "name_en": "Urban Style Barrier",
             "name_jp": "都市様式障壁",
             "name_kr": "도시용 방벽",
-            "name_tw": "都市风壁障",
+            "name_tw": "都市風壁障",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7538,7 +7538,7 @@
             "name_en": "Monitoring Tower",
             "name_jp": "監視塔",
             "name_kr": "감시탑",
-            "name_tw": "监控塔",
+            "name_tw": "監控塔",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7568,7 +7568,7 @@
             "name_en": "Thickets",
             "name_jp": "雑木林",
             "name_kr": "잡목림",
-            "name_tw": "杂木林",
+            "name_tw": "雜木林",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7598,7 +7598,7 @@
             "name_en": "Strange Ore Vein",
             "name_jp": "レアな鉱脈",
             "name_kr": "기이한 광맥",
-            "name_tw": "奇异矿脉",
+            "name_tw": "奇異礦脈",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7613,7 +7613,7 @@
             "name_en": "Mobile Battle Tower",
             "name_jp": "可動式戦術塔",
             "name_kr": "이동식 전투 탑",
-            "name_tw": "移动战塔",
+            "name_tw": "移動戰塔",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7628,7 +7628,7 @@
             "name_en": "Historical Remains",
             "name_jp": "遺跡の残骸",
             "name_kr": "유적지 잔해",
-            "name_tw": "遗迹残骸",
+            "name_tw": "遺跡殘骸",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7643,7 +7643,7 @@
             "name_en": "Bush",
             "name_jp": "茂み",
             "name_kr": "관목림",
-            "name_tw": "灌木丛",
+            "name_tw": "灌木叢",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7658,7 +7658,7 @@
             "name_en": "Liaison",
             "name_jp": "連絡員",
             "name_kr": "연락원",
-            "name_tw": "联络员",
+            "name_tw": "聯絡員",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7673,7 +7673,7 @@
             "name_en": "Buried Metal Chest",
             "name_jp": "埋もれた金属の箱",
             "name_kr": "파묻힌 금속 상자",
-            "name_tw": "埋没金属箱",
+            "name_tw": "埋沒金屬箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7688,7 +7688,7 @@
             "name_en": "Remote Shield Generator",
             "name_jp": "シールドリモコン",
             "name_kr": "실드 컨트롤러",
-            "name_tw": "护盾遥控器",
+            "name_tw": "護盾遙控器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7718,7 +7718,7 @@
             "name_en": "Refreshing Potion",
             "name_jp": "覚醒の秘薬",
             "name_kr": "각성 비약",
-            "name_tw": "醒神秘药",
+            "name_tw": "醒神秘藥",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7733,7 +7733,7 @@
             "name_en": "Camouflage Device",
             "name_jp": "隠密支援用マシン",
             "name_kr": "대 정찰 위장 장치",
-            "name_tw": "反侦察藏匿机",
+            "name_tw": "反偵察藏匿機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7748,7 +7748,7 @@
             "name_en": "Emergency Repair Vehicle",
             "name_jp": "緊急修理車両",
             "name_kr": "비상 수리 차량",
-            "name_tw": "应急修理车",
+            "name_tw": "應急修理車",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7763,7 +7763,7 @@
             "name_en": "Thorned Treasure Chest",
             "name_jp": "棘の生えた金属の箱",
             "name_kr": "가시 돋은 보물 상자",
-            "name_tw": "宝刺金属箱",
+            "name_tw": "寶刺金屬箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7778,7 +7778,7 @@
             "name_en": "Trap Net Launcher",
             "name_jp": "捕縛網発射台",
             "name_kr": "그물 발사대",
-            "name_tw": "缚网发射台",
+            "name_tw": "縛網發射台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7793,7 +7793,7 @@
             "name_en": "Gas Jet Thrower",
             "name_jp": "噴射式強制移動機",
             "name_kr": "가스 분사기",
-            "name_tw": "喷拒器",
+            "name_tw": "噴拒器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7808,7 +7808,7 @@
             "name_en": "Fortification",
             "name_jp": "防御施設",
             "name_kr": "방어 공사",
-            "name_tw": "防御工事",
+            "name_tw": "防禦工事",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7823,7 +7823,7 @@
             "name_en": "Modular Computing Station",
             "name_jp": "モジュラー演算所",
             "name_kr": "모듈 연산 시설",
-            "name_tw": "模块演算设施",
+            "name_tw": "模組演算設施",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7838,7 +7838,7 @@
             "name_en": "Resource Planning Station",
             "name_jp": "資源計画所",
             "name_kr": "자원 계획 스테이션",
-            "name_tw": "资源规划站",
+            "name_tw": "資源規劃站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7853,7 +7853,7 @@
             "name_en": "Combat Readiness Station",
             "name_jp": "戦闘計画所",
             "name_kr": "전투 준비 스테이션",
-            "name_tw": "备勤激活站",
+            "name_tw": "備勤啟動站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7868,7 +7868,7 @@
             "name_en": "Transregional Communication Station",
             "name_jp": "越境通信所",
             "name_kr": "지역 간 통신기지",
-            "name_tw": "跨地块通讯站",
+            "name_tw": "跨地塊通訊站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7883,7 +7883,7 @@
             "name_en": "Escape Route",
             "name_jp": "脱出地点",
             "name_kr": "철수 포인트",
-            "name_tw": "逃脱点",
+            "name_tw": "逃脫點",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7898,7 +7898,7 @@
             "name_en": "Mint",
             "name_jp": "金床",
             "name_kr": "작업대",
-            "name_tw": "冶铸台",
+            "name_tw": "冶鑄台",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7943,7 +7943,7 @@
             "name_en": "Manticore Killer",
             "name_jp": "殺し屋のマンティコア",
             "name_kr": "맨티코어 킬러",
-            "name_tw": "曼提柯杀手",
+            "name_tw": "曼提柯殺手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7958,7 +7958,7 @@
             "name_en": "Treasure Hunter",
             "name_jp": "トレジャーハンター",
             "name_kr": "트레져헌터",
-            "name_tw": "寻宝人",
+            "name_tw": "尋寶人",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7973,7 +7973,7 @@
             "name_en": "Veteran Hunter",
             "name_jp": "手練れのハンター",
             "name_kr": "노련한 사냥꾼",
-            "name_tw": "老练猎手",
+            "name_tw": "老練獵手",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7988,7 +7988,7 @@
             "name_en": "Advanced Gathering Hub",
             "name_jp": "スーパー採取ロボ用基地",
             "name_kr": "숙련자용 채집 허브",
-            "name_tw": "采集专员站",
+            "name_tw": "採集專員站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -8003,7 +8003,7 @@
             "name_en": "Executive Gathering Hub",
             "name_jp": "ハイパー採取ロボ用基地",
             "name_kr": "전문가용 채집 허브",
-            "name_tw": "采集主任站",
+            "name_tw": "採集主任站",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
