@@ -26,18 +26,18 @@ jobs:
             const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|i18n|typo)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
             const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message) || commit.parents.length > 1);
 
-            console.log(`Check ${commits.length} commit(s)`);
+            console.log(`Checked ${commits.length} commit(s)`);
 
             if (invalidCommits.length > 0) {
               const invalidCommitNames = invalidCommits.map(commit => commit.commit.message);
-              const invalidCommitInfoList = invalidCommits.map(commit => `- ${commit.commit.message} [\`${commit.sha.substring(0, 7)}\`](${commit.html_url})`).join("\n");
+              const invalidCommitInfoList = invalidCommits.map(commit => `- ${commit.commit.message.split("\n")[0]} [\`${commit.sha.substring(0, 7)}\`](${commit.html_url})`).join("\n");
 
               github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number,
-                body: `Invalid commit(s) found:\n\n${invalidCommitInfoList}\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
+                body: `## ⚠️ Found ${invalidCommits.length} invalid commit(s):\n\n${invalidCommitInfoList}\n\n---\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
               });
 
-              core.setFailed(`Invalid commit(s) found: ${invalidCommitNames.join(", ")}`);
+              core.setFailed(`Found ${invalidCommits.length} invalid commit(s):\n${invalidCommitNames.join("\n-------------------\n")}`);
             }
