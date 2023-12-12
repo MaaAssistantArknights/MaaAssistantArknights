@@ -39,15 +39,5 @@ namespace MaaWpfGui.Views.UserControl
         {
             _setText?.Invoke(sender, _paras);
         }
-
-        private void ToggleCheckBoxNullOnRightClick(object sender, MouseButtonEventArgs e)
-        {
-            CheckBoxHelper.ToggleCheckBoxNullOnRightClick(sender, e);
-        }
-
-        private void ToggleCheckBoxNullOnLeftClick(object sender, RoutedEventArgs e)
-        {
-            CheckBoxHelper.ToggleCheckBoxNullOnLeftClick(sender, e);
-        }
     }
 }
