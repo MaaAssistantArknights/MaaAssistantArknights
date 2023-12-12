@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">アップグレード版は、.NET 8.0ランタイムがインストールされていないコンピュータをサポートしないため、手動でダウンロードする必要があります。 \n\nその間に、Windows 7オペレーティングシステムはサポートされなくなります。 \n\n「はい」をクリックすると、新しいランタイムのダウンロード・リンクを開きます。 「いいえ」をクリックすると、不要なソフトウェア更新を防ぐために自動ダウンロードを無効にします。 自動ダウンロードを無効にした場合でも、ソフトウェア設定でこの機能を手動で再度有効にすることができます。</system:String>
     <system:String x:Key="Dotnet8Caption">ソフトウェアバージョンのアップグレードとサポートの変更</system:String>
@@ -35,7 +32,7 @@
     <system:String x:Key="ExternalNotificationSendFail">送信に失敗しました</system:String>
     <system:String x:Key="ExternalNotificationSendTest">テストを送信する</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知テスト</system:String>
-    <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました。</system:String>
+    <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました！</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">ServerChan Send Key</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP サーバ</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">ポート</system:String>
@@ -548,7 +545,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="AdbDownloadFailedDesc">手動で行ってください（adb.exeの名前を変更し、エミュレーター内のADBファイルを置き換えます）</system:String>
     <system:String x:Key="SuccessfullyReplacedAdb">ADBファイルが正常に置き換えられました</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADBファイルの置換に失敗しました</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">一時的にローカルADBを使用して接続されました。</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">ローカルADBを使用して接続しました。再試行する場合は、エミュレータをADBから切断し、閉じるか、コンピュータを再起動し、エミュレータを起動せずに管理者権限でMAAを開いてください。</system:String>
     <system:String x:Key="InitializationError">初期化エラー！</system:String>
     <system:String x:Key="ResolutionNotSupported">エミュレータの解像度はサポートされていません。アスペクト比16: 9で、720p以上に設定してください</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">エミュレータの解像度を取得できませんでした。エミュレータとADBを再起動するか、コンピュータを再起動することをお勧めします、エミュレータを変更してから再試行することをお勧めします</system:String>
@@ -557,7 +554,9 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ReconnectFailed">再接続に失敗、切断されました！</system:String>
     <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。設定-接続設定に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
-    <system:String x:Key="FastestWayToScreencap">最速のスクリーンショット方法: {0} ({1:#,#}ms)</system:String>
+    <system:String x:Key="FastestWayToScreencap">スクリーンショット テストには: {0}ms</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります。 シミュレーターを再起動または変更してみることをお勧めします。</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>
     <system:String x:Key="CombatError">戦闘エラー</system:String>
