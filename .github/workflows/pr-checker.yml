@@ -12,6 +12,26 @@ jobs:
     if: ${{ !github.event.pull_request.merged }}
     runs-on: ubuntu-latest
     steps:
+      - name: Cleanup Previous Comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number
+            });
+
+            const previousComment = comments.find(comment => comment.user.login === 'github-actions[bot]' && comment.body.includes('invalid commit(s)'));
+            if (previousComment) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: previousComment.id
+              });
+            }
+
       - name: Check Commits
         uses: actions/github-script@v7
         with:
