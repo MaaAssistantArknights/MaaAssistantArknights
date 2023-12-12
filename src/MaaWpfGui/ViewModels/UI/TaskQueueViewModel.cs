@@ -173,10 +173,18 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Running { get; set; }
 
+        public bool Closing { get; set; }
+
         private readonly DispatcherTimer _timer = new DispatcherTimer();
 
-        private bool ConfirmExit()
+        public bool ConfirmExit()
         {
+            if (Closing)
+            {
+                return false;
+            }
+
+            Closing = true;
             if (Application.Current.IsShuttingDown())
             {
                 // allow close if application is shutting down
@@ -195,8 +203,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            var window = Instances.MainWindowManager.GetWindowIfVisible();
-            var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("ConfirmExitText"),
+                LocalizationHelper.GetString("ConfirmExitTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            Closing = false;
             return result == MessageBoxResult.Yes;
         }
 
@@ -808,6 +820,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
+            Instances.TaskQueueViewModel.Running = true;
+            var i = 0;
+            while (true)
+            {
+               await Task.Delay(1000);
+               AddLog(i++.ToString());
+            }
+
+            return;
             Instances.SettingsViewModel.SetupSleepManagement();
 
             if (!_runningState.GetIdle())
