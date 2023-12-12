@@ -820,23 +820,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            Instances.TaskQueueViewModel.Running = true;
-            var i = 0;
-            while (true)
-            {
-               await Task.Delay(1000);
-               AddLog(i++.ToString());
-            }
-
-            return;
-            Instances.SettingsViewModel.SetupSleepManagement();
-
             if (!_runningState.GetIdle())
             {
                 return;
             }
 
             _runningState.SetIdle(false);
+
+            Instances.SettingsViewModel.SetupSleepManagement();
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
