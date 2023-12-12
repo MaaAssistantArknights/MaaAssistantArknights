@@ -13,8 +13,8 @@
 
 using System.Reflection;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -42,19 +42,12 @@ namespace MaaWpfGui.Views.UserControl
 
         private void ToggleCheckBoxNullOnRightClick(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton != MouseButton.Right)
-            {
-                return;
-            }
-
-            CheckBox checkBox = (CheckBox)sender;
-            checkBox.IsChecked = checkBox.IsChecked == null ? (bool?)false : null;
+            CheckBoxHelper.ToggleCheckBoxNullOnRightClick(sender, e);
         }
 
         private void ToggleCheckBoxNullOnLeftClick(object sender, RoutedEventArgs e)
         {
-            CheckBox checkBox = (CheckBox)sender;
-            checkBox.IsChecked = checkBox.IsChecked == true ? null : (bool?)false;
+            CheckBoxHelper.ToggleCheckBoxNullOnLeftClick(sender, e);
         }
     }
 }
