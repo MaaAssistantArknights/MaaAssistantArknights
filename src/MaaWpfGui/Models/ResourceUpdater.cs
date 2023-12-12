@@ -290,7 +290,7 @@ namespace MaaWpfGui.Models
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file, file, maxRetryTime);
+                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
                 if (sRet == UpdateResult.Failed)
                 {
                     OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
