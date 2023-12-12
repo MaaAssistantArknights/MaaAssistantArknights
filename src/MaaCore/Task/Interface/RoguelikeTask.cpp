@@ -11,17 +11,17 @@
 #include "Task/Roguelike/RoguelikeCustomStartTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDebugTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeFoldartalGainTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeFoldartalUseTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeSettlementTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeShoppingTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
-
-#include "Task/Roguelike/RoguelikeFoldartalGainTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeFoldartalUseTaskPlugin.h"
 
 #include "Utils/Logger.hpp"
 
@@ -37,6 +37,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeSettlementTaskPlugin>(m_roguelike_config_ptr);
     m_debug_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_roguelike_config_ptr)->set_retry_times(0);
 
@@ -75,20 +76,14 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     LogTraceFunction;
 
     std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
-    if (RoguelikeConfig::is_valid_theme(theme)) {
+    if (!RoguelikeConfig::is_valid_theme(theme)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error("Unknown roguelike theme", theme);
         return false;
     }
 
-    if (status() == nullptr) {
-        m_roguelike_task_ptr->set_tasks({ "Stop" });
-        Log.error(__FUNCTION__, "status() is null");
-        return false;
-    }
-
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
-    if (RoguelikeConfig::is_valid_mode(mode)) {
+    if (!RoguelikeConfig::is_valid_mode(mode)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
         return false;

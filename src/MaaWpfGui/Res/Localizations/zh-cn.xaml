@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即将升级，升级后的版本不支持未安装 .NET 8.0 运行时 的电脑，需要您手动前往下载。\n\n同时，我们将不再支持 Windows 7 操作系统。\n\n如果您点击 '是'，我们将为您打开新的运行时下载链接。如果您点击 '否'，我们将禁用您的自动下载功能，以防止不必要的软件更新。如果您选择禁用自动下载，您仍然可以在软件设置中手动重新启用此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">软件版本升级及支持变更</system:String>
@@ -26,7 +23,7 @@
     <system:String x:Key="AboutUs">关于我们</system:String>
     <system:String x:Key="CoreVersion">Core 版本号</system:String>
     <system:String x:Key="UiVersion">UI 版本号</system:String>
-    <system:String x:Key="ResourceVersion">Resource</system:String>
+    <system:String x:Key="ResourceVersion">资源版本号</system:String>
     <system:String x:Key="Off">关闭</system:String>
     <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -118,7 +115,7 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">中止行为等待至当前战斗结束后</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
     <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
@@ -158,7 +155,7 @@
     <system:String x:Key="Txwy">繁中服 (txwy)</system:String>
     <system:String x:Key="Switchable">可切换</system:String>
     <system:String x:Key="Executable">可执行文件</system:String>
-    <system:String x:Key="AdbProgram">ADB程序</system:String>
+    <system:String x:Key="AdbProgram">ADB 程序</system:String>
     <system:String x:Key="EmulatorException">检测模拟器出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="AdbException">检测ADB出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
@@ -297,13 +294,13 @@
     <system:String x:Key="AutoDetectConnectionTip">每次检测完成后会自动取消勾选，若需要重新检测可再次勾选，若反复连接失败可勾选始终自动检测连接</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
     <system:String x:Key="AccountSwitch">账号切换</system:String>
-    <system:String x:Key="AccountSwitchManualRun">手动切换</system:String>
+    <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用
 官服输入登录界面显示的手机号，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
  B服输入登录界面显示的账号名，如「张三」，可输入「张」或「三」
 暂不支持其他服</system:String>
     <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
-    <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或模拟器本体程序。</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或错选成了模拟器本体。</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
@@ -340,8 +337,9 @@
     <system:String x:Key="Shutdown">关机</system:String>
     <system:String x:Key="HibernateWithoutPersist">休眠（仅一次）</system:String>
     <system:String x:Key="ShutdownWithoutPersist">关机（仅一次）</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，如无其他 MAA 进程则休眠</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如无其他 MAA 进程则关机</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，无其他 MAA 则休眠</system:String>
+    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，无其他 MAA 则关机</system:String>
+    <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
@@ -398,7 +396,7 @@
     <system:String x:Key="UnselectedTask">未选择任务</system:String>
     <system:String x:Key="Running">正在运行中……</system:String>
     <system:String x:Key="AdbReplacementTips">如果任务完全没有反应，请使用 设置 - 连接设置 - 强制替换 ADB，或触控模式选择 ADB Input（不推荐）。</system:String>
-    <system:String x:Key="Waiting">正在等待战斗结束……</system:String>
+    <system:String x:Key="Waiting">正在等待当前任务结束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出现未知错误</system:String>
@@ -518,7 +516,8 @@
         添加: 左键添加正常难度，右键添加突袭难度。\n
         清除: 左键清空列表，右键仅移除未激活的任务。\n
         开始前，需要切换至对应关卡的选择界面，不支持跨章节导航。\n
-        遇到 理智不足、战斗失败、未能以三星结算 时将会中止运行。\n\n
+        遇到 理智不足、战斗失败、未能以三星结算 时将会中止运行。\n
+        批量导入时，添加突袭关需参照已添加任务格式修改文件名\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -534,7 +533,7 @@
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档: 常见问题 - 闪退 进行操作。</system:String>
-    <system:String x:Key="ErrorSolutionReplaceAdb">请关闭模拟器与 ADB 或重启电脑后使用管理员权限打开 MAA 进行操作。</system:String>
+    <system:String x:Key="ErrorSolutionReplaceAdb">请「关闭模拟器与 ADB」或「重启电脑后在未开启模拟器的情况下使用管理员权限打开 MAA」后进行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
@@ -550,7 +549,7 @@
     <system:String x:Key="AdbDownloadFailedDesc">请手动进行操作（将 adb.exe 重命名后替换上方模拟器自带 ADB 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedAdb">成功替换 ADB 文件</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替换 ADB 失败</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已临时使用本地 ADB 进行连接。</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已使用本地 ADB 进行连接。如需再次尝试，请重新检测连接后「关闭模拟器与 ADB」或「重启电脑后在未开启模拟器的情况下使用管理员权限打开 MAA」后进行操作。</system:String>
     <system:String x:Key="InitializationError">初始化错误！</system:String>
     <system:String x:Key="ResolutionNotSupported">模拟器分辨率不支持，请设置为 720p 或更高，且为 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模拟器分辨率获取失败，建议重启模拟器与 ADB 或重启电脑，或更换模拟器后再次尝试</system:String>
@@ -559,6 +558,9 @@
     <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
     <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
+    <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长，使用自动战斗类功能（如自动肉鸽）时，可能出现部分异常表现</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -609,6 +611,13 @@
     <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
+    <system:String x:Key="RoguelikeSettlement">肉鸽结算: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Explore">探索: {0} 层 {1} 步</system:String>
+    <system:String x:Key="RoguelikeSettlement-Combat">战斗: {0} / {1} 紧急 / {2} BOSS</system:String>
+    <system:String x:Key="RoguelikeSettlement-Recruit">招募: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Collection">收藏品: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Difficulty">难度: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Global">得分: {0}, Exp: {1}, Skill: {2}</system:String>
     <system:String x:Key="CurTimes">当前次数</system:String>
     <system:String x:Key="NoDrop">无</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
@@ -629,7 +638,7 @@
     <system:String x:Key="Refreshed">当前槽位已刷新</system:String>
     <system:String x:Key="ContinueRefresh">无招聘许可，继续尝试刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">无招聘许可，已返回</system:String>
-    <system:String x:Key="SelectExtraTags">选择 Tags 时总是选择三个 Tag</system:String>
+    <system:String x:Key="SelectExtraTags">总是选择三个 Tag</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="UseFormation">使用编队</system:String>
@@ -694,7 +703,7 @@
     <!-- !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">关卡数据获取成功</system:String>
-    <system:String x:Key="GameResourceUpdating">游戏资源正在更新</system:String>
+    <system:String x:Key="GameResourceUpdating">游戏资源正在更新。</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">正在编制索引</system:String>
     <system:String x:Key="GameResourceNotModified">游戏资源已更新。</system:String>
     <system:String x:Key="GameResourceUpdated">游戏资源已更新，请重启 MAA。</system:String>
@@ -714,7 +723,7 @@
     <system:String x:Key="RemoteControlConnectionTestFailNotHttps">连接测试失败。端点不是https地址。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
-    <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的明日方舟账户受到损失。</system:String>
+    <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的账户受到损失。</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">了解如何开发相关功能，可以访问</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">远程控制功能开发者文档</system:String>
     <!-- !Remote Control  -->

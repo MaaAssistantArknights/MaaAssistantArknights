@@ -48,6 +48,9 @@
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Config\OnnxSessions.h" />
+    <ClInclude Include="Config\TaskData\TaskDataSymbol.h" />
+    <ClInclude Include="Config\TaskData\TaskDataSymbolStream.h" />
+    <ClInclude Include="Config\TaskData\TaskDataTypes.h" />
     <ClInclude Include="Controller\adb-lite\client.hpp" />
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
@@ -95,6 +98,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
@@ -229,6 +233,8 @@
     <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
     <ClCompile Include="Config\OnnxSessions.cpp" />
+    <ClCompile Include="Config\TaskData\TaskDataSymbol.cpp" />
+    <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp" />
     <ClCompile Include="Controller\adb-lite\client.cpp" />
     <ClCompile Include="Controller\adb-lite\protocol.cpp" />
     <ClCompile Include="Controller\Controller.cpp" />
@@ -270,6 +276,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />

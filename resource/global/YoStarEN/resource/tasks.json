@@ -51,8 +51,9 @@
     },
     "CW-Open": {
         "text": [
-            "Lone Trail",
-            "is now open"
+            "Lingering",
+            "Past",
+            "opened"
         ]
     },
     "CWChapterToCW": {
@@ -184,22 +185,25 @@
         ]
     },
     "SN-Open": {
-        "text": [
-            "open"
+        "baseTask": "#none",
+        "action": "ClickSelf",
+        "roi": [
+            537,
+            66,
+            398,
+            402
         ]
     },
     "SN-Chapter2": {
         "text": [
-            "Lost Flagship",
-            "Lost",
-            "Flagship"
+            "LOST",
+            "FLAGSHIP"
         ]
     },
     "SN-Chapter3": {
         "text": [
-            "Nameless Ocean",
-            "Nameless",
-            "Ocean"
+            "NAMELESS",
+            "OCEAN"
         ]
     },
     "DH-Open": {
@@ -1794,7 +1798,7 @@
                 "骰子"
             ],
             [
-                "First-aid Kit",
+                "^First-aid Kit",
                 "急救包"
             ],
             [
@@ -1884,6 +1888,14 @@
             [
                 ".*girian Oscilloscope",
                 "阿戈尔示波器"
+            ],
+            [
+                "Assault Chip Circuit",
+                "强攻电路芯片"
+            ],
+            [
+                "Ambush Chip Circuit",
+                "伏击电路芯片"
             ],
             [
                 "Heavy Insulated Concrete",
@@ -2178,11 +2190,7 @@
                 "重力"
             ],
             [
-                "Portable First-aid Kit",
-                "便携式医疗设备"
-            ],
-            [
-                "Silence the Paradigmatic",
+                "Silence the Paradigmatic.?",
                 "淬羽赫默"
             ],
             [
@@ -2206,24 +2214,16 @@
                 "霍尔海雅"
             ],
             [
-                "Energy Perturbation Amplifier",
-                "能量扰动放大器"
-            ],
-            [
                 "Melanite",
                 "玫拉"
             ],
             [
-                "Energy Perturbation Amplifier",
-                "能量扰动放大器"
+                "Night Banisher",
+                "夜灯"
             ],
             [
                 "Post-Firing Debt Relief Program",
                 "解雇者清债程序"
-            ],
-            [
-                "Night Banisher",
-                "夜灯"
             ],
             [
                 "Rupturing Canister",
@@ -2234,24 +2234,40 @@
                 "能量扰动放大器"
             ],
             [
-                "Tactical Equipment Toolbox",
-                "战术装备整理箱"
+                "Signal Blocker",
+                "信号阻断插件"
+            ],
+            [
+                "Heteromorphic Accelerator",
+                "异态激化插件"
             ],
             [
                 "Tactical Equipment Toolbox",
                 "战术装备整理箱"
             ],
             [
-                "Tactical Equipment Toolbox",
-                "战术装备整理箱"
+                "Equipment Expansion Box",
+                "装备扩充箱"
             ],
             [
-                "Portable First-aid Kit",
+                "Equipment Collection Box",
+                "装备储集箱"
+            ],
+            [
+                "Portable First-*aid Kit",
                 "便携式医疗设备"
             ],
             [
-                "Portable First-aid Kit",
-                "便携式医疗设备"
+                "Efficiency Capsule",
+                "能效胶囊"
+            ],
+            [
+                "Stimulation Shot",
+                "增活针剂"
+            ],
+            [
+                "No more operators needed",
+                "无需增调干员"
             ]
         ]
     },
@@ -3343,6 +3359,30 @@
             [
                 "A New Day, A New Duck",
                 "鸭本运作"
+            ],
+            [
+                "Glory of Humanity",
+                "人之光辉"
+            ],
+            [
+                "Mutual Aid",
+                "互助"
+            ],
+            [
+                "Hunger and Thirst",
+                "饥渴"
+            ],
+            [
+                "Looking Forward, Looking Back",
+                "瞻前顾后"
+            ],
+            [
+                "Guns and Order",
+                "铳与秩序"
+            ],
+            [
+                "Ember Phalanx",
+                "余烬方阵"
             ]
         ]
     },
@@ -3518,6 +3558,18 @@
             [
                 "Coating Device Conduction Valve",
                 "镀膜装置导能阀"
+            ],
+            [
+                "Portable First-*aid Kit",
+                "便携式医疗设备"
+            ],
+            [
+                "Energy Perturbation Amplifier?",
+                "能量扰动放大器"
+            ],
+            [
+                "Tactical Equipment Toolbox",
+                "战术装备整理箱"
             ]
         ]
     },
@@ -3555,64 +3607,6 @@
             144
         ]
     },
-    "SSSStageNameOCR": {
-        "roi": [
-            126,
-            266,
-            175,
-            33
-        ],
-        "ocrReplace": [
-            [
-                "Jungle Greetings",
-                "丛林式寒暄"
-            ],
-            [
-                "Biodiversity",
-                "生物多样性"
-            ],
-            [
-                "^Adaptation.*",
-                "习以为常"
-            ],
-            [
-                "Glade",
-                "林间空地"
-            ],
-            [
-                "Not Letting Go",
-                "纠缠不休"
-            ],
-            [
-                "Man And Nature",
-                "人与自然"
-            ],
-            [
-                "The Swarming.*",
-                "蜂拥而上"
-            ],
-            [
-                "Passing Down.*",
-                "见者有份"
-            ],
-            [
-                "Industrial.*",
-                "产业升级"
-            ],
-            [
-                "Bad Company",
-                "同流合污"
-            ],
-            [
-                "Tips[yv] Trip",
-                "酩酊之旅"
-            ],
-            [
-                "A Piece of Steak",
-                "一块肉排"
-            ]
-        ]
-    },
     "SSSStartFighting": {
         "text": [
             "Begin Deployment",
@@ -3647,7 +3641,8 @@
     "SSSDropRecruitmentConfirm": {
         "text": [
             "Confirm assignment",
-            "Confirm Selection"
+            "Confirm Selection",
+            "Abandon Assignment"
         ],
         "roi": [
             1105,
@@ -4721,7 +4716,11 @@
                 "投币玩具"
             ],
             [
-                "Chivalric Commandments *-* *New Edition",
+                "Chivalric Commandments.*",
+                "Chivalric Commandments - New Edition"
+            ],
+            [
+                "Chivalric Commandments - New Edition",
                 "骑士戒律·新编"
             ],
             [
@@ -5539,6 +5538,102 @@
             [
                 "6-Star Random Promotion Temporary Recruitment Voucher",
                 "6星随机直升临时招募券"
+            ],
+            [
+                "Hand of Branding",
+                "刻勋之手"
+            ],
+            [
+                "Iron Guard - Wall",
+                "铁卫-城墙"
+            ],
+            [
+                "Iron Guard - Tower",
+                "铁卫-高塔"
+            ],
+            [
+                "Broken Wand - Solving",
+                "断杖-破解"
+            ],
+            [
+                "Broken Wand - Light of Wisdom",
+                "断杖-智慧之光"
+            ],
+            [
+                "Broken Wand - Learning",
+                "断杖-学识"
+            ],
+            [
+                "Mercenary Insurance",
+                "佣兵保单"
+            ],
+            [
+                "Survivor Contract",
+                "生还者合约"
+            ],
+            [
+                "Caerula Arbor",
+                "深蓝之树"
+            ],
+            [
+                "'Endless Life'",
+                "“未尽的生命”"
+            ],
+            [
+                "Caerula Memory",
+                "深蓝回忆"
+            ],
+            [
+                "Wrankwood Safety Suit",
+                "蓝卡坞安全衣"
+            ],
+            [
+                "'Flashing Swords'",
+                "《刀光剑影》"
+            ],
+            [
+                "HR Bronze Seal",
+                "人事部铜印"
+            ],
+            [
+                "Doctor Silver Seal",
+                "博士银印"
+            ],
+            [
+                "Wordless Coral",
+                "无字珊瑚"
+            ],
+            [
+                "Underground Scorch",
+                "地底的灼痕"
+            ],
+            [
+                "Great Machinations",
+                "铸阳巨械"
+            ],
+            [
+                "Solidified Lamp Oil",
+                "凝固灯油"
+            ],
+            [
+                "Sanctified Lamp Oil",
+                "崇圣灯油"
+            ],
+            [
+                "'King's Crystal'",
+                "“国王的水晶”"
+            ],
+            [
+                "'Determination'",
+                "“决心”"
+            ],
+            [
+                "'Vigil'",
+                "“观望”"
+            ],
+            [
+                "'Hesitation'",
+                "“犹疑”"
             ]
         ]
     },
