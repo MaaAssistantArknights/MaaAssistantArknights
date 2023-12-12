@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -36,16 +37,19 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseMedicineWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                     <CheckBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Click="ToggleCheckBoxNullOnLeftClick"
+                        Click="{s:Action ToggleCheckBoxNullOnLeftClick,
+                                         Target={x:Type helper:CheckBoxHelper}}"
                         Content="{DynamicResource UseOriginitePrime}"
                         IsChecked="{Binding UseStoneWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <CheckBox
                         Height="30"
@@ -53,7 +57,8 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource PerformBattles}"
                         IsChecked="{Binding HasTimesLimitedWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -104,7 +109,8 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource AssignedMaterial}"
                         IsChecked="{Binding IsSpecifiedDropsWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
                     <Grid Height="42" Visibility="{c:Binding IsSpecifiedDropsWithNull}">
                         <controls:TextBlock
