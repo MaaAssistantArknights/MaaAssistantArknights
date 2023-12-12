@@ -40,7 +40,8 @@ jobs:
             const { data: commits } = await github.rest.pulls.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
+              pull_number: context.payload.pull_request.number,
+              per_page: 100
             });
 
             const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|i18n|typo)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
