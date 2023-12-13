@@ -342,6 +342,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ResetFightVariables();
+                ResetTaskSelection();
                 RefreshCustomInfrastPlanIndexByPeriod();
             }
 
@@ -366,8 +367,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // "ReclamationAlgorithm",
             };
             var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili"
-                && DateTime.Now < new DateTime(2023, 10, 12))
+            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 06))
             {
                 taskList.Add("ReclamationAlgorithm");
             }
@@ -745,6 +745,20 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 foreach (var item in TaskItemViewModels)
+                {
+                    item.IsChecked = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reset unsaved task selection.
+        /// </summary>
+        public void ResetTaskSelection()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsCheckedWithNull == null)
                 {
                     item.IsChecked = false;
                 }
@@ -1312,9 +1326,11 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
+            int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.SelectExtraTags, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()

@@ -89,10 +89,24 @@ namespace asst
         }
     };
 
+    // 选择额外 Tags 的模式
+    enum class ExtraTagsMode
+    {
+        NoExtra,              // 0 - 默认行为
+        Extra,                // 1 - 选 3 个 Tags, 即使可能冲突
+        ExtraOnlyRare,        // 2 - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突
+    };
+
     class RecruitConfig final : public SingletonHolder<RecruitConfig>, public AbstractConfig
     {
     public:
         using TagId = std::string;
+    
+    public:
+        static constexpr bool is_valid_extra_tags_mode(ExtraTagsMode mode)
+        {
+            return mode == ExtraTagsMode::NoExtra || mode == ExtraTagsMode::Extra || mode == ExtraTagsMode::ExtraOnlyRare;
+        }
 
     public:
         virtual ~RecruitConfig() override = default;
