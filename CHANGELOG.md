@@ -9,10 +9,8 @@
 - YostarEN Stultifera Navis navigation @Constrat
 - 新增检测最快截图方式后输出截图方法和截图测试耗时 (#7441) @status102 @ABA2396
 - 完成后选项 模拟器返回桌面 (#7185) @Manicsteiner
-- 重构 TaskData (#7426) @zzyyyl
 - YoStarJP 狂人号 navigation (#7417) @Manicsteiner
 - 保全支持开局替换部分满足条件的非核心干员 (#7347) @zzyyyl @status102
-- 提取勾选框左右键点击单次执行逻辑 @ABA2396
 - 日服支持加工站换班 @ABA2396
 - 最快截图耗时超出阈值后，输出额外提示文本 (#7489) @status102
 - YoStarJP 狂人号 navigation change (#7488) @Manicsteiner
@@ -21,28 +19,14 @@
 ### 改进 | Improved
 
 - 优化战斗列表部分逻辑 (#7565) @status102
-- 更新日志跳过资源更新 (#7536) @zzyyyl
-- 优化pr-checker的评论及日志格式，并自动删除先前的评论 (#7535) @SherkeyXD
-- 更新 issue-checker，调整 labels (#7460) @zzyyyl
 - 自动战斗部分操作增加时间输出并输出至gui.log (#7453) @status102
-- 更新 Qodana 版本到 2023.3 EAP (#7424) @SherkeyXD
-- 重构BattleHelper的m_cur_deployment_opers为vector (#7412) @status102
-- Revert "feat: 重构 TaskData (#7410)" @zzyyyl
-- 资源更新时发起资源同步 @AnnAngela
-- resource: 更新新版危机合约地图 (#7399) @status102
-- 优化更新日志生成逻辑 (#7374) @AnnAngela
-- 移除CheckBox右键额外调用 (#7537) @status102
 - 遇到问题时提前结束选取密文板 (#7501) @ABA2396 @status102
-- SSS Stage Name revision to LT-n (#7527) @status102
-- 规范化ci文件格式及step命名，优化pr-checker的触发逻辑及表现形式 (#7512) @SherkeyXD
-- 重构 SettingsViewModel Init @ABA2396
+- 优化保全关卡识别逻辑，改为识别LT-n (#7527) @status102
 - 肉鸽适配新干员用法 (#7500) @Lancarus
-- 文档目录结构大重构 (#7423) @SherkeyXD @AnnAngela
-- reduced screencap timeout (#7476) @Constrat
 
 ### 修复 | Fix
 
-- 修复在战斗列表展开时，部分情形下无法正确关闭战斗列表 (#7563) @status102
+- 修复在连续战斗次数列表展开时，部分情形下无法正确关闭 (#7563) @status102
 - YoStarJP furniture drop (#7467) @Manicsteiner
 - fix crashing after minitouch fails to restart @horror-proton
 - 修复重岳等干员带三技能时点错的问题 (#7450) @zzyyyl
@@ -81,6 +65,22 @@
 
 ### 其他 | Other
 
+- 更新 Qodana 版本到 2023.3 EAP (#7424) @SherkeyXD
+- 重构BattleHelper的m_cur_deployment_opers为vector (#7412) @status102
+- Revert "feat: 重构 TaskData (#7410)" @zzyyyl
+- 资源更新时发起资源同步 @AnnAngela
+- resource: 更新新版危机合约地图 (#7399) @status102
+- 优化更新日志生成逻辑 (#7374) @AnnAngela
+- 移除CheckBox右键额外调用 (#7537) @status102
+- 规范化ci文件格式及step命名，优化pr-checker的触发逻辑及表现形式 (#7512) @SherkeyXD
+- 重构 SettingsViewModel Init @ABA2396
+- 文档目录结构大重构 (#7423) @SherkeyXD @AnnAngela
+- reduced screencap timeout (#7476) @Constrat
+- 重构 TaskData (#7426) @zzyyyl
+- 提取勾选框左右键点击单次执行逻辑 @ABA2396
+- 更新日志跳过资源更新 (#7536) @zzyyyl
+- 优化pr-checker的评论及日志格式，并自动删除先前的评论 (#7535) @SherkeyXD
+- 更新 issue-checker，调整 labels (#7460) @zzyyyl
 - 重构 TaskData (#7410) @zzyyyl
 - added reclamation algorithm task to view @Constrat
 - locked txwy reclamation algorithm. waiting for adaptation (to reduce issues number) @Constrat
