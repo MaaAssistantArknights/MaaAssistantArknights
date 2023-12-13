@@ -489,12 +489,8 @@ namespace MaaWpfGui.ViewModels.UI
                         return;
                     }
 
-                    var fileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+                    var fileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length).Replace("突袭", "-Adverse");
                     var stageName = FindStageName(fileName);
-                    if (fileInfo.Name.Contains("突袭") || fileInfo.Name.Contains("-Adverse"))
-                    {
-                        stageName += "-Adverse";
-                    }
 
                     if (stageName.IsNullOrEmpty())
                     {
