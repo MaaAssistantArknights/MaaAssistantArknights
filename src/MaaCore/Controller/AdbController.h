@@ -3,6 +3,7 @@
 #include "ControllerAPI.h"
 
 #include <random>
+#include <deque>
 
 #include "Platform/PlatformFactory.h"
 
@@ -128,5 +129,8 @@ namespace asst
         bool m_server_started = false;
         bool m_inited = false;
         bool m_kill_adb_on_exit = false;
+        long long m_last_command_duration = 0;      // 上次命令执行用时
+        std::deque<long long> m_screencap_duration; // 截图用时
+        int m_screencap_time = 0;                   // 截图次数
     };
 } // namespace asst
