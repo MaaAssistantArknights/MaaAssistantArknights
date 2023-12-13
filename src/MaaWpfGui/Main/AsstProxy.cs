@@ -638,6 +638,7 @@ namespace MaaWpfGui.Main
                     _latestTaskId.Clear();
 
                     Instances.TaskQueueViewModel.ResetFightVariables();
+                    Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
                     Instances.RecognizerViewModel.GachaDone = true;
 

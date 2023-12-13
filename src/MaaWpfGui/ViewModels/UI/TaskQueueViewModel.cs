@@ -342,6 +342,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ResetFightVariables();
+                ResetTaskSelection();
                 RefreshCustomInfrastPlanIndexByPeriod();
             }
 
@@ -745,6 +746,20 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 foreach (var item in TaskItemViewModels)
+                {
+                    item.IsChecked = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reset unsaved task selection.
+        /// </summary>
+        public void ResetTaskSelection()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsCheckedWithNull == null)
                 {
                     item.IsChecked = false;
                 }

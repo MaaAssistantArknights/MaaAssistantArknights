@@ -49,7 +49,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = originalName;
             _storageKey = storageKey;
-            _isChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
+            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
         }
 
         private string _originalName;
@@ -74,19 +74,29 @@ namespace MaaWpfGui.ViewModels
             set => SetAndNotify(ref _name, value);
         }
 
-        private bool _isChecked;
+        private bool? _isCheckedWithNull;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether the key is checked with null.
+        /// </summary>
+        public bool? IsCheckedWithNull
+        {
+            get => _isCheckedWithNull;
+            set
+            {
+                SetAndNotify(ref _isCheckedWithNull, value);
+                value ??= false;
+                ConfigurationHelper.SetCheckedStorage(_storageKey, OriginalName, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets whether the key is checked.
         /// </summary>
         public bool IsChecked
         {
-            get => _isChecked;
-            set
-            {
-                SetAndNotify(ref _isChecked, value);
-                ConfigurationHelper.SetCheckedStorage(_storageKey, OriginalName, value.ToString());
-            }
+            get => IsCheckedWithNull != false;
+            set => IsCheckedWithNull = value;
         }
 
         // 换成图标的话要这个，暂时没用

@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -68,8 +69,11 @@
                                         Grid.ColumnSpan="2"
                                         HorizontalAlignment="Left"
                                         Content="{Binding Name}"
-                                        IsChecked="{Binding IsChecked}"
-                                        IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
+                                        IsChecked="{Binding IsCheckedWithNull}"
+                                        IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
+                                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                      Target={x:Type helper:CheckBoxHelper}}"
+                                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                                     <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Left">
                                         <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
                                         <RadioButton
