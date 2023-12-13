@@ -39,12 +39,17 @@ bool asst::RecruitTask::set_params(const json::value& params)
         confirm.emplace_back(confirm_num_json.as_integer());
     }
 
+    ExtraTagsMode extra_tags_mode = static_cast<ExtraTagsMode>(params.get("extra_tags_mode", 0));
+    // 若出现未知 extra_tags_mode ， 将 extra_tags_mod 置为默认的 NoExtra 。
+    if (!RecruitConfig::is_valid_extra_tags_mode(extra_tags_mode)) {
+        extra_tags_mode = ExtraTagsMode::NoExtra;
+    }
+
     bool refresh = params.get("refresh", false);
     bool set_time = params.get("set_time", true);
     bool force_refresh = params.get("force_refresh", true);
     int times = params.get("times", 0);
     bool expedite = params.get("expedite", false);
-    bool extra_tags = params.get("extra_tags", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     bool skip_robot = params.get("skip_robot", true);
 
@@ -65,7 +70,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     m_auto_recruit_task_ptr->set_max_times(times)
         .set_need_refresh(refresh)
         .set_use_expedited(expedite)
-        .set_select_extra_tags(extra_tags)
+        .set_select_extra_tags(extra_tags_mode)
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm))
         .set_skip_robot(skip_robot)

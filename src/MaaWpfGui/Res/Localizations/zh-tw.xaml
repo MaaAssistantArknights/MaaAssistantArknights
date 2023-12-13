@@ -635,7 +635,10 @@
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
+    <system:String x:Key="AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
+    <system:String x:Key="DefaultNoExtraTags">默認不選擇額外的 Tags</system:String>
     <system:String x:Key="SelectExtraTags">選擇 Tags 時總是選擇三個 Tag</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">盡可能多地選且只選高星 Tags</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
     <system:String x:Key="Current">當前</system:String>
