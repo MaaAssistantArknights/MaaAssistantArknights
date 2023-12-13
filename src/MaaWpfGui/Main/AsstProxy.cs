@@ -482,6 +482,9 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
                     Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
                     break;
+                case "ScreencapCost":
+                    Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
+                    break;
             }
         }
 
@@ -601,6 +604,11 @@ namespace MaaWpfGui.Main
                             _runningState.SetIdle(true);
                         }
 
+                        if (Instances.CopilotViewModel.UseCopilotList)
+                        {
+                            Instances.CopilotViewModel.CopilotTaskSuccess();
+                        }
+
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info, showTime: true);
                     }
 
@@ -638,6 +646,7 @@ namespace MaaWpfGui.Main
                     _latestTaskId.Clear();
 
                     Instances.TaskQueueViewModel.ResetFightVariables();
+                    Instances.TaskQueueViewModel.ResetTaskSelection();
                     _runningState.SetIdle(true);
                     Instances.RecognizerViewModel.GachaDone = true;
 
@@ -1216,11 +1225,7 @@ namespace MaaWpfGui.Main
                     }
 
                 case "CopilotListLoadTaskFileSuccess":
-                    Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
-                    break;
-
-                case "CopilotListEnterSuccess":
-                    Instances.CopilotViewModel.EnterCopilotTask();
+                    Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success", showTime: true);
                     break;
 
                 case "SSSStage":
@@ -1765,13 +1770,29 @@ namespace MaaWpfGui.Main
         /// <param name="needRefresh">是否刷新三星 Tags。</param>
         /// <param name="needForceRefresh">无招募许可时是否继续尝试刷新 Tags。</param>
         /// <param name="useExpedited">是否使用加急许可。</param>
-        /// <param name="selectExtraTags">选择 Tags 时是否总是选择三个 Tag</param>
+        /// <param name="selectExtraTagsMode">
+        /// 公招选择额外tag的模式。可用值包括：
+        /// <list type="bullet">
+        ///     <item>
+        ///         <term><c>0</c></term>
+        ///         <description>默认不选择额外tag。</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><c>1</c></term>
+        ///         <description>选满至3个tag。</description>
+        ///     </item>
+        ///     <item>
+        ///         <term><c>2</c></term>
+        ///         <description>尽可能多选且只选四星以上的tag。</description>
+        ///     </item>
+        /// </list>
+        /// </param>
         /// <param name="skipRobot">是否在识别到小车词条时跳过。</param>
         /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
         /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
-            bool selectExtraTags, bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
+            int selectExtraTagsMode, bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
         {
             var taskParams = new JObject
             {
@@ -1782,7 +1803,7 @@ namespace MaaWpfGui.Main
                 ["times"] = maxTimes,
                 ["set_time"] = true,
                 ["expedite"] = useExpedited,
-                ["extra_tags"] = selectExtraTags,
+                ["extra_tags_mode"] = selectExtraTagsMode,
                 ["expedite_times"] = maxTimes,
                 ["skip_robot"] = skipRobot,
             };

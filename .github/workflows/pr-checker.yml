@@ -12,6 +12,26 @@ jobs:
     if: ${{ !github.event.pull_request.merged && github.base_ref != 'master' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Cleanup Previous Comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number
+            });
+
+            const previousComment = comments.find(comment => comment.user.login === 'github-actions[bot]' && comment.body.includes('invalid commit(s)'));
+            if (previousComment) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: previousComment.id
+              });
+            }
+
       - name: Check Commits
         uses: actions/github-script@v7
         with:
@@ -20,24 +40,25 @@ jobs:
             const { data: commits } = await github.rest.pulls.listCommits({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.payload.pull_request.number
+              pull_number: context.payload.pull_request.number,
+              per_page: 100
             });
 
             const regex = /^((build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|i18n|typo)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
             const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message) || commit.parents.length > 1);
 
-            console.log(`Check ${commits.length} commit(s)`);
+            console.log(`Checked ${commits.length} commit(s)`);
 
             if (invalidCommits.length > 0) {
               const invalidCommitNames = invalidCommits.map(commit => commit.commit.message);
-              const invalidCommitInfoList = invalidCommits.map(commit => `- ${commit.commit.message} [\`${commit.sha.substring(0, 7)}\`](${commit.html_url})`).join("\n");
+              const invalidCommitInfoList = invalidCommits.map(commit => `- ${commit.commit.message.split("\n")[0]} [\`${commit.sha.substring(0, 7)}\`](${commit.html_url})`).join("\n");
 
               github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number,
-                body: `Invalid commit(s) found:\n\n${invalidCommitInfoList}\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
+                body: `## ⚠️ Found ${invalidCommits.length} invalid commit(s):\n\n${invalidCommitInfoList}\n\n---\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
               });
 
-              core.setFailed(`Invalid commit(s) found: ${invalidCommitNames.join(", ")}`);
+              core.setFailed(`Found ${invalidCommits.length} invalid commit(s):\n${invalidCommitNames.join("\n-------------------\n")}`);
             }

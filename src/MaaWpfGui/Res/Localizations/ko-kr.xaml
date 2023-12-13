@@ -238,6 +238,7 @@
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
     <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">절전 모드 방지 시 항상 밝게 표시</system:String>
+    <system:String x:Key="ScreencapCost">스크린샷을 찍는 데는 시간이 걸립니다 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
@@ -634,7 +635,10 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Refreshed">새로고침됨</system:String>
     <system:String x:Key="ContinueRefresh">채용 허가 없음, 새로 고치려고 태그</system:String>
     <system:String x:Key="NoRecruitmentPermit">채용허가증이 없어 반환함</system:String>
+    <system:String x:Key="AutoRecruitSelectStrategy">공개 채용에서 다중 태그 선택 전략</system:String>
+    <system:String x:Key="DefaultNoExtraTags">기본값:추가 태그 없습니다</system:String>
     <system:String x:Key="SelectExtraTags">태그를 선택할 때 항상 태그 3개를 선택하세요.</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택합니다</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">사용 형성</system:String>
