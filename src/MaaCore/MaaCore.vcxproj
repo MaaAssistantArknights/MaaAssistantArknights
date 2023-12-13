@@ -80,7 +80,6 @@
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
-    <ClInclude Include="Task\Miscellaneous\CopilotListNotificationPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
     <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h" />
@@ -257,7 +256,6 @@
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
-    <ClCompile Include="Task\Miscellaneous\CopilotListNotificationPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp" />
