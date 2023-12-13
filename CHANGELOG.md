@@ -11,7 +11,6 @@
 - 完成后选项 模拟器返回桌面 (#7185) @Manicsteiner
 - 重构 TaskData (#7426) @zzyyyl
 - YoStarJP 狂人号 navigation (#7417) @Manicsteiner
-- 重构 TaskData (#7410) @zzyyyl
 - 保全支持开局替换部分满足条件的非核心干员 (#7347) @zzyyyl @status102
 - 提取勾选框左右键点击单次执行逻辑 @ABA2396
 - 日服支持加工站换班 @ABA2396
@@ -39,8 +38,6 @@
 - 重构 SettingsViewModel Init @ABA2396
 - 肉鸽适配新干员用法 (#7500) @Lancarus
 - 文档目录结构大重构 (#7423) @SherkeyXD @AnnAngela
-- 修改 `截图测试耗时` 为 `最快截图耗时` (#7496) @status102
-- 修改 `最快截图` 为 `截图测试耗时` (#7494) @status102
 - reduced screencap timeout (#7476) @Constrat
 
 ### 修复 | Fix
@@ -74,7 +71,7 @@
 - 日服识别错误 麒麟->林 @ABA2396
 - fix coredump when minitouch failed to restart @horror-proton
 - 修复除version.json外无文件更新时不保存version @ABA2396
-- sample.py 获取地址从相对路径改为绝对路径 (#7483) @SummerDiver
+- sample.py 获取地址从相对路径改为绝对路径 (#7483) @SummerDive
 - wrong task `SN-Open` (#7498) @zzyyyl
 - typo in task name (#7478) @Constrat
 - SN navigation template change @Constrat
@@ -84,17 +81,11 @@
 
 ### 其他 | Other
 
-- Revert "chore: added reclamation algorithm task to view" @Constrat
+- 重构 TaskData (#7410) @zzyyyl
 - added reclamation algorithm task to view @Constrat
 - locked txwy reclamation algorithm. waiting for adaptation (to reduce issues number) @Constrat
 - Reclamation Algorithm task for txwy (probably doesn't work as it will need adaptation) fix: #7555 @Constrat
-- Auto Update Changelogs of v4.28.0-beta.2 (#7530) @github-actions[bot] @ABA2396 @Constrat @status102
-- Release v4.28.0-beta.2 (#7529) @ABA2396
-- Release v4.28.0-beta.1 (#7448) @ABA2396
 - PR Checker 忽略从 dev 发起合并的拉取请求 (#7462) @zzyyyl
-- Revert "ci: PR Checker在Merge之后不再运行" (#7461) @status102
-- Revert "ci: PR Checker增加合并检查，合并后不再检查commit message" (#7459) @status102
-- PR Checker增加合并检查，合并后不再检查commit message (#7457) @status102
 - 添加log @AnnAngela
 - PR Checker增加i18n匹配 @status102
 - PR Checker在Merge之后不再运行 (#7451) @SherkeyXD
@@ -114,9 +105,6 @@
 - c -> C + total downloads @Constrat
 - 移除重复 @AnnAngela
 - 发版 pr 自动添加 reviewer @AnnAngela
-- Create release_reviewers.yaml @AnnAngela
-- Auto Update Game Resources - 2023-12-12 @Constrat
-- Auto Update Game Resources - 2023-12-12 @Constrat
 - pr-checker 在发版时不运行 @zzyyyl
 - pr-checker 在发版时不运行 @zzyyyl
 - pr-checker 在发版时不运行 @zzyyyl
@@ -125,17 +113,8 @@
 - Update ci.yml @ABA2396
 - smoke-testing.yml @ABA2396
 - [skip ci] i18n: Translations update from MAA Weblate (#7480) @LiamSho @ABA2396
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
 - 修改NoStone图片模板 @ABA2396
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
-- Auto Update Game Resources - 2023-12-05 @Constrat
 - KillEmulator记录地址和端口 @ABA2396
-- Update sync-resource.yml @Cryolitia
 - PR Checker增加对提交父项数量的检查以避免通过改名应对 @status102
 - furni忽略拼写检测 @ABA2396
-- Auto Update Changelogs of v4.28.0-beta.1 (#7456) @github-actions[bot] @status102 @Constrat @zzyyyl
+
