@@ -367,8 +367,9 @@ namespace MaaWpfGui.ViewModels.UI
                 // "ReclamationAlgorithm",
             };
             var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili"
-                && DateTime.Now < new DateTime(2023, 10, 12))
+            // condition: clientType == "txwy" && DateTime.Now < new DateTime(2023, 01, 12)
+            // wait for someone to adapt this for txwy.
+            if (false)
             {
                 taskList.Add("ReclamationAlgorithm");
             }
