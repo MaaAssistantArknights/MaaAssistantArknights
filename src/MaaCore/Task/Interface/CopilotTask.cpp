@@ -7,7 +7,6 @@
 #include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
-#include "Task/Miscellaneous/CopilotListNotificationPlugin.h"
 #include "Task/Miscellaneous/TaskFileReloadTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -46,7 +45,6 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
-    m_copilot_list_notification_ptr = start_2_tp->register_plugin<CopilotListNotificationPlugin>();
     m_subtasks.emplace_back(start_2_tp);
 
     // 跳过“以下干员出战后将被禁用，是否继续？”对话框
