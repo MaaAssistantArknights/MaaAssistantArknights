@@ -45,12 +45,6 @@ jobs:
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
-          dotnet-quality: 'preview'
 
       - name: Checkout ref
         run: |
@@ -102,7 +96,7 @@ jobs:
           path: |
             .nuke/temp
             ~/.nuget/packages
-            key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
   
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
