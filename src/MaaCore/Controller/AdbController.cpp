@@ -370,8 +370,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         return true;
     };
 
-    switch (m_adb.screencap_method) {
-    case AdbProperty::ScreencapMethod::UnknownYet: {
+    if (m_adb.screencap_method == AdbProperty::ScreencapMethod::UnknownYet) {
         using namespace std::chrono;
         Log.info("Try to find the fastest way to screencap");
         auto min_cost = milliseconds(LLONG_MAX);
@@ -442,30 +441,24 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         clear_lf_info();
         return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
-    } break;
-    case AdbProperty::ScreencapMethod::RawByNc: {
-        return screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true);
-    } break;
-    case AdbProperty::ScreencapMethod::RawWithGzip: {
-        return screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect);
-    } break;
-    case AdbProperty::ScreencapMethod::Encode: {
-        return screencap(m_adb.screencap_encode, decode_encode, allow_reconnect);
-    } break;
     }
-
-    return false;
-}
-
-bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect,
-                                    bool by_socket, int timeout)
-{
-    if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
-        return false;
-    }
-    auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
-    { // 记录截图耗时，每10次截图回传一次最值+平均值
-        m_screencap_duration.emplace_back(m_last_command_duration); // 记录截图耗时
+    else {
+        bool screencap_ret = false;
+        switch (m_adb.screencap_method) {
+        case AdbProperty::ScreencapMethod::RawByNc:
+            screencap_ret = screencap(m_adb.screencap_raw_by_nc, decode_raw, allow_reconnect, true);
+            break;
+        case AdbProperty::ScreencapMethod::RawWithGzip:
+            screencap_ret = screencap(m_adb.screencap_raw_with_gzip, decode_raw_with_gzip, allow_reconnect);
+            break;
+        case AdbProperty::ScreencapMethod::Encode:
+            screencap_ret = screencap(m_adb.screencap_encode, decode_encode, allow_reconnect);
+            break;
+        default:
+            break;
+        }
+        // 记录截图耗时，每10次截图回传一次最值+平均值
+        m_screencap_duration.emplace_back(screencap_ret ? m_last_command_duration : INT_MAX); // 记录截图耗时
         ++m_screencap_time;
 
         if (m_screencap_duration.size() > 30) {
@@ -487,7 +480,18 @@ bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& de
             };
             callback(AsstMsg::ConnectionInfo, info);
         }
+        return screencap_ret;
     }
+}
+
+bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect,
+                                    bool by_socket, int timeout)
+{
+    if ((!m_support_socket || !m_server_started) && by_socket) [[unlikely]] {
+        return false;
+    }
+    auto ret = call_command(cmd, timeout, allow_reconnect, by_socket);
+
     if (!ret || ret.value().empty()) [[unlikely]] {
         Log.warn("data is empty!");
         return false;
