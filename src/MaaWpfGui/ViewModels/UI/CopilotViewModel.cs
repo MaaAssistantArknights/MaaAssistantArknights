@@ -449,7 +449,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Import copilot json files from dictionary
+        /// 批量导入作业
         /// </summary>
         // ReSharper disable once UnusedMember.Global
         public async void ImportFiles()
@@ -812,7 +812,10 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public void EnterCopilotTask()
+        /// <summary>
+        /// 战斗列表的当前战斗任务成功
+        /// </summary>
+        public void CopilotTaskSuccess()
         {
             Application.Current.Dispatcher.InvokeAsync(() =>
             {

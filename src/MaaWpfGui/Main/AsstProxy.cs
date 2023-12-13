@@ -601,6 +601,11 @@ namespace MaaWpfGui.Main
                             _runningState.SetIdle(true);
                         }
 
+                        if (Instances.CopilotViewModel.UseCopilotList)
+                        {
+                            Instances.CopilotViewModel.CopilotTaskSuccess();
+                        }
+
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info, showTime: true);
                     }
 
@@ -1218,10 +1223,6 @@ namespace MaaWpfGui.Main
 
                 case "CopilotListLoadTaskFileSuccess":
                     Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
-                    break;
-
-                case "CopilotListEnterSuccess":
-                    Instances.CopilotViewModel.EnterCopilotTask();
                     break;
 
                 case "SSSStage":
