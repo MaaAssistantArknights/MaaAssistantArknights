@@ -482,6 +482,9 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
                     Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
                     break;
+                case "ScreencapCost":
+                    Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
+                    break;
             }
         }
 
