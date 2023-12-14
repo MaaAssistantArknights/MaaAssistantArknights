@@ -948,15 +948,12 @@ namespace MaaWpfGui.ViewModels.UI
                     startAny = true;
                 }
 
-                ret &= Instances.AsstProxy.AsstStart();
-                if (!startAny)
+                if (startAny)
                 {
-                    // 一个都没启动，怎会有如此无聊之人
-                    if (!Instances.AsstProxy.AsstStop())
-                    {
-                        _logger.Warning("Failed to stop Asst");
-                    }
-
+                    ret &= Instances.AsstProxy.AsstStart();
+                }
+                else
+                {// 一个都没启动，怎会有如此无聊之人
                     _runningState.SetIdle(true);
                     return;
                 }
