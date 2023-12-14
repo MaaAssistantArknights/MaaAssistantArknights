@@ -70,6 +70,7 @@ namespace MaaWpfGui.Constants
             { "ja-jp", "ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
             { "ko-kr", "ko-kr/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
             { "zh-tw", "zh-tw/2.5-外服適配教程.html" },
+            { "pallas", "KeepDrinking.html" },
         };
 
         private static readonly Dictionary<string, string> _helpUrl = new Dictionary<string, string>
@@ -79,7 +80,7 @@ namespace MaaWpfGui.Constants
             { "ja-jp", "ja-jp/1.2-よくある質問.html" },
             { "ko-kr", "ko-kr/1.2-FAQ.html" },
             { "zh-tw", "zh-tw/1.2-常見問題.html" },
-            { "pallas", "KeepDrinking" },
+            { "pallas", "KeepDrinking.html" },
         };
 
         public const string RemoteControlDocument = "https://maa.plus/docs/协议文档/远程控制协议.html";
