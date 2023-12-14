@@ -937,13 +937,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 _copilotIdList.Clear();
                 bool startAny = false;
-                foreach (var model in CopilotItemViewModels)
+                foreach (var model in CopilotItemViewModels.Where(i => i.IsChecked))
                 {
-                    if (!model.IsChecked)
-                    {
-                        continue;
-                    }
-
                     _copilotIdList.Add(model.CopilotId);
                     ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
                     startAny = true;
