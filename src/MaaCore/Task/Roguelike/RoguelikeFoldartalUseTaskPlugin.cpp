@@ -156,6 +156,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                 // 正常使用板子，用完删除上板子和下板子
                 if (result == UseBoardResult::UseBoardResultSuccess) {
                     list.erase(iter_up);
+                    iter_down = ranges::find(list, down_board);
                     list.erase(iter_down);
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
                 }
