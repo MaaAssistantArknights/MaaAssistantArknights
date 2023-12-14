@@ -13241,6 +13241,7 @@
         "Doc": "优先紧急作战,1-3层",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageEncounter",
@@ -13254,6 +13255,7 @@
         "Doc": "avoid battle,其他模式和6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -13267,6 +13269,7 @@
         "Doc": "避紧急作战,4-5层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageBoons",
@@ -13922,6 +13925,7 @@
         "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageEncounter",
@@ -13942,6 +13946,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -13964,6 +13969,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
