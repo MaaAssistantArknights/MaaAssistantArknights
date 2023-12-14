@@ -65,21 +65,20 @@ namespace MaaWpfGui.Constants
 
         private static readonly Dictionary<string, string> _overseasAdaptation = new Dictionary<string, string>
         {
-            { "zh-cn", "外服适配教程.html" },
-            { "en-us", "en-us/OVERSEAS_CLIENTS_ADAPTATION.html" },
-            { "ja-jp", "ja-jp/OVERSEAS_CLIENTS_ADAPTATION.html" },
-            { "ko-kr", "ko-kr/OVERSEAS_CLIENTS_ADAPTATION.html" },
-            { "zh-tw", "zh-tw/外服適配教程.html" },
-            { "pallas", "KeepDrinking" },
+            { "zh-cn", "开发文档/外服适配教程.html" },
+            { "en-us", "en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
+            { "ja-jp", "ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
+            { "ko-kr", "ko-kr/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
+            { "zh-tw", "zh-tw/2.5-外服適配教程.html" },
         };
 
         private static readonly Dictionary<string, string> _helpUrl = new Dictionary<string, string>
         {
-            { "zh-cn", "常见问题.html" },
-            { "en-us", "en-us/FAQ.html" },
-            { "ja-jp", "ja-jp/よくある質問.html" },
-            { "ko-kr", "ko-kr/FAQ.html" },
-            { "zh-tw", "zh-tw/常見問題.html" },
+            { "zh-cn", "用户手册/常见问题.html" },
+            { "en-us", "en-us/1.2-FAQ.html" },
+            { "ja-jp", "ja-jp/1.2-よくある質問.html" },
+            { "ko-kr", "ko-kr/1.2-FAQ.html" },
+            { "zh-tw", "zh-tw/1.2-常見問題.html" },
             { "pallas", "KeepDrinking" },
         };
 
