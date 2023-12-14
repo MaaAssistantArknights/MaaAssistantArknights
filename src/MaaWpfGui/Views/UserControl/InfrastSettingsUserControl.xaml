@@ -35,6 +35,9 @@
             <CheckBox Margin="0,10" IsChecked="{Binding OriginiumShardAutoReplenishment}">
                 <controls:TextBlock Text="{DynamicResource OriginiumShardAutoReplenishment}" TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox Margin="0,10" IsChecked="{Binding ContinueTraining}">
+                <controls:TextBlock Text="{DynamicResource ContinueTraining}" TextWrapping="Wrap" />
+            </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding CustomInfrastEnabled}">
                 <controls:TextBlock Text="{DynamicResource CustomInfrastEnabled}" TextWrapping="Wrap" />
             </CheckBox>
