@@ -4069,40 +4069,89 @@
             "StartButton1"
         ]
     },
-    "FightSeries-Default-1": {
-        "action": "DoNothing",
-        "roi": [
-            945,
-            580,
-            100,
-            50
-        ]
-    },
     "FightSeries-Icon": {
-        "action": "ClickSelf",
         "roi": [
             945,
             580,
             100,
             50
-        ],
-        "next": [
-            "FightSeries-List-1"
         ]
     },
-    "FightSeries-List": {
-        "template": "empty.png",
-        "action": "ClickSelf",
+    "FightSeries-Indicator": {
         "roi": [
             950,
             180,
-            100,
+            50,
             400
         ]
     },
+    "FightSeries-Open": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "sub": [
+            "FightSeries-Indicator"
+        ]
+    },
     "FightSeries-List-1": {
-        "baseTask": "FightSeries-List",
-        "template": "FightSeries-List-1.png"
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            505,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            445,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            383,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-4": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            320,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-5": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            260,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-6": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            200,
+            70,
+            50
+        ]
     },
     "StartButton1": {
         "doc": "绑定插件调整连战次数",

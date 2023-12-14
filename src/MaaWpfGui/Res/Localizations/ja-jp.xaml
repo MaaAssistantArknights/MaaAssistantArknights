@@ -242,6 +242,7 @@
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
     <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
+    <system:String x:Key="ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
@@ -638,7 +639,10 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
     <system:String x:Key="ContinueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
     <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
+    <system:String x:Key="AutoRecruitSelectStrategy">公募の複数のタグを選択する戦略</system:String>
+    <system:String x:Key="DefaultNoExtraTags">デフォルトでは、追加のタグを選択しない</system:String>
     <system:String x:Key="SelectExtraTags">タグを選択すると、常に 3 つのタグが選択されます</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">可能な限り多くのタグを選択し、高い星のタグのみを選択する</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="UseFormation">使用編成</system:String>

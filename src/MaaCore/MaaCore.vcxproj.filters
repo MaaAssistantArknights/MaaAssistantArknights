@@ -660,9 +660,6 @@
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\CopilotListNotificationPlugin.h">
-      <Filter>Source\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -1129,9 +1126,6 @@
     </ClCompile>
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp">
       <Filter>Source\Task\Infrast</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\CopilotListNotificationPlugin.cpp">
-      <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>

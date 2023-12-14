@@ -169,6 +169,7 @@ namespace MaaWpfGui.ViewModels.UI
             InitTitleBar();
             InitInfrast();
             InitRoguelike();
+            InitAutoRecruit();
             InitConfiguration();
             InitUiSettings();
             InitUpdate();
@@ -277,6 +278,16 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
                 new CombinedData { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
                 new CombinedData { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+            };
+        }
+
+        private void InitAutoRecruit()
+        {
+            AutoRecruitSelectExtraTagsList = new List<CombinedData>
+            {
+            new CombinedData { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
+            new CombinedData { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
+            new CombinedData { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
             };
         }
 
@@ -842,6 +853,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
+
+        public string ScreencapCost
+        {
+            get => _screencapCost;
+            set => SetAndNotify(ref _screencapCost, value);
+        }
+
         public void RunScript(string str)
         {
             bool enable = str switch
@@ -1318,6 +1337,11 @@ namespace MaaWpfGui.ViewModels.UI
         public List<CombinedData> RoguelikeRolesList { get; set; }
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of auto recruit selecting extra tags.
+        /// </summary>
+        public List<CombinedData> AutoRecruitSelectExtraTagsList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of the client types.
@@ -2473,18 +2497,35 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useExpedited, value);
         }
 
-        private bool _selectExtraTags = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, bool.FalseString));
+        private string _selectExtraTags = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, "0");
 
         /// <summary>
-        /// Gets or sets a value indicating whether three tags are alway selected when selecting tags.
+        /// Gets or sets a value indicating three tags are alway selected or select only rare tags as many as possible .
         /// </summary>
-        public bool SelectExtraTags
+        public string SelectExtraTags
         {
-            get => _selectExtraTags;
+            get
+            {
+                if (int.TryParse(_selectExtraTags, out _))
+                {
+                    return _selectExtraTags;
+                }
+
+                var value = "0";
+                if (bool.TryParse(_selectExtraTags, out bool boolValue))
+                {
+                    value = boolValue ? "1" : "0";
+                }
+
+                SetAndNotify(ref _selectExtraTags, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
+                return value;
+            }
+
             set
             {
                 SetAndNotify(ref _selectExtraTags, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
             }
         }
 

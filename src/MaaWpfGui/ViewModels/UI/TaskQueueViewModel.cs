@@ -342,6 +342,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ResetFightVariables();
+                ResetTaskSelection();
                 RefreshCustomInfrastPlanIndexByPeriod();
             }
 
@@ -366,8 +367,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // "ReclamationAlgorithm",
             };
             var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili"
-                && DateTime.Now < new DateTime(2023, 10, 12))
+            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 06))
             {
                 taskList.Add("ReclamationAlgorithm");
             }
@@ -751,6 +751,20 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Reset unsaved task selection.
+        /// </summary>
+        public void ResetTaskSelection()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsCheckedWithNull == null)
+                {
+                    item.IsChecked = false;
+                }
+            }
+        }
+
         private async Task<bool> ConnectToEmulator()
         {
             string errMsg = string.Empty;
@@ -820,23 +834,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            Instances.TaskQueueViewModel.Running = true;
-            var i = 0;
-            while (true)
-            {
-               await Task.Delay(1000);
-               AddLog(i++.ToString());
-            }
-
-            return;
-            Instances.SettingsViewModel.SetupSleepManagement();
-
             if (!_runningState.GetIdle())
             {
                 return;
             }
 
             _runningState.SetIdle(false);
+
+            Instances.SettingsViewModel.SetupSleepManagement();
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
@@ -1321,9 +1326,11 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
+            int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.SelectExtraTags, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()

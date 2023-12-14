@@ -242,6 +242,7 @@
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
     <system:String x:Key="BlockSleep">Prevent hibernation when running tasks</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">Keep screen on when preventing hibernation</system:String>
+    <system:String x:Key="ScreencapCost">Screencap Cost min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
@@ -638,7 +639,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Refreshed">Refreshed</system:String>
     <system:String x:Key="ContinueRefresh">No recruitment permit, trying to refresh Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
+    <system:String x:Key="AutoRecruitSelectStrategy">Strategies for Additional Tags</system:String>
+    <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
     <system:String x:Key="SelectExtraTags">When selecting Tags always select three Tags</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">Pick as many high-star Tags as possible</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
     <system:String x:Key="UseFormation">Use formation</system:String>
