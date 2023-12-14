@@ -3106,19 +3106,7 @@
         "fullMatch": true,
         "ocrReplace": [
             [
-                "^4",
-                ""
-            ],
-            [
-                "^<",
-                ""
-            ],
-            [
-                "^《~",
-                ""
-            ],
-            [
-                "^《",
+                "^[<4《~]+",
                 ""
             ],
             [
@@ -6519,6 +6507,34 @@
         ],
         "templThreshold": 0.95
     },
+    "InfrastTraining": {
+        "template": "Training.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            880,
+            420,
+            400,
+            160
+        ],
+        "templThreshold": 0.95
+    },
+    "InfrastTrainingMini": {
+        "template": "TrainingMini.png",
+        "maskRange": [
+            1,
+            255
+        ],
+        "roi": [
+            980,
+            400,
+            300,
+            140
+        ],
+        "templThreshold": 0.95
+    },
     "InfrastControl": {
         "template": "ControlCenter.png",
         "maskRange": [
@@ -7566,6 +7582,114 @@
             "ClueGiveTo1stConfirm"
         ]
     },
+    "InfrastTrainingIdle": {
+        "algorithm": "OcrDetect",
+        "text": [ "空闲中" ],
+        "action":"DoNothing",
+        "roi": [
+            350,
+            600,
+            200,
+            120
+        ]
+    },
+    "InfrastTrainingCompleted": {
+        "baseTask": "InfrastTrainingIdle",
+        "text": [ "训练完成" ],
+        "action": "ClickSelf",
+        "postDelay":1000,
+        "next": [
+            "CloseTaskAward"
+        ]
+    },
+    "InfrastTrainingOperatorAndSkill": {
+        "algorithm": "OcrDetect",
+        "text": [],
+        "action": "DoNothing",
+        "roi": [
+            150,
+            620,
+            250,
+            35
+        ]
+    },
+    "InfrastTrainingProgressRec": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false,
+        "text": [],
+        "roi": [
+            440,
+            645,
+            60,
+            35
+        ]
+    },
+    "InfrastTrainingChooseSkillRec": {
+        "algorithm": "OcrDetect",
+        "isAscii": false,
+        "text": [],
+        "roi": [
+            470,
+            80,
+            145,
+            615
+        ]
+    },
+    "InfrastTrainingContinue1": {
+        "template": "InfrastTrainingContinue.png",
+        "action": "ClickSelf",
+        "roi": [
+            310,
+            145,
+            195,
+            185
+        ],
+        "next": [
+            "InfrastTrainingConfirm"
+        ]
+    },
+    "InfrastTrainingContinue2": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingContinue.png",
+        "roi": [
+            310,
+            350,
+            195,
+            185
+        ]
+    },
+    "InfrastTrainingContinue3": {
+        "baseTask": "InfrastTrainingContinue1",
+        "template": "InfrastTrainingContinue.png",
+        "roi": [
+            310,
+            570,
+            195,
+            185
+        ]
+    },
+    "InfrastTrainingConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1000,
+            550,
+            280,
+            150
+        ],
+        "postDelay": 1000,
+        "next": [
+            "InfrastTrainingLocked"
+        ]
+    },
+    "InfrastTrainingLocked": {
+        "action": "DoNothing",
+        "roi": [
+            890,
+            10,
+            200,
+            200
+        ]
+    },
     "InfrastOperListTabSkillUnClicked": {
         "action": "ClickSelf",
         "roi": [
@@ -7975,13 +8099,13 @@
         "postDelay": 100,
         "specificRect": [
             15,
-            710,
+            525,
             80,
             10
         ],
         "rectMove": [
             15,
-            385,
+            200,
             80,
             100
         ],
@@ -12281,6 +12405,13 @@
         "baseTask": "Roguelike@StageEncounterOption",
         "Doc": "base_task",
         "template": "empty.png",
+        "maxTimes": 5,
+        "exceededNext": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionFree",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next"
+        ],
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
@@ -12318,6 +12449,9 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
+        "reduceOtherTimes": [
+            "Roguelike@StageEncounterOptionUnknown*5"
+        ],
         "roi": [
             1035,
             370,
@@ -13105,6 +13239,7 @@
         "Doc": "优先紧急作战,1-3层",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageEncounter",
@@ -13118,6 +13253,7 @@
         "Doc": "avoid battle,其他模式和6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -13131,6 +13267,7 @@
         "Doc": "避紧急作战,4-5层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageBoons",
@@ -13786,6 +13923,7 @@
         "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageEncounter",
@@ -13806,6 +13944,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -13828,6 +13967,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",

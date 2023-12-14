@@ -8,6 +8,7 @@
 #include "Task/Infrast/InfrastInfoTask.h"
 #include "Task/Infrast/InfrastMfgTask.h"
 #include "Task/Infrast/InfrastOfficeTask.h"
+#include "Task/Infrast/InfrastTrainingTask.h"
 #include "Task/Infrast/InfrastPowerTask.h"
 #include "Task/Infrast/InfrastProcessingTask.h"
 #include "Task/Infrast/InfrastReceptionTask.h"
@@ -26,6 +27,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
       m_reception_task_ptr(std::make_shared<InfrastReceptionTask>(callback, inst, TaskType)),
       m_office_task_ptr(std::make_shared<InfrastOfficeTask>(callback, inst, TaskType)),
       m_processing_task_ptr(std::make_shared<InfrastProcessingTask>(callback, inst, TaskType)),
+      m_training_task_ptr(std::make_shared<InfrastTrainingTask>(callback, inst, TaskType)),
       m_dorm_task_ptr(std::make_shared<InfrastDormTask>(callback, inst, TaskType))
 {
     LogTraceFunction;
@@ -39,6 +41,7 @@ asst::InfrastTask::InfrastTask(const AsstCallback& callback, Assistant* inst)
     m_control_task_ptr->set_ignore_error(true);
     m_reception_task_ptr->set_ignore_error(true);
     m_office_task_ptr->set_ignore_error(true);
+    m_training_task_ptr->set_ignore_error(true);
     m_processing_task_ptr->set_ignore_error(true);
     m_dorm_task_ptr->set_ignore_error(true);
 
@@ -96,6 +99,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
             else if (facility == "Processing") {
                 m_subtasks.emplace_back(m_processing_task_ptr);
             }
+            else if (facility == "Training") {
+                m_subtasks.emplace_back(m_training_task_ptr);
+            }
             else {
                 Log.error(__FUNCTION__, "| Unknown facility", facility);
                 m_subtasks.clear();
@@ -105,6 +111,9 @@ bool asst::InfrastTask::set_params(const json::value& params)
             append_infrast_begin();
         }
     }
+
+    bool continue_training = params.get("continueTraining", false);
+    m_training_task_ptr->set_continue_training(continue_training);
 
     if (!is_custom) {
         std::string drones = params.get("drones", "_NotUse");
