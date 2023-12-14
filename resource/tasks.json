@@ -12417,6 +12417,13 @@
         "baseTask": "Roguelike@StageEncounterOption",
         "Doc": "base_task",
         "template": "empty.png",
+        "maxTimes": 5,
+        "exceededNext": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionFree",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next"
+        ],
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
@@ -12454,6 +12461,9 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
+        "reduceOtherTimes": [
+            "Roguelike@StageEncounterOptionUnknown*5"
+        ],
         "roi": [
             1035,
             370,
