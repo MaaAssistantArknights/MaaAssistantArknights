@@ -935,6 +935,7 @@ namespace MaaWpfGui.ViewModels.UI
             bool ret = true;
             if (UseCopilotList)
             {
+                _copilotIdList.Clear();
                 bool startAny = false;
                 foreach (var model in CopilotItemViewModels)
                 {
