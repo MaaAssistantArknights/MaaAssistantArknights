@@ -153,7 +153,7 @@ labels:
 - name: infrast
   content: "module: infrast"
   regexes:
-    "基建|换班|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|[Ii]nfrast|[Dd]orm"
+    "基建|换班|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|送线索|排班表|[Ii]nfrast|[Dd]orm"
   skip-if:
   - skip all
   - skip module
@@ -180,7 +180,7 @@ labels:
 # `module: copilot`
 - name: copilot1
   content: "module: copilot"
-  regexes: '自动(?:作战|战斗|编队)|自動[戰戦][鬥闘]|[Cc]opilot'
+  regexes: '自动(?:作战|战斗|编队)|自動[戰戦][鬥闘]|保全|[Cc]opilot'
   mode: add
   skip-if:
   - skip all
@@ -256,7 +256,7 @@ labels:
 - name: others
   content: "module: others"
   regexes:
-    "信用|拜访|登录|开始唤醒|连接模拟器|[Vv]isit|[Ll]ogin|[Ss]tartup|MaaCore(?!.dll)"
+    "信用|拜访|登录|开始唤醒|连接模拟器|账号切换|远程控制|干员识别|生息演算|生息盐酸|[Vv]isit|[Ll]ogin|[Ss]tartup|MaaCore(?!.dll)"
   skip-if:
   - skip all
   - skip module
@@ -284,7 +284,7 @@ labels:
 # `MacGui`
 - name: MacGui
   content: "client: MacGui"
-  regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|电脑|版))'
+  regexes: '[Mm]ac(?:(?:book|os|OS)|\s*(?:(?:操作|)系统|电脑|版))|[Pp]laycover'
   skip-if:
   - skip all
   - skip client
