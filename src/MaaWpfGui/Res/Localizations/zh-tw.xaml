@@ -57,7 +57,6 @@
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">製造站</system:String>
     <system:String x:Key="Processing">加工站</system:String>
-    <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Trade">貿易站</system:String>
     <system:String x:Key="Power">發電站</system:String>
     <system:String x:Key="Reception">會客室</system:String>
@@ -74,9 +73,6 @@
     <system:String x:Key="DormFilterNotStationedEnabled">不將已進駐的幹員放入宿舍</system:String>
     <system:String x:Key="DormFilterNotStationedTips">勾選則不會將艾麗妮等幹員從訓練室移除，但也會導致加工站幹員不能進入宿舍。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
-    <system:String x:Key="TrainingCompleted">訓練完成後繼續嘗試專精當前技能</system:String>
-    <system:String x:Key="TrainingCompleted">訓練完成</system:String>
-    <system:String x:Key="TrainingProgress">訓練進度</system:String>
     <system:String x:Key="CustomInfrastEnabled">啟用自定義基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>
