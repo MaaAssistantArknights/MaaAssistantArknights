@@ -13190,11 +13190,15 @@
     "Phantom@Roguelike@StageBoons": {
         "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageCombatDps": {},
+    "Phantom@Roguelike@StageCombatDps": {
+        "templThreshold": 0.9
+    },
     "Phantom@Roguelike@StageCombatDpsEnter": {},
     "Phantom@Roguelike@StageDreadfulFoe": {},
     "Phantom@Roguelike@StageDreadfulFoeEnter": {},
-    "Phantom@Roguelike@StageEmergencyDps": {},
+    "Phantom@Roguelike@StageEmergencyDps": {
+        "templThreshold": 0.9
+    },
     "Phantom@Roguelike@StageEmergencyDpsEnter": {},
     "Phantom@Roguelike@StageEncounter": {
         "templThreshold": 0.85
