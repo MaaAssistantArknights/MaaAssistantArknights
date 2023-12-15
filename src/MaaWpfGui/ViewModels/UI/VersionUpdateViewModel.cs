@@ -110,7 +110,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-
         private string _updateUrl;
 
         /// <summary>
