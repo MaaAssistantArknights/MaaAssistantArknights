@@ -199,7 +199,12 @@ public partial class Build
             }
 
             var ghEvent = b.GitHubActions.GitHubEvent;
-            Log.Information("GitHub Event：{Event}", ghEvent.ToString());
+            if (IsGitHubActions)
+            {
+                Console.WriteLine("::group::GitHub Event");
+                Log.Information("GitHub Event：{Event}", ghEvent.ToString());
+                Console.WriteLine("::endgroup::");
+            }
 
             if (ghEvent.ContainsKey("inputs") && !ghEvent["inputs"].IsNullOrEmpty())
             {
