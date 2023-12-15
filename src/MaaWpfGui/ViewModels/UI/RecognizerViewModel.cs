@@ -610,7 +610,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "ja-jp" => "name_jp",
                 "ko-kr" => "name_kr",
                 "zh-tw" => "name_tw",
-                _ => "name_en"
+                _ => "name_en",
             };
 
             foreach (JObject operBox in operBoxes.Cast<JObject>())

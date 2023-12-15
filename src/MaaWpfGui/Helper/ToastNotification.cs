@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#pragma warning disable SA1307
 
 using System;
 using System.ComponentModel;
@@ -423,7 +424,7 @@ namespace MaaWpfGui.Helper
         {
             Show();
             return;
-            
+
             // TODO: 整理过时代码
             if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
             {
@@ -572,8 +573,6 @@ namespace MaaWpfGui.Helper
         #endregion 通知显示
 
         #region 任务栏闪烁
-
-#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
 
         /// <summary>
         /// 闪烁信息

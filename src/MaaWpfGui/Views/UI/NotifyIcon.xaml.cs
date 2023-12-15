@@ -26,7 +26,7 @@ namespace MaaWpfGui.Views.UI
     public partial class NotifyIcon : System.Windows.Controls.UserControl
     {
         private static readonly ILogger _logger = Log.ForContext<NotifyIcon>();
-        private readonly int _menuItemNum; 
+        private readonly int _menuItemNum;
 
         public NotifyIcon()
         {
