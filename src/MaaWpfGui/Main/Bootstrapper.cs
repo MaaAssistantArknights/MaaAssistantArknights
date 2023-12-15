@@ -14,6 +14,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -68,7 +69,7 @@ namespace MaaWpfGui.Main
             }
             */
 
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            Directory.SetCurrentDirectory(AppContext.BaseDirectory);
             if (Directory.Exists("debug") is false)
             {
                 Directory.CreateDirectory("debug");
@@ -97,7 +98,7 @@ namespace MaaWpfGui.Main
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
-            var uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
+            var uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
             uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"

@@ -10,6 +10,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaaWpfGui", "src\MaaWpfGui\
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaaCore", "src\MaaCore\MaaCore.vcxproj", "{362D1E30-F5AE-4279-9985-65C27B3BA300}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MaaThriftController", "src\MaaThriftController\MaaThriftController.vcxproj", "{8238EDB1-19BF-4E3B-AF5B-016120D59D7B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11F02235-5785-408B-9651-8A4B41FF36F4}"
