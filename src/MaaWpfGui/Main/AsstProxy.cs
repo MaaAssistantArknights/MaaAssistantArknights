@@ -555,7 +555,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
                     {
                         "Fight" => true,
-                        _ => Instances.TaskQueueViewModel.FightTaskRunning
+                        _ => Instances.TaskQueueViewModel.FightTaskRunning,
                     };
 
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
