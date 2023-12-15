@@ -429,7 +429,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion EasterEggs
 
-
         #region Remote Control
 
         // UI 绑定的方法

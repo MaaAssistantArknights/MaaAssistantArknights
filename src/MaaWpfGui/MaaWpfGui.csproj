@@ -40,6 +40,7 @@
     <InformationalVersion>0.0.1</InformationalVersion>
   </PropertyGroup>
 
+  <!-- Info -->
   <PropertyGroup>
     <ApplicationIcon>newlogo.ico</ApplicationIcon>
     <RootNamespace>MaaWpfGui</RootNamespace>
@@ -63,6 +64,12 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
+  <!-- Ignore Warings -->
+  <PropertyGroup>
+    <NoWarn>SA1121;SA1404;Uno0001</NoWarn>
+  </PropertyGroup>
+
+  <!-- Resource -->
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
     <Resource Include="newlogo.ico" />
@@ -78,6 +85,7 @@
     </Page>
   </ItemGroup>
 
+  <!-- Nuget Packages -->
   <ItemGroup>
     <PackageReference Include="CalcBinding" Version="2.5.2" />
     <PackageReference Include="FluentEmail.Liquid" Version="3.0.2" />

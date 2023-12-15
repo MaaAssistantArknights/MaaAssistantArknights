@@ -10,14 +10,13 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-#pragma warning disable 0618
+#pragma warning disable CS0618
 #pragma warning disable SA1401
 
 using System;
-using System.Security;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
+using System.Security;
 using System.Windows;
 using HandyControl.Data;
 using Vanara.PInvoke;
