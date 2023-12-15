@@ -70,14 +70,14 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     bool need_navigate = params.get("need_navigate", false); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
-    bool is_adverse = params.get("is_adverse", false); // 是否为突袭关卡
-    std::string navigate_name = params.get("navigate_name", std::string());
-    bool with_formation = params.get("formation", false);
-    bool use_sanity_potion = params.get("use_sanity_potion", false);
+    std::string navigate_name = params.get("navigate_name", std::string()); // 导航的关卡名
+    bool is_adverse = params.get("is_adverse", false);                      // 是否为突袭关卡
+    bool use_sanity_potion = params.get("use_sanity_potion", false);        // 是否吃理智药
+    bool with_formation = params.get("formation", false);                   // 是否使用自动编队
+    int select_formation = params.get("select_formation", 0);               // 选择第几个编队，0为不选择
+    bool add_trust = params.get("add_trust", false);                        // 是否自动补信赖
+    bool add_user_additional = params.get("add_user_additional", false);    // 是否自动补用户自定义干员
     std::string support_unit_name = params.get("support_unit_name", std::string());
-    int select_formation = params.get("select_formation", 0);            // 选择第几个编队，0为不选择
-    bool add_trust = params.get("add_trust", false);                     // 是否自动补信赖
-    bool add_user_additional = params.get("add_user_additional", false); // 是否自动补用户自定义干员
 
     auto filename_opt = params.find<std::string>("filename");
     if (!filename_opt) {
