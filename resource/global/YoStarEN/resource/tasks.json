@@ -2626,12 +2626,6 @@
     "InfrastFlagOriginStone": {
         "templThreshold": 0.7
     },
-    "InfrastTrainingIdle": {
-        "text": ["Idle"]
-    },
-    "InfrastTrainingCompleted":{
-        "text": ["Done"]
-    },
     "InfrastClueSelfFull": {
         "text": [
             "Clue limit reached",
