@@ -133,6 +133,8 @@ namespace MaaWpfGui.Constants
         public const string CreditFirstListNew = "Mall.CreditFirstListNew";
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
+        public const string CreditOnlyBuyDiscount = "Mall.CreditOnlyBuyDiscount";
+        public const string CreditReserveMaxCredit = "Mall.CreidtReserveMaxCredit";
 
         public const string ReceiveAward = "Mission.ReceiveAward";
         public const string ReceiveMail = "Mission.ReceiveMail";

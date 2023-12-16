@@ -2182,6 +2182,36 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _creditOnlyBuyDiscount = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether only buy discount is enabled.
+        /// </summary>
+        public bool CreditOnlyBuyDiscount
+        {
+            get => _creditOnlyBuyDiscount;
+            set
+            {
+                SetAndNotify(ref _creditOnlyBuyDiscount, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditOnlyBuyDiscount, value.ToString());
+            }
+        }
+
+        private bool _creditReserveMaxCredit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether reserve max credit is enabled.
+        /// </summary>
+        public bool CreditReserveMaxCredit
+        {
+            get => _creditReserveMaxCredit;
+            set
+            {
+                SetAndNotify(ref _creditReserveMaxCredit, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditReserveMaxCredit, value.ToString());
+            }
+        }
+
         /* 领取奖励设置 */
 
         private bool _receiveAward = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true.ToString()));
