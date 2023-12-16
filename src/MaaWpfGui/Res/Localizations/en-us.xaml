@@ -267,11 +267,11 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
-    <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
-    <system:String x:Key="OnlyBuyDiscountTips">⚠可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
-    <system:String x:Key="ReserveMaxCreditTips">低于300信用点也仍然会购买白名单物品！</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
+    <system:String x:Key="OnlyBuyDiscount">Only purchase discounted credit items</system:String>
+    <system:String x:Key="ReserveMaxCredit">Stop purchasing items when credits below 300</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">Will still purchase whitelisted items even if credits are below 300!</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
