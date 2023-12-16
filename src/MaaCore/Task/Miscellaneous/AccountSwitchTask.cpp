@@ -10,11 +10,6 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
-void asst::AccountSwitchTask::set_account(std::string account)
-{
-    m_account = std::move(account);
-}
-
 bool asst::AccountSwitchTask::_run()
 {
     LogTraceFunction;
@@ -28,23 +23,22 @@ bool asst::AccountSwitchTask::_run()
         return false;
     }
 
-    // 退出到选择账号界面
-    if (!navigate_to_start_page()) {
+    if (ranges::find(SupportedClientType, m_client_type) == SupportedClientType.end()) {
+        Log.error(__FUNCTION__, "unsupported client");
         return false;
     }
 
-    // 判断下是官服还是bili
-    if (!verify_client_type()) {
-        Log.error(__FUNCTION__, "unsupported client");
+    // 退出到选择账号界面
+    if (!navigate_to_start_page()) {
         return false;
     }
     // 当前账号就是想要的
     std::string current_account;
 
-    if (is_official) {
+    if (m_client_type == SupportedClientType[0]) {
         current_account = get_current_account();
     }
-    else if (is_bili) {
+    else if (m_client_type == SupportedClientType[1]) {
         current_account = get_current_account_b();
     }
 
@@ -107,22 +101,6 @@ std::string asst::AccountSwitchTask::get_current_account_b()
     return ocr.get_result().text;
 }
 
-bool asst::AccountSwitchTask::verify_client_type()
-{
-    auto task = ProcessTask(*this, { "AccountManagerOfficial", "AccountManagerBili" });
-    task.run();
-    if (task.get_last_task_name() == "AccountManagerOfficial") {
-        is_official = true;
-    }
-    else if (task.get_last_task_name() == "AccountManagerBili") {
-        is_bili = true;
-    }
-    else {
-        return false;
-    }
-    return true;
-}
-
 bool asst::AccountSwitchTask::click_manager_login_button()
 {
     return ProcessTask(*this, { "AccountManagerLoginButton", "AccountManagerLoginButtonBili" }).run();
@@ -143,10 +121,10 @@ bool asst::AccountSwitchTask::swipe_and_select(bool to_top)
     int repeat = 0;
     bool click = false;
     while (!need_exit()) {
-        if (is_official) {
+        if (m_client_type == SupportedClientType[0]) {
             click = select_account(result);
         }
-        else if (is_bili) {
+        else if (m_client_type == SupportedClientType[1]) {
             click = select_account_b(result);
         }
         if (click) {
