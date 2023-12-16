@@ -4067,10 +4067,14 @@
     },
     "FightSeries-Indicator": {
         "roi": [
-            950,
-            180,
-            50,
-            400
+            940,
+            190,
+            80,
+            380
+        ],
+        "maskRange": [
+            1,
+            255
         ]
     },
     "FightSeries-Open": {
@@ -4079,7 +4083,8 @@
         "action": "ClickSelf",
         "sub": [
             "FightSeries-Indicator"
-        ]
+        ],
+        "postDelay": 500
     },
     "FightSeries-List-1": {
         "algorithm": "JustReturn",
