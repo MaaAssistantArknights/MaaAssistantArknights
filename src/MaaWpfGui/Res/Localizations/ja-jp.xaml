@@ -267,11 +267,11 @@
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
-    <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
-    <system:String x:Key="OnlyBuyDiscountTips">⚠可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
-    <system:String x:Key="ReserveMaxCreditTips">低于300信用点也仍然会购买白名单物品！</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
+    <system:String x:Key="OnlyBuyDiscount">割引されたクレジットアイテムのみ購入します</system:String>
+    <system:String x:Key="ReserveMaxCredit">クレジットポイントが300未満になった場合、アイテムの購入を停止します</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意: クレジットポイントのオーバーフローのリスクがあります！ホワイトリストに登録されたアイテムは通常価格で購入される可能性があります！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">クレジットポイントが300未満でも、ホワイトリストに登録されたアイテムは引き続き購入されます！</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がクレジットポイントのオーバーフローを引き起こしました！ \nクレジットポイントの浪費に注意してください！ \n残りのクレジットポイント：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
