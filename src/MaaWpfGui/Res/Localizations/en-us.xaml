@@ -267,6 +267,8 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
+    <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品（未打折的白名单商品仍会购买）</system:String>
+    <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>

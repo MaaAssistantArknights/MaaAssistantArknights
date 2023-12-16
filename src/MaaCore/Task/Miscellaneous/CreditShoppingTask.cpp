@@ -30,6 +30,19 @@ asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit
     return *this;
 }
 
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_only_buy_discount(bool only_buy_discount) noexcept
+{
+    m_only_buy_discount = only_buy_discount;
+    return *this;
+}
+
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_reserve_max_credit(
+    bool reserve_max_credit) noexcept
+{
+    m_reserve_max_credit = reserve_max_credit;
+    return *this;
+}
+
 int asst::CreditShoppingTask::credit_ocr()
 {
     cv::Mat credit_image = ctrler()->get_image();
@@ -51,6 +64,28 @@ int asst::CreditShoppingTask::credit_ocr()
     Log.trace("credit:", credit);
 
     return std::stoi(credit);
+}
+
+int asst::CreditShoppingTask::discount_ocr()
+{
+    cv::Mat discount_image = ctrler()->get_image();
+    OCRer discount_analyzer(discount_image);
+    discount_analyzer.set_task_info("CreditShop-DiscountOcr");
+
+    if (!discount_analyzer.analyze()) {
+        return 0;
+    }
+
+    std::string discount = discount_analyzer.get_result().front().text;
+
+    if (!discount.empty() && discount.front() == '-') discount = discount.substr(1, discount.size() - 1);
+
+    if (discount.empty() || !ranges::all_of(discount, [](char c) -> bool { return std::isdigit(c); })) return 0;
+
+
+    Log.trace("discount:", discount);
+
+    return std::stoi(discount);
 }
 
 bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
@@ -76,7 +111,17 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         if (need_exit()) {
             return false;
         }
+        if (!m_is_white_list&&m_reserve_max_credit) {
+            int credit = credit_ocr();
+            if (credit <= MaxCredit) break;
+        }
+
         ctrler()->click(commodity);
+
+        if (!m_is_white_list && m_only_buy_discount) {
+            int discount = discount_ocr();
+            if (discount <= 0) break;
+        }
 
         ProcessTask(*this, { "CreditShop-BuyIt" }).run();
 

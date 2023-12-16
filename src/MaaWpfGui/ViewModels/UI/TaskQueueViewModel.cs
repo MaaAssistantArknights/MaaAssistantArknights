@@ -1286,7 +1286,9 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
-                Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
+                Instances.SettingsViewModel.CreditForceShoppingIfCreditFull,
+                Instances.SettingsViewModel.CreditOnlyBuyDiscount,
+                Instances.SettingsViewModel.CreditReserveMaxCredit);
         }
 
         private static bool AppendAward()

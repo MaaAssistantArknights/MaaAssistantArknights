@@ -77,6 +77,24 @@
                     Text="{DynamicResource ForceShoppingIfCreditFull}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding CreditOnlyBuyDiscount}"
+                IsEnabled="{Binding CreditShopping}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource OnlyBuyDiscount}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding CreditReserveMaxCredit}"
+                IsEnabled="{Binding CreditShopping}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource ReserveMaxCredit}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
         </StackPanel>
     </StackPanel>
 </UserControl>
