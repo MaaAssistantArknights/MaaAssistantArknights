@@ -269,6 +269,8 @@
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
     <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
     <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">低于300信用点也仍然会购买白名单物品！</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">领取每日/每周任务奖励</system:String>
     <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>

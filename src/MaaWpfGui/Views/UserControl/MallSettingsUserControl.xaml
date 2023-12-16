@@ -84,7 +84,8 @@
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource OnlyBuyDiscount}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    ToolTip="{DynamicResource OnlyBuyDiscountTips}"/>
             </CheckBox>
             <CheckBox
                 Margin="0,10"
@@ -93,7 +94,8 @@
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource ReserveMaxCredit}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    ToolTip="{DynamicResource ReserveMaxCreditTips}"/>
             </CheckBox>
         </StackPanel>
     </StackPanel>
