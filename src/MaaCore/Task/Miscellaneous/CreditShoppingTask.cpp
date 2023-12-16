@@ -86,10 +86,9 @@ int asst::CreditShoppingTask::discount_ocr()
 
     if (!discount.empty() && discount.front() == '-') discount = discount.substr(1, discount.size() - 1);
 
-    if (discount.empty() || !ranges::all_of(discount, [](char c) -> bool { return std::isdigit(c); })) return 0;
-
-
     Log.trace("discount:", discount);
+
+    if (discount.empty() || !ranges::all_of(discount, [](char c) -> bool { return std::isdigit(c); })) return 0;
 
     return std::stoi(discount);
 }
