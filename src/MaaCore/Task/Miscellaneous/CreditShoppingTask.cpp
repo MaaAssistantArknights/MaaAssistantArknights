@@ -119,8 +119,12 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         ctrler()->click(commodity);
 
         if (!m_is_white_list && m_only_buy_discount) {
+            sleep(500);//等待click进入商品信息界面
             int discount = discount_ocr();
-            if (discount <= 0) break;
+            if (discount <= 0) {
+                click_return_button();
+                break;
+            }
         }
 
         ProcessTask(*this, { "CreditShop-BuyIt" }).run();
