@@ -5742,7 +5742,7 @@
         ]
     },
     "CreditShop-CreditOcr": {
-        "algorithm": "Number",
+        "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
         "roi": [
@@ -5759,8 +5759,8 @@
         "roi": [
             1053,
             104,
-            135,
-            127
+            85,
+            77
         ]
     },
     "CreditShop-ProductName": {
