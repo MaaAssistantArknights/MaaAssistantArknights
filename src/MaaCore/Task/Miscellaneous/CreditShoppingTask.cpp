@@ -36,6 +36,12 @@ asst::CreditShoppingTask& asst::CreditShoppingTask::set_only_buy_discount(bool o
     return *this;
 }
 
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_info_credit_full(bool info_credit_full) noexcept
+{
+    m_info_credit_full = info_credit_full;
+    return *this;
+}
+
 asst::CreditShoppingTask& asst::CreditShoppingTask::set_reserve_max_credit(
     bool reserve_max_credit) noexcept
 {
@@ -119,10 +125,19 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         ctrler()->click(commodity);
 
         if (!m_is_white_list && m_only_buy_discount) {
-            sleep(500);//等待click进入商品信息界面
+            sleep(500); // 等待click进入商品信息界面
             int discount = discount_ocr();
             if (discount <= 0) {
                 click_return_button();
+                int credit = credit_ocr();
+                if (credit > MaxCredit && m_info_credit_full) {
+                    json::value cb_info = basic_info();
+                    cb_info["what"] = "CreditFullOnlyBuyDiscount";
+                    cb_info["details"] = json::object {
+                        { "credit", credit },
+                    };
+                    callback(AsstMsg::SubTaskExtraInfo, cb_info);
+                }
                 break;
             }
         }

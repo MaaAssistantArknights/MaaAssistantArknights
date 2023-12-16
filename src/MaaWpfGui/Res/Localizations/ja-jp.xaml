@@ -267,8 +267,9 @@
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
-    <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品（未打折的白名单商品仍会购买）</system:String>
+    <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
     <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
