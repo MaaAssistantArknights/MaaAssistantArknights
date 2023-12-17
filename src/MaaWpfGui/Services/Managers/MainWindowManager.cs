@@ -13,38 +13,37 @@
 
 using System;
 using System.Windows;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Services.Managers
 {
     /// <inheritdoc/>
-    public class MainWindowManager : IMainWindowManager
+    public sealed class MainWindowManager : IMainWindowManager
     {
         /// <summary>
         /// Gets the main window object
         /// </summary>
-        protected static Window MainWindow => Application.Current.MainWindow;
+        private static Window MainWindow => Application.Current.MainWindow;
 
         /// <summary>
         /// Gets or sets a value indicating whether whether minimize to tray.
         /// </summary>
-        protected bool ShouldMinimizeToTaskbar { get; set; }
+        private bool ShouldMinimizeToTaskBar { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowManager"/> class.
         /// </summary>
         public MainWindowManager()
         {
-            MainWindow.StateChanged += MainWindow_StateChanged;
+            MainWindow.StateChanged += MainWindowStateChanged;
 
-            bool minimizeToTray = ConfigFactory.CurrentConfig.GUI.MinimizeToTray;
-            SetMinimizeToTaskbar(minimizeToTray);
+            bool minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+            SetMinimizeToTaskBar(minimizeToTray);
         }
 
         /// <inheritdoc/>
-        public virtual void Show()
+        public void Show()
         {
             MainWindow.Show();
             MainWindow.WindowState = MainWindow.WindowState = WindowState.Normal;
@@ -52,19 +51,19 @@ namespace MaaWpfGui.Services.Managers
         }
 
         /// <inheritdoc/>
-        public virtual void ForceShow()
+        public void ForceShow()
         {
             ((WindowManager)Instances.WindowManager).ForceShow(MainWindow);
         }
 
         /// <inheritdoc/>
-        public virtual void Collapse()
+        public void Collapse()
         {
             MainWindow.WindowState = MainWindow.WindowState = WindowState.Minimized;
         }
 
         /// <inheritdoc/>
-        public virtual void SwitchWindowState()
+        public void SwitchWindowState()
         {
             if (MainWindow.WindowState == WindowState.Minimized)
             {
@@ -77,12 +76,12 @@ namespace MaaWpfGui.Services.Managers
         }
 
         /// <inheritdoc/>
-        public virtual WindowState GetWindowState() => MainWindow.WindowState;
+        public WindowState GetWindowState() => MainWindow.WindowState;
 
         /// <inheritdoc/>
-        public virtual void SetMinimizeToTaskbar(bool shouldMinimizeToTaskbar)
+        public void SetMinimizeToTaskBar(bool shouldMinimizeToTaskBar)
         {
-            ShouldMinimizeToTaskbar = shouldMinimizeToTaskbar;
+            ShouldMinimizeToTaskBar = shouldMinimizeToTaskBar;
         }
 
         /// <summary>
@@ -90,9 +89,9 @@ namespace MaaWpfGui.Services.Managers
         /// </summary>
         /// <param name="sender">The object that triggered the event.</param>
         /// <param name="e">The event arguments.</param>
-        protected virtual void MainWindow_StateChanged(object sender, EventArgs e)
+        private void MainWindowStateChanged(object sender, EventArgs e)
         {
-            if (ShouldMinimizeToTaskbar)
+            if (ShouldMinimizeToTaskBar)
             {
                 ChangeVisibility(MainWindow.WindowState != WindowState.Minimized);
             }
@@ -102,7 +101,7 @@ namespace MaaWpfGui.Services.Managers
         /// Change visibility of the main window
         /// </summary>
         /// <param name="visible">A boolean indicating whether the main window should be visible or hidden.</param>
-        protected virtual void ChangeVisibility(bool visible)
+        private static void ChangeVisibility(bool visible)
         {
             if (visible)
             {
@@ -116,19 +115,11 @@ namespace MaaWpfGui.Services.Managers
             }
         }
 
-        public virtual Window GetWindowIfVisible()
+        public Window GetWindowIfVisible()
         {
-            if (MainWindow == null)
-            {
-                return null;
-            }
-
-            if (MainWindow.WindowState == WindowState.Minimized)
-            {
-                return null;
-            }
-
-            if (MainWindow.Visibility != Visibility.Visible)
+            if (MainWindow == null ||
+                MainWindow.WindowState == WindowState.Minimized ||
+                MainWindow.Visibility != Visibility.Visible)
             {
                 return null;
             }

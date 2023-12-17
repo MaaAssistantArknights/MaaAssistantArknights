@@ -16,9 +16,9 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-    - uses: zzyyyl/issue-checker@v1.7
-      with:
-        repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        configuration-path: .github/issue-checker.yml
-        not-before: 2022-08-05T00:00:00Z
-        include-title: 1
+      - uses: zzyyyl/issue-checker@v1.7
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          configuration-path: .github/issue-checker.yml
+          not-before: 2022-08-05T00:00:00Z
+          include-title: 1

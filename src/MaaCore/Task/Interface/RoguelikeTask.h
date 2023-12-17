@@ -4,13 +4,9 @@
 namespace asst
 {
     class ProcessTask;
-    class RoguelikeRecruitTaskPlugin;
-    class RoguelikeSkillSelectionTaskPlugin;
-    class RoguelikeBattleTaskPlugin;
+    class RoguelikeConfig;
     class RoguelikeCustomStartTaskPlugin;
     class RoguelikeDebugTaskPlugin;
-    class RoguelikeLastRewardTaskPlugin;
-    class RoguelikeDifficultySelectionTaskPlugin;
 
     class RoguelikeTask : public InterfaceTask
     {
@@ -24,10 +20,9 @@ namespace asst
 
     private:
         std::shared_ptr<ProcessTask> m_roguelike_task_ptr = nullptr;
-        std::shared_ptr<RoguelikeRecruitTaskPlugin> m_recruit_task_ptr = nullptr;
-        std::shared_ptr<RoguelikeSkillSelectionTaskPlugin> m_skill_task_ptr = nullptr;
-        std::shared_ptr<RoguelikeBattleTaskPlugin> m_battle_task_ptr = nullptr;
-        std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_start_task_ptr = nullptr;
-        std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_task_ptr = nullptr;
+        std::shared_ptr<RoguelikeConfig> m_roguelike_config_ptr = nullptr;
+        std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_start_plugin_ptr = nullptr;
+        std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_plugin_ptr = nullptr;
+
     };
 }

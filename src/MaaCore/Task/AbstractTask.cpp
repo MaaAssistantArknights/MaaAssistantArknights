@@ -151,9 +151,9 @@ void asst::AbstractTask::click_return_button()
     ProcessTask(*this, { "Return" }).run();
 }
 
-bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, bool auto_clean)
+bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, bool use_cache, bool auto_clean)
 {
-    auto image = ctrler()->get_image();
+    auto image = use_cache ? ctrler()->get_image_cache() : ctrler()->get_image();
     if (image.empty()) {
         return false;
     }
@@ -169,7 +169,7 @@ bool asst::AbstractTask::save_img(const std::filesystem::path& relative_dir, boo
         m_save_file_cnt[relative_dir] =
             (m_save_file_cnt[relative_dir] + 1) % Config.get_options().debug.clean_files_freq;
     }
-    
+
     auto relative_path = relative_dir / (stem + "_raw.png");
     Log.trace("Save image", relative_path);
     return asst::imwrite(relative_path, image);

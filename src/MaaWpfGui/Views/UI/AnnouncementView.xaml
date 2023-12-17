@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
-    xmlns:markdig="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     Title="{DynamicResource Announcement}"
     Width="600"
@@ -16,39 +16,29 @@
     <Grid Background="{DynamicResource VersionUpdateViewBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <FlowDocumentScrollViewer
-            x:Name="UpdateInfoMarkdownDocument"
+        <mdxam:MarkdownScrollViewer
+            ClickAction="SafetyOpenBrowser"
             Grid.Row="0"
-            Margin="16,0"
-            Document="{Binding AnnouncementInfoDoc}"
-            IsSelectionEnabled="False"
-            Zoom="90">
+            Markdown="{Binding AnnouncementInfo}"
+            Margin="10,0,10,0">
+            <mdxam:MarkdownScrollViewer.MarkdownStyle>
+                <StaticResource ResourceKey="MdXamlStyle"/>
+            </mdxam:MarkdownScrollViewer.MarkdownStyle>
+            <mdxam:MarkdownScrollViewer.Plugins>
+                <StaticResource ResourceKey="MdXamlPlugin"/>
+            </mdxam:MarkdownScrollViewer.Plugins>
+        </mdxam:MarkdownScrollViewer>
 
-            <FlowDocumentScrollViewer.Template>
-                <ControlTemplate TargetType="FlowDocumentScrollViewer">
-                    <Border
-                        Margin="{TemplateBinding Padding}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="{Binding Path=(hc:BorderElement.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
-                        Focusable="False">
-
-                        <hc:ScrollViewer
-                            x:Name="PART_ContentHost"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            CanContentScroll="True"
-                            IsInertiaEnabled="True" />
-                    </Border>
-                </ControlTemplate>
-            </FlowDocumentScrollViewer.Template>
-
-            <FlowDocumentScrollViewer.CommandBindings>
-                <CommandBinding Command="{x:Static markdig:Commands.Hyperlink}" Executed="{s:Action OpenHyperlink}" />
-            </FlowDocumentScrollViewer.CommandBindings>
-        </FlowDocumentScrollViewer>
+        <CheckBox
+            Grid.Row="1"
+            Height="30"
+            Margin="6"
+            HorizontalAlignment="Center"
+            VerticalContentAlignment="Center"
+            Content="{DynamicResource GachaShowDisclaimerNoMore}"
+            IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
     </Grid>
 </hc:Window>

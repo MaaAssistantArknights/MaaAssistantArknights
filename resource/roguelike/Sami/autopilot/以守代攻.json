@@ -32,6 +32,16 @@
         },
         {
             "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "回费"
             ],
             "location": [
@@ -88,16 +98,6 @@
         },
         {
             "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                7,
-                4
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
                 "地面远程"
             ],
             "location": [
@@ -148,6 +148,7 @@
             "groups": [
                 "炮灰",
                 "处决者",
+                "障碍物",
                 "地面阻挡",
                 "地刺",
                 "其他地面"

@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -41,29 +42,29 @@ namespace MaaWpfGui.Helper
             {
                 "BlueStacks", new List<string>
                 {
-                    ".\\HD-Adb.exe",
-                    ".\\Engine\\ProgramFiles\\HD-Adb.exe",
+                    @".\HD-Adb.exe",
+                    @".\Engine\ProgramFiles\HD-Adb.exe",
                 }
             },
-            { "LDPlayer",  new List<string> { ".\\adb.exe" } },
-            { "Nox",  new List<string> { ".\\nox_adb.exe" } },
+            { "LDPlayer", new List<string> { @".\adb.exe" } },
+            { "Nox", new List<string> { @".\nox_adb.exe" } },
             {
                 "MuMuEmulator",  new List<string>
                 {
-                    "..\\vmonitor\\bin\\adb_server.exe",
-                    "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
-                    ".\\adb.exe",
+                    @"..\vmonitor\bin\adb_server.exe",
+                    @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
+                    @".\adb.exe",
                 }
             },
             {
                 "MuMuEmulator12",  new List<string>
                 {
-                    "..\\vmonitor\\bin\\adb_server.exe",
-                    "..\\..\\MuMu\\emulator\\nemu\\vmonitor\\bin\\adb_server.exe",
-                    ".\\adb.exe",
+                    @"..\vmonitor\bin\adb_server.exe",
+                    @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
+                    @".\adb.exe",
                 }
             },
-            { "XYAZ",  new List<string> { ".\\adb.exe" } },
+            { "XYAZ",  new List<string> { @".\adb.exe" } },
         };
 
         private readonly Dictionary<string, string> _adbAbsolutePathDict = new Dictionary<string, string>();
@@ -78,19 +79,19 @@ namespace MaaWpfGui.Helper
             var emulators = new List<string>();
             foreach (var process in allProcess)
             {
-                if (_emulatorIdDict.Keys.Contains(process.ProcessName))
+                if (!_emulatorIdDict.Keys.Contains(process.ProcessName))
                 {
-                    var emulatorId = _emulatorIdDict[process.ProcessName];
-                    emulators.Add(emulatorId);
-                    var processPath = process.MainModule.FileName;
-                    foreach (var path in _adbRelativePathDict[emulatorId])
-                    {
-                        var adbPath = Path.GetDirectoryName(processPath) + "\\" + path;
-                        if (File.Exists(adbPath))
-                        {
-                            _adbAbsolutePathDict[emulatorId] = adbPath;
-                        }
-                    }
+                    continue;
+                }
+
+                var emulatorId = _emulatorIdDict[process.ProcessName];
+                emulators.Add(emulatorId);
+                var processPath = process.MainModule?.FileName;
+                foreach (string adbPath in _adbRelativePathDict[emulatorId]
+                             .Select(path => Path.GetDirectoryName(processPath) + "\\" + path)
+                             .Where(File.Exists))
+                {
+                    _adbAbsolutePathDict[emulatorId] = adbPath;
                 }
             }
 
@@ -104,12 +105,9 @@ namespace MaaWpfGui.Helper
         /// <returns>The ADB path of the emulator.</returns>
         public string GetAdbPathByEmulatorName(string emulatorName)
         {
-            if (_adbAbsolutePathDict.Keys.Contains(emulatorName))
-            {
-                return _adbAbsolutePathDict[emulatorName];
-            }
-
-            return null;
+            return _adbAbsolutePathDict.Keys.Contains(emulatorName)
+                ? _adbAbsolutePathDict[emulatorName]
+                : null;
         }
 
         /// <summary>
@@ -119,9 +117,9 @@ namespace MaaWpfGui.Helper
         /// <returns>The list of ADB addresses.</returns>
         public List<string> GetAdbAddresses(string adbPath)
         {
-            var addresses = new List<string>();
-            using (Process process = new Process())
+            try
             {
+                using Process process = new Process();
                 process.StartInfo.FileName = adbPath;
                 process.StartInfo.Arguments = "devices";
 
@@ -132,22 +130,15 @@ namespace MaaWpfGui.Helper
                 process.Start();
                 var output = process.StandardOutput.ReadToEnd();
                 _logger.Information(adbPath + " devices | output:\n" + output);
-                var outLines = output.Split(new[] { '\r', '\n' });
-                foreach (var line in outLines)
-                {
-                    if (line.StartsWith("List of devices attached") ||
-                        line.Length == 0 ||
-                        !line.Contains("device"))
-                    {
-                        continue;
-                    }
+                var outLines = output.Split('\r', '\n');
 
-                    var address = line.Split('\t')[0];
-                    addresses.Add(address);
-                }
+                return (from line in outLines where !line.StartsWith("List of devices attached") && line.Length != 0 && line.Contains("device") select line.Split('\t')[0]).ToList();
             }
-
-            return addresses;
+            catch (Exception e)
+            {
+                _logger.Error(e.Message);
+                return new List<string>();
+            }
         }
     }
 }

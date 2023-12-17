@@ -122,7 +122,6 @@
 
             <Button
                 Width="Auto"
-                MaxWidth="100"
                 Margin="5"
                 Command="{s:Action CheckAndDownloadAnnouncement}"
                 Content="{DynamicResource CheckAndDownloadAnnouncement}" />

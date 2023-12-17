@@ -1,4 +1,5 @@
-﻿// <copyright file="GUI.cs" company="MaaAssistantArknights">
+// <copyright file="GUI.cs" company="MaaAssistantArknights">
+// <copyright file="GUI.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -51,6 +52,7 @@ namespace MaaWpfGui.Configuration
 
         public string WindowTitlePrefix { get; set; } = string.Empty;
 
+        // ReSharper disable once UnusedMember.Global
         public void OnPropertyChanged(string propertyName, object before, object after)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));
@@ -74,14 +76,14 @@ namespace MaaWpfGui.Configuration
             /// <summary>
             /// 暗黑的主题。
             /// </summary>
-            Dark
+            Dark,
         }
 
         public enum InverseClearType
         {
             Clear = 0,
             Inverse,
-            ClearInverse
+            ClearInverse,
         }
     }
 }

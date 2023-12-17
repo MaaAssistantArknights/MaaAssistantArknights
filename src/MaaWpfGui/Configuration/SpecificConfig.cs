@@ -1,4 +1,4 @@
-﻿// <copyright file="SpecificConfig.cs" company="MaaAssistantArknights">
+// <copyright file="SpecificConfig.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -18,6 +18,7 @@ namespace MaaWpfGui.Configuration
 {
     public class SpecificConfig
     {
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         [JsonInclude] public GUI GUI { get; private set; } = new GUI();
 
         [JsonInclude] public ObservableDictionary<string, int> InfrastOrder { get; private set; } = new ObservableDictionary<string, int>();

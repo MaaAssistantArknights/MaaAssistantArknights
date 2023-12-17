@@ -8,6 +8,7 @@ def ArgParser():
     parser.add_argument("--clang-format", help="the path of clang-format.exe", metavar="PATH", dest="exe", default="clang-format")
     parser.add_argument("--style", help="clang-format style", dest="style", default="file")
     parser.add_argument("--rule", help="json-style '.xxx' array", dest="rule", default="[\".c\", \".h\", \".cpp\", \".hpp\", \".json\"]")
+    parser.add_argument("--ignore", help="json-style path array", dest="ignore", default="[]")
     return parser
 
 if __name__ == "__main__":
@@ -15,8 +16,19 @@ if __name__ == "__main__":
     clang_format_exe = args.exe
     input_path = args.src
     rule_array = json.loads(args.rule)
+    ignore_array = json.loads(args.ignore)
 
-    os.system(f"{clang_format_exe} --version");
+    ignore_files = []
+    ignore_dirs = []
+    for ignore in ignore_array:
+        if os.path.isdir(ignore):
+            ignore_dirs.append(os.path.normpath(ignore))
+        elif os.path.isfile(ignore):
+            ignore_files.append(os.path.normpath(ignore))
+        else:
+            print(f"Invalid ignore path: {ignore}")
+
+    os.system(f"{clang_format_exe} --version")
 
     if not input_path:
         print("No input dir.")
@@ -25,8 +37,12 @@ if __name__ == "__main__":
             print("Invalid rule!")
         else:
             for root, dirs, files in os.walk(input_path):
+                if any([os.path.normpath(root).startswith(ignore_dir) for ignore_dir in ignore_dirs]):
+                    continue
                 for f in files:
                     file = os.path.join(root, f)
+                    if os.path.normpath(file) in ignore_files:
+                        continue
                     if os.path.splitext(file)[-1] in rule_array:
                         print(file)
                         os.system(f"{clang_format_exe} -i -style={args.style} \"{file}\"")
@@ -37,4 +53,8 @@ if __name__ == "__main__":
     else:
         print("Invalid input_path!")
 
-# example: python tools\ClangFormatter\clang-formatter.py --input=src\MaaCore
+r"""
+example: 
+python tools\ClangFormatter\clang-formatter.py --input=resource\ --ignore="[\"resource/Arknights-Tile-Pos\", \"resource/infrast.json\"]"
+python tools\ClangFormatter\clang-formatter.py --input=src\MaaCore
+"""

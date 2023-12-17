@@ -13,7 +13,7 @@
 #include <sstream>
 
 asst::ReportDataTask::ReportDataTask(const TaskCallback& task_callback, AbstractTask* upper_task)
-    : AbstractTask(nullptr, nullptr, upper_task->get_task_chain()), m_task_callback(task_callback),
+    : AbstractTask(nullptr, upper_task->inst(), upper_task->get_task_chain()), m_task_callback(task_callback),
       m_upper_task(upper_task)
 {}
 
@@ -45,8 +45,9 @@ bool asst::ReportDataTask::_run()
     case ReportType::PenguinStats:
         report_func = std::bind(&ReportDataTask::report_to_penguin, this);
         break;
-    case ReportType::YituliuBigData:
-        report_func = std::bind(&ReportDataTask::report_to_yituliu, this);
+    case ReportType::YituliuBigDataAutoRecruit:
+    case ReportType::YituliuBigDataStageDrops:
+        report_func = std::bind(&ReportDataTask::report_to_yituliu, this, m_report_type);
         break;
     default:
         return false;
@@ -149,13 +150,23 @@ void asst::ReportDataTask::report_to_penguin()
     }
 }
 
-void asst::ReportDataTask::report_to_yituliu()
+void asst::ReportDataTask::report_to_yituliu(ReportType reportType)
 {
     LogTraceFunction;
 
-    constexpr std::string_view YituliuSubtaskName = "ReportToYituliu";
-    const std::string& url = Config.get_options().yituliu_report.url;
-    int timeout = Config.get_options().yituliu_report.timeout;
+    constexpr std::string_view yituliu_subtask_name = "ReportToYituliu";
+    std::string url;
+    switch (reportType) {
+    case ReportType::YituliuBigDataAutoRecruit:
+        url = Config.get_options().yituliu_report.recruit_url;
+        break;
+    case ReportType::YituliuBigDataStageDrops:
+        url = Config.get_options().yituliu_report.drop_url;
+        break;
+    default:
+        return;
+    }
+    const int timeout = Config.get_options().yituliu_report.timeout;
     cpr::Header headers = {};
 
     for (const auto& [header_key, value] : Config.get_options().yituliu_report.headers) {
@@ -166,7 +177,7 @@ void asst::ReportDataTask::report_to_yituliu()
         headers.emplace(field);
     }
 
-    report(YituliuSubtaskName, url, headers, timeout);
+    report(yituliu_subtask_name, url, headers, timeout);
 }
 
 cpr::Response asst::ReportDataTask::report(std::string_view subtask, const std::string& url, const cpr::Header& headers,

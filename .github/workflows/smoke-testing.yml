@@ -3,53 +3,71 @@ name: test
 on:
   push:
     paths:
-      - '3rdparty/include/**'
-      - 'include/**'
-      - 'src/**'
-      - 'cmake/**'
-      - 'CMakeLists.txt'
-      - 'MAA.sln'
-      - 'resource/**'
-      - 'MaaDeps/**'
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - "resource/**"
+      - "MaaDeps/**"
+      - "!**/*.md"
   pull_request:
     paths:
-      - '3rdparty/include/**'
-      - 'include/**'
-      - 'src/**'
-      - 'cmake/**'
-      - 'CMakeLists.txt'
-      - 'MAA.sln'
-      - 'resource/**'
-      - 'MaaDeps/**'
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - "resource/**"
+      - "MaaDeps/**"
+      - "!**/*.md"
   workflow_dispatch:
 
 jobs:
   smoke-testing:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - uses: NuGet/setup-nuget@v1.2.0
-      - run: |
-          nuget restore MAA.sln
-          if ($LASTEXITCODE) { nuget restore MAA.sln }
-          if ($LASTEXITCODE) { nuget restore MAA.sln }
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          
+      - name: Restore dependencies
+        run: dotnet restore
       
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py x64-windows
-          
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
 
-      - name: Run tests
+      - name: Run tests - Official #用来判断是不是国服资源出错导致外服全炸
         run: |
           .\x64\Debug\Sample.exe
+
+      - name: Run tests - YoStarJP
+        run: |
+          .\x64\Debug\Sample.exe YoStarJP
+          
+      - name: Run tests - YoStarEN
+        run: |
+          .\x64\Debug\Sample.exe YoStarEN
+        
+      - name: Run tests - YoStarKR
+        run: |
+          .\x64\Debug\Sample.exe YoStarKR
+        
+      - name: Run tests - txwy
+        run: |
+          .\x64\Debug\Sample.exe txwy
 
       - name: Upload logs
         if: always()

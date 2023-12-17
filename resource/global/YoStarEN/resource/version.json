@@ -1,10 +1,11 @@
 {
     "activity": {
-        "name": "Guide Ahead - Rerun",
-        "time": 1695315600
+        "name": "Pinch-Out Experimental Operation",
+        "time": 1701795600
     },
     "gacha": {
-        "pool": "The Front That Was",
-        "time": 1696935600
-    }
+        "pool": "Here I Stand",
+        "time": 1699376400
+    },
+    "last_updated": "2023-12-12 09:06:37.894"
 }

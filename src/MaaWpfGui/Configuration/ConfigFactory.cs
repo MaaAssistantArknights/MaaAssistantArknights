@@ -1,4 +1,4 @@
-﻿// <copyright file="ConfigFactory.cs" company="MaaAssistantArknights">
+// <copyright file="ConfigFactory.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -31,6 +31,8 @@ namespace MaaWpfGui.Configuration
     {
         private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json");
 
+        // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
+        // ReSharper disable once UnusedMember.Local
         private static readonly string _configurationBakFile = Path.Combine(Environment.CurrentDirectory, "config/gui.new.json.bak");
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
@@ -39,9 +41,10 @@ namespace MaaWpfGui.Configuration
 
         public delegate void ConfigurationUpdateEventHandler(string key, object oldValue, object newValue);
 
+        // ReSharper disable once EventNeverSubscribedTo.Global
         public static event ConfigurationUpdateEventHandler ConfigurationUpdateEvent;
 
-        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions {WriteIndented = true, Converters = {new JsonStringEnumConverter()}};
+        private static readonly JsonSerializerOptions _options = new JsonSerializerOptions { WriteIndented = true, Converters = { new JsonStringEnumConverter() } };
 
         private static readonly Lazy<Root> _rootConfig = new Lazy<Root>(() =>
         {
@@ -109,6 +112,12 @@ namespace MaaWpfGui.Configuration
                             }
 
                             break;
+                        case NotifyCollectionChangedAction.Remove:
+                        case NotifyCollectionChangedAction.Move:
+                        case NotifyCollectionChangedAction.Reset:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
                     }
 
                     OnPropertyChanged("Root.Configurations", null, null);
@@ -166,9 +175,10 @@ namespace MaaWpfGui.Configuration
             };
         }
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public static Root Root => _rootConfig.Value;
 
-        public static SpecificConfig CurrentConfig => Root.CurrentConfig;
+        public static readonly SpecificConfig CurrentConfig = Root.CurrentConfig;
 
         private static async void OnPropertyChanged(string key, object oldValue, object newValue)
         {

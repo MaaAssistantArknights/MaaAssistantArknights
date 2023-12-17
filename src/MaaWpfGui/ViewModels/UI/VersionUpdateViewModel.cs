@@ -22,16 +22,12 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Input;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.Models;
+using MaaWpfGui.Services;
 using MaaWpfGui.States;
-using Markdig;
-using Markdig.Wpf;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Semver;
@@ -55,9 +51,6 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState = RunningState.Instance;
         }
 
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
-
         private static readonly ILogger _logger = Log.ForContext<VersionUpdateViewModel>();
 
         private static string AddContributorLink(string text)
@@ -71,23 +64,25 @@ namespace MaaWpfGui.ViewModels.UI
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
-        private readonly string _curVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
+        private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
         private string _latestVersion;
+
+        private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
 
         /// <summary>
         /// Gets or sets the update tag.
         /// </summary>
         public string UpdateTag
         {
-            get => ConfigFactory.Root.VersionUpdate.Name;
+            get => _updateTag;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.Root.VersionUpdate.Name = value;
+                SetAndNotify(ref _updateTag, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionName, value);
             }
         }
 
-        private string _updateInfo = ConfigFactory.Root.VersionUpdate.Body;
+        private string _updateInfo = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateBody, string.Empty);
 
         // private static readonly MarkdownPipeline s_markdownPipeline = new MarkdownPipelineBuilder().UseXamlSupportedExtensions().Build();
 
@@ -111,12 +106,9 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateInfo, value);
-                ConfigFactory.Root.VersionUpdate.Body = value;
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateBody, value);
             }
         }
-
-        public FlowDocument UpdateInfoDoc => Markdig.Wpf.Markdown.ToFlowDocument(UpdateInfo,
-            new MarkdownPipelineBuilder().UseSupportedExtensions().Build());
 
         private string _updateUrl;
 
@@ -129,29 +121,33 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _updateUrl, value);
         }
 
+        private bool _isFirstBootAfterUpdate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateIsFirstBoot, bool.FalseString));
+
         /// <summary>
         /// Gets or sets a value indicating whether it is the first boot after updating.
         /// </summary>
         public bool IsFirstBootAfterUpdate
         {
-            get => ConfigFactory.Root.VersionUpdate.IsFirstBoot;
+            get => _isFirstBootAfterUpdate;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.Root.VersionUpdate.IsFirstBoot = value;
+                SetAndNotify(ref _isFirstBootAfterUpdate, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateIsFirstBoot, value.ToString());
             }
         }
+
+        private string _updatePackageName = ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdatePackage, string.Empty);
 
         /// <summary>
         /// Gets or sets the name of the update package.
         /// </summary>
         public string UpdatePackageName
         {
-            get => ConfigFactory.Root.VersionUpdate.Package;
+            get => _updatePackageName;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.Root.VersionUpdate.Package = value;
+                SetAndNotify(ref _updatePackageName, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdatePackage, value);
             }
         }
 
@@ -190,7 +186,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            Execute.OnUIThread(() =>
+            Execute.OnUIThreadAsync(() =>
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileFoundTitle"));
                 toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileFoundDescDecompressing"))
@@ -215,7 +211,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (InvalidDataException)
             {
                 File.Delete(UpdatePackageName);
-                Execute.OnUIThread(() =>
+                Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionZipFileBrokenTitle"));
                     toast.AppendContentText(LocalizationHelper.GetString("NewVersionZipFileBrokenDescFilename") + UpdatePackageName)
@@ -367,8 +363,10 @@ namespace MaaWpfGui.ViewModels.UI
             /// </summary>
             NewVersionIsBeingBuilt,
 
-            // 只更新了游戏资源
-            OnlyGameReourceUpdated,
+            /// <summary>
+            /// 只更新了游戏资源
+            /// </summary>
+            OnlyGameResourceUpdated,
         }
 
         // ReSharper disable once IdentifierTypo
@@ -393,11 +391,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
+#if RELEASE
                 var ret = await CheckAndDownloadUpdate();
                 if (ret == CheckUpdateRetT.OK)
                 {
                     AskToRestart();
                 }
+#else
+                // 跑个空任务避免 async warning
+                await Task.Run(() => { });
+#endif
             }
         }
 
@@ -415,7 +418,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
                 Instances.SettingsViewModel.IsCheckingForUpdates = false;
-                return CheckUpdateRetT.OK;
+                return CheckUpdateRetT.OnlyGameResourceUpdated;
             }
 
             Instances.SettingsViewModel.IsCheckingForUpdates = false;
@@ -467,10 +470,10 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (!string.IsNullOrWhiteSpace(UpdateUrl))
                         {
-                            Process.Start(UpdateUrl);
+                            Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
                     });
-                await Execute.OnUIThreadAsync(() =>
+                _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
                     if (goDownload)
@@ -540,7 +543,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var tasks = urls.ConvertAll(url => Instances.HttpService.HeadAsync(new Uri(url)));
                 var latencies = await Task.WhenAll(tasks);
 
-                var proxy = ConfigFactory.Root.VersionUpdate.Proxy;
+                var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
                 var hasProxy = string.IsNullOrEmpty(proxy);
 
                 // select the fastest mirror
@@ -587,7 +590,7 @@ namespace MaaWpfGui.ViewModels.UI
                 else
                 {
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                    await Execute.OnUIThreadAsync(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.ButtonSystemUrl = UpdateUrl;
@@ -960,18 +963,5 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
         */
-
-        /// <summary>
-        /// The event handler of opening hyperlink.
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The event arguments.</param>
-        // xaml 里用到了
-        // ReSharper disable once UnusedMember.Global
-        // ReSharper disable once UnusedParameter.Global
-        public void OpenHyperlink(object sender, ExecutedRoutedEventArgs e)
-        {
-            Process.Start(e.Parameter.ToString());
-        }
     }
 }

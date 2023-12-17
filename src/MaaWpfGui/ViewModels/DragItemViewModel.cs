@@ -12,7 +12,6 @@
 // </copyright>
 
 using System;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using Stylet;
@@ -36,8 +35,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = name;
             _storageKey = storageKey;
-            var key = storageKey + name;
-            IsChecked = !ConfigFactory.CurrentConfig.DragItemIsChecked.TryGetValue(key, out var value) || value;
+            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, name, bool.TrueString));
         }
 
         /// <summary>
@@ -51,8 +49,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = originalName;
             _storageKey = storageKey;
-            var key = storageKey + originalName;
-            _isChecked = !ConfigFactory.CurrentConfig.DragItemIsChecked.TryGetValue(key, out var value) || value;
+            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
         }
 
         private string _originalName;
@@ -77,19 +74,29 @@ namespace MaaWpfGui.ViewModels
             set => SetAndNotify(ref _name, value);
         }
 
-        private bool _isChecked;
+        private bool? _isCheckedWithNull;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets whether the key is checked with null.
+        /// </summary>
+        public bool? IsCheckedWithNull
+        {
+            get => _isCheckedWithNull;
+            set
+            {
+                SetAndNotify(ref _isCheckedWithNull, value);
+                value ??= false;
+                ConfigurationHelper.SetCheckedStorage(_storageKey, OriginalName, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets whether the key is checked.
         /// </summary>
         public bool IsChecked
         {
-            get => _isChecked;
-            set
-            {
-                SetAndNotify(ref _isChecked, value);
-                ConfigFactory.CurrentConfig.DragItemIsChecked[_storageKey + OriginalName] = value;
-            }
+            get => IsCheckedWithNull != false;
+            set => IsCheckedWithNull = value;
         }
 
         // 换成图标的话要这个，暂时没用

@@ -111,7 +111,7 @@ AsstBool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, con
 AsstBool AsstConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config)
 {
     if (!inited() || handle == nullptr) {
-        asst::Log.error(__FUNCTION__, "Cannot connect to device, asst not inited or handle is nullptr", inited(), handle);
+        asst::Log.error(__FUNCTION__, "Cannot connect to device, asst not inited or handle is null", inited(), handle);
         return AsstFalse;
     }
 
@@ -152,6 +152,15 @@ AsstBool AsstConnected(AsstHandle handle)
     }
 
     return handle->connected() ? AsstTrue : AsstFalse;
+}
+
+AsstBool ASSTAPI AsstBackToHome(AsstHandle handle)
+{
+    if (!inited() || handle == nullptr) {
+        return AsstFalse;
+    }
+
+    return handle->back_to_home() ? AsstTrue : AsstFalse;
 }
 
 AsstAsyncCallId AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address, const char* config,

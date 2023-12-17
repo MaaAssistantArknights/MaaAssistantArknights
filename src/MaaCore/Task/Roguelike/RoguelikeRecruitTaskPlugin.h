@@ -1,7 +1,6 @@
 #pragma once
-#include "Task/AbstractTaskPlugin.h"
-
 #include "Common/AsstBattleDef.h"
+#include "AbstractRoguelikeTaskPlugin.h"
 
 namespace asst
 {
@@ -13,10 +12,10 @@ namespace asst
         int page_index = 0;        // 所在页码 (用于判断翻页方向)
         bool is_alternate = false; // 是否后备干员 (允许重复招募、划到后备干员时不再往右划动)
     };
-    class RoguelikeRecruitTaskPlugin : public AbstractTaskPlugin
+    class RoguelikeRecruitTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        using AbstractTaskPlugin::AbstractTaskPlugin;
+        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeRecruitTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
@@ -46,6 +45,5 @@ namespace asst
         bool recruit_appointed_char(const std::string& char_name, bool is_rtl = false);
         // 选择干员
         void select_oper(const battle::roguelike::Recruitment& oper);
-        bool get_status_bool(const std::string& key);
     };
 }

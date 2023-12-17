@@ -14,7 +14,7 @@
     d:DesignWidth="220"
     mc:Ignorable="d">
     <StackPanel>
-        <Grid Margin="0,5">
+        <Grid Margin="0,5" Visibility="{c:Binding 'ClientType == &quot;Official&quot; or ClientType == &quot;Bilibili&quot; or ClientType == &quot;&quot;'}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
@@ -24,9 +24,7 @@
                 IsReadOnly="{c:Binding !Idle}"
                 Style="{StaticResource TextBoxExtend}"
                 Text="{Binding AccountName, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="{DynamicResource AccountSwitchTip}"
-                Visibility="{c:Binding '(ClientType == &quot;Official&quot;) or (ClientType == &quot;Bilibili&quot;) or (ClientType == &quot;&quot;)'}" />
-
+                ToolTip="{DynamicResource AccountSwitchTip}" />
             <Button
                 Grid.Column="1"
                 Padding="12,1,12,1"
@@ -80,7 +78,7 @@
             Visibility="{c:Binding !AutoDetectConnection}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Width="{c:Binding ActualWidth - 20, RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                    <Grid Width="{c:Binding 'ActualWidth - 20', RelativeSource={RelativeSource AncestorType=ComboBox}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -93,7 +91,7 @@
                         <Button
                             Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Command="{s:Action RemoveAddress_Click}"
+                            Command="{s:Action RemoveAddressClick}"
                             CommandParameter="{Binding}"
                             Content="×"
                             FontWeight="Bold" />

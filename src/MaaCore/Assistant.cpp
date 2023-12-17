@@ -5,6 +5,7 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/Miscellaneous/OcrPack.h"
 #include "Config/ResourceLoader.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -34,6 +35,24 @@ using namespace asst;
 bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& value)
 {
     Log.info(__FUNCTION__, "| key", static_cast<int>(key), "value", value);
+
+    switch (key) {
+    case StaticOptionKey::CpuOCR: {
+        WordOcr::get_instance().use_cpu();
+        CharOcr::get_instance().use_cpu();
+        return true;
+    } break;
+    case StaticOptionKey::GpuOCR: {
+        int device_id = std::stoi(value);
+        WordOcr::get_instance().use_gpu(device_id);
+        CharOcr::get_instance().use_gpu(device_id);
+        return true;
+    } break;
+    default:
+        Log.error(__FUNCTION__, "| unknown key:", static_cast<int>(key));
+        break;
+    }
+
     return false;
 }
 
@@ -611,4 +630,9 @@ void Assistant::clear_cache()
 bool asst::Assistant::inited() const noexcept
 {
     return m_ctrler && m_ctrler->inited();
+}
+
+bool asst::Assistant::back_to_home() const
+{
+    return m_ctrler->back_to_home();
 }

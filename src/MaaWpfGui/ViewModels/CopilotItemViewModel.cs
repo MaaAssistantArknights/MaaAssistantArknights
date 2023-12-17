@@ -23,11 +23,13 @@ namespace MaaWpfGui.ViewModels
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="filePath">The original Name of file</param>
+        /// <param name="copilotId">作业站对应id，本地作业应为默认值0</param>
         /// <param name="isChecked">isChecked</param>
-        public CopilotItemViewModel(string name, string filePath, bool isChecked = true)
+        public CopilotItemViewModel(string name, string filePath, int copilotId = 0, bool isChecked = true)
         {
             Name = name;
             FilePath = filePath;
+            CopilotId = copilotId;
             _isChecked = isChecked;
         }
 
@@ -40,6 +42,11 @@ namespace MaaWpfGui.ViewModels
         /// Gets the name.
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// Gets or sets 作业站对应id，本地作业应为默认值0
+        /// </summary>
+        public int CopilotId { get; set; }
 
         private bool _isChecked;
 

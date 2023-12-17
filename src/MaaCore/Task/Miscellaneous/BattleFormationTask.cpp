@@ -38,6 +38,11 @@ void asst::BattleFormationTask::set_add_trust(bool add_trust)
     m_add_trust = add_trust;
 }
 
+void asst::BattleFormationTask::set_select_formation(int index)
+{
+    m_select_formation_index = index;
+}
+
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
 {
     m_data_resource = resource;
@@ -51,7 +56,12 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
+    if (m_select_formation_index > 0 && !select_formation(m_select_formation_index)) {
+        return false;
+    }
+
     if (!enter_selection_page()) {
+        save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
 
@@ -59,8 +69,7 @@ bool asst::BattleFormationTask::_run()
         add_formation(role, oper_groups);
     }
     if (m_add_user_additional) {
-
-        for (auto& [name, skill] : m_user_additional) {
+        for (const auto& [name, skill] : m_user_additional) {
             if (m_operators_in_formation.contains(name)) {
                 continue;
             }
@@ -240,8 +249,13 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     for (int i = 0; i < 8; ++i) {
         std::string task_name = "BattleQuickFormation-OperNameFlag" + std::to_string(i);
 
+        const auto& params = Task.get("BattleQuickFormationOCR")->special_params;
         TemplDetOCRer name_analyzer(image);
+
         name_analyzer.set_task_info(task_name, "BattleQuickFormationOCR");
+        name_analyzer.set_bin_threshold(params[0]);
+        name_analyzer.set_bin_expansion(params[1]);
+        name_analyzer.set_bin_trim_threshold(params[2], params[3]);
         name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
         auto cur_opt = name_analyzer.analyze();
         if (!cur_opt) {
@@ -253,7 +267,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
                 return std::abs(pre.flag_rect.x - res.flag_rect.x) < kMinDistance &&
                        std::abs(pre.flag_rect.y - res.flag_rect.y) < kMinDistance;
             });
-            if (find_it != opers_result.end()) {
+            if (find_it != opers_result.end() || res.text.empty()) {
                 continue;
             }
             opers_result.emplace_back(std::move(res));
@@ -276,7 +290,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
 
 bool asst::BattleFormationTask::enter_selection_page()
 {
-    return ProcessTask(*this, { "BattleQuickFormation" }).run();
+    return ProcessTask(*this, { "BattleQuickFormation" }).set_retry_times(3).run();
 }
 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
@@ -326,6 +340,9 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         ctrler()->click(res.rect);
         sleep(delay);
         if (1 <= skill && skill <= 3) {
+            if (skill == 3) {
+                ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
+            }
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
             sleep(delay);
         }
@@ -408,4 +425,18 @@ bool asst::BattleFormationTask::parse_formation()
 
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
+}
+
+bool asst::BattleFormationTask::select_formation(int select_index)
+{
+    // 编队不会触发改名的区域有两组
+    // 一组是上面的黑长条 260*9
+    // 第二组是名字最左边和最右边的一块区域
+    // 右边比左边窄，暂定为左边 10*58
+
+    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1", "BattleSelectFormation2",
+                                                                    "BattleSelectFormation3",
+                                                                    "BattleSelectFormation4" };
+
+    return ProcessTask { *this, { select_formation_task[select_index - 1] } }.run();
 }

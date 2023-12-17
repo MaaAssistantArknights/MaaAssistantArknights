@@ -14,6 +14,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -24,14 +25,16 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
+using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
+using Windows.UI.Notifications;
 
 namespace MaaWpfGui.Main
 {
@@ -41,9 +44,6 @@ namespace MaaWpfGui.Main
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
         private static ILogger _logger = Logger.None;
-
-        [DllImport("MaaCore.dll")]
-        private static extern IntPtr AsstGetVersion();
 
         // private static Mutex _mutex;
 
@@ -69,22 +69,22 @@ namespace MaaWpfGui.Main
             }
             */
 
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            Directory.SetCurrentDirectory(AppContext.BaseDirectory);
             if (Directory.Exists("debug") is false)
             {
                 Directory.CreateDirectory("debug");
             }
 
-            string logFilename = "debug/gui.log";
-            string logBakFilename = "debug/gui.bak.log";
-            if (File.Exists(logFilename) && new FileInfo(logFilename).Length > 4 * 1024 * 1024)
+            const string LogFilename = "debug/gui.log";
+            const string LogBakFilename = "debug/gui.bak.log";
+            if (File.Exists(LogFilename) && new FileInfo(LogFilename).Length > 4 * 1024 * 1024)
             {
-                if (File.Exists(logBakFilename))
+                if (File.Exists(LogBakFilename))
                 {
-                    File.Delete(logBakFilename);
+                    File.Delete(LogBakFilename);
                 }
 
-                File.Move(logFilename, logBakFilename);
+                File.Move(LogFilename, LogBakFilename);
             }
 
             // Bootstrap serilog
@@ -92,13 +92,14 @@ namespace MaaWpfGui.Main
                 .WriteTo.Debug(
                     outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .WriteTo.File(
-                    logFilename,
+                    LogFilename,
                     outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss.fff}] <{ThreadId}><{ThreadName}> {Message:lj}{NewLine}{Exception}")
                 .Enrich.FromLogContext()
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
-            var maaVersion = Marshal.PtrToStringAnsi(AsstGetVersion());
+            var uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
+            uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
                 : "Production";
@@ -110,7 +111,7 @@ namespace MaaWpfGui.Main
             _logger = Log.Logger.ForContext<Bootstrapper>();
             _logger.Information("===================================");
             _logger.Information("MaaAssistantArknights GUI started");
-            _logger.Information("Version {MaaVersion}", maaVersion);
+            _logger.Information("Version {UiVersion}", uiVersion);
             _logger.Information("Maa ENV: {MaaEnv}", maaEnv);
             _logger.Information("User Dir {CurrentDirectory}", Directory.GetCurrentDirectory());
             if (IsUserAdministrator())
@@ -165,13 +166,14 @@ namespace MaaWpfGui.Main
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
-            builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
             builder.Bind<StageManager>().ToSelf();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
 
             builder.Bind<IMaaHotKeyManager>().To<MaaHotKeyManager>().InSingletonScope();
             builder.Bind<IMaaHotKeyActionHandler>().To<MaaHotKeyActionHandler>().InSingletonScope();
+
+            builder.Bind<RemoteControlService>().To<RemoteControlService>().InSingletonScope();
 
             builder.Bind<IMainWindowManager>().To<MainWindowManager>().InSingletonScope();
 
@@ -197,14 +199,13 @@ namespace MaaWpfGui.Main
         {
             Task.Run(async () =>
             {
-                if (!Instances.AnnouncementViewModel.IsFirstShowAnnouncement)
+                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
                 {
                     return;
                 }
 
                 await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
                 _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
-                Instances.AnnouncementViewModel.IsFirstShowAnnouncement = false;
             });
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
@@ -227,11 +228,9 @@ namespace MaaWpfGui.Main
             var os = RuntimeInformation.OSDescription;
             if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
             {
-                ToastNotificationManagerCompat.History.Clear();
+                new ToastNotificationHistory().Clear();
             }
 
-            // 注销任务栏图标
-            Instances.TrayIcon.Close();
             ConfigurationHelper.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");

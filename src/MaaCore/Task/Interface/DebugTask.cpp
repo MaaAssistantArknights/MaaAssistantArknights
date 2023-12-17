@@ -4,20 +4,20 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/TaskData.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/Battle/BattlefieldClassifier.h"
 #include "Vision/Battle/BattlefieldMatcher.h"
+#include "Vision/Matcher.h"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
-#include "Vision/Matcher.h"
-#include "Config/TaskData.h"
 
 asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType) {}
 
 bool asst::DebugTask::run()
 {
-    test_match_template();
+    test_drops();
     return true;
 }
 

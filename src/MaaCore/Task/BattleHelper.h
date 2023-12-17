@@ -45,7 +45,8 @@ namespace asst
         bool use_skill(const std::string& name, bool keep_waiting = true);
         bool use_skill(const Point& loc, bool keep_waiting = true);
         bool check_pause_button(const cv::Mat& reusable = cv::Mat());
-        bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
+        bool check_skip_plot_button(const cv::Mat& reusable = cv::Mat());
+        virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true);
         virtual bool wait_until_start(bool weak = true);
         bool wait_until_end(bool weak = true);
         bool use_all_ready_skill(const cv::Mat& reusable = cv::Mat());
@@ -60,6 +61,8 @@ namespace asst
         bool click_retreat();                       // 这个是不带识别的，直接点
         bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
+        // 修正终点超出范围的滑动，纠正时是否需要顺时针旋转
+        void fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, int max_distance = INT_MAX, double radian = 0);
         bool move_camera(const std::pair<double, double>& delta);
 
         std::string analyze_detail_page_oper_name(const cv::Mat& image);
@@ -81,7 +84,7 @@ namespace asst
         int m_total_kills = 0;
         int m_cost = 0;
 
-        std::map<std::string, battle::DeploymentOper> m_cur_deployment_opers;
+        std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 
         std::map<std::string, Point> m_battlefield_opers;
         std::map<Point, std::string> m_used_tiles;

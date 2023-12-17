@@ -1,4 +1,4 @@
-﻿// <copyright file="PropertyChangedEventDetailArgs.cs" company="MaaAssistantArknights">
+// <copyright file="PropertyChangedEventDetailArgs.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -25,6 +25,7 @@ namespace MaaWpfGui.Configuration
             NewValue = newValue;
         }
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public object OldValue { get; private set; }
 
         public object NewValue { get; private set; }

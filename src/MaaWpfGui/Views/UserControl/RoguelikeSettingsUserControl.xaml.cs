@@ -10,8 +10,12 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#pragma warning disable SA1402
 
+using System;
+using System.Globalization;
 using System.Reflection;
+using System.Windows.Data;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -35,6 +39,28 @@ namespace MaaWpfGui.Views.UserControl
         private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
         {
             _setText?.Invoke(sender, _paras);
+        }
+    }
+
+    public class InvestmentButtonCheckedConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            string isEnabled = System.Convert.ToString(values[0]);
+            string roguelikeMode = System.Convert.ToString(values[1]);
+
+            if (roguelikeMode == "1" || roguelikeMode == "4")
+            {
+                return true;
+            }
+
+            return isEnabled == "True";
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            bool isEnabled = (bool)value;
+            return new object[] { isEnabled, isEnabled };
         }
     }
 }

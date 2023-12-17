@@ -1,4 +1,4 @@
-﻿// <copyright file="Root.cs" company="MaaAssistantArknights">
+// <copyright file="Root.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
@@ -43,6 +43,7 @@ namespace MaaWpfGui.Configuration
             set => Configurations[Current] = value;
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void OnPropertyChanged(string propertyName, object before, object after)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventDetailArgs(propertyName, before, after));

@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -54,13 +55,12 @@ namespace MaaWpfGui.Helper
                     return local;
                 }
 
-                foreach (var lang in SupportedLanguages)
+                foreach (var lang in from lang in SupportedLanguages
+                         let key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key
+                         where local.StartsWith(key) || key.StartsWith(local)
+                         select lang)
                 {
-                    var key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key;
-                    if (local.StartsWith(key) || key.StartsWith(local))
-                    {
-                        return lang.Key;
-                    }
+                    return lang.Key;
                 }
 
                 return "en-us";

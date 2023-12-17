@@ -10,18 +10,19 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-#pragma warning disable 0618
+#pragma warning disable CS0618
 #pragma warning disable SA1401
 
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
+using System.Security;
 using System.Windows;
 using HandyControl.Data;
 using Vanara.PInvoke;
 
-[assembly: SecurityPermission(SecurityAction.RequestMinimum, UnmanagedCode = true)]
+[assembly: SecurityCritical]
+[assembly: SecurityTreatAsSafe]
 
 namespace MaaWpfGui.Helper
 {
@@ -33,6 +34,7 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// OK text
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public static string OK = "OK";
 
         /// <summary>
@@ -200,11 +202,15 @@ namespace MaaWpfGui.Helper
                     config.mainIcon = (IntPtr)ComCtl32.TaskDialogIcon.TD_WARNING_ICON;
                     break;
                 case MessageBoxImage.Question:
-                    var iconinfo = new Shell32.SHSTOCKICONINFO() { cbSize = (uint)Marshal.SizeOf<Shell32.SHSTOCKICONINFO>() };
-                    Shell32.SHGetStockIconInfo(Shell32.SHSTOCKICONID.SIID_HELP, Shell32.SHGSI.SHGSI_ICON, ref iconinfo).ThrowIfFailed();
-                    config.mainIcon = iconinfo.hIcon.DangerousGetHandle();
+                    var iconInfo = new Shell32.SHSTOCKICONINFO { cbSize = (uint)Marshal.SizeOf<Shell32.SHSTOCKICONINFO>() };
+                    Shell32.SHGetStockIconInfo(Shell32.SHSTOCKICONID.SIID_HELP, Shell32.SHGSI.SHGSI_ICON, ref iconInfo).ThrowIfFailed();
+                    config.mainIcon = iconInfo.hIcon.DangerousGetHandle();
                     config.dwFlags |= ComCtl32.TASKDIALOG_FLAGS.TDF_USE_HICON_MAIN;
                     break;
+                case MessageBoxImage.None:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(icon), icon, null);
             }
 
             bool hasOk = false, hasCancel = false, hasYes = false, hasNo = false;
@@ -228,6 +234,8 @@ namespace MaaWpfGui.Helper
                     hasYes = true;
                     hasNo = true;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(buttons), buttons, null);
             }
 
             if (hasOk)

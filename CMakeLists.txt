@@ -15,8 +15,10 @@ option(INSTALL_RESOURCE "install resource" OFF)
 option(INSTALL_DEVEL "install development files" OFF)
 option(INSTALL_THIRD_LIBS "install third party libraries" ON)
 option(USE_MAADEPS "use third-party libraries built by MaaDeps" ON)
+option(WITH_THRIFT "build with thrift" OFF)
 
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/thrift-gen.cmake)
 
 if(USE_MAADEPS)
     include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
@@ -27,7 +29,7 @@ if (MSVC)
     add_compile_options("/MP")
     add_compile_options("/W4;/WX")
     add_compile_options("/wd4127")  # conditional expression is constant
-    add_compile_options("/Wv:19.35.32217")  # disable warning introduced after this version 
+    add_compile_options("/Wv:19.35.32217")  # disable warning introduced after this version
 
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 else ()
@@ -79,8 +81,16 @@ find_package(MaaDerpLearning REQUIRED)
 find_package(asio REQUIRED)
 find_package(ONNXRuntime)
 find_package(cpr CONFIG REQUIRED)
+if(WITH_THRIFT)
+    find_package(Thrift CONFIG REQUIRED)
+endif(WITH_THRIFT)
 
 target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime cpr::cpr header_only_libraries)
+
+if(WITH_THRIFT)
+    add_subdirectory(src/MaaThriftController)
+    target_link_libraries(MaaCore MaaThriftController)
+endif(WITH_THRIFT)
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)

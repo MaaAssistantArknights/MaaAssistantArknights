@@ -53,8 +53,8 @@ Matcher::ResultOpt PipelineAnalyzer::match(const std::shared_ptr<TaskInfo>& task
     Matcher match_analyzer(m_image, m_roi);
 
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
-    if (match_task_ptr->templ_threshold > 1.0) {
-        Log.info(match_task_ptr->name, "'s threshold is", match_task_ptr->templ_threshold, ", just skip");
+    if (ranges::all_of(match_task_ptr->templ_thresholds, [](double t) { return t > 1.0; })) {
+        Log.info(match_task_ptr->name, "'s threshold is", match_task_ptr->templ_thresholds, ", just skip");
         return std::nullopt;
     }
     match_analyzer.set_task_info(match_task_ptr);

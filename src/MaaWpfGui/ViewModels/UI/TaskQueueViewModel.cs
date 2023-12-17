@@ -30,6 +30,7 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
+using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -174,10 +175,18 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Running { get; set; }
 
+        public bool Closing { get; set; }
+
         private readonly DispatcherTimer _timer = new DispatcherTimer();
 
-        private bool ConfirmExit()
+        public bool ConfirmExit()
         {
+            if (Closing)
+            {
+                return false;
+            }
+
+            Closing = true;
             if (Application.Current.IsShuttingDown())
             {
                 // allow close if application is shutting down
@@ -196,8 +205,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            var window = Instances.MainWindowManager.GetWindowIfVisible();
-            var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("ConfirmExitText"),
+                LocalizationHelper.GetString("ConfirmExitTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            Closing = false;
             return result == MessageBoxResult.Yes;
         }
 
@@ -225,12 +238,11 @@ namespace MaaWpfGui.ViewModels.UI
                 UpdateStageList(false);
 
                 // 随机延迟，防止同时更新
-                var delayTime = new Random().Next(0, 10 * 60 * 1000);
+                var delayTime = new Random().Next(0, 60 * 60 * 1000);
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(delayTime);
                     await _stageManager.UpdateStageWeb();
-                    ResourceUpdater.UpdateAndToast();
                     UpdateDatePrompt();
                     UpdateStageList(false);
                 });
@@ -332,6 +344,8 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ResetFightVariables();
+                ResetTaskSelection();
+                RefreshCustomInfrastPlanIndexByPeriod();
             }
 
             LinkStart();
@@ -355,8 +369,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // "ReclamationAlgorithm",
             };
             var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili"
-                && DateTime.Now < new DateTime(2023, 10, 12))
+            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 06))
             {
                 taskList.Add("ReclamationAlgorithm");
             }
@@ -365,6 +378,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
@@ -670,8 +685,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private string _inverseShowText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
-                                            ? LocalizationHelper.GetString("Inverse")
-                                            : LocalizationHelper.GetString("Clear");
+            ? LocalizationHelper.GetString("Inverse")
+            : LocalizationHelper.GetString("Clear");
 
         /// <summary>
         /// Gets or private Sets the text to be displayed for "Select inversely".
@@ -683,8 +698,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         private string _inverseMenuText = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MainFunctionInverseMode, bool.FalseString))
-                                            ? LocalizationHelper.GetString("Clear")
-                                            : LocalizationHelper.GetString("Inverse");
+            ? LocalizationHelper.GetString("Clear")
+            : LocalizationHelper.GetString("Inverse");
 
         /// <summary>
         /// Gets or private sets the text of inversion menu.
@@ -732,6 +747,20 @@ namespace MaaWpfGui.ViewModels.UI
             else
             {
                 foreach (var item in TaskItemViewModels)
+                {
+                    item.IsChecked = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Reset unsaved task selection.
+        /// </summary>
+        public void ResetTaskSelection()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsCheckedWithNull == null)
                 {
                     item.IsChecked = false;
                 }
@@ -791,15 +820,15 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
-            if (!connected)
+            if (connected)
             {
-                AddLog(errMsg, UiLogColor.Error);
-                _runningState.SetIdle(true);
-                SetStopped();
-                return false;
+                return true;
             }
 
-            return true;
+            AddLog(errMsg, UiLogColor.Error);
+            _runningState.SetIdle(true);
+            SetStopped();
+            return false;
         }
 
         /// <summary>
@@ -814,9 +843,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             _runningState.SetIdle(false);
 
+            Instances.SettingsViewModel.SetupSleepManagement();
+
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
+
+            InfrastTaskRunning = true;
 
             ClearLog();
 
@@ -932,30 +965,84 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Stops.
+        /// <para>通常要和 <see cref="SetStopped()"/> 一起使用，除非能保证回调消息能收到 `AsstMsg.TaskChainStopped`</para>
+        /// <para>This is usually done with <see cref="SetStopped()"/> Unless you are guaranteed to receive the callback message `AsstMsg.TaskChainStopped`</para>
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task Stop()
+        /// <param name="timeout">Timeout millisecond</param>
+        /// <returns>A <see cref="Task"/>
+        /// <para>尝试等待 core 成功停止运行，默认超时时间一分钟</para>
+        /// <para>Try to wait for the core to stop running, the default timeout is one minute</para>
+        /// </returns>
+        public async Task<bool> Stop(int timeout = 60 * 1000)
         {
             Stopping = true;
             AddLog(LocalizationHelper.GetString("Stopping"));
-            await Task.Run(Instances.AsstProxy.AsstStop);
+            await Task.Run(() =>
+            {
+                if (!Instances.AsstProxy.AsstStop())
+                {
+                    _logger.Warning("Failed to stop Asst");
+                }
+            });
 
             int count = 0;
-            while (Instances.AsstProxy.AsstRunning() && count <= 600)
+            while (Instances.AsstProxy.AsstRunning() && count <= timeout / 100)
             {
                 await Task.Delay(100);
                 count++;
             }
+
+            return !Instances.AsstProxy.AsstRunning();
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void WaitAndStop()
+        {
+            Waiting = true;
+            AddLog(LocalizationHelper.GetString("Waiting"));
+            if (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete)
+            {
+                await WaitUntilRoguelikeCombatComplete();
+
+                if (Instances.AsstProxy.AsstRunning() && !Stopping)
+                {
+                    await Stop();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 等待肉鸽战斗结束，10分钟强制退出
+        /// </summary>
+        private async Task WaitUntilRoguelikeCombatComplete()
+        {
+            int time = 0;
+            while (Instances.SettingsViewModel.RoguelikeDelayAbortUntilCombatComplete && RoguelikeInCombatAndShowWait && time < 600 && !Stopping)
+            {
+                await Task.Delay(1000);
+                ++time;
+            }
+        }
+
+        private bool _roguelikeInCombatAndShowWait;
+
+        public bool RoguelikeInCombatAndShowWait
+        {
+            get => _roguelikeInCombatAndShowWait;
+            set => SetAndNotify(ref _roguelikeInCombatAndShowWait, value);
         }
 
         public void SetStopped()
         {
+            SleepManagement.AllowSleep();
+
             if (!_runningState.GetIdle() || Stopping)
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));
             }
 
+            Waiting = false;
             Stopping = false;
             _runningState.SetIdle(true);
         }
@@ -1103,7 +1190,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Sets parameters.
         /// </summary>
-        private void SetFightParams()
+        public void SetFightParams()
         {
             if (!EnableSetFightParams)
             {
@@ -1174,25 +1261,33 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
+        private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new Dictionary<string, IEnumerable<string>>
+        {
+            { string.Empty, new[] { "讯使", "嘉维尔", "坚雷" } },
+            { "Official", new[] { "讯使", "嘉维尔", "坚雷" } },
+            { "Bilibili", new[] { "讯使", "嘉维尔", "坚雷" } },
+            { "YoStarEN", new[] { "Courier", "Gavial", "Dur-nar" } },
+            { "YoStarJP", new[] { "クーリエ", "ガヴィル", "ジュナー" } },
+            { "YoStarKR", new[] { "쿠리어", "가비알", "듀나" } },
+            { "txwy", new[] { "訊使", "嘉維爾", "堅雷" } },
+        };
+
         private bool AppendMall()
         {
-            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；');
-            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；');
-            for (var i = 0; i < buyFirst.Length; ++i)
-            {
-                buyFirst[i] = buyFirst[i].Trim();
-            }
+            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；')
+                .Select(s => s.Trim());
 
-            for (var i = 0; i < blackList.Length; ++i)
-            {
-                blackList[i] = blackList[i].Trim();
-            }
+            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；')
+                .Select(s => s.Trim());
+
+            blackList = blackList.Union(_blackCharacterListMapping[Instances.SettingsViewModel.ClientType]);
 
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
+                Instances.SettingsViewModel.CreditFightSelectFormation,
                 Instances.SettingsViewModel.CreditShopping,
-                buyFirst,
-                blackList,
+                buyFirst.ToArray(),
+                blackList.ToArray(),
                 Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
         }
 
@@ -1233,9 +1328,11 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
+            int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
+                selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()
@@ -1244,7 +1341,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
-                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
+                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentEnterSecondFloor, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
                 Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar,
                 Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
@@ -1722,6 +1819,7 @@ namespace MaaWpfGui.ViewModels.UI
             int pid = 0;
             string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
             var port = address.StartsWith("127") ? address.Substring(10) : "5555";
+            _logger.Information($"address: {address}, port: {port}");
 
             string portCmd = "netstat -ano|findstr \"" + port + "\"";
             Process checkCmd = new Process
@@ -1771,9 +1869,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     string[] arr = line.Split(',');
                     if (arr.Length >= 2
-                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal))
-                        && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal))
-                        && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
+                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)))
                     {
                         continue;
                     }
@@ -1884,6 +1980,11 @@ namespace MaaWpfGui.ViewModels.UI
             /// Exits MAA and, if no other processes of MAA are running, computer shutdown.
             /// </summary>
             ExitSelfIfOtherMaaElseShutdown,
+
+            /// <summary>
+            /// Switch the game to background without killing it.
+            /// </summary>
+            BackToAndroidHome,
         }
 
         /// <summary>
@@ -2003,6 +2104,10 @@ namespace MaaWpfGui.ViewModels.UI
                         goto case ActionType.Shutdown;
                     }
 
+                case ActionType.BackToAndroidHome:
+                    Instances.AsstProxy.AsstBackToHome();
+                    break;
+
                 default:
                     Execute.OnUIThread(() =>
                     {
@@ -2029,7 +2134,7 @@ namespace MaaWpfGui.ViewModels.UI
             NotifyOfPropertyChange(nameof(Inited));
         }
 
-        private bool _idle = true;
+        private bool _idle;
 
         /// <summary>
         /// Gets or sets a value indicating whether it is idle.
@@ -2059,6 +2164,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _stopping;
             private set => SetAndNotify(ref _stopping, value);
+        }
+
+        private bool _waiting;
+
+        /// <summary>
+        /// Gets a value indicating whether waiting for roguelike combat complete.
+        /// </summary>
+        public bool Waiting
+        {
+            // UI 会根据这个值来改变 Visibility
+            // ReSharper disable once UnusedMember.Global
+            get => _waiting;
+            private set => SetAndNotify(ref _waiting, value);
         }
 
         private bool _fightTaskRunning;
@@ -2564,7 +2682,7 @@ namespace MaaWpfGui.ViewModels.UI
             RefreshCustomInfrastPlanIndexByPeriod();
         }
 
-        private void RefreshCustomInfrastPlanIndexByPeriod()
+        public void RefreshCustomInfrastPlanIndexByPeriod()
         {
             if (!CustomInfrastEnabled || !_customInfrastPlanHasPeriod || InfrastTaskRunning)
             {
@@ -2575,7 +2693,7 @@ namespace MaaWpfGui.ViewModels.UI
             foreach (var plan in CustomInfrastPlanInfoList.Where(
                 plan => plan.PeriodList.Any(
                     period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
-                              && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+                        && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
             {
                 CustomInfrastPlanIndex = plan.Index;
                 return;
