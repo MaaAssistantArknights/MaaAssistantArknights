@@ -1,6 +1,8 @@
 #pragma once
 #include "Task/AbstractTask.h"
 
+#include <vector>
+
 namespace asst
 {
     class AccountSwitchTask : public AbstractTask
@@ -33,7 +35,7 @@ namespace asst
         std::string m_account;
         std::string m_target_account;
         std::string m_client_type; // 客户端类型
-        static constexpr std::array<std::string, 2>
+        const std::vector<std::string>
             SupportedClientType = { "Official", "Bilibili" /*, "YoStarEN", "YoStarJP", "YoStarKR", "txwy" */ };
     };
 }
