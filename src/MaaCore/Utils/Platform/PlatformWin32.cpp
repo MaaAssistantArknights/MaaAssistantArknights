@@ -135,19 +135,42 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
         return {};
     }
 
-    STARTUPINFOW si {};
-    si.cb = sizeof(STARTUPINFOW);
-    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-    si.hStdOutput = pipe_child_write;
-    si.hStdError = pipe_child_write;
+    STARTUPINFOEXW si {};
+    si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
+    si.StartupInfo.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.StartupInfo.wShowWindow = SW_HIDE;
+    si.StartupInfo.hStdOutput = pipe_child_write;
+    si.StartupInfo.hStdError = pipe_child_write;
     ASST_AUTO_DEDUCED_ZERO_INIT_START
     PROCESS_INFORMATION process_info = { nullptr };
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
+    std::vector<uint8_t> attrs;
+    size_t attrsize = 0;
+    InitializeProcThreadAttributeList(nullptr, 1, 0, &attrsize);
+    if (attrsize == 0) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        return {};
+    }
+    attrs.resize(attrsize);
+    si.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attrs.data());
+    auto attr_success = InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attrsize);
+    if (!attr_success) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        return {};
+    }
+    attr_success = UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_HANDLE_LIST, &pipe_child_write, sizeof(HANDLE), nullptr, nullptr);
+    if (!attr_success) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmdline, "` UpdateProcThreadAttribute failed, ret error code:", err);
+        return {};
+    }
     auto cmdline_osstr = to_osstring(cmdline);
     BOOL create_ret =
-        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
+        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, EXTENDED_STARTUPINFO_PRESENT, nullptr, nullptr, &si.StartupInfo, &process_info);
+    DeleteProcThreadAttributeList(si.lpAttributeList);
     if (!create_ret) {
         DWORD err = GetLastError();
         Log.error("Call `", cmdline, "` create process failed, ret", create_ret, "error code:", err);
