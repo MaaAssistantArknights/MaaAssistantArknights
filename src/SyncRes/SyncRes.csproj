@@ -6,6 +6,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <EnableDefaultItems>false</EnableDefaultItems>
+    <Nullable>disable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="non-exist-file" />
