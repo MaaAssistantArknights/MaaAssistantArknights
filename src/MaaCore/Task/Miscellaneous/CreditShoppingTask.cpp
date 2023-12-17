@@ -72,19 +72,39 @@ int asst::CreditShoppingTask::credit_ocr()
     return std::stoi(credit);
 }
 
-int asst::CreditShoppingTask::discount_ocr()
+int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
 {
+    const auto discount_ocr_task_ptr = Task.get<OcrTaskInfo>("CreditShop-DiscountOcr");
+    Rect discount_roi = discount_ocr_task_ptr->roi;
+
+    int x_pos = 0, y_pos = 0;
+
+    if (commodity.x < 200) x_pos = 0;
+    else if (commodity.x < 455) x_pos = 1;
+    else if (commodity.x < 710) x_pos = 2;
+    else if (commodity.x < 965) x_pos = 3;
+    else x_pos = 4;
+
+    if (commodity.y < 400) y_pos = 0;
+    else y_pos = 1;
+
+    discount_roi.x += Discount_Roi_X[x_pos];
+    discount_roi.y += Discount_Roi_Y[y_pos];
+
     cv::Mat discount_image = ctrler()->get_image();
     OCRer discount_analyzer(discount_image);
     discount_analyzer.set_task_info("CreditShop-DiscountOcr");
+    discount_analyzer.set_roi(discount_roi);
 
-    if (!discount_analyzer.analyze()) {
-        return 0;
-    }
+    if (!discount_analyzer.analyze()) return 0;
 
     std::string discount = discount_analyzer.get_result().front().text;
 
-    if (!discount.empty() && discount.front() == '-') discount = discount.substr(1, discount.size() - 1);
+    if (discount.size()<=1||discount.size()>=5) return 0;
+
+    if (discount.front() == '-') discount = discount.substr(1, discount.size() - 1);
+
+    if (discount.back() == '%') discount.pop_back();
 
     Log.trace("discount:", discount);
 
@@ -121,13 +141,9 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
             if (credit <= MaxCredit) break;
         }
 
-        ctrler()->click(commodity);
-
         if (!m_is_white_list && m_only_buy_discount) {
-            sleep(500); // 等待click进入商品信息界面
-            int discount = discount_ocr();
+            int discount = discount_ocr(commodity);
             if (discount <= 0) {
-                click_return_button();
                 int credit = credit_ocr();
                 if (credit > MaxCredit && m_info_credit_full) {
                     json::value cb_info = basic_info();
@@ -140,6 +156,8 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
                 break;
             }
         }
+
+        ctrler()->click(commodity);
 
         ProcessTask(*this, { "CreditShop-BuyIt" }).run();
 

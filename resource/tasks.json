@@ -5757,10 +5757,10 @@
         "isAscii": true,
         "text": [],
         "roi": [
-            1053,
-            104,
-            85,
-            77
+            0,
+            0,
+            60,
+            30
         ]
     },
     "CreditShop-ProductName": {

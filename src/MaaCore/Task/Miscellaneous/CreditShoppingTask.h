@@ -18,6 +18,8 @@ namespace asst
         void set_white_list(std::vector<std::string> white_list);
 
         static constexpr int MaxCredit = 300;
+        static constexpr int Discount_Roi_X[5] = { 20, 272, 524, 778, 1031 };
+        static constexpr int Discount_Roi_Y[2] = { 187, 439 };
 
         CreditShoppingTask& set_force_shopping_if_credit_full(bool force_shopping_if_credit_full) noexcept;
         CreditShoppingTask& set_only_buy_discount(bool only_buy_discount) noexcept;
@@ -32,8 +34,8 @@ namespace asst
         bool m_info_credit_full = false; // 设置是否在不购买黑名单物品阶段通知信用点溢出
         int credit_ocr();
 
-        // 用于识别商品信息右上角的折扣信息（需要先点开具体信用商品,且设置sleep(time)防止点开商品的延迟导致截图识别错误）
-        int discount_ocr(); 
+        // 用于在信用商店界面识别商品信息左上角的折扣信息
+        int discount_ocr(const Rect& commodity); 
 
         bool credit_shopping(bool white_list_enabled, bool credit_ocr_enabled);
 
