@@ -86,6 +86,12 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         RegionOCRer ocr(image);
         ocr.set_task_info(m_config->get_theme() + "@" + task_name);
         ocr.set_bin_threshold(50, 255);
+        const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
+        const auto& task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
+
+        using ReplaceMap = std::vector<std::pair<std::string, std::string>>;
+        auto merge_view = ranges::join_view(std::array<ReplaceMap, 2>(number_replace, task_replace));
+        ocr.set_replace(ReplaceMap(merge_view.begin(), merge_view.end()));
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
             return;
