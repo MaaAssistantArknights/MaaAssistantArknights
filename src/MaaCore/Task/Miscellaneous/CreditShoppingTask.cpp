@@ -100,13 +100,13 @@ int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
 
     std::string discount = discount_analyzer.get_result().front().text;
 
+    Log.trace("discount:", discount);
+
     if (discount.size()<=1||discount.size()>=5) return 0;
 
     if (discount.front() == '-') discount = discount.substr(1, discount.size() - 1);
 
     if (discount.back() == '%') discount.pop_back();
-
-    Log.trace("discount:", discount);
 
     if (discount.empty() || !ranges::all_of(discount, [](char c) -> bool { return std::isdigit(c); })) return 0;
 
