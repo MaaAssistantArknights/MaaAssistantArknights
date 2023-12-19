@@ -133,7 +133,7 @@ jobs:
           } else {
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
           }
-          git commit -m "$commit_msg" -m "" -m "[skip changelog]"
+          git commit -m "$commit_msg" -m "[skip changelog]"
           if ($LASTEXITCODE -eq 0) {
             echo "have_commits=True" >> $env:GITHUB_OUTPUT
           }
