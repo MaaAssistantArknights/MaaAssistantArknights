@@ -12,6 +12,8 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Models;
 using Stylet;
@@ -35,7 +37,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = name;
             _storageKey = storageKey;
-            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, name, bool.TrueString));
+            IsChecked = ConfigFactory.CurrentConfig.DragItemIsChecked.GetValueOrDefault(storageKey + name, true);
         }
 
         /// <summary>
@@ -49,7 +51,7 @@ namespace MaaWpfGui.ViewModels
             Name = name;
             OriginalName = originalName;
             _storageKey = storageKey;
-            IsChecked = Convert.ToBoolean(ConfigurationHelper.GetCheckedStorage(storageKey, originalName, bool.TrueString));
+            IsChecked = ConfigFactory.CurrentConfig.DragItemIsChecked.GetValueOrDefault(storageKey + originalName, true);
         }
 
         private string _originalName;
@@ -85,8 +87,7 @@ namespace MaaWpfGui.ViewModels
             set
             {
                 SetAndNotify(ref _isCheckedWithNull, value);
-                value ??= false;
-                ConfigurationHelper.SetCheckedStorage(_storageKey, OriginalName, value.ToString());
+                ConfigFactory.CurrentConfig.DragItemIsChecked[_storageKey + OriginalName] = value.GetValueOrDefault(false);
             }
         }
 

@@ -215,7 +215,7 @@ namespace MaaWpfGui.Configuration
             });
         }
 
-        private static void Release()
+        public static void Release()
         {
             lock (_lock)
             {
@@ -283,6 +283,21 @@ namespace MaaWpfGui.Configuration
 
             Root.Configurations.Remove(configName);
             return true;
+        }
+
+        public static List<string> ConfigList
+        {
+            get
+            {
+                List<string> lists = new List<string>(Root.Configurations.Count);
+                using IEnumerator<KeyValuePair<string, SpecificConfig>> enumerator = Root.Configurations.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    lists.Add(enumerator.Current.Key);
+                }
+
+                return lists;
+            }
         }
     }
 }

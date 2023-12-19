@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 using ObservableCollections;

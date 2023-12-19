@@ -212,9 +212,9 @@ namespace MaaWpfGui.ViewModels.UI
             for (int i = 0; i != facilityList.Length; ++i)
             {
                 var facility = facilityList[i];
-                bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
+                int order = ConfigFactory.CurrentConfig.InfrastOrder.GetValueOrDefault(facility, -1);
 
-                if (!parsed || order < 0)
+                if (order < 0)
                 {
                     tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
@@ -295,7 +295,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void InitConfiguration()
         {
             var configurations = new ObservableCollection<CombinedData>();
-            foreach (var conf in ConfigurationHelper.GetConfigurationList())
+            foreach (var conf in ConfigFactory.ConfigList)
             {
                 configurations.Add(new CombinedData { Display = conf, Value = conf });
             }
@@ -1352,7 +1352,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public ObservableCollection<CombinedData> ConfigurationList { get; set; }
 
-        private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+        private string _currentConfiguration = ConfigFactory.Root.Current;
 
         public string CurrentConfiguration
         {
@@ -1360,7 +1360,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _currentConfiguration, value);
-                ConfigurationHelper.SwitchConfiguration(value);
+                ConfigFactory.SwitchConfig(value);
 
                 Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
@@ -1383,7 +1383,7 @@ namespace MaaWpfGui.ViewModels.UI
                 NewConfigurationName = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
             }
 
-            if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
+            if (ConfigFactory.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
@@ -1413,7 +1413,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void DeleteConfiguration(CombinedData delete)
         {
-            if (ConfigurationHelper.DeleteConfiguration(delete.Display))
+            if (ConfigFactory.DeleteConfiguration(delete.Display))
             {
                 ConfigurationList.Remove(delete);
             }
@@ -1504,7 +1504,7 @@ namespace MaaWpfGui.ViewModels.UI
             int index = 0;
             foreach (var item in InfrastItemViewModels)
             {
-                ConfigurationHelper.SetFacilityOrder(item.OriginalName, index.ToString());
+                ConfigFactory.CurrentConfig.InfrastOrder[item.OriginalName] = index;
                 ++index;
             }
         }
@@ -2230,9 +2230,9 @@ namespace MaaWpfGui.ViewModels.UI
                     _isOn = isOn;
                     _hour = hour;
                     _min = min;
-                    if (timerConfig == null || !ConfigurationHelper.GetConfigurationList().Contains(timerConfig))
+                    if (timerConfig == null || !ConfigFactory.Root.Configurations.ContainsKey(timerConfig))
                     {
-                        _timerConfig = ConfigurationHelper.GetCurrentConfiguration();
+                        _timerConfig = ConfigFactory.Root.Current;
                     }
                     else
                     {
@@ -2259,7 +2259,9 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _isOn = value;
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimer(TimerId, value.ToString());
+                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
+                        timer.Enable = value;
+                        ConfigFactory.Root.Timers[TimerId] = timer;
                     }
                 }
 
@@ -2275,7 +2277,9 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _hour = (value >= 0 && value <= 23) ? value : _hour;
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
+                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
+                        timer.Hour = _hour;
+                        ConfigFactory.Root.Timers[TimerId] = timer;
                     }
                 }
 
@@ -2291,7 +2295,9 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _min = (value >= 0 && value <= 59) ? value : _min;
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
+                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
+                        timer.Minute = _min;
+                        ConfigFactory.Root.Timers[TimerId] = timer;
                     }
                 }
 
@@ -2305,9 +2311,11 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _timerConfig;
                     set
                     {
-                        _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
+                        _timerConfig = value ?? ConfigFactory.Root.Current;
                         OnPropertyChanged();
-                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
+                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
+                        timer.Config = _timerConfig;
+                        ConfigFactory.Root.Timers[TimerId] = timer;
                     }
                 }
 
@@ -2323,12 +2331,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    Timers[i] = new TimerProperties(
-                        i,
-                        ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
-                        int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
-                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
-                        ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration()));
+                    MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(i, new Configuration.Timer());
+                    Timers[i] = new TimerProperties(i, timer.Enable, timer.Hour, timer.Minute, timer.Config);
                 }
             }
         }

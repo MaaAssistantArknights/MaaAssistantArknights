@@ -35,6 +35,7 @@ using Serilog.Core;
 using Stylet;
 using StyletIoC;
 using Windows.UI.Notifications;
+using MaaWpfGui.Configuration;
 
 namespace MaaWpfGui.Main
 {
@@ -232,6 +233,7 @@ namespace MaaWpfGui.Main
             }
 
             ConfigurationHelper.Release();
+            ConfigFactory.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
             _logger.Information(string.Empty);
