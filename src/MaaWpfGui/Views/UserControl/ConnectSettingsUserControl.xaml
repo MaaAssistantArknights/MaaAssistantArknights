@@ -19,10 +19,12 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100" />
-            <ColumnDefinition Width="270" />
+            <ColumnDefinition Width="320" />
             <ColumnDefinition Width="150" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
@@ -253,5 +255,30 @@
             Drop="EndsWithScript_Drop"
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
+        <StackPanel
+            Grid.Row="10"
+            Grid.Column="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource BlockSleep}"
+                IsChecked="{Binding BlockSleep}" />
+            <CheckBox
+                Margin="10"
+                VerticalAlignment="Center"
+                Content="{DynamicResource BlockSleepWithScreenOn}"
+                IsChecked="{Binding BlockSleepWithScreenOn}"
+                Visibility="{c:Binding BlockSleep}" />
+        </StackPanel>
+        <controls:TextBlock
+            Grid.Row="11"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Center"
+            Text="{c:Binding ScreencapCost}" />
     </Grid>
 </UserControl>

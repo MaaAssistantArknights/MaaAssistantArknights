@@ -44,6 +44,8 @@ namespace MaaWpfGui.Constants
 
         public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
         public const string AnnMirrorResourceApi = "https://maa-ota.annangela.cn/MaaAssistantArknights/MaaAssistantArknights/";
+        public const string S3ResourceApi = "https://s3.maa-org.net:25240/maa-resources/MaaAssistantArknights/MaaAssistantArknights/";
+        public const string R2ResourceApi = "https://maa.r2.imgg.dev/MaaAssistantArknights/MaaAssistantArknights/";
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";
 
@@ -63,24 +65,24 @@ namespace MaaWpfGui.Constants
 
         private static readonly Dictionary<string, string> _overseasAdaptation = new Dictionary<string, string>
         {
-            { "zh-cn", "2.5-外服适配教程.html" },
+            { "zh-cn", "开发文档/外服适配教程.html" },
             { "en-us", "en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
             { "ja-jp", "ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
             { "ko-kr", "ko-kr/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
             { "zh-tw", "zh-tw/2.5-外服適配教程.html" },
-            { "pallas", "KeepDrinking" },
+            { "pallas", "KeepDrinking.html" },
         };
 
         private static readonly Dictionary<string, string> _helpUrl = new Dictionary<string, string>
         {
-            { "zh-cn", "1.2-常见问题.html" },
+            { "zh-cn", "用户手册/常见问题.html" },
             { "en-us", "en-us/1.2-FAQ.html" },
             { "ja-jp", "ja-jp/1.2-よくある質問.html" },
             { "ko-kr", "ko-kr/1.2-FAQ.html" },
             { "zh-tw", "zh-tw/1.2-常見問題.html" },
-            { "pallas", "KeepDrinking" },
+            { "pallas", "KeepDrinking.html" },
         };
 
-        public const string RemoteControlDocument = "https://maa.plus/docs/3.8-%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AE.html";
+        public const string RemoteControlDocument = "https://maa.plus/docs/协议文档/远程控制协议.html";
     }
 }

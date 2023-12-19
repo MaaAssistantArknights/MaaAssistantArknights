@@ -335,53 +335,106 @@ namespace asst
         }
         return "Invalid";
     }
+
+    enum class TaskDerivedType
+    {
+        Invalid = -1,
+        Raw,      // 原始任务
+        BaseTask, // BaseTask
+        Implicit, // 隐式 TemplateTask
+        Template, // 显式 TemplateTask
+    };
+
+    inline std::string enum_to_string(TaskDerivedType task_derived_type)
+    {
+        static const std::unordered_map<TaskDerivedType, std::string> task_derived_type_map = {
+            { TaskDerivedType::Raw, "Raw" },
+            { TaskDerivedType::BaseTask, "BaseTask" },
+            { TaskDerivedType::Implicit, "Implicit" },
+            { TaskDerivedType::Template, "Template" },
+        };
+        if (auto it = task_derived_type_map.find(task_derived_type); it != task_derived_type_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
 } // namespace asst
 
 namespace asst
 {
-    // 任务信息
-    struct TaskInfo
+    using TaskList = std::vector<std::string>;
+
+    // 任务流程信息
+    struct TaskPipelineInfo
     {
-        TaskInfo() = default;
-        virtual ~TaskInfo() = default;
-        TaskInfo(const TaskInfo&) = default;
-        TaskInfo(TaskInfo&&) noexcept = default;
-        TaskInfo& operator=(const TaskInfo&) = default;
-        TaskInfo& operator=(TaskInfo&&) noexcept = default;
-        std::string name;         // 任务名
-        AlgorithmType algorithm = // 图像算法类型
-            AlgorithmType::Invalid;
-        ProcessTaskAction action = // 要进行的操作
-            ProcessTaskAction::Invalid;
-        std::vector<std::string> sub;           // 子任务（列表）
-        bool sub_error_ignored = false;         // 子任务如果失败了，是否继续执行剩下的任务
-        std::vector<std::string> next;          // 下一个可能的任务（列表）
-        int max_times = INT_MAX;                // 任务最多执行多少次
-        std::vector<std::string> exceeded_next; // 达到最多次数了之后，下一个可能的任务（列表）
-        std::vector<std::string> on_error_next; // 任务出错之后要去执行什么
-        std::vector<std::string> reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。
-                                                     // 例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，
-                                                     // 所以蓝色开始行动要-1
-        Rect specific_rect;        // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
-        int pre_delay = 0;         // 执行该任务前的延时
-        int post_delay = 0;        // 执行该任务后的延时
-        int retry_times = INT_MAX; // 未找到图像时的重试次数
-        Rect roi;                  // 要识别的区域，若为0则全图识别
+        constexpr TaskPipelineInfo() = default;
+        constexpr virtual ~TaskPipelineInfo() = default;
+        constexpr TaskPipelineInfo(const TaskPipelineInfo&) = default;
+        constexpr TaskPipelineInfo(TaskPipelineInfo&&) noexcept = default;
+        constexpr TaskPipelineInfo& operator=(const TaskPipelineInfo&) = default;
+        constexpr TaskPipelineInfo& operator=(TaskPipelineInfo&&) noexcept = default;
+        std::string name;       // 任务名
+        TaskList next;          // 下一个可能的任务（列表）
+        TaskList sub;           // 子任务（列表）
+        TaskList on_error_next; // 任务出错之后要去执行什么
+        TaskList exceeded_next; // 达到最多次数了之后，下一个可能的任务（列表）
+        TaskList reduce_other_times; // 执行了该任务后，需要减少别的任务的执行次数。例如执行了吃理智药，
+                                     // 则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
+    };
+    using TaskPipelinePtr = std::shared_ptr<TaskPipelineInfo>;
+    using TaskPipelineConstPtr = std::shared_ptr<const TaskPipelineInfo>;
+
+    // 任务继承信息
+    struct TaskDerivedInfo : public TaskPipelineInfo
+    {
+        constexpr TaskDerivedInfo() = default;
+        constexpr virtual ~TaskDerivedInfo() = default;
+        constexpr TaskDerivedInfo(const TaskDerivedInfo&) = default;
+        constexpr TaskDerivedInfo(TaskDerivedInfo&&) noexcept = default;
+        constexpr TaskDerivedInfo& operator=(const TaskDerivedInfo&) = default;
+        constexpr TaskDerivedInfo& operator=(TaskDerivedInfo&&) noexcept = default;
+        TaskDerivedType type = TaskDerivedType::Raw; // 任务类型
+        std::string base = "";                       // 继承自哪个任务（Raw 任务不需要）
+        std::string prefix = "";                     // 需要添加的前缀（仅对 TemplateTask 生效）
+    };
+    using TaskDerivedPtr = std::shared_ptr<TaskDerivedInfo>;
+    using TaskDerivedConstPtr = std::shared_ptr<const TaskDerivedInfo>;
+
+    // 任务信息
+    struct TaskInfo : public TaskPipelineInfo
+    {
+        constexpr TaskInfo() = default;
+        constexpr virtual ~TaskInfo() = default;
+        constexpr TaskInfo(const TaskInfo&) = default;
+        constexpr TaskInfo(TaskInfo&&) noexcept = default;
+        constexpr TaskInfo& operator=(const TaskInfo&) = default;
+        constexpr TaskInfo& operator=(TaskInfo&&) noexcept = default;
+        AlgorithmType algorithm = AlgorithmType::Invalid;      // 图像算法类型
+        ProcessTaskAction action = ProcessTaskAction::Invalid; // 要进行的操作
+        bool sub_error_ignored = false; // 子任务如果失败了，是否继续执行剩下的任务
+        int max_times = INT_MAX;        // 任务最多执行多少次
+        Rect specific_rect;             // 指定区域，目前仅针对ClickRect任务有用，会点这个区域
+        int pre_delay = 0;              // 执行该任务前的延时
+        int post_delay = 0;             // 执行该任务后的延时
+        int retry_times = INT_MAX;      // 未找到图像时的重试次数
+        Rect roi;                       // 要识别的区域，若为0则全图识别
         Rect rect_move;     // 识别结果移动：有些结果识别到的，和要点击的不是同一个位置。
                             // 即识别到了res，点击res + result_move的位置
         bool cache = false; // 是否使用缓存区域
         std::vector<int> special_params; // 某些任务会用到的特殊参数
     };
+    using TaskPtr = std::shared_ptr<TaskInfo>;
+    using TaskConstPtr = std::shared_ptr<const TaskInfo>;
 
     // 文字识别任务的信息
     struct OcrTaskInfo : public TaskInfo
     {
-        OcrTaskInfo() = default;
-        virtual ~OcrTaskInfo() override = default;
-        OcrTaskInfo(const OcrTaskInfo&) = default;
-        OcrTaskInfo(OcrTaskInfo&&) noexcept = default;
-        OcrTaskInfo& operator=(const OcrTaskInfo&) = default;
-        OcrTaskInfo& operator=(OcrTaskInfo&&) noexcept = default;
+        constexpr OcrTaskInfo() = default;
+        constexpr virtual ~OcrTaskInfo() override = default;
+        constexpr OcrTaskInfo(const OcrTaskInfo&) = default;
+        constexpr OcrTaskInfo(OcrTaskInfo&&) noexcept = default;
+        constexpr OcrTaskInfo& operator=(const OcrTaskInfo&) = default;
+        constexpr OcrTaskInfo& operator=(OcrTaskInfo&&) noexcept = default;
         std::vector<std::string> text; // 文字的容器，匹配到这里面任一个，就算匹配上了
         bool full_match = false;       // 是否需要全匹配，否则搜索到子串就算匹配上了
         bool is_ascii = false;         // 是否启用字符数字模型
@@ -390,38 +443,41 @@ namespace asst
         std::vector<std::pair<std::string, std::string>>
             replace_map; // 部分文字容易识别错，字符串强制replace之后，再进行匹配
     };
+    using OcrTaskPtr = std::shared_ptr<OcrTaskInfo>;
+    using OcrTaskConstPtr = std::shared_ptr<const OcrTaskInfo>;
 
     // 图片匹配任务的信息
     struct MatchTaskInfo : public TaskInfo
     {
-        MatchTaskInfo() = default;
-        virtual ~MatchTaskInfo() override = default;
-        MatchTaskInfo(const MatchTaskInfo&) = default;
-        MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
-        MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
-        MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
+        constexpr MatchTaskInfo() = default;
+        constexpr virtual ~MatchTaskInfo() override = default;
+        constexpr MatchTaskInfo(const MatchTaskInfo&) = default;
+        constexpr MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
+        constexpr MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
+        constexpr MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
         std::vector<std::string> templ_names; // 匹配模板图片文件名
         std::vector<double> templ_thresholds; // 模板匹配阈值
         std::pair<int, int> mask_range;       // 掩码的二值化范围
     };
+    using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
+    using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;
 
     // hash 计算任务的信息
     struct HashTaskInfo : public TaskInfo
     {
-        HashTaskInfo() = default;
-        virtual ~HashTaskInfo() override = default;
-        HashTaskInfo(const HashTaskInfo&) = default;
-        HashTaskInfo(HashTaskInfo&&) noexcept = default;
-        HashTaskInfo& operator=(const HashTaskInfo&) = default;
-        HashTaskInfo& operator=(HashTaskInfo&&) noexcept = default;
+        constexpr HashTaskInfo() = default;
+        constexpr virtual ~HashTaskInfo() override = default;
+        constexpr HashTaskInfo(const HashTaskInfo&) = default;
+        constexpr HashTaskInfo(HashTaskInfo&&) noexcept = default;
+        constexpr HashTaskInfo& operator=(const HashTaskInfo&) = default;
+        constexpr HashTaskInfo& operator=(HashTaskInfo&&) noexcept = default;
         std::vector<std::string> hashes; // 需要多个哈希值
         int dist_threshold = 0;          // 汉明距离阈值
         std::pair<int, int> mask_range;  // 掩码的二值化范围
         bool bound = false;              // 是否裁剪周围黑边
     };
+    using HashTaskPtr = std::shared_ptr<HashTaskInfo>;
+    using HashTaskConstPtr = std::shared_ptr<const HashTaskInfo>;
 
     inline static const std::string UploadDataSource = "MeoAssistant";
-    inline static constexpr std::string_view RoguelikePhantomThemeName = "Phantom";
-    inline static constexpr std::string_view RoguelikeMizukiThemeName = "Mizuki";
-    inline static constexpr std::string_view RoguelikeSamiThemeName = "Sami";
 } // namespace asst

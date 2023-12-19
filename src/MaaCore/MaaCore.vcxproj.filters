@@ -95,6 +95,9 @@
     <Filter Include="Source\Vision\Config">
       <UniqueIdentifier>{bf83678b-e9d7-4cf1-8616-aba2009072b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Resource\TaskData">
+      <UniqueIdentifier>{8d436f0b-8dad-42b2-9549-f9073b808104}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -216,7 +219,7 @@
     <ClInclude Include="Config\TemplResource.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Config\Roguelike\RoguelikeCiphertextBoardConfig.h">
+    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
@@ -444,15 +447,15 @@
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.h">
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.h">
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
       <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude> 
+    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeControlTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -558,10 +561,10 @@
     <ClInclude Include="Controller\ControlScaleProxy.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\MaaThriftController.h">
+    <ClInclude Include="Controller\MaatouchController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controller\MaatouchController.h">
+    <ClInclude Include="Controller\MaaThriftController.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
     <ClInclude Include="Controller\MinitouchController.h">
@@ -654,9 +657,6 @@
     <ClInclude Include="Task\Infrast\InfrastProcessingTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Miscellaneous\CopilotListNotificationPlugin.h">
-      <Filter>Source\Task\Miscellaneous</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
@@ -666,8 +666,29 @@
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Fight\MedicineCounterPlugin.h">
+      <Filter>Source\Task\Fight</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Fight\FightTimesPlugin.h">
+      <Filter>Source\Task\Fight</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\TaskData\TaskDataSymbol.h">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\TaskData\TaskDataSymbolStream.h">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\TaskData\TaskDataTypes.h">
+      <Filter>Source\Resource\TaskData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -740,7 +761,7 @@
     <ClCompile Include="Config\TemplResource.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Config\Roguelike\RoguelikeCiphertextBoardConfig.cpp">
+    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
@@ -917,10 +938,10 @@
     <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardGainTaskPlugin.cpp">
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeCiphertextBoardUseTaskPlugin.cpp">
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
@@ -1103,11 +1124,29 @@
     <ClCompile Include="Task\Infrast\InfrastProcessingTask.cpp">
       <Filter>Source\Task\Infrast</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Miscellaneous\CopilotListNotificationPlugin.cpp">
-      <Filter>Source\Task\Miscellaneous</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
-    </ClCompile>    
+    </ClCompile>
+    <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
+      <Filter>Source\Task\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
+      <Filter>Source\Task\Fight</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Fight\FightTimesPlugin.cpp">
+      <Filter>Source\Task\Fight</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\TaskData\TaskDataSymbol.cpp">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp">
+      <Filter>Source\Resource\TaskData</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

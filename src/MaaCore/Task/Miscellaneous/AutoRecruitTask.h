@@ -23,6 +23,7 @@ namespace asst
         AutoRecruitTask& set_need_refresh(bool need_refresh) noexcept;
         AutoRecruitTask& set_max_times(int max_times) noexcept;
         AutoRecruitTask& set_use_expedited(bool use_or_not) noexcept;
+        AutoRecruitTask& set_select_extra_tags(ExtraTagsMode select_extra_tags_mode) noexcept;
         AutoRecruitTask& set_skip_robot(bool skip_robot) noexcept;
         AutoRecruitTask& set_set_time(bool set_time) noexcept;
         AutoRecruitTask& set_force_refresh(bool force_refrest) noexcept;
@@ -48,6 +49,7 @@ namespace asst
         bool hire_all();
         bool initialize_dirty_slot_info(const cv::Mat&);
         std::vector<std::string> get_tag_names(const std::vector<RecruitConfig::TagId>& ids) const;
+        std::vector<std::string> get_select_tags(const std::vector<RecruitCombs>& combinations);
         static std::vector<TextRect> start_recruit_analyze(const cv::Mat& image);
 
         template <typename Rng>
@@ -74,6 +76,7 @@ namespace asst
         std::vector<int> m_confirm_level;
         bool m_need_refresh = false;
         bool m_use_expedited = false;
+        ExtraTagsMode m_select_extra_tags_mode = ExtraTagsMode::NoExtra;
         int m_max_times = 0;
         bool m_has_permit = true;
         bool m_has_refresh = true;

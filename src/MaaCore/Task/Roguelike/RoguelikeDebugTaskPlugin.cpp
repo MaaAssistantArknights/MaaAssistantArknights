@@ -14,11 +14,11 @@ bool asst::RoguelikeDebugTaskPlugin::verify(AsstMsg msg, const json::value& deta
         return true;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {

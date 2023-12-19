@@ -879,6 +879,22 @@
         "sortId": 40003,
         "usage": "羅德島人事部特別批發的許可書，在特殊的時間點上招攬特殊的人才，一次可招聘十位幹員。"
     },
+    "LINKAGE_TKT_GACHA_10_3601": {
+        "classifyType": "NORMAL",
+        "description": "為了確保人才擴展而應博士要求準備的應急手段，該批尋訪條目具有一定的針對性與時效性，以及，小小的風險。",
+        "icon": "LINKAGE_TKT_GACHA_10_3601.png",
+        "name": "指引明路尋訪憑證",
+        "sortId": 40003,
+        "usage": "羅德島人事部特別批發的許可書，在特殊的時間點上招攬特殊的人才，一次可招聘十位幹員。"
+    },
+    "LINKAGE_TKT_GACHA_10_3602": {
+        "classifyType": "NORMAL",
+        "description": "為了確保人才擴展而應博士要求準備的應急手段，該批尋訪條目具有一定的針對性與時效性，以及，小小的風險。",
+        "icon": "LINKAGE_TKT_GACHA_10_3602.png",
+        "name": "合作限定十連尋訪憑證",
+        "sortId": 40003,
+        "usage": "羅德島人事部特別批發的許可書，在特殊的時間點上招攬特殊的人才，一次可招聘十位幹員。"
+    },
     "LMTGS_COIN_1401": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -947,6 +963,14 @@
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
         "icon": "LMTGS_COIN_3301.png",
+        "name": "尋訪數據契約",
+        "sortId": 10019,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
+    "LMTGS_COIN_3501": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_3501.png",
         "name": "尋訪數據契約",
         "sortId": 10019,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
@@ -1191,6 +1215,14 @@
         "sortId": -10000,
         "usage": "騎士之國的縮影，常被擺放在會客室精巧的禮盒裡。"
     },
+    "act14mini_token_fu": {
+        "classifyType": "NONE",
+        "description": "謀善村居民手工雕刻的祈福用的平安符。帶去移山廟，讓廟祝用朱砂畫上一筆，更能讓人心安。\n",
+        "icon": "act14mini_token_fu.png",
+        "name": "平安符",
+        "sortId": -10000,
+        "usage": "粗桃木雕成的木牌。在年景好的時候，也會有人願意用一些糧食，向手藝精湛的老人換這樣一塊牌子，以求吉利。"
+    },
     "act14side_token_stone": {
         "classifyType": "NONE",
         "description": "耶拉岡德的意志寄宿其中，謝拉格人會向之祈禱，以求幸福安康。",
@@ -1311,6 +1343,14 @@
         "sortId": -10000,
         "usage": "一枚金屬製的小型獎牌。獲取一定數量的獎章將得到相應的賽事獎勵。"
     },
+    "act1sandbox_milestone_point": {
+        "classifyType": "NONE",
+        "description": "生息繁榮，代代相傳，以此為證。",
+        "icon": "act1sandbox_milestone_point.png",
+        "name": "繁榮證章",
+        "sortId": -10000,
+        "usage": "用以在里程碑處兌換獎勵。"
+    },
     "act20side_token_book": {
         "classifyType": "NONE",
         "description": "紙頁上留有各種不同的筆跡，甚至可以從數量上判斷雜誌轉手的次數。其中大多是無意義的塗鴉，但智慧的閃光也散落其間。",
@@ -1334,6 +1374,78 @@
         "name": "手抄歌謠集",
         "sortId": -10000,
         "usage": "隨手抄下了塔拉歌謠與傳說的紙頁。收集到一定數量，可以向河谷巡迴商隊換取物資。"
+    },
+    "act23side_token_spirit": {
+        "classifyType": "NONE",
+        "description": "玉門特產的高純度烈酒。人人好飲，家家會釀。取塞上風沙、長空烈日、胡楊飛絮一同釀入酒，一口入喉，彷彿吞刀飲火，再冷的寒夜也不用怕。",
+        "icon": "act23side_token_spirit.png",
+        "name": "新釀烈刀子",
+        "sortId": -10000,
+        "usage": "帶上一罈新釀的烈酒，去和老鐵匠換一把新開刃的好劍。“血換水，酒換刀，適逢知己，快意恩仇”。"
+    },
+    "act24side_melding_1": {
+        "classifyType": "NONE",
+        "description": "遺落於荒野的枯骨，由於長年的風化而破碎，已無法辨認出完整的形態。它們或許曾屬於某個偉大的生命，但如今只是隨處可見的低級素材。",
+        "icon": "act24side_melding_1.png",
+        "name": "破碎的骨片",
+        "sortId": -10000,
+        "usage": "隨處可以取得的低級素材，能夠用於煉金。"
+    },
+    "act24side_melding_2": {
+        "classifyType": "NONE",
+        "description": "源石蟲的堅硬外殼，佈滿小型的源石晶簇，舔上去能夠嚐到微微的苦澀。儘管源石蟲種類繁多，產出素材的品質卻沒什麼變化。",
+        "icon": "act24side_melding_2.png",
+        "name": "源石蟲的硬殼",
+        "sortId": -10000,
+        "usage": "稍加努力就能獲得的常規素材，能夠用於煉金。"
+    },
+    "act24side_melding_3": {
+        "classifyType": "NONE",
+        "description": "鬣犄獸的尖銳牙齒，擁有足以撕裂肉體的鋒利度，是優秀的煉金素材。再次提醒，它不可用於充當假牙。",
+        "icon": "act24side_melding_3.png",
+        "name": "鬣犄獸的尖銳齒",
+        "sortId": -10000,
+        "usage": "需要花點功夫才能到手的優質素材，能夠用於煉金。"
+    },
+    "act24side_melding_4": {
+        "classifyType": "NONE",
+        "description": "凶豕獸的厚實表皮，富有韌性，可以抵禦強大的衝擊。要獲得到這種素材必須經歷慘烈的搏鬥，想吃上一口肉皮凍可真不容易啊。",
+        "icon": "act24side_melding_4.png",
+        "name": "凶豕獸的厚實皮",
+        "sortId": -10000,
+        "usage": "數量稀少的高級素材，能夠用於煉金。"
+    },
+    "act24side_melding_5": {
+        "classifyType": "NONE",
+        "description": "如淚水般澄澈的晶石，據說是在某種滅絕生物的骸骨中凝結而成。在光芒下細細觀察，仿佛能窺見星辰流動。",
+        "icon": "act24side_melding_5.png",
+        "name": "「獸之淚」",
+        "sortId": -10000,
+        "usage": "極其稀少的頂級素材，能夠用於煉金。"
+    },
+    "act24side_melding_6": {
+        "classifyType": "NONE",
+        "description": "飛龍體內偶爾生成的罕見玉石。有幸獲得它的獵人在將其加工時往往猶豫不決。",
+        "icon": "act24side_melding_6.png",
+        "name": "火龍的紅玉",
+        "sortId": -10000,
+        "usage": "在與火龍的戰鬥中取得的素材，用作煉金素材再好不過。"
+    },
+    "act2bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
+        "icon": "act2bossrush_milestone_point.png",
+        "name": "試煉經驗",
+        "sortId": -10000,
+        "usage": "試煉結束後獲得的經驗，可以提升試煉等級。"
+    },
+    "act2bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解碼的數據方塊。永遠記住，資訊轉換往往伴隨著不可避免的損耗。善用資訊儲存工具，但別依賴它們。",
+        "icon": "act2bossrush_token_relic.png",
+        "name": "數據黑盒",
+        "sortId": -10000,
+        "usage": "用於對遏制單元進行數據迭代。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1527,6 +1639,54 @@
         "sortId": -10000,
         "usage": "黑曜石節官方發售的門票，用於進入各類特殊關卡。"
     },
+    "itempack_gacha_1": {
+        "classifyType": "CONSUME",
+        "description": "在露華村的特色祈願活動中取得的禮袋，寄寓著對你未來道路的美好祝願。",
+        "icon": "itempack_gacha_1.png",
+        "name": "福運鼓鼓禮袋",
+        "sortId": -10000,
+        "usage": "獲得「合作限定十連尋訪憑證」和頭像「蒼暮印象」。「合作限定十連尋訪憑證」過期時間：2023/12/26 03:59"
+    },
+    "itempack_mod_10": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_10.png",
+        "name": "狙擊晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據狙擊幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_11": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_11.png",
+        "name": "術師晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據術師幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_12": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_12.png",
+        "name": "醫療晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據醫療幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_13": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_13.png",
+        "name": "輔助晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據輔助幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_14": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_14.png",
+        "name": "特種晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據特種幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
     "itempack_mod_4": {
         "classifyType": "NONE",
         "description": "凝結了工程部同事心血的數據塊，內含的數據資訊可以滿足幹員模組的基礎需求。",
@@ -1542,6 +1702,30 @@
         "name": "模組數據整合箱",
         "sortId": -10000,
         "usage": "內含解鎖與升級幹員模組的道具。"
+    },
+    "itempack_mod_7": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_7.png",
+        "name": "先鋒晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據先鋒幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_8": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_8.png",
+        "name": "近衛晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據近衛幹員們的需求，可以輕鬆印刻出晶片組合。"
+    },
+    "itempack_mod_9": {
+        "classifyType": "CONSUME",
+        "description": "面對訓練數據不足的問題，工程部生產了全新的晶片印刻儀以供幹員們自行列印。",
+        "icon": "itempack_mod_9.png",
+        "name": "重裝晶片組印刻儀",
+        "sortId": -10000,
+        "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據重裝幹員們的需求，可以輕鬆印刻出晶片組合。"
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",

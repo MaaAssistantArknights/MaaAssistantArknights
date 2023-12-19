@@ -3,6 +3,7 @@
 #include "ControllerAPI.h"
 
 #include <random>
+#include <deque>
 
 #include "Platform/PlatformFactory.h"
 
@@ -48,6 +49,8 @@ namespace asst
         AdbController& operator=(const AdbController&) = delete;
         AdbController& operator=(AdbController&&) = delete;
 
+        virtual void back_to_home() noexcept override;
+
     protected:
         std::optional<std::string> call_command(const std::string& cmd, int64_t timeout = 20000,
                                                 bool allow_reconnect = true, bool recv_by_socket = false);
@@ -61,7 +64,7 @@ namespace asst
 
         using DecodeFunc = std::function<bool(const std::string&)>;
         bool screencap(const std::string& cmd, const DecodeFunc& decode_func, bool allow_reconnect = false,
-                       bool by_socket = false);
+                       bool by_socket = false, int max_timeout = 20000);
         void clear_lf_info();
 
         virtual void clear_info() noexcept;
@@ -97,6 +100,8 @@ namespace asst
             std::string start;
             std::string stop;
 
+            std::string back_to_home;
+
             /* properties */
             enum class ScreencapEndOfLine
             {
@@ -124,5 +129,8 @@ namespace asst
         bool m_server_started = false;
         bool m_inited = false;
         bool m_kill_adb_on_exit = false;
+        long long m_last_command_duration = 0;      // 上次命令执行用时
+        std::deque<long long> m_screencap_duration; // 截图用时
+        int m_screencap_time = 0;                   // 截图次数
     };
 } // namespace asst

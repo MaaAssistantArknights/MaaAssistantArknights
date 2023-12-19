@@ -13,11 +13,11 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -35,8 +35,7 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string theme = m_roguelike_theme;
-    std::string mode = status()->get_properties(Status::RoguelikeMode).value();
+    std::string theme = m_config->get_theme();
 
     // TODO: 这段识别有点冗余，要是 plugin 能获取识别结果就好了
     std::string task_name = theme + "@Roguelike@StrategyChange";

@@ -105,6 +105,9 @@ ExitOld.png
 ExitOldConfirm.png
 FacilityListTabMfg.png
 FacilityListTabTrade.png
+FightSeries-Default-1.png
+FightSeries-Icon.png
+FightSeries-List-1.png
 GachaLastTenTimesResult1.png
 GachaNoMoney.png
 GachaSkip.png
@@ -120,6 +123,7 @@ LogoutConfirm.png
 Mail.png
 MailWithoutAward.png
 MedicineConfirm.png
+MedicineReduceIcon.png
 MiningActivityDiggingEnd.png
 Mizuki@Roguelike@Abandon.png
 Mizuki@Roguelike@CloseCollection.png
@@ -238,6 +242,7 @@ RoguelikeRecruitOcrFlag.png
 RoguelikeRecruitSupportElite0.png
 RoguelikeRecruitSupportElite1.png
 RoguelikeRecruitSupportElite2.png
+RoguelikeSettlementConfirm.png
 RoguelikeSkillSelectionFlag.png
 RoguelikeSkillSelectionTeamFull.png
 Sami@Roguelike@Abandon.png

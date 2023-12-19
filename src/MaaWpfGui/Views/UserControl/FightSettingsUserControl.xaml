@@ -6,6 +6,7 @@
     xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:local="clr-namespace:MaaWpfGui"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -36,16 +37,19 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseMedicineWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                     <CheckBox
                         Height="30"
                         Margin="6"
                         VerticalContentAlignment="Center"
-                        Click="ToggleCheckBoxNullOnLeftClick"
+                        Click="{s:Action ToggleCheckBoxNullOnLeftClick,
+                                         Target={x:Type helper:CheckBoxHelper}}"
                         Content="{DynamicResource UseOriginitePrime}"
                         IsChecked="{Binding UseStoneWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSaved}" />
                     <CheckBox
                         Height="30"
@@ -53,7 +57,8 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource PerformBattles}"
                         IsChecked="{Binding HasTimesLimitedWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                 </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Vertical">
@@ -104,7 +109,8 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource AssignedMaterial}"
                         IsChecked="{Binding IsSpecifiedDropsWithNull}"
-                        MouseRightButtonDown="ToggleCheckBoxNullOnRightClick"
+                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                      Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource NoAutoNavigation}" />
                     <Grid Height="42" Visibility="{c:Binding IsSpecifiedDropsWithNull}">
                         <controls:TextBlock
@@ -148,7 +154,7 @@
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Row="2" Orientation="Vertical">
+                <StackPanel Orientation="Vertical">
                     <Grid Height="42">
                         <controls:TextBlock
                             Margin="6"
@@ -187,10 +193,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
                 </StackPanel>
-                <StackPanel
-                    Grid.Row="2"
-                    Grid.Column="1"
-                    Orientation="Vertical">
+                <StackPanel Grid.Column="1" Orientation="Vertical">
                     <ComboBox
                         Height="30"
                         Margin="6"
@@ -290,9 +293,7 @@
                             TextWrapping="Wrap" />
                     </Grid>
                 </StackPanel>
-                <StackPanel
-                    Grid.Column="1"
-                    Orientation="Vertical">
+                <StackPanel Grid.Column="1" Orientation="Vertical">
                     <ComboBox
                         Height="30"
                         Margin="6"
@@ -343,18 +344,28 @@
                 Margin="0,10"
                 Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"
                 IsChecked="{Binding TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource EnablePenguin}"
+                IsChecked="{Binding EnablePenguin}" />
             <TextBlock
                 Margin="8,10,8,0"
                 HorizontalAlignment="Left"
                 Block.TextAlignment="Center"
                 Foreground="{DynamicResource PrimaryTextBrush}"
                 Text="{DynamicResource PenguinId}"
-                TextWrapping="Wrap" />
+                TextWrapping="Wrap"
+                Visibility="{c:Binding EnablePenguin}" />
             <TextBox
                 Margin="0,5"
                 InputMethod.IsInputMethodEnabled="False"
                 Style="{StaticResource TextBoxExtend}"
-                Text="{Binding PenguinId}" />
+                Text="{Binding PenguinId}"
+                Visibility="{c:Binding EnablePenguin}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource EnableYituliu}"
+                IsChecked="{Binding EnableYituliu}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

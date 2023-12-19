@@ -598,6 +598,26 @@
                     ]
                 },
                 {
+                    "name": "锏",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 630,
+                    "promote_priority": 899,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 3,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
                     "name": "艾丽妮",
                     "skill": 3,
                     "alternate_skill": 1,
@@ -644,9 +664,14 @@
                     "recruit_priority": 412
                 },
                 {
-                    "name": "星极",
+                    "name": "薇薇安娜",
                     "skill": 2,
                     "recruit_priority": 411
+                },
+                {
+                    "name": "星极",
+                    "skill": 2,
+                    "recruit_priority": 410
                 },
                 {
                     "name": "泡普卡",
@@ -950,6 +975,22 @@
                     "recruit_priority": 740,
                     "promote_priority": 0,
                     "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "哈洛德",
+                    "skill": 2,
+                    "recruit_priority": 739,
+                    "promote_priority": 290,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1588,6 +1629,11 @@
                     ]
                 },
                 {
+                    "name": "止颂",
+                    "skill": 2,
+                    "auto_retreat": 12
+                },
+                {
                     "name": "玫兰莎",
                     "skill": 1,
                     "recruit_priority": 525,
@@ -1654,6 +1700,32 @@
                             "threshold": 0,
                             "is_less": true,
                             "offset": 120
+                        }
+                    ]
+                },
+                {
+                    "name": "深律",
+                    "skill": 1,
+                    "recruit_priority": 612,
+                    "promote_priority": 490,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 120
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装",
+                                "近卫"
+                            ],
+                            "threshold": 2,
+                            "offset": -200
                         }
                     ]
                 },
@@ -2095,6 +2167,13 @@
                     "promote_priority": 302
                 },
                 {
+                    "name": "塑心",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 405,
+                    "promote_priority": 402
+                },
+                {
                     "name": "巫恋",
                     "skill": 2,
                     "recruit_priority": 462,
@@ -2105,6 +2184,9 @@
                     "skill": 2,
                     "recruit_priority": 453,
                     "promote_priority": 255
+                },
+                {
+                    "name": "跃跃"
                 },
                 {
                     "name": "梓兰",
@@ -2186,6 +2268,9 @@
                     "name": "临光"
                 },
                 {
+                    "name": "深律"
+                },
+                {
                     "name": "吽"
                 },
                 {
@@ -2224,6 +2309,9 @@
                 },
                 {
                     "name": "斑点"
+                },
+                {
+                    "name": "锏"
                 },
                 {
                     "name": "仇白"
@@ -2410,6 +2498,9 @@
                     "name": "铸铁"
                 },
                 {
+                    "name": "薇薇安娜"
+                },
+                {
                     "name": "星极"
                 },
                 {
@@ -2474,6 +2565,9 @@
                 },
                 {
                     "name": "拉普兰德"
+                },
+                {
+                    "name": "烈夏"
                 },
                 {
                     "name": "伊内丝"
@@ -2541,6 +2635,10 @@
                     "name": "拉普兰德"
                 },
                 {
+                    "name": "烈夏",
+                    "skill": 2
+                },
+                {
                     "name": "断崖"
                 },
                 {
@@ -2580,6 +2678,9 @@
                 },
                 {
                     "name": "桑葚"
+                },
+                {
+                    "name": "哈洛德"
                 },
                 {
                     "name": "闪灵"
@@ -2837,6 +2938,10 @@
                     "skill": 2
                 },
                 {
+                    "name": "折光",
+                    "skill": 2
+                },
+                {
                     "name": "夜魔"
                 },
                 {
@@ -2844,6 +2949,10 @@
                 },
                 {
                     "name": "麦哲伦"
+                },
+                {
+                    "name": "跃跃",
+                    "skill": 2
                 },
                 {
                     "name": "史都华德"

@@ -13,11 +13,11 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -45,7 +45,7 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
     int delay = Task.get("RoguelikeSkillSelectionMove1")->post_delay;
     bool has_rookie = false;
     for (const auto& [name, skill_vec] : analyzer.get_result()) {
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_roguelike_theme, name);
+        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
         if (oper_info.name.empty()) {
             Log.warn("Unknown oper", name);
             continue;
@@ -67,24 +67,22 @@ bool asst::RoguelikeSkillSelectionTaskPlugin::_run()
         }
     }
 
-    if (!status()->get_str(Status::RoguelikeCharOverview)) {
-        json::value overview;
+    if (m_config->get_oper().empty()) {
+        std::unordered_map<std::string, RoguelikeOper> opers;
         for (const auto& [name, skill_vec] : analyzer.get_result()) {
-            overview[name] = json::object {
-                { "elite", 1 }, { "level", 80 },
-                // 不知道是啥等级随便填一个
-            };
+            opers[name] = { .elite = 1, .level = 80 };
+            // 不知道是啥等级随便填一个
         }
-        status()->set_str(Status::RoguelikeCharOverview, overview.to_string());
+        m_config->set_oper(std::move(opers));
     }
 
     if (analyzer.get_team_full() && !has_rookie) {
         Log.info("Team full and no rookie");
-        status()->set_number(Status::RoguelikeTeamFullWithoutRookie, 1);
+        m_config->set_team_full_without_rookie(true);
     }
     else {
         Log.info("Team not full or has rookie");
-        status()->set_number(Status::RoguelikeTeamFullWithoutRookie, 0);
+        m_config->set_team_full_without_rookie(false);
     }
     return true;
 }

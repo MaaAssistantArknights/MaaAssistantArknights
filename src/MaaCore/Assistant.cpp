@@ -631,3 +631,8 @@ bool asst::Assistant::inited() const noexcept
 {
     return m_ctrler && m_ctrler->inited();
 }
+
+bool asst::Assistant::back_to_home() const
+{
+    return m_ctrler->back_to_home();
+}

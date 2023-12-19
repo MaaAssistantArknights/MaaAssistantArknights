@@ -3,40 +3,44 @@ name: ci
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
     branches-ignore:
-      - 'master'
+      - "master"
     paths:
-      - '3rdparty/include/**'
-      - 'include/**'
-      - 'src/**'
-      - 'cmake/**'
-      - 'CMakeLists.txt'
-      - 'MAA.sln'
-      - '.github/workflows/ci.yml'
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - ".github/workflows/ci.yml"
+      - "!**/*.md"
   pull_request:
     branches:
-      - 'dev'
+      - "dev"
     paths:
-      - '3rdparty/include/**'
-      - 'include/**'
-      - 'src/**'
-      - 'cmake/**'
-      - 'CMakeLists.txt'
-      - 'MAA.sln'
+      - "3rdparty/include/**"
+      - "include/**"
+      - "src/**"
+      - "cmake/**"
+      - "CMakeLists.txt"
+      - "MAA.sln"
+      - "!**/*.md"
   workflow_dispatch:
 
 jobs:
-
   meta:
     runs-on: ubuntu-latest
     outputs:
       tag: ${{ steps.set_tag.outputs.tag }}
       prerelease: ${{ steps.set_pre.outputs.prerelease }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           path: temp
+          show-progress: false
+
       - name: Fetch history
         if: ${{ !startsWith(github.ref, 'refs/pull/') }}
         run: |
@@ -48,13 +52,15 @@ jobs:
           git reset --hard origin/$(git branch --show-current) || true
           git checkout ${{ github.ref_name }}
 
-      - id: set_tag
+      - name: Set tag
+        id: set_tag
         run: |
           ${{ startsWith(github.ref, 'refs/pull/') && 'cd temp' || '' }}
           echo tag=$(git describe --tags --match "v*" ${{ github.ref }} || git rev-parse --short HEAD) | tee -a $GITHUB_OUTPUT
           exit ${PIPESTATUS[0]}
 
-      - id: set_pre
+      - name: Judge pre-release
+        id: set_pre
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
           if [[ '${{ steps.set_tag.outputs.tag }}' =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -62,7 +68,9 @@ jobs:
           else
             echo prerelease=true | tee -a $GITHUB_OUTPUT
           fi
-      - if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+
+      - name: Generate changelog
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
           this_tag=${{ steps.set_tag.outputs.tag }}
           if [[ '${{ steps.set_pre.outputs.prerelease }}' != 'false' ]]; then
@@ -72,7 +80,9 @@ jobs:
           fi
           echo >> CHANGELOG.md
           echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload changelog to Github
+        uses: actions/upload-artifact@v3
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         with:
           name: changelog
@@ -92,7 +102,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         uses: actions/cache@v3
@@ -111,10 +124,12 @@ jobs:
       - name: Create fake event file
         shell: bash
         run: cp -v "$GITHUB_EVENT_PATH" ./event.json
-      - if: startsWith(github.ref, 'refs/tags/v')
+
+      - name: Merge Event Data with Inputs
+        if: startsWith(github.ref, 'refs/tags/v')
         shell: bash
         run: |
-          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json	
+          cat "$GITHUB_EVENT_PATH" | jq '. + { "inputs": {"ReleaseSimulation": "${{ needs.meta.outputs.tag }}"} }' | tee ./event.json
 
       - name: Taggify Version
         run: |
@@ -145,10 +160,14 @@ jobs:
           ./build.cmd DevBuild
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
+
+      - name: Cleanup checksum file
+        run: |
           rm -vf ./artifacts/checksum.json
         shell: bash
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload MAA to Github
+        uses: actions/upload-artifact@v3
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
@@ -160,8 +179,10 @@ jobs:
       matrix:
         arch: [aarch64, x86_64]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
+          show-progress: false
           submodules: recursive
 
       - name: Install cross compile toolchains
@@ -182,9 +203,6 @@ jobs:
           python3 maadeps-download.py ${{ matrix.arch == 'x86_64' && 'x64' || 'arm64' }}-linux
 
       - name: Build MAA
-        env:
-          CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
-          CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
         run: |
           mkdir -p build
           cmake -B build \
@@ -197,6 +215,9 @@ jobs:
 
           mkdir -p install
           cmake --install build --prefix install
+        env:
+          CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
+          CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
 
       - name: Install cross compile tool (CLI)
         if: ${{ matrix.arch != 'x86_64' }}
@@ -205,24 +226,60 @@ jobs:
           tool: cross
 
       - name: Build CLI
-        working-directory: src/maa-cli
-        env:
-          CARGO_CMD: ${{ matrix.arch == 'x86_64' && 'cargo' || 'cross' }}
-          CARGO_BUILD_TARGET: ${{ matrix.arch }}-unknown-linux-gnu
         run: |
           $CARGO_CMD build --release --locked --package maa-cli
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
+        env:
+          CARGO_CMD: ${{ matrix.arch == 'x86_64' && 'cargo' || 'cross' }}
+          CARGO_BUILD_TARGET: ${{ matrix.arch }}-unknown-linux-gnu
+        working-directory: src/maa-cli
 
-      - name: tar files
+      - name: Build Appimage
+        run: |
+          sudo add-apt-repository universe
+          sudo apt update
+          sudo apt install libfuse2
+          mkdir -pv release
+          mkdir -pv Maa.AppDir/usr/share/maa
+          cp -r install/* Maa.AppDir/usr/share/maa/
+          wget -c https://raw.githubusercontent.com/MaaAssistantArknights/design/main/logo/maa-logo_512x512.png -O Maa.AppDir/maa.png
+          mkdir -pv Maa.AppDir/usr/share/icons/hicolor/512x512/apps/
+          cp -v Maa.AppDir/maa.png Maa.AppDir/usr/share/icons/hicolor/512x512/apps/
+          chmod a+x Maa.AppDir/usr/share/maa/maa
+
+          cat > Maa.AppDir/maa.desktop <<EOF
+          [Desktop Entry]
+          Type=Application
+          Name=MaaAssistantArknights
+          Icon=maa
+          Exec=AppRun
+          Terminal=true
+          Categories=Game;StrategyGame;
+          Comment=An Arknights assistant
+          EOF
+
+          ln -sv usr/share/maa/maa Maa.AppDir/AppRun
+          mkdir -pv Maa.AppDir/usr/share/metainfo/
+          cp -v tools/AppImage/io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
+          wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          chmod a+x appimagetool-x86_64.AppImage
+          ./appimagetool-x86_64.AppImage Maa.AppDir
+          chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
+          mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
+
+      - name: Tar files
         run: |
           mkdir -p release
           cd install
           tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload MAA to Github
+        uses: actions/upload-artifact@v3
         with:
           name: MAA-linux-${{ matrix.arch }}
-          path: 'release/*.tar.gz'
+          path: |
+            release/*.AppImage
+            release/*.tar.gz
 
   macOS-Core:
     needs: meta
@@ -231,90 +288,117 @@ jobs:
       matrix:
         arch: [arm64, x86_64]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
       - name: Install Dependencies
-        run: brew install ninja
+        run: |
+          brew install ninja
+
       - name: Bootstrap MaaDeps
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           [[ ${{ matrix.arch }} = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
           python3 maadeps-download.py ${triplet}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Configure MaaCore
         run: |
           cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
+
       - name: Build MaaCore
         run: |
           cmake --build build
           cmake --install build --prefix install
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload MAA to Github
+        uses: actions/upload-artifact@v3
         with:
           name: MAACore-macos-${{ matrix.arch }}
-          path: 'install/*.dylib'
+          path: "install/*.dylib"
 
   macOS-GUI:
     needs: [meta, macOS-Core]
     runs-on: macos-13
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
+          show-progress: false
           submodules: recursive
-      - uses: actions/download-artifact@v3
+
+      - name: Download Arm64 MAA from Github
+        uses: actions/download-artifact@v3
         with:
           name: MAACore-macos-arm64
           path: install-arm64
-      - uses: actions/download-artifact@v3
+
+      - name: Download x64 MAA from Github
+        uses: actions/download-artifact@v3
         with:
           name: MAACore-macos-x86_64
           path: install-x86_64
+
       - name: Install Developer ID Certificate
         if: startsWith(github.ref, 'refs/tags/v')
         uses: ssrobins/import-codesign-certs@v2
         with:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
+
       - name: Build Universal Binaries
         run: |
           mkdir build
           for LIB_NAME in $(ls install-arm64); do
             lipo -create install-arm64/$LIB_NAME install-x86_64/$LIB_NAME -output build/$LIB_NAME
           done
+
       - name: Build XCFramework
-        working-directory: build
         run: |
           xcodebuild -create-xcframework -library libMaaCore.dylib -headers ../include -output MaaCore.xcframework
           xcodebuild -create-xcframework -library libMaaDerpLearning.dylib -output MaaDerpLearning.xcframework
           xcodebuild -create-xcframework -library libonnxruntime.*.dylib -output ONNXRuntime.xcframework
           xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
+        working-directory: build
+
       - name: Setup GUI Version
         run: |
           RELEASE_COUNT=$(git ls-remote --tags origin | grep refs/tags/v | awk 'END{print NR}')
           echo 'MARKETING_VERSION = ${{ needs.meta.outputs.tag }}' | tee src/MaaMacGui/Version.xcconfig
           echo 'CURRENT_PROJECT_VERSION = '"${RELEASE_COUNT}" | tee -a src/MaaMacGui/Version.xcconfig
+
       - name: Build MAA
-        working-directory: src/MaaMacGui
         run: |
           if ${{ startsWith(github.ref, 'refs/tags/v') }}; then
             xcodebuild -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Release
           else
             xcodebuild CODE_SIGN_IDENTITY="-" DEVELOPMENT_TEAM="-" ONLY_ACTIVE_ARCH=NO -project MeoAsstMac.xcodeproj -scheme MAA archive -archivePath MAA.xcarchive -configuration Debug
           fi
+        working-directory: src/MaaMacGui
+
       - name: Export MAA
         if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
         working-directory: src/MaaMacGui
-        run: xcodebuild -exportArchive -archivePath MAA.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath Export
+
       - name: Create Disk Image
         if: startsWith(github.ref, 'refs/tags/v')
-        working-directory: src/MaaMacGui
         run: |
           mkdir Image
           mv Export/MAA.app Image/
           ln -s /Applications Image/
           hdiutil create -volname MAA -srcfolder Image -ov -fs APFS -format ULMO MAA.dmg
+        working-directory: src/MaaMacGui
+
       - name: Archive Debug Symbols
         if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
         working-directory: src/MaaMacGui/MAA.xcarchive/dSYMs
-        run: ditto -c -k --keepParent MAA.app.dSYM MAA.app.dSYM.zip
+
       - name: Place Packages
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
@@ -324,20 +408,23 @@ jobs:
           mkdir -p release
           mv src/MaaMacGui/MAA.dmg release/${APP_DMG}
           mv src/MaaMacGui/MAA.xcarchive/dSYMs/MAA.app.dSYM.zip release/${APP_SYM}
+
       - name: Notarize Image
         if: startsWith(github.ref, 'refs/tags/v')
-        env:
-          NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
-          NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
-          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
-        working-directory: release
         run: |
           find . -name "*.dmg" | while read dmg; do
             codesign -s "$NOTARY_TEAM" --timestamp ${dmg}
             xcrun notarytool submit --apple-id "$NOTARY_USER" --password "$NOTARY_PASSWD" --team-id "$NOTARY_TEAM" --wait ${dmg}
             xcrun stapler staple ${dmg}
           done
-      - uses: actions/upload-artifact@v3
+        env:
+          NOTARY_USER: ${{ secrets.HGUANDL_NOTARY_AAPL_ID }}
+          NOTARY_PASSWD: ${{ secrets.HGUANDL_NOTARY_PASSWD }}
+          NOTARY_TEAM: ${{ secrets.HGUANDL_SIGN_IDENTITY }}
+        working-directory: release
+
+      - name: Upload MAA to Github
+        uses: actions/upload-artifact@v3
         with:
           name: MAA-macos-universal
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
@@ -347,23 +434,29 @@ jobs:
     needs: [meta, windows, ubuntu, macOS-GUI]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v3
+      - name: Download MAA from Github
+        uses: actions/download-artifact@v3
         with:
           path: assets
-      - run: |
+
+      - name: Cleanup files
+        run: |
           mv -vf assets/changelog/* .
           rm -rf assets/MAACore-macos-*
           cd assets
           # find . -type f | xargs mv -fvt .
           find . -type f | while read f; do mv -fvt . $f; done
-      - uses: softprops/action-gh-release@v1
+
+      - name: Release to Github
+        uses: softprops/action-gh-release@v1
         with:
           body_path: CHANGELOG.md
           files: |
             assets/*
           prerelease: ${{ needs.meta.outputs.prerelease != 'false' }}
+
       - name: Trigger secondary workflows # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
         run: |
           gh workflow run --repo $GITHUB_REPOSITORY release-ota
         env:
-            GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+          GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}

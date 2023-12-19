@@ -16,11 +16,11 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
         return false;
     }
 
-    if (m_roguelike_theme.empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_roguelike_theme + "@";
+    const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
     if (task_view.starts_with(roguelike_name)) {
@@ -46,18 +46,15 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         return false;
     }
 
-    bool no_longer_buy = status()->get_number(Status::RoguelikeTraderNoLongerBuy).value_or(0) ? true : false;
-
-    std::string str_chars_info = status()->get_str(Status::RoguelikeCharOverview).value_or(json::value().to_string());
-    json::value json_chars_info = json::parse(str_chars_info).value_or(json::value());
+    bool no_longer_buy = m_config->get_trader_no_longer_buy();
 
     std::unordered_map<battle::Role, size_t> map_roles_count;
     std::unordered_map<battle::Role, size_t> map_wait_promotion;
     size_t total_wait_promotion = 0;
     std::unordered_set<std::string> chars_list;
-    for (auto& [name, json_info] : json_chars_info.as_object()) {
-        int elite = static_cast<int>(json_info.get("elite", 0));
-        int level = static_cast<int>(json_info.get("level", 0));
+    for (const auto& [name, oper] : m_config->get_oper()) {
+        int elite = oper.elite;
+        int level = oper.level;
         Log.info(name, elite, level);
 
         // 等级太低的干员没必要为他专门买收藏品什么的
@@ -104,10 +101,10 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     }
 
     bool bought = false;
-    auto& all_goods = RoguelikeShopping.get_goods(m_roguelike_theme);
-    std::vector<std::string> all_ciphertext_board =
-        m_roguelike_theme == "Sami" ? Task.get<OcrTaskInfo>("Sami@Roguelike@CiphertextBoardGainOcr")->text
-                                    : std::vector<std::string>();
+    auto& all_goods = RoguelikeShopping.get_goods(m_config->get_theme());
+    std::vector<std::string> all_foldartal = m_config->get_theme() == RoguelikeTheme::Sami
+                                                 ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
+                                                 : std::vector<std::string>();
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
@@ -170,21 +167,18 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         Log.info("Ready to buy", goods.name);
         ctrler()->click(find_it->rect);
         bought = true;
-        if (m_roguelike_theme == "Sami") {
+        if (m_config->get_theme() == RoguelikeTheme::Sami) {
 
-            auto iter = std::find(all_ciphertext_board.begin(), all_ciphertext_board.end(), goods.name);
-            if (iter != all_ciphertext_board.end()) {
-                std::string overview_str =
-                    status()->get_str(Status::RoguelikeCiphertextBoardOverview).value_or(json::value().to_string());
-
-                auto& overview = json::parse(overview_str).value_or(json::value()).as_array();
-                // 把ciphertext_board存到overview里
-                overview.push_back(goods.name);
-                status()->set_str(Status::RoguelikeCiphertextBoardOverview, overview.to_string());
+            auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
+            if (iter != all_foldartal.end()) {
+                auto foldartal = m_config->get_foldartal();
+                // 把goods.name存到密文板overview里
+                foldartal.emplace_back(goods.name);
+                m_config->set_foldartal(std::move(foldartal));
             }
         }
         if (goods.no_longer_buy) {
-            status()->set_number(Status::RoguelikeTraderNoLongerBuy, 1);
+            m_config->set_trader_no_longer_buy(true);
         }
         break;
     }
