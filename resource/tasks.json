@@ -3791,6 +3791,13 @@
             "MainThemes#next"
         ]
     },
+    "NextOnce": {
+        "algorithm": "JustReturn",
+        "next": [
+            "#next",
+            "Stop"
+        ]
+    },
     "LoadingText": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
@@ -9101,7 +9108,8 @@
         "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
         "algorithm": "JustReturn",
         "next": [
-            "Roguelike@StageEncounterOptionUnknown"
+            "Roguelike@StageEncounterOptionUnknown",
+            "StrategyChanges@Stop"
         ]
     },
     "ScreenshotTaskPlugin-Config-Debug": {
@@ -11747,8 +11755,10 @@
             245,
             144
         ],
+        "sub": [
+            "Roguelike@StrategyChanges@NextOnce"
+        ],
         "next": [
-            "Roguelike@StrategyChange",
             "Roguelike@Stages#next"
         ]
     },
@@ -12732,6 +12742,22 @@
             "Roguelike@StartExplore"
         ]
     },
+    "Roguelike@StrategyChanges": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@StrategyChangeAtNextLevel",
+            "Roguelike@StrategyChange"
+        ]
+    },
+    "Roguelike@StrategyChangeAtNextLevel": {
+        "baseTask": "Roguelike@StrategyChange",
+        "roi": [
+            522,
+            431,
+            245,
+            144
+        ]
+    },
     "Roguelike@StrategyChange": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
@@ -12746,10 +12772,6 @@
             0,
             186,
             129
-        ],
-        "next": [
-            "Roguelike@NextLevel",
-            "Roguelike@Stages#next"
         ]
     },
     "Roguelike@StrategyChange_mode0": {
@@ -13400,6 +13422,9 @@
         ],
         "templThreshold": 0.95,
         "postDelay": 1000,
+        "sub": [
+            "Mizuki@Roguelike@StrategyChanges@NextOnce"
+        ],
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
             "Mizuki@Roguelike@Stages#next",
@@ -13407,17 +13432,10 @@
         ]
     },
     "Mizuki@Roguelike@DiceConfirmThenAbandon": {
-        "Doc": "骰子的确认按钮",
-        "action": "ClickSelf",
+        "baseTask": "Mizuki@Roguelike@DiceConfirm",
         "template": "Mizuki@Roguelike@DiceConfirm.png",
-        "cache": false,
-        "roi": [
-            551,
-            577,
-            174,
-            143
-        ],
-        "templThreshold": 0.95,
+        "postDelay": 0,
+        "sub": [],
         "next": [
             "Mizuki@Roguelike@ExitThenAbandon"
         ]

@@ -117,6 +117,8 @@ bool ProcessTask::_run()
         }
 
         Rect rect;
+        json::value result;
+
         // 如果第一个任务是JustReturn的，那就没必要再截图并计算了
         if (front_task_ptr->algorithm == AlgorithmType::JustReturn) {
             m_cur_task_ptr = front_task_ptr;
@@ -132,6 +134,14 @@ bool ProcessTask::_run()
                 return false;
             }
             m_cur_task_ptr = res_opt->task_ptr;
+            if (m_cur_task_ptr->algorithm == AlgorithmType::MatchTemplate) {
+                auto& raw_result = std::get<0>(res_opt->result);
+                result = json::object { { "score", raw_result.score } };
+            }
+            else if (m_cur_task_ptr->algorithm == AlgorithmType::OcrDetect) {
+                auto& raw_result = std::get<1>(res_opt->result);
+                result = json::object { { "score", raw_result.score }, { "text", raw_result.text } };
+            }
             rect = res_opt->rect;
         }
         if (need_exit()) {
@@ -172,6 +182,7 @@ bool ProcessTask::_run()
             { "exec_times", exec_times },
             { "max_times", max_times },
             { "algorithm", enum_to_string(m_cur_task_ptr->algorithm) },
+            { "result", result },
         };
 
         callback(AsstMsg::SubTaskStart, info);
