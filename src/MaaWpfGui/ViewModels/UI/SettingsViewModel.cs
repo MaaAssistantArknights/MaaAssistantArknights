@@ -260,6 +260,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStartEliteTwo"), Value = "5" },
             };
 
             RoguelikeThemeList = new List<CombinedData>
