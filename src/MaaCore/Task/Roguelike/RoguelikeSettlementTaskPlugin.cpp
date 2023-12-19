@@ -91,9 +91,9 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
         const auto& task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
 
-        using ReplaceMap = std::vector<std::pair<std::string, std::string>>;
-        auto merge_view = std::array { number_replace, task_replace } | views::join;
-        ocr.set_replace(ReplaceMap(merge_view.begin(), merge_view.end()));
+        //using ReplaceMap = std::vector<std::pair<std::string, std::string>>;
+        auto merge_view = std::vector { number_replace, task_replace } | views::join;
+        ocr.set_replace(std::vector(merge_view.begin(), merge_view.end()));
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
             return;
