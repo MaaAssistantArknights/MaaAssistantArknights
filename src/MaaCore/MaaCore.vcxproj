@@ -45,6 +45,7 @@
     <ClInclude Include="Common\AsstTypes.h" />
     <ClInclude Include="Common\AsstVersion.h" />
     <ClInclude Include="Config\Miscellaneous\AvatarCacheManager.h" />
+    <ClInclude Include="Config\Miscellaneous\CharSkillConfig.h" />
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Config\OnnxSessions.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="Assistant.cpp" />
     <ClCompile Include="AsstCaller.cpp" />
     <ClCompile Include="Config\Miscellaneous\AvatarCacheManager.cpp" />
+    <ClCompile Include="Config\Miscellaneous\CharSkillConfig.cpp" />
     <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
     <ClCompile Include="Config\OnnxSessions.cpp" />

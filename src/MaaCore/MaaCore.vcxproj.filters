@@ -681,6 +681,9 @@
     <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Miscellaneous\CharSkillConfig.h">
+      <Filter>Source\Resource\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1135,6 +1138,9 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\CharSkillConfig.cpp">
+      <Filter>Source\Resource\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

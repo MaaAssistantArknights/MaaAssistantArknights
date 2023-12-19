@@ -3779,6 +3779,15 @@
             "CloseAnnos#next"
         ]
     },
+    "ReturnOnce": {
+        "baseTask": "ReturnButton",
+        "template": [
+            "Return.png",
+            "Return-White.png"
+        ],
+        "next": [],
+        "postDelay": 500
+    },
     "FromStageSN": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",
@@ -7560,6 +7569,21 @@
             "Stop"
         ]
     },
+    "BattleSupportUnitFormationOperInfoSwipeToTheDown": {
+        "baseTask": "SwipeToTheDown",
+        "specificRect": [
+            960,
+            600,
+            20,
+            20
+        ],
+        "rectMove": [
+            960,
+            200,
+            20,
+            20
+        ]
+    },
     "BattleSupportUnitRefresh": {
         "action": "ClickSelf",
         "roi": [
@@ -7849,7 +7873,27 @@
             120,
             30
         ],
-        "postDelay": 200
+        "postDelay": 500
+    },
+    "BattleSupportUnitSkill-DetailedInfo": {
+        "roi": [
+            718,
+            51,
+            562,
+            599
+        ]
+    },
+    "BattleSupportUnitSkillOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -50,
+            40,
+            300,
+            60
+        ],
+        "postDelay": 1000
     },
     "BattleSupportFormationConfirm": {
         "action": "ClickSelf",

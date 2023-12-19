@@ -60,6 +60,7 @@ namespace asst
         bool enter_support_page();
         bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
         void swipe_page();
+        void swipe_support_info_page();
         void swipe_to_the_left(int times = 2);
         bool confirm_selection();
         bool click_role_table(battle::Role role);
@@ -69,11 +70,13 @@ namespace asst
         bool select_formation(int select_index);
         bool select_random_support_unit();
         bool select_support_oper();
+        bool check_if_skill_name_match(std::string skill_name, std::string demaned_skill_name, double threshold = 0.5);
 
         void quit(std::string msg = "");
 
         std::vector<TextRect> analyzer_opers();
         std::vector<TextRect> analyzer_support_opers();
+        TextRect analyzer_support_opers_skill();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;

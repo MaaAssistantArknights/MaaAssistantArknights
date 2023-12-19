@@ -6,6 +6,7 @@
 #include "GeneralConfig.h"
 #include "Miscellaneous/AvatarCacheManager.h"
 #include "Miscellaneous/BattleDataConfig.h"
+#include "Miscellaneous/CharSkillConfig.h"
 #include "Miscellaneous/CopilotConfig.h"
 #include "Miscellaneous/InfrastConfig.h"
 #include "Miscellaneous/ItemConfig.h"
@@ -147,6 +148,8 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(RecruitConfig, "recruitment.json"_p);
     LoadResourceAndCheckRet(BattleDataConfig, "battle_data.json"_p);
     LoadResourceAndCheckRet(OcrConfig, "ocr_config.json"_p);
+    LoadResourceAndCheckRet(CharSkillConfig, "char_skill_mapping.json"_p);
+
 
     /* load cache */
     // 这个任务依赖 BattleDataConfig

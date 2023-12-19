@@ -3,6 +3,7 @@
 #include "Utils/Ranges.hpp"
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
+#include "Config/Miscellaneous/CharSkillConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
 #include "Config/TaskData.h"
@@ -82,7 +83,8 @@ bool asst::BattleFormationTask::_run()
     unselected_opers.clear();
 
     for (auto& [role, oper_groups] : m_formation) {
-        unselected_opers[role] = add_formation(role, oper_groups);
+        //unselected_opers[role] = add_formation(role, oper_groups); // TODO chage back
+        unselected_opers[role] = std::move(oper_groups);
     }
         
     add_additional();
@@ -199,7 +201,7 @@ std::vector<asst::BattleFormationTask::OperGroup> asst::BattleFormationTask::add
             error_times++;
         }
         if (error_times >= 2) {
-            // for a operator, if he/she's not found in 2 rows, he/she should be not in the box
+            // for a operator, if he/she's not found in 2 rows, he/she should be not in the box 
             break;
         }
     }
@@ -309,6 +311,48 @@ bool asst::BattleFormationTask::select_random_support_unit()
            ProcessTask(*this, { "BattleSupportUnitFormationSelectRandom" }).run();
 }
 
+asst::TextRect asst::BattleFormationTask::analyzer_support_opers_skill() {
+    auto formation_task_ptr = Task.get("BattleSupportUnitSkillOCR"); //
+    auto image = ctrler()->get_image();
+    const auto& ocr_replace = Task.get<OcrTaskInfo>("CharsNameOcrReplace");
+    std::vector<TemplDetOCRer::Result> skills_result;
+
+    std::string task_name = "BattleSupportUnitSkill-DetailedInfo";
+
+    TemplDetOCRer name_analyzer(image);
+    name_analyzer.set_task_info(task_name, "BattleSupportUnitSkillOCR");
+    name_analyzer.set_replace(ocr_replace->replace_map, ocr_replace->replace_full);
+    auto cur_opt = name_analyzer.analyze();
+
+    for (auto& res : *cur_opt) {
+        constexpr int kMinDistance = 5;
+        auto find_it = ranges::find_if(skills_result, [&res](const TemplDetOCRer::Result& pre) {
+            return std::abs(pre.flag_rect.x - res.flag_rect.x) < kMinDistance &&
+                std::abs(pre.flag_rect.y - res.flag_rect.y) < kMinDistance;
+        });
+        if (find_it != skills_result.end()) {
+            continue;
+        }
+        skills_result.emplace_back(std::move(res));
+    }
+
+    if (skills_result.empty()) {
+        Log.error("BattleSupportUnitSkillOCR: no skill found");
+    } else if (skills_result.size() != 1) {
+        Log.error("BattleSupportUnitSkillOCR: more than one skill found");
+    }
+
+    std::vector<TextRect> tr_res;
+    for (const auto& res : skills_result) {
+        tr_res.emplace_back(TextRect { res.rect, res.score, res.text });
+    }
+    Log.info(tr_res);
+
+
+    return tr_res[0];
+}
+
+
 std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_support_opers()
 {
     auto formation_task_ptr = Task.get("BattleSupportFormationOCR");
@@ -336,7 +380,7 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_support_opers()
     }
 
     if (opers_result.empty()) {
-        Log.error("BattleFormationTask: no oper found");
+        Log.error("BattleSupportFormationOCR: no oper found");
         return {};
     }
     sort_by_vertical_(opers_result);
@@ -412,6 +456,8 @@ bool asst::BattleFormationTask::select_support_oper()
 {
     auto opers_result = analyzer_support_opers();
     auto& group = m_support_unit.second;
+    std::string selected_unit_name = "";
+    int selected_unit_skill = -1;
 
     // TODO 目前只能判断干员，不能判断技能
     int delay = Task.get("BattleSupportFormationOCR")->post_delay;
@@ -421,64 +467,73 @@ bool asst::BattleFormationTask::select_support_oper()
         for (const auto& oper : group) {
             if (oper.name == name) {
                 found = true;
+                selected_unit_name = name;
+                selected_unit_skill = oper.skill;
                 break;
             }
         }
 
         if (found) {
-            ctrler()->click(res.rect);
+            // assume the center of the name box is always at the fixed relative position
+            int xCenter = res.rect.x + res.rect.width / 2, yCenter = res.rect.y + res.rect.height / 2;
+            // <info button> - <center of the name box> = (+42, -286)
+            int xClick = xCenter + 42, yClick = yCenter - 286;
+            Rect clickRect = { xClick, yClick, 1, 1 };
+            ctrler()->click(clickRect);
             sleep(delay);
 
-            json::value info = basic_info_with_what("BattleSupportSelected");
-            auto& details = info["details"];
-            details["selected"] = name;
-            callback(AsstMsg::SubTaskExtraInfo, info);
+            // swipe to the bottom to make sure the name box is fully visible
+            swipe_support_info_page();
 
-            return true;
+            // get the skill name of the support unit
+            auto rect = analyzer_support_opers_skill();
+            std::string skill_name = rect.text;
+            auto demaned_skill_name = asst::CharSkill.get_skill_name_by_pos(selected_unit_name, selected_unit_skill);
+
+            ProcessTask(*this, { "ReturnOnce" }).run();
+
+            if (check_if_skill_name_match(skill_name, demaned_skill_name)) {
+                ctrler()->click(res.rect);
+                sleep(delay);
+
+                json::value info = basic_info_with_what("BattleSupportSelected");
+                auto& details = info["details"];
+                details["selected"] = name;
+                callback(AsstMsg::SubTaskExtraInfo, info);
+
+                return true;
+            }
         }
     }
  
     return false;
 }
 
-bool asst::BattleFormationTask::enter_support_page() 
+bool asst::BattleFormationTask::check_if_skill_name_match(std::string skill_name, std::string demaned_skill_name,
+                                                        double threshold)
 {
-    return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
-}
-
-bool asst::BattleFormationTask::select_support_oper()
-{
-    auto opers_result = analyzer_support_opers();
-    auto& group = m_support_unit.second;
-
-    // TODO 目前只能判断干员，不能判断技能
-    int delay = Task.get("BattleSupportFormationOCR")->post_delay;
-    for (const auto& res : opers_result) {
-        const std::string& name = res.text;
-        bool found = false;
-        for (const auto& oper : group) {
-            if (oper.name == name) {
-                found = true;
-                break;
+    /* TODO: Need to find a better way
+    This function uses dp to calculate the longest common substring of two strings, and if ratio of the length of the longest common substring to the length of skill_name is greater than threshold, then return true.
+    */
+    auto n = skill_name.length(), m = demaned_skill_name.length();
+    std::vector<std::vector<int>> dp(n + 1, std::vector<int>(m + 1, 0));
+    int max_len = 0;
+    for (int i = 1; i <= n; ++i) {
+        char c1 = skill_name[i - 1];
+        for (int j = 1; j <= m; ++j) {
+            char c2 = demaned_skill_name[j - 1];
+            if (c1 == c2) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+                max_len = std::max(max_len, dp[i][j]);
+            }
+            else {
+                dp[i][j] = std::max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
-
-        if (found) {
-            ctrler()->click(res.rect);
-            sleep(delay);
-
-            json::value info = basic_info_with_what("BattleSupportSelected");
-            auto& details = info["details"];
-            details["selected"] = name;
-            callback(AsstMsg::SubTaskExtraInfo, info);
-
-            return true;
-        }
     }
-
-    return false;
+    return (double)max_len / n >= threshold;
 }
-
+ 
 bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>& groups)
 {
     auto opers_result = analyzer_opers();
@@ -545,12 +600,18 @@ void asst::BattleFormationTask::swipe_page()
     ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
 }
 
+void asst::BattleFormationTask::swipe_support_info_page() {
+    ProcessTask(*this, { "BattleSupportUnitFormationOperInfoSwipeToTheDown" }).run();
+}
+
 void asst::BattleFormationTask::swipe_to_the_left(int times)
 {
     for (int i = 0; i < times; ++i) {
         ProcessTask(*this, { "BattleFormationOperListSwipeToTheLeft" }).run();
     }
 }
+
+
 
 bool asst::BattleFormationTask::confirm_selection()
 {
