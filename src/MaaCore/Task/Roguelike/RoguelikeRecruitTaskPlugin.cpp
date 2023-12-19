@@ -431,6 +431,8 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     bool start_with_elite_two = m_config->get_start_with_elite_two();
     // 当前肉鸽难度
     int difficulty = m_config->get_difficulty();
+    // 当前肉鸽模式
+    RoguelikeMode mode = m_config->get_mode();
 
     for (; i != SwipeTimes; ++i) {
         if (need_exit()) {
@@ -453,14 +455,16 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             Log.info(__FUNCTION__, "| Oper list:", oper_names);
 
             if (it != chars.cend()) {
-                // 需要凹直升且当前为max难度时
-                if (start_with_elite_two && difficulty == INT_MAX) {
+                // 需要凹直升且当前为max难度或者为凹直升模式时
+                if (mode == RoguelikeMode::StartEliteTwo || (start_with_elite_two && difficulty == INT_MAX)) {
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
                     }
                     else {
-                        // 重置难度并放弃
-                        m_config->set_difficulty(0);
+                        // 烧开水模式时重置难度并放弃
+                        if (mode == RoguelikeMode::Collectible) {
+                            m_config->set_difficulty(0);
+                        }
                         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
                             .set_times_limit("Roguelike@Abandon", 0)
                             .run();

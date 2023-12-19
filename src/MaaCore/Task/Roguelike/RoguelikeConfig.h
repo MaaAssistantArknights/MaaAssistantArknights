@@ -13,6 +13,7 @@ namespace asst
                         // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
                         // 3 - 尝试通关，激进策略（TODO）
         Collectible = 4, // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
+        StartEliteTwo = 5, // 5 - 只刷直升，有直升就结束任务
     };
 
     class RoguelikeTheme
@@ -41,7 +42,7 @@ namespace asst
         static constexpr bool is_valid_mode(RoguelikeMode mode)
         {
             return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment ||
-                   mode == RoguelikeMode::Collectible;
+                   mode == RoguelikeMode::Collectible || mode == RoguelikeMode::StartEliteTwo;
         }
 
     public:
