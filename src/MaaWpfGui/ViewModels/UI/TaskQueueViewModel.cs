@@ -173,10 +173,18 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Running { get; set; }
 
+        public bool Closing { get; set; }
+
         private readonly DispatcherTimer _timer = new DispatcherTimer();
 
-        private bool ConfirmExit()
+        public bool ConfirmExit()
         {
+            if (Closing)
+            {
+                return false;
+            }
+
+            Closing = true;
             if (Application.Current.IsShuttingDown())
             {
                 // allow close if application is shutting down
@@ -195,8 +203,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return true;
             }
 
-            var window = Instances.MainWindowManager.GetWindowIfVisible();
-            var result = MessageBoxHelper.ShowNative(window, LocalizationHelper.GetString("ConfirmExitText"), LocalizationHelper.GetString("ConfirmExitTitle"), "MAA", MessageBoxButton.YesNo, MessageBoxImage.Information, MessageBoxResult.No);
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("ConfirmExitText"),
+                LocalizationHelper.GetString("ConfirmExitTitle"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            Closing = false;
             return result == MessageBoxResult.Yes;
         }
 
@@ -330,6 +342,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 ResetFightVariables();
+                ResetTaskSelection();
                 RefreshCustomInfrastPlanIndexByPeriod();
             }
 
@@ -354,8 +367,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // "ReclamationAlgorithm",
             };
             var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType != string.Empty && clientType != "Official" && clientType != "Bilibili"
-                && DateTime.Now < new DateTime(2023, 10, 12))
+            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 06))
             {
                 taskList.Add("ReclamationAlgorithm");
             }
@@ -364,6 +376,8 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
                 new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
@@ -737,6 +751,20 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /// <summary>
+        /// Reset unsaved task selection.
+        /// </summary>
+        public void ResetTaskSelection()
+        {
+            foreach (var item in TaskItemViewModels)
+            {
+                if (item.IsCheckedWithNull == null)
+                {
+                    item.IsChecked = false;
+                }
+            }
+        }
+
         private async Task<bool> ConnectToEmulator()
         {
             string errMsg = string.Empty;
@@ -806,14 +834,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            Instances.SettingsViewModel.SetupSleepManagement();
-
             if (!_runningState.GetIdle())
             {
                 return;
             }
 
             _runningState.SetIdle(false);
+
+            Instances.SettingsViewModel.SetupSleepManagement();
 
             // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
             TaskItemSelectionChanged();
@@ -1160,7 +1188,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Sets parameters.
         /// </summary>
-        private void SetFightParams()
+        public void SetFightParams()
         {
             if (!EnableSetFightParams)
             {
@@ -1231,26 +1259,33 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
+        private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new Dictionary<string, IEnumerable<string>>
+        {
+            { string.Empty, new[] { "讯使","嘉维尔","坚雷" } },
+            { "Official", new[] { "讯使", "嘉维尔", "坚雷" } },
+            { "Bilibili", new[] { "讯使", "嘉维尔", "坚雷" } },
+            { "YoStarEN", new[] { "Courier", "Gavial", "Dur-nar" } },
+            { "YoStarJP", new[] { "クーリエ", "ガヴィル", "ジュナー" } },
+            { "YoStarKR", new[] { "쿠리어", "가비알", "듀나" } },
+            { "txwy", new[] { "訊使", "嘉維爾", "堅雷" } },
+        };
+
         private bool AppendMall()
         {
-            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；');
-            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；');
-            for (var i = 0; i < buyFirst.Length; ++i)
-            {
-                buyFirst[i] = buyFirst[i].Trim();
-            }
+            var buyFirst = Instances.SettingsViewModel.CreditFirstList.Split(';', '；')
+                .Select(s => s.Trim());
 
-            for (var i = 0; i < blackList.Length; ++i)
-            {
-                blackList[i] = blackList[i].Trim();
-            }
+            var blackList = Instances.SettingsViewModel.CreditBlackList.Split(';', '；')
+                .Select(s => s.Trim());
+
+            blackList = blackList.Union(_blackCharacterListMapping[Instances.SettingsViewModel.ClientType]);
 
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditFightSelectFormation,
                 Instances.SettingsViewModel.CreditShopping,
-                buyFirst,
-                blackList,
+                buyFirst.ToArray(),
+                blackList.ToArray(),
                 Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
         }
 
@@ -1291,9 +1326,11 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
+            int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+
             return Instances.AsstProxy.AsstAppendRecruit(
                 maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                Instances.SettingsViewModel.SelectExtraTags,Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()
@@ -1780,6 +1817,7 @@ namespace MaaWpfGui.ViewModels.UI
             int pid = 0;
             string address = ConfigurationHelper.GetValue(ConfigurationKeys.ConnectAddress, string.Empty);
             var port = address.StartsWith("127") ? address.Substring(10) : "5555";
+            _logger.Information($"address: {address}, port: {port}");
 
             string portCmd = "netstat -ano|findstr \"" + port + "\"";
             Process checkCmd = new Process
@@ -1829,9 +1867,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     string[] arr = line.Split(',');
                     if (arr.Length >= 2
-                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal))
-                        && Convert.ToBoolean(string.Compare(arr[1], "[::]:" + port, StringComparison.Ordinal))
-                        && Convert.ToBoolean(string.Compare(arr[1], "0.0.0.0:" + port, StringComparison.Ordinal)))
+                        && Convert.ToBoolean(string.Compare(arr[1], address, StringComparison.Ordinal)))
                     {
                         continue;
                     }
@@ -1942,6 +1978,11 @@ namespace MaaWpfGui.ViewModels.UI
             /// Exits MAA and, if no other processes of MAA are running, computer shutdown.
             /// </summary>
             ExitSelfIfOtherMaaElseShutdown,
+
+            /// <summary>
+            /// Switch the game to background without killing it.
+            /// </summary>
+            BackToAndroidHome,
         }
 
         /// <summary>
@@ -2060,6 +2101,10 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         goto case ActionType.Shutdown;
                     }
+
+                case ActionType.BackToAndroidHome:
+                    Instances.AsstProxy.AsstBackToHome();
+                    break;
 
                 default:
                     Execute.OnUIThread(() =>

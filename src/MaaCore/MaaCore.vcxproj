@@ -48,6 +48,9 @@
     <ClInclude Include="Config\Miscellaneous\OcrConfig.h" />
     <ClInclude Include="Config\Miscellaneous\SSSCopilotConfig.h" />
     <ClInclude Include="Config\OnnxSessions.h" />
+    <ClInclude Include="Config\TaskData\TaskDataSymbol.h" />
+    <ClInclude Include="Config\TaskData\TaskDataSymbolStream.h" />
+    <ClInclude Include="Config\TaskData\TaskDataTypes.h" />
     <ClInclude Include="Controller\adb-lite\client.hpp" />
     <ClInclude Include="Controller\adb-lite\protocol.hpp" />
     <ClInclude Include="Controller\Controller.h" />
@@ -77,7 +80,6 @@
     <ClInclude Include="Task\Interface\VideoRecognitionTask.h" />
     <ClInclude Include="Task\Interface\OperBoxTask.h" />
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h" />
-    <ClInclude Include="Task\Miscellaneous\CopilotListNotificationPlugin.h" />
     <ClInclude Include="Task\Miscellaneous\OperBoxRecognitionTask.h" />
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h" />
     <ClInclude Include="Task\Miscellaneous\TaskFileReloadTask.h" />
@@ -229,6 +231,8 @@
     <ClCompile Include="Config\Miscellaneous\OcrConfig.cpp" />
     <ClCompile Include="Config\Miscellaneous\SSSCopilotConfig.cpp" />
     <ClCompile Include="Config\OnnxSessions.cpp" />
+    <ClCompile Include="Config\TaskData\TaskDataSymbol.cpp" />
+    <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp" />
     <ClCompile Include="Controller\adb-lite\client.cpp" />
     <ClCompile Include="Controller\adb-lite\protocol.cpp" />
     <ClCompile Include="Controller\Controller.cpp" />
@@ -252,7 +256,6 @@
     <ClCompile Include="Task\Interface\VideoRecognitionTask.cpp" />
     <ClCompile Include="Task\Interface\OperBoxTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp" />
-    <ClCompile Include="Task\Miscellaneous\CopilotListNotificationPlugin.cpp" />
     <ClCompile Include="Task\Miscellaneous\OperBoxRecognitionTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp" />
     <ClCompile Include="Task\Miscellaneous\TaskFileReloadTask.cpp" />

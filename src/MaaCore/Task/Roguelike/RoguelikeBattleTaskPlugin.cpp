@@ -35,7 +35,7 @@ bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    if (m_config->get_theme().empty()) {
+    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
@@ -250,8 +250,9 @@ asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(co
 
 void asst::RoguelikeBattleTaskPlugin::cache_oper_elite_status()
 {
-    for (const std::string& name : m_cur_deployment_opers | views::keys) {
-        m_oper_elite.emplace(name, status()->get_number(Status::RoguelikeCharElitePrefix + name).value_or(0));
+    const auto& oper_list = m_config->get_oper();
+    for (const auto& oper : m_cur_deployment_opers) {
+        m_oper_elite.emplace(oper.name, oper_list.contains(oper.name) ? oper_list.at(oper.name).elite : 0);
     }
 }
 
@@ -334,7 +335,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     const auto& groups = RoguelikeRecruit.get_group_info(m_config->get_theme());
     // 获取当前肉鸽的分组内排名信息
     // const auto& group_rank = RoguelikeRecruit.get_group_rank(rogue_theme);
-    for (const auto& [name, oper] : m_cur_deployment_opers) {
+    for (const auto& oper : m_cur_deployment_opers) {
         // 干员冷却中
         if (oper.cooling) {
             Log.debug("operator", oper.name, "is cooling now.");
@@ -382,9 +383,11 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     std::sort(deploy_plan_list.begin(), deploy_plan_list.end());
     for (const auto& deploy_plan : deploy_plan_list) {
         if (!m_used_tiles.contains(deploy_plan.placed) &&
-            !m_blacklist_location.contains(deploy_plan.placed)) { // 判断该位置是否已被占据
-            auto& oper = m_cur_deployment_opers[deploy_plan.oper_name];
-            if (!oper.available) { // 等费
+            !m_blacklist_location.contains(deploy_plan.placed) /* 判断该位置是否已被占据 */) {
+
+            if (auto oper_it = ranges::find_if(m_cur_deployment_opers,
+                                               [&](const auto& oper) { return oper.name == deploy_plan.oper_name; });
+                oper_it == m_cur_deployment_opers.end() || !oper_it->available) { // 等费
                 Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank,
                           "but now waiting for cost.");
                 return true;
@@ -394,8 +397,7 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
             // 获取技能用法和使用次数
-            const auto& oper_info =
-                RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
+            const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
             m_skill_usage[deploy_plan.oper_name] = oper_info.skill_usage;
             m_skill_times[deploy_plan.oper_name] = oper_info.skill_times;
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
@@ -415,10 +417,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     }
 
     std::unordered_set<std::string> pre_cooling;
-    for (const auto& [name, oper] : m_cur_deployment_opers) {
+    for (const auto& oper : m_cur_deployment_opers) {
         if (oper.cooling) {
-            pre_cooling.emplace(name);
-            m_deployed_time.erase(name);
+            pre_cooling.emplace(oper.name);
+            m_deployed_time.erase(oper.name);
         }
     }
 
@@ -446,13 +448,13 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     std::unordered_set<std::string> cur_cooling;
     size_t cur_available_count = 0;   // without drones
     size_t cur_deployments_count = 0; // without drones
-    for (const auto& [name, oper] : m_cur_deployment_opers) {
+    for (const auto& oper : m_cur_deployment_opers) {
         if (oper.role == Role::Drone) continue;
 
         ++cur_deployments_count;
         if (oper.cooling) {
-            cur_cooling.emplace(name);
-            m_deployed_time.erase(name);
+            cur_cooling.emplace(oper.name);
+            m_deployed_time.erase(oper.name);
         }
         if (oper.available) ++cur_available_count;
     }
@@ -483,11 +485,11 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
             m_cur_home_index = *urgent_home_opt;
 
             if (m_allow_to_use_dice) {
-                auto deployment_key_views = m_cur_deployment_opers | views::keys;
-                auto dice_key_iter = ranges::find_first_of(deployment_key_views, DiceSet);
-                if (dice_key_iter != deployment_key_views.end()) {
+                auto dice_key_iter = ranges::find_if(m_cur_deployment_opers,
+                                                     [&](const auto& oper) { return DiceSet.contains(oper.name); });
+                if (dice_key_iter != m_cur_deployment_opers.end()) {
                     best_oper_is_dice = true;
-                    best_oper = m_cur_deployment_opers[*dice_key_iter];
+                    best_oper = *dice_key_iter;
                 }
             }
         }
@@ -659,7 +661,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
     bool has_medic = false;
     bool has_blocking = false;
     bool has_air_defense = false;
-    for (const auto& oper : m_cur_deployment_opers | views::values) {
+    for (const auto& oper : m_cur_deployment_opers) {
         const auto& role = oper.role;
         switch (role) {
         case Role::Medic:
@@ -695,13 +697,11 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
     Log.trace("use_air_defense", use_air_defense, ", use_blocking", use_blocking, ", use_medic", use_medic);
 
     std::vector<DeploymentOper> cur_available;
-    for (const auto& oper : m_cur_deployment_opers | views::values) {
+    for (const auto& oper : m_cur_deployment_opers) {
         if (oper.available) cur_available.emplace_back(oper);
     }
     // 费用高的优先用，放前面
-    ranges::sort(cur_available, [&](const auto& lhs, const auto& rhs) {
-        return m_cur_deployment_opers.at(lhs.name).cost > m_cur_deployment_opers.at(rhs.name).cost;
-    });
+    ranges::sort(cur_available, [](const auto& lhs, const auto& rhs) { return lhs.cost > rhs.cost; });
 
     DeploymentOper best_oper;
 

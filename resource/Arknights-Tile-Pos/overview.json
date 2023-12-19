@@ -7955,6 +7955,231 @@
         "stageId": "act2bossrush_tm04",
         "width": 21
     },
+    "act30side_01-activities/act30side/level_act30side_01": {
+        "code": "RS-1",
+        "filename": "act30side_01-activities-act30side-level_act30side_01.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_01",
+        "name": "注意事项",
+        "stageId": "act30side_01",
+        "width": 10
+    },
+    "act30side_02-activities/act30side/level_act30side_02": {
+        "code": "RS-2",
+        "filename": "act30side_02-activities-act30side-level_act30side_02.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_02",
+        "name": "同车异图",
+        "stageId": "act30side_02",
+        "width": 10
+    },
+    "act30side_03-activities/act30side/level_act30side_03": {
+        "code": "RS-3",
+        "filename": "act30side_03-activities-act30side-level_act30side_03.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_03",
+        "name": "临时停车",
+        "stageId": "act30side_03",
+        "width": 12
+    },
+    "act30side_04-activities/act30side/level_act30side_04": {
+        "code": "RS-4",
+        "filename": "act30side_04-activities-act30side-level_act30side_04.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_04",
+        "name": "重回正轨",
+        "stageId": "act30side_04",
+        "width": 12
+    },
+    "act30side_05-activities/act30side/level_act30side_05": {
+        "code": "RS-5",
+        "filename": "act30side_05-activities-act30side-level_act30side_05.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_05",
+        "name": "逃票？",
+        "stageId": "act30side_05",
+        "width": 11
+    },
+    "act30side_06-activities/act30side/level_act30side_06": {
+        "code": "RS-6",
+        "filename": "act30side_06-activities-act30side-level_act30side_06.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_06",
+        "name": "补票！",
+        "stageId": "act30side_06",
+        "width": 11
+    },
+    "act30side_07-activities/act30side/level_act30side_07": {
+        "code": "RS-7",
+        "filename": "act30side_07-activities-act30side-level_act30side_07.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_07",
+        "name": "制动失灵",
+        "stageId": "act30side_07",
+        "width": 11
+    },
+    "act30side_08-activities/act30side/level_act30side_08": {
+        "code": "RS-8",
+        "filename": "act30side_08-activities-act30side-level_act30side_08.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_08",
+        "name": "极限时速",
+        "stageId": "act30side_08",
+        "width": 12
+    },
+    "act30side_ex01#f#-activities/act30side/level_act30side_ex01": {
+        "code": "RS-EX-1",
+        "filename": "act30side_ex01#f#-activities-act30side-level_act30side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex01",
+        "name": "枕木",
+        "stageId": "act30side_ex01#f#",
+        "width": 11
+    },
+    "act30side_ex01-activities/act30side/level_act30side_ex01": {
+        "code": "RS-EX-1",
+        "filename": "act30side_ex01-activities-act30side-level_act30side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex01",
+        "name": "枕木",
+        "stageId": "act30side_ex01",
+        "width": 11
+    },
+    "act30side_ex02#f#-activities/act30side/level_act30side_ex02": {
+        "code": "RS-EX-2",
+        "filename": "act30side_ex02#f#-activities-act30side-level_act30side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex02",
+        "name": "信号灯",
+        "stageId": "act30side_ex02#f#",
+        "width": 11
+    },
+    "act30side_ex02-activities/act30side/level_act30side_ex02": {
+        "code": "RS-EX-2",
+        "filename": "act30side_ex02-activities-act30side-level_act30side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex02",
+        "name": "信号灯",
+        "stageId": "act30side_ex02",
+        "width": 11
+    },
+    "act30side_ex03#f#-activities/act30side/level_act30side_ex03": {
+        "code": "RS-EX-3",
+        "filename": "act30side_ex03#f#-activities-act30side-level_act30side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex03",
+        "name": "待避",
+        "stageId": "act30side_ex03#f#",
+        "width": 12
+    },
+    "act30side_ex03-activities/act30side/level_act30side_ex03": {
+        "code": "RS-EX-3",
+        "filename": "act30side_ex03-activities-act30side-level_act30side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex03",
+        "name": "待避",
+        "stageId": "act30side_ex03",
+        "width": 12
+    },
+    "act30side_ex04#f#-activities/act30side/level_act30side_ex04": {
+        "code": "RS-EX-4",
+        "filename": "act30side_ex04#f#-activities-act30side-level_act30side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_ex04",
+        "name": "挡车器",
+        "stageId": "act30side_ex04#f#",
+        "width": 11
+    },
+    "act30side_ex04-activities/act30side/level_act30side_ex04": {
+        "code": "RS-EX-4",
+        "filename": "act30side_ex04-activities-act30side-level_act30side_ex04.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_ex04",
+        "name": "挡车器",
+        "stageId": "act30side_ex04",
+        "width": 11
+    },
+    "act30side_ex05#f#-activities/act30side/level_act30side_ex05": {
+        "code": "RS-EX-5",
+        "filename": "act30side_ex05#f#-activities-act30side-level_act30side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex05",
+        "name": "展线",
+        "stageId": "act30side_ex05#f#",
+        "width": 11
+    },
+    "act30side_ex05-activities/act30side/level_act30side_ex05": {
+        "code": "RS-EX-5",
+        "filename": "act30side_ex05-activities-act30side-level_act30side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex05",
+        "name": "展线",
+        "stageId": "act30side_ex05",
+        "width": 11
+    },
+    "act30side_ex06#f#-activities/act30side/level_act30side_ex06": {
+        "code": "RS-EX-6",
+        "filename": "act30side_ex06#f#-activities-act30side-level_act30side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex06",
+        "name": "道口",
+        "stageId": "act30side_ex06#f#",
+        "width": 11
+    },
+    "act30side_ex06-activities/act30side/level_act30side_ex06": {
+        "code": "RS-EX-6",
+        "filename": "act30side_ex06-activities-act30side-level_act30side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex06",
+        "name": "道口",
+        "stageId": "act30side_ex06",
+        "width": 11
+    },
+    "act30side_ex07#f#-activities/act30side/level_act30side_ex07": {
+        "code": "RS-EX-7",
+        "filename": "act30side_ex07#f#-activities-act30side-level_act30side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex07",
+        "name": "道岔",
+        "stageId": "act30side_ex07#f#",
+        "width": 12
+    },
+    "act30side_ex07-activities/act30side/level_act30side_ex07": {
+        "code": "RS-EX-7",
+        "filename": "act30side_ex07-activities-act30side-level_act30side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex07",
+        "name": "道岔",
+        "stageId": "act30side_ex07",
+        "width": 12
+    },
+    "act30side_ex08#f#-activities/act30side/level_act30side_ex08": {
+        "code": "RS-EX-8",
+        "filename": "act30side_ex08#f#-activities-act30side-level_act30side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex08",
+        "name": "环形回车道",
+        "stageId": "act30side_ex08#f#",
+        "width": 13
+    },
+    "act30side_ex08-activities/act30side/level_act30side_ex08": {
+        "code": "RS-EX-8",
+        "filename": "act30side_ex08-activities-act30side-level_act30side_ex08.json",
+        "height": 8,
+        "levelId": "activities/act30side/level_act30side_ex08",
+        "name": "环形回车道",
+        "stageId": "act30side_ex08",
+        "width": 13
+    },
+    "act30side_tr01-activities/act30side/level_act30side_tr01": {
+        "code": "RS-TR-1",
+        "filename": "act30side_tr01-activities-act30side-level_act30side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act30side/level_act30side_tr01",
+        "name": "安全线内",
+        "stageId": "act30side_tr01",
+        "width": 11
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
@@ -9800,6 +10025,69 @@
         "stageId": "level_act38rune_01-04",
         "width": 11
     },
+    "level_crisis_v2_01-01-obt/crisis/v2/level_crisis_v2_01-01": {
+        "code": "level_crisis_v2_01-01",
+        "filename": "level_crisis_v2_01-01-obt-crisis-v2-level_crisis_v2_01-01.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-01",
+        "name": "level_crisis_v2_01-01",
+        "stageId": "level_crisis_v2_01-01",
+        "width": 12
+    },
+    "level_crisis_v2_01-02-obt/crisis/v2/level_crisis_v2_01-02": {
+        "code": "level_crisis_v2_01-02",
+        "filename": "level_crisis_v2_01-02-obt-crisis-v2-level_crisis_v2_01-02.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-02",
+        "name": "level_crisis_v2_01-02",
+        "stageId": "level_crisis_v2_01-02",
+        "width": 12
+    },
+    "level_crisis_v2_01-03-obt/crisis/v2/level_crisis_v2_01-03": {
+        "code": "level_crisis_v2_01-03",
+        "filename": "level_crisis_v2_01-03-obt-crisis-v2-level_crisis_v2_01-03.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-03",
+        "name": "level_crisis_v2_01-03",
+        "stageId": "level_crisis_v2_01-03",
+        "width": 14
+    },
+    "level_crisis_v2_01-04-obt/crisis/v2/level_crisis_v2_01-04": {
+        "code": "level_crisis_v2_01-04",
+        "filename": "level_crisis_v2_01-04-obt-crisis-v2-level_crisis_v2_01-04.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-04",
+        "name": "level_crisis_v2_01-04",
+        "stageId": "level_crisis_v2_01-04",
+        "width": 12
+    },
+    "level_crisis_v2_01-05-obt/crisis/v2/level_crisis_v2_01-05": {
+        "code": "level_crisis_v2_01-05",
+        "filename": "level_crisis_v2_01-05-obt-crisis-v2-level_crisis_v2_01-05.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-05",
+        "name": "level_crisis_v2_01-05",
+        "stageId": "level_crisis_v2_01-05",
+        "width": 12
+    },
+    "level_crisis_v2_01-06-obt/crisis/v2/level_crisis_v2_01-06": {
+        "code": "level_crisis_v2_01-06",
+        "filename": "level_crisis_v2_01-06-obt-crisis-v2-level_crisis_v2_01-06.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-06",
+        "name": "level_crisis_v2_01-06",
+        "stageId": "level_crisis_v2_01-06",
+        "width": 12
+    },
+    "level_crisis_v2_01-07-obt/crisis/v2/level_crisis_v2_01-07": {
+        "code": "level_crisis_v2_01-07",
+        "filename": "level_crisis_v2_01-07-obt-crisis-v2-level_crisis_v2_01-07.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_01-07",
+        "name": "level_crisis_v2_01-07",
+        "stageId": "level_crisis_v2_01-07",
+        "width": 11
+    },
     "level_rune_01-01-obt/rune/level_rune_01-01": {
         "code": "level_rune_01-01",
         "filename": "level_rune_01-01-obt-rune-level_rune_01-01.json",
@@ -10680,6 +10968,114 @@
         "levelId": "obt/legion/lt10/level_lt10_06",
         "name": "落潮",
         "stageId": "lt_10_06",
+        "width": 12
+    },
+    "lt_11_01-obt/legion/lt11/level_lt11_01": {
+        "code": "LT-1",
+        "filename": "lt_11_01-obt-legion-lt11-level_lt11_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt11/level_lt11_01",
+        "name": "巡检作业",
+        "stageId": "lt_11_01",
+        "width": 9
+    },
+    "lt_11_02-obt/legion/lt11/level_lt11_02": {
+        "code": "LT-2",
+        "filename": "lt_11_02-obt-legion-lt11-level_lt11_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt11/level_lt11_02",
+        "name": "空地协同作业",
+        "stageId": "lt_11_02",
+        "width": 11
+    },
+    "lt_11_03-obt/legion/lt11/level_lt11_03": {
+        "code": "LT-3",
+        "filename": "lt_11_03-obt-legion-lt11-level_lt11_03.json",
+        "height": 7,
+        "levelId": "obt/legion/lt11/level_lt11_03",
+        "name": "喷洒作业",
+        "stageId": "lt_11_03",
+        "width": 11
+    },
+    "lt_11_04-obt/legion/lt11/level_lt11_04": {
+        "code": "LT-4",
+        "filename": "lt_11_04-obt-legion-lt11-level_lt11_04.json",
+        "height": 9,
+        "levelId": "obt/legion/lt11/level_lt11_04",
+        "name": "播撒作业",
+        "stageId": "lt_11_04",
+        "width": 11
+    },
+    "lt_11_05-obt/legion/lt11/level_lt11_05": {
+        "code": "LT-5",
+        "filename": "lt_11_05-obt-legion-lt11-level_lt11_05.json",
+        "height": 8,
+        "levelId": "obt/legion/lt11/level_lt11_05",
+        "name": "聚群作业",
+        "stageId": "lt_11_05",
+        "width": 11
+    },
+    "lt_11_06-obt/legion/lt11/level_lt11_06": {
+        "code": "LT-6",
+        "filename": "lt_11_06-obt-legion-lt11-level_lt11_06.json",
+        "height": 10,
+        "levelId": "obt/legion/lt11/level_lt11_06",
+        "name": "净空作业",
+        "stageId": "lt_11_06",
+        "width": 12
+    },
+    "lt_12_01-obt/legion/lt12/level_lt12_01": {
+        "code": "LT-1",
+        "filename": "lt_12_01-obt-legion-lt12-level_lt12_01.json",
+        "height": 7,
+        "levelId": "obt/legion/lt12/level_lt12_01",
+        "name": "骚乱肇始",
+        "stageId": "lt_12_01",
+        "width": 9
+    },
+    "lt_12_02-obt/legion/lt12/level_lt12_02": {
+        "code": "LT-2",
+        "filename": "lt_12_02-obt-legion-lt12-level_lt12_02.json",
+        "height": 7,
+        "levelId": "obt/legion/lt12/level_lt12_02",
+        "name": "如此助威",
+        "stageId": "lt_12_02",
+        "width": 11
+    },
+    "lt_12_03-obt/legion/lt12/level_lt12_03": {
+        "code": "LT-3",
+        "filename": "lt_12_03-obt-legion-lt12-level_lt12_03.json",
+        "height": 7,
+        "levelId": "obt/legion/lt12/level_lt12_03",
+        "name": "破栏而出",
+        "stageId": "lt_12_03",
+        "width": 11
+    },
+    "lt_12_04-obt/legion/lt12/level_lt12_04": {
+        "code": "LT-4",
+        "filename": "lt_12_04-obt-legion-lt12-level_lt12_04.json",
+        "height": 7,
+        "levelId": "obt/legion/lt12/level_lt12_04",
+        "name": "增幅呐喊",
+        "stageId": "lt_12_04",
+        "width": 11
+    },
+    "lt_12_05-obt/legion/lt12/level_lt12_05": {
+        "code": "LT-5",
+        "filename": "lt_12_05-obt-legion-lt12-level_lt12_05.json",
+        "height": 8,
+        "levelId": "obt/legion/lt12/level_lt12_05",
+        "name": "冲上看台",
+        "stageId": "lt_12_05",
+        "width": 12
+    },
+    "lt_12_06-obt/legion/lt12/level_lt12_06": {
+        "code": "LT-6",
+        "filename": "lt_12_06-obt-legion-lt12-level_lt12_06.json",
+        "height": 8,
+        "levelId": "obt/legion/lt12/level_lt12_06",
+        "name": "阿卡胡拉之巅",
+        "stageId": "lt_12_06",
         "width": 12
     },
     "lt_tr_01-obt/legion/lttr/level_lt_tr01": {
@@ -14237,6 +14633,15 @@
         "stageId": "mem_glider_1",
         "width": 11
     },
+    "mem_gnosis_1-obt/memory/level_memory_gnosis_1": {
+        "code": "mem_gnosis_1",
+        "filename": "mem_gnosis_1-obt-memory-level_memory_gnosis_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_gnosis_1",
+        "name": "俯瞰风雪",
+        "stageId": "mem_gnosis_1",
+        "width": 7
+    },
     "mem_grani_1-obt/memory/level_memory_grani_1": {
         "code": "mem_grani_1",
         "filename": "mem_grani_1-obt-memory-level_memory_grani_1.json",
@@ -14298,6 +14703,15 @@
         "levelId": "obt/memory/level_memory_halo_1",
         "name": "群星闪烁相映",
         "stageId": "mem_halo_1",
+        "width": 11
+    },
+    "mem_hamoni_1-obt/memory/level_memory_hamoni_1": {
+        "code": "mem_hamoni_1",
+        "filename": "mem_hamoni_1-obt-memory-level_memory_hamoni_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_hamoni_1",
+        "name": "沉重舞步",
+        "stageId": "mem_hamoni_1",
         "width": 11
     },
     "mem_hbisc2_1-obt/memory/level_memory_hbisc2_1": {
@@ -14461,6 +14875,15 @@
         "name": "最佳拍档",
         "stageId": "mem_kirara_1",
         "width": 10
+    },
+    "mem_kjera_1-obt/memory/level_memory_kjera_1": {
+        "code": "mem_kjera_1",
+        "filename": "mem_kjera_1-obt-memory-level_memory_kjera_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_kjera_1",
+        "name": "群山相伴",
+        "stageId": "mem_kjera_1",
+        "width": 11
     },
     "mem_kroos_1-obt/memory/level_memory_kroos_1": {
         "code": "mem_kroos_1",

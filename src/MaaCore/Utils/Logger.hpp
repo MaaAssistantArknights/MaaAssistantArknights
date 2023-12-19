@@ -588,12 +588,15 @@ namespace asst
         {
             constexpr uintmax_t MaxLogSize = 4ULL * 1024 * 1024;
             try {
-                if (std::filesystem::exists(m_log_path)) {
+                if (std::filesystem::exists(m_log_path) && std::filesystem::is_regular_file(m_log_path)) {
                     const uintmax_t log_size = std::filesystem::file_size(m_log_path);
                     if (log_size >= MaxLogSize) {
                         std::filesystem::rename(m_log_path, m_log_bak_path);
                     }
                 }
+            }
+            catch (std::filesystem::filesystem_error& e) {
+                std::cerr << e.what() << std::endl;
             }
             catch (...) {
             }

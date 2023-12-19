@@ -6,7 +6,7 @@
 
 <br>
 <div>
-    <img alt="C++" src="https://img.shields.io/badge/c++-20-%2300599C?logo=cplusplus">
+    <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
 </div>
 <div>
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
@@ -14,11 +14,14 @@
 <div>
     <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
     <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
+</div>
+<div>
     <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
+    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
 </div>
 <br>
 
-[简体中文](readme.md) | [繁體中文](./zh-tw/readme.md) | [English](./en-us/readme.md) | [日本語](./ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
+[简体中文](readme.md) | [繁體中文](./zh-tw/readme.md) | [English](./en-us/readme.md) | [日本語](./ja-jp/readme.md) | [한국어](./ko-kr/readme.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -33,7 +36,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 亮点功能
 
 - 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)；
-- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](./3.6-基建排班协议.md)；
+- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](./协议文档/基建排班协议.md)；
 - 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://yituliu.site/maarecruitdata)；
 - 支持手动识别公招界面，方便对高星公招做出选择； ~~（你的这个高姿回费出的是推王呢还是推王呢）~~
 - 支持识别干员列表，统计已有和未有干员（还能为手动识别公招界面提供已有潜能数据提示）；
@@ -60,12 +63,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-1. 请根据 [模拟器支持情况](./1.3-模拟器支持.md)，进行对应的操作；
+1. 请根据 [模拟器支持情况](./用户手册/模拟器和设备支持/Windows模拟器.md)，进行对应的操作；
 2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，更高不限；<br>
    对于国际服（美服）玩家，由于界面布局、字号等问题，我们则建议您将分辨率修改为 `1920 * 1080`；
 3. 开始使用吧！
 
-更多使用说明请参考 [详细介绍](./1.1-详细介绍.md)
+更多使用说明请参考 [详细介绍](./用户手册/详细介绍.md)
 
 ### 常见问题
 
@@ -77,7 +80,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 下载到一半提示“登陆”/“鉴权”；
 - 连接正常，任务开始了，但是没反应。
 
-请参考 [常见问题](./1.2-常见问题.md)
+请参考 [常见问题](./用户手册/常见问题.md)
 
 ### 外服支持
 
@@ -86,7 +89,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### CLI支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](./1.6-CLI使用指南.md)
+MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](./用户手册/CLI使用指南.md)
 
 ## 加入我们
 
@@ -120,11 +123,11 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
 3. VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
 4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
-5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/2.2-开发相关.html#在-visual-studio-中启用-clang-format)
+5. （可选）若准备提交 PR，建议启用 [clang-format 支持](./开发文档/开始开发.md#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
-请参考 [Linux 编译教程](https://maa.plus/docs/2.1-Linux编译教程.html)
+请参考 [Linux 编译教程](./开发文档/Linux编译教程.md)
 
 ### API
 
@@ -137,22 +140,22 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/main.wo)
-- [集成文档](https://maa.plus/docs/3.1-集成文档.html)
-- [回调消息协议](https://maa.plus/docs/3.2-回调消息协议.html)
-- [任务流程协议](https://maa.plus/docs/3.4-任务流程协议.html)
-- [自动抄作业协议](https://maa.plus/docs/3.3-战斗流程协议.html)
+- [集成文档](./协议文档/集成文档.md)
+- [回调消息协议](./协议文档/回调消息协议.md)
+- [任务流程协议](./协议文档/任务流程协议.md)
+- [自动抄作业协议](./协议文档/战斗流程协议.md)
 
 ### 外服适配
 
-请参考 [外服适配教程](https://maa.plus/docs/2.5-外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
+请参考 [外服适配教程](./开发文档/外服适配教程.md)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
 ### 想参与开发，但不太会用 GitHub?
 
-[GitHub Pull Request 流程简述](https://maa.plus/docs/2.2-开发相关.html#github-pull-request-流程简述)
+[GitHub Pull Request 流程简述](./开发文档/开始开发.md#github-pull-request-流程简述)
 
 ### Issue bot
 
-请参考 [Issue bot 使用方法](https://maa.plus/docs/2.3-IssueBot使用方法.html)
+请参考 [Issue bot 使用方法](./开发文档/IssueBot使用方法.md)
 
 ## 致谢
 

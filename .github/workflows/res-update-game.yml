@@ -17,21 +17,25 @@ jobs:
     env:
       GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
     steps:
-      - uses: actions/checkout@v4
-        name: Checkout MAA
+      - name: Checkout MAA
+        uses: actions/checkout@v4
         with:
           show-progress: false
           token: ${{ secrets.MISTEOWORKFLOW }}
+
       - name: Bootstrap MaaDeps
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 maadeps-download.py x64-windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1
+
       - name: Build Resource Updater
         run: |
           MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
+
       - name: Clone ArknightsGameResource for Official
         uses: actions/checkout@v4
         with:
@@ -44,6 +48,7 @@ jobs:
             item
             building_skill
             gamedata/excel
+
       - name: Clone ArknightsGameResource_Yostar for Overseas
         uses: actions/checkout@v4
         with:
@@ -55,6 +60,7 @@ jobs:
             en_US/gamedata/excel
             ja_JP/gamedata/excel
             ko_kr/gamedata/excel
+
       - name: Clone arknights-toolbox-update for Taiwan
         uses: actions/checkout@v4
         with:
@@ -63,12 +69,15 @@ jobs:
           ref: data-tw
           path: .\tools\ResourceUpdater\x64\Release\Overseas\zh_TW\gamedata\excel
           token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
+
       - name: Run Resource Updater
         run: |
           .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+
       - name: Overseas Tasks Ordering
         run: |
           python3 tools/TaskSorter/TaskSorter.py
+
       - name: Check if only sorted
         id: check_only_sorted
         run: |
@@ -88,13 +97,18 @@ jobs:
           $length = $numbers.Length
           $isAllEqual = $true
           for ($i = 0; $i -lt $length; $i += 2) {
-              $firstNumber = $numbers[$i]
-              $secondNumber = $numbers[$i+1]
+            $firstNumber = $numbers[$i]
+            $secondNumber = $numbers[$i+1]
 
-              if ($firstNumber -ne $secondNumber) {
-                  $isAllEqual = $false
-                  break
-              }
+            if ($firstNumber -gt 1) {
+              $isAllEqual = $false
+              break
+            }
+            
+            if ($firstNumber -ne $secondNumber) {
+                $isAllEqual = $false
+                break
+            }
           }
           echo "isAllEqual: "$isAllEqual
           echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
@@ -119,7 +133,7 @@ jobs:
           } else {
             $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
           }
-          git commit -m "$commit_msg"
+          git commit -m "$commit_msg" -m "" -m "[skip changelog]"
           if ($LASTEXITCODE -eq 0) {
             echo "have_commits=True" >> $env:GITHUB_OUTPUT
           }

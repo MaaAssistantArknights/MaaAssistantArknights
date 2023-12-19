@@ -13,7 +13,7 @@
 #include <sstream>
 
 asst::ReportDataTask::ReportDataTask(const TaskCallback& task_callback, AbstractTask* upper_task)
-    : AbstractTask(nullptr, nullptr, upper_task->get_task_chain()), m_task_callback(task_callback),
+    : AbstractTask(nullptr, upper_task->inst(), upper_task->get_task_chain()), m_task_callback(task_callback),
       m_upper_task(upper_task)
 {}
 

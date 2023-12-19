@@ -620,6 +620,13 @@
         "Doc": "右滑五次，然后检测关卡并左滑",
         "Doc2": "在一次关卡导航中，仅swipe五次，其余情况进exceededNext",
         "baseTask": "ChapterSwipeToTheRight",
+        "specificRect_Doc": "防止在关卡名展开的情况下无法滑动，调整滑动区域",
+        "specificRect": [
+            600,
+            100,
+            20,
+            20
+        ],
         "exceededNext": [
             "ClickStageName",
             "StageNavigationSlowlySwipeLeft"
@@ -1015,10 +1022,10 @@
         "template": "UsePrtsSuccess.png",
         "action": "DoNothing",
         "roi": [
-            1000,
-            550,
-            280,
-            90
+            985,
+            523,
+            159,
+            165
         ]
     },
     "StageQueue": {
@@ -1083,6 +1090,88 @@
             60,
             1280,
             550
+        ]
+    },
+    "RS-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-8@SideStoryStage",
+            "RS-8@SwipeToStage"
+        ]
+    },
+    "RS-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-7@SideStoryStage",
+            "RS-7@SwipeToStage"
+        ]
+    },
+    "RS-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "RS-OpenOcr"
+        ],
+        "next": [
+            "RS-6@SideStoryStage",
+            "RS-6@SwipeToStage"
+        ]
+    },
+    "RS-OpenOcr": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "银心",
+            "列车",
+            "特快"
+        ],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "next": [
+            "RSChapterToRS"
+        ]
+    },
+    "RSChapterToRS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "cache": false,
+        "text": [
+            "站台"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            1027,
+            443,
+            158,
+            137
+        ],
+        "next": [
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "RS-8@SideStoryStage": {
+        "text": [
+            "RS-8"
+        ]
+    },
+    "RS-7@SideStoryStage": {
+        "text": [
+            "RS-7"
+        ]
+    },
+    "RS-9@SideStoryStage": {
+        "text": [
+            "RS-9"
         ]
     },
     "ZT-9": {
@@ -3017,19 +3106,7 @@
         "fullMatch": true,
         "ocrReplace": [
             [
-                "^4",
-                ""
-            ],
-            [
-                "^<",
-                ""
-            ],
-            [
-                "^《~",
-                ""
-            ],
-            [
-                "^《",
+                "^[<4《~]+",
                 ""
             ],
             [
@@ -3179,6 +3256,10 @@
             [
                 "^预备干员-重.*",
                 "预备干员-重装"
+            ],
+            [
+                "^折光.*",
+                "折光"
             ]
         ]
     },
@@ -3747,7 +3828,8 @@
         "algorithm": "JustReturn",
         "next": [
             "ReturnButton",
-            "FromStageSN"
+            "FromStageSN",
+            "FromAnnihilation"
         ]
     },
     "ReturnButton": {
@@ -3791,6 +3873,25 @@
             20,
             135,
             35
+        ],
+        "next": [
+            "ReturnButton"
+        ]
+    },
+    "FromAnnihilation": {
+        "template": "AnnihilationReturnFlag.png",
+        "action": "ClickRect",
+        "roi": [
+            100,
+            20,
+            400,
+            250
+        ],
+        "specificRect": [
+            0,
+            0,
+            90,
+            720
         ],
         "next": [
             "ReturnButton"
@@ -3956,40 +4057,94 @@
             "StartButton1"
         ]
     },
-    "FightSeries-Default-1": {
-        "action": "DoNothing",
-        "roi": [
-            945,
-            580,
-            100,
-            50
-        ]
-    },
     "FightSeries-Icon": {
-        "action": "ClickSelf",
         "roi": [
             945,
             580,
             100,
             50
-        ],
-        "next": [
-            "FightSeries-List-1"
         ]
     },
-    "FightSeries-List": {
-        "template": "empty.png",
-        "action": "ClickSelf",
+    "FightSeries-Indicator": {
         "roi": [
-            950,
-            180,
-            100,
-            400
+            940,
+            190,
+            80,
+            380
+        ],
+        "maskRange": [
+            1,
+            255
         ]
+    },
+    "FightSeries-Open": {
+        "baseTask": "FightSeries-Icon",
+        "template": "FightSeries-Icon.png",
+        "action": "ClickSelf",
+        "sub": [
+            "FightSeries-Indicator"
+        ],
+        "postDelay": 500
     },
     "FightSeries-List-1": {
-        "baseTask": "FightSeries-List",
-        "template": "FightSeries-List-1.png"
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            505,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            445,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            383,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-4": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            320,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-5": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            260,
+            70,
+            55
+        ]
+    },
+    "FightSeries-List-6": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            965,
+            200,
+            70,
+            50
+        ]
     },
     "StartButton1": {
         "doc": "绑定插件调整连战次数",
@@ -7802,9 +7957,32 @@
         "action": "ClickRect",
         "specificRect": [
             15,
-            710,
+            650,
+            80,
+            30
+        ]
+    },
+    "BattleQuickFormationSkill-SwipeToTheDown": {
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "postDelay": 100,
+        "specificRect": [
+            15,
+            525,
             80,
             10
+        ],
+        "rectMove": [
+            15,
+            200,
+            80,
+            100
+        ],
+        "specialParams": [
+            150,
+            0,
+            1,
+            1
         ]
     },
     "BattleQuickFormationConfirm": {
@@ -8344,9 +8522,8 @@
     "BattleOperRoleTank": {},
     "BattleOperRoleWarrior": {},
     "BattleOperRoleDrone": {},
-    "BattleOperCostRange": {
-        "algorithm": "Hash",
-        "hash": [],
+    "BattleOperCost": {
+        "template": "empty.png",
         "rectMove": [
             -10,
             12,
@@ -9221,32 +9398,17 @@
     "SSSStageNameOCR": {
         "algorithm": "OcrDetect",
         "text": [],
+        "isAscii": true,
         "roi": [
-            121,
-            263,
-            188,
-            50
+            33,
+            272,
+            85,
+            36
         ],
         "ocrReplace": [
             [
-                "枯朽.*育",
-                "枯朽孕育"
-            ],
-            [
-                "^混乱.*派对.*",
-                "混乱“派对”"
-            ],
-            [
-                "^窒息.*",
-                "窒息"
-            ],
-            [
-                "^消息传递.*",
-                "消息传递"
-            ],
-            [
-                "^干.*封锁",
-                "干酪封锁"
+                "LT(?=\\d)",
+                "LT-"
             ]
         ]
     },
@@ -9299,13 +9461,38 @@
             "Stop"
         ]
     },
-    "SSSFightDirectly": {
+    "SSSFightStart-PreSelect": {
         "action": "ClickSelf",
         "roi": [
             1052,
             360,
             154,
             144
+        ]
+    },
+    "SSSFightStart-PreSelect-Match": {
+        "Doc": "等待并匹配图标",
+        "baseTask": "SSSFightStart-PreSelect",
+        "action": "DoNothing",
+        "template": "SSSFightStart-PreSelect.png"
+    },
+    "SSSFightStart-PreSelect-Confirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1052,
+            360,
+            154,
+            144
+        ]
+    },
+    "SSSFightStart-PreSelect-Clear": {
+        "Doc": "清除预选",
+        "action": "ClickSelf",
+        "roi": [
+            1060,
+            440,
+            120,
+            120
         ]
     },
     "SSSDrawCard": {
@@ -9681,10 +9868,10 @@
             427
         ],
         "next": [
-            "ChangeOrderComfirm"
+            "ChangeOrderConfirm"
         ]
     },
-    "ChangeOrderComfirm": {
+    "ChangeOrderConfirm": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -9694,7 +9881,7 @@
             140
         ],
         "next": [
-            "ChangeOrderComfirm@LoadingText",
+            "ChangeOrderConfirm@LoadingText",
             "Stop"
         ]
     },
@@ -9725,7 +9912,7 @@
             427
         ],
         "next": [
-            "ChangeOrderComfirm"
+            "ChangeOrderConfirm"
         ]
     },
     "ChooseProductList": {
@@ -9746,7 +9933,7 @@
             487
         ]
     },
-    "ComfirmProductChange": {
+    "ConfirmProductChange": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ReplenishToMaxConfirm.png",
@@ -9758,7 +9945,7 @@
             120
         ],
         "next": [
-            "ProductFinalComfirm"
+            "ProductFinalConfirm"
         ]
     },
     "ClickProductMax": {
@@ -9773,7 +9960,7 @@
             60
         ],
         "next": [
-            "ComfirmProductChange"
+            "ConfirmProductChange"
         ]
     },
     "ChooseBattleRecord": {
@@ -9791,7 +9978,7 @@
             "ClickProductMax"
         ]
     },
-    "ProductFinalComfirm": {
+    "ProductFinalConfirm": {
         "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SSSSettlementConfirm.png",
@@ -9803,7 +9990,7 @@
             100
         ],
         "next": [
-            "ProductFinalComfirm@LoadingText",
+            "ProductFinalConfirm@LoadingText",
             "Stop"
         ]
     },
@@ -12087,6 +12274,13 @@
         "baseTask": "Roguelike@StageEncounterOption",
         "Doc": "base_task",
         "template": "empty.png",
+        "maxTimes": 5,
+        "exceededNext": [
+            "Roguelike@StageEncounterLeaveConfirm",
+            "Roguelike@StageEncounterOptionFree",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next"
+        ],
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
@@ -12124,6 +12318,9 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
+        "reduceOtherTimes": [
+            "Roguelike@StageEncounterOptionUnknown*5"
+        ],
         "roi": [
             1035,
             370,
@@ -12862,11 +13059,15 @@
     "Phantom@Roguelike@StageBoons": {
         "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageCombatDps": {},
+    "Phantom@Roguelike@StageCombatDps": {
+        "templThreshold": 0.9
+    },
     "Phantom@Roguelike@StageCombatDpsEnter": {},
     "Phantom@Roguelike@StageDreadfulFoe": {},
     "Phantom@Roguelike@StageDreadfulFoeEnter": {},
-    "Phantom@Roguelike@StageEmergencyDps": {},
+    "Phantom@Roguelike@StageEmergencyDps": {
+        "templThreshold": 0.9
+    },
     "Phantom@Roguelike@StageEmergencyDpsEnter": {},
     "Phantom@Roguelike@StageEncounter": {
         "templThreshold": 0.85
@@ -12911,6 +13112,7 @@
         "Doc": "优先紧急作战,1-3层",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageEncounter",
@@ -12924,6 +13126,7 @@
         "Doc": "avoid battle,其他模式和6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -12937,6 +13140,7 @@
         "Doc": "避紧急作战,4-5层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageBoons",
@@ -13592,6 +13796,7 @@
         "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageEncounter",
@@ -13612,6 +13817,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -13634,6 +13840,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
