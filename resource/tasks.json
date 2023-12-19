@@ -12742,12 +12742,8 @@
             "Roguelike@StartExplore"
         ]
     },
-    "Roguelike@StrategyChanges": {
-        "algorithm": "JustReturn",
-        "next": [
-            "Roguelike@StrategyChangeAtNextLevel",
-            "Roguelike@StrategyChange"
-        ]
+    "Roguelike@StrategyChange": {
+        "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChangeAtNextLevel": {
         "baseTask": "Roguelike@StrategyChange",
@@ -12757,9 +12753,6 @@
             245,
             144
         ]
-    },
-    "Roguelike@StrategyChange": {
-        "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
@@ -12782,6 +12775,13 @@
     },
     "Roguelike@StrategyChange_mode4": {
         "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChanges": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Roguelike@StrategyChangeAtNextLevel",
+            "Roguelike@StrategyChange"
+        ]
     },
     "Roguelike@TempRecruitFlag": {
         "action": "DoNothing",
