@@ -12253,7 +12253,6 @@
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionLeave",
-            "Roguelike@StageEncounterOptionUnknown",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next"
         ]
@@ -12265,7 +12264,6 @@
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
-            "Roguelike@StageEncounterOptionUnknown",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next"
         ]
@@ -12274,17 +12272,9 @@
         "baseTask": "Roguelike@StageEncounterOption",
         "Doc": "base_task",
         "template": "empty.png",
-        "maxTimes": 5,
-        "exceededNext": [
-            "Roguelike@StageEncounterLeaveConfirm",
-            "Roguelike@StageEncounterOptionFree",
-            "Roguelike@Stages#next",
-            "Roguelike@StageEncounterOptions#next"
-        ],
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
-            "Roguelike@StageEncounterOptionUnknown",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next"
         ]
@@ -12318,9 +12308,6 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "cache": false,
-        "reduceOtherTimes": [
-            "Roguelike@StageEncounterOptionUnknown*5"
-        ],
         "roi": [
             1035,
             370,
@@ -13083,11 +13070,11 @@
         "next": [
             "Phantom@Roguelike@StageEncounterOptionFree",
             "Phantom@Roguelike@StageEncounterOptionLeave",
-            "Phantom@Roguelike@StageEncounterOptionUnknown",
             "Phantom@Roguelike@ChooseOperFlag",
             "Phantom@Roguelike@StageEmergencyDpsEnter",
             "Phantom@Roguelike@StageCombatDpsEnter",
-            "Phantom@Roguelike@CloseEvent"
+            "Phantom@Roguelike@CloseEvent",
+            "Phantom@Roguelike@StageEncounterOptionUnknown"
         ]
     },
     "Phantom@Roguelike@StageEncounterSpecialClose": {},
@@ -13714,12 +13701,12 @@
             "Mizuki@Roguelike@StageEncounterOptionFree",
             "Mizuki@Roguelike@StageSafeHouseReuse",
             "Mizuki@Roguelike@StageEncounterOptionLeave",
-            "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@StageEmergencyDpsEnter",
             "Mizuki@Roguelike@StageCombatDpsEnter",
-            "Mizuki@Roguelike@CloseEvent"
+            "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@StageEncounterOptionUnknown"
         ]
     },
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
@@ -14626,12 +14613,12 @@
             "Sami@Roguelike@StageEncounterOptionFree",
             "Sami@Roguelike@StageSafeHouseReuse",
             "Sami@Roguelike@StageEncounterOptionLeave",
-            "Sami@Roguelike@StageEncounterOptionUnknown",
             "Sami@Roguelike@StageEncounterOptionWonderland",
             "Sami@Roguelike@ChooseOperFlag",
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@StageCombatDpsEnter",
-            "Sami@Roguelike@CloseEvent"
+            "Sami@Roguelike@CloseEvent",
+            "Sami@Roguelike@StageEncounterOptionUnknown"
         ]
     },
     "Sami@Roguelike@StageEncounterSpecialClose": {},
