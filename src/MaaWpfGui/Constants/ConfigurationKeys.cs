@@ -29,20 +29,6 @@ namespace MaaWpfGui.Constants
         // ReSharper disable once UnusedMember.Global
         public const string ConfigurationCron = "Cron";
 
-        public const string Localization = "GUI.Localization";
-        public const string MinimizeToTray = "GUI.MinimizeToTray";
-        public const string HideCloseButton = "GUI.HideCloseButton";
-        public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat";
-        public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
-        public const string WindowPlacement = "GUI.Placement";
-        public const string LoadWindowPlacement = "GUI.Placement.Load";
-        public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
-        public const string UseAlternateStage = "GUI.UseAlternateStage";
-        public const string HideUnavailableStage = "GUI.HideUnavailableStage";
-        public const string CustomStageCode = "GUI.CustomStageCode";
-        public const string InverseClearMode = "GUI.InverseClearMode";
-        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
-
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
         public const string AlwaysAutoDetect = "Connect.AlwaysAutoDetect";

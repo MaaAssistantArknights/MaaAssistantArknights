@@ -422,7 +422,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
+            ConfigFactory.CurrentConfig.GUI.Localization = SoberLanguage;
             Hangover = true;
             Cheers = false;
         }
@@ -3176,7 +3176,7 @@ namespace MaaWpfGui.ViewModels.UI
                 connectConfigName = data.Display;
             }
 
-            string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
+            string prefix = ConfigFactory.CurrentConfig.GUI.WindowTitlePrefix;
             if (!string.IsNullOrEmpty(prefix))
             {
                 prefix += " - ";
@@ -3393,7 +3393,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool UseTray => true;
         */
 
-        private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+        private bool _minimizeToTray = ConfigFactory.CurrentConfig.GUI.MinimizeToTray;
 
         /// <summary>
         /// Gets or sets a value indicating whether to minimize to tray.
@@ -3404,23 +3404,21 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
+                ConfigFactory.CurrentConfig.GUI.MinimizeToTray = value;
                 Instances.MainWindowManager.SetMinimizeToTaskBar(value);
             }
         }
-
-        private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to hide close button.
         /// </summary>
         public bool HideCloseButton
         {
-            get => _hideCloseButton;
+            get => ConfigFactory.CurrentConfig.GUI.HideCloseButton;
             set
             {
-                SetAndNotify(ref _hideCloseButton, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.CurrentConfig.GUI.HideCloseButton = value;
                 var rvm = (RootViewModel)this.Parent;
                 rvm.ShowCloseButton = !value;
             }
@@ -3447,15 +3445,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useLogItemDateFormat = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
-
         public bool UseLogItemDateFormat
         {
-            get => _useLogItemDateFormat;
+            get => ConfigFactory.CurrentConfig.GUI.UseLogItemDateFormat;
             set
             {
-                SetAndNotify(ref _useLogItemDateFormat, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseLogItemDateFormat, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.CurrentConfig.GUI.UseLogItemDateFormat = value;
             }
         }
 
@@ -3470,31 +3466,27 @@ namespace MaaWpfGui.ViewModels.UI
             "dd.MM  HH:mm:ss",
         };
 
-        private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
-
         public string LogItemDateFormatString
         {
-            get => _logItemDateFormatString;
+            get => ConfigFactory.CurrentConfig.GUI.LogItemDateFormat;
             set
             {
-                SetAndNotify(ref _logItemDateFormatString, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LogItemDateFormat, value);
+                NotifyOfPropertyChange();
+                ConfigFactory.CurrentConfig.GUI.LogItemDateFormat = value;
             }
         }
-
-        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
         /// </summary>
         public bool UseAlternateStage
         {
-            get => _useAlternateStage;
+            get => ConfigFactory.CurrentConfig.GUI.UseAlternateStage;
             set
             {
-                SetAndNotify(ref _useAlternateStage, value);
+                NotifyOfPropertyChange();
                 Instances.TaskQueueViewModel.UseAlternateStage = value;
-                ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
+                ConfigFactory.CurrentConfig.GUI.UseAlternateStage = value;
                 if (value)
                 {
                     HideUnavailableStage = false;
@@ -3528,18 +3520,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _hideUnavailableStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, bool.TrueString));
-
         /// <summary>
         /// Gets or sets a value indicating whether to hide unavailable stages.
         /// </summary>
         public bool HideUnavailableStage
         {
-            get => _hideUnavailableStage;
+            get => ConfigFactory.CurrentConfig.GUI.HideUnavailableStage;
             set
             {
-                SetAndNotify(ref _hideUnavailableStage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.HideUnavailableStage, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.CurrentConfig.GUI.HideUnavailableStage = true;
 
                 if (value)
                 {
@@ -3550,18 +3540,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
-
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.
         /// </summary>
         public bool CustomStageCode
         {
-            get => _customStageCode;
+            get => ConfigFactory.CurrentConfig.GUI.CustomStageCode;
             set
             {
-                SetAndNotify(ref _customStageCode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
+                NotifyOfPropertyChange();
+                ConfigFactory.CurrentConfig.GUI.CustomStageCode = value;
                 Instances.TaskQueueViewModel.CustomStageCode = value;
             }
         }
@@ -3614,49 +3602,31 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private enum InverseClearType
-        {
-            Clear,
-            Inverse,
-            ClearInverse,
-        }
-
-        private InverseClearType _inverseClearMode =
-            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()),
-                out InverseClearType temp)
-                ? temp
-                : InverseClearType.Clear;
-
         /// <summary>
         /// Gets or sets the inverse clear mode.
         /// </summary>
-        public string InverseClearMode
+        public GUI.InverseClearType InverseClearMode
         {
-            get => _inverseClearMode.ToString();
+            get => ConfigFactory.CurrentConfig.GUI.InverseClearMode;
             set
             {
-                if (!Enum.TryParse(value, out InverseClearType tempEnumValue))
+                NotifyOfPropertyChange();
+                ConfigFactory.CurrentConfig.GUI.InverseClearMode = value;
+                switch (value)
                 {
-                    return;
-                }
-
-                SetAndNotify(ref _inverseClearMode, tempEnumValue);
-                ConfigurationHelper.SetValue(ConfigurationKeys.InverseClearMode, value);
-                switch (tempEnumValue)
-                {
-                    case InverseClearType.Clear:
+                    case GUI.InverseClearType.Clear:
                         Instances.TaskQueueViewModel.InverseMode = false;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
-                    case InverseClearType.Inverse:
+                    case GUI.InverseClearType.Inverse:
                         Instances.TaskQueueViewModel.InverseMode = true;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
-                    case InverseClearType.ClearInverse:
+                    case GUI.InverseClearType.ClearInverse:
                         Instances.TaskQueueViewModel.ShowInverse = true;
                         Instances.TaskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
@@ -3679,7 +3649,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        private string _language = ConfigFactory.CurrentConfig.GUI.Localization;
 
         /// <summary>
         /// Gets or sets the language.
@@ -3706,7 +3676,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 // var backup = _language;
-                ConfigurationHelper.SetValue(ConfigurationKeys.Localization, value);
+                ConfigFactory.CurrentConfig.GUI.Localization = value;
 
                 var mainWindow = Application.Current.MainWindow;
 
@@ -3790,7 +3760,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static void SetPallasLanguage()
         {
-            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
+            ConfigFactory.CurrentConfig.GUI.Localization = PallasLangKey;
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),
