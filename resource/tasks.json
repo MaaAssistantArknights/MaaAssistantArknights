@@ -12406,7 +12406,8 @@
             "Roguelike@ExitThenAbandon"
         ],
         "next": [
-            "Roguelike@StageTraderInvestSystemLeave"
+            "Roguelike@StageTraderInvestSystemLeave",
+            "Roguelike@StageTraderInvestSystemLeave#next"
         ]
     },
     "Roguelike@StageTraderInvestConfirm": {
