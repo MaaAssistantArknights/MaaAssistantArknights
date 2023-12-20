@@ -13,6 +13,8 @@ body:
         required: true
       - label: 我已查看最新测试版本的更新内容，并未提及该 bug 已被修复的情况
         required: true
+      - label: 我已检查了置顶议题（pinned issue），确认我的问题未被提及
+        required: true
   - type: textarea
     id: describe
     attributes:
