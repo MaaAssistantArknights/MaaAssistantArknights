@@ -4,6 +4,7 @@
 
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
+#include "Config/Miscellaneous/TilePack.h"
 #include "Utils/Logger.hpp"
 
 using namespace asst::battle;
@@ -74,8 +75,11 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));
             stage_data.strategies.emplace_back(std::move(strategy));
         }
-        std::string name = stage_data.info.stage_name;
-        m_data.stages_data.emplace(std::move(name), std::move(stage_data));
+        std::string ocr_code;
+        if (auto map_info = Tile.find(stage_data.info.stage_name); map_info) {
+            ocr_code = map_info->first.code;
+        }
+        m_data.stages_data.emplace(std::move(ocr_code), std::move(stage_data));
     }
 
     return true;

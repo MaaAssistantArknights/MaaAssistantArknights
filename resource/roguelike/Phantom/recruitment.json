@@ -240,6 +240,26 @@
                     ]
                 },
                 {
+                    "name": "锏",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 810,
+                    "promote_priority": 899,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 3,
+                            "offset": -150
+                        }
+                    ]
+                },
+                {
                     "name": "山",
                     "skill": 2,
                     "skill_usage": 2,
@@ -1056,7 +1076,7 @@
                     "name": "纯烬艾雅法拉",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 801,
+                    "recruit_priority": 881,
                     "promote_priority": 590,
                     "recruit_priority_offsets": [
                         {
@@ -1073,7 +1093,7 @@
                     "name": "蜜莓",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 641,
+                    "recruit_priority": 741,
                     "promote_priority": 300,
                     "recruit_priority_offsets": [
                         {
@@ -1090,7 +1110,23 @@
                     "name": "桑葚",
                     "skill": 2,
                     "is_key": true,
-                    "recruit_priority": 640,
+                    "recruit_priority": 740,
+                    "promote_priority": 290,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "哈洛德",
+                    "skill": 2,
+                    "recruit_priority": 739,
                     "promote_priority": 290,
                     "recruit_priority_offsets": [
                         {
@@ -1106,7 +1142,7 @@
                 {
                     "name": "Touch",
                     "skill": 1,
-                    "recruit_priority": 843,
+                    "recruit_priority": 743,
                     "promote_priority": 550,
                     "is_key": true,
                     "recruit_priority_offsets": [
@@ -1161,7 +1197,7 @@
                 {
                     "name": "赫默",
                     "skill": 2,
-                    "recruit_priority": 732,
+                    "recruit_priority": 632,
                     "promote_priority": 250,
                     "recruit_priority_offsets": [
                         {
@@ -1177,7 +1213,7 @@
                 {
                     "name": "华法琳",
                     "skill": 1,
-                    "recruit_priority": 715,
+                    "recruit_priority": 615,
                     "promote_priority": 350,
                     "recruit_priority_offsets": [
                         {
@@ -1201,7 +1237,7 @@
                 {
                     "name": "苏苏洛",
                     "skill": 2,
-                    "recruit_priority": 713,
+                    "recruit_priority": 613,
                     "promote_priority": 250,
                     "recruit_priority_offsets": [
                         {
@@ -1217,7 +1253,7 @@
                 {
                     "name": "褐果",
                     "skill": 1,
-                    "recruit_priority": 687,
+                    "recruit_priority": 587,
                     "promote_priority": 200,
                     "recruit_priority_offsets": [
                         {
@@ -1233,7 +1269,7 @@
                 {
                     "name": "清流",
                     "skill": 1,
-                    "recruit_priority": 688,
+                    "recruit_priority": 588,
                     "promote_priority": 200,
                     "recruit_priority_offsets": [
                         {
@@ -1312,7 +1348,7 @@
                 {
                     "name": "波登可",
                     "skill": 1,
-                    "recruit_priority": 131,
+                    "recruit_priority": 0,
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
@@ -1378,7 +1414,7 @@
                     "name": "夜莺",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 808,
+                    "recruit_priority": 708,
                     "promote_priority": 677,
                     "recruit_priority_offsets": [
                         {
@@ -1394,7 +1430,7 @@
                 {
                     "name": "白面鸮",
                     "skill": 2,
-                    "recruit_priority": 810,
+                    "recruit_priority": 710,
                     "promote_priority": 406,
                     "recruit_priority_offsets": [
                         {
@@ -1522,13 +1558,13 @@
                     "name": "纯烬艾雅法拉"
                 },
                 {
-                    "name": "焰影苇草"
-                },
-                {
                     "name": "蜜莓"
                 },
                 {
                     "name": "桑葚"
+                },
+                {
+                    "name": "哈洛德"
                 },
                 {
                     "name": "闪灵"
@@ -2555,6 +2591,9 @@
                     "name": "斑点"
                 },
                 {
+                    "name": "锏"
+                },
+                {
                     "name": "仇白"
                 },
                 {
@@ -2808,6 +2847,10 @@
                     "name": "拉普兰德"
                 },
                 {
+                    "name": "烈夏",
+                    "skill": 2
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -2871,6 +2914,9 @@
                 },
                 {
                     "name": "拉普兰德"
+                },
+                {
+                    "name": "烈夏"
                 },
                 {
                     "name": "断崖"

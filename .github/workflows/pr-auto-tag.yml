@@ -18,10 +18,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.MAARELEASE_RELEASE }}
+
       - name: Git config
         run: |
           git config user.name "$GITHUB_ACTOR"

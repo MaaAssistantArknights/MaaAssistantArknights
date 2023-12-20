@@ -41,12 +41,13 @@ bool asst::MedicineCounterPlugin::_run()
         return false;
     }
 
-    // 移除超量使用的药品后，再次获取药品数量
-    // 如果移除后没有使用任何药品，则单独返回数据；进入插件时应当有使用至少一瓶药
+    // 移除超量使用的理智药后，再次获取理智药数量
+    // 如果移除后没有使用任何理智药，则单独返回数据；进入插件时应当有使用至少一瓶药
     auto refresh_medicine_count = [&]() {
         image = ctrler()->get_image();
         auto count = init_count(image);
         if (!count) {
+            // 判断是不是还在使用理智药的页面
             Matcher matcher(image);
             matcher.set_task_info("UseMedicine");
             if (!matcher.analyze()) [[unlikely]] {
@@ -114,19 +115,21 @@ bool asst::MedicineCounterPlugin::_run()
 std::optional<asst::MedicineCounterPlugin::MedicineResult> asst::MedicineCounterPlugin::init_count(cv::Mat image)
 {
     int use = 0;
-    MultiMatcher multiMatcher(image);
-    multiMatcher.set_task_info("MedicineReduceIcon");
-    if (!multiMatcher.analyze()) {
+    MultiMatcher multi_matcher(image);
+    multi_matcher.set_task_info("MedicineReduceIcon");
+    if (!multi_matcher.analyze()) {
         Log.error(__FUNCTION__, "medicine reduce icon analyze failed");
         return std::nullopt;
     }
 
     std::vector<Medicine> medicines;
-    auto using_count_task = Task.get("UsingMedicineCount");
-    auto inventory_task = Task.get("MedicineInventory");
-    auto expiring_task = Task.get("MedicineExpiringTime");
+    static const auto& using_count_task = Task.get("UsingMedicineCount");
+    static const auto& inventory_task = Task.get("MedicineInventory");
+    static const auto& expiring_task = Task.get("MedicineExpiringTime");
 
-    for (const auto& result : multiMatcher.get_result()) {
+    auto match_result = multi_matcher.get_result();
+    sort_by_horizontal_(match_result);// 排序以保证结果为从左到右
+    for (const auto& result : match_result) {
         auto using_rect = result.rect.move(using_count_task->rect_move);
         auto inventory_rect = result.rect.move(inventory_task->rect_move);
         auto expiring_rect = result.rect.move(expiring_task->rect_move);

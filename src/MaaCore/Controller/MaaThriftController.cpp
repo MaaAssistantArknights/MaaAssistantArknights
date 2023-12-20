@@ -484,6 +484,8 @@ std::pair<int, int> asst::MaaThriftController::get_screen_res() const noexcept
     return m_screen_size;
 }
 
+void asst::MaaThriftController::back_to_home() noexcept {}
+
 void asst::MaaThriftController::clear_info() noexcept
 {
     m_inited = false;

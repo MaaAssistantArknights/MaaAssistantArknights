@@ -87,6 +87,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.chmod_minitouch = cfg_json.get("chmodMinitouch", base_cfg.chmod_minitouch);
         adb.call_minitouch = cfg_json.get("callMinitouch", base_cfg.call_minitouch);
         adb.call_maatouch = cfg_json.get("callMaatouch", base_cfg.call_maatouch);
+        adb.back_to_home = cfg_json.get("back_to_home", base_cfg.back_to_home);
 
         m_adb_cfg[cfg_json.at("configName").as_string()] = std::move(adb);
     }

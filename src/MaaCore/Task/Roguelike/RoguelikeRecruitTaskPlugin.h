@@ -45,6 +45,5 @@ namespace asst
         bool recruit_appointed_char(const std::string& char_name, bool is_rtl = false);
         // 选择干员
         void select_oper(const battle::roguelike::Recruitment& oper);
-        bool get_status_bool(const std::string& key);
     };
 }

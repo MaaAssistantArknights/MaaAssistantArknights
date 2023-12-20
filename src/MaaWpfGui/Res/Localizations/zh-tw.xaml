@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA 即將升級，升級後的版本不支援未安裝 .NET 8.0 執行時 的電腦，需要您手動前往下載。\n\n同時，我們將不再支援 Windows 7 作業系統。\n\n如果您點擊 '是'，我們將為您打開新的執行時下載連結。如果您點擊 '否'，我們將停用您的自動下載功能，以防止不必要的軟體更新。如果您選擇停用自動下載，您仍然可以在軟體設定中手動重新開啟此功能。</system:String>
     <system:String x:Key="Dotnet8Caption">軟體版本升級及支援變更</system:String>
@@ -241,6 +238,7 @@
     <system:String x:Key="EndsWithScript">結束後腳本</system:String>
     <system:String x:Key="BlockSleep">運行任務時阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠時保持螢幕常亮</system:String>
+    <system:String x:Key="ScreencapCost">截圖耗時 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
@@ -338,6 +336,7 @@
     <system:String x:Key="ShutdownWithoutPersist">關機（僅一次）</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，如無其他 MAA 程式則休眠</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如無其他 MAA 程式則關機</system:String>
+    <system:String x:Key="BackToAndroidHome">模擬器 返回主荧幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
@@ -547,7 +546,7 @@
     <system:String x:Key="AdbDownloadFailedDesc">請手動進行操作（將 adb.exe 重新命名後替換上方模擬器自帶 ADB 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedAdb">成功替換 ADB 文件</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替換 ADB 失敗</system:String>
-    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已臨時使用本地 ADB 進行連接。</system:String>
+    <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">已使用本地 ADB 進行連接。如果要再次嘗試，請「關閉模擬器與 ADB」，或「重新啟動電腦後在未開啟模擬器的情況下使用管理員權限打開 MAA」進行操作。</system:String>
     <system:String x:Key="InitializationError">初始化錯誤！</system:String>
     <system:String x:Key="ResolutionNotSupported">模擬器解析度不支持，請設定為 720p 或更高，且為 16:9 比例</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">模擬器解析度獲取失敗，建議重開模擬器與 ADB 或重開電腦，或更換模擬器後再次嘗試</system:String>
@@ -556,6 +555,9 @@
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
+    <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長，使用自動戰鬥類功能（如自動肉鴿）時，可能會出現部分異常表現</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
@@ -634,7 +636,10 @@
     <system:String x:Key="ContinueRefresh">無招聘許可，繼續嘗試刷新 Tags</system:String>
     <system:String x:Key="NoRecruitmentPermit">無招聘許可，已返回</system:String>
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
+    <system:String x:Key="AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
+    <system:String x:Key="DefaultNoExtraTags">默認不選擇額外的 Tags</system:String>
     <system:String x:Key="SelectExtraTags">選擇 Tags 時總是選擇三個 Tag</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">盡可能多地選且只選高星 Tags</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
     <system:String x:Key="Current">當前</system:String>

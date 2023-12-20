@@ -9,17 +9,17 @@ export const zhcnNavbar = navbar([
   {
     text: "用户手册",
     icon: "mdi:user",
-    link: "/1.1-详细介绍",
+    link: "/用户手册",
   },
   {
     text: "开发文档",
     icon: "ph:code-bold",
-    link: "/2.1-Linux编译教程",
+    link: "/开发文档",
   },
   {
     text: "协议文档",
     icon: "basil:document-solid",
-    link: "/3.1-集成文档",
+    link: "/协议文档",
   },
   {
     text: "MAA 官网",

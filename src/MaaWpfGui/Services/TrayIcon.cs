@@ -107,7 +107,10 @@ namespace MaaWpfGui.Services
 
         private static void AppExit(object sender, EventArgs e)
         {
-            System.Windows.Application.Current.MainWindow?.Close();
+            if (Instances.TaskQueueViewModel.ConfirmExit())
+            {
+                System.Windows.Application.Current.Shutdown();
+            }
         }
 
         private static void OnNotifyIconDoubleClick(object sender, EventArgs e)

@@ -581,6 +581,9 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         ctrler()->click(res.rect);
         sleep(delay);
         if (1 <= skill && skill <= 3) {
+            if (skill == 3) {
+                ProcessTask(*this, { "BattleQuickFormationSkill-SwipeToTheDown" }).run();
+            }
             ctrler()->click(SkillRectArray.at(skill - 1ULL));
             sleep(delay);
         }

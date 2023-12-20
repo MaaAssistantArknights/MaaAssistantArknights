@@ -14,5 +14,8 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+
+    private:
+        mutable json::object m_result;
     };
 }

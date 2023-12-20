@@ -84,6 +84,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official"));
 
+        /// <summary>
+        /// Gets or sets the resource version.
+        /// </summary>
         public string ResourceVersion
         {
             get => _resourceVersion;
@@ -152,6 +155,31 @@ namespace MaaWpfGui.ViewModels.UI
         {
             DisplayName = LocalizationHelper.GetString("Settings");
 
+            Init();
+
+            HangoverEnd();
+
+            _runningState = RunningState.Instance;
+        }
+
+        #region Init
+
+        private void Init()
+        {
+            InitTitleBar();
+            InitInfrast();
+            InitRoguelike();
+            InitAutoRecruit();
+            InitConfiguration();
+            InitUiSettings();
+            InitUpdate();
+            InitCredit();
+            InitStartUp();
+            InitConnectConfig();
+        }
+
+        private void InitTitleBar()
+        {
             _listTitle.Add(LocalizationHelper.GetString("SwitchConfiguration"));
             _listTitle.Add(LocalizationHelper.GetString("ScheduleSettings"));
             _listTitle.Add(LocalizationHelper.GetString("GameSettings"));
@@ -163,22 +191,227 @@ namespace MaaWpfGui.ViewModels.UI
             _listTitle.Add(LocalizationHelper.GetString("HotKeySettings"));
             _listTitle.Add(LocalizationHelper.GetString("UpdateSettings"));
             _listTitle.Add(LocalizationHelper.GetString("AboutUs"));
+        }
 
-            InfrastInit();
-
-            SwitchDarkMode();
-            if (Hangover)
+        private void InitInfrast()
+        {
+            var facilityList = new[]
             {
-                Hangover = false;
-                MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("Hangover"),
-                    LocalizationHelper.GetString("Burping"),
-                    iconKey: "HangoverGeometry",
-                    iconBrushKey: "PallasBrush");
-                Bootstrapper.ShutdownAndRestartWithOutArgs();
+                "Mfg",
+                "Trade",
+                "Control",
+                "Power",
+                "Reception",
+                "Office",
+                "Dorm",
+                "Processing",
+            };
+
+            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
+            for (int i = 0; i != facilityList.Length; ++i)
+            {
+                var facility = facilityList[i];
+                bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
+
+                if (!parsed || order < 0)
+                {
+                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                }
+                else
+                {
+                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                }
             }
 
-            _runningState = RunningState.Instance;
+            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
+
+            DefaultInfrastList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
+                new CombinedData { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
+                new CombinedData { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
+            };
+
+            UsesOfDronesList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("DronesNotUse"), Value = "_NotUse" },
+                new CombinedData { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
+                new CombinedData { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
+                new CombinedData { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
+                new CombinedData { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
+                new CombinedData { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
+                new CombinedData { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
+            };
+
+            _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
+        }
+
+        private void InitRoguelike()
+        {
+            RoguelikeModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
+
+                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
+                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
+            };
+
+            RoguelikeThemeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
+                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
+            };
+
+            UpdateRoguelikeSquadList();
+            UpdateRoguelikeCoreCharList();
+
+            RoguelikeRolesList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
+                new CombinedData { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
+                new CombinedData { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+                new CombinedData { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+                new CombinedData { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+            };
+        }
+
+        private void InitAutoRecruit()
+        {
+            AutoRecruitSelectExtraTagsList = new List<CombinedData>
+            {
+            new CombinedData { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
+            new CombinedData { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
+            new CombinedData { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
+            };
+        }
+
+        private void InitConfiguration()
+        {
+            var configurations = new ObservableCollection<CombinedData>();
+            foreach (var conf in ConfigurationHelper.GetConfigurationList())
+            {
+                configurations.Add(new CombinedData { Display = conf, Value = conf });
+            }
+
+            ConfigurationList = configurations;
+        }
+
+        private void InitUiSettings()
+        {
+            var languageList = (from pair in LocalizationHelper.SupportedLanguages
+                                where pair.Key != PallasLangKey || Cheers
+                                select new CombinedData { Display = pair.Value, Value = pair.Key })
+               .ToList();
+
+            LanguageList = languageList;
+
+            DarkModeList = new List<GenericCombinedData<DarkModeType>>
+            {
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
+                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
+            };
+
+            InverseClearModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
+                new CombinedData { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
+                new CombinedData { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
+            };
+            SwitchDarkMode();
+        }
+
+        private void InitCredit()
+        {
+            FormationSelectList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("Current"), Value = "0" },
+                new CombinedData { Display = "1", Value = "1" },
+                new CombinedData { Display = "2", Value = "2" },
+                new CombinedData { Display = "3", Value = "3" },
+                new CombinedData { Display = "4", Value = "4" },
+            };
+        }
+
+        private void InitStartUp()
+        {
+            ClientTypeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+                new CombinedData { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
+                new CombinedData { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
+                new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
+                new CombinedData { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
+            };
+        }
+
+        private void InitConnectConfig()
+        {
+            ConnectConfigList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
+                new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
+                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
+                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
+                new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
+                new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
+                new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
+                new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
+                new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
+                new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
+                new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
+            };
+
+            TouchModeList = new List<CombinedData>
+            {
+                new CombinedData { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
+                new CombinedData { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
+                new CombinedData { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
+            };
+
+            var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
+            if (!string.IsNullOrEmpty(addressListJson))
+            {
+                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
+            }
+        }
+
+        private void InitUpdate()
+        {
+            VersionTypeList = new List<GenericCombinedData<UpdateVersionType>>
+            {
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
+            };
+        }
+
+        #endregion Init
+
+        #region EasterEggs
+
+        public void HangoverEnd()
+        {
+            if (!Hangover)
+            {
+                return;
+            }
+
+            Hangover = false;
+            MessageBoxHelper.Show(
+                LocalizationHelper.GetString("Hangover"),
+                LocalizationHelper.GetString("Burping"),
+                iconKey: "HangoverGeometry",
+                iconBrushKey: "PallasBrush");
+            Bootstrapper.ShutdownAndRestartWithOutArgs();
         }
 
         public void Sober()
@@ -193,16 +426,8 @@ namespace MaaWpfGui.ViewModels.UI
             Cheers = false;
         }
 
-        protected override void OnInitialActivate()
-        {
-            base.OnInitialActivate();
-
-            var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
-            if (!string.IsNullOrEmpty(addressListJson))
-            {
-                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
-            }
-        }
+        #endregion EasterEggs
+        
 
         #region Remote Control
 
@@ -422,170 +647,6 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _listTitle, value);
         }
 
-        private void InfrastInit()
-        {
-            /* 基建设置 */
-            var facilityList = new[]
-            {
-                "Mfg",
-                "Trade",
-                "Control",
-                "Power",
-                "Reception",
-                "Office",
-                "Dorm",
-                "Processing",
-            };
-
-            var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
-            for (int i = 0; i != facilityList.Length; ++i)
-            {
-                var facility = facilityList[i];
-                bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
-
-                if (!parsed || order < 0)
-                {
-                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
-                }
-                else
-                {
-                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
-                }
-            }
-
-            InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
-
-            DefaultInfrastList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
-                new CombinedData { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
-                new CombinedData { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
-            };
-
-            UsesOfDronesList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("DronesNotUse"), Value = "_NotUse" },
-                new CombinedData { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
-                new CombinedData { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
-                new CombinedData { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
-                new CombinedData { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
-                new CombinedData { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
-                new CombinedData { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
-            };
-
-            ConnectConfigList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
-                new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
-                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
-                new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
-                new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
-                new CombinedData { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
-                new CombinedData { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
-                new CombinedData { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
-                new CombinedData { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
-                new CombinedData { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
-            };
-
-            TouchModeList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
-                new CombinedData { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
-                new CombinedData { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
-            };
-
-            _dormThresholdLabel = LocalizationHelper.GetString("DormThreshold") + ": " + _dormThreshold + "%";
-
-            FormationSelectList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("Current"), Value = "0" },
-                new CombinedData { Display = "1", Value = "1" },
-                new CombinedData { Display = "2", Value = "2" },
-                new CombinedData { Display = "3", Value = "3" },
-                new CombinedData { Display = "4", Value = "4" },
-            };
-
-            RoguelikeModeList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
-                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
-
-                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
-                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
-            };
-
-            RoguelikeThemeList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
-                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
-                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
-            };
-
-            UpdateRoguelikeSquadList();
-            UpdateRoguelikeCoreCharList();
-
-            RoguelikeRolesList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
-                new CombinedData { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
-                new CombinedData { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
-                new CombinedData { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
-                new CombinedData { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
-            };
-
-            ClientTypeList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
-                new CombinedData { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
-                new CombinedData { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
-                new CombinedData { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
-                new CombinedData { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
-                new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
-                new CombinedData { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
-            };
-
-            var configurations = new ObservableCollection<CombinedData>();
-            foreach (var conf in ConfigurationHelper.GetConfigurationList())
-            {
-                configurations.Add(new CombinedData { Display = conf, Value = conf });
-            }
-
-            ConfigurationList = configurations;
-
-            DarkModeList = new List<GenericCombinedData<DarkModeType>>
-            {
-                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
-                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
-                new GenericCombinedData<DarkModeType> { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
-            };
-
-            InverseClearModeList = new List<CombinedData>
-            {
-                new CombinedData { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
-                new CombinedData { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
-                new CombinedData { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
-            };
-
-            VersionTypeList = new List<GenericCombinedData<UpdateVersionType>>
-            {
-                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
-                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
-                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
-            };
-
-            var languageList = (from pair in LocalizationHelper.SupportedLanguages
-                                where pair.Key != PallasLangKey || Cheers
-                                select new CombinedData { Display = pair.Value, Value = pair.Key })
-                .ToList();
-
-            LanguageList = languageList;
-        }
-
         private bool _idle;
 
         /// <summary>
@@ -790,6 +851,14 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _blockSleepWithScreenOn, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.BlockSleepWithScreenOn, value.ToString());
             }
+        }
+
+        private string _screencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), "---", "---", "---", "---");
+
+        public string ScreencapCost
+        {
+            get => _screencapCost;
+            set => SetAndNotify(ref _screencapCost, value);
         }
 
         public void RunScript(string str)
@@ -1268,6 +1337,11 @@ namespace MaaWpfGui.ViewModels.UI
         public List<CombinedData> RoguelikeRolesList { get; set; }
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of auto recruit selecting extra tags.
+        /// </summary>
+        public List<CombinedData> AutoRecruitSelectExtraTagsList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of the client types.
@@ -2029,7 +2103,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets 设置选择的编队
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        public List<CombinedData> FormationSelectList { get; set; }
+        public List<CombinedData> FormationSelectList { get; private set; }
 
         private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 
@@ -2408,18 +2482,35 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useExpedited, value);
         }
 
-        private bool _selectExtraTags = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, bool.FalseString));
+        private string _selectExtraTags = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, "0");
 
         /// <summary>
-        /// Gets or sets a value indicating whether three tags are alway selected when selecting tags.
+        /// Gets or sets a value indicating three tags are alway selected or select only rare tags as many as possible .
         /// </summary>
-        public bool SelectExtraTags
+        public string SelectExtraTags
         {
-            get => _selectExtraTags;
+            get
+            {
+                if (int.TryParse(_selectExtraTags, out _))
+                {
+                    return _selectExtraTags;
+                }
+
+                var value = "0";
+                if (bool.TryParse(_selectExtraTags, out bool boolValue))
+                {
+                    value = boolValue ? "1" : "0";
+                }
+
+                SetAndNotify(ref _selectExtraTags, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
+                return value;
+            }
+
             set
             {
                 SetAndNotify(ref _selectExtraTags, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.SelectExtraTags, value);
             }
         }
 
@@ -3427,6 +3518,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _useExpiringMedicine, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseExpiringMedicine, value.ToString());
+                Instances.TaskQueueViewModel.SetFightParams();
             }
         }
 

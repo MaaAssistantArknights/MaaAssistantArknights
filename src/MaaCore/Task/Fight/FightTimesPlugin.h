@@ -14,7 +14,6 @@ namespace asst
         virtual bool _run() override;
 
     private:
-        // 是否成功初始化为1次
-        bool inited = false;
+        bool inited = false; // 是否成功初始化为1次，初始化后后续不再检测 (实现调整次数后移除此变量
     };
 }

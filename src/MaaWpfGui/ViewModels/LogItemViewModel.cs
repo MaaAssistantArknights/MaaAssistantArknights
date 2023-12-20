@@ -30,7 +30,7 @@ namespace MaaWpfGui.ViewModels
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
         /// <param name="dateFormat">The Date format string</param>
-        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "MM'-'dd'  'HH':'mm':'ss")
+        public LogItemViewModel(string content, string color = UiLogColor.Message, string weight = "Regular", string dateFormat = "MM'-'dd'  'HH':'mm':'ss", bool showTime = true)
         {
             if (Instances.SettingsViewModel.UseLogItemDateFormat)
             {
@@ -41,6 +41,7 @@ namespace MaaWpfGui.ViewModels
             Content = content;
             Color = color;
             Weight = weight;
+            ShowTime = showTime;
         }
 
         private string _time;
@@ -52,6 +53,14 @@ namespace MaaWpfGui.ViewModels
         {
             get => _time;
             set => SetAndNotify(ref _time, value);
+        }
+
+        private bool _showTime = true;
+
+        public bool ShowTime
+        {
+            get => _showTime;
+            set => SetAndNotify(ref _showTime, value);
         }
 
         private string _content;

@@ -28,10 +28,10 @@ translations = {
 }
 
 translations_resort = {
-    '新增': 'feat',
-    '改进': 'perf',
-    '修复': 'fix', 
-    '其他': 'other'
+    '新增 | New': 'feat',
+    '改进 | Improved': 'perf',
+    '修复 | Fix': 'fix', 
+    '其他 | Other': 'other'
 }
 
 def individual_commits(commits: dict, indent: str = "") -> (str, list):
@@ -254,13 +254,15 @@ def main(tag_name=None, latest=None):
             continue
         git_addition_command = rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
         addition = call_command(git_addition_command)
-        coauthors = []
+        coauthors = set()
         for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
             if coauthor in contributors:
-                coauthors.append(contributors[coauthor])
+                coauthors.add(contributors[coauthor])
+            elif coauthor in contributors.values():
+                coauthors.add(coauthor)
             else:
                 print(f"Cannot get coauthor: {coauthor}.")
-        raw_commits_info[commit_hash]["coauthors"] = coauthors
+        raw_commits_info[commit_hash]["coauthors"] = list(coauthors)
 
     git_skip_command = rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
     raw_gitlogs = call_command(git_skip_command)

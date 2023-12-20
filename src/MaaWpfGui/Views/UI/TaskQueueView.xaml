@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:hc="https://handyorg.github.io/handycontrol"
+    xmlns:helper="clr-namespace:MaaWpfGui.Helper"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:properties="clr-namespace:MaaWpfGui.Styles.Properties"
     xmlns:s="https://github.com/canton7/Stylet"
@@ -36,9 +37,7 @@
                 BorderBrush="{DynamicResource BorderBrush}"
                 BorderThickness="1"
                 CornerRadius="4">
-                <Grid
-                    Width="190"
-                    Margin="0">
+                <Grid Width="190" Margin="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="40" />
@@ -70,10 +69,13 @@
                                         Grid.ColumnSpan="2"
                                         HorizontalAlignment="Left"
                                         Content="{Binding Name}"
-                                        IsChecked="{Binding IsChecked}"
-                                        IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}" />
+                                        IsChecked="{Binding IsCheckedWithNull}"
+                                        IsHitTestVisible="{Binding ElementName=TaskList, Path=DataContext.Idle}"
+                                        MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
+                                                                      Target={x:Type helper:CheckBoxHelper}}"
+                                        ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
                                     <hc:ButtonGroup Grid.Column="1" HorizontalAlignment="Left">
-                                        <!-- ReSharper disable once Xaml.StaticResourceNotResolved -->
+                                        <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
                                         <RadioButton
                                             Margin="0"
                                             Padding="45,0,0,0"
@@ -217,6 +219,7 @@
                 VerticalAlignment="Top"
                 HorizontalScrollBarVisibility="Auto"
                 IsInertiaEnabled="True"
+                PanningMode="Both"
                 VerticalScrollBarVisibility="Auto">
                 <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
                     <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
@@ -271,6 +274,7 @@
                 Margin="0,10,10,10"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
+                PanningMode="Both"
                 IsInertiaEnabled="True">
                 <controls:TextBlock Text="{Binding StagesOfToday}" TextWrapping="Wrap" />
             </hc:ScrollViewer>
@@ -286,6 +290,7 @@
             properties:AutoScroll.AutoScroll="True"
             HorizontalScrollBarVisibility="Disabled"
             IsInertiaEnabled="True"
+            PanningMode="Both"
             Visibility="{c:Binding !TaskSettingVisibilities.Guide}">
             <ItemsControl
                 HorizontalAlignment="Stretch"
@@ -301,7 +306,7 @@
 
                             <controls:TextBlock
                                 Grid.Column="0"
-                                Margin="0,5,20,0"
+                                Margin="0,5,14,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Stretch"
                                 Foreground="{DynamicResource TraceLogBrush}"

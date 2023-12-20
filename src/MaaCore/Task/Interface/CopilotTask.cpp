@@ -7,7 +7,6 @@
 #include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/Miscellaneous/BattleFormationTask.h"
 #include "Task/Miscellaneous/BattleProcessTask.h"
-#include "Task/Miscellaneous/CopilotListNotificationPlugin.h"
 #include "Task/Miscellaneous/TaskFileReloadTask.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
@@ -46,7 +45,6 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
 
     auto start_2_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_2_tp->set_tasks({ "BattleStartAll" }).set_ignore_error(false);
-    m_copilot_list_notification_ptr = start_2_tp->register_plugin<CopilotListNotificationPlugin>();
     m_subtasks.emplace_back(start_2_tp);
 
     // 跳过“以下干员出战后将被禁用，是否继续？”对话框
@@ -137,12 +135,15 @@ bool asst::CopilotTask::set_params(const json::value& params)
     bool is_adverse = params.get("is_adverse", false);
     m_adverse_select_task_ptr->set_enable(need_navigate && is_adverse);
 
-    // 防止在关卡名展开的情况下无法滑动，调整滑动区域
     std::string m_navigate_name = params.get("navigate_name", std::string());
-    Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickStageName")->text = { m_navigate_name };
-    Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickedCorrectStage")->text = { m_navigate_name };
-    Task.get(m_navigate_name + "@Copilot@FullStageNavigation")->specific_rect = Rect(600, 100, 20, 20);
-    m_navigate_task_ptr->set_tasks({ m_navigate_name + "@Copilot@StageNavigationBegin" });
+    if (!m_navigate_name.empty()) {
+        Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickStageName")->text = { m_navigate_name };
+        Task.get<OcrTaskInfo>(m_navigate_name + "@Copilot@ClickedCorrectStage")->text = { m_navigate_name };
+        m_navigate_task_ptr->set_tasks({ m_navigate_name + "@Copilot@StageNavigationBegin" });
+    }
+    else {
+        m_navigate_task_ptr->set_tasks({});
+    }
     m_navigate_task_ptr->set_enable(need_navigate);
 
     bool with_formation = params.get("formation", false);
