@@ -90,7 +90,7 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         const auto& task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
 
         auto merge_map = std::vector(number_replace.begin(), number_replace.end());
-        merge_map.insert(merge_map.end(), task_replace.begin(), task_replace.end());
+        ranges::copy(task_replace.begin(), task_replace.end(), merge_map.end());
         ocr.set_replace(merge_map);
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
