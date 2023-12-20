@@ -15,11 +15,13 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
     auto task_name = details.at("details").at("task").as_string();
     if (task_name.ends_with("Roguelike@GamePass")) {
         m_game_pass = true;
-        return m_config->get_mode() == RoguelikeMode::Exp;
+        return true;
+        //m_config->get_mode() == RoguelikeMode::Exp;
     }
     else if (task_name.ends_with("Roguelike@MissionFailedFlag2")) {
         m_game_pass = false;
-        return m_config->get_mode() == RoguelikeMode::Exp;
+        return true;
+        //m_config->get_mode() == RoguelikeMode::Exp;
     }
     else {
         return false;
@@ -86,11 +88,11 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         RegionOCRer ocr(image);
         ocr.set_task_info(m_config->get_theme() + "@" + task_name);
         ocr.set_bin_threshold(50, 255);
-        const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
+        static const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
         const auto& task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
 
         auto merge_map = std::vector(number_replace.begin(), number_replace.end());
-        ranges::copy(task_replace.begin(), task_replace.end(), merge_map.end());
+        ranges::copy(task_replace, std::back_inserter(merge_map));
         ocr.set_replace(merge_map);
         if (!ocr.analyze()) {
             Log.error(__FUNCTION__, "analyze battle data failed, task:", task_name);
