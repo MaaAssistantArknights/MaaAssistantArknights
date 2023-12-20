@@ -2182,6 +2182,11 @@ namespace MaaWpfGui.Main
         {
             MaaService.AsstDestroy(_handle);
         }
+
+        internal bool AsstStartCopilot(string filePath, bool form, bool addTrust, bool addUserAdditional, JArray mUserAdditional, bool useCopilotList, string v1, bool v2, string taskType, int v3, bool useSanityPotion, bool v4)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
