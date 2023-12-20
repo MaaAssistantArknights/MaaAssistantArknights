@@ -110,7 +110,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-
         private string _updateUrl;
 
         /// <summary>
@@ -392,16 +391,19 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-#if RELEASE
-                var ret = await CheckAndDownloadUpdate();
-                if (ret == CheckUpdateRetT.OK)
+                if (!IsDebugVersion())
                 {
-                    AskToRestart();
+                    var ret = await CheckAndDownloadUpdate();
+                    if (ret == CheckUpdateRetT.OK)
+                    {
+                        AskToRestart();
+                    }
                 }
-#else
-                // 跑个空任务避免 async warning
-                await Task.Run(() => { });
-#endif
+                else
+                {
+                    // 跑个空任务避免 async warning
+                    await Task.Run(() => { });
+                }
             }
         }
 
@@ -892,7 +894,11 @@ namespace MaaWpfGui.ViewModels.UI
         private bool IsDebugVersion(string version = null)
         {
             version ??= _curVersion;
-            return version.Contains("DEBUG");
+
+            // match case 1: DEBUG VERSION
+            // match case 2: v{Major}.{Minor}.{Patch}-{CommitDistance}-g{CommitHash}
+            // match case 3: {CommitHash}
+            return Regex.IsMatch(version, @"^(.*DEBUG.*|v\d+(\.\d+){1,3}-\d+-g[0-9a-f]{7,}|[^v][0-9a-f]{7,})$");
         }
 
         private bool IsStdVersion(string version = null)
