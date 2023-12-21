@@ -11752,7 +11752,7 @@
             "Roguelike@StrategyChange"
         ],
         "next": [
-            "Roguelike@Stages#next"
+            "Roguelike@Stages"
         ]
     },
     "Roguelike@OptionChoose1-1": {
@@ -13414,7 +13414,7 @@
             "Mizuki@Roguelike@StrategyChange"
         ],
         "next": [
-            "Mizuki@Roguelike@Stages#next"
+            "Mizuki@Roguelike@Stages"
         ]
     },
     "Mizuki@Roguelike@DiceConfirmThenAbandon": {
