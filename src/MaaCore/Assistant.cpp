@@ -85,10 +85,14 @@ Assistant::~Assistant()
 
     m_run_status = RunStatus::Stopping;
 
-    {
-        std::unique_lock<std::mutex> lock(m_call_mutex);
-        m_call_condvar.notify_all();
-    }
+    m_call_condvar.notify_all();
+
+#ifdef ASST_USE_ATOMIC_WAIT
+    m_completed_call.store(std::numeric_limits<AsyncCallId>::max());
+    m_completed_call.notify_all();
+#else
+    m_completed_call_condvar.notify_all();
+#endif
 
     m_condvar.notify_all();
 
@@ -530,18 +534,24 @@ asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::T
 bool asst::Assistant::wait_async_id(AsyncCallId id)
 {
     while (true) {
-        std::unique_lock<std::mutex> lock(m_completed_call_mutex);
+#ifndef ASST_USE_ATOMIC_WAIT
+        std::unique_lock<std::mutex> lock { m_completed_call_mutex };
+#endif
         if (m_thread_exit) {
             return false;
         }
 
+        auto old = m_completed_call.load();
         // 需要保证队列中id一定是有序的
-        if (id <= m_completed_call) {
+        if (id <= old) {
             return true;
         }
+#ifdef ASST_USE_ATOMIC_WAIT
+        m_completed_call.wait(old);
+#else
         m_completed_call_condvar.wait(lock);
+#endif
     }
-    return false;
 }
 
 void asst::Assistant::call_proc()
@@ -590,9 +600,14 @@ void asst::Assistant::call_proc()
         }
 
         {
-            std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
             m_completed_call = call_item.id;
+
+#ifdef ASST_USE_ATOMIC_WAIT
+            m_completed_call.notify_all();
+#else
+            std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
             m_completed_call_condvar.notify_all();
+#endif
         }
 
         auto cost =
