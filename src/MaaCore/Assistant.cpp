@@ -92,10 +92,7 @@ Assistant::~Assistant()
 
     m_condvar.notify_all();
 
-    {
-        std::unique_lock<std::mutex> lock(m_msg_mutex);
-        m_msg_condvar.notify_all();
-    }
+    m_msg_condvar.notify_all();
 
     if (m_working_thread.joinable()) {
         m_working_thread.join();
@@ -633,9 +630,10 @@ void Assistant::append_callback(AsstMsg msg, const json::value& detail)
 
     // 加入回调消息队列，由回调消息线程外抛给外部
     Log.info("Assistant::append_callback |", msg, more_detail.to_string());
-
-    std::unique_lock<std::mutex> lock(m_msg_mutex);
-    m_msg_queue.emplace(msg, std::move(more_detail));
+    {
+        std::unique_lock<std::mutex> lock(m_msg_mutex);
+        m_msg_queue.emplace(msg, std::move(more_detail));
+    }
     m_msg_condvar.notify_one();
 }
 
