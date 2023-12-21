@@ -11,13 +11,12 @@
 
 ### 修复 | Fix
 
+- 修复肉鸽烧水逻辑错误、肉鸽卡在第三层 boss 等策略相关问题 (#7597, #7724) @zzyyyl
+- 修复傀影肉鸽识别到灰色节点的问题 @zzyyyl
 - 修复肉鸽商店投资退出过快卡在 `StageTraderInvestSystemLeave` 的问题 (#7720) @zzyyyl
-- 修复水月肉鸽策略未随层数改变的问题 (#7597) @zzyyyl
-- 修复肉鸽 OptionUnknown 引起的卡住的问题 (#7675) @zzyyyl
 - Mac GUI 修复作业文件路径错误 @hguandl
 - Mac GUI 修复指针warning @hguandl
 - 修复部分情况下连续战斗次数无法正确调为1并导致卡在该流程的错误 (#7646) @status102
-- 修复傀影肉鸽识别到灰色节点的问题 @zzyyyl
 
 ### 其他 | Other
 
@@ -29,3 +28,7 @@
 - 移动旧保全作业 @status102
 - wpfGui: 增加`ScrollView`触屏支持 (#7340) @Cryolitia
 - Mac GUI 改为沙盒内控制客户端并移除 XPC @hguandl
+
+### For overseas
+
+- 修复外服肉鸽不期而遇战斗选项引起的卡住的问题 (#7675) @zzyyyl
