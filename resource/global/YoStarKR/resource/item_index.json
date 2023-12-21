@@ -1471,6 +1471,14 @@
         "sortId": -10000,
         "usage": "비밀 구역에 들어갈 때 필요한 허가증. 안에 있는 장치가 어딘가 좀 달라 보이는데?"
     },
+    "act26side_token_fragmenta": {
+        "classifyType": "NONE",
+        "description": "수도원 구석구석에 흩어져 있는 붕괴된 성상의 유일무이한 조각. 어쩌면 이 조각들로 성상을 다시 맞출 순 없겠지만, 그래도 여전히 희망을 품고 있는 사람들이 있다.",
+        "icon": "act26side_token_fragmenta.png",
+        "name": "성상 조각",
+        "sortId": -10000,
+        "usage": "총을 지닌 성도상은 한때 수도원 곳곳에 있었으나, 지금은 대부분 그 자리에 없다. 경건한 신자들은 얼마 남지 않은 물자로 그 조각을 교환하려 한다."
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
@@ -1685,7 +1693,7 @@
         "icon": "classic_gacha.png",
         "name": "커널 헤드헌팅 허가증",
         "sortId": 40011,
-        "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 중견 인재 1명을 모집할 수 있다."
+        "usage": "중견 오퍼레이터임을 증명하는 증명서. 희귀한 물자와 교환할 수 있다."
     },
     "classic_gacha_10": {
         "classifyType": "NORMAL",
