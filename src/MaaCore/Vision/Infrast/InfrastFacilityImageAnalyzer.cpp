@@ -11,7 +11,7 @@ bool asst::InfrastFacilityImageAnalyzer::analyze()
     const static std::unordered_map<std::string, std::string> facility_task_name = {
         { "Dorm", "InfrastDorm" },           { "Control", "InfrastControl" },       { "Mfg", "InfrastMfg" },
         { "Trade", "InfrastTrade" },         { "Power", "InfrastPower" },           { "Office", "InfrastOffice" },
-        { "Reception", "InfrastReception" }, { "Processing", "InfrastProcessing" }, { "Training", "InfrastTraining" }
+        { "Reception", "InfrastReception" }, { "Processing", "InfrastProcessing" },
     };
     // 因为基建的缩放是不确定的，有可能是正常大小，也可能是最小化的
     // 所以对每种情况都进行一下识别，取其中得分最高的
