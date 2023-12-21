@@ -23,7 +23,7 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::verify(AsstMsg msg, const json::va
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
     }
-    if (task_view == "Roguelike@StrategyChange" || task_view == "Roguelike@StrategyChangeAtNextLevel") {
+    if (task_view == "Roguelike@StrategyChange") {
         m_result = details.get("details", "result", json::object());
         return true;
     }
@@ -39,9 +39,13 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
     const std::string theme = m_config->get_theme();
     const std::string stages_task_name = theme + "@Roguelike@Stages";
     const std::string current_strategy = m_result.get("text", "");
+    if (current_strategy.empty() || current_strategy.find("_SKIP_") != std::string::npos) {
+        Log.info("Skip strategy change, current strategy is", current_strategy);
+        return true;
+    }
     const std::string strategy_task_name = stages_task_name + current_strategy;
 
-    if (current_strategy.empty() || Task.get(strategy_task_name) == nullptr) [[unlikely]] {
+    if (Task.get(strategy_task_name) == nullptr) [[unlikely]] {
         Log.error("Strategy task", strategy_task_name, "doesn't exist!");
         return false;
     }
