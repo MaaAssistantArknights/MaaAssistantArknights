@@ -125,12 +125,22 @@
                 ToolTip="{DynamicResource StartingCoreCharTip}" />
             <CheckBox
                 Margin="0,10"
-                IsChecked="{c:Binding 'RoguelikeStartWithEliteTwo or RoguelikeMode == &quot;5&quot;'}"
+                IsChecked="{Binding RoguelikeStartWithEliteTwo}"
                 IsEnabled="{c:Binding 'RoguelikeMode != &quot;5&quot;'}"
-                Visibility="{c:Binding '(RoguelikeMode == &quot;4&quot; or RoguelikeMode == &quot;5&quot;) and RoguelikeTheme != &quot;Phantom&quot;'}">
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeOnlyStartWithEliteTwo}"
+                IsEnabled="{c:Binding 'RoguelikeMode != &quot;5&quot; and RoguelikeStartWithEliteTwo'}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeOnlyStartWithEliteTwo}"
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeUseSupportUnit}">
