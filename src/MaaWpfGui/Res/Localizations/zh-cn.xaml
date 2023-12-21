@@ -106,7 +106,8 @@
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
-    <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择。</system:String>
+    <system:String x:Key="StartingCoreCharTip">不填写则默认选择。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员「{0}」未在 battle_data 中，请检查输入的名称是否正确，或检查 maa 资源版本。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「开局干员」直升精二，不进行作战</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
