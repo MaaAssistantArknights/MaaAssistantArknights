@@ -3791,13 +3791,6 @@
             "MainThemes#next"
         ]
     },
-    "NextOnce": {
-        "algorithm": "JustReturn",
-        "next": [
-            "#next",
-            "Stop"
-        ]
-    },
     "LoadingText": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
@@ -9108,8 +9101,7 @@
         "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
         "algorithm": "JustReturn",
         "next": [
-            "Roguelike@StageEncounterOptionUnknown",
-            "StrategyChanges@Stop"
+            "Roguelike@StageEncounterOptionUnknown"
         ]
     },
     "ScreenshotTaskPlugin-Config-Debug": {
@@ -11755,8 +11747,9 @@
             245,
             144
         ],
+        "postDelay": 1000,
         "sub": [
-            "Roguelike@StrategyChanges@NextOnce"
+            "Roguelike@StrategyChange"
         ],
         "next": [
             "Roguelike@Stages#next"
@@ -12744,16 +12737,8 @@
         ]
     },
     "Roguelike@StrategyChange": {
-        "baseTask": "Roguelike@StrategyChange_default"
-    },
-    "Roguelike@StrategyChangeAtNextLevel": {
-        "baseTask": "Roguelike@StrategyChange",
-        "roi": [
-            522,
-            431,
-            245,
-            144
-        ]
+        "baseTask": "Roguelike@StrategyChange_default",
+        "Doc": "占位任务，实际用到的是带 theme 前缀的任务"
     },
     "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
@@ -12776,13 +12761,6 @@
     },
     "Roguelike@StrategyChange_mode4": {
         "baseTask": "Roguelike@StrategyChange_default"
-    },
-    "Roguelike@StrategyChanges": {
-        "algorithm": "JustReturn",
-        "next": [
-            "Roguelike@StrategyChangeAtNextLevel",
-            "Roguelike@StrategyChange"
-        ]
     },
     "Roguelike@TempRecruitFlag": {
         "action": "DoNothing",
@@ -13423,20 +13401,26 @@
         ],
         "templThreshold": 0.95,
         "postDelay": 1000,
-        "sub": [
-            "Mizuki@Roguelike@StrategyChanges@NextOnce"
-        ],
         "next": [
             "Mizuki@Roguelike@StageEncounterEnter",
             "Mizuki@Roguelike@Stages#next",
             "Mizuki@Roguelike@ClickToDrops"
         ]
     },
+    "Mizuki@Roguelike@DiceConfirmAfterNextLevel": {
+        "baseTask": "Mizuki@Roguelike@DiceConfirm",
+        "template": "Mizuki@Roguelike@DiceConfirm.png",
+        "sub": [
+            "Mizuki@Roguelike@StrategyChange"
+        ],
+        "next": [
+            "Mizuki@Roguelike@Stages#next"
+        ]
+    },
     "Mizuki@Roguelike@DiceConfirmThenAbandon": {
         "baseTask": "Mizuki@Roguelike@DiceConfirm",
         "template": "Mizuki@Roguelike@DiceConfirm.png",
         "postDelay": 0,
-        "sub": [],
         "next": [
             "Mizuki@Roguelike@ExitThenAbandon"
         ]
@@ -13607,6 +13591,9 @@
             "失尘岩洞",
             "幽海丛林",
             "绀碧摇篮"
+        ],
+        "next": [
+            "Mizuki@Roguelike@DiceConfirmAfterNextLevel"
         ]
     },
     "Mizuki@Roguelike@RecruitMain": {
