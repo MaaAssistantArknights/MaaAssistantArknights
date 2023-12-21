@@ -126,7 +126,6 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithEliteTwo}"
-                IsEnabled="{c:Binding 'RoguelikeMode != &quot;5&quot;'}"
                 Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
                 <TextBlock
                     Block.TextAlignment="Left"
@@ -136,7 +135,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeOnlyStartWithEliteTwo}"
-                IsEnabled="{c:Binding 'RoguelikeMode != &quot;5&quot; and RoguelikeStartWithEliteTwo'}"
+                IsEnabled="{Binding RoguelikeStartWithEliteTwo}"
                 Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
                 <TextBlock
                     Block.TextAlignment="Left"

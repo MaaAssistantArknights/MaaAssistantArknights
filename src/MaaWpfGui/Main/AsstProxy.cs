@@ -2012,8 +2012,8 @@ namespace MaaWpfGui.Main
                 taskParams["core_char"] = coreChar;
             }
 
-            taskParams["start_with_elite_two"] = startWithEliteTwo;
-            taskParams["only_start_with_elite_two"] = onlyStartWithEliteTwo;
+            taskParams["start_with_elite_two"] = theme != "Phantom" && startWithEliteTwo;
+            taskParams["only_start_with_elite_two"] = theme != "Phantom" && onlyStartWithEliteTwo;
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
