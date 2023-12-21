@@ -24,6 +24,7 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::verify(AsstMsg msg, const json::va
         task_view.remove_prefix(roguelike_name.length());
     }
     if (task_view == "Roguelike@StrategyChange") {
+        m_result = details.get("details", "result", json::object());
         return true;
     }
     else {
@@ -35,21 +36,16 @@ bool asst::RoguelikeStrategyChangeTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::string theme = m_config->get_theme();
-
-    // TODO: 这段识别有点冗余，要是 plugin 能获取识别结果就好了
-    std::string task_name = theme + "@Roguelike@StrategyChange";
-    OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(task_name);
-    if (!analyzer.analyze()) {
-        return false;
+    const std::string theme = m_config->get_theme();
+    const std::string stages_task_name = theme + "@Roguelike@Stages";
+    const std::string current_strategy = m_result.get("text", "");
+    if (current_strategy.empty() || current_strategy.find("_SKIP_") != std::string::npos) {
+        Log.info("Skip strategy change, current strategy is", current_strategy);
+        return true;
     }
+    const std::string strategy_task_name = stages_task_name + current_strategy;
 
-    std::string stages_task_name = theme + "@Roguelike@Stages";
-    std::string current_strategy = analyzer.get_result().front().text;
-    std::string strategy_task_name = stages_task_name + current_strategy;
-
-    if (Task.get(strategy_task_name) == nullptr) {
+    if (Task.get(strategy_task_name) == nullptr) [[unlikely]] {
         Log.error("Strategy task", strategy_task_name, "doesn't exist!");
         return false;
     }

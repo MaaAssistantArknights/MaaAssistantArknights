@@ -1471,6 +1471,14 @@
         "sortId": -10000,
         "usage": "Grants permission to enter the secret zone. The mechanisms within seem to work differently."
     },
+    "act26side_token_fragmenta": {
+        "classifyType": "NONE",
+        "description": "Holy Statue Fragments telling of all sorts of damage lie forgotten in every nook and cranny of the monastery, each shard unlike any other. These may never again piece together to form the complete image of a saint with a gun, but there are always those hanging onto hope.",
+        "icon": "act26side_token_fragmenta.png",
+        "name": "Holy Statue Fragments",
+        "sortId": -10000,
+        "usage": "Statues of saints bearing guns were once ornamental mainstays all over the monastery, but most are now nowhere to be seen. The monastery's devout followers are willing to barter what supplies they have in exchange for these fragments."
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -1685,7 +1693,7 @@
         "icon": "classic_gacha.png",
         "name": "Kernel Headhunting Permit",
         "sortId": 40011,
-        "usage": "A special permit from Rhodes Island's HR distribution for recruiting a single kernel talent."
+        "usage": "A certificate that attests an operator possesses core abilities. Can be exchanged for rare materials."
     },
     "classic_gacha_10": {
         "classifyType": "NORMAL",

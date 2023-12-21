@@ -24,6 +24,10 @@ body:
           I have checked the latest beta update and there is no mention
           of the bug being fixed.
         required: true
+      - label: >-
+          I have reviewed the pinned issues and confirmed that my issue
+          is not mentioned.
+        required: true
   - type: textarea
     id: describe
     attributes:

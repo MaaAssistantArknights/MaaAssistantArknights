@@ -30,6 +30,7 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
+                    PanningMode="Both"
                     IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock
@@ -134,6 +135,7 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
+                    PanningMode="Both"
                     IsInertiaEnabled="True">
                     <StackPanel>
                         <controls:TextBlock

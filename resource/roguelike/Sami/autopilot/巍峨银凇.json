@@ -52,11 +52,15 @@
                 3,
                 5
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                52
+            ]
         },
         {
             "groups": [
-                "情报官"
+                "伊内丝"
             ],
             "location": [
                 4,
@@ -93,7 +97,7 @@
             ],
             "direction": "right",
             "condition": [
-                1,
+                2,
                 60
             ]
         },
@@ -114,7 +118,7 @@
             "direction": "up",
             "condition": [
                 1,
-                60
+                52
             ]
         },
         {
@@ -129,7 +133,7 @@
             "direction": "right",
             "condition": [
                 1,
-                60
+                52
             ]
         },
         {
@@ -141,13 +145,13 @@
                 "其他高台"
             ],
             "location": [
-                9,
+                8,
                 5
             ],
             "direction": "up",
             "condition": [
                 1,
-                60
+                52
             ]
         },
         {
@@ -173,9 +177,9 @@
                 6,
                 5
             ],
-            "direction": "right",
+            "direction": "up",
             "condition": [
-                1,
+                2,
                 60
             ]
         },
@@ -193,7 +197,7 @@
             ],
             "direction": "up",
             "condition": [
-                1,
+                2,
                 60
             ]
         },
@@ -207,12 +211,12 @@
             ],
             "location": [
                 9,
-                6
+                4
             ],
             "direction": "right",
             "condition": [
                 1,
-                60
+                52
             ]
         },
         {
@@ -227,7 +231,7 @@
             "direction": "right",
             "condition": [
                 2,
-                60
+                52
             ]
         },
         {
@@ -244,7 +248,7 @@
             "direction": "right",
             "condition": [
                 1,
-                60
+                52
             ]
         },
         {
@@ -269,12 +273,12 @@
                 "补给站"
             ],
             "location": [
-                10,
-                4
+                6,
+                6
             ],
-            "direction": "down",
+            "direction": "left",
             "condition": [
-                1,
+                2,
                 60
             ]
         },
@@ -283,13 +287,13 @@
                 "支援陷阱"
             ],
             "location": [
-                11,
-                5
+                9,
+                3
             ],
             "direction": "left",
             "condition": [
                 20,
-                60
+                52
             ]
         },
         {
@@ -303,6 +307,110 @@
             "direction": "up",
             "condition": [
                 13,
+                52
+            ]
+        },
+        {
+            "groups": [
+                "高台输出",
+                "狙击",
+                "盾法",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                6,
+                5
+            ],
+            "direction": "up",
+            "condition": [
+                53,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "奶",
+                "高台输出",
+                "狙击",
+                "其他高台"
+            ],
+            "location": [
+                6,
+                6
+            ],
+            "direction": "up",
+            "condition": [
+                53,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "高台输出",
+                "狙击",
+                "盾法",
+                "辅助",
+                "其他高台"
+            ],
+            "location": [
+                5,
+                5
+            ],
+            "direction": "up",
+            "condition": [
+                53,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "奶",
+                "高台输出",
+                "狙击",
+                "其他高台"
+            ],
+            "location": [
+                5,
+                6
+            ],
+            "direction": "up",
+            "condition": [
+                53,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "地刺",
+                "其他地面"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "up",
+            "condition": [
+                53,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "地面阻挡",
+                "处决者",
+                "地刺",
+                "其他地面"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "up",
+            "condition": [
+                53,
                 60
             ]
         }
