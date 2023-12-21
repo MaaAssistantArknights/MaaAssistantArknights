@@ -49,6 +49,18 @@
             150
         ]
     },
+    "HE-Open": {
+        "text": [
+            "Hortus",
+            "Escapismo"
+        ]
+    },
+    "HEChapterToHE": {
+        "text": [
+            "SANCTILAMINIUM",
+            "AMBROSII"
+        ]
+    },
     "CW-Open": {
         "text": [
             "Lingering",
@@ -86,18 +98,6 @@
             "SUMMIT",
             "OF",
             "NATIONS"
-        ]
-    },
-    "HE-Open": {
-        "text": [
-            "Hortus",
-            "Escapismo"
-        ]
-    },
-    "HEChapterToHE": {
-        "text": [
-            "SANCTILAMINIUM",
-            "AMBROSII"
         ]
     },
     "WB-Open": {
