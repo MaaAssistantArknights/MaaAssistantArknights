@@ -103,12 +103,12 @@
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 우선, 2번째 구역 도달 즉시 탐험 중도 포기</system:String>
     <system:String x:Key="RoguelikeLastReward">전기주전자 획득, 3번째 구역 도달 즉시 탐험 중도 포기</system:String>
-    <system:String x:Key="RoguelikeStartEliteTwo">요정 2 는 후속 작전 을 하지 않는다</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
     <system:String x:Key="StartingCoreCharTip">단일 오퍼레이터의 중국어 이름만 지원하며, 입력하지 않으면 기본값이 선택됩니다.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">시초 에 간부 가 직진 하다</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">시작 요원'만 2 위로 승진하고, 작전은 하지 않는다</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">전투 클리어 후 정지</system:String>

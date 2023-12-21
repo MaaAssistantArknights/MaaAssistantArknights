@@ -12,8 +12,7 @@ namespace asst
         Investment = 1, // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
                         // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
                         // 3 - 尝试通关，激进策略（TODO）
-        Collectible = 4, // 4 - 刷开局藏品，以获得热水壶或者演讲稿开局，不期而遇采用保守策略
-        StartEliteTwo = 5, // 5 - 只刷直升，有直升就结束任务
+        Collectible = 4, // 4 - 刷开局，以获得热水壶或者演讲稿开局或只凹直升，不期而遇采用保守策略
     };
 
     class RoguelikeTheme
@@ -42,7 +41,7 @@ namespace asst
         static constexpr bool is_valid_mode(RoguelikeMode mode)
         {
             return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment ||
-                   mode == RoguelikeMode::Collectible || mode == RoguelikeMode::StartEliteTwo;
+                   mode == RoguelikeMode::Collectible;
         }
 
     public:
@@ -54,12 +53,15 @@ namespace asst
         int get_difficulty() { return m_difficulty; }
         void set_start_with_elite_two(bool start_with_elite_two) { m_start_with_elite_two = start_with_elite_two; }
         bool get_start_with_elite_two() { return m_start_with_elite_two; }
+        void set_only_start_with_elite_two(bool only_start_with_elite_two) { m_only_start_with_elite_two = only_start_with_elite_two; }
+        bool get_only_start_with_elite_two() { return m_only_start_with_elite_two; }
 
     private:
         std::string m_theme; // 肉鸽主题
         RoguelikeMode m_mode = RoguelikeMode::Exp;
         int m_difficulty = 0;
         bool m_start_with_elite_two = false;
+        bool m_only_start_with_elite_two = false;
 
         /* 以下为每次重置 */
     public:

@@ -260,7 +260,6 @@ namespace MaaWpfGui.ViewModels.UI
                 // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
                 // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
                 new CombinedData { Display = LocalizationHelper.GetString("RoguelikeLastReward"), Value = "4" },
-                new CombinedData { Display = LocalizationHelper.GetString("RoguelikeStartEliteTwo"), Value = "5" },
             };
 
             RoguelikeThemeList = new List<CombinedData>
@@ -1921,8 +1920,28 @@ namespace MaaWpfGui.ViewModels.UI
                     RoguelikeUseSupportUnit = false;
                 }
 
+                if (!value && RoguelikeOnlyStartWithEliteTwo)
+                {
+                    RoguelikeOnlyStartWithEliteTwo = false;
+                }
+
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+            }
+        }
+
+        private string _roguelikeOnlyStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether use support unit.
+        /// </summary>
+        public bool RoguelikeOnlyStartWithEliteTwo
+        {
+            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo);
+            set
+            {
+                SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
             }
         }
 
