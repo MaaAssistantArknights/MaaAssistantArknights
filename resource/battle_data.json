@@ -353,7 +353,7 @@
         },
         "char_1032_excu2": {
             "name": "圣约送葬人",
-            "name_en": "圣约送葬人",
+            "name_en": "Executor the Ex Foedere",
             "name_jp": "聖約イグゼキュター",
             "name_kr": "이그제큐터 디 엑스 포에데레",
             "name_tw": "圣约送葬人",
@@ -3174,7 +3174,7 @@
         },
         "char_4015_spuria": {
             "name": "空构",
-            "name_en": "空构",
+            "name_en": "Spuria",
             "name_jp": "スプリア",
             "name_kr": "스푸리아",
             "name_tw": "空构",
@@ -4595,7 +4595,7 @@
         },
         "char_498_inside": {
             "name": "隐现",
-            "name_en": "隐现",
+            "name_en": "Insider",
             "name_jp": "インサイダー",
             "name_kr": "인사이더",
             "name_tw": "隐现",
@@ -7130,7 +7130,7 @@
         },
         "trap_117_ltstat": {
             "name": "圣像",
-            "name_en": "圣像",
+            "name_en": "Holy Statue",
             "name_jp": "聖像",
             "name_kr": "성상",
             "name_tw": "圣像",
@@ -7145,7 +7145,7 @@
         },
         "trap_118_rockfl": {
             "name": "塌落的墙垣",
-            "name_en": "塌落的墙垣",
+            "name_en": "Crumbling Masonry",
             "name_jp": "崩れた壁",
             "name_kr": "무너진 담장",
             "name_tw": "塌落的墙垣",
@@ -7160,7 +7160,7 @@
         },
         "trap_119_rdrepair": {
             "name": "备用木材",
-            "name_en": "备用木材",
+            "name_en": "Spare Timber",
             "name_jp": "予備木材",
             "name_kr": "비상용 목재",
             "name_tw": "备用木材",
@@ -7175,7 +7175,7 @@
         },
         "trap_120_rdblock": {
             "name": "破旧的木篱",
-            "name_en": "破旧的木篱",
+            "name_en": "Shabby Fence",
             "name_jp": "朽ちた木の柵",
             "name_kr": "낡은 울타리",
             "name_tw": "破旧的木篱",
