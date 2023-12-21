@@ -11748,11 +11748,8 @@
             144
         ],
         "postDelay": 1000,
-        "sub": [
-            "Roguelike@StrategyChange"
-        ],
         "next": [
-            "Roguelike@Stages"
+            "Roguelike@StrategyChange"
         ]
     },
     "Roguelike@OptionChoose1-1": {
@@ -12738,7 +12735,9 @@
     },
     "Roguelike@StrategyChange": {
         "baseTask": "Roguelike@StrategyChange_default",
-        "Doc": "占位任务，实际用到的是带 theme 前缀的任务"
+        "next": [
+            "Roguelike@Stages"
+        ]
     },
     "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
@@ -13410,11 +13409,8 @@
     "Mizuki@Roguelike@DiceConfirmAfterNextLevel": {
         "baseTask": "Mizuki@Roguelike@DiceConfirm",
         "template": "Mizuki@Roguelike@DiceConfirm.png",
-        "sub": [
-            "Mizuki@Roguelike@StrategyChange"
-        ],
         "next": [
-            "Mizuki@Roguelike@Stages"
+            "Mizuki@Roguelike@StrategyChange"
         ]
     },
     "Mizuki@Roguelike@DiceConfirmThenAbandon": {
@@ -13594,7 +13590,8 @@
         ],
         "sub": [],
         "next": [
-            "Mizuki@Roguelike@DiceConfirmAfterNextLevel"
+            "Mizuki@Roguelike@DiceConfirmAfterNextLevel",
+            "Mizuki@Roguelike@StrategyChange"
         ]
     },
     "Mizuki@Roguelike@RecruitMain": {
