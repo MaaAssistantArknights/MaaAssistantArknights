@@ -49,6 +49,18 @@
             150
         ]
     },
+    "HE-Open": {
+        "text": [
+            "Hortus",
+            "Escapismo"
+        ]
+    },
+    "HEChapterToHE": {
+        "text": [
+            "SANCTILAMINIUM",
+            "AMBROSII"
+        ]
+    },
     "CW-Open": {
         "text": [
             "Lingering",
@@ -974,11 +986,11 @@
                 "炎狱炎熔"
             ],
             [
-                "I?ris",
+                "^I?ris$",
                 "Iris"
             ],
             [
-                "Iris",
+                "^Iris$",
                 "爱丽丝"
             ],
             [
