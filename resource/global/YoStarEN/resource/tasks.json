@@ -3835,6 +3835,14 @@
             "Refresh support"
         ]
     },
+    "RoguelikeSettlementOcr-Difficulty": {
+        "ocrReplace": [
+            [
+                "Ca1m",
+                "Calm"
+            ]
+        ]
+    },
     "RoguelikeTraderShoppingOcr": {
         "ocrReplace": [
             [
