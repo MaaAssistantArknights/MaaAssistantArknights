@@ -2769,6 +2769,10 @@ namespace MaaWpfGui.ViewModels.UI
                 case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
                     break;
 
+                case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdateDebugVersion:
+                    toastMessage = LocalizationHelper.GetString("NoNeedToUpdateDebugVersion");
+                    break;
+
                 case VersionUpdateViewModel.CheckUpdateRetT.AlreadyLatest:
                     toastMessage = LocalizationHelper.GetString("AlreadyLatest");
                     break;

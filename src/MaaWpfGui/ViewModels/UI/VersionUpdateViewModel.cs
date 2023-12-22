@@ -344,6 +344,11 @@ namespace MaaWpfGui.ViewModels.UI
             NoNeedToUpdate,
 
             /// <summary>
+            /// 调试版本无需更新
+            /// </summary>
+            NoNeedToUpdateDebugVersion,
+
+            /// <summary>
             /// 已经是最新版
             /// </summary>
             AlreadyLatest,
@@ -661,7 +666,7 @@ namespace MaaWpfGui.ViewModels.UI
             // 调试版不检查更新
             if (IsDebugVersion())
             {
-                return CheckUpdateRetT.FailedToGetInfo;
+                return CheckUpdateRetT.NoNeedToUpdateDebugVersion;
             }
 
             try
