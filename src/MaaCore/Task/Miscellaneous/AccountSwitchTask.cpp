@@ -35,10 +35,10 @@ bool asst::AccountSwitchTask::_run()
     // 当前账号就是想要的
     std::string current_account;
 
-    if (m_client_type == SupportedClientType[0]) {
+    if (m_client_type == "Official") {
         current_account = get_current_account();
     }
-    else if (m_client_type == SupportedClientType[1]) {
+    else if (m_client_type == "Bilibili") {
         current_account = get_current_account_b();
     }
 
@@ -121,10 +121,10 @@ bool asst::AccountSwitchTask::swipe_and_select(bool to_top)
     int repeat = 0;
     bool click = false;
     while (!need_exit()) {
-        if (m_client_type == SupportedClientType[0]) {
+        if (m_client_type == "Official") {
             click = select_account(result);
         }
-        else if (m_client_type == SupportedClientType[1]) {
+        else if (m_client_type == "Bilibili") {
             click = select_account_b(result);
         }
         if (click) {
