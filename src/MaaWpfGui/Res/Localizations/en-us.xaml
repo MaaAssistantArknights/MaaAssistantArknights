@@ -216,6 +216,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">Filename: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">Removed!</system:String>
     <system:String x:Key="AlreadyLatest">The latest version has already been installed</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">Now using debug version, no need to update</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">Update Package Detect Failed</system:String>
     <system:String x:Key="CheckNetworking">Please check your network connection or proxy.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">Failed to get release note.</system:String>

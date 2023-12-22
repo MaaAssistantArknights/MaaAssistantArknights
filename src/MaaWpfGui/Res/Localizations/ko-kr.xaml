@@ -216,6 +216,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">파일명: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">삭제했습니다!</system:String>
     <system:String x:Key="AlreadyLatest">이미 최신 버전입니다~</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">현재 디버그 버전이므로 업데이트할 필요가 없습니다</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">업데이트 패키지 확인 실패</system:String>
     <system:String x:Key="CheckNetworking">네트워크 연결이나 프록시를 확인해 주세요.</system:String>
     <system:String x:Key="GetReleaseNoteFailed">릴리즈 노트를 받아오지 못했습니다.</system:String>
