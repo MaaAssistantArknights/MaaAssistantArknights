@@ -106,7 +106,7 @@
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
-    <system:String x:Key="StartingCoreCharTip">입력하지 않으면 기본값이 선택됩니다.</system:String>
+    <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 정책이 사용됩니다.</system:String>
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">입력한 하프「{0}」는 battle_data에 없습니다. 입력한 이름이 올바른지 확인하거나 maa 리소스 버전을 확인하십시오.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">시초 에 간부 가 직진 하다</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복(전투 X)</system:String>
