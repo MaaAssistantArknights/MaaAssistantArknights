@@ -3267,7 +3267,6 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "LoginOther#next",
             "SwitchAccount@StartUpThemes#next",
             "SwitchAccount@LoadingIcon",
             "SwitchAccount@ReturnButtons#next",
@@ -3857,6 +3856,15 @@
             "ReturnButton@LoadingText",
             "CloseAnnos#next"
         ]
+    },
+    "ReturnOnce": {
+        "baseTask": "ReturnButton",
+        "template": [
+            "Return.png",
+            "Return-White.png"
+        ],
+        "next": [],
+        "postDelay": 500
     },
     "FromStageSN": {
         "template": "StageSNReturnFlag.png",
@@ -7694,12 +7702,12 @@
             167
         ],
         "next": [
-            "BattleSupportUnitFormationSelect",
+            "BattleSupportFormationRole-Pioneer",
             "BattleSupportUnitFormation"
         ],
         "postDelay": 2000
     },
-    "BattleSupportUnitFormationSelect": {
+    "BattleSupportUnitFormationSelectRandom": {
         "action": "ClickSelf",
         "roi": [
             115,
@@ -7708,9 +7716,34 @@
             75
         ],
         "next": [
-            "BattleSupportUnitFormationSelect",
+            "BattleSupportUnitFormationSelectRandom",
             "Stop"
         ]
+    },
+    "BattleSupportUnitFormationOperInfoSwipeToTheDown": {
+        "baseTask": "SwipeToTheDown",
+        "specificRect": [
+            960,
+            600,
+            20,
+            20
+        ],
+        "rectMove": [
+            960,
+            200,
+            20,
+            20
+        ]
+    },
+    "BattleSupportUnitRefresh": {
+        "action": "ClickSelf",
+        "roi": [
+            1045,
+            0,
+            235,
+            144
+        ],
+        "postDelay": 2000
     },
     "BattleQuickFormationCheck": {
         "baseTask": "BattleQuickFormation",
@@ -7773,6 +7806,23 @@
         ],
         "postDelay": 500
     },
+    "BattleSupportFormationRole": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            45,
+            180,
+            675
+        ],
+        "templThreshold": 0.7,
+        "maskRange": [
+            100,
+            255
+        ],
+        "postDelay": 2000
+    },
     "BattleQuickFormationFilter": {
         "action": "ClickSelf",
         "roi": [
@@ -7798,18 +7848,18 @@
         "postDelay": 500
     },
     "BattleQuickFormationFilter-Trust": {
-        "action": "ClickSelf",
-        "roi": [
-            1010,
-            70,
-            35,
-            580
-        ],
-        "postDelay": 500,
-        "next": [
-            "BattleQuickFormationFilter-Click2"
-        ]
-    },
+		"action": "ClickSelf",
+		"roi": [
+			1010,
+			70,
+			35,
+			580
+		],
+		"postDelay": 500,
+		"next": [
+			"BattleQuickFormationFilter-Click2"
+		]
+	},
     "BattleQuickFormationFilter-Click2": {
         "action": "ClickSelf",
         "roi": [
@@ -7880,6 +7930,30 @@
     "BattleQuickFormationRole-Support": {
         "baseTask": "BattleQuickFormationRole"
     },
+    "BattleSupportFormationRole-Pioneer": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Warrior": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Tank": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Caster": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Medic": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Sniper": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Special": {
+        "baseTask": "BattleSupportFormationRole"
+    },
+    "BattleSupportFormationRole-Support": {
+        "baseTask": "BattleSupportFormationRole"
+    },
     "BattleQuickFormation-OperNameFlagBase": {
         "template": "empty.png",
         "roi": [
@@ -7930,6 +8004,55 @@
             2,
             0,
             0
+        ]
+    },
+    "BattleSupportFormation-DetailedInfoBase": {
+        "roi": [
+            78,
+            231,
+            1199,
+            476
+        ]
+    },
+    "BattleSupportFormationOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -91,
+            283,
+            120,
+            30
+        ],
+        "postDelay": 500
+    },
+    "BattleSupportUnitSkill-DetailedInfo": {
+        "roi": [
+            718,
+            51,
+            562,
+            599
+        ]
+    },
+    "BattleSupportUnitSkillOCR": {
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "text": [],
+        "roi": [
+            -50,
+            40,
+            300,
+            60
+        ],
+        "postDelay": 1000
+    },
+    "BattleSupportFormationConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            491,
+            518,
+            321,
+            163
         ]
     },
     "BattleQuickFormationSkill1": {

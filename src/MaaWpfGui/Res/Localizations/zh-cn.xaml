@@ -490,6 +490,7 @@
     <system:String x:Key="AutoSquadTip">自动编队暂时无法识别「特别关注」的干员</system:String>
     <system:String x:Key="AddTrust">补充低信赖干员</system:String>
     <system:String x:Key="AddUserAdditional">追加自定干员</system:String>
+    <system:String x:Key="UseSupport">允许使用助战</system:String>
     <system:String x:Key="AddUserAdditionalTip">以英文「;」为分隔符，英文「,」分隔干员名与技能，例: 史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
@@ -645,6 +646,8 @@
     <system:String x:Key="Current">当前</system:String>
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
+    <system:String x:Key="BattleSupportSelected" xml:space="preserve">选择助战: </system:String>
+    <system:String x:Key="BattleTooManyUnselected" xml:space="preserve">缺少以下干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>

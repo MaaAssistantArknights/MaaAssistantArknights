@@ -1206,6 +1206,16 @@ namespace MaaWpfGui.Main
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + subTaskDetails["selected"], showTime: true);
                     break;
 
+                case "BattleSupportSelected":
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleSupportSelected") + subTaskDetails["selected"]);
+                    break;
+                
+                case "BattleTooManyUnselected":
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleTooManyUnselected") + 
+                                                      "(" + subTaskDetails["unselected_num"] + ")\n" + 
+                                                      subTaskDetails["unselected"], UiLogColor.Error);
+                    break;
+
                 case "CopilotAction":
                     {
                         string doc = subTaskDetails["doc"]?.ToString();
@@ -2088,6 +2098,7 @@ namespace MaaWpfGui.Main
         /// <param name="filename">作业 JSON 的文件路径，绝对、相对路径均可。</param>
         /// <param name="formation">是否进行 “快捷编队”。</param>
         /// <param name="addTrust">是否追加信赖干员</param>
+        /// <param name="use_support">是否允许在干员未拥有时使用助战</param>
         /// <param name="addUserAdditional">是否追加自定干员</param>
         /// <param name="userAdditional">自定干员列表</param>
         /// <param name="needNavigate">是否导航至关卡（启用自动战斗序列）</param>
@@ -2098,13 +2109,14 @@ namespace MaaWpfGui.Main
         /// <param name="useSanityPotion">是否使用理智药</param>
         /// <param name="asstStart">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool useSanityPotion, bool asstStart = true)
+        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool use_support, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool useSanityPotion, bool asstStart = true)
         {
             var taskParams = new JObject
             {
                 ["filename"] = filename,
                 ["formation"] = formation,
                 ["add_trust"] = addTrust,
+                ["use_support"] = use_support,
                 ["add_user_additional"] = addUserAdditional,
                 ["user_additional"] = userAdditional,
                 ["need_navigate"] = needNavigate,
@@ -2169,6 +2181,11 @@ namespace MaaWpfGui.Main
         public void AsstDestroy()
         {
             MaaService.AsstDestroy(_handle);
+        }
+
+        internal bool AsstStartCopilot(string filePath, bool form, bool addTrust, bool addUserAdditional, JArray mUserAdditional, bool useCopilotList, string v1, bool v2, string taskType, int v3, bool useSanityPotion, bool v4)
+        {
+            throw new NotImplementedException();
         }
     }
 

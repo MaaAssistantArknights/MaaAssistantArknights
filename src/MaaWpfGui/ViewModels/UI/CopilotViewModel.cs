@@ -627,6 +627,17 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _addTrust, value);
         }
 
+        private bool _useSupport;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to use auto-formation.
+        /// </summary>
+        public bool UseSupport
+        {
+            get => _useSupport;
+            set => SetAndNotify(ref _useSupport, value);
+        }
+
         private bool _useSanityPotion;
 
         public bool UseSanityPotion
@@ -956,7 +967,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
+                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, UseSupport, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
             }
 
             if (ret)

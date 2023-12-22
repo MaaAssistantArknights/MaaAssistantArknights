@@ -690,6 +690,9 @@
     <ClInclude Include="Config\TaskData\TaskDataTypes.h">
       <Filter>Source\Resource\TaskData</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Miscellaneous\CharSkillConfig.h">
+      <Filter>Source\Resource\Miscellaneous</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1147,6 +1150,9 @@
     </ClCompile>
     <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp">
       <Filter>Source\Resource\TaskData</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Miscellaneous\CharSkillConfig.cpp">
+      <Filter>Source\Resource\Miscellaneous</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

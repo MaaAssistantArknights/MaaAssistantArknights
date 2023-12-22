@@ -26,6 +26,7 @@ namespace asst
         };
         void append_additional_formation(AdditionalFormation formation);
 
+        void set_support_unit(std::pair<battle::Role, std::vector<battle::OperUsage>> support_unit);
         void set_support_unit_name(std::string name);
         // 是否追加自定干员
         void set_add_user_additional(bool add_user_additional);
@@ -33,6 +34,8 @@ namespace asst
         void set_user_additional(std::vector<std::pair<std::string, int>> user_additional);
         // 是否追加低信赖干员
         void set_add_trust(bool add_trust);
+        // 是否允许使用助战
+        void set_use_support(bool use_support);
         // 设置对指定编队自动编队
         void set_select_formation(int index);
 
@@ -47,22 +50,33 @@ namespace asst
         using OperGroup = std::vector<battle::OperUsage>;
 
         virtual bool _run() override;
-        bool add_formation(battle::Role role, std::vector<OperGroup> oper_group);
+        // 根据Role和OperGroup选择干员，并返回不在box里的干员
+        std::vector<OperGroup> add_formation(battle::Role role, std::vector<OperGroup> oper_groups);
         // 追加附加干员（按部署费用等小分类）
         bool add_additional();
         // 补充刷信赖的干员，从最小的开始
         bool add_trust_operators();
         bool enter_selection_page();
+        bool enter_support_page();
         bool select_opers_in_cur_page(std::vector<OperGroup>& groups);
         void swipe_page();
+        void swipe_support_info_page();
         void swipe_to_the_left(int times = 2);
         bool confirm_selection();
         bool click_role_table(battle::Role role);
+        bool click_support_role_table();
         bool parse_formation();
+        bool on_run_fails();
         bool select_formation(int select_index);
         bool select_random_support_unit();
+        bool select_support_oper();
+        bool check_if_skill_name_match(std::string skill_name, std::string demaned_skill_name, double threshold = 0.5);
+
+        void quit(std::string msg = "");
 
         std::vector<TextRect> analyzer_opers();
+        std::vector<TextRect> analyzer_support_opers();
+        TextRect analyzer_support_opers_skill();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
@@ -76,10 +90,18 @@ namespace asst
         std::vector<std::pair<std::string, int>> m_user_additional;
         // 是否需要追加信赖干员
         bool m_add_trust = false;
-        std::string m_support_unit_name;
+        // 是否使用自动助战
+        bool m_use_support = false;
+
+        bool _permanent_failed = false;
+
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
+        std::pair<battle::Role, OperGroup> m_support_unit;
+        size_t m_unselected_cnt = 0;
+
+        std::string m_support_unit_name;
         int m_select_formation_index = 0;
     };
 } // namespace asst
