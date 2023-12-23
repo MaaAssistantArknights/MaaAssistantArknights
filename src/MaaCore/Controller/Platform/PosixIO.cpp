@@ -3,8 +3,8 @@
 
 #include <fcntl.h>
 #include <signal.h>
-#include <sys/epoll.h>
 #include <sys/errno.h>
+#include <sys/poll.h>
 #include <sys/socket.h>
 #ifndef __APPLE__
 #include <sys/prctl.h>
@@ -120,16 +120,11 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
     // has the child exited in the loop?
     bool child_exited = false;
 
-    static const auto epfd = ::epoll_create1(EPOLL_CLOEXEC);
-    {
-        ::epoll_event ev {};
-        ev.events = POLL_IN;
-        ev.data.fd = pipe_out[PIPE_READ];
-        ::epoll_ctl(epfd, EPOLL_CTL_ADD, pipe_out[PIPE_READ], &ev);
-    }
-
     // whether we recv_by_socket or not, we have to
     // drain the output pipe so that it doesn't block I/O.
+    std::array<::pollfd, 1> events {
+        ::pollfd { .fd = pipe_out[PIPE_READ], .events = POLLIN },
+    };
     while (true) {
         ssize_t read_num = ::read(pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
         while (read_num > 0) {
@@ -137,6 +132,9 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
                 pipe_data.insert(pipe_data.end(), pipe_buffer.get(), pipe_buffer.get() + read_num);
             }
             read_num = ::read(pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
+        }
+        if (read_num == -1 && errno == EAGAIN) {
+            if (::poll(events.data(), events.size(), 1000) > 0) continue;
         }
         if (::waitpid(m_child, &exit_ret, WNOHANG) != 0) {
             child_exited = true;
@@ -146,14 +144,10 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
             Log.warn("timeout when reading the output, killing child:", m_child);
             break;
         }
-        std::array<::epoll_event, 1> events {};
-        ::epoll_wait(epfd, events.data(), 1, 1000);
     }
 
     ::close(pipe_in[PIPE_WRITE]);
     ::close(pipe_out[PIPE_READ]);
-
-    // no need to EPOLL_CTL_DEL?
 
     if (!child_exited) {
         ::kill(m_child, SIGTERM);
