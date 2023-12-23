@@ -1,34 +1,25 @@
-## v4.28.3
+## v4.28.4
 
 ### 新增 | New
 
-- 新增 自走机械搏斗场、塔山农业实验平台 保全作业 (#7696) @junyihan233
+- 添加一份保全作业 (#7730) @Saratoga-Official
+- Hortus de Escapismo navigation @David
 
 ### 改进 | Improved
 
-- Mac GUI 改进设置布局 @hguandl
-- 优化萨米boss关打法 (#7662) @Lancarus
+- 账号切换 取消B服客户端检测流程 (#7657) @status102
+- 优化CopilotTask参数设置 (#7631) @status102
 
 ### 修复 | Fix
 
-- 修复肉鸽烧水逻辑错误、肉鸽卡在第三层 boss 等策略相关问题 (#7597, #7724) @zzyyyl
-- 修复傀影肉鸽识别到灰色节点的问题 @zzyyyl
-- 修复肉鸽商店投资退出过快卡在 `StageTraderInvestSystemLeave` 的问题 (#7720) @zzyyyl
-- Mac GUI 修复作业文件路径错误 @hguandl
-- Mac GUI 修复指针warning @hguandl
-- 修复部分情况下连续战斗次数无法正确调为1并导致卡在该流程的错误 (#7646) @status102
+- GUI窗口较小时，关卡信息提示滚动显示不完全 @ABA2396
+- 修复刷理智-SS复刻模式下无法使用理智药 @status102
+- 无法检测公告更新 @ABA2396
+- 修复部分情况下错误替换肉鸽结算中难度识别的文本 (#7691) @status102
+- Friston-3 Iris regex [skip ci] @Constrat
 
 ### 其他 | Other
 
-- Error: Process completed with exit code 1. in github actions @David
-- 基建换班-继续专精 参数字段名格式不一致 @status102
-- 修复国服保全作业命名错误 @status102
-- Revert 基建新增领取专精功能 (#7624) @status102
-- 提交 issue 时要求检查置顶议题 (#7717) @zzyyyl
-- 移动旧保全作业 @status102
-- wpfGui: 增加`ScrollView`触屏支持 (#7340) @Cryolitia
-- Mac GUI 改为沙盒内控制客户端并移除 XPC @hguandl
-
-### For overseas
-
-- 修复外服肉鸽不期而遇战斗选项引起的卡住的问题 (#7675) @zzyyyl
+- 调整自动战斗-战斗列表提示文本中关于批量导入突袭关的说明 @status102
+- 勾选碎石时，如未勾选的理智液则也设为单次生效 @ABA2396
+- 修改保全作业缩进 @status102
