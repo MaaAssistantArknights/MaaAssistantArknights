@@ -74,6 +74,7 @@
     <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room,this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
     <system:String x:Key="ContinueTraining">Continue to try to specialize in current skills after training completion</system:String>
+    <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingProgress">Training progress</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
