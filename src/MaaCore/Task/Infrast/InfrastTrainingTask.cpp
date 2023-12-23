@@ -45,6 +45,9 @@ bool asst::InfrastTrainingTask::analyze_status()
     RegionOCRer idle_analyzer(image);
     idle_analyzer.set_task_info("InfrastTrainingIdle");
     if (idle_analyzer.analyze()) {
+        json::value cb_info = basic_info();
+        cb_info["what"] = "InfrastTrainingIdle";
+        callback(AsstMsg::SubTaskExtraInfo, cb_info);
         m_continue_training = false;
         return true;
     }
