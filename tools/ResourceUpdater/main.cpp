@@ -67,7 +67,7 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
 
 int main([[maybe_unused]] int argc, char** argv)
 {
-    /* ---- PATH DECLARATION ---- */
+    // ---- PATH DECLARATION ----
 
     const char* str_exec_path = argv[0];
     const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
@@ -93,9 +93,9 @@ int main([[maybe_unused]] int argc, char** argv)
         { "zh_TW", "txwy" },
     };
 
-    /* ---- METHODS CALLS ---- */
+    // ---- METHODS CALLS ----
 
-    /* Update levels.json from ArknightsGameResource */
+    // Update levels.json from ArknightsGameResource
     std::cout << "------- Update levels.json for Official -------" << std::endl;
     if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
         std::cerr << "update levels.json failed" << std::endl;
@@ -110,7 +110,7 @@ int main([[maybe_unused]] int argc, char** argv)
     // generate_english_roguelike_stage_name_replacement(official_data_dir / "levels.json", cur_path /
     // "en_levels.json");
 
-    /* Update infrast data from ArknightsGameResource */
+    // Update infrast data from ArknightsGameResource
     std::cout << "------- Update infrast data for Official -------" << std::endl;
     if (!update_infrast_data(official_data_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update infrast data failed" << std::endl;
@@ -120,7 +120,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update infrast templates from ArknightsGameResource */
+    // Update infrast templates from ArknightsGameResource
     std::cout << "------- Update infrast templates for Official -------" << std::endl;
     if (!update_infrast_templates(official_data_dir / "building_skill", resource_dir / "template" / "infrast")) {
         std::cerr << "Update infrast templates failed" << std::endl;
@@ -130,7 +130,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update roguelike recruit data from ArknightsGameResource */
+    // Update roguelike recruit data from ArknightsGameResource
     // std::cout << "------- Update roguelike recruit data -------" << std::endl;
     // if (!update_roguelike_recruit(arkbot_res_dir, resource_dir, solution_dir)) {
     //     std::cerr << "Update roguelike recruit data failed" << std::endl;
@@ -139,7 +139,7 @@ int main([[maybe_unused]] int argc, char** argv)
     //    std::cout << "Done" << std::endl;
     //}
 
-    /* Update base_name.json from Penguin Stats */
+    // Update base_name.json from Penguin Stats
     std::cout << "------- Update stage.json for Official -------" << std::endl;
     if (!update_stages_data(cur_path, resource_dir)) {
         std::cerr << "Update stages data failed" << std::endl;
@@ -149,7 +149,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update battle chars info for all clients */
+    // Update battle chars info for all clients
     std::cout << "------- Update battle chars info for all clients -------" << std::endl;
     if (!update_battle_chars_info(official_data_dir / "gamedata" / "excel", overseas_data_dir, resource_dir)) {
         std::cerr << "Update battle chars info failed" << std::endl;
@@ -159,7 +159,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update recruitment data from ArknightsGameResource */
+    // Update recruitment data from ArknightsGameResource
     std::cout << "------- Update recruitment data for Official -------" << std::endl;
     if (!update_recruitment_data(official_data_dir / "gamedata" / "excel", resource_dir / "recruitment.json", true)) {
         std::cerr << "Update recruitment data failed" << std::endl;
@@ -169,7 +169,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update recruitment data from ArknightsGameData_YoStar */
+    // Update recruitment data from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------- Update recruitment data for " << out << "------- " << std::endl;
         if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
@@ -182,7 +182,7 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update items template and json from ArknightsGameResource */
+    // Update items template and json from ArknightsGameResource
     std::cout << "------- Update items template and json for Official -------" << std::endl;
     if (!update_items_data(official_data_dir, resource_dir)) {
         std::cerr << "Update items data failed" << std::endl;
@@ -192,7 +192,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    /* Update items template and json from ArknightsGameData_YoStar */
+    // Update items template and json from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------- Update items template and json for " << out << "------- " << std::endl;
         if (!update_items_data(overseas_data_dir / in / "gamedata" / "excel",
@@ -205,7 +205,7 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update roguelike replace for overseas from ArknightsGameData_YoStar */
+    // Update roguelike replace for overseas from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
         // Temporary, until roguelike_topic_table is added to arknights-toolbox-update
         std::cout << "------- Update roguelike replace for " << out << "------- " << std::endl;
@@ -220,7 +220,7 @@ int main([[maybe_unused]] int argc, char** argv)
         }
     }
 
-    /* Update version info from ArknightsGameData */
+    // Update version info from ArknightsGameData
     std::cout << "------- Update version info for Official -------" << std::endl;
     if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
         std::cerr << "Update version info failed" << std::endl;
@@ -229,8 +229,7 @@ int main([[maybe_unused]] int argc, char** argv)
     else {
         std::cout << "Done" << std::endl;
     }
-
-    /* Update global version info from ArknightsGameData_Yostar */
+    // Update global version info from ArknightsGameData_Yostar
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------- Update version info for " << out << "------- " << std::endl;
         if (!update_version_info(overseas_data_dir / in / "gamedata" / "excel",
@@ -247,7 +246,7 @@ int main([[maybe_unused]] int argc, char** argv)
     return 0;
 }
 
-/* ---- METHODS DEFINITIONS ---- */
+// ---- METHODS DEFINITIONS ----
 
 bool update_items_data(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir, bool with_imgs)
 {
@@ -1150,6 +1149,8 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
 bool update_version_info(const std::filesystem::path& input_dir, const std::filesystem::path& output_dir)
 {
+    uint64_t current_time = (unsigned long)time(NULL);
+
     json::value result;
     {
         const auto json_path = input_dir / "gacha_table.json";
@@ -1165,21 +1166,21 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
             pool_count[gacha_info["gachaPoolName"].as_string()]++;
         }
 
-        uint64_t time = 0;
+        uint64_t time_var = 0;
         std::string pool;
         for (auto& gacha_info : gacha_json["gachaPoolClient"].as_array()) {
             const auto& pool_name = gacha_info["gachaPoolName"].as_string();
             if (pool_count[pool_name] > 5) { // 把常驻池过滤掉
                 continue;
             }
-            auto cur_time = gacha_info["openTime"].as_unsigned_long_long();
-            if (time < cur_time) {
-                time = cur_time;
+            auto pool_time = gacha_info["openTime"].as_unsigned_long_long();
+            if ((time_var < pool_time) && (current_time > pool_time)) {
+                time_var = pool_time;
                 pool = pool_name;
             }
         }
 
-        result["gacha"]["time"] = time;
+        result["gacha"]["time"] = time_var;
         result["gacha"]["pool"] = pool;
     }
     {
@@ -1190,7 +1191,7 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
             return false;
         }
 
-        uint64_t time = 0;
+        uint64_t time_var = 0;
         std::string name;
 
         auto& activity_json = *activity_json_opt;
@@ -1198,14 +1199,14 @@ bool update_version_info(const std::filesystem::path& input_dir, const std::file
             if (!act.at("displayOnHome").as_boolean()) {
                 continue;
             }
-            auto cur_time = act.at("startTime").as_unsigned_long_long();
-            if (time < cur_time) {
-                time = cur_time;
+            auto activity_time = act.at("startTime").as_unsigned_long_long();
+            if ((time_var < activity_time) && (current_time > activity_time)) {
+                time_var = activity_time;
                 name = act.at("name").as_string();
             }
         }
 
-        result["activity"]["time"] = time;
+        result["activity"]["time"] = time_var;
         result["activity"]["name"] = name;
     }
     static auto time = asst::utils::get_format_time();
