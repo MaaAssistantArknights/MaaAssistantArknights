@@ -2828,7 +2828,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _useStoneWithNull, value);
                 if (value != false && !UseMedicine)
                 {
-                    UseMedicine = true;
+                    UseMedicineWithNull = null;
                 }
 
                 SetFightParams();
