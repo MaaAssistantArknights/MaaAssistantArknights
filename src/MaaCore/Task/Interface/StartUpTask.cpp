@@ -31,10 +31,13 @@ bool asst::StartUpTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    std::string accountName = params.get("account_name", std::string());
-    m_start_game_task_ptr->set_client_type(params.get("client_type", std::string()))
+    std::string account_name = params.get("account_name", std::string());
+    std::string client_type = params.get("client_type", std::string());
+
+    m_start_game_task_ptr->set_client_type(client_type)
         .set_enable(params.get("start_game_enabled", false));
-    m_account_switch_task_ptr->set_enable(!accountName.empty());
-    m_account_switch_task_ptr->set_account(std::move(accountName));
+    m_account_switch_task_ptr->set_enable(!account_name.empty());
+    m_account_switch_task_ptr->set_account(std::move(account_name));
+    m_account_switch_task_ptr->set_client_type(std::move(client_type));
     return true;
 }
