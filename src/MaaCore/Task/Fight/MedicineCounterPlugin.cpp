@@ -26,7 +26,7 @@ bool asst::MedicineCounterPlugin::_run()
 {
     LogTraceFunction;
 
-    if (m_using_count >= m_max_count && !m_use_expiring) {
+    if (m_used_count >= m_max_count && !m_use_expiring) {
         return true;
     }
 
@@ -62,13 +62,13 @@ bool asst::MedicineCounterPlugin::_run()
         return true;
     };
 
-    if (m_using_count < m_max_count && using_medicine->using_count + m_using_count > m_max_count) {
+    if (m_used_count < m_max_count && using_medicine->using_count + m_used_count > m_max_count) {
         reduce_excess(*using_medicine);
         if (!refresh_medicine_count()) {
             return false;
         }
     }
-    else if (m_using_count >= m_max_count && m_use_expiring) {
+    else if (m_used_count >= m_max_count && m_use_expiring) {
         bool changed = false;
         for (const auto& [use, inventory, rect, is_expiring] : using_medicine->medicines | views::reverse) {
             if (use > 0 && is_expiring != ExpiringStatus::Expiring) {
@@ -87,7 +87,7 @@ bool asst::MedicineCounterPlugin::_run()
         return true;
     }
 
-    m_using_count += using_medicine->using_count;
+    m_used_count += using_medicine->using_count;
 
     // 博朗台：如果溢出则等待
     if (m_dr_grandet) {
@@ -106,7 +106,7 @@ bool asst::MedicineCounterPlugin::_run()
     ProcessTask(*this, { "MedicineConfirm" }).set_retry_times(5).run();
 
     auto info = basic_info_with_what("UseMedicine");
-    info["details"]["is_expiring"] = m_using_count > m_max_count;
+    info["details"]["is_expiring"] = m_used_count > m_max_count;
     info["details"]["count"] = using_medicine->using_count;
     callback(AsstMsg::SubTaskExtraInfo, info);
     return true;
@@ -153,7 +153,7 @@ std::optional<asst::MedicineCounterPlugin::MedicineResult> asst::MedicineCounter
         }
 
         auto is_expiring = ExpiringStatus::UnSure;
-        if (m_using_count >= m_max_count) {
+        if (m_used_count >= m_max_count) {
             RegionOCRer expiring_ocr(image);
             expiring_ocr.set_task_info(expiring_task);
             expiring_ocr.set_roi(expiring_rect);
@@ -183,7 +183,7 @@ std::optional<asst::MedicineCounterPlugin::MedicineResult> asst::MedicineCounter
 
 void asst::MedicineCounterPlugin::reduce_excess(const MedicineResult& using_medicine)
 {
-    auto reduce = m_using_count + using_medicine.using_count - m_max_count;
+    auto reduce = m_used_count + using_medicine.using_count - m_max_count;
     for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | views::reverse) {
         ctrler()->click(rect);
         sleep(Config.get_options().task_delay);
