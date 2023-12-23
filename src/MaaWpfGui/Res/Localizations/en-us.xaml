@@ -509,12 +509,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         5. Video recognition is now supported, please drag the strategy video to use.\n
         The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders special shapes and screen corrections.\n\n
         6. Battle list:\n
-        After selecting the job, check that the level name below the list is correct (eg: CV-EX-1). \n
+        After selecting the job, check that the level name below the list is correct (e.g.: CV-EX-1). \n
         Add: Left click to add normal difficulty, right click to add raid difficulty. \n
         Clear: Left click to clear the list, right click to remove only inactive tasks. \n
         Before starting, you need to switch to the level selection interface. Cross-chapter navigation is not supported. \n
         The operation will be terminated when encountering insufficient sanity, losing the battle, or failing to settle with three stars. \n
-        When you want to use the batch import to add a adverse level, you need to modify the file name according to the format of an added task. \n\n
+        When you want to use the batch import to add a adverse level, you need to modify the file name (e.g.: 1-7-Adverse). \n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">Failed to read file!</system:String>
     <system:String x:Key="CopilotNoFound">No corresponding file found!</system:String>
