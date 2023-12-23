@@ -14,6 +14,7 @@ namespace asst
         void set_dr_grandet(bool dr_grandet) { m_dr_grandet = dr_grandet; };
         void set_count(int count) { m_max_count = count; }
         void set_use_expiring(bool use_expiring) { m_use_expiring = use_expiring; }
+        int get_used_count() const { return m_used_count; }
 
     private:
         virtual bool _run() override;
@@ -48,7 +49,7 @@ namespace asst
 
         bool m_use_expiring = false;
         bool m_dr_grandet = false;
-        int m_using_count = 0;
+        int m_used_count = 0;
         int m_max_count = 0;
     };
 }
