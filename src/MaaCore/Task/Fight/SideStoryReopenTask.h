@@ -31,24 +31,18 @@ namespace asst
         bool fight(bool use_medicine, bool use_stone);
         void clear();
 
-        // 活动名简称：IC、CW等
-        std::string m_sidestory_name;
+        std::string m_sidestory_name; // 活动名简称：IC、CW等
         int m_medicine = 0;
         int m_expiring_medicine = 0;
         int m_stone = 0;
-        // 已使用的理智药数量，不计算临期药品。在每次任务开始前，通过clear()清空
-        int m_cur_medicine;
-        // 已碎石数量。在每次任务开始前，通过clear()清空
-        int m_cur_stone;
-        // 理智不够，需要吃药 / 碎石
-        bool m_sanity_not_enough = false;
+        int m_cur_medicine; // 已使用的理智药数量，不计算临期药品。在每次任务开始前，通过clear()清空
+        int m_cur_stone;                  // 已碎石数量。在每次任务开始前，通过clear()清空
+        bool m_sanity_not_enough = false; // 理智不够，需要吃药 / 碎石
         std::unordered_map<std::string, int> m_drop_stats;
-        // 企鹅物流上报用
-        bool m_enable_penguin = false;
+        bool m_enable_penguin = false; // 企鹅物流上报用
         std::string m_penguin_id;
         std::string m_server = "CN";
-        // 一图流上报用
-        bool m_enable_yituliu = false;
+        bool m_enable_yituliu = false; // 一图流上报用
     };
 
 }

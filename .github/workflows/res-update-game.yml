@@ -44,10 +44,17 @@ jobs:
           ref: main
           path: .\tools\ResourceUpdater\x64\Release\Official
           sparse-checkout: |
-            levels.json
-            item
-            building_skill
-            gamedata/excel
+            /levels.json
+            /item
+            /building_skill
+            /gamedata/excel/item_table.json
+            /gamedata/excel/building_data.json
+            /gamedata/excel/range_table.json
+            /gamedata/excel/character_table.json
+            /gamedata/excel/gacha_table.json
+            /gamedata/excel/roguelike_topic_table.json
+            /gamedata/excel/activity_table.json
+          sparse-checkout-cone-mode: false
 
       - name: Clone ArknightsGameResource_Yostar for Overseas
         uses: actions/checkout@v4
@@ -57,9 +64,28 @@ jobs:
           ref: main
           path: .\tools\ResourceUpdater\x64\Release\Overseas
           sparse-checkout: |
-            en_US/gamedata/excel
-            ja_JP/gamedata/excel
-            ko_kr/gamedata/excel
+            /en_US/gamedata/excel/item_table.json
+            /en_US/gamedata/excel/building_data.json
+            /en_US/gamedata/excel/range_table.json
+            /en_US/gamedata/excel/character_table.json
+            /en_US/gamedata/excel/gacha_table.json
+            /en_US/gamedata/excel/roguelike_topic_table.json
+            /en_US/gamedata/excel/activity_table.json
+            /ja_JP/gamedata/excel/item_table.json
+            /ja_JP/gamedata/excel/building_data.json
+            /ja_JP/gamedata/excel/range_table.json
+            /ja_JP/gamedata/excel/character_table.json
+            /ja_JP/gamedata/excel/gacha_table.json
+            /ja_JP/gamedata/excel/roguelike_topic_table.json
+            /ja_JP/gamedata/excel/activity_table.json
+            /ko_KR/gamedata/excel/item_table.json
+            /ko_KR/gamedata/excel/building_data.json
+            /ko_KR/gamedata/excel/range_table.json
+            /ko_KR/gamedata/excel/character_table.json
+            /ko_KR/gamedata/excel/gacha_table.json
+            /ko_KR/gamedata/excel/roguelike_topic_table.json
+            /ko_KR/gamedata/excel/activity_table.json
+          sparse-checkout-cone-mode: false
 
       - name: Clone arknights-toolbox-update for Taiwan
         uses: actions/checkout@v4
