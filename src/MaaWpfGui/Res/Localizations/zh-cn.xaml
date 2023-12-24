@@ -298,6 +298,8 @@
 暂不支持其他服</system:String>
     <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或错选成了模拟器本体。</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorImSure">我确定没选错</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我会重新选择</system:String>
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
