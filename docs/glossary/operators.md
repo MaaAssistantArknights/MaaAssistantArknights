@@ -202,7 +202,7 @@ char_492_quercu|夏栎|Quercus|クエルクス|퀘르쿠스
 char_493_firwhl|火哨|Firewhistle|ファイヤーホイッスル|파이어휘슬
 char_496_wildmn|野鬃|Wild Mane|ワイルドメイン|와일드메인
 char_497_ctable|晓歌|Cantabile|カンタービレ|칸타빌레
-char_498_inside|隐现|Insider||
+char_498_inside|隐现|Insider|インサイダー|
 char_508_aguard|Sharp|Sharp|Sharp|Sharp
 char_509_acast|Pith|Pith|Pith|Pith
 char_510_amedic|Touch|Touch|Touch|Touch
@@ -216,7 +216,7 @@ char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホー�
 char_4006_melnte|玫拉|Melanite|メラナイト|멜라나이트
 char_4013_kjera|耶拉|Kjera|イェラ|쉐라
 char_4014_lunacu|子月|Lunacub|ルナカブ|루나컵
-char_4015_spuria|空构|Spuria||
+char_4015_spuria|空构|Spuria|スプリア|
 char_4016_kazema|风丸|Kazemaru|カゼマル|카제마루
 char_4017_puzzle|谜图|Puzzle|パズル|퍼즐
 char_4019_ncdeer|九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
@@ -297,7 +297,7 @@ char_1026_gvial2|百炼嘉维尔|Gavial the Invincible|百錬ガヴィル|가비
 char_1028_texas2|缄默德克萨斯|Texas the Omertosa|血掟テキサス|텍사스 디 오메르토사
 char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
 char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|사일런스 더 패러디그매틱
-char_1032_excu2|圣约送葬人|Executor the Ex Foedere||
+char_1032_excu2|圣约送葬人|Executor the Ex Foedere|聖約イクゼキュター|
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
 char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
 char_2012_typhon|提丰|Typhon||
