@@ -3329,6 +3329,22 @@
             "開始"
         ]
     },
+    "BattleOperName": {
+        "roi": [
+            5,
+            177,
+            280,
+            37
+        ]
+    },
+    "SSSBattleOperName": {
+        "roi": [
+            0,
+            105,
+            300,
+            31
+        ]
+    },
     "SSSBegin": {
         "text": [
             "保全作戦開始"
