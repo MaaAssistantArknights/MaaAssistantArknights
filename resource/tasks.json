@@ -10798,8 +10798,8 @@
         ]
     },
     "RoguelikeSettlementOcr-Difficulty": {
-        "baseTask": "NumberOcrReplace",
-        "isAscii": false,
+        "algorithm": "OcrDetect",
+        "text": [],
         "roi": [
             750,
             372,
@@ -10853,7 +10853,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Score": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             280,
             525,
@@ -10862,7 +10864,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Skill": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             920,
             530,
@@ -10871,7 +10875,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Step": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             102,
             238,

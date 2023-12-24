@@ -1,0 +1,774 @@
+{
+    "type": "SSS",
+    "stage_name": "塔山农业实验平台",
+    "minimum_required": "v4.28.2",
+    "doc": {
+        "title": "塔山农业实验平台-兼容应急-澄闪提丰核",
+        "title_color": "dark",
+        "details": "应急一命通关视频已上传，求三连！！！链接在下面\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n可做卡西米尔任务，自行在工具人添加四名卡西米尔干员，然后选择【竞技记录分析仪】（仅限普通难度）\n请在确认导能原件选择【智能空域控制机】、战术装备除了术士选B，其他全选A、手动编队并阵容确认后，再点击开始\n12.21更新优化版，后面应该不会再改了，只会改简介\n作业作者：萨拉托加\n作业视频：【【MAA保全派驻】塔山农业实验平台】 https://www.bilibili.com/video/BV14e411C77h/?share_source=copy_web\nJSON作者：萨拉托加\n不包括核心选择的额外干员：\n先锋：2（要求能站场，建议选防御比较高的尖兵，做卡西米尔任务可选焰尾，野鬃）\n重装：2（建议选费20左右的高练盾，比如塞雷娅，做卡西米尔任务可选瑕光）\n术士：3（建议选费20左右的术士，比如小羊刻俄柏）\n辅助：2（建议选铃兰3、塑心3。别选召唤就行）\n狙击：6（建议选速狙，做卡西米尔任务可选远牙，流星，白金）\n有问题反馈进群545928846，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，例如提丰可换肥鸭，奶羊可换流明，但不可发上作业站，用此作业默认同意",
+        "details_color": "dark"
+    },
+    "buff": "智能空域控制机",
+    "equipment": [
+        "A",
+        "A",
+        "B",
+        "A",
+        "A",
+        "A",
+        "A",
+        "A"
+    ],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "澄闪",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "浊心斯卡蒂",
+            "skill": 2,
+            "skill_usage": 0
+        },
+        {
+            "name": "银灰",
+            "skill": 2,
+            "skill_usage": 2,
+            "skill_times": 1
+        },
+        {
+            "name": "提丰",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "纯烬艾雅法拉",
+            "skill": 1,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "vanguard": 2,
+        "guard": 0,
+        "defender": 2,
+        "sniper": 6,
+        "caster": 3,
+        "medic": 0,
+        "supporter": 2,
+        "specialist": 0
+    },
+    "drops": [
+        "无需增调干员",
+        "辅助",
+        "狙击",
+        "术师",
+        "先锋",
+        "重装",
+        "战备激活阀",
+        "数据共享元件",
+        "拦截算法",
+        "特种"
+    ],
+    "blacklist": [
+        "罗比菈塔",
+        "掠风",
+        "白铁",
+        "桃金娘",
+        "极境",
+        "琴柳",
+        "伺夜",
+        "豆苗",
+        "夜半",
+        "缪尔赛思",
+        "森蚺",
+        "极光",
+        "梅尔",
+        "玛恩纳",
+        "龙舌兰",
+        "耀骑士临光",
+        "幽灵鲨",
+        "极境",
+        "焰影苇草",
+        "凯尔希",
+        "闪灵",
+        "夜莺",
+        "白面鸮",
+        "华法琳",
+        "赫默",
+        "蜜莓",
+        "刺玫",
+        "桑葚",
+        "明椒",
+        "图耶",
+        "微风",
+        "锡兰",
+        "絮雨",
+        "亚叶",
+        "濯尘芙蓉",
+        "调香师",
+        "褐果",
+        "嘉维尔",
+        "末药",
+        "清流",
+        "苏苏洛",
+        "安赛尔",
+        "芙蓉",
+        "迷迭香",
+        "早露",
+        "菲亚梅塔",
+        "承曦格雷伊",
+        "莫斯提马",
+        "夕",
+        "异客",
+        "伊芙利特",
+        "寒檀",
+        "莱恩哈特",
+        "惊蛰",
+        "蚀清",
+        "天火",
+        "星源",
+        "炎狱炎熔",
+        "布丁",
+        "格雷伊",
+        "远山",
+        "炎熔",
+        "假日威龙陈",
+        "埃拉托",
+        "奥斯塔",
+        "截云",
+        "熔泉",
+        "慑砂",
+        "送葬人",
+        "陨星",
+        "白雪",
+        "铅踝",
+        "松果",
+        "泰拉大陆调查团",
+        "正义骑士号",
+        "黑",
+        "洋灰",
+        "火哨",
+        "斥罪",
+        "号角",
+        "火神",
+        "灰毫",
+        "泥岩",
+        "车尔尼",
+        "暮落",
+        "石棉",
+        "坚雷",
+        "W",
+        "U-Official",
+        "12F",
+        "Lancet-2"
+    ],
+    "stages": [
+        {
+            "stage_name": "巡检作业",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [
+                        2,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3,
+                        "caster": 1
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 1
+                    },
+                    "location": [
+                        2,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [
+                        2,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "core": "银灰",
+                    "tool_men": {
+                        "vanguard": 1,
+                        "defender": 1
+                    },
+                    "location": [
+                        1,
+                        4
+                    ],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "梅什科线圈",
+                    "location": [
+                        2,
+                        1
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "梅什科线圈",
+                    "location": [
+                        4,
+                        2
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "梅什科线圈",
+                    "location": [
+                        6,
+                        1
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "梅什科线圈",
+                    "location": [
+                        6,
+                        3
+                    ],
+                    "direction": "None"
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "空地协同作业",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "vanguard": 1,
+                        "defender": 1
+                    },
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 1
+                    },
+                    "location": [
+                        6,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 1
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "银灰",
+                    "tool_men": {
+                        "vanguard": 1,
+                        "defender": 1
+                    },
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "喷洒作业",
+            "strategies": [
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 3,
+                        "caster": 1
+                    },
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 1
+                    },
+                    "location": [
+                        9,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 0
+                    },
+                    "location": [
+                        9,
+                        5
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "core": "银灰",
+                    "tool_men": {
+                        "vanguard": 1,
+                        "defender": 1
+                    },
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [
+                        9,
+                        2
+                    ],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 10,
+                    "name": "便携式补给站",
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 15,
+                    "name": "战备激活阀",
+                    "location": [
+                        8,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 20,
+                    "name": "便携式补给站",
+                    "location": [
+                        9,
+                        1
+                    ],
+                    "direction": "Down"
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "播撒作业",
+            "strategies": [
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3,
+                        "caster": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 2,
+                        "caster": 1
+                    },
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "supporter": 0
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "银灰",
+                    "tool_men": {
+                        "vanguard": 1,
+                        "defender": 1
+                    },
+                    "location": [
+                        4,
+                        5
+                    ],
+                    "direction": "up"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 0
+                    },
+                    "location": [
+                        6,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 10,
+                    "name": "战备激活阀",
+                    "location": [
+                        8,
+                        4
+                    ],
+                    "direction": "Left"
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "聚群作业",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [
+                        6,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "银灰",
+                    "tool_men": {
+                        "vanguard": 1,
+                        "defender": 1
+                    },
+                    "location": [
+                        4,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3,
+                        "caster": 1
+                    },
+                    "location": [
+                        6,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 0
+                    },
+                    "location": [
+                        6,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        6,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Left"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 15,
+                    "name": "战备激活阀",
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "Up"
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "净空作业",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [
+                        2,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 1
+                    },
+                    "location": [
+                        3,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "medic": 0
+                    },
+                    "location": [
+                        3,
+                        6
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "银灰",
+                    "tool_men": {
+                        "vanguard": 1,
+                        "defender": 1
+                    },
+                    "location": [
+                        5,
+                        3
+                    ],
+                    "direction": "up"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        2,
+                        4
+                    ],
+                    "direction": "up"
+                },
+                {
+                    "core": "澄闪",
+                    "tool_men": {
+                        "sniper": 3,
+                        "caster": 1
+                    },
+                    "location": [
+                        3,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "提丰",
+                    "tool_men": {
+                        "sniper": 1,
+                        "caster": 1
+                    },
+                    "location": [
+                        2,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "supporter": 100
+                    },
+                    "location": [
+                        2,
+                        5
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "sniper": 100,
+                        "caster": 100
+                    },
+                    "location": [
+                        2,
+                        4
+                    ],
+                    "direction": "Right"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "kills": 25,
+                    "name": "战备激活阀",
+                    "location": [
+                        2,
+                        6
+                    ],
+                    "direction": "Right"
+                }
+            ],
+            "retry_times": 9
+        }
+    ],
+    "groups": [],
+    "actions": []
+}
