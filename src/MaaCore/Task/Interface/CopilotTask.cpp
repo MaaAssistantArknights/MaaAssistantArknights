@@ -27,7 +27,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     m_subtasks.emplace_back(m_task_file_reload_task_ptr);
     m_subtasks.emplace_back(m_navigate_task_ptr);
 
-    m_not_use_prts_task_ptr->set_tasks({ "NotUsePrts" }).set_retry_times(0);
+    m_not_use_prts_task_ptr->set_tasks({ "NotUsePrts" }).set_ignore_error(true).set_retry_times(0);
     m_subtasks.emplace_back(m_not_use_prts_task_ptr);
 
     // 选择突袭模式
