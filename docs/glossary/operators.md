@@ -6,7 +6,7 @@ char_376_therex|THRM-EX|THRM-EX|THRM-EX|THRM-EX
 char_4000_jnight|正义骑士号|'Justice Knight'|ジャスティスナイト|저스티스 나이트
 char_4077_palico|泰拉大陆调查团|Terra Research Commission|テラ大陸調査団|테라 대륙 조사단
 char_4091_ulika|U-Official|U-Official||
-char_4093_frston|Friston-3|Friston-3||
+char_4093_frston|Friston-3|Friston-3|Friston-3|
 
 ID|中文|English|日本語|한국어
 ---|---|---|---|---
