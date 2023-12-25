@@ -639,7 +639,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="NoRecruitmentPermit">채용허가증이 없어 반환함</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">공개 채용에서 다중 태그 선택 전략</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
-    <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택택</system:String>
+    <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택합니다</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
