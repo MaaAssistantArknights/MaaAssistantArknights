@@ -9,7 +9,7 @@
     <system:String x:Key="AdvancedSettings">고급 설정</system:String>
     <system:String x:Key="GameSettings">클라이언트</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
-    <system:String x:Key="RoguelikeSettings">통합전략</system:String>
+    <system:String x:Key="RoguelikeSettings">통합 전략</system:String>
     <system:String x:Key="RecruitingSettings">공개모집</system:String>
     <system:String x:Key="MallSettings">크레딧 상점</system:String>
     <system:String x:Key="OtherCombatSettings">전투 설정</system:String>
@@ -24,7 +24,7 @@
     <system:String x:Key="CoreVersion">Core 버전</system:String>
     <system:String x:Key="UiVersion">UI 버전</system:String>
     <system:String x:Key="ResourceVersion">Resource</system:String>
-    <system:String x:Key="Off">끄세요</system:String>
+    <system:String x:Key="Off">끄기</system:String>
     <system:String x:Key="ExternalNotificationTips">참고: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
     <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
@@ -172,9 +172,9 @@
     <system:String x:Key="CheckBoxesNotSaved">이 옵션은 한 번만 유효합니다</system:String>
     <system:String x:Key="CheckBoxesNotSavedAsNull">이 옵션은 우클릭 시 한 번만 적용됩니다</system:String>
     <system:String x:Key="NoAutoNavigation">해당 스테이지로 자동 이동하지 않습니다</system:String>
-    <system:String x:Key="StartupUpdateCheck">시작시 업데이트 확인</system:String>
+    <system:String x:Key="StartupUpdateCheck">시작 시 업데이트 확인</system:String>
     <system:String x:Key="UpdateAutoCheck">일정 시간마다 업데이트 확인</system:String>
-    <system:String x:Key="UpdateAutoDownload">자동으로 업데이트</system:String>
+    <system:String x:Key="UpdateAutoDownload">자동 업데이트</system:String>
     <system:String x:Key="AutoInstallUpdatePackage">자동 설치 업데이트 패키지</system:String>
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
@@ -223,7 +223,7 @@
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버용 현지화는 어려운 작업입니다. 저희를 도와주세요! 프로그래밍을 하지 못해도 괜찮습니다.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
-    <system:String x:Key="MinimizingStartup">시작 시뮬레이터 최소화</system:String>
+    <system:String x:Key="MinimizingStartup">시작 시 에뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">대기 시간 종료</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
@@ -249,7 +249,7 @@
     <system:String x:Key="StopOnGoldLimit">오리지늄각뿔이 한계 도달 시 중지</system:String>
     <system:String x:Key="InvestmentEnabled">오리지늄각뿔 투자</system:String>
     <system:String x:Key="InvestmentEnterSecondFloor">투자 후 2 층 진입</system:String>
-    <system:String x:Key="RefreshTraderWithDice">상점 새로고침（指路鳞）</system:String>
+    <system:String x:Key="RefreshTraderWithDice">상점 새로고침</system:String>
     <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자만)</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Stats 신고</system:String>
     <system:String x:Key="EnableYituliu">Yituliu 신고</system:String>
@@ -317,7 +317,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
-    <system:String x:Key="AutoRoguelike">통합 전략</system:String>
+    <system:String x:Key="AutoRoguelike">통합전략</system:String>
     <system:String x:Key="ReclamationAlgorithm">생명연산</system:String>
     <system:String x:Key="Light">라이트</system:String>
     <system:String x:Key="Dark">다크</system:String>
@@ -503,20 +503,20 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         팁:\n\n
-        1. '작전 개시' 버튼이 본선, 스토리 모음 또는 사이드 스토리에서 표시될 때만이 기능을 사용하십시오.\n\n
-        2. 패러독스 시뮬레이션의 경우에는 '자동 편성'을 선택하지 말고, 스킬을 선택하고 '시뮬레이션 시작' 버튼이 있는 화면에 시작하세요.\n\n
-        3. 보안 파견은 resource/copilot 폴더에 여러 내장 파일이 있습니다.\n
-        수동 편성 후 '작전 개시' 버튼이 있는 화면에서 시작하세요. ('반복 횟수'와 함께 사용 가능)\n\n
-        4. 친구의 오퍼레이터를 사용하는 경우에는 '자동 편성'을 선택하지 말고 수동으로 오퍼레이터를 선택하고 시작하세요.\n\n
-        5. 동영상 인식이 지원되며, 가이드 동영상를 드래그하여 사용할 수 있습니다.\n
+        1. 이 기능은 메인 스테이지, 에피소드 및 사이드 스토리에서 「작전 개시」 버튼이 표시될 때에만 사용해주세요 \n\n
+        2.패러독스 시뮬레이션의 경우 「자동 편성」을 끄고, 수동으로 스킬을 선택한 후에 시작해주세요\n\n
+        3. 보안파견의 Copilot 파일의 경우 MAA 내의「resource/copilot」 폴더에 있습니다 \n
+        수동 편성 후 「작전 개시」 버튼이 있는 화면에서 시작하세요. (「반복횟수」와 함께 사용 가능)\n\n
+        4. 지원 유닛을 사용할 때에는 반드시 「자동 편성」을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
+        5. 현재 비디오 인식이 지원되며, 전략 비디오를 사용하려면 끌어와 사용하세요\n
         동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다.\n\n
         6. 전투 목록:\n
         작업을 선택한 후 목록 아래의 레벨 이름이 올바른지 확인하세요(예: CV-EX-1). \n
-        추가: 일반 난이도를 추가하려면 마우스 왼쪽 버튼을 클릭하고, 레이드 난이도를 추가하려면 마우스 오른쪽 버튼을 클릭하세요. \n
-        지우기: 목록을 지우려면 마우스 왼쪽 버튼을 클릭하고, 비활성 작업만 제거하려면 마우스 오른쪽 버튼을 클릭합니다. \n
-        시작하기 전에 레벨 선택 인터페이스로 전환해야 합니다. 크로스 챕터 탐색은 지원되지 않습니다. \n
-        정신력이 부족하거나, 전투가 실패하거나, 별 3개를 해결할 수 없는 경우 액션이 종료됩니다. \n
-        일괄 가져오기를 사용하여 불리한 수준을 추가하려면 파일 이름을 수정해야 합니다(예: 1-7-Adverse).\n\n
+        추가: 왼쪽 클릭으로 일반 난이도를 추가하고, 오른쪽 클릭으로 하드모드 난이도를 추가하세요 \n
+        지우기: 목록을 지우려면 왼쪽 클릭, 비활성화된 작업만 제거하려면 오른쪽 클릭을 하세요 \n
+        시작하기 전에 레벨 선택 화면으로 진입해야 합니다. 목표 지점으로의 이동은 지원되지 않습니다. \n
+        이성이 부족하거나, 전투가 실패하거나, 3성 클리어를 해결할 수 없는 경우 동작이 종료됩니다. \n
+        일괄 가져오기로 인위적인 레벨을 추가하려면, 파일명을 수정해야합니다(예: 1-7-Adverse).\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>
@@ -550,16 +550,16 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">ADB 교체 실패</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocalDesc">로컬 ADB를 사용하여 연결되었습니다. 다시 시도하려면 에뮬레이터를 ADB에서 연결 해제하고 닫거나, 컴퓨터를 재시작하고 에뮬레이터를 시작하지 않은 상태에서 관리자 권한으로 MAA를 열어주세요.</system:String>
     <system:String x:Key="InitializationError">초기화 오류!</system:String>
-    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 720p 이상으로 설정해주세요</system:String>
+    <system:String x:Key="ResolutionNotSupported">에뮬레이터 해상도가 지원되지 않습니다. 16:9 비율로 설정하시고 해상도를 1280 x 720 이상으로 설정해주세요</system:String>
     <system:String x:Key="ResolutionAcquisitionFailure">에뮬레이터 해상도를 가져올 수 없습니다. 시뮬레이터와 ADB를 재시작하거나 컴퓨터를 재부팅하거나 시뮬레이터를 교체한 후 다시 시도하십시오</system:String>
     <system:String x:Key="TryToReconnect">에뮬레이터가 연결 해제되었습니다. 재연결을 시도합니다</system:String>
     <system:String x:Key="ReconnectSuccess">다시 연결되었습니다. 작업을 계속합니다</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
-    <system:String x:Key="FastestWayToScreencap">스크린샷 테스트에는: {0}ms</system:String>
+    <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷을 찍는 데 시간이 오래 걸리므로 자동 전투 기능(예: Auto I. S.)을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">스크린캡쳐 시간이 너무 길어 자동 전투 기능(예: Auto I.S.)이 제대로 실행되지 않을 수 있습니다. 시뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷을 찍는 데 시간이 오래 걸리므로 자동 전투 기능(예: Auto I.S.)이 제대로 실행되지 않을 수 있습니다. 시뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -568,7 +568,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="StartCombat" xml:space="preserve">작전 시작: </system:String>
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
-    <system:String x:Key="SanityReport">{DateTime}에 정신 상태가 가득 차게 됩니다.({TimeDiff} 이후)</system:String>
+    <system:String x:Key="SanityReport">{DateTime}에 이성이 전부 회복됩니다.({TimeDiff} 이후)</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA는 {DateTime}의 {Preset} 구성에서 모든 사전 설정 작업을 완료했습니다.</system:String>
     <system:String x:Key="BackgroundLinkStarted">작업 시작됨</system:String>
     <system:String x:Key="BackgroundLinkStopped">작업 중지됨</system:String>
@@ -582,9 +582,9 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
-    <system:String x:Key="CurrentSanity">제정신:</system:String>
-    <system:String x:Key="MedicineUsedTimes">약:</system:String>
-    <system:String x:Key="StoneUsedTimes">결석:</system:String>
+    <system:String x:Key="CurrentSanity">이성:</system:String>
+    <system:String x:Key="MedicineUsedTimes">이성 회복 아이템:</system:String>
+    <system:String x:Key="StoneUsedTimes">순오리지늄:</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
@@ -639,8 +639,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="NoRecruitmentPermit">채용허가증이 없어 반환함</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">공개 채용에서 다중 태그 선택 전략</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
-    <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
-    <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택, 높은 등급의 태그만 선택</system:String>
+    <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택택</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택합니다</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">사용 형성</system:String>
@@ -739,6 +739,6 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Announcement  -->
     <system:String x:Key="Announcement">공지사항</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항</system:String>
-    <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지를 더 이상 표시하지 않음</system:String>
+    <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
     <!-- !Announcement  -->
 </ResourceDictionary>
