@@ -280,7 +280,7 @@ std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_ope
     sort_by_vertical_(opers_result);
 
     Log.info(opers_result);
-    return std::move(opers_result);
+    return opers_result;
 }
 
 bool asst::BattleFormationTask::enter_selection_page()
