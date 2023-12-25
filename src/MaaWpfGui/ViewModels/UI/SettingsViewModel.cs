@@ -2965,6 +2965,16 @@ namespace MaaWpfGui.ViewModels.UI
             get => _retryOnDisconnected;
             set
             {
+                if (string.IsNullOrEmpty(EmulatorPath))
+                {
+                    MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
+                        LocalizationHelper.GetString("Tip"),
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    value = false;
+                }
+
                 SetAndNotify(ref _retryOnDisconnected, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RetryOnAdbDisconnected, value.ToString());
             }
