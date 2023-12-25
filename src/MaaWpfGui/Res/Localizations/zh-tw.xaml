@@ -297,9 +297,9 @@
  B服輸入登錄界面顯示的賬號名，如「張三」，可輸入「張」或「三」
 暫不支持其他服</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
-    <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或模擬器本體程式。</system:String>
-    <system:String x:Key="ConnectionAddress">連接地址</system:String>
-    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 重連失敗時自動重開模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
