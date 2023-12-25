@@ -56,7 +56,7 @@
     <!-- !설정 가이드  -->
     <system:String x:Key="Dorm">숙소</system:String>
     <system:String x:Key="Mfg">제조소</system:String>
-    <system:String x:Key="Processing">처리 스테이션</system:String>
+    <system:String x:Key="Processing">가공소</system:String>
     <system:String x:Key="Trade">무역소</system:String>
     <system:String x:Key="Power">발전소</system:String>
     <system:String x:Key="Reception">응접실</system:String>
@@ -315,7 +315,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Visiting">친구 방문</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
-    <system:String x:Key="AutoRoguelike">통합전략</system:String>
+    <system:String x:Key="AutoRoguelike">통합 전략</system:String>
     <system:String x:Key="ReclamationAlgorithm">생명연산</system:String>
     <system:String x:Key="Light">라이트</system:String>
     <system:String x:Key="Dark">다크</system:String>
@@ -342,7 +342,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="WaitAndStop">기다리다 &amp; 중지</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
-    <system:String x:Key="UseOriginitePrime">순오리지늄 사용*</system:String>
+    <system:String x:Key="UseOriginitePrime">순오리지늄 사용</system:String>
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
@@ -636,9 +636,9 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="ContinueRefresh">채용 허가 없음, 새로 고치려고 태그</system:String>
     <system:String x:Key="NoRecruitmentPermit">채용허가증이 없어 반환함</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">공개 채용에서 다중 태그 선택 전략</system:String>
-    <system:String x:Key="DefaultNoExtraTags">기본값:추가 태그 없습니다</system:String>
-    <system:String x:Key="SelectExtraTags">태그를 선택할 때 항상 태그 3개를 선택하세요.</system:String>
-    <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택합니다</system:String>
+    <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
+    <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택, 높은 등급의 태그만 선택</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">사용 형성</system:String>
@@ -735,8 +735,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">워크 스테이션</system:String>
     <!-- !External Notification  -->
     <!--  Announcement  -->
-    <system:String x:Key="Announcement">공고패</system:String>
-    <system:String x:Key="CheckAndDownloadAnnouncement">공고패</system:String>
+    <system:String x:Key="Announcement">공지사항</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">공지사항</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지를 더 이상 표시하지 않음</system:String>
     <!-- !Announcement  -->
 </ResourceDictionary>
