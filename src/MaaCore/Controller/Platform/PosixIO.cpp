@@ -122,9 +122,7 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
 
     // whether we recv_by_socket or not, we have to
     // drain the output pipe so that it doesn't block I/O.
-    std::array<::pollfd, 1> events {
-        ::pollfd { .fd = pipe_out[PIPE_READ], .events = POLLIN },
-    };
+    // std::array<::pollfd, 1> events { ::pollfd { .fd = pipe_out[PIPE_READ], .events = POLLIN } };
     while (true) {
         ssize_t read_num = ::read(pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
         while (read_num > 0) {
@@ -134,9 +132,10 @@ std::optional<int> asst::PosixIO::call_command(const std::string& cmd, const boo
             read_num = ::read(pipe_out[PIPE_READ], pipe_buffer.get(), pipe_buffer.size());
         }
         if (read_num == -1 && errno == EAGAIN) {
-            if (::poll(events.data(), events.size(), 1000) > 0) continue;
+            // if (::poll(events.data(), events.size(), 1000) > 0) continue;
+            std::this_thread::yield();
         }
-        if (::waitpid(m_child, &exit_ret, WNOHANG) != 0) {
+        else if (::waitpid(m_child, &exit_ret, WNOHANG) != 0) {
             child_exited = true;
             break;
         }
