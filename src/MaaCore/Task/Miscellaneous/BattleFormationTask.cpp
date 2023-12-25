@@ -11,7 +11,6 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 #include "Vision/MultiMatcher.h"
-#include "Vision/TemplDetOCRer.h"
 
 void asst::BattleFormationTask::append_additional_formation(AdditionalFormation formation)
 {
