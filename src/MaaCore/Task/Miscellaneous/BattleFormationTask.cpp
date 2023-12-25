@@ -239,7 +239,7 @@ bool asst::BattleFormationTask::select_random_support_unit()
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
 }
 
-std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
+std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_opers()
 {
     auto formation_task_ptr = Task.get("BattleQuickFormationOCR");
     auto image = ctrler()->get_image();
@@ -280,12 +280,8 @@ std::vector<asst::TextRect> asst::BattleFormationTask::analyzer_opers()
     }
     sort_by_vertical_(opers_result);
 
-    std::vector<TextRect> tr_res;
-    for (const auto& res : opers_result) {
-        tr_res.emplace_back(TextRect { res.rect, res.score, res.text });
-    }
-    Log.info(tr_res);
-    return tr_res;
+    Log.info(opers_result);
+    return std::move(opers_result);
 }
 
 bool asst::BattleFormationTask::enter_selection_page()
@@ -337,7 +333,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
             continue;
         }
 
-        ctrler()->click(res.rect);
+        ctrler()->click(res.flag_rect);
         sleep(delay);
         if (1 <= skill && skill <= 3) {
             if (skill == 3) {

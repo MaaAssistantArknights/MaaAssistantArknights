@@ -62,7 +62,7 @@ namespace asst
         bool select_formation(int select_index);
         bool select_random_support_unit();
 
-        std::vector<TextRect> analyzer_opers();
+        std::vector<asst::TemplDetOCRer::Result> analyzer_opers();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
