@@ -1,8 +1,11 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  .Net 8  -->
     <system:String x:Key="Dotnet8">MAA is about to be upgraded, and the upgraded version does not support PCs that do not have the .NET 8.0 runtime installed, so you need to manually download and install it. \n\nAt the same time, we will no longer support Windows 7. \n\nIf you click 'Yes', we will open the .NET 8 runtime download link for you. If you click 'No', we will disable your automatic download feature to prevent unwanted software updates. If you choose to disable automatic downloads, you can still manually re-enable this feature in the software settings.</system:String>
     <system:String x:Key="Dotnet8Caption">Software Version Upgrade and Support Changes</system:String>
-    <!-- !.Net 8  -->
+    <!--  !.Net 8  -->
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -53,7 +56,7 @@
     <system:String x:Key="OftenUsedGuide">↓Often Used</system:String>
     <system:String x:Key="SometimesUsedGuide">Sometimes Used↑</system:String>
     <system:String x:Key="LinkStartGuide">← Start Tasks</system:String>
-    <!-- !Settings Guide  -->
+    <!--  !Settings Guide  -->
     <system:String x:Key="Dorm">Dormitory</system:String>
     <system:String x:Key="Mfg">Factory</system:String>
     <system:String x:Key="Processing">Workshop</system:String>
@@ -308,7 +311,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in "Launch Settings - Emulator Path" and reselect.</system:String>
     <system:String x:Key="AllowAdbRestart">Attempt to restart ADB Server after connection failure</system:String>
     <system:String x:Key="AllowAdbHardRestart">Attempt to kill and restart ADB process after connection failure</system:String>
-    <!-- !Settings  -->
+    <!--  !Settings  -->
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
     <system:String x:Key="WakeUp">Login</system:String>
@@ -390,7 +393,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="PR-DTip">PR-D (Grd/Spc Chip)</system:String>
     <system:String x:Key="Pormpt1">It's Monday: time to clear the Annihilation</system:String>
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
-    <!-- !FightSettings  -->
+    <!--  !FightSettings  -->
     <!--  Logs  -->
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
@@ -409,8 +412,8 @@ Other client types are not supported</system:String>
     <system:String x:Key="HibernatePrompt">Task(s) completed, about to hibernate</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">Unknown ending action</system:String>
     <system:String x:Key="AnnihilationTaskFailed">Annihilation task failed, will try to use alternate stage, some combat settings will not be effective</system:String>
-    <!-- !Logs  -->
-    <!-- !Farming  -->
+    <!--  !Logs  -->
+    <!--  !Farming  -->
     <system:String x:Key="Toolbox">Toolbox</system:String>
     <!--  Recruitment Recognition  -->
     <system:String x:Key="RecruitmentRecognition">Recruitment</system:String>
@@ -423,7 +426,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">Auto select 5★ Tags</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">Auto select 6★ Tags</system:String>
     <system:String x:Key="StartToRecruit">Begin to Recruit</system:String>
-    <!-- !Recruitment Recognition  -->
+    <!--  !Recruitment Recognition  -->
     <!--  Depot Recognition  -->
     <system:String x:Key="DepotRecognition">Depot</system:String>
     <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
@@ -431,21 +434,21 @@ Other client types are not supported</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
     <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
     <system:String x:Key="CopiedToClipboard">Copied to Clipboard</system:String>
-    <!-- !Depot Recognition  -->
+    <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
     <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="OperBoxRecognitionResult">Not owned: {0}\n\n{1}\n\nOwned: {2}\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
-    <!-- !Operator Recognition  -->
+    <!--  !Operator Recognition  -->
     <!--  Video Recognition  -->
     <system:String x:Key="VideoRecognition">Video</system:String>
     <system:String x:Key="StartToVideoRecognition">Start to identify</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">Open Directory</system:String>
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">For video recognition, please open the 「Copilot」 tab and drag the strategy video into it.
 The video aspect ratio needs to be 16:9 without interference factors such as black borders, emulator borders, special shapes and screen corrections.</system:String>
-    <!-- !Video Recognition  -->
+    <!--  !Video Recognition  -->
     <!--  Gacha Recognition  -->
     <system:String x:Key="Gacha">Gacha</system:String>
     <system:String x:Key="GachaOnce">Gacha Once</system:String>
@@ -472,11 +475,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
     <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
-    <!-- !Gacha Recognition  -->
+    <!--  !Gacha Recognition  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
     <system:String x:Key="IdentificationCompleted">Identification completed</system:String>
-    <!-- !Logs  -->
+    <!--  !Logs  -->
     <!--  Copilot  -->
     <system:String x:Key="Copilot">Copilot</system:String>
     <system:String x:Key="CopilotLocation">Task file / URL</system:String>
@@ -525,8 +528,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CopilotJsonError">Copilot Json Error!</system:String>
     <system:String x:Key="NotCopilotJson">Malformed file!</system:String>
     <system:String x:Key="CheckTheFile">Malformed Copilot Json!</system:String>
-    <!-- !Logs  -->
-    <!-- !Copilot  -->
+    <!--  !Logs  -->
+    <!--  !Copilot  -->
     <!--  ErrorView  -->
     <system:String x:Key="Error">Error</system:String>
     <system:String x:Key="ErrorProlog">MAA has encountered an error</system:String>
@@ -538,7 +541,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>
-    <!-- !ErrorView  -->
+    <!--  !ErrorView  -->
     <!--  AsstProxy  -->
     <system:String x:Key="ResourceBroken">The resource is damaged, please download the full package again</system:String>
     <system:String x:Key="ReplaceAdbNotExists">ADB File NOT existing</system:String>
@@ -656,11 +659,11 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>
     <system:String x:Key="CheckSettings">Please check your connection settings or try restarting the emulator and ADB, or restart your computer</system:String>
-    <!-- !AsstProxy  -->
+    <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>
     <system:String x:Key="Exit">Exit</system:String>
-    <!-- !TrayIcon  -->
+    <!--  !TrayIcon  -->
     <!--  About  -->
     <system:String x:Key="Website">MAA Website</system:String>
     <system:String x:Key="Github">Source code: GitHub</system:String>
@@ -672,7 +675,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Telegram">Telegram</system:String>
     <system:String x:Key="Help">FAQ</system:String>
     <system:String x:Key="Issue">Issue</system:String>
-    <!-- !About  -->
+    <!--  !About  -->
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">Auto refresh 3★ Tags</system:String>
     <system:String x:Key="ForceRefresh">Continue trying to refresh Tags without recruitment permit</system:String>
@@ -687,23 +690,23 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
     <system:String x:Key="AutoSelectLevel6">Auto confirm 6★</system:String>
     <system:String x:Key="Level1Tip">If checked when 1★ tags are identified, will skip the recruitment. If not checked when 1★ tags are identified, they will be ignored.</system:String>
-    <!-- !AutoRecruitSettings  -->
+    <!--  !AutoRecruitSettings  -->
     <!--  EasterEggs  -->
     <system:String x:Key="BuyWineOnAprilFoolsDay">Dear Doctor, ever heard of the new listings of 「liquor」 in Ms. Closure's store? Let's check it out?</system:String>
     <system:String x:Key="Burping">Ugh…… Ehem</system:String>
     <system:String x:Key="DrunkAndStaggering">Ah, doctor, why do you sway so much in your movement today?</system:String>
     <system:String x:Key="Hangover">I won't drink so much next time……</system:String>
     <system:String x:Key="HelloWorld">Hello World!</system:String>
-    <!-- !EasterEggs  -->
+    <!--  !EasterEggs  -->
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
     <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Version: </system:String>
-    <!-- !VersionUpdatePopup  -->
+    <!--  !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
     <system:String x:Key="ConfirmExitText">Are you sure want to exit?</system:String>
-    <!-- !RootViewModel  -->
+    <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
     <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
@@ -711,7 +714,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GameResourceNotModified">Game resource updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA.</system:String>
     <system:String x:Key="GameResourceFailed">Game resource update failed, please try again later.</system:String>
-    <!-- !Api  -->
+    <!--  !Api  -->
     <!--  Remote Control  -->
     <system:String x:Key="RemoteControlSettings">Remote Control</system:String>
     <system:String x:Key="RemoteControlDeviceIdentityLabel">Device Identifier (Read-only)</system:String>
@@ -729,17 +732,17 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your Arknights account.</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">To learn more about how to develop these features, visit</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Feature Developer Documentation</system:String>
-    <!-- !Remote Control  -->
+    <!--  !Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineTwo">This email is sent automatically, please do not reply.</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkOfficialSite">Official website</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">MAA Copilot (Chinese)</system:String>
     <system:String x:Key="ExternalNotificationEmailTemplateHello">Doctor, there's a new notification!</system:String>
-    <!-- !External Notification  -->
+    <!--  !External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">Announcement</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">View Announcement</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">Do not show this announcement again</system:String>
-    <!-- !Announcement  -->
+    <!--  !Announcement  -->
 </ResourceDictionary>
