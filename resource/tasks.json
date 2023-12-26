@@ -10817,7 +10817,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Exp": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             643,
             525,
@@ -10875,9 +10877,7 @@
         ]
     },
     "RoguelikeSettlementOcr-Step": {
-        "algorithm": "OcrDetect",
-        "isAscii": true,
-        "text": [],
+        "baseTask": "NumberOcrReplace",
         "roi": [
             102,
             238,
