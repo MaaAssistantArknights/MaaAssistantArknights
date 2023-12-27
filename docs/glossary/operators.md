@@ -202,7 +202,7 @@ char_492_quercu|夏栎|Quercus|クエルクス|퀘르쿠스
 char_493_firwhl|火哨|Firewhistle|ファイヤーホイッスル|파이어휘슬
 char_496_wildmn|野鬃|Wild Mane|ワイルドメイン|와일드메인
 char_497_ctable|晓歌|Cantabile|カンタービレ|칸타빌레
-char_498_inside|隐现|Insider|インサイダー|인사이더더
+char_498_inside|隐现|Insider|インサイダー|인사이더
 char_508_aguard|Sharp|Sharp|Sharp|Sharp
 char_509_acast|Pith|Pith|Pith|Pith
 char_510_amedic|Touch|Touch|Touch|Touch
