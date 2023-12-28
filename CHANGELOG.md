@@ -1,25 +1,33 @@
-## v4.28.4
+## v4.28.5
 
 ### 新增 | New
 
-- Hortus de Escapismo navigation @David
+- 新增 自走机械搏斗场_浊蒂重岳塞雷娅泥岩_速冷 保全作业 (#7798) @junyihan233
+- custom ocr range detection for JP (#7773) @Constrat
 
 ### 改进 | Improved
 
-- 调整自动战斗-战斗列表提示文本中关于批量导入突袭关的说明 @status102
-- 勾选碎石时，如未勾选的理智液则也设为单次生效 @ABA2396
+- 优化搏斗场保全音响元件脚本打法及修改脚本名称 (#7806) @junyihan233
+- update `PosixIO::call_command` (#7748) @horror-proton
 
 ### 修复 | Fix
 
-- GUI窗口较小时，关卡信息提示滚动显示不完全 @ABA2396
-- 修复刷理智-SS复刻模式下无法使用理智药 @status102
-- 无法检测公告更新 @ABA2396
-- 修复部分情况下错误替换肉鸽结算中难度识别的文本 (#7691) @status102
-- Friston-3 Iris regex @Constrat
+- 修复肉鸽开放后活动FC导航失效 @ABA2396
+- 修复 自动战斗-自动编队 当干员过于接近屏幕边缘时，编入操作可能被UI遮挡的问题 (#7781) @status102
+- 移除自动肉鸽刷钱模式下非预期的肉鸽结算输出 @status102
+- YoStarJP ocr text (#7776) @Manicsteiner
+- 修复 自动战斗-战斗列表 部分情况下无法绕过代理检查的错误 @status102
+- DormConfirm.png for YostarEN @Constrat
+- EN服 无法自动吃1天后过期理智药 @ABA2396
 
 ### 其他 | Other
 
-- 账号切换 取消B服客户端检测流程 (#7657) @status102
-- 添加一份保全作业 (#7730) @Saratoga-Official
-- 优化CopilotTask参数设置 (#7631) @status102
-- 修改保全作业缩进 @status102
+- YoStarKR ocr text (#7804) @HX3N
+- 提取活动导航重复流程 @ABA2396
+- YoStarJP 空想の花庭 EX Update (#7810) @Manicsteiner @ABA2396
+- update meojson to v3.4.1 @MistEO
+- fix typo proced-proceed (#7771) @Constrat
+- 受不了这个格式了，还是依vs罢 @ABA2396
+- 添加勾选尝试启动模拟器的提示 @ABA2396
+- YoStarKR missing item modfied (#7764) @HX3N
+- 修改选错adb程序后的弹窗提示 @ABA2396
