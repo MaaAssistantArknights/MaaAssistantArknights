@@ -8873,6 +8873,15 @@
         "stageId": "camp_r_19",
         "width": 13
     },
+    "camp_r_20-obt/campaign/level_camp_r_20": {
+        "code": "炎国",
+        "filename": "camp_r_20-obt-campaign-level_camp_r_20.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_20",
+        "name": "千嶂边城",
+        "stageId": "camp_r_20",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
