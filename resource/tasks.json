@@ -1912,7 +1912,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
+            "FC-OpenOpt",
             "FCChapterToFC"
         ],
         "next": [
@@ -1924,7 +1924,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
+            "FC-OpenOpt",
             "FCChapterToFC"
         ],
         "next": [
@@ -1936,7 +1936,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
+            "FC-OpenOpt",
             "FCChapterToFC"
         ],
         "next": [
@@ -1944,7 +1944,14 @@
             "FC-7@SwipeToStage"
         ]
     },
-    "FC-Open": {
+    "FC-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": [
+            "FC-OpenOcr",
+            "FC-Open"
+        ]
+    },
+    "FC-OpenOcr": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": [
@@ -1956,6 +1963,15 @@
             500,
             500,
             150
+        ]
+    },
+    "FC-Open": {
+        "action": "ClickSelf",
+        "roi": [
+            505,
+            57,
+            462,
+            628
         ]
     },
     "FCChapterToFC": {
