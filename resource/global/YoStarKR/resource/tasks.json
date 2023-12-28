@@ -3447,11 +3447,6 @@
             "지원"
         ]
     },
-    "Roguelike@RecruitSupportConfirm": {
-        "text": [
-            "지원"
-        ]
-    },
     "RoguelikeCustom-HijackCoChar": {
         "ocrReplace": [
             [
@@ -5445,6 +5440,11 @@
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "테마진입"
+        ]
+    },
+    "Roguelike@RecruitSupportConfirm": {
+        "text": [
+            "지원"
         ]
     },
     "Roguelike@StageEncounterOcr": {

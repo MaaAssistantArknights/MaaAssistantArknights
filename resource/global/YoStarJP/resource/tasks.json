@@ -69,16 +69,16 @@
         ]
     },
     "IS-Open": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "シラクザーノ"
-        ],
         "action": "ClickSelf",
+        "algorithm": "OcrDetect",
         "roi": [
             0,
             500,
             500,
             150
+        ],
+        "text": [
+            "シラクザーノ"
         ],
         "next": [
             "EnterChapterIS"
