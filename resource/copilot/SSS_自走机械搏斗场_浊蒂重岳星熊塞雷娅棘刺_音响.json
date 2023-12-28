@@ -1,0 +1,1567 @@
+{
+    "type": "SSS",
+    "stage_name": "自走机械搏斗场",
+    "minimum_required": "v4.28.2",
+    "doc": {
+        "title": "自走机械搏斗场——浊心斯卡蒂重岳星熊塞雷娅棘刺",
+        "title_color": "dark",
+        "details": "作者：DL_君逸寒\n演示视频：BV1VG411Y7Hb\n这可能是我最后一次守护你们的肝了\n\n该脚本可完成可充能督战音响任务（包括10先锋术士）\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n\n关卡中的注意事项：\n3关要拿到至少一个战备激活阀，没有就重开（高练也不可无视）\n6关星熊要在红车冲过来之前叠好，浊蒂和重岳要在10杀后叠好（音响过牌超级快，只要不沉底就行）\nmaa现在还不认识蜜酿会一直点来点去，有时会影响操作，图稳可以往boss身上扔，往别处扔也行，不扔也行，反正都能一命应急，可酌情自行决定\n我的作业已经尽可能平民且少核了，这点要求不过分吧~\n\n工具人（不包括核心）：\n先锋：6  推荐尖兵分支+执旗手分支（不要带风笛）\n重装：3  选择防御力高的，但是不要选决战者分支和不屈者分支\n术士：6  扩散术士分支要上减费用模组\n\n所有工具人的练度都建议精二起步，选能打的！\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能！\n详情可以打开视频链接观看并更改必要的设置\n\n导能原件：可充能督战音响\n战术装备：术士B狙击B特种B，其余A\n开局策略：优选策略\n\n请手动编队，阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 骚乱肇始\n\n脚本参考：\n自己打的\n（你看我这6关阵型...）\n\n特别鸣谢：筱竹聽雨（写常规图作业的作者之一） \n最初我写的版本是斥罪主t星熊副t，但是竹说没有斥罪，就优化成了星熊主t塞雷娅副t，遂有此平民版本\n\n连接模式请使用minitouch或者maatouch，不建议使用ADB Input模式\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、不重开通过普通难度、通过应急难度\n\n刷材料不建议在应急模式刷，也不建议使用专门用来完成任务的脚本刷\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
+        "details_color": "dark"
+    },
+    "buff": "可充能督战音响",
+    "equipment": [
+        "A",
+        "A",
+        "B",
+        "A",
+        "A",
+        "B",
+        "A",
+        "B"
+    ],
+    "strategy": "优选策略",
+    "opers": [
+        {
+            "name": "重岳",
+            "skill": 3,
+            "skill_usage": 2,
+            "skill_times": 5
+        },
+        {
+            "name": "棘刺",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "星熊",
+            "skill": 2,
+            "skill_usage": 1
+        },
+        {
+            "name": "塞雷娅",
+            "skill": 1,
+            "skill_usage": 1
+        },
+        {
+            "name": "浊心斯卡蒂",
+            "skill": 2,
+            "skill_usage": 0
+        }
+    ],
+    "tool_men": {
+        "先锋": 6,
+        "重装": 3,
+        "术士": 6
+    },
+    "drops": [
+        "辅助",
+        "术士",
+        "无需增调干员",
+        "重装",
+        "狙击",
+        "先锋",
+        "医疗",
+        "近卫",
+        "特种",
+        "战备激活阀",
+        "超频转化模块"
+    ],
+    "blacklist": [
+        "缪尔赛思",
+        "伺夜",
+        "夜半",
+        "豆苗",
+        "伊内丝",
+        "风笛",
+        "晓歌",
+        "谜图",
+        "野鬃",
+        "风笛",
+        "苇草",
+        "格拉尼",
+        "红豆",
+        "芬",
+        "香草",
+        "翎羽",
+        "夜刀",
+        "山",
+        "重岳",
+        "玛恩纳",
+        "龙舌兰",
+        "斯卡蒂",
+        "赫拉格",
+        "耀骑士临光",
+        "史尔特尔",
+        "薇薇安娜",
+        "止颂",
+        "阿米娅",
+        "因陀罗",
+        "星极",
+        "芙兰卡",
+        "赤冬",
+        "达格达",
+        "海沫",
+        "火龙S黑角",
+        "摩根",
+        "燧石",
+        "炎客",
+        "羽毛笔",
+        "铸铁",
+        "断罪者",
+        "宴",
+        "缠丸",
+        "杰克",
+        "猎蜂",
+        "慕斯",
+        "休谟斯",
+        "罗小黑",
+        "玫兰莎",
+        "Castle-3",
+        "森蚺",
+        "斥罪",
+        "泥岩",
+        "极光",
+        "洋灰",
+        "火神",
+        "Friston-3",
+        "菲亚梅塔",
+        "冰酿",
+        "正义骑士号",
+        "泰拉大陆调查团",
+        "伊芙利特",
+        "蚀清",
+        "凯尔希",
+        "焰影苇草",
+        "濯尘芙蓉",
+        "刺玫",
+        "Lancet-2",
+        "白铁",
+        "掠风",
+        "罗比菈塔",
+        "U-Official",
+        "傀影",
+        "缄默德克萨斯",
+        "麒麟R夜刀",
+        "老鲤",
+        "琳琅诗怀雅",
+        "多萝西",
+        "阿",
+        "空构",
+        "乌有",
+        "红",
+        "槐琥",
+        "卡夫卡",
+        "霜华",
+        "罗宾",
+        "砾",
+        "孑",
+        "THRM-EX"
+    ],
+    "stages": [
+        {
+            "stage_name": "骚乱肇始",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 2
+                    },
+                    "location": [
+                        7,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        5,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 3
+                    },
+                    "location": [
+                        7,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "星熊",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 4
+                    },
+                    "location": [
+                        5,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "可充能督战音响",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "Down",
+                    "kills": 20
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        1
+                    ],
+                    "direction": "None",
+                    "costs": 50
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        2
+                    ],
+                    "direction": "None",
+                    "costs": 55
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        3
+                    ],
+                    "direction": "None",
+                    "costs": 60
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "如此助威",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        5,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        4,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        4,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 3
+                    },
+                    "location": [
+                        5,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        5,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "星熊",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        4,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        5,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 5,
+                        "support": 2
+                    },
+                    "location": [
+                        4,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 5
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "可充能督战音响",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Left",
+                    "kills": 20
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        1
+                    ],
+                    "direction": "None",
+                    "costs": 50
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        2
+                    ],
+                    "direction": "None",
+                    "costs": 55
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        3
+                    ],
+                    "direction": "None",
+                    "costs": 60
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "破栏而出",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        9,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 4
+                    },
+                    "location": [
+                        9,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "星熊",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 9,
+                        "support": 4
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        9,
+                        4
+                    ],
+                    "direction": "Up",
+                    "kills": 10
+                },
+                {
+                    "core": "可充能督战音响",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        8,
+                        4
+                    ],
+                    "direction": "Up",
+                    "kills": 20
+                },
+                {
+                    "core": "超重绝缘水泥",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "None"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [
+                        7,
+                        2
+                    ],
+                    "direction": "Right",
+                    "kills": 20
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        3,
+                        2
+                    ],
+                    "direction": "None",
+                    "costs": 55
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        3,
+                        1
+                    ],
+                    "direction": "None",
+                    "costs": 60
+                }
+            ],
+            "retry_times": 9
+        },
+        {
+            "stage_name": "增幅呐喊",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        3,
+                        2
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 4
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        2,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        3,
+                        2
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        1,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        1,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        1,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        1,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "tank": 2
+                    },
+                    "location": [
+                        2,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        1,
+                        3
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 2,
+                        "sniper": 2,
+                        "support": 2
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 2
+                    },
+                    "location": [
+                        2,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 5,
+                        "sniper": 5,
+                        "support": 7
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "Right",
+                    "kills": 25
+                },
+                {
+                    "core": "斯卡蒂的海嗣",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        4,
+                        3
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "core": "可充能督战音响",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        3,
+                        3
+                    ],
+                    "direction": "Down",
+                    "kills": 30
+                },
+                {
+                    "core": "超重绝缘水泥",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "None"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [
+                        3,
+                        3
+                    ],
+                    "direction": "Up",
+                    "kills": 25
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "None",
+                    "costs": 55
+                },
+
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        6,
+                        3
+                    ],
+                    "direction": "None",
+                    "costs": 60
+                }
+            ],
+            "retry_times": 18
+        },
+        {
+            "stage_name": "冲上看台",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 4
+                    },
+                    "location": [
+                        2,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        3,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        2,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        3,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "星熊",
+                    "tool_men": {
+                        "tank": 2
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "support": 3,
+                        "sniper": 5,
+                        "caster": 5
+                    },
+                    "location": [
+                        3,
+                        1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "support": 9,
+                        "sniper": 5,
+                        "caster": 5
+                    },
+                    "location": [
+                        1,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        4,
+                        4
+                    ],
+                    "direction": "Left",
+                    "kills": 30
+                },
+                {
+                    "core": "可充能督战音响",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        4,
+                        2
+                    ],
+                    "direction": "Left",
+                    "kills": 35
+                },
+                {
+                    "core": "超重绝缘水泥",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [
+                        9,
+                        6
+                    ],
+                    "direction": "None"
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [
+                        2,
+                        3
+                    ],
+                    "direction": "Up",
+                    "kills": 25
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        8,
+                        6
+                    ],
+                    "direction": "None",
+                    "costs": 55
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        7,
+                        6
+                    ],
+                    "direction": "None",
+                    "costs": 60
+                }
+            ],
+            "retry_times": 18
+        },
+        {
+            "stage_name": "阿卡胡拉之巅",
+            "strategies": [
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 2
+                    },
+                    "location": [
+                        7,
+                        2
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 2
+                    },
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 1
+                    },
+                    "location": [
+                       10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "战备激活阀",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        9,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 1
+                    },
+                    "location": [
+                       10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "星熊",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        8,
+                        3
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "core": "棘刺",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [
+                        7,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [
+                       10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 5,
+                        "medic": 3,
+                        "caster": 5
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 5,
+                        "sniper": 3,
+                        "caster": 5
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 9
+                    },
+                    "location": [
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "core": "斯卡蒂的海嗣",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [
+                        5,
+                        2
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "core": "超重绝缘水泥",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [
+                        1,
+                        6
+                    ],
+                    "direction": "None",
+                    "kills": 15,
+                    "costs": 70
+                }
+            ],
+            "draw_as_possible": true,
+            "actions": [
+                {
+                    "type": "二倍速",
+                    "kills": 5
+                },
+                {
+                    "type": "二倍速",
+                    "kills": 10
+                },
+                {
+                    "type": "二倍速",
+                    "pre_delay": 20000,
+                    "kills": 10
+                },
+                {
+                    "type": "Deploy",
+                    "name": "可充能督战音响",
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "“蜜酿万岁!“",
+                    "location": [
+                        8,
+                        5
+                    ],
+                    "direction": "Down",
+                    "kills": 12
+                },
+                {
+                    "type": "Deploy",
+                    "name": "“蜜酿万岁!“",
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Down",
+                    "kills": 12
+                },
+                {
+                    "type": "Deploy",
+                    "name": "战备激活阀",
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Left",
+                    "kills": 15
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        5
+                    ],
+                    "direction": "None",
+                    "kills": 15,
+                    "costs": 75
+                },
+                {
+                    "type": "Deploy",
+                    "name": "超重绝缘水泥",
+                    "location": [
+                        1,
+                        4
+                    ],
+                    "direction": "None",
+                    "kills": 15,
+                    "costs": 80
+                }
+            ],
+            "retry_times": 27
+        }
+    ]
+}

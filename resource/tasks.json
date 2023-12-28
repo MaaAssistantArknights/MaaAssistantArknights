@@ -1069,6 +1069,31 @@
             "StageQueue@StartButton1TryAgain"
         ]
     },
+    "SS-OpenOcr": {
+        "Doc": "base_task",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "SS-Open": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "roi": [
+            505,
+            57,
+            462,
+            628
+        ]
+    },
     "SideStoryStage": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -1123,19 +1148,11 @@
         ]
     },
     "RS-OpenOcr": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+        "baseTask": "SS-OpenOcr",
         "text": [
             "银心",
             "列车",
             "特快"
-        ],
-        "postDelay": 2000,
-        "roi": [
-            0,
-            500,
-            500,
-            150
         ],
         "next": [
             "RSChapterToRS"
@@ -1144,7 +1161,6 @@
     "RSChapterToRS": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "站台"
         ],
@@ -1156,6 +1172,7 @@
             137
         ],
         "next": [
+            "#self",
             "ChapterSwipeToTheRight"
         ]
     },
@@ -1912,8 +1929,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
-            "FCChapterToFC"
+            "FC-OpenOpt"
         ],
         "next": [
             "FC-5@SideStoryStage",
@@ -1924,8 +1940,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
-            "FCChapterToFC"
+            "FC-OpenOpt"
         ],
         "next": [
             "FC-6@SideStoryStage",
@@ -1936,26 +1951,34 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
-            "FCChapterToFC"
+            "FC-OpenOpt"
         ],
         "next": [
             "FC-7@SideStoryStage",
             "FC-7@SwipeToStage"
         ]
     },
-    "FC-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": [
+            "FC-OpenOcr",
+            "FC-Open"
+        ]
+    },
+    "FC-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
         "text": [
             "照我以火",
             "关卡已开放"
         ],
-        "roi": [
-            0,
-            500,
-            500,
-            150
+        "next": [
+            "FCChapterToFC"
+        ]
+    },
+    "FC-Open": {
+        "baseTask": "SS-Open",
+        "next": [
+            "FCChapterToFC"
         ]
     },
     "FCChapterToFC": {
@@ -1972,7 +1995,7 @@
         ],
         "postDelay": 2000,
         "next": [
-            "FCChapterToFC",
+            "#self",
             "ChapterSwipeToTheRight"
         ]
     },
@@ -2016,13 +2039,7 @@
         ]
     },
     "IS-Open": {
-        "action": "ClickSelf",
-        "roi": [
-            476,
-            0,
-            502,
-            720
-        ],
+        "baseTask": "SS-Open",
         "sub": [
             "EnterChapterIS"
         ],
@@ -2032,14 +2049,7 @@
         ]
     },
     "IS-OpenOcr": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ],
+        "baseTask": "SS-OpenOcr",
         "text": [
             "叙拉古人",
             "复刻"
@@ -10817,7 +10827,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Exp": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             643,
             525,
@@ -10875,9 +10887,7 @@
         ]
     },
     "RoguelikeSettlementOcr-Step": {
-        "algorithm": "OcrDetect",
-        "isAscii": true,
-        "text": [],
+        "baseTask": "NumberOcrReplace",
         "roi": [
             102,
             238,
