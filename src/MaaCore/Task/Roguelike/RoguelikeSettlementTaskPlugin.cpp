@@ -15,13 +15,11 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
     auto task_name = details.at("details").at("task").as_string();
     if (task_name.ends_with("Roguelike@GamePass")) {
         m_game_pass = true;
-        return true;
-        //m_config->get_mode() == RoguelikeMode::Exp;
+        return m_config->get_mode() == RoguelikeMode::Exp;
     }
     else if (task_name.ends_with("Roguelike@MissionFailedFlag2")) {
         m_game_pass = false;
-        return true;
-        //m_config->get_mode() == RoguelikeMode::Exp;
+        return m_config->get_mode() == RoguelikeMode::Exp;
     }
     else {
         return false;
@@ -30,7 +28,7 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
 
 bool asst::RoguelikeSettlementTaskPlugin::_run()
 {
-    const static auto task = Task.get("RoguelikeSettlementConfirm");
+    const static auto& task = Task.get("RoguelikeSettlementConfirm");
     auto json_msg = basic_info_with_what("RoguelikeSettlement");
     json_msg["details"]["game_pass"] = m_game_pass;
 
@@ -39,7 +37,7 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
         save_img(ctrler()->get_image(), utils::path("achievement") / utils::path("roguelike"), "Page1");
     }
 
-    const static auto rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
+    const static auto& rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
     ctrler()->click(rect);
     sleep(task->pre_delay);
 
@@ -88,8 +86,8 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
         RegionOCRer ocr(image);
         ocr.set_task_info(m_config->get_theme() + "@" + task_name);
         ocr.set_bin_threshold(50, 255);
-        static const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
-        const auto& task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
+        const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
+        auto task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
 
         auto merge_map = std::vector(number_replace.begin(), number_replace.end());
         ranges::copy(task_replace, std::back_inserter(merge_map));

@@ -172,19 +172,19 @@
         ]
     },
     "IS-Open": {
+        "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "postDelay": 2000,
-        "text": [
-            "敘拉古人",
-            "活動",
-            "已開放"
-        ],
-        "action": "ClickSelf",
         "roi": [
             0,
             500,
             500,
             150
+        ],
+        "text": [
+            "敘拉古人",
+            "活動",
+            "已開放"
         ],
         "next": [
             "EnterChapterIS"

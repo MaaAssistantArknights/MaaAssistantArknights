@@ -136,9 +136,9 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
         // TODO 屎山: task 字段需要忽略 @ 和前面的字符，否则回调大改
         if (std::string task = detail.get("details", "task", std::string()); !task.empty()) {
             if (size_t pos = task.rfind('@'); pos != std::string::npos) {
-                json::value proced_detail = detail;
-                proced_detail["details"]["task"] = task.substr(pos + 1);
-                m_callback(msg, proced_detail, m_inst);
+                json::value proceed_detail = detail;
+                proceed_detail["details"]["task"] = task.substr(pos + 1);
+                m_callback(msg, proceed_detail, m_inst);
                 return;
             }
         }

@@ -3,6 +3,7 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Task/AbstractTask.h"
+#include "Vision/TemplDetOCRer.h"
 
 namespace asst
 {
@@ -62,20 +63,16 @@ namespace asst
         bool select_formation(int select_index);
         bool select_random_support_unit();
 
-        std::vector<TextRect> analyzer_opers();
+        std::vector<asst::TemplDetOCRer::Result> analyzer_opers();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
         std::vector<OperGroup> m_user_formation;
-        // 编队中干员个数
-        int m_size_of_operators_in_formation = 0;
-        // 编队中的干员名称，用来判断能不能追加某个干员
-        std::set<std::string> m_operators_in_formation;
-        bool m_add_user_additional = false;
-        // 追加干员表，从头往后加
-        std::vector<std::pair<std::string, int>> m_user_additional;
-        // 是否需要追加信赖干员
-        bool m_add_trust = false;
+        int m_size_of_operators_in_formation = 0;       // 编队中干员个数
+        std::set<std::string> m_operators_in_formation; // 编队中的干员名称，用来判断能不能追加某个干员
+        bool m_add_trust = false;                       // 是否需要追加信赖干员
+        bool m_add_user_additional = false;             // 补用户自定义干员
+        std::vector<std::pair<std::string, int>> m_user_additional; // 追加干员表，从头往后加
         std::string m_support_unit_name;
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
