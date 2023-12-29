@@ -44,6 +44,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
+        private List<int> _copilotIdList = new List<int>(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
 
         /// <summary>
         /// Gets the view models of log items.
@@ -833,10 +834,9 @@ namespace MaaWpfGui.ViewModels.UI
 
                     model.IsChecked = false;
 
-                    if (model.CopilotId > 0 &&
-                _recentlyRatedCopilotId.IndexOf(model.CopilotId) == -1)
+                    if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) > -1)
                     {
-                        CouldLikeWebJson = true;
+                        CouldLikeWebJson = _recentlyRatedCopilotId.IndexOf(model.CopilotId) == -1;
                         RateWebJson("Like", model.CopilotId);
                     }
 
@@ -935,27 +935,21 @@ namespace MaaWpfGui.ViewModels.UI
             bool ret = true;
             if (UseCopilotList)
             {
+                _copilotIdList.Clear();
                 bool startAny = false;
-                foreach (var model in CopilotItemViewModels)
+                foreach (var model in CopilotItemViewModels.Where(i => i.IsChecked))
                 {
-                    if (!model.IsChecked)
-                    {
-                        continue;
-                    }
-
+                    _copilotIdList.Add(model.CopilotId);
                     ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
                     startAny = true;
                 }
 
-                ret &= Instances.AsstProxy.AsstStart();
-                if (!startAny)
+                if (startAny)
                 {
-                    // 一个都没启动，怎会有如此无聊之人
-                    if (!Instances.AsstProxy.AsstStop())
-                    {
-                        _logger.Warning("Failed to stop Asst");
-                    }
-
+                    ret &= Instances.AsstProxy.AsstStart();
+                }
+                else
+                {// 一个都没启动，怎会有如此无聊之人
                     _runningState.SetIdle(true);
                     return;
                 }

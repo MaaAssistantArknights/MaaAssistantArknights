@@ -553,12 +553,11 @@ namespace MaaWpfGui.Main
                     }
 
                 case AsstMsg.TaskChainStart:
-                    switch (taskChain)
+                    Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
                     {
-                        case "Fight":
-                            Instances.TaskQueueViewModel.FightTaskRunning = true;
-                            break;
-                    }
+                        "Fight" => true,
+                        _ => Instances.TaskQueueViewModel.FightTaskRunning
+                    };
 
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
                     break;

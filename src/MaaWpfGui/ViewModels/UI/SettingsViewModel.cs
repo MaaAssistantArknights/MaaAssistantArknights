@@ -2105,7 +2105,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets 设置选择的编队
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        public List<CombinedData> FormationSelectList { get; set; }
+        public List<CombinedData> FormationSelectList { get; private set; }
 
         private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 
@@ -2923,15 +2923,20 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (!Path.GetFileName(value).ToLower().Contains("adb"))
                 {
-                    var result = MessageBoxHelper.Show(
-                        LocalizationHelper.GetString("AdbPathFileSelectionErrorPrompt"),
-                        LocalizationHelper.GetString("Tip"),
-                        MessageBoxButton.OKCancel,
-                        MessageBoxImage.Warning,
-                        cancel: LocalizationHelper.GetString("Cancel"));
-                    if (result == MessageBoxResult.Cancel)
+                    int count = 3;
+                    while (count-- > 0)
                     {
-                        return;
+                        var result = MessageBoxHelper.Show(
+                            LocalizationHelper.GetString("AdbPathFileSelectionErrorPrompt"),
+                            LocalizationHelper.GetString("Tip"),
+                            MessageBoxButton.OKCancel,
+                            MessageBoxImage.Warning,
+                            ok: LocalizationHelper.GetString("AdbPathFileSelectionErrorImSure") + $"({count + 1})",
+                            cancel: LocalizationHelper.GetString("AdbPathFileSelectionErrorSelectAgain"));
+                        if (result == MessageBoxResult.Cancel)
+                        {
+                            return;
+                        }
                     }
                 }
 
@@ -2966,6 +2971,16 @@ namespace MaaWpfGui.ViewModels.UI
             get => _retryOnDisconnected;
             set
             {
+                if (string.IsNullOrEmpty(EmulatorPath))
+                {
+                    MessageBoxHelper.Show(
+                        LocalizationHelper.GetString("RetryOnDisconnectedEmulatorPathEmptyError"),
+                        LocalizationHelper.GetString("Tip"),
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning);
+                    value = false;
+                }
+
                 SetAndNotify(ref _retryOnDisconnected, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RetryOnAdbDisconnected, value.ToString());
             }

@@ -37,6 +37,7 @@
             Grid.Column="1"
             Margin="20,10"
             HorizontalAlignment="Stretch"
+            PanningMode="Both"
             properties:ScrollViewerBinding.DividerVerticalOffsetList="{Binding DividerVerticalOffsetList}"
             properties:ScrollViewerBinding.ExtentHeight="{Binding ScrollExtentHeight}"
             properties:ScrollViewerBinding.VerticalOffset="{Binding ScrollOffset}"

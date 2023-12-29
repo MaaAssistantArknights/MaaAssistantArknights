@@ -3106,19 +3106,7 @@
         "fullMatch": true,
         "ocrReplace": [
             [
-                "^4",
-                ""
-            ],
-            [
-                "^<",
-                ""
-            ],
-            [
-                "^《~",
-                ""
-            ],
-            [
-                "^《",
+                "^[<4《~]+",
                 ""
             ],
             [
@@ -4079,10 +4067,14 @@
     },
     "FightSeries-Indicator": {
         "roi": [
-            950,
-            180,
-            50,
-            400
+            940,
+            190,
+            80,
+            380
+        ],
+        "maskRange": [
+            1,
+            255
         ]
     },
     "FightSeries-Open": {
@@ -4091,7 +4083,8 @@
         "action": "ClickSelf",
         "sub": [
             "FightSeries-Indicator"
-        ]
+        ],
+        "postDelay": 500
     },
     "FightSeries-List-1": {
         "algorithm": "JustReturn",
@@ -7975,13 +7968,13 @@
         "postDelay": 100,
         "specificRect": [
             15,
-            710,
+            525,
             80,
             10
         ],
         "rectMove": [
             15,
-            385,
+            200,
             80,
             100
         ],
@@ -10805,8 +10798,8 @@
         ]
     },
     "RoguelikeSettlementOcr-Difficulty": {
-        "baseTask": "NumberOcrReplace",
-        "isAscii": false,
+        "algorithm": "OcrDetect",
+        "text": [],
         "roi": [
             750,
             372,
@@ -10860,7 +10853,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Score": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             280,
             525,
@@ -10869,7 +10864,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Skill": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             920,
             530,
@@ -10878,7 +10875,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Step": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             102,
             238,
@@ -11754,9 +11753,9 @@
             245,
             144
         ],
+        "postDelay": 1000,
         "next": [
-            "Roguelike@StrategyChange",
-            "Roguelike@Stages#next"
+            "Roguelike@StrategyChange"
         ]
     },
     "Roguelike@OptionChoose1-1": {
@@ -12260,7 +12259,6 @@
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionLeave",
-            "Roguelike@StageEncounterOptionUnknown",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next"
         ]
@@ -12272,7 +12270,6 @@
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
-            "Roguelike@StageEncounterOptionUnknown",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next"
         ]
@@ -12284,7 +12281,6 @@
         "next": [
             "Roguelike@StageEncounterLeaveConfirm",
             "Roguelike@StageEncounterOptionFree",
-            "Roguelike@StageEncounterOptionUnknown",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next"
         ]
@@ -12406,7 +12402,8 @@
             "Roguelike@ExitThenAbandon"
         ],
         "next": [
-            "Roguelike@StageTraderInvestSystemLeave"
+            "Roguelike@StageTraderInvestSystemLeave",
+            "Roguelike@StageTraderInvestSystemLeave#next"
         ]
     },
     "Roguelike@StageTraderInvestConfirm": {
@@ -12743,7 +12740,10 @@
         ]
     },
     "Roguelike@StrategyChange": {
-        "baseTask": "Roguelike@StrategyChange_default"
+        "baseTask": "Roguelike@StrategyChange_default",
+        "next": [
+            "Roguelike@Stages"
+        ]
     },
     "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
@@ -12756,10 +12756,6 @@
             0,
             186,
             129
-        ],
-        "next": [
-            "Roguelike@NextLevel",
-            "Roguelike@Stages#next"
         ]
     },
     "Roguelike@StrategyChange_mode0": {
@@ -13056,11 +13052,15 @@
     "Phantom@Roguelike@StageBoons": {
         "templThreshold": 0.85
     },
-    "Phantom@Roguelike@StageCombatDps": {},
+    "Phantom@Roguelike@StageCombatDps": {
+        "templThreshold": 0.9
+    },
     "Phantom@Roguelike@StageCombatDpsEnter": {},
     "Phantom@Roguelike@StageDreadfulFoe": {},
     "Phantom@Roguelike@StageDreadfulFoeEnter": {},
-    "Phantom@Roguelike@StageEmergencyDps": {},
+    "Phantom@Roguelike@StageEmergencyDps": {
+        "templThreshold": 0.9
+    },
     "Phantom@Roguelike@StageEmergencyDpsEnter": {},
     "Phantom@Roguelike@StageEncounter": {
         "templThreshold": 0.85
@@ -13076,11 +13076,11 @@
         "next": [
             "Phantom@Roguelike@StageEncounterOptionFree",
             "Phantom@Roguelike@StageEncounterOptionLeave",
-            "Phantom@Roguelike@StageEncounterOptionUnknown",
             "Phantom@Roguelike@ChooseOperFlag",
             "Phantom@Roguelike@StageEmergencyDpsEnter",
             "Phantom@Roguelike@StageCombatDpsEnter",
-            "Phantom@Roguelike@CloseEvent"
+            "Phantom@Roguelike@CloseEvent",
+            "Phantom@Roguelike@StageEncounterOptionUnknown"
         ]
     },
     "Phantom@Roguelike@StageEncounterSpecialClose": {},
@@ -13105,6 +13105,7 @@
         "Doc": "优先紧急作战,1-3层",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageEmergencyDps",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageEncounter",
@@ -13118,6 +13119,7 @@
         "Doc": "avoid battle,其他模式和6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageSafeHouse",
             "Phantom@Roguelike@StageEncounter",
@@ -13131,6 +13133,7 @@
         "Doc": "避紧急作战,4-5层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Phantom@Roguelike@NextLevel",
             "Phantom@Roguelike@StageCombatDps",
             "Phantom@Roguelike@StageTrader",
             "Phantom@Roguelike@StageBoons",
@@ -13409,18 +13412,17 @@
             "Mizuki@Roguelike@ClickToDrops"
         ]
     },
-    "Mizuki@Roguelike@DiceConfirmThenAbandon": {
-        "Doc": "骰子的确认按钮",
-        "action": "ClickSelf",
+    "Mizuki@Roguelike@DiceConfirmAfterNextLevel": {
+        "baseTask": "Mizuki@Roguelike@DiceConfirm",
         "template": "Mizuki@Roguelike@DiceConfirm.png",
-        "cache": false,
-        "roi": [
-            551,
-            577,
-            174,
-            143
-        ],
-        "templThreshold": 0.95,
+        "next": [
+            "Mizuki@Roguelike@StrategyChange"
+        ]
+    },
+    "Mizuki@Roguelike@DiceConfirmThenAbandon": {
+        "baseTask": "Mizuki@Roguelike@DiceConfirm",
+        "template": "Mizuki@Roguelike@DiceConfirm.png",
+        "postDelay": 0,
         "next": [
             "Mizuki@Roguelike@ExitThenAbandon"
         ]
@@ -13591,6 +13593,11 @@
             "失尘岩洞",
             "幽海丛林",
             "绀碧摇篮"
+        ],
+        "sub": [],
+        "next": [
+            "Mizuki@Roguelike@DiceConfirmAfterNextLevel",
+            "Mizuki@Roguelike@StrategyChange"
         ]
     },
     "Mizuki@Roguelike@RecruitMain": {
@@ -13704,12 +13711,12 @@
             "Mizuki@Roguelike@StageEncounterOptionFree",
             "Mizuki@Roguelike@StageSafeHouseReuse",
             "Mizuki@Roguelike@StageEncounterOptionLeave",
-            "Mizuki@Roguelike@StageEncounterOptionUnknown",
             "Mizuki@Roguelike@StageEncounterOptionWonderland",
             "Mizuki@Roguelike@ChooseOperFlag",
             "Mizuki@Roguelike@StageEmergencyDpsEnter",
             "Mizuki@Roguelike@StageCombatDpsEnter",
-            "Mizuki@Roguelike@CloseEvent"
+            "Mizuki@Roguelike@CloseEvent",
+            "Mizuki@Roguelike@StageEncounterOptionUnknown"
         ]
     },
     "Mizuki@Roguelike@StageEncounterSpecialClose": {},
@@ -13786,6 +13793,7 @@
         "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageEmergencyDps",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageEncounter",
@@ -13806,6 +13814,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
             "Mizuki@Roguelike@StageWindAndRain",
@@ -13828,6 +13837,7 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Mizuki@Roguelike@NextLevel",
             "Mizuki@Roguelike@StageCombatDps",
             "Mizuki@Roguelike@StageTrader",
             "Mizuki@Roguelike@StageSafeHouse",
@@ -14613,12 +14623,12 @@
             "Sami@Roguelike@StageEncounterOptionFree",
             "Sami@Roguelike@StageSafeHouseReuse",
             "Sami@Roguelike@StageEncounterOptionLeave",
-            "Sami@Roguelike@StageEncounterOptionUnknown",
             "Sami@Roguelike@StageEncounterOptionWonderland",
             "Sami@Roguelike@ChooseOperFlag",
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@StageCombatDpsEnter",
-            "Sami@Roguelike@CloseEvent"
+            "Sami@Roguelike@CloseEvent",
+            "Sami@Roguelike@StageEncounterOptionUnknown"
         ]
     },
     "Sami@Roguelike@StageEncounterSpecialClose": {},

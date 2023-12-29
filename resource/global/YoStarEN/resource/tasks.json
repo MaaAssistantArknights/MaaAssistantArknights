@@ -49,6 +49,18 @@
             150
         ]
     },
+    "HE-Open": {
+        "text": [
+            "Hortus",
+            "Escapismo"
+        ]
+    },
+    "HEChapterToHE": {
+        "text": [
+            "SANCTILAMINIUM",
+            "AMBROSII"
+        ]
+    },
     "CW-Open": {
         "text": [
             "Lingering",
@@ -974,11 +986,11 @@
                 "炎狱炎熔"
             ],
             [
-                "I?ris",
+                "^I?ris$",
                 "Iris"
             ],
             [
-                "Iris",
+                "^Iris$",
                 "爱丽丝"
             ],
             [
@@ -2268,6 +2280,34 @@
             [
                 "No more operators needed",
                 "无需增调干员"
+            ],
+            [
+                "Executor the Ex Foedere",
+                "圣约送葬人"
+            ],
+            [
+                "Spuria",
+                "空构"
+            ],
+            [
+                "Insider",
+                "隐现"
+            ],
+            [
+                "Holy Statue",
+                "圣像"
+            ],
+            [
+                "Crumbling Masonry",
+                "塌落的墙垣"
+            ],
+            [
+                "Spare Timber",
+                "备用木材"
+            ],
+            [
+                "Shabby Fence",
+                "破旧的木篱"
             ]
         ]
     },
@@ -2333,7 +2373,7 @@
         "text": [
             "min",
             "hr",
-            "1day"
+            "1days"
         ],
         "ocrReplace": [
             [
@@ -3793,6 +3833,14 @@
         "text": [
             "Refresh support list",
             "Refresh support"
+        ]
+    },
+    "RoguelikeSettlementOcr-Difficulty": {
+        "ocrReplace": [
+            [
+                "Ca1m",
+                "Calm"
+            ]
         ]
     },
     "RoguelikeTraderShoppingOcr": {
