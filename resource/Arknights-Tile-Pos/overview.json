@@ -17720,6 +17720,15 @@
         "stageId": "ro3_e_1_4",
         "width": 8
     },
+    "ro3_e_1_5-obt/roguelike/ro3/level_rogue3_1-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_1_5-obt-roguelike-ro3-level_rogue3_1-5.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-5",
+        "name": "事不过四",
+        "stageId": "ro3_e_1_5",
+        "width": 9
+    },
     "ro3_e_2_1-obt/roguelike/ro3/level_rogue3_2-1": {
         "code": "ISW-NO",
         "filename": "ro3_e_2_1-obt-roguelike-ro3-level_rogue3_2-1.json",
@@ -17764,6 +17773,15 @@
         "name": "虫虫别回头",
         "stageId": "ro3_e_2_5",
         "width": 11
+    },
+    "ro3_e_2_6-obt/roguelike/ro3/level_rogue3_2-6": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_2_6-obt-roguelike-ro3-level_rogue3_2-6.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_2-6",
+        "name": "还之彼身",
+        "stageId": "ro3_e_2_6",
+        "width": 9
     },
     "ro3_e_3_1-obt/roguelike/ro3/level_rogue3_3-1": {
         "code": "ISW-NO",
@@ -17817,6 +17835,15 @@
         "levelId": "obt/roguelike/ro3/level_rogue3_3-6",
         "name": "思维折断",
         "stageId": "ro3_e_3_6",
+        "width": 11
+    },
+    "ro3_e_3_7-obt/roguelike/ro3/level_rogue3_3-7": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_3_7-obt-roguelike-ro3-level_rogue3_3-7.json",
+        "height": 7,
+        "levelId": "obt/roguelike/ro3/level_rogue3_3-7",
+        "name": "恃强凌弱",
+        "stageId": "ro3_e_3_7",
         "width": 11
     },
     "ro3_e_4_1-obt/roguelike/ro3/level_rogue3_4-1": {
@@ -17882,6 +17909,15 @@
         "stageId": "ro3_e_4_7",
         "width": 13
     },
+    "ro3_e_4_8-obt/roguelike/ro3/level_rogue3_4-8": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_4_8-obt-roguelike-ro3-level_rogue3_4-8.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_4-8",
+        "name": "冰凝之所",
+        "stageId": "ro3_e_4_8",
+        "width": 9
+    },
     "ro3_e_5_1-obt/roguelike/ro3/level_rogue3_5-1": {
         "code": "ISW-NO",
         "filename": "ro3_e_5_1-obt-roguelike-ro3-level_rogue3_5-1.json",
@@ -17943,6 +17979,15 @@
         "levelId": "obt/roguelike/ro3/level_rogue3_5-7",
         "name": "本能污染",
         "stageId": "ro3_e_5_7",
+        "width": 11
+    },
+    "ro3_e_5_8-obt/roguelike/ro3/level_rogue3_5-8": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_5_8-obt-roguelike-ro3-level_rogue3_5-8.json",
+        "height": 8,
+        "levelId": "obt/roguelike/ro3/level_rogue3_5-8",
+        "name": "人造物狂欢节",
+        "stageId": "ro3_e_5_8",
         "width": 11
     },
     "ro3_e_6_1-obt/roguelike/ro3/level_rogue3_6-1": {
