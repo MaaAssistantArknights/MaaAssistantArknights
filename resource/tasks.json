@@ -13944,7 +13944,21 @@
     "Mizuki@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
-    "Sami@Roguelike@Abandon": {},
+    "Sami@Roguelike@Abandon": {
+        "template": [
+            "Sami@Roguelike@Abandon.png",
+            "Sami@Roguelike@AbandonPushDoor.png"
+        ],
+        "crop_doc": {
+            "roi": [
+                1112,
+                268,
+                53,
+                52
+            ],
+            "mask": []
+        }
+    },
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [
             1064,
