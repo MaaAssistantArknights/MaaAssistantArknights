@@ -17675,6 +17675,15 @@
         "stageId": "ro3_e_1_4",
         "width": 8
     },
+    "ro3_e_1_5-obt/roguelike/ro3/level_rogue3_1-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_e_1_5-obt-roguelike-ro3-level_rogue3_1-5.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-5",
+        "name": "事不过四",
+        "stageId": "ro3_e_1_5",
+        "width": 9
+    },
     "ro3_e_2_1-obt/roguelike/ro3/level_rogue3_2-1": {
         "code": "ISW-NO",
         "filename": "ro3_e_2_1-obt-roguelike-ro3-level_rogue3_2-1.json",
@@ -18016,6 +18025,15 @@
         "name": "待宰的兽群",
         "stageId": "ro3_n_1_4",
         "width": 8
+    },
+    "ro3_n_1_5-obt/roguelike/ro3/level_rogue3_1-5": {
+        "code": "ISW-NO",
+        "filename": "ro3_n_1_5-obt-roguelike-ro3-level_rogue3_1-5.json",
+        "height": 6,
+        "levelId": "obt/roguelike/ro3/level_rogue3_1-5",
+        "name": "事不过四",
+        "stageId": "ro3_n_1_5",
+        "width": 9
     },
     "ro3_n_2_1-obt/roguelike/ro3/level_rogue3_2-1": {
         "code": "ISW-NO",
