@@ -105,8 +105,10 @@ ExitOld.png
 ExitOldConfirm.png
 FacilityListTabMfg.png
 FacilityListTabTrade.png
+FC-Open.png
 FightSeries-Default-1.png
 FightSeries-Icon.png
+FightSeries-Indicator.png
 FightSeries-List-1.png
 GachaLastTenTimesResult1.png
 GachaNoMoney.png
@@ -153,6 +155,7 @@ Mizuki@Roguelike@StageTrader.png
 Mizuki@Roguelike@StageVerticalConfirm.png
 Mizuki@Roguelike@StageWindAndRain.png
 NormalDifficulty.png
+NoStone.png
 OF-Chapter2.png
 OfflineConfirm.png
 OperBoxFlagElite1.png
@@ -325,6 +328,9 @@ SN-8.png
 SN-9.png
 SSSDrawCard.png
 SSSFightDirectly.png
+SSSFightStart-PreSelect.png
+SSSFightStart-PreSelect-Clear.png
+SSSFightStart-PreSelect-Confirm.png
 SSSHalfTimeDropsCancel.png
 SSSHalfTimeDropsConfirm.png
 SSSSettlement.png
