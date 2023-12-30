@@ -5352,8 +5352,16 @@
                 "铁卫-临时要塞"
             ],
             [
+                "Convalescence Experience.*",
+                "Convalescence Experience Card"
+            ],
+            [
                 "Convalescence Experience Card",
                 "疗养体验卡"
+            ],
+            [
+                "Convalescence Prime.*",
+                "Convalescence Prime Membership"
             ],
             [
                 "Convalescence Prime Membership",
