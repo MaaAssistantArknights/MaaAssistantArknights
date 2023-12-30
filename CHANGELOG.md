@@ -1,8 +1,5 @@
 ## v4.28.7
 
-### 改进 | Improved
-
-
 ### 修复 | Fix
 
 - Hortus de Escapismo EX navigation @Constrat
