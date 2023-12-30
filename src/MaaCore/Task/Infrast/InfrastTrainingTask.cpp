@@ -3,6 +3,7 @@
 #include "Task/ProcessTask.h"
 #include "Controller/Controller.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/OCRer.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
 
@@ -25,7 +26,7 @@ bool asst::InfrastTrainingTask::_run()
 
     if (m_continue_training) {
         click_bottom_left_tab();
-        RegionOCRer choose_skill_analyzer(ctrler()->get_image());
+        OCRer choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
         choose_skill_analyzer.set_required({ m_skill_name });
         if (!choose_skill_analyzer.analyze()) {
@@ -33,7 +34,7 @@ bool asst::InfrastTrainingTask::_run()
             return false;
         }
         
-        continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().rect));
+        continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
     }
 
     return true;
