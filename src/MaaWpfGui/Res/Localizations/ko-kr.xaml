@@ -2,10 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <!--  .Net 8  -->
-    <system:String x:Key="Dotnet8">MAA가 곧 업그레이드될 예정입니다. 업그레이드된 버전은 .NET 8.0 런타임이 설치되지 않은 컴퓨터는 지원되지 않으므로 수동으로 다운로드해야 합니다.\n\nWindows 7 운영체제 또한 더 이상 지원되지 않을 것입니다.\n\n'예'를 클릭하면 새로운 런타임 다운로드 링크가 열립니다. '아니요'를 클릭하면 원치 않는 소프트웨어 업데이트를 방지하기 위해 자동 다운로드가 비활성화됩니다. 자동 다운로드를 비활성화하더라도 소프트웨어 설정에서 수동으로 다시 기능을 활성화할 수 있습니다.</system:String>
-    <system:String x:Key="Dotnet8Caption">소프트웨어 버전 업그레이드 및 지원 변경 사항</system:String>
-    <!--  !.Net 8  -->
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>

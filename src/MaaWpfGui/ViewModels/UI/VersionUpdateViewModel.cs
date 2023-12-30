@@ -222,27 +222,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            static void DeleteFileWithBackup(string filePath)
-            {
-                try
-                {
-                    File.Delete(filePath);
-                }
-                catch (Exception)
-                {
-                    int index = 0;
-                    string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
-                    string backupFilePath = $"{filePath}.{currentDate}.{index}";
-
-                    while (File.Exists(backupFilePath))
-                    {
-                        index++;
-                        backupFilePath = $"{filePath}.{currentDate}.{index}";
-                    }
-
-                    File.Move(filePath, backupFilePath);
-                }
-            }
+            File.Copy(Path.Combine(curDir, "MAA.exe"), Path.Combine(curDir, "MAA_win7.exe"), true);
 
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
             if (File.Exists(removeListFile))
@@ -324,6 +304,28 @@ namespace MaaWpfGui.ViewModels.UI
             Application.Current.Shutdown();
 
             return true;
+
+            static void DeleteFileWithBackup(string filePath)
+            {
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (Exception)
+                {
+                    int index = 0;
+                    string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
+                    string backupFilePath = $"{filePath}.{currentDate}.{index}";
+
+                    while (File.Exists(backupFilePath))
+                    {
+                        index++;
+                        backupFilePath = $"{filePath}.{currentDate}.{index}";
+                    }
+
+                    File.Move(filePath, backupFilePath);
+                }
+            }
         }
 
         public enum CheckUpdateRetT
