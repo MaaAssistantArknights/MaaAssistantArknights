@@ -2,10 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <!--  .Net 8  -->
-    <system:String x:Key="Dotnet8">アップグレード版は、.NET 8.0ランタイムがインストールされていないコンピュータをサポートしないため、手動でダウンロードする必要があります。 \n\nその間に、Windows 7オペレーティングシステムはサポートされなくなります。 \n\n「はい」をクリックすると、新しいランタイムのダウンロード・リンクを開きます。 「いいえ」をクリックすると、不要なソフトウェア更新を防ぐために自動ダウンロードを無効にします。 自動ダウンロードを無効にした場合でも、ソフトウェア設定でこの機能を手動で再度有効にすることができます。</system:String>
-    <system:String x:Key="Dotnet8Caption">ソフトウェアバージョンのアップグレードとサポートの変更</system:String>
-    <!--  !.Net 8  -->
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
