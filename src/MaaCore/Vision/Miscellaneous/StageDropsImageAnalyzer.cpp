@@ -54,16 +54,17 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
 {
     LogTraceFunction;
 
-    OCRer analyzer(m_image);
+    RegionOCRer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
+    analyzer.set_bin_threshold(210, 255);
     if (!analyzer.analyze()) {
         return false;
     }
-    m_stage_code = analyzer.get_result().front().text;
+    m_stage_code = analyzer.get_result().text;
     Log.info(__FUNCTION__, "stage_code", m_stage_code);
 
 #ifdef ASST_DEBUG
-    const Rect& text_rect = analyzer.get_result().front().rect;
+    const Rect& text_rect = analyzer.get_result().rect;
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(text_rect), cv::Scalar(0, 0, 255), 2);
     cv::putText(m_image_draw, m_stage_code, cv::Point(text_rect.x, text_rect.y - 10), cv::FONT_HERSHEY_SIMPLEX, 1,
                 cv::Scalar(0, 0, 255), 2);
