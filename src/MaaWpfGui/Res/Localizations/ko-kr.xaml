@@ -583,8 +583,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="CurrentSanity">이성:</system:String>
-    <system:String x:Key="MedicineUsedTimes">이성 회복 아이템:</system:String>
-    <system:String x:Key="StoneUsedTimes">순오리지늄:</system:String>
+    <system:String x:Key="MedicineUsedTimes">\n이성 회복 아이템:</system:String>
+    <system:String x:Key="StoneUsedTimes">\n순오리지늄:</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
@@ -611,12 +611,12 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Explore">탐구하다: {0} 바닥 {1} 단계</system:String>
-    <system:String x:Key="RoguelikeSettlement-Combat">전투: {0} / {1} 긴급 / {2} 보스</system:String>
-    <system:String x:Key="RoguelikeSettlement-Recruit">모집: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Explore">클리어 : {0} 구역 {1} 노드</system:String>
+    <system:String x:Key="RoguelikeSettlement-Combat">전투 횟수: {0} 일반 / {1} 정예 / {2} 리더</system:String>
+    <system:String x:Key="RoguelikeSettlement-Recruit">모집 횟수 : {0} 회</system:String>
     <system:String x:Key="RoguelikeSettlement-Collection">수집: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Difficulty">어려움: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Global">점수: {0}, 경험치: {1}, 기술: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Difficulty">난이도: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Global">점수: {0}, 경험치: {1}, 스킬: {2}</system:String>
     <system:String x:Key="CurTimes">현재 횟수</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
     <system:String x:Key="Drop" xml:space="preserve">드롭: </system:String>
