@@ -22,8 +22,12 @@ exclude:
       - vsts/QodanaScan
       - src/MaaWpfGui/Views
       - src/MaaCore
+      - src/MaaWpfGui/MaaWpfGui.csproj
+      - src/MaaWpfGui/app.manifest
   - name: CppUnreachableCode
   - name: CppUnusedIncludeDirective
   - name: Xaml.RedundantNamespaceAlias
   - name: ArrangeTrailingCommaInMultilineLists
   - name: ArrangeTrailingCommaInSinglelineLists
+  - name: EditorConfigKeyCorrectness
+  - name: EditorConfigNoMatchingFiles
