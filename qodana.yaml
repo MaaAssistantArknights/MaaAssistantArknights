@@ -22,7 +22,6 @@ exclude:
       - vsts/QodanaScan
       - src/MaaWpfGui/Views
       - src/MaaCore
-      - .editorconfig
       - src/MaaWpfGui/MaaWpfGui.csproj
       - src/MaaWpfGui/app.manifest
       - src/MaaWpfGui/MeoAsstGui.csproj.DotSettings
