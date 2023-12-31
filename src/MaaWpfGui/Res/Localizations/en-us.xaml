@@ -583,9 +583,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
-    <system:String x:Key="CurrentSanity">Sanity:</system:String>
-    <system:String x:Key="MedicineUsedTimes">Medicine:</system:String>
-    <system:String x:Key="StoneUsedTimes">Stone:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">Medicine: {0}  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0}/{1}(Expiring)  </system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">Stone: {0}  </system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>
