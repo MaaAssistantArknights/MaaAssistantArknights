@@ -583,9 +583,10 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
-    <system:String x:Key="CurrentSanity">이성:</system:String>
-    <system:String x:Key="MedicineUsedTimes">\n이성 회복 아이템:</system:String>
-    <system:String x:Key="StoneUsedTimes">\n순오리지늄:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}</system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복 아이템: {0}</system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복 아이템: {0}/{1}(만료 예정)</system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
