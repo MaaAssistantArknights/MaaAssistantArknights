@@ -1,6 +1,9 @@
 using Nuke.Common;
+using Nuke.Common.IO;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.MSBuild;
+using Nuke.Common.Utilities.Collections;
 using static Nuke.Common.Tools.MSBuild.MSBuildTasks;
 
 namespace MaaBuilder;
@@ -9,7 +12,7 @@ public partial class Build
 {
     private Target WithCompileCoreRelease => _ => _
         .DependsOn(UseClean)
-        .After(SetVersion)
+        .After(SetVersion, WithCompileWpfRelease)
         .Executes(() =>
         {
             var versionEnv = $"/DMAA_VERSION=\\\"{Version}\\\"";
@@ -24,25 +27,27 @@ public partial class Build
             );
         });
 
-    // TODO 在 MaaElectronUI 发布后移除
     private Target WithCompileWpfRelease => _ => _
         .DependsOn(UseClean)
         .After(SetVersion)
         .Executes(() =>
         {
-            MSBuild(c => c
-                .SetProcessToolPath(Parameters.MsBuildPath)
-                .SetProjectFile(Parameters.MaaWpfProject)
-                .SetTargets("ReBuild")
+            DotNetTasks.DotNetPublish(c => c
+                .SetProject(Parameters.MaaWpfProject)
                 .SetConfiguration(BuildConfiguration.Release)
-                .SetTargetPlatform(Parameters.TargetPlatform)
-                .EnableRestore()
-            );
+                .SetOutput(Parameters.BuildOutput / "wpf-release")
+                .SetPlatform(Parameters.TargetPlatform));
+
+            (Parameters.BuildOutput / BuildConfiguration.Release).CreateOrCleanDirectory();
+            (Parameters.BuildOutput / "wpf-release")
+                .GetFiles()
+                .ForEach(x =>
+                    x.MoveToDirectory(Parameters.BuildOutput / BuildConfiguration.Release));
         });
 
     private Target WithSyncRes => _ => _
     .DependsOn(UseClean)
-    .After(SetVersion)
+    .After(SetVersion, WithCompileWpfRelease)
     .Executes(() =>
     {
         MSBuild(c => c

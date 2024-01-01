@@ -1261,7 +1261,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new Dictionary<string, IEnumerable<string>>
         {
-            { string.Empty, new[] { "讯使","嘉维尔","坚雷" } },
+            { string.Empty, new[] { "讯使", "嘉维尔", "坚雷" } },
             { "Official", new[] { "讯使", "嘉维尔", "坚雷" } },
             { "Bilibili", new[] { "讯使", "嘉维尔", "坚雷" } },
             { "YoStarEN", new[] { "Courier", "Gavial", "Dur-nar" } },

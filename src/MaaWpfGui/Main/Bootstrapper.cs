@@ -14,6 +14,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -26,13 +27,14 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
+using Windows.UI.Notifications;
 
 namespace MaaWpfGui.Main
 {
@@ -67,7 +69,7 @@ namespace MaaWpfGui.Main
             }
             */
 
-            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            Directory.SetCurrentDirectory(AppContext.BaseDirectory);
             if (Directory.Exists("debug") is false)
             {
                 Directory.CreateDirectory("debug");
@@ -96,7 +98,7 @@ namespace MaaWpfGui.Main
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
-            var uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
+            var uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
             uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
@@ -164,7 +166,6 @@ namespace MaaWpfGui.Main
             builder.Bind<CopilotViewModel>().ToSelf().InSingletonScope();
 
             builder.Bind<AsstProxy>().ToSelf().InSingletonScope();
-            builder.Bind<TrayIcon>().ToSelf().InSingletonScope();
             builder.Bind<StageManager>().ToSelf();
 
             builder.Bind<HotKeyManager>().ToSelf().InSingletonScope();
@@ -227,11 +228,9 @@ namespace MaaWpfGui.Main
             var os = RuntimeInformation.OSDescription;
             if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
             {
-                ToastNotificationManagerCompat.History.Clear();
+                new ToastNotificationHistory().Clear();
             }
 
-            // 注销任务栏图标
-            Instances.TrayIcon.Close();
             ConfigurationHelper.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");

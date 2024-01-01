@@ -45,7 +45,6 @@ jobs:
           #ref: ${{ inputs.ref }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
-          show-progress: false
 
       - name: Checkout ref
         run: |
@@ -91,12 +90,17 @@ jobs:
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
       - name: Cache .nuke/temp, ~/.nuget/packages
+        id: cache-nuget
         uses: actions/cache@v3
         with:
           path: |
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
+  
+      - name: Restore dependencies
+        if: steps.cache-nuget.outputs.cache-hit != 'true'
+        run: dotnet restore
 
       - name: Bootstrap MaaDeps
         run: |

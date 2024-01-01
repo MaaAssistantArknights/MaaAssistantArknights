@@ -10,6 +10,8 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#pragma warning disable SA1402
+
 using System;
 using System.Globalization;
 using System.Reflection;
@@ -40,7 +42,6 @@ namespace MaaWpfGui.Views.UserControl
         }
     }
 
-
     public class InvestmentButtonCheckedConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
@@ -49,7 +50,9 @@ namespace MaaWpfGui.Views.UserControl
             string roguelikeMode = System.Convert.ToString(values[1]);
 
             if (roguelikeMode == "1" || roguelikeMode == "4")
+            {
                 return true;
+            }
 
             return isEnabled == "True";
         }
@@ -60,5 +63,4 @@ namespace MaaWpfGui.Views.UserControl
             return new object[] { isEnabled, isEnabled };
         }
     }
-
 }
