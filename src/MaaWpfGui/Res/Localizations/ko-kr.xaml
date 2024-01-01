@@ -391,6 +391,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
+    <system:String x:Key="VersionMismatch">UI 및 Core 버전 불일치: {0} 및 {1}로 인해 예측할 수 없는 동작이 발생할 수 있습니다. 파일을 수동으로 교체하지 마십시오.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>

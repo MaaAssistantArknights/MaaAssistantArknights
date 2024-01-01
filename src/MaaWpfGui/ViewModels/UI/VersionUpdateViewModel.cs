@@ -891,13 +891,13 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        private bool IsDebugVersion(string version = null)
+        public bool IsDebugVersion(string version = null)
         {
             version ??= _curVersion;
             return version.Contains("DEBUG");
         }
 
-        private bool IsStdVersion(string version = null)
+        public bool IsStdVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
@@ -912,23 +912,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return false;
             }
-            else if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
-            {
-                return false;
-            }
-            else if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
-            {
-                return false;
-            }
-            else if (IsNightlyVersion(semVersion))
+
+            if (version.StartsWith('c') || version.StartsWith("20") || version.Contains("Local"))
             {
                 return false;
             }
 
-            return true;
+            if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
+            {
+                return false;
+            }
+
+            return !IsNightlyVersion(semVersion);
         }
 
-        private static bool IsNightlyVersion(SemVersion version)
+        public static bool IsNightlyVersion(SemVersion version)
         {
             if (!version.IsPrerelease)
             {
@@ -939,8 +937,8 @@ namespace MaaWpfGui.ViewModels.UI
             // v{Major}.{Minor}.{Patch}-{Prerelease}.{CommitDistance}.g{CommitHash}
             // v4.6.7-beta.2.1.g1234567
             // v4.6.8-5.g1234567
-            var lastId = version.PrereleaseIdentifiers.LastOrDefault().ToString();
-            return lastId.StartsWith("g") && lastId.Length >= 7;
+            var lastId = version.PrereleaseIdentifiers[^1].ToString();
+            return lastId is not null && lastId.StartsWith('g') && lastId.Length >= 7;
         }
 
         /*
