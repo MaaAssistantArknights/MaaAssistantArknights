@@ -391,6 +391,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->
     <!--  Logs  -->
+    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may result in unpredictable behavior. Please refrain from manually replacing files.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
