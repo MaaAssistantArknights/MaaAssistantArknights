@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#pragma warning disable SA1307
 
 using System;
 using System.ComponentModel;
@@ -23,7 +24,9 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using HandyControl.Data;
 using MaaWpfGui.Configuration;
+using MaaWpfGui.Constants;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
@@ -33,6 +36,8 @@ using Notification.Wpf.Controls;
 using Semver;
 using Serilog;
 using Stylet;
+using Windows.Data.Xml.Dom;
+using Windows.UI.Notifications;
 using Application = System.Windows.Forms.Application;
 using FontFamily = System.Windows.Media.FontFamily;
 
@@ -57,6 +62,10 @@ namespace MaaWpfGui.Helper
         private static bool _systemToastCheckInited;
 
         private static readonly ILogger _logger = Log.ForContext<ToastNotification>();
+
+        public static Action<string, string, NotifyIconInfoType> ShowBalloonTip { get; set; }
+
+        public static Action<string, Action> AddMenuItemOnFirst { get; set; }
 
         /// <summary>
         /// Checks toast system.
@@ -300,6 +309,8 @@ namespace MaaWpfGui.Helper
         /// <returns>返回类本身，可继续调用其它方法</returns>
         public ToastNotification AddButtonLeft(string text, Action action)
         {
+            AddMenuItemOnFirst(text, action); // TODO: 整理过时代码
+
             _buttonLeftText = text;
             _buttonLeftAction = action;
             _buttonSystemText = text;
@@ -316,6 +327,8 @@ namespace MaaWpfGui.Helper
         // ReSharper disable once UnusedMember.Global
         public ToastNotification AddButtonRight(string text, Action action)
         {
+            AddMenuItemOnFirst(text, action); // TODO: 整理过时代码
+
             _buttonRightText = text;
             _buttonRightAction = action;
             _buttonSystemText = text;
@@ -391,6 +404,15 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// 显示通知
         /// </summary>
+        public void Show()
+        {
+            _contentCollection.AppendLine(); // content 不能为空，否则通知发不出去
+            ShowBalloonTip(_notificationTitle, _contentCollection.ToString(), NotifyIconInfoType.None);
+        }
+
+        /// <summary>
+        /// 显示通知
+        /// </summary>
         /// <param name="lifeTime">通知显示时间 (s)</param>
         /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double, uint, NotificationSounds, NotificationContent)"/></param>
         /// <param name="sound">播放提示音</param>
@@ -400,6 +422,10 @@ namespace MaaWpfGui.Helper
             NotificationSounds sound = NotificationSounds.Notification,
             NotificationContent notificationContent = null)
         {
+            Show();
+            return;
+
+            // TODO: 整理过时代码
             if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
             {
                 return;
@@ -414,20 +440,28 @@ namespace MaaWpfGui.Helper
                         if (_buttonSystemEnabled)
                         {
                             Uri burl = new Uri(ButtonSystemUrl);
-                            new ToastContentBuilder()
+                            var toastContent = new ToastContentBuilder()
                                 .AddText(_notificationTitle)
                                 .AddText(_contentCollection.ToString())
                                 .AddButton(new ToastButton()
                                     .SetContent(_buttonSystemText)
                                     .SetProtocolActivation(burl))
-                                .Show();
+                                .GetToastContent();
+                            var toastXmlDoc = new XmlDocument();
+                            toastXmlDoc.LoadXml(toastContent.GetContent());
+                            var toastNotification = new Windows.UI.Notifications.ToastNotification(toastXmlDoc);
+                            ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
                         }
                         else
                         {
-                            new ToastContentBuilder()
+                            var toastContent = new ToastContentBuilder()
                                 .AddText(_notificationTitle)
                                 .AddText(_contentCollection.ToString())
-                                .Show();
+                                .GetToastContent();
+                            var toastXmlDoc = new XmlDocument();
+                            toastXmlDoc.LoadXml(toastContent.GetContent());
+                            var toastNotification = new Windows.UI.Notifications.ToastNotification(toastXmlDoc);
+                            ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
                         }
                     });
 
@@ -539,8 +573,6 @@ namespace MaaWpfGui.Helper
         #endregion 通知显示
 
         #region 任务栏闪烁
-
-#pragma warning disable SA1307 // Accessible fields should begin with upper-case letter
 
         /// <summary>
         /// 闪烁信息
