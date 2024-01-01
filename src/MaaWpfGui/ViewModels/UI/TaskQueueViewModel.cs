@@ -851,6 +851,15 @@ namespace MaaWpfGui.ViewModels.UI
 
             ClearLog();
 
+            var uiVersion = SettingsViewModel.UiVersion;
+            var coreVersion = SettingsViewModel.CoreVersion;
+            if (uiVersion != coreVersion &&
+                Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
+                Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
+            {
+                AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Warning);
+            }
+
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
