@@ -917,7 +917,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            if (version.StartsWith('c') || version.StartsWith("20") || version.Contains("Local"))
+            if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
             {
                 return false;
             }
@@ -941,8 +941,8 @@ namespace MaaWpfGui.ViewModels.UI
             // v{Major}.{Minor}.{Patch}-{Prerelease}.{CommitDistance}.g{CommitHash}
             // v4.6.7-beta.2.1.g1234567
             // v4.6.8-5.g1234567
-            var lastId = version.PrereleaseIdentifiers[^1].ToString();
-            return lastId is not null && lastId.StartsWith('g') && lastId.Length >= 7;
+            var lastId = version.PrereleaseIdentifiers.LastOrDefault().ToString();
+            return lastId.StartsWith("g") && lastId.Length >= 7;
         }
 
         /*
