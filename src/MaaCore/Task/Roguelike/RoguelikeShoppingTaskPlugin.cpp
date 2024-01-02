@@ -20,14 +20,9 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    const std::string roguelike_name = m_config->get_theme() + "@";
-    const std::string& task = details.get("details", "task", "");
-    std::string_view task_view = task;
-    if (task_view.starts_with(roguelike_name)) {
-        task_view.remove_prefix(roguelike_name.length());
-    }
-    if (task_view == "Roguelike@TraderRandomShopping") {
-        return true;
+
+    if (details.get("details", "task", "").ends_with("Roguelike@TraderRandomShopping")) {
+        return m_config->get_mode() != RoguelikeMode::Investment;
     }
     else {
         return false;
