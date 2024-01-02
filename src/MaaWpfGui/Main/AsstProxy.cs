@@ -457,30 +457,31 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "FastestWayToScreencap":
-                    string costString = details["details"]?["cost"]?.ToString() ?? "???";
-                    string method = details["details"]?["method"]?.ToString() ?? "???";
+                    {
+                        string costString = details["details"]?["cost"]?.ToString() ?? "???";
+                        string method = details["details"]?["method"]?.ToString() ?? "???";
 
-                    StringBuilder fastestScreencapStringBuilder = new StringBuilder();
-                    string color = UiLogColor.Trace;
-                    if (!int.TryParse(costString, out var timeCost))
-                    {
-                        color = UiLogColor.Error;
-                    }
-                    else if (timeCost > 800)
-                    {
-                        color = UiLogColor.Error;
-                        fastestScreencapStringBuilder.AppendLine().Append(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"));
-                        costString = timeCost.ToString("#,#");
-                    }
-                    else if (timeCost > 400)
-                    {
-                        color = UiLogColor.Warning;
-                        fastestScreencapStringBuilder.AppendLine().Append(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"));
+                        StringBuilder fastestScreencapStringBuilder = new();
+                        string color = UiLogColor.Trace;
+                        if (!int.TryParse(costString, out var timeCost))
+                        {
+                            color = UiLogColor.Error;
+                        }
+                        else if (timeCost > 800)
+                        {
+                            color = UiLogColor.Error;
+                            costString = timeCost.ToString("#,#");
+                        }
+                        else if (timeCost > 400)
+                        {
+                            color = UiLogColor.Warning;
+                        }
+
+                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
+                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
                     }
 
-                    fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
-                    Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                    Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
                     break;
                 case "ScreencapCost":
                     Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
