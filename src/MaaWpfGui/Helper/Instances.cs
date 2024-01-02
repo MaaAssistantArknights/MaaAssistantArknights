@@ -51,12 +51,15 @@ namespace MaaWpfGui.Helper
 
             public static int StoneUsedTimes;
 
+            public static bool HasPrintedScreencapWarning;
+
             public static void ClearCache()
             {
                 SanityReport.HasSanityReport = false;
                 MedicineUsedTimes = 0;
                 ExpiringMedicineUsedTimes = 0;
                 StoneUsedTimes = 0;
+                HasPrintedScreencapWarning = false;
             }
         }
 

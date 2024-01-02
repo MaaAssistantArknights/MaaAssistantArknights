@@ -479,12 +479,28 @@ namespace MaaWpfGui.Main
 
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
                         Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
+                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
                     }
 
                     break;
                 case "ScreencapCost":
                     Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
+                    if (HasPrintedScreencapWarning || !int.TryParse(details["details"]?["avg"]?.ToString() ?? "???", out var screencapCostAvg))
+                    {
+                    }
+                    else if (screencapCostAvg >= 800)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
+                        HasPrintedScreencapWarning = true;
+                    }
+                    else if (screencapCostAvg >= 400)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
+                        HasPrintedScreencapWarning = true;
+                    }
+
                     break;
             }
         }
