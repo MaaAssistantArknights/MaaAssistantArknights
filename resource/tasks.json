@@ -13596,7 +13596,14 @@
             "Mizuki@Roguelike@RecruitOther"
         ]
     },
-    "Mizuki@Roguelike@MissionFailedFlag": {},
+    "Mizuki@Roguelike@MissionFailedFlag": {
+        "roi": [
+            508,
+            309,
+            239,
+            95
+        ]
+    },
     "Mizuki@Roguelike@MissionFailedFlag2": {},
     "Mizuki@Roguelike@NextLevel": {
         "text": [
