@@ -466,7 +466,10 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         }
         if (m_screencap_time > 9) { // 每 10 次截图计算一次平均耗时
             m_screencap_time = 0;
-            auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(m_screencap_duration);
+            auto filted_duration = m_screencap_duration | views::filter([](long long num) { return num < INT_MAX; });
+            // 过滤后的有效截图用时次数
+            auto filted_count = m_screencap_duration.size() - ranges::count(m_screencap_duration, INT_MAX);
+            auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(filted_duration);
             json::value info = json::object {
                 { "uuid", m_uuid },
                 { "what", "ScreencapCost" },
@@ -474,8 +477,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                   json::object {
                       { "min", screencap_cost_min },
                       { "max", screencap_cost_max },
-                      { "avg", std::accumulate(m_screencap_duration.begin(), m_screencap_duration.end(), 0ll) /
-                                   m_screencap_duration.size() },
+                      { "avg", std::accumulate(filted_duration.begin(), filted_duration.end(), 0ll) / filted_count },
                   } },
             };
             callback(AsstMsg::ConnectionInfo, info);
