@@ -848,23 +848,28 @@ namespace MaaWpfGui.Main
                         {
                             case "StartButton2":
                             case "AnnihilationConfirm":
-                                var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}\n";
+                                StringBuilder missionStartLogBuilder = new();
+                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}");
                                 if (SanityReport.HasSanityReport)
                                 {
-                                    log += $"{LocalizationHelper.GetString("CurrentSanity")} {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
                                 }
 
-                                if (MedicineUsedTimes > 0 || ExpiringMedicineUsedTimes > 0)
+                                if (ExpiringMedicineUsedTimes > 0)
                                 {
-                                    log += $"{LocalizationHelper.GetString("MedicineUsedTimes")} {MedicineUsedTimes}" + (ExpiringMedicineUsedTimes > 0 ? $"({ExpiringMedicineUsedTimes})" : string.Empty) + "  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("MedicineUsedTimesWithExpiring"), MedicineUsedTimes, ExpiringMedicineUsedTimes);
+                                }
+                                else if (MedicineUsedTimes > 0)
+                                {
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("MedicineUsedTimes"), MedicineUsedTimes);
                                 }
 
                                 if (StoneUsedTimes > 0)
                                 {
-                                    log += $"{LocalizationHelper.GetString("StoneUsedTimes")} {StoneUsedTimes}  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("StoneUsedTimes"), StoneUsedTimes);
                                 }
 
-                                Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
+                                Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
                                 break;
 
                             case "StoneConfirm":
