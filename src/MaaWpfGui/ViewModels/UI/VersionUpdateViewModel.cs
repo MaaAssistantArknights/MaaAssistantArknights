@@ -221,7 +221,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            File.Copy(Path.Combine(curDir, "MAA.exe"), Path.Combine(curDir, "MAA_win7.exe"), true);
+            // 如果是 Framework48，把 MAA.exe 复制一份，重命名为 MAA_win7.exe
+            if (RuntimeInformation.FrameworkDescription.Contains("Framework"))
+            {
+                File.Copy(Path.Combine(curDir, "MAA.exe"), Path.Combine(curDir, "MAA_win7.exe"), true);
+            }
 
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
             if (File.Exists(removeListFile))
@@ -474,7 +478,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
-                    });
+                    }
+                );
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
