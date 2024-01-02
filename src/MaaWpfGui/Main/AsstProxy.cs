@@ -833,7 +833,6 @@ namespace MaaWpfGui.Main
                             case "AnnihilationConfirm":
                                 StringBuilder missionStartLogBuilder = new();
                                 missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}");
-                                var log = string.Empty;
                                 if (SanityReport.HasSanityReport)
                                 {
                                     missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
@@ -853,7 +852,7 @@ namespace MaaWpfGui.Main
                                     missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("StoneUsedTimes"), StoneUsedTimes);
                                 }
 
-                                Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
+                                Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
                                 break;
 
                             case "StoneConfirm":
