@@ -194,8 +194,16 @@
     },
     "LE-Open": {
         "text": [
-            "Rerun",
-            "open"
+            "Lingering Echoes",
+            "Lingering",
+            "Echoes"
+        ]
+    },
+    "LEChapterToLE": {
+        "text": [
+            "Afterglow Hall",
+            "Afterglow",
+            "Hall"
         ]
     },
     "SN-Open": {
@@ -6488,4 +6496,5 @@
             "SAND"
         ]
     }
+    
 }
