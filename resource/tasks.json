@@ -13245,18 +13245,6 @@
     },
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
-    "Mizuki@Roguelike@ChooseDifficulty0": {
-        "baseTask": "Roguelike@ChooseDifficulty",
-        "roi": [
-            1064,
-            294,
-            216,
-            170
-        ],
-        "next": [
-            "Roguelike@StartExplore"
-        ]
-    },
     "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
         "specificRect": [
