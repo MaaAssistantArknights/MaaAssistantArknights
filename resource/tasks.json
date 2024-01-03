@@ -13191,6 +13191,10 @@
             ]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Phantom@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "text": [
             "_default",
@@ -13895,6 +13899,10 @@
                 "_SKIP_"
             ]
         ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Mizuki@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
     },
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "text": [
@@ -15220,6 +15228,10 @@
                 "_SKIP_"
             ]
         ]
+    },
+    "Sami@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Sami@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "text": [
