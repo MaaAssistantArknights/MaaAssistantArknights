@@ -88,6 +88,10 @@ waydroid prop set persist.waydroid.height 720
 
 设置 adb 的 IP 地址：打开 `设置` - `关于` - `IP地址` ，记录第一个 `IP` ，将 `${记录的IP}:5555` 填入`sample.py` 的 adb IP 一栏。
 
+如果使用 amdgpu, `screencap` 命令可能向 stderr 输出信息导致图片解码失败.
+可以运行 `adb exec-out screencap | xxd | head` 并检查输出中是否有类似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文本来确认这一点.
+尝试将 `resource/config.json` 中的截图命令由 `adb exec-out screencap` 改为 `adb exec-out 'screencap 2>/dev/null'`.
+
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
 安卓 11 版本的镜像可正常运行游戏, 需要暴露 5555 adb 端口.
