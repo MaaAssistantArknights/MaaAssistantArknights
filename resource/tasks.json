@@ -13597,11 +13597,16 @@
         ]
     },
     "Mizuki@Roguelike@MissionFailedFlag": {
+        "text": [
+            "联系中断",
+            "联系",
+            "中断"
+        ],
         "roi": [
-            508,
-            309,
-            239,
-            95
+            523,
+            333,
+            210,
+            57
         ]
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {},

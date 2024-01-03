@@ -5937,6 +5937,13 @@
             "새로고침횟수부족"
         ]
     },
+    "Mizuki@Roguelike@MissionFailedFlag": {
+        "text": [
+            "연락 두절",
+            "연락",
+            "두절"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "안개의기로",

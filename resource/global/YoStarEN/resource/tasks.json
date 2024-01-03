@@ -3531,6 +3531,13 @@
             "Roguelike@TraderRandomShopping"
         ]
     },
+    "Mizuki@Roguelike@MissionFailedFlag": {
+        "text": [
+            "Signal Lost",
+            "Signal",
+            "Lost"
+        ]
+    },
     "OperBoxRoleTabSelect": {
         "roi": [
             1158,
