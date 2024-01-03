@@ -372,14 +372,14 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
              ",", num_of_opers_expect);
 
     if (selected_count < num_of_opers_expect) {
-        Log.warn("select opers review fail: 选中干员数与期望不符");
+        Log.warn("select opers review fail: unexpected number of selected operators ");
         return false;
     }
     if (facility_name() != "Dorm" && (!m_is_custom || (room_config.names.empty() && room_config.candidates.empty()))) {
         return true;
     }
     if (selected_count < room_config.names.size()) {
-        Log.warn("select opers review fail: 存在自定义干员未选中");
+        Log.warn("select opers review fail: presence of custom operators not selected");
         return false;
     }
 
@@ -398,20 +398,20 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
         const std::string& name = name_analyzer.get_result().text;
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
-            Log.info(name, "在\"operators\"中，且已选中");
+            Log.info(name, "is in \"operators\"，and is checked");
             room_config.names.erase(iter);
         }
         else { // 备选干员或自动选择，只要不选工作中的干员即可
             if (oper.doing == infrast::Doing::Working) {
-                Log.warn("选了工作中的干员:", name);
-                Log.warn("select opers review fail: 非自定义配置，却选了工作中的干员");
+                Log.warn("selected operators for the job:", name);
+                Log.warn("select opers review fail: non-custom configuration, but an operator at work is selected");
                 return false;
             }
         }
     }
 
     if (room_config.names.size()) {
-        Log.warn("select opers review fail: 存在自定义干员未选中");
+        Log.warn("select opers review fail: presence of unselected custom operators");
         return false;
     }
 
