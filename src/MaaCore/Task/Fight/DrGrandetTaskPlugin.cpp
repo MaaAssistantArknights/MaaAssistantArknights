@@ -60,7 +60,7 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     }
     auto text = analyzer.get_result().front().text;
 
-    std::regex regex = std::regex(R"(\d[:]\d\d)");
+    auto regex = std::regex(R"((\d):(\d?)(\d?))");
     std::smatch match;
     if (!std::regex_search(text, match, regex)) {
         return -1;
@@ -68,10 +68,14 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     std::string time = match.str(0);
     Log.info("Time:", time);
 
-    int min = std::stoi(time.substr(0, 1));
-    int sec = std::stoi(time.substr(2, 2));
-    int millisec = (min * 60 + sec) * 1000;
-
-    Log.info("Time left ms:", millisec);
-    return millisec;
+    int min = std::stoi(match.str(1));
+    int sec1 = match.str(2).empty() ? 5 : std::stoi(match.str(2));
+    int sec2 = match.str(3).empty() ? 9 : std::stoi(match.str(3));
+    int millis = (min * 60 + sec1 * 10 + sec2) * 1000;
+    if (millis < 0 || millis > 6 * 60 * 1000) {
+        Log.warn("Invalid time:", millis);
+        return -1;
+    }
+    Log.info("Time left ms:", millis);
+    return millis;
 }

@@ -391,6 +391,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
+    <system:String x:Key="VersionMismatch">UI 및 Core 버전 불일치: {0} 및 {1}로 인해 예측할 수 없는 동작이 발생할 수 있습니다. 파일을 수동으로 교체하지 마십시오.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -558,8 +559,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷을 찍는 데 시간이 오래 걸리므로 자동 전투 기능(예: Auto I. S.)을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷을 찍는 데 시간이 오래 걸리므로 자동 전투 기능(예: Auto I.S.)이 제대로 실행되지 않을 수 있습니다. 시뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷을 찍는 데 시간이 오래 걸리므로(평균: {0}ms) 자동 전투 기능(예: Auto I. S.)을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">화면 캡처 시간이 너무 길어(평균: {0}ms) 자동 전투 기능(예: Auto I.S.)이 제대로 실행되지 않을 수 있습니다. 시뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -582,9 +583,10 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
-    <system:String x:Key="CurrentSanity">이성:</system:String>
-    <system:String x:Key="MedicineUsedTimes">\n이성 회복 아이템:</system:String>
-    <system:String x:Key="StoneUsedTimes">\n순오리지늄:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}</system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복 아이템: {0}</system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복 아이템: {0}/{1}(만료 예정)</system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
