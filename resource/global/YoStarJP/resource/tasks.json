@@ -5870,12 +5870,77 @@
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
+    "Phantom@Roguelike@StrategyChange_mode0": {
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "迷霧の岐路",
+                "_aggressive"
+            ],
+            [
+                "落陽の庭園",
+                "_aggressive"
+            ],
+            [
+                "凋落の故地",
+                "_aggressive"
+            ],
+            [
+                "悪夢の幕開け",
+                "_pragmatic"
+            ],
+            [
+                "緋月の回廊",
+                "_pragmatic"
+            ],
+            [
+                "渇欲の大広間",
+                "_default"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "迷霧の岐路",
+                "_default"
+            ],
+            [
+                "落陽の庭園",
+                "_default"
+            ],
+            [
+                "凋落の故地",
+                "_exit"
+            ],
+            [
+                "悪夢の幕開け",
+                "_exit"
+            ],
+            [
+                "緋月の回廊",
+                "_exit"
+            ],
+            [
+                "渇欲の大広間",
+                "_exit"
+            ]
+        ]
+    },
     "Mizuki@Roguelike@MissionFailedFlag": {
         "text": [
             "通信途絶",
             "通信",
             "途絶"
-        ]
+        ],
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {
         "roi": [

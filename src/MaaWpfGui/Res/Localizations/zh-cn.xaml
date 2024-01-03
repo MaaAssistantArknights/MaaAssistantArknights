@@ -559,8 +559,8 @@
     <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长，使用自动战斗类功能（如自动肉鸽）时，可能出现部分异常表现</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，使用自动战斗类功能（如自动肉鸽）时，可能出现部分异常表现</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -583,9 +583,10 @@
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
     <system:String x:Key="UnitTime">次</system:String>
-    <system:String x:Key="CurrentSanity">理智:</system:String>
-    <system:String x:Key="MedicineUsedTimes">药:</system:String>
-    <system:String x:Key="StoneUsedTimes">石:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">药: {0}  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0}/{1}(临期)  </system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>
