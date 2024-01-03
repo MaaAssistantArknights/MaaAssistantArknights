@@ -72,7 +72,10 @@ int asst::DrGrandetTaskPlugin::analyze_time_left(const cv::Mat& image)
     int sec1 = match.str(2).empty() ? 5 : std::stoi(match.str(2));
     int sec2 = match.str(3).empty() ? 9 : std::stoi(match.str(3));
     int millis = (min * 60 + sec1 * 10 + sec2) * 1000;
-
+    if (millis < 0 || millis > 6 * 60 * 1000) {
+        Log.warn("Invalid time:", millis);
+        return -1;
+    }
     Log.info("Time left ms:", millis);
     return millis;
 }
