@@ -51,6 +51,24 @@
             "진입하기"
         ]
     },
+    "LE-Open": {
+        "text": [
+            "링거링에코스",
+            "스테이지",
+            "개방중"
+        ]
+    },
+    "LEChapterToLE": {
+        "ocrReplace": [
+            [
+                ".*?전당",
+                "붉은노을전당"
+            ]
+        ],
+	    "text": [
+            "붉은노을전당"
+        ]
+    },
     "CharsNameOcrReplace": {
         "Doc": "이 작업의 'ocrReplace'는 오퍼레이터 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
