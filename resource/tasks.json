@@ -12138,21 +12138,6 @@
             "Roguelike@Stages#next"
         ]
     },
-    "Roguelike@StageEncounterClickToLeave": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            600,
-            600,
-            50,
-            50
-        ],
-        "next": [
-            "Roguelike@StageEncounterOptions#next",
-            "Roguelike@Stages#next",
-            "Roguelike@StageEncounterClickToLeave"
-        ]
-    },
     "Roguelike@StageEncounterEnter": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -12212,8 +12197,7 @@
         "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
         "next": [
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@Stages#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@Stages#next"
         ]
     },
     "Roguelike@StageEncounterLeaveConfirm": {
@@ -12376,7 +12360,7 @@
             "Roguelike@StageVerticalConfirmSafeHouse",
             "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@StageTrader": {
@@ -12680,16 +12664,14 @@
         "template": "Roguelike@StageVerticalConfirm.png",
         "next": [
             "Roguelike@StageSafeHouseEnter",
-            "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@StageVerticalConfirmTrader": {
         "template": "Roguelike@StageVerticalConfirm.png",
         "baseTask": "Roguelike@StageVerticalConfirm",
         "next": [
-            "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
@@ -14632,13 +14614,6 @@
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@Stages#next"
-        ]
-    },
-    "Sami@Roguelike@StageEncounterClickToLeave": {
-        "next": [
-            "Sami@Roguelike@StageEncounterOptions#next",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@StageEncounterClickToLeave"
         ]
     },
     "Sami@Roguelike@StageEncounterEnter": {},
