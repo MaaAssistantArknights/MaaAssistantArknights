@@ -23,6 +23,7 @@ using MaaWpfGui.Helper;
 using ObservableCollections;
 using Serilog;
 
+[assembly: PropertyChanged.FilterType("MaaWpfGui.Configuration.")]
 namespace MaaWpfGui.Configuration
 {
     public static class ConfigFactory
