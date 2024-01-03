@@ -225,6 +225,12 @@ namespace MaaWpfGui.ViewModels.UI
             if (RuntimeInformation.FrameworkDescription.Contains("Framework"))
             {
                 File.Copy(Path.Combine(curDir, "MAA.exe"), Path.Combine(curDir, "MAA_win7.exe"), true);
+                string batFileContent = "@echo off\n" +
+                                        "ren MAA.exe MAA_v5.exe\n" +
+                                        "start \"\" .\\MAA_win7.exe";
+
+                // 将内容写入.bat文件
+                File.WriteAllText("启动旧版.cmd", batFileContent);
             }
 
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
