@@ -103,6 +103,20 @@
             "イベント"
         ]
     },
+    "LE-Open": {
+        "text": [
+            "塵影に交わる残響",
+            "イベント復刻",
+            "開催中"
+        ]
+    },
+    "LEChapterToLE": {
+	    "text": [
+            "光差す音楽堂",
+            "光差す",
+            "音楽堂"
+        ]
+    },
     "SN-Open": {
         "baseTask": "#none",
         "action": "ClickSelf",
