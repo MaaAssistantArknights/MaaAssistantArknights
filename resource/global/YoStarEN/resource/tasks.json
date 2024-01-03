@@ -3531,13 +3531,6 @@
             "Roguelike@TraderRandomShopping"
         ]
     },
-    "Mizuki@Roguelike@MissionFailedFlag": {
-        "text": [
-            "Signal Lost",
-            "Signal",
-            "Lost"
-        ]
-    },
     "OperBoxRoleTabSelect": {
         "roi": [
             1158,
@@ -6226,6 +6219,13 @@
     "Mizuki@Roguelike@GetDropSelectRecruit": {
         "templThreshold": 0.75,
         "template": "Mizuki@Roguelike@GetDropSelectRecruit.png"
+    },
+    "Mizuki@Roguelike@MissionFailedFlag": {
+        "text": [
+            "Signal Lost",
+            "Signal",
+            "Lost"
+        ]
     },
     "Mizuki@Roguelike@NextLevel": {
         "text": [

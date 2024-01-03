@@ -4543,13 +4543,6 @@
             "指路鱗"
         ]
     },
-    "Mizuki@Roguelike@MissionFailedFlag": {
-        "text": [
-            "聯繫中斷",
-            "聯繫",
-            "中斷"
-        ]
-    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "迷霧歧途",
@@ -4617,6 +4610,13 @@
                 "渴欲大廳",
                 "_exit"
             ]
+        ]
+    },
+    "Mizuki@Roguelike@MissionFailedFlag": {
+        "text": [
+            "聯繫中斷",
+            "聯繫",
+            "中斷"
         ]
     },
     "Mizuki@Roguelike@NextLevel": {

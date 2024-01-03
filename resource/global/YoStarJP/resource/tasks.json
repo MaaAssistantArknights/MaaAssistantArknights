@@ -3328,13 +3328,6 @@
             ]
         ]
     },
-    "Mizuki@Roguelike@MissionFailedFlag": {
-        "text": [
-            "通信途絶",
-            "通信",
-            "途絶"
-        ]
-    },
     "BattleStartPre": {
         "text": [
             "行動開始",
@@ -5866,6 +5859,13 @@
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
+    },
+    "Mizuki@Roguelike@MissionFailedFlag": {
+        "text": [
+            "通信途絶",
+            "通信",
+            "途絶"
+        ]
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {
         "roi": [
