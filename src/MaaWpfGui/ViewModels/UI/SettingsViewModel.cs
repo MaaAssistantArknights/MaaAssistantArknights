@@ -1081,42 +1081,27 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Start emulator error, try to start using the default: \n" +
                     "EmulatorPath: " + EmulatorPath + "\n" +
                     "EmulatorAddCommand: " + EmulatorAddCommand);
-                if (EmulatorAddCommand.Length != 0)
+                try
                 {
-                    try
+                    if (EmulatorAddCommand.Length != 0)
                     {
                         Process.Start(EmulatorPath);
                     }
-                    catch (Win32Exception e)
-                    {
-                        // 740(0x2E4)
-                        // The requested operation requires elevation.
-                        if (e.NativeErrorCode == 740)
-                        {
-                           Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                                LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
-                            _logger.Warning("Insufficient permissions to start the emulator: \n" +
-                                "EmulatorPath: " + EmulatorPath + "\n");
-                        }
-                    }
-                }
-                else
-                {
-                    try
+                    else
                     {
                         Process.Start(EmulatorPath, EmulatorAddCommand);
                     }
-                    catch (Win32Exception e)
+                }
+                catch (Win32Exception e)
+                {
+                    // 740(0x2E4)
+                    // The requested operation requires elevation.
+                    if (e.NativeErrorCode == 740)
                     {
-                        // 740(0x2E4)
-                        // The requested operation requires elevation.
-                        if (e.NativeErrorCode == 740)
-                        {
-                            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                                LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
-                            _logger.Warning("Insufficient permissions to start the emulator: \n" +
-                                "EmulatorPath: " + EmulatorPath + "\n");
-                        }
+                        Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                             LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
+                        _logger.Warning("Insufficient permissions to start the emulator: \n" +
+                             "EmulatorPath: " + EmulatorPath + "\n");
                     }
                 }
             }
