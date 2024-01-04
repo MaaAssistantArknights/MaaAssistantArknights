@@ -10,8 +10,8 @@ namespace asst
 {
     struct ChaosLevel
     {
-        int value = 0;
-        std::string type; // '>' or '<'
+        std::string value;
+        std::string type; // '>' or '<' or '=' 其他的还不支持
     };
     struct ChoiceRequire
     {
