@@ -18,10 +18,13 @@ namespace asst
         static bool satisfies_condition(const asst::ChoiceRequire& requirement, const int special_val)
         {
             if (requirement.chaos_level.type == ">") {
-                return special_val > requirement.chaos_level.value;
+                return special_val > std::stoi(requirement.chaos_level.value);
             }
             if (requirement.chaos_level.type == "<") {
-                return special_val < requirement.chaos_level.value;
+                return special_val < std::stoi(requirement.chaos_level.value);
+            }
+            if (requirement.chaos_level.type == "=") {
+                return special_val == std::stoi(requirement.chaos_level.value);
             }
             return false;
         }
