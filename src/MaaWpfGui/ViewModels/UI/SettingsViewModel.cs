@@ -1092,16 +1092,19 @@ namespace MaaWpfGui.ViewModels.UI
                         Process.Start(EmulatorPath, EmulatorAddCommand);
                     }
                 }
-                catch (Win32Exception e)
+                catch (Exception e)
                 {
-                    // 740(0x2E4)
-                    // The requested operation requires elevation.
-                    if (e.NativeErrorCode == 740)
+                    if (e is Win32Exception win32Exception && win32Exception.NativeErrorCode == 740)
                     {
                         Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                             LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
-                        _logger.Warning("Insufficient permissions to start the emulator: \n" +
-                             "EmulatorPath: " + EmulatorPath + "\n");
+                            LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
+
+                        _logger.Warning("Insufficient permissions to start the emulator:\n" +
+                            "EmulatorPath: " + EmulatorPath + "\n");
+                    }
+                    else
+                    {
+                        _logger.Warning("Emulator start failed with error: " + e.Message);
                     }
                 }
             }
