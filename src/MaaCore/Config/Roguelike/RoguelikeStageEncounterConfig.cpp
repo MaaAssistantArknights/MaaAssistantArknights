@@ -16,6 +16,15 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         event.name = event_json.at("name").as_string();
         event.option_num = event_json.get("option_num", 0);
         event.default_choose = event_json.get("choose", 0);
+        if (event_json.contains("choice_require")) {
+            for (const auto& requirement_json : event_json.at("choice_require").as_array()) {
+                ChoiceRequire requirement;
+                requirement.name = requirement_json.at("name").as_string();
+                requirement.chaos_level.value = requirement_json.at("ChaosLevel").get("value", 0);
+                requirement.chaos_level.type = requirement_json.at("ChaosLevel").at("type").as_string();
+                event.choice_require.emplace_back(std::move(requirement));
+            }
+        }
         m_events[theme].emplace_back(std::move(event));
     }
     return true;

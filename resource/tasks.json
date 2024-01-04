@@ -12513,6 +12513,17 @@
             "Roguelike@StageEncounterJudgeOption"
         ]
     },
+    "Roguelike@SpecialValRecognition": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "text": [],
+        "roi": [
+            615,
+            0,
+            80,
+            45
+        ]
+    },
     "Roguelike@StageEncounterJudgeOption": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
