@@ -17,6 +17,7 @@ namespace asst
     {
         std::string name;
         ChaosLevel chaos_level;
+        int choose = -1;
     };
     struct RoguelikeEvent
     {

@@ -539,7 +539,8 @@
                     "Vision": {
                         "value": "1",
                         "type": ">"
-                    }
+                    },
+                    "choose": 1
                 }
             ]
         }
