@@ -1083,11 +1083,41 @@ namespace MaaWpfGui.ViewModels.UI
                     "EmulatorAddCommand: " + EmulatorAddCommand);
                 if (EmulatorAddCommand.Length != 0)
                 {
-                    Process.Start(EmulatorPath);
+                    try
+                    {
+                        Process.Start(EmulatorPath);
+                    }
+                    catch (Win32Exception e)
+                    {
+                        // 740(0x2E4)
+                        // The requested operation requires elevation.
+                        if (e.NativeErrorCode == 740)
+                        {
+                           Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                                LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
+                            _logger.Warning("Insufficient permissions to start the emulator: \n" +
+                                "EmulatorPath: " + EmulatorPath + "\n");
+                        }
+                    }
                 }
                 else
                 {
-                    Process.Start(EmulatorPath, EmulatorAddCommand);
+                    try
+                    {
+                        Process.Start(EmulatorPath, EmulatorAddCommand);
+                    }
+                    catch (Win32Exception e)
+                    {
+                        // 740(0x2E4)
+                        // The requested operation requires elevation.
+                        if (e.NativeErrorCode == 740)
+                        {
+                            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                                LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
+                            _logger.Warning("Insufficient permissions to start the emulator: \n" +
+                                "EmulatorPath: " + EmulatorPath + "\n");
+                        }
+                    }
                 }
             }
 
