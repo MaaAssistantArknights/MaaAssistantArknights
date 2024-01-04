@@ -123,7 +123,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
 3. VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
 4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
-5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/开发文档/开发相关.html#在-visual-studio-中启用-clang-format)
+5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/开发文档/开始开发.html#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
