@@ -1,5 +1,6 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
+#include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
 
 namespace asst
 {
@@ -14,5 +15,25 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        static bool satisfies_condition(const asst::ChoiceRequire& requirement, const int special_val)
+        {
+            if (requirement.chaos_level.type == ">") {
+                return special_val > requirement.chaos_level.value;
+            }
+            if (requirement.chaos_level.type == "<") {
+                return special_val < requirement.chaos_level.value;
+            }
+            return false;
+        }
+
+        static int process_task(const asst::RoguelikeEvent& event, const int special_val)
+        {
+            for (const auto& requirement : event.choice_require) {
+                if (satisfies_condition(requirement, special_val)) {
+                    return requirement.chaos_level.value;
+                }
+            }
+            return event.default_choose;
+        }
     };
 }

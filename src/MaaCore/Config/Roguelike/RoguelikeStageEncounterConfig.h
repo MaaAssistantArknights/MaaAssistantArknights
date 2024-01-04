@@ -8,11 +8,22 @@
 
 namespace asst
 {
+    struct ChaosLevel
+    {
+        int value = 0;
+        std::string type; // '>' or '<'
+    };
+    struct ChoiceRequire
+    {
+        std::string name;
+        ChaosLevel chaos_level;
+    };
     struct RoguelikeEvent
     {
         std::string name;
         int option_num = 0;
         int default_choose = 0;
+        std::vector<ChoiceRequire> choice_require;
     };
 
     class RoguelikeStageEncounterConfig final : public SingletonHolder<RoguelikeStageEncounterConfig>,
