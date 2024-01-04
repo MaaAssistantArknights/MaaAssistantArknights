@@ -30,7 +30,7 @@ namespace asst
         {
             for (const auto& requirement : event.choice_require) {
                 if (satisfies_condition(requirement, special_val)) {
-                    return requirement.chaos_level.value;
+                    return requirement.choose == -1 ? event.default_choose : requirement.choose;
                 }
             }
             return event.default_choose;
