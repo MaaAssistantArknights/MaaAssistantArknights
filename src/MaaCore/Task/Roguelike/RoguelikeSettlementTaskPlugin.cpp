@@ -12,7 +12,7 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
         return false;
     }
 
-    auto task_name = details.at("details").at("task").as_string();
+    const auto task_name = details.at("details").at("task").as_string();
     if (task_name.ends_with("Roguelike@GamePass")) {
         m_game_pass = true;
         return m_config->get_mode() == RoguelikeMode::Exp;
@@ -28,7 +28,7 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
 
 bool asst::RoguelikeSettlementTaskPlugin::_run()
 {
-    const static auto& task = Task.get("RoguelikeSettlementConfirm");
+    const auto& task = Task.get("RoguelikeSettlementConfirm");
     auto json_msg = basic_info_with_what("RoguelikeSettlement");
     json_msg["details"]["game_pass"] = m_game_pass;
 
@@ -37,7 +37,7 @@ bool asst::RoguelikeSettlementTaskPlugin::_run()
         save_img(ctrler()->get_image(), utils::path("achievement") / utils::path("roguelike"), "Page1");
     }
 
-    const static auto& rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
+    const auto& rect = Task.get("Roguelike@ClickToStartPoint")->specific_rect;
     ctrler()->click(rect);
     sleep(task->pre_delay);
 
