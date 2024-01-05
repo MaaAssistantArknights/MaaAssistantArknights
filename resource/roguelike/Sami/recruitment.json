@@ -91,8 +91,8 @@
                             ],
                             "threshold": 0,
                             "is_less": true,
-                            "offset": -350,
-                            "Doc": "地面阻挡<1时，玛恩纳的招募优先级-350"
+                            "offset": -200,
+                            "Doc": "地面阻挡<1时，玛恩纳的招募优先级-200"
                         }
                     ]
                 },
@@ -129,7 +129,7 @@
                     "name": "伊内丝",
                     "skill": 2,
                     "recruit_priority": 869,
-                    "promote_priority": 830,
+                    "promote_priority": 930,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -178,7 +178,7 @@
                     "skill": 3,
                     "alternate_skill": 1,
                     "recruit_priority": 829,
-                    "promote_priority": 990,
+                    "promote_priority": 940,
                     "is_key": true,
                     "is_start": true
                 }
@@ -1593,6 +1593,7 @@
                 {
                     "name": "止颂",
                     "skill": 2,
+                    "recruit_priority": -800,
                     "auto_retreat": 12
                 },
                 {
@@ -3443,7 +3444,7 @@
                     "name": "歌蕾蒂娅",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 298,
+                    "recruit_priority": -800,
                     "promote_priority": 210
                 },
                 {
@@ -3523,10 +3524,6 @@
                     "skill": 2
                 },
                 {
-                    "name": "赫拉格",
-                    "skill": 2
-                },
-                {
                     "name": "拉普兰德",
                     "skill": 2,
                     "recruit_priority": 440,
@@ -3557,11 +3554,13 @@
                 },
                 {
                     "name": "达格达",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "维荻",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "夜刀",
@@ -3638,15 +3637,18 @@
                 },
                 {
                     "name": "赫拉格",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "赤冬",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "火龙S黑角",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "玫兰莎"
@@ -3693,7 +3695,7 @@
                     "name": "缪尔赛思",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 236,
+                    "recruit_priority": -800,
                     "promote_priority": 140,
                     "recruit_priority_offsets": [
                         {
@@ -3803,7 +3805,7 @@
                     "name": "伺夜",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 156,
+                    "recruit_priority": -800,
                     "promote_priority": 210
                 },
                 {
