@@ -17,16 +17,17 @@ namespace asst
         virtual bool _run() override;
         static bool satisfies_condition(const asst::ChoiceRequire& requirement, const int special_val)
         {
-            if (requirement.chaos_level.type == ">") {
-                return special_val > std::stoi(requirement.chaos_level.value);
+            int num = 0;
+            switch (requirement.chaos_level.type) {
+            case ">":
+                return utils::chars_to_number<int, true>(requirement.chaos_level.value, num) && special_val > num;
+            case "<":
+                return utils::chars_to_number<int, true>(requirement.chaos_level.value, num) && special_val < num;
+            case "=":
+                return utils::chars_to_number<int, true>(requirement.chaos_level.value, num) && special_val == num;
+            default:
+                return false;
             }
-            if (requirement.chaos_level.type == "<") {
-                return special_val < std::stoi(requirement.chaos_level.value);
-            }
-            if (requirement.chaos_level.type == "=") {
-                return special_val == std::stoi(requirement.chaos_level.value);
-            }
-            return false;
         }
 
         static int process_task(const asst::RoguelikeEvent& event, const int special_val)
