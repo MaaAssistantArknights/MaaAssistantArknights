@@ -75,7 +75,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 
     int special_val = 0;
     // 水月的不好识别，先试试萨米能不能用
-    if (m_config->get_theme() == "Sami") {
+    if (m_config->get_theme() == RoguelikeTheme::Sami) {
         OCRer analyzer(image);
         analyzer.set_task_info(m_config->get_theme() + "Roguelike@SpecialValRecognition");
         analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
