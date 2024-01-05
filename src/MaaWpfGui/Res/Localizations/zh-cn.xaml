@@ -643,7 +643,7 @@
     <system:String x:Key="NoRecruitmentPermit">无招聘许可，已返回</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公招多选 Tag 的策略</system:String>
     <system:String x:Key="DefaultNoExtraTags">默认不选择额外 Tag</system:String>
-    <system:String x:Key="SelectExtraTags">总是选择三个 Tag</system:String>
+    <system:String x:Key="SelectExtraTags">选择高星时总是选择三个 Tag</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">尽可能多地选且只选高星 Tag</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
