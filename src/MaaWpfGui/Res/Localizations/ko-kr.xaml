@@ -615,6 +615,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="EmergencyDps">레벨: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
+    <system:String x:Key="RoguelikeInvestment">투자: {1}(+{0}), 예금: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}</system:String>
     <system:String x:Key="RoguelikeSettlement-Explore">클리어 : {0} 구역 {1} 노드</system:String>
     <system:String x:Key="RoguelikeSettlement-Combat">전투 횟수: {0} 일반 / {1} 정예 / {2} 리더</system:String>

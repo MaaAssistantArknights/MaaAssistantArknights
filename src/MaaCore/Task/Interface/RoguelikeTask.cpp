@@ -120,40 +120,24 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_debug_plugin_ptr->set_enable(false);
         // 战斗后奖励只拿钱
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
-        // 刷源石锭模式是否进入第二层
-        if (params.get("investment_enter_second_floor", true)) {
-            m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
-        }
-        else {
-            m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
-            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
-        }
     }
     else {
         m_debug_plugin_ptr->set_enable(true);
         // 重置战斗后奖励next
         Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
-        m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
 
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", params.get("starts_count", INT_MAX));
-    // 通过 exceededNext 禁用投资系统，进入商店购买逻辑
-    m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystem",
-                                          params.get("investment_enabled", true) ? INT_MAX : 0);
     m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice",
                                           params.get("refresh_trader_with_dice", false) ? INT_MAX : 0);
-    m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", params.get("investments_count", INT_MAX));
 
-    if (params.get("stop_when_investment_full", false)) {
-        constexpr int InvestLimit = 999;
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", 0);
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", InvestLimit);
-    }
-    else {
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", INT_MAX);
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", INT_MAX);
+    {
+        // 投资设置
+        // todo StageTraderLeaveConfirm的exceedNext需要调整
+        m_roguelike_config_ptr->set_investment_enabled(params.get("investment_enabled", true));
+        m_roguelike_config_ptr->set_investment_enter_second_floor(params.get("investment_enter_second_floor", true));
+        m_roguelike_config_ptr->set_investment_stop_when_full(params.get("stop_when_investment_full", false));
+        m_roguelike_config_ptr->set_investment_count_limit(params.get("investments_count", INT_MAX));
     }
 
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", "")); // 开局分队

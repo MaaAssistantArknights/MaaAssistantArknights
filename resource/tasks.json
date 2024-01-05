@@ -12382,7 +12382,6 @@
             "Roguelike@StageVerticalConfirmTrader",
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderRefreshWithDice",
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderLeaveConfirm"
@@ -12411,16 +12410,28 @@
             422,
             278,
             144
-        ],
-        "postDelay": 500,
-        "exceededNext": [
-            "RoguelikeControlTaskPlugin-ExitThenStop"
-        ],
-        "next": [
-            "Roguelike@StageTraderInvestSystemError",
-            "Roguelike@StageTraderInvestSystemFull",
-            "Roguelike@StageTraderInvestConfirm",
-            "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderInvest-Count": {
+        "doc": "商店投资界面的余额显示，99 >> 100",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "roi": [
+            570,
+            335,
+            150,
+            60
+        ]
+    },
+    "Roguelike@StageTrader-InvestCount": {
+        "doc": "商店界面的余额显示",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "roi": [
+            455,
+            245,
+            150,
+            70
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
@@ -12432,14 +12443,8 @@
             276,
             216
         ],
-        "exceededNext": [
-            "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
-        ],
         "next": [
-            "Roguelike@StageTraderInvestSystemEnter",
-            "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
+            "Roguelike@StageTraderInvestSystemEnter"
         ]
     },
     "Roguelike@StageTraderInvestSystemEnter": {
@@ -12449,47 +12454,22 @@
             228,
             502,
             247
-        ],
-        "next": [
-            "Roguelike@StageTraderInvestSystemError",
-            "Roguelike@StageTraderInvestConfirm",
-            "Roguelike@StageTraderInvestCancel"
         ]
     },
     "Roguelike@StageTraderInvestSystemError": {
-        "cache": false,
         "roi": [
             508,
             204,
             235,
             240
-        ],
-        "next": [
-            "Roguelike@StageTraderInvestCancel"
         ]
     },
-    "Roguelike@StageTraderInvestSystemFull": {
-        "algorithm": "OcrDetect",
-        "cache": false,
-        "reduceOtherTimes": [
-            "Roguelike@StageTraderInvestConfirm"
-        ],
-        "text": [
-            "当前储备余额已达上限",
-            "当前",
-            "上限"
-        ],
+    "Roguelike@StageTraderInvestSystemInvalid": {
         "roi": [
-            982,
-            28,
-            298,
-            289
-        ],
-        "exceededNext": [
-            "RoguelikeControlTaskPlugin-ExitThenStop"
-        ],
-        "next": [
-            "Roguelike@StageTraderInvestCancel"
+            508,
+            204,
+            235,
+            240
         ]
     },
     "Roguelike@StageTraderInvestSystemLeave": {
@@ -12499,10 +12479,6 @@
             420,
             245,
             143
-        ],
-        "next": [
-            "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
         ]
     },
     "Roguelike@StageTraderLeave": {
@@ -12543,12 +12519,10 @@
         "next": [
             "Roguelike@StageTraderRefreshWithDiceConfirm",
             "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
         ],
         "exceededNext": [
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
         ]
@@ -12579,7 +12553,6 @@
             "Roguelike@StageTraderSpecialShoppingAfterRefresh",
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@StageTraderLeave",
             "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
         ]
@@ -12600,7 +12573,6 @@
             139
         ],
         "next": [
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
         ]
@@ -12674,7 +12646,6 @@
         "next": [
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderRefreshWithDice",
-            "Roguelike@StageTraderInvestSystem",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave"
         ]

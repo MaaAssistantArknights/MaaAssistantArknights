@@ -55,6 +55,16 @@ namespace asst
         bool get_start_with_elite_two() const { return m_start_with_elite_two; }
         void set_only_start_with_elite_two(bool value) { m_only_start_with_elite_two = value; }
         bool get_only_start_with_elite_two() const { return m_only_start_with_elite_two; }
+        void set_investment_enabled(bool enabled) { m_investment_enabled = enabled; }
+        bool get_investment_enabled() { return m_investment_enabled; }
+        void set_investment_enter_second_floor(bool enter) { m_investment_enter_second_floor = enter; }
+        bool get_investment_enter_second_floor() { return m_investment_enter_second_floor; }
+        void set_investment_stop_when_full(bool stop_when_full) { m_investment_stop_when_full = stop_when_full; }
+        bool get_investment_stop_when_full() { return m_investment_stop_when_full; }
+        void set_investment_count(int count) { m_investment_count = count; }
+        int get_investment_count() { return m_investment_count; }
+        void set_investment_count_limit(int limit) { m_investment_count_limit = limit; }
+        int get_investment_count_limit() { return m_investment_count_limit; }
 
     private:
         std::string m_theme;                       // 主题
@@ -62,6 +72,11 @@ namespace asst
         int m_difficulty = 0;                      // 难度
         bool m_start_with_elite_two = false;       // 在刷开局模式下凹开局干员精二直升
         bool m_only_start_with_elite_two = false;  // 只凹开局干员精二直升且不进行作战
+        bool m_investment_enabled = false;            // 是否进行投资
+        bool m_investment_enter_second_floor = false; // 投资后是否进入第二层
+        bool m_investment_stop_when_full = false;     // 投资满后是否停止
+        int m_investment_count = 0;                   // 投资次数
+        int m_investment_count_limit = INT_MAX;       // 投资次数上限，到达上限后停止肉鸽
 
         /* 以下为每次重置 */
     public:

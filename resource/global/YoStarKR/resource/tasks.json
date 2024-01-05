@@ -5892,11 +5892,6 @@
             ]
         ]
     },
-    "Roguelike@StageTraderInvestSystemFull": {
-        "text": [
-            "예치금잔액최대달성"
-        ]
-    },
     "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
         "text": [
             "새로고침횟수부족"

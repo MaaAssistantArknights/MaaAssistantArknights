@@ -6125,11 +6125,6 @@
             255
         ]
     },
-    "Roguelike@StageTraderInvestSystemFull": {
-        "text": [
-            "Storage full"
-        ]
-    },
     "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
         "text": [
             "Used up refreshes for this",

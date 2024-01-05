@@ -9,6 +9,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -22,7 +23,7 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
     }
 
     if (details.get("details", "task", "").ends_with("Roguelike@TraderRandomShopping")) {
-        return m_config->get_mode() != RoguelikeMode::Investment;
+        return true;
     }
     else {
         return false;
@@ -30,6 +31,155 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
 }
 
 bool asst::RoguelikeShoppingTaskPlugin::_run()
+{
+    if (m_config->get_investment_enabled()) investing();
+
+    if (m_config->get_mode() != RoguelikeMode::Investment) {
+        return shopping();
+    }
+
+    if (m_config->get_mode() == RoguelikeMode::Investment && !m_config->get_investment_enter_second_floor()) {
+        exit_to_home_page();
+    }
+
+    return true;
+}
+
+void asst::RoguelikeShoppingTaskPlugin::investing()
+{
+    LogTraceFunction;
+
+    auto ocr_current_count = [](const auto& img, const auto& task_name) -> std::optional<int> {
+        RegionOCRer ocr(img);
+        ocr.set_task_info(task_name);
+        if (!ocr.analyze()) {
+            Log.error(__FUNCTION__, "unable to analyze current investment count.");
+            return std::nullopt;
+        };
+        int count;
+        if (!utils::chars_to_number(ocr.get_result().text, count)) {
+            Log.error(__FUNCTION__, "unable to convert current investment count<", ocr.get_result().text,
+                      "> to number.");
+            return std::nullopt;
+        }
+        return count;
+    };
+    auto find_confirm_rect = [&](const auto& img) -> std::optional<asst::Rect> {
+        auto task = ProcessTask(*this, { "Roguelike@StageTraderInvestSystemError", "Roguelike@StageTraderInvestSystemInvalid" });
+        task.set_reusable_image(img).set_retry_times(0);
+        if (task.run()) {
+            return std::nullopt;
+        }
+        Matcher match(img);
+        match.set_task_info("Roguelike@StageTraderInvestConfirm");
+        if (!match.analyze()) {
+            Log.error(__FUNCTION__, "unable to find invest click rect.");
+            return std::nullopt;
+        }
+        return match.get_result().rect;
+    };
+    auto leave_invest = [&]() {
+        ProcessTask(*this, { "Roguelike@StageTraderInvestCancel", "Roguelike@StageTraderInvestSystemLeave" })
+            .set_retry_times(0)
+            .run();
+    };
+
+    // 可用投资次数
+    int count_limit = m_config->get_investment_count_limit() - m_config->get_investment_count();
+
+    auto img = ctrler()->get_image();
+    // 当前的存款
+    auto deposit = ocr_current_count(img, "Roguelike@StageTrader-InvestCount");
+
+    auto enter_task =
+        ProcessTask(*this, { "Roguelike@StageTraderInvestSystemEnter", "Roguelike@StageTraderInvestSystem" });
+    if (!enter_task.set_reusable_image(img).run()) {
+        // 进入投资页面失败
+        Log.error(__FUNCTION__, "unable to enter invest system.");
+        leave_invest();
+        return;
+    }
+
+    // 进入投资页面成功
+    // 999 >> 1000
+    // 取消 | 确认投资
+
+    Matcher match(ctrler()->get_image());
+    match.set_task_info("Roguelike@StageTraderInvestConfirm");
+    if (!match.analyze()) {
+        Log.error(__FUNCTION__, "unable to find invest click rect.");
+        leave_invest();
+        return;
+    }
+    const auto& click_rect = match.get_result().rect;
+
+    int count = 0; // 已投资的个数
+    int retry = 0; // 重试次数
+    while (deposit && *deposit < 999 && count_limit > 0 && retry < 3) {
+        int times = std::max(20, count_limit - count);
+        while (times > 0) {
+            ctrler()->click(click_rect);
+            times--;
+            sleep(100);
+        }
+        img = ctrler()->get_image();
+        // 检查是否处于可投资状态
+        if (!find_confirm_rect(img)) {
+            // 投资系统错误 / 没钱了
+            break;
+        }
+        else if (auto ocr = ocr_current_count(img, "Roguelike@StageTraderInvest-Count"); ocr) {
+            // 可继续投资 / 到达投资上限999
+            if (*ocr == *deposit) {
+                retry++;// 可能是没钱了，重试三次放弃
+            }
+            else {
+                count += *ocr - *deposit;
+                deposit = *ocr;
+                retry = 0;
+            }
+        }
+        else {
+            Log.error(__FUNCTION__, "未知状态");
+            leave_invest();
+            return;
+        }
+    }
+    leave_invest();
+    if (auto ocr = ocr_current_count(ctrler()->get_image(), "Roguelike@StageTrader-InvestCount"); ocr) {
+        // 可继续投资 / 到达投资上限999
+        count += *ocr - deposit.value_or(0);
+        deposit = *ocr;
+    }
+
+    auto total = count + m_config->get_investment_count();
+
+    auto info = basic_info_with_what("RoguelikeInvestment");
+    info["details"]["count"] = count;
+    info["details"]["total"] = total;
+    info["details"]["deposit"] = deposit ? *deposit : -1;
+    callback(AsstMsg::SubTaskExtraInfo, info);
+
+    Log.info(__FUNCTION__, "本轮投资结束, 投资", count, ", 共投资", total, "; 系统余额", deposit ? *deposit : -1);
+    m_config->set_investment_count(total);
+
+    if (count_limit - count <= 0) {
+        Log.info(__FUNCTION__, "投资达到设置上限,", m_config->get_investment_count_limit());
+        exit_to_home_page();
+        m_task_ptr->set_enable(false);
+        return;
+    }
+
+    if (*deposit == 999 && m_config->get_investment_stop_when_full()) {
+        Log.info(__FUNCTION__, "存款已满");
+        exit_to_home_page();
+        m_task_ptr->set_enable(false);
+    }
+
+    return;
+}
+
+bool asst::RoguelikeShoppingTaskPlugin::shopping()
 {
     LogTraceFunction;
 
@@ -46,7 +196,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     std::unordered_map<battle::Role, size_t> map_roles_count;
     std::unordered_map<battle::Role, size_t> map_wait_promotion;
     size_t total_wait_promotion = 0;
-    std::unordered_set<std::string> chars_list;
+    std::unordered_set<std::string> opers_list;
     for (const auto& [name, oper] : m_config->get_oper()) {
         int elite = oper.elite;
         int level = oper.level;
@@ -57,7 +207,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
             continue;
         }
 
-        chars_list.emplace(name);
+        opers_list.emplace(name);
 
         if (name == "阿米娅") {
             map_roles_count[battle::Role::Caster] += 1;
@@ -95,7 +245,6 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
     }
 
-    //bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(m_config->get_theme());
     std::vector<std::string> all_foldartal = m_config->get_theme() == RoguelikeTheme::Sami
                                                  ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
@@ -150,18 +299,14 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
 
         if (!goods.chars.empty()) {
-            if (ranges::find_first_of(chars_list, goods.chars) == chars_list.cend()) {
+            if (ranges::find_first_of(opers_list, goods.chars) == opers_list.cend()) {
                 Log.trace("Ready to buy", goods.name, ", but there is no such character, skip");
                 continue;
             }
         }
 
-        // 这里仅点一下收藏品，原本的 ProcessTask 还会再点一下，但它是由 rect_move 的，保证不会点出去
-        // 即 ProcessTask 多点的那一下会点到不影响的地方
-        // 然后继续走 next 里确认 or 取消等等的逻辑
         Log.info("Ready to buy", goods.name);
         ctrler()->click(find_it->rect);
-        //bought = true;
         if (m_config->get_theme() == RoguelikeTheme::Sami) {
 
             auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
@@ -177,11 +322,14 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
         break;
     }
-    /*
-    if (!bought) {
-        // 如果什么都没买，即使有商品，说明也是不需要买的，这里强制离开商店，后面让 ProcessTask 继续跑
-        return ProcessTask(*this, { "RoguelikeTraderShoppingOver" }).run();
-    }
-    */
+
     return true;
+}
+
+void asst::RoguelikeShoppingTaskPlugin::exit_to_home_page()
+{
+    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
+        .set_times_limit("Roguelike@StartExplore", 0)
+        // .set_times_limit("Roguelike@Abandon", 0)
+        .run();
 }

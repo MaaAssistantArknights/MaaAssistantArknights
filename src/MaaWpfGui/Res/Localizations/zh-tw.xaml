@@ -613,6 +613,7 @@
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
+    <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鴿結算: {0}</system:String>
     <system:String x:Key="RoguelikeSettlement-Explore">探索: {0} 层 {1} 步</system:String>
     <system:String x:Key="RoguelikeSettlement-Combat">戰鬥: {0} / {1} 緊急 / {2} BOSS</system:String>

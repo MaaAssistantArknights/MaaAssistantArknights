@@ -4523,13 +4523,6 @@
             ]
         ]
     },
-    "Roguelike@StageTraderInvestSystemFull": {
-        "text": [
-            "當前儲備餘額已達上限",
-            "當前",
-            "上限"
-        ]
-    },
     "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
         "text": [
             "本商店",
