@@ -95,7 +95,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
     }
 
-    bool bought = false;
+    //bool bought = false;
     auto& all_goods = RoguelikeShopping.get_goods(m_config->get_theme());
     std::vector<std::string> all_foldartal = m_config->get_theme() == RoguelikeTheme::Sami
                                                  ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
@@ -161,7 +161,7 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         // 然后继续走 next 里确认 or 取消等等的逻辑
         Log.info("Ready to buy", goods.name);
         ctrler()->click(find_it->rect);
-        bought = true;
+        //bought = true;
         if (m_config->get_theme() == RoguelikeTheme::Sami) {
 
             auto iter = std::find(all_foldartal.begin(), all_foldartal.end(), goods.name);
@@ -177,11 +177,11 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
         }
         break;
     }
-
+    /*
     if (!bought) {
         // 如果什么都没买，即使有商品，说明也是不需要买的，这里强制离开商店，后面让 ProcessTask 继续跑
         return ProcessTask(*this, { "RoguelikeTraderShoppingOver" }).run();
     }
-
+    */
     return true;
 }

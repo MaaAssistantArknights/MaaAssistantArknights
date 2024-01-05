@@ -12813,7 +12813,7 @@
     },
     "Roguelike@TraderRandomShopping": {
         "Doc": "该任务注册了 RoguelikeShoppingTaskPlugin，若是点完了仍在当前界面，说明没啥要买的，直接离开商店（next 里的 PhantomStageTraderLeave）",
-        "action": "ClickSelf",
+        "action": "DoNothing",
         "templThreshold": 0.7,
         "cache": false,
         "roi": [
