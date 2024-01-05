@@ -200,10 +200,14 @@
         ]
     },
     "LEChapterToLE": {
+        "ocrReplace": [
+            [
+                "AFTERGLOW.*",
+                "AFTERGLOW"
+            ]
+        ],
         "text": [
-            "AFTERGLOW HALL",
-            "AFTERGLOW",
-            "HALL"
+            "AFTERGLOW"
         ]
     },
     "SN-Open": {
