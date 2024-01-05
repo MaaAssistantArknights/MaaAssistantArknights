@@ -12517,7 +12517,6 @@
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
-        ";": null,
         "text": [],
         "roi": [
             615,
