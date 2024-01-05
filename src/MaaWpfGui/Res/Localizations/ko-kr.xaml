@@ -288,6 +288,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
 레벨 끝에 「Normal/Hard」를 입력하여 표준 난이도와 환난 난이도 사이를 전환해야 함을 나타낼 수 있습니다
 「SSReopen-XX」 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">이 연결 구성에서는 자동 연결 감지가 지원되지 않습니다. 수동으로 포트 번호를 입력해보세요</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
     <system:String x:Key="AccountSwitch">계정 전환</system:String>

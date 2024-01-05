@@ -79,7 +79,7 @@ namespace MaaWpfGui.Helper
             var emulators = new List<string>();
             foreach (var process in allProcess)
             {
-                if (!_emulatorIdDict.Keys.Contains(process.ProcessName))
+                if (!_emulatorIdDict.ContainsKey(process.ProcessName))
                 {
                     continue;
                 }
