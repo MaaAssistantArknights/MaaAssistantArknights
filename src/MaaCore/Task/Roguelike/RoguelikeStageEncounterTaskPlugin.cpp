@@ -1,13 +1,11 @@
 #include "RoguelikeStageEncounterTaskPlugin.h"
 
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
-#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/OCRer.h"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -84,7 +82,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         if (!analyzer.analyze()) {
             return false;
         }
-        special_val = std::stoi(analyzer.get_result().front().text);
+        utils::chars_to_number(analyzer.get_result().front().text, special_val);
     }
 
     int choose_option = process_task(event, special_val);
@@ -103,5 +101,30 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         sleep(300);
     }
 
-    return true;
+    // 判断是否点击成功，成功进入对话后左上角的生命值会消失
+    image = ctrler()->get_image();
+    if (hp(image) == -1) {
+        return true;
+    }
+
+    int max_time = event.option_num;
+    while (max_time > 0) {
+        for (int i = 0; i < max_time; ++i) {
+            for (int j = 0; j < 2; ++j) {
+                ProcessTask(*this, { m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(max_time) +
+                                     "-" + std::to_string(i) })
+                    .run();
+                sleep(300);
+            }
+
+            image = ctrler()->get_image();
+            if (hp(image) == -1) {
+                return true;
+            }
+        }
+        // 没通关结局有些事件会少选项
+        --max_time;
+    }
+
+    return false;
 }

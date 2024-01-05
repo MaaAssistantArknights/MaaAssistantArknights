@@ -1,6 +1,8 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
+#include "Config/TaskData.h"
+#include "Vision/OCRer.h"
 
 namespace asst
 {
@@ -20,11 +22,11 @@ namespace asst
             int num = 0;
             switch (requirement.chaos_level.type) {
             case ">":
-                return utils::chars_to_number<int, true>(requirement.chaos_level.value, num) && special_val > num;
+                return utils::chars_to_number(requirement.chaos_level.value, num) && special_val > num;
             case "<":
-                return utils::chars_to_number<int, true>(requirement.chaos_level.value, num) && special_val < num;
+                return utils::chars_to_number(requirement.chaos_level.value, num) && special_val < num;
             case "=":
-                return utils::chars_to_number<int, true>(requirement.chaos_level.value, num) && special_val == num;
+                return utils::chars_to_number(requirement.chaos_level.value, num) && special_val == num;
             default:
                 return false;
             }
@@ -38,6 +40,20 @@ namespace asst
                 }
             }
             return event.default_choose;
+        }
+
+        static int hp(const cv::Mat& image)
+        {
+            int hp_val = -1;
+            asst::OCRer analyzer(image);
+            analyzer.set_task_info("Roguelike@HpRecognition");
+            analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+            analyzer.set_use_char_model(true);
+
+            if (!analyzer.analyze()) {
+                return 0;
+            }
+            return utils::chars_to_number(analyzer.get_result().front().text, hp_val) ? hp_val : -1;
         }
     };
 }
