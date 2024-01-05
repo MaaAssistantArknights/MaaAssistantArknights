@@ -128,7 +128,7 @@
                 {
                     "name": "伊内丝",
                     "skill": 2,
-                    "recruit_priority": 849,
+                    "recruit_priority": 869,
                     "promote_priority": 830,
                     "is_key": true,
                     "recruit_priority_offsets": [
@@ -140,6 +140,31 @@
                             ],
                             "threshold": 3,
                             "offset": -100
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "锏",
+            "opers": [
+                {
+                    "name": "锏",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 870,
+                    "promote_priority": 959,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 3,
+                            "offset": -150
                         }
                     ]
                 }
@@ -259,24 +284,7 @@
                     ]
                 },
                 {
-                    "name": "锏",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 810,
-                    "promote_priority": 899,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 3,
-                            "offset": -150
-                        }
-                    ]
+                    "name": "锏"
                 },
                 {
                     "name": "山",
@@ -1481,7 +1489,7 @@
                     "skill": 2,
                     "is_key": true,
                     "auto_retreat": 6,
-                    "recruit_priority": 701,
+                    "recruit_priority": 671,
                     "promote_priority": 855,
                     "recruit_priority_offsets": [
                         {
@@ -1489,8 +1497,8 @@
                                 "地面单切",
                                 "史尔特尔"
                             ],
-                            "threshold": 2,
-                            "offset": -200
+                            "threshold": 1,
+                            "offset": -300
                         }
                     ]
                 },
@@ -1500,7 +1508,7 @@
                 {
                     "name": "耀骑士临光",
                     "skill": 2,
-                    "recruit_priority": 770,
+                    "recruit_priority": 670,
                     "promote_priority": 720,
                     "is_key": true,
                     "recruit_priority_offsets": [
@@ -1509,7 +1517,7 @@
                                 "地面单切",
                                 "史尔特尔"
                             ],
-                            "threshold": 2,
+                            "threshold": 1,
                             "offset": -200
                         },
                         {
@@ -2386,6 +2394,9 @@
                     "name": "号角"
                 },
                 {
+                    "name": "锏"
+                },
+                {
                     "name": "海沫"
                 },
                 {
@@ -2445,9 +2456,6 @@
                 },
                 {
                     "name": "斑点"
-                },
-                {
-                    "name": "锏"
                 },
                 {
                     "name": "仇白"
@@ -3324,6 +3332,21 @@
                 },
                 {
                     "name": "幽灵鲨"
+                },
+                {
+                    "name": "泡普卡"
+                },
+                {
+                    "name": "月见夜"
+                },
+                {
+                    "name": "芬"
+                },
+                {
+                    "name": "米格鲁"
+                },
+                {
+                    "name": "卡缇"
                 }
             ]
         },
