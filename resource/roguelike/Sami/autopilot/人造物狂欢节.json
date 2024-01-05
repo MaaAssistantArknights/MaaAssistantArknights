@@ -86,7 +86,7 @@
             ],
             "location": [
                 8,
-                6
+                5
             ],
             "direction": "up"
         },
@@ -119,7 +119,7 @@
                 "盾法"
             ],
             "location": [
-                5,
+                4,
                 4
             ],
             "direction": "left"
