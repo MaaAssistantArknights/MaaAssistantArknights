@@ -688,6 +688,10 @@
                 ""
             ],
             [
+                "'",
+                ""
+            ],
+            [
                 "-2O",
                 "-20"
             ],
@@ -1069,6 +1073,31 @@
             "StageQueue@StartButton1TryAgain"
         ]
     },
+    "SS-OpenOcr": {
+        "Doc": "base_task",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "postDelay": 2000,
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "SS-Open": {
+        "Doc": "base_task",
+        "template": "empty.png",
+        "action": "ClickSelf",
+        "postDelay": 2000,
+        "roi": [
+            505,
+            57,
+            462,
+            628
+        ]
+    },
     "SideStoryStage": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
@@ -1123,19 +1152,11 @@
         ]
     },
     "RS-OpenOcr": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+        "baseTask": "SS-OpenOcr",
         "text": [
             "银心",
             "列车",
             "特快"
-        ],
-        "postDelay": 2000,
-        "roi": [
-            0,
-            500,
-            500,
-            150
         ],
         "next": [
             "RSChapterToRS"
@@ -1144,7 +1165,6 @@
     "RSChapterToRS": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "站台"
         ],
@@ -1156,6 +1176,7 @@
             137
         ],
         "next": [
+            "#self",
             "ChapterSwipeToTheRight"
         ]
     },
@@ -1912,8 +1933,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
-            "FCChapterToFC"
+            "FC-OpenOpt"
         ],
         "next": [
             "FC-5@SideStoryStage",
@@ -1924,8 +1944,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
-            "FCChapterToFC"
+            "FC-OpenOpt"
         ],
         "next": [
             "FC-6@SideStoryStage",
@@ -1936,26 +1955,34 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "FC-Open",
-            "FCChapterToFC"
+            "FC-OpenOpt"
         ],
         "next": [
             "FC-7@SideStoryStage",
             "FC-7@SwipeToStage"
         ]
     },
-    "FC-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
+    "FC-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": [
+            "FC-OpenOcr",
+            "FC-Open"
+        ]
+    },
+    "FC-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
         "text": [
             "照我以火",
             "关卡已开放"
         ],
-        "roi": [
-            0,
-            500,
-            500,
-            150
+        "next": [
+            "FCChapterToFC"
+        ]
+    },
+    "FC-Open": {
+        "baseTask": "SS-Open",
+        "next": [
+            "FCChapterToFC"
         ]
     },
     "FCChapterToFC": {
@@ -1972,7 +1999,7 @@
         ],
         "postDelay": 2000,
         "next": [
-            "FCChapterToFC",
+            "#self",
             "ChapterSwipeToTheRight"
         ]
     },
@@ -2016,13 +2043,7 @@
         ]
     },
     "IS-Open": {
-        "action": "ClickSelf",
-        "roi": [
-            476,
-            0,
-            502,
-            720
-        ],
+        "baseTask": "SS-Open",
         "sub": [
             "EnterChapterIS"
         ],
@@ -2032,14 +2053,7 @@
         ]
     },
     "IS-OpenOcr": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ],
+        "baseTask": "SS-OpenOcr",
         "text": [
             "叙拉古人",
             "复刻"
@@ -4618,7 +4632,7 @@
         "roi": [
             50,
             376,
-            230,
+            250,
             40
         ],
         "preDelay": 3000,
@@ -10817,7 +10831,9 @@
         ]
     },
     "RoguelikeSettlementOcr-Exp": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
         "roi": [
             643,
             525,
@@ -10875,9 +10891,7 @@
         ]
     },
     "RoguelikeSettlementOcr-Step": {
-        "algorithm": "OcrDetect",
-        "isAscii": true,
-        "text": [],
+        "baseTask": "NumberOcrReplace",
         "roi": [
             102,
             238,
@@ -12124,21 +12138,6 @@
             "Roguelike@Stages#next"
         ]
     },
-    "Roguelike@StageEncounterClickToLeave": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            600,
-            600,
-            50,
-            50
-        ],
-        "next": [
-            "Roguelike@StageEncounterOptions#next",
-            "Roguelike@Stages#next",
-            "Roguelike@StageEncounterClickToLeave"
-        ]
-    },
     "Roguelike@StageEncounterEnter": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -12198,8 +12197,7 @@
         "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
         "next": [
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@Stages#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@Stages#next"
         ]
     },
     "Roguelike@StageEncounterLeaveConfirm": {
@@ -12362,7 +12360,7 @@
             "Roguelike@StageVerticalConfirmSafeHouse",
             "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@StageTrader": {
@@ -12666,16 +12664,14 @@
         "template": "Roguelike@StageVerticalConfirm.png",
         "next": [
             "Roguelike@StageSafeHouseEnter",
-            "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@StageVerticalConfirmTrader": {
         "template": "Roguelike@StageVerticalConfirm.png",
         "baseTask": "Roguelike@StageVerticalConfirm",
         "next": [
-            "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
@@ -12799,7 +12795,6 @@
     },
     "Roguelike@TraderRandomShopping": {
         "Doc": "该任务注册了 RoguelikeShoppingTaskPlugin，若是点完了仍在当前界面，说明没啥要买的，直接离开商店（next 里的 PhantomStageTraderLeave）",
-        "action": "ClickSelf",
         "templThreshold": 0.7,
         "cache": false,
         "roi": [
@@ -13177,6 +13172,10 @@
             ]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Phantom@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "text": [
             "_default",
@@ -13231,18 +13230,6 @@
     },
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
-    "Mizuki@Roguelike@ChooseDifficulty0": {
-        "baseTask": "Roguelike@ChooseDifficulty",
-        "roi": [
-            1064,
-            294,
-            216,
-            170
-        ],
-        "next": [
-            "Roguelike@StartExplore"
-        ]
-    },
     "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
         "specificRect": [
@@ -13894,6 +13881,10 @@
             ]
         ]
     },
+    "Mizuki@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Mizuki@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "text": [
             "_default",
@@ -13934,7 +13925,21 @@
     "Mizuki@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
-    "Sami@Roguelike@Abandon": {},
+    "Sami@Roguelike@Abandon": {
+        "template": [
+            "Sami@Roguelike@Abandon.png",
+            "Sami@Roguelike@AbandonPushDoor.png"
+        ],
+        "crop_doc": {
+            "roi": [
+                1112,
+                268,
+                53,
+                52
+            ],
+            "mask": []
+        }
+    },
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [
             1064,
@@ -14176,6 +14181,7 @@
             46
         ],
         "text": [
+            "_布局_",
             "黜人",
             "猎手",
             "战士",
@@ -14194,25 +14200,31 @@
             "灌木",
             "兽类",
             "人类",
+            "到来",
+            "离去",
             "伤痕",
+            "_本因_",
             "歌唱",
             "沉默",
             "朗诵",
             "辩论",
             "慰藉",
             "告解",
+            "呼救",
             "喜悦",
             "惊讶",
             "愤怒",
             "疑惑",
             "憧憬",
             "爱恋",
+            "满足",
             "巡视",
             "筑巢",
             "捕猎",
-            "繁衍",
             "掠夺",
+            "繁衍",
             "迁徙",
+            "歇息",
             "空无"
         ],
         "ocrReplace": [
@@ -14601,13 +14613,6 @@
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@Stages#next"
-        ]
-    },
-    "Sami@Roguelike@StageEncounterClickToLeave": {
-        "next": [
-            "Sami@Roguelike@StageEncounterOptions#next",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@StageEncounterClickToLeave"
         ]
     },
     "Sami@Roguelike@StageEncounterEnter": {},
@@ -15197,6 +15202,10 @@
                 "_SKIP_"
             ]
         ]
+    },
+    "Sami@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Sami@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "text": [

@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using GlobalHotKey;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
@@ -35,7 +36,6 @@ using Serilog.Core;
 using Stylet;
 using StyletIoC;
 using Windows.UI.Notifications;
-using MaaWpfGui.Configuration;
 
 namespace MaaWpfGui.Main
 {

@@ -52,7 +52,9 @@
     "HE-Open": {
         "text": [
             "Hortus",
-            "Escapismo"
+            "Escapismo",
+            "Sacrarium",
+            "Derelictum"
         ]
     },
     "HEChapterToHE": {
@@ -139,7 +141,7 @@
             159
         ]
     },
-    "FC-Open": {
+    "FC-OpenOcr": {
         "text": [
             "Event <What the Firelight Casts> is now",
             "open"
@@ -192,8 +194,16 @@
     },
     "LE-Open": {
         "text": [
-            "Rerun",
-            "open"
+            "Lingering Echoes",
+            "Lingering",
+            "Echoes"
+        ]
+    },
+    "LEChapterToLE": {
+        "text": [
+            "Afterglow Hall",
+            "Afterglow",
+            "Hall"
         ]
     },
     "SN-Open": {
@@ -4754,6 +4764,10 @@
                 "“童趣玩偶”"
             ],
             [
+                "Coin *-* *Operated Toy",
+                "Coin-Operated Toy"
+            ],
+            [
                 "Coin-Operated Toy",
                 "投币玩具"
             ],
@@ -5350,8 +5364,16 @@
                 "铁卫-临时要塞"
             ],
             [
+                "Convalescence Experience.*",
+                "Convalescence Experience Card"
+            ],
+            [
                 "Convalescence Experience Card",
                 "疗养体验卡"
+            ],
+            [
+                "Convalescence Prime.*",
+                "Convalescence Prime Membership"
             ],
             [
                 "Convalescence Prime Membership",
@@ -5586,23 +5608,23 @@
                 "刻勋之手"
             ],
             [
-                "Iron Guard - Wall",
+                "Iron Guard *-* *Wall",
                 "铁卫-城墙"
             ],
             [
-                "Iron Guard - Tower",
+                "Iron Guard *-* *Tower",
                 "铁卫-高塔"
             ],
             [
-                "Broken Wand - Solving",
+                "Broken Wand *-* *Solving",
                 "断杖-破解"
             ],
             [
-                "Broken Wand - Light of Wisdom",
+                "Broken Wand *-* *Light of Wisdom",
                 "断杖-智慧之光"
             ],
             [
-                "Broken Wand - Learning",
+                "Broken Wand *-* *Learning",
                 "断杖-学识"
             ],
             [
@@ -6106,8 +6128,8 @@
     },
     "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
         "text": [
-            "Used up rereshes for this",
-            "Used up rereshes",
+            "Used up refreshes for this",
+            "Used up refreshes",
             "for this",
             "for this shop"
         ]

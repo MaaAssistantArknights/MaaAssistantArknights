@@ -1,25 +1,14 @@
-## v4.28.4
-
-### 新增 | New
-
-- Hortus de Escapismo navigation @David
-
-### 改进 | Improved
-
-- 调整自动战斗-战斗列表提示文本中关于批量导入突袭关的说明 @status102
-- 勾选碎石时，如未勾选的理智液则也设为单次生效 @ABA2396
+## v4.28.7
 
 ### 修复 | Fix
 
-- GUI窗口较小时，关卡信息提示滚动显示不完全 @ABA2396
-- 修复刷理智-SS复刻模式下无法使用理智药 @status102
-- 无法检测公告更新 @ABA2396
-- 修复部分情况下错误替换肉鸽结算中难度识别的文本 (#7691) @status102
-- Friston-3 Iris regex @Constrat
+- 修复萨米肉鸽主界面“推开门扉之人”无法放弃探索的问题 @zzyyyl
+- Hortus de Escapismo EX navigation @Constrat
 
 ### 其他 | Other
 
-- 账号切换 取消B服客户端检测流程 (#7657) @status102
-- 添加一份保全作业 (#7730) @Saratoga-Official
-- 优化CopilotTask参数设置 (#7631) @status102
-- 修改保全作业缩进 @status102
+- 4.x版本解压时备份当前exe为MAA_win7.exe @ABA2396
+- 添加 未能加载文件或程序集 System.Net.Http 的报错解决方案 @ABA2396
+- 将基建排班制作器链接改为文档链接 @ABA2396
+- 修改文档中的基建排班制作器链接 @ABA2396
+- Remove YoStarJP Annihilation template (#7819) @Manicsteiner

@@ -1080,13 +1080,31 @@ namespace MaaWpfGui.ViewModels.UI
                 _logger.Information("Start emulator error, try to start using the default: \n" +
                     "EmulatorPath: " + EmulatorPath + "\n" +
                     "EmulatorAddCommand: " + EmulatorAddCommand);
-                if (EmulatorAddCommand.Length != 0)
+                try
                 {
-                    Process.Start(EmulatorPath);
+                    if (EmulatorAddCommand.Length != 0)
+                    {
+                        Process.Start(EmulatorPath);
+                    }
+                    else
+                    {
+                        Process.Start(EmulatorPath, EmulatorAddCommand);
+                    }
                 }
-                else
+                catch (Exception e)
                 {
-                    Process.Start(EmulatorPath, EmulatorAddCommand);
+                    if (e is Win32Exception win32Exception && win32Exception.NativeErrorCode == 740)
+                    {
+                        Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
+                            LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
+
+                        _logger.Warning("Insufficient permissions to start the emulator:\n" +
+                            "EmulatorPath: " + EmulatorPath + "\n");
+                    }
+                    else
+                    {
+                        _logger.Warning("Emulator start failed with error: " + e.Message);
+                    }
                 }
             }
 

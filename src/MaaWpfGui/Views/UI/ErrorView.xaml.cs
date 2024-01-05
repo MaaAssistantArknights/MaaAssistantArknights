@@ -84,7 +84,8 @@ namespace MaaWpfGui.Views.UI
             if (details.Contains("AsstGetVersion()") ||
                 details.Contains("DllNotFoundException") ||
                 details.Contains("lambda_method") ||
-                details.Contains("HandyControl"))
+                details.Contains("HandyControl") ||
+                (details.Contains("System.Net.Http") && details.Contains("Version")))
             {
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }

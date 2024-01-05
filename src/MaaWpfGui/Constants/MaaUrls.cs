@@ -39,8 +39,6 @@ namespace MaaWpfGui.Constants
 
         public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
-        public const string CustomInfrastGenerator = "https://yituliu.site/tools/maa";
-
         public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
 
         public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
@@ -54,15 +52,22 @@ namespace MaaWpfGui.Constants
 
         private static string Language => ConfigFactory.CurrentConfig.GUI.Localization;
 
-        public static string HelpUri => $"https://maa.plus/docs/{_helpUrl[Language]}";
+        public static string HelpUri => $"{MaaDocs}/{_helpUrl[Language]}";
 
-        public static string OverseasAdaptation => $"https://maa.plus/docs/{_overseasAdaptation[Language]}";
+        public static string OverseasAdaptation => $"{MaaDocs}/{_overseasAdaptation[Language]}";
+
+        public static string CustomInfrastGenerator => $"{MaaDocs}/{_customInfrastGenerator[Language]}";
+
+        // TODO: Add more languages
+        public static readonly string RemoteControlDocument = $"{MaaDocs}/协议文档/远程控制协议.html";
 
         public static string NewIssueUri => Language switch
         {
             "zh-cn" => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=cn-bug-report.yaml",
             _ => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=en-bug-report.yaml",
         };
+
+        private const string MaaDocs = "https://maa.plus/docs";
 
         private static readonly Dictionary<string, string> _overseasAdaptation = new Dictionary<string, string>
         {
@@ -84,6 +89,14 @@ namespace MaaWpfGui.Constants
             { "pallas", "KeepDrinking.html" },
         };
 
-        public const string RemoteControlDocument = "https://maa.plus/docs/协议文档/远程控制协议.html";
+        private static readonly Dictionary<string, string> _customInfrastGenerator = new Dictionary<string, string>
+        {
+            { "zh-cn", "协议文档/基建排班协议.html" },
+            { "en-us", "en-us/3.6-INFRASTRUCTURE_SCHEDULING_SCHEMA.html" },
+            { "ja-jp", "ja-jp/3.6-インフラスケジュール設定.html" },
+            { "ko-kr", "ko-kr/3.6-기반시설_예약_스키마.html" },
+            { "zh-tw", "zh-tw/3.6-基建排班協議.html" },
+            { "pallas", "KeepDrinking.html" },
+        };
     }
 }

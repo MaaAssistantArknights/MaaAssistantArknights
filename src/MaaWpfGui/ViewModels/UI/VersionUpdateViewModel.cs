@@ -222,26 +222,16 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            static void DeleteFileWithBackup(string filePath)
+            // 如果是 Framework48，把 MAA.exe 复制一份，重命名为 MAA_win7.exe
+            if (RuntimeInformation.FrameworkDescription.Contains("Framework"))
             {
-                try
-                {
-                    File.Delete(filePath);
-                }
-                catch (Exception)
-                {
-                    int index = 0;
-                    string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
-                    string backupFilePath = $"{filePath}.{currentDate}.{index}";
+                File.Copy(Path.Combine(curDir, "MAA.exe"), Path.Combine(curDir, "MAA_win7.exe"), true);
+                string batFileContent = "@echo off\n" +
+                                        "ren MAA.exe MAA_v5.exe\n" +
+                                        "start \"\" .\\MAA_win7.exe";
 
-                    while (File.Exists(backupFilePath))
-                    {
-                        index++;
-                        backupFilePath = $"{filePath}.{currentDate}.{index}";
-                    }
-
-                    File.Move(filePath, backupFilePath);
-                }
+                // 将内容写入.bat文件
+                File.WriteAllText("启动旧版.cmd", batFileContent);
             }
 
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
@@ -325,6 +315,28 @@ namespace MaaWpfGui.ViewModels.UI
             Application.Current.Shutdown();
 
             return true;
+
+            static void DeleteFileWithBackup(string filePath)
+            {
+                try
+                {
+                    File.Delete(filePath);
+                }
+                catch (Exception)
+                {
+                    int index = 0;
+                    string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
+                    string backupFilePath = $"{filePath}.{currentDate}.{index}";
+
+                    while (File.Exists(backupFilePath))
+                    {
+                        index++;
+                        backupFilePath = $"{filePath}.{currentDate}.{index}";
+                    }
+
+                    File.Move(filePath, backupFilePath);
+                }
+            }
         }
 
         public enum CheckUpdateRetT
@@ -474,7 +486,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
-                    });
+                    }
+                );
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
@@ -890,13 +903,13 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        private bool IsDebugVersion(string version = null)
+        public bool IsDebugVersion(string version = null)
         {
             version ??= _curVersion;
             return version.Contains("DEBUG");
         }
 
-        private bool IsStdVersion(string version = null)
+        public bool IsStdVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
@@ -911,23 +924,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return false;
             }
-            else if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
-            {
-                return false;
-            }
-            else if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
-            {
-                return false;
-            }
-            else if (IsNightlyVersion(semVersion))
+
+            if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
             {
                 return false;
             }
 
-            return true;
+            if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
+            {
+                return false;
+            }
+
+            return !IsNightlyVersion(semVersion);
         }
 
-        private static bool IsNightlyVersion(SemVersion version)
+        public static bool IsNightlyVersion(SemVersion version)
         {
             if (!version.IsPrerelease)
             {

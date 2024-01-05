@@ -369,7 +369,7 @@ namespace MaaWpfGui.ViewModels.UI
                 // "ReclamationAlgorithm",
             };
             var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 06))
+            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 16))
             {
                 taskList.Add("ReclamationAlgorithm");
             }
@@ -852,6 +852,15 @@ namespace MaaWpfGui.ViewModels.UI
             InfrastTaskRunning = true;
 
             ClearLog();
+
+            var uiVersion = SettingsViewModel.UiVersion;
+            var coreVersion = SettingsViewModel.CoreVersion;
+            if (uiVersion != coreVersion &&
+                Instances.VersionUpdateViewModel.IsStdVersion(uiVersion) &&
+                Instances.VersionUpdateViewModel.IsStdVersion(coreVersion))
+            {
+                AddLog(string.Format(LocalizationHelper.GetString("VersionMismatch"), uiVersion, coreVersion), UiLogColor.Warning);
+            }
 
             await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript"));
 

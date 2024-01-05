@@ -458,33 +458,50 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "FastestWayToScreencap":
-                    string costString = details["details"]?["cost"]?.ToString() ?? "???";
-                    string method = details["details"]?["method"]?.ToString() ?? "???";
+                    {
+                        string costString = details["details"]?["cost"]?.ToString() ?? "???";
+                        string method = details["details"]?["method"]?.ToString() ?? "???";
 
-                    StringBuilder fastestScreencapStringBuilder = new StringBuilder();
-                    string color = UiLogColor.Trace;
-                    if (!int.TryParse(costString, out var timeCost))
-                    {
-                        color = UiLogColor.Error;
-                    }
-                    else if (timeCost > 800)
-                    {
-                        color = UiLogColor.Error;
-                        fastestScreencapStringBuilder.AppendLine().Append(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"));
-                        costString = timeCost.ToString("#,#");
-                    }
-                    else if (timeCost > 400)
-                    {
-                        color = UiLogColor.Warning;
-                        fastestScreencapStringBuilder.AppendLine().Append(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"));
+                        StringBuilder fastestScreencapStringBuilder = new();
+                        string color = UiLogColor.Trace;
+                        if (!int.TryParse(costString, out var timeCost))
+                        {
+                            color = UiLogColor.Error;
+                        }
+                        else if (timeCost > 800)
+                        {
+                            color = UiLogColor.Error;
+                            costString = timeCost.ToString("#,#");
+                        }
+                        else if (timeCost > 400)
+                        {
+                            color = UiLogColor.Warning;
+                        }
+
+                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
+                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
                     }
 
-                    fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
-                    Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                    Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
                     break;
                 case "ScreencapCost":
                     Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
+                    if (HasPrintedScreencapWarning || !int.TryParse(details["details"]?["avg"]?.ToString() ?? "???", out var screencapCostAvg))
+                    {
+                    }
+                    else if (screencapCostAvg >= 800)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
+                        HasPrintedScreencapWarning = true;
+                    }
+                    else if (screencapCostAvg >= 400)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
+                        HasPrintedScreencapWarning = true;
+                    }
+
                     break;
             }
         }
@@ -556,7 +573,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
                     {
                         "Fight" => true,
-                        _ => Instances.TaskQueueViewModel.FightTaskRunning
+                        _ => Instances.TaskQueueViewModel.FightTaskRunning,
                     };
 
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
@@ -589,7 +606,7 @@ namespace MaaWpfGui.Main
 
                     if (taskChain == "Fight" && SanityReport.HasSanityReport)
                     {
-                        var sanityLog = "\n" + LocalizationHelper.GetString("CurrentSanity") + $" {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}";
+                        var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
                     }
                     else
@@ -832,23 +849,28 @@ namespace MaaWpfGui.Main
                         {
                             case "StartButton2":
                             case "AnnihilationConfirm":
-                                var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}\n";
+                                StringBuilder missionStartLogBuilder = new();
+                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}");
                                 if (SanityReport.HasSanityReport)
                                 {
-                                    log += $"{LocalizationHelper.GetString("CurrentSanity")} {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
                                 }
 
-                                if (MedicineUsedTimes > 0 || ExpiringMedicineUsedTimes > 0)
+                                if (ExpiringMedicineUsedTimes > 0)
                                 {
-                                    log += $"{LocalizationHelper.GetString("MedicineUsedTimes")} {MedicineUsedTimes}" + (ExpiringMedicineUsedTimes > 0 ? $"({ExpiringMedicineUsedTimes})" : string.Empty) + "  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("MedicineUsedTimesWithExpiring"), MedicineUsedTimes, ExpiringMedicineUsedTimes);
+                                }
+                                else if (MedicineUsedTimes > 0)
+                                {
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("MedicineUsedTimes"), MedicineUsedTimes);
                                 }
 
                                 if (StoneUsedTimes > 0)
                                 {
-                                    log += $"{LocalizationHelper.GetString("StoneUsedTimes")} {StoneUsedTimes}  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("StoneUsedTimes"), StoneUsedTimes);
                                 }
 
-                                Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
+                                Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd(), UiLogColor.Info);
                                 break;
 
                             case "StoneConfirm":
