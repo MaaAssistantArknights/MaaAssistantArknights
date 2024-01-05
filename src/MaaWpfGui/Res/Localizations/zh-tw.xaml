@@ -288,6 +288,7 @@
 可在關卡結尾輸入「Normal/Hard」表示需要切換標準與磨難難度
 可輸入「SSReopen-XX」一次性代理SS複刻的普通關</system:String>
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">該連接配置不支援自動檢測連接，請嘗試手動填寫端口號</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
     <system:String x:Key="AccountSwitch">賬號切換</system:String>

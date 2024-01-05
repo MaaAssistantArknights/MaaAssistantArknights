@@ -288,6 +288,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
 At the end of the level, enter 「Normal/Hard」 to switch between Standard and Adverse environment
 Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">Automatic connection detection is not supported for this configuration, please try manually entering the port number</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
