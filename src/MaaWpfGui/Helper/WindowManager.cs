@@ -150,10 +150,11 @@ namespace MaaWpfGui.Helper
         public bool ForceShow(Window window)
         {
             WindowPlacement wp = default;
-            return SetWindowPlacement(window, ref wp);
+            var result = SetWindowPlacement(window, ref wp, true);
+            return result;
         }
 
-        private bool SetWindowPlacement(WindowHandle window, ref WindowPlacement wp)
+        private bool SetWindowPlacement(WindowHandle window, ref WindowPlacement wp, bool force = false)
         {
             try
             {
@@ -164,7 +165,7 @@ namespace MaaWpfGui.Helper
                 wp.Flags = 0;
 
                 // wp.ShowCmd = wp.ShowCmd == SwShowminimized ? SwShownormal : wp.ShowCmd;
-                wp.ShowCmd = _minimizeDirectly ? SwShowminimized : SwShownormal;
+                wp.ShowCmd = !_minimizeDirectly || force ? SwShownormal : SwShowminimized;
                 return SetWindowPlacement(window.Handle, ref wp);
             }
             catch
