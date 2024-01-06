@@ -51,9 +51,9 @@ namespace asst
             analyzer.set_use_char_model(true);
 
             if (!analyzer.analyze()) {
-                return 0;
+                return -1;
             }
-            return utils::chars_to_number(analyzer.get_result().front().text, hp_val) ? hp_val : -1;
+            return utils::chars_to_number(analyzer.get_result().front().text, hp_val) ? hp_val : 0;
         }
     };
 }

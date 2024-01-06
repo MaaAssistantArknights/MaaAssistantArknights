@@ -103,13 +103,14 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     image = ctrler()->get_image();
-    if (hp(image) == -1) {
+    if (hp(image) <= 0) {
         return true;
     }
 
     int max_time = event.option_num;
     while (max_time > 0) {
-        for (int i = 0; i < max_time; ++i) {
+        // 从下往上点
+        for (int i = max_time; i > 0; --i) {
             for (int j = 0; j < 2; ++j) {
                 ProcessTask(*this, { m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(max_time) +
                                      "-" + std::to_string(i) })
@@ -118,7 +119,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
             }
 
             image = ctrler()->get_image();
-            if (hp(image) == -1) {
+            if (hp(image) <= 0) {
                 return true;
             }
         }
