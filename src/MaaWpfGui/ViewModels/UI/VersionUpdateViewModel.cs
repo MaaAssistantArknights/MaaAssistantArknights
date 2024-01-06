@@ -226,13 +226,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (RuntimeInformation.FrameworkDescription.Contains("Framework"))
             {
                 File.Copy(System.Windows.Forms.Application.ExecutablePath, Path.Combine(curDir, "MAA_win7.exe"), true);
-                const string CmdFileContent = """
-                                              @echo off
-                                              if exist MAA.exe (
-                                                  ren MAA.exe MAA_v5.exe
-                                              )
-                                              start "" .\MAA_win7.exe
-                                              """;
+                const string CmdFileContent = "@echo off\r\nif exist MAA.exe (\r\n    ren MAA.exe MAA_v5.exe\r\n)\r\nstart \"\" .\\MAA_win7.exe";
                 File.WriteAllText("启动旧版.cmd", CmdFileContent);
             }
 
