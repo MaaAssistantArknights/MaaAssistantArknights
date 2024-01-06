@@ -153,7 +153,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 870,
-                    "promote_priority": 959,
+                    "promote_priority": 997,
                     "is_start": true,
                     "is_key": true,
                     "recruit_priority_offsets": [
@@ -311,7 +311,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 705,
-                    "promote_priority": 899,
+                    "promote_priority": 840,
                     "is_start": true,
                     "is_key": true,
                     "recruit_priority_offsets": [
@@ -331,7 +331,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 605,
-                    "promote_priority": 980,
+                    "promote_priority": 950,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -455,7 +455,7 @@
                     "name": "归溟幽灵鲨",
                     "skill": 2,
                     "recruit_priority": 570,
-                    "promote_priority": 600,
+                    "promote_priority": 601,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1126,7 +1126,7 @@
                     "skill": 1,
                     "is_key": true,
                     "recruit_priority": 799,
-                    "promote_priority": 590,
+                    "promote_priority": 601,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1472,7 +1472,7 @@
                     "alternate_skill": 2,
                     "auto_retreat": 8,
                     "recruit_priority": 750,
-                    "promote_priority": 861,
+                    "promote_priority": 821,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1490,7 +1490,7 @@
                     "is_key": true,
                     "auto_retreat": 6,
                     "recruit_priority": 671,
-                    "promote_priority": 855,
+                    "promote_priority": 815,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1618,7 +1618,7 @@
                     "skill": 2,
                     "is_key": true,
                     "recruit_priority": 727,
-                    "promote_priority": 710,
+                    "promote_priority": 740,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1656,7 +1656,7 @@
                     "name": "白面鸮",
                     "skill": 2,
                     "recruit_priority": 710,
-                    "promote_priority": 406,
+                    "promote_priority": 506,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -2047,7 +2047,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
-                    "recruit_priority": 635,
+                    "recruit_priority": 641,
                     "promote_priority": 810,
                     "recruit_priority_offsets": [
                         {
@@ -2076,6 +2076,19 @@
                     ]
                 },
                 {
+                    "name": "刻俄柏",
+                    "skill": 2,
+                    "recruit_priority": 439,
+                    "promote_priority": 680
+                },
+                {
+                    "name": "异客",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 359,
+                    "promote_priority": 780
+                },
+                {
                     "name": "莫斯提马",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2097,13 +2110,6 @@
                     "alternate_skill": 2,
                     "recruit_priority": 355,
                     "promote_priority": 588
-                },
-                {
-                    "name": "异客",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 359,
-                    "promote_priority": 780
                 },
                 {
                     "name": "黑键",
@@ -2269,15 +2275,15 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
-                    "recruit_priority": 526,
-                    "promote_priority": 402
+                    "recruit_priority": 586,
+                    "promote_priority": 612
                 },
                 {
                     "name": "灵知",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 533,
-                    "promote_priority": 690
+                    "recruit_priority": 526,
+                    "promote_priority": 602
                 },
                 {
                     "name": "安洁莉娜",
