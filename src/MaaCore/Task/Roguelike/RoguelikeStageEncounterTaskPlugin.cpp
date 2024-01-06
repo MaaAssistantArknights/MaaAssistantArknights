@@ -85,6 +85,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         utils::chars_to_number(analyzer.get_result().front().text, special_val);
     }
 
+    // 现在只有抗干扰值判断
     int choose_option = process_task(event, special_val);
     Log.info("Event:", event.name, "special_val", special_val, "choose option", choose_option);
 

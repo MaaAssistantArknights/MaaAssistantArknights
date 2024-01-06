@@ -19,16 +19,18 @@ namespace asst
         virtual bool _run() override;
         static bool satisfies_condition(const asst::ChoiceRequire& requirement, const int special_val)
         {
-            int num = 0;
-            switch (requirement.chaos_level.type) {
-            case ComparisonType::GreaterThan:
-                return utils::chars_to_number(requirement.chaos_level.value, num) && special_val > num;
-            case ComparisonType::LessThan:
-                return utils::chars_to_number(requirement.chaos_level.value, num) && special_val < num;
-            case ComparisonType::Equal:
-                return utils::chars_to_number(requirement.chaos_level.value, num) && special_val == num;
-            case ComparisonType::Unsupported:
-                return false;
+            if (requirement.vision.type != ComparisonType::Unsupported) {
+                int num = 0;
+                switch (requirement.vision.type) {
+                case ComparisonType::GreaterThan:
+                    return utils::chars_to_number(requirement.vision.value, num) && special_val > num;
+                case ComparisonType::LessThan:
+                    return utils::chars_to_number(requirement.vision.value, num) && special_val < num;
+                case ComparisonType::Equal:
+                    return utils::chars_to_number(requirement.vision.value, num) && special_val == num;
+                case ComparisonType::Unsupported:
+                    return false;
+                }
             }
             return false;
         }
