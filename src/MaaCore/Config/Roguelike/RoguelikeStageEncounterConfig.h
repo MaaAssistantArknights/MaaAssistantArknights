@@ -8,10 +8,18 @@
 
 namespace asst
 {
+    enum class ComparisonType
+    {
+        GreaterThan,
+        LessThan,
+        Equal,
+        Unsupported
+    };
+
     struct ChaosLevel
     {
         std::string value;
-        std::string type; // '>' or '<' or '=' 其他的还不支持
+        ComparisonType type = ComparisonType::Unsupported;
     };
     struct ChoiceRequire
     {
@@ -37,6 +45,18 @@ namespace asst
 
     private:
         virtual bool parse(const json::value& json) override;
+
+        static ComparisonType parse_comparison_type(const std::string& type_str)
+        {
+            if (type_str == ">")
+                return ComparisonType::GreaterThan;
+            if (type_str == "<")
+                return ComparisonType::LessThan;
+            if (type_str == "=")
+                return ComparisonType::Equal;
+
+            return ComparisonType::Unsupported;
+        }
 
         std::unordered_map<std::string, std::vector<RoguelikeEvent>> m_events;
     };
