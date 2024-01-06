@@ -21,13 +21,14 @@ namespace asst
         {
             int num = 0;
             switch (requirement.chaos_level.type) {
-            case ">":
+            case ComparisonType::GreaterThan:
                 return utils::chars_to_number(requirement.chaos_level.value, num) && special_val > num;
-            case "<":
+            case ComparisonType::LessThan:
                 return utils::chars_to_number(requirement.chaos_level.value, num) && special_val < num;
-            case "=":
+            case ComparisonType::Equal:
                 return utils::chars_to_number(requirement.chaos_level.value, num) && special_val == num;
-            default:
+            case ComparisonType::Unsupported:
+            case default:
                 return false;
             }
         }
