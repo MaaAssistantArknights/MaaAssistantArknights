@@ -28,9 +28,9 @@ namespace asst
             case ComparisonType::Equal:
                 return utils::chars_to_number(requirement.chaos_level.value, num) && special_val == num;
             case ComparisonType::Unsupported:
-            default:
                 return false;
             }
+            return false;
         }
 
         static int process_task(const asst::RoguelikeEvent& event, const int special_val)
