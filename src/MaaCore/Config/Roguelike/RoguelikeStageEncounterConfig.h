@@ -16,7 +16,7 @@ namespace asst
         Unsupported
     };
 
-    struct ChaosLevel
+    struct Vision
     {
         std::string value;
         ComparisonType type = ComparisonType::Unsupported;
@@ -24,7 +24,7 @@ namespace asst
     struct ChoiceRequire
     {
         std::string name;
-        ChaosLevel chaos_level;
+        Vision vision;
         int choose = -1;
     };
     struct RoguelikeEvent
