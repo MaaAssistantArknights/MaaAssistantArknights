@@ -118,6 +118,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
                 sleep(300);
             }
 
+            if (need_exit()) {
+                return false;
+            }
+
             image = ctrler()->get_image();
             if (hp(image) <= 0) {
                 return true;
