@@ -75,7 +75,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     // 水月的不好识别，先试试萨米能不能用
     if (m_config->get_theme() == RoguelikeTheme::Sami) {
         OCRer analyzer(image);
-        analyzer.set_task_info(m_config->get_theme() + "Roguelike@SpecialValRecognition");
+        analyzer.set_task_info(m_config->get_theme() + "@Roguelike@SpecialValRecognition");
         analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
         analyzer.set_use_char_model(true);
 
@@ -92,13 +92,14 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     auto info = basic_info_with_what("RoguelikeEvent");
     info["details"]["name"] = event.name;
     info["details"]["default_choose"] = event.default_choose;
-    info["details"]["special_val"] = special_val;
-    info["details"]["choose"] = choose_option;
     callback(AsstMsg::SubTaskExtraInfo, info);
+
+    const auto click_option_task_name = [&](int item, int total) {
+        return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-" + std::to_string(item);
+    };
+
     for (int j = 0; j < 2; ++j) {
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(event.option_num) +
-                             "-" + std::to_string(choose_option) })
-            .run();
+        ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
 
@@ -113,9 +114,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         // 从下往上点
         for (int i = max_time; i > 0; --i) {
             for (int j = 0; j < 2; ++j) {
-                ProcessTask(*this, { m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(max_time) +
-                                     "-" + std::to_string(i) })
-                    .run();
+                ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
             }
 

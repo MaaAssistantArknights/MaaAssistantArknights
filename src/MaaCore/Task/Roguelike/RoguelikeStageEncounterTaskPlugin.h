@@ -17,7 +17,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
-        static bool satisfies_condition(const asst::ChoiceRequire& requirement, const int special_val)
+        static bool satisfies_condition(const asst::ChoiceRequire& requirement, int special_val)
         {
             if (requirement.vision.type != ComparisonType::Unsupported) {
                 int num = 0;
@@ -38,8 +38,9 @@ namespace asst
         static int process_task(const asst::RoguelikeEvent& event, const int special_val)
         {
             for (const auto& requirement : event.choice_require) {
+                if (requirement.choose == -1) continue;
                 if (satisfies_condition(requirement, special_val)) {
-                    return requirement.choose == -1 ? event.default_choose : requirement.choose;
+                    return requirement.choose;
                 }
             }
             return event.default_choose;
