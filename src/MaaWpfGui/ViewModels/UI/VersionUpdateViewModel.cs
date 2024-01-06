@@ -225,13 +225,15 @@ namespace MaaWpfGui.ViewModels.UI
             // 如果是 Framework48，把 MAA.exe 复制一份，重命名为 MAA_win7.exe
             if (RuntimeInformation.FrameworkDescription.Contains("Framework"))
             {
-                File.Copy(Path.Combine(curDir, "MAA.exe"), Path.Combine(curDir, "MAA_win7.exe"), true);
-                string batFileContent = "@echo off\n" +
-                                        "ren MAA.exe MAA_v5.exe\n" +
-                                        "start \"\" .\\MAA_win7.exe";
-
-                // 将内容写入.bat文件
-                File.WriteAllText("启动旧版.cmd", batFileContent);
+                File.Copy(System.Windows.Forms.Application.ExecutablePath, Path.Combine(curDir, "MAA_win7.exe"), true);
+                const string CmdFileContent = """
+                                              @echo off
+                                              if exist MAA.exe (
+                                                  ren MAA.exe MAA_v5.exe
+                                              )
+                                              start "" .\MAA_win7.exe
+                                              """;
+                File.WriteAllText("启动旧版.cmd", CmdFileContent);
             }
 
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
@@ -307,11 +309,7 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.Release();
 
             // 重启进程（启动的是更新后的程序了）
-            var newProcess = new Process();
-            newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
-            newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
-            newProcess.Start();
-            Application.Current.Shutdown();
+            Bootstrapper.ShutdownAndRestartWithOutArgs();
 
             return true;
 
