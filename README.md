@@ -64,7 +64,7 @@ MAA 的意思是 MAA Assistant Arknights
 ### 基本说明
 
 1. 请根据 [模拟器和设备支持情况](https://maa.plus/docs/用户手册/模拟器和设备支持)，进行对应的操作；
-2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，更高不限；<br>
+2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，最高 `2K`；<br>
    对于国际服（美服）玩家，由于界面布局、字号等问题，我们则建议您将分辨率修改为 `1920 * 1080`；
 3. 开始使用吧！
 
@@ -123,7 +123,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
 3. VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
 4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
-5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/开发文档/开发相关.html#在-visual-studio-中启用-clang-format)
+5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/开发文档/开始开发.html#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 

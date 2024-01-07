@@ -222,7 +222,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            File.Copy(Path.Combine(curDir, "MAA.exe"), Path.Combine(curDir, "MAA_win7.exe"), true);
+            // 如果是 Framework48，把 MAA.exe 复制一份，重命名为 MAA_win7.exe
+            if (RuntimeInformation.FrameworkDescription.Contains("Framework"))
+            {
+                File.Copy(System.Windows.Forms.Application.ExecutablePath, Path.Combine(curDir, "MAA_win7.exe"), true);
+                const string CmdFileContent = "@echo off\r\nif exist MAA.exe (\r\n    ren MAA.exe MAA_v5.exe\r\n)\r\nstart \"\" .\\MAA_win7.exe";
+                File.WriteAllText("启动旧版.cmd", CmdFileContent);
+            }
 
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
             if (File.Exists(removeListFile))
@@ -297,11 +303,7 @@ namespace MaaWpfGui.ViewModels.UI
             ConfigurationHelper.Release();
 
             // 重启进程（启动的是更新后的程序了）
-            var newProcess = new Process();
-            newProcess.StartInfo.FileName = AppDomain.CurrentDomain.FriendlyName;
-            newProcess.StartInfo.WorkingDirectory = Directory.GetCurrentDirectory();
-            newProcess.Start();
-            Application.Current.Shutdown();
+            Bootstrapper.ShutdownAndRestartWithOutArgs();
 
             return true;
 
@@ -475,7 +477,8 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(UpdateUrl);
                         }
-                    });
+                    }
+                );
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);
@@ -891,13 +894,13 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        private bool IsDebugVersion(string version = null)
+        public bool IsDebugVersion(string version = null)
         {
             version ??= _curVersion;
             return version.Contains("DEBUG");
         }
 
-        private bool IsStdVersion(string version = null)
+        public bool IsStdVersion(string version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}
@@ -912,23 +915,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 return false;
             }
-            else if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
-            {
-                return false;
-            }
-            else if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
-            {
-                return false;
-            }
-            else if (IsNightlyVersion(semVersion))
+
+            if (version.StartsWith("c") || version.StartsWith("20") || version.Contains("Local"))
             {
                 return false;
             }
 
-            return true;
+            if (!SemVersion.TryParse(version, SemVersionStyles.AllowLowerV, out var semVersion))
+            {
+                return false;
+            }
+
+            return !IsNightlyVersion(semVersion);
         }
 
-        private static bool IsNightlyVersion(SemVersion version)
+        public static bool IsNightlyVersion(SemVersion version)
         {
             if (!version.IsPrerelease)
             {

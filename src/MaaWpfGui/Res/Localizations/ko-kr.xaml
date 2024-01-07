@@ -155,6 +155,7 @@
     <system:String x:Key="AdbException">ADB를 찾을 수 없었습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorTooMany">여러 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요</system:String>
+    <system:String x:Key="EmulatorStartFailed">모의기를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하십시오.</system:String>
     <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
@@ -391,6 +392,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Pormpt2">일요일입니다. 섬멸 작전을 잊지 마세요~</system:String>
     <!--  !작전 설정  -->
     <!--  로그  -->
+    <system:String x:Key="VersionMismatch">UI 및 Core 버전 불일치: {0} 및 {1}로 인해 예측할 수 없는 동작이 발생할 수 있습니다. 파일을 수동으로 교체하지 마십시오.</system:String>
     <system:String x:Key="ConnectingToEmulator">에뮬레이터에 연결 중……</system:String>
     <system:String x:Key="UnselectedTask">선택된 작업이 없습니다</system:String>
     <system:String x:Key="Running">실행 중……</system:String>
@@ -583,8 +585,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="CurrentSanity">이성:</system:String>
-    <system:String x:Key="MedicineUsedTimes">이성 회복 아이템:</system:String>
-    <system:String x:Key="StoneUsedTimes">순오리지늄:</system:String>
+    <system:String x:Key="MedicineUsedTimes">\n이성 회복 아이템:</system:String>
+    <system:String x:Key="StoneUsedTimes">\n순오리지늄:</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
@@ -611,12 +613,12 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Explore">탐구하다: {0} 바닥 {1} 단계</system:String>
-    <system:String x:Key="RoguelikeSettlement-Combat">전투: {0} / {1} 긴급 / {2} 보스</system:String>
-    <system:String x:Key="RoguelikeSettlement-Recruit">모집: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Explore">클리어 : {0} 구역 {1} 노드</system:String>
+    <system:String x:Key="RoguelikeSettlement-Combat">전투 횟수: {0} 일반 / {1} 정예 / {2} 리더</system:String>
+    <system:String x:Key="RoguelikeSettlement-Recruit">모집 횟수 : {0} 회</system:String>
     <system:String x:Key="RoguelikeSettlement-Collection">수집: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Difficulty">어려움: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Global">점수: {0}, 경험치: {1}, 기술: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Difficulty">난이도: {0}</system:String>
+    <system:String x:Key="RoguelikeSettlement-Global">점수: {0}, 경험치: {1}, 스킬: {2}</system:String>
     <system:String x:Key="CurTimes">현재 횟수</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
     <system:String x:Key="Drop" xml:space="preserve">드롭: </system:String>

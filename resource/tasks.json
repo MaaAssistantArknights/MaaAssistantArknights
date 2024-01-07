@@ -688,6 +688,10 @@
                 ""
             ],
             [
+                "'",
+                ""
+            ],
+            [
                 "-2O",
                 "-20"
             ],
@@ -4628,7 +4632,7 @@
         "roi": [
             50,
             376,
-            230,
+            250,
             40
         ],
         "preDelay": 3000,
@@ -12134,21 +12138,6 @@
             "Roguelike@Stages#next"
         ]
     },
-    "Roguelike@StageEncounterClickToLeave": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            600,
-            600,
-            50,
-            50
-        ],
-        "next": [
-            "Roguelike@StageEncounterOptions#next",
-            "Roguelike@Stages#next",
-            "Roguelike@StageEncounterClickToLeave"
-        ]
-    },
     "Roguelike@StageEncounterEnter": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -12208,8 +12197,7 @@
         "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
         "next": [
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@Stages#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@Stages#next"
         ]
     },
     "Roguelike@StageEncounterLeaveConfirm": {
@@ -12372,7 +12360,7 @@
             "Roguelike@StageVerticalConfirmSafeHouse",
             "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@StageTrader": {
@@ -12676,16 +12664,14 @@
         "template": "Roguelike@StageVerticalConfirm.png",
         "next": [
             "Roguelike@StageSafeHouseEnter",
-            "Roguelike@StageSafeHouseEnter",
             "Roguelike@StageEncounterOptions#next",
-            "Roguelike@StageEncounterClickToLeave"
+            "Roguelike@NextLevel"
         ]
     },
     "Roguelike@StageVerticalConfirmTrader": {
         "template": "Roguelike@StageVerticalConfirm.png",
         "baseTask": "Roguelike@StageVerticalConfirm",
         "next": [
-            "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderEnter",
             "Roguelike@StageTraderRefreshWithDice",
             "Roguelike@StageTraderInvestSystem",
@@ -13187,6 +13173,10 @@
             ]
         ]
     },
+    "Phantom@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Phantom@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "text": [
             "_default",
@@ -13241,18 +13231,6 @@
     },
     "Mizuki@Roguelike@Abandon": {},
     "Mizuki@Roguelike@ChooseDifficulty": {},
-    "Mizuki@Roguelike@ChooseDifficulty0": {
-        "baseTask": "Roguelike@ChooseDifficulty",
-        "roi": [
-            1064,
-            294,
-            216,
-            170
-        ],
-        "next": [
-            "Roguelike@StartExplore"
-        ]
-    },
     "Mizuki@Roguelike@ChooseDifficulty_Easiest": {
         "action": "ClickRect",
         "specificRect": [
@@ -13904,6 +13882,10 @@
             ]
         ]
     },
+    "Mizuki@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Mizuki@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
     "Mizuki@Roguelike@StrategyChange_mode4": {
         "text": [
             "_default",
@@ -14200,6 +14182,7 @@
             46
         ],
         "text": [
+            "_布局_",
             "黜人",
             "猎手",
             "战士",
@@ -14218,25 +14201,31 @@
             "灌木",
             "兽类",
             "人类",
+            "到来",
+            "离去",
             "伤痕",
+            "_本因_",
             "歌唱",
             "沉默",
             "朗诵",
             "辩论",
             "慰藉",
             "告解",
+            "呼救",
             "喜悦",
             "惊讶",
             "愤怒",
             "疑惑",
             "憧憬",
             "爱恋",
+            "满足",
             "巡视",
             "筑巢",
             "捕猎",
-            "繁衍",
             "掠夺",
+            "繁衍",
             "迁徙",
+            "歇息",
             "空无"
         ],
         "ocrReplace": [
@@ -14625,13 +14614,6 @@
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@Stages#next"
-        ]
-    },
-    "Sami@Roguelike@StageEncounterClickToLeave": {
-        "next": [
-            "Sami@Roguelike@StageEncounterOptions#next",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@StageEncounterClickToLeave"
         ]
     },
     "Sami@Roguelike@StageEncounterEnter": {},
@@ -15221,6 +15203,10 @@
                 "_SKIP_"
             ]
         ]
+    },
+    "Sami@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Sami@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
     },
     "Sami@Roguelike@StrategyChange_mode4": {
         "text": [

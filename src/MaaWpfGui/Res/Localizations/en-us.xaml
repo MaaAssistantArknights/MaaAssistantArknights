@@ -155,6 +155,7 @@
     <system:String x:Key="AdbException">Error in ADB detection\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
     <system:String x:Key="EmulatorNotFound">No emulator detected\nPlease use administrator privileges to open this software\nor set connection manually</system:String>
     <system:String x:Key="EmulatorTooMany">Too many emulators detected\nPlease shutdown not needed emulators \nor set connection manually</system:String>
+    <system:String x:Key="EmulatorStartFailed">Failed to start the emulator\nPlease open this software with administrator privileges \nor start the emulator manually.</system:String>
     <system:String x:Key="SwitchLanguage">Switch Language</system:String>
     <system:String x:Key="Language">Language</system:String>
     <system:String x:Key="LanguageChangedTip">The language settings have been changed, restart the app now?</system:String>
@@ -391,6 +392,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="Pormpt2">It's Sunday: don't forget about Annihilation</system:String>
     <!--  !FightSettings  -->
     <!--  Logs  -->
+    <system:String x:Key="VersionMismatch">UI and Core versions mismatch: {0} and {1}, which may result in unpredictable behavior. Please refrain from manually replacing files.</system:String>
     <system:String x:Key="ConnectingToEmulator">Connecting to emulator……</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
@@ -484,7 +486,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
     <system:String x:Key="PasteClipboardTip">Paste Clipboard</system:String>
-    <system:String x:Key="ImportFilesTip">Import task fils</system:String>
+    <system:String x:Key="ImportFilesTip">Import task files</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">Thanks for the likes!\nThe comment section is already open on the web page, please feel free to leave your comment!</system:String>
