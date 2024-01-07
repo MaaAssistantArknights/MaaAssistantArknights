@@ -36,7 +36,17 @@ bool asst::ScreenshotTaskPlugin::verify(AsstMsg msg, const json::value& details)
     }
 
     const std::string& task = details.get("details", "task", "");
+    using namespace std::chrono_literals;
+    auto now = std::chrono::steady_clock::now();
+    if (task == m_last_triggered_task && now - m_last_triggered_time < 5min) {
+        // 5min 内同一个任务重复触发一般是卡在某个地方了，不再截图但更新时间
+        Log.trace(__FUNCTION__, "| task", task, "triggered recently, skip");
+        m_last_triggered_time = now;
+        return false;
+    }
     if (ranges::any_of(m_screenshot_tasks, [&task](std::string_view item) { return task.ends_with(item); })) {
+        m_last_triggered_task = task;
+        m_last_triggered_time = now;
         return true;
     }
 
