@@ -4080,7 +4080,6 @@
         ]
     },
     "FightSeries-Indicator": {
-        "templThreshold": 0.7,
         "roi": [
             940,
             190,
