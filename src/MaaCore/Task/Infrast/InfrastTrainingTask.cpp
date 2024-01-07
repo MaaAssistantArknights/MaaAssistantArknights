@@ -3,6 +3,7 @@
 #include "Task/ProcessTask.h"
 #include "Controller/Controller.h"
 #include "Vision/RegionOCRer.h"
+#include "Vision/BestMatcher.h"
 #include "Vision/OCRer.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
@@ -24,7 +25,7 @@ bool asst::InfrastTrainingTask::_run()
 
     if (!analyze_status()) return false;
 
-    if (m_continue_training) {
+    if (m_continue_training && m_level != 3) {
         click_bottom_left_tab();
         OCRer choose_skill_analyzer(ctrler()->get_image());
         choose_skill_analyzer.set_task_info("InfrastTrainingChooseSkillRec");
@@ -70,9 +71,15 @@ bool asst::InfrastTrainingTask::analyze_status()
     // "]"前为干员名，"]"后为技能名
     m_operator_name = raw_str.substr(1, separation_pos - 1);
     m_skill_name = raw_str.substr(separation_pos + 1, raw_str.length() - separation_pos + 1);
+    m_operator_role = BattleData.get_role(m_operator_name);
 
-    Log.info(__FUNCTION__, "operator name set as", m_operator_name);
-    Log.info(__FUNCTION__, "skill name set as", m_skill_name);
+    if (!level_analyze(image)) {
+        Log.error(__FUNCTION__, "analyze level failed");
+        return false;
+    }
+
+    Log.info(__FUNCTION__, "operator name has been set to ", m_operator_name);
+    Log.info(__FUNCTION__, "skill name has been set to ", m_skill_name);
 
     if (training_completed()) {
         json::value cb_info = basic_info();
@@ -80,6 +87,7 @@ bool asst::InfrastTrainingTask::analyze_status()
         cb_info["details"] = json::object {
             { "operator", m_operator_name },
             { "skill", m_skill_name },
+            { "level", m_level },
         };
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
         return true;
@@ -117,10 +125,29 @@ bool asst::InfrastTrainingTask::analyze_status()
         cb_info["details"] = json::object {
             { "operator", m_operator_name },
             { "skill", m_skill_name },
+            { "level", m_level },
             { "progress", progress_percent },
         };
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
     }
+
+    return true;
+}
+
+bool asst::InfrastTrainingTask::level_analyze(cv::Mat image)
+{
+    const std::string task_name = "InfrastTrainingLevel";
+
+    BestMatcher analyzer(image);
+    analyzer.set_task_info(task_name);
+    for (int i = 1; i <= 3; ++i) {
+        std::string level_temp_name = task_name + std::to_string(i) + ".png";
+        analyzer.append_templ(level_temp_name);
+    }
+    if (!analyzer.analyze()) return false;
+    const auto& res = analyzer.get_result();
+    utils::chars_to_number(res.templ_info.name.substr(task_name.size(), 1), m_level);
+    Log.info(__FUNCTION__, "level has been set to ", m_level);
 
     return true;
 }

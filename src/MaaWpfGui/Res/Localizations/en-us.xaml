@@ -76,6 +76,7 @@
     <system:String x:Key="ContinueTraining">Continue to try to specialize in current skills after training completion</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
+    <system:String x:Key="TrainingLevel">Skill Rank</system:String>
     <system:String x:Key="TrainingProgress">Training progress</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>

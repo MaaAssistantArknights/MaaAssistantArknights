@@ -7629,10 +7629,23 @@
         "roi": [
             150,
             620,
-            250,
+            365,
             35
         ]
     },
+    "InfrastTrainingLevel": {
+        "template": "empty.png",
+        "templThreshold": 0.9,
+        "roi": [
+            100,
+            500,
+            200,
+            130
+        ]
+    },
+    "InfrastTrainingLevel1": {},
+    "InfrastTrainingLevel2": {},
+    "InfrastTrainingLevel3": {},
     "InfrastTrainingProgressRec": {
         "baseTask": "NumberOcrReplace",
         "isAscii": false,

@@ -1,5 +1,6 @@
 #pragma once
 #include "InfrastProductionTask.h"
+#include "Config/Miscellaneous/BattleDataConfig.h"
 
 namespace asst
 {
@@ -16,12 +17,16 @@ namespace asst
 
     private:
         bool analyze_status();
+        bool level_analyze(cv::Mat image);
         bool training_completed();
         bool continue_train(int index);
         static int skill_index_from_rect(const Rect& r);
 
+        int m_level;
         std::string m_operator_name;
         std::string m_skill_name;
+        asst::battle::Role m_operator_role;
+        
         bool m_continue_training = false;
     };
 }
