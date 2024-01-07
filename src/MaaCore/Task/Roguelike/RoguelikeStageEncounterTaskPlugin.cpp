@@ -133,3 +133,43 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 
     return false;
 }
+
+bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(const asst::ChoiceRequire& requirement,
+                                                                  int special_val)
+{
+    int num = 0;
+    switch (requirement.vision.type) {
+    case ComparisonType::GreaterThan:
+        return utils::chars_to_number(requirement.vision.value, num) && special_val > num;
+    case ComparisonType::LessThan:
+        return utils::chars_to_number(requirement.vision.value, num) && special_val < num;
+    case ComparisonType::Equal:
+        return utils::chars_to_number(requirement.vision.value, num) && special_val == num;
+    default:
+        return false;
+    }
+}
+
+int asst::RoguelikeStageEncounterTaskPlugin::process_task(const asst::RoguelikeEvent& event, const int special_val)
+{
+    for (const auto& requirement : event.choice_require) {
+        if (requirement.choose == -1) continue;
+        if (satisfies_condition(requirement, special_val)) {
+            return requirement.choose;
+        }
+    }
+    return event.default_choose;
+}
+
+int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image)
+{
+    int hp_val;
+    asst::OCRer analyzer(image);
+    analyzer.set_task_info("Roguelike@HpRecognition");
+
+    auto res_vec_opt = analyzer.analyze();
+    if (!res_vec_opt) {
+        return -1;
+    }
+    return utils::chars_to_number(res_vec_opt->front().text, hp_val) ? hp_val : 0;
+}

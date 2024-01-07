@@ -12526,8 +12526,7 @@
         ]
     },
     "Roguelike@HpRecognition": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
+        "baseTask": "NumberOcrReplace",
         "Doc": "生命值识别，暂时是把整个框进去，估计会把后面的生命值也识别到，后面得改改",
         "text": [],
         "roi": [
