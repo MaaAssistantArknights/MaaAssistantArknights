@@ -38,19 +38,42 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
         return std::nullopt;
     }
 
-    STARTUPINFOW si {};
-    si.cb = sizeof(STARTUPINFOW);
-    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-    si.hStdOutput = pipe_child_write;
-    si.hStdError = pipe_child_write;
+    STARTUPINFOEXW si {};
+    si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
+    si.StartupInfo.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.StartupInfo.wShowWindow = SW_HIDE;
+    si.StartupInfo.hStdOutput = pipe_child_write;
+    si.StartupInfo.hStdError = pipe_child_write;
     ASST_AUTO_DEDUCED_ZERO_INIT_START
     PROCESS_INFORMATION process_info = { nullptr }; // 进程信息结构体
     ASST_AUTO_DEDUCED_ZERO_INIT_END
 
+    std::vector<uint8_t> attrs;
+    size_t attrsize = 0;
+    InitializeProcThreadAttributeList(nullptr, 1, 0, &attrsize);
+    if (attrsize == 0) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        return std::nullopt;
+    }
+    attrs.resize(attrsize);
+    si.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attrs.data());
+    auto attr_success = InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attrsize);
+    if (!attr_success) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        return std::nullopt;
+    }
+    attr_success = UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_HANDLE_LIST, &pipe_child_write, sizeof(HANDLE), nullptr, nullptr);
+    if (!attr_success) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` UpdateProcThreadAttribute failed, ret error code:", err);
+        return std::nullopt;
+    }
     auto cmdline_osstr = asst::utils::to_osstring(cmd);
     BOOL create_ret =
-        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &process_info);
+        CreateProcessW(nullptr, cmdline_osstr.data(), nullptr, nullptr, TRUE, EXTENDED_STARTUPINFO_PRESENT, nullptr, nullptr, &si.StartupInfo, &process_info);
+    DeleteProcThreadAttributeList(si.lpAttributeList);
     if (!create_ret) {
         DWORD err = GetLastError();
         Log.error("Call `", cmd, "` create process failed, ret", create_ret, "error code:", err);
@@ -310,17 +333,43 @@ std::shared_ptr<asst::IOHandler> asst::Win32IO::interactive_shell(const std::str
         return nullptr;
     }
 
-    STARTUPINFOW si {};
-    si.cb = sizeof(STARTUPINFOW);
-    si.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
-    si.wShowWindow = SW_HIDE;
-    si.hStdInput = pipe_child_read;
-    si.hStdOutput = pipe_child_write;
-    si.hStdError = pipe_child_write;
 
+    HANDLE handles_to_inherit[] = { pipe_child_read, pipe_child_write };
+    STARTUPINFOEXW si {};
+    si.StartupInfo.cb = sizeof(STARTUPINFOEXW);
+    si.StartupInfo.dwFlags = STARTF_USESTDHANDLES | STARTF_USESHOWWINDOW;
+    si.StartupInfo.wShowWindow = SW_HIDE;
+    si.StartupInfo.hStdInput = pipe_child_read;
+    si.StartupInfo.hStdOutput = pipe_child_write;
+    si.StartupInfo.hStdError = pipe_child_write;
+
+    std::vector<uint8_t> attrs;
+    size_t attrsize = 0;
+    InitializeProcThreadAttributeList(nullptr, 1, 0, &attrsize);
+    if (attrsize == 0) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        return nullptr;
+    }
+    attrs.resize(attrsize);
+    si.lpAttributeList = reinterpret_cast<LPPROC_THREAD_ATTRIBUTE_LIST>(attrs.data());
+    auto attr_success = InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attrsize);
+    if (!attr_success) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` InitializeProcThreadAttributeList failed, ret error code:", err);
+        return nullptr;
+    }
+    attr_success = UpdateProcThreadAttribute(si.lpAttributeList, 0, PROC_THREAD_ATTRIBUTE_HANDLE_LIST, &handles_to_inherit, sizeof(handles_to_inherit), nullptr, nullptr);
+    if (!attr_success) {
+        DWORD err = GetLastError();
+        Log.error("Call `", cmd, "` UpdateProcThreadAttribute failed, ret error code:", err);
+        return nullptr;
+    }
     auto cmd_osstr = utils::to_osstring(cmd);
     BOOL create_ret =
-        CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, 0, nullptr, nullptr, &si, &m_process_info);
+        CreateProcessW(NULL, cmd_osstr.data(), nullptr, nullptr, TRUE, EXTENDED_STARTUPINFO_PRESENT, nullptr, nullptr, &si.StartupInfo, &m_process_info);
+    DeleteProcThreadAttributeList(si.lpAttributeList);
+
     CloseHandle(pipe_child_write);
     CloseHandle(pipe_child_read);
     pipe_child_write = INVALID_HANDLE_VALUE;

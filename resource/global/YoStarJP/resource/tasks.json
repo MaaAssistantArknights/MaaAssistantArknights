@@ -103,6 +103,20 @@
             "イベント"
         ]
     },
+    "LE-Open": {
+        "text": [
+            "塵影に交わる残響",
+            "イベント復刻",
+            "開催中"
+        ]
+    },
+    "LEChapterToLE": {
+        "text": [
+            "光差す音楽堂",
+            "光差す",
+            "音楽堂"
+        ]
+    },
     "SN-Open": {
         "baseTask": "#none",
         "action": "ClickSelf",
@@ -5852,6 +5866,16 @@
             ]
         ]
     },
+    "Phantom@Roguelike@NextLevel": {
+        "text": [
+            "迷霧の岐路",
+            "落陽の庭園",
+            "凋落の故地",
+            "悪夢の幕開け",
+            "緋月の回廊",
+            "渇欲の大広間"
+        ]
+    },
     "Phantom@Roguelike@SelectTheme": {
         "text": [
             "ファントム"
@@ -5859,6 +5883,71 @@
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
+    },
+    "Phantom@Roguelike@StrategyChange_mode0": {
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "迷霧の岐路",
+                "_aggressive"
+            ],
+            [
+                "落陽の庭園",
+                "_aggressive"
+            ],
+            [
+                "凋落の故地",
+                "_aggressive"
+            ],
+            [
+                "悪夢の幕開け",
+                "_pragmatic"
+            ],
+            [
+                "緋月の回廊",
+                "_pragmatic"
+            ],
+            [
+                "渇欲の大広間",
+                "_default"
+            ]
+        ]
+    },
+    "Phantom@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "迷霧の岐路",
+                "_default"
+            ],
+            [
+                "落陽の庭園",
+                "_default"
+            ],
+            [
+                "凋落の故地",
+                "_exit"
+            ],
+            [
+                "悪夢の幕開け",
+                "_exit"
+            ],
+            [
+                "緋月の回廊",
+                "_exit"
+            ],
+            [
+                "渇欲の大広間",
+                "_exit"
+            ]
+        ]
     },
     "Mizuki@Roguelike@MissionFailedFlag2": {
         "roi": [
@@ -5868,6 +5957,17 @@
             203
         ],
         "template": "Mizuki@Roguelike@MissionFailedFlag2.png"
+    },
+    "Mizuki@Roguelike@NextLevel": {
+        "text": [
+            "陽の射す海岸",
+            "離れの孤島",
+            "迫.*来る波濤",
+            "秘密の温床",
+            "不可侵の洞窟",
+            "深海の密林",
+            "紺碧の揺籃"
+        ]
     },
     "Mizuki@Roguelike@SelectTheme": {
         "text": [
@@ -5882,6 +5982,84 @@
             700
         ],
         "template": "Mizuki@Roguelike@StageEncounterLeaveConfirm.png"
+    },
+    "Mizuki@Roguelike@StageSafeHouseReuse": {
+        "text": [
+            "セーフハウスを利用する"
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode0": {
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "陽の射す海岸",
+                "_aggressive"
+            ],
+            [
+                "離れの孤島",
+                "_aggressive"
+            ],
+            [
+                "迫.*来る波濤",
+                "_pragmatic"
+            ],
+            [
+                "秘密の温床",
+                "_pragmatic"
+            ],
+            [
+                "不可侵の洞窟",
+                "_default"
+            ],
+            [
+                "深海の密林",
+                "_default"
+            ],
+            [
+                "紺碧の揺籃",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Mizuki@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "陽の射す海岸",
+                "_default"
+            ],
+            [
+                "離れの孤島",
+                "_default"
+            ],
+            [
+                "迫.*来る波濤",
+                "_exit"
+            ],
+            [
+                "秘密の温床",
+                "_exit"
+            ],
+            [
+                "不可侵の洞窟",
+                "_exit"
+            ],
+            [
+                "深海の密林",
+                "_exit"
+            ],
+            [
+                "紺碧の揺籃",
+                "_exit"
+            ]
+        ]
     },
     "Reclamation@ClickAnyZoneOcr": {
         "roi": [

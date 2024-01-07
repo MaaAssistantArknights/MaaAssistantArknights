@@ -91,8 +91,8 @@
                             ],
                             "threshold": 0,
                             "is_less": true,
-                            "offset": -350,
-                            "Doc": "地面阻挡<1时，玛恩纳的招募优先级-350"
+                            "offset": -200,
+                            "Doc": "地面阻挡<1时，玛恩纳的招募优先级-200"
                         }
                     ]
                 },
@@ -128,8 +128,8 @@
                 {
                     "name": "伊内丝",
                     "skill": 2,
-                    "recruit_priority": 849,
-                    "promote_priority": 830,
+                    "recruit_priority": 869,
+                    "promote_priority": 930,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -146,6 +146,31 @@
             ]
         },
         {
+            "name": "锏",
+            "opers": [
+                {
+                    "name": "锏",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 870,
+                    "promote_priority": 997,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 3,
+                            "offset": -150
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "水陈",
             "opers": [
                 {
@@ -153,7 +178,7 @@
                     "skill": 3,
                     "alternate_skill": 1,
                     "recruit_priority": 829,
-                    "promote_priority": 990,
+                    "promote_priority": 940,
                     "is_key": true,
                     "is_start": true
                 }
@@ -259,24 +284,7 @@
                     ]
                 },
                 {
-                    "name": "锏",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 810,
-                    "promote_priority": 899,
-                    "is_start": true,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 3,
-                            "offset": -150
-                        }
-                    ]
+                    "name": "锏"
                 },
                 {
                     "name": "山",
@@ -303,7 +311,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 705,
-                    "promote_priority": 899,
+                    "promote_priority": 840,
                     "is_start": true,
                     "is_key": true,
                     "recruit_priority_offsets": [
@@ -323,7 +331,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 605,
-                    "promote_priority": 980,
+                    "promote_priority": 950,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -447,7 +455,7 @@
                     "name": "归溟幽灵鲨",
                     "skill": 2,
                     "recruit_priority": 570,
-                    "promote_priority": 600,
+                    "promote_priority": 601,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -1118,7 +1126,7 @@
                     "skill": 1,
                     "is_key": true,
                     "recruit_priority": 799,
-                    "promote_priority": 590,
+                    "promote_priority": 601,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1464,7 +1472,7 @@
                     "alternate_skill": 2,
                     "auto_retreat": 8,
                     "recruit_priority": 750,
-                    "promote_priority": 861,
+                    "promote_priority": 821,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1481,16 +1489,16 @@
                     "skill": 2,
                     "is_key": true,
                     "auto_retreat": 6,
-                    "recruit_priority": 701,
-                    "promote_priority": 855,
+                    "recruit_priority": 671,
+                    "promote_priority": 815,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
                                 "地面单切",
                                 "史尔特尔"
                             ],
-                            "threshold": 2,
-                            "offset": -200
+                            "threshold": 1,
+                            "offset": -300
                         }
                     ]
                 },
@@ -1500,7 +1508,7 @@
                 {
                     "name": "耀骑士临光",
                     "skill": 2,
-                    "recruit_priority": 770,
+                    "recruit_priority": 670,
                     "promote_priority": 720,
                     "is_key": true,
                     "recruit_priority_offsets": [
@@ -1509,7 +1517,7 @@
                                 "地面单切",
                                 "史尔特尔"
                             ],
-                            "threshold": 2,
+                            "threshold": 1,
                             "offset": -200
                         },
                         {
@@ -1585,6 +1593,7 @@
                 {
                     "name": "止颂",
                     "skill": 2,
+                    "recruit_priority": -800,
                     "auto_retreat": 12
                 },
                 {
@@ -1609,7 +1618,7 @@
                     "skill": 2,
                     "is_key": true,
                     "recruit_priority": 727,
-                    "promote_priority": 710,
+                    "promote_priority": 740,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1647,7 +1656,7 @@
                     "name": "白面鸮",
                     "skill": 2,
                     "recruit_priority": 710,
-                    "promote_priority": 406,
+                    "promote_priority": 506,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -2038,7 +2047,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
-                    "recruit_priority": 635,
+                    "recruit_priority": 641,
                     "promote_priority": 810,
                     "recruit_priority_offsets": [
                         {
@@ -2067,6 +2076,19 @@
                     ]
                 },
                 {
+                    "name": "刻俄柏",
+                    "skill": 2,
+                    "recruit_priority": 439,
+                    "promote_priority": 680
+                },
+                {
+                    "name": "异客",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 359,
+                    "promote_priority": 780
+                },
+                {
                     "name": "莫斯提马",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2088,13 +2110,6 @@
                     "alternate_skill": 2,
                     "recruit_priority": 355,
                     "promote_priority": 588
-                },
-                {
-                    "name": "异客",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 359,
-                    "promote_priority": 780
                 },
                 {
                     "name": "黑键",
@@ -2260,15 +2275,15 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
-                    "recruit_priority": 526,
-                    "promote_priority": 402
+                    "recruit_priority": 586,
+                    "promote_priority": 612
                 },
                 {
                     "name": "灵知",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 533,
-                    "promote_priority": 690
+                    "recruit_priority": 526,
+                    "promote_priority": 602
                 },
                 {
                     "name": "安洁莉娜",
@@ -2386,6 +2401,9 @@
                     "name": "号角"
                 },
                 {
+                    "name": "锏"
+                },
+                {
                     "name": "海沫"
                 },
                 {
@@ -2445,9 +2463,6 @@
                 },
                 {
                     "name": "斑点"
-                },
-                {
-                    "name": "锏"
                 },
                 {
                     "name": "仇白"
@@ -3324,6 +3339,21 @@
                 },
                 {
                     "name": "幽灵鲨"
+                },
+                {
+                    "name": "泡普卡"
+                },
+                {
+                    "name": "月见夜"
+                },
+                {
+                    "name": "芬"
+                },
+                {
+                    "name": "米格鲁"
+                },
+                {
+                    "name": "卡缇"
                 }
             ]
         },
@@ -3420,7 +3450,7 @@
                     "name": "歌蕾蒂娅",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 298,
+                    "recruit_priority": -800,
                     "promote_priority": 210
                 },
                 {
@@ -3500,10 +3530,6 @@
                     "skill": 2
                 },
                 {
-                    "name": "赫拉格",
-                    "skill": 2
-                },
-                {
                     "name": "拉普兰德",
                     "skill": 2,
                     "recruit_priority": 440,
@@ -3534,11 +3560,13 @@
                 },
                 {
                     "name": "达格达",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "维荻",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "夜刀",
@@ -3615,15 +3643,18 @@
                 },
                 {
                     "name": "赫拉格",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "赤冬",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "火龙S黑角",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "玫兰莎"
@@ -3670,7 +3701,7 @@
                     "name": "缪尔赛思",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 236,
+                    "recruit_priority": -800,
                     "promote_priority": 140,
                     "recruit_priority_offsets": [
                         {
@@ -3780,7 +3811,7 @@
                     "name": "伺夜",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 156,
+                    "recruit_priority": -800,
                     "promote_priority": 210
                 },
                 {
