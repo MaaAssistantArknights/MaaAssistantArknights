@@ -132,6 +132,16 @@
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeOnlyStartWithEliteTwo}"
+                IsEnabled="{Binding RoguelikeStartWithEliteTwo}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeOnlyStartWithEliteTwo}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeUseSupportUnit}">
                 <TextBlock
                     Block.TextAlignment="Left"
