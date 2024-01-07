@@ -1298,12 +1298,13 @@ namespace MaaWpfGui.Main
 
                 case "InfrastTrainingCompleted":
                     Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
-                        LocalizationHelper.GetString("TrainingCompleted"), UiLogColor.Info);
+                         LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + " " + LocalizationHelper.GetString("TrainingCompleted"), UiLogColor.Info);
                     break;
 
                 case "InfrastTrainingInProgress":
                     Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
-                        LocalizationHelper.GetString("TrainingProgress") + ": " + $"{(int)subTaskDetails["progress"]}" + "%");
+                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + " " + LocalizationHelper.GetString("TrainingProgress") + ": " +
+                        $"{(int)subTaskDetails["progress"]}" + "%");
                     break;
 
                 /* 生息演算 */

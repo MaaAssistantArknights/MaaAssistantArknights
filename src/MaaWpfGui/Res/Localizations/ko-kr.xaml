@@ -76,6 +76,7 @@
     <system:String x:Key="ContinueTraining">훈련 완료 후 현재 기술에 전문화를 시도하십시오</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
+    <system:String x:Key="TrainingLevel">기술 랭크</system:String>
     <system:String x:Key="TrainingProgress">훈련 진행</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
