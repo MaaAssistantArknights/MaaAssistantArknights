@@ -95,6 +95,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_config_ptr->set_difficulty(0);
     // 是否凹指定干员开局直升
     m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
+    m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
 
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {

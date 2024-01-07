@@ -429,6 +429,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
     int i = 0;
     // 是否凹直升
     bool start_with_elite_two = m_config->get_start_with_elite_two();
+    bool only_start_with_elite_two = m_config->get_only_start_with_elite_two();
     // 当前肉鸽难度
     int difficulty = m_config->get_difficulty();
 
@@ -453,14 +454,16 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string&
             Log.info(__FUNCTION__, "| Oper list:", oper_names);
 
             if (it != chars.cend()) {
-                // 需要凹直升且当前为max难度时
-                if (start_with_elite_two && difficulty == INT_MAX) {
+                // 需要凹直升且当前为max难度或者只凹直升时
+                if (start_with_elite_two && (difficulty == INT_MAX || only_start_with_elite_two)) {
                     if (it->elite == 2) {
                         m_task_ptr->set_enable(false);
                     }
                     else {
-                        // 重置难度并放弃
-                        m_config->set_difficulty(0);
+                        // 非只凹直升时重置难度并放弃
+                        if (!only_start_with_elite_two) {
+                            m_config->set_difficulty(0);
+                        }
                         ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
                             .set_times_limit("Roguelike@Abandon", 0)
                             .run();

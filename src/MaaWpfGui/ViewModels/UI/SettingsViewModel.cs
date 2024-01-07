@@ -1908,7 +1908,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
 
         /// <summary>
-        /// Gets or sets a value indicating whether use support unit.
+        /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
         public bool RoguelikeStartWithEliteTwo
         {
@@ -1920,8 +1920,28 @@ namespace MaaWpfGui.ViewModels.UI
                     RoguelikeUseSupportUnit = false;
                 }
 
+                if (!value && RoguelikeOnlyStartWithEliteTwo)
+                {
+                    RoguelikeOnlyStartWithEliteTwo = false;
+                }
+
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+            }
+        }
+
+        private string _roguelikeOnlyStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether only need with elite two's core char.
+        /// </summary>
+        public bool RoguelikeOnlyStartWithEliteTwo
+        {
+            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo);
+            set
+            {
+                SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
             }
         }
 
