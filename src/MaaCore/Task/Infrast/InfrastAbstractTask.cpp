@@ -398,7 +398,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
 
         const std::string& name = name_analyzer.get_result().text;
         if (auto iter = ranges::find(room_config.names, name); iter != room_config.names.end()) {
-            Log.info(name, "is in \"operators\"，and is checked");
+            Log.info(name, "is in \"operators\"，and is selected");
             room_config.names.erase(iter);
         }
         else { // 备选干员或自动选择，只要不选工作中的干员即可
