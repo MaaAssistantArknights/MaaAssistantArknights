@@ -51,7 +51,7 @@
                 Style="{StaticResource ComboBoxExtend}" />
         </StackPanel>
 
-        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
+        <StackPanel IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
             <hc:NumericUpDown
                 Margin="0,5"
                 Minimum="0"
