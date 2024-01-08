@@ -411,7 +411,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
     }
 
     if (room_config.names.size()) {
-        Log.warn("select opers review fail: presence of unselected custom operators");
+        Log.warn("select opers review fail: part of custom operators unselected.");
         return false;
     }
 
