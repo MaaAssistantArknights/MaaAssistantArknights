@@ -11376,6 +11376,7 @@
             249,
             168
         ],
+        "postDelay": 1000,
         "next": [
             "Roguelike@MissionFailedFlag2",
             "Roguelike@StartExplore"
