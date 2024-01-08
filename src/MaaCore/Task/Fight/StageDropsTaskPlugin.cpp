@@ -23,7 +23,7 @@ bool asst::StageDropsTaskPlugin::verify(AsstMsg msg, const json::value& details)
     if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
-    const std::string task = details.at("details").at("task").as_string();
+    const std::string task = details.get("details", "task", "");
     if (task == "Fight@EndOfAction") {
         int64_t last_start_time = status()->get_number(LastStartTimeKey).value_or(0);
         int64_t last_recognize_flag = status()->get_number(RecognitionRestrictionsKey).value_or(0);

@@ -16,13 +16,7 @@ bool asst::StageQueueMissionCompletedPlugin::verify(AsstMsg msg, const json::val
         return false;
     }
 
-    const std::string task = details.at("details").at("task").as_string();
-    if (task == ("StageQueue@EndOfAction")) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return details.get("details", "task", "") == "StageQueue@EndOfAction";
 }
 
 void asst::StageQueueMissionCompletedPlugin::set_drop_stats(std::unordered_map<std::string, int> drop_stats)

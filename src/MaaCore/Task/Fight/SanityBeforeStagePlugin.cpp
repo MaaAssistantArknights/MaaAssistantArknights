@@ -12,11 +12,11 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
         return false;
     }
 
-    const std::string task = details.at("details").at("task").as_string();
+    const std::string task = details.get("details", "task", "");
     if (task.ends_with("StartButton1")) {
         return true;
     }
-    else if (task.ends_with("Stop") && details.at("pre_task").as_string().ends_with("StartButton1")) {
+    else if (task.ends_with("Stop") && details.get("pre_task", "").ends_with("StartButton1")) {
         // 次数达限
         return true;
     }

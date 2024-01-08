@@ -12,7 +12,7 @@ bool asst::RoguelikeSettlementTaskPlugin::verify(AsstMsg msg, const json::value&
         return false;
     }
 
-    const auto task_name = details.at("details").at("task").as_string();
+    const auto task_name = details.get("details", "task", "");
     if (task_name.ends_with("Roguelike@GamePass")) {
         m_game_pass = true;
         return m_config->get_mode() == RoguelikeMode::Exp;
