@@ -279,7 +279,7 @@
     <system:String x:Key="DarkModeSetColorsTip">是否立刻重啟應用更改？</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不再自動回復理智</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥/碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">顯示基建計劃</system:String>

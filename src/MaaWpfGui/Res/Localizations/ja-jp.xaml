@@ -279,7 +279,7 @@
     <system:String x:Key="DarkModeSetColorsTip">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、自動的に理性を回復しません</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、理性剤も源石も使わない</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">基地計画を表示する</system:String>

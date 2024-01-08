@@ -279,7 +279,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="DarkModeSetColorsTip">변경 사항을 적용하려면 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 브러시하고, 자동으로 정신 상태로 되돌아가지 않습니다</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 브러시하고, 이성 물약이나 돌을 사용하지 않습니다.</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 내 소멸하는 회복제 전부 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
