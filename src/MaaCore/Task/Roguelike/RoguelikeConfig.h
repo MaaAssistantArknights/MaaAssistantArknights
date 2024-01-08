@@ -46,15 +46,15 @@ namespace asst
 
     public:
         void set_theme(std::string theme) { m_theme = std::move(theme); }
-        std::string get_theme() { return m_theme; }
+        std::string get_theme() const { return m_theme; }
         void set_mode(RoguelikeMode mode) { m_mode = mode; }
-        RoguelikeMode get_mode() { return m_mode; }
+        RoguelikeMode get_mode() const { return m_mode; }
         void set_difficulty(int difficulty) { m_difficulty = difficulty; }
-        int get_difficulty() { return m_difficulty; }
+        int get_difficulty() const { return m_difficulty; }
         void set_start_with_elite_two(bool start_with_elite_two) { m_start_with_elite_two = start_with_elite_two; }
-        bool get_start_with_elite_two() { return m_start_with_elite_two; }
+        bool get_start_with_elite_two() const { return m_start_with_elite_two; }
         void set_only_start_with_elite_two(bool only_start_with_elite_two) { m_only_start_with_elite_two = only_start_with_elite_two; }
-        bool get_only_start_with_elite_two() { return m_only_start_with_elite_two; }
+        bool get_only_start_with_elite_two() const { return m_only_start_with_elite_two; }
 
     private:
         std::string m_theme; // 肉鸽主题
@@ -66,27 +66,27 @@ namespace asst
         /* 以下为每次重置 */
     public:
         void set_recruitment_count(int count) { m_recruitment_count = count; }
-        int get_recruitment_count() { return m_recruitment_count; }
+        int get_recruitment_count() const { return m_recruitment_count; }
         void set_recruitment_starts_complete(bool complete) { m_recruitment_starts_complete = complete; }
-        bool get_recruitment_starts_complete() { return m_recruitment_starts_complete; }
+        bool get_recruitment_starts_complete() const { return m_recruitment_starts_complete; }
         void set_recruitment_team_complete(bool complete) { m_recruitment_team_complete = complete; }
-        bool get_recruitment_team_complete() { return m_recruitment_team_complete; }
+        bool get_recruitment_team_complete() const { return m_recruitment_team_complete; }
         void set_trader_no_longer_buy(bool no_longer_buy) { m_trader_no_longer_buy = no_longer_buy; }
-        bool get_trader_no_longer_buy() { return m_trader_no_longer_buy; }
+        bool get_trader_no_longer_buy() const { return m_trader_no_longer_buy; }
         void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
-        std::string get_core_char() { return m_core_char; }
+        std::string get_core_char() const { return m_core_char; }
         void set_team_full_without_rookie(bool without_rookie) { m_team_full_without_rookie = without_rookie; }
-        bool get_team_full_without_rookie() { return m_team_full_without_rookie; }
+        bool get_team_full_without_rookie() const { return m_team_full_without_rookie; }
         void set_use_support(bool use_support) { m_use_support = use_support; }
-        bool get_use_support() { return m_use_support; }
+        bool get_use_support() const { return m_use_support; }
         void set_use_nonfriend_support(bool use_nonfriend_support) { m_use_nonfriend_support = use_nonfriend_support; }
-        bool get_use_nonfriend_support() { return m_use_nonfriend_support; }
+        bool get_use_nonfriend_support() const { return m_use_nonfriend_support; }
         void set_oper(std::unordered_map<std::string, RoguelikeOper> oper) { m_oper = std::move(oper); }
-        const std::unordered_map<std::string, RoguelikeOper>& get_oper() { return m_oper; }
+        const std::unordered_map<std::string, RoguelikeOper>& get_oper() const { return m_oper; }
         void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
-        const std::optional<std::string>& get_foldartal_floor() { return m_foldartal_floor; }
+        const std::optional<std::string>& get_foldartal_floor() const { return m_foldartal_floor; }
         void set_foldartal(std::vector<std::string> foldartal) { m_foldartal = std::move(foldartal); }
-        const std::vector<std::string>& get_foldartal() { return m_foldartal; }
+        const std::vector<std::string>& get_foldartal() const { return m_foldartal; }
 
     private:
         int m_recruitment_count = 0;                // 肉鸽招募次数
