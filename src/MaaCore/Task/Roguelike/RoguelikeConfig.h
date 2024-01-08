@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <climits>
 
 namespace asst
 {
@@ -55,16 +56,16 @@ namespace asst
         bool get_start_with_elite_two() const { return m_start_with_elite_two; }
         void set_only_start_with_elite_two(bool value) { m_only_start_with_elite_two = value; }
         bool get_only_start_with_elite_two() const { return m_only_start_with_elite_two; }
-        void set_investment_enabled(bool enabled) { m_investment_enabled = enabled; }
-        bool get_investment_enabled() { return m_investment_enabled; }
-        void set_investment_enter_second_floor(bool enter) { m_investment_enter_second_floor = enter; }
-        bool get_investment_enter_second_floor() { return m_investment_enter_second_floor; }
-        void set_investment_stop_when_full(bool stop_when_full) { m_investment_stop_when_full = stop_when_full; }
-        bool get_investment_stop_when_full() { return m_investment_stop_when_full; }
+        void set_investment_enabled(bool value) { m_investment_enabled = value; }
+        bool get_investment_enabled() const { return m_investment_enabled; }
+        void set_investment_enter_second_floor(bool value) { m_investment_enter_second_floor = value; }
+        bool get_investment_enter_second_floor() const { return m_investment_enter_second_floor; }
+        void set_investment_stop_when_full(bool value) { m_investment_stop_when_full = value; }
+        bool get_investment_stop_when_full() const { return m_investment_stop_when_full; }
         void set_investment_count(int count) { m_investment_count = count; }
-        int get_investment_count() { return m_investment_count; }
+        int get_investment_count() const { return m_investment_count; }
         void set_investment_count_limit(int limit) { m_investment_count_limit = limit; }
-        int get_investment_count_limit() { return m_investment_count_limit; }
+        int get_investment_count_limit() const { return m_investment_count_limit; }
 
     private:
         std::string m_theme;                       // 主题
