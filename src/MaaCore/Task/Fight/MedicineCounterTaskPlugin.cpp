@@ -1,4 +1,4 @@
-#include "MedicineCounterPlugin.h"
+#include "MedicineCounterTaskPlugin.h"
 
 #include <ranges>
 
@@ -13,7 +13,7 @@
 #include "Vision/MultiMatcher.h"
 #include "Vision/RegionOCRer.h"
 
-bool asst::MedicineCounterPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::MedicineCounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
@@ -22,7 +22,7 @@ bool asst::MedicineCounterPlugin::verify(AsstMsg msg, const json::value& details
     return details.get("details", "task", "").ends_with("UseMedicine");
 }
 
-bool asst::MedicineCounterPlugin::_run()
+bool asst::MedicineCounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
@@ -112,7 +112,7 @@ bool asst::MedicineCounterPlugin::_run()
     return true;
 }
 
-std::optional<asst::MedicineCounterPlugin::MedicineResult> asst::MedicineCounterPlugin::init_count(cv::Mat image)
+std::optional<asst::MedicineCounterTaskPlugin::MedicineResult> asst::MedicineCounterTaskPlugin::init_count(cv::Mat image)
 {
     int use = 0;
     MultiMatcher multi_matcher(image);
@@ -181,7 +181,7 @@ std::optional<asst::MedicineCounterPlugin::MedicineResult> asst::MedicineCounter
     return MedicineResult { .using_count = use, .medicines = medicines };
 }
 
-void asst::MedicineCounterPlugin::reduce_excess(const MedicineResult& using_medicine)
+void asst::MedicineCounterTaskPlugin::reduce_excess(const MedicineResult& using_medicine)
 {
     auto reduce = m_used_count + using_medicine.using_count - m_max_count;
     for (const auto& [use, inventory, rect, is_expiring] : using_medicine.medicines | views::reverse) {
@@ -201,7 +201,7 @@ void asst::MedicineCounterPlugin::reduce_excess(const MedicineResult& using_medi
     }
 }
 
-std::optional<int> asst::MedicineCounterPlugin::get_target_of_sanity(const cv::Mat& image)
+std::optional<int> asst::MedicineCounterTaskPlugin::get_target_of_sanity(const cv::Mat& image)
 {
     RegionOCRer ocr(image);
     ocr.set_bin_threshold(100, 255);
@@ -218,7 +218,7 @@ std::optional<int> asst::MedicineCounterPlugin::get_target_of_sanity(const cv::M
     return num;
 }
 
-std::optional<int> asst::MedicineCounterPlugin::get_maximun_of_sanity(const cv::Mat& image)
+std::optional<int> asst::MedicineCounterTaskPlugin::get_maximun_of_sanity(const cv::Mat& image)
 {
     RegionOCRer ocr(image);
     ocr.set_bin_threshold(100, 255);

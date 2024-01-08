@@ -2,11 +2,11 @@
 #include "Task/AbstractTaskPlugin.h"
 namespace asst
 {
-    class SanityBeforeStagePlugin final : public AbstractTaskPlugin
+    class SanityBeforeStageTaskPlugin final : public AbstractTaskPlugin
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~SanityBeforeStagePlugin() override = default;
+        virtual ~SanityBeforeStageTaskPlugin() override = default;
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
     private:

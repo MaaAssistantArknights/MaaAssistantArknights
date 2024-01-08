@@ -1,13 +1,12 @@
-#include "SanityBeforeStagePlugin.h"
+#include "SanityBeforeStageTaskPlugin.h"
 
 #include "Controller/Controller.h"
 #include "Utils/Logger.hpp"
 #include "Utils/StringMisc.hpp"
 #include "Vision/RegionOCRer.h"
 
-bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::SanityBeforeStageTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    // SubTaskStart会在主任务的操作部分之前触发，想不通，但是如果哪天改了记得来这里修
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
@@ -25,12 +24,12 @@ bool asst::SanityBeforeStagePlugin::verify(AsstMsg msg, const json::value& detai
     }
 }
 
-bool asst::SanityBeforeStagePlugin::_run()
+bool asst::SanityBeforeStageTaskPlugin::_run()
 {
     return get_sanity_before_stage();
 }
 
-bool asst::SanityBeforeStagePlugin::get_sanity_before_stage()
+bool asst::SanityBeforeStageTaskPlugin::get_sanity_before_stage()
 {
     LogTraceFunction;
 
