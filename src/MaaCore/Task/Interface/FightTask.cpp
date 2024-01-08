@@ -4,7 +4,7 @@
 
 #include "Config/TaskData.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
-#include "Task/Fight/FightTimesPlugin.h"
+#include "Task/Fight/FightTimesTaskPlugin.h"
 #include "Task/Fight/MedicineCounterPlugin.h"
 #include "Task/Fight/SanityBeforeStagePlugin.h"
 #include "Task/Fight/SideStoryReopenTask.h"
@@ -51,7 +51,7 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
     m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
     m_dr_grandet_task_plugin_ptr->set_enable(false);
     m_fight_task_ptr->register_plugin<SanityBeforeStagePlugin>();
-    m_fight_task_ptr->register_plugin<FightTimesPlugin>();
+    m_fight_task_ptr->register_plugin<FightTimesTaskPlugin>();
     m_medicine_plugin = m_fight_task_ptr->register_plugin<MedicineCounterPlugin>();
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
