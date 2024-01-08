@@ -10,6 +10,7 @@ namespace asst
     {
     public:
         using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+        using Config = RoguelikeStageEncounterConfig;
         virtual ~RoguelikeStageEncounterTaskPlugin() override = default;
 
     public:
@@ -17,8 +18,8 @@ namespace asst
 
     protected:
         virtual bool _run() override;
-        static bool satisfies_condition(const asst::ChoiceRequire& requirement, int special_val);
-        static int process_task(const asst::RoguelikeEvent& event, const int special_val);
+        static bool satisfies_condition(const Config::ChoiceRequire& requirement, int special_val);
+        static int process_task(const Config::RoguelikeEvent& event, const int special_val);
         static int hp(const cv::Mat& image);
     };
 }
