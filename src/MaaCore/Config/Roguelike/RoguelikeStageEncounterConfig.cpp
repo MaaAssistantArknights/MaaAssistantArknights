@@ -16,22 +16,33 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         event.name = event_json.at("name").as_string();
         event.option_num = event_json.get("option_num", 0);
         event.default_choose = event_json.get("choose", 0);
-        if (event_json.contains("choice_require")) {
-            for (const auto& requirement_json : event_json.at("choice_require").as_array()) {
-                ChoiceRequire requirement;
-                requirement.name = requirement_json.at("name").as_string();
-                requirement.choose = requirement_json.get("choose", -1);
-                if (auto vision_opt = requirement_json.find("Vision")) {
-                    const auto& vision_json = vision_opt.value();
-                    requirement.vision.value = vision_json.at("value").as_string();
-                    requirement.vision.type = parse_comparison_type(vision_json.at("type").as_string());
-                }
-                else
-                    continue;
-                event.choice_require.emplace_back(std::move(requirement));
+        auto choice_require_opt = event_json.find("choice_require");
+        if (!choice_require_opt || !choice_require_opt->is_array()) {
+            continue;
+        }
+        for (const auto& requirement_json : choice_require_opt->as_array()) {
+            ChoiceRequire requirement;
+            requirement.name = requirement_json.at("name").as_string();
+            requirement.choose = requirement_json.get("choose", -1);
+            if (auto vision_opt = requirement_json.find("Vision")) {
+                requirement.vision.value = vision_opt->get("value", "");
+                requirement.vision.type = parse_comparison_type(vision_opt->get("type", ""));
             }
+            else {
+                continue;
+            }
+            event.choice_require.emplace_back(std::move(requirement));
         }
         m_events[theme].emplace_back(std::move(event));
     }
     return true;
+}
+
+asst::RoguelikeStageEncounterConfig::ComparisonType asst::RoguelikeStageEncounterConfig::parse_comparison_type(
+    const std::string& type_str)
+{
+    if (type_str == ">") return ComparisonType::GreaterThan;
+    if (type_str == "<") return ComparisonType::LessThan;
+    if (type_str == "=") return ComparisonType::Equal;
+    return ComparisonType::Unsupported;
 }

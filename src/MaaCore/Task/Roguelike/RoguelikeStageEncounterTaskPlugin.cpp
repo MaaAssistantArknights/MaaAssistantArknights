@@ -37,13 +37,13 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     LogTraceFunction;
 
     auto mode = m_config->get_mode();
-    std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(m_config->get_theme());
+    std::vector events = RoguelikeStageEncounter.get_events(m_config->get_theme());
     // 刷源石锭模式和烧水模式
     if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
         events = RoguelikeStageEncounter.get_events(m_config->get_theme() + "_deposit");
     }
     std::vector<std::string> event_names;
-    std::unordered_map<std::string, RoguelikeEvent> event_map;
+    std::unordered_map<std::string, Config::RoguelikeEvent> event_map;
     for (const auto& event : events) {
         event_names.emplace_back(event.name);
         event_map.emplace(event.name, event);
@@ -69,7 +69,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     }
     std::string text = resultVec.front().text;
 
-    RoguelikeEvent event = event_map.at(text);
+    Config::RoguelikeEvent event = event_map.at(text);
 
     int special_val = 0;
     // 水月的不好识别，先试试萨米能不能用
@@ -134,23 +134,39 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     return false;
 }
 
-bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(const asst::ChoiceRequire& requirement,
+bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(const Config::ChoiceRequire& requirement,
                                                                   int special_val)
 {
     int num = 0;
+    bool ret = true;
     switch (requirement.vision.type) {
-    case ComparisonType::GreaterThan:
-        return utils::chars_to_number(requirement.vision.value, num) && special_val > num;
-    case ComparisonType::LessThan:
-        return utils::chars_to_number(requirement.vision.value, num) && special_val < num;
-    case ComparisonType::Equal:
-        return utils::chars_to_number(requirement.vision.value, num) && special_val == num;
+    case Config::ComparisonType::GreaterThan:
+        ret &= utils::chars_to_number(requirement.vision.value, num) && special_val > num;
+        break;
+    case Config::ComparisonType::LessThan:
+        ret &= utils::chars_to_number(requirement.vision.value, num) && special_val < num;
+        break;
+    case Config::ComparisonType::Equal:
+        ret &= utils::chars_to_number(requirement.vision.value, num) && special_val == num;
+        break;
+    case Config::ComparisonType::None:
+        break;
     default:
+        Log.warn("unsupported vision type");
         return false;
     }
+    /*
+    switch (requirement.hp.type) {
+        // ...
+    }
+    */
+    if (!ret) {
+        return false;
+    }
+    return true;
 }
 
-int asst::RoguelikeStageEncounterTaskPlugin::process_task(const asst::RoguelikeEvent& event, const int special_val)
+int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
 {
     for (const auto& requirement : event.choice_require) {
         if (requirement.choose == -1) continue;
