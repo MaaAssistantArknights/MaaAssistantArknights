@@ -5,11 +5,11 @@
 
 namespace asst
 {
-    class MedicineCounterPlugin final : public AbstractTaskPlugin
+    class MedicineCounterTaskPlugin final : public AbstractTaskPlugin
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~MedicineCounterPlugin() override = default;
+        virtual ~MedicineCounterTaskPlugin() override = default;
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
         void set_dr_grandet(bool dr_grandet) { m_dr_grandet = dr_grandet; };
         void set_count(int count) { m_max_count = count; }

@@ -1,4 +1,4 @@
-#include "StageQueueMissionCompletedPlugin.h"
+#include "StageQueueMissionCompletedTaskPlugin.h"
 
 #include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
@@ -10,7 +10,7 @@
 #include "Vision/Miscellaneous/StageDropsImageAnalyzer.h"
 #include "Vision/RegionOCRer.h"
 
-bool asst::StageQueueMissionCompletedPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::StageQueueMissionCompletedTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
@@ -19,17 +19,17 @@ bool asst::StageQueueMissionCompletedPlugin::verify(AsstMsg msg, const json::val
     return details.get("details", "task", "") == "StageQueue@EndOfAction";
 }
 
-void asst::StageQueueMissionCompletedPlugin::set_drop_stats(std::unordered_map<std::string, int> drop_stats)
+void asst::StageQueueMissionCompletedTaskPlugin::set_drop_stats(std::unordered_map<std::string, int> drop_stats)
 {
     m_drop_stats = std::move(drop_stats);
 }
 
-std::unordered_map<std::string, int> asst::StageQueueMissionCompletedPlugin::get_drop_stats()
+std::unordered_map<std::string, int> asst::StageQueueMissionCompletedTaskPlugin::get_drop_stats()
 {
     return m_drop_stats;
 }
 
-bool asst::StageQueueMissionCompletedPlugin::_run()
+bool asst::StageQueueMissionCompletedTaskPlugin::_run()
 {
     LogTraceFunction;
 
@@ -40,7 +40,7 @@ bool asst::StageQueueMissionCompletedPlugin::_run()
 /// <summary>
 /// 识别关卡是否为三星完成
 /// </summary>
-void asst::StageQueueMissionCompletedPlugin::mission_completed()
+void asst::StageQueueMissionCompletedTaskPlugin::mission_completed()
 {
     LogTraceFunction;
 
@@ -69,7 +69,7 @@ void asst::StageQueueMissionCompletedPlugin::mission_completed()
     drop_info_callback(stage_code, difficulty, analyzer);
 }
 // 抄自StageDropsTaskPlugin
-void asst::StageQueueMissionCompletedPlugin::drop_info_callback(std::string stage_code,
+void asst::StageQueueMissionCompletedTaskPlugin::drop_info_callback(std::string stage_code,
                                                                 StageDifficulty stage_difficulty,
                                                                 StageDropsImageAnalyzer analyzer)
 {
@@ -122,28 +122,28 @@ void asst::StageQueueMissionCompletedPlugin::drop_info_callback(std::string stag
         upload_to_penguin(stage_code, analyzer.get_stars());
     }
 }
-bool asst::StageQueueMissionCompletedPlugin::set_server(std::string server)
+bool asst::StageQueueMissionCompletedTaskPlugin::set_server(std::string server)
 {
     m_server = std::move(server);
     return true;
 }
-bool asst::StageQueueMissionCompletedPlugin::set_enable_penguin(bool enable)
+bool asst::StageQueueMissionCompletedTaskPlugin::set_enable_penguin(bool enable)
 {
     m_enable_penguin = enable;
     return true;
 }
-bool asst::StageQueueMissionCompletedPlugin::set_penguin_id(std::string id)
+bool asst::StageQueueMissionCompletedTaskPlugin::set_penguin_id(std::string id)
 {
     m_penguin_id = std::move(id);
     return true;
 }
-bool asst::StageQueueMissionCompletedPlugin::set_enable_yituliu(bool enable)
+bool asst::StageQueueMissionCompletedTaskPlugin::set_enable_yituliu(bool enable)
 {
     // 暂时没用上，其他地方加了这里也加一个
     m_enable_yituliu = enable;
     return true;
 }
-void asst::StageQueueMissionCompletedPlugin::upload_to_penguin(std::string stage_code, int stars)
+void asst::StageQueueMissionCompletedTaskPlugin::upload_to_penguin(std::string stage_code, int stars)
 {
     LogTraceFunction;
 
@@ -214,12 +214,12 @@ void asst::StageQueueMissionCompletedPlugin::upload_to_penguin(std::string stage
         .set_retry_times(5)
         .run();
 }
-void asst::StageQueueMissionCompletedPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail,
+void asst::StageQueueMissionCompletedTaskPlugin::report_penguin_callback(AsstMsg msg, const json::value& detail,
                                                                      AbstractTask* task_ptr)
 {
     LogTraceFunction;
 
-    auto p_this = dynamic_cast<StageQueueMissionCompletedPlugin*>(task_ptr);
+    auto p_this = dynamic_cast<StageQueueMissionCompletedTaskPlugin*>(task_ptr);
     if (!p_this) {
         return;
     }
