@@ -9,7 +9,7 @@ bool asst::FightTimesPlugin::verify(AsstMsg msg, const json::value& details) con
         return false;
     }
 
-    return !inited && details.at("details").at("task").as_string().ends_with("StartButton1");
+    return !inited && details.get("details", "task", "").ends_with("StartButton1");
 }
 
 bool asst::FightTimesPlugin::_run()

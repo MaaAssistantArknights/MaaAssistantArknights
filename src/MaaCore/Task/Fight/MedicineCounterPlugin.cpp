@@ -19,7 +19,7 @@ bool asst::MedicineCounterPlugin::verify(AsstMsg msg, const json::value& details
         return false;
     }
 
-    return details.at("details").at("task").as_string().ends_with("UseMedicine");
+    return details.get("details", "task", "").ends_with("UseMedicine");
 }
 
 bool asst::MedicineCounterPlugin::_run()
@@ -128,7 +128,7 @@ std::optional<asst::MedicineCounterPlugin::MedicineResult> asst::MedicineCounter
     static const auto& expiring_task = Task.get("MedicineExpiringTime");
 
     auto match_result = multi_matcher.get_result();
-    sort_by_horizontal_(match_result);// 排序以保证结果为从左到右
+    sort_by_horizontal_(match_result); // 排序以保证结果为从左到右
     for (const auto& result : match_result) {
         auto using_rect = result.rect.move(using_count_task->rect_move);
         auto inventory_rect = result.rect.move(inventory_task->rect_move);
