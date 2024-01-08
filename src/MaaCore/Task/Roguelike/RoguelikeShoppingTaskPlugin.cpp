@@ -22,12 +22,7 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
         return false;
     }
 
-    if (details.get("details", "task", "").ends_with("Roguelike@TraderRandomShopping")) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return details.get("details", "task", "").ends_with("Roguelike@TraderRandomShopping");
 }
 
 bool asst::RoguelikeShoppingTaskPlugin::_run()
@@ -65,7 +60,8 @@ void asst::RoguelikeShoppingTaskPlugin::investing()
         return count;
     };
     auto find_confirm_rect = [&](const auto& img) -> std::optional<asst::Rect> {
-        auto task = ProcessTask(*this, { "Roguelike@StageTraderInvestSystemError", "Roguelike@StageTraderInvestSystemInvalid" });
+        auto task = ProcessTask(
+            *this, { "Roguelike@StageTraderInvestSystemError", "Roguelike@StageTraderInvestSystemInvalid" });
         task.set_reusable_image(img).set_retry_times(0);
         if (task.run()) {
             return std::nullopt;
@@ -131,7 +127,7 @@ void asst::RoguelikeShoppingTaskPlugin::investing()
         else if (auto ocr = ocr_current_count(img, "Roguelike@StageTraderInvest-Count"); ocr) {
             // 可继续投资 / 到达投资上限999
             if (*ocr == *deposit) {
-                retry++;// 可能是没钱了，重试三次放弃
+                retry++; // 可能是没钱了，重试三次放弃
             }
             else {
                 count += *ocr - *deposit;
