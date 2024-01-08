@@ -403,7 +403,7 @@ bool asst::InfrastAbstractTask::select_opers_review(infrast::CustomRoomConfig co
         }
         else { // 备选干员或自动选择，只要不选工作中的干员即可
             if (oper.doing == infrast::Doing::Working) {
-                Log.warn("selected operators for the job:", name);
+                Log.warn("selected operators at work:", name);
                 Log.warn("select opers review fail: non-custom configuration, but an operator at work is selected");
                 return false;
             }
