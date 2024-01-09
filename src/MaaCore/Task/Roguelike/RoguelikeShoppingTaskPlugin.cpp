@@ -112,7 +112,7 @@ void asst::RoguelikeShoppingTaskPlugin::investing()
     int count = 0; // 已投资的个数
     int retry = 0; // 重试次数
     while (deposit && *deposit < 999 && count_limit > 0 && retry < 3) {
-        int times = std::max(20, count_limit - count);
+        int times = std::min(20, count_limit - count);
         while (times > 0) {
             ctrler()->click(click_rect);
             times--;
