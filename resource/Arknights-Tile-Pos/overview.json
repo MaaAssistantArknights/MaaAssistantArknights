@@ -3455,6 +3455,168 @@
         "stageId": "act16d5_tr01",
         "width": 11
     },
+    "act16mini_01#f#-activities/act16mini/level_act16mini_01": {
+        "code": "TG-1",
+        "filename": "act16mini_01#f#-activities-act16mini-level_act16mini_01.json",
+        "height": 6,
+        "levelId": "activities/act16mini/level_act16mini_01",
+        "name": "双向通风",
+        "stageId": "act16mini_01#f#",
+        "width": 9
+    },
+    "act16mini_01-activities/act16mini/level_act16mini_01": {
+        "code": "TG-1",
+        "filename": "act16mini_01-activities-act16mini-level_act16mini_01.json",
+        "height": 6,
+        "levelId": "activities/act16mini/level_act16mini_01",
+        "name": "双向通风",
+        "stageId": "act16mini_01",
+        "width": 9
+    },
+    "act16mini_02#f#-activities/act16mini/level_act16mini_02": {
+        "code": "TG-2",
+        "filename": "act16mini_02#f#-activities-act16mini-level_act16mini_02.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_02",
+        "name": "热熔采掘",
+        "stageId": "act16mini_02#f#",
+        "width": 10
+    },
+    "act16mini_02-activities/act16mini/level_act16mini_02": {
+        "code": "TG-2",
+        "filename": "act16mini_02-activities-act16mini-level_act16mini_02.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_02",
+        "name": "热熔采掘",
+        "stageId": "act16mini_02",
+        "width": 10
+    },
+    "act16mini_03#f#-activities/act16mini/level_act16mini_03": {
+        "code": "TG-3",
+        "filename": "act16mini_03#f#-activities-act16mini-level_act16mini_03.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_03",
+        "name": "不安全出口",
+        "stageId": "act16mini_03#f#",
+        "width": 10
+    },
+    "act16mini_03-activities/act16mini/level_act16mini_03": {
+        "code": "TG-3",
+        "filename": "act16mini_03-activities-act16mini-level_act16mini_03.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_03",
+        "name": "不安全出口",
+        "stageId": "act16mini_03",
+        "width": 10
+    },
+    "act16mini_04#f#-activities/act16mini/level_act16mini_04": {
+        "code": "TG-4",
+        "filename": "act16mini_04#f#-activities-act16mini-level_act16mini_04.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_04",
+        "name": "冻结壁交圈",
+        "stageId": "act16mini_04#f#",
+        "width": 11
+    },
+    "act16mini_04-activities/act16mini/level_act16mini_04": {
+        "code": "TG-4",
+        "filename": "act16mini_04-activities-act16mini-level_act16mini_04.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_04",
+        "name": "冻结壁交圈",
+        "stageId": "act16mini_04",
+        "width": 11
+    },
+    "act16mini_05#f#-activities/act16mini/level_act16mini_05": {
+        "code": "TG-5",
+        "filename": "act16mini_05#f#-activities-act16mini-level_act16mini_05.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_05",
+        "name": "起爆自由面",
+        "stageId": "act16mini_05#f#",
+        "width": 12
+    },
+    "act16mini_05-activities/act16mini/level_act16mini_05": {
+        "code": "TG-5",
+        "filename": "act16mini_05-activities-act16mini-level_act16mini_05.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_05",
+        "name": "起爆自由面",
+        "stageId": "act16mini_05",
+        "width": 12
+    },
+    "act16mini_06#f#-activities/act16mini/level_act16mini_06": {
+        "code": "TG-6",
+        "filename": "act16mini_06#f#-activities-act16mini-level_act16mini_06.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_06",
+        "name": "最小抵抗线",
+        "stageId": "act16mini_06#f#",
+        "width": 11
+    },
+    "act16mini_06-activities/act16mini/level_act16mini_06": {
+        "code": "TG-6",
+        "filename": "act16mini_06-activities-act16mini-level_act16mini_06.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_06",
+        "name": "最小抵抗线",
+        "stageId": "act16mini_06",
+        "width": 11
+    },
+    "act16mini_07#f#-activities/act16mini/level_act16mini_07": {
+        "code": "TG-7",
+        "filename": "act16mini_07#f#-activities-act16mini-level_act16mini_07.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_07",
+        "name": "牵引山岩",
+        "stageId": "act16mini_07#f#",
+        "width": 12
+    },
+    "act16mini_07-activities/act16mini/level_act16mini_07": {
+        "code": "TG-7",
+        "filename": "act16mini_07-activities-act16mini-level_act16mini_07.json",
+        "height": 8,
+        "levelId": "activities/act16mini/level_act16mini_07",
+        "name": "牵引山岩",
+        "stageId": "act16mini_07",
+        "width": 12
+    },
+    "act16mini_08#f#-activities/act16mini/level_act16mini_08": {
+        "code": "TG-8",
+        "filename": "act16mini_08#f#-activities-act16mini-level_act16mini_08.json",
+        "height": 9,
+        "levelId": "activities/act16mini/level_act16mini_08",
+        "name": "主要运输巷",
+        "stageId": "act16mini_08#f#",
+        "width": 13
+    },
+    "act16mini_08-activities/act16mini/level_act16mini_08": {
+        "code": "TG-8",
+        "filename": "act16mini_08-activities-act16mini-level_act16mini_08.json",
+        "height": 9,
+        "levelId": "activities/act16mini/level_act16mini_08",
+        "name": "主要运输巷",
+        "stageId": "act16mini_08",
+        "width": 13
+    },
+    "act16mini_s01-activities/act16mini/level_act16mini_sub-1-1": {
+        "code": "TG-S-1",
+        "filename": "act16mini_s01-activities-act16mini-level_act16mini_sub-1-1.json",
+        "height": 7,
+        "levelId": "activities/act16mini/level_act16mini_sub-1-1",
+        "name": "穿洞绳操作指南",
+        "stageId": "act16mini_s01",
+        "width": 11
+    },
+    "act16mini_s02-activities/act16mini/level_act16mini_sub-2-1": {
+        "code": "TG-S-2",
+        "filename": "act16mini_s02-activities-act16mini-level_act16mini_sub-2-1.json",
+        "height": 7,
+        "levelId": "activities/act16mini/level_act16mini_sub-2-1",
+        "name": "升罐笼注意事项",
+        "stageId": "act16mini_s02",
+        "width": 11
+    },
     "act16side_01-activities/act16side/level_act16side_01": {
         "code": "GA-1",
         "filename": "act16side_01-activities-act16side-level_act16side_01.json",
@@ -14030,6 +14192,15 @@
         "stageId": "mem_angel_1",
         "width": 11
     },
+    "mem_ansel_1-obt/memory/level_memory_ansel_1": {
+        "code": "mem_ansel_1",
+        "filename": "mem_ansel_1-obt-memory-level_memory_ansel_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_ansel_1",
+        "name": "冷静的支援者",
+        "stageId": "mem_ansel_1",
+        "width": 10
+    },
     "mem_aosta_1-obt/memory/level_memory_aosta_1": {
         "code": "mem_aosta_1",
         "filename": "mem_aosta_1-obt-memory-level_memory_aosta_1.json",
@@ -14245,6 +14416,24 @@
         "name": "共生共荣",
         "stageId": "mem_bstalk_1",
         "width": 10
+    },
+    "mem_bubble_1-obt/memory/level_memory_bubble_1": {
+        "code": "mem_bubble_1",
+        "filename": "mem_bubble_1-obt-memory-level_memory_bubble_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_bubble_1",
+        "name": "不能白挨打",
+        "stageId": "mem_bubble_1",
+        "width": 12
+    },
+    "mem_buildr_1-obt/memory/level_memory_buildr_1": {
+        "code": "mem_buildr_1",
+        "filename": "mem_buildr_1-obt-memory-level_memory_buildr_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_buildr_1",
+        "name": "别来拆家",
+        "stageId": "mem_buildr_1",
+        "width": 9
     },
     "mem_cammou_1-obt/memory/level_memory_cammou_1": {
         "code": "mem_cammou_1",
@@ -15001,6 +15190,15 @@
         "name": "伤痛坚守",
         "stageId": "mem_melan_1",
         "width": 11
+    },
+    "mem_melnte_1-obt/memory/level_memory_melnte_1": {
+        "code": "mem_melnte_1",
+        "filename": "mem_melnte_1-obt-memory-level_memory_melnte_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_melnte_1",
+        "name": "直线最短",
+        "stageId": "mem_melnte_1",
+        "width": 10
     },
     "mem_meteo_1-obt/memory/level_memory_meteo_1": {
         "code": "mem_meteo_1",
