@@ -1029,7 +1029,7 @@ namespace MaaWpfGui.Main
                 case "StageDrops":
                     {
                         string allDrops = string.Empty;
-                        JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
+                        var statistics = (JArray)subTaskDetails["stats"] ?? new();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
 
                         foreach (var item in statistics)
@@ -1076,7 +1076,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsDetected":
                     {
-                        JArray tags = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        var tags = (JArray)subTaskDetails["tags"] ?? new();
                         string logContent = tags.Select(tagName => tagName.ToString())
                             .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
@@ -1144,7 +1144,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsSelected":
                     {
-                        JArray selected = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        var selected = (JArray)subTaskDetails["tags"] ?? new();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
                         selectedLog = selectedLog.EndsWith("\n") ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
@@ -1175,7 +1175,7 @@ namespace MaaWpfGui.Main
                 case "RoguelikeSettlement":
                     // 肉鸽结算
                     bool roguelikeGamePass = (bool)subTaskDetails["game_pass"];
-                    StringBuilder roguelikeInfo = new StringBuilder();
+                    StringBuilder roguelikeInfo = new();
                     roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement"), roguelikeGamePass ? "✓" : "✗").AppendLine();
                     roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Explore"), subTaskDetails["floor"], subTaskDetails["step"]).AppendLine();
                     roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Combat"), subTaskDetails["combat"], subTaskDetails["emergency"], subTaskDetails["boss"]).AppendLine();
@@ -1401,7 +1401,7 @@ namespace MaaWpfGui.Main
                     // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                     string args = $"/e, /select, \"{filename}\"";
 
-                    ProcessStartInfo info = new ProcessStartInfo
+                    ProcessStartInfo info = new()
                     {
                         FileName = "explorer",
                         Arguments = args,
@@ -1578,7 +1578,7 @@ namespace MaaWpfGui.Main
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject taskParams = null)
         {
-            taskParams ??= new JObject();
+            taskParams ??= new();
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1589,7 +1589,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            taskParams ??= new JObject();
+            taskParams ??= new();
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1613,7 +1613,7 @@ namespace MaaWpfGui.Main
             Gacha,
         }
 
-        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
+        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new();
 
         private static JObject SerializeFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes,
             string dropsItemId, int dropsItemQuantity)
