@@ -51,7 +51,7 @@ void asst::RoguelikeShoppingTaskPlugin::investing()
             Log.error(__FUNCTION__, "unable to analyze current investment count.");
             return std::nullopt;
         };
-        int count;
+        int count = 0;
         if (!utils::chars_to_number(ocr.get_result().text, count)) {
             Log.error(__FUNCTION__, "unable to convert current investment count<", ocr.get_result().text,
                       "> to number.");
@@ -111,9 +111,9 @@ void asst::RoguelikeShoppingTaskPlugin::investing()
 
     int count = 0; // 已投资的个数
     int retry = 0; // 重试次数
-    while (deposit && *deposit < 999 && count_limit > 0 && retry < 3) {
+    while (!need_exit() && deposit && *deposit < 999 && count_limit > 0 && retry < 3) {
         int times = std::min(20, count_limit - count);
-        while (times > 0) {
+        while (!need_exit() && times > 0) {
             ctrler()->click(click_rect);
             times--;
             sleep(100);
@@ -126,8 +126,8 @@ void asst::RoguelikeShoppingTaskPlugin::investing()
         }
         else if (auto ocr = ocr_current_count(img, "Roguelike@StageTraderInvest-Count"); ocr) {
             // 可继续投资 / 到达投资上限999
-            if (*ocr == *deposit) {
-                retry++; // 可能是没钱了，重试三次放弃
+            if (*ocr == *deposit || *ocr > 999 || *ocr < 0) {
+                retry++; // 可能是出错了，重试三次放弃
             }
             else {
                 count += *ocr - *deposit;
@@ -166,7 +166,7 @@ void asst::RoguelikeShoppingTaskPlugin::investing()
         return;
     }
 
-    if (*deposit == 999 && m_config->get_investment_stop_when_full()) {
+    if (deposit.value_or(0) == 999 && m_config->get_investment_stop_when_full()) {
         Log.info(__FUNCTION__, "存款已满");
         exit_to_home_page();
         m_task_ptr->set_enable(false);
