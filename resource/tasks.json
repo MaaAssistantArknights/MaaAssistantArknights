@@ -13246,8 +13246,8 @@
             254,
             248
         ],
-        "next": [
-            "(SwipeToTheUp*12)"
+        "sub": [
+            "SwipeToTheUp*2"
         ]
     },
     "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
@@ -13266,8 +13266,8 @@
             254,
             248
         ],
-        "next": [
-            "(SwipeToTheDown*12)"
+        "sub": [
+            "SwipeToTheDown*2"
         ]
     },
     "Mizuki@Roguelike@ChooseOper": {
@@ -13964,8 +13964,8 @@
             322,
             189
         ],
-        "next": [
-            "(SwipeToTheUp*12)"
+        "sub": [
+            "SwipeToTheUp*2"
         ]
     },
     "Sami@Roguelike@ChooseDifficulty_Hardest": {
@@ -13984,8 +13984,8 @@
             322,
             189
         ],
-        "next": [
-            "(SwipeToTheDown*12)"
+        "sub": [
+            "SwipeToTheDown*2"
         ]
     },
     "Sami@Roguelike@ChooseOper": {
