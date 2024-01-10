@@ -16,6 +16,7 @@
 - 优化截图耗时额外提示文本触发条件，改为由平均耗时触发 (#7868) @status102
 - 优化部分插件判断 @status102
 - 减少重复截图 (#7945) @zzyyyl
+- 优化连续战斗次数列表展开图片 @status102
 
 ### 修复 | Fix
 
@@ -26,6 +27,7 @@
 - 干员识别报错 @ABA2396
 - 开机自启功能异常 @ABA2396
 - 修复基建排班的 JSON schema (#7788) @wangl-cc
+- 自动战斗群组中多名干员在编组中时不会选择 @ABA2396
 - EN Challenge mode battle list @Constrat
 - Template diagram missing from EN/JP @Constrat @Manicsteiner @zzyyyl @HX3N
 
