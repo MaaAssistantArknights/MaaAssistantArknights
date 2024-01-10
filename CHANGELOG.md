@@ -3,6 +3,7 @@
 ### 新增 | New
 
 - dotnet8.0 (#7554) @hxdnshx @SherkeyXD @LiamSho @ABA2396 @moomiji
+- 增加肉鸽刷开局模式下只凹精二选项 (#7705)  @s-yh-china
 
 ### 改进 | Improved
 
@@ -13,6 +14,8 @@
 - 优化肉鸽作战逻辑，使不能空放的干员技能不影响后续部署指令的执行 (#7934) @Lancarus
 - 优化刷理智-已开始战斗x次时临期理智药使用输出以增加可读性 (#7846) @status102
 - 优化截图耗时额外提示文本触发条件，改为由平均耗时触发 (#7868) @status102
+- 优化部分插件判断 @status102
+- 减少重复截图 (#7945) @zzyyyl
 
 ### 修复 | Fix
 
@@ -20,10 +23,11 @@
 - 修复肉鸽-刷钱模式下仍然会在商店进行招募、购物的错误 (#7863) @status102
 - 配置修改后无法保存 @ABA2396
 - 修复刷理智结束时理智输出错误 @status102
-- changed template YostarEN I.S. enter @zzyyyl
-- changed template YostarEN I.S. enter fix #7766 fix #7886 @Constrat
 - 干员识别报错 @ABA2396
+- 开机自启功能异常 @ABA2396
+- 修复基建排班的 JSON schema (#7788) @wangl-cc
 - EN Challenge mode battle list @Constrat
+- Template diagram missing from EN/JP @Constrat @Manicsteiner @zzyyyl @HX3N
 
 ### 其他 | Other
 
@@ -33,6 +37,9 @@
 - 修复并无损压缩模板图片 (#7831) @zzyyyl
 - 解决冲突 @ABA2396
 - 删除没有用到的 task @zzyyyl
+- 肉鸽设置追加部分注释 @status102
+- 一键长草期间锁定自动肉鸽设置以符合执行逻辑 @status102
+- 调整剩余理智关卡的说明 @status102
 - gitignore FodyWeavers.xsd @ABA2396
 - added ps1 for cloning ResourceUpdater repo for local developing @Constrat
 - YoStarKR ocrReplace regex fix (#7901) @HX3N
