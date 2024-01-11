@@ -23,7 +23,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -39,7 +38,6 @@ using Stylet;
 using StyletIoC;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
-using InverseClearType = MaaWpfGui.Configuration.GUI.InverseClearType;
 using Screen = Stylet.Screen;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -81,7 +79,7 @@ namespace MaaWpfGui.ViewModels.UI
                 int index = 0;
                 foreach (var item in TaskItemViewModels)
                 {
-                    ConfigFactory.CurrentConfig.TaskQueueOrder[item.OriginalName] = index;
+                    ConfigurationHelper.SetTaskOrder(item.OriginalName, index.ToString());
                     ++index;
                 }
             });
@@ -401,7 +399,7 @@ namespace MaaWpfGui.ViewModels.UI
             for (int i = 0; i != taskList.Count; ++i)
             {
                 var task = taskList[i];
-                bool parsed = ConfigFactory.CurrentConfig.InfrastOrder.TryGetValue(task, out var order);
+                bool parsed = int.TryParse(ConfigurationHelper.GetTaskOrder(task, "-1"), out var order);
 
                 var vm = new DragItemViewModel(LocalizationHelper.GetString(task), task, "TaskQueue.");
 
@@ -662,7 +660,7 @@ namespace MaaWpfGui.ViewModels.UI
         public const int SelectedAllWidthWhenBoth = 80;
 
         private int _selectedAllWidth =
-            ConfigFactory.CurrentConfig.GUI.InverseClearMode == InverseClearType.Clear ? SelectedAllWidthWhenBoth : 85;
+            ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse" ? SelectedAllWidthWhenBoth : 85;
 
         /// <summary>
         /// Gets or sets the width of "Select All".
@@ -673,7 +671,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _selectedAllWidth, value);
         }
 
-        private bool _showInverse = ConfigFactory.CurrentConfig.GUI.InverseClearMode == InverseClearType.ClearInverse;
+        private bool _showInverse = ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, "Clear") == "ClearInverse";
 
         /// <summary>
         /// Gets or sets a value indicating whether "Select inversely" is visible.
@@ -2447,7 +2445,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useAlternateStage = ConfigFactory.CurrentConfig.GUI.UseAlternateStage;
+        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
@@ -2466,7 +2464,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useRemainingSanityStage, value);
         }
 
-        private bool _customStageCode = ConfigFactory.CurrentConfig.GUI.CustomStageCode;
+        private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.

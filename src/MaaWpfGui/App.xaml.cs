@@ -16,7 +16,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Documents;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using Serilog;
@@ -91,8 +90,8 @@ namespace MaaWpfGui
         private static bool UpdateConfiguration(string desiredConfig)
         {
             // 配置名可能就包在引号中，需要转义符，如 \"a\"
-            string currentConfig = ConfigFactory.Root.Current;
-            return currentConfig != desiredConfig && ConfigFactory.SwitchConfig(desiredConfig);
+            string currentConfig = ConfigurationHelper.GetCurrentConfiguration();
+            return currentConfig != desiredConfig && ConfigurationHelper.SwitchConfiguration(desiredConfig);
         }
     }
 }

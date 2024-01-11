@@ -22,7 +22,6 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -305,7 +304,6 @@ namespace MaaWpfGui.ViewModels.UI
             UpdatePackageName = string.Empty;
             IsFirstBootAfterUpdate = true;
             ConfigurationHelper.Release();
-            ConfigFactory.Release();
 
             // 重启进程（启动的是更新后的程序了）
             var newProcess = new Process();

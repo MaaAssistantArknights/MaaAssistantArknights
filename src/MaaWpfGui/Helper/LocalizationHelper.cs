@@ -19,7 +19,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 
 namespace MaaWpfGui.Helper
@@ -67,7 +66,7 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        private static readonly string _culture = ConfigFactory.CurrentConfig.GUI.Localization;
+        private static readonly string _culture = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, DefaultLanguage);
 
         /// <summary>
         /// Loads localizations.

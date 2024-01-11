@@ -212,9 +212,9 @@ namespace MaaWpfGui.ViewModels.UI
             for (int i = 0; i != facilityList.Length; ++i)
             {
                 var facility = facilityList[i];
-                int order = ConfigFactory.CurrentConfig.InfrastOrder.GetValueOrDefault(facility, -1);
+                bool parsed = int.TryParse(ConfigurationHelper.GetFacilityOrder(facility, "-1"), out int order);
 
-                if (order < 0)
+                if (!parsed || order < 0)
                 {
                     tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
                 }
@@ -295,7 +295,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void InitConfiguration()
         {
             var configurations = new ObservableCollection<CombinedData>();
-            foreach (var conf in ConfigFactory.ConfigList)
+            foreach (var conf in ConfigurationHelper.GetConfigurationList())
             {
                 configurations.Add(new CombinedData { Display = conf, Value = conf });
             }
@@ -422,12 +422,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            ConfigFactory.CurrentConfig.GUI.Localization = SoberLanguage;
+            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, SoberLanguage);
             Hangover = true;
             Cheers = false;
         }
 
         #endregion EasterEggs
+
 
         #region Remote Control
 
@@ -1370,7 +1371,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public ObservableCollection<CombinedData> ConfigurationList { get; set; }
 
-        private string _currentConfiguration = ConfigFactory.Root.Current;
+        private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
         public string CurrentConfiguration
         {
@@ -1378,7 +1379,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _currentConfiguration, value);
-                ConfigFactory.SwitchConfig(value);
+                ConfigurationHelper.SwitchConfiguration(value);
 
                 Bootstrapper.ShutdownAndRestartWithOutArgs();
             }
@@ -1401,7 +1402,7 @@ namespace MaaWpfGui.ViewModels.UI
                 NewConfigurationName = DateTime.Now.ToString("yy/MM/dd HH:mm:ss");
             }
 
-            if (ConfigFactory.AddConfiguration(NewConfigurationName, CurrentConfiguration))
+            if (ConfigurationHelper.AddConfiguration(NewConfigurationName, CurrentConfiguration))
             {
                 ConfigurationList.Add(new CombinedData { Display = NewConfigurationName, Value = NewConfigurationName });
 
@@ -1431,7 +1432,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void DeleteConfiguration(CombinedData delete)
         {
-            if (ConfigFactory.DeleteConfiguration(delete.Display))
+            if (ConfigurationHelper.DeleteConfiguration(delete.Display))
             {
                 ConfigurationList.Remove(delete);
             }
@@ -1522,7 +1523,7 @@ namespace MaaWpfGui.ViewModels.UI
             int index = 0;
             foreach (var item in InfrastItemViewModels)
             {
-                ConfigFactory.CurrentConfig.InfrastOrder[item.OriginalName] = index;
+                ConfigurationHelper.SetFacilityOrder(item.OriginalName, index.ToString());
                 ++index;
             }
         }
@@ -2248,9 +2249,9 @@ namespace MaaWpfGui.ViewModels.UI
                     _isOn = isOn;
                     _hour = hour;
                     _min = min;
-                    if (timerConfig == null || !ConfigFactory.Root.Configurations.ContainsKey(timerConfig))
+                    if (timerConfig == null || !ConfigurationHelper.GetConfigurationList().Contains(timerConfig))
                     {
-                        _timerConfig = ConfigFactory.Root.Current;
+                        _timerConfig = ConfigurationHelper.GetCurrentConfiguration();
                     }
                     else
                     {
@@ -2277,9 +2278,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _isOn = value;
                         OnPropertyChanged();
-                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
-                        timer.Enable = value;
-                        ConfigFactory.Root.Timers[TimerId] = timer;
+                        ConfigurationHelper.SetTimer(TimerId, value.ToString());
                     }
                 }
 
@@ -2295,9 +2294,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _hour = (value >= 0 && value <= 23) ? value : _hour;
                         OnPropertyChanged();
-                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
-                        timer.Hour = _hour;
-                        ConfigFactory.Root.Timers[TimerId] = timer;
+                        ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
                     }
                 }
 
@@ -2313,9 +2310,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _min = (value >= 0 && value <= 59) ? value : _min;
                         OnPropertyChanged();
-                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
-                        timer.Minute = _min;
-                        ConfigFactory.Root.Timers[TimerId] = timer;
+                        ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
                     }
                 }
 
@@ -2329,11 +2324,9 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _timerConfig;
                     set
                     {
-                        _timerConfig = value ?? ConfigFactory.Root.Current;
+                        _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
                         OnPropertyChanged();
-                        MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(TimerId, new Configuration.Timer());
-                        timer.Config = _timerConfig;
-                        ConfigFactory.Root.Timers[TimerId] = timer;
+                        ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
                     }
                 }
 
@@ -2349,8 +2342,12 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    MaaWpfGui.Configuration.Timer timer = ConfigFactory.Root.Timers.GetValueOrDefault(i, new Configuration.Timer());
-                    Timers[i] = new TimerProperties(i, timer.Enable, timer.Hour, timer.Minute, timer.Config);
+                    Timers[i] = new TimerProperties(
+                        i,
+                        ConfigurationHelper.GetTimer(i, bool.FalseString) == bool.TrueString,
+                        int.Parse(ConfigurationHelper.GetTimerHour(i, $"{i * 3}")),
+                        int.Parse(ConfigurationHelper.GetTimerMin(i, "0")),
+                        ConfigurationHelper.GetTimerConfig(i, ConfigurationHelper.GetCurrentConfiguration()));
                 }
             }
         }
@@ -3209,7 +3206,7 @@ namespace MaaWpfGui.ViewModels.UI
                 connectConfigName = data.Display;
             }
 
-            string prefix = ConfigFactory.CurrentConfig.GUI.WindowTitlePrefix;
+            string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
             {
                 prefix += " - ";
@@ -3426,7 +3423,7 @@ namespace MaaWpfGui.ViewModels.UI
         public bool UseTray => true;
         */
 
-        private bool _minimizeToTray = ConfigFactory.CurrentConfig.GUI.MinimizeToTray;
+        private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to minimize to tray.
@@ -3437,21 +3434,23 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _minimizeToTray, value);
-                ConfigFactory.CurrentConfig.GUI.MinimizeToTray = value;
+                ConfigurationHelper.SetValue(ConfigurationKeys.MinimizeToTray, value.ToString());
                 Instances.MainWindowManager.SetMinimizeToTaskBar(value);
             }
         }
+
+        private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to hide close button.
         /// </summary>
         public bool HideCloseButton
         {
-            get => ConfigFactory.CurrentConfig.GUI.HideCloseButton;
+            get => _hideCloseButton;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.CurrentConfig.GUI.HideCloseButton = value;
+                SetAndNotify(ref _hideCloseButton, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideCloseButton, value.ToString());
                 var rvm = (RootViewModel)this.Parent;
                 rvm.ShowCloseButton = !value;
             }
@@ -3478,13 +3477,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _useLogItemDateFormat = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
+
         public bool UseLogItemDateFormat
         {
-            get => ConfigFactory.CurrentConfig.GUI.UseLogItemDateFormat;
+            get => _useLogItemDateFormat;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.CurrentConfig.GUI.UseLogItemDateFormat = value;
+                SetAndNotify(ref _useLogItemDateFormat, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseLogItemDateFormat, value.ToString());
             }
         }
 
@@ -3499,27 +3500,31 @@ namespace MaaWpfGui.ViewModels.UI
             "dd.MM  HH:mm:ss",
         };
 
+        private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
+
         public string LogItemDateFormatString
         {
-            get => ConfigFactory.CurrentConfig.GUI.LogItemDateFormat;
+            get => _logItemDateFormatString;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.CurrentConfig.GUI.LogItemDateFormat = value;
+                SetAndNotify(ref _logItemDateFormatString, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LogItemDateFormat, value);
             }
         }
+
+        private bool _useAlternateStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseAlternateStage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use alternate stage.
         /// </summary>
         public bool UseAlternateStage
         {
-            get => ConfigFactory.CurrentConfig.GUI.UseAlternateStage;
+            get => _useAlternateStage;
             set
             {
-                NotifyOfPropertyChange();
+                SetAndNotify(ref _useAlternateStage, value);
                 Instances.TaskQueueViewModel.UseAlternateStage = value;
-                ConfigFactory.CurrentConfig.GUI.UseAlternateStage = value;
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseAlternateStage, value.ToString());
                 if (value)
                 {
                     HideUnavailableStage = false;
@@ -3553,16 +3558,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _hideUnavailableStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideUnavailableStage, bool.TrueString));
+
         /// <summary>
         /// Gets or sets a value indicating whether to hide unavailable stages.
         /// </summary>
         public bool HideUnavailableStage
         {
-            get => ConfigFactory.CurrentConfig.GUI.HideUnavailableStage;
+            get => _hideUnavailableStage;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.CurrentConfig.GUI.HideUnavailableStage = true;
+                SetAndNotify(ref _hideUnavailableStage, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideUnavailableStage, value.ToString());
 
                 if (value)
                 {
@@ -3573,16 +3580,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
+
         /// <summary>
         /// Gets or sets a value indicating whether to use custom stage code.
         /// </summary>
         public bool CustomStageCode
         {
-            get => ConfigFactory.CurrentConfig.GUI.CustomStageCode;
+            get => _customStageCode;
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.CurrentConfig.GUI.CustomStageCode = value;
+                SetAndNotify(ref _customStageCode, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CustomStageCode, value.ToString());
                 Instances.TaskQueueViewModel.CustomStageCode = value;
             }
         }
@@ -3635,31 +3644,49 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private enum InverseClearType
+        {
+            Clear,
+            Inverse,
+            ClearInverse,
+        }
+
+        private InverseClearType _inverseClearMode =
+            Enum.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.InverseClearMode, InverseClearType.Clear.ToString()),
+                out InverseClearType temp)
+                ? temp
+                : InverseClearType.Clear;
+
         /// <summary>
         /// Gets or sets the inverse clear mode.
         /// </summary>
-        public GUI.InverseClearType InverseClearMode
+        public string InverseClearMode
         {
-            get => ConfigFactory.CurrentConfig.GUI.InverseClearMode;
+            get => _inverseClearMode.ToString();
             set
             {
-                NotifyOfPropertyChange();
-                ConfigFactory.CurrentConfig.GUI.InverseClearMode = value;
-                switch (value)
+                if (!Enum.TryParse(value, out InverseClearType tempEnumValue))
                 {
-                    case GUI.InverseClearType.Clear:
+                    return;
+                }
+
+                SetAndNotify(ref _inverseClearMode, tempEnumValue);
+                ConfigurationHelper.SetValue(ConfigurationKeys.InverseClearMode, value);
+                switch (tempEnumValue)
+                {
+                    case InverseClearType.Clear:
                         Instances.TaskQueueViewModel.InverseMode = false;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
-                    case GUI.InverseClearType.Inverse:
+                    case InverseClearType.Inverse:
                         Instances.TaskQueueViewModel.InverseMode = true;
                         Instances.TaskQueueViewModel.ShowInverse = false;
                         Instances.TaskQueueViewModel.SelectedAllWidth = 90;
                         break;
 
-                    case GUI.InverseClearType.ClearInverse:
+                    case InverseClearType.ClearInverse:
                         Instances.TaskQueueViewModel.ShowInverse = true;
                         Instances.TaskQueueViewModel.SelectedAllWidth = TaskQueueViewModel.SelectedAllWidthWhenBoth;
                         break;
@@ -3682,7 +3709,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _language = ConfigFactory.CurrentConfig.GUI.Localization;
+        private string _language = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
         /// <summary>
         /// Gets or sets the language.
@@ -3709,7 +3736,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 // var backup = _language;
-                ConfigFactory.CurrentConfig.GUI.Localization = value;
+                ConfigurationHelper.SetValue(ConfigurationKeys.Localization, value);
 
                 var mainWindow = Application.Current.MainWindow;
 
@@ -3793,7 +3820,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static void SetPallasLanguage()
         {
-            ConfigFactory.CurrentConfig.GUI.Localization = PallasLangKey;
+            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("DrunkAndStaggering"),
                 LocalizationHelper.GetString("Burping"),

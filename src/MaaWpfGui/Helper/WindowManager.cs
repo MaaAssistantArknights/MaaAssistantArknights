@@ -14,7 +14,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Windows;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models;
 using MaaWpfGui.Views.UI;
@@ -34,10 +33,10 @@ namespace MaaWpfGui.Helper
 
         private static readonly ILogger _logger = Log.ForContext<WindowManager>();
 
-        private readonly bool _loadWindowPlacement = ConfigFactory.CurrentConfig.GUI.LoadWindowPlacement;
-        private readonly bool _saveWindowPlacement = ConfigFactory.CurrentConfig.GUI.SaveWindowPlacement;
+        private readonly bool _loadWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadWindowPlacement, bool.TrueString));
+        private readonly bool _saveWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SaveWindowPlacement, bool.TrueString));
         private readonly bool _minimizeDirectly = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
-        private readonly bool _minimizeToTray = ConfigFactory.CurrentConfig.GUI.MinimizeToTray;
+        private readonly bool _minimizeToTray = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
         /// <summary>
         /// Center other windows in MaaWpfGui.RootView
@@ -113,15 +112,14 @@ namespace MaaWpfGui.Helper
             {
                 // 请在配置文件中修改该部分配置，暂不支持从GUI设置
                 // Please modify this part of configuration in the configuration file.
-                ConfigFactory.CurrentConfig.GUI.LoadWindowPlacement = _loadWindowPlacement;
-                ConfigFactory.CurrentConfig.GUI.SaveWindowPlacement = _saveWindowPlacement;
+                ConfigurationHelper.SetValue(ConfigurationKeys.LoadWindowPlacement, _loadWindowPlacement.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.SaveWindowPlacement, _saveWindowPlacement.ToString());
 
-                ConfigFactory.CurrentConfig.GUI.WindowPlacement = wp;
-                return true;
+                return ConfigurationHelper.SetValue(ConfigurationKeys.WindowPlacement, JsonConvert.SerializeObject(wp));
             }
             catch (Exception e)
             {
-                _logger.Error(e, "Failed to serialize json string to {Key}", "GUI.Placement");
+                _logger.Error(e, "Failed to serialize json string to {Key}", ConfigurationKeys.WindowPlacement);
             }
 
             return false;
@@ -129,17 +127,24 @@ namespace MaaWpfGui.Helper
 
         private static bool GetConfiguration(out WindowPlacement wp)
         {
-            var value = ConfigFactory.CurrentConfig.GUI.WindowPlacement;
-            if (value is null)
+            wp = default;
+            var jsonStr = ConfigurationHelper.GetValue(ConfigurationKeys.WindowPlacement, string.Empty);
+            if (string.IsNullOrEmpty(jsonStr))
             {
-                wp = default;
                 return false;
             }
-            else
+
+            try
             {
-                wp = value.Value;
+                wp = JsonConvert.DeserializeObject<WindowPlacement?>(jsonStr) ?? throw new Exception("Failed to parse json string");
                 return true;
             }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to deserialize json string from {Key}", ConfigurationKeys.WindowPlacement);
+            }
+
+            return false;
         }
 
         public bool ForceShow(Window window)

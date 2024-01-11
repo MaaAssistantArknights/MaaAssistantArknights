@@ -13,7 +13,6 @@
 
 using System;
 using System.Windows;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 
@@ -38,7 +37,8 @@ namespace MaaWpfGui.Services.Managers
         public MainWindowManager()
         {
             MainWindow.StateChanged += MainWindowStateChanged;
-            bool minimizeToTray = ConfigFactory.CurrentConfig.GUI.MinimizeToTray;
+
+            bool minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
             SetMinimizeToTaskBar(minimizeToTray);
         }
 

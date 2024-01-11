@@ -24,7 +24,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using HandyControl.Data;
-using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -673,7 +672,7 @@ namespace MaaWpfGui.Main
                         var allTaskCompleteMessage = LocalizationHelper.GetString("AllTaskCompleteContent");
                         var sanityReport = LocalizationHelper.GetString("SanityReport");
 
-                        var configurationPreset = ConfigFactory.Root.Current;
+                        var configurationPreset = ConfigurationHelper.GetCurrentConfiguration();
 
                         allTaskCompleteMessage = allTaskCompleteMessage
                             .Replace("{DateTime}", DateTimeOffset.Now.ToString("yyyy-MM-dd HH:mm:ss"))
