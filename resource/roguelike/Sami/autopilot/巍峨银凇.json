@@ -60,6 +60,22 @@
         },
         {
             "groups": [
+                "速狙",
+                "术师",
+                "狙击"
+            ],
+            "location": [
+                6,
+                7
+            ],
+            "direction": "up",
+            "condition": [
+                0,
+                5
+            ]
+        },
+        {
+            "groups": [
                 "伊内丝"
             ],
             "location": [
@@ -89,7 +105,8 @@
         },
         {
             "groups": [
-                "玛恩纳"
+                "玛恩纳",
+                "锏"
             ],
             "location": [
                 4,

@@ -108,6 +108,7 @@
     <system:String x:Key="StartingCoreChar">Starting Operator (CN name only)</system:String>
     <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single operator, default if not filled.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Stops after clearing the combat</system:String>
@@ -278,7 +279,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes?</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, no longer automatically revert to sanity</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
@@ -288,6 +289,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
 At the end of the level, enter 「Normal/Hard」 to switch between Standard and Adverse environment
 Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:String>
     <system:String x:Key="AutoDetectConnection">Auto detect connection</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">Automatic connection detection is not supported for this configuration, please try manually entering the port number</system:String>
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
@@ -560,8 +562,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to 「Settings - Connection Settings」 to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
     <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long, so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long (avg: {0}ms), so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
@@ -584,9 +586,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
     <system:String x:Key="UnitTime">times</system:String>
-    <system:String x:Key="CurrentSanity">Sanity:</system:String>
-    <system:String x:Key="MedicineUsedTimes">Medicine:</system:String>
-    <system:String x:Key="StoneUsedTimes">Stone:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">Medicine: {0}  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0}/{1}(Expiring)  </system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">Stone: {0}  </system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
     <system:String x:Key="StoneUsed">Originite Prime used</system:String>

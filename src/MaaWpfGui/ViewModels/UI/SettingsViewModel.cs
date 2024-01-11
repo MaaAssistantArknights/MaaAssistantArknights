@@ -21,6 +21,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Management;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
@@ -75,7 +76,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
 
-        private static readonly string _uiVersion = FileVersionInfo.GetVersionInfo(Application.ResourceAssembly.Location).ProductVersion.Split('+')[0];
+        private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
 
         /// <summary>
         /// Gets the UI version.
@@ -907,6 +908,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         FileName = StartsWithScript,
                         WindowStyle = ProcessWindowStyle.Minimized,
+                        UseShellExecute = true,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {StartsWithScript}",
@@ -932,6 +934,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         FileName = EndsWithScript,
                         WindowStyle = ProcessWindowStyle.Minimized,
+                        UseShellExecute = true,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {EndsWithScript}",
@@ -1905,7 +1908,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
 
         /// <summary>
-        /// Gets or sets a value indicating whether use support unit.
+        /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
         public bool RoguelikeStartWithEliteTwo
         {
@@ -1917,8 +1920,28 @@ namespace MaaWpfGui.ViewModels.UI
                     RoguelikeUseSupportUnit = false;
                 }
 
+                if (!value && RoguelikeOnlyStartWithEliteTwo)
+                {
+                    RoguelikeOnlyStartWithEliteTwo = false;
+                }
+
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+            }
+        }
+
+        private string _roguelikeOnlyStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether only need with elite two's core char.
+        /// </summary>
+        public bool RoguelikeOnlyStartWithEliteTwo
+        {
+            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo);
+            set
+            {
+                SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
             }
         }
 
@@ -3109,15 +3132,14 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            if (emulators.Count == 0)
+            switch (emulators.Count)
             {
-                error = LocalizationHelper.GetString("EmulatorNotFound");
-                return false;
-            }
-            else if (emulators.Count > 1)
-            {
-                error = LocalizationHelper.GetString("EmulatorTooMany");
-                return false;
+                case 0:
+                    error = LocalizationHelper.GetString("EmulatorNotFound");
+                    return false;
+                case > 1:
+                    error = LocalizationHelper.GetString("EmulatorTooMany");
+                    break;
             }
 
             ConnectConfig = emulators.First();
@@ -3130,15 +3152,19 @@ namespace MaaWpfGui.ViewModels.UI
 
             var addresses = adapter.GetAdbAddresses(AdbPath);
 
-            if (addresses.Count == 1)
+            switch (addresses.Count)
             {
-                ConnectAddress = addresses.First();
-            }
-            else if (addresses.Count > 1)
-            {
-                foreach (var address in addresses.Where(address => address != "emulator-5554"))
+                case 1:
+                    ConnectAddress = addresses.First();
+                    break;
+                case > 1:
                 {
-                    ConnectAddress = address;
+                    foreach (var address in addresses.Where(address => address != "emulator-5554"))
+                    {
+                        ConnectAddress = address;
+                        break;
+                    }
+
                     break;
                 }
             }

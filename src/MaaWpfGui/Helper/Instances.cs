@@ -10,11 +10,11 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#pragma warning disable SA1401
 
 using System;
 using GlobalHotKey;
 using MaaWpfGui.Main;
-using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
@@ -51,12 +51,15 @@ namespace MaaWpfGui.Helper
 
             public static int StoneUsedTimes;
 
+            public static bool HasPrintedScreencapWarning;
+
             public static void ClearCache()
             {
                 SanityReport.HasSanityReport = false;
                 MedicineUsedTimes = 0;
                 ExpiringMedicineUsedTimes = 0;
                 StoneUsedTimes = 0;
+                HasPrintedScreencapWarning = false;
             }
         }
 
@@ -75,8 +78,6 @@ namespace MaaWpfGui.Helper
         public static AnnouncementViewModel AnnouncementViewModel { get; private set; }
 
         public static AsstProxy AsstProxy { get; private set; }
-
-        public static TrayIcon TrayIcon { get; private set; }
 
         public static HotKeyManager HotKeyManager { get; private set; }
 
@@ -106,7 +107,7 @@ namespace MaaWpfGui.Helper
             VersionUpdateViewModel = container.Get<VersionUpdateViewModel>();
             AnnouncementViewModel = container.Get<AnnouncementViewModel>();
 
-            // 这仨实例化时存在依赖顺序
+            // 这两实例化时存在依赖顺序
             HttpService = container.Get<HttpService>();
             MaaApiService = container.Get<MaaApiService>();
 
@@ -120,7 +121,6 @@ namespace MaaWpfGui.Helper
         public static void InstantiateOnRootViewDisplayed(IContainer container)
         {
             MainWindowManager = container.Get<MainWindowManager>();
-            TrayIcon = container.Get<TrayIcon>();
         }
     }
 }

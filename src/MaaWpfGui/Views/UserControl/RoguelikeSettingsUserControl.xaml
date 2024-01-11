@@ -51,11 +51,11 @@
                 Style="{StaticResource ComboBoxExtend}" />
         </StackPanel>
 
-        <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
+        <StackPanel IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
             <hc:NumericUpDown
                 Margin="0,5"
-                Minimum="0"
                 hc:InfoElement.Title="{DynamicResource StartTimesLimit}"
+                Minimum="0"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeStartsCount}" />
@@ -66,8 +66,8 @@
                 IsEnabled="{c:Binding 'RoguelikeMode != &quot;1&quot;'}">
                 <CheckBox.IsChecked>
                     <MultiBinding Converter="{StaticResource InvestmentButtonCheckedConverter}">
-                        <Binding Path="RoguelikeInvestmentEnabled"/>
-                        <Binding Path="RoguelikeMode"/>
+                        <Binding Path="RoguelikeInvestmentEnabled" />
+                        <Binding Path="RoguelikeMode" />
                     </MultiBinding>
                 </CheckBox.IsChecked>
             </CheckBox>
@@ -76,11 +76,12 @@
                 Margin="0,10"
                 Content="{DynamicResource InvestmentEnterSecondFloor}"
                 IsChecked="{Binding RoguelikeInvestmentEnterSecondFloor}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot;'}"/>
+                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot;'}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStopWhenInvestmentFull}"
-                Visibility="{c:Binding ElementName=InvestmentEnabled, Path=IsChecked}">
+                Visibility="{c:Binding ElementName=InvestmentEnabled,
+                                       Path=IsChecked}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource StopOnGoldLimit}"
@@ -88,11 +89,12 @@
             </CheckBox>
             <hc:NumericUpDown
                 Margin="0,5"
-                Minimum="0"
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
-                Visibility="{c:Binding ElementName=InvestmentEnabled, Path=IsChecked}"
+                Minimum="0"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
+                Visibility="{c:Binding ElementName=InvestmentEnabled,
+                                       Path=IsChecked}"
                 Value="{Binding RoguelikeInvestsCount}" />
             <CheckBox
                 Margin="0,10"
@@ -132,6 +134,16 @@
                     Text="{DynamicResource RoguelikeStartWithEliteTwo}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeOnlyStartWithEliteTwo}"
+                IsEnabled="{Binding RoguelikeStartWithEliteTwo}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme != &quot;Phantom&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeOnlyStartWithEliteTwo}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
             <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeUseSupportUnit}">
                 <TextBlock
                     Block.TextAlignment="Left"
@@ -147,10 +159,7 @@
                     Text="{DynamicResource RoguelikeUseNonFriendSupport}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox
-                Margin="0,10"
-                IsEnabled="{Binding Idle}"
-                IsChecked="{Binding RoguelikeDelayAbortUntilCombatComplete}">
+            <CheckBox Margin="0,10" IsChecked="{Binding RoguelikeDelayAbortUntilCombatComplete}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeDelayAbortUntilCombatComplete}"

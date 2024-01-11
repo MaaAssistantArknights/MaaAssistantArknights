@@ -1,18 +1,18 @@
-#include "FightTimesPlugin.h"
+#include "FightTimesTaskPlugin.h"
 
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 
-bool asst::FightTimesPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::FightTimesTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
-    return !inited && details.at("details").at("task").as_string().ends_with("StartButton1");
+    return !inited && details.get("details", "task", "").ends_with("StartButton1");
 }
 
-bool asst::FightTimesPlugin::_run()
+bool asst::FightTimesTaskPlugin::_run()
 {
     const static std::string FightSeriesOpenTask = "FightSeries-Indicator";
     const static std::string FightSeriesValidTask = "FightSeries-Icon";

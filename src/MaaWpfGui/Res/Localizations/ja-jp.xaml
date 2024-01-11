@@ -108,6 +108,7 @@
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
     <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘クリアで止まる</system:String>
@@ -278,7 +279,7 @@
     <system:String x:Key="DarkModeSetColorsTip">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、自動的に理性を回復しません</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、理性剤も源石も使わない</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">基地計画を表示する</system:String>
@@ -288,6 +289,7 @@
 の両方がサポートされています。レベルの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
     <!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">この接続構成では自動接続検出はサポートされていません。手動でポート番号を入力してみてください</system:String>
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
     <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
@@ -560,8 +562,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="TouchModeNotAvailable">タッチモードは利用できません。設定-接続設定に入って、他のタッチモードに変更してください。</system:String>
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
     <system:String x:Key="FastestWayToScreencap">スクリーンショット テストには: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります。 シミュレーターを再起動または変更してみることをお勧めします。</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります。 シミュレーターを再起動または変更してみることをお勧めします。</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>
     <system:String x:Key="CombatError">戦闘エラー</system:String>
@@ -584,9 +586,10 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
-    <system:String x:Key="CurrentSanity">理性:</system:String>
-    <system:String x:Key="MedicineUsedTimes">薬:</system:String>
-    <system:String x:Key="StoneUsedTimes">石:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">理性: {0}/{1}  </system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">薬: {0}  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">薬: {0}/{1}(期限切れ)  </system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">回復剤を使った</system:String>
     <system:String x:Key="ExpiringMedicineUsed">48時間以内に期限が切れる回復剤を使った</system:String>
     <system:String x:Key="StoneUsed">源石を使った</system:String>

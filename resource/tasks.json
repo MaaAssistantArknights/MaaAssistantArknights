@@ -12795,7 +12795,6 @@
     },
     "Roguelike@TraderRandomShopping": {
         "Doc": "该任务注册了 RoguelikeShoppingTaskPlugin，若是点完了仍在当前界面，说明没啥要买的，直接离开商店（next 里的 PhantomStageTraderLeave）",
-        "action": "ClickSelf",
         "templThreshold": 0.7,
         "cache": false,
         "roi": [
@@ -13247,8 +13246,8 @@
             254,
             248
         ],
-        "next": [
-            "(SwipeToTheUp*12)"
+        "sub": [
+            "SwipeToTheUp*2"
         ]
     },
     "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
@@ -13267,8 +13266,8 @@
             254,
             248
         ],
-        "next": [
-            "(SwipeToTheDown*12)"
+        "sub": [
+            "SwipeToTheDown*2"
         ]
     },
     "Mizuki@Roguelike@ChooseOper": {
@@ -13965,8 +13964,8 @@
             322,
             189
         ],
-        "next": [
-            "(SwipeToTheUp*12)"
+        "sub": [
+            "SwipeToTheUp*2"
         ]
     },
     "Sami@Roguelike@ChooseDifficulty_Hardest": {
@@ -13985,8 +13984,8 @@
             322,
             189
         ],
-        "next": [
-            "(SwipeToTheDown*12)"
+        "sub": [
+            "SwipeToTheDown*2"
         ]
     },
     "Sami@Roguelike@ChooseOper": {

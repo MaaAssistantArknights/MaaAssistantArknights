@@ -95,6 +95,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_config_ptr->set_difficulty(0);
     // 是否凹指定干员开局直升
     m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
+    m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
 
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
@@ -155,12 +156,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", INT_MAX);
     }
 
-    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));
-    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));
-    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", "")); // 开局分队
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseSupport,
-                                          params.get("use_support", false) ? "1" : "0");
+                                          params.get("use_support", false) ? "1" : "0"); // 开局干员是否为助战干员
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseNonfriendSupport,
-                                          params.get("use_nonfriend_support", false) ? "1" : "0");
+                                          params.get("use_nonfriend_support", false) ? "1"
+                                                                                     : "0"); // 是否可以是非好友助战干员
     return true;
 }

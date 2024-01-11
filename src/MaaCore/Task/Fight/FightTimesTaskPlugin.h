@@ -2,11 +2,11 @@
 #include "Task/AbstractTaskPlugin.h"
 namespace asst
 {
-    class FightTimesPlugin : public AbstractTaskPlugin
+    class FightTimesTaskPlugin : public AbstractTaskPlugin
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~FightTimesPlugin() override = default;
+        virtual ~FightTimesTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
