@@ -3678,6 +3678,21 @@
             ],
             "rarity": 6
         },
+        "char_4081_warmy": {
+            "name": "温米",
+            "name_en": "温米",
+            "name_jp": "温米",
+            "name_kr": "温米",
+            "name_tw": "温米",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ],
+            "rarity": 5
+        },
         "char_4082_qiubai": {
             "name": "仇白",
             "name_en": "Qiubai",
@@ -3698,7 +3713,7 @@
             "name_en": "Wind Chimes",
             "name_jp": "ウィンドチャイム",
             "name_kr": "윈드차임스",
-            "name_tw": "铎铃",
+            "name_tw": "鐸鈴",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3932,6 +3947,24 @@
                 "1-1"
             ],
             "rarity": 6
+        },
+        "char_4117_ray": {
+            "name": "莱伊",
+            "name_en": "莱伊",
+            "name_jp": "莱伊",
+            "name_kr": "莱伊",
+            "name_tw": "莱伊",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-12",
+                "4-9",
+                "4-9"
+            ],
+            "rarity": 6,
+            "tokens": [
+                "沙地兽"
+            ]
         },
         "char_411_tomimi": {
             "name": "特米米",
@@ -5430,6 +5463,21 @@
                 "0-1",
                 "0-1",
                 "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10034_ray_sndbst": {
+            "name": "沙地兽",
+            "name_en": "沙地兽",
+            "name_jp": "沙地兽",
+            "name_kr": "沙地兽",
+            "name_tw": "沙地兽",
+            "position": "ALL",
+            "profession": "TOKEN",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
             ],
             "rarity": 6
         },

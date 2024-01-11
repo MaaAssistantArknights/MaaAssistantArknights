@@ -110,7 +110,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-
         private string _updateUrl;
 
         /// <summary>
@@ -475,7 +474,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         if (!string.IsNullOrWhiteSpace(UpdateUrl))
                         {
-                            Process.Start(UpdateUrl);
+                            Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
                     }
                 );

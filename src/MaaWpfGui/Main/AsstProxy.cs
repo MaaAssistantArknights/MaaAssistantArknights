@@ -457,33 +457,50 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "FastestWayToScreencap":
-                    string costString = details["details"]?["cost"]?.ToString() ?? "???";
-                    string method = details["details"]?["method"]?.ToString() ?? "???";
+                    {
+                        string costString = details["details"]?["cost"]?.ToString() ?? "???";
+                        string method = details["details"]?["method"]?.ToString() ?? "???";
 
-                    StringBuilder fastestScreencapStringBuilder = new StringBuilder();
-                    string color = UiLogColor.Trace;
-                    if (!int.TryParse(costString, out var timeCost))
-                    {
-                        color = UiLogColor.Error;
-                    }
-                    else if (timeCost > 800)
-                    {
-                        color = UiLogColor.Error;
-                        fastestScreencapStringBuilder.AppendLine().Append(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"));
-                        costString = timeCost.ToString("#,#");
-                    }
-                    else if (timeCost > 400)
-                    {
-                        color = UiLogColor.Warning;
-                        fastestScreencapStringBuilder.AppendLine().Append(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"));
+                        StringBuilder fastestScreencapStringBuilder = new();
+                        string color = UiLogColor.Trace;
+                        if (!int.TryParse(costString, out var timeCost))
+                        {
+                            color = UiLogColor.Error;
+                        }
+                        else if (timeCost > 800)
+                        {
+                            color = UiLogColor.Error;
+                            costString = timeCost.ToString("#,#");
+                        }
+                        else if (timeCost > 400)
+                        {
+                            color = UiLogColor.Warning;
+                        }
+
+                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
+                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
                     }
 
-                    fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
-                    Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                    Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString());
                     break;
                 case "ScreencapCost":
                     Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
+                    if (HasPrintedScreencapWarning || !int.TryParse(details["details"]?["avg"]?.ToString() ?? "???", out var screencapCostAvg))
+                    {
+                    }
+                    else if (screencapCostAvg >= 800)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
+                        HasPrintedScreencapWarning = true;
+                    }
+                    else if (screencapCostAvg >= 400)
+                    {
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
+                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
+                        HasPrintedScreencapWarning = true;
+                    }
+
                     break;
             }
         }
@@ -555,7 +572,7 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.FightTaskRunning = taskChain switch
                     {
                         "Fight" => true,
-                        _ => Instances.TaskQueueViewModel.FightTaskRunning
+                        _ => Instances.TaskQueueViewModel.FightTaskRunning,
                     };
 
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + taskChain);
@@ -588,7 +605,7 @@ namespace MaaWpfGui.Main
 
                     if (taskChain == "Fight" && SanityReport.HasSanityReport)
                     {
-                        var sanityLog = "\n" + LocalizationHelper.GetString("CurrentSanity") + $" {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}";
+                        var sanityLog = "\n" + string.Format(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + taskChain + sanityLog);
                     }
                     else
@@ -831,23 +848,28 @@ namespace MaaWpfGui.Main
                         {
                             case "StartButton2":
                             case "AnnihilationConfirm":
-                                var log = LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}\n";
+                                StringBuilder missionStartLogBuilder = new();
+                                missionStartLogBuilder.AppendLine(LocalizationHelper.GetString("MissionStart") + $" {execTimes} {LocalizationHelper.GetString("UnitTime")}");
                                 if (SanityReport.HasSanityReport)
                                 {
-                                    log += $"{LocalizationHelper.GetString("CurrentSanity")} {SanityReport.Sanity[0]}/{SanityReport.Sanity[1]}  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("CurrentSanity"), SanityReport.Sanity[0], SanityReport.Sanity[1]);
                                 }
 
-                                if (MedicineUsedTimes > 0 || ExpiringMedicineUsedTimes > 0)
+                                if (ExpiringMedicineUsedTimes > 0)
                                 {
-                                    log += $"{LocalizationHelper.GetString("MedicineUsedTimes")} {MedicineUsedTimes}" + (ExpiringMedicineUsedTimes > 0 ? $"({ExpiringMedicineUsedTimes})" : string.Empty) + "  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("MedicineUsedTimesWithExpiring"), MedicineUsedTimes, ExpiringMedicineUsedTimes);
+                                }
+                                else if (MedicineUsedTimes > 0)
+                                {
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("MedicineUsedTimes"), MedicineUsedTimes);
                                 }
 
                                 if (StoneUsedTimes > 0)
                                 {
-                                    log += $"{LocalizationHelper.GetString("StoneUsedTimes")} {StoneUsedTimes}  ";
+                                    missionStartLogBuilder.AppendFormat(LocalizationHelper.GetString("StoneUsedTimes"), StoneUsedTimes);
                                 }
 
-                                Instances.TaskQueueViewModel.AddLog(log.TrimEnd('\n').TrimEnd(' '), UiLogColor.Info);
+                                Instances.TaskQueueViewModel.AddLog(missionStartLogBuilder.ToString().TrimEnd(), UiLogColor.Info);
                                 break;
 
                             case "StoneConfirm":
@@ -1007,7 +1029,7 @@ namespace MaaWpfGui.Main
                 case "StageDrops":
                     {
                         string allDrops = string.Empty;
-                        JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
+                        var statistics = (JArray)subTaskDetails["stats"] ?? new();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
 
                         foreach (var item in statistics)
@@ -1054,7 +1076,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsDetected":
                     {
-                        JArray tags = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        var tags = (JArray)subTaskDetails["tags"] ?? new();
                         string logContent = tags.Select(tagName => tagName.ToString())
                             .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
@@ -1122,7 +1144,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsSelected":
                     {
-                        JArray selected = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        var selected = (JArray)subTaskDetails["tags"] ?? new();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
                         selectedLog = selectedLog.EndsWith("\n") ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
@@ -1153,7 +1175,7 @@ namespace MaaWpfGui.Main
                 case "RoguelikeSettlement":
                     // 肉鸽结算
                     bool roguelikeGamePass = (bool)subTaskDetails["game_pass"];
-                    StringBuilder roguelikeInfo = new StringBuilder();
+                    StringBuilder roguelikeInfo = new();
                     roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement"), roguelikeGamePass ? "✓" : "✗").AppendLine();
                     roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Explore"), subTaskDetails["floor"], subTaskDetails["step"]).AppendLine();
                     roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Combat"), subTaskDetails["combat"], subTaskDetails["emergency"], subTaskDetails["boss"]).AppendLine();
@@ -1379,7 +1401,7 @@ namespace MaaWpfGui.Main
                     // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                     string args = $"/e, /select, \"{filename}\"";
 
-                    ProcessStartInfo info = new ProcessStartInfo
+                    ProcessStartInfo info = new()
                     {
                         FileName = "explorer",
                         Arguments = args,
@@ -1518,17 +1540,24 @@ namespace MaaWpfGui.Main
             // 尝试默认的备选端口
             if (!ret && Instances.SettingsViewModel.AutoDetectConnection)
             {
-                foreach (var address in Instances.SettingsViewModel.DefaultAddress[Instances.SettingsViewModel.ConnectConfig]
-                             .TakeWhile(address => !_runningState.GetIdle()))
+                if (Instances.SettingsViewModel.DefaultAddress.TryGetValue(Instances.SettingsViewModel.ConnectConfig, out var value))
                 {
-                    ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, address, Instances.SettingsViewModel.ConnectConfig);
-                    if (!ret)
+                    foreach (var address in value
+                                 .TakeWhile(_ => !_runningState.GetIdle()))
                     {
-                        continue;
-                    }
+                        ret = AsstConnect(_handle, Instances.SettingsViewModel.AdbPath, address, Instances.SettingsViewModel.ConnectConfig);
+                        if (!ret)
+                        {
+                            continue;
+                        }
 
-                    Instances.SettingsViewModel.ConnectAddress = address;
-                    break;
+                        Instances.SettingsViewModel.ConnectAddress = address;
+                        break;
+                    }
+                }
+                else
+                {
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoDetectConnectionNotSupported"), UiLogColor.Error);
                 }
             }
 
@@ -1549,7 +1578,7 @@ namespace MaaWpfGui.Main
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject taskParams = null)
         {
-            taskParams ??= new JObject();
+            taskParams ??= new();
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1560,7 +1589,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            taskParams ??= new JObject();
+            taskParams ??= new();
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1584,7 +1613,7 @@ namespace MaaWpfGui.Main
             Gacha,
         }
 
-        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
+        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new();
 
         private static JObject SerializeFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes,
             string dropsItemId, int dropsItemQuantity)
@@ -1943,13 +1972,14 @@ namespace MaaWpfGui.Main
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="coreChar"><paramref name="coreChar"/> TODO.</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
+        /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentEnterSecondFloor, int invests, bool stopWhenFull,
-            string squad, string roles, string coreChar, bool startWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
+            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
         {
             var taskParams = new JObject
             {
@@ -1982,7 +2012,8 @@ namespace MaaWpfGui.Main
                 taskParams["core_char"] = coreChar;
             }
 
-            taskParams["start_with_elite_two"] = startWithEliteTwo;
+            taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
+            taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;

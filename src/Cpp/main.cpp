@@ -20,7 +20,7 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
-#ifdef SMOKE_TESTING
+#ifdef ASST_DEBUG
     if (argc >= 2) {
         std::string overseas_type(argv[1]); // "YoStarJP", "YoStarEN", "YoStarKR", "txwy"
         std::cout << "load overseas_type:" << overseas_type << std::endl;
@@ -30,22 +30,6 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cerr << "-------- load resource failed: " << overseas_type << " --------" << std::endl;
             return -1;
         }
-    }
-#elif defined(ASST_DEBUG)
-    bool load_error = false;
-    const auto overseas_dir = cur_path / "resource" / "global";
-    for (const auto& client : { "YoStarJP", "YoStarEN", "YoStarKR", "txwy" }) {
-        const auto overseas_path = overseas_dir / client;
-        bool loaded = AsstLoadResource(cur_path.string().c_str());
-        // 增量更新外服的资源
-        loaded &= AsstLoadResource(overseas_path.string().c_str());
-        if (!loaded) {
-            load_error = true;
-            std::cerr << "-------- load resource failed: " << client << " --------" << std::endl;
-        }
-    }
-    if (load_error) {
-        return -1;
     }
 #endif
 

@@ -102,12 +102,13 @@
     <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對 autofill 和 幹員編組 的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
-    <system:String x:Key="RoguelikeLastReward">燒熱水，到達第三層後直接退出</system:String>
+    <system:String x:Key="RoguelikeLastReward">刷開局，刷取熱水壺或精二幹員開局</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
     <system:String x:Key="StartingCoreCharTip">僅支持單個幹員中文名，不填寫則預設選擇。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「開局幹員」直升精二，不進行作戰</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">中止行為等待至當前戰鬥結束後</system:String>
@@ -278,7 +279,7 @@
     <system:String x:Key="DarkModeSetColorsTip">是否立刻重啟應用更改？</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不再自動回復理智</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥/碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">顯示基建計劃</system:String>
@@ -288,6 +289,7 @@
 可在關卡結尾輸入「Normal/Hard」表示需要切換標準與磨難難度
 可輸入「SSReopen-XX」一次性代理SS複刻的普通關</system:String>
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">該連接配置不支援自動檢測連接，請嘗試手動填寫端口號</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
     <system:String x:Key="AccountSwitch">賬號切換</system:String>
@@ -558,8 +560,8 @@
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長，使用自動戰鬥類功能（如自動肉鴿）時，可能會出現部分異常表現</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，使用自動戰鬥類功能（如自動肉鴿）時，可能會出現部分異常表現</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
@@ -582,9 +584,10 @@
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
     <system:String x:Key="MissionStart">已開始行動</system:String>
     <system:String x:Key="UnitTime">次</system:String>
-    <system:String x:Key="CurrentSanity">理智:</system:String>
-    <system:String x:Key="MedicineUsedTimes">藥:</system:String>
-    <system:String x:Key="StoneUsedTimes">石:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">藥: {0}  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0}/{1}(臨期)  </system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小時內過期的理智藥</system:String>
     <system:String x:Key="StoneUsed">已使用源石</system:String>

@@ -78,6 +78,7 @@ namespace MaaWpfGui.Helper
                         {
                             _logger.Error("Failed to get window placement");
                         }
+
                         if (!SetConfiguration(windowPlacement))
                         {
                             _logger.Error("Failed to save window placement");

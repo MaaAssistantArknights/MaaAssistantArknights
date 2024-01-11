@@ -14,7 +14,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Win32;
 using Serilog;
 
@@ -28,18 +27,31 @@ namespace MaaWpfGui.Utilities
         private static readonly ILogger _logger = Log.ForContext("SourceContext", "AutoStart");
 
         private static readonly string _fileValue = Process.GetCurrentProcess().MainModule?.FileName;
-        private static readonly string _uniqueIdentifier = GetUniqueIdentifierFromPath(_fileValue);
+        private static readonly string _uniqueIdentifier = GetHashCode(_fileValue);
 
         private static readonly string _startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
         private static readonly string _registryKeyName = $"MAA_{_uniqueIdentifier}";
         private static readonly string _startupShortcutPath = Path.Combine(_startupFolderPath, _registryKeyName + ".lnk");
 
-        private static readonly string _currentUserRunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
+        private const string CurrentUserRunKey = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
-        private static string GetUniqueIdentifierFromPath(string path)
+        private static string GetHashCode(string input)
         {
-            int hash = path.GetHashCode();
-            return hash.ToString("X");
+            int hash1 = (5381 << 16) + 5381;
+            int hash2 = hash1;
+
+            for (int i = 0; i < input.Length; i += 2)
+            {
+                hash1 = ((hash1 << 5) + hash1) ^ input[i];
+                if (i == input.Length - 1)
+                {
+                    break;
+                }
+
+                hash2 = ((hash2 << 5) + hash2) ^ input[i + 1];
+            }
+
+            return (hash1 + (hash2 * 1566083941)).ToString("X");
         }
 
         /// <summary>
@@ -57,7 +69,7 @@ namespace MaaWpfGui.Utilities
                     SetStart(true);
                 }
 
-                using var key = Registry.CurrentUser.OpenSubKey(_currentUserRunKey, false);
+                using var key = Registry.CurrentUser.OpenSubKey(CurrentUserRunKey, false);
                 return key?.GetValue(_registryKeyName) != null;
             }
             catch (Exception e)
@@ -76,7 +88,7 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey(_currentUserRunKey, true);
+                using var key = Registry.CurrentUser.OpenSubKey(CurrentUserRunKey, true);
                 if (key == null)
                 {
                     _logger.Error("Failed to open registry key.");
@@ -86,7 +98,7 @@ namespace MaaWpfGui.Utilities
                 if (set)
                 {
                     key.SetValue(_registryKeyName, "\"" + _fileValue + "\"");
-                    _logger.Information($"Set [{_registryKeyName}, \"{_fileValue}\"] into \"{_currentUserRunKey}\"");
+                    _logger.Information($"Set [{_registryKeyName}, \"{_fileValue}\"] into \"{CurrentUserRunKey}\"");
                 }
                 else
                 {

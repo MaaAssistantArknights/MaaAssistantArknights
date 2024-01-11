@@ -108,6 +108,7 @@
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
     <system:String x:Key="StartingCoreCharTip">단일 오퍼레이터의 중국어 이름만 지원하며, 입력하지 않으면 기본값이 선택됩니다.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">시초 에 간부 가 직진 하다</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">오로지 시초 오퍼레이터의 직진만을 요구하고 전투를 진행하지 않음</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">전투 클리어 후 정지</system:String>
@@ -278,7 +279,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="DarkModeSetColorsTip">변경 사항을 적용하려면 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 브러시하고, 자동으로 정신 상태로 되돌아가지 않습니다</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 브러시하고, 이성 물약이나 돌을 사용하지 않습니다.</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 내 소멸하는 회복제 전부 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
@@ -288,6 +289,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
 레벨 끝에 「Normal/Hard」를 입력하여 표준 난이도와 환난 난이도 사이를 전환해야 함을 나타낼 수 있습니다
 「SSReopen-XX」 일회성 프록시 SS 포크의 일반 수준을 입력할 수 있습니다</system:String>
     <system:String x:Key="AutoDetectConnection">연결 자동 감지</system:String>
+    <system:String x:Key="AutoDetectConnectionNotSupported">이 연결 구성에서는 자동 연결 감지가 지원되지 않습니다. 수동으로 포트 번호를 입력해보세요</system:String>
     <system:String x:Key="AutoDetectConnectionTip">이 체크박스는 감지가 끝나면 자동으로 체크가 해제됩니다. 다시 감지하려면 다시 체크해주세요</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">매번 재감지</system:String>
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
@@ -560,8 +562,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷을 찍는 데 시간이 오래 걸리므로 자동 전투 기능(예: Auto I. S.)을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷을 찍는 데 시간이 오래 걸리므로 자동 전투 기능(예: Auto I.S.)이 제대로 실행되지 않을 수 있습니다. 시뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷을 찍는 데 시간이 오래 걸리므로(평균: {0}ms) 자동 전투 기능(예: Auto I. S.)을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">화면 캡처 시간이 너무 길어(평균: {0}ms) 자동 전투 기능(예: Auto I.S.)이 제대로 실행되지 않을 수 있습니다. 시뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>
@@ -584,9 +586,10 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
-    <system:String x:Key="CurrentSanity">이성:</system:String>
-    <system:String x:Key="MedicineUsedTimes">\n이성 회복 아이템:</system:String>
-    <system:String x:Key="StoneUsedTimes">\n순오리지늄:</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}</system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복 아이템: {0}</system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복 아이템: {0}/{1}(만료 예정)</system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}</system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>

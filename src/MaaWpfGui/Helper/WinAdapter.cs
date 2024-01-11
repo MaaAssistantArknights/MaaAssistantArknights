@@ -46,8 +46,8 @@ namespace MaaWpfGui.Helper
                     @".\Engine\ProgramFiles\HD-Adb.exe",
                 }
             },
-            { "LDPlayer",  new List<string> {@".\adb.exe"} },
-            { "Nox",  new List<string> {@".\nox_adb.exe"} },
+            { "LDPlayer", new List<string> { @".\adb.exe" } },
+            { "Nox", new List<string> { @".\nox_adb.exe" } },
             {
                 "MuMuEmulator",  new List<string>
                 {
@@ -79,7 +79,7 @@ namespace MaaWpfGui.Helper
             var emulators = new List<string>();
             foreach (var process in allProcess)
             {
-                if (!_emulatorIdDict.Keys.Contains(process.ProcessName))
+                if (!_emulatorIdDict.ContainsKey(process.ProcessName))
                 {
                     continue;
                 }
@@ -117,7 +117,8 @@ namespace MaaWpfGui.Helper
         /// <returns>The list of ADB addresses.</returns>
         public List<string> GetAdbAddresses(string adbPath)
         {
-            try {
+            try
+            {
                 using Process process = new Process();
                 process.StartInfo.FileName = adbPath;
                 process.StartInfo.Arguments = "devices";
@@ -133,7 +134,7 @@ namespace MaaWpfGui.Helper
 
                 return (from line in outLines where !line.StartsWith("List of devices attached") && line.Length != 0 && line.Contains("device") select line.Split('\t')[0]).ToList();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _logger.Error(e.Message);
                 return new List<string>();

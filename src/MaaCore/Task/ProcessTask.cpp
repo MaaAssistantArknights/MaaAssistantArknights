@@ -186,6 +186,11 @@ bool ProcessTask::_run()
         };
 
         callback(AsstMsg::SubTaskStart, info);
+        // 允许插件停用ProcessTask
+        if (!m_enable) {
+            Log.info("task disabled after SubTaskStart callback, pass", basic_info().to_string());
+            return true;
+        }
 
         // 前置固定延时
         if (!sleep(m_cur_task_ptr->pre_delay)) {
@@ -257,6 +262,11 @@ bool ProcessTask::_run()
         }
 
         callback(AsstMsg::SubTaskCompleted, info);
+        // 允许插件停用ProcessTask
+        if (!m_enable) {
+            Log.info("task disabled after SubTaskCompleted callback, pass", basic_info().to_string());
+            return true;
+        }
 
         if (limit_type == TimesLimitType::Post && exec_times >= max_times) {
             info["what"] = "ExceededLimit";
