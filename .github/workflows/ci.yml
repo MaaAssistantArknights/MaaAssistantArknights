@@ -224,21 +224,20 @@ jobs:
           CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
           CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
 
-      - name: Install cross compile tool (CLI)
-        if: ${{ matrix.arch != 'x86_64' }}
-        uses: taiki-e/install-action@v2
+      - name: Setup Rust
+        uses: ./src/maa-cli/.github/actions/setup
         with:
-          tool: cross
+          os: ubuntu-latest
+          arch: ${{ matrix.arch }}
 
       - name: Build CLI
         run: |
-          $CARGO_CMD build --release --locked --package maa-cli
+          cargo build --release --locked --package maa-cli \
+             ${{ matrix.arch != 'x86_64' && '--features vendored-openssl' || '' }}
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
-          $CARGO_CMD build --release --locked --package maa-cli --no-default-features --features git2
+          cargo build --release --locked --package maa-cli --no-default-features \
+            --features ${{ matrix.arch != 'x86_64' && 'git2,vendored-openssl' || 'git2' }}
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/appimage-maa
-        env:
-          CARGO_CMD: ${{ matrix.arch == 'x86_64' && 'cargo' || 'cross' }}
-          CARGO_BUILD_TARGET: ${{ matrix.arch }}-unknown-linux-gnu
         working-directory: src/maa-cli
 
       - name: Build Appimage
