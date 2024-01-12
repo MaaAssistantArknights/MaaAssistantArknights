@@ -2296,6 +2296,14 @@
                 "无需增调干员"
             ],
             [
+                "Executor the Ex.*",
+                "Executor the Ex Foedere"
+            ],
+			[
+                ".*the Ex Foedere",
+                "Executor the Ex Foedere"
+            ],
+            [
                 "Executor the Ex Foedere",
                 "圣约送葬人"
             ],
