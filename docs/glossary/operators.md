@@ -196,7 +196,7 @@ char_475_akafyu|赤冬|Akafuyu|アカフユ|아카후유
 char_476_blkngt|夜半|Blacknight|ブラックナイト|블랙나이트
 char_478_kirara|绮良|Kirara|キララ|키라라
 char_486_takila|龙舌兰|Tequila|テキーラ|테킬라
-char_488_buildr|青枳|Poncirus||
+char_488_buildr|青枳|Poncirus||폰사이러스
 char_489_serum|蚀清|Corroserum|コロセラム|코로세럼
 char_492_quercu|夏栎|Quercus|クエルクス|퀘르쿠스
 char_493_firwhl|火哨|Firewhistle|ファイヤーホイッスル|파이어휘슬
@@ -216,7 +216,7 @@ char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホー�
 char_4006_melnte|玫拉|Melanite|メラナイト|멜라나이트
 char_4013_kjera|耶拉|Kjera|イェラ|쉐라
 char_4014_lunacu|子月|Lunacub|ルナカブ|루나컵
-char_4015_spuria|空构|Spuria|スプリア|
+char_4015_spuria|空构|Spuria|スプリア|스푸리아
 char_4016_kazema|风丸|Kazemaru|カゼマル|카제마루
 char_4017_puzzle|谜图|Puzzle|パズル|퍼즐
 char_4019_ncdeer|九色鹿|Nine-Colored Deer|九色鹿|나인컬러드 디어
@@ -233,7 +233,7 @@ char_4071_peper|明椒|Paprika|パプリカ|파프리카
 char_4078_bdhkgt|截云|Jieyun|ジエユン|지에윈
 char_4083_chimes|铎铃|Wind Chimes|ウィンドチャイム|윈드차임스
 char_4102_threye|凛视|Valarqvin||
-char_4106_bryota|苍苔|Bryophyta||
+char_4106_bryota|苍苔|Bryophyta||브라이오피타
 char_4104_coldst|冰酿|Coldshot||
 
 ID|中文|English|日本語|한국어
@@ -290,7 +290,7 @@ char_485_pallas|帕拉斯|Pallas|パラス|팔라스
 char_1012_skadi2|浊心斯卡蒂|Skadi the Corrupting Heart|濁心スカジ|스카디 더 커럽팅 하트
 char_1013_chen2|假日威龙陈|Ch'en the Holungday|遊龍チェン|첸 더 홀룽데이
 char_1014_nearl2|耀骑士临光|Nearl the Radiant Knight|耀騎士ニアール|니어 더 래디언트 나이트
-char_1016_agoat2|纯烬艾雅法拉|Eyjafjalla the Hvít Aska||
+char_1016_agoat2|纯烬艾雅法拉|Eyjafjalla the Hvít Aska||에이야퍄들라 더 크비트 아스카
 char_1020_reed2|焰影苇草|Reed the Flame Shadow|焔影リード|리드 더 플레임 섀도우
 char_1023_ghost2|归溟幽灵鲨|Specter the Unchained|帰溟スペクター|스펙터 디 언체인드
 char_1026_gvial2|百炼嘉维尔|Gavial the Invincible|百錬ガヴィル|가비알 디 인빈서블
@@ -298,7 +298,7 @@ char_1028_texas2|缄默德克萨斯|Texas the Omertosa|血掟テキサス|텍사
 char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
 char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|사일런스 더 패러디그매틱
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere|聖約イクゼキュター|이그제큐터 디 엑스 포에데레
-char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||
+char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit||스와이어 디 엘리건트 위트
 char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
 char_2012_typhon|提丰|Typhon||
 char_2013_cerber|刻俄柏|Ceobe|ケオベ|케오베
