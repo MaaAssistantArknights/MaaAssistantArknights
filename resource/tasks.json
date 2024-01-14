@@ -10819,6 +10819,16 @@
             372,
             120,
             31
+        ],
+        "ocrReplace": [
+            [
+                "^[^\\d]+(?=\\d+$)",
+                ""
+            ],
+            [
+                "^[^\\d]+",
+                "0"
+            ]
         ]
     },
     "RoguelikeSettlementOcr-Emergency": {
