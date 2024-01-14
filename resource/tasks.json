@@ -10850,7 +10850,7 @@
             40
         ]
     },
-    "RoguelikeSettlementOcr-Object": {
+    "RoguelikeSettlementOcr-Collection": {
         "baseTask": "NumberOcrReplace",
         "roi": [
             680,
