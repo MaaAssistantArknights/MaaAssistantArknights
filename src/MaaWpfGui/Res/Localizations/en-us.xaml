@@ -620,7 +620,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
         Explore: {1} Floor {2} Step\n
         Combat: {3} / {4} Emergency / {5} BOSS\n
         Recruit: {6}\n
-        Collection: {7}\n
+        Collectibles: {7}\n
         Difficulty: {8}\n
         Score: {9}, Exp: {10}, Skill: {11}
     </system:String>
