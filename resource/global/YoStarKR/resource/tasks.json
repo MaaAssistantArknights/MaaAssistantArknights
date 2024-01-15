@@ -5985,6 +5985,15 @@
             ]
         ]
     },
+    "Mizuki@Roguelike@DataTraceback": {
+        "action": "ClickRect",
+        "specificRect": [
+            1160,
+            30,
+            90,
+            40
+        ]
+    },
     "Mizuki@Roguelike@NextLevel": {
         "text": [
             "하늘빛해안",
@@ -6000,9 +6009,6 @@
         "text": [
             "미즈키"
         ]
-    },
-    "Mizuki@Roguelike@StageEncounterOptionFree": {
-        "templThreshold": 0.87
     },
     "Mizuki@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
