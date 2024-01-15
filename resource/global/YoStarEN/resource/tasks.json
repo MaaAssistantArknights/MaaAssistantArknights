@@ -2387,6 +2387,20 @@
             208
         ]
     },
+    "SL-Open": {
+        "text": [
+            "So Long, Adele: Home Away From Home",
+            "So Long, Adele",
+            "Home Away From Home"
+        ]
+    },
+    "SLChapterToSL": {
+        "text": [
+            "A Holiday at the Hot Springs",
+            "A Holiday at",
+            "Hot Springs"
+        ]
+    },
     "MedicineExpiringTime": {
         "text": [
             "min",
