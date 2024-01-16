@@ -171,19 +171,14 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // Update recruitment data from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        if (out != "YoStarJP") {
-            std::cout << "------- Update recruitment data for " << out << "------- " << std::endl;
-            if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
-                                         resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
-                std::cerr << "Update recruitment data failed" << std::endl;
-                return -1;
-            }
-            else {
-                std::cout << "Done" << std::endl;
-            }
+        std::cout << "------- Update recruitment data for " << out << "------- " << std::endl;
+        if (!update_recruitment_data(overseas_data_dir / in / "gamedata" / "excel",
+                                     resource_dir / "global" / out / "resource" / "recruitment.json", false)) {
+            std::cerr << "Update recruitment data failed" << std::endl;
+            return -1;
         }
         else {
-            std::cout << "\n!!! SKIPPING RECRUITMENT YOSTARJP !!!\n" << std::endl;
+            std::cout << "Done" << std::endl;
         }
     }
 
