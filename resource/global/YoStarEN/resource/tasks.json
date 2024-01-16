@@ -1313,6 +1313,10 @@
                 "High-Energy Originium Barrel Bomb"
             ],
             [
+                "High-Energy Originium Barrel Bomb",
+                "高能源石爆桶"
+            ],
+            [
                 "High-Energy Originium Bomb",
                 "高能源石炸弹"
             ],
@@ -2101,10 +2105,6 @@
                 "老伊辛"
             ],
             [
-                "High-Energy Originium Barrel Bomb",
-                "高能源石爆桶"
-            ],
-            [
                 "Fortification",
                 "防御工事"
             ],
@@ -2147,10 +2147,6 @@
             [
                 "High-Voltage Shock Trap",
                 "高压脉冲诡雷"
-            ],
-            [
-                "Wiredrone",
-                "滞空牵引无人机"
             ],
             [
                 "Firm Platform",
