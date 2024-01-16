@@ -2402,9 +2402,14 @@
     },
     "SLChapterToSL": {
         "text": [
-            "A Holiday at the Hot Springs",
-            "A Holiday at",
-            "Hot Springs"
+            "A HOLIDAY",
+            "AT THE HOT SPRINGS"
+        ],
+        "roi": [
+            998,
+            461,
+            210,
+            62
         ]
     },
     "MedicineExpiringTime": {
