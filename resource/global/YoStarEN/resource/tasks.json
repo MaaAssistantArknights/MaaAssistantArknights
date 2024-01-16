@@ -49,20 +49,6 @@
             150
         ]
     },
-    "SL-Open": {
-        "text": [
-            "So Long, Adele: Home Away From Home",
-            "So Long, Adele",
-            "Home Away From Home"
-        ]
-    },
-    "SLChapterToSL": {
-        "text": [
-            "A Holiday at the Hot Springs",
-            "A Holiday at",
-            "Hot Springs"
-        ]
-    },
     "HE-Open": {
         "text": [
             "Hortus",
@@ -2399,6 +2385,26 @@
             126,
             386,
             208
+        ]
+    },
+    "SL-Open": {
+        "text": [
+            "So Long, Adele: Home Away From Home",
+            "So Long, Adele",
+            "Home Away From Home"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "SLChapterToSL": {
+        "text": [
+            "A Holiday at the Hot Springs",
+            "A Holiday at",
+            "Hot Springs"
         ]
     },
     "MedicineExpiringTime": {
