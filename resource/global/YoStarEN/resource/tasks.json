@@ -49,6 +49,31 @@
             150
         ]
     },
+    "SL-Open": {
+        "text": [
+            "So Long, Adele: Home Away From Home",
+            "So Long, Adele",
+            "Home Away From Home"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "SLChapterToSL": {
+        "text": [
+            "A HOLIDAY",
+            "AT THE HOT SPRINGS"
+        ],
+        "roi": [
+            998,
+            461,
+            210,
+            62
+        ]
+    },
     "HE-Open": {
         "text": [
             "Hortus",
@@ -2326,6 +2351,34 @@
             [
                 "Shabby Fence",
                 "破旧的木篱"
+            ],
+            [
+                "Steam Soda Bottle",
+                "水汽汽水瓶"
+            ],
+            [
+                "Eyjafjalla the Hvít Aska",
+                "纯烬艾雅法拉"
+            ],
+            [
+                "Decorative Geyser",
+                "景观喷泉"
+            ],
+            [
+                "Swire the Elegant Wit",
+                "琳琅诗怀雅"
+            ],
+            [
+                "Bryophyta",
+                "苍苔"
+            ],
+            [
+                "Champagne Bomb",
+                "香槟炸弹"
+            ],
+            [
+                "Poncirus",
+                "青枳"
             ]
         ]
     },
@@ -2385,31 +2438,6 @@
             126,
             386,
             208
-        ]
-    },
-    "SL-Open": {
-        "text": [
-            "So Long, Adele: Home Away From Home",
-            "So Long, Adele",
-            "Home Away From Home"
-        ],
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ]
-    },
-    "SLChapterToSL": {
-        "text": [
-            "A HOLIDAY",
-            "AT THE HOT SPRINGS"
-        ],
-        "roi": [
-            998,
-            461,
-            210,
-            62
         ]
     },
     "MedicineExpiringTime": {
