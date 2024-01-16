@@ -934,6 +934,12 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
             if (name == "Justice Knight") {
                 name = "'Justice Knight'";
             }
+            if (name == "　レオンハルト") {
+                name = "レオンハルト";
+            }
+            if (name == "ウィーディ　") {
+                name = "ウィーディ";
+            }
             chars_list.emplace_back(name);
         }
     }
