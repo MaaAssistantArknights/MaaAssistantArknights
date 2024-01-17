@@ -925,15 +925,10 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     for (std::string_view s : items) {
         for (std::string_view n : s | split('/') | filter(not_empty) | transform(make_string_view)) {
             std::string name(n);
+            string_replace_all_in_place(name, "　", " "); // "　" is full-width space, replacing with common " "
             trim(name);
             if (name == "Justice Knight") {
                 name = "'Justice Knight'";
-            }
-            if (name == "　レオンハルト") {
-                name = "レオンハルト";
-            }
-            if (name == "ウィーディ　") {
-                name = "ウィーディ";
             }
             chars_list.emplace_back(name);
         }
