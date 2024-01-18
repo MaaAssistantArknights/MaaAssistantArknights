@@ -10802,6 +10802,15 @@
             40
         ]
     },
+    "RoguelikeSettlementOcr-Collection": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            680,
+            170,
+            95,
+            40
+        ]
+    },
     "RoguelikeSettlementOcr-Combat": {
         "baseTask": "NumberOcrReplace",
         "roi": [
@@ -10857,15 +10866,6 @@
             102,
             170,
             100,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Collection": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            680,
-            170,
-            95,
             40
         ]
     },
