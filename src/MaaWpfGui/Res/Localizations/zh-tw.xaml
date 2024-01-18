@@ -617,10 +617,9 @@
         肉鴿結算: {0}\n
         探索: {1} 层 {2} 步\n
         戰鬥: {3} / {4} 緊急 / {5} BOSS\n
-        招募: {6}\n
-        收藏品: {7}\n
-        難度: {8}\n
-        得分: {9}, Exp: {10}, Skill: {11}
+        招募: {6}  收藏品: {7}\n
+        難度: {8}  得分: {9}\n
+        Exp: {10}  Skill: {11}
     </system:String>
     <system:String x:Key="CurTimes">目前次數</system:String>
     <system:String x:Key="NoDrop">無</system:String>
