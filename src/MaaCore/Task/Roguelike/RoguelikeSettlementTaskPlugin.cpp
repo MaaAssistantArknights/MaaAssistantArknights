@@ -102,9 +102,9 @@ bool asst::RoguelikeSettlementTaskPlugin::get_settlement_info(json::value& info,
     };
 
     static const auto battle_task_name =
-        std::vector<std::string> { "RoguelikeSettlementOcr-Floor",    "RoguelikeSettlementOcr-Step",
-                                   "RoguelikeSettlementOcr-Combat",   "RoguelikeSettlementOcr-Recruit",
-                                   "RoguelikeSettlementOcr-Object",   "RoguelikeSettlementOcr-BOSS",
+        std::vector<std::string> { "RoguelikeSettlementOcr-Floor",      "RoguelikeSettlementOcr-Step",
+                                   "RoguelikeSettlementOcr-Combat",     "RoguelikeSettlementOcr-Recruit",
+                                   "RoguelikeSettlementOcr-Collection", "RoguelikeSettlementOcr-BOSS",
                                    "RoguelikeSettlementOcr-Emergency" };
     static const auto text_task_name =
         std::vector<std::string> { "RoguelikeSettlementOcr-Difficulty", "RoguelikeSettlementOcr-Score",
