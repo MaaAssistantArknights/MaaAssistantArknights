@@ -1176,13 +1176,13 @@ namespace MaaWpfGui.Main
                     // 肉鸽结算
                     bool roguelikeGamePass = (bool)subTaskDetails["game_pass"];
                     StringBuilder roguelikeInfo = new();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement"), roguelikeGamePass ? "✓" : "✗").AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Explore"), subTaskDetails["floor"], subTaskDetails["step"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Combat"), subTaskDetails["combat"], subTaskDetails["emergency"], subTaskDetails["boss"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Recruit"), subTaskDetails["recruit"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Collection"), subTaskDetails["object"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Difficulty"), subTaskDetails["difficulty"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Global"), subTaskDetails["score"], subTaskDetails["exp"], subTaskDetails["skill"]);
+                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement"),
+                        roguelikeGamePass ? "✓" : "✗",
+                        subTaskDetails["floor"], subTaskDetails["step"],
+                        subTaskDetails["combat"], subTaskDetails["emergency"], subTaskDetails["boss"],
+                        subTaskDetails["recruit"], subTaskDetails["collection"],
+                        subTaskDetails["difficulty"],
+                        subTaskDetails["score"], subTaskDetails["exp"], subTaskDetails["skill"]);
 
                     Instances.TaskQueueViewModel.AddLog(roguelikeInfo.ToString(), UiLogColor.Message);
                     break;
