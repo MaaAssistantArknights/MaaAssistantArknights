@@ -55,7 +55,9 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
         return false;
     }
 
-    if (m_cur_deployment_opers == old_deployment_opers) {
+    if (ranges::equal(
+            m_cur_deployment_opers, old_deployment_opers,
+            [](const DeploymentOper& oper1, const DeploymentOper& oper2) { return oper1.name == oper2.name; })) {
         if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_same_time).count() > 30000) {
             // 30s 能回 60 费，基本上已经到了挂机的时候，放缓检查的速度
             interval_time = std::chrono::milliseconds(5000);
