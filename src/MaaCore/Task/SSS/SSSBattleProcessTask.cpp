@@ -43,7 +43,7 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
     const std::vector<DeploymentOper> old_deployment_opers = m_cur_deployment_opers;
     static auto last_same_time = now;
     static auto last_skip_time = now;
-    static auto interval_time = 1000;
+    static auto interval_time = 0;
 
     if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_skip_time).count() < interval_time) {
         Log.trace("Passed without update deployment");
@@ -67,8 +67,8 @@ bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reus
     }
     else {
         last_same_time = now;
-        Log.trace("Changed, the waiting time is reset to 1s");
-        interval_time = 1000;
+        Log.trace("Changed, the waiting time is reset to 0s");
+        interval_time = 0;
     }
 
     return true;
@@ -100,15 +100,15 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
         return true;
     }
 
-    if (m_sss_combat_data.draw_as_possible && draw_card(false, image)) {
-        image = ctrler()->get_image();
-    }
-
     if (check_and_do_strategy(image)) {
         image = ctrler()->get_image();
     }
 
     if (use_all_ready_skill(image)) {
+        // image = ctrler()->get_image();
+    }
+
+    if (m_sss_combat_data.draw_as_possible && draw_card(false, image)) {
         // image = ctrler()->get_image();
     }
 
