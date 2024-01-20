@@ -1616,7 +1616,7 @@ namespace MaaWpfGui.Main
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new();
 
         private static JObject SerializeFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes,
-            string dropsItemId, int dropsItemQuantity)
+            string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
             var taskParams = new JObject
             {
@@ -1638,7 +1638,7 @@ namespace MaaWpfGui.Main
             taskParams["client_type"] = Instances.SettingsViewModel.ClientType;
             taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
             taskParams["DrGrandet"] = Instances.SettingsViewModel.IsDrGrandet;
-            taskParams["expiring_medicine"] = Instances.SettingsViewModel.UseExpiringMedicine ? 9999 : 0;
+            taskParams["expiring_medicine"] = isMainFight && Instances.SettingsViewModel.UseExpiringMedicine ? 9999 : 0;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
             return taskParams;
         }
@@ -1656,7 +1656,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, dropsItemId, dropsItemQuantity);
+            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, dropsItemId, dropsItemQuantity, isMainFight);
             AsstTaskId id = AsstAppendTaskWithEncoding("Fight", taskParams);
             if (isMainFight)
             {
