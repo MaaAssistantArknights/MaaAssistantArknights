@@ -63,10 +63,15 @@ bool asst::BattleFormationTask::_run()
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-
+    
     for (auto& [role, oper_groups] : m_formation) {
-        add_formation(role, oper_groups);
+        if (!add_formation(role, oper_groups)) {
+            
+            report_missing_operators(oper_groups);
+            return false;
+        }
     }
+    
     if (m_add_user_additional) {
         for (const auto& [name, skill] : m_user_additional) {
             if (m_operators_in_formation.contains(name)) {
@@ -109,6 +114,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
     click_role_table(role);
     bool has_error = false;
     int swipe_times = 0;
+    int error_times = 0;
     while (!need_exit()) {
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
@@ -128,6 +134,13 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
             has_error = false;
         }
         else {
+            if (error_times == m_missing_retry_times+1) {
+                // return and notify the user
+                return false;
+            }
+            
+            ++error_times;
+            
             has_error = true;
             swipe_to_the_left(swipe_times);
             swipe_times = 0;
@@ -236,6 +249,22 @@ bool asst::BattleFormationTask::add_trust_operators()
 bool asst::BattleFormationTask::select_random_support_unit()
 {
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
+}
+
+void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>& groups) {
+    auto info = basic_info();
+
+    std::vector<std::string> oper_names;
+    for (auto& group : groups) {
+        for (auto& oper : group) {
+            oper_names.push_back(oper.name);
+        }
+    }
+
+    info["why"] = "OperatorMissing";
+
+    info["details"] = json::object { { "opers", json::array(oper_names) } };
+    callback(AsstMsg::SubTaskError, info);
 }
 
 std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_opers()

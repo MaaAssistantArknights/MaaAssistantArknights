@@ -62,6 +62,7 @@ namespace asst
         bool parse_formation();
         bool select_formation(int select_index);
         bool select_random_support_unit();
+        void report_missing_operators(std::vector<OperGroup>& groups);
 
         std::vector<asst::TemplDetOCRer::Result> analyzer_opers();
 
@@ -78,5 +79,6 @@ namespace asst
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
         int m_select_formation_index = 0;
+        int m_missing_retry_times = 2;
     };
 } // namespace asst
