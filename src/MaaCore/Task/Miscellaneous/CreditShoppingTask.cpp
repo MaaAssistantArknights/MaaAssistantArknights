@@ -102,15 +102,11 @@ int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
 
     Log.trace("discount:", discount);
 
-    if (discount.size()<=1||discount.size()>=5) return 0;
+    if (discount.size()<=1||discount.size()>=3) return 0;
 
-    if (discount.front() == '-') discount = discount.substr(1, discount.size() - 1);
+    int discount_number=0;
 
-    if (discount.back() == '%') discount.pop_back();
-
-    if (discount.empty() || !ranges::all_of(discount, [](char c) -> bool { return std::isdigit(c); })) return 0;
-
-    return std::stoi(discount);
+    return utils::chars_to_number(discount, discount_number) ? discount_number : 0;
 }
 
 bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
