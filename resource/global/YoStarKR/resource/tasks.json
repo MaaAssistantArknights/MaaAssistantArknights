@@ -3111,6 +3111,18 @@
             "하드모드개시"
         ]
     },
+    "BattleStartOCR": {
+        "text": [
+            "작전",
+            "개시"
+        ],
+        "roi": [
+            1020,
+            410,
+            170,
+            210
+        ]
+    },
     "StageDrops-Quantity": {
         "template": "empty.png",
         "templThreshold": 3,
