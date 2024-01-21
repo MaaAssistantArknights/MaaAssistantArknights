@@ -14,6 +14,12 @@
             "석양"
         ]
     },
+    "LevelOfDifficulty": {
+        "text": [
+            "환경",
+            "PRTS"
+        ]
+    },
     "EnterChapterDifficultyHard": {
         "text": [
             "하드모드",
@@ -137,7 +143,7 @@
                 "Castle-3"
             ],
             [
-                "실버애쉬.*",
+                "실버애.*",
                 "银灰"
             ],
             [
@@ -1873,7 +1879,7 @@
                 "铎铃"
             ],
             [
-                ".*(s|S|5)느.+르코.+",
+                ".+느.+르코.+",
                 "레우스S느와르코르네"
             ],
             [
@@ -2219,9 +2225,26 @@
             56
         ]
     },
+    "StartToWakeUpOCR": {
+        "text": [
+            "START"
+        ]
+    },
     "TodaysSupplies": {
         "text": [
             "당일배급"
+        ]
+    },
+    "LoadingText": {
+        "text": [
+            "피드백",
+            "전달 중"
+        ],
+        "roi": [
+            700,
+            620,
+            400,
+            80
         ]
     },
     "StartButton1": {
@@ -2229,10 +2252,33 @@
             "작전개시"
         ]
     },
+    "PRTS2": {
+        "text": [
+            "수동 조작"
+        ]
+    },
     "PRTS3": {
         "text": [
-            "배치가능",
+            "배치 가능",
             "인원"
+        ],
+        "roi": [
+            1100,
+            545,
+            135,
+            33
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "작전",
+            "종료"
+        ],
+        "roi": [
+            20,
+            130,
+            360,
+            200
         ]
     },
     "MedicineExpiringTime": {
@@ -2551,10 +2597,35 @@
             "배치"
         ]
     },
+    "InfrastConfirmButtonWait": {
+        "text": [
+            "피드백",
+            "전달중"
+        ],
+        "roi": [
+            700,
+            620,
+            400,
+            80
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "피드백",
+            "전달중"
+        ],
+        "roi": [
+            700,
+            620,
+            400,
+            80
+        ]
+    },
     "InfrastClueSelfFull": {
         "text": [
-            "단서 상한",
-            "불가"
+            "도달",
+            "불가",
+            "최대치"
         ]
     },
     "BattleStageName": {
@@ -5560,6 +5631,11 @@
     "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
         "text": [
             "새로고침횟수부족"
+        ]
+    },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "패스파인더 핀"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
