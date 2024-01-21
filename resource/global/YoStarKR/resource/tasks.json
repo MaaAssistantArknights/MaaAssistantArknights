@@ -26,6 +26,11 @@
             "노멀"
         ]
     },
+    "SideStoryReopen": {
+        "text": [
+            "재개방"
+        ]
+    },
     "SL-Open": {
         "text": [
             "화산의꿈여행",
@@ -2572,6 +2577,12 @@
             "휴식중",
             "업무중",
             "배치"
+        ]
+    },
+    "InfrastClueSelfFull": {
+        "text": [
+            "단서 상한",
+            "불가"
         ]
     },
     "BattleStageName": {
@@ -5132,6 +5143,11 @@
                 ".?망설임.?",
                 "“犹疑”"
             ]
+        ]
+    },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "선택"
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
