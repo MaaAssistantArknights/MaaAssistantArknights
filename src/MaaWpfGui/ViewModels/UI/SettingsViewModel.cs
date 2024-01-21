@@ -1888,7 +1888,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                if (value != string.Empty && DataHelper.GetCharacterByNameOrAlias(value) is null)
+                if (!string.IsNullOrEmpty(value) && DataHelper.GetCharacterByNameOrAlias(value) is null)
                 {
                     MessageBoxHelper.Show(
                         string.Format(LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"), value),
