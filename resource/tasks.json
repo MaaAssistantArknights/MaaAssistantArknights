@@ -4080,7 +4080,6 @@
         ]
     },
     "FightSeries-Indicator": {
-        "templThreshold": 0.7,
         "roi": [
             940,
             190,
@@ -10803,6 +10802,15 @@
             40
         ]
     },
+    "RoguelikeSettlementOcr-Collection": {
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            680,
+            170,
+            95,
+            40
+        ]
+    },
     "RoguelikeSettlementOcr-Combat": {
         "baseTask": "NumberOcrReplace",
         "roi": [
@@ -10820,6 +10828,16 @@
             372,
             120,
             31
+        ],
+        "ocrReplace": [
+            [
+                "^[^\\d]+(?=\\d+$)",
+                ""
+            ],
+            [
+                "^[^\\d]+$",
+                "0"
+            ]
         ]
     },
     "RoguelikeSettlementOcr-Emergency": {
@@ -10848,15 +10866,6 @@
             102,
             170,
             100,
-            40
-        ]
-    },
-    "RoguelikeSettlementOcr-Object": {
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            680,
-            170,
-            95,
             40
         ]
     },
@@ -13247,8 +13256,8 @@
             254,
             248
         ],
-        "next": [
-            "(SwipeToTheUp*12)"
+        "sub": [
+            "SwipeToTheUp*2"
         ]
     },
     "Mizuki@Roguelike@ChooseDifficulty_Hardest": {
@@ -13267,8 +13276,8 @@
             254,
             248
         ],
-        "next": [
-            "(SwipeToTheDown*12)"
+        "sub": [
+            "SwipeToTheDown*2"
         ]
     },
     "Mizuki@Roguelike@ChooseOper": {
@@ -13965,8 +13974,8 @@
             322,
             189
         ],
-        "next": [
-            "(SwipeToTheUp*12)"
+        "sub": [
+            "SwipeToTheUp*2"
         ]
     },
     "Sami@Roguelike@ChooseDifficulty_Hardest": {
@@ -13985,8 +13994,8 @@
             322,
             189
         ],
-        "next": [
-            "(SwipeToTheDown*12)"
+        "sub": [
+            "SwipeToTheDown*2"
         ]
     },
     "Sami@Roguelike@ChooseOper": {

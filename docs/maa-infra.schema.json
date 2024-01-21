@@ -42,7 +42,9 @@
                 "period": {
                     "type": "array",
                     "description": "Period list.",
-                    "$ref": "#/definitions/planPeriod"
+                    "items": {
+                        "$ref": "#/definitions/planPeriod"
+                    }
                 },
                 "duration": {
                     "type": "number",
@@ -83,7 +85,7 @@
             "type": "object",
             "description": "Fiammetta configuration.",
             "properties": {
-                "enabled": {
+                "enable": {
                     "type": "boolean",
                     "description": "Enable Fiammetta."
                 },
@@ -106,7 +108,7 @@
                 }
             },
             "required": [
-                "enabled",
+                "enable",
                 "target",
                 "order"
             ]
@@ -115,7 +117,7 @@
             "type": "object",
             "description": "Drones configuration.",
             "properties": {
-                "enabled": {
+                "enable": {
                     "type": "boolean",
                     "description": "Enable drones."
                 },

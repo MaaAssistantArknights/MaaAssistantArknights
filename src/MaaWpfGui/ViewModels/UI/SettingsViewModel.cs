@@ -76,7 +76,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
 
-        private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
+        private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
 
         /// <summary>
         /// Gets the UI version.
@@ -1888,6 +1888,13 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                if (!string.IsNullOrEmpty(value) && DataHelper.GetCharacterByNameOrAlias(value) is null)
+                {
+                    MessageBoxHelper.Show(
+                        string.Format(LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"), value),
+                        LocalizationHelper.GetString("Tip"));
+                }
+
                 SetAndNotify(ref _roguelikeCoreChar, value);
                 Instances.TaskQueueViewModel.AddLog(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCoreChar, value);
@@ -1908,7 +1915,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
 
         /// <summary>
-        /// Gets or sets a value indicating whether use support unit.
+        /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
         public bool RoguelikeStartWithEliteTwo
         {
@@ -1920,8 +1927,28 @@ namespace MaaWpfGui.ViewModels.UI
                     RoguelikeUseSupportUnit = false;
                 }
 
+                if (!value && RoguelikeOnlyStartWithEliteTwo)
+                {
+                    RoguelikeOnlyStartWithEliteTwo = false;
+                }
+
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
+            }
+        }
+
+        private string _roguelikeOnlyStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether only need with elite two's core char.
+        /// </summary>
+        public bool RoguelikeOnlyStartWithEliteTwo
+        {
+            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo);
+            set
+            {
+                SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
             }
         }
 
@@ -3957,7 +3984,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void UpdateRoguelikeCoreCharList()
         {
             var filePath = $"resource/roguelike/{RoguelikeTheme}/recruitment.json";
-            if (File.Exists(filePath) is false)
+            if (!File.Exists(filePath))
             {
                 RoguelikeCoreCharList.Clear();
                 return;
@@ -3979,16 +4006,22 @@ namespace MaaWpfGui.ViewModels.UI
 
                     foreach (var operItem in opersArray)
                     {
-                        var isStart = (bool?)operItem.SelectToken("is_start") ?? false;
+                        var isStart = (bool?)operItem["is_start"] ?? false;
                         if (!isStart)
                         {
                             continue;
                         }
 
-                        var name = (string)operItem.SelectToken("name");
-                        if (!string.IsNullOrEmpty(name))
+                        var name = (string)operItem["name"];
+                        if (string.IsNullOrEmpty(name))
                         {
-                            roguelikeCoreCharList.Add(name);
+                            continue;
+                        }
+
+                        var localizedName = DataHelper.GetLocalizedCharacterName(name, _language);
+                        if (!string.IsNullOrEmpty(localizedName))
+                        {
+                            roguelikeCoreCharList.Add(localizedName);
                         }
                     }
                 }

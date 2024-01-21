@@ -1029,7 +1029,7 @@ namespace MaaWpfGui.Main
                 case "StageDrops":
                     {
                         string allDrops = string.Empty;
-                        JArray statistics = (JArray)subTaskDetails["stats"] ?? new JArray();
+                        var statistics = (JArray)subTaskDetails["stats"] ?? new();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
 
                         foreach (var item in statistics)
@@ -1076,7 +1076,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsDetected":
                     {
-                        JArray tags = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        var tags = (JArray)subTaskDetails["tags"] ?? new();
                         string logContent = tags.Select(tagName => tagName.ToString())
                             .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
@@ -1144,7 +1144,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsSelected":
                     {
-                        JArray selected = (JArray)subTaskDetails["tags"] ?? new JArray();
+                        var selected = (JArray)subTaskDetails["tags"] ?? new();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
                         selectedLog = selectedLog.EndsWith("\n") ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
@@ -1175,14 +1175,14 @@ namespace MaaWpfGui.Main
                 case "RoguelikeSettlement":
                     // 肉鸽结算
                     bool roguelikeGamePass = (bool)subTaskDetails["game_pass"];
-                    StringBuilder roguelikeInfo = new StringBuilder();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement"), roguelikeGamePass ? "✓" : "✗").AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Explore"), subTaskDetails["floor"], subTaskDetails["step"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Combat"), subTaskDetails["combat"], subTaskDetails["emergency"], subTaskDetails["boss"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Recruit"), subTaskDetails["recruit"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Collection"), subTaskDetails["object"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Difficulty"), subTaskDetails["difficulty"]).AppendLine();
-                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement-Global"), subTaskDetails["score"], subTaskDetails["exp"], subTaskDetails["skill"]);
+                    StringBuilder roguelikeInfo = new();
+                    roguelikeInfo.AppendFormat(LocalizationHelper.GetString("RoguelikeSettlement"),
+                        roguelikeGamePass ? "✓" : "✗",
+                        subTaskDetails["floor"], subTaskDetails["step"],
+                        subTaskDetails["combat"], subTaskDetails["emergency"], subTaskDetails["boss"],
+                        subTaskDetails["recruit"], subTaskDetails["collection"],
+                        subTaskDetails["difficulty"],
+                        subTaskDetails["score"], subTaskDetails["exp"], subTaskDetails["skill"]);
 
                     Instances.TaskQueueViewModel.AddLog(roguelikeInfo.ToString(), UiLogColor.Message);
                     break;
@@ -1401,7 +1401,7 @@ namespace MaaWpfGui.Main
                     // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                     string args = $"/e, /select, \"{filename}\"";
 
-                    ProcessStartInfo info = new ProcessStartInfo
+                    ProcessStartInfo info = new()
                     {
                         FileName = "explorer",
                         Arguments = args,
@@ -1578,7 +1578,7 @@ namespace MaaWpfGui.Main
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject taskParams = null)
         {
-            taskParams ??= new JObject();
+            taskParams ??= new();
             return AsstAppendTask(_handle, type, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1589,7 +1589,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            taskParams ??= new JObject();
+            taskParams ??= new();
             return AsstSetTaskParams(_handle, id, JsonConvert.SerializeObject(taskParams));
         }
 
@@ -1613,10 +1613,10 @@ namespace MaaWpfGui.Main
             Gacha,
         }
 
-        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new Dictionary<TaskType, AsstTaskId>();
+        private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new();
 
         private static JObject SerializeFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes,
-            string dropsItemId, int dropsItemQuantity)
+            string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
             var taskParams = new JObject
             {
@@ -1638,7 +1638,7 @@ namespace MaaWpfGui.Main
             taskParams["client_type"] = Instances.SettingsViewModel.ClientType;
             taskParams["penguin_id"] = Instances.SettingsViewModel.PenguinId;
             taskParams["DrGrandet"] = Instances.SettingsViewModel.IsDrGrandet;
-            taskParams["expiring_medicine"] = Instances.SettingsViewModel.UseExpiringMedicine ? 9999 : 0;
+            taskParams["expiring_medicine"] = isMainFight && Instances.SettingsViewModel.UseExpiringMedicine ? 9999 : 0;
             taskParams["server"] = Instances.SettingsViewModel.ServerType;
             return taskParams;
         }
@@ -1656,7 +1656,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, dropsItemId, dropsItemQuantity);
+            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, dropsItemId, dropsItemQuantity, isMainFight);
             AsstTaskId id = AsstAppendTaskWithEncoding("Fight", taskParams);
             if (isMainFight)
             {
@@ -1972,13 +1972,14 @@ namespace MaaWpfGui.Main
         /// <param name="roles"><paramref name="roles"/> TODO.</param>
         /// <param name="coreChar"><paramref name="coreChar"/> TODO.</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
+        /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentEnterSecondFloor, int invests, bool stopWhenFull,
-            string squad, string roles, string coreChar, bool startWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
+            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
         {
             var taskParams = new JObject
             {
@@ -2011,7 +2012,8 @@ namespace MaaWpfGui.Main
                 taskParams["core_char"] = coreChar;
             }
 
-            taskParams["start_with_elite_two"] = startWithEliteTwo;
+            taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
+            taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
