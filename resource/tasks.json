@@ -5753,9 +5753,35 @@
         ]
     },
     "CreditShop-DiscountOcr": {
-        "baseTask": "NumberOcrReplace",
+        "algorithm": "OcrDetect",
         "isAscii": true,
         "text": [],
+        "ocrReplace": [
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ],
+            [
+                "%",
+                ""
+            ],
+            [
+                "-",
+                ""
+            ]
+        ],
         "roi": [
             0,
             0,
