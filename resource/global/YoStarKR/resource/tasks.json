@@ -2238,7 +2238,7 @@
     "LoadingText": {
         "text": [
             "피드백",
-            "전달 중"
+            "전달"
         ],
         "roi": [
             700,
@@ -2600,7 +2600,7 @@
     "InfrastConfirmButtonWait": {
         "text": [
             "피드백",
-            "전달중"
+            "전달"
         ],
         "roi": [
             700,
@@ -2612,7 +2612,7 @@
     "InfrastDormConfirmButtonWait": {
         "text": [
             "피드백",
-            "전달중"
+            "전달"
         ],
         "roi": [
             700,
