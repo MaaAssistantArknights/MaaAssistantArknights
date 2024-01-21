@@ -16,6 +16,7 @@ namespace asst
             bool costs = false;
             // bool in_detail = false;
             bool speed_button = false;
+            bool oper_cost = false;
         };
 
         struct Result
