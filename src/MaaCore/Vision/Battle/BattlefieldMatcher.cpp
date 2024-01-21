@@ -129,8 +129,10 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
             Log.error("oper is available, but with cooling");
         }
 
-        Rect cost_rect = correct_rect(flag_res.rect.move(cost_move), m_image);
-        oper.cost = oper_cost_analyze(cost_rect);
+        if (m_object_of_interest.oper_cost) {
+            Rect cost_rect = correct_rect(flag_res.rect.move(cost_move), m_image);
+            oper.cost = oper_cost_analyze(cost_rect);
+        }
 
         oper.index = index++;
 

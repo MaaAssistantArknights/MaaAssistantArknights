@@ -19,6 +19,7 @@ namespace asst
         virtual bool need_to_wait_until_end() const noexcept override { return true; }
         virtual bool wait_until_start(bool weak = true) override;
 
+        bool update_deployment_with_skip(const cv::Mat& reusable = cv::Mat());
         bool check_and_do_strategy(const cv::Mat& reusable = cv::Mat());
         bool check_if_start_over(const battle::copilot::Action& action);
         bool draw_card(bool with_retry = true, const cv::Mat& reusable = cv::Mat());
