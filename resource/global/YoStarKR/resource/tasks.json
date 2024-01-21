@@ -101,6 +101,10 @@
                 ""
             ],
             [
+                "\\b(?!(Ash|Blitz|Tachanka|Frost|Lancet2|THRMEX|Friston3|Castle3|W|12F|Monst3r|Sharp|Pith|Touch|Stormeye|드래곤플라이L|드래곤플라이F|드래곤플라이A))(\\w)+$",
+                ""
+            ],
+            [
                 "Ash",
                 "灰烬"
             ],
@@ -118,47 +122,19 @@
             ],
             [
                 "Lancet2",
-                "Lancet-2'"
+                "Lancet-2"
             ],
             [
                 "THRMEX",
-                "THRM-EX'"
+                "THRM-EX"
             ],
             [
                 "Friston3",
-                "Friston-3'"
+                "Friston-3"
             ],
             [
                 "Castle3",
-                "Castle-3'"
-            ],
-            [
-                "W",
-                "W'"
-            ],
-            [
-                "12F",
-                "12F'"
-            ],
-            [
-                "Mon3tr",
-                "Mon3tr'"
-            ],
-            [
-                "Sharp",
-                "Sharp'"
-            ],
-            [
-                "Pith",
-                "Pith'"
-            ],
-            [
-                "Touch",
-                "Touch'"
-            ],
-            [
-                "Stormeye",
-                "Stormeye'"
+                "Castle-3"
             ],
             [
                 "드래곤플라이L",
@@ -171,14 +147,6 @@
             [
                 "드래곤플라이A",
                 "龙腾.A'"
-            ],
-            [
-                "(?!\\W)\\w+$",
-                ""
-            ],
-            [
-                "'",
-                ""
             ],
             [
                 "실버애쉬.*",
