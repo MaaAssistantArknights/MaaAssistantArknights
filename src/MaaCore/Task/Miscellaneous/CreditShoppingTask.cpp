@@ -102,9 +102,9 @@ int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
 
     Log.trace("discount:", discount);
 
-    if (discount.size()<=1||discount.size()>=3) return 0;
+    if (discount.size() <= 1 || discount.size() >= 3) return 0;
 
-    int discount_number=0;
+    int discount_number = 0;
 
     return utils::chars_to_number(discount, discount_number) ? discount_number : 0;
 }
