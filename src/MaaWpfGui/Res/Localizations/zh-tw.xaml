@@ -209,6 +209,7 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">請手動下載完整檔案更新！</system:String>
     <system:String x:Key="ForceScheduledStart">強制定時啟動</system:String>
     <system:String x:Key="ForceScheduledStartTip">停止當前任務，重新啟動遊戲並開始新任務</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">強制定時啟動前顯示窗口</system:String>
     <system:String x:Key="TimerCustomConfig">自定義配置選擇</system:String>
     <system:String x:Key="TimerCustomConfigTip">將提前兩分鐘重開並切換配置</system:String>
     <system:String x:Key="Timer">定時</system:String>

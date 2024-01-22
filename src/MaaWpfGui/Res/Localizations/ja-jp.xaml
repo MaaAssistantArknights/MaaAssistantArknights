@@ -209,6 +209,7 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
     <system:String x:Key="ForceScheduledStart">強制的なタイミングで起動</system:String>
     <system:String x:Key="ForceScheduledStartTip">現在のタスクを停止して、ゲームを再起動し、新しいタスクを開始します</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">強制的なタイミングで起動前の表示ウィンドウ</system:String>
     <system:String x:Key="TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TimerCustomConfigTip">2分前に再起動して設定を切り替えます</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
