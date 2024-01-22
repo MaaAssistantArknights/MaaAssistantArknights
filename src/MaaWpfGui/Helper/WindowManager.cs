@@ -61,6 +61,8 @@ namespace MaaWpfGui.Helper
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
             if (window is RootView)
             {
+                HandyControl.Controls.Dialog.Register(nameof(RootView), window);
+
                 if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp))
                 {
                     window.SourceInitialized += (s, e) =>
