@@ -727,7 +727,8 @@
     <system:String x:Key="RemoteControlConnectionTestSuccess">連接測試成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">連接測試失敗，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">連接測試失敗，連接端點為空。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">連接測試失敗。端點非https地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">連接測試失敗，連接端點不為http(s)地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">連接端點未啟用https，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到遠端任務{0}，任務Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成遠端任務{0}，任務Id:{1}。</system:String>
     <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的地址可能會導致您的明日方舟帳戶受到損失。</system:String>

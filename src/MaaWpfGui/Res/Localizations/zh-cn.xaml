@@ -729,7 +729,8 @@
     <system:String x:Key="RemoteControlConnectionTestSuccess">连接测试成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">连接测试失败，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">连接测试失败，连接端点为空。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">连接测试失败。端点不是https地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">连接测试失败，连接端点不为http(s)地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">连接端点未启用https，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的账户受到损失。</system:String>
