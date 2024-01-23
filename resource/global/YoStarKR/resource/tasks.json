@@ -14,6 +14,12 @@
             "석양"
         ]
     },
+    "LevelOfDifficulty": {
+        "text": [
+            "환경",
+            "PRTS"
+        ]
+    },
     "EnterChapterDifficultyHard": {
         "text": [
             "하드모드",
@@ -24,6 +30,11 @@
         "text": [
             "노멀모드",
             "노멀"
+        ]
+    },
+    "SideStoryReopen": {
+        "text": [
+            "재개방"
         ]
     },
     "SL-Open": {
@@ -2398,9 +2409,26 @@
             56
         ]
     },
+    "StartToWakeUpOCR": {
+        "text": [
+            "START"
+        ]
+    },
     "TodaysSupplies": {
         "text": [
             "당일배급"
+        ]
+    },
+    "LoadingText": {
+        "text": [
+            "피드백",
+            "전달"
+        ],
+        "roi": [
+            700,
+            620,
+            400,
+            80
         ]
     },
     "StartButton1": {
@@ -2408,10 +2436,34 @@
             "작전개시"
         ]
     },
+    "PRTS2": {
+        "text": [
+            "수동",
+            "조작"
+        ]
+    },
     "PRTS3": {
         "text": [
             "배치가능",
             "인원"
+        ],
+        "roi": [
+            1100,
+            545,
+            135,
+            33
+        ]
+    },
+    "EndOfActionAnnihilation": {
+        "text": [
+            "작전",
+            "종료"
+        ],
+        "roi": [
+            20,
+            130,
+            360,
+            200
         ]
     },
     "MedicineExpiringTime": {
@@ -2454,12 +2506,16 @@
         ]
     },
     "GoLastBattle": {
+        "ocrReplace": [
+            [
+                "바로가.+",
+                "바로가기"
+            ]
+        ],
         "text": [
             "지난",
             "지난작전",
-            "바로가기",
-            "바로가고",
-            "바로가가"
+            "바로가기"
         ]
     },
     "StartRecruit": {
@@ -2492,16 +2548,25 @@
         ]
     },
     "Mall": {
+        "ocrReplace": [
+            [
+                "구매센.*",
+                "구매센터"
+            ]
+        ],
         "text": [
-            "구매센터",
-            "구매센.*"
+            "구매센터"
         ]
     },
     "CreditStoreOcr": {
+        "ocrReplace": [
+            [
+                "크레.+",
+                "크레딧"
+            ]
+        ],
         "text": [
-            "크레딧",
-            "크레딪",
-            "크레딜"
+            "크레딧"
         ]
     },
     "VisitLimited": {
@@ -2775,6 +2840,37 @@
             "휴식중",
             "업무중",
             "배치"
+        ]
+    },
+    "InfrastConfirmButtonWait": {
+        "text": [
+            "피드백",
+            "전달"
+        ],
+        "roi": [
+            700,
+            620,
+            400,
+            80
+        ]
+    },
+    "InfrastDormConfirmButtonWait": {
+        "text": [
+            "피드백",
+            "전달"
+        ],
+        "roi": [
+            700,
+            620,
+            400,
+            80
+        ]
+    },
+    "InfrastClueSelfFull": {
+        "text": [
+            "도달",
+            "불가",
+            "최대치"
         ]
     },
     "BattleStageName": {
@@ -3270,6 +3366,18 @@
         "text": [
             "작전개시",
             "하드모드개시"
+        ]
+    },
+    "BattleStartOCR": {
+        "text": [
+            "작전",
+            "개시"
+        ],
+        "roi": [
+            1020,
+            410,
+            170,
+            210
         ]
     },
     "StageDrops-Quantity": {
@@ -5405,6 +5513,11 @@
             ]
         ]
     },
+    "Roguelike@ChooseDifficultyConfirm": {
+        "text": [
+            "선택"
+        ]
+    },
     "Roguelike@FromIntegratedStrategies": {
         "text": [
             "테마진입"
@@ -5875,6 +5988,12 @@
     "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
         "text": [
             "새로고침횟수부족"
+        ]
+    },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "패스파인더",
+            "패스파인더 핀"
         ]
     },
     "Phantom@Roguelike@NextLevel": {
