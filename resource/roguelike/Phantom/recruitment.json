@@ -1677,7 +1677,6 @@
                 {
                     "name": "麒麟R夜刀",
                     "skill": 2,
-                    "is_key": true,
                     "auto_retreat": 6,
                     "recruit_priority": 701,
                     "promote_priority": 855,
@@ -1700,9 +1699,7 @@
                     "skill": 2,
                     "recruit_priority": 671,
                     "promote_priority": 720,
-                    "is_start": true,
                     "auto_retreat": 14,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1734,6 +1731,7 @@
                 {
                     "name": "红",
                     "skill": 1,
+                    "is_key": true,
                     "auto_retreat": 7,
                     "recruit_priority": 500,
                     "promote_priority": 302,
@@ -3010,6 +3008,9 @@
                     "name": "焰影苇草"
                 },
                 {
+                    "name": "莱伊"
+                },
+                {
                     "name": "林"
                 },
                 {
@@ -3153,6 +3154,9 @@
                     "name": "寒檀",
                     "skill": 2,
                     "promote_priority": 300
+                },
+                {
+                    "name": "温米"
                 },
                 {
                     "name": "布丁",

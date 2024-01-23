@@ -106,7 +106,8 @@
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
-    <system:String x:Key="StartingCoreCharTip">仅支持单个干员中文名，不填写则默认选择。</system:String>
+    <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员「{0}」未在 battle_data 中，请检查输入的名称是否正确，或检查 maa 资源版本。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「开局干员」直升精二，不进行作战</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
@@ -615,13 +616,14 @@
     <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
-    <system:String x:Key="RoguelikeSettlement">肉鸽结算: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Explore">探索: {0} 层 {1} 步</system:String>
-    <system:String x:Key="RoguelikeSettlement-Combat">战斗: {0} / {1} 紧急 / {2} BOSS</system:String>
-    <system:String x:Key="RoguelikeSettlement-Recruit">招募: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Collection">收藏品: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Difficulty">难度: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Global">得分: {0}, Exp: {1}, Skill: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">
+        肉鸽结算: {0}\n
+        探索: {1} 层 {2} 步\n
+        战斗: {3} / {4} 紧急 / {5} BOSS\n
+        招募: {6}  收藏品: {7}\n
+        难度: {8}  得分: {9}\n
+        Exp: {10}  Skill: {11}
+    </system:String>
     <system:String x:Key="CurTimes">当前次数</system:String>
     <system:String x:Key="NoDrop">无</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>

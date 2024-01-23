@@ -983,6 +983,14 @@
         "sortId": 10020,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_4101": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_4101.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10021,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1479,6 +1487,14 @@
         "sortId": -10000,
         "usage": "Statues of saints bearing guns were once ornamental mainstays all over the monastery, but most are now nowhere to be seen. The monastery's devout followers are willing to barter what supplies they have in exchange for these fragments."
     },
+    "act27side_token_fur": {
+        "classifyType": "NONE",
+        "description": "Soft, insulating, and highly absorptive, it might look extremely delicious, but please don't start eating it like cotton candy.",
+        "icon": "act27side_token_fur.png",
+        "name": "Fluffy Critter Wool",
+        "sortId": -10000,
+        "usage": "Looks good for padding outdoors thermal equipment, but seems to have little use in the current season. The young girl at 'White Volcano' has an inexplicable love for bizarre wool like this, and will surreptitiously trade you goods from the shop for it. N.B.: DO NOT let her big brother know!"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
@@ -1598,6 +1614,14 @@
         "name": "Liść Ticket",
         "sortId": -10000,
         "usage": "A Kazimierz Major lottery ticket bearing the logo of Pinus Sylvestris. This ticket can be exchanged at the Kazimierz Major Prize Exchange Center for corresponding prizes. Put down your chips, and win your fortune!"
+    },
+    "advanced_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
+        "icon": "advanced_material_issue_voucher.png",
+        "name": "Advanced Material Voucher",
+        "sortId": 30201,
+        "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used within a limited time to obtain advanced elite materials."
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -1831,6 +1855,14 @@
         "sortId": 90002,
         "usage": "Used to upgrade Operator modules."
     },
+    "premium_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "In order to address scarcities of certain materials during processing, the Procurement Department has issued exchange vouchers for operators' discretionary use, granting access to the materials needed.",
+        "icon": "premium_material_issue_voucher.png",
+        "name": "Premium Material Voucher",
+        "sortId": 30200,
+        "usage": "A special exchange voucher issued by the Rhodes Island Procurement Department. Can be used within a limited time to obtain premium elite materials."
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "Nobody knows who ended up footing the bill. What we do know is the hope they have for Rhodes Island.",
@@ -2023,10 +2055,26 @@
         "sortId": 60109,
         "usage": "Filled with an assortment of supplies and materials."
     },
+    "randomMaterial_siesta2": {
+        "classifyType": "CONSUME",
+        "description": "A material resupply box from Mountaincomm Trade. We the vendor are delighted to work with such a major client, and offer these complimentary gifts to you courtesy of our partner logistics firm.",
+        "icon": "randomMaterial_siesta2.png",
+        "name": "Mountaincomm Trade Supplies",
+        "sortId": 60111,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "An emblem specially prepared for those returning to major posts. Granted progressively throughout the course of their familiarization with work.",
         "icon": "return_credit_token.png",
+        "name": "Second Authentication Emblem",
+        "sortId": -10000,
+        "usage": "An emblem of special authentication distributed internally within Rhodes Island. Collect a certain amount to obtain partial usage rights to Rhodes Island's supplies."
+    },
+    "return_credit_token2": {
+        "classifyType": "NONE",
+        "description": "An emblem specially prepared for those returning to major posts. Granted progressively throughout the course of their familiarization with work.",
+        "icon": "return_credit_token2.png",
         "name": "Second Authentication Emblem",
         "sortId": -10000,
         "usage": "An emblem of special authentication distributed internally within Rhodes Island. Collect a certain amount to obtain partial usage rights to Rhodes Island's supplies."

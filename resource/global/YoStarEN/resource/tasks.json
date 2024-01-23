@@ -49,6 +49,31 @@
             150
         ]
     },
+    "SL-Open": {
+        "text": [
+            "So Long, Adele: Home Away From Home",
+            "So Long, Adele",
+            "Home Away From Home"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ]
+    },
+    "SLChapterToSL": {
+        "text": [
+            "A HOLIDAY",
+            "AT THE HOT SPRINGS"
+        ],
+        "roi": [
+            998,
+            461,
+            210,
+            62
+        ]
+    },
     "HE-Open": {
         "text": [
             "Hortus",
@@ -1288,6 +1313,10 @@
                 "High-Energy Originium Barrel Bomb"
             ],
             [
+                "High-Energy Originium Barrel Bomb",
+                "高能源石爆桶"
+            ],
+            [
                 "High-Energy Originium Bomb",
                 "高能源石炸弹"
             ],
@@ -2076,10 +2105,6 @@
                 "老伊辛"
             ],
             [
-                "High-Energy Originium Barrel Bomb",
-                "高能源石爆桶"
-            ],
-            [
                 "Fortification",
                 "防御工事"
             ],
@@ -2122,10 +2147,6 @@
             [
                 "High-Voltage Shock Trap",
                 "高压脉冲诡雷"
-            ],
-            [
-                "Wiredrone",
-                "滞空牵引无人机"
             ],
             [
                 "Firm Platform",
@@ -2296,6 +2317,10 @@
                 "无需增调干员"
             ],
             [
+                "Executor the Ex ?Foedere?",
+                "Executor the Ex Foedere"
+            ],
+            [
                 "Executor the Ex Foedere",
                 "圣约送葬人"
             ],
@@ -2322,6 +2347,38 @@
             [
                 "Shabby Fence",
                 "破旧的木篱"
+            ],
+            [
+                "Steam Soda Bottle",
+                "水汽汽水瓶"
+            ],
+            [
+                "Eyjafjall?a the Hv.t Aska",
+                "Eyjafjalla the Hvít Aska"
+            ],
+            [
+                "Eyjafjalla the Hvít Aska",
+                "纯烬艾雅法拉"
+            ],
+            [
+                "Decorative Geyser",
+                "景观喷泉"
+            ],
+            [
+                "Swire the Elegant Wit",
+                "琳琅诗怀雅"
+            ],
+            [
+                "Bryophyta",
+                "苍苔"
+            ],
+            [
+                "Champagne Bomb",
+                "香槟炸弹"
+            ],
+            [
+                "Poncirus",
+                "青枳"
             ]
         ]
     },
@@ -3854,6 +3911,14 @@
             [
                 "Ca1m",
                 "Calm"
+            ],
+            [
+                "^[^\\d]+(?=\\d+$)",
+                ""
+            ],
+            [
+                "^[^\\d]+$",
+                "0"
             ]
         ]
     },

@@ -105,8 +105,9 @@
     <system:String x:Key="RoguelikeLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
-    <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
-    <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
+    <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
+    <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">入力のスタッフ「{0}」がbattle_dataにありません。入力の名前が正しいか、maaリソースのバージョンをチェックしてください。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
@@ -615,13 +616,15 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
-    <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Explore">探検する: {0} 床 {1} ステップ</system:String>
-    <system:String x:Key="RoguelikeSettlement-Combat">戦闘: {0} / {1} 緊急 / {2} BOSS</system:String>
-    <system:String x:Key="RoguelikeSettlement-Recruit">リクルート: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Collection">コレクション: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Difficulty">困難: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Global">スコア: {0}, 経験値: {1}, スキル: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">
+        ローグライク決済: {0}\n
+        探検する: {1} 床 {2} ステップ\n
+        戦闘: {3} / {4} 緊急 / {5} BOSS\n
+        リクルート: {6}\n
+        コレクション: {7}\n
+        困難: {8}\n
+        スコア: {9}, 経験値: {10}, スキル: {11}
+    </system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
