@@ -1992,7 +1992,7 @@ namespace MaaWpfGui.Main
                 ["theme"] = theme,
             };
 
-            if (mode == 1 || mode == 4)
+            if (mode == 1)
             {
                 taskParams["investment_enabled"] = true;
             }
