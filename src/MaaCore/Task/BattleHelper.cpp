@@ -98,7 +98,14 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     }
 
     BattlefieldMatcher oper_analyzer(image);
-    oper_analyzer.set_object_of_interest({ .deployment = true });
+
+    // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
+    if (init) {
+        oper_analyzer.set_object_of_interest({ .deployment = true, .oper_cost = true });
+    }
+    else {
+        oper_analyzer.set_object_of_interest({ .deployment = true });
+    }
     auto oper_result_opt = oper_analyzer.analyze();
     if (!oper_result_opt) {
         check_in_battle(image);

@@ -183,6 +183,10 @@ namespace MaaWpfGui.Models
                 File.Copy(tmp, version, true);
                 File.Delete(tmp);
             }
+            else
+            {
+                return;
+            }
 
             ETagCache.Set(_versionUrl, _versionEtag);
         }

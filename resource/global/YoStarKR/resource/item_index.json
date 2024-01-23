@@ -983,6 +983,14 @@
         "sortId": 10020,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
+    "LMTGS_COIN_4101": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_4101.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10021,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
@@ -1479,6 +1487,14 @@
         "sortId": -10000,
         "usage": "총을 지닌 성도상은 한때 수도원 곳곳에 있었으나, 지금은 대부분 그 자리에 없다. 경건한 신자들은 얼마 남지 않은 물자로 그 조각을 교환하려 한다."
     },
+    "act27side_token_fur": {
+        "classifyType": "NONE",
+        "description": "복슬복슬하면서도 따뜻하고 흡수성이 좋다. 딱 보면 엄청 맛있어 보이지만, 솜사탕이 아니니 입에 넣는 일은 없도록.",
+        "icon": "act27side_token_fur.png",
+        "name": "복슬복슬한 생물의 털",
+        "sortId": -10000,
+        "usage": "실외에서 사용하면 따뜻할 것 같지만, 이 계절엔 딱히 쓸모없다. '순백의 화산' 집 딸내미가 왜 이런 털뭉치를 좋아하고, 기꺼이 가게 상품으로 교환하려는지 모르겠지만, 소녀의 오빠한테는 절대 비밀로 할 것!"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
@@ -1598,6 +1614,14 @@
         "name": "리시치 티켓",
         "sortId": -10000,
         "usage": "피누스 실베스트리스 라벨이 새겨진 기사 스포츠 복권. 이 복권으로 교환소에서 해당하는 상금을 교환할 수 있다. 큰돈을 벌어보자!"
+    },
+    "advanced_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "가공 중 일부 재료가 부족한 문제를 해결하기 위해, 구매부가 수령권을 발행해 오퍼레이터들이 필요한 재료들을 직접 얻을 수 있도록 하였다.",
+        "icon": "advanced_material_issue_voucher.png",
+        "name": "고급 재료 수령권",
+        "sortId": 30201,
+        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 기간 동안 고급 정예 재료를 받을 수 있다."
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -1831,6 +1855,14 @@
         "sortId": 90002,
         "usage": "오퍼레이터의 모듈 업그레이드에 사용된다."
     },
+    "premium_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "가공 중 일부 재료가 부족한 문제를 해결하기 위해, 구매부가 수령권을 발행해 오퍼레이터들이 필요한 재료들을 직접 얻을 수 있도록 하였다.",
+        "icon": "premium_material_issue_voucher.png",
+        "name": "특급 재료 수령권",
+        "sortId": 30200,
+        "usage": "로도스 아일랜드 구매부에서 특별 발행한 수령권. 사용 기간 동안 특급 정예 재료를 받을 수 있다."
+    },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
         "description": "누가 꺼낸건지 알 수 없는 돈봉투. 하지만 로도스 아일랜드의 모두에게 희망이 가득하길 바라는 마음만은 진심이다.",
@@ -2023,10 +2055,26 @@
         "sortId": 60109,
         "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
     },
+    "randomMaterial_siesta2": {
+        "classifyType": "CONSUME",
+        "description": "마운틴커머스 무역으로부터 보내온 재료 보급 상자. 대형 거래처와 협력하게 되어 기쁜 공급업체 측에서 물류 회사를 통해 당신에게 선물을 보내왔다.",
+        "icon": "randomMaterial_siesta2.png",
+        "name": "마운틴커머스 무역 물류 보급",
+        "sortId": 60111,
+        "usage": "각종 보급 물자가 들어있다. 다양한 재료를 랜덤으로 획득할 수 있다."
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "중요한 직위에 복귀한 사람들을 위해 특별히 준비한 엠블럼. 업무에 익숙해지는 과정에서 점차 지급된다.",
         "icon": "return_credit_token.png",
+        "name": "2차 인증 엠블럼",
+        "sortId": -10000,
+        "usage": "로도스 아일랜드에서만 유통되는 특수 인증용 엠블럼. 일정 수량을 수집하면 로도스 아일랜드 일부 물자의 사용 권한을 허용받을 수 있다."
+    },
+    "return_credit_token2": {
+        "classifyType": "NONE",
+        "description": "중요한 직위에 복귀한 사람들을 위해 특별히 준비한 엠블럼. 업무에 익숙해지는 과정에서 점차 지급된다.",
+        "icon": "return_credit_token2.png",
         "name": "2차 인증 엠블럼",
         "sortId": -10000,
         "usage": "로도스 아일랜드에서만 유통되는 특수 인증용 엠블럼. 일정 수량을 수집하면 로도스 아일랜드 일부 물자의 사용 권한을 허용받을 수 있다."

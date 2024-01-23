@@ -476,7 +476,7 @@ namespace asst
         LogStream(std::unique_lock<std::mutex>&&, stream_t&&, Args&&...) -> LogStream<stream_t>;
 
     public:
-        virtual ~Logger() override { flush(); }
+        virtual ~Logger() override { flush(false); }
 
         // static bool set_directory(const std::filesystem::path& dir)
         // {
@@ -578,13 +578,15 @@ namespace asst
              << ... << std::forward<Args>(args));
         }
 
-        void flush()
+        void flush(bool rorate_log_file = true)
         {
             std::unique_lock<std::mutex> m_trace_lock(m_trace_mutex);
             if (m_ofs.is_open()) {
                 m_ofs.close();
             }
-            rotate();
+            if (rorate_log_file) {
+                rotate();
+            }
         }
 
     private:

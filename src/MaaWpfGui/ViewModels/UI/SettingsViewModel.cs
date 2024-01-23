@@ -76,7 +76,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
 
-        private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
+        private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
 
         /// <summary>
         /// Gets the UI version.
@@ -1886,6 +1886,13 @@ namespace MaaWpfGui.ViewModels.UI
                 if (_roguelikeCoreChar == (value ??= string.Empty))
                 {
                     return;
+                }
+
+                if (!string.IsNullOrEmpty(value) && DataHelper.GetCharacterByNameOrAlias(value) is null)
+                {
+                    MessageBoxHelper.Show(
+                        string.Format(LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"), value),
+                        LocalizationHelper.GetString("Tip"));
                 }
 
                 SetAndNotify(ref _roguelikeCoreChar, value);
@@ -3977,7 +3984,7 @@ namespace MaaWpfGui.ViewModels.UI
         private void UpdateRoguelikeCoreCharList()
         {
             var filePath = $"resource/roguelike/{RoguelikeTheme}/recruitment.json";
-            if (File.Exists(filePath) is false)
+            if (!File.Exists(filePath))
             {
                 RoguelikeCoreCharList.Clear();
                 return;
@@ -3999,16 +4006,22 @@ namespace MaaWpfGui.ViewModels.UI
 
                     foreach (var operItem in opersArray)
                     {
-                        var isStart = (bool?)operItem.SelectToken("is_start") ?? false;
+                        var isStart = (bool?)operItem["is_start"] ?? false;
                         if (!isStart)
                         {
                             continue;
                         }
 
-                        var name = (string)operItem.SelectToken("name");
-                        if (!string.IsNullOrEmpty(name))
+                        var name = (string)operItem["name"];
+                        if (string.IsNullOrEmpty(name))
                         {
-                            roguelikeCoreCharList.Add(name);
+                            continue;
+                        }
+
+                        var localizedName = DataHelper.GetLocalizedCharacterName(name, _language);
+                        if (!string.IsNullOrEmpty(localizedName))
+                        {
+                            roguelikeCoreCharList.Add(localizedName);
                         }
                     }
                 }
