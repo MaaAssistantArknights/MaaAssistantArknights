@@ -99,13 +99,14 @@
                 5,
                 1
             ],
-            "direction": "up"
+            "direction": "left"
         },
         {
             "groups": [
                 "高台输出",
                 "辅助",
-                "其他高台"
+                "其他高台",
+                "奶"
             ],
             "location": [
                 6,
