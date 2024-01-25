@@ -17,7 +17,7 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
       m_task_file_reload_task_ptr(std::make_shared<TaskFileReloadTask>(callback, inst, TaskType)),
       m_navigate_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
       m_not_use_prts_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
-      m_adverse_select_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+      m_change_difficulty_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
       m_formation_task_ptr(std::make_shared<BattleFormationTask>(callback, inst, TaskType)),
       m_battle_task_ptr(std::make_shared<BattleProcessTask>(callback, inst, TaskType)),
       m_stop_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
@@ -31,8 +31,8 @@ asst::CopilotTask::CopilotTask(const AsstCallback& callback, Assistant* inst)
     m_subtasks.emplace_back(m_not_use_prts_task_ptr);
 
     // 选择突袭模式
-    m_adverse_select_task_ptr->set_tasks({ "ChangeToAdverseDifficulty", "AdverseConfirm" });
-    m_subtasks.emplace_back(m_adverse_select_task_ptr);
+    m_change_difficulty_task_ptr->set_tasks({ "RaidConfirm", "ChangeToRaidDifficulty" });
+    m_subtasks.emplace_back(m_change_difficulty_task_ptr);
 
     auto start_1_tp = std::make_shared<ProcessTask>(callback, inst, TaskType);
     start_1_tp->set_tasks({ "BattleStartPre" }).set_retry_times(0).set_ignore_error(true);
@@ -119,7 +119,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     m_navigate_task_ptr->set_enable(need_navigate);
-    m_adverse_select_task_ptr->set_enable(need_navigate && is_adverse);
+    m_change_difficulty_task_ptr->set_enable(need_navigate && is_adverse);
     m_not_use_prts_task_ptr->set_enable(need_navigate); // 不使用代理指挥
     m_medicine_task_ptr->set_enable(use_sanity_potion);
 

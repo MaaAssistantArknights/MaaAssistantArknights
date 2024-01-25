@@ -707,8 +707,8 @@
             50
         ]
     },
-    "ChangeToAdverseDifficulty": {
-        "template": "AdverseDifficulty.png",
+    "ChangeToRaidDifficulty": {
+        "template": "RaidDifficulty.png",
         "action": "ClickSelf",
         "roi": [
             625,
@@ -718,12 +718,12 @@
         ],
         "maxTimes": 3,
         "next": [
-            "AdverseConfirm",
+            "RaidConfirm",
             "#self"
         ]
     },
-    "AdverseConfirm": {
-        "baseTask": "ChangeToAdverseDifficulty",
+    "RaidConfirm": {
+        "baseTask": "ChangeToRaidDifficulty",
         "action": "DoNothing",
         "template": "NormalDifficulty.png",
         "next": []
