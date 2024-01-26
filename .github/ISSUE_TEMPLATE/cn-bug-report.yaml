@@ -19,7 +19,7 @@ body:
     id: describe
     attributes:
       label: 问题描述
-      description: 尽可能详细描述你的问题
+      description: 描述问题时请尽可能详细，同时提供与 MAA-设置-版本更新 相关的三个版本号（可单击复制）
     validations:
       required: true
   - type: textarea
