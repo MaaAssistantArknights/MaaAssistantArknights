@@ -32,7 +32,7 @@ body:
     id: describe
     attributes:
       label: Description
-      description: Describe your problem in as much detail as possible.
+      description: Please provide a detailed description of your issue and include the three version numbers related to MAA - settings - updates (you can click to copy).
     validations:
       required: true
   - type: textarea
