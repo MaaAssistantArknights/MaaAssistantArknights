@@ -77,19 +77,8 @@ int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
     const auto discount_ocr_task_ptr = Task.get<OcrTaskInfo>("CreditShop-DiscountOcr");
     Rect discount_roi = discount_ocr_task_ptr->roi;
 
-    int x_pos = 0, y_pos = 0;
-
-    if (commodity.x < 200) x_pos = 0;
-    else if (commodity.x < 455) x_pos = 1;
-    else if (commodity.x < 710) x_pos = 2;
-    else if (commodity.x < 965) x_pos = 3;
-    else x_pos = 4;
-
-    if (commodity.y < 400) y_pos = 0;
-    else y_pos = 1;
-
-    discount_roi.x += Discount_Roi_X[x_pos];
-    discount_roi.y += Discount_Roi_Y[y_pos];
+    discount_roi.x += commodity.x;
+    discount_roi.y += commodity.y;
 
     cv::Mat discount_image = ctrler()->get_image();
     OCRer discount_analyzer(discount_image);

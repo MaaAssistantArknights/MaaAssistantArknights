@@ -18,8 +18,6 @@ namespace asst
         void set_white_list(std::vector<std::string> white_list);
 
         static constexpr int MaxCredit = 300;
-        static constexpr int Discount_Roi_X[5] = { 20, 272, 524, 778, 1031 };
-        static constexpr int Discount_Roi_Y[2] = { 187, 439 };
 
         CreditShoppingTask& set_force_shopping_if_credit_full(bool force_shopping_if_credit_full) noexcept;
         CreditShoppingTask& set_only_buy_discount(bool only_buy_discount) noexcept;
