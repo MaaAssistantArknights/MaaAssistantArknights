@@ -126,7 +126,9 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
+            <Grid Margin="20,0,20,20"
+                  Width="600"
+                  IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -148,9 +150,11 @@
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding OperBoxInfo}"
                             TextWrapping="Wrap" />
-                        <controls:TextBlock
+                        <TextBox
+                            IsReadOnly="True"
                             Margin="10"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            BorderThickness="0"
                             FontFamily="SimSun"
                             FontSize="14"
                             Text="{Binding OperBoxResult}"
