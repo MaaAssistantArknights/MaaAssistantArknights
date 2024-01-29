@@ -44,6 +44,11 @@ size_t asst::DepotImageAnalyzer::get_match_begin_pos() const noexcept
     return m_match_begin_pos;
 }
 
+void asst::DepotImageAnalyzer::set_page(int page) noexcept
+{
+    pages = page;
+}
+
 void asst::DepotImageAnalyzer::resize()
 {
     LogTraceFunction;
@@ -128,12 +133,17 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
             break;
         }
         ItemInfo info;
+        //todo:如果cur_pos大于0需要调转到相应的位置
+        if (pages > 0) {
+            if (!serch_item(roi,get_match_begin_pos()))
+            continue;
+        }
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
         if (cur_pos == NPos) {
             break;
         }
         std::string item_id = info.item_id;
-
+        set_match_begin_pos(cur_pos);
         m_match_begin_pos = cur_pos + 1;
         info.quantity = match_quantity(info);
         info.item_name = ItemData.get_item_name(item_id);
@@ -154,7 +164,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
     cv::Mat hsv;
     cv::cvtColor(m_image_resized, hsv, cv::COLOR_BGR2HSV);
 #endif
-
+    ++pages;
     return !m_result.empty();
 }
 
@@ -171,7 +181,6 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     LogTraceFunction;
 
     const auto& all_items = ItemData.get_ordered_material_item_id();
-
     Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
     // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
@@ -213,6 +222,41 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     item_info.item_id = matched_item_id;
     item_info.rect = matched.rect;
     return matched_index;
+}
+
+bool asst::DepotImageAnalyzer::serch_item(const Rect& roi, size_t begin_index, bool with_enlarge)
+{
+    LogTraceFunction;
+
+    const auto& all_items = ItemData.get_ordered_material_item_id();
+    Matcher analyzer(m_image_resized);
+    analyzer.set_task_info("DepotMatchData");
+    // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
+    Rect enlarged_roi = roi;
+    if (with_enlarge) {
+        enlarged_roi = Rect(roi.x - 20, roi.y - 5, roi.width + 40, roi.height + 10);
+    }
+    analyzer.set_roi(enlarged_roi);
+
+    MatchRect matched;
+    std::string matched_item_id;
+
+    const std::string& item_id = all_items.at(begin_index);
+    // analyzer.set_templ(item_id);
+    // TODO: too slow? find a way to set mask directly
+    cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
+    templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
+    analyzer.set_templ(templ);
+    if (!analyzer.analyze()) {
+        return false;
+    }
+    double score = analyzer.get_result().score;
+    if (score >= matched.score) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)

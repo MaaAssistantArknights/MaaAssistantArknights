@@ -10,6 +10,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
+#include "Config/Miscellaneous/ItemConfig.h"
 
 bool asst::DepotRecognitionTask::_run()
 {
@@ -25,8 +26,11 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
     m_all_items.clear();
-
+    //获取item总长度
+    const auto& item_size = ItemData.get_ordered_material_item_id().size();
     size_t pre_pos = 0ULL;
+    int cur_page = 0;
+    //size_t pre_pos = item_size;
     while (true) {
         DepotImageAnalyzer analyzer(ctrler()->get_image());
 
@@ -34,16 +38,17 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
 
         // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
         // 所以这个 begin pos 不能设置
-        // analyzer.set_match_begin_pos(pre_pos);
+         analyzer.set_match_begin_pos(pre_pos);
+        analyzer.set_page(cur_page);
         if (!analyzer.analyze()) {
             break;
         }
         size_t cur_pos = analyzer.get_match_begin_pos();
-        if (cur_pos == pre_pos || cur_pos == DepotImageAnalyzer::NPos) {
+        if (cur_pos == item_size|| cur_pos == DepotImageAnalyzer::NPos) {
             break;
         }
         pre_pos = cur_pos;
-
+        cur_page = analyzer.get_page();
         auto cur_result = analyzer.get_result();
         m_all_items.merge(std::move(cur_result));
 

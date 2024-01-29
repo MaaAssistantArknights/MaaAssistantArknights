@@ -24,14 +24,18 @@ namespace asst
         void set_match_begin_pos(size_t pos) noexcept;
         size_t get_match_begin_pos() const noexcept;
         const auto& get_result() const noexcept { return m_result; }
+        void set_page(int page) noexcept;
+        int get_page() const noexcept { return pages; }
 
     private:
         void resize();
         bool analyze_base_rect();
         bool analyze_all_items();
-
+        int pages = 0;
         bool check_roi_empty(const Rect& roi);
         size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL,
+                          bool with_enlarge = true);
+        bool serch_item(const Rect& roi, /* out */ size_t begin_index = 0ULL,
                           bool with_enlarge = true);
         int match_quantity(const ItemInfo& item);
         Rect resize_rect_to_raw_size(const Rect& rect);
