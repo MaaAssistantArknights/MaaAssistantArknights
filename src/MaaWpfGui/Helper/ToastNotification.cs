@@ -25,9 +25,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HandyControl.Data;
-using MaaWpfGui.Configuration;
-using MaaWpfGui.Constants;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Win32;
 using Notification.Wpf;
 using Notification.Wpf.Base;
@@ -35,9 +32,6 @@ using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
 using Semver;
 using Serilog;
-using Stylet;
-using Windows.Data.Xml.Dom;
-using Windows.UI.Notifications;
 using Application = System.Windows.Forms.Application;
 using FontFamily = System.Windows.Media.FontFamily;
 
@@ -426,6 +420,7 @@ namespace MaaWpfGui.Helper
             return;
 
             // TODO: 整理过时代码
+            /*
             if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
             {
                 return;
@@ -497,6 +492,7 @@ namespace MaaWpfGui.Helper
 
             // 任务栏闪烁
             FlashWindowEx();
+            */
         }
 
         /// <summary>
