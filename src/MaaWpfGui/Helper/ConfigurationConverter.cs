@@ -51,10 +51,21 @@ namespace MaaWpfGui.Helper
                 }
                 catch (Exception e)
                 {
-                    _logger.Error(e, "Failed to save configuration file.");
+                    _logger.Error(e, "Failed to backup old configuration file.");
                 }
 
-                return ConvertV4ToV5();
+                var result = ConvertV4ToV5();
+
+                try
+                {
+                    File.Delete(_configurationFile);
+                }
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Failed to remove " + _configurationFile);
+                }
+
+                return result;
             }
             else if (parsed["ConfigVersion"].Type == JTokenType.Integer)
             {

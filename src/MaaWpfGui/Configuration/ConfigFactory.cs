@@ -28,7 +28,7 @@ namespace MaaWpfGui.Configuration
 {
     public static class ConfigFactory
     {
-        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui.json");
+        private static readonly string _configurationFile = Path.Combine(Environment.CurrentDirectory, "config/gui_v5.json");
 
         // TODO: write backup method. WIP: https://github.com/Cryolitia/MaaAssistantArknights/tree/config
         // ReSharper disable once UnusedMember.Local
