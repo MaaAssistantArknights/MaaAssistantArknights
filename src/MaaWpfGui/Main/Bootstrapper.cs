@@ -27,14 +27,12 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
-using MaaWpfGui.ViewModels;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
 using Serilog;
 using Serilog.Core;
 using Stylet;
 using StyletIoC;
-using Windows.UI.Notifications;
 
 namespace MaaWpfGui.Main
 {
@@ -225,11 +223,14 @@ namespace MaaWpfGui.Main
             Instances.SettingsViewModel.Sober();
 
             // 关闭程序时清理操作中心中的通知
+            // 使用 handyorg 的 ShowBalloonTip，不需要清理
+            /*
             var os = RuntimeInformation.OSDescription;
             if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
             {
                 new ToastNotificationHistory().Clear();
             }
+            */
 
             ConfigurationHelper.Release();
 
