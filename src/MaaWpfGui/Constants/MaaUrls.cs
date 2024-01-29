@@ -12,6 +12,7 @@
 // </copyright>
 
 using System.Collections.Generic;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Constants
@@ -49,7 +50,7 @@ namespace MaaWpfGui.Constants
 
         public const string QqChannel = "https://pd.qq.com/s/4j1ju9z47";
 
-        private static string Language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
+        private static string Language => ConfigFactory.CurrentConfig.GUI.Localization;
 
         public static string HelpUri => $"{MaaDocs}/{_helpUrl[Language]}";
 

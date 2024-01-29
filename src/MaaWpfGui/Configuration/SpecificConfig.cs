@@ -11,11 +11,29 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Text.Json.Serialization;
+using ObservableCollections;
+using static MaaWpfGui.Models.MaaTask;
+
 namespace MaaWpfGui.Configuration
 {
     public class SpecificConfig
     {
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        public GUI GUI { get; set; } = new GUI();
+        [JsonInclude]
+        public GUI GUI { get; private set; } = new();
+
+        [JsonInclude]
+        public ObservableDictionary<string, int> InfrastOrder { get; private set; } = new();
+
+        [JsonInclude]
+        public ObservableList<BaseTask> TaskQueue { get; private set; } = new();
+
+        [JsonInclude]
+        public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = new();
+
+        public object ToolBox { get; private set; } = new(); // 抽卡、扫仓库、自动战斗
+        public object 外部通知 { get; private set; } = new();
+        public object Cache { get; private set; } = new(); // 理智、当天打OF-1
     }
 }

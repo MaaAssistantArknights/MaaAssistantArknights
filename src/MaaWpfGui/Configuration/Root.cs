@@ -23,6 +23,8 @@ namespace MaaWpfGui.Configuration
 
         public ObservableDictionary<string, SpecificConfig> Configurations { get; set; } = new ObservableDictionary<string, SpecificConfig>();
 
+        public int ConfigVersion { get; set; } = 5;
+
         public string Current { get; set; } = "Default";
 
         [JsonIgnore]

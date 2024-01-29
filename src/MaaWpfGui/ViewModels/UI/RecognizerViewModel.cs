@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -605,7 +606,7 @@ namespace MaaWpfGui.ViewModels.UI
             List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
             List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
 
-            string localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty) switch
+            string localizedName = ConfigFactory.CurrentConfig.GUI.Localization switch
             {
                 "zh-cn" => "name",
                 "ja-jp" => "name_jp",

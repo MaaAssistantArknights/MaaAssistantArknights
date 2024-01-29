@@ -276,7 +276,7 @@ namespace MaaWpfGui.Helper
                 _logger.Error(e, "Failed to save configuration file.");
                 return false;
             }
-
+            
             return true;
         }
 

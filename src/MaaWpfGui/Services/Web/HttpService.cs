@@ -20,6 +20,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
@@ -36,7 +37,7 @@ namespace MaaWpfGui.Services.Web
         {
             get
             {
-                var p = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+                var p = ConfigFactory.Root.VersionUpdate.Proxy;
                 if (string.IsNullOrEmpty(p))
                 {
                     return string.Empty;

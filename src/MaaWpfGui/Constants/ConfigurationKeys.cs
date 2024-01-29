@@ -29,19 +29,19 @@ namespace MaaWpfGui.Constants
         // ReSharper disable once UnusedMember.Global
         public const string ConfigurationCron = "Cron";
 
-        public const string Localization = "GUI.Localization";
-        public const string MinimizeToTray = "GUI.MinimizeToTray";
-        public const string HideCloseButton = "GUI.HideCloseButton";
-        public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat";
-        public const string LogItemDateFormat = "GUI.LogItemDateFormatString";
-        public const string WindowPlacement = "GUI.Placement";
-        public const string LoadWindowPlacement = "GUI.Placement.Load";
-        public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
+        public const string Localization = "GUI.Localization"; // 迁移
+        public const string MinimizeToTray = "GUI.MinimizeToTray"; // 迁移
+        public const string HideCloseButton = "GUI.HideCloseButton"; // 迁移
+        public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat"; // 迁移
+        public const string LogItemDateFormat = "GUI.LogItemDateFormatString"; // 迁移
+        public const string WindowPlacement = "GUI.Placement"; // 迁移
+        public const string LoadWindowPlacement = "GUI.Placement.Load"; // 迁移
+        public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing"; // 迁移
         public const string UseAlternateStage = "GUI.UseAlternateStage";
         public const string HideUnavailableStage = "GUI.HideUnavailableStage";
         public const string CustomStageCode = "GUI.CustomStageCode";
-        public const string InverseClearMode = "GUI.InverseClearMode";
-        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+        public const string InverseClearMode = "GUI.InverseClearMode"; // 迁移
+        public const string WindowTitlePrefix = "GUI.WindowTitlePrefix"; // 迁移
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -98,7 +98,7 @@ namespace MaaWpfGui.Constants
         public const string UseExpiringMedicine = "Fight.UseExpiringMedicine";
         public const string RemainingSanityStage = "Fight.RemainingSanityStage";
 
-        public const string RoguelikeTheme = "Roguelike.RoguelikeTheme";
+        public const string RoguelikeTheme = "Roguelike.RoguelikeTheme"; // 迁移
         public const string RoguelikeMode = "Roguelike.Mode";
         public const string RoguelikeSquad = "Roguelike.Squad";
         public const string RoguelikeRoles = "Roguelike.Roles";
@@ -131,34 +131,21 @@ namespace MaaWpfGui.Constants
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
 
-        public const string CreditShopping = "Mall.CreditShopping";
-        public const string CreditFirstListNew = "Mall.CreditFirstListNew";
-        public const string CreditBlackListNew = "Mall.CreditBlackListNew";
-        public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
+        public const string CreditShopping = "Mall.CreditShopping"; // 迁移
+        public const string CreditFirstListNew = "Mall.CreditFirstListNew"; // 迁移
+        public const string CreditBlackListNew = "Mall.CreditBlackListNew"; // 迁移
+        public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull"; // 迁移
         public const string CreditOnlyBuyDiscount = "Mall.CreditOnlyBuyDiscount";
         public const string CreditReserveMaxCredit = "Mall.CreidtReserveMaxCredit";
 
-        public const string ReceiveAward = "Mission.ReceiveAward";
-        public const string ReceiveMail = "Mission.ReceiveMail";
+        public const string ReceiveAward = "Mission.ReceiveAward"; // 迁移
+        public const string ReceiveMail = "Mission.ReceiveMail"; // 迁移
         public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit";
 
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
-
-        public const string UpdateProxy = "VersionUpdate.Proxy";
-        public const string VersionType = "VersionUpdate.VersionType";
-        public const string UpdateCheck = "VersionUpdate.UpdateCheck";
-        public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
-        public const string ResourceApi = "VersionUpdate.ResourceApi";
-
-        // 这个已经废弃了，还要留着吗？
-        // ReSharper disable once UnusedMember.Global
-        public const string UseAria2 = "VersionUpdate.UseAria2";
-
-        public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage";
-        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage";
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
@@ -170,8 +157,8 @@ namespace MaaWpfGui.Constants
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";
 
-        public const string ActionAfterCompleted = "MainFunction.ActionAfterCompleted";
-        public const string MainFunctionInverseMode = "MainFunction.InverseMode";
+        public const string ActionAfterCompleted = "MainFunction.ActionAfterCompleted"; // 迁移
+        public const string MainFunctionInverseMode = "MainFunction.InverseMode"; // 迁移
         public const string Stage1 = "MainFunction.Stage1";
         public const string Stage2 = "MainFunction.Stage2";
         public const string Stage3 = "MainFunction.Stage3";
@@ -202,12 +189,25 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationSmtpTo = "ExternalNotification.Smtp.To";
         public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
 
-        // The following should not be modified manually
-        public const string VersionName = "VersionUpdate.name";
+        public const string UpdateProxy = "VersionUpdate.Proxy"; // 不完全迁移
+        public const string VersionType = "VersionUpdate.VersionType"; // 迁移
+        public const string UpdateCheck = "VersionUpdate.UpdateCheck"; // 迁移
+        public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck"; // 迁移
+        public const string ResourceApi = "VersionUpdate.ResourceApi"; // 迁移
 
-        public const string VersionUpdateBody = "VersionUpdate.body";
-        public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
-        public const string VersionUpdatePackage = "VersionUpdate.package";
+        // 这个已经废弃了，还要留着吗？
+        // ReSharper disable once UnusedMember.Global
+        public const string UseAria2 = "VersionUpdate.UseAria2"; // 不迁移
+
+        public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage"; // 迁移
+        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage"; // 迁移
+
+        // The following should not be modified manually
+        public const string VersionName = "VersionUpdate.name"; // 迁移
+
+        public const string VersionUpdateBody = "VersionUpdate.body"; // 迁移
+        public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot"; // 迁移
+        public const string VersionUpdatePackage = "VersionUpdate.package"; // 迁移
 
         public const string OperBoxData = "OperBox.Data";
 
@@ -218,7 +218,7 @@ namespace MaaWpfGui.Constants
         public const string ForceScheduledStart = "Timer.ForceScheduledStart";
         public const string CustomConfig = "Timer.CustomConfig";
 
-        public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
+        public const string AnnouncementInfo = "Announcement.AnnouncementInfo"; // 迁移
         public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
     }
 }
