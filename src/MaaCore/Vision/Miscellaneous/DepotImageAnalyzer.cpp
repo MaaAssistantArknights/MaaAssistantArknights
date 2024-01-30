@@ -239,7 +239,6 @@ bool asst::DepotImageAnalyzer::serch_item(const Rect& roi, size_t begin_index, b
     }
     analyzer.set_roi(enlarged_roi);
 
-    MatchRect matched;
     std::string matched_item_id;
 
     const std::string& item_id = all_items.at(begin_index);
