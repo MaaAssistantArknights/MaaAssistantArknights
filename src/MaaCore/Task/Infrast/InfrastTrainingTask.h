@@ -1,6 +1,7 @@
 #pragma once
 #include "InfrastProductionTask.h"
-#include "Config/Miscellaneous/BattleDataConfig.h"
+// #include "Config/Miscellaneous/BattleDataConfig.h"
+// TODO: 根据角色职业增加换班功能
 
 namespace asst
 {
@@ -25,7 +26,7 @@ namespace asst
         int m_level;
         std::string m_operator_name;
         std::string m_skill_name;
-        asst::battle::Role m_operator_role;
+        // asst::battle::Role m_operator_role;
         
         bool m_continue_training = false;
     };
