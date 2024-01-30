@@ -44,9 +44,10 @@ size_t asst::DepotImageAnalyzer::get_match_begin_pos() const noexcept
     return m_match_begin_pos;
 }
 
-void asst::DepotImageAnalyzer::set_page(int page) noexcept
+
+void asst::DepotImageAnalyzer::set_search(bool need) noexcept
 {
-    pages = page;
+    need_search = need;
 }
 
 void asst::DepotImageAnalyzer::resize()
@@ -134,8 +135,8 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         }
         ItemInfo info;
         //todo:如果cur_pos大于0需要调转到相应的位置
-        if (pages > 0) {
-            if (!serch_item(roi,get_match_begin_pos()))
+        if (need_search) {
+            if (!serch_item(roi,get_match_begin_pos()-1))
             continue;
         }
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
@@ -152,6 +153,8 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
                     cv::Scalar(0, 0, 255), 2);
         cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10),
                     cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(m_image_draw_resized, std::to_string(cur_pos), cv::Point(roi.x+80, roi.y + 10),
+                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
         if (item_id.empty() || info.quantity == 0) {
             Log.error(__FUNCTION__, item_id, info.item_name, " quantity is zero");
@@ -164,7 +167,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
     cv::Mat hsv;
     cv::cvtColor(m_image_resized, hsv, cv::COLOR_BGR2HSV);
 #endif
-    ++pages;
+    set_search(true);
     return !m_result.empty();
 }
 
@@ -193,7 +196,8 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     MatchRect matched;
     std::string matched_item_id;
     size_t matched_index = NPos;
-    for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
+    for (size_t index = begin_index; index < all_items.size(); ++index) {
+    //for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
         const std::string& item_id = all_items.at(index);
         // analyzer.set_templ(item_id);
         // TODO: too slow? find a way to set mask directly
@@ -203,17 +207,14 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
         if (!analyzer.analyze()) {
             continue;
         }
-        if (double score = analyzer.get_result().score; score >= matched.score) {
+        /*根据模板匹配得分修改，不能太高也不能太低*/
+        if (double score = analyzer.get_result().score; score >= 0.8) {
             matched = analyzer.get_result();
             matched_item_id = item_id;
             matched_index = index;
-        }
-        // 匹配到了任一结果后，再往后匹配几个。
-        // 因为有些相邻的材料长得很像（同一种类的）
-        constexpr size_t MaxExtraMatch = 8;
-        if (matched_index != NPos && ++extra_count >= MaxExtraMatch) {
             break;
         }
+ 
     }
     Log.info("Item id:", matched_item_id);
     if (matched_item_id.empty()) {
@@ -250,8 +251,13 @@ bool asst::DepotImageAnalyzer::serch_item(const Rect& roi, size_t begin_index, b
     if (!analyzer.analyze()) {
         return false;
     }
-    double score = analyzer.get_result().score;
-    if (score >= matched.score) {
+    /*
+    * 匹配上一页最后一个item的在当前页的位置，跳过之前的；
+    * 分值尽量高，不能太高，太高识别不全
+    */
+    if (double score = analyzer.get_result().score; score >= 0.85) {
+        set_search(false);
+        set_match_begin_pos(begin_index);
         return true;
     }
     else {

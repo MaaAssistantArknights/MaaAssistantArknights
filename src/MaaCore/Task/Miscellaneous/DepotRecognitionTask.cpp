@@ -29,17 +29,17 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     //获取item总长度
     const auto& item_size = ItemData.get_ordered_material_item_id().size();
     size_t pre_pos = 0ULL;
-    int cur_page = 0;
+    bool need_search = false;
     //size_t pre_pos = item_size;
     while (true) {
         DepotImageAnalyzer analyzer(ctrler()->get_image());
 
         auto future = std::async(std::launch::async, [&]() { swipe(); });
 
-        // 因为滑动不是完整的一页，有可能上一次识别过的物品，这次仍然在页面中
-        // 所以这个 begin pos 不能设置
-         analyzer.set_match_begin_pos(pre_pos);
-        analyzer.set_page(cur_page);
+        // 第一页不用检索item,后续都需要检索上一页最后一个item
+        
+        analyzer.set_match_begin_pos(pre_pos);
+        analyzer.set_search(need_search);
         if (!analyzer.analyze()) {
             break;
         }
@@ -48,7 +48,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
             break;
         }
         pre_pos = cur_pos;
-        cur_page = analyzer.get_page();
+        need_search = analyzer.get_search();
         auto cur_result = analyzer.get_result();
         m_all_items.merge(std::move(cur_result));
 
