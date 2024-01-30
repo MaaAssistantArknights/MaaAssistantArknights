@@ -32,6 +32,9 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     bool need_search = false;
     //size_t pre_pos = item_size;
     while (true) {
+        if (pre_pos == item_size) {
+            break;
+        }
         DepotImageAnalyzer analyzer(ctrler()->get_image());
 
         auto future = std::async(std::launch::async, [&]() { swipe(); });
@@ -44,7 +47,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
             break;
         }
         size_t cur_pos = analyzer.get_match_begin_pos();
-        if (cur_pos == item_size|| cur_pos == DepotImageAnalyzer::NPos) {
+        if ( cur_pos == DepotImageAnalyzer::NPos) {
             break;
         }
         pre_pos = cur_pos;

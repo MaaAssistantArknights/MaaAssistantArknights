@@ -134,9 +134,9 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
             break;
         }
         ItemInfo info;
-        //todo:如果cur_pos大于0需要调转到相应的位置
+        //todo:如果cur_pos大于0需要调转到相应的位置,近卫和术士芯片太像了，不好区分
         if (need_search) {
-            if (!serch_item(roi,get_match_begin_pos()-1))
+            if (!serch_item(roi,get_match_begin_pos()-2))
             continue;
         }
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
