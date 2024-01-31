@@ -19,7 +19,18 @@ body:
     id: describe
     attributes:
       label: 问题描述
-      description: 描述问题时请尽可能详细，同时提供与 MAA-设置-版本更新 相关的三个版本号（可单击复制）
+      description: 描述问题时请尽可能详细
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version
+      description: >-
+        Please provide the MAA version. Can be found in MAA -> Settings -> Update. (Click to copy)
+      placeholder: |
+        UI Version:
+        Core Version:
     validations:
       required: true
   - type: textarea
