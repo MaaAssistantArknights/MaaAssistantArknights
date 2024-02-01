@@ -188,6 +188,13 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
+            // 更新直接重启
+            if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
+            {
+                ShutdownAndRestartWithoutArgs();
+                return;
+            }
+
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
         }
@@ -195,13 +202,6 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void OnLaunch()
         {
-            // 更新直接重启
-            if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
-            {
-                ShutdownAndRestartWithOutArgs();
-                return;
-            }
-
             Task.Run(async () =>
             {
                 await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
@@ -246,21 +246,28 @@ namespace MaaWpfGui.Main
             _logger.Information(string.Empty);
             Log.CloseAndFlush();
             base.OnExit(e);
+
+            if (_isRestartingWithoutArgs)
+            {
+                ProcessStartInfo startInfo = new ProcessStartInfo
+                {
+                    FileName = System.Windows.Forms.Application.ExecutablePath,
+                };
+
+                Process.Start(startInfo);
+            }
         }
+
+        private static bool _isRestartingWithoutArgs;
 
         /// <summary>
         /// 重启，不带参数
         /// </summary>
-        public static void ShutdownAndRestartWithOutArgs()
+        public static void ShutdownAndRestartWithoutArgs()
         {
+            _isRestartingWithoutArgs = true;
+            _logger.Information("Shutdown and restart without Args");
             Application.Current.Shutdown();
-            Log.CloseAndFlush();
-            ProcessStartInfo startInfo = new ProcessStartInfo
-            {
-                FileName = System.Windows.Forms.Application.ExecutablePath,
-            };
-
-            Process.Start(startInfo);
         }
 
         /// <inheritdoc/>

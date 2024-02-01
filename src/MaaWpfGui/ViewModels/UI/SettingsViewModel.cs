@@ -412,7 +412,7 @@ namespace MaaWpfGui.ViewModels.UI
                 LocalizationHelper.GetString("Burping"),
                 iconKey: "HangoverGeometry",
                 iconBrushKey: "PallasBrush");
-            Bootstrapper.ShutdownAndRestartWithOutArgs();
+            Bootstrapper.ShutdownAndRestartWithoutArgs();
         }
 
         public void Sober()
@@ -1381,7 +1381,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _currentConfiguration, value);
                 ConfigurationHelper.SwitchConfiguration(value);
 
-                Bootstrapper.ShutdownAndRestartWithOutArgs();
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
         }
 
@@ -3786,7 +3786,7 @@ namespace MaaWpfGui.ViewModels.UI
                     cancel: FormatText("{0}({1})", "ManualRestart"));
                 if (result == MessageBoxResult.OK)
                 {
-                    Bootstrapper.ShutdownAndRestartWithOutArgs();
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
                 }
 
                 SetAndNotify(ref _language, value);
@@ -3858,7 +3858,7 @@ namespace MaaWpfGui.ViewModels.UI
                 iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
             {
-                Bootstrapper.ShutdownAndRestartWithOutArgs();
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
         }
 
