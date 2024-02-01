@@ -2773,6 +2773,108 @@
             "DH-9"
         ]
     },
+    "HS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "怀黍离",
+            "关卡已开放"
+        ],
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "postDelay": 2000,
+        "next": [
+            "HSChapterToHS"
+        ]
+    },
+    "HSChapterToHS": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "种植",
+            "植地",
+            "地块"
+        ],
+        "roi": [
+            787,
+            495,
+            207,
+            137
+        ],
+        "postDelay": 2000,
+        "next": [
+            "HSChapterToHS",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "HS-5": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "HS-Open"
+        ],
+        "next": [
+            "HS-5@SideStoryStage",
+            "HS-5@SwipeToStage"
+        ]
+    },
+    "HS-5@SideStoryStage": {
+        "text": [
+            "HS-5"
+        ]
+    },
+    "HS-7": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "HS-Open"
+        ],
+        "next": [
+            "HS-7@SideStoryStage",
+            "HS-7@SwipeToStage"
+        ]
+    },
+    "HS-7@SideStoryStage": {
+        "text": [
+            "HS-7"
+        ]
+    },
+    "HS-8": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "HS-Open"
+        ],
+        "next": [
+            "HS-8@SideStoryStage",
+            "HS-8@SwipeToStage"
+        ]
+    },
+    "HS-8@SideStoryStage": {
+        "text": [
+            "HS-8"
+        ]
+    },
+    "HS-9": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "HS-Open"
+        ],
+        "next": [
+            "HS-9@SideStoryStage",
+            "HS-9@SwipeToStage"
+        ]
+    },
+    "HS-9@SideStoryStage": {
+        "text": [
+            "HS-9"
+        ]
+    },
     "ResourceStages": {
         "algorithm": "JustReturn",
         "sub": [
