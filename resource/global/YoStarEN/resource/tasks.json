@@ -2383,6 +2383,18 @@
             [
                 "Poncirus",
                 "青枳"
+            ],
+            [
+                "Basic Gathering Hub",
+                "木材采集站"
+            ],
+            [
+                "Advanced Gathering Hub",
+                "石材采集站"
+            ],
+            [
+                "Executive Gathering Hub",
+                "铁矿采集站"
             ]
         ]
     },
