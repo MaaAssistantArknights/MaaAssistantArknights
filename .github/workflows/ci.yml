@@ -82,7 +82,7 @@ jobs:
           echo "**Full Changelog**: [$last_tag -> $this_tag](https://github.com/MaaAssistantArknights/MaaAssistantArknights/compare/${last_tag}...${this_tag})" >> CHANGELOG.md
 
       - name: Upload changelog to Github
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         with:
           name: changelog
@@ -109,7 +109,7 @@ jobs:
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             .nuke/temp
@@ -172,7 +172,7 @@ jobs:
         shell: bash
 
       - name: Upload MAA to Github
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MAA-win-${{ matrix.lowercase_target }}
           path: artifacts
@@ -281,7 +281,7 @@ jobs:
           tar czvf $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.tar.gz .
 
       - name: Upload MAA to Github
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MAA-linux-${{ matrix.arch }}
           path: |
@@ -321,7 +321,7 @@ jobs:
           cmake --install build --prefix install
 
       - name: Upload MAA to Github
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MAACore-macos-${{ matrix.arch }}
           path: "install/*.dylib"
@@ -337,13 +337,13 @@ jobs:
           submodules: recursive
 
       - name: Download Arm64 MAA from Github
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: MAACore-macos-arm64
           path: install-arm64
 
       - name: Download x64 MAA from Github
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: MAACore-macos-x86_64
           path: install-x86_64
@@ -431,7 +431,7 @@ jobs:
         working-directory: release
 
       - name: Upload MAA to Github
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: MAA-macos-universal
           path: ${{ startsWith(github.ref, 'refs/tags/v') && 'release/MAA*' || 'src/MaaMacGui/MAA.xcarchive/**' }}
@@ -442,7 +442,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download MAA from Github
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: assets
 
