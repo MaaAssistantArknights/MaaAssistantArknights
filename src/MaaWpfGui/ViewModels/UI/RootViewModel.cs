@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -28,11 +29,18 @@ namespace MaaWpfGui.ViewModels.UI
         /// <inheritdoc/>
         protected override void OnViewLoaded()
         {
+            // 更新直接重启
+            if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
+            {
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
+                return;
+            }
+
             InitViewModels();
             InitProxy();
         }
 
-        private async void InitProxy()
+        private static async void InitProxy()
         {
             await Task.Run(Instances.AsstProxy.Init);
         }

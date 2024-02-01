@@ -188,13 +188,6 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void DisplayRootView(object rootViewModel)
         {
-            // 更新直接重启
-            if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
-            {
-                ShutdownAndRestartWithoutArgs();
-                return;
-            }
-
             Instances.WindowManager.ShowWindow(rootViewModel);
             Instances.InstantiateOnRootViewDisplayed(Container);
         }
