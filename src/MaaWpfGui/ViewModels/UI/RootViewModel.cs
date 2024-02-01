@@ -28,7 +28,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// <inheritdoc/>
         protected override void OnViewLoaded()
         {
-            CheckAndUpdateNow();
+            if (CheckAndUpdateNow())
+            {
+                return;
+            }
+
             InitViewModels();
             InitProxy();
         }
