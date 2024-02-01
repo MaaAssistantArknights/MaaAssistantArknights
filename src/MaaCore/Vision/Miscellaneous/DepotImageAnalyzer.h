@@ -26,17 +26,19 @@ namespace asst
         const auto& get_result() const noexcept { return m_result; }
         void set_search(bool need) noexcept;
         int get_search() const noexcept { return need_search; }
+        cv::Mat get_index_roi() const noexcept { return index_roi; }
+        void set_index_roi(cv::Mat last_roi) noexcept;
 
     private:
         void resize();
         bool analyze_base_rect();
         bool analyze_all_items();
         bool need_search = false;
+        cv::Mat index_roi;
         bool check_roi_empty(const Rect& roi);
         size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL,
                           bool with_enlarge = true);
-        bool serch_item(const Rect& roi, /* out */ size_t begin_index = 0ULL,
-                          bool with_enlarge = true);
+        bool search_item(const Rect& roi);
         int match_quantity(const ItemInfo& item);
         Rect resize_rect_to_raw_size(const Rect& rect);
 

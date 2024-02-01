@@ -50,6 +50,11 @@ void asst::DepotImageAnalyzer::set_search(bool need) noexcept
     need_search = need;
 }
 
+void asst::DepotImageAnalyzer::set_index_roi(cv::Mat last_roi) noexcept
+{
+    index_roi = last_roi;
+}
+
 void asst::DepotImageAnalyzer::resize()
 {
     LogTraceFunction;
@@ -128,15 +133,17 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
 bool asst::DepotImageAnalyzer::analyze_all_items()
 {
     LogTraceFunction;
-
+    
     for (const Rect& roi : m_all_items_roi) {
-        if (check_roi_empty(roi)) { // roi 是竖着有序的
+        if (check_roi_empty(roi)) { 
             break;
         }
+        // roi 是竖着有序的
         ItemInfo info;
-        //todo:如果cur_pos大于0需要调转到相应的位置,近卫和术士芯片太像了，不好区分
+        //todo:如果不是第一页 需要调转到相应的位置,最后一个有背景影响换倒数第二。
         if (need_search) {
-            if (!serch_item(roi,get_match_begin_pos()-2))
+            
+            if (!search_item(roi))
             continue;
         }
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
@@ -144,7 +151,6 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
             break;
         }
         std::string item_id = info.item_id;
-        set_match_begin_pos(cur_pos);
         m_match_begin_pos = cur_pos + 1;
         info.quantity = match_quantity(info);
         info.item_name = ItemData.get_item_name(item_id);
@@ -168,6 +174,9 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
     cv::cvtColor(m_image_resized, hsv, cv::COLOR_BGR2HSV);
 #endif
     set_search(true);
+    // 获取倒数第二个roi存到Mat中,应该放到最后进行这一步操作。
+    auto roi_sizes = m_all_items_roi.size();
+    index_roi=m_image_resized(make_rect<cv::Rect>(m_all_items_roi.at(roi_sizes-2)));
     return !m_result.empty();
 }
 
@@ -225,45 +234,34 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     return matched_index;
 }
 
-bool asst::DepotImageAnalyzer::serch_item(const Rect& roi, size_t begin_index, bool with_enlarge)
+bool asst::DepotImageAnalyzer::search_item(const Rect& roi)
 {
     LogTraceFunction;
-
-    const auto& all_items = ItemData.get_ordered_material_item_id();
     Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
-    // spacing 有时候算的差一个像素，干脆把 roi 扩大一点好了
     Rect enlarged_roi = roi;
-    if (with_enlarge) {
-        enlarged_roi = Rect(roi.x - 20, roi.y - 5, roi.width + 40, roi.height + 10);
-    }
+    enlarged_roi = Rect(roi.x - 20, roi.y - 5, roi.width + 40, roi.height + 10);
     analyzer.set_roi(enlarged_roi);
-
-    std::string matched_item_id;
-
-    const std::string& item_id = all_items.at(begin_index);
-    // analyzer.set_templ(item_id);
-    // TODO: too slow? find a way to set mask directly
-    cv::Mat templ = TemplResource::get_instance().get_templ(item_id).clone();
-    templ(cv::Rect { templ.cols - 80, templ.rows - 50, 80, 50 }) = cv::Scalar { 0, 0, 0 };
+    
+    // 减小mat
+    cv::Mat templ = index_roi(cv::Rect { 10, 10, 100, 100 });
+    
     analyzer.set_templ(templ);
     if (!analyzer.analyze()) {
         return false;
     }
-    /*
-    * 匹配上一页最后一个item的在当前页的位置，跳过之前的；
-    * 分值尽量高，不能太高，太高识别不全
-    */
-    if (double score = analyzer.get_result().score; score >= 0.85) {
+    //将匹配度改到足够大
+    double score = analyzer.get_result().score;
+    if ( score >= 0.95) {
         set_search(false);
-        set_match_begin_pos(begin_index);
+        //把位置移到上一页倒数第二个
+        m_match_begin_pos -= 2;
         return true;
     }
     else {
         return false;
     }
 }
-
 int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("DepotQuantity");

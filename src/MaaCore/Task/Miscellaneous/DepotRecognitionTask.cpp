@@ -30,8 +30,10 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     const auto& item_size = ItemData.get_ordered_material_item_id().size();
     size_t pre_pos = 0ULL;
     bool need_search = false;
+    cv::Mat index_roi(2,2,CV_8UC3,cv::Scalar(0));
     //size_t pre_pos = item_size;
     while (true) {
+        //如果已经遍历完了所有item直接退出
         if (pre_pos == item_size) {
             break;
         }
@@ -43,6 +45,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         
         analyzer.set_match_begin_pos(pre_pos);
         analyzer.set_search(need_search);
+        analyzer.set_index_roi(index_roi);
         if (!analyzer.analyze()) {
             break;
         }
@@ -52,6 +55,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         }
         pre_pos = cur_pos;
         need_search = analyzer.get_search();
+        index_roi = analyzer.get_index_roi();
         auto cur_result = analyzer.get_result();
         m_all_items.merge(std::move(cur_result));
 
