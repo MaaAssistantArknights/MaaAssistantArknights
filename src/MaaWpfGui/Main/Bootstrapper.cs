@@ -221,6 +221,7 @@ namespace MaaWpfGui.Main
             // MessageBox.Show("O(∩_∩)O 拜拜");
             ETagCache.Save();
             Instances.SettingsViewModel.Sober();
+            Instances.MaaHotKeyManager.Release();
 
             // 关闭程序时清理操作中心中的通知
             // 使用 handyorg 的 ShowBalloonTip，不需要清理
