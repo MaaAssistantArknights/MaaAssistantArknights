@@ -70,12 +70,20 @@ bool asst::CopilotTask::set_params(const json::value& params)
 
     bool need_navigate = params.get("need_navigate", false); // 是否在当前页面左右滑动寻找关卡，启用战斗列表则为true
     std::string navigate_name = params.get("navigate_name", std::string()); // 导航的关卡名
-    bool is_adverse = params.get("is_adverse", false);                      // 是否为突袭关卡
-    bool use_sanity_potion = params.get("use_sanity_potion", false);        // 是否吃理智药
-    bool with_formation = params.get("formation", false);                   // 是否使用自动编队
-    int select_formation = params.get("select_formation", 0);               // 选择第几个编队，0为不选择
-    bool add_trust = params.get("add_trust", false);                        // 是否自动补信赖
-    bool add_user_additional = params.get("add_user_additional", false);    // 是否自动补用户自定义干员
+    bool is_raid = params.get("is_raid", false);                            // 是否为突袭关卡
+    if (params.contains("is_adverse")) {
+        Log.warn("================  DEPRECATED  ================");
+        Log.warn("`is_adverse` has been deprecated since v5.0.0-beta.3; Please use 'is_raid'");
+        Log.warn("================  DEPRECATED  ================");
+        if (!params.contains("is_raid")) {
+            is_raid = params.get("is_adverse", false); // 兼容旧版本，在v6.0改为存在此参数时直接return false
+        }
+    }
+    bool use_sanity_potion = params.get("use_sanity_potion", false);     // 是否吃理智药
+    bool with_formation = params.get("formation", false);                // 是否使用自动编队
+    int select_formation = params.get("select_formation", 0);            // 选择第几个编队，0为不选择
+    bool add_trust = params.get("add_trust", false);                     // 是否自动补信赖
+    bool add_user_additional = params.get("add_user_additional", false); // 是否自动补用户自定义干员
     std::string support_unit_name = params.get("support_unit_name", std::string());
 
     auto filename_opt = params.find<std::string>("filename");
@@ -119,7 +127,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     }
 
     m_navigate_task_ptr->set_enable(need_navigate);
-    m_change_difficulty_task_ptr->set_enable(need_navigate && is_adverse);
+    m_change_difficulty_task_ptr->set_enable(need_navigate && is_raid);
     m_not_use_prts_task_ptr->set_enable(need_navigate); // 不使用代理指挥
     m_medicine_task_ptr->set_enable(use_sanity_potion);
 

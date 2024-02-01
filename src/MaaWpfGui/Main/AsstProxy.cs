@@ -2123,13 +2123,13 @@ namespace MaaWpfGui.Main
         /// <param name="userAdditional">自定干员列表</param>
         /// <param name="needNavigate">是否导航至关卡（启用自动战斗序列）</param>
         /// <param name="navigateName">关卡名</param>
-        /// <param name="isAdverse">是不是突袭</param>
+        /// <param name="isRaid">是不是突袭</param>
         /// <param name="type">任务类型</param>
         /// <param name="loopTimes">任务重复执行次数</param>
         /// <param name="useSanityPotion">是否使用理智药</param>
         /// <param name="asstStart">是否启动战斗</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isAdverse, string type, int loopTimes, bool useSanityPotion, bool asstStart = true)
+        public bool AsstStartCopilot(string filename, bool formation, bool addTrust, bool addUserAdditional, JArray userAdditional, bool needNavigate, string navigateName, bool isRaid, string type, int loopTimes, bool useSanityPotion, bool asstStart = true)
         {
             var taskParams = new JObject
             {
@@ -2140,7 +2140,7 @@ namespace MaaWpfGui.Main
                 ["user_additional"] = userAdditional,
                 ["need_navigate"] = needNavigate,
                 ["navigate_name"] = navigateName,
-                ["is_adverse"] = isAdverse,
+                ["is_raid"] = isRaid,
                 ["loop_times"] = loopTimes,
                 ["use_sanity_potion"] = useSanityPotion,
             };
