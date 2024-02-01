@@ -170,7 +170,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 {
     LogTraceFunction;
 
-    const auto& all_items = ItemData.get_ordered_material_item_id();
+    const auto& all_items = ItemData.get_ordered_item_id_filtered_by_classify_type({ asst::ItemClassifyType::Material });
 
     Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
