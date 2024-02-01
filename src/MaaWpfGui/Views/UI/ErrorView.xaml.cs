@@ -128,7 +128,14 @@ namespace MaaWpfGui.Views.UI
                 data.SetData(DataFormats.Rtf, Encoding.UTF8.GetString(arr));
             }
 
-            Clipboard.SetDataObject(data, true);
+            try
+            {
+                Clipboard.SetDataObject(data, true);
+            }
+            catch
+            {
+                // 有时候报错了也能复制上去，这个时候复制不了也没办法了
+            }
         }
 
         private async void CopyErrorMessage_Click(object sender, RoutedEventArgs e)
