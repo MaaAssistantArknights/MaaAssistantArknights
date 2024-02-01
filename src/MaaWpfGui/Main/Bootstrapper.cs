@@ -195,6 +195,13 @@ namespace MaaWpfGui.Main
         /// <inheritdoc/>
         protected override void OnLaunch()
         {
+            // 更新直接重启
+            if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
+            {
+                ShutdownAndRestartWithOutArgs();
+                return;
+            }
+
             Task.Run(async () =>
             {
                 await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();

@@ -174,7 +174,7 @@ namespace MaaWpfGui.ViewModels.UI
         private JObject _assetsObject;
 
         /// <summary>
-        /// 检查是否有已下载的更新包，如果有立即更新并重启进程。
+        /// 检查是否有已下载的更新包
         /// </summary>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndUpdateNow()
@@ -300,10 +300,6 @@ namespace MaaWpfGui.ViewModels.UI
             UpdatePackageName = string.Empty;
             IsFirstBootAfterUpdate = true;
             ConfigurationHelper.Release();
-
-            // 重启进程（启动的是更新后的程序了）
-            Bootstrapper.ShutdownAndRestartWithOutArgs();
-
             return true;
 
             static void DeleteFileWithBackup(string filePath)
