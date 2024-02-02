@@ -204,7 +204,7 @@ params = { plan_index = 0 }
 
 **注意**：如果你的自定义基建计划文件使用相对路径，应该相对于 `$MAA_CONFIG_DIR/infrast`。此外，由于基建文件是由 `MaaCore` 而不是 `maa-cli` 读取的，因此这些文件的格式必须是 `JSON`。同时，`maa-cli` 不会读取基建文件，也不会根据其中定义的时间段来选择相应的子计划。因此，必须通过 `condition` 字段来指定在相应时间段使用正确的基建计划的参数中的 `plan_index` 字段。这样可以确保在适当的时间段使用正确的基建计划。
 
-除了 `Time` 条件，还有 `DateTime`，`Weakday` 条件。`DateTime` 条件用于指定一个时间段，`Weekday` 条件用于指定一周中的某些天。
+除了 `Time` 条件，还有 `DateTime`，`Weekday`，`DayMod`条件。`DateTime` 条件用于指定一个时间段，`Weekday` 条件用于指定一周中的某些天，`DayMod` 见下文多天排班。
 
 ```toml
 [[tasks]]
@@ -228,6 +228,101 @@ params = { stage = "1-7" }
 除了上述确定的条件之外，还有一个依赖于热更新资源的条件 `OnSideStory`，当你启动该条件后，`maa-cli` 会尝试读取相应的资源来判断当前是否有正在开启的活动，如果有那么对应的变体会被匹配。 比如上述夏活期间刷 `SL-8` 的条件就可以简化为 `{ type = "OnSideStory", client = "Official" }`，这里的 `client` 参数用于确定你使用的客户端，因为不同的客户端的活动时间不同，对于使用官服或者 b 服的用户，这可以省略。通过这个条件，每次活动更新之后你可以只需要更新需要刷的关卡而不需要手动编辑对应活动的开放时间。
 
 除了以上基础条件之外，你可以使用 `{ type = "And", conditions = [...] }`，`{ type = "Or", conditions = [...] }`, `{ type = "Not", condition = ... }` 来对条件进行逻辑运算。
+
+对于想要基建多天排班的用户，可以将 `DayMod` 和 `Time` 组合使用，可以实现多天排班。比如，你想要实现每两天换六次班，那么你可以这样写：
+
+```toml
+[[tasks]]
+name = "基建换班 (2天6班)"
+type = "Infrast"
+
+[tasks.params]
+mode = 10000
+facility = ["Trade", "Reception", "Mfg", "Control", "Power", "Office", "Dorm"]
+dorm_trust_enabled = true
+filename = "normal.json"
+
+# 第一班，第一天 4:00:00 - 12:00:00
+[[tasks.variants]]
+params = { plan_index = 0 }
+[tasks.variants.condition]
+type = "And"
+conditions = [
+    # 这里的 divisor 用来指定周期，remainder 用来指定偏移量
+    # 偏移量等于 num_days_since_ce % divisor
+    # 这里的 num_days_since_ce 是公元以来的天数，0001-01-01 是第一天
+    # 当天偏移量你可以通过 `maa remainder <divisor>` 来获取.
+    # 比如，2024-1-27 是第 738,912 天，那么 738912 % 2 = 0
+    # 当天的偏移量为 0，那么本条件将会被匹配
+    { type = "DayMod", divisor = 2, remainder = 0 },
+    { type = "Time", start = "04:00:00", end = "12:00:00" },
+]
+
+# 第二班，第一天 12:00:00 - 20:00:00
+[[tasks.variants]]
+params = { plan_index = 1 }
+[tasks.variants.condition]
+type = "And"
+conditions = [
+  { type = "DayMod", divisor = 2, remainder = 0 },
+  { type = "Time", start = "12:00:00", end = "20:00:00" },
+]
+
+# 第三班，第一天 20:00:00 - 第二天 4:00:00
+[[tasks.variants]]
+params = { plan_index = 2 }
+[tasks.variants.condition]
+# 注意这里必须使用 Or 条件，不能直接使用 Time { start = "20:00:00", end = "04:00:00" }
+# 在这种情况下， 第二天的 00:00:00 - 04:00:00 不会被匹配
+# 当然通过调整你的排班时间避免跨天是更好的选择，这里只是为了演示
+type = "Or"
+conditions = [
+  { type = "And", conditions = [
+     { type = "DayMod", divisor = 2, remainder = 0 },
+     { type = "Time", start = "20:00:00" },
+  ] },
+  { type = "And", conditions = [
+     { type = "DayMod", divisor = 2, remainder = 1 },
+     { type = "Time", end = "04:00:00" },
+  ] },
+]
+
+# 第四班，第二天 4:00:00 - 12:00:00
+[[tasks.variants]]
+params = { plan_index = 3 }
+[tasks.variants.condition]
+type = "And"
+conditions = [
+  { type = "DayMod", divisor = 2, remainder = 1 },
+  { type = "Time", start = "04:00:00", end = "12:00:00" },
+]
+
+# 第五班，第二天 12:00:00 - 20:00:00
+[[tasks.variants]]
+params = { plan_index = 4 }
+[tasks.variants.condition]
+type = "And"
+conditions = [
+  { type = "DayMod", divisor = 2, remainder = 1 },
+  { type = "Time", start = "12:00:00", end = "20:00:00" },
+]
+
+# 第六班，第二天 20:00:00 - 第三天（新的第一天）4:00:00
+[[tasks.variants]]
+params = { plan_index = 5 }
+[tasks.variants.condition]
+type = "Or"
+conditions = [
+  { type = "And", conditions = [
+     { type = "DayMod", divisor = 2, remainder = 1 },
+     { type = "Time", start = "20:00:00" },
+  ] },
+  { type = "And", conditions = [
+     { type = "DayMod", divisor = 2, remainder = 0 },
+     { type = "Time", end = "04:00:00" },
+  ] },
+]
+```
 
 在默认的策略下，如果有多个变体被匹配，第一个将会被使用。如果没有给出条件，那么变体将会总是被匹配，所以你可以把没有条件的变体放在最后，作为默认的情况。
 

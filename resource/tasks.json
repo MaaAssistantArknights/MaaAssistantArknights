@@ -707,8 +707,8 @@
             50
         ]
     },
-    "ChangeToAdverseDifficulty": {
-        "template": "AdverseDifficulty.png",
+    "ChangeToRaidDifficulty": {
+        "template": "RaidDifficulty.png",
         "action": "ClickSelf",
         "roi": [
             625,
@@ -718,12 +718,12 @@
         ],
         "maxTimes": 3,
         "next": [
-            "AdverseConfirm",
+            "RaidConfirm",
             "#self"
         ]
     },
-    "AdverseConfirm": {
-        "baseTask": "ChangeToAdverseDifficulty",
+    "RaidConfirm": {
+        "baseTask": "ChangeToRaidDifficulty",
         "action": "DoNothing",
         "template": "NormalDifficulty.png",
         "next": []
@@ -1121,6 +1121,103 @@
             550
         ]
     },
+    "HS-9": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HS-OpenOcr"
+        ],
+        "next": [
+            "HS-9@SideStoryStage",
+            "HS-9@SwipeToStage"
+        ]
+    },
+    "HS-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HS-OpenOcr"
+        ],
+        "next": [
+            "HS-8@SideStoryStage",
+            "HS-8@SwipeToStage"
+        ]
+    },
+    "HS-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HS-OpenOcr"
+        ],
+        "next": [
+            "HS-7@SideStoryStage",
+            "HS-7@SwipeToStage"
+        ]
+    },
+    "HS-5": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "HS-OpenOcr"
+        ],
+        "next": [
+            "HS-5@SideStoryStage",
+            "HS-5@SwipeToStage"
+        ]
+    },
+    "HS-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "怀黍离",
+            "荒城",
+            "核心"
+        ],
+        "ocrReplace": [
+            [
+                "怀.*离",
+                "怀黍离"
+            ]
+        ],
+        "next": [
+            "HSChapterToHS"
+        ]
+    },
+    "HSChapterToHS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "种植",
+            "植地",
+            "地块"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            787,
+            495,
+            207,
+            137
+        ],
+        "next": [
+            "#self",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "HS-9@SideStoryStage": {
+        "text": [
+            "HS-9"
+        ]
+    },
+    "HS-8@SideStoryStage": {
+        "text": [
+            "HS-8"
+        ]
+    },
+    "HS-7@SideStoryStage": {
+        "text": [
+            "HS-7"
+        ]
+    },
+    "HS-5@SideStoryStage": {
+        "text": [
+            "HS-5"
+        ]
+    },
     "RS-8": {
         "algorithm": "JustReturn",
         "sub": [
@@ -1190,9 +1287,9 @@
             "RS-7"
         ]
     },
-    "RS-9@SideStoryStage": {
+    "RS-6@SideStoryStage": {
         "text": [
-            "RS-9"
+            "RS-6"
         ]
     },
     "ZT-9": {
@@ -1432,7 +1529,8 @@
     },
     "SL-8@SideStoryStage": {
         "text": [
-            "SL-8"
+            "SL-8",
+            "SL8"
         ]
     },
     "SL-7@SideStoryStage": {
@@ -3274,6 +3372,10 @@
             [
                 "^折光.*",
                 "折光"
+            ],
+            [
+                "^委$",
+                "黍"
             ]
         ]
     },
