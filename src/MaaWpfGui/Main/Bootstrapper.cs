@@ -15,7 +15,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,6 +26,7 @@ using MaaWpfGui.Services.HotKeys;
 using MaaWpfGui.Services.Managers;
 using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.Services.Web;
+using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
 using Serilog;
@@ -41,6 +41,7 @@ namespace MaaWpfGui.Main
     /// </summary>
     public class Bootstrapper : Bootstrapper<RootViewModel>
     {
+        private static readonly RunningState _runningState = RunningState.Instance;
         private static ILogger _logger = Logger.None;
 
         // private static Mutex _mutex;
@@ -261,6 +262,21 @@ namespace MaaWpfGui.Main
             _isRestartingWithoutArgs = true;
             _logger.Information("Shutdown and restart without Args");
             Application.Current.Shutdown();
+        }
+
+        private static bool _isWaitingToRestart;
+
+        public static async Task RestartAfterIdleAsync()
+        {
+            if (_isWaitingToRestart)
+            {
+                return;
+            }
+
+            _isWaitingToRestart = true;
+
+            await _runningState.UntilIdleAsync(60000);
+            ShutdownAndRestartWithoutArgs();
         }
 
         /// <inheritdoc/>

@@ -633,9 +633,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
             {
-                await _runningState.UntilIdleAsync(60000);
-
-                Application.Current.Dispatcher.Invoke(Bootstrapper.ShutdownAndRestartWithoutArgs);
+                await Bootstrapper.RestartAfterIdleAsync();
                 return;
             }
 
