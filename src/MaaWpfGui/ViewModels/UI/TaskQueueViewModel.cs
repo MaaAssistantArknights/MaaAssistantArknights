@@ -2529,6 +2529,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool NeedAddCustomInfrastPlanInfo { get; set; } = true;
+
         private int _customInfrastPlanIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanIndex, "0"));
 
         public int CustomInfrastPlanIndex
@@ -2536,7 +2538,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _customInfrastPlanIndex;
             set
             {
-                if (value != _customInfrastPlanIndex)
+                if (value != _customInfrastPlanIndex && NeedAddCustomInfrastPlanInfo)
                 {
                     var plan = CustomInfrastPlanInfoList[value];
                     AddLog(plan.Name, UiLogColor.Message);
