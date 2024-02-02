@@ -1615,8 +1615,15 @@ namespace MaaWpfGui.Main
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new();
 
-        private static JObject SerializeFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes,
-            string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
+        private static JObject SerializeFightTaskParams(
+            string stage,
+            int maxMedicine,
+            int maxStone,
+            int maxTimes,
+            int series,
+            string dropsItemId,
+            int dropsItemQuantity,
+            bool isMainFight = true)
         {
             var taskParams = new JObject
             {
@@ -1624,6 +1631,7 @@ namespace MaaWpfGui.Main
                 ["medicine"] = maxMedicine,
                 ["stone"] = maxStone,
                 ["times"] = maxTimes,
+                ["series"] = series,
                 ["report_to_penguin"] = Instances.SettingsViewModel.EnablePenguin,
                 ["report_to_yituliu"] = Instances.SettingsViewModel.EnableYituliu,
             };
@@ -1650,13 +1658,14 @@ namespace MaaWpfGui.Main
         /// <param name="maxMedicine">最大使用理智药数量。</param>
         /// <param name="maxStone">最大吃石头数量。</param>
         /// <param name="maxTimes">指定次数。</param>
+        /// <param name="series">连战次数。</param>
         /// <param name="dropsItemId">指定掉落 ID。</param>
         /// <param name="dropsItemQuantity">指定掉落数量。</param>
         /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
+        public bool AsstAppendFight(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, dropsItemId, dropsItemQuantity, isMainFight);
+            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, series, dropsItemId, dropsItemQuantity, isMainFight);
             AsstTaskId id = AsstAppendTaskWithEncoding("Fight", taskParams);
             if (isMainFight)
             {
@@ -1677,11 +1686,12 @@ namespace MaaWpfGui.Main
         /// <param name="maxMedicine">最大使用理智药数量。</param>
         /// <param name="maxStone">最大吃石头数量。</param>
         /// <param name="maxTimes">指定次数。</param>
+        /// <param name="series">连战次数。</param>
         /// <param name="dropsItemId">指定掉落 ID。</param>
         /// <param name="dropsItemQuantity">指定掉落数量。</param>
         /// <param name="isMainFight">是否是主任务，决定c#侧是否记录任务id</param>
         /// <returns>是否成功。</returns>
-        public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
+        public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
             var type = isMainFight ? TaskType.Fight : TaskType.FightRemainingSanity;
             if (!_latestTaskId.ContainsKey(type))
@@ -1695,7 +1705,7 @@ namespace MaaWpfGui.Main
                 return false;
             }
 
-            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, dropsItemId, dropsItemQuantity);
+            var taskParams = SerializeFightTaskParams(stage, maxMedicine, maxStone, maxTimes, series, dropsItemId, dropsItemQuantity);
             return AsstSetTaskParamsWithEncoding(id, taskParams);
         }
 

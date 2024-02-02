@@ -33,7 +33,7 @@ bool asst::FightTimesTaskPlugin::_run()
             return false;
         }
     }
-    ProcessTask(*this, { "FightSeries-List-1" }).run();
+    ProcessTask(*this, { "FightSeries-List-" + std::to_string(m_series) }).run();
 
     inited = true;
     return true;
