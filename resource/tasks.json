@@ -9231,6 +9231,10 @@
             ]
         ]
     },
+    "DepotNumberOcrReplace": {
+        "baseTask": "NumberOcrReplace",
+        "isAscii": false
+    },
     "StageDrops-Difficulty-Tough": {
         "templThreshold": 0.6,
         "roi": [
@@ -9303,15 +9307,22 @@
             255
         ]
     },
-    "DepotBegin": {
+    "DepotAllBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "DepotEnter",
-            "DepotMaterialTab",
             "DepotAllTab",
-            "DepotMaterialTabClicked",
+            "DepotEnter",
             "DepotEnter@ReturnButtons#next"
+        ]
+    },
+    "DepotMaterialBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "DepotMaterialTab",
+            "DepotMaterialTab@DepotEnter#next",
+            "DepotMaterialTab@DepotEnter@ReturnButtons#next"
         ]
     },
     "DepotEnter": {
@@ -9327,9 +9338,6 @@
             560,
             171,
             160
-        ],
-        "next": [
-            "DepotMaterialTab"
         ]
     },
     "DepotAllTab": {
@@ -9339,25 +9347,10 @@
             0,
             281,
             134
-        ],
-        "next": [
-            "DepotMaterialTab"
         ]
     },
     "DepotMaterialTab": {
         "action": "ClickSelf",
-        "roi": [
-            1026,
-            0,
-            254,
-            138
-        ],
-        "next": [
-            "DepotMaterialTabClicked"
-        ]
-    },
-    "DepotMaterialTabClicked": {
-        "action": "DoNothing",
         "roi": [
             1026,
             0,

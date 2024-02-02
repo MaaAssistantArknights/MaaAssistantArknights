@@ -34,6 +34,12 @@ bool asst::DepotImageAnalyzer::analyze()
     return ret;
 }
 
+bool asst::DepotImageAnalyzer::set_ordered_item_id(const std::vector<std::string> ids)
+{
+    m_ordered_item_id = ids;
+    return true;
+}
+
 void asst::DepotImageAnalyzer::set_match_begin_pos(size_t pos) noexcept
 {
     m_match_begin_pos = pos;
@@ -170,7 +176,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 {
     LogTraceFunction;
 
-    const auto& all_items = ItemData.get_ordered_item_id_filtered_by_classify_type({ asst::ItemClassifyType::Material });
+    const auto& all_items = m_ordered_item_id;
 
     Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
@@ -254,7 +260,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
                  ocr_img(make_rect<cv::Rect>(item.rect)));
 
     RegionOCRer analyzer(m_image_resized);
-    analyzer.set_task_info("NumberOcrReplace");
+    analyzer.set_task_info("DepotNumberOcrReplace");
     analyzer.set_roi(ocr_roi);
     analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
 

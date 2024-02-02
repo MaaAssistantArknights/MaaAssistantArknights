@@ -2138,7 +2138,10 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstStartDepot()
         {
-            var taskParams = new JObject();
+            var taskParams = new JObject()
+            {
+                { "mode", "Material" },
+            };
             AsstTaskId id = AsstAppendTaskWithEncoding("Depot", taskParams);
             _latestTaskId[TaskType.Depot] = id;
             return id != 0 && AsstStart();

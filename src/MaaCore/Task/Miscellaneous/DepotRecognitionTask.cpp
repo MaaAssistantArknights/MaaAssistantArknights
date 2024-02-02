@@ -21,6 +21,12 @@ bool asst::DepotRecognitionTask::_run()
     return ret;
 }
 
+bool asst::DepotRecognitionTask::set_ordered_item_id(const std::vector<std::string> ids)
+{
+    m_ordered_item_id = ids;
+    return true;
+}
+
 bool asst::DepotRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
@@ -29,6 +35,7 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
     size_t pre_pos = 0ULL;
     while (true) {
         DepotImageAnalyzer analyzer(ctrler()->get_image());
+        analyzer.set_ordered_item_id(m_ordered_item_id);
 
         auto future = std::async(std::launch::async, [&]() { swipe(); });
 

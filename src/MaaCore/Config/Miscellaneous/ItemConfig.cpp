@@ -58,7 +58,7 @@ const std::vector<std::string> asst::ItemConfig::get_ordered_item_id_filtered_by
     }
 
     result.reserve(combined_map.size());
-    asst::ranges::copy(combined_map | std::views::keys, std::back_inserter(result));
+    asst::ranges::copy(combined_map | views::keys, std::back_inserter(result));
     asst::ranges::sort(result, std::less {}, [&](const std::string& name) -> int { return combined_map.at(name); });
 
     return result;

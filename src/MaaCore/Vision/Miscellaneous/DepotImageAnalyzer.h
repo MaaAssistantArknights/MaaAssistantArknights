@@ -21,6 +21,7 @@ namespace asst
 
         bool analyze();
 
+        bool set_ordered_item_id(const std::vector<std::string> ids);
         void set_match_begin_pos(size_t pos) noexcept;
         size_t get_match_begin_pos() const noexcept;
         const auto& get_result() const noexcept { return m_result; }
@@ -29,6 +30,8 @@ namespace asst
         void resize();
         bool analyze_base_rect();
         bool analyze_all_items();
+
+        std::vector<std::string> m_ordered_item_id;
 
         bool check_roi_empty(const Rect& roi);
         size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL,

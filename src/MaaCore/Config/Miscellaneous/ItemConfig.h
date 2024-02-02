@@ -69,4 +69,4 @@ namespace asst
     };
 
     inline static auto& ItemData = ItemConfig::get_instance();
-} // namespace asst
+}
