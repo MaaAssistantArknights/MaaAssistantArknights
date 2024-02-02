@@ -31,6 +31,7 @@
 - more scalable solution to 7bbb5f3 thanks to @ABA2396 @Constrat
 - 限制理智识别重试次数 fix #7998 @status102
 - Logger析构时不滚动日志 (#7975) @status102
+- 修改 前行的林地 默认选择 @ABA2396
 
 ### 修复 | Fix
 
@@ -73,6 +74,7 @@
 - So Long Adele ROI change (pre Trials for Navigator) @Constrat
 - Executor the Ex Foedere regex OCR @Constrat
 - 测试版显示错误的ui版本号 @ABA2396
+- 博朗台模式识别理智回复时间大于6分钟则返回失败 @ABA2396
 
 ### 其他 | Other
 
@@ -85,7 +87,6 @@
 - 解决冲突 @ABA2396
 - 兼容旧版本语言特性 @ABA2396
 - 修复#7733文件路径错误 (#7980) @status102
-- vs设计器无法正常显示窗体 @ABA2396
 - 优化ConfigurationHelper @ABA2396
 - optimize template in 5e4002b058bc928a5e4b7c1dbd43f164682bbaf7 @zzyyyl
 - 优化RoguelikeSetting格式 @status102
@@ -95,27 +96,18 @@
 - moved version requirement for faster triaging (#8121) @Constrat @ABA2396
 - Update cn-bug-report.yaml @ABA2396
 - Update en-bug-report.yaml @ABA2396
-- 繁中服「吾導先路」復刻活動導航 (#8071) @momomochi987
 - 移除Sample本地运行时重复加载外服资源，避免产生潜在的错误 (#7930) @status102
 - 简化部分初始化 @status102
 - 添加词典 [skip ci] @ABA2396
 - 简化集合 [skip ci] @ABA2396
-- YoStarJP AnnihilationReturnFlag.png (#7964) @Manicsteiner
-- typo: 修改插件名以符合项目格式 @status102
 - typo: 修改插件名以符合项目格式 @status102
 - 调整剩余理智关卡的说明 @status102
 - translated some infrast log lines (#7889) @Constrat @status102
 - 肉鸽设置追加部分注释 @status102
-- changelog.md @ABA2396
-- Auto Update Changelogs of v4.28.8 (#7932) @github-actions[bot] @ABA2396 @status102
-- 修改 前行的林地 默认选择 @ABA2396
 - gitignore FodyWeavers.xsd @ABA2396
 - 修改公招多选tag选项描述 @broken-paint
 - added ps1 for cloning ResourceUpdater repo for local developing @Constrat
-- revert 3ca51cb548947ad1e2cd27f225a45948d8ecf17c @Constrat
 - update instruction for waydroid @horror-proton
-- YoStarJP roguelike nextlevel ocr (#7859) @Manicsteiner @Constrat
-- 博朗台模式识别理智回复时间大于6分钟则返回失败 @ABA2396
 - net8后不进行MAA_win7.exe备份 @ABA2396
 - 修改readme中最大分辨率为2k @status102
 - fix SyncRes build error @dantmnf
@@ -125,18 +117,42 @@
 
 ### For Developers
 
+- vs设计器无法正常显示窗体 @ABA2396
 - 修正CopilotTask参数名`is_adverse` -> `is_raid` (#8126) @status102
 - 允许插件停用ProcessTask (#7954) @status102
 
 ### For Overseas
 
-#### YoStarKR
+#### twxy
 
-- skipping recruit YostarJP, until further fix (#8028) @Constrat
-- Replacing strange space characters in ResourceUpdater for JP Recruit fix #8027 @Constrat
+- 繁中服「吾導先路」復刻活動導航 (#8071) @momomochi987
+
+#### YoStarEN
+
 - EN Challenge mode battle list @Constrat
 - changed template YostarEN I.S. enter fix #7766 fix #7886 @Constrat
+- YosrarEN Lingering Echoes stage navigation @Constrat
+- reformatted CharsNameOcr for YostarEN (removed duplicate + moved) [skip changelo] @Constrat
+- YostarEN So Long Adele event navigation @Constrat
+
+#### YoStarJP
+
+- YoStarJP roguelike nextlevel ocr (#7859) @Manicsteiner @Constrat
+- YoStarJP AnnihilationReturnFlag.png (#7964) @Manicsteiner
 - YoStarJP ocr fix Chestnut, Bena (#8077) @Manicsteiner
+- skipping recruit YostarJP, until further fix (#8028) @Constrat
+- Replacing strange space characters in ResourceUpdater for JP Recruit fix #8027 @Constrat
+- YoStarJP 塵影に交わる残響 復刻 navigation (#7888) @Manicsteiner
+- [Doc]Operator JP name add for Adele @wallsman
+- YoStarJP ocr fix Swire & Eyjafjalla Alter (#8038) @Manicsteiner
+- YoStarJP operator name ocr fix (#7968) @Manicsteiner
+- removed YostarJP recruit data skip @Constrat
+- YoStarJP 火山と雲と夢色の旅路 navigation (#8015) @Manicsteiner
+- YoStarJP ReceiveMail.png (#8004) @Manicsteiner
+- YoStarJP ocr fix (#8086) @Manicsteiner
+
+#### YoStarKR
+
 - YoStarKR modified ocr text (#7960) @HX3N
 - YoStarKR "CharsNameOcrReplace" modification (#8070) @HX3N
 - YoStarKR added some missing task (#8069) @HX3N
@@ -146,21 +162,10 @@
 - YoStarKR LE stage navigation (#7896) @HX3N
 - YoStarKR template image replacement (#7895) @HX3N
 - YoStarKR LE Stage navigation (#7894) @HX3N
-- YosrarEN Lingering Echoes stage navigation @Constrat
-- YoStarJP 塵影に交わる残響 復刻 navigation (#7888) @Manicsteiner
 - YoStarKR ocr text replacement (#7845) @HX3N
-- [Doc]Operator JP name add for Adele @wallsman
 - YoStarKR translation modify (#8047) @HX3N
-- YoStarJP ocr fix Swire & Eyjafjalla Alter (#8038) @Manicsteiner
-- YoStarJP operator name ocr fix (#7968) @Manicsteiner
-- removed YostarJP recruit data skip @Constrat
-- reformatted CharsNameOcr for YostarEN (removed duplicate + moved) [skip changelo] @Constrat
 - YoStarKR ocr text update for SO LONG ADELE (#8024) @HX3N
 - YoStarKR modifiy tasks.json (#8014) @HX3N
-- YostarEN So Long Adele event navigation @Constrat
-- YoStarJP 火山と雲と夢色の旅路 navigation (#8015) @Manicsteiner
 - YoStarKR add ReceiveMail.png (#8009) @HX3N
-- YoStarJP ReceiveMail.png (#8004) @Manicsteiner
-- YoStarJP ocr fix (#8086) @Manicsteiner
 - YoStarKR fixed ocr '紧急调遣' and '龙腾.(A/F/L)' (#8074) @HX3N
 - YoStarKR ocrReplace modification (Infrast, Recruit, Roguelike) (#8072) @HX3N
