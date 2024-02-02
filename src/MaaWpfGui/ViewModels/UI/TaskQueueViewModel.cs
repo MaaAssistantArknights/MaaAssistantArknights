@@ -1151,6 +1151,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            if (!int.TryParse(Series, out var series))
+            {
+                series = 1;
+            }
+
             int dropsQuantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -1162,7 +1167,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             string curStage = Stage;
 
-            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, DropsItemId, dropsQuantity);
+            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, series, DropsItemId, dropsQuantity);
 
             if (!mainFightRet)
             {
@@ -1179,14 +1184,14 @@ namespace MaaWpfGui.ViewModels.UI
                         continue;
                     }
 
-                    mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
+                    mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, series, string.Empty, 0);
                     break;
                 }
             }
 
             if (mainFightRet && UseRemainingSanityStage && !string.IsNullOrEmpty(RemainingSanityStage))
             {
-                return Instances.AsstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+                return Instances.AsstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
             }
 
             return mainFightRet;
@@ -1231,6 +1236,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            if (!int.TryParse(Series, out var series))
+            {
+                series = 1;
+            }
+
             int dropsQuantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -1240,12 +1250,12 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, dropsQuantity);
+            Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, series, DropsItemId, dropsQuantity);
         }
 
         private void SetFightRemainingSanityParams()
         {
-            Instances.AsstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+            Instances.AsstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
         }
 
         private void SetInfrastParams()
@@ -2258,6 +2268,11 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
+        /// <summary>
+        /// Gets or private sets the list of series.
+        /// </summary>
+        public List<string> SeriesList { get; private set; } = ["1", "2", "3", "4", "5", "6"];
+
         private ObservableCollection<CombinedData> _stageList = new();
 
         /// <summary>
@@ -2920,6 +2935,28 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _maxTimes, value);
                 SetFightParams();
                 ConfigurationHelper.SetValue(ConfigurationKeys.TimesLimitedQuantity, MaxTimes);
+            }
+        }
+
+        private string _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, "1");
+
+        /// <summary>
+        /// Gets or sets the max number of times.
+        /// </summary>
+        // 所以为啥这玩意是 string 呢？改配置的时候把上面那些也都改成 int 吧
+        public string Series
+        {
+            get => _series;
+            set
+            {
+                if (_series == value)
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _series, value);
+                SetFightParams();
+                ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value);
             }
         }
 

@@ -352,6 +352,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
+    <system:String x:Key="Series">Series</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
