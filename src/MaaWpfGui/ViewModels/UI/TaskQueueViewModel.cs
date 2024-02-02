@@ -1151,7 +1151,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (!int.TryParse(MaxTimes, out var series))
+            if (!int.TryParse(Series, out var series))
             {
                 series = 1;
             }
@@ -1236,7 +1236,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (!int.TryParse(MaxTimes, out var series))
+            if (!int.TryParse(Series, out var series))
             {
                 series = 1;
             }
