@@ -29,7 +29,7 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
     if (!BattleHelper::set_stage_name(m_sss_combat_data.info.stage_name)) {
         json::value info = basic_info_with_what("UnsupportedLevel");
         auto& details = info["details"];
-        details["level"] = m_stage_name;
+        details["level"] = m_sss_combat_data.info.stage_name;
         callback(AsstMsg::SubTaskExtraInfo, info);
 
         return false;
