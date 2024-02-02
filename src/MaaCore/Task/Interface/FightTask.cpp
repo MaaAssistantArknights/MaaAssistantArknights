@@ -70,7 +70,7 @@ bool asst::FightTask::set_params(const json::value& params)
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
     const int series = params.get("series", 1);
-    if (series < 0 || series > 6) {
+    if (series < 1 || series > 6) {
         Log.error("Invalid series");
         return false;
     }
