@@ -51,7 +51,7 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
     m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
     m_dr_grandet_task_plugin_ptr->set_enable(false);
     m_fight_task_ptr->register_plugin<SanityBeforeStageTaskPlugin>()->set_retry_times(3);
-    m_fight_task_ptr->register_plugin<FightTimesTaskPlugin>();
+    m_fight_times_task_plugin_prt = m_fight_task_ptr->register_plugin<FightTimesTaskPlugin>();
     m_medicine_plugin = m_fight_task_ptr->register_plugin<MedicineCounterTaskPlugin>();
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
@@ -122,7 +122,7 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
-    m_fight_times_task_ptr->set_series(series);
+    m_fight_times_task_plugin_prt->set_series(series);
     m_medicine_plugin->set_count(medicine);
     m_medicine_plugin->set_use_expiring(expiring_medicine != 0);
     m_medicine_plugin->set_dr_grandet(is_dr_grandet);
