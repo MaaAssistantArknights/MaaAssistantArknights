@@ -20,5 +20,7 @@ namespace MaaWpfGui.Services.HotKeys
         void UnRegister(MaaHotKeyAction action);
 
         MaaHotKey GetOrNull(MaaHotKeyAction action);
+
+        void Release();
     }
 }

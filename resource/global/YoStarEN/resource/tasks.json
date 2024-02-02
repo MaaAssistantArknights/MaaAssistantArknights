@@ -53,7 +53,11 @@
         "text": [
             "So Long, Adele: Home Away From Home",
             "So Long, Adele",
-            "Home Away From Home"
+            "Home Away From Home",
+            "Treasurehunting",
+            "Siesta",
+            "Surfing",
+            "Lava"
         ],
         "roi": [
             0,
@@ -2353,7 +2357,7 @@
                 "水汽汽水瓶"
             ],
             [
-                "Eyjafjall?a the Hv.t Aska",
+                "Eyjafja?ll?a the Hv.t Aska",
                 "Eyjafjalla the Hvít Aska"
             ],
             [
@@ -2379,6 +2383,18 @@
             [
                 "Poncirus",
                 "青枳"
+            ],
+            [
+                "Basic Gathering Hub",
+                "木材采集站"
+            ],
+            [
+                "Advanced Gathering Hub",
+                "石材采集站"
+            ],
+            [
+                "Executive Gathering Hub",
+                "铁矿采集站"
             ]
         ]
     },

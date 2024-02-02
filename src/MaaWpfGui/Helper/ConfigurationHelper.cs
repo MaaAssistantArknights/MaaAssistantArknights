@@ -33,7 +33,7 @@ namespace MaaWpfGui.Helper
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
-        private static readonly object _lock = new object();
+        private static readonly object _lock = new();
 
         public delegate void ConfigurationUpdateEventHandler(string key, string oldValue, string newValue);
 
@@ -51,8 +51,7 @@ namespace MaaWpfGui.Helper
         {
             var hasValue = _kvs.TryGetValue(key, out var value);
 
-            _logger.Debug("Read configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
-
+            // _logger.Debug("Read configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
             if (hasValue)
             {
                 return value;
@@ -66,7 +65,8 @@ namespace MaaWpfGui.Helper
         public static string GetGlobalValue(string key, string defaultValue)
         {
             var hasValue = _globalKvs.TryGetValue(key, out var value);
-            _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
+
+            // _logger.Debug("Read global configuration key {Key} with default value {DefaultValue}, configuration hit: {HasValue}, configuration value {Value}", key, defaultValue, hasValue, value);
             if (hasValue)
             {
                 return value;
@@ -96,14 +96,10 @@ namespace MaaWpfGui.Helper
             lock (_lock)
             {
                 var old = string.Empty;
-                if (_kvs.ContainsKey(key))
+                if (!_kvs.TryAdd(key, value))
                 {
                     old = _kvs[key];
                     _kvs[key] = value;
-                }
-                else
-                {
-                    _kvs.Add(key, value);
                 }
 
                 var result = Save();
@@ -126,14 +122,10 @@ namespace MaaWpfGui.Helper
             lock (_lock)
             {
                 var old = string.Empty;
-                if (_globalKvs.ContainsKey(key))
+                if (!_globalKvs.TryAdd(key, value))
                 {
                     old = _globalKvs[key];
                     _globalKvs[key] = value;
-                }
-                else
-                {
-                    _globalKvs.Add(key, value);
                 }
 
                 var result = Save();
@@ -262,12 +254,20 @@ namespace MaaWpfGui.Helper
 
             try
             {
-                var jsonStr = JsonConvert.SerializeObject(new Dictionary<string, object>
-                {
-                    { ConfigurationKeys.ConfigurationMap, _kvsMap },
-                    { ConfigurationKeys.CurrentConfiguration, _current },
-                    { ConfigurationKeys.GlobalConfiguration, _globalKvs },
-                }, Formatting.Indented);
+                var jsonStr = JsonConvert.SerializeObject(
+                    new Dictionary<string, object>
+                    {
+                        {
+                            ConfigurationKeys.ConfigurationMap, _kvsMap
+                        },
+                        {
+                            ConfigurationKeys.CurrentConfiguration, _current
+                        },
+                        {
+                            ConfigurationKeys.GlobalConfiguration, _globalKvs
+                        },
+                    },
+                    Formatting.Indented);
 
                 File.WriteAllText(file ?? _configurationFile, jsonStr);
             }

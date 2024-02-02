@@ -412,7 +412,7 @@ namespace MaaWpfGui.ViewModels.UI
                 LocalizationHelper.GetString("Burping"),
                 iconKey: "HangoverGeometry",
                 iconBrushKey: "PallasBrush");
-            Bootstrapper.ShutdownAndRestartWithOutArgs();
+            Bootstrapper.ShutdownAndRestartWithoutArgs();
         }
 
         public void Sober()
@@ -1381,7 +1381,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _currentConfiguration, value);
                 ConfigurationHelper.SwitchConfiguration(value);
 
-                Bootstrapper.ShutdownAndRestartWithOutArgs();
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
         }
 
@@ -1675,6 +1675,17 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _customInfrastFile, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CustomInfrastFile, value);
                 Instances.TaskQueueViewModel.RefreshCustomInfrastPlan();
+
+                // SetAndNotify 在值没有变化时不会触发 PropertyChanged 事件，所以这里手动触发一下
+                var index = Instances.TaskQueueViewModel.CustomInfrastPlanIndex;
+                var count = Instances.TaskQueueViewModel.CustomInfrastPlanList.Count;
+                Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = false;
+                {
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = (index + 1) % count;
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = index;
+                }
+
+                Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = true;
             }
         }
 
@@ -3165,15 +3176,15 @@ namespace MaaWpfGui.ViewModels.UI
                     ConnectAddress = addresses.First();
                     break;
                 case > 1:
-                {
-                    foreach (var address in addresses.Where(address => address != "emulator-5554"))
                     {
-                        ConnectAddress = address;
+                        foreach (var address in addresses.Where(address => address != "emulator-5554"))
+                        {
+                            ConnectAddress = address;
+                            break;
+                        }
+
                         break;
                     }
-
-                    break;
-                }
             }
 
             if (ConnectAddress.Length == 0)
@@ -3786,7 +3797,7 @@ namespace MaaWpfGui.ViewModels.UI
                     cancel: FormatText("{0}({1})", "ManualRestart"));
                 if (result == MessageBoxResult.OK)
                 {
-                    Bootstrapper.ShutdownAndRestartWithOutArgs();
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
                 }
 
                 SetAndNotify(ref _language, value);
@@ -3858,7 +3869,7 @@ namespace MaaWpfGui.ViewModels.UI
                 iconBrushKey: "PallasBrush");
             if (result == MessageBoxResult.OK)
             {
-                Bootstrapper.ShutdownAndRestartWithOutArgs();
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
         }
 

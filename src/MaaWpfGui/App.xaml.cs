@@ -79,7 +79,7 @@ namespace MaaWpfGui
                     return;
                 }
 
-                Bootstrapper.ShutdownAndRestartWithOutArgs();
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
             catch (Exception ex)
             {

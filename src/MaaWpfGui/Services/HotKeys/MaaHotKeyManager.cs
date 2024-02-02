@@ -22,8 +22,7 @@ namespace MaaWpfGui.Services.HotKeys
 {
     public class MaaHotKeyManager : IMaaHotKeyManager
     {
-        private readonly Dictionary<MaaHotKeyAction, MaaHotKey> _actionHotKeyMapping =
-            new Dictionary<MaaHotKeyAction, MaaHotKey>();
+        private readonly Dictionary<MaaHotKeyAction, MaaHotKey> _actionHotKeyMapping = new();
 
         private const string HotKeyConfigName = "HotKeys";
 
@@ -84,20 +83,28 @@ namespace MaaWpfGui.Services.HotKeys
             }
         }
 
+        public void Release()
+        {
+            foreach (var kvPair in _actionHotKeyMapping)
+            {
+                InternalUnRegister(kvPair.Key);
+            }
+        }
+
         private void InternalUnRegister(MaaHotKeyAction action)
         {
-            if (!_actionHotKeyMapping.ContainsKey(action) || _actionHotKeyMapping[action] == null)
+            if (!_actionHotKeyMapping.TryGetValue(action, out var value) || value == null)
             {
                 return;
             }
 
-            Instances.HotKeyManager.Unregister(_actionHotKeyMapping[action]);
+            Instances.HotKeyManager.Unregister(value);
             _actionHotKeyMapping[action] = null;
         }
 
         public MaaHotKey GetOrNull(MaaHotKeyAction action)
         {
-            return _actionHotKeyMapping.TryGetValue(action, out var value) ? value : null;
+            return _actionHotKeyMapping.GetValueOrDefault(action);
         }
 
         private void HotKeyManagerPressed(object sender, KeyPressedEventArgs e)
@@ -120,12 +127,10 @@ namespace MaaWpfGui.Services.HotKeys
             var hotKeys = new Dictionary<MaaHotKeyAction, MaaHotKey>
             {
                 {
-                    MaaHotKeyAction.ShowGui,
-                    new MaaHotKey(Key.M, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
+                    MaaHotKeyAction.ShowGui, new MaaHotKey(Key.M, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
                 },
                 {
-                    MaaHotKeyAction.LinkStart,
-                    new MaaHotKey(Key.L, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
+                    MaaHotKeyAction.LinkStart, new MaaHotKey(Key.L, ModifierKeys.Control | ModifierKeys.Shift | ModifierKeys.Alt)
                 },
             };
 

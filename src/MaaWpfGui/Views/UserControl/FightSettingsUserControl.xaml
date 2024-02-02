@@ -24,6 +24,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
@@ -160,6 +161,32 @@
                             Margin="6"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
+                            Text="{DynamicResource Series}"
+                            TextAlignment="Center"
+                            TextWrapping="Wrap" />
+                    </Grid>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <ComboBox
+                        Height="30"
+                        Margin="6"
+                        VerticalContentAlignment="Center"
+                        IsHitTestVisible="{c:Binding !FightTaskRunning}"
+                        ItemsSource="{Binding SeriesList}"
+                        SelectedValue="{Binding Series}"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="100" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical">
+                    <Grid Height="42">
+                        <controls:TextBlock
+                            Margin="6"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
                             Text="{DynamicResource StageSelect}"
                             TextAlignment="Center"
                             TextWrapping="Wrap" />
@@ -277,7 +304,7 @@
                         Visibility="{c:Binding 'CustomStageCode and UseRemainingSanityStage'}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="3" Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings'}">
+            <Grid Grid.Row="4" Visibility="{c:Binding 'CustomInfrastEnabled and TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings'}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />

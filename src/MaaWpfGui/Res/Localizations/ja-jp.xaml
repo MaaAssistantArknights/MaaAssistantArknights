@@ -352,6 +352,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="PerformBattles">周回数指定</system:String>
     <system:String x:Key="AssignedMaterial">素材を限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
+    <system:String x:Key="Series">連戦回数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
