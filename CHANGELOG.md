@@ -21,7 +21,6 @@
 - 优化萨米锏精二优先度 (#7939) @Lancarus
 - 优化萨米肉鸽部分关卡逻辑 (#7925、#7935、#7936) @Lancarus
 - 初步适配萨米肉鸽dlc关卡等 (#7924) @Lancarus
-- update skill_ready_cls model (#7733) @MistEO
 - 优化肉鸽作战逻辑，使不能空放的干员技能不影响后续部署指令的执行 (#7934) @Lancarus
 - 更新繁中服生息演算最後一天的日期 (#7903) @momomochi987
 - 优化刷理智-已开始战斗x次时临期理智药使用输出以增加可读性 (#7846) @status102
@@ -30,7 +29,6 @@
 - 优化wpf肉鸽结算输出格式 for i18n (#8011) @status102 @Constrat
 - more scalable solution to 7bbb5f3 thanks to @ABA2396 @Constrat
 - 限制理智识别重试次数 fix #7998 @status102
-- Logger析构时不滚动日志 (#7975) @status102
 - 修改 前行的林地 默认选择 @ABA2396
 
 ### 修复 | Fix
@@ -78,10 +76,12 @@
 
 ### 其他 | Other
 
+- 谁把我fody删了 @Cryolitia
+- Logger析构时不滚动日志 (#7975) @status102
+- update skill_ready_cls model (#7733) @MistEO
 - 版本兼容 @ABA2396
 - 修复SSS_自走机械搏斗场_浊蒂重岳塞雷娅泥岩_速冷脚本没有文件名后缀的错误 (#7879) @junyihan233
 - 修复并无损压缩模板图片 (#7831) @zzyyyl
-- 谁把我fody删了 @Cryolitia
 - 未在字典中的连接配置在使用自动检测时报错 @ABA2396
 - 开机自启功能异常 .net 8 的 string.GetHashCode() 重启之后不一样了） @ABA2396
 - 解决冲突 @ABA2396
