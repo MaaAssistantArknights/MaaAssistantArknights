@@ -350,6 +350,7 @@
     <system:String x:Key="PerformBattles">指定次數</system:String>
     <system:String x:Key="AssignedMaterial">指定材料</system:String>
     <system:String x:Key="Quantity">刷取數量</system:String>
+    <system:String x:Key="Series">連戰次數</system:String>
     <system:String x:Key="StageSelect">關卡選擇</system:String>
     <system:String x:Key="StageSelect2">備選</system:String>
     <system:String x:Key="RemainingSanityStage">剩餘理智</system:String>

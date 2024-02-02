@@ -69,6 +69,7 @@ bool asst::FightTask::set_params(const json::value& params)
     const int expiring_medicine = params.get("expiring_medicine", 0);
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
+    const int series = params.get("series", 1);
     bool enable_penguin = params.get("report_to_penguin", false);
     bool enable_yituliu = params.get("report_to_yituliu", false);
     std::string penguin_id = params.get("penguin_id", "");
@@ -121,6 +122,7 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
+    m_fight_times_task_ptr->set_series(series);
     m_medicine_plugin->set_count(medicine);
     m_medicine_plugin->set_use_expiring(expiring_medicine != 0);
     m_medicine_plugin->set_dr_grandet(is_dr_grandet);
