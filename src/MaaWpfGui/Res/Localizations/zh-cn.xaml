@@ -271,6 +271,8 @@
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">领取每日/每周任务奖励</system:String>
     <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">进行限定池赠送的每日免费单抽</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">若不存在免费单抽，则不会抽取</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>

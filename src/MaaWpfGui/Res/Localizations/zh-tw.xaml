@@ -271,6 +271,8 @@
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">收集每日/每週任務獎勵</system:String>
     <system:String x:Key="ReceiveMail">收集所有郵件獎勵</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">進行限定池贈送的每日免費單抽</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
