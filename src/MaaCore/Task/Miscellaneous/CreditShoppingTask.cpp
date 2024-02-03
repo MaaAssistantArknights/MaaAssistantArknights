@@ -30,6 +30,25 @@ asst::CreditShoppingTask& asst::CreditShoppingTask::set_force_shopping_if_credit
     return *this;
 }
 
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_only_buy_discount(bool only_buy_discount) noexcept
+{
+    m_only_buy_discount = only_buy_discount;
+    return *this;
+}
+
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_info_credit_full(bool info_credit_full) noexcept
+{
+    m_info_credit_full = info_credit_full;
+    return *this;
+}
+
+asst::CreditShoppingTask& asst::CreditShoppingTask::set_reserve_max_credit(
+    bool reserve_max_credit) noexcept
+{
+    m_reserve_max_credit = reserve_max_credit;
+    return *this;
+}
+
 int asst::CreditShoppingTask::credit_ocr()
 {
     cv::Mat credit_image = ctrler()->get_image();
@@ -51,6 +70,32 @@ int asst::CreditShoppingTask::credit_ocr()
     Log.trace("credit:", credit);
 
     return std::stoi(credit);
+}
+
+int asst::CreditShoppingTask::discount_ocr(const asst::Rect& commodity)
+{
+    const auto discount_ocr_task_ptr = Task.get<OcrTaskInfo>("CreditShop-DiscountOcr");
+    Rect discount_roi = discount_ocr_task_ptr->roi;
+
+    discount_roi.x += commodity.x;
+    discount_roi.y += commodity.y;
+
+    cv::Mat discount_image = ctrler()->get_image();
+    OCRer discount_analyzer(discount_image);
+    discount_analyzer.set_task_info("CreditShop-DiscountOcr");
+    discount_analyzer.set_roi(discount_roi);
+
+    if (!discount_analyzer.analyze()) return 0;
+
+    std::string discount = discount_analyzer.get_result().front().text;
+
+    Log.trace("discount:", discount);
+
+    if (discount.size() != 2) return 0;
+
+    int discount_number = 0;
+
+    return utils::chars_to_number(discount, discount_number) ? discount_number : 0;
 }
 
 bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool credit_ocr_enabled)
@@ -76,6 +121,27 @@ bool asst::CreditShoppingTask::credit_shopping(bool white_list_enabled, bool cre
         if (need_exit()) {
             return false;
         }
+        if (!m_is_white_list&&m_reserve_max_credit) {
+            int credit = credit_ocr();
+            if (credit <= MaxCredit) break;
+        }
+
+        if (!m_is_white_list && m_only_buy_discount) {
+            int discount = discount_ocr(commodity);
+            if (discount <= 0) {
+                int credit = credit_ocr();
+                if (credit > MaxCredit && m_info_credit_full) {
+                    json::value cb_info = basic_info();
+                    cb_info["what"] = "CreditFullOnlyBuyDiscount";
+                    cb_info["details"] = json::object {
+                        { "credit", credit },
+                    };
+                    callback(AsstMsg::SubTaskExtraInfo, cb_info);
+                }
+                break;
+            }
+        }
+
         ctrler()->click(commodity);
 
         ProcessTask(*this, { "CreditShop-BuyIt" }).run();
