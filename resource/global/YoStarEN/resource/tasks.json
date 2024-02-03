@@ -2768,6 +2768,16 @@
     "UnlockClues": {
         "templThreshold": 0.85
     },
+    "InfrastTrainingIdle": {
+        "text": [
+            "Idle"
+        ]
+    },
+    "InfrastTrainingCompleted": {
+        "text": [
+            "Done"
+        ]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "roi": [

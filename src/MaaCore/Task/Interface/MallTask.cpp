@@ -69,9 +69,23 @@ bool asst::MallTask::set_params(const json::value& params)
 
         m_shopping_task_ptr->set_enable(true);
 
+        bool only_buy_discount = params.get("only_buy_discount", false);
+        m_shopping_first_task_ptr->set_only_buy_discount(false);
+        m_shopping_task_ptr->set_only_buy_discount(only_buy_discount);
+        m_shopping_force_task_ptr->set_only_buy_discount(false);
+
+        bool reserve_max_credit = params.get("reserve_max_credit", false);
+        m_shopping_first_task_ptr->set_reserve_max_credit(false);
+        m_shopping_task_ptr->set_reserve_max_credit(reserve_max_credit);
+        m_shopping_force_task_ptr->set_reserve_max_credit(false);
+
+        bool force_shopping_if_credit_full = params.get("force_shopping_if_credit_full", false);
+        m_shopping_first_task_ptr->set_info_credit_full(false);
+        m_shopping_task_ptr->set_info_credit_full(!force_shopping_if_credit_full);
+        m_shopping_force_task_ptr->set_info_credit_full(false);
+
         m_shopping_first_task_ptr->set_force_shopping_if_credit_full(false);
         m_shopping_task_ptr->set_force_shopping_if_credit_full(false);
-        bool force_shopping_if_credit_full = params.get("force_shopping_if_credit_full", false);
 
         if (force_shopping_if_credit_full) {
             m_shopping_force_task_ptr->set_enable(true);

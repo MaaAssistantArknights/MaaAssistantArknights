@@ -83,6 +83,7 @@ namespace MaaWpfGui.Constants
 
         public const string DormThreshold = "Infrast.DormThreshold";
         public const string UsesOfDrones = "Infrast.UsesOfDrones";
+        public const string ContinueTraining = "Infrast.ContinueTraining";
         public const string DefaultInfrast = "Infrast.DefaultInfrast";
         public const string IsCustomInfrastFileReadOnly = "Infrast.IsCustomInfrastFileReadOnly";
         public const string DormFilterNotStationedEnabled = "Infrast.DormFilterNotStationedEnabled";
@@ -134,9 +135,12 @@ namespace MaaWpfGui.Constants
         public const string CreditFirstListNew = "Mall.CreditFirstListNew";
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
+        public const string CreditOnlyBuyDiscount = "Mall.CreditOnlyBuyDiscount";
+        public const string CreditReserveMaxCredit = "Mall.CreidtReserveMaxCredit";
 
         public const string ReceiveAward = "Mission.ReceiveAward";
         public const string ReceiveMail = "Mission.ReceiveMail";
+        public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit";
 
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";

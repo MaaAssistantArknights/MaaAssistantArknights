@@ -206,11 +206,8 @@ namespace MaaWpfGui.Main
             string mainCache = Directory.GetCurrentDirectory() + @"\cache";
             string globalCache = mainCache + @"\resource\global\" + clientType;
 
-            const string OfficialClientType = "Official";
-            const string BilibiliClientType = "Bilibili";
-
             bool loaded;
-            if (clientType == string.Empty || clientType == OfficialClientType || clientType == BilibiliClientType)
+            if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
                 loaded = LoadResIfExists(mainRes);
@@ -1172,6 +1169,12 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NotEnoughStaff"), UiLogColor.Error);
                     break;
 
+                case "CreditFullOnlyBuyDiscount":
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CreditFullOnlyBuyDiscount") + subTaskDetails["credit"], UiLogColor.Message);
+                        break;
+                    }
+
                 case "RoguelikeSettlement":
                     // 肉鸽结算
                     bool roguelikeGamePass = (bool)subTaskDetails["game_pass"];
@@ -1290,6 +1293,21 @@ namespace MaaWpfGui.Main
                     }
 
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoomOperators") + nameStr);
+                    break;
+
+                case "InfrastTrainingIdle":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TrainingIdle"));
+                    break;
+
+                case "InfrastTrainingCompleted":
+                    Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
+                         LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + " " + LocalizationHelper.GetString("TrainingCompleted"), UiLogColor.Info);
+                    break;
+
+                case "InfrastTrainingInProgress":
+                    Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
+                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + " " + LocalizationHelper.GetString("TrainingProgress") + ": " +
+                        $"{(int)subTaskDetails["progress"]}" + "%");
                     break;
 
                 /* 生息演算 */
@@ -1611,6 +1629,8 @@ namespace MaaWpfGui.Main
             Depot,
             OperBox,
             Gacha,
+            ReclamationAlgorithm,
+            ReclamationAlgorithm2,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new();
@@ -1714,13 +1734,15 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="award">是否领取每日/每周任务奖励</param>
         /// <param name="mail">是否领取所有邮件奖励</param>
+        /// <param name="recruit">是否进行每日免费单抽</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendAward(bool award, bool mail)
+        public bool AsstAppendAward(bool award, bool mail, bool recruit)
         {
             var taskParams = new JObject
             {
                 ["award"] = award,
                 ["mail"] = mail,
+                ["recruit"] = recruit,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Award", taskParams);
             _latestTaskId[TaskType.Award] = id;
@@ -1782,8 +1804,10 @@ namespace MaaWpfGui.Main
         /// <param name="firstList">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
         /// <param name="forceShoppingIfCreditFull">是否在信用溢出时无视黑名单</param>
+        /// <param name="only_buy_discount">只购买折扣信用商品(未打折的白名单物品仍会购买)。</param>
+        /// <param name="reserve_max_credit">设置300以下信用点停止购买商品。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool creditFight, int selectFormation, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull)
+        public bool AsstAppendMall(bool creditFight, int selectFormation, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull, bool only_buy_discount, bool reserve_max_credit)
         {
             var taskParams = new JObject
             {
@@ -1793,6 +1817,8 @@ namespace MaaWpfGui.Main
                 ["buy_first"] = new JArray { firstList },
                 ["blacklist"] = new JArray { blacklist },
                 ["force_shopping_if_credit_full"] = forceShoppingIfCreditFull,
+                ["only_buy_discount"] = only_buy_discount,
+                ["reserve_max_credit"] = reserve_max_credit,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Mall", taskParams);
             _latestTaskId[TaskType.Mall] = id;
@@ -1870,13 +1896,14 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        private static JObject SerializeInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, double dormThreshold, bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
+        private static JObject SerializeInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, bool continueTraining, double dormThreshold, bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {
             var taskParams = new JObject
             {
                 ["facility"] = new JArray(order.ToArray<object>()),
                 ["drones"] = usesOfDrones,
+                ["continue_training"] = continueTraining,
                 ["threshold"] = dormThreshold,
                 ["dorm_notstationed_enabled"] = dormFilterNotStationedEnabled,
                 ["dorm_trust_enabled"] = dormDormTrustEnabled,
@@ -1905,6 +1932,7 @@ namespace MaaWpfGui.Main
         /// <item><c>Chip</c></item>
         /// </list>
         /// </param>
+        /// <param name="continueTraining">训练室是否尝试连续专精</param>
         /// <param name="dormThreshold">宿舍进驻心情阈值。</param>
         /// <param name="dormFilterNotStationedEnabled">宿舍是否使用未进驻筛选标签</param>
         /// <param name="dormDormTrustEnabled">宿舍是否使用蹭信赖功能</param>
@@ -1913,12 +1941,12 @@ namespace MaaWpfGui.Main
         /// <param name="filename">自定义配置文件路径</param>
         /// <param name="planIndex">自定义配置计划编号</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendInfrast(IEnumerable<string> order, string usesOfDrones, double dormThreshold,
+        public bool AsstAppendInfrast(IEnumerable<string> order, string usesOfDrones, bool continueTraining, double dormThreshold,
             bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {
             var taskParams = SerializeInfrastTaskParams(
-                order, usesOfDrones, dormThreshold,
+                order, usesOfDrones, continueTraining, dormThreshold,
                 dormFilterNotStationedEnabled, dormDormTrustEnabled, originiumShardAutoReplenishment,
                 isCustom, filename, planIndex);
             AsstTaskId id = AsstAppendTaskWithEncoding("Infrast", taskParams);
@@ -1926,7 +1954,7 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        public bool AsstSetInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, double dormThreshold,
+        public bool AsstSetInfrastTaskParams(IEnumerable<string> order, string usesOfDrones, bool continueTraining, double dormThreshold,
             bool dormFilterNotStationedEnabled, bool dormDormTrustEnabled, bool originiumShardAutoReplenishment,
             bool isCustom, string filename, int planIndex)
         {
@@ -1943,7 +1971,7 @@ namespace MaaWpfGui.Main
             }
 
             var taskParams = SerializeInfrastTaskParams(
-                order, usesOfDrones, dormThreshold,
+                order, usesOfDrones,continueTraining, dormThreshold,
                 dormFilterNotStationedEnabled, dormDormTrustEnabled, originiumShardAutoReplenishment,
                 isCustom, filename, planIndex);
             return AsstSetTaskParamsWithEncoding(id, taskParams);
@@ -2040,7 +2068,22 @@ namespace MaaWpfGui.Main
         public bool AsstAppendReclamation()
         {
             AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
-            _latestTaskId[TaskType.Recruit] = id;
+            _latestTaskId[TaskType.ReclamationAlgorithm] = id;
+            return id != 0;
+        }
+
+        /// <summary>
+        /// 自动生息演算。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstAppendReclamation2()
+        {
+            var taskParams = new JObject
+            {
+                ["task_names"] = new JArray { "Reclamation2" },
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
+            _latestTaskId[TaskType.ReclamationAlgorithm2] = id;
             return id != 0;
         }
 
@@ -2147,13 +2190,22 @@ namespace MaaWpfGui.Main
                 ["formation"] = formation,
                 ["add_trust"] = addTrust,
                 ["add_user_additional"] = addUserAdditional,
-                ["user_additional"] = userAdditional,
                 ["need_navigate"] = needNavigate,
-                ["navigate_name"] = navigateName,
                 ["is_raid"] = isRaid,
                 ["loop_times"] = loopTimes,
                 ["use_sanity_potion"] = useSanityPotion,
             };
+
+            if (addUserAdditional)
+            {
+                taskParams["user_additional"] = userAdditional;
+            }
+
+            if (needNavigate)
+            {
+                taskParams["navigate_name"] = navigateName;
+            }
+
             AsstTaskId id = AsstAppendTaskWithEncoding(type, taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && (!asstStart || AsstStart());

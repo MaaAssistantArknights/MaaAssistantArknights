@@ -56,6 +56,7 @@
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">制造站</system:String>
     <system:String x:Key="Processing">加工站</system:String>
+    <system:String x:Key="Training">训练室</system:String>
     <system:String x:Key="Trade">贸易站</system:String>
     <system:String x:Key="Power">发电站</system:String>
     <system:String x:Key="Reception">会客室</system:String>
@@ -72,6 +73,11 @@
     <system:String x:Key="DormFilterNotStationedEnabled">不将已进驻的干员放入宿舍</system:String>
     <system:String x:Key="DormFilterNotStationedTips">勾选则不会将艾丽妮等干员从训练室移除，但也会导致加工站干员不能进入宿舍。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自动补货</system:String>
+    <system:String x:Key="ContinueTraining">训练完成后继续尝试专精当前技能</system:String>
+    <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
+    <system:String x:Key="TrainingCompleted">训练完成</system:String>
+    <system:String x:Key="TrainingLevel">专精等级</system:String>
+    <system:String x:Key="TrainingProgress">训练进度</system:String>
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
@@ -163,10 +169,12 @@
     <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
     <system:String x:Key="ManualRestart">稍后</system:String>
     <system:String x:Key="Tip">提示</system:String>
+    <system:String x:Key="Warning">警告</system:String>
     <system:String x:Key="Yes">是</system:String>
     <system:String x:Key="No">否</system:String>
     <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="Cancel">取消</system:String>
+    <system:String x:Key="Confirm">确认</system:String>
     <system:String x:Key="HotKeyShowGui">[热键] 显示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[热键] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">键入 退格/Esc/Delete 清除当前热键</system:String>
@@ -269,8 +277,16 @@
     <system:String x:Key="BlacklistDefault">碳;家具;加急许可</system:String>
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
+    <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意：可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">低于300信用点也仍然会购买白名单物品！</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">博士！ \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">领取每日/每周任务奖励</system:String>
     <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">进行限定池赠送的每日免费单抽</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">若不存在免费单抽，则不会抽取</system:String>
+    <system:String x:Key="ReceiveFreeRecruitWarning">该功能属于危险功能，可能会造成误抽\n按下「确认」键即视为你了解并愿意承担可能出现的风险</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
@@ -323,6 +339,7 @@
     <system:String x:Key="Mission">领取奖励</system:String>
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算2</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">与系统同步</system:String>
@@ -749,4 +766,12 @@
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
+    <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">目前生息演算的支持仍处于早期阶段，使用时请注意以下几点：
+    1. 不能在已经有存档的情况下使用（删除现有存档即可）
+    2. 不能在编队中有干员的情况下使用（把所有编队清空即可）
+    3. 必须在生息演算主界面开始任务（导航还没写）
+    </system:String>
+    <system:String x:Key="ReclamationBePatient">别急</system:String>
+    <!--  !Reclamation  -->
 </ResourceDictionary>

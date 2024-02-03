@@ -354,8 +354,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            List<string> taskList = new List<string>
-            {
+            List<string> taskList =
+            [
                 "WakeUp",
                 "Recruiting",
                 "Base",
@@ -363,17 +363,15 @@ namespace MaaWpfGui.ViewModels.UI
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
+            ];
 
-                // "ReclamationAlgorithm",
-            };
-            var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 16))
+            if (Instances.SettingsViewModel.ClientType is "" or "Official" or "Bilibili")
             {
-                taskList.Add("ReclamationAlgorithm");
+                taskList.Add("ReclamationAlgorithm2");
             }
 
-            ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
-            {
+            ActionAfterCompletedList =
+            [
                 new() { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new() { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
                 new() { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
@@ -393,7 +391,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
                 new() { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
-            };
+            ];
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
             for (int i = 0; i != taskList.Count; ++i)
@@ -458,7 +456,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Updates stage list.
         /// </summary>
-        /// <param name="forceUpdate">Whether or not to update the stage list for selection forcibly</param>
+        /// <param name="forceUpdate">Whether to update the stage list for selection forcibly</param>
         // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
@@ -933,6 +931,10 @@ namespace MaaWpfGui.ViewModels.UI
                         taskRet &= AppendReclamation();
                         break;
 
+                    case "ReclamationAlgorithm2":
+                        taskRet &= AppendReclamation2();
+                        break;
+
                     default:
                         --count;
                         _logger.Error("Unknown task: " + item.OriginalName);
@@ -1261,8 +1263,8 @@ namespace MaaWpfGui.ViewModels.UI
         private void SetInfrastParams()
         {
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
-            Instances.AsstProxy.AsstSetInfrastTaskParams(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled, Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
-                Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
+            Instances.AsstProxy.AsstSetInfrastTaskParams(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.ContinueTraining, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled,
+                Instances.SettingsViewModel.OriginiumShardAutoReplenishment, Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool AppendInfrast()
@@ -1274,8 +1276,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
-            return Instances.AsstProxy.AsstAppendInfrast(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled, Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
-                Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
+            return Instances.AsstProxy.AsstAppendInfrast(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.ContinueTraining, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled,
+                Instances.SettingsViewModel.OriginiumShardAutoReplenishment, Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
@@ -1305,15 +1307,18 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
-                Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
+                Instances.SettingsViewModel.CreditForceShoppingIfCreditFull,
+                Instances.SettingsViewModel.CreditOnlyBuyDiscount,
+                Instances.SettingsViewModel.CreditReserveMaxCredit);
         }
 
         private static bool AppendAward()
         {
             var receiveAward = Instances.SettingsViewModel.ReceiveAward;
             var receiveMail = Instances.SettingsViewModel.ReceiveMail;
+            var receiveFreeRecruit = Instances.SettingsViewModel.ReceiveFreeRecruit;
 
-            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail);
+            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit);
         }
 
         private static bool AppendRecruit()
@@ -1367,6 +1372,11 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool AppendReclamation()
         {
             return Instances.AsstProxy.AsstAppendReclamation();
+        }
+
+        private static bool AppendReclamation2()
+        {
+            return Instances.AsstProxy.AsstAppendReclamation2();
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
