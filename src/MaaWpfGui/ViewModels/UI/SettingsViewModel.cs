@@ -2283,6 +2283,22 @@ namespace MaaWpfGui.ViewModels.UI
             get => _receiveFreeRecruit;
             set
             {
+                if (value == true)
+                {
+                    var result = MessageBoxHelper.Show(
+                            LocalizationHelper.GetString("ReceiveFreeRecruitWarning"),
+                            LocalizationHelper.GetString("Warning"),
+                            MessageBoxButton.OKCancel,
+                            MessageBoxImage.Warning,
+                            ok: LocalizationHelper.GetString("Confirm"),
+                            cancel: LocalizationHelper.GetString("Cancel"),
+                            iconBrushKey: "DangerBrush");
+                    if (result == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+
                 SetAndNotify(ref _receiveFreeRecruit, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeRecruit, value.ToString());
             }

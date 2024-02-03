@@ -163,10 +163,12 @@
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
     <system:String x:Key="ManualRestart">나중에</system:String>
     <system:String x:Key="Tip">도움말</system:String>
+    <system:String x:Key="Warning">경고</system:String>
     <system:String x:Key="Yes">예</system:String>
     <system:String x:Key="No">아니요</system:String>
     <system:String x:Key="Ok">확인</system:String>
     <system:String x:Key="Cancel">취소</system:String>
+    <system:String x:Key="Confirm">인식</system:String>
     <system:String x:Key="HotKeyShowGui">[단축키] MAA 보이기/숨기기</system:String>
     <system:String x:Key="HotKeyLinkStart">[단축키] Link 시작/중지</system:String>
     <system:String x:Key="HotKeyChangingTip">Backspace/Esc/Delete 키를 누르면 현재 값이 지워집니다</system:String>
@@ -273,6 +275,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
     <system:String x:Key="ReceiveFreeRecruit">한정 풀에서 매일 무료 싱글 추첨을 진행합니다</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">무료 싱글 추첨이 없는 경우 추첨되지 않습니다</system:String>
+    <system:String x:Key="ReceiveFreeRecruitWarning">이 기능은 위험한 기능이며 오탐이 발생할 수 있습니다\n'인식' 버튼을 클릭함으로써 귀하는 발생 가능한 위험을 이해하고 기꺼이 감수할 의사가 있음을 인정하는 것입니다.</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
