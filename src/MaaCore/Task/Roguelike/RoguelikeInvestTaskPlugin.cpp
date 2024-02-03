@@ -63,30 +63,44 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             times--;
         }
         image = ctrler()->get_image();
-        if (!is_investment_available(image)) { // 检查是否处于可投资状态
-            break;                             // 投资系统错误 / 没钱了
-        }
-        else if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvest-Count"); ocr) {
-            // 可继续投资 / 到达投资上限999
-            if (*ocr == *deposit || *ocr > 999 || *ocr < 1) {
-                retry++; // 可能是出错了，重试三次放弃
+        if (is_investment_available(image)) { // 检查是否处于可投资状态
+            if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvest-Count"); ocr) {
+                // 可继续投资 / 到达投资上限999
+                if (*ocr == *deposit || *ocr > 999 || *ocr < 1) {
+                    retry++; // 可能是出错了，重试三次放弃
+                }
+                else {
+                    count += *ocr - *deposit;
+                    deposit = *ocr;
+                    retry = 0;
+                }
             }
             else {
-                count += *ocr - *deposit;
-                deposit = *ocr;
-                retry = 0;
+                Log.error(__FUNCTION__, "无法获取可投资状态下的存款");
+                save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
+                retry++;
             }
+            count_limit = m_config->get_invest_maximum() - m_invest_count;
+        }
+        else if (is_investment_error(image)) {
+            Log.info(__FUNCTION__, "投资系统错误, 退出投资");
+
+            if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvest-Count-Error"); ocr) {
+                // 可继续投资 / 到达投资上限999
+                count += *ocr - deposit.value_or(0);
+                deposit = *ocr;
+            }
+            else {
+                Log.error(__FUNCTION__, "无法获取错误状态下的存款");
+                save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
+            }
+
+            break;
         }
         else {
-            Log.error(__FUNCTION__, "未知状态");
-            return true;
+            Log.error(__FUNCTION__, "未知状态，投资中止");
+            return false;
         }
-    }
-
-    if (auto ocr = ocr_current_count(ctrler()->get_image(), "Roguelike@StageTrader-InvestCount"); ocr) {
-        // 可继续投资 / 到达投资上限999
-        count += *ocr - deposit.value_or(0);
-        deposit = *ocr;
     }
 
     const auto total = count + m_invest_count;
@@ -110,6 +124,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         Log.info(__FUNCTION__, "存款已满");
         stop_roguelike();
         m_task_ptr->set_enable(false);
+        return true;
     }
 
     return true;
@@ -117,10 +132,17 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
 
 bool asst::RoguelikeInvestTaskPlugin::is_investment_available(const cv::Mat& image) const
 {
-    auto task = ProcessTask(*this, { "Roguelike@StageTraderInvest-Arrow", "Roguelike@StageTraderInvestSystemError" });
-    task.set_reusable_image(image).set_retry_times(3);
+    auto task = ProcessTask(*this, { "Roguelike@StageTraderInvest-Arrow" });
+    task.set_reusable_image(image).set_retry_times(0);
+    return task.run();
+}
+
+bool asst::RoguelikeInvestTaskPlugin::is_investment_error(const cv::Mat& image) const
+{
+    auto task = ProcessTask(*this, { "Roguelike@StageTraderInvestSystemError" });
+    task.set_reusable_image(image).set_retry_times(0);
     task.set_times_limit("Roguelike@StageTraderInvestCancel", 0);
-    return task.run() && task.get_last_task_name() == "Roguelike@StageTraderInvest-Arrow";
+    return task.run();
 }
 
 void asst::RoguelikeInvestTaskPlugin::stop_roguelike()
