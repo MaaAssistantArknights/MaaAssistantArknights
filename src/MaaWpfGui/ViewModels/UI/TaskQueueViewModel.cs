@@ -354,8 +354,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            List<string> taskList = new List<string>
-            {
+            List<string> taskList =
+            [
                 "WakeUp",
                 "Recruiting",
                 "Base",
@@ -363,11 +363,15 @@ namespace MaaWpfGui.ViewModels.UI
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
-                "ReclamationAlgorithm2", // 外服需要去掉下
-            };
+            ];
 
-            ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
+            if (Instances.SettingsViewModel.ClientType is "" or "Official" or "Bilibili")
             {
+                taskList.Add("ReclamationAlgorithm");
+            }
+
+            ActionAfterCompletedList =
+            [
                 new() { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
                 new() { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
                 new() { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
@@ -387,7 +391,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
                 new() { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
-            };
+            ];
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
             for (int i = 0; i != taskList.Count; ++i)
@@ -452,7 +456,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Updates stage list.
         /// </summary>
-        /// <param name="forceUpdate">Whether or not to update the stage list for selection forcibly</param>
+        /// <param name="forceUpdate">Whether to update the stage list for selection forcibly</param>
         // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)

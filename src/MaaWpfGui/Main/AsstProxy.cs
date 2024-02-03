@@ -206,11 +206,8 @@ namespace MaaWpfGui.Main
             string mainCache = Directory.GetCurrentDirectory() + @"\cache";
             string globalCache = mainCache + @"\resource\global\" + clientType;
 
-            const string OfficialClientType = "Official";
-            const string BilibiliClientType = "Bilibili";
-
             bool loaded;
-            if (clientType == string.Empty || clientType == OfficialClientType || clientType == BilibiliClientType)
+            if (clientType is "" or "Official" or "Bilibili")
             {
                 // Read resources first, then read cache
                 loaded = LoadResIfExists(mainRes);
