@@ -76,7 +76,8 @@ bool asst::CopilotTask::set_params(const json::value& params)
         Log.warn("`is_adverse` has been deprecated since v5.0.0-beta.3; Please use 'is_raid'");
         Log.warn("================  DEPRECATED  ================");
         if (!params.contains("is_raid")) {
-            is_raid = params.get("is_adverse", false); // 兼容旧版本，在v6.0改为存在此参数时直接return false
+            // 兼容旧版本，在v6.0改为存在此参数时直接return false
+            is_raid = params.get("is_adverse", false);
         }
     }
     bool use_sanity_potion = params.get("use_sanity_potion", false);     // 是否吃理智药

@@ -2147,13 +2147,22 @@ namespace MaaWpfGui.Main
                 ["formation"] = formation,
                 ["add_trust"] = addTrust,
                 ["add_user_additional"] = addUserAdditional,
-                ["user_additional"] = userAdditional,
                 ["need_navigate"] = needNavigate,
-                ["navigate_name"] = navigateName,
                 ["is_raid"] = isRaid,
                 ["loop_times"] = loopTimes,
                 ["use_sanity_potion"] = useSanityPotion,
             };
+
+            if (addUserAdditional)
+            {
+                taskParams["user_additional"] = userAdditional;
+            }
+
+            if (needNavigate)
+            {
+                taskParams["navigate_name"] = navigateName;
+            }
+
             AsstTaskId id = AsstAppendTaskWithEncoding(type, taskParams);
             _latestTaskId[TaskType.Copilot] = id;
             return id != 0 && (!asstStart || AsstStart());
