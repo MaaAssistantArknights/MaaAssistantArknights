@@ -2273,6 +2273,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _receiveFreeRecruit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive mail is enabled.
+        /// </summary>
+        public bool ReceiveFreeRecruit
+        {
+            get => _receiveFreeRecruit;
+            set
+            {
+                SetAndNotify(ref _receiveFreeRecruit, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeRecruit, value.ToString());
+            }
+        }
+
         /* 定时设置 */
 
         public class TimerModel
