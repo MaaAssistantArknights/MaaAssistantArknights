@@ -2,9 +2,9 @@
 
 ### 新增 | New
 
-- 生息演算2 (#8190) @SherkeyXD @hguandl @ABA2396
+- 生息演算2 (#8190) (Mac 版本需点加号手动添加) @SherkeyXD @hguandl @ABA2396
 - 开放每日免费单抽功能 (#8185) @SherkeyXD
-- 新增只购买折扣信用商品（白名单商品除外）的选项和少于300信用点停止购物的选项 (#7659) @lpowo @status102
+- 新增只购买折扣信用商品（白名单商品除外）和少于300信用点停止购物的选项 (#7659) @lpowo @status102
 - 基建领取专精功能 (#7754) @broken-paint @Constrat
 
 ### 改进 | Improved
