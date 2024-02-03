@@ -16703,6 +16703,14 @@
             207,
             144
         ],
+        "next": [
+            "#self",
+            "Reclamation2CopiousCoppiceBegin"
+        ]
+    },
+    "Reclamation2CopiousCoppiceBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
         "sub": [
             "Reclamation2Fight@Reclamation2EnterStage",
             "Reclamation2LeaveStage",
@@ -16725,6 +16733,14 @@
             262,
             156
         ],
+        "next": [
+            "#self",
+            "Reclamation2BirdlandBegin"
+        ]
+    },
+    "Reclamation2BirdlandBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
         "sub": [
             "Reclamation2Fight@Reclamation2EnterStage",
             "Reclamation2LeaveStage",
@@ -16750,7 +16766,7 @@
     "Reclamation2SkipDays": {
         "algorithm": "justReturn",
         "action": "DoNothing",
-        "postDelay": 2000,
+        "postDelay": 1000,
         "next": [
             "Reclamation2SkipDays1",
             "Reclamation2SkipDays2"
@@ -16815,7 +16831,7 @@
     "Reclamation2SkipDaysAward": {
         "algorithm": "justReturn",
         "action": "DoNothing",
-        "postDelay": 10000,
+        "postDelay": 5000,
         "next": [
             "Reclamation2SkipDaysAward2",
             "Reclamation2SkipDaysAward1"
@@ -16824,7 +16840,8 @@
     "Reclamation2SkipDaysAward1": {
         "algorithm": "justReturn",
         "action": "DoNothing",
-        "Doc": "会自己消失"
+        "Doc": "会自己消失",
+        "preDelay": 3000
     },
     "Reclamation2SkipDaysAward2": {
         "algorithm": "OcrDetect",
