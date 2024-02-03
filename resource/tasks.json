@@ -7762,8 +7762,10 @@
     },
     "InfrastTrainingIdle": {
         "algorithm": "OcrDetect",
-        "text": [ "空闲中" ],
-        "action":"DoNothing",
+        "text": [
+            "空闲中"
+        ],
+        "action": "DoNothing",
         "roi": [
             350,
             600,
@@ -7773,9 +7775,11 @@
     },
     "InfrastTrainingCompleted": {
         "baseTask": "InfrastTrainingIdle",
-        "text": [ "训练完成" ],
+        "text": [
+            "训练完成"
+        ],
         "action": "ClickSelf",
-        "postDelay":1000,
+        "postDelay": 1000,
         "next": [
             "CloseTaskAward"
         ]
