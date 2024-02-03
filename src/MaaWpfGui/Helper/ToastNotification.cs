@@ -400,6 +400,12 @@ namespace MaaWpfGui.Helper
         /// </summary>
         public void Show()
         {
+            if (!Instances.SettingsViewModel.UseNotify)
+            {
+                _logger.Information($"UseNotify is not turned on, the information is {_contentCollection}");
+                return;
+            }
+
             _contentCollection.AppendLine(); // content 不能为空，否则通知发不出去
             ShowBalloonTip(_notificationTitle, _contentCollection.ToString(), NotifyIconInfoType.None);
         }
