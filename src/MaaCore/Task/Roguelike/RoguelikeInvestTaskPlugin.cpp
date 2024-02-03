@@ -141,11 +141,11 @@ bool asst::RoguelikeInvestTaskPlugin::is_investment_error(const cv::Mat& image) 
 {
     auto task = ProcessTask(*this, { "Roguelike@StageTraderInvestSystemError" });
     task.set_reusable_image(image).set_retry_times(0);
-    task.set_times_limit("Roguelike@StageTraderInvestCancel", 0);
+    task.set_times_limit("Roguelike@StageTraderInvestSystemError", 0);
     return task.run();
 }
 
 void asst::RoguelikeInvestTaskPlugin::stop_roguelike()
 {
-    dynamic_cast<ProcessTask*>(m_task_ptr)->set_times_limit("Roguelike@StageTraderInvestConfirm", 0);
+    dynamic_cast<ProcessTask*>(m_task_ptr)->set_times_limit("Roguelike@StageTraderInvestConfirm", 0, ProcessTask::TimesLimitType::Post);
 }
