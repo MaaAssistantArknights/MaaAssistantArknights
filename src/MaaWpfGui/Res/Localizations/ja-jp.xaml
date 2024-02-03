@@ -163,10 +163,12 @@
     <system:String x:Key="LanguageChangedTip">言語設定が変更されました、今すぐMAAを再起動して言語設定を適用しますか？</system:String>
     <system:String x:Key="ManualRestart">後で</system:String>
     <system:String x:Key="Tip">ヒント</system:String>
+    <system:String x:Key="Warning">警告</system:String>
     <system:String x:Key="Yes">はい</system:String>
     <system:String x:Key="No">いいえ</system:String>
     <system:String x:Key="Ok">はい</system:String>
     <system:String x:Key="Cancel">キャンセル</system:String>
+    <system:String x:Key="Confirm">認識する</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
@@ -273,6 +275,7 @@
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="ReceiveFreeRecruit">リミテッドプールから毎日フリーシングルの抽選を行う</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">無料シングル抽選がない場合は抽選されない</system:String>
+    <system:String x:Key="ReceiveFreeRecruitWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
