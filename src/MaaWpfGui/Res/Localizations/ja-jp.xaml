@@ -56,6 +56,7 @@
     <system:String x:Key="Dorm">宿舎</system:String>
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">処理ステーション</system:String>
+    <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
@@ -72,6 +73,11 @@
     <system:String x:Key="DormFilterNotStationedEnabled">作業中の人員を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
     <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのようなオペレーターを訓練所から外さなくなり、加工所のオペレーターが宿舎に送られるのを防止します。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
+    <system:String x:Key="ContinueTraining">訓練完了後、現在のスキルを専門にする試みを続けます</system:String>
+    <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
+    <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
+    <system:String x:Key="TrainingLevel">スキルランク</system:String>
+    <system:String x:Key="TrainingProgress">訓練の進捗</system:String>
     <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
