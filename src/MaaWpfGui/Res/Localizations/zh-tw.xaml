@@ -321,6 +321,7 @@
     <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算2</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">與系統同步</system:String>
