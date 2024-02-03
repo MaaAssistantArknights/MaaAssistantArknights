@@ -895,10 +895,6 @@ namespace MaaWpfGui.Main
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
                                 break;
 
-                            case "StageTraderInvestConfirm":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("HasInvested") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                                break;
-
                             case "ExitThenAbandon":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("ExplorationAbandoned"));
                                 break;
