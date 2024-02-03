@@ -16892,9 +16892,10 @@
             142,
             109
         ],
-        "sub": [
+        "preDelay": 500,
+        "next": [
             "Reclamation2DeleteArchiveEnter",
-            "Reclamation2DeleteArchiveConfirm*2"
+            "#self"
         ]
     },
     "Reclamation2DeleteArchiveEnter": {
@@ -16908,6 +16909,9 @@
             550,
             182,
             123
+        ],
+        "sub": [
+            "Reclamation2DeleteArchiveConfirm*2"
         ]
     },
     "Reclamation2DeleteArchiveConfirm": {
