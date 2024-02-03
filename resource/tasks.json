@@ -9347,10 +9347,34 @@
             0,
             281,
             134
+        ],
+        "next":[
+            "DepotAllTabClicked"
         ]
     },
     "DepotMaterialTab": {
         "action": "ClickSelf",
+        "roi": [
+            1026,
+            0,
+            254,
+            138
+        ],
+        "next":[
+            "DepotMaterialTabClicked"
+        ]
+    },
+    "DepotAllTabClicked": {
+        "action": "DoNothing",
+        "roi": [
+            452,
+            0,
+            281,
+            134
+        ]
+    },
+    "DepotMaterialTabClicked": {
+        "action": "DoNothing",
         "roi": [
             1026,
             0,
