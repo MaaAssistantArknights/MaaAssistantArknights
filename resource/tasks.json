@@ -16800,10 +16800,9 @@
             184
         ],
         "preDelay": 1000,
-        "sub": [
+        "next": [
             "Reclamation2SkipDays2SkipTime",
-            "Reclamation2SkipDays2SkipTimeConfig",
-            "Reclamation2SkipDays1"
+            "#self"
         ]
     },
     "Reclamation2SkipDays2SkipTime": {
@@ -16818,6 +16817,10 @@
             104,
             208,
             124
+        ],
+        "sub": [
+            "Reclamation2SkipDays2SkipTimeConfig",
+            "Reclamation2SkipDays1"
         ]
     },
     "Reclamation2SkipDays2SkipTimeConfig": {
