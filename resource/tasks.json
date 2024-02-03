@@ -16699,9 +16699,9 @@
         "preDelay": 2000,
         "roi": [
             0,
-            10,
-            1280,
-            700
+            171,
+            207,
+            144
         ],
         "sub": [
             "Reclamation2Fight@Reclamation2EnterStage",
@@ -16720,10 +16720,10 @@
         ],
         "preDelay": 2000,
         "roi": [
-            0,
-            10,
-            1280,
-            700
+            598,
+            510,
+            262,
+            156
         ],
         "sub": [
             "Reclamation2Fight@Reclamation2EnterStage",
