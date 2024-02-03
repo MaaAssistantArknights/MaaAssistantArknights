@@ -1172,6 +1172,12 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("NotEnoughStaff"), UiLogColor.Error);
                     break;
 
+                case "CreditFullOnlyBuyDiscount":
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CreditFullOnlyBuyDiscount") + subTaskDetails["credit"], UiLogColor.Message);
+                        break;
+                    }
+
                 case "RoguelikeSettlement":
                     // 肉鸽结算
                     bool roguelikeGamePass = (bool)subTaskDetails["game_pass"];
@@ -1797,8 +1803,10 @@ namespace MaaWpfGui.Main
         /// <param name="firstList">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
         /// <param name="forceShoppingIfCreditFull">是否在信用溢出时无视黑名单</param>
+        /// <param name="only_buy_discount">只购买折扣信用商品(未打折的白名单物品仍会购买)。</param>
+        /// <param name="reserve_max_credit">设置300以下信用点停止购买商品。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool creditFight, int selectFormation, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull)
+        public bool AsstAppendMall(bool creditFight, int selectFormation, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull, bool only_buy_discount, bool reserve_max_credit)
         {
             var taskParams = new JObject
             {
@@ -1808,6 +1816,8 @@ namespace MaaWpfGui.Main
                 ["buy_first"] = new JArray { firstList },
                 ["blacklist"] = new JArray { blacklist },
                 ["force_shopping_if_credit_full"] = forceShoppingIfCreditFull,
+                ["only_buy_discount"] = only_buy_discount,
+                ["reserve_max_credit"] = reserve_max_credit,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Mall", taskParams);
             _latestTaskId[TaskType.Mall] = id;

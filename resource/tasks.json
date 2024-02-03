@@ -5868,6 +5868,43 @@
             27
         ]
     },
+    "CreditShop-DiscountOcr": {
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "text": [],
+        "ocrReplace": [
+            [
+                "o",
+                "0"
+            ],
+            [
+                "O",
+                "0"
+            ],
+            [
+                "I",
+                "1"
+            ],
+            [
+                "l",
+                "1"
+            ],
+            [
+                "%",
+                ""
+            ],
+            [
+                "-",
+                ""
+            ]
+        ],
+        "roi": [
+            -5,
+            23,
+            65,
+            30
+        ]
+    },
     "CreditShop-ProductName": {
         "algorithm": "OcrDetect",
         "text": [],

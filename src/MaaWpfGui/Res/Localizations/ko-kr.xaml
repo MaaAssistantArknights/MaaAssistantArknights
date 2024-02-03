@@ -275,6 +275,11 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
     <system:String x:Key="Drink">술 한잔은 어떻습니까🍷? 박사님</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">크레딧이 넘치면 무시 항목도 구매</system:String>
+    <system:String x:Key="OnlyBuyDiscount">할인된 크레딧 상품만 구매할 것입니다</system:String>
+    <system:String x:Key="ReserveMaxCredit">크레딧 포인트가 300 미만으로 내려가면 물건을 더 이상 구매하지 않을 것입니다</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ 주의: 크레딧 포인트 오버플로우의 위험이 있습니다! 화이트리스트에 등록된 항목은 정상 가격으로 여전히 구매될 수 있습니다!</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">크레딧 포인트가 300 미만이더라도 화이트리스트에 등록된 항목은 여전히 구매할 것입니다!</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">박사님! \n할인된 상품만 구매하는 것이 크레딧 포인트 오버플로우를 일으켰습니다! \n크레딧 포인트 낭비에 주의하세요! \n남은 크레딧 포인트:</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">일일/주간 미션 보상 받기</system:String>
     <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>

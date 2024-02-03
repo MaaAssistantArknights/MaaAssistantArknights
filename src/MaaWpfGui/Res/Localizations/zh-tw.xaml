@@ -275,6 +275,11 @@
     <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
+    <system:String x:Key="OnlyBuyDiscount">只購買打折的信用商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">300以下信用點停止購買商品</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠可能會導致信用點溢出！仍然會購買未打折的商品！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">低於300信用點也仍然會購買白名單物品！</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只購買折扣商品讓信用點溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">收集每日/每週任務獎勵</system:String>
     <system:String x:Key="ReceiveMail">收集所有郵件獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>

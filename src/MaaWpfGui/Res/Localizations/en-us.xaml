@@ -275,6 +275,11 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
+    <system:String x:Key="OnlyBuyDiscount">Only purchase discounted credit items</system:String>
+    <system:String x:Key="ReserveMaxCredit">Stop purchasing items when credits below 300</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">Will still purchase whitelisted items even if credits are below 300!</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
