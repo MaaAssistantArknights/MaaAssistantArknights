@@ -634,6 +634,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
+    <system:String x:Key="RoguelikeInvestment">投資済み: {1}(+{0})、デポジット: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}\n探検する: {1} 床 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\nリクルート: {6}\nコレクション: {7}\n困難: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
