@@ -5196,9 +5196,30 @@
             162
         ],
         "next": [
-            "RecruitingActivities",
             "MiningActivitiesReturn",
             "Stop"
+        ]
+    },
+    "RecruitingActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "RecruitingActivitiesReturnHome@ReturnButtons#next",
+            "RecruitingActivitiesReturnHome",
+            "RecruitingActivities"
+        ]
+    },
+    "RecruitingActivitiesReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "next": [
+            "RecruitingActivities"
         ]
     },
     "RecruitingActivities": {
@@ -5462,7 +5483,6 @@
             "TerminalSami.png",
             "TerminalMistCity.png"
         ],
-        "cache": false,
         "action": "DoNothing",
         "next": [
             "Mail",
