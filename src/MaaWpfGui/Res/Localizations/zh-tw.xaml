@@ -56,6 +56,7 @@
     <system:String x:Key="Dorm">宿舍</system:String>
     <system:String x:Key="Mfg">製造站</system:String>
     <system:String x:Key="Processing">加工站</system:String>
+    <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Trade">貿易站</system:String>
     <system:String x:Key="Power">發電站</system:String>
     <system:String x:Key="Reception">會客室</system:String>
@@ -72,6 +73,11 @@
     <system:String x:Key="DormFilterNotStationedEnabled">不將已進駐的幹員放入宿舍</system:String>
     <system:String x:Key="DormFilterNotStationedTips">勾選則不會將艾麗妮等幹員從訓練室移除，但也會導致加工站幹員不能進入宿舍。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
+    <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精當前技能</system:String>
+    <system:String x:Key="TrainingIdle">訓練室空閑中</system:String>
+    <system:String x:Key="TrainingCompleted">訓練完成</system:String>
+    <system:String x:Key="TrainingLevel">專精等級</system:String>
+    <system:String x:Key="TrainingProgress">訓練進度</system:String>
     <system:String x:Key="CustomInfrastEnabled">啟用自定義基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>
@@ -163,10 +169,12 @@
     <system:String x:Key="LanguageChangedTip">語言設定已變更，是否現在重開 MAA 以套用語言設定？</system:String>
     <system:String x:Key="ManualRestart">稍後</system:String>
     <system:String x:Key="Tip">提示</system:String>
+    <system:String x:Key="Warning">警告</system:String>
     <system:String x:Key="Yes">是</system:String>
     <system:String x:Key="No">否</system:String>
     <system:String x:Key="Ok">好的</system:String>
     <system:String x:Key="Cancel">取消</system:String>
+    <system:String x:Key="Confirm">確認</system:String>
     <system:String x:Key="HotKeyShowGui">[熱鍵] 顯示/收起 MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[熱鍵] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">鍵入 退格/Esc/Delete 清除當前熱鍵</system:String>
@@ -269,8 +277,16 @@
     <system:String x:Key="BlacklistDefault">碳;傢俱;加急許可</system:String>
     <system:String x:Key="Drink">要來一杯美酒嗎🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
+    <system:String x:Key="OnlyBuyDiscount">只購買打折的信用商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">300以下信用點停止購買商品</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠可能會導致信用點溢出！仍然會購買未打折的商品！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">低於300信用點也仍然會購買白名單物品！</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只購買折扣商品讓信用點溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">收集每日/每週任務獎勵</system:String>
     <system:String x:Key="ReceiveMail">收集所有郵件獎勵</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">進行限定池贈送的每日免費單抽</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
+    <system:String x:Key="ReceiveFreeRecruitWarning">該功能屬於危險功能，可能會造成誤抽\n按下「確認」鍵即視為你了解並願意承擔可能出現的風險</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
@@ -321,6 +337,7 @@
     <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算2</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">與系統同步</system:String>

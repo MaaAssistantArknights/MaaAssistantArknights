@@ -56,6 +56,7 @@
     <system:String x:Key="Dorm">Dormitory</system:String>
     <system:String x:Key="Mfg">Factory</system:String>
     <system:String x:Key="Processing">Workshop</system:String>
+    <system:String x:Key="Training">Training Room</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
@@ -72,6 +73,11 @@
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed operators in Dormitory</system:String>
     <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room,this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
+    <system:String x:Key="ContinueTraining">Continue to try to specialize in current skills after training completion</system:String>
+    <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
+    <system:String x:Key="TrainingCompleted">Training completed</system:String>
+    <system:String x:Key="TrainingLevel">Skill Rank</system:String>
+    <system:String x:Key="TrainingProgress">Training progress</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
@@ -163,10 +169,12 @@
     <system:String x:Key="LanguageChangedTip">The language settings have been changed, restart the app now?</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
+    <system:String x:Key="Warning">Warning</system:String>
     <system:String x:Key="Yes">Yes</system:String>
     <system:String x:Key="No">No</system:String>
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="Cancel">Cancel</system:String>
+    <system:String x:Key="Confirm">Confirm</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
@@ -269,8 +277,16 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
+    <system:String x:Key="OnlyBuyDiscount">Only purchase discounted credit items</system:String>
+    <system:String x:Key="ReserveMaxCredit">Stop purchasing items when credits below 300</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">Will still purchase whitelisted items even if credits are below 300!</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">If there is no free single pull, it will not be pooled</system:String>
+    <system:String x:Key="ReceiveFreeRecruitWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing "Confirm", you understand and are willing to assume the possible risks.</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
@@ -323,6 +339,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">Reclamation Algorithm2</system:String>
     <system:String x:Key="Light">Light</system:String>
     <system:String x:Key="Dark">Dark</system:String>
     <system:String x:Key="SyncWithOs">Sync with OS</system:String>
