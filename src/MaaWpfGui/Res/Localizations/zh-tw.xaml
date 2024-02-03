@@ -615,7 +615,6 @@
     <system:String x:Key="RecruitConfirm">已確認招募</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">幹員衝突</system:String>
     <system:String x:Key="BegunToExplore">已開始探索</system:String>
-    <system:String x:Key="HasInvested">已投資</system:String>
     <system:String x:Key="ExplorationAbandoned">已放棄本次探索</system:String>
     <system:String x:Key="FightCompleted">戰鬥完成</system:String>
     <system:String x:Key="FightFailed">戰鬥失敗</system:String>

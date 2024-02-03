@@ -617,7 +617,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">Operator conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
-    <system:String x:Key="HasInvested">Has invested</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
     <system:String x:Key="FightCompleted">Fight completed</system:String>
     <system:String x:Key="FightFailed">Fight failed</system:String>
