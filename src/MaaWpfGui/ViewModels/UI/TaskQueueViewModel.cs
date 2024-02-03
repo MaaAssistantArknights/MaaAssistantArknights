@@ -367,7 +367,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (Instances.SettingsViewModel.ClientType is "" or "Official" or "Bilibili")
             {
-                taskList.Add("ReclamationAlgorithm");
+                taskList.Add("ReclamationAlgorithm2");
             }
 
             ActionAfterCompletedList =
