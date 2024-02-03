@@ -330,7 +330,7 @@
                                                 Storyboard.TargetName="LinearGradientBrushTranslate"
                                                 Storyboard.TargetProperty="X"
                                                 From="0"
-                                                To="420"
+                                                To="410"
                                                 Duration="0:0:2" />
                                         </Storyboard>
                                     </BeginStoryboard>

@@ -749,4 +749,12 @@
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
+    <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">目前生息演算的支持仍处于早期阶段，使用时请注意以下几点：
+    1. 不能在已经有存档的情况下使用（删除现有存档即可）
+    2. 不能在编队中有干员的情况下使用（把所有编队清空即可）
+    3. 必须在生息演算主界面开始任务（导航还没写）
+    </system:String>
+    <system:String x:Key="ReclamationBePatient">别急</system:String>
+    <!--  !Reclamation  -->
 </ResourceDictionary>

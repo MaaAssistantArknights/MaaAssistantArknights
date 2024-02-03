@@ -18,11 +18,61 @@
     mc:Ignorable="d">
     <StackPanel>
         <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
-            
+            <controls:TextBlock
+                Margin="5,10,5,10"
+                FontSize="16"
+                Style="{StaticResource TextBlockDefault}"
+                Text="{DynamicResource ReclamationEarlyTip}"
+                TextWrapping="Wrap" />
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
-
+            <controls:TextBlock
+                Margin="5,50,5,10"
+                FontSize="40"
+                Style="{StaticResource TextBlockDefaultBold}"
+                Text="{DynamicResource ReclamationBePatient}"
+                HorizontalAlignment="Center">
+                <controls:TextBlock.Foreground>
+                    <LinearGradientBrush SpreadMethod="Repeat">
+                        <LinearGradientBrush.Transform>
+                            <TranslateTransform x:Name="LinearGradientBrushTranslate" />
+                        </LinearGradientBrush.Transform>
+                        <LinearGradientBrush.GradientStops>
+                            <GradientStop Offset="0.00" Color="Red" />
+                            <GradientStop Offset="0.17" Color="Orange" />
+                            <GradientStop Offset="0.33" Color="Yellow" />
+                            <GradientStop Offset="0.50" Color="Green" />
+                            <GradientStop Offset="0.67" Color="Blue" />
+                            <GradientStop Offset="0.83" Color="Indigo" />
+                            <GradientStop Offset="1.00" Color="Violet" />
+                        </LinearGradientBrush.GradientStops>
+                    </LinearGradientBrush>
+                </controls:TextBlock.Foreground>
+                <controls:TextBlock.Triggers>
+                    <EventTrigger RoutedEvent="TextBlock.Loaded">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation
+                                    RepeatBehavior="Forever"
+                                    Storyboard.TargetName="LinearGradientBrushTranslate"
+                                    Storyboard.TargetProperty="X"
+                                    From="0"
+                                    To="410"
+                                    Duration="0:0:2" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </controls:TextBlock.Triggers>
+                <controls:TextBlock.Effect>
+                    <DropShadowEffect
+                        BlurRadius="8"
+                        Direction="90"
+                        Opacity="0.6"
+                        ShadowDepth="5"
+                        Color="Black" />
+                </controls:TextBlock.Effect>
+            </controls:TextBlock>
         </StackPanel>
     </StackPanel>
 </UserControl>
