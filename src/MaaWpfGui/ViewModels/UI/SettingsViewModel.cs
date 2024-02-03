@@ -2484,6 +2484,37 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _receiveFreeRecruit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive mail is enabled.
+        /// </summary>
+        public bool ReceiveFreeRecruit
+        {
+            get => _receiveFreeRecruit;
+            set
+            {
+                if (value == true)
+                {
+                    var result = MessageBoxHelper.Show(
+                            LocalizationHelper.GetString("ReceiveFreeRecruitWarning"),
+                            LocalizationHelper.GetString("Warning"),
+                            MessageBoxButton.OKCancel,
+                            MessageBoxImage.Warning,
+                            ok: LocalizationHelper.GetString("Confirm"),
+                            cancel: LocalizationHelper.GetString("Cancel"),
+                            iconBrushKey: "DangerBrush");
+                    if (result == MessageBoxResult.Cancel)
+                    {
+                        return;
+                    }
+                }
+
+                SetAndNotify(ref _receiveFreeRecruit, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeRecruit, value.ToString());
+            }
+        }
+
         /* 定时设置 */
 
         public class TimerModel

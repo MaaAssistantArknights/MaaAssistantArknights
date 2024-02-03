@@ -1735,13 +1735,15 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="award">是否领取每日/每周任务奖励</param>
         /// <param name="mail">是否领取所有邮件奖励</param>
+        /// <param name="recruit">是否进行每日免费单抽</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendAward(bool award, bool mail)
+        public bool AsstAppendAward(bool award, bool mail, bool recruit)
         {
             var taskParams = new JObject
             {
                 ["award"] = award,
                 ["mail"] = mail,
+                ["recruit"] = recruit,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Award", taskParams);
             _latestTaskId[TaskType.Award] = id;
