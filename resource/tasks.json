@@ -16522,7 +16522,9 @@
             "Reclamation2Birdland",
             "Reclamation2SkipDays*3",
             "Reclamation2DeleteArchive"
-        ]
+        ],
+        "Doc": "现在是纯tasks实现的，先一直跑着",
+        "next": "#self"
     },
     "Reclamation2Enter": {
         "Doc": "导航先不做了，跑起来再说",
