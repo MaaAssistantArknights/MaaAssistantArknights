@@ -103,7 +103,9 @@ std::string asst::AccountSwitchTask::get_current_account_b()
 
 bool asst::AccountSwitchTask::click_manager_login_button()
 {
-    return ProcessTask(*this, { "AccountManagerLoginButton", "AccountManagerLoginButtonBili" }).run();
+    return ProcessTask(*this, { "AccountManagerLoginButton", "AccountManagerLoginButtonBili" })
+        .set_retry_times(3)
+        .run();
 }
 
 bool asst::AccountSwitchTask::show_account_list()
