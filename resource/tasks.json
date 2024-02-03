@@ -16512,5 +16512,391 @@
         "next": [
             "Stop"
         ]
+    },
+    "Reclamation2": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "Reclamation2Begin",
+            "Reclamation2CopiousCoppice",
+            "Reclamation2Birdland",
+            "Reclamation2SkipDays*3",
+            "Reclamation2DeleteArchive"
+        ]
+    },
+    "Reclamation2Enter": {
+        "Doc": "导航先不做了，跑起来再说",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "Reclamation2Begin"
+        ],
+        "postDelay": 1000
+    },
+    "Reclamation2Begin": {
+        "Doc": "刚开始演算的剧情",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开",
+            "始",
+            "演",
+            "算"
+        ],
+        "roi": [
+            844,
+            569,
+            436,
+            151
+        ],
+        "postDelay": 8000,
+        "next": [
+            "Reclamation2BeginPlotEnter"
+        ]
+    },
+    "Reclamation2BeginPlotEnter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "众人",
+            "汇聚",
+            "后舍"
+        ],
+        "roi": [
+            633,
+            239,
+            275,
+            156
+        ],
+        "next": [
+            "#self",
+            "Reclamation2BeginPlotLoading@Reclamation2EnterStage"
+        ]
+    },
+    "Reclamation2EnterStage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始",
+            "行动"
+        ],
+        "roi": [
+            1077,
+            499,
+            203,
+            146
+        ],
+        "next": [
+            "#back"
+        ]
+    },
+    "Reclamation2Fight": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始",
+            "行动"
+        ],
+        "roi": [
+            1029,
+            646,
+            222,
+            58
+        ],
+        "next": [
+            "Reclamation2FightConfirm"
+        ]
+    },
+    "Reclamation2FightConfirm": {
+        "Doc": "没人的时候会有弹窗",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            646,
+            447,
+            631,
+            64
+        ]
+    },
+    "Reclamation2BeginPlotLoading": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 8000,
+        "next": [
+            "Reclamation2BeginPlot"
+        ]
+    },
+    "Reclamation2BeginPlot": {
+        "Doc": "点指定区域，直到左上角出现退出",
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "Reclamation2ClickBeginPlotTalk*10"
+        ],
+        "next": [
+            "Reclamation2LeaveStage",
+            "#self"
+        ]
+    },
+    "Reclamation2ClickBeginPlotTalk": {
+        "Doc": "点对话框区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1072,
+            431,
+            159,
+            27
+        ],
+        "next": [
+            "#back"
+        ]
+    },
+    "Reclamation2LeaveStage": {
+        "action": "ClickSelf",
+        "roi": [
+            0,
+            0,
+            146,
+            154
+        ],
+        "next": [
+            "Reclamation2LeaveStageConfirm",
+            "#self"
+        ]
+    },
+    "Reclamation2LeaveStageConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认",
+            "离开"
+        ],
+        "roi": [
+            871,
+            407,
+            238,
+            146
+        ],
+        "next": [
+            "#back"
+        ]
+    },
+    "Reclamation2CopiousCoppice": {
+        "Doc": "进入丰饶灌木林，基地上方支线",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "木",
+            "林",
+            "资源区"
+        ],
+        "preDelay": 2000,
+        "roi": [
+            0,
+            10,
+            1280,
+            700
+        ],
+        "sub": [
+            "Reclamation2Fight@Reclamation2EnterStage",
+            "Reclamation2LeaveStage",
+            "Reclamation2ClickDrop"
+        ]
+    },
+    "Reclamation2Birdland": {
+        "Doc": "进入聚羽之地，基地左下支线",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "聚羽",
+            "之地",
+            "捕猎区"
+        ],
+        "preDelay": 2000,
+        "roi": [
+            0,
+            10,
+            1280,
+            700
+        ],
+        "sub": [
+            "Reclamation2Fight@Reclamation2EnterStage",
+            "Reclamation2LeaveStage",
+            "Reclamation2ClickDrop"
+        ]
+    },
+    "Reclamation2ClickDrop": {
+        "Doc": "点击收取掉落物品",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "行动",
+            "结束"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            0,
+            158,
+            456,
+            201
+        ]
+    },
+    "Reclamation2SkipDays": {
+        "algorithm": "justReturn",
+        "action": "DoNothing",
+        "postDelay": 2000,
+        "next": [
+            "Reclamation2SkipDays1",
+            "Reclamation2SkipDays2"
+        ]
+    },
+    "Reclamation2SkipDays1": {
+        "action": "ClickSelf",
+        "roi": [
+            1103,
+            1,
+            152,
+            182
+        ],
+        "preDelay": 1000,
+        "next": [
+            "Reclamation2SkipDaysAward"
+        ]
+    },
+    "Reclamation2SkipDays2": {
+        "action": "ClickSelf",
+        "roi": [
+            1051,
+            0,
+            229,
+            184
+        ],
+        "preDelay": 1000,
+        "sub": [
+            "Reclamation2SkipDays2SkipTime",
+            "Reclamation2SkipDays2SkipTimeConfig",
+            "Reclamation2SkipDays1"
+        ]
+    },
+    "Reclamation2SkipDays2SkipTime": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "消磨",
+            "时间"
+        ],
+        "roi": [
+            1071,
+            104,
+            208,
+            124
+        ]
+    },
+    "Reclamation2SkipDays2SkipTimeConfig": {
+        "Doc": "消耗所有决断数",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            646,
+            447,
+            631,
+            64
+        ]
+    },
+    "Reclamation2SkipDaysAward": {
+        "algorithm": "justReturn",
+        "action": "DoNothing",
+        "postDelay": 10000,
+        "next": [
+            "Reclamation2SkipDaysAward2",
+            "Reclamation2SkipDaysAward1"
+        ]
+    },
+    "Reclamation2SkipDaysAward1": {
+        "algorithm": "justReturn",
+        "action": "DoNothing",
+        "Doc": "会自己消失"
+    },
+    "Reclamation2SkipDaysAward2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [
+            506,
+            609,
+            272,
+            111
+        ],
+        "preDelay": 1000,
+        "text": [
+            "点击",
+            "任意处",
+            "继续"
+        ],
+        "next": [
+            "Reclamation2SkipDaysBeginNewDay"
+        ]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开启",
+            "今日"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            519,
+            525,
+            261,
+            144
+        ]
+    },
+    "Reclamation2DeleteArchive": {
+        "Doc": "删除存档",
+        "action": "ClickSelf",
+        "roi": [
+            955,
+            611,
+            142,
+            109
+        ],
+        "sub": [
+            "Reclamation2DeleteArchiveEnter",
+            "Reclamation2DeleteArchiveConfirm*2"
+        ]
+    },
+    "Reclamation2DeleteArchiveEnter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "删除存档"
+        ],
+        "roi": [
+            1063,
+            550,
+            182,
+            123
+        ]
+    },
+    "Reclamation2DeleteArchiveConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认",
+            "删除"
+        ],
+        "roi": [
+            820,
+            406,
+            308,
+            146
+        ]
     }
 }

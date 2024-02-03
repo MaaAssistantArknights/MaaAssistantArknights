@@ -1611,6 +1611,8 @@ namespace MaaWpfGui.Main
             Depot,
             OperBox,
             Gacha,
+            ReclamationAlgorithm,
+            ReclamationAlgorithm2,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = new();
@@ -2030,7 +2032,22 @@ namespace MaaWpfGui.Main
         public bool AsstAppendReclamation()
         {
             AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
-            _latestTaskId[TaskType.Recruit] = id;
+            _latestTaskId[TaskType.ReclamationAlgorithm] = id;
+            return id != 0;
+        }
+
+        /// <summary>
+        /// 自动生息演算。
+        /// </summary>
+        /// <returns>是否成功。</returns>
+        public bool AsstAppendReclamation2()
+        {
+            var taskParams = new JObject
+            {
+                ["task_names"] = new JArray { "Reclamation2" },
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
+            _latestTaskId[TaskType.ReclamationAlgorithm2] = id;
             return id != 0;
         }
 

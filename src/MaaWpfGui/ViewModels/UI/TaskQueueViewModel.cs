@@ -363,14 +363,8 @@ namespace MaaWpfGui.ViewModels.UI
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
-
-                // "ReclamationAlgorithm",
+                "ReclamationAlgorithm2", // 外服需要去掉下
             };
-            var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 16))
-            {
-                taskList.Add("ReclamationAlgorithm");
-            }
 
             ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
             {
@@ -933,6 +927,10 @@ namespace MaaWpfGui.ViewModels.UI
                         taskRet &= AppendReclamation();
                         break;
 
+                    case "ReclamationAlgorithm2":
+                        taskRet &= AppendReclamation2();
+                        break;
+
                     default:
                         --count;
                         _logger.Error("Unknown task: " + item.OriginalName);
@@ -1357,6 +1355,11 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool AppendReclamation()
         {
             return Instances.AsstProxy.AsstAppendReclamation();
+        }
+
+        private static bool AppendReclamation2()
+        {
+            return Instances.AsstProxy.AsstAppendReclamation2();
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
