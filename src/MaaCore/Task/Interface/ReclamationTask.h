@@ -17,6 +17,12 @@ namespace asst
         virtual bool set_params(const json::value& params) override;
 
     private:
-        std::shared_ptr<ReclamationControlTask> m_reclamation_task_ptr = nullptr;
+        std::shared_ptr<AbstractTask> m_reclamation_task_ptr = nullptr;
+
+        // switch theme to 1 沙中之火
+        void init_reclamation_task();
+
+        // switch theme to 2 沙洲遗闻
+        void init_reclamation_2_task();
     };
 }
