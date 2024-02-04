@@ -15810,7 +15810,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "删除存档"
+            "删除"
         ],
         "roi": [
             1063,
