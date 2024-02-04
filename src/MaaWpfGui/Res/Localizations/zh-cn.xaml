@@ -765,6 +765,6 @@
     2. 不能在编队中有干员的情况下使用（把所有编队清空即可）
     3. 必须在生息演算主界面开始任务（导航还没写）
     </system:String>
-    <system:String x:Key="ReclamationBePatient">你看，又急</system:String>
+    <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>
