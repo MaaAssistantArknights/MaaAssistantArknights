@@ -5224,15 +5224,14 @@
         "algorithm": "OcrDetect",
         "text": [
             "幸运墙",
-            "幸运",
-            "活动"
+            "幸运"
         ],
         "action": "ClickSelf",
         "roi": [
-            15,
-            80,
-            189,
-            144
+            23,
+            81,
+            182,
+            141
         ],
         "next": [
             "OrundumActivitiesChoose",
