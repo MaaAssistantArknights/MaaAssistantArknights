@@ -5555,6 +5555,54 @@
             "CloseTaskMailDouble"
         ]
     },
+    "OrundumDailySignIn": {
+        "doc": "合成玉签到",
+        "baseTask": "OrundumDailySignIn-Click",
+        "template": "OrundumDailySignIn-Click.png",
+        "action": "DoNothing",
+        "sub": [
+            "DailySignInForOrundumClick",
+            "DailySignInForOrundumClick",
+            "DailySignInForOrundumConfirm"
+        ],
+        "subErrorIgnored": true
+    },
+    "OrundumDailySignIn-Click": {
+        "action": "ClickSelf",
+        "roi": [
+            150,
+            150,
+            1000,
+            400
+        ]
+    },
+    "OrundumDailySignIn-Confirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1030,
+            500,
+            200,
+            80
+        ],
+        "next": [
+            "OrundumDailySignIn-EarnRewards"
+        ]
+    },
+    "OrundumDailySignIn-EarnRewards": {
+        "action": "ClickRect",
+        "roi": [
+            590,
+            40,
+            130,
+            100
+        ],
+        "specificRect": [
+            600,
+            600,
+            70,
+            70
+        ]
+    },
     "VisitBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
