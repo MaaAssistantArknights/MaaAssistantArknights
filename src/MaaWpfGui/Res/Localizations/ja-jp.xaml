@@ -338,8 +338,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算2</system:String>
+    <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算「沙洲遺聞」</system:String>
     <system:String x:Key="Light">光</system:String>
     <system:String x:Key="Dark">ダーク</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
