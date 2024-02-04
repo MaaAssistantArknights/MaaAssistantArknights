@@ -365,7 +365,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="WaitAndStop">기다리다 &amp; 중지</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
-    <system:String x:Key="UseOriginitePrime">순오리지늄 사용</system:String>
+    <system:String x:Key="UseOriginitePrime">순오리지늄 사용*</system:String>
     <system:String x:Key="PerformBattles">횟수 제한</system:String>
     <system:String x:Key="AssignedMaterial">드롭 제한</system:String>
     <system:String x:Key="Quantity">드롭 수</system:String>
@@ -693,7 +693,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  AutoRecruitSettings  -->
     <system:String x:Key="AutoRefresh">★3 태그를 자동 새로고침하기</system:String>
     <system:String x:Key="ForceRefresh">채용없이 태그 새로고침 반복 시도</system:String>
-    <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용</system:String>
+    <system:String x:Key="AutoUseExpedited">즉시 완료 허가증을 자동 사용*</system:String>
     <system:String x:Key="Level3UseShortTime">★3 태그 9:00 대신 7:40 설정</system:String>
     <system:String x:Key="Level3UseShortTime2">★3 태그 9:00 대신 1:00 설정</system:String>
     <system:String x:Key="Level3UseShortTimeTip">다른 등급에는 적용되지 않습니다</system:String>
