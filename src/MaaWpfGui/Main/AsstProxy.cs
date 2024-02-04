@@ -1762,8 +1762,14 @@ namespace MaaWpfGui.Main
             {
                 ["client_type"] = clientType,
                 ["start_game_enabled"] = enable,
-                ["account_name"] = accountName,
             };
+
+            if (!string.IsNullOrEmpty(accountName))
+            {
+                taskParams["account_name"] = accountName;
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + " -->> " + accountName, UiLogColor.Info);
+            }
+
             AsstTaskId id = AsstAppendTaskWithEncoding("StartUp", taskParams);
             _latestTaskId[TaskType.StartUp] = id;
             return id != 0;
