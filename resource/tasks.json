@@ -16004,6 +16004,7 @@
         ],
         "preDelay": 1000,
         "postDelay": 2000,
+        "cache": false,
         "text": [
             "点击",
             "任意处",
@@ -16016,9 +16017,12 @@
     "Reclamation2SkipDaysBeginNewDay": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "text": [
-            "开启",
-            "今日"
+            "开",
+            "启",
+            "今",
+            "日"
         ],
         "preDelay": 1000,
         "roi": [
