@@ -628,6 +628,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     case "AutoRoguelike":
                     case "ReclamationAlgorithm":
+                    case "ReclamationAlgorithm2":
                         continue;
                 }
 
@@ -730,9 +731,8 @@ namespace MaaWpfGui.ViewModels.UI
                     switch (item.OriginalName)
                     {
                         case "AutoRoguelike":
-                            item.IsChecked = false;
-                            continue;
                         case "ReclamationAlgorithm":
+                        case "ReclamationAlgorithm2":
                             item.IsChecked = false;
                             continue;
                     }
