@@ -32,7 +32,8 @@
                 FontSize="40"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{DynamicResource ReclamationBePatient}"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                TextWrapping="Wrap">
                 <controls:TextBlock.Foreground>
                     <LinearGradientBrush SpreadMethod="Repeat">
                         <LinearGradientBrush.Transform>
