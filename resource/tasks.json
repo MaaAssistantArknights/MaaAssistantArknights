@@ -15889,7 +15889,8 @@
         ],
         "next": [
             "Reclamation2LeaveStageConfirm",
-            "#self"
+            "#self",
+            "Reclamation2BeginPlot"
         ]
     },
     "Reclamation2LeaveStageConfirm": {
