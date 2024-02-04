@@ -5561,11 +5561,14 @@
         "template": "OrundumDailySignIn-Click.png",
         "action": "DoNothing",
         "sub": [
-            "DailySignInForOrundumClick",
-            "DailySignInForOrundumClick",
-            "DailySignInForOrundumConfirm"
+            "OrundumDailySignIn-Click",
+            "OrundumDailySignIn-Click",
+            "OrundumDailySignIn-Click"
         ],
-        "subErrorIgnored": true
+        "subErrorIgnored": true,
+        "next": [
+            "OrundumDailySignIn-Confirm"
+        ]
     },
     "OrundumDailySignIn-Click": {
         "action": "ClickSelf",
@@ -5574,6 +5577,17 @@
             150,
             1000,
             400
+        ],
+        "templThreshold": 0.97,
+        "maskRange": [
+            1,
+            255
+        ],
+        "rectMove": [
+            10,
+            10,
+            50,
+            50
         ]
     },
     "OrundumDailySignIn-Confirm": {
