@@ -15644,8 +15644,12 @@
     },
     "Reclamation2BeginPlot": {
         "Doc": "点指定区域，直到左上角出现退出",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
+        "roi": [
+            0,
+            0,
+            200,
+            200
+        ],
         "sub": [
             "Reclamation2ClickBeginPlotTalk*10"
         ],
@@ -15887,10 +15891,10 @@
             146,
             154
         ],
+        "postDelay": 1000,
         "next": [
             "Reclamation2LeaveStageConfirm",
-            "#self",
-            "Reclamation2BeginPlot"
+            "#self"
         ]
     },
     "Reclamation2LeaveStageConfirm": {
