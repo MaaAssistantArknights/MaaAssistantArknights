@@ -12731,22 +12731,60 @@
         ]
     },
     "Roguelike@StageTraderInvestConfirm": {
-        "action": "ClickSelf",
+        "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
         "roi": [
             852,
             422,
             278,
             144
         ],
-        "postDelay": 500,
         "exceededNext": [
             "RoguelikeControlTaskPlugin-ExitThenStop"
         ],
         "next": [
             "Roguelike@StageTraderInvestSystemError",
-            "Roguelike@StageTraderInvestSystemFull",
-            "Roguelike@StageTraderInvestConfirm",
             "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderInvest-Arrow": {
+        "doc": "商店投资界面的箭头，99 >> 100",
+        "roi": [
+            750,
+            320,
+            100,
+            100
+        ]
+    },
+    "Roguelike@StageTraderInvest-Confirm": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            850,
+            470,
+            300,
+            45
+        ]
+    },
+    "Roguelike@StageTraderInvest-Count": {
+        "doc": "商店投资界面的余额显示，99 >> 100",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "roi": [
+            570,
+            335,
+            150,
+            60
+        ]
+    },
+    "Roguelike@StageTraderInvest-Count-Error": {
+        "doc": "商店投资界面系统出错时余额显示",
+        "algorithm": "OcrDetect",
+        "isAscii": true,
+        "roi": [
+            635,
+            205,
+            70,
+            40
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
