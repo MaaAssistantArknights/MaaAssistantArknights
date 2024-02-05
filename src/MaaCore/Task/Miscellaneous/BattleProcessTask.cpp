@@ -399,6 +399,10 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
     }
     else {
         m_in_battle = check_pause_button(image);
+        if (!m_in_battle)
+        {
+            check_skip_plot_button(image);
+        }
     }
     return m_in_battle;
 }
