@@ -493,7 +493,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="GachaDisclaimerHead">주의: 이것은</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">실제 뽑기입니다</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">다시 보지 않기</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">다시 보지 않기</system:String>
     <!--  !Gacha Recognition  -->
     <!--  로그  -->
     <system:String x:Key="Identifying">식별 중……</system:String>

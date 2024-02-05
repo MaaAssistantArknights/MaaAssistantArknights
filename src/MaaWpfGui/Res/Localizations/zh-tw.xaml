@@ -491,7 +491,7 @@
     <system:String x:Key="GachaDisclaimerHead">請注意，這是</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  !Gacha Recognition  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>

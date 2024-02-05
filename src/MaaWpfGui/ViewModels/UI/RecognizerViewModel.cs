@@ -836,7 +836,7 @@ namespace MaaWpfGui.ViewModels.UI
         // 請勿更改
         // このコードを変更しないでください
         // 변경하지 마십시오
-        private bool _gachaShowDisclaimer = true; // !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
+        private bool _gachaShowDisclaimer = true; // !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ShowDisclaimerNoMore, bool.FalseString));
 
         public bool GachaShowDisclaimer
         {
@@ -847,15 +847,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _gachaShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
+        private bool _ShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ShowDisclaimerNoMore, bool.FalseString));
 
-        public bool GachaShowDisclaimerNoMore
+        public bool ShowDisclaimerNoMore
         {
-            get => _gachaShowDisclaimerNoMore;
+            get => _ShowDisclaimerNoMore;
             set
             {
-                SetAndNotify(ref _gachaShowDisclaimerNoMore, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, value.ToString());
+                SetAndNotify(ref _ShowDisclaimerNoMore, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ShowDisclaimerNoMore, value.ToString());
             }
         }
 
