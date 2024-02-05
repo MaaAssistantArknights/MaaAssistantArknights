@@ -5224,7 +5224,8 @@
             "TerminalMistCity.png"
         ],
         "next": [
-            "RecruitingActivities"
+            "RecruitingActivities",
+            "Stop"
         ]
     },
     "RecruitingActivities": {
@@ -5243,6 +5244,9 @@
         "next": [
             "RecruitingActivitiesConfirm",
             "RecruitingActivities"
+        ],
+        "onErrorNext": [
+            "Stop"
         ]
     },
     "RecruitingActivitiesConfirm": {
@@ -5339,6 +5343,7 @@
             143
         ],
         "next": [
+            "Home@ReturnButtons#next",
             "Stop"
         ]
     },
