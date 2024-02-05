@@ -2494,10 +2494,10 @@ namespace MaaWpfGui.ViewModels.UI
             get => _receiveFreeRecruit;
             set
             {
-                if (value == true)
+                if (value)
                 {
                     var result = MessageBoxHelper.Show(
-                            LocalizationHelper.GetString("ReceiveFreeRecruitWarning"),
+                            LocalizationHelper.GetString("GachaWarning"),
                             LocalizationHelper.GetString("Warning"),
                             MessageBoxButton.OKCancel,
                             MessageBoxImage.Warning,
