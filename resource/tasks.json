@@ -4192,6 +4192,7 @@
             80,
             380
         ],
+        "cache": false,
         "maskRange": [
             1,
             255
