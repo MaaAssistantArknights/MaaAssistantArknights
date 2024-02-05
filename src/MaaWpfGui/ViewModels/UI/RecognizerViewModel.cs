@@ -831,6 +831,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        // DO NOT CHANGE
+        // 请勿更改
+        // 請勿更改
+        // このコードを変更しないでください
+        // 변경하지 마십시오
         private bool _gachaShowDisclaimer = true; // !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
 
         public bool GachaShowDisclaimer
