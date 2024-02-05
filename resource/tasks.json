@@ -12714,38 +12714,6 @@
             "Roguelike@StageTraderLeaveConfirm"
         ]
     },
-    "Roguelike@StageTraderInvestCancel": {
-        "action": "ClickSelf",
-        "roi": [
-            507,
-            418,
-            242,
-            149
-        ],
-        "exceededNext": [
-            "Roguelike@ExitThenAbandon"
-        ],
-        "next": [
-            "Roguelike@StageTraderInvestSystemLeave",
-            "Roguelike@StageTraderInvestSystemLeave#next"
-        ]
-    },
-    "Roguelike@StageTraderInvestConfirm": {
-        "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
-        "roi": [
-            852,
-            422,
-            278,
-            144
-        ],
-        "exceededNext": [
-            "RoguelikeControlTaskPlugin-ExitThenStop"
-        ],
-        "next": [
-            "Roguelike@StageTraderInvestSystemError",
-            "Roguelike@StageTraderInvestCancel"
-        ]
-    },
     "Roguelike@StageTraderInvest-Arrow": {
         "doc": "商店投资界面的箭头，99 >> 100",
         "roi": [
@@ -12785,6 +12753,38 @@
             205,
             70,
             40
+        ]
+    },
+    "Roguelike@StageTraderInvestCancel": {
+        "action": "ClickSelf",
+        "roi": [
+            507,
+            418,
+            242,
+            149
+        ],
+        "exceededNext": [
+            "Roguelike@ExitThenAbandon"
+        ],
+        "next": [
+            "Roguelike@StageTraderInvestSystemLeave",
+            "Roguelike@StageTraderInvestSystemLeave#next"
+        ]
+    },
+    "Roguelike@StageTraderInvestConfirm": {
+        "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
+        "roi": [
+            852,
+            422,
+            278,
+            144
+        ],
+        "exceededNext": [
+            "RoguelikeControlTaskPlugin-ExitThenStop"
+        ],
+        "next": [
+            "Roguelike@StageTraderInvestSystemError",
+            "Roguelike@StageTraderInvestCancel"
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
