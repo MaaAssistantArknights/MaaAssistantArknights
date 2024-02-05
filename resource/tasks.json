@@ -5250,18 +5250,20 @@
         "subErrorIgnored": true,
         "next": [
             "OrundumActivitiesConfirm",
+            "OrundumActivitiesEarnRewards",
             "OrundumActivitiesReturn"
         ]
     },
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
+        "cache": false,
         "roi": [
             150,
             150,
             1000,
             400
         ],
-        "templThreshold": 0.97,
+        "templThreshold": 0.9,
         "maskRange": [
             1,
             255
@@ -5313,7 +5315,6 @@
             162
         ],
         "next": [
-            "RecruitingActivities",
             "Stop"
         ]
     },
