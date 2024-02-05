@@ -847,15 +847,15 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _ShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ShowDisclaimerNoMore, bool.FalseString));
+        private bool _gachaShowDisclaimerNoMore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
 
-        public bool ShowDisclaimerNoMore
+        public bool GachaShowDisclaimerNoMore
         {
-            get => _ShowDisclaimerNoMore;
+            get => _gachaShowDisclaimerNoMore;
             set
             {
-                SetAndNotify(ref _ShowDisclaimerNoMore, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.ShowDisclaimerNoMore, value.ToString());
+                SetAndNotify(ref _gachaShowDisclaimerNoMore, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, value.ToString());
             }
         }
 
