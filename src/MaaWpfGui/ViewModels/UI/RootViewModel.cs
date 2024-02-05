@@ -38,6 +38,17 @@ namespace MaaWpfGui.ViewModels.UI
 
             InitViewModels();
             InitProxy();
+            Task.Run(async () =>
+            {
+                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
+                {
+                    return;
+                }
+
+                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+            });
+            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
         private static async void InitProxy()
