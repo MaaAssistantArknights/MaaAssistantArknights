@@ -30,8 +30,8 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
-                    PanningMode="Both"
-                    IsInertiaEnabled="True">
+                    IsInertiaEnabled="True"
+                    PanningMode="Both">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -126,9 +126,10 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20"
-                  Width="600"
-                  IsEnabled="{Binding Idle}">
+            <Grid
+                Width="600"
+                Margin="20,0,20,20"
+                IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -137,8 +138,8 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
-                    PanningMode="Both"
-                    IsInertiaEnabled="True">
+                    IsInertiaEnabled="True"
+                    PanningMode="Both">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -151,12 +152,12 @@
                             Text="{Binding OperBoxInfo}"
                             TextWrapping="Wrap" />
                         <TextBox
-                            IsReadOnly="True"
                             Margin="10"
                             HorizontalAlignment="Stretch"
                             BorderThickness="0"
                             FontFamily="SimSun"
                             FontSize="14"
+                            IsReadOnly="True"
                             Text="{Binding OperBoxResult}"
                             TextWrapping="Wrap" />
                     </StackPanel>
