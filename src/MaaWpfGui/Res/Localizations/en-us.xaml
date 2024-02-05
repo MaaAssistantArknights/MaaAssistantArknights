@@ -493,7 +493,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaDisclaimerHead">Note that this is a</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">Don't show again</system:String>
     <!--  !Gacha Recognition  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>

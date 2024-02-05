@@ -359,8 +359,9 @@
                         Margin="6"
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource GachaShowDisclaimerNoMore}"
-                        IsChecked="{Binding GachaShowDisclaimerNoMore}" />
+                        IsEnabled="False"
+                        Content="{DynamicResource ShowDisclaimerNoMore}"
+                        IsChecked="{Binding ShowDisclaimerNoMore}" />
                 </StackPanel>
 
                 <StackPanel

@@ -493,7 +493,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="GachaDisclaimerHead">これは、</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">本物のガチャです</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">理解した</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">再度表示しない</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">再度表示しない</system:String>
     <!--  !Gacha Recognition  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>

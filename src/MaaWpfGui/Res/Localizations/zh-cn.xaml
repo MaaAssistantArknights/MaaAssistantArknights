@@ -493,7 +493,7 @@
     <system:String x:Key="GachaDisclaimerHead">请注意，这是</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  !Gacha Recognition  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>

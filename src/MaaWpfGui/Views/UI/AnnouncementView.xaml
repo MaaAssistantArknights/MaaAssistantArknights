@@ -38,7 +38,7 @@
             Margin="6"
             HorizontalAlignment="Center"
             VerticalContentAlignment="Center"
-            Content="{DynamicResource GachaShowDisclaimerNoMore}"
+            Content="{DynamicResource ShowDisclaimerNoMore}"
             IsChecked="{Binding DoNotRemindThisAnnouncementAgain}" />
     </Grid>
 </hc:Window>
