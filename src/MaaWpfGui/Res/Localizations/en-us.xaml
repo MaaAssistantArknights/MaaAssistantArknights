@@ -617,7 +617,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">Operator conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
-    <system:String x:Key="HasInvested">Has invested</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
     <system:String x:Key="FightCompleted">Fight completed</system:String>
     <system:String x:Key="FightFailed">Fight failed</system:String>
@@ -634,6 +633,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
     <system:String x:Key="RoguelikeEvent">Event:</system:String>
+    <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}\nExp: {10}, Skill: {11}</system:String>
     <system:String x:Key="CurTimes">Current times</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
