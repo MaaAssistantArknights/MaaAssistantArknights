@@ -361,7 +361,7 @@
                         VerticalContentAlignment="Center"
                         IsEnabled="False"
                         Content="{DynamicResource ShowDisclaimerNoMore}"
-                        IsChecked="{Binding ShowDisclaimerNoMore}" />
+                        IsChecked="{Binding GachaShowDisclaimerNoMore}" />
                 </StackPanel>
 
                 <StackPanel
