@@ -41,6 +41,9 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             sleep(100);
             times--;
         }
+        if (count_limit - count < 5) {
+            sleep(500);
+        }
         image = ctrler()->get_image();
         if (is_investment_available(image)) { // 检查是否处于可投资状态
             if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvest-Count"); ocr) {
@@ -95,13 +98,11 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     if (count_limit - count <= 0) {
         Log.info(__FUNCTION__, "投资达到设置上限,", m_config->get_invest_maximum());
         stop_roguelike();
-        m_task_ptr->set_enable(false);
         return true;
     }
     if (deposit.value_or(0) == 999 && m_config->get_invest_stop_when_full()) {
         Log.info(__FUNCTION__, "存款已满");
         stop_roguelike();
-        m_task_ptr->set_enable(false);
         return true;
     }
 
@@ -141,6 +142,10 @@ bool asst::RoguelikeInvestTaskPlugin::is_investment_error(const cv::Mat& image) 
 
 void asst::RoguelikeInvestTaskPlugin::stop_roguelike()
 {
-    dynamic_cast<ProcessTask*>(m_task_ptr)
-        ->set_times_limit("Roguelike@StageTraderInvestConfirm", 0, ProcessTask::TimesLimitType::Post);
+    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
+        .set_times_limit("Roguelike@StartExplore", 0)
+        .set_times_limit("Roguelike@Abandon", 0)
+        .set_retry_times(5)
+        .run();
+    m_task_ptr->set_enable(false);
 }
