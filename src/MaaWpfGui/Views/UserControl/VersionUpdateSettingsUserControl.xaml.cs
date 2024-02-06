@@ -78,7 +78,7 @@ namespace MaaWpfGui.Views.UserControl
                 {
                     try
                     {
-                        Clipboard.SetData(DataFormats.Text, text);
+                        Clipboard.SetData(DataFormats.UnicodeText, text);
                     }
                     catch (Exception e)
                     {
