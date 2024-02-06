@@ -112,7 +112,7 @@ jobs:
         run: |
           $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
           $csprojPath = Resolve-Path -Path $csprojPath
-          $tag = '${{ needs.meta.outputs.tag }}' -replace '.*?/', ''
+          $tag = '${{ steps.set_tag.outputs.tag }}' -replace '.*?/', ''
           if ($tag -match '\d+(\.\d+){1,3}') {
               $match = $Matches[0]
           } else {
