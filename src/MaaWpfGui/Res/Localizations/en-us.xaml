@@ -56,6 +56,7 @@
     <system:String x:Key="Dorm">Dormitory</system:String>
     <system:String x:Key="Mfg">Factory</system:String>
     <system:String x:Key="Processing">Workshop</system:String>
+    <system:String x:Key="Training">Training Room</system:String>
     <system:String x:Key="Trade">Trading Post</system:String>
     <system:String x:Key="Power">Power Plant</system:String>
     <system:String x:Key="Reception">Reception Room</system:String>
@@ -72,6 +73,11 @@
     <system:String x:Key="DormFilterNotStationedEnabled">Do not put stationed operators in Dormitory</system:String>
     <system:String x:Key="DormFilterNotStationedTips">Checking this box will not remove operators like Irene from the Training Room,this will also prevent operators from the Workshop from entering the Dormitory.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">Originium Shard auto replenishment</system:String>
+    <system:String x:Key="ContinueTraining">Continue to try to specialize in current skills after training completion</system:String>
+    <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
+    <system:String x:Key="TrainingCompleted">Training completed</system:String>
+    <system:String x:Key="TrainingLevel">Skill Rank</system:String>
+    <system:String x:Key="TrainingProgress">Training progress</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>
@@ -105,9 +111,11 @@
     <system:String x:Key="RoguelikeLastReward">Fight to obtain starting rewards, reach the third floor then exit</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
-    <system:String x:Key="StartingCoreChar">Starting Operator (CN name only)</system:String>
-    <system:String x:Key="StartingCoreCharTip">Only supports the CN name of a single operator, default if not filled.</system:String>
+    <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
+    <system:String x:Key="StartingCoreCharTip">If not filled out, the default policy will be used.</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">The agent entered「{0}」is not in battle_data. Check that the name entered is correct, or check the maa resource version.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Stops after clearing the combat</system:String>
@@ -161,10 +169,12 @@
     <system:String x:Key="LanguageChangedTip">The language settings have been changed, restart the app now?</system:String>
     <system:String x:Key="ManualRestart">Later</system:String>
     <system:String x:Key="Tip">Tip</system:String>
+    <system:String x:Key="Warning">Warning</system:String>
     <system:String x:Key="Yes">Yes</system:String>
     <system:String x:Key="No">No</system:String>
     <system:String x:Key="Ok">OK</system:String>
     <system:String x:Key="Cancel">Cancel</system:String>
+    <system:String x:Key="Confirm">Confirm</system:String>
     <system:String x:Key="HotKeyShowGui">[HotKey] Show/collapse MAA</system:String>
     <system:String x:Key="HotKeyLinkStart">[HotKey] Link start/stop</system:String>
     <system:String x:Key="HotKeyChangingTip">Press Backspace / Esc / Delete to clear the current value</system:String>
@@ -267,18 +277,26 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="BlacklistDefault">Carbon;Furniture Part;Expedited Plan</system:String>
     <system:String x:Key="Drink">Would you like a drink🍷? doctor</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">Ignore blacklist if credits overflow</system:String>
+    <system:String x:Key="OnlyBuyDiscount">Only purchase discounted credit items</system:String>
+    <system:String x:Key="ReserveMaxCredit">Stop purchasing items when credits below 300</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">Will still purchase whitelisted items even if credits are below 300!</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">If there is no free single pull, it will not be pooled</system:String>
+    <system:String x:Key="GachaWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing "Confirm", you understand and are willing to assume the possible risks.</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
-    <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes?</system:String>
+    <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, no longer automatically revert to sanity</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
@@ -321,6 +339,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">Reclamation Algorithm #2</system:String>
     <system:String x:Key="Light">Light</system:String>
     <system:String x:Key="Dark">Dark</system:String>
     <system:String x:Key="SyncWithOs">Sync with OS</system:String>
@@ -350,6 +369,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="PerformBattles">Perform Battles</system:String>
     <system:String x:Key="AssignedMaterial">Material</system:String>
     <system:String x:Key="Quantity">Quantity</system:String>
+    <system:String x:Key="Series">Series</system:String>
     <system:String x:Key="StageSelect">Stage</system:String>
     <system:String x:Key="StageSelect2">Alternative</system:String>
     <system:String x:Key="RemainingSanityStage">Remaining Sanity</system:String>
@@ -473,7 +493,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="GachaDisclaimerHead">Note that this is a</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">REAL GACHA!</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">Got it</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">Don't show again</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">Don't show again</system:String>
     <!--  !Gacha Recognition  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">Identifying……</system:String>
@@ -597,7 +617,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RecruitConfirm">Recruit confirm</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">Operator conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
-    <system:String x:Key="HasInvested">Has invested</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
     <system:String x:Key="FightCompleted">Fight completed</system:String>
     <system:String x:Key="FightFailed">Fight failed</system:String>
@@ -614,13 +633,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
     <system:String x:Key="RoguelikeEvent">Event:</system:String>
-    <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Explore">Explore: {0} Floor {1} Step</system:String>
-    <system:String x:Key="RoguelikeSettlement-Combat">Combat: {0} / {1} Emergency / {2} BOSS</system:String>
-    <system:String x:Key="RoguelikeSettlement-Recruit">Recruit: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Collection">Collection: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Difficulty">Difficulty: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Global">Score: {0}, Exp: {1}, Skill: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}\nExp: {10}, Skill: {11}</system:String>
     <system:String x:Key="CurTimes">Current times</system:String>
     <system:String x:Key="NoDrop">Nothing</system:String>
     <system:String x:Key="Drop" xml:space="preserve">Drops: </system:String>

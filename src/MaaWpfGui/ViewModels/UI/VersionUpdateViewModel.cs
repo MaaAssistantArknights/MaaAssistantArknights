@@ -174,7 +174,7 @@ namespace MaaWpfGui.ViewModels.UI
         private JObject _assetsObject;
 
         /// <summary>
-        /// 检查是否有已下载的更新包，如果有立即更新并重启进程。
+        /// 检查是否有已下载的更新包
         /// </summary>
         /// <returns>操作成功返回 <see langword="true"/>，反之则返回 <see langword="false"/>。</returns>
         public bool CheckAndUpdateNow()
@@ -299,11 +299,6 @@ namespace MaaWpfGui.ViewModels.UI
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             UpdatePackageName = string.Empty;
             IsFirstBootAfterUpdate = true;
-            ConfigurationHelper.Release();
-
-            // 重启进程（启动的是更新后的程序了）
-            Bootstrapper.ShutdownAndRestartWithOutArgs();
-
             return true;
 
             static void DeleteFileWithBackup(string filePath)
@@ -637,9 +632,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (Instances.SettingsViewModel.AutoInstallUpdatePackage)
             {
-                await _runningState.UntilIdleAsync(60000);
-
-                Application.Current.Dispatcher.Invoke(Bootstrapper.ShutdownAndRestartWithOutArgs);
+                await Bootstrapper.RestartAfterIdleAsync();
                 return;
             }
 
@@ -650,7 +643,7 @@ namespace MaaWpfGui.ViewModels.UI
                 MessageBoxImage.Question);
             if (result == MessageBoxResult.OK)
             {
-                Bootstrapper.ShutdownAndRestartWithOutArgs();
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
             }
         }
 

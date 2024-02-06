@@ -2,18 +2,18 @@
 #include "Task/AbstractTaskPlugin.h"
 namespace asst
 {
-    class FightTimesPlugin : public AbstractTaskPlugin
+    class SanityBeforeStageTaskPlugin final : public AbstractTaskPlugin
     {
     public:
         using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~FightTimesPlugin() override = default;
-
+        virtual ~SanityBeforeStageTaskPlugin() override = default;
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    protected:
+    private:
         virtual bool _run() override;
 
-    private:
-        bool inited = false; // 是否成功初始化为1次，初始化后后续不再检测 (实现调整次数后移除此变量
+        // 获取 当前理智/最大理智
+        // 返回 是否获取成功
+        bool get_sanity_before_stage();
     };
 }

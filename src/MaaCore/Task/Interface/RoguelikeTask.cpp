@@ -22,6 +22,7 @@
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
 
 #include "Utils/Logger.hpp"
 
@@ -40,6 +41,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeSettlementTaskPlugin>(m_roguelike_config_ptr);
     m_debug_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_roguelike_config_ptr)->set_retry_times(0);
+    m_roguelike_task_ptr->register_plugin<RoguelikeInvestTaskPlugin>(m_roguelike_config_ptr);
 
     m_custom_start_plugin_ptr =
         m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_roguelike_config_ptr);
@@ -95,6 +97,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_config_ptr->set_difficulty(0);
     // 是否凹指定干员开局直升
     m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
+    m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
+    m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
+    m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));
 
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
@@ -143,7 +148,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
                                           params.get("investment_enabled", true) ? INT_MAX : 0);
     m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice",
                                           params.get("refresh_trader_with_dice", false) ? INT_MAX : 0);
-    m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", params.get("investments_count", INT_MAX));
 
     if (params.get("stop_when_investment_full", false)) {
         constexpr int InvestLimit = 999;
@@ -155,12 +159,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", INT_MAX);
     }
 
-    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));
-    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));
-    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", "")); // 开局分队
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
+    m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseSupport,
-                                          params.get("use_support", false) ? "1" : "0");
+                                          params.get("use_support", false) ? "1" : "0"); // 开局干员是否为助战干员
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseNonfriendSupport,
-                                          params.get("use_nonfriend_support", false) ? "1" : "0");
+                                          params.get("use_nonfriend_support", false) ? "1"
+                                                                                     : "0"); // 是否可以是非好友助战干员
     return true;
 }

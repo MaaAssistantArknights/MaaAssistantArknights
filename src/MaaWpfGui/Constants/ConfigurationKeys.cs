@@ -83,6 +83,7 @@ namespace MaaWpfGui.Constants
 
         public const string DormThreshold = "Infrast.DormThreshold";
         public const string UsesOfDrones = "Infrast.UsesOfDrones";
+        public const string ContinueTraining = "Infrast.ContinueTraining";
         public const string DefaultInfrast = "Infrast.DefaultInfrast";
         public const string IsCustomInfrastFileReadOnly = "Infrast.IsCustomInfrastFileReadOnly";
         public const string DormFilterNotStationedEnabled = "Infrast.DormFilterNotStationedEnabled";
@@ -103,6 +104,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeRoles = "Roguelike.Roles";
         public const string RoguelikeCoreChar = "Roguelike.CoreChar";
         public const string RoguelikeStartWithEliteTwo = "Roguelike.RoguelikeStartWithEliteTwo";
+        public const string RoguelikeOnlyStartWithEliteTwo = "Roguelike.RoguelikeOnlyStartWithEliteTwo";
         public const string RoguelikeUseSupportUnit = "Roguelike.RoguelikeUseSupportUnit";
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeDelayAbortUntilCombatComplete = "Roguelike.RoguelikeDelayAbortUntilCombatComplete";
@@ -133,9 +135,12 @@ namespace MaaWpfGui.Constants
         public const string CreditFirstListNew = "Mall.CreditFirstListNew";
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
         public const string CreditForceShoppingIfCreditFull = "Mall.CreditForceShoppingIfCreditFull";
+        public const string CreditOnlyBuyDiscount = "Mall.CreditOnlyBuyDiscount";
+        public const string CreditReserveMaxCredit = "Mall.CreidtReserveMaxCredit";
 
         public const string ReceiveAward = "Mission.ReceiveAward";
         public const string ReceiveMail = "Mission.ReceiveMail";
+        public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit";
 
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
@@ -175,6 +180,7 @@ namespace MaaWpfGui.Constants
         public const string UseStoneQuantity = "MainFunction.UseStone.Quantity";
         public const string TimesLimited = "MainFunction.TimesLimited";
         public const string TimesLimitedQuantity = "MainFunction.TimesLimited.Quantity";
+        public const string SeriesQuantity = "MainFunction.Series.Quantity";
         public const string DropsEnable = "MainFunction.Drops.Enable";
         public const string DropsItemId = "MainFunction.Drops.ItemId";
         public const string DropsItemName = "MainFunction.Drops.ItemName";

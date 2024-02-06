@@ -24,7 +24,7 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "recruit_priority": 600,
-                    "promote_priority": 850,
+                    "promote_priority": 810,
                     "is_key": true,
                     "Doc": "在阵容未完备时，仅招募核心干员与0希望干员",
                     "is_start": true,
@@ -37,8 +37,8 @@
                             ],
                             "threshold": 1,
                             "is_less": true,
-                            "offset": 200,
-                            "Doc": "地面阻挡输出位≤1时，凯尔希的招募优先级+200"
+                            "offset": 100,
+                            "Doc": "地面阻挡输出位≤1时，凯尔希的招募优先级+100"
                         },
                         {
                             "groups": [
@@ -47,13 +47,13 @@
                             ],
                             "threshold": 1,
                             "is_less": true,
-                            "offset": 175,
-                            "Doc": "治疗位≤1时，凯尔希的招募优先级+175"
+                            "offset": 105,
+                            "Doc": "治疗位≤1时，凯尔希的招募优先级+105"
                         },
                         {
                             "groups": [
                                 "地面阻挡",
-                                "水陈",
+                                "焰苇",
                                 "玛恩纳"
                             ],
                             "threshold": 3,
@@ -222,7 +222,7 @@
                                 "召唤"
                             ],
                             "threshold": 1,
-                            "offset": -400
+                            "offset": -210
                         }
                     ]
                 },
@@ -919,6 +919,24 @@
             "name": "速狙",
             "opers": [
                 {
+                    "name": "莱伊",
+                    "skill": 3,
+                    "is_key": true,
+                    "alternate_skill": 2,
+                    "recruit_priority": 681,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "水陈",
+                                "速狙"
+                            ],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "能天使",
                     "skill": 3,
                     "is_key": true,
@@ -983,7 +1001,6 @@
                     "skill": 2,
                     "recruit_priority": 550,
                     "promote_priority": 420,
-                    "is_start": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1465,9 +1482,8 @@
                 {
                     "name": "史尔特尔",
                     "skill": 3,
-                    "is_key": true,
                     "alternate_skill": 1,
-                    "recruit_priority": 770,
+                    "recruit_priority": 670,
                     "promote_priority": 910,
                     "recruit_priority_offsets": [
                         {
@@ -1480,10 +1496,10 @@
                                 "挡人先锋",
                                 "其他地面"
                             ],
-                            "threshold": 1,
+                            "threshold": 2,
                             "is_less": true,
                             "offset": -350,
-                            "Doc": "地面阻挡≤1时，史尔特尔的招募优先级-350"
+                            "Doc": "地面阻挡≤2时，史尔特尔的招募优先级-350"
                         }
                     ]
                 }
@@ -1495,10 +1511,9 @@
                 {
                     "name": "缄默德克萨斯",
                     "skill": 3,
-                    "is_key": true,
                     "alternate_skill": 2,
                     "auto_retreat": 8,
-                    "recruit_priority": 750,
+                    "recruit_priority": 650,
                     "promote_priority": 821,
                     "recruit_priority_offsets": [
                         {
@@ -1514,9 +1529,8 @@
                 {
                     "name": "麒麟R夜刀",
                     "skill": 2,
-                    "is_key": true,
                     "auto_retreat": 6,
-                    "recruit_priority": 671,
+                    "recruit_priority": 611,
                     "promote_priority": 815,
                     "recruit_priority_offsets": [
                         {
@@ -1535,9 +1549,8 @@
                 {
                     "name": "耀骑士临光",
                     "skill": 2,
-                    "recruit_priority": 670,
+                    "recruit_priority": 570,
                     "promote_priority": 720,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -1568,7 +1581,7 @@
                     "name": "傀影",
                     "skill": 2,
                     "auto_retreat": 15,
-                    "recruit_priority": 601,
+                    "recruit_priority": 501,
                     "promote_priority": 555,
                     "recruit_priority_offsets": [
                         {
@@ -2187,6 +2200,9 @@
                 },
                 {
                     "name": "苦艾"
+                },
+                {
+                    "name": "温米"
                 },
                 {
                     "name": "史都华德",
@@ -3085,6 +3101,9 @@
                     "name": "焰影苇草"
                 },
                 {
+                    "name": "莱伊"
+                },
+                {
                     "name": "空弦"
                 },
                 {
@@ -3237,6 +3256,9 @@
                     "name": "寒檀",
                     "skill": 2,
                     "promote_priority": 300
+                },
+                {
+                    "name": "温米"
                 },
                 {
                     "name": "布丁",

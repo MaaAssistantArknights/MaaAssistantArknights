@@ -4,9 +4,9 @@
 
 #include "Config/TaskData.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"
-#include "Task/Fight/FightTimesPlugin.h"
-#include "Task/Fight/MedicineCounterPlugin.h"
-#include "Task/Fight/SanityBeforeStagePlugin.h"
+#include "Task/Fight/FightTimesTaskPlugin.h"
+#include "Task/Fight/MedicineCounterTaskPlugin.h"
+#include "Task/Fight/SanityBeforeStageTaskPlugin.h"
 #include "Task/Fight/SideStoryReopenTask.h"
 #include "Task/Fight/StageDropsTaskPlugin.h"
 #include "Task/Fight/StageNavigationTask.h"
@@ -50,9 +50,10 @@ asst::FightTask::FightTask(const AsstCallback& callback, Assistant* inst)
     m_stage_drops_plugin_ptr->set_retry_times(0);
     m_dr_grandet_task_plugin_ptr = m_fight_task_ptr->register_plugin<DrGrandetTaskPlugin>();
     m_dr_grandet_task_plugin_ptr->set_enable(false);
-    m_fight_task_ptr->register_plugin<SanityBeforeStagePlugin>();
-    m_fight_task_ptr->register_plugin<FightTimesPlugin>();
-    m_medicine_plugin = m_fight_task_ptr->register_plugin<MedicineCounterPlugin>();
+    m_fight_task_ptr->register_plugin<SanityBeforeStageTaskPlugin>()->set_retry_times(3);
+    m_fight_times_task_plugin_prt = m_fight_task_ptr->register_plugin<FightTimesTaskPlugin>();
+    m_fight_times_task_plugin_prt->set_retry_times(3);
+    m_medicine_plugin = m_fight_task_ptr->register_plugin<MedicineCounterTaskPlugin>();
 
     m_subtasks.emplace_back(m_start_up_task_ptr);
     m_subtasks.emplace_back(m_stage_navigation_task_ptr);
@@ -69,6 +70,11 @@ bool asst::FightTask::set_params(const json::value& params)
     const int expiring_medicine = params.get("expiring_medicine", 0);
     const int stone = params.get("stone", 0);
     const int times = params.get("times", INT_MAX);
+    const int series = params.get("series", 1);
+    if (series < 1 || series > 6) {
+        Log.error("Invalid series");
+        return false;
+    }
     bool enable_penguin = params.get("report_to_penguin", false);
     bool enable_yituliu = params.get("report_to_yituliu", false);
     std::string penguin_id = params.get("penguin_id", "");
@@ -121,6 +127,7 @@ bool asst::FightTask::set_params(const json::value& params)
         .set_times_limit("StoneConfirm", stone)
         .set_times_limit("StartButton1", times)
         .set_times_limit("StartButton2", times);
+    m_fight_times_task_plugin_prt->set_series(series);
     m_medicine_plugin->set_count(medicine);
     m_medicine_plugin->set_use_expiring(expiring_medicine != 0);
     m_medicine_plugin->set_dr_grandet(is_dr_grandet);

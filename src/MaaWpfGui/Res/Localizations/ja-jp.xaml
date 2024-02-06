@@ -56,6 +56,7 @@
     <system:String x:Key="Dorm">宿舎</system:String>
     <system:String x:Key="Mfg">製造所</system:String>
     <system:String x:Key="Processing">処理ステーション</system:String>
+    <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
@@ -72,6 +73,11 @@
     <system:String x:Key="DormFilterNotStationedEnabled">作業中の人員を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
     <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのようなオペレーターを訓練所から外さなくなり、加工所のオペレーターが宿舎に送られるのを防止します。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
+    <system:String x:Key="ContinueTraining">訓練完了後、現在のスキルを専門にする試みを続けます</system:String>
+    <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
+    <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
+    <system:String x:Key="TrainingLevel">スキルランク</system:String>
+    <system:String x:Key="TrainingProgress">訓練の進捗</system:String>
     <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
@@ -105,9 +111,11 @@
     <system:String x:Key="RoguelikeLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
-    <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ、中国名のみを入力可能）</system:String>
-    <system:String x:Key="StartingCoreCharTip">一人のオペレーターの中国名のみをサポートします。入力されていない場合はデフォルトになります。</system:String>
+    <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
+    <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">入力のスタッフ「{0}」がbattle_dataにありません。入力の名前が正しいか、maaリソースのバージョンをチェックしてください。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
+    <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘クリアで止まる</system:String>
@@ -161,10 +169,12 @@
     <system:String x:Key="LanguageChangedTip">言語設定が変更されました、今すぐMAAを再起動して言語設定を適用しますか？</system:String>
     <system:String x:Key="ManualRestart">後で</system:String>
     <system:String x:Key="Tip">ヒント</system:String>
+    <system:String x:Key="Warning">警告</system:String>
     <system:String x:Key="Yes">はい</system:String>
     <system:String x:Key="No">いいえ</system:String>
     <system:String x:Key="Ok">はい</system:String>
     <system:String x:Key="Cancel">キャンセル</system:String>
+    <system:String x:Key="Confirm">認識する</system:String>
     <system:String x:Key="HotKeyShowGui">[ホットキー] MAAの表示/最小化</system:String>
     <system:String x:Key="HotKeyLinkStart">[ホットキー] Link 開始/停止</system:String>
     <system:String x:Key="HotKeyChangingTip">バックスペース/Esc/デリート キーを押すことで初期化できます</system:String>
@@ -267,18 +277,26 @@
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
+    <system:String x:Key="OnlyBuyDiscount">割引されたクレジットアイテムのみ購入します</system:String>
+    <system:String x:Key="ReserveMaxCredit">クレジットポイントが300未満になった場合、アイテムの購入を停止します</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意: クレジットポイントのオーバーフローのリスクがあります！ホワイトリストに登録されたアイテムは通常価格で購入される可能性があります！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">クレジットポイントが300未満でも、ホワイトリストに登録されたアイテムは引き続き購入されます！</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がクレジットポイントのオーバーフローを引き起こしました！ \nクレジットポイントの浪費に注意してください！ \n残りのクレジットポイント：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">リミテッドプールから毎日フリーシングルの抽選を行う</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">無料シングル抽選がない場合は抽選されない</system:String>
+    <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
-    <system:String x:Key="DarkModeSetColorsTip">変更を適用するためにすぐに再起動しますか？</system:String>
+    <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、自動的に理性を回復しません</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、理性剤も源石も使わない</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">基地計画を表示する</system:String>
@@ -320,7 +338,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算（大陸版）</system:String>
+    <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算「沙洲遺聞」</system:String>
     <system:String x:Key="Light">光</system:String>
     <system:String x:Key="Dark">ダーク</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
@@ -350,6 +369,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="PerformBattles">周回数指定</system:String>
     <system:String x:Key="AssignedMaterial">素材を限定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
+    <system:String x:Key="Series">連戦回数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
     <system:String x:Key="StageSelect2">代替ステージ</system:String>
     <system:String x:Key="RemainingSanityStage">余剰理性の消費</system:String>
@@ -473,7 +493,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="GachaDisclaimerHead">これは、</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">本物のガチャです</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">理解した</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">再度表示しない</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">再度表示しない</system:String>
     <!--  !Gacha Recognition  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
@@ -597,7 +617,6 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">オペレーターが競合しました</system:String>
     <system:String x:Key="BegunToExplore">冒険を開始しました</system:String>
-    <system:String x:Key="HasInvested">投資しました</system:String>
     <system:String x:Key="ExplorationAbandoned">この冒険を放棄しました</system:String>
     <system:String x:Key="FightCompleted">戦闘完了</system:String>
     <system:String x:Key="FightFailed">戦闘失敗</system:String>
@@ -614,13 +633,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
-    <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Explore">探検する: {0} 床 {1} ステップ</system:String>
-    <system:String x:Key="RoguelikeSettlement-Combat">戦闘: {0} / {1} 緊急 / {2} BOSS</system:String>
-    <system:String x:Key="RoguelikeSettlement-Recruit">リクルート: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Collection">コレクション: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Difficulty">困難: {0}</system:String>
-    <system:String x:Key="RoguelikeSettlement-Global">スコア: {0}, 経験値: {1}, スキル: {2}</system:String>
+    <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、デポジット: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}\n探検する: {1} 床 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\nリクルート: {6}\nコレクション: {7}\n困難: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>

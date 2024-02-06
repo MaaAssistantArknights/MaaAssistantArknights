@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -28,12 +29,29 @@ namespace MaaWpfGui.ViewModels.UI
         /// <inheritdoc/>
         protected override void OnViewLoaded()
         {
-            CheckAndUpdateNow();
+            // 更新直接重启
+            if (Instances.VersionUpdateViewModel.CheckAndUpdateNow())
+            {
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
+                return;
+            }
+
             InitViewModels();
             InitProxy();
+            Task.Run(async () =>
+            {
+                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
+                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
+                {
+                    return;
+                }
+
+                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+            });
+            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 
-        private async void InitProxy()
+        private static async void InitProxy()
         {
             await Task.Run(Instances.AsstProxy.Init);
         }
@@ -47,12 +65,6 @@ namespace MaaWpfGui.ViewModels.UI
 
             Instances.SettingsViewModel.UpdateWindowTitle(); // 在标题栏上显示模拟器和IP端口 必须在 Items.Add(settings)之后执行。
             ActiveItem = Instances.TaskQueueViewModel;
-        }
-
-        // ReSharper disable once UnusedMethodReturnValue.Local
-        private static bool CheckAndUpdateNow()
-        {
-            return Instances.VersionUpdateViewModel.CheckAndUpdateNow();
         }
 
         private string _windowTitle = "MAA";

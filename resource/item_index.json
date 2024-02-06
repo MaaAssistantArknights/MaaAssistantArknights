@@ -1039,6 +1039,14 @@
         "sortId": 10022,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_4701": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_4701.png",
+        "name": "寻访数据契约",
+        "sortId": 10023,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1343,6 +1351,14 @@
         "sortId": -10000,
         "usage": "夕自制的墨，没有人知道制作方法，也许可以用来向她本人询问一些事情。"
     },
+    "act16mini_token_sap": {
+        "classifyType": "NONE",
+        "description": "在挂树源石虫的腹腔中自然发酵的瓶树水，不仅受人追捧，也是沙地兽的挚爱。不过，不会爬树的沙地兽究竟如何获取辣瓶树水一直是雷姆必拓的未解之谜，难道荒野中真有野人帮忙？",
+        "icon": "act16mini_token_sap.png",
+        "name": "辣瓶树水",
+        "sortId": -10000,
+        "usage": "非常辛辣，特别提神，拥有新鲜瓶树水所无法企及的醇厚风味，又能完美规避烈酒伤身误事的弊端。如果交给野生的沙地兽，或许可以换得它们囤积的奇物。"
+    },
     "act16side_token_bolt": {
         "classifyType": "NONE",
         "description": "根据口径的不同，收藏价值也有所不同。至于为什么“弹壳”能在甜品店交换物资——要知道，作为拉特兰人造访频率最高的场所，拉特兰甜品店从来不只是甜品店。",
@@ -1582,6 +1598,14 @@
         "name": "驮兽盲盒",
         "sortId": -10000,
         "usage": "驮兽盲盒大受欢迎，车内贩卖一度脱销。现在这批货来得正是时候，列车乘务员会很乐意用其他商品进行交换。"
+    },
+    "act31side_token_box": {
+        "classifyType": "NONE",
+        "description": "大荒城天师府的最新科研成果，操作简单，机动性强。有着采样、监测土壤等多种功能，偶尔也会被顽皮的孩子拿去玩“斗羽兽”的游戏。",
+        "icon": "act31side_token_box.png",
+        "name": "天桩",
+        "sortId": -10000,
+        "usage": "天师府研发的农业用无人机，偶尔会因故障遗落在田间。捡到的话可在神农市集换取物资。"
     },
     "act38d1_token_coin": {
         "classifyType": "NONE",
@@ -2262,6 +2286,14 @@
         "name": "生态标本",
         "sortId": -10000,
         "usage": null
+    },
+    "sandbox_1_tokencoin": {
+        "classifyType": "NONE",
+        "description": "在荒地上挥洒下的每一滴汗水，都会成为泰拉文明繁荣的见证。",
+        "icon": "sandbox_1_tokencoin.png",
+        "name": "繁荣点数",
+        "sortId": -10000,
+        "usage": "用于在“繁荣馈赠”中兑换奖励的凭证。"
     },
     "token_Obsidian": {
         "classifyType": "NONE",

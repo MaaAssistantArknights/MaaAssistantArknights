@@ -408,6 +408,9 @@
     <ClInclude Include="Task\Infrast\InfrastOfficeTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Infrast\InfrastTrainingTask.h">
+      <Filter>Source\Task\Infrast</Filter>
+    </ClInclude>
     <ClInclude Include="Task\Infrast\InfrastPowerTask.h">
       <Filter>Source\Task\Infrast</Filter>
     </ClInclude>
@@ -642,13 +645,13 @@
     <ClInclude Include="Vision\Config\OCRerConfig.h">
       <Filter>Source\Vision\Config</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Fight\SanityBeforeStagePlugin.h">
+    <ClInclude Include="Task\Fight\SanityBeforeStageTaskPlugin.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
     <ClInclude Include="Task\Fight\SideStoryReopenTask.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Fight\StageQueueMissionCompletedPlugin.h">
+    <ClInclude Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
     <ClInclude Include="Task\Miscellaneous\AccountSwitchTask.h">
@@ -666,13 +669,13 @@
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Fight\MedicineCounterPlugin.h">
+    <ClInclude Include="Task\Fight\MedicineCounterTaskPlugin.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
     <ClInclude Include="Task\Miscellaneous\ScreenshotTaskPlugin.h">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Fight\FightTimesPlugin.h">
+    <ClInclude Include="Task\Fight\FightTimesTaskPlugin.h">
       <Filter>Source\Task\Fight</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h">
@@ -689,6 +692,9 @@
     </ClInclude>
     <ClInclude Include="Config\TaskData\TaskDataTypes.h">
       <Filter>Source\Resource\TaskData</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1109,13 +1115,13 @@
     <ClCompile Include="Vision\Config\OCRerConfig.cpp">
       <Filter>Source\Vision\Config</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Fight\SanityBeforeStagePlugin.cpp">
+    <ClCompile Include="Task\Fight\SanityBeforeStageTaskPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
     <ClCompile Include="Task\Fight\SideStoryReopenTask.cpp">
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Fight\StageQueueMissionCompletedPlugin.cpp">
+    <ClCompile Include="Task\Fight\StageQueueMissionCompletedTaskPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
     <ClCompile Include="Task\Miscellaneous\AccountSwitchTask.cpp">
@@ -1130,10 +1136,10 @@
     <ClCompile Include="Task\Miscellaneous\ScreenshotTaskPlugin.cpp">
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Fight\MedicineCounterPlugin.cpp">
+    <ClCompile Include="Task\Fight\MedicineCounterTaskPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Fight\FightTimesPlugin.cpp">
+    <ClCompile Include="Task\Fight\FightTimesTaskPlugin.cpp">
       <Filter>Source\Task\Fight</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.cpp">
@@ -1147,6 +1153,12 @@
     </ClCompile>
     <ClCompile Include="Config\TaskData\TaskDataSymbolStream.cpp">
       <Filter>Source\Resource\TaskData</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp">
+      <Filter>Source\Task\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeInvestTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

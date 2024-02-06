@@ -29,11 +29,48 @@ bool asst::SSSBattleProcessTask::set_stage_name(const std::string& stage_name)
     if (!BattleHelper::set_stage_name(m_sss_combat_data.info.stage_name)) {
         json::value info = basic_info_with_what("UnsupportedLevel");
         auto& details = info["details"];
-        details["level"] = m_stage_name;
+        details["level"] = m_sss_combat_data.info.stage_name;
         callback(AsstMsg::SubTaskExtraInfo, info);
 
         return false;
     }
+    return true;
+}
+
+bool asst::SSSBattleProcessTask::update_deployment_with_skip(const cv::Mat& reusable)
+{
+    const auto now = std::chrono::steady_clock::now();
+    const std::vector<DeploymentOper> old_deployment_opers = m_cur_deployment_opers;
+    static auto last_same_time = now;
+    static auto last_skip_time = now;
+    static auto interval_time = 0;
+
+    if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_skip_time).count() < interval_time) {
+        Log.trace("Passed without update deployment");
+        sleep(interval_time);
+        return true;
+    }
+    last_skip_time = now;
+
+    if (!update_deployment(false, reusable)) {
+        return false;
+    }
+
+    if (ranges::equal(
+            m_cur_deployment_opers, old_deployment_opers,
+            [](const DeploymentOper& oper1, const DeploymentOper& oper2) { return oper1.name == oper2.name; })) {
+        if (std::chrono::duration_cast<std::chrono::milliseconds>(now - last_same_time).count() > 30000) {
+            // 30s 能回 60 费，基本上已经到了挂机的时候，放缓检查的速度
+            Log.trace("30s is unchanged and the waiting time is extended to 5s");
+            interval_time = 5000;
+        }
+    }
+    else {
+        last_same_time = now;
+        Log.trace("Changed, the waiting time is reset to 0s");
+        interval_time = 0;
+    }
+
     return true;
 }
 
@@ -45,7 +82,7 @@ bool asst::SSSBattleProcessTask::do_derived_action(const battle::copilot::Action
 
     switch (action.type) {
     case battle::copilot::ActionType::DrawCard:
-        return draw_card();
+        return draw_card() && update_deployment();
     case battle::copilot::ActionType::CheckIfStartOver:
         return check_if_start_over(action);
     default:
@@ -63,15 +100,15 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
         return true;
     }
 
-    if (m_sss_combat_data.draw_as_possible && draw_card(false, image)) {
-        image = ctrler()->get_image();
-    }
-
     if (check_and_do_strategy(image)) {
         image = ctrler()->get_image();
     }
 
     if (use_all_ready_skill(image)) {
+        // image = ctrler()->get_image();
+    }
+
+    if (m_sss_combat_data.draw_as_possible && draw_card(false, image)) {
         // image = ctrler()->get_image();
     }
 
@@ -129,7 +166,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
-    if (!update_deployment(false, image)) {
+    if (!update_deployment_with_skip(image)) {
         return false;
     }
 
@@ -157,7 +194,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             }
             m_all_cores.erase(strategy.core);
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-            return deploy_oper(strategy.core, strategy.location, strategy.direction);
+            return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
 
         bool skip = false;
@@ -174,7 +211,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             if (available_iter != tool_men.cend()) {
                 --quantity;
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-                return deploy_oper(available_iter->name, strategy.location, strategy.direction);
+                return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
             }
 
             auto not_available_iter =

@@ -37,7 +37,9 @@ bool asst::RoguelikeDifficultySelectionTaskPlugin::_run()
 
     // 当前难度
     int difficulty = m_config->get_difficulty();
-    if (m_config->get_theme() != RoguelikeTheme::Phantom && mode == RoguelikeMode::Collectible) {
+    // 是否只凹直升
+    bool only_start_with_elite_two = m_config->get_only_start_with_elite_two();
+    if (m_config->get_theme() != RoguelikeTheme::Phantom && mode == RoguelikeMode::Collectible && !only_start_with_elite_two) {
         if (difficulty == INT_MAX) {
             ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ChooseDifficulty_Hardest" }).run();
         }

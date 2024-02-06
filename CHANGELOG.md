@@ -1,14 +1,24 @@
-## v4.28.7
+## v5.1.0-beta.1
+
+### 新增 | New
+
+- 生息演算2 (#8190) (Mac 版本需点加号手动添加) @SherkeyXD @hguandl @ABA2396
+- 开放每日免费单抽功能 (#8185) @SherkeyXD
+- 新增只购买折扣信用商品（白名单商品除外）和少于300信用点停止购物的选项 (#7659) @lpowo @status102
+- 基建领取专精功能 (#7754) @broken-paint @Constrat
+
+### 改进 | Improved
+
+- 更新文档到.net8 @ABA2396
+- 移除CopilotTask不必要的传参 @status102
+- 更新部分step的版本 @SherkeyXD
+- 增加账号切换时登录键点击重试 @status102
 
 ### 修复 | Fix
 
-- 修复萨米肉鸽主界面“推开门扉之人”无法放弃探索的问题 @zzyyyl
-- Hortus de Escapismo EX navigation @Constrat
+- 未开启吐司通知时仍弹出通知 @ABA2396
 
 ### 其他 | Other
 
-- 4.x版本解压时备份当前exe为MAA_win7.exe @ABA2396
-- 添加 未能加载文件或程序集 System.Net.Http 的报错解决方案 @ABA2396
-- 将基建排班制作器链接改为文档链接 @ABA2396
-- 修改文档中的基建排班制作器链接 @ABA2396
-- Remove YoStarJP Annihilation template (#7819) @Manicsteiner
+- YoStarJP ocr fix shamare, ansel, nien (#8194) @Manicsteiner
+- YoStarJP ocr fix #8180 (#8184) @Manicsteiner

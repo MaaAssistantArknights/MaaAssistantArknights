@@ -30,8 +30,8 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
-                    PanningMode="Both"
-                    IsInertiaEnabled="True">
+                    IsInertiaEnabled="True"
+                    PanningMode="Both">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -126,7 +126,10 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20" IsEnabled="{Binding Idle}">
+            <Grid
+                Width="600"
+                Margin="20,0,20,20"
+                IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -135,8 +138,8 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
-                    PanningMode="Both"
-                    IsInertiaEnabled="True">
+                    IsInertiaEnabled="True"
+                    PanningMode="Both">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -148,11 +151,13 @@
                             Style="{StaticResource TextBlockDefaultBold}"
                             Text="{Binding OperBoxInfo}"
                             TextWrapping="Wrap" />
-                        <controls:TextBlock
+                        <TextBox
                             Margin="10"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            BorderThickness="0"
                             FontFamily="SimSun"
                             FontSize="14"
+                            IsReadOnly="True"
                             Text="{Binding OperBoxResult}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -326,7 +331,7 @@
                                                 Storyboard.TargetName="LinearGradientBrushTranslate"
                                                 Storyboard.TargetProperty="X"
                                                 From="0"
-                                                To="420"
+                                                To="410"
                                                 Duration="0:0:2" />
                                         </Storyboard>
                                     </BeginStoryboard>
@@ -354,7 +359,8 @@
                         Margin="6"
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource GachaShowDisclaimerNoMore}"
+                        IsEnabled="False"
+                        Content="{DynamicResource ShowDisclaimerNoMore}"
                         IsChecked="{Binding GachaShowDisclaimerNoMore}" />
                 </StackPanel>
 

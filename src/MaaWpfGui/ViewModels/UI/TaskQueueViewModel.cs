@@ -175,7 +175,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool Closing { get; set; }
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer();
+        private readonly DispatcherTimer _timer = new();
 
         public bool ConfirmExit()
         {
@@ -354,8 +354,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         private void InitializeItems()
         {
-            List<string> taskList = new List<string>
-            {
+            List<string> taskList =
+            [
                 "WakeUp",
                 "Recruiting",
                 "Base",
@@ -363,37 +363,35 @@ namespace MaaWpfGui.ViewModels.UI
                 "Mall",
                 "Mission",
                 "AutoRoguelike",
+            ];
 
-                // "ReclamationAlgorithm",
-            };
-            var clientType = Instances.SettingsViewModel.ClientType;
-            if (clientType == "txwy" && DateTime.Now < new DateTime(2024, 01, 16))
+            if (Instances.SettingsViewModel.ClientType is "" or "Official" or "Bilibili")
             {
-                taskList.Add("ReclamationAlgorithm");
+                taskList.Add("ReclamationAlgorithm2");
             }
 
-            ActionAfterCompletedList = new List<GenericCombinedData<ActionType>>
-            {
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+            ActionAfterCompletedList =
+            [
+                new() { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
+                new() { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+                new() { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
 
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
+                new() { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
+                new() { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
+                new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
 
-                // new GenericCombData<ActionTypeAfterCompleted>{ Display="待机",Value=ActionTypeAfterCompleted.Suspend },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Hibernate"), Value = ActionType.Hibernate },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
+                // new() { Display="待机",Value=ActionTypeAfterCompleted.Suspend },
+                new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
+                new() { Display = LocalizationHelper.GetString("Hibernate"), Value = ActionType.Hibernate },
+                new() { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
 
-                // new GenericCombData<ActionType> { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
+                // new() { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
+                new() { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
+                new() { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
 
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
-                new GenericCombinedData<ActionType> { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
-            };
+                new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
+                new() { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
+            ];
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[taskList.Count]);
             var nonOrderList = new List<DragItemViewModel>();
             for (int i = 0; i != taskList.Count; ++i)
@@ -458,7 +456,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Updates stage list.
         /// </summary>
-        /// <param name="forceUpdate">Whether or not to update the stage list for selection forcibly</param>
+        /// <param name="forceUpdate">Whether to update the stage list for selection forcibly</param>
         // FIXME: 被注入对象只能在private函数内使用，只有Model显示之后才会被注入。如果Model还没有触发OnInitialActivate时调用函数会NullPointerException
         // 这个函数被列为public可见，意味着他注入对象前被调用
         public void UpdateStageList(bool forceUpdate)
@@ -486,7 +484,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
             {
-                [0] = new CombinedData { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
+                [0] = new() { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
             };
 
             // reset closed stages to "Last/Current"
@@ -630,6 +628,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     case "AutoRoguelike":
                     case "ReclamationAlgorithm":
+                    case "ReclamationAlgorithm2":
                         continue;
                 }
 
@@ -732,9 +731,8 @@ namespace MaaWpfGui.ViewModels.UI
                     switch (item.OriginalName)
                     {
                         case "AutoRoguelike":
-                            item.IsChecked = false;
-                            continue;
                         case "ReclamationAlgorithm":
+                        case "ReclamationAlgorithm2":
                             item.IsChecked = false;
                             continue;
                     }
@@ -931,6 +929,10 @@ namespace MaaWpfGui.ViewModels.UI
 
                     case "ReclamationAlgorithm":
                         taskRet &= AppendReclamation();
+                        break;
+
+                    case "ReclamationAlgorithm2":
+                        taskRet &= AppendReclamation2();
                         break;
 
                     default:
@@ -1151,6 +1153,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            if (!int.TryParse(Series, out var series))
+            {
+                series = 1;
+            }
+
             int dropsQuantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -1162,7 +1169,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             string curStage = Stage;
 
-            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, DropsItemId, dropsQuantity);
+            bool mainFightRet = Instances.AsstProxy.AsstAppendFight(curStage, medicine, stone, times, series, DropsItemId, dropsQuantity);
 
             if (!mainFightRet)
             {
@@ -1179,14 +1186,14 @@ namespace MaaWpfGui.ViewModels.UI
                         continue;
                     }
 
-                    mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, string.Empty, 0);
+                    mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, series, string.Empty, 0);
                     break;
                 }
             }
 
             if (mainFightRet && UseRemainingSanityStage && !string.IsNullOrEmpty(RemainingSanityStage))
             {
-                return Instances.AsstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+                return Instances.AsstProxy.AsstAppendFight(RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
             }
 
             return mainFightRet;
@@ -1231,6 +1238,11 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            if (!int.TryParse(Series, out var series))
+            {
+                series = 1;
+            }
+
             int dropsQuantity = 0;
             if (IsSpecifiedDrops)
             {
@@ -1240,19 +1252,19 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, DropsItemId, dropsQuantity);
+            Instances.AsstProxy.AsstSetFightTaskParams(Stage, medicine, stone, times, series, DropsItemId, dropsQuantity);
         }
 
         private void SetFightRemainingSanityParams()
         {
-            Instances.AsstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, string.Empty, 0, false);
+            Instances.AsstProxy.AsstSetFightTaskParams(RemainingSanityStage, 0, 0, int.MaxValue, 1, string.Empty, 0, false);
         }
 
         private void SetInfrastParams()
         {
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
-            Instances.AsstProxy.AsstSetInfrastTaskParams(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled, Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
-                Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
+            Instances.AsstProxy.AsstSetInfrastTaskParams(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.ContinueTraining, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled,
+                Instances.SettingsViewModel.OriginiumShardAutoReplenishment, Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
         private bool AppendInfrast()
@@ -1264,11 +1276,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
-            return Instances.AsstProxy.AsstAppendInfrast(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled, Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
-                Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
+            return Instances.AsstProxy.AsstAppendInfrast(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.ContinueTraining, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled,
+                Instances.SettingsViewModel.OriginiumShardAutoReplenishment, Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
         }
 
-        private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new Dictionary<string, IEnumerable<string>>
+        private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
         {
             { string.Empty, new[] { "讯使", "嘉维尔", "坚雷" } },
             { "Official", new[] { "讯使", "嘉维尔", "坚雷" } },
@@ -1295,15 +1307,18 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
-                Instances.SettingsViewModel.CreditForceShoppingIfCreditFull);
+                Instances.SettingsViewModel.CreditForceShoppingIfCreditFull,
+                Instances.SettingsViewModel.CreditOnlyBuyDiscount,
+                Instances.SettingsViewModel.CreditReserveMaxCredit);
         }
 
         private static bool AppendAward()
         {
             var receiveAward = Instances.SettingsViewModel.ReceiveAward;
             var receiveMail = Instances.SettingsViewModel.ReceiveMail;
+            var receiveFreeRecruit = Instances.SettingsViewModel.ReceiveFreeRecruit;
 
-            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail);
+            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit);
         }
 
         private static bool AppendRecruit()
@@ -1349,14 +1364,19 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendRoguelike(
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
                 Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentEnterSecondFloor, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
-                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, Instances.SettingsViewModel.RoguelikeCoreChar,
-                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
+                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
+                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 
         private static bool AppendReclamation()
         {
             return Instances.AsstProxy.AsstAppendReclamation();
+        }
+
+        private static bool AppendReclamation2()
+        {
+            return Instances.AsstProxy.AsstAppendReclamation2();
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
@@ -2258,7 +2278,12 @@ namespace MaaWpfGui.ViewModels.UI
         }
         */
 
-        private ObservableCollection<CombinedData> _stageList = new ObservableCollection<CombinedData>();
+        /// <summary>
+        /// Gets or private sets the list of series.
+        /// </summary>
+        public List<string> SeriesList { get; private set; } = ["1", "2", "3", "4", "5", "6"];
+
+        private ObservableCollection<CombinedData> _stageList = new();
 
         /// <summary>
         /// Gets or private sets the list of stages.
@@ -2269,9 +2294,9 @@ namespace MaaWpfGui.ViewModels.UI
             private set => SetAndNotify(ref _stageList, value);
         }
 
-        public ObservableCollection<CombinedData> RemainingSanityStageList { get; private set; } = new ObservableCollection<CombinedData>();
+        public ObservableCollection<CombinedData> RemainingSanityStageList { get; private set; } = new();
 
-        public ObservableCollection<CombinedData> AlternateStageList { get; private set; } = new ObservableCollection<CombinedData>();
+        public ObservableCollection<CombinedData> AlternateStageList { get; private set; } = new();
 
         /// <summary>
         /// Gets the stage.
@@ -2301,7 +2326,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private readonly Dictionary<string, string> _stageDictionary = new Dictionary<string, string>
+        private readonly Dictionary<string, string> _stageDictionary = new()
         {
             { "AN", "Annihilation" },
             { "剿灭", "Annihilation" },
@@ -2514,6 +2539,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool NeedAddCustomInfrastPlanInfo { get; set; } = true;
+
         private int _customInfrastPlanIndex = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanIndex, "0"));
 
         public int CustomInfrastPlanIndex
@@ -2521,7 +2548,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _customInfrastPlanIndex;
             set
             {
-                if (value != _customInfrastPlanIndex)
+                if (value != _customInfrastPlanIndex && NeedAddCustomInfrastPlanInfo)
                 {
                     var plan = CustomInfrastPlanInfoList[value];
                     AddLog(plan.Name, UiLogColor.Message);
@@ -2543,7 +2570,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = new ObservableCollection<GenericCombinedData<int>>();
+        public ObservableCollection<GenericCombinedData<int>> CustomInfrastPlanList { get; } = new();
 
         public struct CustomInfrastPlanInfo
         {
@@ -2568,7 +2595,7 @@ namespace MaaWpfGui.ViewModels.UI
             // ReSharper restore InconsistentNaming
         }
 
-        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = new List<CustomInfrastPlanInfo>();
+        private List<CustomInfrastPlanInfo> CustomInfrastPlanInfoList { get; } = new();
 
         private bool _customInfrastPlanHasPeriod;
         private bool _customInfrastInfoOutput;
@@ -2921,6 +2948,28 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _series = ConfigurationHelper.GetValue(ConfigurationKeys.SeriesQuantity, "1");
+
+        /// <summary>
+        /// Gets or sets the max number of times.
+        /// </summary>
+        // 所以为啥这玩意是 string 呢？改配置的时候把上面那些也都改成 int 吧
+        public string Series
+        {
+            get => _series;
+            set
+            {
+                if (_series == value)
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _series, value);
+                SetFightParams();
+                ConfigurationHelper.SetValue(ConfigurationKeys.SeriesQuantity, value);
+            }
+        }
+
         #region Drops
 
         private bool? _isSpecifiedDropsWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
@@ -2952,12 +3001,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the list of all drops.
         /// </summary>
-        private List<CombinedData> AllDrops { get; } = new List<CombinedData>();
+        private List<CombinedData> AllDrops { get; } = new();
 
         /// <summary>
         /// 关卡不可掉落的材料
         /// </summary>
-        private static readonly HashSet<string> _excludedValues = new HashSet<string>
+        private static readonly HashSet<string> _excludedValues = new()
         {
             "3213", "3223", "3233", "3243", // 双芯片
             "3253", "3263", "3273", "3283",

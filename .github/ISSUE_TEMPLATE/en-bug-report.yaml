@@ -32,7 +32,19 @@ body:
     id: describe
     attributes:
       label: Description
-      description: Describe your problem in as much detail as possible.
+      description: Please provide a detailed description of your issue.
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version
+      description: >-
+        Please provide the MAA version. Can be found in MAA -> Settings -> Update. (Click to copy)
+      placeholder: |
+        Resource Version:
+        UI Version:
+        Core Version:
     validations:
       required: true
   - type: textarea

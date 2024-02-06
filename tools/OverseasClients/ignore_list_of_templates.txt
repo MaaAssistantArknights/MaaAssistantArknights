@@ -118,6 +118,12 @@ InfrastClueSelfMaybeFull.png
 InfrastFilterMenu.png
 InfrastFilterMenuConfirmButton.png
 InfrastNotification.png
+InfrastTrainingConfirm.png
+InfrastTrainingContinue.png
+InfrastTrainingLevel1.png
+InfrastTrainingLevel2.png
+InfrastTrainingLevel3.png
+InfrastTrainingLocked.png
 Loading2.png
 LoadingIcon.png
 Logout.png
@@ -195,6 +201,12 @@ Phantom@Roguelike@StageSafeHouse.png
 Phantom@Roguelike@StageTrader.png
 PopupCancel.png
 PopupConfirm.png
+RaidDifficulty.png
+Reclamation2BeginPlot.png
+Reclamation2DeleteArchive.png
+Reclamation2LeaveStage.png
+Reclamation2SkipDays1.png
+Reclamation2SkipDays2.png
 Reclamation@Badge.png
 Reclamation@BetweenDayFlag.png
 Reclamation@ClickBlackMarket.png
@@ -231,6 +243,7 @@ Roguelike@IntegratedStrategies.png
 Roguelike@MissionCompletedFlag.png
 Roguelike@StageEncounterGiveUpRecruitConfirm.png
 Roguelike@StageTraderInvestSystemError.png
+Roguelike@StageTraderInvest-Arrow.png
 Roguelike@StageTraderRefreshWithDiceConfirm.png
 Roguelike@StageTraderRefreshWithDiceDoubleConfirm.png
 Roguelike@StageVerticalConfirm.png
