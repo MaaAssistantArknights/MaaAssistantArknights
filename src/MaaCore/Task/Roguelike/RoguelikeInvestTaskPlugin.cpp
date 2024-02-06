@@ -66,7 +66,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         else if (is_investment_error(image)) {
             Log.info(__FUNCTION__, "投资系统错误, 退出投资");
 
-            if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvest-Count-Error"); ocr) {
+            if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvestError-Count"); ocr) {
                 // 可继续投资 / 到达投资上限999
                 count += *ocr - deposit.value_or(0);
                 deposit = *ocr;
