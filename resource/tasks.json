@@ -12752,6 +12752,12 @@
             335,
             150,
             60
+        ],
+        "ocrReplace": [
+            [
+                ">",
+                ""
+            ]
         ]
     },
     "Roguelike@StageTraderInvest-Count-Error": {
