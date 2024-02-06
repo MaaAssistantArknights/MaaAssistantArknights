@@ -3,11 +3,10 @@
 ### 新增 | New
 
 - 抽卡提示不许勾下次不再提示 @ABA2396
-- 抽卡提示不许不看 @ABA2396
 
 ### 改进 | Improved
 
-- 优化肉鸽投资速度 (#8177) @status102
+- 优化肉鸽投资速度及输出 (#8177) @status102
 - 调整生息演算任务 @status102
 - 增加生稀盐酸跳过等待 @status102
 - 全反选排除生息演算 @ABA2396
@@ -35,18 +34,12 @@
 ### 其他 | Other
 
 - 生息演算高级设置文本框增加换行 @status102
-- 更新界面文字 (#8206) @AnnAngela
-- 生息演算开局教程点击加速 @status102
 - EasterEggs 前两次点击不生效 @ABA2396
-- 修改变量名 @ABA2396
 - 抽卡风险提示 @ABA2396
-- 添加注释 @ABA2396
-- 删除多余内容 @ABA2396
 - 生息演算提示文本调整 @status102
 - 移除肉鸽结算输出多余空格 @status102
 - Update release-nightly-ota.yml @ABA2396
-- Update zh-cn.xaml (#8218) @AnnAngela
-- Update zh-cn.xaml (#8214) @AnnAngela
+- 更新界面文字 (#8206、#8214、#8218) @AnnAngela
 
 ### For Overseas
 
