@@ -1519,6 +1519,22 @@
         "sortId": -10000,
         "usage": "Reward obtained by completing Pinch-Out Experimental Operation. Can be exchanged for supplies."
     },
+    "act3bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "Right and wrong are far from crucial in a simulation. They are only a form of support. They help you make the correct choices when the battle is real.",
+        "icon": "act3bossrush_milestone_point.png",
+        "name": "Trial EXP",
+        "sortId": -10000,
+        "usage": "Experience gained from finished trials. Upgrades trial levels."
+    },
+    "act3bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "An encrypted data block. Always remember, the conversion of information often entails unavoidable wear. Make good use of your information storage devices, but do not depend on them.",
+        "icon": "act3bossrush_token_relic.png",
+        "name": "Data Blackbox",
+        "sortId": -10000,
+        "usage": "Used to perform Data Iteration on Limiter Units."
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "Whether it's providing mission feedback, collecting spoils, analyzing materials, facilitating communications, or streamlining operations, Rhodes Island's efficient intelligence system continues to collect complex data from a vast array of actions and operations in order to provide the best course of action. For those unfamiliar to the mechanisms of this black box, just looking at the results will suffice.",
