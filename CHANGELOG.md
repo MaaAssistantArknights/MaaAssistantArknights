@@ -2,16 +2,17 @@
 
 ### 新增 | New
 
+- 抽卡提示不许勾下次不再提示 @ABA2396
 - 抽卡提示不许不看 @ABA2396
 
 ### 改进 | Improved
 
-- 生息演算开局教程点击加速 @status102
 - 优化肉鸽投资速度 (#8177) @status102
-- 生息演算高级设置文本框增加换行 @status102
 - 调整生息演算任务 @status102
 - 增加生稀盐酸跳过等待 @status102
-- 更新界面文字 (#8206) @AnnAngela
+- 全反选排除生息演算 @ABA2396
+- 优化可变位置文字识别 @ABA2396
+- 部分需重启生效的选项添加重启确认弹窗 @ABA2396
 
 ### 修复 | Fix
 
@@ -28,27 +29,34 @@
 - 生息演算卡在进入第四日 @ABA2396
 - screencap failure with amdgpu on some emulators (even with GeneralWithoutScreencapErr) (#8225) @aur3l14no
 - 修复部分分辨率下无法识别删除存档 @ABA2396
-- 优化可变位置文字识别 @ABA2396
+- 内测版 wpf tag 错误 @ABA2396
+- 内测版修改ui版本号 @ABA2396
 
 ### 其他 | Other
 
-- YoStarJP 理想都市 navigation (#8263) @Manicsteiner
+- 生息演算高级设置文本框增加换行 @status102
+- 更新界面文字 (#8206) @AnnAngela
+- 生息演算开局教程点击加速 @status102
 - EasterEggs 前两次点击不生效 @ABA2396
-- Update release-nightly-ota.yml @ABA2396
-- 内测版 wpf tag 错误 @ABA2396
-- 内测版修改ui版本号 @ABA2396
-- 部分需重启生效的选项添加重启确认弹窗 @ABA2396
-- YoStarKR ocr fix (假日威龙陈/苍苔/青枳/淬羽赫默 etc) (#8246) @HX3N
 - 修改变量名 @ABA2396
 - 抽卡风险提示 @ABA2396
 - 添加注释 @ABA2396
-- 抽卡提示不许勾下次不再提示 @ABA2396
 - 删除多余内容 @ABA2396
-- modified ko-kr.xaml (#8235) @HX3N
-- YoStarKR update StageAnnihilation.png (#8239) @HX3N
-- YoStarKR ocr fix (#8236) @HX3N
 - 生息演算提示文本调整 @status102
-- 全反选排除生息演算 @ABA2396
 - 移除肉鸽结算输出多余空格 @status102
+- Update release-nightly-ota.yml @ABA2396
 - Update zh-cn.xaml (#8218) @AnnAngela
 - Update zh-cn.xaml (#8214) @AnnAngela
+
+### For Overseas
+
+##### YoStarJP
+
+- YoStarJP 理想都市 navigation (#8263) @Manicsteiner
+
+##### YoStarKR
+
+- YoStarKR ocr fix (假日威龙陈/苍苔/青枳/淬羽赫默 etc) (#8246) @HX3N
+- YoStarKR update StageAnnihilation.png (#8239) @HX3N
+- YoStarKR ocr fix (#8236) @HX3N
+- modified ko-kr.xaml (#8235) @HX3N
