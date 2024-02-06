@@ -293,7 +293,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
-    <system:String x:Key="DarkModeSetColorsTip">Whether to restart immediately to apply changes?</system:String>
+    <system:String x:Key="PromptRestartForSettingsChange">Whether to restart immediately to apply changes?</system:String>
     <system:String x:Key="UseAlternateStage">Use alternative stage</system:String>
     <system:String x:Key="UseRemainingSanityStage">Use remaining sanity stage</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
