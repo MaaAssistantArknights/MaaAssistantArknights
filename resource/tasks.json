@@ -12761,10 +12761,9 @@
             ]
         ]
     },
-    "Roguelike@StageTraderInvest-Count-Error": {
+    "Roguelike@StageTraderInvestError-Count": {
         "doc": "商店投资界面系统出错时余额显示",
-        "algorithm": "OcrDetect",
-        "isAscii": true,
+        "baseTask": "NumberOcrReplace",
         "roi": [
             635,
             205,
