@@ -15938,6 +15938,10 @@
             447,
             631,
             64
+        ],
+        "postDelay": 5000,
+        "next": [
+            "Stop"
         ]
     },
     "Reclamation2LeaveStage": {
