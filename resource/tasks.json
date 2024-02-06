@@ -12747,6 +12747,7 @@
     "Roguelike@StageTraderInvest-Count": {
         "doc": "商店投资界面的余额显示，99 >> 100",
         "algorithm": "OcrDetect",
+        "text": [],
         "isAscii": true,
         "roi": [
             570,
@@ -15677,7 +15678,9 @@
             "Reclamation2DeleteArchive"
         ],
         "Doc": "现在是纯tasks实现的，先一直跑着",
-        "next": "#self"
+        "next": [
+            "#self"
+        ]
     },
     "Reclamation2Begin": {
         "algorithm": "OcrDetect",
@@ -15985,7 +15988,7 @@
         ]
     },
     "Reclamation2SkipDays": {
-        "algorithm": "justReturn",
+        "algorithm": "JustReturn",
         "action": "DoNothing",
         "postDelay": 1000,
         "next": [
@@ -16053,7 +16056,7 @@
         ]
     },
     "Reclamation2SkipDaysAward": {
-        "algorithm": "justReturn",
+        "algorithm": "JustReturn",
         "action": "DoNothing",
         "postDelay": 5000,
         "next": [
@@ -16062,7 +16065,7 @@
         ]
     },
     "Reclamation2SkipDaysAward1": {
-        "algorithm": "justReturn",
+        "algorithm": "JustReturn",
         "action": "DoNothing",
         "Doc": "会自己消失",
         "preDelay": 3000
