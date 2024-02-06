@@ -446,6 +446,33 @@
             "name": "重装",
             "opers": [
                 {
+                    "name": "黍",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 625,
+                    "promote_priority": 690,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 120
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -120
+                        }
+                    ]
+                },
+                {
                     "name": "塞雷娅",
                     "skill": 1,
                     "is_key": true,
@@ -2367,6 +2394,11 @@
                     "promote_priority": 400
                 },
                 {
+                    "name": "小满",
+                    "recruit_priority": 256,
+                    "promote_priority": 400
+                },
+                {
                     "name": "但书",
                     "skill": 2,
                     "recruit_priority": 256,
@@ -2495,6 +2527,9 @@
                 },
                 {
                     "name": "圣约送葬人"
+                },
+                {
+                    "name": "黍"
                 },
                 {
                     "name": "塞雷娅"
@@ -2942,6 +2977,18 @@
                     "name": "伊内丝"
                 },
                 {
+                    "name": "琴柳"
+                },
+                {
+                    "name": "万顷"
+                },
+                {
+                    "name": "极境"
+                },
+                {
+                    "name": "桃金娘"
+                },
+                {
                     "name": "晓歌"
                 },
                 {
@@ -2966,6 +3013,9 @@
                     "name": "青枳"
                 },
                 {
+                    "name": "红隼"
+                },
+                {
                     "name": "讯使"
                 },
                 {
@@ -2982,15 +3032,6 @@
                 },
                 {
                     "name": "香草"
-                },
-                {
-                    "name": "琴柳"
-                },
-                {
-                    "name": "极境"
-                },
-                {
-                    "name": "桃金娘"
                 }
             ]
         },
@@ -3500,8 +3541,15 @@
                     "skill": 2
                 },
                 {
+                    "name": "左乐",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": -440
+                },
+                {
                     "name": "赫拉格",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "拉普兰德",
@@ -3530,11 +3578,13 @@
                 },
                 {
                     "name": "卡夫卡",
-                    "auto_retreat": 3
+                    "auto_retreat": 3,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "达格达",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "夜刀",
@@ -3610,16 +3660,14 @@
                     ]
                 },
                 {
-                    "name": "赫拉格",
-                    "skill": 2
-                },
-                {
                     "name": "赤冬",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "火龙S黑角",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "龙舌兰",
