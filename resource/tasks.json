@@ -12761,16 +12761,6 @@
             ]
         ]
     },
-    "Roguelike@StageTraderInvestError-Count": {
-        "doc": "商店投资界面系统出错时余额显示",
-        "baseTask": "NumberOcrReplace",
-        "roi": [
-            635,
-            205,
-            70,
-            40
-        ]
-    },
     "Roguelike@StageTraderInvestCancel": {
         "action": "ClickSelf",
         "roi": [
@@ -12801,6 +12791,16 @@
         "next": [
             "Roguelike@StageTraderInvestSystemError",
             "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderInvestError-Count": {
+        "doc": "商店投资界面系统出错时余额显示",
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            635,
+            205,
+            70,
+            40
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
