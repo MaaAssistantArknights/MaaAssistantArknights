@@ -1799,6 +1799,14 @@
         "sortId": 60022,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterialRune_12": {
+        "classifyType": "CONSUME",
+        "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
+        "icon": "randomMaterialRune_12.png",
+        "name": "起源行動物資補給",
+        "sortId": 60023,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
     "randomMaterialRune_2": {
         "classifyType": "CONSUME",
         "description": "來自危機合約的材料補給箱。給予努力治療著這片大地的人們的微小回報。----危機合約",
