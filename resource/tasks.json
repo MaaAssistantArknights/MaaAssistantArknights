@@ -15689,13 +15689,20 @@
             "#back"
         ]
     },
-    "Reclamation2BeginPlotEnterLoading": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "postDelay": 8000,
+    "Reclamation2BeginPlot": {
+        "Doc": "点指定区域，直到左上角出现退出",
+        "roi": [
+            0,
+            0,
+            200,
+            200
+        ],
+        "sub": [
+            "Reclamation2ClickBeginPlotTalk*10"
+        ],
         "next": [
-            "Reclamation2BeginPlotEnter",
-            "Reclamation2Begin"
+            "Reclamation2LeaveStage",
+            "#self"
         ]
     },
     "Reclamation2BeginPlotEnter": {
@@ -15717,28 +15724,21 @@
             "Reclamation2BeginPlotLoading@Reclamation2EnterStage"
         ]
     },
+    "Reclamation2BeginPlotEnterLoading": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 8000,
+        "next": [
+            "Reclamation2BeginPlotEnter",
+            "Reclamation2Begin"
+        ]
+    },
     "Reclamation2BeginPlotLoading": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "postDelay": 8000,
         "next": [
             "Reclamation2BeginPlot"
-        ]
-    },
-    "Reclamation2BeginPlot": {
-        "Doc": "点指定区域，直到左上角出现退出",
-        "roi": [
-            0,
-            0,
-            200,
-            200
-        ],
-        "sub": [
-            "Reclamation2ClickBeginPlotTalk*10"
-        ],
-        "next": [
-            "Reclamation2LeaveStage",
-            "#self"
         ]
     },
     "Reclamation2Birdland": {
