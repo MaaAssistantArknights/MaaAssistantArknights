@@ -15660,7 +15660,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "Reclamation2Begin",
+            "Reclamation2BeginPlotEnterLoading@Reclamation2Begin",
             "Reclamation2CopiousCoppice",
             "Reclamation2Birdland",
             "Reclamation2SkipDays*3",
@@ -15670,7 +15670,6 @@
         "next": "#self"
     },
     "Reclamation2Begin": {
-        "Doc": "刚开始演算的剧情",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -15685,25 +15684,18 @@
             436,
             151
         ],
-        "postDelay": 8000,
         "next": [
-            "Reclamation2BeginPlotEnter"
+            "#self",
+            "#back"
         ]
     },
-    "Reclamation2BeginPlot": {
-        "Doc": "点指定区域，直到左上角出现退出",
-        "roi": [
-            0,
-            0,
-            200,
-            200
-        ],
-        "sub": [
-            "Reclamation2ClickBeginPlotTalk*10"
-        ],
+    "Reclamation2BeginPlotEnterLoading": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 8000,
         "next": [
-            "Reclamation2LeaveStage",
-            "#self"
+            "Reclamation2BeginPlotEnter",
+            "Reclamation2Begin"
         ]
     },
     "Reclamation2BeginPlotEnter": {
@@ -15731,6 +15723,22 @@
         "postDelay": 8000,
         "next": [
             "Reclamation2BeginPlot"
+        ]
+    },
+    "Reclamation2BeginPlot": {
+        "Doc": "点指定区域，直到左上角出现退出",
+        "roi": [
+            0,
+            0,
+            200,
+            200
+        ],
+        "sub": [
+            "Reclamation2ClickBeginPlotTalk*10"
+        ],
+        "next": [
+            "Reclamation2LeaveStage",
+            "#self"
         ]
     },
     "Reclamation2Birdland": {
