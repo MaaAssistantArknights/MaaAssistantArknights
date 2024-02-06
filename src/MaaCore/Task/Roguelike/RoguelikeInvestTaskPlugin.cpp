@@ -66,7 +66,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         else if (is_investment_error(image)) {
             Log.info(__FUNCTION__, "投资系统错误, 退出投资");
 
-            if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvest-Count-Error"); ocr) {
+            if (auto ocr = ocr_current_count(image, "Roguelike@StageTraderInvestError-Count"); ocr) {
                 // 可继续投资 / 到达投资上限999
                 count += *ocr - deposit.value_or(0);
                 deposit = *ocr;
@@ -113,6 +113,13 @@ std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_current_count(const auto
 {
     RegionOCRer ocr(img);
     ocr.set_task_info(task_name);
+
+    const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
+    auto task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
+
+    auto merge_map = std::vector(number_replace);
+    ranges::copy(task_replace, std::back_inserter(merge_map));
+    ocr.set_replace(merge_map);
     if (!ocr.analyze()) {
         Log.error(__FUNCTION__, "unable to analyze current investment count.");
         return std::nullopt;
@@ -144,7 +151,7 @@ void asst::RoguelikeInvestTaskPlugin::stop_roguelike()
 {
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
         .set_times_limit("Roguelike@StartExplore", 0)
-        .set_times_limit("Roguelike@Abandon", 0)
+        //.set_times_limit("Roguelike@Abandon", 0)
         .set_retry_times(5)
         .run();
     m_task_ptr->set_enable(false);

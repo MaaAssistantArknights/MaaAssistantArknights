@@ -3380,6 +3380,10 @@
             [
                 "红集",
                 "红隼"
+            ],
+            [
+                "小.?满",
+                "小满"
             ]
         ]
     },
@@ -11372,6 +11376,7 @@
             249,
             168
         ],
+        "postDelay": 1000,
         "next": [
             "Roguelike@MissionFailedFlag2",
             "Roguelike@StartExplore"
@@ -12748,17 +12753,12 @@
             335,
             150,
             60
-        ]
-    },
-    "Roguelike@StageTraderInvest-Count-Error": {
-        "doc": "商店投资界面系统出错时余额显示",
-        "algorithm": "OcrDetect",
-        "isAscii": true,
-        "roi": [
-            635,
-            205,
-            70,
-            40
+        ],
+        "ocrReplace": [
+            [
+                ">",
+                ""
+            ]
         ]
     },
     "Roguelike@StageTraderInvestCancel": {
@@ -12791,6 +12791,16 @@
         "next": [
             "Roguelike@StageTraderInvestSystemError",
             "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderInvestError-Count": {
+        "doc": "商店投资界面系统出错时余额显示",
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            635,
+            205,
+            70,
+            40
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
@@ -15660,7 +15670,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "Reclamation2Begin",
+            "Reclamation2BeginPlotEnterLoading@Reclamation2Begin",
             "Reclamation2CopiousCoppice",
             "Reclamation2Birdland",
             "Reclamation2SkipDays*3",
@@ -15670,7 +15680,6 @@
         "next": "#self"
     },
     "Reclamation2Begin": {
-        "Doc": "刚开始演算的剧情",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -15685,9 +15694,9 @@
             436,
             151
         ],
-        "postDelay": 8000,
         "next": [
-            "Reclamation2BeginPlotEnter"
+            "#self",
+            "#back"
         ]
     },
     "Reclamation2BeginPlot": {
@@ -15723,6 +15732,15 @@
         "next": [
             "#self",
             "Reclamation2BeginPlotLoading@Reclamation2EnterStage"
+        ]
+    },
+    "Reclamation2BeginPlotEnterLoading": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 8000,
+        "next": [
+            "Reclamation2BeginPlotEnter",
+            "Reclamation2Begin"
         ]
     },
     "Reclamation2BeginPlotLoading": {
@@ -15773,7 +15791,6 @@
             159,
             27
         ],
-        "postDelay": 500,
         "next": [
             "#back"
         ]
@@ -15930,6 +15947,10 @@
             447,
             631,
             64
+        ],
+        "postDelay": 5000,
+        "next": [
+            "Stop"
         ]
     },
     "Reclamation2LeaveStage": {
