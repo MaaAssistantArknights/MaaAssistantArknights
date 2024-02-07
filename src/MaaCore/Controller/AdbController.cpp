@@ -477,7 +477,9 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                   json::object {
                       { "min", screencap_cost_min },
                       { "max", screencap_cost_max },
-                      { "avg", std::accumulate(filted_duration.begin(), filted_duration.end(), 0ll) / filted_count },
+                      { "avg", filted_count > 0
+                                   ? std::accumulate(filted_duration.begin(), filted_duration.end(), 0ll) / filted_count
+                                   : -1 },
                   } },
             };
             callback(AsstMsg::ConnectionInfo, info);
