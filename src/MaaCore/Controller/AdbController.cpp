@@ -470,21 +470,20 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 m_screencap_duration | views::filter([](long long num) { return num < LLONG_MAX; });
             // 过滤后的有效截图用时次数
             auto filtered_count = m_screencap_duration.size() - ranges::count(m_screencap_duration, LLONG_MAX);
-            if (filtered_count != 0) {
-                auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(filtered_duration);
-                json::value info = json::object {
-                    { "uuid", m_uuid },
-                    { "what", "ScreencapCost" },
-                    { "details",
-                      json::object {
-                          { "min", screencap_cost_min },
-                          { "max", screencap_cost_max },
-                          { "avg",
-                            std::accumulate(filtered_duration.begin(), filtered_duration.end(), 0LL) / filtered_count },
-                      } },
-                };
-                callback(AsstMsg::ConnectionInfo, info);
-            }
+            auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(filtered_duration);
+            json::value info = json::object {
+                { "uuid", m_uuid },
+                { "what", "ScreencapCost" },
+                { "details",
+                  json::object { { "min", screencap_cost_min },
+                                 { "max", screencap_cost_max },
+                                 { "avg", filtered_count > 0 ? std::accumulate(filtered_duration.begin(),
+                                                                               filtered_duration.end(), 0ll) /
+                                                                   filtered_count
+                                                             : -1 },
+                                 { "fault_times", m_screencap_duration.size() - filtered_count } } },
+            };
+            callback(AsstMsg::ConnectionInfo, info);
         }
         return screencap_ret;
     }
