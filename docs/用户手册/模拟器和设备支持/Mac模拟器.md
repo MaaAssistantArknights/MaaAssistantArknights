@@ -35,7 +35,7 @@ icon: basil:apple-solid
 
 ### ✅ [MuMu模拟器Pro](https://mumu.163.com/mac/)
 
-支持，但测试较少。相关 Issue [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)
+支持，但测试较少，需使用 `Maatouch` 触控模式。相关 Issue [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
