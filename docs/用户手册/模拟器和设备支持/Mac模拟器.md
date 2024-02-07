@@ -33,6 +33,10 @@ icon: basil:apple-solid
 
 7. 3-5 步骤只需要做一次，之后只需要启动明日方舟即可。在明日方舟每次更新客户端之后，需要重新做第 2 步。
 
+### ✅ [MuMu模拟器Pro](https://mumu.163.com/mac/)
+
+支持，但测试较少。相关 Issue [#8098](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8098)
+
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
 支持。
