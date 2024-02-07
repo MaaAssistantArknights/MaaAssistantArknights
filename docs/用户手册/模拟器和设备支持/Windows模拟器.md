@@ -29,7 +29,7 @@ const fullySupport = shuffleArray([
 完美支持。需要在模拟器 \`设置\` - \`引擎设置\` 中打开 \`允许ADB连接\`
 `,
 `
-### ✅ [蓝叠模拟器国际版 5](https://www.bluestacks.com/tw/index.html)（最稳定👍）
+### ✅ [蓝叠模拟器 5 国际版](https://www.bluestacks.com/tw/index.html)（最稳定👍）
 
 完美支持。需要在模拟器 \`设定\` - \`进阶\` 中打开 \`Android调试桥\`。
 
@@ -53,11 +53,6 @@ const fullySupport = shuffleArray([
 完美支持，但测试较少。
 `,
 `
-### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
-
-完美支持。
-`,
-`
 ### ✅ [MuMu 模拟器 12](https://mumu.163.com/)（最流畅👍）
 
 完美支持。
@@ -78,17 +73,6 @@ const fullySupport = shuffleArray([
 
 const particallySupport = shuffleArray([
 `
-### ⚠️ [MuMu 模拟器 6](https://mumu.163.com/)
-
-支持。但：
-
-- 需要在 MAA 设置 - 连接设置 中，进行 \`强制替换 ADB\`，才能使用 minitouch, maatouch 等高效的触控模式；
-- 需要使用管理员权限运行 MAA 才能自动获取 adb 路径和地址（因为 MuMu 6 本身是管理员启动的）；
-- 需要使用管理员权限运行 MAA 才能支持“完成后退出模拟器”相关功能；
-- 不推荐使用 MuMu 6 默认的几个奇葩分辨率，最好改成主流的 \`1280x720\`, \`1920x1080\`, \`2560x1440\` 等；
-- MuMu 6 多开使用的是同一个 adb 端口，所以无法支持多开的 MuMu 6。
-`,
-`
 ### ⚠️ [Win11 WSA](https://docs.microsoft.com/zh-cn/windows/android/wsa/)
 
 勉强支持。
@@ -99,6 +83,14 @@ const particallySupport = shuffleArray([
 - 由于本软件仅对 720p 以上 \`16:9\` 分辨率支持较好，所以请手动拖动窗口大小，尽量贴近 16:9 比例。（如果你的显示器是 16:9 的，可以直接按 \`F11\` 全屏）；
 - 任务运行过程中请尽量保证明日方舟在前台且无其他安卓应用同时在前台运行，否则可能导致游戏暂停运行或任务识别错误；
 - WSA 的截图经常莫名其妙截出来一个白屏，导致识别异常，还是不推荐使用。
+`,
+`
+### ⚠️ [AVD](https://developer.android.com/studio/run/managing-avds)
+
+理论支持。
+
+- 从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
+- AVD 是为调试而生的，更建议使用其他为游戏而设计的模拟器。
 `,
 ])
 
