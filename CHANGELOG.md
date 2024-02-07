@@ -2,10 +2,14 @@
 
 ### 新增 | New
 
+- 合成玉签到task (#8223) @Sherkey @status102
 - 抽卡提示不许勾下次不再提示 @ABA2396
 
 ### 改进 | Improved
 
+- 远程控制对非 https 连接仅提出警告 (#8061) @Sherkey
+- 肉鸽适配新干员用法 (#8273) @Lancarus
+- 肉鸽投资后结束本次战斗 (#8268) @status102
 - 优化肉鸽投资速度及输出 (#8177) @status102
 - 调整生息演算任务 @status102
 - 增加生稀盐酸跳过等待 @status102
@@ -15,6 +19,13 @@
 
 ### 修复 | Fix
 
+- 生息演算开局教程对话有概率卡住 @status102
+- 修复无限提示远控地址为空的问题 @Sherkey
+- 连续截图出错30次 / 启动时连续截图出错10次 导致MAA崩溃 (#8280) @status102
+- 修复Mac生息演算任务名 @Hao Guan
+- Mac 全部启用任务时排除生息演算 @Hao Guan
+- 写剪贴板时应该用Unicode而不是ANSI (#8204) @Immueggpain
+- 修复肉鸽存款余额ocr错误 @status102
 - 修复干员小满概率性识别为`小/满` @status102
 - 延长进图等待时间 @ABA2396
 - 生息演算卡在主界面 @ABA2396
@@ -33,6 +44,8 @@
 
 ### 其他 | Other
 
+- ScreencapCost输出失败次数 @status102
+- fix typo and undefined behavior of minmax @Horror Proton
 - 生息演算高级设置文本框增加换行 @status102
 - EasterEggs 前两次点击不生效 @ABA2396
 - 抽卡风险提示 @ABA2396
@@ -40,15 +53,18 @@
 - 移除肉鸽结算输出多余空格 @status102
 - Update release-nightly-ota.yml @ABA2396
 - 更新界面文字 (#8206、#8214、#8218) @AnnAngela
+- fix appimage cross build issue @Horror Proton
 
 ### For Overseas
 
 ##### YoStarJP
 
 - YoStarJP 理想都市 navigation (#8263) @Manicsteiner
+- YoStarJP ocr fix (#8260) @Manicsteiner
 
 ##### YoStarKR
 
+- YoStarKR 理想都市 navigation (#8265) @HX3N
 - YoStarKR ocr fix (假日威龙陈/苍苔/青枳/淬羽赫默 etc) (#8246) @HX3N
 - YoStarKR update StageAnnihilation.png (#8239) @HX3N
 - YoStarKR ocr fix (#8236) @HX3N
