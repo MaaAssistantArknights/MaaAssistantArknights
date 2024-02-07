@@ -54,6 +54,8 @@
 - Update release-nightly-ota.yml @ABA2396
 - 更新界面文字 (#8206、#8214、#8218) @AnnAngela
 - fix appimage cross build issue @Horror Proton
+- 更新文档 @Rbqwow
+- 移除 MuMu 6 模拟器支持 @Rbqwow
 
 ### For Overseas
 
