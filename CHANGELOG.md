@@ -14,6 +14,7 @@
 - 调整生息演算任务 @status102
 - 增加生稀盐酸跳过等待 @status102
 - 全反选排除生息演算 @ABA2396
+- Mac 全部启用任务时排除生息演算 @Hao Guan
 - 优化可变位置文字识别 @ABA2396
 - 部分需重启生效的选项添加重启确认弹窗 @ABA2396
 
@@ -22,8 +23,6 @@
 - 生息演算开局教程对话有概率卡住 @status102
 - 修复无限提示远控地址为空的问题 @Sherkey
 - 连续截图出错30次 / 启动时连续截图出错10次 导致MAA崩溃 (#8280) @status102
-- 修复Mac生息演算任务名 @Hao Guan
-- Mac 全部启用任务时排除生息演算 @Hao Guan
 - 写剪贴板时应该用Unicode而不是ANSI (#8204) @Immueggpain
 - 修复肉鸽存款余额ocr错误 @status102
 - 修复干员小满概率性识别为`小/满` @status102
@@ -44,6 +43,7 @@
 
 ### 其他 | Other
 
+- 修复Mac生息演算任务名 @Hao Guan
 - ScreencapCost输出失败次数 @status102
 - fix typo and undefined behavior of minmax @Horror Proton
 - 生息演算高级设置文本框增加换行 @status102
