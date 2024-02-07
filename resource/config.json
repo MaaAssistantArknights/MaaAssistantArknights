@@ -104,10 +104,6 @@
             "baseConfig": "General"
         },
         {
-            "configName": "MuMuEmulator",
-            "baseConfig": "General"
-        },
-        {
             "configName": "MuMuEmulator12",
             "baseConfig": "General"
         },
