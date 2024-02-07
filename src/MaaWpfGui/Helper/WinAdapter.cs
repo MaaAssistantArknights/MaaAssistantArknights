@@ -32,7 +32,6 @@ namespace MaaWpfGui.Helper
             { "HD-Player",  "BlueStacks" },
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
-            { "NemuPlayer", "MuMuEmulator" },
             { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
             { "MEmu", "XYAZ" },
         };
@@ -48,14 +47,6 @@ namespace MaaWpfGui.Helper
             },
             { "LDPlayer", new List<string> { @".\adb.exe" } },
             { "Nox", new List<string> { @".\nox_adb.exe" } },
-            {
-                "MuMuEmulator",  new List<string>
-                {
-                    @"..\vmonitor\bin\adb_server.exe",
-                    @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
-                    @".\adb.exe",
-                }
-            },
             {
                 "MuMuEmulator12",  new List<string>
                 {

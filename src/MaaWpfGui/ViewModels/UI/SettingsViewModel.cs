@@ -361,7 +361,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
                 new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
                 new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
                 new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
                 new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
@@ -708,7 +707,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
                 new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
                 new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
                 new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
                 new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
@@ -3381,7 +3379,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             { "General", new List<string> { string.Empty } },
             { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
-            { "MuMuEmulator", new List<string> { "127.0.0.1:7555" } },
             { "MuMuEmulator12", new List<string> { "127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576" } },
             { "LDPlayer", new List<string> { "emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
             { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },

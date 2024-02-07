@@ -94,7 +94,6 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
-    <system:String x:Key="MuMuEmulator">MuMu 模拟器 6</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模拟器 12</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
     <system:String x:Key="Nox">夜神模拟器</system:String>
