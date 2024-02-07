@@ -89,7 +89,7 @@ const particallySupport = shuffleArray([
 
 理论支持。
 
-- 从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
+- 从 Android 10 开始，Minitouch 在 SELinux 为 \`Enforcing\` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 \`Permissive\` 模式。
 - AVD 是为调试而生的，更建议使用其他为游戏而设计的模拟器。
 `,
 ])
