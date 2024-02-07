@@ -111,7 +111,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         check_in_battle(image);
         return false;
     }
-    m_cur_deployment_opers.clear();
+    auto old_deployment_opers = std::move(m_cur_deployment_opers);
+    m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
+    m_cur_deployment_opers.reserve(oper_result_opt->deployment.size());
 
     // 从场上干员和已占用格子中移除冷却中的干员
     auto remove_cooling_from_battlefield = [&](const DeploymentOper& oper) {
@@ -153,18 +155,37 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }
 
-        auto& avatar_cache = AvatarCache.get_avatars(oper.role);
-        for (const auto& [name, avatar] : avatar_cache) {
-            avatar_analyzer.append_templ(name, avatar);
+        bool is_analyzed = false;
+        if (!init) {
+            for (const auto& old_oper :
+                 old_deployment_opers | views::filter([&](const battle::DeploymentOper& temp_oper) {
+                     return temp_oper.role == oper.role;
+                 })) {
+                avatar_analyzer.append_templ(old_oper.name, old_oper.avatar);
+            }
+            if (avatar_analyzer.analyze()) {
+                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
+                remove_cooling_from_battlefield(oper);
+                is_analyzed = true;
+            }
         }
-        if (avatar_analyzer.analyze()) {
-            set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
-            remove_cooling_from_battlefield(oper);
+        if (!is_analyzed) {
+            // 之前的干员都没匹配上，那就把所有的干员都加进去
+            // 可能的优化: 移除之前添加的模板
+            auto& avatar_cache = AvatarCache.get_avatars(oper.role);
+            for (const auto& [name, avatar] : avatar_cache) {
+                avatar_analyzer.append_templ(name, avatar);
+            }
+            if (avatar_analyzer.analyze()) {
+                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
+                remove_cooling_from_battlefield(oper);
+            }
+            else {
+                Log.info("unknown oper", oper.index);
+                unknown_opers.emplace_back(oper);
+            }
         }
-        else {
-            Log.info("unknown oper", oper.index);
-            unknown_opers.emplace_back(oper);
-        }
+
         m_cur_deployment_opers.emplace_back(oper);
 
         if (oper.cooling) {
