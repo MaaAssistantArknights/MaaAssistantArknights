@@ -1,7 +1,4 @@
-import { docsearchPlugin } from "@vuepress/plugin-docsearch";
-
-export default function SearchPlugin() {
-  return docsearchPlugin({
+export default {
     appId: '99JM20SIFG',
     apiKey: '32ad931040facd36d2e99c3cb8e425e1',
     indexName: 'maa',
@@ -123,6 +120,5 @@ export default function SearchPlugin() {
       '/ja-jp/': {
         placeholder: '検索する',
       }
-    }
-  })
+  }
 }

@@ -1,4 +1,5 @@
 import { hopeTheme } from "vuepress-theme-hope";
+import DocSearchConfig from './plugins/search';
 import { zhcnNavbar, zhtwNavbar, enusNavbar, jajpNavbar, kokrNavbar } from "./navbar/index";
 import { zhcnSidebar, zhtwSidebar, enusSidebar, jajpSidebar, kokrSidebar } from "./sidebar/index";
 
@@ -71,21 +72,21 @@ export default hopeTheme({
       license: "AGPL-3.0",
     },
 
+    docsearch: DocSearchConfig,
+
     mdEnhance: {
       align: true,
-      card: true,
-      chart: true,
       codetabs: true,
-      container: true,
-      echarts: true,
+      //echarts: true,
       footnote: true,
       gfm: true,
+      hint: true,
       imgLazyload: true,
       imgMark: true,
       imgSize: true,
-      mathjax: true,
+      //mathjax: true,
       mark: true,
-      mermaid: true,
+      //mermaid: true,
       tabs: true,
       tasklist: true,
       vPre: true,
