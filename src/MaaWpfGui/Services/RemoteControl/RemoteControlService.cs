@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -694,7 +695,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (!IsEndpointValid(endpoint))
+            if (!IsEndpointValid(endpoint, alarm: true))
             {
                 return;
             }
@@ -755,12 +756,11 @@ namespace MaaWpfGui.Services.RemoteControl
             Instances.SettingsViewModel.RemoteControlDeviceIdentity = Guid.NewGuid().ToString("N");
         }
 
-        public static bool IsEndpointValid(string endpoint)
+        public static bool IsEndpointValid(string endpoint, bool alarm = false)
         {
             if (string.IsNullOrWhiteSpace(endpoint))
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("RemoteControlConnectionTestFailEmpty"));
-                toast.Show();
+                ShowToast("RemoteControlConnectionTestFailEmpty", alarm);
                 return false;
             }
 
@@ -772,15 +772,22 @@ namespace MaaWpfGui.Services.RemoteControl
             }
             else if (lowerEndpoint.StartsWith("http://"))
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("RemoteControlConnectionTestWarningHttpUnsafe"));
-                toast.Show();
+                ShowToast("RemoteControlConnectionTestWarningHttpUnsafe", alarm);
                 return true;
             }
             else
             {
-                using var toast = new ToastNotification(LocalizationHelper.GetString("RemoteControlConnectionTestFailNotHttpOrHttps"));
-                toast.Show();
+                ShowToast("RemoteControlConnectionTestFailNotHttpOrHttps", alarm);
                 return false;
+            }
+        }
+
+        public static void ShowToast(string message, bool alarm)
+        {
+            if (alarm)
+            {
+                using var toast = new ToastNotification(LocalizationHelper.GetString(message));
+                toast.Show();
             }
         }
     }
