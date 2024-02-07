@@ -2524,6 +2524,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _receiveOrundum = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive orundum is enabled.
+        /// </summary>
+        public bool ReceiveOrundum
+        {
+            get => _receiveOrundum;
+            set
+            {
+                SetAndNotify(ref _receiveOrundum, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveOrundum, value.ToString());
+            }
+        }
+
         /* 定时设置 */
 
         public class TimerModel

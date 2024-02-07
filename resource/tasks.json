@@ -5125,15 +5125,6 @@
             "RecruitNowConfirm"
         ]
     },
-    "ActivitiesBegin": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "ReturnToActivities",
-            "MiningActivities",
-            "RecruitingActivities"
-        ]
-    },
     "ReturnToActivities": {
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -5145,9 +5136,6 @@
             80
         ],
         "next": [
-            "ReturnToActivities",
-            "MiningActivities",
-            "RecruitingActivities",
             "Stop"
         ]
     },
@@ -5206,6 +5194,127 @@
         ],
         "next": [
             "MiningActivitiesReturn",
+            "Stop"
+        ]
+    },
+    "OrundumActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "OrundumActivitiesReturnHome@ReturnButtons#next",
+            "OrundumActivitiesReturnHome",
+            "OrundumActivities"
+        ]
+    },
+    "OrundumActivitiesReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "next": [
+            "OrundumActivities"
+        ]
+    },
+    "OrundumActivities": {
+        "doc": "幸运墙领合成玉",
+        "algorithm": "OcrDetect",
+        "text": [
+            "幸运墙",
+            "幸运"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            23,
+            81,
+            182,
+            141
+        ],
+        "next": [
+            "OrundumActivitiesChoose",
+            "OrundumActivitiesReturn"
+        ]
+    },
+    "OrundumActivitiesChoose": {
+        "baseTask": "OrundumActivitiesClick",
+        "template": "OrundumActivitiesClick.png",
+        "action": "DoNothing",
+        "sub": [
+            "OrundumActivitiesClick",
+            "OrundumActivitiesClick",
+            "OrundumActivitiesClick"
+        ],
+        "subErrorIgnored": true,
+        "next": [
+            "OrundumActivitiesConfirm",
+            "OrundumActivitiesEarnRewards",
+            "OrundumActivitiesReturn"
+        ]
+    },
+    "OrundumActivitiesClick": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            150,
+            150,
+            1000,
+            400
+        ],
+        "templThreshold": 0.9,
+        "maskRange": [
+            1,
+            255
+        ],
+        "rectMove": [
+            10,
+            10,
+            50,
+            50
+        ]
+    },
+    "OrundumActivitiesConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1030,
+            500,
+            200,
+            80
+        ],
+        "next": [
+            "OrundumActivitiesEarnRewards"
+        ]
+    },
+    "OrundumActivitiesEarnRewards": {
+        "action": "ClickRect",
+        "roi": [
+            590,
+            40,
+            130,
+            100
+        ],
+        "specificRect": [
+            600,
+            600,
+            70,
+            70
+        ],
+        "next": [
+            "OrundumActivitiesReturn"
+        ]
+    },
+    "OrundumActivitiesReturn": {
+        "template": "CloseAnno.png",
+        "action": "ClickSelf",
+        "roi": [
+            1146,
+            0,
+            134,
+            162
+        ],
+        "next": [
             "Stop"
         ]
     },
