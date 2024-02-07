@@ -740,7 +740,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RemoteControlConnectionTestSuccess">Connection Test Successful!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed, reason: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">Connection Test Failed. Endpoint is not an https address.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttpsOrHttps">Connection Test Failed, Endpoint is not an http or https address.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">Endpoint is using http, might be unsafe.</system:String>
     <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControlCompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your Arknights account.</system:String>
