@@ -7935,30 +7935,30 @@
         "baseTask": "NumberOcrReplace",
         "Doc": "HH",
         "roi": [
-            158,
-            655,
-            30,
-            20
+            154,
+            645,
+            35,
+            40
         ]
     },
     "InfrastTrainingTimeRec1": {
         "baseTask": "NumberOcrReplace",
         "Doc": "MM",
         "roi": [
-            190,
-            655,
-            30,
-            20
+            188,
+            645,
+            35,
+            40
         ]
     },
     "InfrastTrainingTimeRec2": {
         "baseTask": "NumberOcrReplace",
         "Doc": "SS",
         "roi": [
-            222,
-            655,
-            30,
-            20
+            220,
+            645,
+            35,
+            40
         ]
     },
     "InfrastTrainingChooseSkillRec": {
