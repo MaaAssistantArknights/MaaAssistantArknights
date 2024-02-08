@@ -2659,7 +2659,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use DrGrandet mode.
+        /// Gets or sets a value indicating whether to force scheduled start.
         /// </summary>
         public bool ForceScheduledStart
         {
@@ -2668,6 +2668,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _forceScheduledStart, value);
                 ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+            }
+        }
+
+        private bool _showWindowBeforeForceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to force scheduled start.
+        /// </summary>
+        public bool ShowWindowBeforeForceScheduledStart
+        {
+            get => _showWindowBeforeForceScheduledStart;
+            set
+            {
+                SetAndNotify(ref _showWindowBeforeForceScheduledStart, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, value.ToString());
             }
         }
 

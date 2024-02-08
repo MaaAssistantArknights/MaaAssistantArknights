@@ -216,6 +216,7 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">Please manually download the full package to update!</system:String>
     <system:String x:Key="ForceScheduledStart">Force scheduled start</system:String>
     <system:String x:Key="ForceScheduledStartTip">Stop current task, restart game and start new tasks</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">Show window before force scheduled start</system:String>
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
     <system:String x:Key="TimerCustomConfigTip">Restart and switch configuration two minutes in advance</system:String>
     <system:String x:Key="Timer">Timer</system:String>

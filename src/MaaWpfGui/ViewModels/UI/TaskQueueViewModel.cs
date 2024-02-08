@@ -331,6 +331,16 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                if (Instances.SettingsViewModel.ShowWindowBeforeForceScheduledStart)
+                {
+                    Instances.MainWindowManager?.Show();
+                }
+
+                if (await TimerCanceledAsync())
+                {
+                    return;
+                }
+
                 if (!_runningState.GetIdle())
                 {
                     await Stop();
@@ -347,6 +357,26 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             LinkStart();
+        }
+
+        private static async Task<bool> TimerCanceledAsync()
+        {
+            var delay = TimeSpan.FromSeconds(10);
+            var dialogUserControl = new Views.UserControl.TextDialogWithTimerUserControl(
+                LocalizationHelper.GetString("ForceScheduledStart"),
+                LocalizationHelper.GetString("ForceScheduledStartTip"),
+                LocalizationHelper.GetString("Cancel"),
+                delay.TotalMilliseconds);
+            var dialog = HandyControl.Controls.Dialog.Show(dialogUserControl, nameof(Views.UI.RootView));
+            var canceled = false;
+            dialogUserControl.Click += (_, _) =>
+            {
+                canceled = true;
+                dialog.Close();
+            };
+            await Task.Delay(delay);
+            dialog.Close();
+            return canceled;
         }
 
         /// <summary>
