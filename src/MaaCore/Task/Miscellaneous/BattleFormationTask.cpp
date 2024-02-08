@@ -58,19 +58,19 @@ bool asst::BattleFormationTask::_run()
     if (m_select_formation_index > 0 && !select_formation(m_select_formation_index)) {
         return false;
     }
-    
+
     if (!enter_selection_page()) {
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-    
+
     for (auto& [role, oper_groups] : m_formation) {
-        if (!add_formation(role,oper_groups)) {
+        if (!add_formation(role, oper_groups)) {
             report_missing_operators(oper_groups);
             return false;
         }
     }
-    
+
     if (m_add_user_additional) {
         for (const auto& [name, skill] : m_user_additional) {
             if (m_operators_in_formation.contains(name)) {
@@ -137,9 +137,9 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
                 // return and notify the user
                 return false;
             }
-            
+
             ++error_times;
-            
+
             has_error = true;
             swipe_to_the_left(swipe_times);
             swipe_times = 0;
@@ -250,7 +250,8 @@ bool asst::BattleFormationTask::select_random_support_unit()
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
 }
 
-void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>& groups) {
+void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>& groups)
+{
     auto info = basic_info();
 
     std::vector<std::string> oper_names;
