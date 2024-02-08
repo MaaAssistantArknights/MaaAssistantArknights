@@ -2085,6 +2085,10 @@ namespace MaaWpfGui.Main
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
             */
+            var taskParams = new JObject
+            {
+                ["theme"] = 1,
+            };
             AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
             _latestTaskId[TaskType.ReclamationAlgorithm2] = id;
             return id != 0;
