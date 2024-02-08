@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:TextBlock
@@ -50,7 +51,21 @@
                 ToolTip="{DynamicResource TimerCustomConfigTip}" />
         </StackPanel>
 
-        <Grid Grid.Row="2">
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Height="30"
+                Margin="5,0"
+                HorizontalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{DynamicResource ShowWindowBeforeForceScheduledStart}"
+                IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
+                Visibility="{c:Binding ForceScheduledStart}" />
+        </StackPanel>
+
+        <Grid Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />

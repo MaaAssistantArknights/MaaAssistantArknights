@@ -216,6 +216,7 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">전체 패키지를 수동으로 다운로드해 업데이트해 주세요!</system:String>
     <system:String x:Key="ForceScheduledStart">강제로 예약된 시작</system:String>
     <system:String x:Key="ForceScheduledStartTip">현재 작업을 중지하고 게임을 다시 시작하여 새 작업을 시작합니다</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">강제로 예약된 시작 전 창 표시</system:String>
     <system:String x:Key="TimerCustomConfig">사용자 지정 구성 옵션</system:String>
     <system:String x:Key="TimerCustomConfigTip">2분 전에 재시작하여 설정을 전환합니다</system:String>
     <system:String x:Key="Timer">타이머</system:String>
