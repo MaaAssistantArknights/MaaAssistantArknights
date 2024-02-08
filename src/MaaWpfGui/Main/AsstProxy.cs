@@ -1576,7 +1576,10 @@ namespace MaaWpfGui.Main
                 }
                 else
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoDetectConnectionNotSupported"), UiLogColor.Error);
+                    Execute.OnUIThreadAsync(() =>
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoDetectConnectionNotSupported"), UiLogColor.Error);
+                    });
                 }
             }
 
@@ -1974,7 +1977,7 @@ namespace MaaWpfGui.Main
             }
 
             var taskParams = SerializeInfrastTaskParams(
-                order, usesOfDrones,continueTraining, dormThreshold,
+                order, usesOfDrones, continueTraining, dormThreshold,
                 dormFilterNotStationedEnabled, dormDormTrustEnabled, originiumShardAutoReplenishment,
                 isCustom, filename, planIndex);
             return AsstSetTaskParamsWithEncoding(id, taskParams);
