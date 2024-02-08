@@ -602,6 +602,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
+    <system:String x:Key="MissingOperators">次のオペレーターは１つ以上欠落しています：</system:String>
     <system:String x:Key="StageQueue">レベルキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
