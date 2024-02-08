@@ -2089,7 +2089,7 @@ namespace MaaWpfGui.Main
             {
                 ["theme"] = 1,
             };
-            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
+            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm", taskParams);
             _latestTaskId[TaskType.ReclamationAlgorithm2] = id;
             return id != 0;
         }
