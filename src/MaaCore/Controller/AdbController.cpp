@@ -475,14 +475,18 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 { "uuid", m_uuid },
                 { "what", "ScreencapCost" },
                 { "details",
-                  json::object { { "min", screencap_cost_min },
-                                 { "max", screencap_cost_max },
-                                 { "avg", filtered_count > 0 ? std::accumulate(filtered_duration.begin(),
-                                                                               filtered_duration.end(), 0ll) /
-                                                                   filtered_count
-                                                             : -1 },
-                                 { "fault_times", m_screencap_duration.size() - filtered_count } } },
+                  json::object {
+                      { "min", screencap_cost_min },
+                      { "max", screencap_cost_max },
+                      { "avg",
+                        filtered_count > 0
+                            ? std::accumulate(filtered_duration.begin(), filtered_duration.end(), 0ll) / filtered_count
+                            : -1 },
+                  } },
             };
+            if (m_screencap_duration.size() - filtered_count > 0) {
+                info["details"]["fault_times"] = m_screencap_duration.size() - filtered_count;
+            }
             callback(AsstMsg::ConnectionInfo, info);
         }
         return screencap_ret;
