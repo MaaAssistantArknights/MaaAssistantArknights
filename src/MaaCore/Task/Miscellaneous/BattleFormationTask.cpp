@@ -65,8 +65,7 @@ bool asst::BattleFormationTask::_run()
     }
     
     for (auto& [role, oper_groups] : m_formation) {
-        if (!add_formation(role, oper_groups)) {
-            
+        if (!add_formation(role,oper_groups)) {
             report_missing_operators(oper_groups);
             return false;
         }
@@ -134,7 +133,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
             has_error = false;
         }
         else {
-            if (error_times == m_missing_retry_times+1) {
+            if (error_times == m_missing_retry_times + 1) {
                 // return and notify the user
                 return false;
             }
