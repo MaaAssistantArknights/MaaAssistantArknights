@@ -2078,11 +2078,14 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstAppendReclamation2()
         {
+            /*
             var taskParams = new JObject
             {
                 ["task_names"] = new JArray { "Reclamation2" },
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
+            */
+            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm");
             _latestTaskId[TaskType.ReclamationAlgorithm2] = id;
             return id != 0;
         }
