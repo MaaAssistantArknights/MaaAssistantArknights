@@ -94,7 +94,6 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自訂設施配置選擇為空，請檢查配置或關閉自訂功能。</system:String>
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">藍疊模擬器</system:String>
-    <system:String x:Key="MuMuEmulator">MuMu 模擬器 6</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模擬器 12</system:String>
     <system:String x:Key="LDPlayer">雷電模擬器</system:String>
     <system:String x:Key="Nox">夜神模擬器</system:String>
@@ -217,6 +216,7 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">請手動下載完整檔案更新！</system:String>
     <system:String x:Key="ForceScheduledStart">強制定時啟動</system:String>
     <system:String x:Key="ForceScheduledStartTip">停止當前任務，重新啟動遊戲並開始新任務</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">強制定時啟動前顯示窗口</system:String>
     <system:String x:Key="TimerCustomConfig">自定義配置選擇</system:String>
     <system:String x:Key="TimerCustomConfigTip">將提前兩分鐘重開並切換配置</system:String>
     <system:String x:Key="Timer">定時</system:String>
@@ -286,14 +286,15 @@
     <system:String x:Key="ReceiveMail">收集所有郵件獎勵</system:String>
     <system:String x:Key="ReceiveFreeRecruit">進行限定池贈送的每日免費單抽</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
-    <system:String x:Key="ReceiveFreeRecruitWarning">該功能屬於危險功能，可能會造成誤抽\n按下「確認」鍵即視為你了解並願意承擔可能出現的風險</system:String>
+    <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下「確認」鍵即視為你了解並願意承擔可能出現的風險</system:String>
+    <system:String x:Key="ReceiveOrundum">收集幸運墻的每日合成玉獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
     <system:String x:Key="UseLogItemDateFormat">自訂日誌日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字串</system:String>
-    <system:String x:Key="DarkModeSetColorsTip">是否立刻重啟應用更改？</system:String>
+    <system:String x:Key="PromptRestartForSettingsChange">是否立刻重啟應用更改？</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥/碎石</system:String>
@@ -336,8 +337,8 @@
     <system:String x:Key="Mall">獲取信用及購物</system:String>
     <system:String x:Key="Mission">領取獎勵</system:String>
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算2</system:String>
+    <system:String x:Key="ReclamationAlgorithm">生息演算·沙中之火</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算·沙洲遺聞</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">與系統同步</system:String>
@@ -491,7 +492,7 @@
     <system:String x:Key="GachaDisclaimerHead">請注意，這是</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  !Gacha Recognition  -->
     <!--  日誌  -->
     <system:String x:Key="Identifying">正在辨識……</system:String>
@@ -599,6 +600,7 @@
     <system:String x:Key="DropRecognitionError">掉落辨識錯誤</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放棄上傳企鵝物流</system:String>
     <system:String x:Key="TheEx">無獎勵關卡，已停止</system:String>
+    <system:String x:Key="MissingOperators">缺少以下一個或多個幹員：</system:String>
     <system:String x:Key="StageQueue">關卡隊列:</system:String>
     <system:String x:Key="UnableToAgent">無法使用代理指揮</system:String>
     <system:String x:Key="MissionStart">已開始行動</system:String>
@@ -615,7 +617,6 @@
     <system:String x:Key="RecruitConfirm">已確認招募</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">幹員衝突</system:String>
     <system:String x:Key="BegunToExplore">已開始探索</system:String>
-    <system:String x:Key="HasInvested">已投資</system:String>
     <system:String x:Key="ExplorationAbandoned">已放棄本次探索</system:String>
     <system:String x:Key="FightCompleted">戰鬥完成</system:String>
     <system:String x:Key="FightFailed">戰鬥失敗</system:String>
@@ -632,14 +633,8 @@
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
-    <system:String x:Key="RoguelikeSettlement">
-        肉鴿結算: {0}\n
-        探索: {1} 层 {2} 步\n
-        戰鬥: {3} / {4} 緊急 / {5} BOSS\n
-        招募: {6}  收藏品: {7}\n
-        難度: {8}  得分: {9}\n
-        Exp: {10}  Skill: {11}
-    </system:String>
+    <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">肉鴿結算: {0}\n探索: {1} 层 {2} 步\n戰鬥: {3}/{4} 緊急/{5} BOSS\n招募: {6}   收藏品: {7}\n難度: {8}   得分: {9}\nExp: {10}  Skill: {11}</system:String>
     <system:String x:Key="CurTimes">目前次數</system:String>
     <system:String x:Key="NoDrop">無</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
@@ -745,7 +740,8 @@
     <system:String x:Key="RemoteControlConnectionTestSuccess">連接測試成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">連接測試失敗，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">連接測試失敗，連接端點為空。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">連接測試失敗。端點非https地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">連接測試失敗，連接端點不為http(s)地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">連接端點未啟用https，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到遠端任務{0}，任務Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成遠端任務{0}，任務Id:{1}。</system:String>
     <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的地址可能會導致您的明日方舟帳戶受到損失。</system:String>

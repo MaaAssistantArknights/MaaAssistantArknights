@@ -361,7 +361,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
                 new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
                 new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
                 new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
                 new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
@@ -708,7 +707,6 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 new CombinedData { Display = LocalizationHelper.GetString("General"), Value = "General" },
                 new CombinedData { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-                new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator"), Value = "MuMuEmulator" },
                 new CombinedData { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
                 new CombinedData { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
                 new CombinedData { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
@@ -1433,6 +1431,15 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("PromptRestartForSettingsChange"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
+                }
             }
         }
 
@@ -2494,10 +2501,10 @@ namespace MaaWpfGui.ViewModels.UI
             get => _receiveFreeRecruit;
             set
             {
-                if (value == true)
+                if (value)
                 {
                     var result = MessageBoxHelper.Show(
-                            LocalizationHelper.GetString("ReceiveFreeRecruitWarning"),
+                            LocalizationHelper.GetString("GachaWarning"),
                             LocalizationHelper.GetString("Warning"),
                             MessageBoxButton.OKCancel,
                             MessageBoxImage.Warning,
@@ -2512,6 +2519,21 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _receiveFreeRecruit, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveFreeRecruit, value.ToString());
+            }
+        }
+
+        private bool _receiveOrundum = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive orundum is enabled.
+        /// </summary>
+        public bool ReceiveOrundum
+        {
+            get => _receiveOrundum;
+            set
+            {
+                SetAndNotify(ref _receiveOrundum, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveOrundum, value.ToString());
             }
         }
 
@@ -2637,7 +2659,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to use DrGrandet mode.
+        /// Gets or sets a value indicating whether to force scheduled start.
         /// </summary>
         public bool ForceScheduledStart
         {
@@ -2646,6 +2668,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _forceScheduledStart, value);
                 ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ForceScheduledStart, value.ToString());
+            }
+        }
+
+        private bool _showWindowBeforeForceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to force scheduled start.
+        /// </summary>
+        public bool ShowWindowBeforeForceScheduledStart
+        {
+            get => _showWindowBeforeForceScheduledStart;
+            set
+            {
+                SetAndNotify(ref _showWindowBeforeForceScheduledStart, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, value.ToString());
             }
         }
 
@@ -3357,7 +3394,6 @@ namespace MaaWpfGui.ViewModels.UI
         {
             { "General", new List<string> { string.Empty } },
             { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
-            { "MuMuEmulator", new List<string> { "127.0.0.1:7555" } },
             { "MuMuEmulator12", new List<string> { "127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576" } },
             { "LDPlayer", new List<string> { "emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
             { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
@@ -3557,8 +3593,17 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _touchMode, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.TouchMode, value);
                 UpdateInstanceSettings();
+                ConfigurationHelper.SetValue(ConfigurationKeys.TouchMode, value);
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("PromptRestartForSettingsChange"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question);
+                if (result == MessageBoxResult.OK)
+                {
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
+                }
             }
         }
 
@@ -3893,7 +3938,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 /*
                 var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("DarkModeSetColorsTip"),
+                    LocalizationHelper.GetString("PromptRestartForSettingsChange"),
                     LocalizationHelper.GetString("Tip"),
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Question);

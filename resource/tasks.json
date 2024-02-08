@@ -3376,6 +3376,14 @@
             [
                 "^委$",
                 "黍"
+            ],
+            [
+                "红集",
+                "红隼"
+            ],
+            [
+                "小.?满",
+                "小满"
             ]
         ]
     },
@@ -4188,6 +4196,7 @@
             80,
             380
         ],
+        "cache": false,
         "maskRange": [
             1,
             255
@@ -5116,15 +5125,6 @@
             "RecruitNowConfirm"
         ]
     },
-    "ActivitiesBegin": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
-        "next": [
-            "ReturnToActivities",
-            "MiningActivities",
-            "RecruitingActivities"
-        ]
-    },
     "ReturnToActivities": {
         "template": "Return.png",
         "templThreshold": 0.7,
@@ -5136,9 +5136,6 @@
             80
         ],
         "next": [
-            "ReturnToActivities",
-            "MiningActivities",
-            "RecruitingActivities",
             "Stop"
         ]
     },
@@ -5200,6 +5197,127 @@
             "Stop"
         ]
     },
+    "OrundumActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "OrundumActivitiesReturnHome@ReturnButtons#next",
+            "OrundumActivitiesReturnHome",
+            "OrundumActivities"
+        ]
+    },
+    "OrundumActivitiesReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png"
+        ],
+        "next": [
+            "OrundumActivities"
+        ]
+    },
+    "OrundumActivities": {
+        "doc": "幸运墙领合成玉",
+        "algorithm": "OcrDetect",
+        "text": [
+            "幸运墙",
+            "幸运"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            23,
+            81,
+            182,
+            141
+        ],
+        "next": [
+            "OrundumActivitiesChoose",
+            "OrundumActivitiesReturn"
+        ]
+    },
+    "OrundumActivitiesChoose": {
+        "baseTask": "OrundumActivitiesClick",
+        "template": "OrundumActivitiesClick.png",
+        "action": "DoNothing",
+        "sub": [
+            "OrundumActivitiesClick",
+            "OrundumActivitiesClick",
+            "OrundumActivitiesClick"
+        ],
+        "subErrorIgnored": true,
+        "next": [
+            "OrundumActivitiesConfirm",
+            "OrundumActivitiesEarnRewards",
+            "OrundumActivitiesReturn"
+        ]
+    },
+    "OrundumActivitiesClick": {
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            150,
+            150,
+            1000,
+            400
+        ],
+        "templThreshold": 0.9,
+        "maskRange": [
+            1,
+            255
+        ],
+        "rectMove": [
+            10,
+            10,
+            50,
+            50
+        ]
+    },
+    "OrundumActivitiesConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            1030,
+            500,
+            200,
+            80
+        ],
+        "next": [
+            "OrundumActivitiesEarnRewards"
+        ]
+    },
+    "OrundumActivitiesEarnRewards": {
+        "action": "ClickRect",
+        "roi": [
+            590,
+            40,
+            130,
+            100
+        ],
+        "specificRect": [
+            600,
+            600,
+            70,
+            70
+        ],
+        "next": [
+            "OrundumActivitiesReturn"
+        ]
+    },
+    "OrundumActivitiesReturn": {
+        "template": "CloseAnno.png",
+        "action": "ClickSelf",
+        "roi": [
+            1146,
+            0,
+            134,
+            162
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
     "RecruitingActivitiesBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
@@ -5219,7 +5337,8 @@
             "TerminalMistCity.png"
         ],
         "next": [
-            "RecruitingActivities"
+            "RecruitingActivities",
+            "Stop"
         ]
     },
     "RecruitingActivities": {
@@ -5238,6 +5357,9 @@
         "next": [
             "RecruitingActivitiesConfirm",
             "RecruitingActivities"
+        ],
+        "onErrorNext": [
+            "Stop"
         ]
     },
     "RecruitingActivitiesConfirm": {
@@ -5334,6 +5456,7 @@
             143
         ],
         "next": [
+            "Home@ReturnButtons#next",
             "Stop"
         ]
     },
@@ -11362,6 +11485,7 @@
             249,
             168
         ],
+        "postDelay": 1000,
         "next": [
             "Roguelike@MissionFailedFlag2",
             "Roguelike@StartExplore"
@@ -12710,6 +12834,43 @@
             "Roguelike@StageTraderLeaveConfirm"
         ]
     },
+    "Roguelike@StageTraderInvest-Arrow": {
+        "doc": "商店投资界面的箭头，99 >> 100",
+        "roi": [
+            750,
+            320,
+            100,
+            100
+        ]
+    },
+    "Roguelike@StageTraderInvest-Confirm": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            850,
+            470,
+            300,
+            45
+        ]
+    },
+    "Roguelike@StageTraderInvest-Count": {
+        "doc": "商店投资界面的余额显示，99 >> 100",
+        "algorithm": "OcrDetect",
+        "text": [],
+        "isAscii": true,
+        "roi": [
+            570,
+            335,
+            150,
+            60
+        ],
+        "ocrReplace": [
+            [
+                ">",
+                ""
+            ]
+        ]
+    },
     "Roguelike@StageTraderInvestCancel": {
         "action": "ClickSelf",
         "roi": [
@@ -12727,22 +12888,29 @@
         ]
     },
     "Roguelike@StageTraderInvestConfirm": {
-        "action": "ClickSelf",
+        "doc": "绑定 RoguelikeInvestTaskPlugin 插件进行投资，本任务仅作为进入投资系统时的初始化确认",
         "roi": [
             852,
             422,
             278,
             144
         ],
-        "postDelay": 500,
         "exceededNext": [
             "RoguelikeControlTaskPlugin-ExitThenStop"
         ],
         "next": [
             "Roguelike@StageTraderInvestSystemError",
-            "Roguelike@StageTraderInvestSystemFull",
-            "Roguelike@StageTraderInvestConfirm",
             "Roguelike@StageTraderInvestCancel"
+        ]
+    },
+    "Roguelike@StageTraderInvestError-Count": {
+        "doc": "商店投资界面系统出错时余额显示",
+        "baseTask": "NumberOcrReplace",
+        "roi": [
+            635,
+            205,
+            70,
+            40
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
@@ -15612,17 +15780,18 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "sub": [
-            "Reclamation2Begin",
+            "Reclamation2BeginPlotEnterLoading@Reclamation2Begin",
             "Reclamation2CopiousCoppice",
             "Reclamation2Birdland",
             "Reclamation2SkipDays*3",
             "Reclamation2DeleteArchive"
         ],
         "Doc": "现在是纯tasks实现的，先一直跑着",
-        "next": "#self"
+        "next": [
+            "#self"
+        ]
     },
     "Reclamation2Begin": {
-        "Doc": "刚开始演算的剧情",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
@@ -15637,15 +15806,20 @@
             436,
             151
         ],
-        "postDelay": 8000,
         "next": [
-            "Reclamation2BeginPlotEnter"
+            "#self",
+            "#back"
         ]
     },
     "Reclamation2BeginPlot": {
         "Doc": "点指定区域，直到左上角出现退出",
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
+        "roi": [
+            0,
+            0,
+            100,
+            100
+        ],
+        "cache": false,
         "sub": [
             "Reclamation2ClickBeginPlotTalk*10"
         ],
@@ -15671,6 +15845,15 @@
         "next": [
             "#self",
             "Reclamation2BeginPlotLoading@Reclamation2EnterStage"
+        ]
+    },
+    "Reclamation2BeginPlotEnterLoading": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "postDelay": 8000,
+        "next": [
+            "Reclamation2BeginPlotEnter",
+            "Reclamation2Begin"
         ]
     },
     "Reclamation2BeginPlotLoading": {
@@ -15810,7 +15993,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": [
-            "删除存档"
+            "删除"
         ],
         "roi": [
             1063,
@@ -15877,6 +16060,10 @@
             447,
             631,
             64
+        ],
+        "postDelay": 5000,
+        "next": [
+            "Stop"
         ]
     },
     "Reclamation2LeaveStage": {
@@ -15887,6 +16074,7 @@
             146,
             154
         ],
+        "postDelay": 1000,
         "next": [
             "Reclamation2LeaveStageConfirm",
             "#self"
@@ -15910,7 +16098,7 @@
         ]
     },
     "Reclamation2SkipDays": {
-        "algorithm": "justReturn",
+        "algorithm": "JustReturn",
         "action": "DoNothing",
         "postDelay": 1000,
         "next": [
@@ -15978,7 +16166,7 @@
         ]
     },
     "Reclamation2SkipDaysAward": {
-        "algorithm": "justReturn",
+        "algorithm": "JustReturn",
         "action": "DoNothing",
         "postDelay": 5000,
         "next": [
@@ -15987,7 +16175,7 @@
         ]
     },
     "Reclamation2SkipDaysAward1": {
-        "algorithm": "justReturn",
+        "algorithm": "JustReturn",
         "action": "DoNothing",
         "Doc": "会自己消失",
         "preDelay": 3000
@@ -16002,6 +16190,8 @@
             111
         ],
         "preDelay": 1000,
+        "postDelay": 4000,
+        "cache": false,
         "text": [
             "点击",
             "任意处",
@@ -16014,9 +16204,12 @@
     "Reclamation2SkipDaysBeginNewDay": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "cache": false,
         "text": [
-            "开启",
-            "今日"
+            "开",
+            "启",
+            "今",
+            "日"
         ],
         "preDelay": 1000,
         "roi": [

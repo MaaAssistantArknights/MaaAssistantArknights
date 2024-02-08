@@ -31,6 +31,10 @@
                 Content="{DynamicResource ReceiveFreeRecruit}"
                 ToolTip="{DynamicResource ReceiveFreeRecruitTip}"
                 IsChecked="{Binding ReceiveFreeRecruit}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource ReceiveOrundum}"
+                IsChecked="{Binding ReceiveOrundum}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -488,6 +488,33 @@
             "name": "重装",
             "opers": [
                 {
+                    "name": "黍",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "is_key": true,
+                    "recruit_priority": 625,
+                    "promote_priority": 690,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 120
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "重装"
+                            ],
+                            "threshold": 2,
+                            "offset": -120
+                        }
+                    ]
+                },
+                {
                     "name": "塞雷娅",
                     "skill": 1,
                     "is_key": true,
@@ -1801,6 +1828,33 @@
                     ]
                 },
                 {
+                    "name": "万顷",
+                    "skill": 1,
+                    "auto_retreat": 80,
+                    "recruit_priority": 569,
+                    "promote_priority": 390,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "挡人先锋",
+                                "情报官"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -400
+                        },
+                        {
+                            "groups": [
+                                "投锋",
+                                "挡人先锋",
+                                "情报官"
+                            ],
+                            "threshold": 2,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "桃金娘",
                     "skill": 1,
                     "auto_retreat": 80,
@@ -1924,6 +1978,10 @@
                             "offset": -300
                         }
                     ]
+                },
+                {
+                    "name": "红隼",
+                    "skill": 2
                 },
                 {
                     "name": "讯使"
@@ -2346,6 +2404,11 @@
                     "promote_priority": 400
                 },
                 {
+                    "name": "小满",
+                    "recruit_priority": 256,
+                    "promote_priority": 400
+                },
+                {
                     "name": "格劳克斯",
                     "skill": 2,
                     "promote_priority": 300
@@ -2382,6 +2445,9 @@
                 },
                 {
                     "name": "圣约送葬人"
+                },
+                {
+                    "name": "黍"
                 },
                 {
                     "name": "塞雷娅"
@@ -2499,9 +2565,6 @@
                     "name": "焰尾"
                 },
                 {
-                    "name": "德克萨斯"
-                },
-                {
                     "name": "灰毫"
                 },
                 {
@@ -2610,6 +2673,12 @@
                 },
                 {
                     "name": "讯使"
+                },
+                {
+                    "name": "德克萨斯"
+                },
+                {
+                    "name": "红隼"
                 },
                 {
                     "name": "清道夫"
@@ -2982,6 +3051,9 @@
                     "name": "青枳"
                 },
                 {
+                    "name": "红隼"
+                },
+                {
                     "name": "讯使"
                 },
                 {
@@ -3001,6 +3073,9 @@
                 },
                 {
                     "name": "琴柳"
+                },
+                {
+                    "name": "万顷"
                 },
                 {
                     "name": "极境"
@@ -3345,6 +3420,9 @@
                     "name": "极境"
                 },
                 {
+                    "name": "万顷"
+                },
+                {
                     "name": "琴柳"
                 },
                 {
@@ -3662,6 +3740,12 @@
                             "offset": -300
                         }
                     ]
+                },
+                {
+                    "name": "左乐",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": -700
                 },
                 {
                     "name": "赫拉格",

@@ -693,6 +693,9 @@
     <ClInclude Include="Config\TaskData\TaskDataTypes.h">
       <Filter>Source\Resource\TaskData</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1153,6 +1156,9 @@
     </ClCompile>
     <ClCompile Include="Task\Infrast\InfrastTrainingTask.cpp">
       <Filter>Source\Task\Infrast</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeInvestTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

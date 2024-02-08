@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -247,7 +248,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (string.IsNullOrWhiteSpace(endpoint) || !endpoint.ToLower().StartsWith("https://"))
+            if (!IsEndpointValid(endpoint))
             {
                 return;
             }
@@ -435,7 +436,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
-                if (!string.IsNullOrWhiteSpace(endpoint) && endpoint.ToLower().StartsWith("https://"))
+                if (IsEndpointValid(endpoint))
                 {
                     var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
                     var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
@@ -530,7 +531,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
-                if (!string.IsNullOrWhiteSpace(endpoint) && endpoint.ToLower().StartsWith("https://"))
+                if (IsEndpointValid(endpoint))
                 {
                     var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
                     var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
@@ -694,19 +695,8 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (string.IsNullOrWhiteSpace(endpoint))
+            if (!IsEndpointValid(endpoint, alarm: true))
             {
-                using var toastEmpty = new ToastNotification(
-                    LocalizationHelper.GetString("RemoteControlConnectionTestFailEmpty"));
-                toastEmpty.Show();
-                return;
-            }
-
-            if (!endpoint.ToLower().StartsWith("https://"))
-            {
-                using var toastEmpty = new ToastNotification(
-                    LocalizationHelper.GetString("RemoteControlConnectionTestFailNotHttps"));
-                toastEmpty.Show();
                 return;
             }
 
@@ -764,6 +754,41 @@ namespace MaaWpfGui.Services.RemoteControl
         public static void RegenerateDeviceIdentity()
         {
             Instances.SettingsViewModel.RemoteControlDeviceIdentity = Guid.NewGuid().ToString("N");
+        }
+
+        public static bool IsEndpointValid(string endpoint, bool alarm = false)
+        {
+            if (string.IsNullOrWhiteSpace(endpoint))
+            {
+                ShowToast("RemoteControlConnectionTestFailEmpty", alarm);
+                return false;
+            }
+
+            string lowerEndpoint = endpoint.ToLower();
+
+            if (lowerEndpoint.StartsWith("https://"))
+            {
+                return true;
+            }
+            else if (lowerEndpoint.StartsWith("http://"))
+            {
+                ShowToast("RemoteControlConnectionTestWarningHttpUnsafe", alarm);
+                return true;
+            }
+            else
+            {
+                ShowToast("RemoteControlConnectionTestFailNotHttpOrHttps", alarm);
+                return false;
+            }
+        }
+
+        public static void ShowToast(string message, bool alarm)
+        {
+            if (alarm)
+            {
+                using var toast = new ToastNotification(LocalizationHelper.GetString(message));
+                toast.Show();
+            }
         }
     }
 }

@@ -104,10 +104,6 @@
             "baseConfig": "General"
         },
         {
-            "configName": "MuMuEmulator",
-            "baseConfig": "General"
-        },
-        {
             "configName": "MuMuEmulator12",
             "baseConfig": "General"
         },
@@ -157,8 +153,8 @@
         {
             "configName": "GeneralWithoutScreencapErr",
             "baseConfig": "General",
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/tmp/maa-assistant-arknights.log | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/tmp/maa-assistant-arknights.log\""
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
         }
     ]
 }

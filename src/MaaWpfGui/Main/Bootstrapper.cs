@@ -194,22 +194,6 @@ namespace MaaWpfGui.Main
         }
 
         /// <inheritdoc/>
-        protected override void OnLaunch()
-        {
-            Task.Run(async () =>
-            {
-                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
-                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
-                {
-                    return;
-                }
-
-                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
-            });
-            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
-        }
-
-        /// <inheritdoc/>
         /// <remarks>退出时执行啥自己加。</remarks>
         protected override void OnExit(ExitEventArgs e)
         {

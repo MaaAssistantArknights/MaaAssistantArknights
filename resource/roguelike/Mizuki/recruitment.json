@@ -860,6 +860,22 @@
                     ]
                 },
                 {
+                    "name": "提丰",
+                    "skill": 2,
+                    "recruit_priority": 730,
+                    "promote_priority": 470,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "控制"
+                            ],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "W",
                     "skill": 2,
                     "recruit_priority": 630,
@@ -1656,6 +1672,30 @@
             "name": "重装",
             "opers": [
                 {
+                    "name": "黍",
+                    "skill": 1,
+                    "recruit_priority": 631,
+                    "promote_priority": 590,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "offset": -150
+                        },
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 120
+                        }
+                    ]
+                },
+                {
                     "name": "塞雷娅",
                     "skill": 1,
                     "recruit_priority": 630,
@@ -2212,6 +2252,9 @@
                 },
                 {
                     "name": "圣约送葬人"
+                },
+                {
+                    "name": "黍"
                 },
                 {
                     "name": "塞雷娅"
@@ -2803,6 +2846,9 @@
                 },
                 {
                     "name": "青枳"
+                },
+                {
+                    "name": "红隼"
                 },
                 {
                     "name": "讯使"

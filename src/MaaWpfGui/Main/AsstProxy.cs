@@ -827,6 +827,18 @@ namespace MaaWpfGui.Main
                 case "CheckStageValid":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TheEx"), UiLogColor.Error);
                     break;
+
+                case "BattleFormationTask":
+                    {
+                        var why = details.TryGetValue("why", out var whyObj) ? whyObj.ToString() : string.Empty;
+                        if (why == "OperatorMissing")
+                        {
+                            var missingOpers = details["details"]["opers"].ToObject<List<string>>();
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + string.Join(", ", missingOpers), UiLogColor.Error);
+                        }
+
+                        break;
+                    }
             }
         }
 
@@ -893,10 +905,6 @@ namespace MaaWpfGui.Main
                             /* 肉鸽相关 */
                             case "StartExplore":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("BegunToExplore") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
-                                break;
-
-                            case "StageTraderInvestConfirm":
-                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("HasInvested") + $" {execTimes} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
                                 break;
 
                             case "ExitThenAbandon":
@@ -1174,6 +1182,11 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CreditFullOnlyBuyDiscount") + subTaskDetails["credit"], UiLogColor.Message);
                         break;
                     }
+
+                case "RoguelikeInvestment":
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
+                    break;
+
 
                 case "RoguelikeSettlement":
                     // 肉鸽结算
@@ -1735,14 +1748,16 @@ namespace MaaWpfGui.Main
         /// <param name="award">是否领取每日/每周任务奖励</param>
         /// <param name="mail">是否领取所有邮件奖励</param>
         /// <param name="recruit">是否进行每日免费单抽</param>
+        /// <param name="orundum">是否领取幸运墙合成玉奖励</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendAward(bool award, bool mail, bool recruit)
+        public bool AsstAppendAward(bool award, bool mail, bool recruit, bool orundum)
         {
             var taskParams = new JObject
             {
                 ["award"] = award,
                 ["mail"] = mail,
                 ["recruit"] = recruit,
+                ["orundum"] = orundum,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Award", taskParams);
             _latestTaskId[TaskType.Award] = id;
@@ -2078,11 +2093,18 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstAppendReclamation2()
         {
+            /*
             var taskParams = new JObject
             {
                 ["task_names"] = new JArray { "Reclamation2" },
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
+            */
+            var taskParams = new JObject
+            {
+                ["theme"] = 1,
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm", taskParams);
             _latestTaskId[TaskType.ReclamationAlgorithm2] = id;
             return id != 0;
         }
