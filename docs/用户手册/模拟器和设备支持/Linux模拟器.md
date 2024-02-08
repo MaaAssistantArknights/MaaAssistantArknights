@@ -65,6 +65,8 @@ icon: teenyicons:linux-alt-solid
 
 推荐配置： x86_64 的框架 (R - 30 - x86_64 - Android 11.0) 配合 MAA 的 Linux x64 动态库
 
+注意：从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
+
 ### ⚠️ [Genymotion](https://www.genymotion.com/)
 
 高版本安卓自带 x86_64 框架，轻量但是运行明日方舟时易闪退

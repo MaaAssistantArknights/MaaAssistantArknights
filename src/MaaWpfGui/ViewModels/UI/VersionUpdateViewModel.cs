@@ -299,7 +299,6 @@ namespace MaaWpfGui.ViewModels.UI
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             UpdatePackageName = string.Empty;
             IsFirstBootAfterUpdate = true;
-            ConfigurationHelper.Release();
             return true;
 
             static void DeleteFileWithBackup(string filePath)

@@ -55,6 +55,10 @@ namespace asst
         bool get_start_with_elite_two() const { return m_start_with_elite_two; }
         void set_only_start_with_elite_two(bool value) { m_only_start_with_elite_two = value; }
         bool get_only_start_with_elite_two() const { return m_only_start_with_elite_two; }
+        void set_invest_maximum(int value) { m_invest_maximum = value; }
+        int get_invest_maximum() const { return m_invest_maximum; }
+        void set_invest_stop_when_full(bool value) { m_invest_stop_when_full = value; }
+        bool get_invest_stop_when_full() const { return m_invest_stop_when_full; }
 
     private:
         std::string m_theme;                       // 主题
@@ -62,6 +66,8 @@ namespace asst
         int m_difficulty = 0;                      // 难度
         bool m_start_with_elite_two = false;       // 在刷开局模式下凹开局干员精二直升
         bool m_only_start_with_elite_two = false;  // 只凹开局干员精二直升且不进行作战
+        int m_invest_maximum = 0;                  // 投资次数上限
+        bool m_invest_stop_when_full = false;      // 存款满了就停止
 
         /* 以下为每次重置 */
     public:

@@ -11,7 +11,8 @@ regex_ignore_list = [
     "Roguelike@LevelName_normal_mode",
     "Reclamation@ClickAnyZoneOcr",
     "MiningActivities",
-    "RecruitingActivities"
+    "RecruitingActivities",
+    "Reclamation2"
 ]
 
 server_list = [

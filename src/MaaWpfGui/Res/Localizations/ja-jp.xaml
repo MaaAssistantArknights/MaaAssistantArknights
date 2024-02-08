@@ -94,8 +94,7 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">カスタム施設設定が空です。設定を確認するか、カスタマイズ機能をオフにしてください。</system:String>
     <system:String x:Key="General">一般モード</system:String>
     <system:String x:Key="BlueStacks">BlueStacks</system:String>
-    <system:String x:Key="MuMuEmulator">MuMuPlayer 6</system:String>
-    <system:String x:Key="MuMuEmulator12">MuMuPlayer 12</system:String>
+    <system:String x:Key="MuMuEmulator12">MuMu Player 12</system:String>
     <system:String x:Key="LDPlayer">LDPlayer</system:String>
     <system:String x:Key="Nox">NoxPlayer</system:String>
     <system:String x:Key="XYAZ">MEmu</system:String>
@@ -217,6 +216,7 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">アップデートするには、手動でフルパッケージをダウンロードしてください！</system:String>
     <system:String x:Key="ForceScheduledStart">強制的なタイミングで起動</system:String>
     <system:String x:Key="ForceScheduledStartTip">現在のタスクを停止して、ゲームを再起動し、新しいタスクを開始します</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">強制的なタイミングで起動前の表示ウィンドウ</system:String>
     <system:String x:Key="TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TimerCustomConfigTip">2分前に再起動して設定を切り替えます</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
@@ -286,14 +286,15 @@
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="ReceiveFreeRecruit">リミテッドプールから毎日フリーシングルの抽選を行う</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">無料シングル抽選がない場合は抽選されない</system:String>
-    <system:String x:Key="ReceiveFreeRecruitWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
+    <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
+    <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
     <system:String x:Key="HideCloseButton">「閉じる」ボタンを隠す</system:String>
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
-    <system:String x:Key="DarkModeSetColorsTip">変更を適用するためにすぐに再起動しますか？</system:String>
+    <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、理性剤も源石も使わない</system:String>
@@ -338,8 +339,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="Mall">FP獲得と交換</system:String>
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
-    <system:String x:Key="ReclamationAlgorithm">生息演算</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算2</system:String>
+    <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算「沙洲遺聞」</system:String>
     <system:String x:Key="Light">光</system:String>
     <system:String x:Key="Dark">ダーク</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
@@ -493,7 +494,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="GachaDisclaimerHead">これは、</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">本物のガチャです</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">理解した</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">再度表示しない</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">再度表示しない</system:String>
     <!--  !Gacha Recognition  -->
     <!--  Logs  -->
     <system:String x:Key="Identifying">認識中……</system:String>
@@ -601,6 +602,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
+    <system:String x:Key="MissingOperators">次のオペレーターは１つ以上欠落しています：</system:String>
     <system:String x:Key="StageQueue">レベルキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
@@ -617,7 +619,6 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">オペレーターが競合しました</system:String>
     <system:String x:Key="BegunToExplore">冒険を開始しました</system:String>
-    <system:String x:Key="HasInvested">投資しました</system:String>
     <system:String x:Key="ExplorationAbandoned">この冒険を放棄しました</system:String>
     <system:String x:Key="FightCompleted">戦闘完了</system:String>
     <system:String x:Key="FightFailed">戦闘失敗</system:String>
@@ -634,15 +635,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
-    <system:String x:Key="RoguelikeSettlement">
-        ローグライク決済: {0}\n
-        探検する: {1} 床 {2} ステップ\n
-        戦闘: {3} / {4} 緊急 / {5} BOSS\n
-        リクルート: {6}\n
-        コレクション: {7}\n
-        困難: {8}\n
-        スコア: {9}, 経験値: {10}, スキル: {11}
-    </system:String>
+    <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、デポジット: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}\n探検する: {1} 床 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\nリクルート: {6}\nコレクション: {7}\n困難: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
@@ -748,7 +742,8 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RemoteControlConnectionTestSuccess">接続テスト成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">接続テスト失敗、理由: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">接続テスト失敗、エンドポイントが空です。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">接続テスト失敗。エンドポイントはhttpsアドレスではありません。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">接続テストに失敗しました。接続エンドポイントが http または https アドレスではありませんでした。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">接続エンドポイントがhttpsに対応しておらず、安全でない可能性があります。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">リモートタスク{0}を受信、タスクId:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">リモートタスク{0}を完了、タスクId:{1}。</system:String>
     <system:String x:Key="RemoteControlTooltips">注意：知らない出所のアドレスを入力すると、あなたの明日方舟のアカウントが損失する可能性があります。</system:String>
