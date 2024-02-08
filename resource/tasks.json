@@ -15819,7 +15819,7 @@
             100,
             100
         ],
-        "cache": true,
+        "cache": false,
         "sub": [
             "Reclamation2ClickBeginPlotTalk*10"
         ],
