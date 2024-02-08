@@ -4,6 +4,7 @@
 
 - 合成玉签到task (#8223) @Sherkey @status102
 - 抽卡提示不许勾下次不再提示 @ABA2396
+- 运行 ReclamationAlgorithm 时默认运行 Reclamation2 而不是旧演算 (#8229) @horror-proton @ABA2396
 
 ### 改进 | Improved
 
@@ -54,6 +55,7 @@
 - Update release-nightly-ota.yml @ABA2396
 - 更新界面文字 (#8206、#8214、#8218) @AnnAngela
 - fix appimage cross build issue @Horror Proton
+- 更新文档 (#8283) @Rbqwow
 
 ### For Overseas
 
