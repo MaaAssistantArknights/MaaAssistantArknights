@@ -58,7 +58,7 @@ bool asst::BattleFormationTask::_run()
     if (m_select_formation_index > 0 && !select_formation(m_select_formation_index)) {
         return false;
     }
-
+    
     if (!enter_selection_page()) {
         save_img(utils::path("debug") / utils::path("other"));
         return false;
