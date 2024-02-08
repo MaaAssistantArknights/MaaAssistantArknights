@@ -5,6 +5,8 @@
 - 合成玉签到task (#8223) @Sherkey @status102
 - 抽卡提示不许勾下次不再提示 @ABA2396
 - 运行 ReclamationAlgorithm 时默认运行 Reclamation2 而不是旧演算 (#8229) @horror-proton @ABA2396
+- 强制定时启动添加提示对话框并可选是否显示窗口 (#8062) @moomiji
+- 在自动编队过程中缺少干员时停止并记录 (#8051) @KevinT3Hu
 
 ### 改进 | Improved
 
