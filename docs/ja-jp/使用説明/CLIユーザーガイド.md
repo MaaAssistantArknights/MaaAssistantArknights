@@ -2,25 +2,25 @@
 icon: material-symbols:terminal
 ---
 
-# CLI 使用指南
+# CLI ユーザーガイド
 
-## 功能介绍
+## 機能紹介
 
-- 运行预定义或自定义的任务，例如 `maa fight`， `maa run <task>`;
-- 使用 `maa install` 和 `maa update` 安装和更新`MaaCore`及资源；
-- 使用 `maa self-update` 更新自身。
+- 定義済みタスクまたはカスタムタスクの実行、例 `maa fight`， `maa run <task>`;
+- `maa install` と `maa update` を使用して `MaaCore`と `resources` をインストールおよび更新する；
+- `maa self-update` を使用して自身を更新する。
 
-## 安装
+## インストール
 
 ### Appimage
 
-CLI 是 MAA 在 Linux 平台的默认界面，你可以直接下载最新的 Appimage 包来使用 CLI。
+CLIはLinuxプラットフォーム上のMAAのデフォルト インタフェースであり、最新のAppimageパッケージを直接ダウンロードしてCLIを使用できます。
 
-### 包管理器
+### パッケージマネージャー
 
 #### macOS
 
-使用 [Homebrew](https://brew.sh/) 安装：
+[Homebrew](https://brew.sh/) を使用してインストールします：
 
 ```bash
 brew install MaaAssistantArknights/tap/maa-cli
@@ -28,28 +28,28 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 #### Linux
 
-ArchLinux 用户可以安装[AUR 包](https://aur.archlinux.org/packages/maa-cli/):
+ArchLinux ユーザーは [AUR パッケージ](https://aur.archlinux.org/packages/maa-cli/) をインストールできます:
 
 ```bash
 yay -S maa-cli
 ```
 
-对于 LinuxBrew 用户，可以使用 [LinuxBrew](https://docs.brew.sh/Homebrew-on-Linux) 安装：
+LinuxBrew ユーザーは [LinuxBrew](https://docs.brew.sh/Homebrew-on-Linux) を使用してインストールできます：
 
 ```bash
 brew install MaaAssistantArknights/tap/maa-cli
 ```
 
-### 预编译二进制文件
+### プリコンパイル済みバイナリ
 
-你可以从 [`maa-cli` release 页面](https://github.com/MaaAssistantArknights/maa-cli/releases/latest)下载预编译的二进制文件，将其解压后得到的可执行文件放在你喜欢的位置。不同的平台对应的文件名如下：
+プリコンパイルされたバイナリーを [maa-cli リリース・ページ](https://github.com/MaaAssistantArknights/maa-cli/releases/latest) からダウンロードし、結果の実行可能ファイルを任意の場所に配置できます。 各プラットフォームのファイル名は次のとおりです：
 
 <table>
     <thead>
         <tr>
-            <th>操作系统</th>
-            <th>处理器架构</th>
-            <th>文件名</th>
+            <th>オペレーティング システム</th>
+            <th>プロセッサのアーキテクチャ</th>
+            <th>ファイル名</th>
         </tr>
     </thead>
     <tbody>
@@ -82,28 +82,26 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 ## 使用
 
-`maa-cli` 的主要功能是运行任务，你可以通过 `maa run <task>` 来运行一个任务。这里的 `<task>` 是一个任务的名字，你可以通过 `maa list` 来列出所有可用的任务。
+`maa-cli` の主な機能はタスクを実行することであり、 `maa run <task>` でタスクを実行できます。ここでの `<task>` はタスクの名前であり、`maa list` を使用して使用可能なすべてのタスクを一覧表示できます。
 
-更多信息可以通过 `maa help` 获取。
+詳細については、 `maa help` で見ることができます。
 
-## 使用
+### タスクの実行
 
-### 运行任务
+`maa-cli` の主な機能は、事前定義タスクやカスタム タスクなどのタスクを実行することです。
 
-`maa-cli` 的主要功能是运行任务，包括预定义的任务和自定义的任务。
+#### 事前定義タスク
 
-#### 预定义任务
-
-- `maa startup [client]`: 启动游戏并进入主界面，`[client]` 是客户端类型，如果留空则不会启动游戏客户端。
-- `maa closedown`: 关闭游戏客户端；
-- `maa fight [stage]`: 运行战斗任务，`[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡；
+- `maa startup [client]`: ゲームを起動し、メインインターフェイスに入ります。 `[client]` はクライアントバージョンで、空白のままにするとゲームクライアントは起動しません。
+- `maa closedown`: ゲームを閉じます；
+- `maa fight [stage]`: 作戦タスクを実行する。 `[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡；
 - `maa copilot <maa_uri>`: 运行自动战斗任务，其中 `<maa_uri>` 是作业的 URI，其可以是 `maa://1234` 或者本地文件路径 `./1234.json`；
 - `maa roguelike [theme]`: 运行 roguelike 模式的战斗任务，`[theme]` 是 roguelike 模式的主题，可选值为 `Phantom`，`Mizuki` 以及 `Sami`；
 
-#### 自定义任务
+#### カスタム タスク
 
 你可以通过 `maa run <task>` 来运行自定义任务。这里的 `<task>` 是一个任务的名字，你可以通过 `maa list` 来列出所有可用的任务。
-具体的任务定义可以在 [配置小节](#定义自定义任务) 中找到。
+具体的任务定义可以在 [設定サブセクション](#カスタムタスクの定義) 中找到。
 
 #### 任务总结
 
@@ -148,17 +146,17 @@ brew install MaaAssistantArknights/tap/maa-cli
 - `maa activity [client]`: 获取游戏的当前活动信息，`client` 是客户端类型，默认为 `Official`。
 
 
-## 配置
+## 設定
 
-### 配置目录
+### 設定ディレクトリー
 
-`maa-cli` 配置文件位于特定的配置目录中，你可以通过`maa dir config`获取配置目录。配置目录也可以通过环境变量 `MAA_CONFIG_DIR` 更改。在下面的例子中，我们将用 `$MAA_CONFIG_DIR` 来表示配置目录。
+`maa-cli` 設定ファイルは、 `maa dir config` で取得できる特定の設定ディレクトリーにあります。 設定ディレクトリは、環境変数 `MAA_CONFIG_DIR` で変更することもできます。 以下の例では、設定ディレクトリを表すために `$MAA_CONFIG_DIR` を使用します。
 
-所有的配置文件都可以使用 TOML，YAML 或者 JSON 格式，在下面的例子中，我们将使用 TOML 格式，并使用 `.toml` 作为文件扩展名。但是你可以混合这三种格式中的任意一种，只要你的文件扩展名正确。
+すべての構成ファイルは、TOML、YAML、またはJSON形式にすることができますが、以下の例では、TOML形式を使用し、ファイル拡張子 `.toml` を使用します。 ただし、正しいファイル拡張子がある限り、これら3つの形式のいずれかを混在させることができます。
 
-### 定义自定义任务
+### カスタムタスクの定義
 
-每一个自定义任务都是一个单独的文件，它们应该位于 `$MAA_CONFIG_DIR/tasks` 目录中。
+各カスタムタスクは個別のファイルであり、`$MAA_CONFIG_DIR/tasks` ディレクトリに配置する必要があります。
 
 #### 基本结构
 
@@ -546,25 +544,25 @@ backend = "libgit2" # 资源热更新后端，可选值为 "git" 或者 "libgit2
 # 资源热更新远程仓库相关配置
 [resource.remote]
 branch = "main" # 远程仓库的分支，默认为 "main"
-# 远程仓库的 url，如果你想要使用 ssh，你必须配置 ssh_key 的路径
+# リモートリポジトリの URL 、 SSH を使用する場合は、ssh_key へのパスを設定する必要があります
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 # url = "git@github.com:MaaAssistantArknights/MaaResource.git"
-# ssh_key = "~/.ssh/id_ed25519" # ssh 私钥的路径，支持展开 ~ 但不支持其他环境变量
+# ssh_key = "~/.ssh/id_ed25519" # SSH 秘密鍵のパス (拡張可能) 、ただし、他の環境変数はサポートされていません
 ```
 
-**注意事项**：
+**注意事項**：
 
-- MaaCore 的更新通道中 `Alpha` 只在 Windows 上可用；
-- 由于 CLI 默认的 API 链接和下载链接都是 GitHub 的链接，因此在国内可能会有一些问题，你可以通过配置 `api_url` 和 `download_url` 来使用镜像。
-- 即使启动了资源热更新，你依然需要安装 `MaaCore` 的资源，因为资源热更新并不包含所有的资源文件，只是包含部份可更新的资源文件，基础资源文件仍然需要安装。
-- 资源热更新是通过 Git 来拉取远程仓库，如果后端设置为 `git` 那么 `git` 命令行工具必须可用。
-- 如果你想要使用 SSH 协议来拉取远程仓库，你必须配置 `ssh_key` 字段，这个字段应该是一个路径，指向你的 SSH 私钥。
-- 远程仓库的 `url` 设置目前只对首次安装资源有效，如果你想要更改远程仓库的地址，你需要通过 `git` 命令行工具手动更改，或者删除对应的仓库。仓库所在位置可以通过 `maa dir hot-update` 获取。
-- 远程仓库的 `url` 会根据你本机的语言自动设置，如果你的语言是简体中文，那么远程仓库的 `url` 将会被设置为国内的镜像 `https://git.maa-org.net/MAA/MaaResource.git`，在其他情况则会被设置为 Github。如果你在国内但是使用的不是简体中文，或者在国外使用简体中文，那么你可能需要手动设置以获得最佳的体验。
+- MaaCore の更新チャネルの  `Alpha` は、Windows でのみ使用できます。
+- CLIのデフォルトのAPIリンクとダウンロードリンクは全てGitHubリンクなので、中国では多少の問題があるかもしれませんが、 `api_url` と `download_url` を設定することでミラーサイトを利用することができます。
+- リソースのホット アップデートを有効にした場合でも、 `MaaCore` リソースをインストールする必要があります。リソースのホット アップデートにはすべてのリソース ファイルが含まれているわけではなく、更新可能なリソース ファイルの一部のみが含まれるため、基本リソース ファイルをインストールする必要があります。
+- リソースのホット アップデートはGitを介してリモート リポジトリから取得され、バックエンドが `git` に設定されている場合は、 `git` コマンドラインツールが使用可能である必要があります。
+- SSH プロトコルを使用してリモートリポジトリをプルする場合は、SSH 秘密鍵へのパスである `ssh_key` フィールドを構成する必要があります。
+- リモートリポジトリの `url` 設定は現在、リソースの最初のインストールでのみ有効であり、リモートリポジトリのアドレスを変更する場合は、 `git` コマンドラインツールを使用して手動で変更するか、或いはリポジトリを削除する。 リポジトリの場所は、 `maa dir hot-update` で取得できます。
+- リモートリポジトリの `url` はローカル言語に従って自動的に設定され、言語が簡体字中国語の場合、リモートリポジトリの `url` は国内ミラーの `https://git.maa-org.net/MAA/MaaResource.git` に設定され、それ以外の場合は Github に設定されます。 中国にいて簡体字中国語を使用していない場合、または海外で簡体字中国語を使用している場合は、最適なエクスペリエンスを得るために手動で設定する必要があります。
 
 ### JSON Schema
 
-你可以在 CLI 仓库的 `maa-cli/schemas` 目录下找到 `maa-cli` 的 JSON Schema 文件，你可以使用这些文件来验证你的配置文件，或者在编辑器中获得自动补全。
-任务文件的 JSON Schema 文件为 [`task.schema.json`](https://github.com/MaaAssistantArknights/maa-cli/raw/v0.4.0/maa-cli/schemas/task.schema.json)；
-MaaCore 相关配置的 JSON Schema 文件为 [`asst.schema.json`](https://github.com/MaaAssistantArknights/maa-cli/raw/v0.4.0/maa-cli/schemas/task.schema.json)；
-CLI 相关配置的 JSON Schema 文件为 [`cli.schema.json`](https://github.com/MaaAssistantArknights/maa-cli/raw/v0.4.0/maa-cli/schemas/task.schema.json)。
+`maa-cli` の JSON Schema ファイルは、CLI リポジトリーの `maa-cli/schemas` ディレクトリーにあり、これを使用して構成ファイルを検証したり、エディターでオートコンプリートを取得したりできます。
+タスク ファイルの JSON Schema ファイルは [`task.schema.json`](https://github.com/MaaAssistantArknights/maa-cli/raw/v0.4.0/maa-cli/schemas/task.schema.json)；
+MaaCore の構成の JSON Schema ファイルは、 [`asst.schema.json`](https://github.com/MaaAssistantArknights/maa-cli/raw/v0.4.0/maa-cli/schemas/task.schema.json)；
+CLI 設定の JSON Schema ファイルは [`cli.schema.json`](https://github.com/MaaAssistantArknights/maa-cli/raw/v0.4.0/maa-cli/schemas/task.schema.json)。
