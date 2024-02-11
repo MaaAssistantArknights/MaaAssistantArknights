@@ -1,41 +1,49 @@
+---
+order: 4
+icon: bxs:bot
+---
+
 # Issue Botの使用方法
 
 Issue Botのアクションは[issue-checker](https://github.com/zzyyyl/issue-checker)になっており、設定ファイルである[issue-checker.yml](.github/issue-checker.yml)を利用します。
 
-**Commitizenの仕様でコミットしていない場合、マージリクエストは`ambiguous`とマークされることに注意してください。**
+::: warning
+Commitizenの仕様でコミットしていない場合、マージリクエストは`ambiguous`とマークされることに注意してください。
+:::
 
 ## 特徴
 
 ### 自動通知
 
-- `module`, `Client`, `ambiguous`, `translation required`などのラベルをIssueおよびプルリクエストに追加します。
+- `module`, `Client`, `ambiguous`, `translation required`などのラベルを Issue および Pull Request に追加します。
   Issue Botは、キーワードを元にカテゴリーを追加します。
-  キーワードは[設定ファイル](.github/issue-checker.yml)を確認して下さい。
-- MAAチームのメンバーが含まれている場合、`MAA Team`ラベルを追加しました。
+  キーワードは[設定ファイル](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)を確認して下さい。
+- 作成者が可視性がパブリックに設定されている MAA メンバーであるの Issue と Pull Request の場合、`MAA Team`ラベルを追加しました。
 
 #### Issuesとコメント
 
-- 必要なファイルが正常にアップロードされなかった場合に、その旨を通知するコメントを追加します。
+- 必要なファイルが正常にアップロードされなかった Issue に `incomplete` タグを追加し、その旨を通知するコメントを追加します。
 
-#### プルリクエスト
+#### Pull Request
 
-Issue Botはプルリクエストのタイトルをチェックします。タイトルが以下のキーワードで始まっていない限り、プルリクエストは `ambiguous` としてマークされます。
+Issue Botは Pull Request のタイトルをチェックします。タイトルが以下のキーワードで始まっていない限り、 Pull Request は `ambiguous` としてマークされます。
 
 - `build` `chore` `ci` `doc` `docs` `feat` `fix` `perf` `refactor` `rfc` `style` `test`
 - `Merge` `merge` `Revert` `revert`
 
 ### 手動でトリガーを発動させる
 
-**Issue Botを混乱させる可能性がありそうな内容の場合は**以下に示すコマンドではなく、キーワードでIssue Botを起動することをお勧めします。
+キーワードを使用して問題を詳細に記述し、分類タグを自動的にトリガーし、次のコマンドの使用を減らします。 <br>
+ただし、**自分の行動が Issue Bot を混乱させる可能性がありそうな内容の場合**は除きます。
 
-#### Issuesとプルリクエスト
+#### Issues と Pull Request
 
 - `Remove {LABEL_NAME}` でラベルを削除します。
 - `Remove labels` で全てのラベルを削除します。
 - `Skip {LABEL_NAME}` でラベルをスキップします。
 - `Skip labels` で全てのラベルをスキップします。
 
-#### Issueコメントとプルリクエストコメント
+#### Issueコメントと Pull Requestコメント
 
 - `Skip {LABEL_NAME}` は、指定されたタイプのラベルが追加されないようにします。
 - `Skip labels` は、ラベルが追加されないようにします。
@@ -45,13 +53,15 @@ Issue Botはプルリクエストのタイトルをチェックします。タ�
   - `{VERSION} fixed`
   - `fixed by {VERSION}`
 - `Duplicate of #{ISSUE_NUMBER}` と入力するとissueに `duplicate` ラベルを追加します。
-- **あなたのコメントがIssue Botを混乱させる可能性がある場合、下記の `skip` コマンドを追加できます。**
+- **あなたのコメントが Issue Bot を混乱させる可能性がある場合、下記の `skip` コマンドを追加できます。**
 
-_Note<sup>1</sup>: `COMMIT_HASH` は 40 文字の完全なハッシュです。_
+::: info 注意
+ここの `COMMIT_HASH` は 40 文字の完全なハッシュです。
+:::
 
-#### プッシュ
+#### Push
 
-プッシュ中でもコミット可能です:
+Push 中でも Commit 可能です:
 
 - `fixed` ラベルは、コミットメッセージに以下のいずれかが含まれている場合に追加されます:
   - `fix #{ISSUE_NUMBER}`
