@@ -639,6 +639,12 @@
         "isAscii": true,
         "cache": false,
         "text": [],
+        "ocrReplace": [
+            [
+                ".+(?=[A-Za-z]{2}-EX-\\d)",
+                ""
+            ]
+        ],
         "next": [
             "ClickedCorrectStageOrSwipe",
             "#self"
