@@ -270,7 +270,7 @@ labels:
 - name: others
   content: "module: others"
   regexes:
-    "信用|拜访|登录|开始唤醒|连接模拟器|账号切换|远程控制|干员识别|生息演算|生息盐酸|[Vv]isit|[Ll]ogin|[Ss]tartup|MaaCore(?!.dll)"
+    "信用|拜访|登录|开始唤醒|连接模拟器|账号切换|远程控制|干员识别|生息盐酸|[Vv]isit|[Ll]ogin|[Ss]tartup|MaaCore(?!.dll)"
   skip-if:
   - skip all
   - skip module
