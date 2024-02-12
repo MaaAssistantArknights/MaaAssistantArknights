@@ -3,7 +3,7 @@ order: 4
 icon: bxs:bot
 ---
 
-# Issue Botの使用方法
+# Issue Botの使う方
 
 Issue Botのアクションは[issue-checker](https://github.com/zzyyyl/issue-checker)になっており、設定ファイルである[issue-checker.yml](.github/issue-checker.yml)を利用します。
 
