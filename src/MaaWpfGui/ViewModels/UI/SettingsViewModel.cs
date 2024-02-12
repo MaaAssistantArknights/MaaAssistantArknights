@@ -774,6 +774,12 @@ namespace MaaWpfGui.ViewModels.UI
                 new CombinedData { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
                 new CombinedData { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
             };
+            TxwyLoginTypeList = new List<CombinedData>
+            {
+                // new CombinedData { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+                new CombinedData { Display = "Google", Value = "Google" },
+                new CombinedData { Display = "Facebook", Value = "Facebook" },
+            };
 
             var configurations = new ObservableCollection<CombinedData>();
             foreach (var conf in ConfigurationHelper.GetConfigurationList())
@@ -1541,6 +1547,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets or sets the list of the client types.
         /// </summary>
         public List<CombinedData> ClientTypeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of txwy login options.
+        /// </summary>
+        public List<CombinedData> TxwyLoginTypeList { get; set; }
 
         public ObservableCollection<CombinedData> ConfigurationList { get; set; }
 
