@@ -222,7 +222,7 @@ jobs:
           if [ -n "$DOCS_DIFF" ]; then
             echo "Found changes, start to deploy the docs:"
             echo "$DOCS_DIFF"
-            gh workflow --repo MaaAssistantArknights/maa-website run azure-deploy.yaml
+            gh workflow --repo MaaAssistantArknights/maa-website run build-and-deploy.yaml
             echo "Deploying the docs."
           else
             echo "Nothing changed, exit."
