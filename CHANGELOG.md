@@ -1,7 +1,11 @@
-## v5.1.0-beta.2
+## v5.1.0
 
 ### 新增 | New
 
+- 生息演算2 (#8190) (Mac 版本需点加号手动添加) @SherkeyXD @hguandl @ABA2396
+- 开放每日免费单抽功能 (#8185) @SherkeyXD
+- 新增只购买折扣信用商品（白名单商品除外）和少于300信用点停止购物的选项 (#7659) @lpowo @status102
+- 基建领取专精功能 (#7754) @broken-paint @Constrat
 - 合成玉签到task (#8223) @Sherkey @status102
 - 抽卡提示不许勾下次不再提示 @ABA2396
 - 运行 ReclamationAlgorithm 时默认运行 Reclamation2 而不是旧演算 (#8229) @horror-proton @ABA2396
@@ -10,6 +14,10 @@
 
 ### 改进 | Improved
 
+- 更新文档到.net8 @ABA2396
+- 移除CopilotTask不必要的传参 @status102
+- 更新部分step的版本 @SherkeyXD
+- 增加账号切换时登录键点击重试 @status102
 - 远程控制对非 https 连接仅提出警告 (#8061) @Sherkey
 - 肉鸽适配新干员用法 (#8273) @Lancarus
 - 肉鸽投资后结束本次战斗 (#8268) @status102
@@ -20,9 +28,13 @@
 - Mac 全部启用任务时排除生息演算 @Hao Guan
 - 优化可变位置文字识别 @ABA2396
 - 部分需重启生效的选项添加重启确认弹窗 @ABA2396
+- 缓存待部署区识别，减少CPU占用 (#8275) @status102
+- ScreenCost截图失败次数为0时，不返回fault_times字段 @status102
+- 优化基建领取专精 (#8207) @broken-paint
 
 ### 修复 | Fix
 
+- 未开启吐司通知时仍弹出通知 @ABA2396
 - 生息演算开局教程对话有概率卡住 @status102
 - 修复无限提示远控地址为空的问题 @Sherkey
 - 连续截图出错30次 / 启动时连续截图出错10次 导致MAA崩溃 (#8280) @status102
@@ -43,6 +55,8 @@
 - 修复部分分辨率下无法识别删除存档 @ABA2396
 - 内测版 wpf tag 错误 @ABA2396
 - 内测版修改ui版本号 @ABA2396
+- 修复模拟器自动检测失败时可能导致WpfGui崩溃 (#8288) @status102
+- gui.log 无法显示完整版本号 @ABA2396
 
 ### 其他 | Other
 
@@ -58,11 +72,17 @@
 - 更新界面文字 (#8206、#8214、#8218) @AnnAngela
 - fix appimage cross build issue @Horror Proton
 - 更新文档 (#8283) @Rbqwow
+- 添加等宽字体的备用字体 @SherkeyXD
+- added regex for module-reclamation (#8302) @Constrat
+- 升级依赖，移除package-lock.json @SherkeyXD
+- 更新连战文档 (#8308) @Rbqwow
 
 ### For Overseas
 
 ##### YoStarJP
 
+- YoStarJP ocr fix shamare, ansel, nien (#8194) @Manicsteiner
+- YoStarJP ocr fix #8180 (#8184) @Manicsteiner
 - YoStarJP 理想都市 navigation (#8263) @Manicsteiner
 - YoStarJP ocr fix (#8260) @Manicsteiner
 
@@ -73,3 +93,4 @@
 - YoStarKR update StageAnnihilation.png (#8239) @HX3N
 - YoStarKR ocr fix (#8236) @HX3N
 - modified ko-kr.xaml (#8235) @HX3N
+- YoStarKR add training template image and text (#8295) @HX3N

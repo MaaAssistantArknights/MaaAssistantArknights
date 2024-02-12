@@ -97,7 +97,7 @@ namespace MaaWpfGui.Main
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
-            var uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
+            var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
             uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
