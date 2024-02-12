@@ -77,7 +77,7 @@
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
-    <system:String x:Key="TrainingProgress">訓練の進捗</system:String>
+    <system:String x:Key="TimeLeft">残り時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>

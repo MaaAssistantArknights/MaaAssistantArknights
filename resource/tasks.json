@@ -7931,15 +7931,34 @@
     "InfrastTrainingLevel1": {},
     "InfrastTrainingLevel2": {},
     "InfrastTrainingLevel3": {},
-    "InfrastTrainingProgressRec": {
+    "InfrastTrainingTimeRec0": {
         "baseTask": "NumberOcrReplace",
-        "isAscii": false,
-        "text": [],
+        "Doc": "HH",
         "roi": [
-            440,
+            154,
             645,
-            60,
-            35
+            35,
+            40
+        ]
+    },
+    "InfrastTrainingTimeRec1": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "MM",
+        "roi": [
+            188,
+            645,
+            35,
+            40
+        ]
+    },
+    "InfrastTrainingTimeRec2": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "SS",
+        "roi": [
+            220,
+            645,
+            35,
+            40
         ]
     },
     "InfrastTrainingChooseSkillRec": {

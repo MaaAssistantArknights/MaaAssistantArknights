@@ -80,9 +80,6 @@ bool asst::InfrastTrainingTask::analyze_status()
         return false;
     }
 
-    Log.info(__FUNCTION__, "operator name has been set to ", m_operator_name);
-    Log.info(__FUNCTION__, "skill name has been set to ", m_skill_name);
-
     if (training_completed()) {
         json::value cb_info = basic_info();
         cb_info["what"] = "InfrastTrainingCompleted";
@@ -97,38 +94,14 @@ bool asst::InfrastTrainingTask::analyze_status()
 
     m_continue_training = false;
 
-    RegionOCRer progress_analyzer(image);
-    progress_analyzer.set_task_info("InfrastTrainingProgressRec");
-    if (!progress_analyzer.analyze()) {
-        Log.error(__FUNCTION__, "progress recognition failed");
-        return false;
-    }
-
-    raw_str = progress_analyzer.get_result().text;
-
-    std::regex re(R"(\d+)");
-    std::smatch match;
-    if (!std::regex_search(raw_str, match, re)) {
-        Log.error(__FUNCTION__, "regex_search failed");
-        return false;
-    }
-    std::string str_progress = match.str();
-    Log.info(__FUNCTION__, "str_progress", str_progress);
-
-    int progress_percent = 0;
-    if (!utils::chars_to_number(str_progress, progress_percent)) {
-        Log.error(__FUNCTION__, "chars_to_number failed");
-        return false;
-    }
+    if(!time_left_analyze(image)) return false;
 
     {
         json::value cb_info = basic_info();
-        cb_info["what"] = "InfrastTrainingInProgress";
+        cb_info["what"] = "InfrastTrainingTimeLeft";
         cb_info["details"] = json::object {
-            { "operator", m_operator_name },
-            { "skill", m_skill_name },
-            { "level", m_level },
-            { "progress", progress_percent },
+            { "operator", m_operator_name }, { "skill", m_skill_name }, { "level", m_level },
+            { "hh", time_left[0] },          { "mm", time_left[1] },    { "ss", time_left[2] },
         };
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
     }
@@ -158,6 +131,35 @@ bool asst::InfrastTrainingTask::training_completed()
 {
     ProcessTask task(*this, { "InfrastTrainingCompleted" });
     return task.run();
+}
+
+bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
+{
+    LogTraceFunction;
+
+    RegionOCRer progress_analyzer(image);
+    std::regex re(R"(\d+)");
+    std::smatch match;
+
+    for (int i = 0; i < 3; ++i) {
+        progress_analyzer.set_task_info("InfrastTrainingTimeRec" + std::to_string(i));
+        if (!progress_analyzer.analyze()) return false;
+
+        std::string raw_str = progress_analyzer.get_result().text;
+        Log.info(__FUNCTION__, raw_str);
+        if (!std::regex_search(raw_str, match, re)) {
+            Log.error(__FUNCTION__, "regex_search failed");
+            return false;
+        }
+        std::string str_time = match.str();
+        
+        if (!utils::chars_to_number(str_time, time_left[i])) {
+            Log.error(__FUNCTION__, "chars_to_number failed");
+            return false;
+        }
+    }
+
+    return true;
 }
 
 asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool continue_training) noexcept
