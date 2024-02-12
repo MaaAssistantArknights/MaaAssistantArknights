@@ -77,7 +77,7 @@
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
-    <system:String x:Key="TrainingProgress">Training progress</system:String>
+    <system:String x:Key="TimeLeft">Remaining Time</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>
     <system:String x:Key="DefaultInfrast">Default Base infrastructure</system:String>
     <system:String x:Key="UserDefined">User defined</system:String>

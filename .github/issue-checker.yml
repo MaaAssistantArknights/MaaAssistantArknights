@@ -177,6 +177,20 @@ labels:
   - remove module
   - remove roguelike
 
+# `module: reclamation`
+- name: reclamation
+  content: "module: reclamation"
+  regexes:
+    "生息|演算|沙洲遗闻|[Ff]ire [Ww]ithin|[Rr]eclamation"
+  skip-if:
+  - skip all
+  - skip module
+  - skip roguelike
+  remove-if:
+  - remove all
+  - remove module
+  - remove roguelike
+
 # `module: copilot`
 - name: copilot1
   content: "module: copilot"

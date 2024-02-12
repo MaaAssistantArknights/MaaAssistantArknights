@@ -1317,10 +1317,10 @@ namespace MaaWpfGui.Main
                          LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + " " + LocalizationHelper.GetString("TrainingCompleted"), UiLogColor.Info);
                     break;
 
-                case "InfrastTrainingInProgress":
+                case "InfrastTrainingTimeLeft":
                     Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
-                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + " " + LocalizationHelper.GetString("TrainingProgress") + ": " +
-                        $"{(int)subTaskDetails["progress"]}" + "%");
+                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + "\n" + LocalizationHelper.GetString("TimeLeft") + ": " +
+                        $"{(int)subTaskDetails["hh"]}" + "h " + $"{(int)subTaskDetails["mm"]}" + "m " + $"{(int)subTaskDetails["ss"]}" + "s");
                     break;
 
                 /* 生息演算 */
@@ -1588,7 +1588,10 @@ namespace MaaWpfGui.Main
                 }
                 else
                 {
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoDetectConnectionNotSupported"), UiLogColor.Error);
+                    Execute.OnUIThreadAsync(() =>
+                    {
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AutoDetectConnectionNotSupported"), UiLogColor.Error);
+                    });
                 }
             }
 
@@ -1986,7 +1989,7 @@ namespace MaaWpfGui.Main
             }
 
             var taskParams = SerializeInfrastTaskParams(
-                order, usesOfDrones,continueTraining, dormThreshold,
+                order, usesOfDrones, continueTraining, dormThreshold,
                 dormFilterNotStationedEnabled, dormDormTrustEnabled, originiumShardAutoReplenishment,
                 isCustom, filename, planIndex);
             return AsstSetTaskParamsWithEncoding(id, taskParams);
