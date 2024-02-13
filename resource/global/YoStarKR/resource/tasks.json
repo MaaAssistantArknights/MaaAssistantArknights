@@ -3161,6 +3161,12 @@
         ]
     },
     "BattleStartOCR": {
+        "ocrReplace": [
+            [
+                "개.+",
+                "개시"
+            ]
+        ],
         "text": [
             "작전",
             "개시"
