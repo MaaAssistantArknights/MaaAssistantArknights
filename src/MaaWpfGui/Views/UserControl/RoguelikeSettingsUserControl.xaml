@@ -90,6 +90,7 @@
             <hc:NumericUpDown
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource GoldTimesLimit}"
+                Maximum="999"
                 Minimum="0"
                 Style="{StaticResource NumericUpDownExtend}"
                 ValueChanged="NumericUpDown_ValueChanged"
