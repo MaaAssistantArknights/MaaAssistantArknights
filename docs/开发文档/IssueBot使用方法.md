@@ -15,8 +15,8 @@ Issue Bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-c
 
 ### 自动触发
 
-- 给 议题 和 拉取请求 增加标签，包括 `module` 系列，`Client` 系列，`ambiguous`，`translation required` 等。<br>
-  Issue Bot 会根据关键词自动增加分类标签。<br>
+- 给 议题 和 拉取请求 增加标签，包括 `module` 系列，`Client` 系列，`ambiguous`，`translation required` 等。  
+  Issue Bot 会根据关键词自动增加分类标签。  
   具体关键词可以参考[配置文件](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
 - 给作者是可见性设置为 public 的 MAA 成员的 议题 和 拉取请求 增加 `MAA Team` 标签。
 
@@ -33,7 +33,7 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 
 ### 手动触发
 
-多使用关键词详细描述问题来自动触发分类标签，少使用下列指令。<br>
+多使用关键词详细描述问题来自动触发分类标签，少使用下列指令。  
 但**当你知道自己的行为会导致 Issue Bot 误解时除外**。
 
 #### 议题（Issue）及拉取请求（Pull Request）
@@ -47,7 +47,7 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 
 - `Skip {LABEL_NAME}` 可以保证不增加标签。
 - `Skip labels` 可以保证不增加任何标签。
-- 以下几种方法可以为议题增加 `fixed` 标签：<sup>1</sup><br>
+- 以下几种方法可以为议题增加 `fixed` 标签：<sup>1</sup>  
   - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH} fixed`
   - `fixed by https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH}`
   - `{VERSION} fixed`
