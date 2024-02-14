@@ -26,7 +26,7 @@ const shuffleArray = (array) => {
 const fullySupport = shuffleArray([
 `
 ### ✅ [蓝叠模拟器 5](https://www.bluestacks.cn/)
-完美支持。需要在模拟器 \`设置\` - \`引擎设置\` 中打开 \`允许ADB连接\`
+完美支持。需要在模拟器 \`设置\` - \`引擎设置\` 中打开 \`允许ADB连接\`。
 `,
 `
 ### ✅ [蓝叠模拟器 5 国际版](https://www.bluestacks.com/tw/index.html)（最稳定👍）
