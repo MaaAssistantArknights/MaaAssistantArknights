@@ -35,9 +35,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 亮点功能
 
-- 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)；
+- 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)，[一图流](https://ark.yituliu.cn/)；
 - 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](./协议文档/基建排班协议.md)；
-- 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://yituliu.site/maarecruitdata)；
+- 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)；
 - 支持手动识别公招界面，方便对高星公招做出选择； ~~（你的这个高姿回费出的是推王呢还是推王呢）~~
 - 支持识别干员列表，统计已有和未有干员（还能为手动识别公招界面提供已有潜能数据提示）；
 - 支持识别养成材料，并可导出至 [企鹅物流刷图规划](https://penguin-stats.cn/planner) 和 [明日方舟工具箱](https://arkn.lolicon.app/#/material) 计算缺少的养成材料；
