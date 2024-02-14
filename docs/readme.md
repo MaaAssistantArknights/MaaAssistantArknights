@@ -47,7 +47,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 仓库识别并支持导出至 [企鹅物流刷图规划器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)；
 - 支持 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多种接口，方便集成调用，自定义你的 MAA！
 
-话不多说，看图！<br>
+话不多说，看图！  
 
 ![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
 ![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
@@ -84,7 +84,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 外服支持
 
-目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。<br>
+目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
 若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
 
 ### CLI支持
@@ -202,12 +202,12 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ## 广告
 
-用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
-用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)<br>
-自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)<br>
-Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~<br>
+用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
+Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 
-技术群（舟无关、禁水）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
-开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)<br>
+技术群（舟无关、禁水）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
