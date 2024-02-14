@@ -51,7 +51,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 다운로드
 
-[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)<br>
+[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
 [베타 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 사용 방법
@@ -59,7 +59,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 ### 기본 설정
 
 1. [에뮬레이터 지원](./1.3-에뮬레이터_지원.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
-2. 에뮬레이터 해상도를 '1280 * 720' 이상으로 변경하세요. 최대값은 '2K'이고 가로세로 비율은 '16:9'입니다. <br>
+2. 에뮬레이터 해상도를 '1280 * 720' 이상으로 변경하세요. 최대값은 '2K'이고 가로세로 비율은 '16:9'입니다.   
    YostarEN의 경우 게임 인터페이스 문제로 인해 해상도를 '1920 * 1080'으로 변경하는 것을 권장합니다
 3. 어시스턴트 시작!
 
@@ -78,7 +78,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 해외 서버 지원
 
-현재 인터내셔널 클라이언트(영어 클라이언트), 일본 클라이언트, 한국 클라이언트, 중국어 번체 클라이언트의 대부분의 기능을 지원하고 있습니다. 다만, 해외 사용자 수가 적고 프로젝트 인력이 부족한 관계로 많은 기능이 충분히 테스트되지 않았으니 직접 경험해 보시기 바랍니다.<br>
+현재 인터내셔널 클라이언트(영어 클라이언트), 일본 클라이언트, 한국 클라이언트, 중국어 번체 클라이언트의 대부분의 기능을 지원하고 있습니다. 다만, 해외 사용자 수가 적고 프로젝트 인력이 부족한 관계로 많은 기능이 충분히 테스트되지 않았으니 직접 경험해 보시기 바랍니다.  
 버그가 발생하거나 특정 기능에 대한 강력한 수요가 있는 경우 문제 및 토론에 오신 것을 환영합니다. 그리고 MAA를 구축하는 데 자유롭게 참여하십시오! [해외클라이언트현지화](#해외클라이언트현지화)을 참조하십시오.
 
 ## 관련 프로젝트
@@ -179,10 +179,10 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 ## 광고
 
-사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
-[전략 JSON 공유](https://prts.plus)<br>
-[빌리빌리 라이브](https://live.bilibili.com/2808861): 코딩 과정을 밤마다 방송하고 있습니다. 이 프로그램에 대부분의 시간을 할애하고 있습니다.<br>
-[명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!<br>
+사용자 그룹: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ 그룹](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+[전략 JSON 공유](https://prts.plus)  
+[빌리빌리 라이브](https://live.bilibili.com/2808861): 코딩 과정을 밤마다 방송하고 있습니다. 이 프로그램에 대부분의 시간을 할애하고 있습니다.  
+[명일방주 무관 기술 공유 & 만담 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2): 지옥 같아요!  
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 프로그램이 도움이 된다고 생각하시면 Star를 눌러주세요! (페이지 우측 상단의 작은 별) 저희에게 가장 큰 도움이 됩니다!
