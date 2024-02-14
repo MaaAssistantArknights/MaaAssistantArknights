@@ -11,6 +11,5 @@
         "MaaDeps/vcpkg/buildtrees": true,
         "MaaDeps/vcpkg/packages": true
     },
-    "C_Cpp.exclusionPolicy": "checkFilesAndFolders",
-    "dotnet.defaultSolution": "MAA.sln"
+    "C_Cpp.exclusionPolicy": "checkFilesAndFolders"
 }
