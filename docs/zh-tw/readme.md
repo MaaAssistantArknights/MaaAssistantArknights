@@ -47,7 +47,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 倉庫辨識並支援匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) ， [明日方舟工具箱](https://arkn.lolicon.app/#/material) ， [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings) ；
 - 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種接口，方便集成調用，自定義你的 MAA！
 
-話不多說，看圖！<br>
+話不多說，看圖！
 
 ![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
 ![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
@@ -64,7 +64,7 @@ MAA 的意思是 MAA Assistant Arknights
 ### 基本說明
 
 1. 請根據 [模擬器支援情況](./1.3-模擬器支援.md)，進行對應的操作。
-2. 修改模擬器解析度為 `16:9` 比例，最低 `1280 * 720`，最高 `2K`。<br>
+2. 修改模擬器解析度為 `16:9` 比例，最低 `1280 * 720`，最高 `2K`。  
    對於國際服（美服）玩家，由於介面佈局問題，我們則建議您將解析度修改為 `1920 * 1080`。
 3. 開始使用吧！
 
@@ -84,7 +84,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 外服支援
 
-目前國際服（美服）、日服、韓服、繁中服的絕大部分功能均已支援。但由於外服用戶較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。<br>
+目前國際服（美服）、日服、韓服、繁中服的絕大部分功能均已支援。但由於外服用戶較少及項目人手不足，很多功能並沒有進行全面的測試，所以請自行體驗。  
 若您遇到了 Bug，或對某個功能有強需求，歡迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [討論區](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我們一起建設 MAA！請參考 [外服適配教學](#外服適配)
 
 ## 主要關聯項目
@@ -188,12 +188,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 廣告
 
-用戶交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
-用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)<br>
-自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus) 或 [抄作業.com](http://抄作業.com)<br>
-Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體 ~<br>
+用戶交流 QQ 群：[MAA 使用 & 粥遊交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+用戶交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+自動戰鬥 JSON 作業分享：[prts.plus](https://prts.plus) 或 [抄作業.com](http://抄作業.com)  
+Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播敲代碼，近期很長一段時間應該都是在寫本軟體 ~  
 
-技術群（舟無關、禁水）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
-開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)<br>
+技術群（舟無關、禁水）：[內卷地獄！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
