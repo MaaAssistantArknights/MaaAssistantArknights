@@ -37,7 +37,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 - 刷理智，掉落辨識及上傳 [企鵝物流數據統計](https://penguin-stats.io/)；
 - 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./3.6-基建排班協議.md)；
-- 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流數據統計](https://penguin-stats.io/result/stage/recruit/recruit) ， [一圖流](https://yituliu.site/maarecruitdata) ；
+- 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流數據統計](https://penguin-stats.io/result/stage/recruit/recruit) ， [一圖流](https://ark.yituliu.cn/survey/maarecruitdata) ；
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推王呢還是推王呢）~~
 - 支援辨識幹員列表，統計已有和未有幹員（還能為手動辨識公招介面提供已有潛能數據提示）；
 - 支援辨識養成材料，並可匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) 和 [明日方舟工具箱](https://arkn.lolicon.app/#/material) 計算缺少的養成材料；

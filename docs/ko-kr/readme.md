@@ -38,7 +38,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 - 자동 전투, 아이템 드랍 인식, [펭귄 물류](https://penguin-stats.io/)로의 자동 업로드
 - 기반시설 자동 배치, 오퍼레이터 효율과 시설 내 최적 배치방안 자동 계산
-- 자동 공개모집과 선택적 즉시 모집, [펭귄 물류](https://penguin-stats.io/result/stage/recruit/recruit)와 [Yituliu](https://yituliu.site/maarecruitdata)로의 자동 업로드
+- 자동 공개모집과 선택적 즉시 모집, [펭귄 물류](https://penguin-stats.io/result/stage/recruit/recruit)와 [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)로의 자동 업로드
 - 친구 방문, 크레딧 획득과 아이템 구매, 일일 임무와 보상까지 한 번에!
 - 통합전략에서의 오리지늄각뿔과 양초 획득을 위한 자동 전투, 오퍼레이터와 레벨의 자동 인식
 - 전투 JSON 파일을 통한 자동 전투용 전략 복사! [영상 데모](https://www.bilibili.com/video/BV1H841177Fk/)
