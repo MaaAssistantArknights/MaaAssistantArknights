@@ -36,7 +36,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 亮点功能
 
 - 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)，[一图流](https://ark.yituliu.cn/)；
-- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](./协议文档/基建排班协议.md)；
+- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/协议文档/基建排班协议.html)；
 - 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)；
 - 支持手动识别公招界面，方便对高星公招做出选择； ~~（你的这个高姿回费出的是推王呢还是推王呢）~~
 - 支持识别干员列表，统计已有和未有干员（还能为手动识别公招界面提供已有潜能数据提示）；
@@ -63,7 +63,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-1. 请根据 [模拟器支持情况](https://maa.plus/docs/用户手册/模拟器和设备支持)，进行对应的操作；
+1. 请根据 [模拟器和设备支持](https://maa.plus/docs/用户手册/模拟器和设备支持)，进行对应的操作；
 2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，最高 `2K`；  
    对于国际服（美服）玩家，由于界面布局、字号等问题，我们则建议您将分辨率修改为 `1920 * 1080`；
 3. 开始使用吧！
@@ -89,7 +89,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### CLI支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南.html)
+MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南.html)
 
 ## 加入我们
 
