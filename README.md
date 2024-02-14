@@ -21,7 +21,7 @@
 </div>
 <br>
 
-[简体中文](readme.md) | [繁體中文](./zh-tw/readme.md) | [English](./en-us/readme.md) | [日本語](./ja-jp/readme.md) | [한국어](./ko-kr/readme.md)
+[简体中文](https://maa.plus/docs/) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -63,12 +63,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-1. 请根据 [模拟器支持情况](./用户手册/模拟器和设备支持/Windows模拟器.md)，进行对应的操作；
+1. 请根据 [模拟器支持情况](https://maa.plus/docs/用户手册/模拟器和设备支持)，进行对应的操作；
 2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，最高 `2K`；  
    对于国际服（美服）玩家，由于界面布局、字号等问题，我们则建议您将分辨率修改为 `1920 * 1080`；
 3. 开始使用吧！
 
-更多使用说明请参考 [详细介绍](./用户手册/详细介绍.md)
+更多使用说明请参考 [详细介绍](https://maa.plus/docs/用户手册/详细介绍.html)
 
 ### 常见问题
 
@@ -80,7 +80,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 下载到一半提示“登陆”/“鉴权”；
 - 连接正常，任务开始了，但是没反应。
 
-请参考 [常见问题](./用户手册/常见问题.md)
+请参考 [常见问题](https://maa.plus/docs/用户手册/常见问题.html)
 
 ### 外服支持
 
@@ -89,7 +89,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### CLI支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](./用户手册/CLI使用指南.md)
+MAA 支持命令行界面（CLI）操作，支持 Linux 和 macOS，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南.html)
 
 ## 加入我们
 
@@ -123,11 +123,11 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
 3. VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
 4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
-5. （可选）若准备提交 PR，建议启用 [clang-format 支持](./开发文档/开始开发.md#在-visual-studio-中启用-clang-format)
+5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/开发文档/开始开发.html#在-visual-studio-中启用-clang-format)
 
 ### Linux | macOS
 
-请参考 [Linux 编译教程](./开发文档/Linux编译教程.md)
+请参考 [Linux 编译教程](https://maa.plus/docs/开发文档/Linux编译教程.html)
 
 ### API
 
@@ -140,22 +140,22 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/main.wo)
-- [集成文档](./协议文档/集成文档.md)
-- [回调消息协议](./协议文档/回调消息协议.md)
-- [任务流程协议](./协议文档/任务流程协议.md)
-- [自动抄作业协议](./协议文档/战斗流程协议.md)
+- [集成文档](https://maa.plus/docs/协议文档/集成文档.html)
+- [回调消息协议](https://maa.plus/docs/协议文档/回调消息协议.html)
+- [任务流程协议](https://maa.plus/docs/协议文档/任务流程协议.html)
+- [自动抄作业协议](https://maa.plus/docs/协议文档/战斗流程协议.html)
 
 ### 外服适配
 
-请参考 [外服适配教程](./开发文档/外服适配教程.md)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
+请参考 [外服适配教程](https://maa.plus/docs/开发文档/外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
 ### 想参与开发，但不太会用 GitHub?
 
-[GitHub Pull Request 流程简述](./开发文档/开始开发.md#github-pull-request-流程简述)
+[GitHub Pull Request 流程简述](https://maa.plus/docs/开发文档/开始开发.html#github-pull-request-流程简述)
 
 ### Issue bot
 
-请参考 [Issue bot 使用方法](./开发文档/IssueBot使用方法.md)
+请参考 [Issue bot 使用方法](https://maa.plus/docs/开发文档/IssueBot使用方法.html)
 
 ## 致谢
 
