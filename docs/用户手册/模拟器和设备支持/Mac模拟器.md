@@ -59,4 +59,4 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支持。
+支持，但从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
