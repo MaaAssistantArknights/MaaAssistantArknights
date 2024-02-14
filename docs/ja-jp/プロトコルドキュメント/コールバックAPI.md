@@ -19,7 +19,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 ## 概要
 
-- `int msg`<br>
+- `int msg`  
     The message type
 
     ```cpp
@@ -48,9 +48,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
     };
     ```
 
-- `const char* details`<br>
+- `const char* details`  
     メッセージの詳細, JSON. 詳細: [Field Description](#field-description)
-- `void* custom_arg`<br>
+- `void* custom_arg`  
     呼び出し元のカスタム引数には、 `AsstCreateEx` インターフェースの `custom_arg` 引数が渡される。C ライクな言語では、`this` ポインタを一緒に渡すことができる。
 
 ## Field Description
@@ -86,25 +86,25 @@ Todo
 
 ### 多用される `What` フィルドの値
 
-- `ConnectFailed`<br>
-    接続失敗.
-- `Connected`<br>
+- `ConnectFailed`  
+    接続失敗
+- `Connected`  
     接続成功。現段階では `uuid` フィールドが空であることに注意してください (次のステップで取得されます)
-- `UuidGot`<br>
-    UUID の取得.
-- `UnsupportedResolution`<br>
-    この解像度はサポートされていません.
-- `ResolutionError`<br>
-    解像度を取得できない.
-- `Reconnecting`<br>
+- `UuidGot`  
+    UUID の取得
+- `UnsupportedResolution`  
+    この解像度はサポートされていません
+- `ResolutionError`  
+    解像度を取得できない
+- `Reconnecting`  
     接続切断 (adb/emulator クラッシュ), 再接続開始
-- `Reconnected`<br>
+- `Reconnected`  
     接続切断 (adb/emulator クラッシュ), 再接続成功
-- `Disconnect`<br>
+- `Disconnect`  
     接続切断 (adb/emulator クラッシュ), 再接続失敗
-- `ScreencapFailed`<br>
+- `ScreencapFailed`  
     画面取得失敗 (adb/emulator クラッシュ), 再接続失敗
-- `TouchModeNotAvailable`<br>
+- `TouchModeNotAvailable`  
     サポートされていないタッチモード
 
 ### AsyncCallInfo
@@ -136,39 +136,39 @@ Todo
 
 #### 多用される `taskchain` フィールドの値
 
-- `StartUp`<br>
+- `StartUp`  
     ゲーム開始
-- `CloseDown`<br>
+- `CloseDown`  
     ゲームを閉じる
-- `Fight`<br>
+- `Fight`  
     作戦
-- `Mall`<br>
+- `Mall`  
     FPとFP交換所に買い物
-- `Recruit`<br>
+- `Recruit`  
     自動公開求人
-- `Infrast`<br>
+- `Infrast`  
     基地施設
-- `Award`<br>
+- `Award`  
     デイリー報酬を受け取る
-- `Roguelike`<br>
+- `Roguelike`  
     統合戦略
-- `Copilot`<br>
+- `Copilot`  
     自動作戦
-- `SSSCopilot`<br>
+- `SSSCopilot`  
     自動保全駐在作戦
-- `Depot`<br>
+- `Depot`  
     倉庫の識別
-- `OperBox`<br>
+- `OperBox`  
     オペレーターボックス識別
-- `ReclamationAlgorithm`<br>
+- `ReclamationAlgorithm`  
     生息演算
-- `Custom`<br>
+- `Custom`  
     カストム タスク
-- `SingleStep`<br>
+- `SingleStep`  
     サブタスク
-- `VideoRecognition`<br>
+- `VideoRecognition`  
     ビデオ認識タスク
-- `Debug`<br>
+- `Debug`  
     デバッグ
 
 ### TaskChain 関連情報
@@ -200,7 +200,7 @@ Todo
 
 #### 多用される `subtask` フィールドの値
 
-- `ProcessTask`<br>
+- `ProcessTask`  
 
     ```json
     // 対応する詳細フィールドの例
@@ -217,49 +217,49 @@ Todo
 
 ##### 多用される `task` フィールドの値
 
-- `StartButton2`<br>
-    開始.
-- `MedicineConfirm`<br>
-    理性回復剤使用確認.
-- `ExpiringMedicineConfirm`<br>
-    48時間以内に期限が切れる理性回復剤使用確認.
-- `StoneConfirm`<br>
-    純正源石使用確認.
-- `RecruitRefreshConfirm`<br>
-    公開求人リストの更新確認.
-- `RecruitConfirm`<br>
-    公開求人の決定.
-- `RecruitNowConfirm`<br>
-    緊急招集票の使用確認.
-- `ReportToPenguinStats`<br>
-    ペンギン急便への報告.
-- `ReportToYituliu`<br>
-    Yituliu へビッグデータの報告.
-- `InfrastDormDoubleConfirmButton`<br>
-    基地施設での二重確認は、他のオペレーターとの競合がある場合のみ発生します.
-- `StartExplore`<br>
-    統合戦略: 開始.
-- `StageTraderInvestConfirm`<br>
-    統合戦略: 源石錐とアイテム交換.
-- `StageTraderInvestSystemFull`<br>
-    統合戦略: 投資満額.
-- `ExitThenAbandon`<br>
-    統合戦略: 終了確認.
-- `MissionCompletedFlag`<br>
-    統合戦略: ミッション完了.
-- `MissionFailedFlag`<br>
-    統合戦略: ミッション失敗.
-- `StageTraderEnter`<br>
+- `StartButton2`  
+    開始
+- `MedicineConfirm`  
+    理性回復剤使用確認
+- `ExpiringMedicineConfirm`  
+    48時間以内に期限が切れる理性回復剤使用確認
+- `StoneConfirm`  
+    純正源石使用確認
+- `RecruitRefreshConfirm`  
+    公開求人リストの更新確認
+- `RecruitConfirm`  
+    公開求人の確認
+- `RecruitNowConfirm`  
+    緊急招集票の使用確認
+- `ReportToPenguinStats`  
+    ペンギン急便への報告
+- `ReportToYituliu`  
+    Yituliu へビッグデータの報告
+- `InfrastDormDoubleConfirmButton`  
+    基地施設での二重確認は、他のオペレーターとの競合がある場合のみ発生します
+- `StartExplore`  
+    統合戦略: 開始
+- `StageTraderInvestConfirm`  
+    統合戦略: 源石錐とアイテム交換
+- `StageTraderInvestSystemFull`  
+    統合戦略: 投資満額
+- `ExitThenAbandon`  
+    統合戦略: 終了確認
+- `MissionCompletedFlag`  
+    統合戦略: ミッション完了
+- `MissionFailedFlag`  
+    統合戦略: ミッション失敗
+- `StageTraderEnter`  
     統合戦略: 怪しい旅商人
-- `StageSafeHouseEnter`<br>
+- `StageSafeHouseEnter`  
     統合戦略: 安全な片隅
-- `StageEncounterEnter`<br>
+- `StageEncounterEnter`  
     統合戦略: 思わぬ遭遇
-- `StageCombatDpsEnter`<br>
+- `StageCombatDpsEnter`  
     統合戦略: 作戦
-- `StageEmergencyDps`<br>
+- `StageEmergencyDps`  
     統合戦略: 緊急作戦
-- `StageDreadfulFoe`<br>
+- `StageDreadfulFoe`  
     統合戦略: 悪路凶敵
 - `StartGameTask`
     クライアントの起動に失敗 (client_type と設定ファイルの互換性なし)
@@ -279,7 +279,7 @@ Todo
 
 #### 多用される `what` と `details` フィールドの値
 
-- `StageDrops`<br>
+- `StageDrops`  
     ステージドロップインフォメーション
 
     ```json
@@ -330,7 +330,7 @@ Todo
     }
     ```
 
-- `RecruitTagsDetected`<br>
+- `RecruitTagsDetected`  
     採用タグの検出
 
     ```json
@@ -346,7 +346,7 @@ Todo
     }
     ```
 
-- `RecruitSpecialTag`<br>
+- `RecruitSpecialTag`  
     特別な採用タグの検出
 
     ```json
@@ -356,7 +356,7 @@ Todo
     }
     ```
 
-- `RecruitResult`<br>
+- `RecruitResult`  
     公開求人結果
 
     ```json
@@ -433,7 +433,7 @@ Todo
     }
     ```
 
-- `RecruitTagsRefreshed`<br>
+- `RecruitTagsRefreshed`  
     公開求人タグの更新
 
     ```json
@@ -444,7 +444,7 @@ Todo
     }
     ```
 
-- `RecruitNoPermit`<br>
+- `RecruitNoPermit`  
     求人票が切れた
 
     ```json
@@ -454,7 +454,7 @@ Todo
     }
     ```
 
-- `RecruitTagsSelected`<br>
+- `RecruitTagsSelected`  
     公開求人タグの選択
 
     ```json
@@ -467,13 +467,13 @@ Todo
     }
     ```
 
-- `RecruitSlotCompleted`<br>
+- `RecruitSlotCompleted`  
     公開求人スロットの完了
 
-- `RecruitError`<br>
+- `RecruitError`  
     公開求人認識時のエラー
 
-- `EnterFacility`<br>
+- `EnterFacility`  
     施設へ入る
 
     ```json
@@ -484,7 +484,7 @@ Todo
     }
     ```
 
-- `NotEnoughStaff`<br>
+- `NotEnoughStaff`  
     オペレーター不足
 
     ```json
@@ -495,7 +495,7 @@ Todo
     }
     ```
 
-- `ProductOfFacility`<br>
+- `ProductOfFacility`  
     施設の生産
 
     ```json
@@ -507,7 +507,7 @@ Todo
     }
     ```
 
-- `StageInfo`<br>
+- `StageInfo`  
     自動戦闘ステージの情報
 
     ```json
@@ -517,10 +517,10 @@ Todo
     }
     ```
 
-- `StageInfoError`<br>
+- `StageInfoError`  
     自動戦闘ステージの情報エラー
 
-- `PenguinId`<br>
+- `PenguinId`  
     PenguinStats ID
 
     ```json
@@ -530,7 +530,7 @@ Todo
     }
     ```
 
-- `DepotInfo`<br>
+- `DepotInfo`  
     倉庫のアイテムの認識結果
 
     ```json
@@ -570,7 +570,7 @@ Todo
     // 現在は ArkPlanner と Lolicon 形式のみ対応、今後対応するサイトが増える可能性あり
     ```
 
-- `OperBoxInfo`<br>
+- `OperBoxInfo`  
     オペレーターボックス識別結果
 
     ```json
@@ -615,5 +615,5 @@ Todo
     ]
     ```
 
-- `UnsupportedLevel`<br>
+- `UnsupportedLevel`  
     自動作戦で、サポートされていないレベル名

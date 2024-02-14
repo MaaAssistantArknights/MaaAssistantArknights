@@ -15,8 +15,8 @@ Commitizenの仕様でコミットしていない場合、マージリクエス�
 
 ### 自動通知
 
-- `module`, `Client`, `ambiguous`, `translation required`などのラベルを Issue および Pull Request に追加します。
-  Issue Botは、キーワードを元にカテゴリーを追加します。
+- `module`, `Client`, `ambiguous`, `translation required`などのラベルを Issue および Pull Request に追加します。  
+  Issue Botは、キーワードを元にカテゴリーを追加します。  
   キーワードは[設定ファイル](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)を確認して下さい。
 - 作成者が可視性がパブリックに設定されている MAA メンバーであるの Issue と Pull Request の場合、`MAA Team`ラベルを追加しました。
 
@@ -33,7 +33,7 @@ Issue Botは Pull Request のタイトルをチェックします。タイトル
 
 ### 手動でトリガーを発動させる
 
-キーワードを使用して問題を詳細に記述し、分類タグを自動的にトリガーし、次のコマンドの使用を減らします。 <br>
+キーワードを使用して問題を詳細に記述し、分類タグを自動的にトリガーし、次のコマンドの使用を減らします。  
 ただし、**自分の行動が Issue Bot を混乱させる可能性がありそうな内容の場合**は除きます。
 
 #### Issues と Pull Request

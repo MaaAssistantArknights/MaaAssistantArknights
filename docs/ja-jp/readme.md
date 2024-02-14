@@ -35,18 +35,18 @@ MAAは、MAA Assistant Arknightsです。
 
 ## 機能一覧
 
-- 自動作戦、ドロップ認識および[PenguinStats](https://penguin-stats.io/)へデータアップロード。
+- 自動作戦、ドロップ認識および [PenguinStats](https://penguin-stats.io/) と [Yituliu](https://ark.yituliu.cn/) へデータアップロード。
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション；[カスタムシフト](./プロトコルドキュメント/基地シフトAPI.md)にも対応しています。
-- 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://yituliu.site/maarecruitdata)へ公開求人データのアップロード。
+- 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)へ公開求人データのアップロード。
 - 高スターの公開求人を選択するのに便利な公開求人のパネルの手動認識をサポートします。~~（この上級エリートとCost回復はシージかシージか）~~
 - オペレーターのリストを識別し、既存および未所有のオペレーターを記録するためのサポート、公開求人を手動で識別するための潜在データヒントを提供することもできます。（日本語版のクライアントではオペレーターの名刺のフォントサイズが異なるためサポートが貧弱です）
 - 倉庫のアイテム認識機能（ベータ） [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkn.lolicon.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
 - 戦友訪問、FP収集、買い物、デイリーリワード収集、ワンクリックして全自動操作！
-- 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集！
+- 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集、電気ケトルを獲得する！
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（現在JP未対応/中文）
 - C、Python、Java、Rust、Golang、Java HTTP、Rust HTTPなどの多種多様なインターフェースに対応、統合や呼び出しが簡単で、自分好みにMAAをカスタマイズできます!
 
-UIを見れば使い方もすぐ分かる！<br>
+UIを見れば使い方もすぐ分かる！  
 
 ![jp1](https://user-images.githubusercontent.com/99072975/232383662-9000d3dd-f6be-4bb6-8ffd-526a8815aa24.png)
 ![jp2](https://user-images.githubusercontent.com/99072975/232383668-6a42a55c-8c83-4c3c-a203-51e64eb4f39a.png)
@@ -61,7 +61,7 @@ UIを見れば使い方もすぐ分かる！<br>
 ### 基本設定
 
 1. [エミュレータのサポート](./使用説明/エミュレータのサポート/Windowsでのエミューレータ.md)を参照して、対応するエミュレーターの操作に進んでください。
-2. エミュレータの解像度を「1280 * 720」以上に変更します。最大は「2K」、アスペクト比は「16:9」です。<br>
+2. エミュレータの解像度を「1280 * 720」以上に変更します。最大は「2K」、アスペクト比は「16:9」です。  
    YostarENでは、ゲームインターフェイスの問題から、解像度を`1920 * 1080`に変更することをお勧めします。
 3. ゲームスタート！
 
@@ -81,7 +81,7 @@ UIを見れば使い方もすぐ分かる！<br>
 
 ## サーバーに応じてサポートされる機能
 
-現在、国際クライアント（英語クライアント）、日本語クライアント、韓国語クライアント、繁体字中国語クライアントのほとんどの機能がサポートされています。 ただし、海外ユーザーの少なさとプロジェクト要員不足により、十分に検証できていない機能も多いので、ぜひ体験してみてください。<br>
+現在、国際クライアント（英語クライアント）、日本語クライアント、韓国語クライアント、繁体字中国語クライアントのほとんどの機能がサポートされています。 ただし、海外ユーザーの少なさとプロジェクト要員不足により、十分に検証できていない機能も多いので、ぜひ体験してみてください。  
 バグに遭遇した場合、または特定の機能に対する強い要望がある場合は、[Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) and [Discussions](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) で質問してください。 MAA の構築にご参加ください。[海外クライアント対応](#グローバル版を含む海外クライアントの対応について) を参照してください
 
 ### CLI支持
@@ -198,12 +198,12 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ## 広告
 
-ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
-ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)<br>
-自動作戦JSON作業シェア：[prts.plus](https://prts.plus) 或いは [抄作业.com](http://抄作业.com)<br>
-ビリビリ生放送：[ビリビリ生放送](https://live.bilibili.com/2808861) 毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。<br>
-<br>
-技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
-開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)<br>
+ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+自動作戦JSON作業シェア：[prts.plus](https://prts.plus) 或いは [抄作业.com](http://抄作业.com)  
+ビリビリ生放送：[ビリビリ生放送](https://live.bilibili.com/2808861) 毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。  
+
+技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！
