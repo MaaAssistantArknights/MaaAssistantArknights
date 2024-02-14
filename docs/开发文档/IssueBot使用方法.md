@@ -56,7 +56,7 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 - **当你知道自己的议题评论会导致 Issue Bot 误解时，尽量添加一些 skip 操作。**
 
 ::: info 注意
-这里的 COMMIT_HASH 需要完整的 40 位
+<sup>1</sup> 这里的 COMMIT_HASH 需要完整的 40 位
 :::
 
 #### 推送（Push）
