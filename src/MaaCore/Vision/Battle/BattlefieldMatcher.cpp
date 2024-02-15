@@ -124,6 +124,7 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
 #endif
 
         Rect cooling_rect = correct_rect(flag_res.rect.move(cooling_move), m_image);
+        cv::rectangle(m_image_draw, make_rect<cv::Rect>(cooling_rect), cv::Scalar(128, 0, 0), 1);
         oper.cooling = oper_cooling_analyze(cooling_rect);
         if (oper.cooling && oper.available) {
             Log.error("oper is available, but with cooling");
