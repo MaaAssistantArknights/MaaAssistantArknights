@@ -11,14 +11,6 @@
 #include "Common/AsstMsg.h"
 #include "Common/AsstTypes.h"
 
-#ifndef ASST_USE_ATOMIC_WAIT
-#ifndef _MSC_VER
-// TODO: in fact we can use atomic wait on windows, but some users seemed to have missing dlls
-// ref: https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/4360
-#define ASST_USE_ATOMIC_WAIT
-#endif
-#endif
-
 struct AsstExtAPI
 {
 public:
@@ -189,10 +181,13 @@ namespace asst
         std::condition_variable m_call_condvar;
 
         std::atomic<AsyncCallId> m_completed_call = 0; // 每个实例有自己独立的执行队列，所以不能静态
-#ifndef ASST_USE_ATOMIC_WAIT
+
+        // TODO: use atomic_wait instead
         std::mutex m_completed_call_mutex;
-        std::condition_variable m_completed_call_condvar; // TODO: use semaphore?
-#endif
+        std::condition_variable m_completed_call_condvar;
+        // we can use atomic wait on windows, but some
+        // users seemed to have missing dlls
+        // ref: https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/4360
 
         std::thread m_msg_thread;
         std::thread m_call_thread;
