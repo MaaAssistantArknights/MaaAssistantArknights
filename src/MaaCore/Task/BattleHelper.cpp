@@ -154,25 +154,29 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }
+        do {
+            if (oper.cooling) {
+                Log.info("cooling oper, skip, index:", oper.index);
+                oper.name = "UnknownCooling_" + std::to_string(oper.index);
+                break;
+            }
+            if (!init) { // 先使用上一帧的待部署区作为模板匹配一轮
+                for (const auto& old_oper :
+                     old_deployment_opers | views::filter([&](const battle::DeploymentOper& temp_oper) {
+                         return temp_oper.role == oper.role;
+                     })) {
+                    avatar_analyzer.append_templ(old_oper.name, old_oper.avatar);
+                }
+                if (avatar_analyzer.analyze()) {
+                    set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
+                    remove_cooling_from_battlefield(oper);
+                    break;
+                }
+            }
 
-        bool is_analyzed = false;
-        if (!init) {
-            for (const auto& old_oper :
-                 old_deployment_opers | views::filter([&](const battle::DeploymentOper& temp_oper) {
-                     return temp_oper.role == oper.role;
-                 })) {
-                avatar_analyzer.append_templ(old_oper.name, old_oper.avatar);
-            }
-            if (avatar_analyzer.analyze()) {
-                set_oper_name(oper, avatar_analyzer.get_result().templ_info.name);
-                remove_cooling_from_battlefield(oper);
-                is_analyzed = true;
-            }
-        }
-        if (!is_analyzed) {
             // 之前的干员都没匹配上，那就把所有的干员都加进去
-            // 可能的优化: 移除之前添加的模板
-            auto& avatar_cache = AvatarCache.get_avatars(oper.role);
+            // 可能的优化: 移除匹配过的模板
+            const auto& avatar_cache = AvatarCache.get_avatars(oper.role);
             for (const auto& [name, avatar] : avatar_cache) {
                 avatar_analyzer.append_templ(name, avatar);
             }
@@ -184,13 +188,10 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 Log.info("unknown oper", oper.index);
                 unknown_opers.emplace_back(oper);
             }
-        }
+
+        } while (false);
 
         m_cur_deployment_opers.emplace_back(oper);
-
-        if (oper.cooling) {
-            Log.trace("stop matching cooling", oper.index);
-        }
     }
 
     if (!unknown_opers.empty() || init) {
@@ -215,12 +216,6 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         cv::Mat name_image;
         for (auto& oper : unknown_opers) {
             LogTraceScope("rec unknown oper: " + std::to_string(oper.index));
-            if (oper.cooling) {
-                Log.info("cooling oper, skip");
-                oper.name = "UnknownCooling_" + std::to_string(oper.index);
-                continue;
-            }
-
             Rect oper_rect = oper.rect;
             // 点完部署区的一个干员之后，他的头像会放大；其他干员的位置都被挤开了，不在原来的位置了
             // 所以只有第一个干员可以直接点，后面干员都要重新识别一下位置
