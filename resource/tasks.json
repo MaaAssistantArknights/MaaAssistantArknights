@@ -8937,14 +8937,14 @@
     "BattleOperCooling": {
         "template": "empty.png",
         "specialParams": [
-            1500
+            300
         ],
         "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [
-            -45,
-            6,
-            75,
-            120
+            -68,
+            184,
+            114,
+            4
         ],
         "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
@@ -8953,7 +8953,7 @@
         ],
         "specificRect_Doc": "拿来做S、V通道的范围",
         "specificRect": [
-            200,
+            180,
             255,
             0,
             100
