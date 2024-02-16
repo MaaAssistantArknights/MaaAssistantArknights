@@ -218,7 +218,6 @@
                                 <CheckBox
                                     Grid.Column="0"
                                     Content="{c:Binding Name}"
-                                    Grid.IsSharedSizeScope="False"
                                     IsChecked="{Binding IsChecked}"
                                     IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
                                 <TextBlock
