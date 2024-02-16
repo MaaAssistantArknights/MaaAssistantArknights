@@ -104,7 +104,7 @@
     <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and operator groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits after arriving at the second floor</system:String>
-    <system:String x:Key="RoguelikeLastReward">Grinding for Hot Water Kettle or Ellite II operators</system:String>
+    <system:String x:Key="RoguelikeLastReward">Grind to obtain Hot Water Kettle or Elite II operators</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
@@ -114,7 +114,7 @@
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort the IS Mode until the end of battle</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Pause-Trick) (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
@@ -416,7 +416,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
     <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to Settings → Connection → ADB path and change the ADB.exe, or turn on ADB Input (Deprecated).</system:String>
-    <system:String x:Key="Waiting">Waiting for the mission complete…</system:String>
+    <system:String x:Key="Waiting">Waiting for the mission completion…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
@@ -553,7 +553,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shuting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening simulator, finally retry it.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
@@ -656,7 +656,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">Strategies for Additional Tags</system:String>
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
-    <system:String x:Key="SelectExtraTags">If highter rank tags exists, always select three tags</system:String>
+    <system:String x:Key="SelectExtraTags">If higher ★ tags appear, always select 3★ tags</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">Pick as many high-star Tags as possible</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
@@ -722,9 +722,9 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
-    <system:String x:Key="GameResourceUpdating">Game resources are updating.</system:String>
+    <system:String x:Key="GameResourceUpdating">Game resources are getting updating.</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
-    <system:String x:Key="GameResourceNotModified">Game resource updated.</system:String>
+    <system:String x:Key="GameResourceNotModified">Game resources updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA.</system:String>
     <system:String x:Key="GameResourceFailed">Game resource update failed, please try again later.</system:String>
     <!--  !Api  -->
