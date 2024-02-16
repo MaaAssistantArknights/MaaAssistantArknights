@@ -721,7 +721,6 @@ namespace MaaWpfGui.ViewModels.UI
             if (!string.IsNullOrEmpty(stageName))
             {
                 AddCopilotTaskToList(stageName, false);
-                c
             }
         }
 
