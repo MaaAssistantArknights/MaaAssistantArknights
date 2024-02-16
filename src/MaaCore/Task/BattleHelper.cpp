@@ -111,7 +111,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         check_in_battle(image);
         return false;
     }
-    auto old_deployment_opers = std::move(m_cur_deployment_opers);
+    const auto old_deployment_opers = std::move(m_cur_deployment_opers);
     m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
     m_cur_deployment_opers.reserve(oper_result_opt->deployment.size());
 
@@ -193,7 +193,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         }
     }
 
-    if (!unknown_opers.empty() || init) {
+    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0 || init) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
