@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -22,7 +19,7 @@
     <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="CoreVersion">Core Version</system:String>
     <system:String x:Key="UiVersion">UI Version</system:String>
-    <system:String x:Key="ResourceVersion">Resource</system:String>
+    <system:String x:Key="ResourceVersion">Resource Version</system:String>
     <system:String x:Key="Off">Off</system:String>
     <system:String x:Key="ExternalNotificationTips">Please note: The external notification feature currently only sends 「All tasks completed」 notifications.</system:String>
     <system:String x:Key="ExternalNotificationSettings">External notifications</system:String>
@@ -107,7 +104,7 @@
     <system:String x:Key="InfrastThresholdTip">If custom shifts are enabled, this field is only valid for rooms with autofill and operator groups</system:String>
     <system:String x:Key="RoguelikeStrategyExp">Gain Experience Points, clear as many nodes as possible</system:String>
     <system:String x:Key="RoguelikeStrategyGold">Invests coins, exits after arriving at the second floor</system:String>
-    <system:String x:Key="RoguelikeLastReward">Fight to obtain starting rewards, reach the third floor then exit</system:String>
+    <system:String x:Key="RoguelikeLastReward">Grinding for Hot Water Kettle or Ellite II operators</system:String>
     <system:String x:Key="StartingSquad">Starting Squad</system:String>
     <system:String x:Key="StartingRoles">Starting Roles</system:String>
     <system:String x:Key="StartingCoreChar">Starting Operator (single)</system:String>
@@ -117,7 +114,7 @@
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Stops after clearing the combat</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort the IS Mode until the end of battle</system:String>
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Pause-Trick) (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
@@ -311,7 +308,7 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AutoDetectConnectionTip">This checkbox will be automatically unchecked after each detect is completed, and can be checked again if you need to re-detect</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
-    <system:String x:Key="AccountSwitchManualRun">Manual switch</system:String>
+    <system:String x:Key="AccountSwitchManualRun">Switch now</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
 Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
 Bilibili: Enter the account name displayed on the login interface, such as John
@@ -360,7 +357,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="ShutdownWithoutPersist">Shutdown (only once)</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate if no other running MAA</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">Exit MAA and Emulator, then Shutdown if no other running MAA</system:String>
-    <system:String x:Key="BackToAndroidHome">Emulator returns to home screen</system:String>
+    <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>
@@ -419,7 +416,7 @@ Other client types are not supported</system:String>
     <system:String x:Key="UnselectedTask">Unselected task</system:String>
     <system:String x:Key="Running">Running……</system:String>
     <system:String x:Key="AdbReplacementTips">If nothing happens or it gets stuck, please go to Settings → Connection → ADB path and change the ADB.exe, or turn on ADB Input (Deprecated).</system:String>
-    <system:String x:Key="Waiting">Waiting for the combat to end……</system:String>
+    <system:String x:Key="Waiting">Waiting for the mission complete…</system:String>
     <system:String x:Key="Stopping">Stopping……</system:String>
     <system:String x:Key="Stopped">Has stopped</system:String>
     <system:String x:Key="UnknownErrorOccurs">Unknown error occurred</system:String>
@@ -556,7 +553,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorDetails">Details</system:String>
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
-    <system:String x:Key="ErrorSolutionReplaceAdb">Please close the emulator and ADB or restart your computer, then open MAA with administrator privileges to proceed.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shuting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening simulator, finally retry it.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
@@ -659,7 +656,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="NoRecruitmentPermit">No recruitment permit, returned</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">Strategies for Additional Tags</system:String>
     <system:String x:Key="DefaultNoExtraTags">Additional Tags are not selected by default</system:String>
-    <system:String x:Key="SelectExtraTags">When selecting Tags always select three Tags</system:String>
+    <system:String x:Key="SelectExtraTags">If highter rank tags exists, always select three tags</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">Pick as many high-star Tags as possible</system:String>
     <system:String x:Key="NotEnoughStaff">Insufficient operators</system:String>
     <system:String x:Key="StageInfoError">Stage recognition error</system:String>
@@ -725,7 +722,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
-    <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
+    <system:String x:Key="GameResourceUpdating">Game resources are updating.</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
     <system:String x:Key="GameResourceNotModified">Game resource updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA.</system:String>
@@ -742,11 +739,10 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RemoteControlConnectionTestSuccess">Connection Test Successful!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed, reason: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttpsOrHttps">Connection Test Failed, Endpoint is not an http or https address.</system:String>
     <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">Endpoint is using http, might be unsafe.</system:String>
     <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControlCompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
-    <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your Arknights account.</system:String>
+    <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your account.</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">To learn more about how to develop these features, visit</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Feature Developer Documentation</system:String>
     <!--  !Remote Control  -->
