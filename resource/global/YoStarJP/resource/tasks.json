@@ -2949,6 +2949,16 @@
             "配属"
         ]
     },
+    "InfrastTrainingIdle": {
+        "text": [
+            "待機中"
+        ]
+    },
+    "InfrastTrainingCompleted": {
+        "text": [
+            "訓練完了"
+        ]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及肉鴿地圖名的日文识别任务复用",
         "ocrReplace": [
