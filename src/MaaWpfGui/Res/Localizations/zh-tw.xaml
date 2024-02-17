@@ -517,6 +517,7 @@
     <system:String x:Key="AddUserAdditionalTip">使用「;」作為分隔符，用「,」分隔操作員姓名和技能，例：史尔特尔,3;艾雅法拉,1</system:String>
     <system:String x:Key="UseCopilotList">戰鬥列表</system:String>
     <system:String x:Key="UseCopilotListTip">開始前請切換至關卡選擇頁面</system:String>
+    <system:String x:Key="CopilotTaskRaidStage">(突襲)</system:String>
     <system:String x:Key="CopilotAddTask">右鍵添加突襲難度</system:String>
     <system:String x:Key="CopilotClearTask">右鍵清除未激活任務</system:String>
     <system:String x:Key="LoopTimes">循環次數</system:String>
@@ -538,7 +539,7 @@
         清除: 左鍵清空列表，右鍵僅移除未激活的任務\n
         開始前，需要切換至對應關卡的選擇界面，不支持跨章節導航\n
         遇到 理智不足、戰鬥失敗、未能以三星結算 時將會中止運行\n
-        批次匯入時，新增突襲關需修改檔案名 (如: 1-7-Adverse)\n\n
+        批次匯入時，新增突襲關需修改檔案名 (如: '1-7(Raid).json')\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">讀取檔案失敗！</system:String>
     <system:String x:Key="CopilotNoFound">未找到對應作業！</system:String>
