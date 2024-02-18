@@ -220,7 +220,7 @@
                                     Content="{c:Binding Name}"
                                     IsChecked="{Binding IsChecked}"
                                     IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
-                                <TextBlock
+                                <controls:TextBlock
                                     Grid.Column="1"
                                     MinWidth="35"
                                     VerticalAlignment="Center"
