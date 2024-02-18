@@ -43,7 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
-        private List<int> _copilotIdList = new List<int>(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
+        private List<int> _copilotIdList = new(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
 
         /// <summary>
         /// Gets the view models of log items.
@@ -500,7 +500,7 @@ namespace MaaWpfGui.ViewModels.UI
                         return;
                     }
 
-                    var fileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length);
+                    var fileName = fileInfo.Name[..^fileInfo.Extension.Length];
                     var stageName = FindStageName(fileName);
 
                     if (string.IsNullOrEmpty(stageName))
@@ -601,7 +601,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedParameter.Global
         public void OnDropDownOpened(object sender, EventArgs e)
         {
-            if (!(sender is ComboBox comboBox))
+            if (sender is not ComboBox comboBox)
             {
                 return;
             }
@@ -1005,7 +1005,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool _isVideoTask;
 
-        private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
+        private readonly List<int> _recentlyRatedCopilotId = new(); // TODO: 可能考虑加个持久化
 
         private bool _couldLikeWebJson;
 
@@ -1133,7 +1133,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedParameter.Global
         public void MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!(sender is UIElement element))
+            if (sender is not UIElement element)
             {
                 return;
             }
@@ -1156,7 +1156,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!(sender is UIElement element))
+            if (sender is not UIElement element)
             {
                 return;
             }
