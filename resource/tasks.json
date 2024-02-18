@@ -8949,14 +8949,14 @@
         "maskRange_Doc": "拿来做H通道的范围",
         "maskRange": [
             0,
-            10
+            20
         ],
         "specificRect_Doc": "拿来做S、V通道的范围",
         "specificRect": [
-            180,
+            100,
             255,
             0,
-            100
+            150
         ]
     },
     "BattleOperRoleRange": {
