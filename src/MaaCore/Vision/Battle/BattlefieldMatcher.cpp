@@ -129,6 +129,13 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
             Log.error("oper is available, but with cooling");
         }
 
+#ifdef ASST_DEBUG
+        if (oper.cooling) {
+            cv::putText(m_image_draw, "cooling", cv::Point(oper.rect.x, oper.rect.y - 20), 1, 1.2,
+                        cv::Scalar(0, 0, 255));
+        }
+#endif
+
         if (m_object_of_interest.oper_cost) {
             Rect cost_rect = correct_rect(flag_res.rect.move(cost_move), m_image);
             oper.cost = oper_cost_analyze(cost_rect);
