@@ -5216,7 +5216,8 @@
             "TerminalMistCity.png"
         ],
         "next": [
-            "OrundumActivities"
+            "OrundumActivities",
+            "Stop"
         ]
     },
     "OrundumActivities": {
@@ -5236,6 +5237,9 @@
         "next": [
             "OrundumActivitiesChoose",
             "OrundumActivitiesReturn"
+        ],
+        "onErrorNext": [
+            "Stop"
         ]
     },
     "OrundumActivitiesChoose": {
