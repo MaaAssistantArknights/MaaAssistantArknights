@@ -155,6 +155,12 @@
             "baseConfig": "General",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
+        },
+        {
+            "configName": "CompatPOSIXShellWithoutScreencapErr",
+            "baseConfig": "CompatPOSIXShell",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
         }
     ]
 }
