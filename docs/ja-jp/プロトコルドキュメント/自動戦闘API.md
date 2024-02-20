@@ -3,7 +3,7 @@ order: 3
 icon: ph:sword-bold
 ---
 
-# Copilot Schema
+# 自動戦闘プロトコル
 
 `resource/copilot/*.json` の使用方法とフィールドの説明。
 

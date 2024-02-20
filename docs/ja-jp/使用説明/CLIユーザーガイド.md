@@ -80,7 +80,7 @@ brew install MaaAssistantArknights/tap/maa-cli
     </tbody>
 </table>
 
-## 使用
+## 使う
 
 `maa-cli` の主な機能はタスクを実行することであり、 `maa run <task>` でタスクを実行できます。ここでの `<task>` はタスクの名前であり、`maa list` を使用して使用可能なすべてのタスクを一覧表示できます。
 
@@ -94,56 +94,56 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 - `maa startup [client]`: ゲームを起動し、メインインターフェイスに入ります。 `[client]` はクライアントバージョンで、空白のままにするとゲームクライアントは起動しません。
 - `maa closedown`: ゲームを閉じます；
-- `maa fight [stage]`: 作戦タスクを実行する。 `[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡；
-- `maa copilot <maa_uri>`: 运行自动战斗任务，其中 `<maa_uri>` 是作业的 URI，其可以是 `maa://1234` 或者本地文件路径 `./1234.json`；
-- `maa roguelike [theme]`: 运行 roguelike 模式的战斗任务，`[theme]` 是 roguelike 模式的主题，可选值为 `Phantom`，`Mizuki` 以及 `Sami`；
+- `maa fight [stage]`: 作戦タスクを実行する。 `[stage]` はステージ名、例 `1-7`；空白のままにして、最後または現在のレベルを選択します；
+- `maa copilot <maa_uri>`: 自動戦闘ミッションを実行します。ここで、 `<maa_uri>` は `maa://1234` ジョブの URI で、ローカル ファイル パス `./1234.json` のいずれかです；
+- `maa roguelike [theme]`: ローグライクモードで戦闘ミッションを実行する、 `[theme]` はローグライクモードのテーマであり、オプションの値は `Phantom` `Mizuki` と `Sami`；
 
 #### カスタム タスク
 
-你可以通过 `maa run <task>` 来运行自定义任务。这里的 `<task>` 是一个任务的名字，你可以通过 `maa list` 来列出所有可用的任务。
-具体的任务定义可以在 [設定サブセクション](#カスタムタスクの定義) 中找到。
+カスタムタスクは、 `maa run <task>` で実行できます。ここの `<task>` はクエストの名前であり、利用可能なすべてのクエストを `maa list` で一覧表示できます。
+特定のタスク定義は、 [設定サブセクション](#カスタムタスクの定義) にあります。
 
-#### 任务总结
+#### タスクの概要
 
-`maa-cli` 会在任务运行结束后向 stdout 输出任务总结，包括每个子任务的运行时间和结果。你可以通过 `--no-summary` 选项来禁用任务总结。
+`maa-cli` タスクの概要は、タスクの実行後に、各サブタスクの実行時間と結果を含む標準出力に出力されます。 `--no-summary` オプションを使用して、タスクの要約を無効にすることができます。
 
-任务总结主要包括各任务的运行时间。对于以下任务，还会包括其他信息：
+タスクの概要には、主に各タスクの実行時間が含まれます。また、以下のタスクに関する追加情報も含まれています：
 
-- 刷理智 `fight`: 关卡名称，次数以及掉落统计；
-- 基建换班 `infrast`: 各设施进驻的干员，对于制造站和贸易站，还会包括产物类型；
-- 公招 `recruit`: 公招标签刷新次数，招募次数以及检测到的 tag 及星级。
-- 肉鸽 `roguelike`: 进行的次数，投资的次数。
+- 自動戦闘 `fight`: レベル名、回数、ドロップ統計；
+- インフラシフト `infrast`: 各施設に常駐するオペレーター（製造および取引ステーション向けの製品の種類を含む）；
+- 公開求人 `recruit`: 公開求人タグの更新回数、採用数、検出されたタグと星評価；
+- ローグ `roguelike`: 実行される回数、それが投資される回数。
 
-#### 日志输出
+#### ログ出力
 
-`maa-cli` 默认会向 stderr 输出日志。日志输出级别从低到高分别为 `Error`，`Warn`，`Info`，`Debug` 和 `Trace`。默认的日志输出级别为 `Warn`。日志级别可以通过 `MAA_LOG` 环境变量来设置，例如 `MAA_LOG=debug`。你也可以通过 `-v` 或者 `-q` 来增加或者减少日志输出级别。
+`maa-cli` デフォルトでは、ログは stderr に出力されます。低から高までのログ出力レベルは、 `Error`，`Warn`，`Info`，`Debug` と `Trace`。デフォルトのログ出力レベルは `Warn`。ログレベルは、 `MAA_LOG` で `MAA_LOG=debug` などの環境変数で設定できます。また、ログ出力のレベルを増減するには、 `-v` または `-q` を使用します。
 
-`--log-file` 选项可以将日志输出到文件中，日志保存在 `$(maa dir log)/YYYY/MM/DD/HH:MM:SS.log` 中，其中 `$(maa dir log)` 是日志目录，你可以通过 `maa dir log` 获取。你也可以通过 `--log-file=path/to/log` 来指定日志文件的路径。
+`--log-file` オプションを使用してログをファイルに出力し、ログを `$(maa dir log)/YYYY/MM/DD/HH:MM:SS.log` に保存します。ここで、 `$(maa dir log)` はログディレクトリで、 `maa dir log` から取得できます。ログ・ファイルへのパスは、 `--log-file=path/to/log` で指定することもできます。
 
-### 安装和更新
+### インストールとアップデート
 
-#### 安装和更新 MaaCore
+#### MaaCore のインストールとアップデート
 
-你可以通过 `maa install` 和 `maa update` 来安装和更新 `MaaCore` 及资源，更多信息可以通过 `maa help install` 和 `maa help update` 获取。
+`MaaCore`およびリソースをインストールおよびアップデートするには、 `maa install` および `maa update` を使用できます。詳細な情報は、 `maa help install` および `maa help update` を使用して取得できます。
 
-#### 资源热更新
+#### リソースのホットアップデート
 
-由于游戏的更新，`MaaCore` 需要最新的资源才能正常运行，你可以通过 `maa hot-update` 来更新资源，或者设置资源自动更新，详见 [CLI 相关配置](#maa-cli-相关配置)
+ゲームのアップデートにより、 `MaaCore` は最新のリソースが必要になる場合があります。リソースを更新するには、 `maa hot-update` を使用するか、リソースの自動更新を設定できます。詳細については、[CLI関連設定](#maa-cli-関連設定)を参照してください。
 
-#### 更新自身
+#### maa-cliのアップデート
 
-你可以通过 `maa self update` 来更新 `maa-cli` 自身，注意对于由包管理器安装的 `maa-cli`，你应该使用包管理器来更新 `maa-cli`。
+`maa-cli`自体を更新するには、 `maa self update` を使用できます。パッケージマネージャーでインストールされた `maa-cli` の場合、パッケージマネージャーを使用して `maa-cli` を更新する必要があります。
 
-更多其他的命令可以通过 `maa help` 获取。
+その他のコマンドについては、 `maa help` を使用して取得できます。
 
-### 其他子命令
+### その他のサブコマンド
 
-- `maa list`: 列出所有可用的任务；
-- `maa dir <dir>`: 获取特定目录的路径，比如 `maa dir config` 可以用来获取配置目录的路径;
-- `maa version`: 获取 `maa-cli` 以及 `MaaCore` 的版本信息；
-- `maa convert <input> [output]`: 将 `JSON`，`YAML` 或者 `TOML` 格式的文件转换为其他格式;
-- `maa complete <shell>`: 生成自动补全脚本;
-- `maa activity [client]`: 获取游戏的当前活动信息，`client` 是客户端类型，默认为 `Official`。
+- `maa list`: 利用可能なすべてのタスクを一覧表示します。
+- `maa dir <dir>`: 特定ディレクトリのパスを取得します。たとえば、 `maa dir config` を使用して構成ディレクトリのパスを取得できます。
+- `maa version`: `maa-cli`および`MaaCore`のバージョン情報を取得します。
+- `maa convert <input> [output]`: `JSON`、`YAML`、または`TOML`形式のファイルを他の形式に変換します。
+- `maa complete <shell>`: 自動完了スクリプトを生成します。
+- `maa activity [client]`: ゲームの現在のアクティビティ情報を取得します。 `client` はクライアントタイプであり、デフォルトは `Official` です。
 
 
 ## 設定
@@ -158,35 +158,35 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 各カスタムタスクは個別のファイルであり、`$MAA_CONFIG_DIR/tasks` ディレクトリに配置する必要があります。
 
-#### 基本结构
+#### 基本構造
 
-一个任务文件包含多个子任务，每一个子任务是一个 [MAA 任务](../协议文档/集成文档.md#asstappendtask)，其包含一下几个选项：
+タスクファイルには複数のサブタスクが含まれており、各サブタスクは、次のオプションを持つ [MAAタスク](../プロトコルドキュメント/統合ドキュメント.md#asstappendtask) です：
 
 ```toml
 [[tasks]]
-name = "启动游戏" # 任务的名字，可选，默认为任务类型
-type = "StartUp" # maa任务的类型
-params = { client_type = "Official", start_game_enabled = true } # maa任务的参数
+name = "ゲームを起動する" # タスク名、オプション、デフォルトでタスクタイプです
+type = "StartUp" # MAA タスクのタイプ
+params = { client_type = "Official", start_game_enabled = true } # MAA タスクのパラメーター
 ```
 
-#### 任务条件
+#### タスク条件
 
-如果你想要根据一些条件运行不同参数的任务，你可以定义多个任务的变体：
+いくつかの条件に基づいて異なるパラメータでタスクを実行する場合は、タスクの複数のバリエーションを定義できます：
 
 ```toml
 [[tasks]]
-name = "基建换班"
+name = "基地シフト"
 type = "Infrast"
 
 [tasks.params]
 mode = 10000
 facility = ["Trade", "Reception", "Mfg", "Control", "Power", "Office", "Dorm"]
 dorm_trust_enabled = true
-filename = "normal.json" # 自定义的基建计划的文件名应该位于`$MAA_CONFIG_DIR/infrast`
+filename = "normal.json" # カスタム インフラスト ラクチャ プランのファイル名は `$MAA_CONFIG_DIR/infrast` に配置する必要があります。
 
-# 在12:00:00之前使用计划1，在12:00:00到18:00:00之间使用计划2，在18:00:00之后使用计划0
+# プラン 1 は 12:00:00 まで、プラン 2 は 12:00:00 から 18:00:00 まで、プラン 0 は 18:00:00 以降に使用します。
 [[tasks.variants]]
-condition = { type = "Time", end = "12:00:00" } # 如果没有定义start，那么它将会是00:00:00
+condition = { type = "Time", end = "12:00:00" } # start が定義されていない場合は、00:00:00 になります。
 params = { plan_index = 1 }
 
 [[tasks.variants]]
@@ -198,40 +198,40 @@ condition = { type = "Time", start = "18:00:00" }
 params = { plan_index = 0 }
 ```
 
-这里的 `condition` 字段用于确定哪一个变体应该被使用，而匹配的变体的 `params` 字段将会被合并到任务的参数中。
+ここでの `condition` フィールドは、どの変種を使用するかを決定するために使用され、一致する変種の `params` フィールドがタスクのパラメータにマージされます。
 
-**注意**：如果你的自定义基建计划文件使用相对路径，应该相对于 `$MAA_CONFIG_DIR/infrast`。此外，由于基建文件是由 `MaaCore` 而不是 `maa-cli` 读取的，因此这些文件的格式必须是 `JSON`。同时，`maa-cli` 不会读取基建文件，也不会根据其中定义的时间段来选择相应的子计划。因此，必须通过 `condition` 字段来指定在相应时间段使用正确的基建计划的参数中的 `plan_index` 字段。这样可以确保在适当的时间段使用正确的基建计划。
+**注意**: カスタムインフラ計画ファイルが相対パスを使用する場合は、 `$MAA_CONFIG_DIR/infrast` を基準にする必要があります。また、インフラファイルは `MaaCore` によって読み込まれるため、ファイルの形式は `JSON` である必要があります。同時に、`maa-cli` はインフラファイルを読み込まず、定義された時間帯に基づいてサブプランを選択しません。したがって、`condition` フィールドを使用して、正しいインフラ計画を正しい時間帯に使用するように、パラメータ内の `plan_index` フィールドを指定する必要があります。これにより、適切な時間帯に正しいインフラ計画を使用できます。
 
-除了 `Time` 条件，还有 `DateTime`，`Weekday`，`DayMod`条件。`DateTime` 条件用于指定一个时间段，`Weekday` 条件用于指定一周中的某些天，`DayMod` 见下文多天排班。
+`Time` 条件に加えて、`DateTime`、`Weekday`、`DayMod` 条件もあります。 `DateTime` 条件は時間帯を指定するために使用され、`Weekday` 条件は週の特定の日を指定するために使用されます。`DayMod` は以下の複数日のシフトを参照してください。
 
 ```toml
 [[tasks]]
 type = "Fight"
 
-# 在夏活期间，刷SL-8
+# 夏のイベントでは SL-8
 [[tasks.variants]]
 params = { stage = "SL-8" }
 condition = { type = "DateTime", start = "2023-08-01T16:00:00", end = "2023-08-21T03:59:59" }
 
-# 在夏活期间以外的周二、周四和周六，刷CE-6
+# 夏のイベント以外、火曜、木曜、土曜では CE-6
 [[tasks.variants]]
 condition = { type = "Weekday", weekdays = ["Tue", "Thu", "Sat"] }
 params = { stage = "CE-6" }
 
-# 其他时间，刷1-7
+# 別の時間には 1-7
 [[tasks.variants]]
 params = { stage = "1-7" }
 ```
 
-除了上述确定的条件之外，还有一个依赖于热更新资源的条件 `OnSideStory`，当你启动该条件后，`maa-cli` 会尝试读取相应的资源来判断当前是否有正在开启的活动，如果有那么对应的变体会被匹配。 比如上述夏活期间刷 `SL-8` 的条件就可以简化为 `{ type = "OnSideStory", client = "Official" }`，这里的 `client` 参数用于确定你使用的客户端，因为不同的客户端的活动时间不同，对于使用官服或者 b 服的用户，这可以省略。通过这个条件，每次活动更新之后你可以只需要更新需要刷的关卡而不需要手动编辑对应活动的开放时间。
+上記の条件に加えて、ホットアップデートリソースに依存する `OnSideStory` 条件があります。この条件を有効にすると、`maa-cli` は対応するリソースを読み込んで現在有効なイベントがあるかどうかを判断し、対応する変種を選択します。たとえば、前述の夏イベント中に `SL-8` を周回する条件は、`{ type = "OnSideStory", client = "Official" }` と簡略化することができます。ここでの `client` パラメータは使用するクライアントを決定するために使用されます。異なるクライアントでは、イベントの時間が異なるため、公式サーバーまたは bilibili サーバーを使用するユーザーにとってはこれを省略できます。この条件を使用すると、毎回のイベント更新後に、特定のステージのみを更新する必要があり、対応するイベントの開始時間を手動で編集する必要がありません。
 
-除了以上基础条件之外，你可以使用 `{ type = "And", conditions = [...] }`，`{ type = "Or", conditions = [...] }`, `{ type = "Not", condition = ... }` 来对条件进行逻辑运算。
+基本条件の他に、条件を論理演算するために `{ type = "And", conditions = [...] }`、`{ type = "Or", conditions = [...] }`、`{ type = "Not", condition = ... }` を使用できます。
 
-对于想要基建多天排班的用户，可以将 `DayMod` 和 `Time` 组合使用，可以实现多天排班。比如，你想要实现每两天换六次班，那么你可以这样写：
+複数日のシフトを設定したい場合は、`DayMod` と `Time` を組み合わせて使用することができ、複数日のシフトを実現できます。たとえば、2日ごとに6回のシフトを切り替えたい場合は、次のように記述できます：
 
 ```toml
 [[tasks]]
-name = "基建换班 (2天6班)"
+name = "基地シフト (2天6班)"
 type = "Infrast"
 
 [tasks.params]
@@ -246,12 +246,12 @@ params = { plan_index = 0 }
 [tasks.variants.condition]
 type = "And"
 conditions = [
-    # 这里的 divisor 用来指定周期，remainder 用来指定偏移量
-    # 偏移量等于 num_days_since_ce % divisor
-    # 这里的 num_days_since_ce 是公元以来的天数，0001-01-01 是第一天
-    # 当天偏移量你可以通过 `maa remainder <divisor>` 来获取.
-    # 比如，2024-1-27 是第 738,912 天，那么 738912 % 2 = 0
-    # 当天的偏移量为 0，那么本条件将会被匹配
+    # ここでは、 divisor は期間を指定するために使用され、 remainder はオフセットを指定するために使用されます
+    # オフセットは num_days_since_ce % divisor に等しい
+    # num_days_since_ce これは西暦からの日数で、0001-01-01は最初の日です
+    # `maa remainder <divisor>` で当日のオフセットを取得できます
+    # たとえば、 2024-1-27 は 738,912 日目であり、738912 % 2 = 0 です
+    # 当日のオフセットが 0 の場合、この条件が一致します
     { type = "DayMod", divisor = 2, remainder = 0 },
     { type = "Time", start = "04:00:00", end = "12:00:00" },
 ]
@@ -270,9 +270,9 @@ conditions = [
 [[tasks.variants]]
 params = { plan_index = 2 }
 [tasks.variants.condition]
-# 注意这里必须使用 Or 条件，不能直接使用 Time { start = "20:00:00", end = "04:00:00" }
-# 在这种情况下， 第二天的 00:00:00 - 04:00:00 不会被匹配
-# 当然通过调整你的排班时间避免跨天是更好的选择，这里只是为了演示
+# ここでは Or 条件を使用する必要があり、直接使用することはできません Time { start = "20:00:00", end = "04:00:00" }
+# この場合、翌日の 00:00:00 - 04:00:00 はマッチしません
+# もちろん、スケジュールを調整して日を越えないようにする方が良いですが、ここではデモンストレーションのためだけに
 type = "Or"
 conditions = [
   { type = "And", conditions = [
@@ -322,16 +322,16 @@ conditions = [
 ]
 ```
 
-在默认的策略下，如果有多个变体被匹配，第一个将会被使用。如果没有给出条件，那么变体将会总是被匹配，所以你可以把没有条件的变体放在最后，作为默认的情况。
+デフォルトの戦略では、複数の変種が一致した場合、最初の変種が使用されます。条件が指定されていない場合、変種は常に一致するため、条件がない変種を最後に置いて、デフォルトの状況として使用できます。
 
-你可以使用 `strategy` 字段来改变匹配策略：
+`strategy` フィールドを使用して一致戦略を変更できます：
 
 ```toml
 [[tasks]]
 type = "Fight"
-strategy = "merge" # 或者 "first" (默认)
+strategy = "merge" # 或いは "first" (デフォルト)
 
-# 在周天晚上使用所有的将要过期的理智药
+# 日曜日の夜に期限切れになる理性回復薬をすべて使います
 [[tasks.variants]]
 params = { expiring_medicine = 1000 }
 
@@ -342,27 +342,27 @@ conditions = [
   { type = "Weekday", weekdays = ["Sun"] },
 ]
 
-# 默认刷1-7
+# デフォルトは 1-7
 [[tasks.variants]]
 params = { stage = "1-7" }
 
-# 在周二、周四和周六，刷CE-6
+# 夏のイベント以外、火曜、木曜、土曜では CE-6
 [[tasks.variants]]
 condition = { type = "Weekday", weekdays = ["Tue", "Thu", "Sat"] }
 params = { stage = "CE-6" }
 
-# 在夏活期间，刷SL-8
+# 夏のイベントでは SL-8
 [[tasks.variants]]
 params = { stage = "SL-8" }
 condition = { type = "DateTime", start = "2023-08-01T16:00:00", end = "2023-08-21T03:59:59" }
 ```
 
-这个例子和上面的例子将刷同样的关卡，但是在周天晚上，将会使用所有的将要过期的理智药。在 `merge` 策略下，如果有多个变体被匹配，后面的变体的参数将合并入前面的变体的参数中。如果多个变体都有相同的参数，那么后面的变体的参数将会覆盖前面的变体的参数。
+この例と前述の例では同じステージを周回しますが、日曜日の夜には期限切れの理性薬をすべて使用します。`merge` 戦略では、複数の変種が一致した場合、後続の変種のパラメータが前の変種のパラメータにマージされます。複数の変種が同じパラメータを持つ場合、後続の変種のパラメータが前の変種のパラメータを上書きします。
 
-如果没有变体被匹配，那么任务将不会被执行，这可以用于只在特定的条件下运行子任务：
+一致する変種がない場合、タスクは実行されません。これは特定の条件下でのみサブタスクを実行するために使用できます：
 
 ```toml
-# 只在在18:00:00之后进行信用商店相关的操作
+# FPショップの操作は、18:00:00 以降にのみ利用できます。
 [[tasks]]
 type = "Mall"
 
@@ -370,55 +370,56 @@ type = "Mall"
 condition = { type = "Time", start = "18:00:00" }
 ```
 
-#### 用户输入
+#### ユーザー入力
 
-对于一些任务，你可能想要在运行时输入一些参数，例如关卡名称。 你可以将对应需要输入的参数设置为 `Input` 或者 `Select` 类型：
+一部のタスクでは、実行時にいくつかのパラメータを入力する必要がある場合があります。たとえば、ステージ名などです。対応する入力が必要なパラメータを `Input` または `Select` タイプに設定することができます：
 
 ```toml
 [[tasks]]
 type = "Fight"
 
-# 选择一个关卡
+# ステージを選択
 [[tasks.variants]]
 condition = { type = "DateTime", start = "2023-08-01T16:00:00", end = "2023-08-21T03:59:59" }
 [tasks.variants.params.stage]
-# 可选的关卡，必须提供至少一个可选值
-# 可选值可以是一个值，也可以是同时包含值和描述的一个表
+# オプションステージの場合、少なくとも1つのオプション値を指定する必要があります
+# 省略可能な値は、単一の値、または値と説明の両方を含むテーブルです
 alternatives = [
-    "SL-7", # 将被显示为 "1. SL-7"
-    { value = "SL-8", desc = "轻锰矿" } # 将被显示为 "2. SL-8 (轻锰矿)"
+    "SL-7", # "1. SL-7" に表示されます
+    { value = "SL-8", desc = "轻锰矿" } # "2. SL-8 (マンガン)" に表示されます
 ]
-default_index = 1 # 默认值的索引，从 1 开始，如果没有设置，输入空值将会重新提示输入
-description = "a stage to fight in summer event" # 描述，可选
-allow_custom = true # 是否允许输入自定义的值，默认为 false，如果允许，那么非整数的值将会被视为自定义的值
+default_index = 1 # デフォルト値のインデックスは、1から始まって、設定されていない場合は、null値を入力すると、再度プロンプトが表示されます
+description = "a stage to fight in summer event" # 説明、オプション
+allow_custom = true # カスタム値を許可するかどうかがfalseであるかどうかにかかわらず、許可されている場合、非整数の値はカスタム値として扱われます
 
-# 无需任何输入
+# 入力は不要
 [[tasks.variants]]
 condition = { type = "Weekday", weekdays = ["Tue", "Thu", "Sat"] }
 params = { stage = "CE-6" }
 
-# 输入一个关卡
+# ステージを入力する
 [[tasks.variants]]
 [tasks.variants.params.stage]
-default = "1-7" # 默认的关卡，可选（如果没有默认值，输入空值将会重新提示输入）
-description = "a stage to fight" # 描述，可选
+default = "1-7" # デフォルトステージ、オプション(デフォルト値がない場合は、null値を入力すると再度プロンプトが表示されます)
+description = "a stage to fight" # 説明、オプション
 [tasks.variants.params.medicine]
-# 依赖的参数，键为参数名，值为依赖的参数的预期值
-# 当设置时，只有所有的依赖参数都满足预期值时，这个参数才会被要求输入
+# 依存パラメータ、キーはパラメータ名であり、値は依存パラメータの期待値です
+# 設定すると、このパラメータは、すべての依存パラメータが期待値を満たしている場合にのみ入力を求められます
 deps = { stage = "1-7" }
 default = 1000
 description = "medicine to use"
 ```
 
-对于 `Input` 类型，当运行任务时，你将会被提示输入一个值。如果你输入了一个空值，如果有默认值，那么默认值将会被使用，否则你将会被提示重新输入。
-对于 `Select` 类型，当运行任务时，你将会被提示输入一个的索引或者自定义的值（如果允许）。如果你输入了一个空值，如果有默认值，那么默认值将会被使用，否则你将会被提示重新输入。
+`Input` タイプの場合、タスクを実行すると値の入力を求められます。空の値を入力した場合、デフォルト値があればそれが使用され、そうでない場合は再入力を求められます。
 
-`--batch` 选项可以用于在运行任务时跳过所有的输入，这将会使用默认值；如果有任何输入没有默认值，那么将会导致错误。
+`Select` タイプの場合、タスクを実行するとインデックスまたはカスタム値（許可されている場合）の入力が求められます。空の値を入力した場合、デフォルト値があればそれが使用され、そうでない場合は再入力を求められます。
 
-### MaaCore 相关配置
+`--batch` オプションは、タスクを実行する際にすべての入力をスキップするために使用できます。これにより、デフォルト値が使用されます。ただし、デフォルト値の設定されていない入力がある場合はエラーが発生します。
 
-和 MaaCore 相关的配置需要放在 `$MAA_CONFIG_DIR/asst.toml` 中。
-目前其包含的配置有：
+### MaaCore 関連の設定
+
+MaaCore 関連の設定は `$MAA_CONFIG_DIR/asst.toml` に配置する必要があります。
+現在、以下の設定が含まれています：
 
 ```toml
 [connection]
@@ -443,107 +444,107 @@ adb_lite_enabled = false
 kill_adb_on_exit = false
 ```
 
-#### 连接配置
+#### 接続設定
 
-`[connection]` 相关字段用于指定 MaaCore 连接游戏的方式和参数。目前可用的连接方式有 `ADB` 和 `PlayTools`。
+`[connection]` 関連のフィールドは、MaaCore との接続方法とパラメータを指定するために使用されます。現在利用可能な接続方法は `ADB` と `PlayTools` です。
 
-当你使用 `ADB` 连接时，你需要提供 `adb` 的路径和设备的序列号：
+`ADB` 接続を使用する場合、`adb` のパスとデバイスのシリアル番号を指定する必要があります：
 
 ```toml
 [connection]
 type = "ADB"
-adb_path = "adb" # adb可执行文件的路径
-device = "emulator-5554" # 你的android设备的序列号
-config = "General" # maa connect的配置
+adb_path = "adb" # adb 実行可能ファイルのパス
+device = "emulator-5554" # Android端末のシリアル番号
+config = "General" # MAA Connect の設定
 ```
 
-注意，此处的 device 是任何 `adb -s` 可以接受的值，比如 `emulator-5554` 和 `127.0.0.1:5555`。
+注意：ここでのデバイスは、`adb -s` が受け入れる任意の値（例: `emulator-5554` や `127.0.0.1:5555`）です。
 
-当你使用 `PlayTools` 连接时，你需要提供 `PlayTools` 的地址：
+`PlayTools` 接続を使用する場合、`PlayTools` のアドレスを指定する必要があります：
 
 ```toml
 [connection]
 type = "PlayCover"
-address = "localhost:1717" # PlayTools的地址
-config = "CompatMac" # maa connect的配置
+address = "localhost:1717" # PlayTools のアドレス
+config = "CompatMac" # MAA Connect の設定
 ```
 
-两者都需要提供 `config`，这个值将被传给 MaaCore，用于指定一些平台和模拟器相关的配置。对于 Linux 他默认为 `CompatPOSIXShell`，对于 macOS 他默认为 `CompatMac`，对于 Windows 他默认为 `General`。更多可选配置可以在资源文件夹中的 `config.json` 文件中找到。
+いずれの場合も `config` を提供する必要があります。この値は、いくつかのプラットフォームやエミュレータに関連する設定を指定するために MaaCore に渡されます。Linux の場合はデフォルトで `CompatPOSIXShell`、macOS の場合は `CompatMac`、Windows の場合は `General` が使用されます。さらに詳細な設定については、リソースフォルダ内の `config.json` ファイルを参照してください。
 
-#### 资源配置
+#### リソース設定
 
-`[resource]` 相关字段用于指定 MaaCore 加载的资源：
+`[resource]` 関連のフィールドは、MaaCore がロードするリソースを指定するために使用されます：
 
 ```toml
 [resource]
-global_resource = "YoStarEN" # 非中文版本的资源
-platform_diff_resource = "iOS" # 非安卓版本的资源
-user_resource = true # 是否加载用户自定义的资源
+global_resource = "YoStarEN" # 中国語以外のクライアントのリソース
+platform_diff_resource = "iOS" # Android バージョン以外のリソース
+user_resource = true # ユーザー定義リソースをロードするかどうか
 ```
 
-当使用非简体中文游戏客户端时，由于 `MaaCore` 默认加载的资源是简体中文的，你需要指定 `global_resource` 字段来加载非中文版本的资源。当使用 iOS 版本的游戏客户端时，你需要指定 `platform_diff_resource` 字段来加载 iOS 版本的资源。这两者都是可选的，如果你不需要加载这些资源，你可以将这两个字段设置为空。其次，这两者也会被自动设置，如果你的 `startup` 任务中指定了 `client_type` 字段，那么 `global_resource` 将会被设置为对应客户端的资源，而当你使用 `PlayTools` 连接时，`platform_diff_resource` 将会被设置为 `iOS`。最后，当你想要加载用户自定义的资源时，你需要将 `user_resource` 字段设置为 `true`。
+簡体字中国語以外のゲームクライアントを使用する場合、`MaaCore` はデフォルトで簡体字中国語のリソースをロードしますので、非中国語版のリソースを読み込むために `global_resource` フィールドを指定する必要があります。iOS バージョンのゲームクライアントを使用する場合、`platform_diff_resource` フィールドを指定して iOS バージョンのリソースを読み込む必要があります。これらはどちらもオプションであり、これらのリソースを読み込む必要がない場合は、これらのフィールドを空に設定することができます。また、これらは自動的に設定される場合もあります。`startup` タスクで `client_type` フィールドを指定した場合、`global_resource` が対応するクライアントのリソースとして設定され、`PlayTools` 接続を使用する場合は `platform_diff_resource` が `iOS` に設定されます。最後に、ユーザー定義のリソースをロードする場合は、`user_resource` フィールドを `true` に設定する必要があります。
 
-#### 静态选项
+#### スタチチオプチン
 
-`[static_options]` 相关字段用于指定 MaaCore 静态选项，详见 [集成文档](../协议文档/集成文档.html#asstsetstaticoption)：
+`[static_options]` 関連のフィールドは、MaaCore のスタチチオプチンを指定するために使用されます。詳細については [統合ドキュメント](../プロトコルドキュメント/統合ドキュメント.html#asstsetstaticoption) を参照してください：
 
 ```toml
 [static_options]
-cpu_ocr = false # 是否使用 CPU OCR，默认使用 CPU OCR
-gpu_ocr = 1 # 使用 GPU OCR 时使用的 GPU ID，如果这个值被留空，那么将会使用 CPU OCR
+cpu_ocr = false # CPU OCR を使用するかどうか、デフォルトで CPU OCR が使用されます
+gpu_ocr = 1 # GPU OCR を使用するときに使用される GPU ID で、この値を空白のままにすると、CPU OCR が使用されます
 ```
 
-#### 实例选项
+#### インスタンスのオプション
 
-`[instance_options]` 相关字段用于指定 MaaCore 实例的选项，详见 [集成文档](../协议文档/集成文档.html#asstsetinstanceoption)：
+`[instance_options]` 関連フィールドは、MaaCore インスタンスのオプションを指定するために使用されます。詳細については [統合ドキュメント](../プロトコルドキュメント/統合ドキュメント.html#asstsetinstanceoption) を参照してください：
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # 使用的触摸模式，可选值为 "ADB"，"MiniTouch"，"MAATouch" 或者 "MacPlayTools"
-deployment_with_pause = false # 是否在部署时暂停游戏
-adb_lite_enabled = false # 是否使用 adb-lite
-kill_adb_on_exit = false # 是否在退出时杀死 adb
+touch_mode = "ADB" # タッチモードを使用し、"ADB"，"MiniTouch"，"MAATouch" または "MacPlayTools" として選択可能な値を使用します
+deployment_with_pause = false # デプロイ中にゲームを一時停止するかどうか
+adb_lite_enabled = false # adb-liteを使用するかどうか
+kill_adb_on_exit = false # 終了時にADBを強制終了するかどうか
 ```
 
-注意，`touch_mode` 可选项 `MacPlayTools` 和连接方式 `PlayTools` 绑定。当你使用 `PlayTools` 连接时，`touch_mode` 将会被强制设置为 `MacPlayTools`。
+注意，`touch_mode` のオプションは `MacPlayTools` と `PlayTools` 接続方式に関連付けられています。`PlayTools` 接続を使用する場合、`touch_mode` は自動的に `MacPlayTools` に設定されます。
 
-### `maa-cli` 相关配置
+### `maa-cli` 関連設定
 
-`maa-cli` 相关的配置需要放在 `$MAA_CONFIG_DIR/cli.toml` 中。目前其包含的配置如下：
+`maa-cli` に関連する設定は、 `$MAA_CONFIG_DIR/cli.toml` に配置する必要があります。現在、以下の設定が含まれています：
 
 ```toml
-# MaaCore 安装和更新相关配置
+# MaaCoreのインストールと更新に関する設定
 [core]
-channel = "Stable" # 更新通道，可选值为 "Alpha"，"Beta" "Stable"，默认为 "Stable"
-test_time = 0    # 用于测试镜像速度的时间，0 表示不测试，默认为 3
-# 查询 MaaCore 最新版本的 api 地址，留空表示使用默认地址
+channel = "Stable" # 更新チャネル。"Alpha"、"Beta"、"Stable"のいずれかを選択します。デフォルトは"Stable"です。
+test_time = 0    # ミラーリング速度をテストするための時間。0の場合、テストしないことを意味します。デフォルトは3です。
+# MaaCoreの最新バージョンを取得するAPIのアドレス。空欄の場合、デフォルトのアドレスが使用されます。
 api_url = "https://github.com/MaaAssistantArknights/MaaRelease/raw/main/MaaAssistantArknights/api/version/"
 
-# 配置是否安装 MaaCore 对应的组件，不推荐使用，分开安装可能会导致版本不一致，从而导致一些问题，该选项可能在未来的版本中移除
+# MaaCoreに関連するコンポーネントをインストールするかどうかの設定。推奨しません。個別にインストールするとバージョンの不一致が発生し、問題が発生する可能性があります。このオプションは将来のバージョンで削除される可能性があります。
 [core.components]
-library = true  # 是否安装 MaaCore 的库，默认为 true
-resource = true # 是否安装 MaaCore 的资源，默认为 true
+library = true  # MaaCore のライブラリをインストールするかどうか。デフォルトは true です。
+resource = true # MaaCore のリソースをインストールするかどうか。デフォルトは true です。
 
-# CLI 更新相关配置
+# CLIの更新に関する設定
 [cli]
-channel = "Stable" # 更新通道，可选值为 "Alpha"，"Beta" "Stable"，默认为 "Stable"
-# 查询 maa-cli 最新版本的 api 地址，留空表示使用默认地址
+channel = "Stable" # 更新チャネル。"Alpha"、"Beta"、"Stable"のいずれかを選択します。デフォルトは"Stable"です。
+# maa-cliの最新バージョンを取得するAPIのアドレス。空欄の場合、デフォルトのアドレスが使用されます。
 api_url = "https://github.com/MaaAssistantArknights/maa-cli/raw/version/"
-# 下载预编译二进制文件的地址，留空表示使用默认地址
+# プリコンパイルされたバイナリファイルをダウンロードするアドレス。空欄の場合、デフォルトのアドレスが使用されます。
 download_url = "https://github.com/MaaAssistantArknights/maa-cli/releases/download/"
 
-# 配置是否安装 maa-cli 对应的组件
+# CLIに関連するコンポーネントをインストールするかどうかの設定
 [cli.components]
-binary = true # 是否安装 maa-cli 的二进制文件，默认为 true
+binary = true # maa-cliのバイナリファイルをインストールするかどうか。デフォルトはtrueです。
 
-# 资源热更新相关配置
+# リソースのホットアップデートに関する設定
 [resource]
-auto_update = true  # 是否在每次运行任务时自动更新资源，默认为 false
-backend = "libgit2" # 资源热更新后端，可选值为 "git" 或者 "libgit2"，默认为 "git"
+auto_update = true  # タスクを実行するたびにリソースを自動的に更新するかどうか。デフォルトは false です。
+backend = "libgit2" # リソースのホットアップデートバックエンド。 "git" または "libgit2" を選択します。デフォルトは "git" です。
 
-# 资源热更新远程仓库相关配置
+# リソースのホットアップデートリモートリポジトリに関連する設定
 [resource.remote]
-branch = "main" # 远程仓库的分支，默认为 "main"
+branch = "main" # リモートリポジトリのブランチ、デフォルトは "main" です
 # リモートリポジトリの URL 、 SSH を使用する場合は、ssh_key へのパスを設定する必要があります
 url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 # url = "git@github.com:MaaAssistantArknights/MaaResource.git"
