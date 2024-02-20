@@ -743,7 +743,6 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RemoteControlConnectionTestSuccess">연결 테스트 성공!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">연결 테스트 실패, 이유: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">연결 테스트 실패, 엔드포인트가 비어 있습니다.</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps(s)">연결 테스트에 실패했습니다. 연결 엔드포인트가 http 또는 https 주소가 아닙니다.</system:String>
     <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">연결 엔드포인트가 https를 사용하도록 설정되어 있지 않으며 안전하지 않을 수 있습니다.</system:String>
     <system:String x:Key="RemoteControlReceivedTask">원격 작업 {0} 받음, 작업 Id:{1}.</system:String>
     <system:String x:Key="RemoteControlCompletedTask">원격 작업 {0} 완료, 작업 Id:{1}.</system:String>
