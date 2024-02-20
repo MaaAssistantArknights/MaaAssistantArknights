@@ -372,7 +372,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
         }
         Log.trace("selected_analyze |", count);
         oper.selected = count >= selected_task_ptr->templ_thresholds.front();
-        oper.rect = selected_rect; // 先凑合用（
+        oper.rect = selected_rect.move({ -18, 0, 10, 160 }); // 先凑合用（
     }
 }
 
