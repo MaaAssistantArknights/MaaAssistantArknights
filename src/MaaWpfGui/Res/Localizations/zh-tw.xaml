@@ -22,7 +22,7 @@
     <system:String x:Key="AboutUs">關於我們</system:String>
     <system:String x:Key="CoreVersion">Core 版本號</system:String>
     <system:String x:Key="UiVersion">UI 版本號</system:String>
-    <system:String x:Key="ResourceVersion">Resource</system:String>
+    <system:String x:Key="ResourceVersion">資源版本號</system:String>
     <system:String x:Key="Off">關閉</system:String>
     <system:String x:Key="ExternalNotificationTips">請注意：外部通知功能目前僅會發送「所有任務完成」 的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -117,7 +117,7 @@
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「開局幹員」直升精二，不進行作戰</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">中止行為等待至當前戰鬥結束後</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在戰斗結束前延遲「停止」動作</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（同時影響肉鴿、自動戰鬥、保全）（不穩定，暫不推薦開啟）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
@@ -311,7 +311,7 @@
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
     <system:String x:Key="AccountSwitch">賬號切換</system:String>
-    <system:String x:Key="AccountSwitchManualRun">手動切换</system:String>
+    <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換至的賬號，留空以禁用
 官服輸入登錄界面顯示的手機號，如「123****4567」，可輸入「123****4567」或「4567」或「23****45」
  B服輸入登錄界面顯示的賬號名，如「張三」，可輸入「張」或「三」
@@ -356,9 +356,9 @@
     <system:String x:Key="Shutdown">關機</system:String>
     <system:String x:Key="HibernateWithoutPersist">休眠（僅一次）</system:String>
     <system:String x:Key="ShutdownWithoutPersist">關機（僅一次）</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，如無其他 MAA 程式則休眠</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，如無其他 MAA 程式則關機</system:String>
-    <system:String x:Key="BackToAndroidHome">模擬器 返回主荧幕</system:String>
+    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，無其他 MAA 則休眠</system:String>
+    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，無其他 MAA 則關機</system:String>
+    <system:String x:Key="BackToAndroidHome">返回 模擬器 主荧幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>
@@ -417,7 +417,7 @@
     <system:String x:Key="UnselectedTask">未選擇任務</system:String>
     <system:String x:Key="Running">正在運行中……</system:String>
     <system:String x:Key="AdbReplacementTips">如果任務完全沒有反應，請使用 設定 - 連接設定 - 強制替換 ADB，或觸控模式選擇 ADB Input（不推薦）。</system:String>
-    <system:String x:Key="Waiting">正在等待戰鬥結束……</system:String>
+    <system:String x:Key="Waiting">正在等待當前任務結束……</system:String>
     <system:String x:Key="Stopping">正在停止……</system:String>
     <system:String x:Key="Stopped">已停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">出現未知錯誤</system:String>
@@ -567,7 +567,7 @@
     <system:String x:Key="AdbDownloadFailedTitle">ADB 下載失敗</system:String>
     <system:String x:Key="AdbDeletionFailedMessage">無法刪除目錄，可能已被替換或發生其他問題。請檢查日誌獲取更多信息。</system:String>
     <system:String x:Key="UnzipFailedMessage">無法解壓縮文件，可能發生意外錯誤。請檢查日誌獲取更多信息。</system:String>
-    <system:String x:Key="NoAdbPathSpecifiedMessage">未指定 adb 路徑</system:String>
+    <system:String x:Key="NoAdbPathSpecifiedMessage">未指定 ADB 路徑</system:String>
     <system:String x:Key="AdbDownloadFailedDesc">請手動進行操作（將 adb.exe 重新命名後替換上方模擬器自帶 ADB 即可）</system:String>
     <system:String x:Key="SuccessfullyReplacedAdb">成功替換 ADB 文件</system:String>
     <system:String x:Key="FailedToReplaceAdbAndUseLocal">替換 ADB 失敗</system:String>
@@ -659,7 +659,7 @@
     <system:String x:Key="NotEnoughStaff">可用幹員不足</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公招多選 Tags 的策略</system:String>
     <system:String x:Key="DefaultNoExtraTags">默認不選擇額外的 Tags</system:String>
-    <system:String x:Key="SelectExtraTags">選擇 Tags 時總是選擇三個 Tag</system:String>
+    <system:String x:Key="SelectExtraTags">選擇高星時總是選擇三個 Tag</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">盡可能多地選且只選高星 Tags</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
@@ -745,7 +745,7 @@
     <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">連接端點未啟用https，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到遠端任務{0}，任務Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成遠端任務{0}，任務Id:{1}。</system:String>
-    <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的地址可能會導致您的明日方舟帳戶受到損失。</system:String>
+    <system:String x:Key="RemoteControlTooltips">注意：隨意輸入未知來源的地址可能會導致您的帳戶受到損失。</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">了解如何開發相關功能，可以訪問</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">遠程控制功能開發者文檔</system:String>
     <!--  !Remote Control  -->
@@ -761,4 +761,6 @@
     <system:String x:Key="CheckAndDownloadAnnouncement">查看公告</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
+    <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
+    <system:String x:Key="ConnectionAddress">連接地址</system:String>
 </ResourceDictionary>
