@@ -12056,6 +12056,17 @@
         "Doc": "base_sharp_task",
         "algorithm": "JustReturn"
     },
+    "Roguelike@HpRecognition": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "生命值识别，暂时是把整个框进去，估计会把后面的生命值也识别到，后面得改改",
+        "text": [],
+        "roi": [
+            190,
+            30,
+            60,
+            30
+        ]
+    },
     "Roguelike@InBattleFlag": {
         "template": "BattleOfficiallyBegin.png",
         "roi": [
@@ -12500,6 +12511,18 @@
             648
         ]
     },
+    "Roguelike@SpecialValRecognition": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
+        "text": [],
+        "roi": [
+            615,
+            0,
+            80,
+            45
+        ]
+    },
     "Roguelike@SquadConfirm": {
         "Doc": "base_task",
         "template": "empty.png",
@@ -12662,29 +12685,6 @@
         "preDelay": 150,
         "next": [
             "Roguelike@StageEncounterJudgeOption"
-        ]
-    },
-    "Roguelike@SpecialValRecognition": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
-        "text": [],
-        "roi": [
-            615,
-            0,
-            80,
-            45
-        ]
-    },
-    "Roguelike@HpRecognition": {
-        "baseTask": "NumberOcrReplace",
-        "Doc": "生命值识别，暂时是把整个框进去，估计会把后面的生命值也识别到，后面得改改",
-        "text": [],
-        "roi": [
-            190,
-            30,
-            60,
-            30
         ]
     },
     "Roguelike@StageEncounterJudgeOption": {
