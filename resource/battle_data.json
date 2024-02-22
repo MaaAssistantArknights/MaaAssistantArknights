@@ -3758,7 +3758,7 @@
             "name_en": "Ines",
             "name_jp": "イネス",
             "name_kr": "이네스",
-            "name_tw": "伊内丝",
+            "name_tw": "伊內絲",
             "position": "MELEE",
             "profession": "PIONEER",
             "rangeId": [
@@ -4616,7 +4616,7 @@
             "name_en": "Humus",
             "name_jp": "ヒューマス",
             "name_kr": "휴머스",
-            "name_tw": "休谟斯",
+            "name_tw": "休謨斯",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -7166,7 +7166,7 @@
             "name_en": "Roadside Emergency Reserves",
             "name_jp": "街の緊急用備蓄",
             "name_kr": "길거리 보급품",
-            "name_tw": "街头应急储备",
+            "name_tw": "街頭應急儲備",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
