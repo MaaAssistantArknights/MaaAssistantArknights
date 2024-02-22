@@ -16,22 +16,20 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         event.name = event_json.at("name").as_string();
         event.option_num = event_json.get("option_num", 0);
         event.default_choose = event_json.get("choose", 0);
-        auto choice_require_opt = event_json.find("choice_require");
-        if (!choice_require_opt || !choice_require_opt->is_array()) {
-            continue;
-        }
-        for (const auto& requirement_json : choice_require_opt->as_array()) {
-            ChoiceRequire requirement;
-            requirement.name = requirement_json.at("name").as_string();
-            requirement.choose = requirement_json.get("choose", -1);
-            if (auto vision_opt = requirement_json.find("Vision")) {
-                requirement.vision.value = vision_opt->get("value", "");
-                requirement.vision.type = parse_comparison_type(vision_opt->get("type", ""));
+        if (auto choice_require_opt = event_json.find("choices"); choice_require_opt && choice_require_opt->is_array()) {
+            for (const auto& requirement_json : choice_require_opt->as_array()) {
+                ChoiceRequire requirement;
+                requirement.name = requirement_json.at("name").as_string();
+                requirement.choose = requirement_json.get("choose", -1);
+                if (auto vision_opt = requirement_json.find("Vision")) {
+                    requirement.vision.value = vision_opt->get("value", "");
+                    requirement.vision.type = parse_comparison_type(vision_opt->get("type", ""));
+                }
+                else {
+                    continue;
+                }
+                event.choice_require.emplace_back(std::move(requirement));
             }
-            else {
-                continue;
-            }
-            event.choice_require.emplace_back(std::move(requirement));
         }
         m_events[theme].emplace_back(std::move(event));
     }
