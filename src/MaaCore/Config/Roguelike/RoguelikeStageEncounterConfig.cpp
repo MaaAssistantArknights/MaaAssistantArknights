@@ -25,9 +25,6 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
                     requirement.vision.value = vision_opt->get("value", "");
                     requirement.vision.type = parse_comparison_type(vision_opt->get("type", ""));
                 }
-                else {
-                    continue;
-                }
                 event.choice_require.emplace_back(std::move(requirement));
             }
         }
