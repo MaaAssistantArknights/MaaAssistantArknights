@@ -777,7 +777,7 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     body["stageId"] = "recruit";
     auto& all_drops = body["drops"];
     for (const auto& tag : tags) {
-        all_drops.array_emplace(json::object {
+        all_drops.emplace(json::object {
             { "dropType", "NORMAL_DROP" },
             { "itemId", tag },
             { "quantity", 1 },
