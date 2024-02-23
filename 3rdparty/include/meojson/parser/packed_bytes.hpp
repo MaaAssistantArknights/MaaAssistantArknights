@@ -138,5 +138,4 @@ using packed_bytes_trait_max =
                        std::conditional_t<packed_bytes_trait<16>::available, packed_bytes_trait<16>,
                                           std::conditional_t<packed_bytes_trait<8>::available, packed_bytes_trait<8>,
                                                              packed_bytes_trait<4>>>>;
-
 } // namespace json::_packed_bytes
