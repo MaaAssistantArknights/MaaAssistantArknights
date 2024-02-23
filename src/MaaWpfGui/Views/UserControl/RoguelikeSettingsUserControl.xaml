@@ -49,6 +49,25 @@
                 SelectedValue="{Binding RoguelikeSquad}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource StartingRoles}"
+                DisplayMemberPath="Display"
+                IsHitTestVisible="{Binding Idle}"
+                ItemsSource="{Binding RoguelikeRolesList}"
+                SelectedValue="{Binding RoguelikeRoles}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Margin="0,5"
+                hc:InfoElement.Title="{DynamicResource StartingCoreChar}"
+                IsEditable="True"
+                IsTextSearchEnabled="False"
+                ItemsSource="{Binding RoguelikeCoreCharList}"
+                Loaded="{s:Action MakeComboBoxSearchable}"
+                Style="{StaticResource ComboBoxExtend}"
+                Text="{Binding RoguelikeCoreChar, UpdateSourceTrigger=LostFocus}"
+                ToolTip="{DynamicResource StartingCoreCharTip}" />
         </StackPanel>
 
         <StackPanel IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
@@ -71,7 +90,6 @@
                     </MultiBinding>
                 </CheckBox.IsChecked>
             </CheckBox>
-
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource InvestmentEnterSecondFloor}"
@@ -102,30 +120,6 @@
                 Content="{DynamicResource RefreshTraderWithDice}"
                 IsChecked="{Binding RoguelikeRefreshTraderWithDice}"
                 Visibility="{c:Binding 'RoguelikeTheme == &quot;Mizuki&quot;'}" />
-            <ComboBox
-                Margin="0,5"
-                hc:InfoElement.Title="{DynamicResource StartingRoles}"
-                DisplayMemberPath="Display"
-                IsHitTestVisible="{Binding Idle}"
-                ItemsSource="{Binding RoguelikeRolesList}"
-                SelectedValue="{Binding RoguelikeRoles}"
-                SelectedValuePath="Value"
-                Style="{StaticResource ComboBoxExtend}" />
-            <TextBlock
-                Margin="8,5,8,0"
-                HorizontalAlignment="Left"
-                Block.TextAlignment="Center"
-                Foreground="{DynamicResource PrimaryTextBrush}"
-                Text="{DynamicResource StartingCoreChar}"
-                TextWrapping="Wrap" />
-            <ComboBox
-                Margin="0,5"
-                IsEditable="True"
-                IsTextSearchEnabled="False"
-                ItemsSource="{Binding RoguelikeCoreCharList}"
-                Loaded="{s:Action MakeComboBoxSearchable}"
-                Text="{Binding RoguelikeCoreChar, UpdateSourceTrigger=LostFocus}"
-                ToolTip="{DynamicResource StartingCoreCharTip}" />
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeStartWithEliteTwo}"
@@ -154,7 +148,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
-                IsEnabled="{Binding RoguelikeUseSupportUnit}">
+                Visibility="{c:Binding RoguelikeUseSupportUnit}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeUseNonFriendSupport}"
