@@ -154,7 +154,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeEnableNonfriendSupport}"
-                IsEnabled="{Binding RoguelikeUseSupportUnit}">
+                Visibility="{c:Binding RoguelikeUseSupportUnit}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeUseNonFriendSupport}"
