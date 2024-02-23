@@ -194,7 +194,7 @@ void asst::StageQueueMissionCompletedTaskPlugin::upload_to_penguin(std::string s
         }
         json::value format_drop = drop;
         format_drop.as_object().erase("itemName");
-        all_drops.array_emplace(std::move(format_drop));
+        all_drops.emplace(std::move(format_drop));
     }
     body["source"] = UploadDataSource;
     body["version"] = Version;
