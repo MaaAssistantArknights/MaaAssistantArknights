@@ -521,8 +521,8 @@ bool update_infrast_data(const std::filesystem::path& input_dir, const std::file
             }
         }
         if (new_name) {
-            skill["name"].array_emplace(name);
-            skill["desc"].array_emplace(desc);
+            skill["name"].emplace(name);
+            skill["desc"].emplace(desc);
         }
 
         // 历史遗留问题，以前的图片是从wiki上爬的，都是大写开头
@@ -857,7 +857,7 @@ bool update_battle_chars_info(const std::filesystem::path& official_dir, const s
                 }
             }
         }
-        chars.object_emplace(id, std::move(char_new_data));
+        chars.emplace(id, std::move(char_new_data));
     }
     for (const auto& [oper_id, token_id_list] : tokens) {
         std::vector<std::string> token_names_list;
@@ -880,7 +880,7 @@ bool update_battle_chars_info(const std::filesystem::path& official_dir, const s
     Amiya_data["rangeId"] = json::array { "1-1", "1-1", "1-1" };
     Amiya_data["rarity"] = 5;
     Amiya_data["position"] = "MELEE";
-    chars.object_emplace("char_1001_amiya2", std::move(Amiya_data));
+    chars.emplace("char_1001_amiya2", std::move(Amiya_data));
 
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
@@ -1003,7 +1003,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
             return false;
         }
 
-        opers.array_emplace(json::object { { "id", id },
+        opers.emplace(json::object { { "id", id },
                                            { "name", name },
                                            { "rarity", info_iter->second.rarity },
                                            { "tags", json::array(info_iter->second.tags) } });
@@ -1024,7 +1024,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     auto& tags = result["tags"];
     for (const auto& [id, tag] : tags_name) {
         std::string base_name = base_tags_name.at(id);
-        tags.object_emplace(base_name, tag);
+        tags.emplace(base_name, tag);
     }
 
     std::ofstream ofs(output, std::ios::out);

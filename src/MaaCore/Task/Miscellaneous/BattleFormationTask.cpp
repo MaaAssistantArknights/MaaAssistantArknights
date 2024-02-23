@@ -434,7 +434,7 @@ bool asst::BattleFormationTask::parse_formation()
         if (opers_vec.empty()) {
             continue;
         }
-        formation.array_emplace(name);
+        formation.emplace(name);
 
         // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
