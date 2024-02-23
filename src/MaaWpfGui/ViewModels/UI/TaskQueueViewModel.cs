@@ -102,11 +102,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public ActionType ActionAfterCompleted
         {
-            get
-            {
-                return !Enum.TryParse(_actionAfterCompleted, out ActionType action) ? ActionType.DoNothing : action;
-            }
-
+            get => !Enum.TryParse(_actionAfterCompleted, out ActionType action) ? ActionType.DoNothing : action;
             set
             {
                 string storeValue = value.ToString();
@@ -116,10 +112,11 @@ namespace MaaWpfGui.ViewModels.UI
                     value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist ||
                     value == ActionType.ShutdownWithoutPersist)
                 {
-                    storeValue = ActionType.DoNothing.ToString();
                 }
-
-                ConfigurationHelper.SetValue(ConfigurationKeys.ActionAfterCompleted, storeValue);
+                else
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.ActionAfterCompleted, storeValue);
+                }
             }
         }
 
@@ -2113,7 +2110,9 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case ActionType.HibernateWithoutPersist:
                     // 休眠不会导致 MAA 重启，下次执行的还会是休眠
-                    ActionAfterCompleted = ActionType.DoNothing;
+                    // 重新读取结束后动作，并刷新UI
+                    _actionAfterCompleted = ConfigurationHelper.GetValue(ConfigurationKeys.ActionAfterCompleted, ActionType.DoNothing.ToString());
+                    NotifyOfPropertyChange(nameof(ActionAfterCompleted));
                     goto case ActionType.Hibernate;
                 case ActionType.Hibernate:
                     // 休眠提示
