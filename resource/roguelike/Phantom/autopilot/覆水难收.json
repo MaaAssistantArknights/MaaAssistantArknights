@@ -39,10 +39,6 @@
         ],
         [
             8,
-            1
-        ],
-        [
-            8,
             2
         ],
         [
@@ -52,10 +48,6 @@
         [
             8,
             4
-        ],
-        [
-            8,
-            5
         ],
         [
             8,
@@ -98,7 +90,7 @@
             "direction": "up",
             "condition": [
                 0,
-                20
+                19
             ]
         },
         {
@@ -178,7 +170,11 @@
                 5,
                 4
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                42
+            ]
         },
         {
             "groups": [
@@ -204,7 +200,11 @@
                 2,
                 2
             ],
-            "direction": "right"
+            "direction": "right",
+            "condition": [
+                0,
+                42
+            ]
         },
         {
             "groups": [
@@ -253,6 +253,34 @@
         },
         {
             "groups": [
+                "地面单切"
+            ],
+            "location": [
+                8,
+                5
+            ],
+            "direction": "right",
+            "condition": [
+                31,
+                34
+            ]
+        },
+        {
+            "groups": [
+                "地面单切"
+            ],
+            "location": [
+                8,
+                1
+            ],
+            "direction": "right",
+            "condition": [
+                34,
+                37
+            ]
+        },
+        {
+            "groups": [
                 "史尔特尔",
                 "地面单切",
                 "情报官",
@@ -293,6 +321,26 @@
         },
         {
             "groups": [
+                "高台C",
+                "狙击",
+                "高台输出",
+                "盾法",
+                "狙击",
+                "梓兰",
+                "高台预备"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "direction": "right",
+            "condition": [
+                46,
+                80
+            ]
+        },
+        {
+            "groups": [
                 "地面远程",
                 "地面阻挡",
                 "地面单切",
@@ -307,7 +355,23 @@
             ],
             "direction": "up",
             "condition": [
-                30,
+                45,
+                80
+            ]
+        },
+        {
+            "groups": [
+                "高台输出",
+                "奶",
+                "高台预备"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "up",
+            "condition": [
+                56,
                 80
             ]
         }
