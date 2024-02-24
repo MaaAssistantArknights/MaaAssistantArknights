@@ -156,7 +156,7 @@ char_326_glacus|格劳克斯|Glaucus|グラウコス|글라우쿠스
 char_333_sidero|铸铁|Sideroca|シデロカ|시데로카
 char_336_folivo|稀音|Scene|シーン|씬
 char_338_iris|爱丽丝|Iris|アイリス|아이리스
-char_341_sntlla|寒檀|Santalla|サンタラ|
+char_341_sntlla|寒檀|Santalla|サンタラ|산탈라
 char_343_tknogi|月禾|Tsukinogi|ツキノギ|츠키노기
 char_344_beewax|蜜蜡|Beeswax|ビーズワクス|비즈왁스
 char_345_folnic|亚叶|Folinic|フォリニック|폴리닉
@@ -300,7 +300,7 @@ char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|사
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere|聖約イクゼキュター|이그제큐터 디 엑스 포에데레
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit|琳琅スワイヤー|스와이어 디 엘리건트 위트
 char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
-char_2012_typhon|提丰|Typhon|ティフォン|
+char_2012_typhon|提丰|Typhon|ティフォン|티폰
 char_2013_cerber|刻俄柏|Ceobe|ケオベ|케오베
 char_2014_nian|年|Nian|ニェン|니엔
 char_2015_dusk|夕|Dusk|シー|시
