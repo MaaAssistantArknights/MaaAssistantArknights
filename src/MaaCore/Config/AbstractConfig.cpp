@@ -16,7 +16,7 @@ bool asst::AbstractConfig::load(const std::filesystem::path& path)
     m_path = path;
 
     LogTraceScope(class_name + " :: " + __FUNCTION__);
-    Log.info(path);
+    Log.info(path.lexically_relative(UserDir.get()));
 
     auto ret = json::open(path, true);
     if (!ret) {
