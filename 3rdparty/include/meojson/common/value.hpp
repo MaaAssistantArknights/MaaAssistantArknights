@@ -170,14 +170,9 @@ public:
     basic_value<string_t>& operator=(const basic_value<string_t>& rhs);
     basic_value<string_t>& operator=(basic_value<string_t>&&) noexcept;
     template <typename value_t, std::enable_if_t<std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
-    basic_value<string_t>& operator=(const value_t& rhs)
-    {
-        return *this = basic_value<string_t>(rhs);
-    }
-    template <typename value_t, std::enable_if_t<std::is_convertible_v<value_t, basic_value<string_t>>, bool> = true>
     basic_value<string_t>& operator=(value_t&& rhs)
     {
-        return *this = basic_value<string_t>(std::move(rhs));
+        return *this = basic_value<string_t>(std::forward<value_t>(rhs));
     }
 
     bool operator==(const basic_value<string_t>& rhs) const;
