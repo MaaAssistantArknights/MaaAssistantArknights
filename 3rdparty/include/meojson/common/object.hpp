@@ -102,6 +102,11 @@ public:
 
     basic_object<string_t>& operator=(const basic_object<string_t>&) = default;
     basic_object<string_t>& operator=(basic_object<string_t>&&) = default;
+    template <typename value_t, std::enable_if_t<std::is_convertible_v<value_t, basic_object<string_t>>, bool> = true>
+    basic_object<string_t>& operator=(value_t rhs)
+    {
+        return *this = basic_object<string_t>(std::move(rhs));
+    }
 
     bool operator==(const basic_object<string_t>& rhs) const;
     bool operator!=(const basic_object<string_t>& rhs) const { return !(*this == rhs); }
