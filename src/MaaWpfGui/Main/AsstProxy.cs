@@ -1318,8 +1318,8 @@ namespace MaaWpfGui.Main
 
                 case "InfrastTrainingTimeLeft":
                     Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
-                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + "\n" + LocalizationHelper.GetString("TimeLeft") + ": " +
-                        $"{(int)subTaskDetails["hh"]}" + "h " + $"{(int)subTaskDetails["mm"]}" + "m " + $"{(int)subTaskDetails["ss"]}" + "s");
+                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + "\n" +
+                        string.Format(LocalizationHelper.GetString("TrainingTimeLeft") + ": {0:}:{1:}:{2:}", subTaskDetails["hh"], subTaskDetails["mm"], subTaskDetails["ss"]));
                     break;
 
                 /* 生息演算 */
