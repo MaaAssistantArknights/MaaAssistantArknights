@@ -77,7 +77,7 @@
     <system:String x:Key="TrainingIdle">訓練室空閑中</system:String>
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>
-    <system:String x:Key="TimeLeft">剩余時間</system:String>
+    <system:String x:Key="TrainingTimeLeft">剩余時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">啟用自定義基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>

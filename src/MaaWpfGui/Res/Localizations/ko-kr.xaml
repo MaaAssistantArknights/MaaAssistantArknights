@@ -77,7 +77,7 @@
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
     <system:String x:Key="TrainingLevel">스킬 랭크</system:String>
-    <system:String x:Key="TimeLeft">남은 시간</system:String>
+    <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
