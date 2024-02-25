@@ -928,17 +928,13 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            JArray mUserAdditional = new JArray();
-            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))? *", RegexOptions.Compiled);
-            MatchCollection matches = regex.Matches(";" + UserAdditional.Replace("，", ",").Replace("；", ";"));
-            foreach (Match match in matches)
+            UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
+            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
+            JArray mUserAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
             {
-                mUserAdditional.Add(new JObject
-                {
-                    ["name"] = match.Groups[1].Value.Trim(),
-                    ["skill"] = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
-                });
-            }
+                ["name"] = match.Groups[1].Value.Trim(),
+                ["skill"] = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
+            }));
 
             bool ret = true;
             if (UseCopilotList)
