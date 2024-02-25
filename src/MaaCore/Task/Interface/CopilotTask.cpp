@@ -139,10 +139,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_add_user_additional(add_user_additional);
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 
-    if (auto opt = params.find<json::array>("user_additional"); !opt) {
-        Log.warn("add_user_additional not found");
-    }
-    else {
+    if (auto opt = params.find<json::array>("user_additional"); add_user_additional && opt) {
         std::vector<std::pair<std::string, int>> user_additional;
         for (const auto& op : *opt) {
             std::string name = op.get("name", std::string());
