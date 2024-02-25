@@ -57,23 +57,23 @@ namespace asst
         bool get_only_start_with_elite_two() const { return m_only_start_with_elite_two; }
         void set_start_foldartal(bool start_foldartal) { m_start_foldartal = start_foldartal; }
         bool get_start_foldartal() const { return m_start_foldartal; }
-        void set_start_foldartal_list(std::string string) { m_start_foldartal_list = string; }
-        std::string get_start_foldartal_list() const { return m_start_foldartal_list; }
+        void set_start_foldartal_list(std::vector<std::string> string) { m_start_foldartal_list = string; }
+        std::vector<std::string> get_start_foldartal_list() const { return m_start_foldartal_list; }
         void set_invest_maximum(int value) { m_invest_maximum = value; }
         int get_invest_maximum() const { return m_invest_maximum; }
         void set_invest_stop_when_full(bool value) { m_invest_stop_when_full = value; }
         bool get_invest_stop_when_full() const { return m_invest_stop_when_full; }
 
     private:
-        std::string m_theme;                       // 主题
-        RoguelikeMode m_mode = RoguelikeMode::Exp; // 模式
-        int m_difficulty = 0;                      // 难度
-        bool m_start_with_elite_two = false;       // 在刷开局模式下凹开局干员精二直升
-        bool m_only_start_with_elite_two = false;  // 只凹开局干员精二直升且不进行作战
-        bool m_start_foldartal = false;            // 生活队凹开局密文板
-        std::string m_start_foldartal_list;        // 需要凹的板子
-        int m_invest_maximum = 0;                  // 投资次数上限
-        bool m_invest_stop_when_full = false;      // 存款满了就停止
+        std::string m_theme;                             // 主题
+        RoguelikeMode m_mode = RoguelikeMode::Exp;       // 模式
+        int m_difficulty = 0;                            // 难度
+        bool m_start_with_elite_two = false;             // 在刷开局模式下凹开局干员精二直升
+        bool m_only_start_with_elite_two = false;        // 只凹开局干员精二直升且不进行作战
+        bool m_start_foldartal = false;                  // 生活队凹开局密文板
+        std::vector<std::string> m_start_foldartal_list; // 需要凹的板子
+        int m_invest_maximum = 0;                        // 投资次数上限
+        bool m_invest_stop_when_full = false;            // 存款满了就停止
 
         /* 以下为每次重置 */
     public:

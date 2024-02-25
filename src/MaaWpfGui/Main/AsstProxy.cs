@@ -2071,11 +2071,11 @@ namespace MaaWpfGui.Main
 
             taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
             taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
-            taskParams["start_foldartal"] = mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal;
-            if (roguelike3NewSquad2StartingFoldartals.Length > 0)
+            if (mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
             {
-                taskParams["start_foldartal_list"] = roguelike3NewSquad2StartingFoldartals;
+                taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3));
             }
+
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;

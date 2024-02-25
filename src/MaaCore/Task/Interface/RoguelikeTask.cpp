@@ -102,8 +102,21 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
 
     // 是否生活队凹开局板子
-    m_roguelike_config_ptr->set_start_foldartal(params.get("start_foldartal", false));
-    m_roguelike_config_ptr->set_start_foldartal_list(params.get("start_foldartal_list", ""));
+    m_roguelike_config_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
+
+    if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
+        std::vector<std::string> list;
+        for (const auto& name : *opt) {
+            if (std::string name_str = name.as_string(); !name_str.empty()) {
+                list.emplace_back(name_str);
+            }
+        }
+        if (list.empty()) {
+            Log.error(__FUNCTION__, "| Empty start_foldartal_list");
+            return false;
+        }
+        m_roguelike_config_ptr->set_start_foldartal_list(std::move(list));
+    }
 
     m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
     m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));

@@ -53,18 +53,8 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
 bool asst::RoguelikeFoldartalStartTaskPlugin::check_foldartals()
 {
     // 用户输入的需要的板子字符串
-    std::string start_foldartal_string = m_config->get_start_foldartal_list();
-    std::vector<std::string> all_foldartal = m_config->get_foldartal();
-    std::istringstream iss(start_foldartal_string);
-    std::string item;
-    std::vector<std::string> extracted_foldartals;
-    int count = 0;
-
-    // 分割字符串，提取元素
-    while (std::getline(iss, item, ';') && count < 3) {
-        extracted_foldartals.push_back(item);
-        ++count;
-    }
+    const auto& extracted_foldartals = m_config->get_start_foldartal_list();
+    const auto& all_foldartal = m_config->get_foldartal();
 
     // 查找板子
     for (const auto& foldartal : extracted_foldartals) {
