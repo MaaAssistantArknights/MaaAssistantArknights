@@ -833,8 +833,9 @@ namespace MaaWpfGui.Main
                         var why = details.TryGetValue("why", out var whyObj) ? whyObj.ToString() : string.Empty;
                         if (why == "OperatorMissing")
                         {
-                            var missingOpers = details["details"]["opers"].ToObject<List<string>>();
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + string.Join(", ", missingOpers), UiLogColor.Error);
+                            var missingOpers = details["details"]["opers"].ToObject<List<List<string>>>();
+                            var missingOpersStr = "[" + string.Join("]; [", missingOpers.Select(opers => string.Join(", ", opers))) + "]";
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + missingOpersStr, UiLogColor.Error);
                         }
 
                         break;
