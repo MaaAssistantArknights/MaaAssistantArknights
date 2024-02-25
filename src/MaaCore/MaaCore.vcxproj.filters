@@ -696,6 +696,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1158,6 +1161,9 @@
       <Filter>Source\Task\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeInvestTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>

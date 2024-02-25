@@ -2030,7 +2030,7 @@ namespace MaaWpfGui.Main
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
         /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
         /// <param name="roguelike3NewSquad2StartingFoldartal">是否在萨米肉鸽生活队凹开局板子</param>
-        /// <param name="roguelike3NewSquad2StartingFoldartals">需要凹的板子</param>
+        /// <param name="roguelike3NewSquad2StartingFoldartals">需要凹的板子，用;连接的字符串</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami"]</param>
@@ -2071,10 +2071,10 @@ namespace MaaWpfGui.Main
 
             taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
             taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
-            taskParams["need_start_foldartar"] = mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal;
+            taskParams["start_foldartal"] = mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal;
             if (roguelike3NewSquad2StartingFoldartals.Length > 0)
             {
-                taskParams["start_foldartars"] = roguelike3NewSquad2StartingFoldartals;
+                taskParams["start_foldartal_list"] = roguelike3NewSquad2StartingFoldartals;
             }
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;

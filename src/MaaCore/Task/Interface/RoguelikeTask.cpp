@@ -12,8 +12,10 @@
 #include "Task/Roguelike/RoguelikeDebugTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFoldartalGainTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeFoldartalStartTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFoldartalUseTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeRecruitTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeResetTaskPlugin.h"
@@ -22,7 +24,6 @@
 #include "Task/Roguelike/RoguelikeSkillSelectionTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
 
 #include "Utils/Logger.hpp"
 
@@ -66,6 +67,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
     for (int i = 0; i != 100; ++i) {
@@ -98,9 +100,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 是否凹指定干员开局直升
     m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
     m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
+
+    // 是否生活队凹开局板子
+    m_roguelike_config_ptr->set_start_foldartal(params.get("start_foldartal", false));
+    m_roguelike_config_ptr->set_start_foldartal_list(params.get("start_foldartal_list", ""));
+
     m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
     m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));
-
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
         Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
