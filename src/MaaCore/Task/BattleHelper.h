@@ -62,7 +62,8 @@ namespace asst
         bool click_skill(bool keep_waiting = true); // 这个是带识别的，转好了才点
         bool cancel_oper_selection();
         // 修正终点超出范围的滑动，纠正时是否需要顺时针旋转
-        void fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, int max_distance = INT_MAX, double radian = 0);
+        void fix_swipe_out_of_limit(Point& p1, Point& p2, int width, int height, int max_distance = INT_MAX,
+                                    double radian = 0);
         bool move_camera(const std::pair<double, double>& delta);
 
         std::string analyze_detail_page_oper_name(const cv::Mat& image);
@@ -70,8 +71,8 @@ namespace asst
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
         std::string m_stage_name;
-        std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;
-        std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info;
+        std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;   // 子弹时间的坐标映射
+        std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info; // 正常的坐标映射
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
         std::unordered_map<std::string, int> m_skill_times;
         std::unordered_map<std::string, int> m_skill_error_count;
