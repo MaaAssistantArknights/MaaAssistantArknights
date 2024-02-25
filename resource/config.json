@@ -39,9 +39,9 @@
             }
         },
         "yituliuReport": {
-            "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
-            "recruitUrl": "https://backend.yituliu.site/maa/upload/recruit",
-            "dropUrl": "https://developer.yituliu.site/stage/drop/upload",
+            "Doc": "一图流汇报：https://ark.yituliu.cn/survey/maarecruitdata",
+            "recruitUrl": "https://backend.yituliu.cn/maa/upload/recruit",
+            "dropUrl": "https://backend.yituliu.cn/maa/upload/stageDrop",
             "timeout": 5000,
             "headers": {
                 "Content-Type": "application/json"
