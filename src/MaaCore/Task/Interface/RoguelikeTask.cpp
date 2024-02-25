@@ -149,16 +149,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice",
                                           params.get("refresh_trader_with_dice", false) ? INT_MAX : 0);
 
-    if (params.get("stop_when_investment_full", false)) {
-        constexpr int InvestLimit = 999;
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", 0);
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", InvestLimit);
-    }
-    else {
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestSystemFull", INT_MAX);
-        m_roguelike_task_ptr->set_times_limit("StageTraderInvestConfirm", INT_MAX);
-    }
-
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", "")); // 开局分队
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
