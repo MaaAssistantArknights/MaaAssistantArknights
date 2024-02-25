@@ -48,7 +48,7 @@ namespace asst
         using OperGroup = std::vector<battle::OperUsage>;
 
         virtual bool _run() override;
-        bool add_formation(battle::Role role, std::vector<OperGroup> oper_group);
+        bool add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing);
         // 追加附加干员（按部署费用等小分类）
         bool add_additional();
         // 补充刷信赖的干员，从最小的开始
@@ -79,6 +79,6 @@ namespace asst
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
         int m_select_formation_index = 0;
-        int m_missing_retry_times = 2;
+        int m_missing_retry_times = 0; // 识别不到干员的重试次数，目前设置为不重试
     };
 } // namespace asst
