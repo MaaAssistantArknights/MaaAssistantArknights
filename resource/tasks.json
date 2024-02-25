@@ -14707,6 +14707,7 @@
         ],
         "next": [
             "Sami@Roguelike@FoldartalGain",
+            "Sami@Roguelike@LastRewardChoose",
             "Sami@Roguelike@SquadConfirm#next"
         ]
     },
@@ -14816,6 +14817,10 @@
         "ocrReplace": [
             [
                 "开始告",
+                "开始宣告"
+            ],
+            [
+                "^开始宣.*",
                 "开始宣告"
             ]
         ]
@@ -14955,6 +14960,20 @@
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
     "Sami@Roguelike@LastReward4": {},
+    "Sami@Roguelike@LastRewardChoose": {
+        "action": "DoNothing",
+        "template": "Sami@Roguelike@LastRewardChoose.png",
+        "cache": false,
+        "roi": [
+            485,
+            4,
+            368,
+            119
+        ],
+        "next": [
+            "Sami@Roguelike@SquadConfirm#next"
+        ]
+    },
     "Sami@Roguelike@LastRewardConfirm": {},
     "Sami@Roguelike@LastRewardRand": {},
     "Sami@Roguelike@MapObject": {

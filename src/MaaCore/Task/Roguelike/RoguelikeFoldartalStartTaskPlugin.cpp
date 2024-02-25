@@ -25,8 +25,8 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
 
     if (task_view.starts_with(roguelike_name)) {
         task_view.remove_prefix(roguelike_name.length());
-    }    
-    if (task_view == "Roguelike@LastReward" || task_view == "Roguelike@LastReward4") {
+    }
+    if (task_view == "Roguelike@LastRewardChoose") {
         return true;
     }
     else {
@@ -36,7 +36,6 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
 {
-
     LogTraceFunction;
 
     auto mode = m_config->get_mode();
@@ -45,9 +44,8 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
     // 没有刷到需要的板子，退出重开
     if (mode == RoguelikeMode::Collectible && !start_foldartal_checked) {
         m_config->set_difficulty(0);
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-            .set_times_limit("Roguelike@Abandon", 0)
-            .run();
+        Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_restart");
+        Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_restart");
     }
     return true;
 }
