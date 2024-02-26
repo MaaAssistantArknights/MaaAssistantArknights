@@ -79,6 +79,6 @@ namespace asst
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
         int m_select_formation_index = 0;
-        int m_missing_retry_times = 2; // 识别不到干员的重试次数
+        int m_missing_retry_times = 1; // 识别不到干员的重试次数
     };
 } // namespace asst
