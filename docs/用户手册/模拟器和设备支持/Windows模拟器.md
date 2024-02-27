@@ -26,31 +26,15 @@ const shuffleArray = (array) => {
 const fullySupport = shuffleArray([
 `
 ### ✅ [蓝叠模拟器 5](https://www.bluestacks.cn/)
-完美支持。需要在模拟器 \`设置\` - \`引擎设置\` 中打开 \`允许ADB连接\`
+完美支持。需要在模拟器 \`设置\` - \`引擎设置\` 中打开 \`允许ADB连接\`。
 `,
 `
 ### ✅ [蓝叠模拟器 5 国际版](https://www.bluestacks.com/tw/index.html)（最稳定👍）
 
 完美支持。需要在模拟器 \`设定\` - \`进阶\` 中打开 \`Android调试桥\`。
 
-- 若网络环境较差可尝试下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)；
-- 若 adb 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)，
-    MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [常见问题](../%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98.html#蓝叠模拟器每次启动端口号都不一样-hyper-v) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 adb 的操作同样需要以管理员身份运行 MAA。
-`,
-`
-### ✅ [夜神模拟器](https://www.yeshen.com/)
-
-完美支持。
-`,
-`
-### ✅ [夜神模拟器 安卓 9](https://www.yeshen.com/)
-
-完美支持。
-`,
-`
-### ✅ [逍遥模拟器](https://www.xyaz.cn/)
-
-完美支持，但测试较少。
+- 推荐下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免缓慢和捆绑安装；
+- 若 adb 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [常见问题](../常见问题.html#蓝叠模拟器每次启动端口号都不一样-hyper-v) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 adb 的操作同样需要以管理员身份运行 MAA。
 `,
 `
 ### ✅ [MuMu 模拟器 12](https://mumu.163.com/)（最流畅👍）
@@ -58,22 +42,43 @@ const fullySupport = shuffleArray([
 完美支持。
 
 - “完成后退出模拟器”功能可能偶现异常，如果遇到请向 MuMu 官方反馈；
-- 3.5.4 ~ 3.5.7 版本 MuMu 12 引入的“后台保活”功能会导致截图失败，推荐使用 3.6.4 版本；如您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，请确认 MuMu 12 设置-其他 中将“后台挂机时保活运行”功能关闭（详见[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）；
-- 多开时需通过 MuMu 12 多开器的 ADB 按钮，查看对应实例的端口信息，将 MAA 设置-连接设置 的连接地址的端口号修改为对应的端口。
+- 3.5.4 ~ 3.5.7 版本 MuMu 12 的“后台保活”功能会导致截图失败，推荐使用更新后的版本；若您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，请确认 MuMu 12 设置 - 其他 中的“后台挂机时保活运行”功能已关闭（详见[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）；
+- 多开时需通过 MuMu 12 多开器的 ADB 按钮查看对应实例的端口信息，将 MAA \`设置\` - \`连接设置\` 的连接地址的端口号修改为对应的端口。
 `,
 `
 ### ✅ [雷电模拟器](https://www.ldmnq.com/)
 
 完美支持。
 
-- **雷电 9 推荐使用 9.0.57 及以上版本；雷电 5 推荐使用 5.0.67 及以上版本；**
-- 低于上述版本则需要在 MAA 设置 - 连接设置 中，进行 \`强制替换 ADB\`，才能使用 minitouch, maatouch 等高效的触控模式。
+- 雷电 9 推荐使用 9.0.57 及以上版本；雷电 5 推荐使用 5.0.67 及以上版本；
+- 低于上述版本则需要在 \`设置\` - \`连接设置\` 中运行 \`强制替换 ADB\`，才能使用 Minitouch, MaaTouch 等高效的触控模式；
+`,
+`
+### ✅ [夜神模拟器](https://www.yeshen.com/)
+
+完美支持，但仅测试了 7 和 9。
+`,
+`
+### ✅ [逍遥模拟器](https://www.xyaz.cn/)
+
+完美支持，但测试较少。
 `,
 ])
 
 const particallySupport = shuffleArray([
 `
-### ⚠️ [Win11 WSA](https://docs.microsoft.com/zh-cn/windows/android/wsa/)
+### ⚠️ [MuMu 模拟器 6](https://mumu.163.com/update/win/)
+
+自 MAA v5.1.0 版本起放弃支持，官方已在 2023.8.15 停止维护。
+
+- 不再支持自动检测连接，需使用通用连接配置，并手动配置 adb 路径和连接地址；
+- 需要在 \`设置\` - \`连接设置\` 中运行 \`强制替换 ADB\`，才能使用 Minitouch, MaaTouch 等高效的触控模式；
+- 需要使用管理员权限运行 MAA 才能使用“完成后退出模拟器”相关功能；
+- 不支持使用 MuMu 6 默认的几个奇葩分辨率，需要改成 \`1280x720\`，\`1920x1080\`，\`2560x1440\` 等 16:9 比例；
+- MuMu 6 多开使用的是同一个 adb 端口，所以无法支持多开的 MuMu 6。
+`,
+`
+### ⚠️ [适用于 Android™️ 的 Windows 子系统](https://docs.microsoft.com/zh-cn/windows/android/wsa/)
 
 勉强支持。
 

@@ -15,7 +15,7 @@ icon: basil:apple-solid
 
 试验性支持，遇到问题请多多提 issue，并在标题中提及 iOS。
 
-注意：由于 `macOS` 本身机制的问题，将游戏窗口最小化、台前调度状态下切换到别的窗口、将窗口移动到别的桌面/屏幕之后，截图会出现问题，导致无法正确运行。请参见 👉🏻️[issue](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
+注意：由于 `macOS` 本身机制的问题，将游戏窗口最小化、台前调度状态下切换到别的窗口、将窗口移动到别的桌面/屏幕之后，截图会出现问题，导致无法正确运行。相关 Issue [#4371](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/4371#issuecomment-1527977512)
 
 0. 要求：MAA 版本 v4.13.0-rc.1 以上
 
@@ -59,4 +59,4 @@ icon: basil:apple-solid
 
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
-支持。
+支持，但从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
