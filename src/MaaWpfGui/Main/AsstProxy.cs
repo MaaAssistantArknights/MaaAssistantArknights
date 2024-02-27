@@ -2041,16 +2041,15 @@ namespace MaaWpfGui.Main
             {
                 ["mode"] = mode,
                 ["starts_count"] = starts,
-                ["investment_enabled"] = investmentEnabled,
-                ["investment_enter_second_floor"] = investmentEnterSecondFloor,
-                ["investments_count"] = invests,
-                ["stop_when_investment_full"] = stopWhenFull,
                 ["theme"] = theme,
             };
 
-            if (mode == 1)
+            if (mode == 1 || investmentEnabled)
             {
                 taskParams["investment_enabled"] = true;
+                taskParams["investment_enter_second_floor"] = investmentEnterSecondFloor;
+                taskParams["investments_count"] = invests;
+                taskParams["stop_when_investment_full"] = stopWhenFull;
             }
 
             if (squad.Length > 0)
@@ -2214,7 +2213,6 @@ namespace MaaWpfGui.Main
                 ["filename"] = filename,
                 ["formation"] = formation,
                 ["add_trust"] = addTrust,
-                ["add_user_additional"] = addUserAdditional,
                 ["need_navigate"] = needNavigate,
                 ["is_raid"] = isRaid,
                 ["loop_times"] = loopTimes,
