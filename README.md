@@ -35,19 +35,18 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 亮点功能
 
-- 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)；
+- 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)，[一图流](https://ark.yituliu.cn/)；
 - 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/协议文档/基建排班协议.html)；
-- 自动公招，可选使用加急许可，一次全部刷完！公招数据上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://yituliu.site/maarecruitdata)；
-- 支持手动识别公招界面，方便对高星公招做出选择； ~~（你的这个高姿回费出的是推王呢还是推王呢）~~
-- 支持识别干员列表，统计已有和未有干员（还能为手动识别公招界面提供已有潜能数据提示）；
-- 支持识别养成材料，并可导出至 [企鹅物流刷图规划](https://penguin-stats.cn/planner) 和 [明日方舟工具箱](https://arkn.lolicon.app/#/material) 计算缺少的养成材料；
+- 自动公招，可选使用加急许可，一次全部刷完！公招数据自动上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)；
+- 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高姿回费出的是推王呢还是推王呢）~~；
+- 支持识别干员列表，统计已有和未有干员及潜能，并在公招识别显示；
+- 支持识别养成材料，并导出至 [企鹅物流刷图规划](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkn.lolicon.app/#/material)、[ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)；
 - 访问好友、收取信用及购物、领取日常奖励等，一键全日常自动长草；
-- 肉鸽全自动刷源石锭和蜡烛，自动识别干员及练度；
+- 肉鸽全自动刷源石锭和等级，自动烧水和凹直升，智能识别干员及练度；
 - 选择作业 JSON 文件，自动抄作业， [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)；
-- 仓库识别并支持导出至 [企鹅物流刷图规划器](https://penguin-stats.cn/planner), [明日方舟工具箱](https://arkn.lolicon.app/#/material), [ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)；
 - 支持 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多种接口，方便集成调用，自定义你的 MAA！
 
-话不多说，看图！<br>
+话不多说，看图！  
 
 ![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
 ![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
@@ -63,12 +62,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-1. 请根据 [模拟器和设备支持情况](https://maa.plus/docs/用户手册/模拟器和设备支持)，进行对应的操作；
-2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，最高 `2K`；<br>
+1. 请根据 [模拟器和设备支持](https://maa.plus/docs/用户手册/模拟器和设备支持)，进行对应的操作；
+2. 修改模拟器分辨率为 `16:9` 比例，最低 `1280 * 720`，最高 `2K`；  
    对于国际服（美服）玩家，由于界面布局、字号等问题，我们则建议您将分辨率修改为 `1920 * 1080`；
 3. 开始使用吧！
 
-更多使用说明请参考 [详细介绍](https://maa.plus/docs/用户手册/详细介绍.html)
+更多使用说明请参阅 [详细介绍](https://maa.plus/docs/用户手册/详细介绍.html)
 
 ### 常见问题
 
@@ -80,16 +79,16 @@ MAA 的意思是 MAA Assistant Arknights
 - 下载到一半提示“登陆”/“鉴权”；
 - 连接正常，任务开始了，但是没反应。
 
-请参考 [常见问题](https://maa.plus/docs/用户手册/常见问题.html)
+请参阅 [常见问题](https://maa.plus/docs/用户手册/常见问题.html)
 
 ### 外服支持
 
-目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。<br>
-若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参考 [外服适配教程](#外服适配)
+目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
+若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参阅 [外服适配教程](#外服适配)
 
 ### CLI支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参考 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南.html)
+MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南.html)
 
 ## 加入我们
 
@@ -127,7 +126,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ### Linux | macOS
 
-请参考 [Linux 编译教程](https://maa.plus/docs/开发文档/Linux编译教程.html)
+请参阅 [Linux 编译教程](https://maa.plus/docs/开发文档/Linux编译教程.html)
 
 ### API
 
@@ -147,7 +146,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ### 外服适配
 
-请参考 [外服适配教程](https://maa.plus/docs/开发文档/外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
+请参阅 [外服适配教程](https://maa.plus/docs/开发文档/外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
 ### 想参与开发，但不太会用 GitHub?
 
@@ -155,7 +154,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ### Issue bot
 
-请参考 [Issue bot 使用方法](https://maa.plus/docs/开发文档/IssueBot使用方法.html)
+请参阅 [Issue bot 使用方法](https://maa.plus/docs/开发文档/IssueBot使用方法.html)
 
 ## 致谢
 
@@ -184,7 +183,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 ### 数据源
 
 - ~~公开招募数据：[明日方舟工具箱](https://www.bigfun.cn/tools/aktools/hr)~~
-- ~~干员及基建数据：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
+- ~~干员及基建数据：[PRTS Wiki](http://prts.wiki/)~~
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
 - 游戏数据及资源：[明日方舟客户端素材](https://github.com/yuanyan3060/ArknightsGameResource)
 - ~~游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)~~
@@ -197,17 +196,17 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 ## 声明
 
-- 本软件 logo 并非使用 AGPL 3.0 协议开源，[耗毛](https://weibo.com/u/3251357314)、vie 两位画师及软件全体开发者保留所有权利。不得以 AGPL 3.0 协议已授权为由在未经授权的情况下使用本软件 logo，不得在未经授权的情况下将本软件 logo 用于任何商业用途。
-- 本软件开源、免费，仅供学习交流使用。若您遇到商家使用本软件进行代练并收费，可能是设备与时间等费用，产生的问题及后果与本软件无关。
+- 本软件 logo 并非使用 AGPL 3.0 协议开源，[耗毛](https://weibo.com/u/3251357314)、vie 两位画师及软件全体开发者保留所有权利。不得以 AGPL 3.0 协议已授权为由在未经授权的情况下使用本软件 logo，不得在未经授权的情况下将本软件 logo 用于任何用途。
+- 本软件开源、免费，仅供学习交流使用。若您遇到商家使用本软件进行代练并收费，可能由于设备或时间等原因，产生的任何问题及后果与本软件无关。
 
 ## 广告
 
-用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)<br>
-用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)<br>
-自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)<br>
-Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~<br>
+用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
+用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
+自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
+Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 
-技术群（舟无关、禁水）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)<br>
-开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)<br>
+技术群（舟无关、禁水）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
+开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
