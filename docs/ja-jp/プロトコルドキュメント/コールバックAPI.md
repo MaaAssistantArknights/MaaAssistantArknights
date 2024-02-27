@@ -1,6 +1,15 @@
+---
+order: 2
+icon: material-symbols:u-turn-left
+---
+
 # コールバック図式
 
 **This document is outdated due to the rapid update of the interface. Since the developers are not good at foreign languages, it is recommended that you refer to the Chinese or English documentation for the latest content**
+
+::: info 注意
+コールバックメッセージがバージョンとともに更新される高速反復では、本書は古くなる可能性があります。最新のコンテンツを入手するには、[C#統合ソースコード](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs) を参照してください。
+:::
 
 ## Prototype
 
@@ -10,35 +19,38 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 
 ## 概要
 
-- `int msg`<br>
+- `int msg`  
     The message type
 
     ```cpp
     enum class AsstMsg
     {
         /* Global Info */
-        InternalError = 0,          // Internal error
-        InitFailed,                 // Initialization failure
-        ConnectionInfo,             // Connection info
-        AllTasksCompleted,          // すべてのタスクが完了したかどうか
+        InternalError     = 0,      // 内部エラー
+        InitFailed        = 1,      // 初期化に失敗しました
+        ConnectionInfo    = 2,      // 接続情報
+        AllTasksCompleted = 3,      // すべてのタスクが完了したかどうか
+        AsyncCallInfo     = 4,      // 外部非同期呼び出し情報
+
         /* TaskChain Info */
-        TaskChainError = 10000,     // 一連のタスク 実行/認識のエラー
-        TaskChainStart,             // 一連のタスク開始
-        TaskChainCompleted,         // 一連のタスク完了
-        TaskChainExtraInfo,         // 一連のタスクの追加情報
-        TaskChainStopped,
+        TaskChainError     = 10000, // 一連のタスク 実行/認識のエラー
+        TaskChainStart     = 10001, // 一連のタスク 開始
+        TaskChainCompleted = 10002, // 一連のタスク 完了
+        TaskChainExtraInfo = 10003, // 一連のタスクの追加情報
+        TaskChainStopped   = 10004, // 一連のタスク 手動停止
+
         /* SubTask Info */
-        SubTaskError = 20000,       // サブタスク 実行/認識におけるエラー
-        SubTaskStart,               // サブタスク 実行
-        SubTaskCompleted,           // サブタスク 完了
-        SubTaskExtraInfo,           // サブタスクの追加情報
-        SubTaskStopped,
+        SubTaskError     = 20000,   // サブタスク 実行/認識におけるエラー
+        SubTaskStart     = 20001,   // サブタスク 実行
+        SubTaskCompleted = 20002,   // サブタスク 完了
+        SubTaskExtraInfo = 20003,   // サブタスクの追加情報
+        SubTaskStopped   = 20004,   // サブタスク 手動停止
     };
     ```
 
-- `const char* details`<br>
+- `const char* details`  
     メッセージの詳細, JSON. 詳細: [Field Description](#field-description)
-- `void* custom_arg`<br>
+- `void* custom_arg`  
     呼び出し元のカスタム引数には、 `AsstCreateEx` インターフェースの `custom_arg` 引数が渡される。C ライクな言語では、`this` ポインタを一緒に渡すことができる。
 
 ## Field Description
@@ -74,26 +86,40 @@ Todo
 
 ### 多用される `What` フィルドの値
 
-- `ConnectFailed`<br>
-    接続失敗.
-- `Connected`<br>
-    接続。現段階では `uuid` フィールドが空であることに注意してください (次のステップで取得されます)
-- `UuidGot`<br>
-    UUID の取得.
-- `UnsupportedResolution`<br>
-    この解像度はサポートされていません.
-- `ResolutionError`<br>
-    解像度を取得できない.
-- `Reconnecting`<br>
-    切断 (adb/emulator クラッシュ), 再接続開始
-- `Reconnected`<br>
-    切断 (adb/emulator クラッシュ), 再接続成功
-- `Disconnect`<br>
-    切断 (adb/emulator クラッシュ), 再接続失敗
-- `ScreencapFailed`<br>
+- `ConnectFailed`  
+    接続失敗
+- `Connected`  
+    接続成功。現段階では `uuid` フィールドが空であることに注意してください (次のステップで取得されます)
+- `UuidGot`  
+    UUID の取得
+- `UnsupportedResolution`  
+    この解像度はサポートされていません
+- `ResolutionError`  
+    解像度を取得できない
+- `Reconnecting`  
+    接続切断 (adb/emulator クラッシュ), 再接続開始
+- `Reconnected`  
+    接続切断 (adb/emulator クラッシュ), 再接続成功
+- `Disconnect`  
+    接続切断 (adb/emulator クラッシュ), 再接続失敗
+- `ScreencapFailed`  
     画面取得失敗 (adb/emulator クラッシュ), 再接続失敗
-- `TouchModeNotAvailable`<br>
-    Touch Mode is not available
+- `TouchModeNotAvailable`  
+    サポートされていないタッチモード
+
+### AsyncCallInfo
+
+```json
+{
+    "uuid": string,             // デバイス固有コード，UUID
+    "what": string,             // コールバック タイプ，"Connect" | "Click" | "Screencap" | ...
+    "async_call_id": int,       // 非同期要求 id、つまり AsstAsyncXXX を呼び出したときの戻り値
+    "details": {
+        "ret": bool,            // 実際に呼び出された戻り値
+        "cost": int64,          // 経過時間、単位ミリ秒
+    }
+}
+```
 
 ### AllTasksCompleted
 
@@ -110,26 +136,42 @@ Todo
 
 #### 多用される `taskchain` フィールドの値
 
-- `StartUp`<br>
-    ウェイクアップ.
-- `Fight`<br>
-    戦闘.
-- `Mall`<br>
-    購買所.
-- `Recruit`<br>
-    自動公開求人.
-- `RecruitCalc`<br>
-    公開求人結果取得.
-- `Infrast`<br>
-    基地施設.
-- `Roguelike`<br>
+- `StartUp`  
+    ゲーム開始
+- `CloseDown`  
+    ゲームを閉じる
+- `Fight`  
+    作戦
+- `Mall`  
+    FPとFP交換所に買い物
+- `Recruit`  
+    自動公開求人
+- `Infrast`  
+    基地施設
+- `Award`  
+    デイリー報酬を受け取る
+- `Roguelike`  
     統合戦略
-- `OperBox`<br>
-    カドレー識別
-- `Debug`<br>
-    デバッグ.
+- `Copilot`  
+    自動作戦
+- `SSSCopilot`  
+    自動保全駐在作戦
+- `Depot`  
+    倉庫の識別
+- `OperBox`  
+    オペレーターボックス識別
+- `ReclamationAlgorithm`  
+    生息演算
+- `Custom`  
+    カストム タスク
+- `SingleStep`  
+    サブタスク
+- `VideoRecognition`  
+    ビデオ認識タスク
+- `Debug`  
+    デバッグ
 
-### Information Related to TaskChain
+### TaskChain 関連情報
 
 ```json
 {
@@ -143,7 +185,7 @@ Todo
 
 Todo
 
-### Information Related to SubTask
+### SubTask 関連情報
 
 ```json
 {
@@ -158,7 +200,7 @@ Todo
 
 #### 多用される `subtask` フィールドの値
 
-- `ProcessTask`<br>
+- `ProcessTask`  
 
     ```json
     // 対応する詳細フィールドの例
@@ -175,49 +217,49 @@ Todo
 
 ##### 多用される `task` フィールドの値
 
-- `StartButton2`<br>
-    開始.
-- `MedicineConfirm`<br>
-    理性回復剤使用確認.
-- `ExpiringMedicineConfirm`<br>
-    48時間以内に期限が切れる理性回復剤使用確認.
-- `StoneConfirm`<br>
-    純正源石使用確認.
-- `RecruitRefreshConfirm`<br>
-    公開求人リストの更新確認.
-- `RecruitConfirm`<br>
-    公開求人の決定.
-- `RecruitNowConfirm`<br>
-    緊急招集票の使用確認.
-- `ReportToPenguinStats`<br>
-    ペンギン急便への報告.
-- `ReportToYituliu`<br>
-    Yituliu へビッグデータの報告.
-- `InfrastDormDoubleConfirmButton`<br>
-    基地施設での二重確認は、他のオペレーターとの競合がある場合のみ発生します.
-- `StartExplore`<br>
-    統合戦略: 開始.
-- `StageTraderInvestConfirm`<br>
-    統合戦略: 源石錐とアイテム交換.
-- `StageTraderInvestSystemFull`<br>
-    統合戦略: 投資満額.
-- `ExitThenAbandon`<br>
-    統合戦略: 終了確認.
-- `MissionCompletedFlag`<br>
-    統合戦略: ミッション完了.
-- `MissionFailedFlag`<br>
-    統合戦略: ミッション失敗.
-- `StageTraderEnter`<br>
+- `StartButton2`  
+    開始
+- `MedicineConfirm`  
+    理性回復剤使用確認
+- `ExpiringMedicineConfirm`  
+    48時間以内に期限が切れる理性回復剤使用確認
+- `StoneConfirm`  
+    純正源石使用確認
+- `RecruitRefreshConfirm`  
+    公開求人リストの更新確認
+- `RecruitConfirm`  
+    公開求人の確認
+- `RecruitNowConfirm`  
+    緊急招集票の使用確認
+- `ReportToPenguinStats`  
+    ペンギン急便への報告
+- `ReportToYituliu`  
+    Yituliu へビッグデータの報告
+- `InfrastDormDoubleConfirmButton`  
+    基地施設での二重確認は、他のオペレーターとの競合がある場合のみ発生します
+- `StartExplore`  
+    統合戦略: 開始
+- `StageTraderInvestConfirm`  
+    統合戦略: 源石錐とアイテム交換
+- `StageTraderInvestSystemFull`  
+    統合戦略: 投資満額
+- `ExitThenAbandon`  
+    統合戦略: 終了確認
+- `MissionCompletedFlag`  
+    統合戦略: ミッション完了
+- `MissionFailedFlag`  
+    統合戦略: ミッション失敗
+- `StageTraderEnter`  
     統合戦略: 怪しい旅商人
-- `StageSafeHouseEnter`<br>
+- `StageSafeHouseEnter`  
     統合戦略: 安全な片隅
-- `StageEncounterEnter`<br>
+- `StageEncounterEnter`  
     統合戦略: 思わぬ遭遇
-- `StageCombatDpsEnter`<br>
+- `StageCombatDpsEnter`  
     統合戦略: 作戦
-- `StageEmergencyDps`<br>
+- `StageEmergencyDps`  
     統合戦略: 緊急作戦
-- `StageDreadfulFoe`<br>
+- `StageDreadfulFoe`  
     統合戦略: 悪路凶敵
 - `StartGameTask`
     クライアントの起動に失敗 (client_type と設定ファイルの互換性なし)
@@ -237,13 +279,13 @@ Todo
 
 #### 多用される `what` と `details` フィールドの値
 
-- `StageDrops`<br>
+- `StageDrops`  
     ステージドロップインフォメーション
 
     ```json
     // 対応する詳細フィールドの例
     {
-        "drops": [              // dropped items
+        "drops": [              // 今回のドロップされた素材
             {
                 "itemId": "3301",
                 "quantity": 2,
@@ -265,27 +307,30 @@ Todo
             "stageId": "wk_fly_5"
         },
         "stars": 3,             // ステージクリア評価
-        "stats": [              // ドロップの統計
+        "stats": [              // この実行中にドロップされた素材の総量
             {
                 "itemId": "3301",
                 "itemName": "アーツ学1",
-                "quantity": 4
+                "quantity": 4,
+                "addQuantity": 2 // 今回の新規ドロップ数
             },
             {
                 "itemId": "3302",
                 "itemName": "アーツ学2",
-                "quantity": 3
+                "quantity": 3,
+                "addQuantity": 1
             },
             {
                 "itemId": "3303",
                 "itemName": "アーツ学3",
-                "quantity": 4
+                "quantity": 4,
+                "addQuantity": 2
             }
         ]
     }
     ```
 
-- `RecruitTagsDetected`<br>
+- `RecruitTagsDetected`  
     採用タグの検出
 
     ```json
@@ -296,12 +341,12 @@ Todo
             "防御",
             "先鋒タイプ",
             "補助タイプ",
-            "近接攻撃"
+            "近距離"
         ]
     }
     ```
 
-- `RecruitSpecialTag`<br>
+- `RecruitSpecialTag`  
     特別な採用タグの検出
 
     ```json
@@ -311,20 +356,20 @@ Todo
     }
     ```
 
-- `RecruitResult`<br>
+- `RecruitResult`  
     公開求人結果
 
     ```json
     // 対応する詳細フィールドの例
     {
-        "tags": [                   // 全てのタグ, 5つまで
+        "tags": [                   // 全てのタグ、今のところは5つに違いない
             "弱化",
             "減速",
             "術師タイプ",
             "補助タイプ",
-            "近接攻撃"
+            "近距離"
         ],
-        "level": 4,                 // レアリティのトータル
+        "level": 4,                 // 総合的なレアリティ
         "result": [
             {
                 "tags": [
@@ -388,7 +433,7 @@ Todo
     }
     ```
 
-- `RecruitTagsRefreshed`<br>
+- `RecruitTagsRefreshed`  
     公開求人タグの更新
 
     ```json
@@ -399,8 +444,8 @@ Todo
     }
     ```
 
-- `RecruitNoPermit`<br>
-    採用許可が切れた
+- `RecruitNoPermit`  
+    求人票が切れた
 
     ```json
     // 対応する詳細フィールドの例
@@ -409,7 +454,7 @@ Todo
     }
     ```
 
-- `RecruitTagsSelected`<br>
+- `RecruitTagsSelected`  
     公開求人タグの選択
 
     ```json
@@ -422,13 +467,13 @@ Todo
     }
     ```
 
-- `RecruitSlotCompleted`<br>
+- `RecruitSlotCompleted`  
     公開求人スロットの完了
 
-- `RecruitError`<br>
-    リクルート認識時のエラー
+- `RecruitError`  
+    公開求人認識時のエラー
 
-- `EnterFacility`<br>
+- `EnterFacility`  
     施設へ入る
 
     ```json
@@ -439,7 +484,7 @@ Todo
     }
     ```
 
-- `NotEnoughStaff`<br>
+- `NotEnoughStaff`  
     オペレーター不足
 
     ```json
@@ -450,7 +495,7 @@ Todo
     }
     ```
 
-- `ProductOfFacility`<br>
+- `ProductOfFacility`  
     施設の生産
 
     ```json
@@ -462,21 +507,21 @@ Todo
     }
     ```
 
-- `StageInfo`<br>
+- `StageInfo`  
     自動戦闘ステージの情報
 
     ```json
     // 対応する詳細フィールドの例
     {
-        "name": string  // 施設名
+        "name": string  // ステージ名
     }
     ```
 
-- `StageInfoError`<br>
+- `StageInfoError`  
     自動戦闘ステージの情報エラー
 
-- `PenguinId`<br>
-    Penguin ID
+- `PenguinId`  
+    PenguinStats ID
 
     ```json
     // 対応する詳細フィールドの例
@@ -485,7 +530,7 @@ Todo
     }
     ```
 
-- `DepotInfo`<br>
+- `DepotInfo`  
     倉庫のアイテムの認識結果
 
     ```json
@@ -525,8 +570,8 @@ Todo
     // 現在は ArkPlanner と Lolicon 形式のみ対応、今後対応するサイトが増える可能性あり
     ```
 
-- `OperBoxInfo`<br>
-    Recognition result of operator box
+- `OperBoxInfo`  
+    オペレーターボックス識別結果
 
     ```json
     // 対応する詳細フィールドの例
@@ -550,13 +595,13 @@ Todo
     ]
     "own_opers": [
         {
-            "id": "char_002_amiya", // いいえ。
-            "name": "阿米娅", // 氏名
-            "own": true, // 持っているのでしょうか？
-            "elite": 2, // エリート主義 0, 1, 2
-            "level": 50, // グレード
-            "potential": 6, // ポテンシャル [1, 6]
-            "rarity": 5     // [1, 6]
+            "id": "char_002_amiya", // オペレーターID
+            "name": "阿米娅",        // 氏名、中国語で出力
+            "own": true,            // 持っているかどうか
+            "elite": 2,             // 昇進段階 0, 1, 2
+            "level": 50,            // レベル
+            "potential": 6,         // 潜在 [1, 6]
+            "rarity": 5             // レア度 [1, 6]
         },
         {
             "id": "char_003_kalts",
@@ -570,5 +615,5 @@ Todo
     ]
     ```
 
-- `UnsupportedLevel`<br>
-    サポートされていないレベル
+- `UnsupportedLevel`  
+    自動作戦で、サポートされていないレベル名
