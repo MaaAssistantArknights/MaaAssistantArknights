@@ -1,3 +1,8 @@
+---
+order: 6
+icon: material-symbols:view-quilt-rounded
+---
+
 # インフラスケジュール設定
 
 この文書は機械翻訳です。もし可能であれば、中国語の文書を読んでください。もし誤りや修正の提案があれば、大変ありがたく思います。
@@ -5,20 +10,20 @@
 `resource/custom_infrast/*.json` 各フィールドの設定方法と説明
 
 ::: tip
-json形式はコメントに対応していませんので、以下の例を使用する場合はコメントを削除してください。
+JSONファイルはコメントをサポートしていません。テキスト内のコメントはプレゼンテーション用にのみ使用されます。直接コピーして使用しないでください。
 :::
 
 [ビジュアルスケジューリング生成ツール](https://ark.yituliu.cn/tools/schedule)
 
-## 完整字段一览
+## 完全なフィールドの一覧
 
 ```json
 {
     "title": "サブ垢スケジュール",       // タイトル，オプション
-    "description": "イロハニホヘト",       // 説明，オプション
+    "description": "イロハニホヘト",      // 説明，オプション
     "plans": [
         {
-            "name": "朝",           // プランタイトル，オプション
+            "name": "早朝組",        // プランタイトル，オプション
             "description": "lol",   // 説明，オプション
             "period": [             // シフト時間の間隔，オプション
                                     // 現在時刻がこの間隔内にある場合、プランが自動的に選択されます (jsonファイル全体が複数のプランを含む場合もあります)
@@ -33,32 +38,34 @@ json形式はコメントに対応していませんので、以下の例を使�
                     "06:00"
                 ]
             ],
-            "duration": 360,        // 作業時間(分) 予約項目, 未実装 将来的には、シフトを変更時間を告知させるポップアップ時間になるかも？ 自動的に変更される機能になる可能性もあり
-            "Fiammetta": {          // “フィアメッタ” どのオペレーターを配属するか，任意，記入しない場合は配属しない。
-                "target": "シャマレ",   // ターゲットオペレーター この記述例の場合フィアメッタとシャマレの体力交換スキーム
+            "duration": 360,        // 作業時間(分) 予約項目、未実装 将来的には、シフトを変更時間を告知させるポップアップ時間になるかも？ 自動的に変更される機能になる可能性もあり
+            "Fiammetta": {          // “フィアメッタ” がどのオペレーターを配属するか、オプション、記入しない場合は配属しない。
+                "enable": true,     // “フィアメッタ” を使うかな、オプション、デフォルト true
+                "target": "シャマレ", // ターゲットオペレーター。ここではOCRを使用して行い、対応するクライアント言語のオペレーター名を入力する必要があります
                 "order": "pre",     // 全シフト前またはシフト後に使用、オプション、引数 "pre" / "post", デフォルト "pre"
             },
             "drones": {             // ドローン使用、任意、未記入の場合はドローンを使用しない
+                "enable": true,     // ドローンを使用するかどうか、オプション、デフォルト true
                 "room": "trading",  // 使用する施設、引数 "trading" / "manufacturing"
                 "index": 1,         // 施設番号、tab の番号に対応、引数 [1 - 5]
-                "rule": "all",      // ルール、予約フィールド、未実装. 後で使用する可能性がある。
+                "rule": "all",      // ルール、予約フィールド、未実装。後で使用する可能性がある。
                 "order": "pre"      // オペレーターの交換前後の使用設定、オプション、引数 "pre" / "post", デフォルト "pre" (テキーラなど)
             },
             "groups":[              // "control" / "manufacture" / "trading" の場合、オペレーターグループを設定できます
                 {
                     "name":"A",
                     "operators":[
-                        "古米",
-                        "银灰",
-                        "梅"
+                        "グム",
+                        "シルバーアッシュ",
+                        "メイ"
                     ]
                 },
                 {
                     "name":"B",
                     "operators":[
-                        "清流",
-                        "森蚺",
-                        "温蒂"
+                        "セイリュウ",
+                        "ユーネクテス",
+                        "ウィーディ"
                     ]
                 }
             ],
@@ -85,6 +92,8 @@ json形式はコメントに対応していませんので、以下の例を使�
                             "クルース"
                         ],
                         "sort": false,  // ソートするかどうか（上の オペレーター の順番で）、オプション、デフォルトはfalse
+                        // 例：シーン、パラス、シャマレ、などのオペレーター、そして "sort": false を使用すると、オペレーターの順序が乱れ、事前有効の効果が失われる可能性があります。
+                        // "sort": true を使う、この問題を避けることができる
                     },
                     {
                         "skip": true    // 現在の施設をスキップするかどうか（配列番号に対応），オプション，デフォルトは false
@@ -129,7 +138,7 @@ json形式はコメントに対応していませんので、以下の例を使�
             }
         },
         {
-            "name": "夜"
+            "name": "夜勤組"
             // ...
         }
     ]
@@ -138,5 +147,6 @@ json形式はコメントに対応していませんので、以下の例を使�
 
 ## サンプル
 
-[243 効率最高，一日三回](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/243_layout_3_times_a_day.json)<br>
-[153 効率最高，一日三回](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/153_layout_3_times_a_day.json)<br>
+[243 有効率が最も高い 一日三回](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/243_layout_3_times_a_day.json)
+
+[153 有効率が最も高い 一日三回](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/custom_infrast/153_layout_3_times_a_day.json)
