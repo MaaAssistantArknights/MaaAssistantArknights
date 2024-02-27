@@ -1382,7 +1382,7 @@
         },
         "char_2012_typhon": {
             "name": "提丰",
-            "name_en": "提丰",
+            "name_en": "Typhon",
             "name_jp": "ティフォン",
             "name_kr": "티폰",
             "name_tw": "提丰",
@@ -2643,7 +2643,7 @@
         },
         "char_341_sntlla": {
             "name": "寒檀",
-            "name_en": "寒檀",
+            "name_en": "Santalla",
             "name_jp": "サンタラ",
             "name_kr": "산탈라",
             "name_tw": "寒檀",
@@ -3845,7 +3845,7 @@
         },
         "char_4102_threye": {
             "name": "凛视",
-            "name_en": "凛视",
+            "name_en": "Valarqvin",
             "name_jp": "ヴァラルクビン",
             "name_kr": "발라크빈",
             "name_tw": "凛视",
@@ -7088,7 +7088,7 @@
         },
         "trap_106_smtree": {
             "name": "积雪银凇 ",
-            "name_en": "积雪银凇 ",
+            "name_en": "Silvernwhite Bulwark",
             "name_jp": "積雪の銀樹",
             "name_kr": "은백의 적설",
             "name_tw": "积雪银凇 ",
@@ -7103,7 +7103,7 @@
         },
         "trap_107_smpow": {
             "name": "空间稳定设施",
-            "name_en": "空间稳定设施",
+            "name_en": "Dimensional Anchoring Pylon",
             "name_jp": "空間安定化設備",
             "name_kr": "공간 안정 시설",
             "name_tw": "空间稳定设施",
@@ -7118,7 +7118,7 @@
         },
         "trap_108_smbox": {
             "name": "宝箱",
-            "name_en": "宝箱",
+            "name_en": "Treasure Chest",
             "name_jp": "宝箱",
             "name_kr": "보물 상자",
             "name_tw": "宝箱",
@@ -7133,7 +7133,7 @@
         },
         "trap_109_smrbox": {
             "name": "尖刺宝箱",
-            "name_en": "尖刺宝箱",
+            "name_en": "Spiked Treasure Chest",
             "name_jp": "トゲトゲ宝箱",
             "name_kr": "가시 돋은 보물 상자",
             "name_tw": "尖刺宝箱",
@@ -7148,7 +7148,7 @@
         },
         "trap_110_smbbox": {
             "name": "巨壳藤蔓",
-            "name_en": "巨壳藤蔓",
+            "name_en": "Testaceous Vinecreeps",
             "name_jp": "巨殻のツル",
             "name_kr": "상자 넝쿨",
             "name_tw": "巨壳藤蔓",
@@ -7358,7 +7358,7 @@
         },
         "trap_124_eradio": {
             "name": "废热喷口",
-            "name_en": "废热喷口",
+            "name_en": "Waste Heat Vent",
             "name_jp": "廃熱噴出口",
             "name_kr": "폐열 분출구",
             "name_tw": "废热喷口",
@@ -9158,7 +9158,7 @@
         },
         "trap_723_cdcvrt": {
             "name": "溢能回收转化器",
-            "name_en": "溢能回收转化器",
+            "name_en": "Energy Overflow Converter",
             "name_jp": "オーバーフロー変換機",
             "name_kr": "오버플로우 컨버터",
             "name_tw": "溢能回收转化器",
@@ -9173,7 +9173,7 @@
         },
         "trap_724_cdcvrta": {
             "name": "溢能回收转化器",
-            "name_en": "溢能回收转化器",
+            "name_en": "Energy Overflow Converter",
             "name_jp": "オーバーフロー変換機",
             "name_kr": "오버플로우 컨버터",
             "name_tw": "溢能回收转化器",
@@ -9188,7 +9188,7 @@
         },
         "trap_725_cdcvrtb": {
             "name": "溢能回收转化器",
-            "name_en": "溢能回收转化器",
+            "name_en": "Energy Overflow Converter",
             "name_jp": "オーバーフロー変換機",
             "name_kr": "오버플로우 컨버터",
             "name_tw": "溢能回收转化器",
@@ -9203,7 +9203,7 @@
         },
         "trap_726_cdrone": {
             "name": "战地援护无人机",
-            "name_en": "战地援护无人机",
+            "name_en": "Field Support Drone",
             "name_jp": "戦場サポートドローン",
             "name_kr": "전장 지원 드론",
             "name_tw": "战地援护无人机",
@@ -9218,7 +9218,7 @@
         },
         "trap_727_cdronea": {
             "name": "战地援护无人机",
-            "name_en": "战地援护无人机",
+            "name_en": "Field Support Drone",
             "name_jp": "戦場サポートドローン",
             "name_kr": "전장 지원 드론",
             "name_tw": "战地援护无人机",
@@ -9233,7 +9233,7 @@
         },
         "trap_728_cdroneb": {
             "name": "战地援护无人机",
-            "name_en": "战地援护无人机",
+            "name_en": "Field Support Drone",
             "name_jp": "戦場サポートドローン",
             "name_kr": "전장 지원 드론",
             "name_tw": "战地援护无人机",
@@ -9248,7 +9248,7 @@
         },
         "trap_729_cdkzmr": {
             "name": "竞技记录分析仪",
-            "name_en": "竞技记录分析仪",
+            "name_en": "Competition Records Analyzer",
             "name_jp": "競技記録アナライザー",
             "name_kr": "경기 기록 분석기",
             "name_tw": "竞技记录分析仪",
@@ -9263,7 +9263,7 @@
         },
         "trap_730_truamr": {
             "name": "“甜蜜狂搅”",
-            "name_en": "“甜蜜狂搅”",
+            "name_en": "'Supersweetie Superblend'",
             "name_jp": "「スイート・スーパーブレンド」",
             "name_kr": "'달콤한 교란'",
             "name_tw": "“甜蜜狂搅”",
@@ -9278,7 +9278,7 @@
         },
         "trap_732_ltnova": {
             "name": "神经再生",
-            "name_en": "神经再生",
+            "name_en": "Neuronal Revival",
             "name_jp": "神経再生",
             "name_kr": "신경 재생",
             "name_tw": "神经再生",
@@ -9293,7 +9293,7 @@
         },
         "trap_733_cdkzmra": {
             "name": "竞技记录分析仪",
-            "name_en": "竞技记录分析仪",
+            "name_en": "Competition Records Analyzer",
             "name_jp": "競技記録アナライザー",
             "name_kr": "경기 기록 분석기",
             "name_tw": "竞技记录分析仪",
@@ -9308,7 +9308,7 @@
         },
         "trap_734_cdkzmrb": {
             "name": "竞技记录分析仪",
-            "name_en": "竞技记录分析仪",
+            "name_en": "Competition Records Analyzer",
             "name_jp": "競技記録アナライザー",
             "name_kr": "경기 기록 분석기",
             "name_tw": "竞技记录分析仪",
@@ -9323,7 +9323,7 @@
         },
         "trap_735_platre": {
             "name": "汲取体",
-            "name_en": "汲取体",
+            "name_en": "Absorber",
             "name_jp": "渇望の触手",
             "name_kr": "흡수체",
             "name_tw": "汲取体",
