@@ -115,6 +115,8 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">입력한 하프「{0}」는 battle_data에 없습니다. 입력한 이름이 올바른지 확인하거나 maa 리소스 버전을 확인하십시오.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복(전투 X)</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号;隔开</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">정지 시 전투 클리어 후 정지</system:String>

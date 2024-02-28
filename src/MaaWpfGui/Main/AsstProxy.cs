@@ -2029,13 +2029,15 @@ namespace MaaWpfGui.Main
         /// <param name="coreChar"><paramref name="coreChar"/> TODO.</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
         /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
+        /// <param name="roguelike3NewSquad2StartingFoldartal">是否在萨米肉鸽生活队凹开局板子</param>
+        /// <param name="roguelike3NewSquad2StartingFoldartals">需要凹的板子，用;连接的字符串</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
-        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
+        /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentEnterSecondFloor, int invests, bool stopWhenFull,
-            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
+            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool roguelike3NewSquad2StartingFoldartal, string roguelike3NewSquad2StartingFoldartals, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
         {
             var taskParams = new JObject
             {
@@ -2069,6 +2071,11 @@ namespace MaaWpfGui.Main
 
             taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
             taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
+            if (mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
+            {
+                taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3));
+            }
+
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;

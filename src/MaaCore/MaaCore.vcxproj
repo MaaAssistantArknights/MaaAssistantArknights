@@ -93,6 +93,7 @@
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
     <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
