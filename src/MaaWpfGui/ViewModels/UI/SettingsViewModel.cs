@@ -1987,6 +1987,33 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _roguelike3NewSquad2StartingFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether core char need start with elite two.
+        /// </summary>
+        public bool Roguelike3NewSquad2StartingFoldartal
+        {
+            get => bool.Parse(_roguelike3NewSquad2StartingFoldartal);
+            set
+            {
+                SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, value.ToString());
+            }
+        }
+
+        private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty);
+
+        public string Roguelike3NewSquad2StartingFoldartals
+        {
+            get => _roguelike3NewSquad2StartingFoldartals;
+            set
+            {
+                SetAndNotify(ref _roguelike3NewSquad2StartingFoldartals, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, value);
+            }
+        }
+
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
 
         /// <summary>
