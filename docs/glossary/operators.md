@@ -232,7 +232,7 @@ char_4066_highmo|海沫|Highmore|ハイモア|하이모어
 char_4071_peper|明椒|Paprika|パプリカ|파프리카
 char_4078_bdhkgt|截云|Jieyun|ジエユン|지에윈
 char_4083_chimes|铎铃|Wind Chimes|ウィンドチャイム|윈드차임스
-char_4102_threye|凛视|Valarqvin||
+char_4102_threye|凛视|Valarqvin|ヴァラルクビン|발라크빈
 char_4106_bryota|苍苔|Bryophyta|ブライオファイタ|브라이오피타
 char_4104_coldst|冰酿|Coldshot||
 
