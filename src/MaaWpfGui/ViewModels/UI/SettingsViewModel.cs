@@ -4180,7 +4180,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
 
                         var localizedName = DataHelper.GetLocalizedCharacterName(name, _language);
-                        if (!string.IsNullOrEmpty(localizedName))
+                        if (!string.IsNullOrEmpty(localizedName) && !(_clientType.Contains("YoStar") && DataHelper.GetLocalizedCharacterName(name, "en-us") == DataHelper.GetLocalizedCharacterName(name, "zh-cn")))
                         {
                             roguelikeCoreCharList.Add(localizedName);
                         }
