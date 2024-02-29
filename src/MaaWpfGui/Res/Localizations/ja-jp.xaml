@@ -115,8 +115,8 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">入力のスタッフ「{0}」がbattle_dataにありません。入力の名前が正しいか、maaリソースのバージョンをチェックしてください。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号;隔开</system:String> 
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String> 
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘終了まえに「停止」を遅らせる</system:String>
@@ -127,10 +127,10 @@
     <system:String x:Key="IS2NewSquad1">精神論分隊</system:String>
     <system:String x:Key="IS2NewSquad2">最大活用分隊</system:String>
     <system:String x:Key="IS2NewSquad3">人文主義分隊</system:String>
-    <system:String x:Key="IS3NewSquad1">永遠狩猟分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad2">生活至上分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad3">科学主義分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad4">特訓分隊(To be updated)</system:String>
+    <system:String x:Key="IS3NewSquad1">永久狩猟分隊</system:String>
+    <system:String x:Key="IS3NewSquad2">生活重視分隊</system:String>
+    <system:String x:Key="IS3NewSquad3">科学主義分隊</system:String>
+    <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -254,7 +254,7 @@
     <system:String x:Key="RoguelikeTheme">主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
-    <system:String x:Key="RoguelikeThemeSami">薩米(To be updated)</system:String>
+    <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
