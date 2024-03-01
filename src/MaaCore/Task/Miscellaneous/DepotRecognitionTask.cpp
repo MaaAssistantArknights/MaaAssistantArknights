@@ -5,12 +5,12 @@
 #include <meojson/json.hpp>
 
 #include "Config/GeneralConfig.h"
+#include "Config/Miscellaneous/ItemConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Miscellaneous/DepotImageAnalyzer.h"
-#include "Config/Miscellaneous/ItemConfig.h"
 
 bool asst::DepotRecognitionTask::_run()
 {
@@ -26,14 +26,13 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
 {
     LogTraceFunction;
     m_all_items.clear();
-    //获取item总长度
+    // 获取item总长度
     const auto& item_size = ItemData.get_ordered_material_item_id().size();
     size_t pre_pos = 0ULL;
-    bool need_search = false;
-    cv::Mat index_roi(2,2,CV_8UC3,cv::Scalar(0));
-    //size_t pre_pos = item_size;
+    cv::Mat index_roi {};
+    // size_t pre_pos = item_size;
     while (true) {
-        //如果已经遍历完了所有item直接退出
+        // 如果已经遍历完了所有item直接退出
         if (pre_pos == item_size) {
             break;
         }
@@ -42,24 +41,22 @@ bool asst::DepotRecognitionTask::swipe_and_analyze()
         auto future = std::async(std::launch::async, [&]() { swipe(); });
 
         // 第一页不用检索item,后续都需要检索上一页最后一个item
-        
+
         analyzer.set_match_begin_pos(pre_pos);
-        analyzer.set_search(need_search);
         analyzer.set_index_roi(index_roi);
         if (!analyzer.analyze()) {
             break;
         }
         size_t cur_pos = analyzer.get_match_begin_pos();
-        if ( cur_pos == DepotImageAnalyzer::NPos) {
+        if (cur_pos == DepotImageAnalyzer::NPos) {
             break;
         }
         pre_pos = cur_pos;
-        need_search = analyzer.get_search();
         index_roi = analyzer.get_index_roi();
         auto cur_result = analyzer.get_result();
         m_all_items.merge(std::move(cur_result));
 
-        future.wait();
+        future.get();
         callback_analyze_result(false);
     }
     return !m_all_items.empty();

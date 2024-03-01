@@ -44,15 +44,9 @@ size_t asst::DepotImageAnalyzer::get_match_begin_pos() const noexcept
     return m_match_begin_pos;
 }
 
-
-void asst::DepotImageAnalyzer::set_search(bool need) noexcept
-{
-    need_search = need;
-}
-
 void asst::DepotImageAnalyzer::set_index_roi(cv::Mat last_roi) noexcept
 {
-    index_roi = last_roi;
+    m_index_roi = last_roi;
 }
 
 void asst::DepotImageAnalyzer::resize()
@@ -133,19 +127,40 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
 bool asst::DepotImageAnalyzer::analyze_all_items()
 {
     LogTraceFunction;
-    
-    for (const Rect& roi : m_all_items_roi) {
-        if (check_roi_empty(roi)) { 
+
+    std::size_t roi_index = 0;
+
+    // skip rois in the left till the last item in previous image was found
+    for (; roi_index < m_all_items_roi.size(); ++roi_index) {
+        const auto& roi = m_all_items_roi[roi_index];
+        if (m_index_roi.empty() || check_roi_empty(roi)) {
+            roi_index = m_all_items_roi.size();
+            break;
+        }
+
+        if (search_item(roi)) {
+            break;
+        }
+    }
+
+    // bad luck, all rois are new? did we overshoot when swipping
+    if (roi_index >= m_all_items_roi.size()) {
+        roi_index = 0;
+        m_match_begin_pos = 0;
+    }
+
+    Log.trace("Analyzing from roi", roi_index, "item index", m_match_begin_pos);
+
+    for (; roi_index < m_all_items_roi.size(); ++roi_index) {
+        const auto& roi = m_all_items_roi[roi_index];
+        if (check_roi_empty(roi)) {
             break;
         }
         // roi 是竖着有序的
         ItemInfo info;
-        //todo:如果不是第一页 需要调转到相应的位置,最后一个有背景影响换倒数第二。
-        if (need_search) {
-            
-            if (!search_item(roi))
-            continue;
-        }
+        // todo:如果不是第一页 需要调转到相应的位置,最后一个有背景影响换倒数第二。
+
+        Log.trace("Analyzing item at", roi_index);
         size_t cur_pos = match_item(roi, info, m_match_begin_pos);
         if (cur_pos == NPos) {
             break;
@@ -159,7 +174,7 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
                     cv::Scalar(0, 0, 255), 2);
         cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10),
                     cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
-        cv::putText(m_image_draw_resized, std::to_string(cur_pos), cv::Point(roi.x+80, roi.y + 10),
+        cv::putText(m_image_draw_resized, std::to_string(cur_pos), cv::Point(roi.x + 80, roi.y + 10),
                     cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
 #endif
         if (item_id.empty() || info.quantity == 0) {
@@ -173,10 +188,13 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
     cv::Mat hsv;
     cv::cvtColor(m_image_resized, hsv, cv::COLOR_BGR2HSV);
 #endif
-    set_search(true);
+
     // 获取倒数第二个roi存到Mat中,应该放到最后进行这一步操作。
     auto roi_sizes = m_all_items_roi.size();
-    index_roi=m_image_resized(make_rect<cv::Rect>(m_all_items_roi.at(roi_sizes-2)));
+    if (roi_sizes >= 2)
+        m_index_roi = m_image_resized(make_rect<cv::Rect>(m_all_items_roi.at(roi_sizes - 2)));
+    else
+        m_index_roi = cv::Mat {};
     return !m_result.empty();
 }
 
@@ -206,7 +224,7 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
     std::string matched_item_id;
     size_t matched_index = NPos;
     for (size_t index = begin_index; index < all_items.size(); ++index) {
-    //for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
+        // for (size_t index = begin_index, extra_count = 0; index < all_items.size(); ++index) {
         const std::string& item_id = all_items.at(index);
         // analyzer.set_templ(item_id);
         // TODO: too slow? find a way to set mask directly
@@ -223,7 +241,6 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
             matched_index = index;
             break;
         }
- 
     }
     Log.info("Item id:", matched_item_id);
     if (matched_item_id.empty()) {
@@ -237,30 +254,30 @@ size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo&
 bool asst::DepotImageAnalyzer::search_item(const Rect& roi)
 {
     LogTraceFunction;
+
+    if (m_index_roi.empty()) return false;
+
     Matcher analyzer(m_image_resized);
     analyzer.set_task_info("DepotMatchData");
     Rect enlarged_roi = roi;
     enlarged_roi = Rect(roi.x - 20, roi.y - 5, roi.width + 40, roi.height + 10);
     analyzer.set_roi(enlarged_roi);
-    
+
     // 减小mat
-    cv::Mat templ = index_roi(cv::Rect { 10, 10, 100, 100 });
-    
+    cv::Mat templ = m_index_roi(cv::Rect { 10, 10, 100, 100 });
+
     analyzer.set_templ(templ);
     if (!analyzer.analyze()) {
         return false;
     }
-    //将匹配度改到足够大
+    // 将匹配度改到足够大
     double score = analyzer.get_result().score;
-    if ( score >= 0.95) {
-        set_search(false);
-        //把位置移到上一页倒数第二个
+    if (score >= 0.95) {
+        // 把位置移到上一页倒数第二个
         m_match_begin_pos -= 2;
         return true;
     }
-    else {
-        return false;
-    }
+    return false;
 }
 int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 {
