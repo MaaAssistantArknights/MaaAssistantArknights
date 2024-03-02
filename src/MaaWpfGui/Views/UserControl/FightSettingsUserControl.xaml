@@ -38,6 +38,7 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseMedicineWithNull}"
+                        IsEnabled="{c:Binding !UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -70,6 +71,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
+                        IsEnabled="{c:Binding !UseStone}"
                         Maximum="9999"
                         Minimum="0"
                         ValueChanged="NumericUpDown_ValueChanged"
@@ -173,7 +175,7 @@
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding SeriesList}"
-                        SelectedValue="{Binding Series}"/>
+                        SelectedValue="{Binding Series}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">
