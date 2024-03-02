@@ -9,6 +9,7 @@
     <StartupObject>MaaWpfGui.App</StartupObject>
     <LangVersion>12</LangVersion>
     <UseWpf>true</UseWpf>
+    <Nullable>enable</Nullable>
     <Configurations>Debug;Release;RelWithDebInfo</Configurations>
     <Platforms>ARM64;x64</Platforms>
   </PropertyGroup>
