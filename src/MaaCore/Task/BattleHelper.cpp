@@ -371,6 +371,14 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         m_battlefield_opers.erase(pre_name);
     }
 
+    // 肉鸽中，一个干员可能被部署多次
+    if (m_battlefield_opers.contains(name) && BattleData.get_role(name) != battle::Role::Drone) {
+        Point pre_loc = m_battlefield_opers.at(name);
+        Log.info("remove deploy failed oper", name, pre_loc);
+        m_battlefield_opers.erase(name);
+        m_used_tiles.erase(pre_loc);
+    }
+
     m_used_tiles.emplace(loc, name);
     m_battlefield_opers.emplace(name, loc);
 
