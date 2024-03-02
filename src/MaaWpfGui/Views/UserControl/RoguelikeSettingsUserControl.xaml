@@ -155,8 +155,7 @@
                 Visibility="{c:Binding 'Roguelike3NewSquad2StartingFoldartal and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; and RoguelikeSquad == &quot;生活至上分队&quot; '}" />
             <CheckBox
                 Margin="0,10"
-                IsChecked="{Binding RoguelikeUseSupportUnit}"
-                Visibility="{c:Binding !RoguelikeStartWithEliteTwo}">
+                IsChecked="{Binding RoguelikeUseSupportUnit}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource RoguelikeUseSupportUnit}"
