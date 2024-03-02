@@ -2537,7 +2537,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _showWindowBeforeForceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ShowWindowBeforeForceScheduledStart, bool.FalseString));
 
         /// <summary>
-        /// Gets or sets a value indicating whether to force scheduled start.
+        /// Gets or sets a value indicating whether show window before force scheduled start.
         /// </summary>
         public bool ShowWindowBeforeForceScheduledStart
         {
