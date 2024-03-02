@@ -203,7 +203,7 @@
                     hc:BorderElement.CornerRadius="4,4,0,0"
                     BorderThickness="1,1,1,0"
                     DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
-                    IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                    IsEnabled="{c:Binding StartEnabled}"
                     ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                     ItemsSource="{Binding Path=CopilotItemViewModels}"
                     ToolTip="{DynamicResource LabelSequenceTip}">
@@ -219,8 +219,9 @@
                                     Grid.Column="0"
                                     Content="{c:Binding Name}"
                                     IsChecked="{Binding IsChecked}"
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
-                                <controls:TextBlock
+                                <TextBlock
                                     Grid.Column="1"
                                     MinWidth="35"
                                     VerticalAlignment="Center"
@@ -233,6 +234,7 @@
                                     BorderThickness="0"
                                     Command="{s:Action DeleteCopilotTask}"
                                     CommandParameter="{c:Binding Index}"
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     Style="{StaticResource ButtonDashed}" />
                             </Grid>
                         </DataTemplate>
