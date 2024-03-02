@@ -74,7 +74,7 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (!(sender is ScrollViewer scroll))
+            if (sender is not ScrollViewer scroll)
             {
                 throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
             }
