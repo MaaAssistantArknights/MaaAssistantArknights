@@ -2367,14 +2367,14 @@ namespace MaaWpfGui.ViewModels.UI
                 if (value)
                 {
                     var result = MessageBoxHelper.Show(
-                            LocalizationHelper.GetString("GachaWarning"),
-                            LocalizationHelper.GetString("Warning"),
-                            MessageBoxButton.OKCancel,
-                            MessageBoxImage.Warning,
-                            ok: LocalizationHelper.GetString("Confirm"),
-                            cancel: LocalizationHelper.GetString("Cancel"),
-                            iconBrushKey: "DangerBrush");
-                    if (result == MessageBoxResult.Cancel)
+                        LocalizationHelper.GetString("GachaWarning"),
+                        LocalizationHelper.GetString("Warning"),
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning,
+                        no: LocalizationHelper.GetString("Confirm"),
+                        yes: LocalizationHelper.GetString("Cancel"),
+                        iconBrushKey: "DangerBrush");
+                    if (result != MessageBoxResult.No)
                     {
                         return;
                     }
