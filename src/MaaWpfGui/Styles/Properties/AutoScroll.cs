@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -65,6 +66,17 @@ namespace MaaWpfGui.Styles.Properties
                 {
                     scrollViewer.ScrollChanged -= ScrollChanged;
                 }
+            }
+            else if (d is ListBox listBox)
+            {
+                INotifyCollectionChanged view = listBox.Items;
+                view.CollectionChanged += (sender, arg) =>
+                {
+                    if (arg.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        listBox.ScrollIntoView(listBox.Items[^1]);
+                    }
+                };
             }
             else
             {
