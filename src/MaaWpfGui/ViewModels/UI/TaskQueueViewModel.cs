@@ -2887,9 +2887,9 @@ namespace MaaWpfGui.ViewModels.UI
                 if (value != false && !UseMedicine)
                 {
                     UseMedicineWithNull = null;
+                    MedicineNumber = "9999";
                 }
 
-                MedicineNumber = "9999";
                 NotifyOfPropertyChange(nameof(UseStone));
 
                 SetFightParams();
