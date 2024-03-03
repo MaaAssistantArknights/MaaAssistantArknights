@@ -131,7 +131,7 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.IdleChanged += RunningState_IdleChanged;
         }
 
-        private void RunningState_IdleChanged(object sender, bool e)
+        private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
             TaskSettingDataContext.Idle = e;
@@ -221,7 +221,7 @@ namespace MaaWpfGui.ViewModels.UI
             _timer.Start();
         }
 
-        private async void Timer1_Elapsed(object sender, EventArgs e)
+        private async void Timer1_Elapsed(object? sender, EventArgs e)
         {
             // 提前记录时间，避免等待超过定时时间
             DateTime currentTime = DateTime.Now;
@@ -1408,7 +1408,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
-        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        private static extern IntPtr FindWindow(string? lpClassName, string lpWindowName);
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         private static extern int GetWindowThreadProcessId(IntPtr hwnd, out int id);
@@ -1465,7 +1465,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            ProcessModule processModule;
+            ProcessModule? processModule;
             try
             {
                 processModule = processes[0].MainModule;
@@ -1482,8 +1482,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
+            string? emuLocation = Path.GetDirectoryName(processModule.FileName);
             if (emuLocation == null)
             {
                 return false;
@@ -1544,7 +1543,7 @@ namespace MaaWpfGui.ViewModels.UI
             ProcessModule processModule;
             try
             {
-                processModule = processes[0].MainModule;
+                processModule = processes[0].MainModule!;
             }
             catch (Exception e)
             {
@@ -1558,8 +1557,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
+            string? emuLocation = Path.GetDirectoryName(processModule.FileName);
             if (emuLocation == null)
             {
                 return false;
@@ -1615,7 +1613,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            ProcessModule processModule;
+            ProcessModule? processModule;
             try
             {
                 processModule = processes[0].MainModule;
@@ -1632,8 +1630,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
+            string? emuLocation = Path.GetDirectoryName(processModule.FileName);
             if (emuLocation == null)
             {
                 return false;
@@ -1681,7 +1678,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            ProcessModule processModule;
+            ProcessModule? processModule;
             try
             {
                 processModule = processes[0].MainModule;
@@ -1698,8 +1695,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
+            string? emuLocation = Path.GetDirectoryName(processModule.FileName);
             if (emuLocation == null)
             {
                 return false;
@@ -1742,7 +1738,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            ProcessModule processModule;
+            ProcessModule? processModule;
             try
             {
                 processModule = processes[0].MainModule;
@@ -1759,8 +1755,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return false;
             }
 
-            string emuLocation = processModule.FileName;
-            emuLocation = Path.GetDirectoryName(emuLocation);
+            string? emuLocation = Path.GetDirectoryName(processModule.FileName);
             if (emuLocation == null)
             {
                 return false;
@@ -2649,7 +2644,7 @@ namespace MaaWpfGui.ViewModels.UI
             try
             {
                 string jsonStr = File.ReadAllText(Instances.SettingsViewModel.CustomInfrastFile);
-                var root = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                var root = (JObject?)JsonConvert.DeserializeObject(jsonStr);
 
                 if (root != null && _customInfrastInfoOutput && root.TryGetValue("title", out var title))
                 {
@@ -2661,7 +2656,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
-                var planList = (JArray)root?["plans"];
+                var planList = (JArray?)root?["plans"];
                 if (planList != null)
                 {
                     for (int i = 0; i < planList.Count; ++i)
@@ -2684,7 +2679,7 @@ namespace MaaWpfGui.ViewModels.UI
                             foreach (var periodJson in periodArray)
                             {
                                 var period = default(CustomInfrastPlanInfo.Period);
-                                string beginTime = periodJson[0]?.ToString();
+                                string? beginTime = periodJson[0]?.ToString();
                                 if (beginTime != null)
                                 {
                                     var beginSplit = beginTime.Split(':');
@@ -2692,7 +2687,7 @@ namespace MaaWpfGui.ViewModels.UI
                                     period.BeginMinute = int.Parse(beginSplit[1]);
                                 }
 
-                                string endTime = periodJson[1]?.ToString();
+                                string? endTime = periodJson[1]?.ToString();
                                 if (endTime != null)
                                 {
                                     var endSplit = endTime.Split(':');

@@ -78,11 +78,11 @@ namespace MaaWpfGui.ViewModels.UI
                 if (it is JObject item && item.TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
                 {
                     int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
-                    string name = (string)item["name"];
+                    string name = (string)item["name"]!;
                     bool isRaid = false;
                     if (item.ContainsKey("is_raid"))
                     {
-                        isRaid = (bool)item["is_raid"];
+                        isRaid = (bool)item["is_raid"]!;
                     }
                     else if (name.EndsWith("-Adverse"))
                     {
@@ -90,14 +90,14 @@ namespace MaaWpfGui.ViewModels.UI
                         isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
                     }
 
-                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)item["file_path"], isRaid, copilotIdInFile, (bool)item["is_checked"]));
+                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)item["file_path"]!, isRaid, copilotIdInFile, (bool)item["is_checked"]!));
                 }
             }
 
             CopilotItemIndexChanged();
         }
 
-        private void RunningState_IdleChanged(object sender, bool e)
+        private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
         }
@@ -245,10 +245,10 @@ namespace MaaWpfGui.ViewModels.UI
             try
             {
                 var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
-                var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
+                var json = (JObject?)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
-                    return json["data"]?["content"]?.ToString();
+                    return json["data"]!["content"]!.ToString();
                 }
 
                 AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error);
@@ -293,7 +293,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null)
                 {
                     AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
@@ -307,7 +307,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 AddLog(LocalizationHelper.GetString("CopilotTip"));
 
-                var doc = (JObject)json["doc"];
+                var doc = (JObject?)json["doc"];
                 string title = string.Empty;
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
@@ -457,7 +457,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (Clipboard.ContainsFileDropList())
             {
-                DropFile(Clipboard.GetFileDropList()[0]);
+                DropFile(Clipboard.GetFileDropList()[0]!);
             }
         }
 
@@ -493,7 +493,7 @@ namespace MaaWpfGui.ViewModels.UI
                     using var reader = new StreamReader(File.OpenRead(file));
                     var jsonStr = await reader.ReadToEndAsync();
 
-                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                     if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
                         AddLog($"{file} is broken", UiLogColor.Error);
@@ -566,8 +566,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
-            DropFile(filename);
+            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0)!.ToString();
+            DropFile(filename!);
         }
 
         private void DropFile(string filename)

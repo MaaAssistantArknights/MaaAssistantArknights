@@ -74,7 +74,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the core version.
         /// </summary>
-        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
+        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
 
         private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
 
@@ -110,10 +110,10 @@ namespace MaaWpfGui.ViewModels.UI
                 return versionName;
             }
 
-            JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+            var versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath))!;
             var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var poolTime = (ulong)versionJson?["gacha"]?["time"];
-            var activityTime = (ulong)versionJson?["activity"]?["time"];
+            var poolTime = (ulong)versionJson?["gacha"]?["time"]!;
+            var activityTime = (ulong)versionJson?["activity"]?["time"]!;
 
             if ((currentTime < poolTime) && (currentTime < activityTime))
             {
@@ -381,18 +381,18 @@ namespace MaaWpfGui.ViewModels.UI
             var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
             {
-                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson);
+                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? new();
             }
         }
 
         private void InitUpdate()
         {
-            VersionTypeList = new List<GenericCombinedData<UpdateVersionType>>
-            {
-                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
-                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
-                new GenericCombinedData<UpdateVersionType> { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
-            };
+            VersionTypeList =
+            [
+                new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+                new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+                new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
+            ];
         }
 
         #endregion Init
@@ -1328,29 +1328,29 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the infrast item view models.
         /// </summary>
-        public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; }
+        public ObservableCollection<DragItemViewModel> InfrastItemViewModels { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of uses of drones.
         /// </summary>
-        public List<CombinedData> UsesOfDronesList { get; set; }
+        public List<CombinedData> UsesOfDronesList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of uses of default infrast.
         /// </summary>
-        public List<CombinedData> DefaultInfrastList { get; set; }
+        public List<CombinedData> DefaultInfrastList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of roguelike lists.
         /// </summary>
-        public List<CombinedData> RoguelikeThemeList { get; set; }
+        public List<CombinedData> RoguelikeThemeList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of roguelike modes.
         /// </summary>
-        public List<CombinedData> RoguelikeModeList { get; set; }
+        public List<CombinedData> RoguelikeModeList { get; set; } = new();
 
-        private ObservableCollection<CombinedData> _roguelikeSquadList = new ObservableCollection<CombinedData>();
+        private ObservableCollection<CombinedData> _roguelikeSquadList = new();
 
         /// <summary>
         /// Gets or sets the list of roguelike squad.
@@ -1364,21 +1364,21 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of roguelike roles.
         /// </summary>
-        public List<CombinedData> RoguelikeRolesList { get; set; }
+        public List<CombinedData> RoguelikeRolesList { get; set; } = new();
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
 
         /// <summary>
         /// Gets or sets the list of auto recruit selecting extra tags.
         /// </summary>
-        public List<CombinedData> AutoRecruitSelectExtraTagsList { get; set; }
+        public List<CombinedData> AutoRecruitSelectExtraTagsList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of the client types.
         /// </summary>
-        public List<CombinedData> ClientTypeList { get; set; }
+        public List<CombinedData> ClientTypeList { get; set; } = new();
 
-        public ObservableCollection<CombinedData> ConfigurationList { get; set; }
+        public ObservableCollection<CombinedData> ConfigurationList { get; set; } = new();
 
         private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
@@ -1394,7 +1394,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _newConfigurationName;
+        private string _newConfigurationName = string.Empty;
 
         public string NewConfigurationName
         {
@@ -1450,32 +1450,32 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of the configuration of connection.
         /// </summary>
-        public List<CombinedData> ConnectConfigList { get; set; }
+        public List<CombinedData> ConnectConfigList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of touch modes
         /// </summary>
-        public List<CombinedData> TouchModeList { get; set; }
+        public List<CombinedData> TouchModeList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of dark mode.
         /// </summary>
-        public List<GenericCombinedData<DarkModeType>> DarkModeList { get; set; }
+        public List<GenericCombinedData<DarkModeType>> DarkModeList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of inverse clear modes.
         /// </summary>
-        public List<CombinedData> InverseClearModeList { get; set; }
+        public List<CombinedData> InverseClearModeList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the list of the version type.
         /// </summary>
-        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList { get; set; }
+        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the language list.
         /// </summary>
-        public List<CombinedData> LanguageList { get; set; }
+        public List<CombinedData> LanguageList { get; set; } = new();
 
         private int _dormThreshold = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.DormThreshold, "30"));
 
@@ -1493,7 +1493,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _dormThresholdLabel;
+        private string _dormThresholdLabel = string.Empty;
 
         /// <summary>
         /// Gets or sets the label of dormitory threshold.
@@ -1724,7 +1724,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private NotifyType _notifySource = NotifyType.None;
 
-        private Timer _resetNotifyTimer;
+        private Timer? _resetNotifyTimer;
 
         private void ResetNotifySource()
         {
@@ -1757,7 +1757,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> DividerVerticalOffsetList { get; set; }
+        public List<double> DividerVerticalOffsetList { get; set; } = new(); // 找不到赋值
 
         private int _selectedIndex;
 
@@ -1775,11 +1775,7 @@ namespace MaaWpfGui.ViewModels.UI
                         _notifySource = NotifyType.SelectedIndex;
                         SetAndNotify(ref _selectedIndex, value);
 
-                        var isInRange = DividerVerticalOffsetList != null
-                            && DividerVerticalOffsetList.Count > 0
-                            && value < DividerVerticalOffsetList.Count;
-
-                        if (isInRange)
+                        if (DividerVerticalOffsetList?.Count > 0 && value < DividerVerticalOffsetList?.Count)
                         {
                             ScrollOffset = DividerVerticalOffsetList[value];
                         }
@@ -1810,10 +1806,8 @@ namespace MaaWpfGui.ViewModels.UI
                         _notifySource = NotifyType.ScrollOffset;
                         SetAndNotify(ref _scrollOffset, value);
 
-                        // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                        var isInRange = DividerVerticalOffsetList != null && DividerVerticalOffsetList.Count > 0;
-
-                        if (isInRange)
+                        // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引 IsInRange
+                        if (DividerVerticalOffsetList != null && DividerVerticalOffsetList.Count > 0)
                         {
                             // 滚动条滚动到底部，返回最后一个 Divider 索引
                             if (value + ScrollViewportHeight >= ScrollExtentHeight)
@@ -2210,10 +2204,10 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
-        /// Gets or sets 设置选择的编队
+        /// Gets 设置选择的编队
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
-        public List<CombinedData> FormationSelectList { get; private set; }
+        public List<CombinedData> FormationSelectList { get; private set; } = new();
 
         private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 
@@ -2406,7 +2400,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             public class TimerProperties : INotifyPropertyChanged
             {
-                public event PropertyChangedEventHandler PropertyChanged;
+                public event PropertyChangedEventHandler? PropertyChanged;
 
                 public TimerProperties(int timeId, bool isOn, int hour, int min, string timerConfig)
                 {
@@ -2424,7 +2418,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
-                protected void OnPropertyChanged([CallerMemberName] string name = null)
+                protected void OnPropertyChanged([CallerMemberName] string? name = null)
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
                 }
@@ -2964,7 +2958,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
-            string toastMessage = null;
+            string? toastMessage = null;
             switch (ret)
             {
                 case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
@@ -3045,7 +3039,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private ObservableCollection<string> _connectAddressHistory = new ObservableCollection<string>();
+        private ObservableCollection<string> _connectAddressHistory = new();
 
         public ObservableCollection<string> ConnectAddressHistory
         {
@@ -3340,7 +3334,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Get the path of bluestacks.conf
         /// </summary>
         /// <returns>path</returns>
-        private static string GetBluestacksConfig()
+        private static string? GetBluestacksConfig()
         {
             var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
             if (!string.IsNullOrEmpty(conf))
@@ -3348,8 +3342,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return conf;
             }
 
-            using RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
-            object value = key?.GetValue(BluestacksNxtValueName);
+            using RegistryKey? key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
+            object? value = key?.GetValue(BluestacksNxtValueName);
             if (value != null)
             {
                 return (string)value + @"\bluestacks.conf";
@@ -3398,14 +3392,14 @@ namespace MaaWpfGui.ViewModels.UI
             rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {CoreVersion}{resourceVersion} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
         }
 
-        private readonly string _bluestacksConfig = GetBluestacksConfig();
+        private readonly string? _bluestacksConfig = GetBluestacksConfig();
         private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
         /// Tries to set BlueStack Hyper V address.
         /// </summary>
         /// <returns>success</returns>
-        public string TryToSetBlueStacksHyperVAddress()
+        public string? TryToSetBlueStacksHyperVAddress()
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
@@ -4152,7 +4146,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var jsonStr = File.ReadAllText(filePath);
-            var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
 
             var roguelikeCoreCharList = new ObservableCollection<string>();
 
@@ -4173,7 +4167,7 @@ namespace MaaWpfGui.ViewModels.UI
                             continue;
                         }
 
-                        var name = (string)operItem["name"];
+                        var name = (string)operItem["name"]!;
                         if (string.IsNullOrEmpty(name))
                         {
                             continue;

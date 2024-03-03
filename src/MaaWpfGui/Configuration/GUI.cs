@@ -17,7 +17,7 @@ namespace MaaWpfGui.Configuration
 {
     public class GUI : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public DarkModeType DarkMode { get; set; } = DarkModeType.SyncWithOs;
 

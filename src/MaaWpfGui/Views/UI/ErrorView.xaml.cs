@@ -31,11 +31,11 @@ namespace MaaWpfGui.Views.UI
     {
         protected bool ShouldExit { get; set; }
 
-        public string ExceptionMessage { get; set; }
+        public string? ExceptionMessage { get; set; }
 
-        public string PossibleSolution { get; set; }
+        public string? PossibleSolution { get; set; }
 
-        public string ExceptionDetails { get; set; }
+        public string? ExceptionDetails { get; set; }
 
         public ErrorView()
         {
@@ -50,9 +50,9 @@ namespace MaaWpfGui.Views.UI
             while (true)
             {
                 errorStr.Append(exc.Message);
-                exc = exc.InnerException;
-                if (exc != null)
+                if (exc.InnerException != null)
                 {
+                    exc = exc.InnerException;
                     errorStr.AppendLine();
                 }
                 else
@@ -75,7 +75,7 @@ namespace MaaWpfGui.Views.UI
             ErrorQqGroupLink.Visibility = isZhCn ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private static string GetSolution(string error, string details)
         {

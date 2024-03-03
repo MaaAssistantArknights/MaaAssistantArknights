@@ -25,7 +25,7 @@ namespace MaaWpfGui.Services
     {
         public delegate void CallbackDelegate(int msg, IntPtr jsonBuffer, IntPtr customArg);
 
-        public delegate void ProcCallbackMsg(AsstMsg msg, JObject details);
+        public delegate void ProcCallbackMsg(AsstMsg msg, JObject? details);
 
         [DllImport("MaaCore.dll")]
         public static extern AsstHandle AsstCreateEx(CallbackDelegate callback, IntPtr customArg);
