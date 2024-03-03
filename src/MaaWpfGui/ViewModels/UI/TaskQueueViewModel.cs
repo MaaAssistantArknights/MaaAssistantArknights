@@ -2884,10 +2884,13 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _useStoneWithNull, value);
-                if (value != false && !UseMedicine)
+                if (value != false)
                 {
-                    UseMedicineWithNull = null;
                     MedicineNumber = "9999";
+                    if (!UseMedicine)
+                    {
+                        UseMedicineWithNull = null;
+                    }
                 }
 
                 NotifyOfPropertyChange(nameof(UseStone));
