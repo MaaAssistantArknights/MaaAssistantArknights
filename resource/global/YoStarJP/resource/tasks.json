@@ -7839,6 +7839,7 @@
         ]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
+        "Doc": "Reserved fields that have not been implemented yet",
         "text": [
             "_構成_",
             "追放者",
@@ -7885,25 +7886,19 @@
             "移住",
             "rogue_3_totem_B_E7 歇息",
             "空無"
-        ],
-        "Doc": "Reserved fields that have not been implemented yet"
+        ]
     },
     "Sami@Roguelike@FoldartalUseConfirm": {
         "text": [
             "宣告開始"
         ]
     },
-    "Sami@Roguelike@FoldartalUseConfirm": {
-        "text": [
-            "構成"
-        ]
-    },
     "Sami@Roguelike@NextLevel": {
+        "Doc": "这个字段和前两个都是猜的，留着活动开始再改",
         "text": [
             "完成本层",
             "下一层级"
-        ],
-        "Doc": "这个字段和前两个都是猜的，留着活动开始再改"
+        ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": [
