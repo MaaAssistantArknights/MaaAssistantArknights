@@ -2886,7 +2886,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _useStoneWithNull, value);
                 if (value != false)
                 {
-                    MedicineNumber = "9999";
+                    MedicineNumber = "999";
                     if (!UseMedicine)
                     {
                         UseMedicineWithNull = null;

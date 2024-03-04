@@ -72,7 +72,7 @@
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         IsEnabled="{c:Binding !UseStone}"
-                        Maximum="9999"
+                        Maximum="999"
                         Minimum="0"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MedicineNumber, UpdateSourceTrigger=PropertyChanged}" />
@@ -83,7 +83,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        Maximum="999"
                         Minimum="0"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding StoneNumber, UpdateSourceTrigger=PropertyChanged}" />
@@ -94,7 +94,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        Maximum="999"
                         Minimum="0"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MaxTimes, UpdateSourceTrigger=PropertyChanged}" />
