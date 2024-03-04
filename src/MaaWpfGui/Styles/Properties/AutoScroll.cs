@@ -72,9 +72,11 @@ namespace MaaWpfGui.Styles.Properties
                 INotifyCollectionChanged view = listBox.Items;
                 view.CollectionChanged += (sender, arg) =>
                 {
-                    if (arg.Action == NotifyCollectionChangedAction.Add)
+                    switch (arg.Action)
                     {
-                        listBox.ScrollIntoView(listBox.Items[^1]);
+                        case NotifyCollectionChangedAction.Add:
+                            listBox.ScrollIntoView(listBox.Items[arg.NewStartingIndex]);
+                            break;
                     }
                 };
             }
