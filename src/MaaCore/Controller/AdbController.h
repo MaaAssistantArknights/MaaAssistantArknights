@@ -73,6 +73,9 @@ namespace asst
         // 转换 data 中的 CRLF 为 LF：有些模拟器自带的 adb，exec-out 输出的 \n 会被替换成 \r\n，
         // 导致解码错误，所以这里转一下回来（点名批评 mumu 和雷电）
         static bool convert_lf(std::string& data);
+        // 去掉 data 中的 amdgpu: os_same_file_description couldn't determine if two DRM fds reference the same file
+        // description.\nIf they do, bad things may happen!\n
+        static bool delete_DRM(std::string& data);
 
         AsstCallback m_callback;
 
