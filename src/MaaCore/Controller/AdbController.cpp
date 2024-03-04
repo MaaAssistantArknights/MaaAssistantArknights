@@ -289,6 +289,19 @@ const std::string& asst::AdbController::get_uuid() const
     return m_uuid;
 }
 
+bool asst::AdbController::delete_DRM(std::string& data)
+{
+    const std::string drm_str =
+        "amdgpu: os_same_file_description couldn't determine if two DRM fds reference the same file description.\n"
+        "If they do, bad things may happen!\n";
+    auto pos = data.find(drm_str);
+    if (pos != std::string::npos) {
+        data.erase(pos, drm_str.length());
+        return true;
+    }
+    return false;
+}
+
 bool asst::AdbController::convert_lf(std::string& data)
 {
     if (data.empty() || data.size() < 2) {
@@ -515,6 +528,8 @@ bool asst::AdbController::screencap(const std::string& cmd, const DecodeFunc& de
             m_adb.screencap_end_of_line = AdbProperty::ScreencapEndOfLine::LF;
         }
     }
+
+    delete_DRM(data);
 
     if (decode_func(data)) [[likely]] {
         if (m_adb.screencap_end_of_line == AdbProperty::ScreencapEndOfLine::UnknownYet) [[unlikely]] {
