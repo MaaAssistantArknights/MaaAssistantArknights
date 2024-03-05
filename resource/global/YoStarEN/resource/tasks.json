@@ -40,7 +40,8 @@
     },
     "SideStoryReopen": {
         "text": [
-            "Rerun"
+            "Rerun",
+            "Retrospection"
         ],
         "roi": [
             0,
