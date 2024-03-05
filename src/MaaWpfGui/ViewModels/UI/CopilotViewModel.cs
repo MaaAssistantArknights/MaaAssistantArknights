@@ -75,22 +75,27 @@ namespace MaaWpfGui.ViewModels.UI
             JArray jArray = JArray.Parse(copilotTaskList);
             foreach (var it in jArray)
             {
-                if (it is JObject item && item.TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
+                if (it is JObject item && item.TryGetValue("file_path", out var pathToken) && File.Exists(pathToken.ToString()))
                 {
                     int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
                     string name = (string)item["name"];
-                    bool isRaid = false;
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        continue;
+                    }
+
+                    bool? isRaid = false;
                     if (item.ContainsKey("is_raid"))
                     {
-                        isRaid = (bool)item["is_raid"];
+                        isRaid = (bool?)item["is_raid"];
                     }
                     else if (name.EndsWith("-Adverse"))
                     {
-                        name = name.Replace("-Adverse", string.Empty);
+                        name = name[..^8];
                         isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
                     }
 
-                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)item["file_path"], isRaid, copilotIdInFile, (bool)item["is_checked"]));
+                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid == true, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
                 }
             }
 
@@ -234,7 +239,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (jsonStr != string.Empty)
+            if (!string.IsNullOrEmpty(jsonStr))
             {
                 ParseJsonAndShowInfo(jsonStr);
             }
@@ -566,7 +571,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
+            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0)?.ToString();
             DropFile(filename);
         }
 
