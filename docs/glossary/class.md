@@ -68,7 +68,7 @@
 哨戒铁卫|Sentinel Protector|哨戒衛士|센트리 프로텍터
 链愈师|Chain Medic|連鎖癒師|체인 메딕
 重剑手|Crusher|重剣士|대검사
-巫役|||
+巫役|Ritualist|祭儀師|의식술사
 猎手|||
 本源术师|||
 回环射手|||

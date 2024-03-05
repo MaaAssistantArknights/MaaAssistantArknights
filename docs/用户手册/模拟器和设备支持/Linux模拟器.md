@@ -33,7 +33,7 @@ icon: teenyicons:linux-alt-solid
    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 adb 地址"):
    ```
 
-   - 如果使用其他模拟器须先下载 `adb` ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可
+   - 如果使用其他模拟器须先下载 `adb` ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
 
 3. 模拟器 `adb` 路径获取
 
@@ -51,7 +51,7 @@ icon: teenyicons:linux-alt-solid
    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
    ```
 
-4. 这时候可以测试下： `$ python3 sample.py` ，如果返回 `连接成功` 则基本成功了
+4. 这时候可以测试下： `$ python3 sample.py` ，如果返回 `连接成功` 则基本成功了。
 
 ### 3. 任务配置
 

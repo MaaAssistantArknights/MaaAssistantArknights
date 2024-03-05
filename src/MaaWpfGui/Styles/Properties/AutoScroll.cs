@@ -12,6 +12,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -66,6 +67,19 @@ namespace MaaWpfGui.Styles.Properties
                     scrollViewer.ScrollChanged -= ScrollChanged;
                 }
             }
+            else if (d is ListBox listBox)
+            {
+                INotifyCollectionChanged view = listBox.Items;
+                view.CollectionChanged += (sender, arg) =>
+                {
+                    switch (arg.Action)
+                    {
+                        case NotifyCollectionChangedAction.Add:
+                            listBox.ScrollIntoView(listBox.Items[arg.NewStartingIndex]);
+                            break;
+                    }
+                };
+            }
             else
             {
                 throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
@@ -74,7 +88,7 @@ namespace MaaWpfGui.Styles.Properties
 
         private static void ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (!(sender is ScrollViewer scroll))
+            if (sender is not ScrollViewer scroll)
             {
                 throw new InvalidOperationException("The attached AlwaysScrollToEnd property can only be applied to ScrollViewer instances.");
             }

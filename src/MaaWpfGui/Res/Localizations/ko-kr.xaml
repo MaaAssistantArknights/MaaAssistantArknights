@@ -27,12 +27,12 @@
     <system:String x:Key="ExternalNotificationTips">참고: 외부 알림 기능은 현재 「모든 작업 완료」 알림만 보냅니다.</system:String>
     <system:String x:Key="ExternalNotificationSettings">외부 알림</system:String>
     <system:String x:Key="ExternalNotificationEnabled">알림 구성 사용</system:String>
-    <system:String x:Key="ExternalNotificationSendSuccess">성공적으로 보내기</system:String>
+    <system:String x:Key="ExternalNotificationSendSuccess">성공적으로 전송됨</system:String>
     <system:String x:Key="ExternalNotificationSendFail">전송 실패</system:String>
     <system:String x:Key="ExternalNotificationSendTest">테스트 보내기</system:String>
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트 정보입니다. 이 콘텐츠가 표시되면 알림이 성공적으로 전송된 것입니다!</system:String>
-    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 이 키를 보냅니다.</system:String>
+    <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 전송 키</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP 서버</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">포트</system:String>
     <system:String x:Key="ExternalNotificationSmtpSsl">는 SSL을 사용합니다.</system:String>
@@ -71,13 +71,13 @@
     <system:String x:Key="Chip">제조소-칩</system:String>
     <system:String x:Key="DormTrustEnabled">숙소의 남은 자리로 신뢰도 증가</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">이미 배치된 오퍼레이터 숙소 배치 X</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">선택할 경우 아이린과 같은 오퍼레이터를 훈련실에서 제거하지 않을 뿐만 아니라 가공소의 오퍼레이터가 숙소에 배치되는 것을 방지합니다.</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">선택할 경우 아이린 등의 오퍼레이터를 훈련실에서 제거하지 않을 뿐만 아니라 가공소의 오퍼레이터가 숙소에 배치되는 것을 방지합니다.</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">오리지늄 조각 자동 보충</system:String>
     <system:String x:Key="ContinueTraining">훈련 완료 시 스킬 마스터리를 훈련</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
     <system:String x:Key="TrainingLevel">스킬 랭크</system:String>
-    <system:String x:Key="TimeLeft">남은 시간</system:String>
+    <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>
     <system:String x:Key="DefaultInfrast">기본 구성</system:String>
     <system:String x:Key="UserDefined">사용자 설정</system:String>
@@ -112,9 +112,11 @@
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">입력한 하프「{0}」는 battle_data에 없습니다. 입력한 이름이 올바른지 확인하거나 maa 리소스 버전을 확인하십시오.</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">입력한 오퍼레이터 「{0}」는 battle_data에 없습니다. 입력한 이름이 올바른지 확인하거나 MAA 리소스 버전을 확인하세요.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복(전투 X)</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ";"로 구분합니다</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">친구가 아니어도 지원 유닛 사용</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">정지 시 전투 클리어 후 정지</system:String>
@@ -125,10 +127,10 @@
     <system:String x:Key="IS2NewSquad1">마음가짐 분대</system:String>
     <system:String x:Key="IS2NewSquad2">적재적소 분대</system:String>
     <system:String x:Key="IS2NewSquad3">인적자원 분대</system:String>
-    <system:String x:Key="IS3NewSquad1">永恒狩猎分队</system:String>
-    <system:String x:Key="IS3NewSquad2">生活至上分队</system:String>
-    <system:String x:Key="IS3NewSquad3">科学主义分队</system:String>
-    <system:String x:Key="IS3NewSquad4">特训分队</system:String>
+    <system:String x:Key="IS3NewSquad1">영원한 사냥 분대</system:String>
+    <system:String x:Key="IS3NewSquad2">생존지상 분대</system:String>
+    <system:String x:Key="IS3NewSquad3">과학주의 분대</system:String>
+    <system:String x:Key="IS3NewSquad4">특훈 분대</system:String>
     <system:String x:Key="LeaderSquad">지휘 분대</system:String>
     <system:String x:Key="GatheringSquad">집합 분대</system:String>
     <system:String x:Key="SupportSquad">지원 분대</system:String>
@@ -162,7 +164,7 @@
     <system:String x:Key="AdbException">ADB를 찾을 수 없었습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요</system:String>
-    <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하십시오.</system:String>
+    <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요</system:String>
     <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
@@ -258,11 +260,11 @@
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
     <system:String x:Key="StopOnGoldLimit">오리지늄각뿔이 한계 도달 시 중지</system:String>
     <system:String x:Key="InvestmentEnabled">오리지늄각뿔 투자</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">투자 후 2 층 진입</system:String>
+    <system:String x:Key="InvestmentEnterSecondFloor">투자 후 2층 진입</system:String>
     <system:String x:Key="RefreshTraderWithDice">상점 새로고침</system:String>
     <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자만)</system:String>
-    <system:String x:Key="EnablePenguin">Penguin-Stats 신고</system:String>
-    <system:String x:Key="EnableYituliu">Yituliu 신고</system:String>
+    <system:String x:Key="EnablePenguin">Penguin-Stats 보고</system:String>
+    <system:String x:Key="EnableYituliu">Yituliu 보고</system:String>
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
     <system:String x:Key="DrGrandetTip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
@@ -275,26 +277,26 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Blacklist">무시 항목 (세미콜론으로 구분)</system:String>
     <system:String x:Key="HighPriorityDefault">모집 허가증</system:String>
     <system:String x:Key="BlacklistDefault">카본;가구 부품;즉시 완료 허가증</system:String>
-    <system:String x:Key="Drink">술 한잔은 어떻습니까🍷? 박사님</system:String>
+    <system:String x:Key="Drink">술 한잔은 어떠십니까🍷? 박사님</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">크레딧이 넘치면 무시 항목도 구매</system:String>
     <system:String x:Key="OnlyBuyDiscount">할인된 크레딧 상품만 구매</system:String>
     <system:String x:Key="ReserveMaxCredit">크레딧 포인트 300 미만 시 구매 X</system:String>
-    <system:String x:Key="OnlyBuyDiscountTips">⚠ 주의: 크레딧 포인트가 넘치는 위험성이 있습니다! 화이트리스트에 등록된 항목은 여전히 구매할 수 있습니다!</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ 주의: 크레딧 포인트가 넘칠 위험이 있습니다! 화이트리스트에 등록된 항목은 여전히 구매할 수 있습니다!</system:String>
     <system:String x:Key="ReserveMaxCreditTips">크레딧이 300 미만이더라도 화이트리스트에 등록된 항목은 여전히 구매합니다!</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">박사님! \n할인된 상품만 구매해 크레딧 포인트가 넘쳤습니다! \n크레딧 포인트 낭비에 주의하세요! \n남은 크레딧 포인트:</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">박사님!\n할인된 상품만 구매해 크레딧 포인트가 넘쳤습니다!\n크레딧 포인트 낭비에 주의하세요!\n남은 크레딧 포인트:</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">일일/주간 미션 보상 받기</system:String>
     <system:String x:Key="ReceiveMail">모든 메일 보상 받기</system:String>
-    <system:String x:Key="ReceiveFreeRecruit">한정 가챠에서 매일 무료 단챠를 진행</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">한정 뽑기에서 매일 무료 뽑기를 진행</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">무료 단챠가 없는 경우 가챠를 하지 않습니다</system:String>
     <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n'인식' 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인식한 것입니다</system:String>
-    <system:String x:Key="ReceiveOrundum">행운의 벽에서 매일 합성 옥 보상 받기</system:String>
+    <system:String x:Key="ReceiveOrundum">복권방에서 매일 합성옥 보상 받기</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
     <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
     <system:String x:Key="UseLogItemDateFormat">사용자 정의 로그 날짜 형식</system:String>
     <system:String x:Key="LogItemDateFormatString">날짜 형식 문자열</system:String>
-    <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용하려면 즉시 다시 시작하시겠습니까?</system:String>
+    <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용을 위해 즉시 다시 시작하시겠습니까?</system:String>
     <system:String x:Key="UseAlternateStage">대체 스테이지 사용</system:String>
     <system:String x:Key="UseRemainingSanityStage">남은 이성 활용</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제나 오리지늄을 사용하지 않습니다.</system:String>
@@ -318,8 +320,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
 다른 클라이언트 유형은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로 (상대/절대)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다. 잘못된 파일을 선택했거나 에뮬레이터를 잘못 선택한 것은 아닌지 확인하세요</system:String>
-    <system:String x:Key="AdbPathFileSelectionErrorImSure">본인이 잘못 선택한 것이 아니라고 확신합니다</system:String>
-    <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">다시 선택합니다</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
+    <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">다시 선택하겠습니다</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
@@ -339,8 +341,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
-    <system:String x:Key="ReclamationAlgorithm">생명연산</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">생명연산2</system:String>
+    <system:String x:Key="ReclamationAlgorithm">생명연산·모래 속의 불</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">생명연산·沙洲遗闻</system:String>
     <system:String x:Key="Light">라이트</system:String>
     <system:String x:Key="Dark">다크</system:String>
     <system:String x:Key="SyncWithOs">시스템 연동</system:String>
@@ -363,7 +365,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="BackToAndroidHome">에뮬레이터가 홈 화면으로 돌아갑니다</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
-    <system:String x:Key="WaitAndStop">기다리다 &amp; 중지</system:String>
+    <system:String x:Key="WaitAndStop">대기 &amp; 중지</system:String>
     <!--  작전 설정  -->
     <system:String x:Key="UseSanityPotion">이성 회복제 사용</system:String>
     <system:String x:Key="UseOriginitePrime">순오리지늄 사용*</system:String>
@@ -504,13 +506,13 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="Copilot">자동 지휘</system:String>
     <system:String x:Key="CopilotLocation">작업 파일 경로/코드</system:String>
     <system:String x:Key="CopilotTaskName">스테이지 코드</system:String>
-    <system:String x:Key="CopilotTaskNameTip">스테이지 코드, 예를 들어 1-7</system:String>
+    <system:String x:Key="CopilotTaskNameTip">스테이지 코드, 예시: 1-7</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
     <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기</system:String>
     <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">마음에 드셨나요? 평가해 주세요!</system:String>
-    <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다 : &lt;</system:String>
+    <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>
     <system:String x:Key="ThanksForLikeWebJson">감사합니다!\n웹사이트에 댓글을 남길 수도 있으니 의견을 남겨 주세요!</system:String>
     <system:String x:Key="AutoSquad">자동 편성</system:String>
     <system:String x:Key="AutoSquadTip">자동 편성은 '선호' 오퍼레이터를 인식할 수 없습니다</system:String>
@@ -519,6 +521,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="AddUserAdditionalTip">사용「;」운영자 이름과 기술을 구분하기 위해 구분 기호「,」를 사용합니다. 예: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">전투 목록</system:String>
     <system:String x:Key="UseCopilotListTip">시작하기 전에 레벨 선택 페이지로 전환하세요</system:String>
+    <system:String x:Key="CopilotTaskRaidStage">(Raid)</system:String>
     <system:String x:Key="CopilotAddTask">공격대 난이도를 추가하려면 마우스 오른쪽 버튼을 클릭하세요.</system:String>
     <system:String x:Key="CopilotClearTask">비활성 작업을 지우려면 마우스 오른쪽 버튼을 클릭하세요.</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
@@ -527,20 +530,20 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         팁:\n\n
-        1. 이 기능은 메인 스테이지, 에피소드 및 사이드 스토리에서 「작전 개시」 버튼이 표시될 때에만사용해주세요 \n\n
+        1. 이 기능은 메인 스테이지, 에피소드 및 사이드 스토리에서 「작전 개시」 버튼이 표시될 때에만 사용해주세요 \n\n
         2. 패러독스 시뮬레이션의 경우 「자동 편성」을 끄고, 수동으로 스킬을 선택한 후에 시작해주세요\n\n
-        3. 보안파견의 Copilot 파일의 경우 MAA 내의「resource/copilot」 폴더에 있습니다 \n
+        3. 보안파견의 Copilot 파일의 경우 MAA 내의 「resource/copilot」 폴더에 있습니다 \n
         수동 편성 후 「작전 개시」 버튼이 있는 화면에서 시작하세요. (「반복횟수」와 함께 사용 가능)\n\n
         4. 지원 유닛을 사용할 때에는 반드시 「자동 편성」을 끄고, 지원 유닛을 선택한 후에 시작해야 합니다\n\n
         5. 현재 비디오 인식이 지원되며, 전략 비디오를 사용하려면 끌어와 사용하세요\n
-        동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다.\n\n
+        동영상의 해상도는 16:9여야 하며, 검은색 테두리, 에뮬레이터 테두리, 특수한 모양의 화면 보정 등의 방해 요소가 없어야 합니다\n\n
         6. 전투 목록:\n
-        작업을 선택한 후 목록 아래의 레벨 이름이 올바른지 확인하세요(예: CV-EX-1). \n
-        추가: 왼쪽 클릭으로 일반 난이도를 추가하고, 오른쪽 클릭으로 하드모드 난이도를 추가하세요 \n
-        지우기: 목록을 지우려면 왼쪽 클릭, 비활성화된 작업만 제거하려면 오른쪽 클릭을 하세요 \n
-        시작하기 전에 레벨 선택 화면으로 진입해야 합니다. 목표 지점으로의 이동은 지원되지 않습니다. \n
+        작업을 선택한 후 목록 아래의 레벨 이름이 올바른지 확인하세요(예: CV-EX-1).\n
+        추가: 왼쪽 클릭으로 일반 난이도를 추가하고, 오른쪽 클릭으로 하드모드 난이도를 추가하세요.\n
+        지우기: 목록을 지우려면 왼쪽 클릭, 비활성화된 작업만 제거하려면 오른쪽 클릭을 하세요.\n
+        시작하기 전에 레벨 선택 화면으로 진입해야 합니다. 목표 지점으로의 이동은 지원되지 않습니다.\n
         이성이 부족하거나, 전투가 실패하거나, 3성 클리어를 해결할 수 없는 경우 동작이 종료됩니다. \n
-        일괄 가져오기로 인위적인 레벨을 추가하려면, 파일명을 수정해야합니다(예: 1-7-Adverse).\n\n
+        일괄 가져오기로 인위적인 레벨을 추가하려면, 파일명을 수정해야 합니다(예: '1-7(Raid).json').\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">파일을 읽지 못했습니다!</system:String>
     <system:String x:Key="CopilotNoFound">해당 파일을 찾을 수 없습니다!</system:String>
@@ -593,7 +596,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="CompleteCombat">작전 완료</system:String>
     <system:String x:Key="AllTasksComplete">모든 작업이 완료되었습니다!</system:String>
     <system:String x:Key="SanityReport">{DateTime}에 이성이 전부 회복됩니다.({TimeDiff} 이후)</system:String>
-    <system:String x:Key="AllTaskCompleteContent">MAA는 {DateTime}의 {Preset} 구성에서 모든 사전 설정 작업을 완료했습니다.</system:String>
+    <system:String x:Key="AllTaskCompleteContent">MAA가 {DateTime}의 {Preset} 구성에서 모든 사전 설정 작업을 완료했습니다.</system:String>
     <system:String x:Key="BackgroundLinkStarted">작업 시작됨</system:String>
     <system:String x:Key="BackgroundLinkStopped">작업 중지됨</system:String>
     <system:String x:Key="FailedToOpenClient">클라이언트를 시작하지 못했습니다. 설정 파일을 확인하세요</system:String>
@@ -602,7 +605,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
-    <system:String x:Key="MissingOperators">다음 연산자 중 하나 이상이 누락되었습니다.</system:String>
+    <system:String x:Key="MissingOperators">다음 오퍼레이터들이 누락되었습니다. 목록:</system:String>
     <system:String x:Key="StageQueue">레벨 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
@@ -655,8 +658,8 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RecruitmentOfBot">로봇을 모집했습니다!</system:String>
     <system:String x:Key="Choose">선택</system:String>
     <system:String x:Key="Refreshed">새로고침됨</system:String>
-    <system:String x:Key="ContinueRefresh">채용 허가 없음, 새로 고치려고 태그</system:String>
-    <system:String x:Key="NoRecruitmentPermit">채용허가증이 없어 반환함</system:String>
+    <system:String x:Key="ContinueRefresh">채용 허가증이 없습니다. 태그를 새로고침했습니다.</system:String>
+    <system:String x:Key="NoRecruitmentPermit">채용 허가증이 없어 중지했습니다.</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">공개 채용에서 다중 태그 선택 전략</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
     <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
@@ -742,7 +745,6 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="RemoteControlConnectionTestSuccess">연결 테스트 성공!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">연결 테스트 실패, 이유: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">연결 테스트 실패, 엔드포인트가 비어 있습니다.</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps(s)">연결 테스트에 실패했습니다. 연결 엔드포인트가 http 또는 https 주소가 아닙니다.</system:String>
     <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">연결 엔드포인트가 https를 사용하도록 설정되어 있지 않으며 안전하지 않을 수 있습니다.</system:String>
     <system:String x:Key="RemoteControlReceivedTask">원격 작업 {0} 받음, 작업 Id:{1}.</system:String>
     <system:String x:Key="RemoteControlCompletedTask">원격 작업 {0} 완료, 작업 Id:{1}.</system:String>
@@ -759,7 +761,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <!--  !External Notification  -->
     <!--  Announcement  -->
     <system:String x:Key="Announcement">공지사항</system:String>
-    <system:String x:Key="CheckAndDownloadAnnouncement">공지사항</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
     <!--  !Announcement  -->
 </ResourceDictionary>

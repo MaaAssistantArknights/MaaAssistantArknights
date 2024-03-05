@@ -102,11 +102,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public ActionType ActionAfterCompleted
         {
-            get
-            {
-                return !Enum.TryParse(_actionAfterCompleted, out ActionType action) ? ActionType.DoNothing : action;
-            }
-
+            get => !Enum.TryParse(_actionAfterCompleted, out ActionType action) ? ActionType.DoNothing : action;
             set
             {
                 string storeValue = value.ToString();
@@ -116,10 +112,11 @@ namespace MaaWpfGui.ViewModels.UI
                     value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist ||
                     value == ActionType.ShutdownWithoutPersist)
                 {
-                    storeValue = ActionType.DoNothing.ToString();
                 }
-
-                ConfigurationHelper.SetValue(ConfigurationKeys.ActionAfterCompleted, storeValue);
+                else
+                {
+                    ConfigurationHelper.SetValue(ConfigurationKeys.ActionAfterCompleted, storeValue);
+                }
             }
         }
 
@@ -1396,8 +1393,8 @@ namespace MaaWpfGui.ViewModels.UI
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
                 Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentEnterSecondFloor, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
                 Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
-                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeUseSupportUnit,
-                Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
+                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo, Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal, Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
+                Instances.SettingsViewModel.RoguelikeUseSupportUnit, Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 
         private static bool AppendReclamation()
@@ -2113,7 +2110,9 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case ActionType.HibernateWithoutPersist:
                     // 休眠不会导致 MAA 重启，下次执行的还会是休眠
-                    ActionAfterCompleted = ActionType.DoNothing;
+                    // 重新读取结束后动作，并刷新UI
+                    _actionAfterCompleted = ConfigurationHelper.GetValue(ConfigurationKeys.ActionAfterCompleted, ActionType.DoNothing.ToString());
+                    NotifyOfPropertyChange(nameof(ActionAfterCompleted));
                     goto case ActionType.Hibernate;
                 case ActionType.Hibernate:
                     // 休眠提示
@@ -2869,8 +2868,6 @@ namespace MaaWpfGui.ViewModels.UI
 
                 SetAndNotify(ref _medicineNumber, value);
 
-                // If the amount of medicine is 0, the stone is not used.
-                UseStone = UseStone;
                 SetFightParams();
                 ConfigurationHelper.SetValue(ConfigurationKeys.UseMedicineQuantity, MedicineNumber);
             }
@@ -2886,17 +2883,17 @@ namespace MaaWpfGui.ViewModels.UI
             get => _useStoneWithNull;
             set
             {
-                // If the amount of medicine is 0, the stone is not used.
-                if (!int.TryParse(MedicineNumber, out int result) || result == 0)
+                SetAndNotify(ref _useStoneWithNull, value);
+                if (value != false)
                 {
-                    value = false;
+                    MedicineNumber = "999";
+                    if (!UseMedicine)
+                    {
+                        UseMedicineWithNull = null;
+                    }
                 }
 
-                SetAndNotify(ref _useStoneWithNull, value);
-                if (value != false && !UseMedicine)
-                {
-                    UseMedicineWithNull = null;
-                }
+                NotifyOfPropertyChange(nameof(UseStone));
 
                 SetFightParams();
             }
@@ -2905,7 +2902,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to use originiums.
         /// </summary>
-        private bool UseStone
+        // ReSharper disable once MemberCanBePrivate.Global
+        public bool UseStone
         {
             get => UseStoneWithNull != false;
             set => UseStoneWithNull = value;

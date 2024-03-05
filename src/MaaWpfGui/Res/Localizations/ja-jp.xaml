@@ -22,7 +22,7 @@
     <system:String x:Key="AboutUs">About</system:String>
     <system:String x:Key="CoreVersion">Core バージョン</system:String>
     <system:String x:Key="UiVersion">UI バージョン</system:String>
-    <system:String x:Key="ResourceVersion">Resource</system:String>
+    <system:String x:Key="ResourceVersion">リソースバーション</system:String>
     <system:String x:Key="Off">シャットダウン</system:String>
     <system:String x:Key="ExternalNotificationTips">注:外部通知機能は現在、「すべてのタスクが完了しました」という通知のみを送信します。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -77,7 +77,7 @@
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
-    <system:String x:Key="TimeLeft">残り時間</system:String>
+    <system:String x:Key="TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>
     <system:String x:Key="DefaultInfrast">標準設定</system:String>
     <system:String x:Key="UserDefined">ユーザー定義</system:String>
@@ -115,9 +115,11 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">入力のスタッフ「{0}」がbattle_dataにありません。入力の名前が正しいか、maaリソースのバージョンをチェックしてください。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String> 
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘クリアで止まる</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘終了まえに「停止」を遅らせる</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量ADBを使用(実験機能)</system:String>
     <system:String x:Key="KillAdbOnExit">終了時にADBを終了する</system:String>
@@ -125,10 +127,10 @@
     <system:String x:Key="IS2NewSquad1">精神論分隊</system:String>
     <system:String x:Key="IS2NewSquad2">最大活用分隊</system:String>
     <system:String x:Key="IS2NewSquad3">人文主義分隊</system:String>
-    <system:String x:Key="IS3NewSquad1">永遠狩猟分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad2">生活至上分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad3">科学主義分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad4">特訓分隊(To be updated)</system:String>
+    <system:String x:Key="IS3NewSquad1">永久狩猟分隊</system:String>
+    <system:String x:Key="IS3NewSquad2">生活重視分隊</system:String>
+    <system:String x:Key="IS3NewSquad3">科学主義分隊</system:String>
+    <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -252,7 +254,7 @@
     <system:String x:Key="RoguelikeTheme">主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
-    <system:String x:Key="RoguelikeThemeSami">薩米(To be updated)</system:String>
+    <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -311,7 +313,7 @@
     <system:String x:Key="AutoDetectConnectionTip">このチェックボックスは、検出が完了するたびに自動的にチェックが外れますが、再検出が必要な場合は再度チェックを入れることができます</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
     <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
-    <system:String x:Key="AccountSwitchManualRun">手動スイッチ</system:String>
+    <system:String x:Key="AccountSwitchManualRun">今すぐ切り替える</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します
 公式(CN): ログイン インターフェイスに表示される携帯電話番号を入力します (例: 123****4567)
 Bilibili: ログイン インターフェイスに表示されるアカウント名 (張三 など) を入力します。
@@ -360,7 +362,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ShutdownWithoutPersist">シャットダウン（1回のみ）</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、他のMAAがない場合はPCを休止状態になる</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">MAAを終了し、他のMAAがない場合はシャットダウン</system:String>
-    <system:String x:Key="BackToAndroidHome">エミュレータをホーム画面に戻る</system:String>
+    <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">止める</system:String>
     <system:String x:Key="WaitAndStop">待って &amp; 止める</system:String>
@@ -419,7 +421,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="UnselectedTask">タスクが選択されていません</system:String>
     <system:String x:Key="Running">動作中……</system:String>
     <system:String x:Key="AdbReplacementTips">タスクが応答なしになる場合は、設定 - 接続設定 - ADBの強制置き換え、もしくは ADB Input タッチモード をチェックしてください（お勧めしない）。</system:String>
-    <system:String x:Key="Waiting">戦闘が終わるのを待っています……</system:String>
+    <system:String x:Key="Waiting">ミッション終了を待っています……</system:String>
     <system:String x:Key="Stopping">動作停止中……</system:String>
     <system:String x:Key="Stopped">動作停止</system:String>
     <system:String x:Key="UnknownErrorOccurs">不明なエラーが発生しました</system:String>
@@ -514,11 +516,12 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
-    <system:String x:Key="AddTrust">信頼性の低いオペレーターを追加する</system:String>
-    <system:String x:Key="AddUserAdditional">カスタム戦術要員の追加</system:String>
-    <system:String x:Key="AddUserAdditionalTip">使用「;」オペレータ名とスキルを区切るには、区切り文字として「,」を使用します。例: W, 3; Ash, 2</system:String>
+    <system:String x:Key="AddTrust">信頼度が低いのオペレーターを追加する</system:String>
+    <system:String x:Key="AddUserAdditional">カスタムで指定したオペレーターを追加する</system:String>
+    <system:String x:Key="AddUserAdditionalTip">";" はセパレータ、"," でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
     <system:String x:Key="UseCopilotListTip">開始前にレベル選択ページに切り替えてください</system:String>
+    <system:String x:Key="CopilotTaskRaidStage">(Raid)</system:String>
     <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
     <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
@@ -540,7 +543,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
         クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
         開始する前に、レベル選択インターフェースに切り替える必要があります。章間のナビゲーションはサポートされていません。\n
         正気度が不十分な場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。 \n
-        一括インポートを使用して逆レベルを追加する場合は、ファイル名を変更する必要があります (例: 1-7-Adverse)。\n\n
+        一括インポートを使用して逆レベルを追加する場合は、ファイル名を変更する必要があります (例: '1-7(Raid).json')。\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
@@ -602,7 +605,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="DropRecognitionError">ドロップ認識エラー</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
-    <system:String x:Key="MissingOperators">次のオペレーターは１つ以上欠落しています：</system:String>
+    <system:String x:Key="MissingOperators">次のオペレーターがオペレーターグループにありません：</system:String>
     <system:String x:Key="StageQueue">レベルキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
@@ -746,7 +749,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">接続エンドポイントがhttpsに対応しておらず、安全でない可能性があります。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">リモートタスク{0}を受信、タスクId:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">リモートタスク{0}を完了、タスクId:{1}。</system:String>
-    <system:String x:Key="RemoteControlTooltips">注意：知らない出所のアドレスを入力すると、あなたの明日方舟のアカウントが損失する可能性があります。</system:String>
+    <system:String x:Key="RemoteControlTooltips">注意：知らない出所のアドレスを入力すると、あなたのアカウントが損失する可能性があります。</system:String>
     <system:String x:Key="RemoteControlDeveloperTooltips">関連機能の開発方法については、訪問してください</system:String>
     <system:String x:Key="RemoteControlDeveloperDocLink">リモートコントロール機能開発者ドキュメント</system:String>
     <!--  !Remote Control  -->

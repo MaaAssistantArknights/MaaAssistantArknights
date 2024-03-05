@@ -46,7 +46,7 @@ namespace MaaWpfGui.Services.Web
                     Directory.CreateDirectory(directoryPath!);
                 }
 
-                File.WriteAllText(cache, response);
+                await File.WriteAllTextAsync(cache, response);
 
                 return json;
             }

@@ -38,6 +38,7 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseMedicineWithNull}"
+                        IsEnabled="{c:Binding !UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -70,7 +71,8 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        IsEnabled="{c:Binding !UseStone}"
+                        Maximum="999"
                         Minimum="0"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MedicineNumber, UpdateSourceTrigger=PropertyChanged}" />
@@ -81,7 +83,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        Maximum="999"
                         Minimum="0"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding StoneNumber, UpdateSourceTrigger=PropertyChanged}" />
@@ -92,7 +94,7 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        Maximum="999"
                         Minimum="0"
                         ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MaxTimes, UpdateSourceTrigger=PropertyChanged}" />
@@ -173,7 +175,7 @@
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding SeriesList}"
-                        SelectedValue="{Binding Series}"/>
+                        SelectedValue="{Binding Series}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">

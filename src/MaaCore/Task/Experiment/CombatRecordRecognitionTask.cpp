@@ -157,9 +157,9 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         std::vector<battle::OperUsage> opers;
         opers.emplace_back(battle::OperUsage { name, 0, battle::SkillUsage::NotUse });
         json::object oper_json { { "name", name }, { "skill", 0 }, { "skill_usage", 0 } };
-        m_copilot_json["opers"].array_emplace(std::move(oper_json));
+        m_copilot_json["opers"].emplace(std::move(oper_json));
 
-        cb_formation.array_emplace(name);
+        cb_formation.emplace(name);
         asst::imwrite(utils::path("debug/video_export/formation/") / utils::path(name + ".png"), avatar);
     }
     callback(AsstMsg::SubTaskCompleted, cb_info);

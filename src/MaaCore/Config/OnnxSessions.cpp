@@ -9,7 +9,7 @@
 bool asst::OnnxSessions::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("record path", path);
+    Log.info("record path", path.lexically_relative(UserDir.get()));
 
     std::string name = utils::path_to_utf8_string(path.stem());
 

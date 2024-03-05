@@ -1,96 +1,84 @@
-## v5.1.0
+## v5.2.0-beta.1
 
 ### 新增 | New
 
-- 生息演算2 (#8190) (Mac 版本需点加号手动添加) @SherkeyXD @hguandl @ABA2396
-- 开放每日免费单抽功能 (#8185) @SherkeyXD
-- 新增只购买折扣信用商品（白名单商品除外）和少于300信用点停止购物的选项 (#7659) @lpowo @status102
-- 基建领取专精功能 (#7754) @broken-paint @Constrat
-- 合成玉签到task (#8223) @Sherkey @status102
-- 抽卡提示不许勾下次不再提示 @ABA2396
-- 运行 ReclamationAlgorithm 时默认运行 Reclamation2 而不是旧演算 (#8229) @horror-proton @ABA2396
-- 强制定时启动添加提示对话框并可选是否显示窗口 (#8062) @moomiji
-- 在自动编队过程中缺少干员时停止并记录 (#8051) @KevinT3Hu
+- 刷开局模式增加萨米肉鸽生活队凹密文板 (#8408) @Lancarus @status102
+- 领航者S4地图 @status102
 
 ### 改进 | Improved
 
-- 更新文档到.net8 @ABA2396
-- 移除CopilotTask不必要的传参 @status102
-- 更新部分step的版本 @SherkeyXD
-- 增加账号切换时登录键点击重试 @status102
-- 远程控制对非 https 连接仅提出警告 (#8061) @Sherkey
-- 肉鸽适配新干员用法 (#8273) @Lancarus
-- 肉鸽投资后结束本次战斗 (#8268) @status102
-- 优化肉鸽投资速度及输出 (#8177) @status102
-- 调整生息演算任务 @status102
-- 增加生稀盐酸跳过等待 @status102
-- 全反选排除生息演算 @ABA2396
-- Mac 全部启用任务时排除生息演算 @Hao Guan
-- 优化可变位置文字识别 @ABA2396
-- 部分需重启生效的选项添加重启确认弹窗 @ABA2396
-- 缓存待部署区识别，减少CPU占用 (#8275) @status102
-- ScreenCost截图失败次数为0时，不返回fault_times字段 @status102
-- 优化基建领取专精 (#8207) @broken-paint
+- 战斗列表添加作业时自动滚动到添加位置 (#8455) @status102
+- 增加肉鸽商店中招募券的购买优先度 (#8469) @Lancarus
+- 抽卡风险提示默认选择取消 @ABA2396
+- 碎石时锁定理智药使用量为999 (#8415) @status102
+- 运行期允许滚动战斗列表 @status102
+- 优化仓库识别速度 (#8113) @FreeSky-X @horror-proton
+- 肉鸽开局干员 隐藏未实装干员 (#8436) @Manicsteiner
+- 自动编队识别不到干员的重试次数下调为1 @status102
+- 优化自动编队逻辑 (#8393) @KevinT3Hu
+- 调整基建专精输出文本 @status102
+- 肉鸽高级设置-只凹精二，不可用时隐藏 @status102
+- 优化傀影肉鸽部分关卡策略 (#8401) @Lancarus
+- 结束后动作`仅一次`在执行后不恢复为`无动作`，而是上一次的选择项 (#8387) @status102
+- 将肉鸽开局干员组和开局干员移动至常规设置，未勾选`使用助战`时隐藏`可选非好友助战` (#8389) @status102
+- 当自动战斗选择不支持的关卡时，输出作业中的关卡名 @status102
+- 如果待部署区未识别干员全部为冷却中，则跳过暂停识别避免反复暂停 (#8337) @status102
 
 ### 修复 | Fix
 
-- 未开启吐司通知时仍弹出通知 @ABA2396
-- 生息演算开局教程对话有概率卡住 @status102
-- 修复无限提示远控地址为空的问题 @Sherkey
-- 连续截图出错30次 / 启动时连续截图出错10次 导致MAA崩溃 (#8280) @status102
-- 写剪贴板时应该用Unicode而不是ANSI (#8204) @Immueggpain
-- 修复肉鸽存款余额ocr错误 @status102
-- 修复干员小满概率性识别为`小/满` @status102
-- 延长进图等待时间 @ABA2396
-- 生息演算卡在主界面 @ABA2396
-- 修复没有赠送次数时单抽任务报错的问题 (#8233) @SherkeyXD
-- 修复生息演算部分情况下无法跳过开局对话 @status102
-- 尝试修复剩余理智连战次数无法选择 @status102
-- 干员识别修正: 红集 -> 红隼 @aur3l14no
-- 修复更新后弹窗错误 @ABA2396
-- 修复生息演算在卡顿情况下无法正常退出关卡 @ABA2396
-- 限制连续战斗次数调整失败重试次数 @status102
-- 生息演算卡在进入第四日 @ABA2396
-- screencap failure with amdgpu on some emulators (even with GeneralWithoutScreencapErr) (#8225) @aur3l14no
-- 修复部分分辨率下无法识别删除存档 @ABA2396
-- 内测版 wpf tag 错误 @ABA2396
-- 内测版修改ui版本号 @ABA2396
-- 修复模拟器自动检测失败时可能导致WpfGui崩溃 (#8288) @status102
-- gui.log 无法显示完整版本号 @ABA2396
+- 肉鸽开局奖励template删除文字部分 (#7991) @Manicsteiner
+- 傀影肉鸽选项造成的卡死 (#8468) @Lancarus
+- 生息演算卡在战斗结算 @ABA2396
+- 助战勾选框不出现bug (#8459) @Lancarus
+- 修复肉鸽重复部署一个干员后不会开启技能 (#8447) @Lancarus
+- [台服] 自定義基建換班辨認 麒麟R夜刀 失敗 @ABA2396
+- 修复使用干员组切换技能用法失效 (#8410) @status102
+- 修复引航者试炼S4地图的部分数据错误 @status102
+- 修复肉鸽切换模式时，投资可能在禁用的情况下显示已启用 @status102
+- 肉鸽闪退 @ABA2396
+- 基建无法选中干员(fix oper rect in InfrastOperImageAnalyzer) @horror-proton
+- 修复迷城主题无法进入仓库进行识别(update template DepotEnterMistCity) @horror-proton
+- 修复未识别到幸运墙时报错的问题 @SherkeyXD
+- 修复部分角色冷却识别错误 (#8366) @status102
+- 战斗列表突袭标志点击后暂时不可见 @status102
+- 自动战斗-战斗列表的突袭关描述从`Adverse`修正为`Raid` (#8082) @status102
+- 修复部分情况下待部署区干员无法正确识别为冷却中 (#8336) @status102
+- 修复投资系统出错时，余额ocr可能出错 (#8326) @status102
+- 更正同时使用理智药+碎石的短路说明 (#8452) @Rbqwow @status102
 
 ### 其他 | Other
 
-- 修复Mac生息演算任务名 @Hao Guan
-- ScreencapCost输出失败次数 @status102
-- fix typo and undefined behavior of minmax @Horror Proton
-- 生息演算高级设置文本框增加换行 @status102
-- EasterEggs 前两次点击不生效 @ABA2396
-- 抽卡风险提示 @ABA2396
-- 生息演算提示文本调整 @status102
-- 移除肉鸽结算输出多余空格 @status102
-- Update release-nightly-ota.yml @ABA2396
-- 更新界面文字 (#8206、#8214、#8218) @AnnAngela
-- fix appimage cross build issue @Horror Proton
-- 更新文档 (#8283) @Rbqwow
-- 添加等宽字体的备用字体 @SherkeyXD
-- added regex for module-reclamation (#8302) @Constrat
-- 升级依赖，移除package-lock.json @SherkeyXD
-- 更新连战文档 (#8308) @Rbqwow
+- 更新&重构文档 (#8316) @Rbqwow
+- asst.log中的输出使用相对路径取代绝对路径 (#8385) @status102
+- 移除自动战斗设置参数时不必要的警告输出 @status102
+- 支持肉鸽事件choice_require解析 (#7904) @SherkeyXD @zzyyyl @horror-proton @ABA2396 @status102
+- 删除continue @ABA2396
+- 增加连接配置项 CompatPOSIXShellWithoutScreencapErr (#8359) @aur3l14no
+- 修正发版时触发的文档部署workflow @SherkeyXD
+- removed reclamation from module others @Constrat
+- update yituliu report url @horror-proton
+- DV navigation https://github.com/MaaAssistantArknights/MaaRelease/commit/d65fd353410272af2e478272dfa675b87eb9673c @Constrat
+- update glossary (#8437) @Manicsteiner
+- updated Friends Terminal templates for EN after 27-02-2024 update [skip ci] @Constrat
+- await Async @ABA2396
+- update meojson to v4.0.1 @MistEO
+- build error from meojson updates @MistEO
+- wrong std::move of meojson @MistEO
+- Update operators.md @wallsman
 
 ### For Overseas
 
-##### YoStarJP
-
-- YoStarJP ocr fix shamare, ansel, nien (#8194) @Manicsteiner
-- YoStarJP ocr fix #8180 (#8184) @Manicsteiner
-- YoStarJP 理想都市 navigation (#8263) @Manicsteiner
-- YoStarJP ocr fix (#8260) @Manicsteiner
-
-##### YoStarKR
-
-- YoStarKR 理想都市 navigation (#8265) @HX3N
-- YoStarKR ocr fix (假日威龙陈/苍苔/青枳/淬羽赫默 etc) (#8246) @HX3N
-- YoStarKR update StageAnnihilation.png (#8239) @HX3N
-- YoStarKR ocr fix (#8236) @HX3N
-- modified ko-kr.xaml (#8235) @HX3N
-- YoStarKR add training template image and text (#8295) @HX3N
+- update ocr replace for 亚梅塔 and 「弦驚」 @horror-proton
+- updated YostarEN infrast templates fix #8439 @Constrat
+- Update ko-kr.xaml @178619
+- YoStarJP task for 翠玉の夢 and sami rogue (#8475) @Manicsteiner
+- update ja-jp.xaml for sami (#8435) @Manicsteiner
+- updated ko-kr.xaml for 探索者的银凇止境 (#8433) @HX3N
+- update resources for YostarKR (#8450) @178619
+- YoStarJP modified template image (#8423) @Manicsteiner
+- YoStarKR modified ocrReplace and template image (#8418) @HX3N
+- refactor JP docs (#8298) @Manicsteiner
+- Translations update from MAA Weblate (#8339) @LiamSho @Constrat @ABA2396 @status102 @Manicsteiner
+- YoStarJP training template (#8351) @Manicsteiner
+- YoStarKR modified BattleStageOcr for 引航者试炼#03 (#8325) @HX3N
+- Temporary Rhodes Island Employee regex YostarEN @Constrat

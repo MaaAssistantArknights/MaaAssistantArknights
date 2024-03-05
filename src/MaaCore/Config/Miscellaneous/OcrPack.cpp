@@ -29,7 +29,7 @@ asst::OcrPack::~OcrPack()
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("load", path);
+    Log.info("load", path.lexically_relative(UserDir.get()));
 
     using namespace asst::utils::path_literals;
     const auto det_dir = path / "det"_p;

@@ -20,9 +20,9 @@
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
-    <system:String x:Key="CoreVersion">Core 版本号</system:String>
-    <system:String x:Key="UiVersion">UI 版本号</system:String>
-    <system:String x:Key="ResourceVersion">资源版本号</system:String>
+    <system:String x:Key="CoreVersion">核心版本</system:String>
+    <system:String x:Key="UiVersion">界面版本</system:String>
+    <system:String x:Key="ResourceVersion">资源版本</system:String>
     <system:String x:Key="Off">关闭</system:String>
     <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -77,7 +77,7 @@
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
     <system:String x:Key="TrainingLevel">专精等级</system:String>
-    <system:String x:Key="TimeLeft">剩余时间</system:String>
+    <system:String x:Key="TrainingTimeLeft">剩余时间</system:String>
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
@@ -115,6 +115,8 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员「{0}」未在 battle_data 中，请检查输入的名称是否正确，或检查 maa 资源版本。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「开局干员」直升精二，不进行作战</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号;隔开</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
@@ -520,6 +522,7 @@
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
     <system:String x:Key="UseCopilotListTip">开始前请切换至关卡选择页面</system:String>
+    <system:String x:Key="CopilotTaskRaidStage">(突袭)</system:String>
     <system:String x:Key="CopilotAddTask">右键添加突袭难度</system:String>
     <system:String x:Key="CopilotClearTask">右键清除未激活任务</system:String>
     <system:String x:Key="Start">开始</system:String>
@@ -540,7 +543,7 @@
         清除: 左键清空列表，右键仅移除未激活的任务。\n
         开始前，需要切换至对应关卡的选择界面，不支持跨章节导航。\n
         遇到 理智不足、战斗失败、未能以三星结算 时将会中止运行。\n
-        批量导入时，添加突袭关需修改文件名 (如: 1-7-Adverse)。\n\n
+        批量导入时，添加突袭关需修改文件名 (如: '1-7(Raid).json')。\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -602,7 +605,7 @@
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
-    <system:String x:Key="MissingOperators">缺少以下干员中的一个或多个：</system:String>
+    <system:String x:Key="MissingOperators">缺少以下干员组中的干员：</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>

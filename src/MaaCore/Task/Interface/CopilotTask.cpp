@@ -80,12 +80,18 @@ bool asst::CopilotTask::set_params(const json::value& params)
             is_raid = params.get("is_adverse", false);
         }
     }
-    bool use_sanity_potion = params.get("use_sanity_potion", false);     // 是否吃理智药
-    bool with_formation = params.get("formation", false);                // 是否使用自动编队
-    int select_formation = params.get("select_formation", 0);            // 选择第几个编队，0为不选择
-    bool add_trust = params.get("add_trust", false);                     // 是否自动补信赖
-    bool add_user_additional = params.get("add_user_additional", false); // 是否自动补用户自定义干员
+    bool use_sanity_potion = params.get("use_sanity_potion", false); // 是否吃理智药
+    bool with_formation = params.get("formation", false);            // 是否使用自动编队
+    int select_formation = params.get("select_formation", 0);        // 选择第几个编队，0为不选择
+    bool add_trust = params.get("add_trust", false);                 // 是否自动补信赖
+    bool add_user_additional = params.contains("user_additional");   // 是否自动补用户自定义干员
     std::string support_unit_name = params.get("support_unit_name", std::string());
+
+    if (params.contains("add_user_additional")) {
+        Log.warn("================  DEPRECATED  ================");
+        Log.warn("`add_user_additional` has been deprecated since v5.1.0-beta.1;");
+        Log.warn("================  DEPRECATED  ================");
+    }
 
     auto filename_opt = params.find<std::string>("filename");
     if (!filename_opt) {
@@ -139,10 +145,7 @@ bool asst::CopilotTask::set_params(const json::value& params)
     m_formation_task_ptr->set_add_user_additional(add_user_additional);
     m_formation_task_ptr->set_support_unit_name(std::move(support_unit_name));
 
-    if (auto opt = params.find<json::array>("user_additional"); !opt) {
-        Log.warn("add_user_additional not found");
-    }
-    else {
+    if (auto opt = params.find<json::array>("user_additional"); add_user_additional && opt) {
         std::vector<std::pair<std::string, int>> user_additional;
         for (const auto& op : *opt) {
             std::string name = op.get("name", std::string());

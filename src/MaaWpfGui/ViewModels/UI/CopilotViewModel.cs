@@ -21,7 +21,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using HandyControl.Tools.Extension;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.States;
@@ -44,7 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
-        private List<int> _copilotIdList = new List<int>(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
+        private List<int> _copilotIdList = new(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
 
         /// <summary>
         /// Gets the view models of log items.
@@ -74,13 +73,24 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             JArray jArray = JArray.Parse(copilotTaskList);
-            foreach (var item in jArray)
+            foreach (var it in jArray)
             {
-                if (((JObject)item).TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
+                if (it is JObject item && item.TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
                 {
-                    int copilotIdInFile = ((JObject)item).TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
+                    int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
+                    string name = (string)item["name"];
+                    bool isRaid = false;
+                    if (item.ContainsKey("is_raid"))
+                    {
+                        isRaid = (bool)item["is_raid"];
+                    }
+                    else if (name.EndsWith("-Adverse"))
+                    {
+                        name = name.Replace("-Adverse", string.Empty);
+                        isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
+                    }
 
-                    CopilotItemViewModels.Add(new CopilotItemViewModel((string)item["name"], (string)item["file_path"], copilotIdInFile, (bool)item["is_checked"]));
+                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)item["file_path"], isRaid, copilotIdInFile, (bool)item["is_checked"]));
                 }
             }
 
@@ -253,7 +263,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
-        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR)-)?(?:\d{1,2})";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR)-)?(?:\d{1,2})(\(Raid\))?";
 
         /// <summary>
         /// 为自动战斗列表匹配名字
@@ -262,7 +272,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>关卡名 or string.Empty</returns>
         private static string FindStageName(params string[] names)
         {
-            names = names.Where(str => !str.IsNullOrEmpty()).ToArray();
+            names = names.Where(str => !string.IsNullOrEmpty(str)).ToArray();
             if (names.Length == 0)
             {
                 return string.Empty;
@@ -270,7 +280,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 一旦有由小写字母、数字、'-'组成的name则视为关卡名直接使用
             var directName = names.FirstOrDefault(name => name.ToLower().All(c => (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-'));
-            if (!directName.IsNullOrEmpty())
+            if (!string.IsNullOrEmpty(directName))
             {
                 return directName;
             }
@@ -468,7 +478,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Dictionary<string, string> taskPairs = new Dictionary<string, string>();
+            Dictionary<string, string> taskPairs = new();
             foreach (var file in dialog.FileNames)
             {
                 var fileInfo = new FileInfo(file);
@@ -490,10 +500,10 @@ namespace MaaWpfGui.ViewModels.UI
                         return;
                     }
 
-                    var fileName = fileInfo.Name.Substring(0, fileInfo.Name.Length - fileInfo.Extension.Length).Replace("突袭", "-Adverse");
+                    var fileName = fileInfo.Name[..^fileInfo.Extension.Length];
                     var stageName = FindStageName(fileName);
 
-                    if (stageName.IsNullOrEmpty())
+                    if (string.IsNullOrEmpty(stageName))
                     {
                         AddLog($"invalid name to navigate: {fileName}[{fileInfo.FullName}]", UiLogColor.Error);
                         return;
@@ -526,7 +536,9 @@ namespace MaaWpfGui.ViewModels.UI
                     File.Copy(taskPair.Value, jsonPath, true);
                 }
 
-                var item = new CopilotItemViewModel(taskPair.Key, jsonPath)
+                var navigateName = taskPair.Key;
+                var isRaid = navigateName.EndsWith("(Raid)");
+                var item = new CopilotItemViewModel(taskPair.Key.Replace("(Raid)", string.Empty), jsonPath, isRaid)
                 {
                     Index = CopilotItemViewModels.Count,
                 };
@@ -589,7 +601,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedParameter.Global
         public void OnDropDownOpened(object sender, EventArgs e)
         {
-            if (!(sender is ComboBox comboBox))
+            if (sender is not ComboBox comboBox)
             {
                 return;
             }
@@ -705,10 +717,10 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask()
         {
-            var stageName = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
-            if (!stageName.IsNullOrEmpty())
+            var stageName = CopilotTaskName.Trim();
+            if (!string.IsNullOrEmpty(stageName))
             {
-                AddCopilotTaskToList(stageName);
+                AddCopilotTaskToList(stageName, false);
             }
         }
 
@@ -716,21 +728,16 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void AddCopilotTask_Adverse()
         {
-            var stageName = CopilotTaskName.Trim().Replace("突袭", "-Adverse");
-            if (!stageName.EndsWith("-Adverse"))
+            var stageName = CopilotTaskName.Trim();
+            if (!string.IsNullOrEmpty(stageName))
             {
-                stageName += "-Adverse";
-            }
-
-            if (!stageName.IsNullOrEmpty())
-            {
-                AddCopilotTaskToList(stageName);
+                AddCopilotTaskToList(stageName, true);
             }
         }
 
-        private void AddCopilotTaskToList(string stageName)
+        private void AddCopilotTaskToList(string stageName, bool isRaid)
         {
-            var jsonPath = $"{CopilotJsonDir}/{stageName}.json";
+            var cachePath = $"{CopilotJsonDir}/{stageName}" + (isRaid ? "(Raid)" : string.Empty) + ".json";
 
             try
             {
@@ -743,13 +750,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             try
             {
-                if (jsonPath != (IsDataFromWeb ? TempCopilotFile : Filename))
+                if (cachePath != (IsDataFromWeb ? TempCopilotFile : Filename))
                 {
                     // 相同路径跳拷贝
-                    File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, jsonPath, true);
+                    File.Copy(IsDataFromWeb ? TempCopilotFile : Filename, cachePath, true);
                 }
 
-                var item = new CopilotItemViewModel(stageName, jsonPath)
+                var item = new CopilotItemViewModel(stageName, cachePath, isRaid)
                 {
                     Index = CopilotItemViewModels.Count,
                 };
@@ -776,6 +783,7 @@ namespace MaaWpfGui.ViewModels.UI
                 ["name"] = item.Name,
                 ["file_path"] = item.FilePath,
                 ["copilot_id"] = item.CopilotId,
+                ["is_raid"] = item.IsRaid,
                 ["is_checked"] = item.IsChecked,
             }).ToList());
             ConfigurationHelper.SetValue(ConfigurationKeys.CopilotTaskList, JsonConvert.SerializeObject(jArray));
@@ -920,17 +928,13 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(errMsg, UiLogColor.Error);
             }
 
-            JArray mUserAdditional = new JArray();
-            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))? *", RegexOptions.Compiled);
-            MatchCollection matches = regex.Matches(";" + UserAdditional.Replace("，", ",").Replace("；", ";"));
-            foreach (Match match in matches)
+            UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
+            Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
+            JArray mUserAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
             {
-                mUserAdditional.Add(new JObject
-                {
-                    ["name"] = match.Groups[1].Value.Trim(),
-                    ["skill"] = match.Groups[2].Value.IsNullOrEmpty() ? 0 : int.Parse(match.Groups[2].Value),
-                });
-            }
+                ["name"] = match.Groups[1].Value.Trim(),
+                ["skill"] = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
+            }));
 
             bool ret = true;
             if (UseCopilotList)
@@ -940,7 +944,7 @@ namespace MaaWpfGui.ViewModels.UI
                 foreach (var model in CopilotItemViewModels.Where(i => i.IsChecked))
                 {
                     _copilotIdList.Add(model.CopilotId);
-                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name.Replace("-Adverse", string.Empty), model.Name.Contains("-Adverse"), _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
+                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name, model.IsRaid, _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
                     startAny = true;
                 }
 
@@ -997,7 +1001,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool _isVideoTask;
 
-        private readonly List<int> _recentlyRatedCopilotId = new List<int>(); // TODO: 可能考虑加个持久化
+        private readonly List<int> _recentlyRatedCopilotId = new(); // TODO: 可能考虑加个持久化
 
         private bool _couldLikeWebJson;
 
@@ -1125,7 +1129,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedParameter.Global
         public void MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!(sender is UIElement element))
+            if (sender is not UIElement element)
             {
                 return;
             }
@@ -1148,7 +1152,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!(sender is UIElement element))
+            if (sender is not UIElement element)
             {
                 return;
             }

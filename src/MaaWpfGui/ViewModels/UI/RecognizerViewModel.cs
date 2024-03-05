@@ -866,12 +866,12 @@ namespace MaaWpfGui.ViewModels.UI
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("GachaWarning"),
                 LocalizationHelper.GetString("Warning"),
-                MessageBoxButton.OKCancel,
+                MessageBoxButton.YesNo,
                 MessageBoxImage.Warning,
-                ok: LocalizationHelper.GetString("Confirm"),
-                cancel: LocalizationHelper.GetString("Cancel"),
+                no: LocalizationHelper.GetString("Confirm"),
+                yes: LocalizationHelper.GetString("Cancel"),
                 iconBrushKey: "DangerBrush");
-            if (result == MessageBoxResult.Cancel)
+            if (result != MessageBoxResult.No)
             {
                 return;
             }

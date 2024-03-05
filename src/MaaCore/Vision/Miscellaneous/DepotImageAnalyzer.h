@@ -24,15 +24,18 @@ namespace asst
         void set_match_begin_pos(size_t pos) noexcept;
         size_t get_match_begin_pos() const noexcept;
         const auto& get_result() const noexcept { return m_result; }
+        cv::Mat get_index_roi() const noexcept { return m_index_roi; }
+        void set_index_roi(cv::Mat last_roi) noexcept;
 
     private:
         void resize();
         bool analyze_base_rect();
         bool analyze_all_items();
-
+        cv::Mat m_index_roi;
         bool check_roi_empty(const Rect& roi);
         size_t match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index = 0ULL,
                           bool with_enlarge = true);
+        bool search_item(const Rect& roi);
         int match_quantity(const ItemInfo& item);
         Rect resize_rect_to_raw_size(const Rect& rect);
 
@@ -48,4 +51,4 @@ namespace asst
         std::vector<Rect> m_all_items_roi;
         std::unordered_map<std::string, ItemInfo> m_result;
     };
-}
+} // namespace asst
