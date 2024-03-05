@@ -324,7 +324,7 @@ namespace MaaWpfGui.Main
             string jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
 
             // Console.WriteLine(json_str);
-            JObject json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
             MaaService.ProcCallbackMsg dlg = ProcMsg;
             Execute.OnUIThread(() =>
             {
@@ -385,7 +385,7 @@ namespace MaaWpfGui.Main
 
         private void ProcConnectInfo(JObject details)
         {
-            var what = details["what"].ToString();
+            var what = details["what"]?.ToString() ?? string.Empty;
             switch (what)
             {
                 case "Connected":
@@ -519,8 +519,7 @@ namespace MaaWpfGui.Main
 
         private void ProcTaskChainMsg(AsstMsg msg, JObject details)
         {
-            string taskChain = details["taskchain"].ToString();
-
+            string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
             switch (taskChain)
             {
                 case "CloseDown":
@@ -813,8 +812,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcSubTaskError(JObject details)
         {
-            string subTask = details["subtask"].ToString();
-
+            string subTask = details["subtask"]?.ToString() ?? string.Empty;
             switch (subTask)
             {
                 case "StartGameTask":
@@ -860,8 +858,7 @@ namespace MaaWpfGui.Main
 
         private void ProcSubTaskStart(JObject details)
         {
-            string subTask = details["subtask"].ToString();
-
+            string subTask = details["subtask"]?.ToString() ?? string.Empty;
             switch (subTask)
             {
                 case "ProcessTask":
@@ -1018,8 +1015,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcSubTaskExtraInfo(JObject details)
         {
-            string taskChain = details["taskchain"].ToString();
-
+            string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
             switch (taskChain)
             {
                 case "Recruit":
@@ -1043,14 +1039,13 @@ namespace MaaWpfGui.Main
                     break;
             }
 
-            string what = details["what"].ToString();
-
+            string what = details["what"]?.ToString() ?? string.Empty;
             switch (what)
             {
                 case "StageDrops":
                     {
                         string allDrops = string.Empty;
-                        var statistics = (JArray)subTaskDetails["stats"] ?? new();
+                        var statistics = subTaskDetails["stats"] ?? new JArray();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
 
                         foreach (var item in statistics)
@@ -1097,7 +1092,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsDetected":
                     {
-                        var tags = (JArray)subTaskDetails["tags"] ?? new();
+                        var tags = subTaskDetails["tags"] ?? new JArray();
                         string logContent = tags.Select(tagName => tagName.ToString())
                             .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
@@ -1165,7 +1160,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsSelected":
                     {
-                        var selected = (JArray)subTaskDetails["tags"] ?? new();
+                        var selected = subTaskDetails["tags"] ?? new JArray();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
                         selectedLog = selectedLog.EndsWith('\n') ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
@@ -1363,8 +1358,8 @@ namespace MaaWpfGui.Main
 
                     int sanityCur = sanityReport.TryGetValue("current_sanity", out var sanityCurToken) ? (int)sanityCurToken : -1;
                     int sanityMax = sanityReport.TryGetValue("max_sanity", out var sanityMaxToken) ? (int)sanityMaxToken : -1;
-                    var reportTime = sanityReport.TryGetValue("report_time", out var reportTimeToken) ? (string)reportTimeToken : string.Empty;
-                    if (sanityCur < 0 || sanityMax < 1 || reportTime?.Length < 12)
+                    var reportTime = sanityReport.TryGetValue("report_time", out var reportTimeToken) ? (string)reportTimeToken! : string.Empty;
+                    if (sanityCur < 0 || sanityMax < 1 || reportTime.Length < 12)
                     {
                         break;
                     }
@@ -1436,8 +1431,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcVideoRecMsg(JObject details)
         {
-            string what = details["what"].ToString();
-
+            string what = details["what"]?.ToString() ?? string.Empty;
             switch (what)
             {
                 case "Finished":
