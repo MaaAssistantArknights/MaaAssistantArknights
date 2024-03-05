@@ -1331,7 +1331,6 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditFightSelectFormation,
-                Instances.SettingsViewModel.CreditVisitFriends,
                 Instances.SettingsViewModel.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
