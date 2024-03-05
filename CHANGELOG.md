@@ -37,7 +37,7 @@
 - 修复肉鸽切换模式时，投资可能在禁用的情况下显示已启用 @status102
 - 肉鸽闪退 @ABA2396
 - 基建无法选中干员(fix oper rect in InfrastOperImageAnalyzer) @horror-proton
-- update template DepotEnterMistCity @horror-proton
+- 修复迷城主题无法进入仓库进行识别(update template DepotEnterMistCity) @horror-proton
 - 修复未识别到幸运墙时报错的问题 @SherkeyXD
 - 修复部分角色冷却识别错误 (#8366) @status102
 - 战斗列表突袭标志点击后暂时不可见 @status102
@@ -48,7 +48,6 @@
 
 ### 其他 | Other
 
-- 移除肉鸽投资相关的无用代码 @status102
 - update yituliu report url @horror-proton
 - 更新&重构文档 (#8316) @Rbqwow
 - asst.log中的输出使用相对路径取代绝对路径 (#8385) @status102
