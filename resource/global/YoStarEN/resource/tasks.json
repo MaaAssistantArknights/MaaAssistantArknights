@@ -1776,6 +1776,10 @@
                 "Greyy the Lightningbearer"
             ],
             [
+                "Greyy the Lightningbe.*",
+                "Greyy the Lightningbearer"
+            ],
+            [
                 "Greyy the Lightningbearer",
                 "承曦格雷伊"
             ],
