@@ -48,11 +48,15 @@
 
 ### 其他 | Other
 
-- update yituliu report url @horror-proton
 - 更新&重构文档 (#8316) @Rbqwow
 - asst.log中的输出使用相对路径取代绝对路径 (#8385) @status102
 - 移除自动战斗设置参数时不必要的警告输出 @status102
 - 支持肉鸽事件choice_require解析 (#7904) @SherkeyXD @zzyyyl @horror-proton @ABA2396 @status102
+- 删除continue @ABA2396
+- 增加连接配置项 CompatPOSIXShellWithoutScreencapErr (#8359) @aur3l14no
+- 修正发版时触发的文档部署workflow @SherkeyXD
+- removed reclamation from module others @Constrat
+- update yituliu report url @horror-proton
 - DV navigation https://github.com/MaaAssistantArknights/MaaRelease/commit/d65fd353410272af2e478272dfa675b87eb9673c @Constrat
 - update glossary (#8437) @Manicsteiner
 - updated Friends Terminal templates for EN after 27-02-2024 update [skip ci] @Constrat
@@ -61,14 +65,10 @@
 - build error from meojson updates @MistEO
 - wrong std::move of meojson @MistEO
 - Update operators.md @wallsman
-- 删除continue @ABA2396
-- 增加连接配置项 CompatPOSIXShellWithoutScreencapErr (#8359) @aur3l14no
-- removed reclamation from module others @Constrat
-- 修正发版时触发的文档部署workflow @SherkeyXD
 
 ### For Overseas
 
-- update ocr replace for 亚梅塔 and 「弦驚] @horror-proton
+- update ocr replace for 亚梅塔 and 「弦驚」 @horror-proton
 - updated YostarEN infrast templates fix #8439 @Constrat
 - Update ko-kr.xaml @178619
 - YoStarJP task for 翠玉の夢 and sami rogue (#8475) @Manicsteiner
