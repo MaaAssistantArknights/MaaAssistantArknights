@@ -111,7 +111,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         check_in_battle(image);
         return false;
     }
-    auto old_deployment_opers = std::move(m_cur_deployment_opers);
+    const auto old_deployment_opers = std::move(m_cur_deployment_opers);
     m_cur_deployment_opers = std::vector<battle::DeploymentOper>();
     m_cur_deployment_opers.reserve(oper_result_opt->deployment.size());
 
@@ -193,7 +193,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         }
     }
 
-    if (!unknown_opers.empty() || init) {
+    if (ranges::count_if(unknown_opers, [](const DeploymentOper& it) { return !it.cooling; }) > 0 || init) {
         // 一个都没匹配上的，挨个点开来看一下
         LogTraceScope("rec unknown opers");
 
@@ -369,6 +369,14 @@ bool asst::BattleHelper::deploy_oper(const std::string& name, const Point& loc, 
         Log.info("remove previous oper", pre_name, loc);
         m_used_tiles.erase(loc);
         m_battlefield_opers.erase(pre_name);
+    }
+
+    // 肉鸽中，一个干员可能被部署多次
+    if (m_battlefield_opers.contains(name) && BattleData.get_role(name) != battle::Role::Drone) {
+        Point pre_loc = m_battlefield_opers.at(name);
+        Log.info("remove deploy failed oper", name, pre_loc);
+        m_battlefield_opers.erase(name);
+        m_used_tiles.erase(pre_loc);
     }
 
     m_used_tiles.emplace(loc, name);

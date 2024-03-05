@@ -56,6 +56,10 @@ D32钢|D32 Steel|D32鋼|D32강
 转质盐组|Transmuted Salt|転化塩|합성 소금 번들
 转质盐聚块|Transmuted Salt Agglomerate|上級転化塩|합성 소금 팩
 烧结核凝晶|Nucleic Crystal Sinter|焼結核凝晶|핵결정체 소결물
+环烃聚质|||
+褐素纤维|||
+环烃预制体|||
+固化纤维板|||
 
 中文|English|日本語|한국어
 ---|---|---|---
@@ -111,7 +115,7 @@ D32钢|D32 Steel|D32鋼|D32강
 PRTS剿灭代理卡|PRTS Proxy Annihilation Card|PRTS殲滅代理カード|PRTS 섬멸 작전 대리권
 合约赏金|Contract Bounty|契約賞金|협약 상금
 行动协议|Operation Agreement|協約の証|작전 협의
-晶化源石|||
+晶化源石|Crystalized Originium|結晶化源石|결정화 오리지늄
 晶体合约赏金|||
 
 中文|English|日本語|한국어
@@ -153,12 +157,26 @@ PRTS剿灭代理卡|PRTS Proxy Annihilation Card|PRTS殲滅代理カード|PRTS 
 
 中文|English|日本語|한국어
 ---|---|---|---
+目标生命|Life Point|耐久値|목표 HP
+源石锭|Originium Ingot|源石錐|오리지늄각뿔
+希望|Hope|希望|희망
+可携带干员数|Squad Size Limit|編成上限|편성 가능 인원수
+指挥经验|Command EXP|指揮経験値|지휘 경험치
+生命上限|Max Life Point|最大耐久値|최대 목표 HP
+钥匙|Key|鍵|열쇠
+灯火|Light|灯火|등불
+投掷次数|Die Rolls|ロール回数|주사위
+护盾|Objective Shield|シールド値|실드
+抗干扰指数|Anti-Interference Index|耐干渉指数|간섭 방지 지수
+坍缩值|Collapse Value|崩壊値|붕괴 수치
+坍缩净化|Collapse Purification|崩壊浄化|붕괴 정화
+坍缩等级|Collapse Level|崩壊レベル|붕괴 레벨
 蜡烛|Candle|キャンドル|양초
 昏暗的灵感|Caliginous Insights|昏きセンス|어두운 영감
 生机细胞|Living Cells|有機細胞|생체 세포
 主观想象|Subjective Imagination|主観的構想|주관적 상상
-生态标本|||
-理性视阈|||
+生态标本|Ecological Specimens|生態標本|생태 표본
+理性视阈|Lucid Acuity|理性的視野|이성 시야
 
 中文|English|日本語|한국어
 ---|---|---|---

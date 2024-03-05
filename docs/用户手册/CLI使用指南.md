@@ -86,8 +86,6 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 更多信息可以通过 `maa help` 获取。
 
-## 使用
-
 ### 运行任务
 
 `maa-cli` 的主要功能是运行任务，包括预定义的任务和自定义的任务。

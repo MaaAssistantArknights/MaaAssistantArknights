@@ -8738,6 +8738,78 @@
         "stageId": "act3bossrush_tm04",
         "width": 31
     },
+    "act4bossrush_01-activities/act4bossrush/level_bossrush4_01": {
+        "code": "TN-1",
+        "filename": "act4bossrush_01-activities-act4bossrush-level_bossrush4_01.json",
+        "height": 8,
+        "levelId": "activities/act4bossrush/level_bossrush4_01",
+        "name": "冰霜与战火",
+        "stageId": "act4bossrush_01",
+        "width": 17
+    },
+    "act4bossrush_02-activities/act4bossrush/level_bossrush4_02": {
+        "code": "TN-2",
+        "filename": "act4bossrush_02-activities-act4bossrush-level_bossrush4_02.json",
+        "height": 8,
+        "levelId": "activities/act4bossrush/level_bossrush4_02",
+        "name": "无关音律",
+        "stageId": "act4bossrush_02",
+        "width": 21
+    },
+    "act4bossrush_03-activities/act4bossrush/level_bossrush4_03": {
+        "code": "TN-3",
+        "filename": "act4bossrush_03-activities-act4bossrush-level_bossrush4_03.json",
+        "height": 8,
+        "levelId": "activities/act4bossrush/level_bossrush4_03",
+        "name": "延烧的深池",
+        "stageId": "act4bossrush_03",
+        "width": 20
+    },
+    "act4bossrush_04-activities/act4bossrush/level_bossrush4_04": {
+        "code": "TN-4",
+        "filename": "act4bossrush_04-activities-act4bossrush-level_bossrush4_04.json",
+        "height": 10,
+        "levelId": "activities/act4bossrush/level_bossrush4_04",
+        "name": "辞旧岁",
+        "stageId": "act4bossrush_04",
+        "width": 28
+    },
+    "act4bossrush_tm01-activities/act4bossrush/level_bossrush4_01": {
+        "code": "TN-1",
+        "filename": "act4bossrush_tm01-activities-act4bossrush-level_bossrush4_01.json",
+        "height": 8,
+        "levelId": "activities/act4bossrush/level_bossrush4_01",
+        "name": "冰霜与战火",
+        "stageId": "act4bossrush_tm01",
+        "width": 17
+    },
+    "act4bossrush_tm02-activities/act4bossrush/level_bossrush4_02": {
+        "code": "TN-2",
+        "filename": "act4bossrush_tm02-activities-act4bossrush-level_bossrush4_02.json",
+        "height": 8,
+        "levelId": "activities/act4bossrush/level_bossrush4_02",
+        "name": "无关音律",
+        "stageId": "act4bossrush_tm02",
+        "width": 21
+    },
+    "act4bossrush_tm03-activities/act4bossrush/level_bossrush4_03": {
+        "code": "TN-3",
+        "filename": "act4bossrush_tm03-activities-act4bossrush-level_bossrush4_03.json",
+        "height": 8,
+        "levelId": "activities/act4bossrush/level_bossrush4_03",
+        "name": "延烧的深池",
+        "stageId": "act4bossrush_tm03",
+        "width": 20
+    },
+    "act4bossrush_tm04-activities/act4bossrush/level_bossrush4_04": {
+        "code": "TN-4",
+        "filename": "act4bossrush_tm04-activities-act4bossrush-level_bossrush4_04.json",
+        "height": 10,
+        "levelId": "activities/act4bossrush/level_bossrush4_04",
+        "name": "辞旧岁",
+        "stageId": "act4bossrush_tm04",
+        "width": 28
+    },
     "act5d0_01-activities/act5d0/level_act5d0_01": {
         "code": "CB-1",
         "filename": "act5d0_01-activities-act5d0-level_act5d0_01.json",
@@ -9366,6 +9438,15 @@
         "levelId": "obt/campaign/level_camp_r_20",
         "name": "千嶂边城",
         "stageId": "camp_r_20",
+        "width": 13
+    },
+    "camp_r_21-obt/campaign/level_camp_r_21": {
+        "code": "汐斯塔",
+        "filename": "camp_r_21-obt-campaign-level_camp_r_21.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_21",
+        "name": "新旅店大道",
+        "stageId": "camp_r_21",
         "width": 13
     },
     "easy_09-01-obt/main/level_easy_09-01": {

@@ -406,7 +406,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "Reconnecting":
-                    Instances.TaskQueueViewModel.AddLog($"{LocalizationHelper.GetString("TryToReconnect")}({Convert.ToUInt32(details["details"]["times"]) + 1})", UiLogColor.Error);
+                    Instances.TaskQueueViewModel.AddLog($"{LocalizationHelper.GetString("TryToReconnect")} ({Convert.ToUInt32(details["details"]["times"]) + 1})", UiLogColor.Error);
                     break;
 
                 case "Reconnected":
@@ -833,8 +833,9 @@ namespace MaaWpfGui.Main
                         var why = details.TryGetValue("why", out var whyObj) ? whyObj.ToString() : string.Empty;
                         if (why == "OperatorMissing")
                         {
-                            var missingOpers = details["details"]["opers"].ToObject<List<string>>();
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + string.Join(", ", missingOpers), UiLogColor.Error);
+                            var missingOpers = details["details"]["opers"].ToObject<List<List<string>>>();
+                            var missingOpersStr = "[" + string.Join("]; [", missingOpers.Select(opers => string.Join(", ", opers))) + "]";
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + missingOpersStr, UiLogColor.Error);
                         }
 
                         break;
@@ -1057,7 +1058,7 @@ namespace MaaWpfGui.Main
                             allDrops += "\n";
                         }
 
-                        allDrops = allDrops.EndsWith("\n") ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
+                        allDrops = allDrops.EndsWith('\n') ? allDrops.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TotalDrop") + "\n" + allDrops +
                             (curTimes >= 0 ? $"\n{LocalizationHelper.GetString("CurTimes")} : {curTimes}" : string.Empty));
                         break;
@@ -1085,7 +1086,7 @@ namespace MaaWpfGui.Main
                         string logContent = tags.Select(tagName => tagName.ToString())
                             .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
-                        logContent = logContent.EndsWith("\n") ? logContent.TrimEnd('\n') : LocalizationHelper.GetString("Error");
+                        logContent = logContent.EndsWith('\n') ? logContent.TrimEnd('\n') : LocalizationHelper.GetString("Error");
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RecruitingResults") + "\n" + logContent);
 
                         break;
@@ -1152,7 +1153,7 @@ namespace MaaWpfGui.Main
                         var selected = (JArray)subTaskDetails["tags"] ?? new();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
-                        selectedLog = selectedLog.EndsWith("\n") ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
+                        selectedLog = selectedLog.EndsWith('\n') ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
 
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("Choose") + " Tags：\n" + selectedLog);
 
@@ -1186,7 +1187,6 @@ namespace MaaWpfGui.Main
                 case "RoguelikeInvestment":
                     Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeInvestment"), subTaskDetails["count"], subTaskDetails["total"], subTaskDetails["deposit"]), UiLogColor.Info);
                     break;
-
 
                 case "RoguelikeSettlement":
                     // 肉鸽结算
@@ -1278,7 +1278,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "UnsupportedLevel":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel"), UiLogColor.Error);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails["level"], UiLogColor.Error);
                     break;
 
                 case "CustomInfrastRoomGroupsMatch":
@@ -1319,8 +1319,8 @@ namespace MaaWpfGui.Main
 
                 case "InfrastTrainingTimeLeft":
                     Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
-                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + "\n" + LocalizationHelper.GetString("TimeLeft") + ": " +
-                        $"{(int)subTaskDetails["hh"]}" + "h " + $"{(int)subTaskDetails["mm"]}" + "m " + $"{(int)subTaskDetails["ss"]}" + "s");
+                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + "\n" +
+                        string.Format(LocalizationHelper.GetString("TrainingTimeLeft") + ": {0:}:{1:}:{2:}", subTaskDetails["hh"], subTaskDetails["mm"], subTaskDetails["ss"]));
                     break;
 
                 /* 生息演算 */
@@ -1456,7 +1456,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否有效。</returns>
         private static bool IfPortEstablished(string address)
         {
-            if (string.IsNullOrEmpty(address) || !address.Contains(":"))
+            if (string.IsNullOrEmpty(address) || !address.Contains(':'))
             {
                 return false;
             }
@@ -1515,7 +1515,7 @@ namespace MaaWpfGui.Main
                 // tcp连接测试端口是否有效，超时时间500ms
                 // 如果是本地设备，没有冒号
                 bool adbResult =
-                    (!Instances.SettingsViewModel.ConnectAddress.Contains(":") &&
+                    (!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
                     !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
@@ -2029,28 +2029,29 @@ namespace MaaWpfGui.Main
         /// <param name="coreChar"><paramref name="coreChar"/> TODO.</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
         /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
+        /// <param name="roguelike3NewSquad2StartingFoldartal">是否在萨米肉鸽生活队凹开局板子</param>
+        /// <param name="roguelike3NewSquad2StartingFoldartals">需要凹的板子，用;连接的字符串</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
-        /// <param name="theme">肉鸽名字。["Phantom", "Mizuki", "Sami"]</param>
+        /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentEnterSecondFloor, int invests, bool stopWhenFull,
-            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
+            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool roguelike3NewSquad2StartingFoldartal, string roguelike3NewSquad2StartingFoldartals, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
         {
             var taskParams = new JObject
             {
                 ["mode"] = mode,
                 ["starts_count"] = starts,
-                ["investment_enabled"] = investmentEnabled,
-                ["investment_enter_second_floor"] = investmentEnterSecondFloor,
-                ["investments_count"] = invests,
-                ["stop_when_investment_full"] = stopWhenFull,
                 ["theme"] = theme,
             };
 
-            if (mode == 1)
+            if (mode == 1 || investmentEnabled)
             {
                 taskParams["investment_enabled"] = true;
+                taskParams["investment_enter_second_floor"] = investmentEnterSecondFloor;
+                taskParams["investments_count"] = invests;
+                taskParams["stop_when_investment_full"] = stopWhenFull;
             }
 
             if (squad.Length > 0)
@@ -2070,6 +2071,11 @@ namespace MaaWpfGui.Main
 
             taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
             taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
+            if (mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
+            {
+                taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3));
+            }
+
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
@@ -2214,7 +2220,6 @@ namespace MaaWpfGui.Main
                 ["filename"] = filename,
                 ["formation"] = formation,
                 ["add_trust"] = addTrust,
-                ["add_user_additional"] = addUserAdditional,
                 ["need_navigate"] = needNavigate,
                 ["is_raid"] = isRaid,
                 ["loop_times"] = loopTimes,

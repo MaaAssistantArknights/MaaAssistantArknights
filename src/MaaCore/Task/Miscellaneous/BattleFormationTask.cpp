@@ -64,11 +64,20 @@ bool asst::BattleFormationTask::_run()
         return false;
     }
 
+    auto missing_operators = std::vector<OperGroup>();
+
     for (auto& [role, oper_groups] : m_formation) {
-        if (!add_formation(role, oper_groups)) {
-            report_missing_operators(oper_groups);
-            return false;
+        add_formation(role, oper_groups, missing_operators);
+    }
+    
+    if (!missing_operators.empty()) {
+        if (missing_operators.size()==1) {
+            // TODO: 自动借助战？
         }
+        
+        report_missing_operators(missing_operators);
+
+        return false;
     }
 
     if (m_add_user_additional) {
@@ -87,7 +96,7 @@ bool asst::BattleFormationTask::_run()
             ++m_size_of_operators_in_formation;
         }
         m_size_of_operators_in_formation -= (int)m_user_formation.size();
-        add_formation(battle::Role::Unknown, m_user_formation);
+        add_formation(battle::Role::Unknown, m_user_formation, missing_operators);
     }
 
     add_additional();
@@ -106,14 +115,14 @@ bool asst::BattleFormationTask::_run()
     return true;
 }
 
-bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group)
+bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing)
 {
     LogTraceFunction;
 
     click_role_table(role);
     bool has_error = false;
     int swipe_times = 0;
-    int error_times = 0;
+    int overall_swipe_times = 0; // 完整从左到右滑动的次数
     while (!need_exit()) {
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
@@ -133,12 +142,12 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
             has_error = false;
         }
         else {
-            if (error_times == m_missing_retry_times + 1) {
-                // return and notify the user
-                return false;
+            if (overall_swipe_times == m_missing_retry_times) {
+                 missing.insert(missing.end(), oper_group.begin(), oper_group.end());
+                return true;
             }
 
-            ++error_times;
+            ++overall_swipe_times;
 
             has_error = true;
             swipe_to_the_left(swipe_times);
@@ -254,11 +263,13 @@ void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>&
 {
     auto info = basic_info();
 
-    std::vector<std::string> oper_names;
+    std::vector<std::vector<std::string>> oper_names;
     for (auto& group : groups) {
+        std::vector<std::string> names;
         for (auto& oper : group) {
-            oper_names.push_back(oper.name);
+            names.push_back(oper.name);
         }
+        oper_names.push_back(names);
     }
 
     info["why"] = "OperatorMissing";
@@ -434,7 +445,7 @@ bool asst::BattleFormationTask::parse_formation()
         if (opers_vec.empty()) {
             continue;
         }
-        formation.array_emplace(name);
+        formation.emplace(name);
 
         // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
