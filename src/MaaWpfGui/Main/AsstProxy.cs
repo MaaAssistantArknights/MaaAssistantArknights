@@ -460,18 +460,22 @@ namespace MaaWpfGui.Main
 
                         StringBuilder fastestScreencapStringBuilder = new();
                         string color = UiLogColor.Trace;
-                        if (!int.TryParse(costString, out var timeCost))
+                        if (int.TryParse(costString, out var timeCost))
+                        {
+                            switch (timeCost)
+                            {
+                                case > 800:
+                                    color = UiLogColor.Error;
+                                    costString = timeCost.ToString("#,#");
+                                    break;
+                                case > 400:
+                                    color = UiLogColor.Warning;
+                                    break;
+                            }
+                        }
+                        else
                         {
                             color = UiLogColor.Error;
-                        }
-                        else if (timeCost > 800)
-                        {
-                            color = UiLogColor.Error;
-                            costString = timeCost.ToString("#,#");
-                        }
-                        else if (timeCost > 400)
-                        {
-                            color = UiLogColor.Warning;
                         }
 
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
@@ -481,21 +485,32 @@ namespace MaaWpfGui.Main
 
                     break;
                 case "ScreencapCost":
-                    Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
-                    if (HasPrintedScreencapWarning || !int.TryParse(details["details"]?["avg"]?.ToString() ?? "???", out var screencapCostAvg))
+                    var screencapCostMin = details["details"]?["min"]?.ToString() ?? "???";
+                    var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
+                    var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
+                    var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
+                    Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
+                    if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
                     {
-                    }
-                    else if (screencapCostAvg >= 800)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
-                        HasPrintedScreencapWarning = true;
-                    }
-                    else if (screencapCostAvg >= 400)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
-                        HasPrintedScreencapWarning = true;
+                        static void AddLog(string message, string color)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(message, color);
+                            Instances.CopilotViewModel.AddLog(message, color);
+                        }
+
+                        switch (screencapCostAvgInt)
+                        {
+                            case >= 800:
+                                AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Error);
+                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Error);
+                                HasPrintedScreencapWarning = true;
+                                break;
+                            case >= 400:
+                                AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
+                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Warning);
+                                HasPrintedScreencapWarning = true;
+                                break;
+                        }
                     }
 
                     break;
