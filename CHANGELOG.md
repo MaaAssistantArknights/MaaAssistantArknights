@@ -34,11 +34,10 @@
 - 修复肉鸽重复部署一个干员后不会开启技能 (#8447) @Lancarus
 - [台服] 自定義基建換班辨認 麒麟R夜刀 失敗 @ABA2396
 - 修复使用干员组切换技能用法失效 (#8410) @status102
-- update yituliu report url @horror-proton
 - 修复引航者试炼S4地图的部分数据错误 @status102
 - 修复肉鸽切换模式时，投资可能在禁用的情况下显示已启用 @status102
 - 肉鸽闪退 @ABA2396
-- fix oper rect in InfrastOperImageAnalyzer @horror-proton
+- 基建无法选中干员(fix oper rect in InfrastOperImageAnalyzer) @horror-proton
 - update template DepotEnterMistCity @horror-proton
 - 修复未识别到幸运墙时报错的问题 @SherkeyXD
 - 修复部分角色冷却识别错误 (#8366) @status102
@@ -50,8 +49,8 @@
 
 ### 其他 | Other
 
+- update yituliu report url @horror-proton
 - 更新&重构文档 (#8316) @Rbqwow
-- fix some info from visual studio @status102
 - asst.log中的输出使用相对路径取代绝对路径 (#8385) @status102
 - 移除自动战斗设置参数时不必要的警告输出 @status102
 - 支持肉鸽事件choice_require解析 (#7904) @SherkeyXD @zzyyyl @horror-proton @ABA2396 @status102
