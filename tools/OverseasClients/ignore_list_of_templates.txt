@@ -142,6 +142,12 @@ Mizuki@Roguelike@DiceConfirm.png
 Mizuki@Roguelike@GamePassSkip1Confirm.png
 Mizuki@Roguelike@GetDropCompleted.png
 Mizuki@Roguelike@InitalDrop.png
+Mizuki@Roguelike@LastReward.png
+Mizuki@Roguelike@LastReward2.png
+Mizuki@Roguelike@LastReward3.png
+Mizuki@Roguelike@LastReward4.png
+Mizuki@Roguelike@LastReward5.png
+Mizuki@Roguelike@LastReward6.png
 Mizuki@Roguelike@LastRewardRand.png
 Mizuki@Roguelike@StageBoons.png
 Mizuki@Roguelike@StageCombatDps.png
@@ -189,6 +195,10 @@ Phantom@Roguelike@CloseCollection.png
 Phantom@Roguelike@CloseEvent.png
 Phantom@Roguelike@GamePassSkip1Confirm.png
 Phantom@Roguelike@InitalDrop.png
+Phantom@Roguelike@LastReward.png
+Phantom@Roguelike@LastReward2.png
+Phantom@Roguelike@LastReward3.png
+Phantom@Roguelike@LastReward4.png
 Phantom@Roguelike@LastRewardRand.png
 Phantom@Roguelike@MissionFailedFlag.png
 Phantom@Roguelike@StageBoons.png
@@ -286,6 +296,10 @@ Sami@Roguelike@GamePassTheEndConfirm.png
 Sami@Roguelike@GetCiphertextBoard.png
 Sami@Roguelike@GetDropCompleted.png
 Sami@Roguelike@InitalDrop.png
+Sami@Roguelike@LastReward.png
+Sami@Roguelike@LastReward2.png
+Sami@Roguelike@LastReward3.png
+Sami@Roguelike@LastReward4.png
 Sami@Roguelike@LastRewardChoose.png
 Sami@Roguelike@LastRewardRand.png
 Sami@Roguelike@StageBoons.png
