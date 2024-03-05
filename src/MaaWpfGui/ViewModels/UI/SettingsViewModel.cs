@@ -2170,6 +2170,21 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "4", Value = "4" },
             ];
 
+        private bool _CreditVisitFriends = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriends, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether visiting is enabled or disabled.
+        /// </summary>
+        public bool CreditVisitFriends
+        {
+            get => _CreditVisitFriends;
+            set
+            {
+                SetAndNotify(ref _CreditVisitFriends, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriends, value.ToString());
+            }
+        }
+
         private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 
         /// <summary>
