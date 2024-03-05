@@ -58,6 +58,8 @@ MAA 的意思是 MAA Assistant Arknights
 - [稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 - [内测版](https://github.com/MaaAssistantArknights/MaaRelease/releases)
 
+- MAA 5.0以上版本支持 Windows 10 1809 以上系统，对于低于该版本的用户请使用[v4.28.8](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)
+
 ## 使用说明
 
 ### 基本说明
