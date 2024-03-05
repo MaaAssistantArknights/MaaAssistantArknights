@@ -3611,14 +3611,6 @@
                 "待宰的兽群"
             ],
             [
-                "Prisoners' Night",
-                "死囚之夜"
-            ],
-            [
-                "Hands of Moss",
-                "苔手"
-            ],
-            [
                 "Unwell",
                 "违和"
             ],
@@ -3635,52 +3627,16 @@
                 "没有尽头的路"
             ],
             [
-                "Beasts Awaiting Slaughter",
-                "待宰的兽群"
-            ],
-            [
                 "Pretense Turned True",
                 "弄假成真"
-            ],
-            [
-                "Altar of Craving",
-                "饥渴祭坛"
-            ],
-            [
-                "Crafty Beasts' Nine-Caves",
-                "狡兽九窟"
-            ],
-            [
-                "Shady Frozen Sea",
-                "冰海疑影"
-            ],
-            [
-                "So Close and Yet So Far",
-                "咫尺天涯"
             ],
             [
                 "Prisoners' Night",
                 "死囚之夜"
             ],
             [
-                "Frost and Sand",
-                "霜与沙"
-            ],
-            [
                 "Terminus of Life",
                 "生灵的终点"
-            ],
-            [
-                "Company Entanglement",
-                "公司纠葛"
-            ],
-            [
-                "Practical Test",
-                "应用测试"
-            ],
-            [
-                "Pretense Turned True",
-                "弄假成真"
             ],
             [
                 "Altar of Craving",
@@ -3697,10 +3653,6 @@
             [
                 "So Close and Yet So Far",
                 "咫尺天涯"
-            ],
-            [
-                "Rational Fracture",
-                "思维折断"
             ],
             [
                 "Low-Altitude Maneuvering",
@@ -3715,22 +3667,6 @@
                 "虫虫别回头"
             ],
             [
-                "Musical Disaster",
-                "乐理之灾"
-            ],
-            [
-                "Stay Away From Strangers",
-                "生人勿近"
-            ],
-            [
-                "Confusing Appearance",
-                "混乱的表象"
-            ],
-            [
-                "Requested Enemies Obtained",
-                "求敌得敌"
-            ],
-            [
                 "March of the Dead",
                 "亡者行军"
             ],
@@ -3739,36 +3675,12 @@
                 "何处无山海"
             ],
             [
-                "Instinct Contamination",
-                "本能污染"
-            ],
-            [
                 "Company Entanglement",
                 "公司纠葛"
             ],
             [
                 "Practical Test",
                 "应用测试"
-            ],
-            [
-                "Collapsals' Afternoon",
-                "坍缩体的午后"
-            ],
-            [
-                "The Big Migration",
-                "大迁徙"
-            ],
-            [
-                "Defense Substituting Offense",
-                "以守代攻"
-            ],
-            [
-                "Noise Disturbance",
-                "杂音干扰"
-            ],
-            [
-                "Restricted Zone",
-                "禁区"
             ],
             [
                 "Luxurious Fleet",
@@ -3823,16 +3735,8 @@
                 "园丁"
             ],
             [
-                "Ghosts of the Resort",
-                "度假村冤魂"
-            ],
-            [
                 "Frost and Sand",
                 "霜与沙"
-            ],
-            [
-                "Terminus of Life",
-                "生灵的终点"
             ],
             [
                 "Halfway on Khaganquest",
@@ -3861,26 +3765,6 @@
             [
                 "Nature's Clause",
                 "自然条款"
-            ],
-            [
-                "Path with No End",
-                "没有尽头的路"
-            ],
-            [
-                "Low-Altitude Maneuvering",
-                "低空机动"
-            ],
-            [
-                "Shadows With Ghosts",
-                "幽影与鬼魅"
-            ],
-            [
-                "Unwell",
-                "违和"
-            ],
-            [
-                "Don't Turn Around, Sluggies",
-                "虫虫别回头"
             ],
             [
                 "Rational Fracture",
@@ -3913,10 +3797,6 @@
             [
                 "Confusing Appearance",
                 "混乱的表象"
-            ],
-            [
-                "March of the Dead",
-                "亡者行军"
             ],
             [
                 "Where be No Mounts and Seas",
@@ -4017,6 +3897,89 @@
             105,
             300,
             31
+        ]
+    },
+    "Sami@Roguelike@NextLevel": {
+        "text": [
+            "Obtain after",
+            "this floor"
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode0": {
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "Brisk *arshlands",
+                "_aggressive"
+            ],
+            [
+                "Placid Forests",
+                "_aggressive"
+            ],
+            [
+                ".*明冻土",
+                "昧明冻土"
+            ],
+            [
+                "昧明冻土",
+                "_pragmatic"
+            ],
+            [
+                "积冰岩骸",
+                "_pragmatic"
+            ],
+            [
+                "无瑕花园",
+                "_default"
+            ],
+            [
+                "远见之构",
+                "_default"
+            ],
+            [
+                "深埋迷境",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "Brisk *arshlands",
+                "_default"
+            ],
+            [
+                "Placid Forests",
+                "_default"
+            ],
+            [
+                "昧明冻土",
+                "_exit"
+            ],
+            [
+                "积冰岩骸",
+                "_exit"
+            ],
+            [
+                "无瑕花园",
+                "_exit"
+            ],
+            [
+                "远见之构",
+                "_exit"
+            ],
+            [
+                "深埋迷境",
+                "_exit"
+            ]
         ]
     },
     "StageDrops-DropType-ExpAndLMB": {
@@ -7427,6 +7390,14 @@
             [
                 "Tulip.*s Commission",
                 "郁金香的委托"
+            ],
+            [
+                "A Dark Room",
+                "昏黑之室"
+            ],
+            [
+                "Ursus",
+                "乌萨斯"
             ]
         ]
     },
