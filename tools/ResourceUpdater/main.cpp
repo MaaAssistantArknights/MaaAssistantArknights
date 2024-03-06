@@ -1004,9 +1004,9 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
         }
 
         opers.emplace(json::object { { "id", id },
-                                           { "name", name },
-                                           { "rarity", info_iter->second.rarity },
-                                           { "tags", json::array(info_iter->second.tags) } });
+                                     { "name", name },
+                                     { "rarity", info_iter->second.rarity },
+                                     { "tags", json::array(info_iter->second.tags) } });
     }
 
     static std::unordered_map</*id*/ int, /*tag*/ std::string> base_tags_name;
@@ -1042,9 +1042,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
 
-    // ALL base_encounter_names ARE COMMENTED AS I FOUND NO WAY TO REMOVE DUPLICATES FROM roguelike_topic_table.json
-    // INTERNAL USE AND TEST ONLY.
-    //static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
+    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
 
     if (base_stage_names.empty() || base_item_names.empty() /*|| base_encounter_names.empty()*/) {
         auto rg_opt = json::open(base_dir / "roguelike_topic_table.json");
@@ -1060,9 +1058,16 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
                 base_item_names.emplace(id, item_obj["name"].as_string());
             }
-            //for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
-            //    base_encounter_names.emplace(id, encounter_obj["title"].as_string());
-            //}
+            for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
+                // very complicated way to reduce dupes. Will probably brake sooner or later.
+                if (id.ends_with("_enter")) {
+                    if (!id.starts_with("scene_ro3_rest")) {
+                        if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
+                            base_encounter_names.emplace(id, encounter_obj["title"].as_string());
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -1088,7 +1093,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
     std::unordered_map</*id*/ std::string, /*name*/ std::string> stage_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> item_names;
-    //std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
+    std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
 
     auto& rg_json = rg_opt.value();
 
@@ -1099,9 +1104,16 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
         for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
             item_names.emplace(id, item_obj["name"].as_string());
         }
-        //for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
-        //    encounter_names.emplace(id, encounter_obj["title"].as_string());
-        //}
+        for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
+            // very complicated way to reduce dupes. Will probably brake sooner or later.
+            if (id.ends_with("_enter")) {
+                if (!id.starts_with("scene_ro3_rest")) {
+                    if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
+                        encounter_names.emplace(id, encounter_obj["title"].as_string());
+                    }
+                }
+            }
+        }
     }
 
     std::unordered_map</*id*/ std::string, /*name*/ std::string> char_names;
@@ -1151,7 +1163,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
     proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
     proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
-    //proc(task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
+    proc(task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format() << std::endl;
