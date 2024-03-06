@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -48,12 +49,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the view models of log items.
         /// </summary>
-        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; }
+        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; } = new();
 
         /// <summary>
         /// Gets or private sets the view models of Copilot items.
         /// </summary>
-        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = new ObservableCollection<CopilotItemViewModel>();
+        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
@@ -61,7 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
         public CopilotViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Copilot");
-            LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(LocalizationHelper.GetString("CopilotTip"));
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
@@ -78,7 +78,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (it is JObject item && item.TryGetValue("file_path", out var pathToken) && File.Exists(pathToken.ToString()))
                 {
                     int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
-                    string name = (string)item["name"];
+                    var name = (string?)item["name"];
                     if (string.IsNullOrEmpty(name))
                     {
                         continue;
@@ -95,14 +95,14 @@ namespace MaaWpfGui.ViewModels.UI
                         isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
                     }
 
-                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid == true, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
+                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid ?? true, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
                 }
             }
 
             CopilotItemIndexChanged();
         }
 
-        private void RunningState_IdleChanged(object sender, bool e)
+        private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
         }
@@ -187,7 +187,7 @@ namespace MaaWpfGui.ViewModels.UI
             MapUrl = MapUiUrl;
             _isVideoTask = false;
 
-            string jsonStr;
+            string? jsonStr;
             if (File.Exists(filename))
             {
                 var fileSize = new FileInfo(filename).Length;
@@ -245,12 +245,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private async Task<string> RequestCopilotServer(int copilotId)
+        private async Task<string?> RequestCopilotServer(int copilotId)
         {
             try
             {
                 var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
-                var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
+                var json = (JObject?)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
                     return json["data"]?["content"]?.ToString();
@@ -298,7 +298,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null)
                 {
                     AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
@@ -312,7 +312,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 AddLog(LocalizationHelper.GetString("CopilotTip"));
 
-                var doc = (JObject)json["doc"];
+                var doc = (JObject?)json["doc"];
                 string title = string.Empty;
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
@@ -498,7 +498,7 @@ namespace MaaWpfGui.ViewModels.UI
                     using var reader = new StreamReader(File.OpenRead(file));
                     var jsonStr = await reader.ReadToEndAsync();
 
-                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                     if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
                         AddLog($"{file} is broken", UiLogColor.Error);
@@ -575,7 +575,7 @@ namespace MaaWpfGui.ViewModels.UI
             DropFile(filename);
         }
 
-        private void DropFile(string filename)
+        private void DropFile(string? filename)
         {
             if (string.IsNullOrEmpty(filename))
             {
