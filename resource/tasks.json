@@ -9602,7 +9602,7 @@
     "DepotSlowlySwipeToTheRight": {
         "baseTask": "SlowlySwipeToTheRight",
         "specificRect": [
-            1100,
+            1150,
             340,
             20,
             20
