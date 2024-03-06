@@ -268,7 +268,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
-        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR)-)?(?:\d{1,2})(\(Raid\))?";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-)?(?:\d{1,2})(\(Raid\))?";
 
         /// <summary>
         /// 为自动战斗列表匹配名字
@@ -317,7 +317,6 @@ namespace MaaWpfGui.ViewModels.UI
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
-
                     CopilotTaskName = FindStageName((IsDataFromWeb ? string.Empty : _filename).Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty, title);
                 }
 
@@ -355,18 +354,7 @@ namespace MaaWpfGui.ViewModels.UI
                             CopilotUrl = MaaUrls.BilibiliVideo + match.Value;
                             break;
                         }
-
-                        if (string.IsNullOrEmpty(CopilotUrl))
-                        {
-                            linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-                            foreach (Match m in linkParser.Matches(details))
-                            {
-                                CopilotUrl = m.Value;
-                                break;
-                            }
-                        }
-                    }
+                    }// 视频链接
                 }
 
                 AddLog(string.Empty, UiLogColor.Message);
@@ -935,7 +923,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
             Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
-            JArray mUserAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
+            JArray userAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
             {
                 ["name"] = match.Groups[1].Value.Trim(),
                 ["skill"] = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
@@ -949,7 +937,7 @@ namespace MaaWpfGui.ViewModels.UI
                 foreach (var model in CopilotItemViewModels.Where(i => i.IsChecked))
                 {
                     _copilotIdList.Add(model.CopilotId);
-                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name, model.IsRaid, _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
+                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, model.Name, model.IsRaid, _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
                     startAny = true;
                 }
 
@@ -965,7 +953,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
+                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
             }
 
             if (ret)
