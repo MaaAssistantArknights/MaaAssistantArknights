@@ -291,32 +291,22 @@
         ]
     },
     "SN-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
         "text": [
-            "愚人號",
-            "活動",
-            "關卡已開放"
-        ],
-        "roi": [
-            0,
-            500,
-            500,
-            150
+            "已開放"
         ]
     },
     "SN-Chapter2": {
-        "preDelay": 2000,
-        "next": [
-            "SN-Chapter2",
-            "ChapterSwipeToTheRight"
+        "text": [
+            "失落旗艦",
+            "失落",
+            "旗艦"
         ]
     },
     "SN-Chapter3": {
-        "preDelay": 2000,
-        "next": [
-            "SN-Chapter3",
-            "ChapterSwipeToTheLeft"
+        "text": [
+            "無名之海",
+            "無名",
+            "之海"
         ]
     },
     "DH-Open": {
@@ -1709,6 +1699,22 @@
     "StartButton1": {
         "text": [
             "開始行動"
+        ],
+        "doc": "因應愚人號復刻的 roi 變化",
+        "roi": [
+            1036,
+            630,
+            208,
+            56
+        ]
+    },
+    "SanityMatch": {
+        "doc": "因應愚人號復刻的 roi 變化",
+        "roi": [
+            1090,
+            20,
+            190,
+            40
         ]
     },
     "PRTS3": {
