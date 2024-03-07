@@ -6882,6 +6882,10 @@
                 "抗干扰指数"
             ],
             [
+                "Survey Equipment.*",
+                "设备维护装置"
+            ],
+            [
                 "Survey Equipment Maintenance Device",
                 "设备维护装置"
             ]
