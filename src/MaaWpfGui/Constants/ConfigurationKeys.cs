@@ -133,6 +133,7 @@ namespace MaaWpfGui.Constants
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
 
+        public const string CreditVisitFriends = "Mall.CreditVisitFriends";
         public const string CreditShopping = "Mall.CreditShopping";
         public const string CreditFirstListNew = "Mall.CreditFirstListNew";
         public const string CreditBlackListNew = "Mall.CreditBlackListNew";
