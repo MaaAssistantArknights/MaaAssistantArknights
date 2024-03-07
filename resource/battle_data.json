@@ -4056,6 +4056,66 @@
             ],
             "rarity": 5
         },
+        "char_4123_ela": {
+            "name": "艾拉",
+            "name_en": "艾拉",
+            "name_jp": "艾拉",
+            "name_kr": "艾拉",
+            "name_tw": "艾拉",
+            "position": "RANGED",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 6
+        },
+        "char_4124_iana": {
+            "name": "双月",
+            "name_en": "双月",
+            "name_jp": "双月",
+            "name_kr": "双月",
+            "name_tw": "双月",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
+        "char_4125_rdoc": {
+            "name": "医生",
+            "name_en": "医生",
+            "name_jp": "医生",
+            "name_kr": "医生",
+            "name_tw": "医生",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 5
+        },
+        "char_4126_fuze": {
+            "name": "导火索",
+            "name_en": "导火索",
+            "name_jp": "导火索",
+            "name_kr": "导火索",
+            "name_tw": "导火索",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_415_flint": {
             "name": "燧石",
             "name_en": "Flint",
@@ -5532,6 +5592,21 @@
             "name_jp": "机动盾牌",
             "name_kr": "机动盾牌",
             "name_tw": "机动盾牌",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10033_ela_grzmot": {
+            "name": "雷鸣地雷",
+            "name_en": "雷鸣地雷",
+            "name_jp": "雷鸣地雷",
+            "name_kr": "雷鸣地雷",
+            "name_tw": "雷鸣地雷",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -7608,6 +7683,81 @@
                 "0-1",
                 "0-1",
                 "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_141_sheltr": {
+            "name": "封阻物",
+            "name_en": "封阻物",
+            "name_jp": "封阻物",
+            "name_kr": "封阻物",
+            "name_tw": "封阻物",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_142_barrel": {
+            "name": "源石爆炸物",
+            "name_en": "源石爆炸物",
+            "name_jp": "源石爆炸物",
+            "name_kr": "源石爆炸物",
+            "name_tw": "源石爆炸物",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_143_rnfcar": {
+            "name": "封阻加固装置",
+            "name_en": "封阻加固装置",
+            "name_jp": "封阻加固装置",
+            "name_kr": "封阻加固装置",
+            "name_tw": "封阻加固装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_144_ads": {
+            "name": "临时掩护装置",
+            "name_en": "临时掩护装置",
+            "name_jp": "临时掩护装置",
+            "name_kr": "临时掩护装置",
+            "name_tw": "临时掩护装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_145_edd": {
+            "name": "诡雷布设装置",
+            "name_en": "诡雷布设装置",
+            "name_jp": "诡雷布设装置",
+            "name_kr": "诡雷布设装置",
+            "name_tw": "诡雷布设装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
             ],
             "rarity": 1
         },
