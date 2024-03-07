@@ -1121,6 +1121,82 @@
             550
         ]
     },
+    "CR-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CR-OpenOcr"
+        ],
+        "next": [
+            "CR-8@SideStoryStage",
+            "CR-8@SwipeToStage"
+        ]
+    },
+    "CR-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CR-OpenOcr"
+        ],
+        "next": [
+            "CR-7@SideStoryStage",
+            "CR-7@SwipeToStage"
+        ]
+    },
+    "CR-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "CR-OpenOcr"
+        ],
+        "next": [
+            "CR-6@SideStoryStage",
+            "CR-6@SwipeToStage"
+        ]
+    },
+    "CR-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "水晶",
+            "行动",
+            "高空",
+            "速降"
+        ],
+        "next": [
+            "CRChapterToCR"
+        ]
+    },
+    "CRChapterToCR": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "展厅",
+            "漫游"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            2,
+            282,
+            198,
+            129
+        ],
+        "next": [
+            "#self",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "CR-8@SideStoryStage": {
+        "text": [
+            "CR-8"
+        ]
+    },
+    "CR-7@SideStoryStage": {
+        "text": [
+            "CR-7"
+        ]
+    },
+    "CR-6@SideStoryStage": {
+        "text": [
+            "CR-6"
+        ]
+    },
     "HS-9": {
         "algorithm": "JustReturn",
         "sub": [
