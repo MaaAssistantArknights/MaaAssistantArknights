@@ -94,7 +94,7 @@ int main([[maybe_unused]] int argc, char** argv)
     };
 
     // ---- METHODS CALLS ----
-
+    
     // Update levels.json from ArknightsGameResource
     std::cout << "------- Update levels.json for Official -------" << std::endl;
     if (!update_levels_json(official_data_dir / "levels.json", resource_dir / "Arknights-Tile-Pos")) {
@@ -204,7 +204,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-
+    
     // Update roguelike replace for overseas from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
         // Temporary, until roguelike_topic_table is added to arknights-toolbox-update
@@ -219,7 +219,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-
+    
     // Update version info from ArknightsGameData
     std::cout << "------- Update version info for Official -------" << std::endl;
     if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
@@ -241,7 +241,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-
+    
     std::cout << "------- All success -------" << std::endl;
     return 0;
 }
@@ -1056,7 +1056,14 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
                 base_stage_names.emplace(id, stage_obj["name"].as_string());
             }
             for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-                base_item_names.emplace(id, item_obj["name"].as_string());
+                // limits only buyable items (most of them, help needed)
+                if (!id.starts_with(rogue_index + "_band_")) {
+                    if (!id.starts_with("node_effect")) {
+                        if (!id.starts_with("rogue_3_feature")) {
+                            base_item_names.emplace(id, item_obj["name"].as_string());
+                        }
+                    }
+                }
             }
             for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
                 // very complicated way to reduce dupes. Will probably brake sooner or later.
