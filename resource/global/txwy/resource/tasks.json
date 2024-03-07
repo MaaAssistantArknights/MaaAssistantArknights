@@ -1697,24 +1697,15 @@
         ]
     },
     "StartButton1": {
+        "doc": "因應愚人號復刻的 roi 變化",
         "text": [
             "開始行動"
         ],
-        "doc": "因應愚人號復刻的 roi 變化",
         "roi": [
             1036,
             630,
             208,
             56
-        ]
-    },
-    "SanityMatch": {
-        "doc": "因應愚人號復刻的 roi 變化",
-        "roi": [
-            1090,
-            20,
-            190,
-            40
         ]
     },
     "PRTS3": {
@@ -1725,6 +1716,15 @@
     "EndOfActionAnnihilation": {
         "text": [
             "行動結束"
+        ]
+    },
+    "SanityMatch": {
+        "doc": "因應愚人號復刻的 roi 變化",
+        "roi": [
+            1090,
+            20,
+            190,
+            40
         ]
     },
     "MedicineExpiringTime": {
