@@ -6909,10 +6909,6 @@
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
             [
-                " ",
-                ""
-            ],
-            [
                 "Camp",
                 "扎营"
             ],
@@ -7429,7 +7425,7 @@
                 "乌萨斯"
             ],
             [
-                "Useless Item",
+                "Useless*Item",
                 "无用之物"
             ],
             [
