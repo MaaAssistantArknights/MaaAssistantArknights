@@ -4850,11 +4850,7 @@
                 "替罪领巾"
             ],
             [
-                "Support Replenishment",
-                "Support Replenishment Station"
-            ],
-            [
-                "Support Replenishment Station",
+                "Support Replenishmen[ Station]*",
                 "支援补给站"
             ],
             [
@@ -5142,11 +5138,7 @@
                 "投币玩具"
             ],
             [
-                "Chivalric Commandments.*",
-                "Chivalric Commandments - New Edition"
-            ],
-            [
-                "Chivalric Commandments - New Edition",
+                "Chivalric Commandments[ \\- New Edition]*",
                 "骑士戒律·新编"
             ],
             [
@@ -5258,11 +5250,7 @@
                 "锈蚀的铁锤"
             ],
             [
-                "Four-Leaf Clover Foss.*",
-                "Four-Leaf Clover Fossil"
-            ],
-            [
-                "Four-Leaf Clover Fossil",
+                "Four-Leaf Clover Fo[ssil]*",
                 "四叶草化石"
             ],
             [
@@ -5474,19 +5462,11 @@
                 "尖叫樱桃"
             ],
             [
-                "Game Room Admin Access.*",
-                "Game Room Admin Access Card"
-            ],
-            [
-                "Game Room Admin Access Card",
+                "Game Room Admin Access[ Card]*",
                 "游戏室管理员权限卡"
             ],
             [
-                "Advanced Guard Recruitment.*",
-                "Advanced Guard Recruitment Voucher"
-            ],
-            [
-                "Advanced Guard Recruitment Voucher",
+                "Advanced Guard Recruitment[ Voucher]*",
                 "精锐近卫招募券"
             ],
             [
@@ -5517,12 +5497,9 @@
                 "'Flames of the Inquisition'",
                 "“审判庭之火”"
             ],
+
             [
-                "Derivative Terminal.*",
-                "Derivative Terminal - Supercharged Mod"
-            ],
-            [
-                "Derivative Terminal - Supercharged Mod",
+                "Derivative Terminal[ \\- Supercharged Mod]*",
                 "衍生者终端-超级改"
             ],
             [
@@ -5554,19 +5531,11 @@
                 "林间夜话"
             ],
             [
-                "Advanced Sniper Recruitment.*",
-                "Advanced Sniper Recruitment Voucher"
-            ],
-            [
-                "Advanced Sniper Recruitment Voucher",
+                "Advanced Sniper Recruitment[ Voucher]*",
                 "精锐狙击招募券"
             ],
             [
-                "Advanced Defender Recruitment.*",
-                "Advanced Defender Recruitment Voucher"
-            ],
-            [
-                "Advanced Defender Recruitment Voucher",
+                "Advanced Defender Recruitment[ Voucher]*",
                 "精锐重装招募券"
             ],
             [
@@ -5610,43 +5579,23 @@
                 "鸭爵金砖"
             ],
             [
-                "Advanced Caster Recruitment.*",
-                "Advanced Caster Recruitment Voucher"
-            ],
-            [
-                "Advanced Caster Recruitment Voucher",
+                "Advanced Caster Recruitment[ Voucher]*",
                 "精锐术师招募券"
             ],
             [
-                "Advanced Medic Recruitment.*",
-                "Advanced Medic Recruitment Voucher"
-            ],
-            [
-                "Advanced Medic Recruitment Voucher",
+                "Advanced Medic Recruitment[ Voucher]*",
                 "精锐医疗招募券"
             ],
             [
-                "Advanced Vanguard Recruitment.*",
-                "Advanced Vanguard Recruitment Voucher"
-            ],
-            [
-                "Advanced Vanguard Recruitment Voucher",
+                "Advanced Vanguard Recruitment[ Voucher]*",
                 "精锐先锋招募券"
             ],
             [
-                "Advanced Specialist Recruitment.*",
-                "Advanced Specialist Recruitment Voucher"
-            ],
-            [
-                "Advanced Specialist Recruitment Voucher",
+                "Advanced Specialist Recruitment[ Voucher]*",
                 "精锐特种招募券"
             ],
             [
-                "Advanced Supporter Recruitment.*",
-                "Advanced Supporter Recruitment Voucher"
-            ],
-            [
-                "Advanced Supporter Recruitment Voucher",
+                "Advanced Supporter Recruitment[ Voucher]*",
                 "精锐辅助招募券"
             ],
             [
@@ -5722,19 +5671,11 @@
                 "铁卫-临时要塞"
             ],
             [
-                "Convalescence Experience.*",
-                "Convalescence Experience Card"
-            ],
-            [
-                "Convalescence Experience Card",
+                "Convalescence Experience[ Card]*",
                 "疗养体验卡"
             ],
             [
-                "Convalescence Prime.*",
-                "Convalescence Prime Membership"
-            ],
-            [
-                "Convalescence Prime Membership",
+                "Convalescence Prime[ Membership]*",
                 "疗养特供卡"
             ],
             [
@@ -5830,11 +5771,7 @@
                 "阿卡胡拉饭碗"
             ],
             [
-                "Three-Dimensional Art.*",
-                "Three-Dimensional Art Display"
-            ],
-            [
-                "Three-Dimensional Art Display",
+                "Three-Dimensional Art[ Display]*",
                 "立体艺术装置"
             ],
             [
@@ -5934,23 +5871,19 @@
                 "漂流秘匣"
             ],
             [
-                "Assault Co-op - Sharp Blade",
+                "Assault Co-op *-* *Sharp Blade",
                 "突击协议-利刃"
             ],
             [
-                "Fortification Co-op - Phalanx",
+                "Fortification Co-op *-* *Phalanx",
                 "堡垒协议-方阵"
             ],
             [
-                "Ranged Co-op - Remote Strike",
+                "Ranged Co-op *-* *Remote Strike",
                 "远程协议-遥击"
             ],
             [
-                "Sabotage Co-op.*",
-                "Sabotage Co-op - Suppression"
-            ],
-            [
-                "Sabotage Co-op - Suppression",
+                "Sabotage Co-op[ \\- Suppression]*",
                 "破坏协议-压制"
             ],
             [
@@ -6650,7 +6583,7 @@
                 "抗干扰指数"
             ],
             [
-                "Survey Equipment Maintenance Device",
+                "Survey Equipment[ Maintenance Device]*",
                 "设备维护装置"
             ]
         ]
