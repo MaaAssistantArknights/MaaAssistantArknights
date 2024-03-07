@@ -7256,7 +7256,7 @@
             "name_en": "Post-Firing Debt Relief Program",
             "name_jp": "解雇者清算プログラム",
             "name_kr": "해고자 채무 탕감 프로그램",
-            "name_tw": "解雇者清债程序",
+            "name_tw": "解雇者清債程式",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7271,7 +7271,7 @@
             "name_en": "Full-Auto Debit Machine",
             "name_jp": "全自動送金機",
             "name_kr": "자동 계좌 이체기",
-            "name_tw": "全自动划账器",
+            "name_tw": "全自動劃帳器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7286,7 +7286,7 @@
             "name_en": "Rupturing Canister",
             "name_jp": "毒ガスタンク",
             "name_kr": "독가스 탱크",
-            "name_tw": "爆裂毒气罐",
+            "name_tw": "爆裂毒氣罐",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7301,7 +7301,7 @@
             "name_en": "Gas Controller",
             "name_jp": "毒霧タワー制御装置",
             "name_kr": "독가스 컨트롤러",
-            "name_tw": "毒雾塔控制",
+            "name_tw": "毒霧塔控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9176,7 +9176,7 @@
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
-            "name_tw": "能量扰动放大器",
+            "name_tw": "能量擾動放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9191,7 +9191,7 @@
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
-            "name_tw": "能量扰动放大器",
+            "name_tw": "能量擾動放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9206,7 +9206,7 @@
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
-            "name_tw": "能量扰动放大器",
+            "name_tw": "能量擾動放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9221,7 +9221,7 @@
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
-            "name_tw": "战术装备整理箱",
+            "name_tw": "戰術裝備整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9236,7 +9236,7 @@
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
-            "name_tw": "战术装备整理箱",
+            "name_tw": "戰術裝備整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9251,7 +9251,7 @@
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
-            "name_tw": "战术装备整理箱",
+            "name_tw": "戰術裝備整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9266,7 +9266,7 @@
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
-            "name_tw": "便携式医疗设备",
+            "name_tw": "便攜式醫療設備",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9281,7 +9281,7 @@
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
-            "name_tw": "便携式医疗设备",
+            "name_tw": "便攜式醫療設備",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9296,7 +9296,7 @@
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
-            "name_tw": "便携式医疗设备",
+            "name_tw": "便攜式醫療設備",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
