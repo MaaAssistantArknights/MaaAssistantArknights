@@ -6126,10 +6126,6 @@
                 "岩角号"
             ],
             [
-                "-2 Collapse value",
-                "坍缩值-2"
-            ],
-            [
                 "Lakebed Aegis",
                 "湖中神盾"
             ],
@@ -6454,10 +6450,6 @@
                 "古旧钱币-α"
             ],
             [
-                "Gives 2 Hope",
-                "给2希望"
-            ],
-            [
                 "Ending 2 change boss",
                 "结局2改变boss"
             ],
@@ -6532,10 +6524,6 @@
             [
                 "Gives more scrap objects",
                 "给更多零碎物件"
-            ],
-            [
-                "Gives 2 Hope",
-                "给2希望"
             ],
             [
                 "Anti-Interference Index +1",
@@ -6916,6 +6904,10 @@
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
+            [
+                " ",
+                ""
+            ],
             [
                 "Camp",
                 "扎营"
