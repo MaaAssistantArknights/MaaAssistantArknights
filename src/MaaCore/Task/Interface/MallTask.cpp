@@ -35,6 +35,15 @@ bool asst::MallTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
+    bool visitFriends = params.get("visit_friends", true);
+
+    if (!visitFriends) {
+        m_visit_task_ptr->set_enable(false);
+    }
+    else {
+        m_visit_task_ptr->set_enable(true);
+    }
+
     bool shopping = params.get("shopping", true);
 
     if (shopping) {
