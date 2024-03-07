@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System.Windows;
 using System.Windows.Input;
@@ -25,7 +26,7 @@ namespace MaaWpfGui.Views.UserControl
                 new FrameworkPropertyMetadata(default(MaaHotKey),
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public MaaHotKey HotKey
+        public MaaHotKey? HotKey
         {
             get => (MaaHotKey)GetValue(HotKeyProperty);
             set => SetValue(HotKeyProperty, value);

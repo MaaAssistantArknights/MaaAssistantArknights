@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace MaaWpfGui.Services.Web
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <returns>Legacy in ms, -1 when response code not equal 200</returns>
-        Task<double> HeadAsync(Uri uri, Dictionary<string, string> extraHeader = null);
+        Task<double> HeadAsync(Uri uri, Dictionary<string, string>? extraHeader = null);
 
         /// <summary>
         /// Send HTTP GET request and get a string response
@@ -35,7 +36,7 @@ namespace MaaWpfGui.Services.Web
         /// <param name="uri">Target Uri</param>
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <returns>Response string, null when failed</returns>
-        Task<string> GetStringAsync(Uri uri, Dictionary<string, string> extraHeader = null);
+        Task<string?> GetStringAsync(Uri uri, Dictionary<string, string>? extraHeader = null);
 
         /// <summary>
         /// Send HTTP GET request and get a body stream response
@@ -44,7 +45,7 @@ namespace MaaWpfGui.Services.Web
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <returns>Response stream, null when failed</returns>
         // ReSharper disable once UnusedMember.Global
-        Task<Stream> GetStreamAsync(Uri uri, Dictionary<string, string> extraHeader = null);
+        Task<Stream?> GetStreamAsync(Uri uri, Dictionary<string, string>? extraHeader = null);
 
         /// <summary>
         /// Send HTTP GET request and get the original <see cref="HttpRequestMessage"/>
@@ -53,7 +54,7 @@ namespace MaaWpfGui.Services.Web
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <param name="httpCompletionOption">The HTTP completion option</param>
         /// <returns><see cref="HttpRequestMessage"/> object</returns>
-        Task<HttpResponseMessage> GetAsync(Uri uri, Dictionary<string, string> extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead);
+        Task<HttpResponseMessage?> GetAsync(Uri uri, Dictionary<string, string>? extraHeader = null, HttpCompletionOption httpCompletionOption = HttpCompletionOption.ResponseContentRead);
 
         /// <summary>
         /// Send HTTP POST request and a string response
@@ -63,7 +64,7 @@ namespace MaaWpfGui.Services.Web
         /// <param name="extraHeader">Extra HTTP Request Headers</param>
         /// <typeparam name="T">The type of the POST body content</typeparam>
         /// <returns>Response string, null when failed</returns>
-        Task<string> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string> extraHeader = null);
+        Task<string?> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string>? extraHeader = null);
 
         /// <summary>
         /// Download a file from the Web
@@ -72,6 +73,6 @@ namespace MaaWpfGui.Services.Web
         /// <param name="fileName">On disk filename</param>
         /// <param name="contentType">File content type</param>
         /// <returns>True if success, False if failed</returns>
-        Task<bool> DownloadFileAsync(Uri uri, string fileName, string contentType = null);
+        Task<bool> DownloadFileAsync(Uri uri, string fileName, string? contentType = null);
     }
 }
