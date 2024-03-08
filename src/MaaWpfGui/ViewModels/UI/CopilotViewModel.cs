@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -48,12 +49,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the view models of log items.
         /// </summary>
-        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; }
+        public ObservableCollection<LogItemViewModel> LogItemViewModels { get; } = new();
 
         /// <summary>
         /// Gets or private sets the view models of Copilot items.
         /// </summary>
-        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = new ObservableCollection<CopilotItemViewModel>();
+        public ObservableCollection<CopilotItemViewModel> CopilotItemViewModels { get; } = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CopilotViewModel"/> class.
@@ -61,7 +62,6 @@ namespace MaaWpfGui.ViewModels.UI
         public CopilotViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Copilot");
-            LogItemViewModels = new ObservableCollection<LogItemViewModel>();
             AddLog(LocalizationHelper.GetString("CopilotTip"));
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
@@ -75,29 +75,34 @@ namespace MaaWpfGui.ViewModels.UI
             JArray jArray = JArray.Parse(copilotTaskList);
             foreach (var it in jArray)
             {
-                if (it is JObject item && item.TryGetValue("file_path", out var token) && File.Exists(token.ToString()))
+                if (it is JObject item && item.TryGetValue("file_path", out var pathToken) && File.Exists(pathToken.ToString()))
                 {
                     int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
-                    string name = (string)item["name"];
-                    bool isRaid = false;
+                    var name = (string?)item["name"];
+                    if (string.IsNullOrEmpty(name))
+                    {
+                        continue;
+                    }
+
+                    bool? isRaid = false;
                     if (item.ContainsKey("is_raid"))
                     {
-                        isRaid = (bool)item["is_raid"];
+                        isRaid = (bool?)item["is_raid"];
                     }
                     else if (name.EndsWith("-Adverse"))
                     {
-                        name = name.Replace("-Adverse", string.Empty);
+                        name = name[..^8];
                         isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
                     }
 
-                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)item["file_path"], isRaid, copilotIdInFile, (bool)item["is_checked"]));
+                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid ?? true, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
                 }
             }
 
             CopilotItemIndexChanged();
         }
 
-        private void RunningState_IdleChanged(object sender, bool e)
+        private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
         }
@@ -182,7 +187,7 @@ namespace MaaWpfGui.ViewModels.UI
             MapUrl = MapUiUrl;
             _isVideoTask = false;
 
-            string jsonStr;
+            string? jsonStr;
             if (File.Exists(filename))
             {
                 var fileSize = new FileInfo(filename).Length;
@@ -234,18 +239,18 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (jsonStr != string.Empty)
+            if (!string.IsNullOrEmpty(jsonStr))
             {
                 ParseJsonAndShowInfo(jsonStr);
             }
         }
 
-        private async Task<string> RequestCopilotServer(int copilotId)
+        private async Task<string?> RequestCopilotServer(int copilotId)
         {
             try
             {
                 var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
-                var json = (JObject)JsonConvert.DeserializeObject(jsonResponse);
+                var json = (JObject?)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
                     return json["data"]?["content"]?.ToString();
@@ -263,7 +268,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
-        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR)-)?(?:\d{1,2})(\(Raid\))?";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-)?(?:\d{1,2})(\(Raid\))?";
 
         /// <summary>
         /// 为自动战斗列表匹配名字
@@ -293,7 +298,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null)
                 {
                     AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
@@ -307,12 +312,11 @@ namespace MaaWpfGui.ViewModels.UI
 
                 AddLog(LocalizationHelper.GetString("CopilotTip"));
 
-                var doc = (JObject)json["doc"];
+                var doc = (JObject?)json["doc"];
                 string title = string.Empty;
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
-
                     CopilotTaskName = FindStageName((IsDataFromWeb ? string.Empty : _filename).Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty, title);
                 }
 
@@ -350,18 +354,7 @@ namespace MaaWpfGui.ViewModels.UI
                             CopilotUrl = MaaUrls.BilibiliVideo + match.Value;
                             break;
                         }
-
-                        if (string.IsNullOrEmpty(CopilotUrl))
-                        {
-                            linkParser = new Regex(@"(?:https?://)\S+\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-                            foreach (Match m in linkParser.Matches(details))
-                            {
-                                CopilotUrl = m.Value;
-                                break;
-                            }
-                        }
-                    }
+                    }// 视频链接
                 }
 
                 AddLog(string.Empty, UiLogColor.Message);
@@ -493,7 +486,7 @@ namespace MaaWpfGui.ViewModels.UI
                     using var reader = new StreamReader(File.OpenRead(file));
                     var jsonStr = await reader.ReadToEndAsync();
 
-                    var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+                    var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                     if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
                         AddLog($"{file} is broken", UiLogColor.Error);
@@ -566,11 +559,11 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0).ToString();
+            var filename = ((Array)e.Data.GetData(DataFormats.FileDrop))?.GetValue(0)?.ToString();
             DropFile(filename);
         }
 
-        private void DropFile(string filename)
+        private void DropFile(string? filename)
         {
             if (string.IsNullOrEmpty(filename))
             {
@@ -930,7 +923,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
             Regex regex = new Regex(@"(?<=;)(?<name>[^,;]+)(?:, *(?<skill>\d))?(?=;)", RegexOptions.Compiled);
-            JArray mUserAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
+            JArray userAdditional = new(regex.Matches(";" + UserAdditional + ";").ToList().Select(match => new JObject
             {
                 ["name"] = match.Groups[1].Value.Trim(),
                 ["skill"] = string.IsNullOrEmpty(match.Groups[2].Value) ? 0 : int.Parse(match.Groups[2].Value),
@@ -944,7 +937,7 @@ namespace MaaWpfGui.ViewModels.UI
                 foreach (var model in CopilotItemViewModels.Where(i => i.IsChecked))
                 {
                     _copilotIdList.Add(model.CopilotId);
-                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, model.Name, model.IsRaid, _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
+                    ret &= Instances.AsstProxy.AsstStartCopilot(model.FilePath, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, model.Name, model.IsRaid, _taskType, Loop ? LoopTimes : 1, _useSanityPotion, false);
                     startAny = true;
                 }
 
@@ -960,7 +953,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, mUserAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
+                ret &= Instances.AsstProxy.AsstStartCopilot(IsDataFromWeb ? TempCopilotFile : Filename, Form, AddTrust, AddUserAdditional, userAdditional, UseCopilotList, string.Empty, false, _taskType, Loop ? LoopTimes : 1, _useSanityPotion);
             }
 
             if (ret)

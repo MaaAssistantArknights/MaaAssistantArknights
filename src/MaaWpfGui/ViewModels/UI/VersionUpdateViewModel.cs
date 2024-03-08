@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -64,8 +65,8 @@ namespace MaaWpfGui.ViewModels.UI
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
-        private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
-        private string _latestVersion;
+        private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+        private string _latestVersion = string.Empty;
 
         private string _updateTag = ConfigurationHelper.GetValue(ConfigurationKeys.VersionName, string.Empty);
 
@@ -110,7 +111,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _updateUrl;
+        private string _updateUrl = string.Empty;
 
         /// <summary>
         /// Gets or sets the update URL.
@@ -170,8 +171,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string MaaUpdateApi = "https://ota.maa.plus/MaaAssistantArknights/api/version/summary.json";
 
-        private JObject _latestJson;
-        private JObject _assetsObject;
+        private JObject? _latestJson;
+        private JObject? _assetsObject;
 
         /// <summary>
         /// 检查是否有已下载的更新包
@@ -444,10 +445,10 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 // 保存新版本的信息
-                var name = _latestJson["name"]?.ToString();
-                UpdateTag = name == string.Empty ? _latestJson["tag_name"]?.ToString() : name;
-                var body = _latestJson["body"]?.ToString();
-                if (body == string.Empty)
+                var name = _latestJson?["name"]?.ToString();
+                UpdateTag = string.IsNullOrEmpty(name) ? (_latestJson?["tag_name"]?.ToString() ?? string.Empty) : name;
+                var body = _latestJson?["body"]?.ToString() ?? string.Empty;
+                if (string.IsNullOrEmpty(body))
                 {
                     var curHash = ComparableHash(_curVersion);
                     var latestHash = ComparableHash(_latestVersion);
@@ -459,7 +460,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 UpdateInfo = body;
-                UpdateUrl = _latestJson["html_url"]?.ToString();
+                UpdateUrl = _latestJson?["html_url"]?.ToString() ?? string.Empty;
 
                 bool otaFound = _assetsObject != null;
                 bool goDownload = otaFound && Instances.SettingsViewModel.AutoDownloadUpdatePackage;
@@ -520,7 +521,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return CheckUpdateRetT.FailedToGetInfo;
                 }
 
-                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+                string? rawUrl = _assetsObject["browser_download_url"]?.ToString();
                 var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
 
                 var urls = new List<string>();
@@ -603,7 +604,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 return CheckUpdateRetT.OK;
 
-                string ComparableHash(string version)
+                string? ComparableHash(string version)
                 {
                     if (IsStdVersion(version))
                     {
@@ -693,8 +694,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            string latestVersion;
-            string detailUrl;
+            string? latestVersion;
+            string? detailUrl;
             if (Instances.SettingsViewModel.UpdateNightly)
             {
                 latestVersion = json["alpha"]?["version"]?.ToString();
@@ -710,6 +711,9 @@ namespace MaaWpfGui.ViewModels.UI
                 latestVersion = json["stable"]?["version"]?.ToString();
                 detailUrl = json["stable"]?["detail"]?.ToString();
             }
+
+            latestVersion ??= string.Empty;
+            detailUrl ??= string.Empty;
 
             if (!NeedToUpdate(latestVersion))
             {
@@ -742,7 +746,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            string latestVersion = json["version"]?.ToString();
+            string? latestVersion = json["version"]?.ToString();
             if (string.IsNullOrEmpty(latestVersion))
             {
                 return CheckUpdateRetT.FailedToGetInfo;
@@ -762,14 +766,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             _assetsObject = null;
 
-            JObject fullPackage = null;
+            JObject? fullPackage = null;
 
             var curVersionLower = _curVersion.ToLower();
             var latestVersionLower = _latestVersion.ToLower();
-            foreach (var curAssets in ((JArray)_latestJson["assets"])!)
+            foreach (var curAssets in ((JArray?)_latestJson["assets"])!)
             {
-                string name = curAssets["name"]?.ToString().ToLower();
-
+                string? name = curAssets["name"]?.ToString().ToLower();
                 if (name == null)
                 {
                     continue;
@@ -886,13 +889,13 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        public bool IsDebugVersion(string version = null)
+        public bool IsDebugVersion(string? version = null)
         {
             version ??= _curVersion;
             return version.Contains("DEBUG");
         }
 
-        public bool IsStdVersion(string version = null)
+        public bool IsStdVersion(string? version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}

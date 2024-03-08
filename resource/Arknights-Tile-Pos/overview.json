@@ -8666,6 +8666,87 @@
         "stageId": "act31side_tr02",
         "width": 9
     },
+    "act32side_01-activities/act32side/level_act32side_01": {
+        "code": "CR-1",
+        "filename": "act32side_01-activities-act32side-level_act32side_01.json",
+        "height": 6,
+        "levelId": "activities/act32side/level_act32side_01",
+        "name": "城市主题展",
+        "stageId": "act32side_01",
+        "width": 9
+    },
+    "act32side_02-activities/act32side/level_act32side_02": {
+        "code": "CR-2",
+        "filename": "act32side_02-activities-act32side-level_act32side_02.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_02",
+        "name": "不对称庭园",
+        "stageId": "act32side_02",
+        "width": 11
+    },
+    "act32side_03-activities/act32side/level_act32side_03": {
+        "code": "CR-3",
+        "filename": "act32side_03-activities-act32side-level_act32side_03.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_03",
+        "name": "假面舞池",
+        "stageId": "act32side_03",
+        "width": 11
+    },
+    "act32side_04-activities/act32side/level_act32side_04": {
+        "code": "CR-4",
+        "filename": "act32side_04-activities-act32side-level_act32side_04.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_04",
+        "name": "非传统艺术空间",
+        "stageId": "act32side_04",
+        "width": 12
+    },
+    "act32side_05-activities/act32side/level_act32side_05": {
+        "code": "CR-5",
+        "filename": "act32side_05-activities-act32side-level_act32side_05.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_05",
+        "name": "消防通道",
+        "stageId": "act32side_05",
+        "width": 11
+    },
+    "act32side_06-activities/act32side/level_act32side_06": {
+        "code": "CR-6",
+        "filename": "act32side_06-activities-act32side-level_act32side_06.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_06",
+        "name": "反艺术运动",
+        "stageId": "act32side_06",
+        "width": 11
+    },
+    "act32side_07-activities/act32side/level_act32side_07": {
+        "code": "CR-7",
+        "filename": "act32side_07-activities-act32side-level_act32side_07.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_07",
+        "name": "安全出口",
+        "stageId": "act32side_07",
+        "width": 12
+    },
+    "act32side_08-activities/act32side/level_act32side_08": {
+        "code": "CR-8",
+        "filename": "act32side_08-activities-act32side-level_act32side_08.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_08",
+        "name": "一跃而下",
+        "stageId": "act32side_08",
+        "width": 13
+    },
+    "act32side_tr01-activities/act32side/level_act32side_tr01": {
+        "code": "CR-TR-1",
+        "filename": "act32side_tr01-activities-act32side-level_act32side_tr01.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_tr01",
+        "name": "“请有序入场”",
+        "stageId": "act32side_tr01",
+        "width": 11
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
