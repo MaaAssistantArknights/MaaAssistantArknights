@@ -1054,12 +1054,12 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
                 base_stage_names.emplace(id, stage_obj["name"].as_string());
             }
             for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-                // limits only buyable items (most of them, help needed)
-                if (!id.starts_with(rogue_index + "_band_")) {
-                    if (!id.starts_with("node_effect")) {
-                        if (!id.starts_with("rogue_3_feature")) {
-                            base_item_names.emplace(id, item_obj["name"].as_string());
-                        }
+                // limits only buyable items (08/03/2024 blocks 516 extracted items vs 514 shopping.json items)
+                if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
+                    if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
+                        id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
+                        id.starts_with(rogue_index + "_totem")) {
+                        base_item_names.emplace(id, item_obj["name"].as_string());
                     }
                 }
             }
@@ -1101,27 +1101,33 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
 
     auto& rg_json = rg_opt.value();
-
+    std::string encounter_nospace;
     for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
         for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
             stage_names.emplace(id, stage_obj["name"].as_string());
         }
         for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-            if (!id.starts_with(rogue_index + "_band_")) {
-                if (!id.starts_with("node_effect")) {
-                    if (!id.starts_with("rogue_3_feature")) {
-
-                        item_names.emplace(id, item_obj["name"].as_string());
-                    }
+            // limits only buyable items (08/03/2024 blocks 516 extracted items vs 514 shopping.json items)
+            if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
+                if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
+                    id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
+                    id.starts_with(rogue_index + "_totem")) {
+                    item_names.emplace(id, item_obj["name"].as_string());
                 }
             }
         }
         for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
-            // very complicated way to reduce dupes. Will probably brake sooner or later.
+            // very complicated way to reduce dupes. Will probably break sooner or later.
             if (id.ends_with("_enter")) {
                 if (!id.starts_with("scene_ro3_rest")) {
                     if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
-                        encounter_names.emplace(id, encounter_obj["title"].as_string());
+                        encounter_nospace = encounter_obj["title"].as_string();
+                        if (input_dir.string().ends_with("ko_KR\\gamedata\\excel")) {
+                            encounter_nospace.erase(
+                                std::remove(encounter_nospace.begin(), encounter_nospace.end(), ' '),
+                                encounter_nospace.end());
+                        }
+                        encounter_names.emplace(id, encounter_nospace);
                     }
                 }
             }
