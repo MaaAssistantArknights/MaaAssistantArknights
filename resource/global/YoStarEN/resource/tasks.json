@@ -4534,10 +4534,6 @@
                 "医疗招募券"
             ],
             [
-                "Gathering Squad",
-                "集群分队"
-            ],
-            [
                 "‘Profound Silence'",
                 "《大静谧》"
             ],
@@ -4588,10 +4584,6 @@
             [
                 "Bend Spears *-* *Training",
                 "折戟-典训"
-            ],
-            [
-                "Leader Squad",
-                "指挥分队"
             ],
             [
                 "Elite HR Senior Recruitment Voucher",
@@ -4666,20 +4658,8 @@
                 "异铁小圆盾"
             ],
             [
-                "First-Class Squad",
-                "高规格分队"
-            ],
-            [
                 "Red Bow Tie",
                 "红色蝴蝶结"
-            ],
-            [
-                "Support Squad",
-                "后勤分队"
-            ],
-            [
-                "Spearhead Squad",
-                "矛头分队"
             ],
             [
                 "Tactical Fortification Operative",
@@ -4688,10 +4668,6 @@
             [
                 "Tactical Ranged Operative",
                 "远程战术分队"
-            ],
-            [
-                "Research Squad",
-                "研究分队"
             ],
             [
                 "Banshee's Kiss",
@@ -4994,11 +4970,7 @@
                 "替罪领巾"
             ],
             [
-                "Support Replenishment",
-                "Support Replenishment Station"
-            ],
-            [
-                "Support Replenishment Station",
+                "Support Replenishmen[ Station]*",
                 "支援补给站"
             ],
             [
@@ -5286,11 +5258,7 @@
                 "投币玩具"
             ],
             [
-                "Chivalric Commandments.*",
-                "Chivalric Commandments - New Edition"
-            ],
-            [
-                "Chivalric Commandments - New Edition",
+                "Chivalric Commandments[ \\- New Edition]*",
                 "骑士戒律·新编"
             ],
             [
@@ -5402,11 +5370,7 @@
                 "锈蚀的铁锤"
             ],
             [
-                "Four-Leaf Clover Foss.*",
-                "Four-Leaf Clover Fossil"
-            ],
-            [
-                "Four-Leaf Clover Fossil",
+                "Four-Leaf Clover Fo[ssil]*",
                 "四叶草化石"
             ],
             [
@@ -5618,19 +5582,11 @@
                 "尖叫樱桃"
             ],
             [
-                "Game Room Admin Access.*",
-                "Game Room Admin Access Card"
-            ],
-            [
-                "Game Room Admin Access Card",
+                "Game Room Admin Access[ Card]*",
                 "游戏室管理员权限卡"
             ],
             [
-                "Advanced Guard Recruitment.*",
-                "Advanced Guard Recruitment Voucher"
-            ],
-            [
-                "Advanced Guard Recruitment Voucher",
+                "Advanced Guard Recruitment[ Voucher]*",
                 "精锐近卫招募券"
             ],
             [
@@ -5662,11 +5618,7 @@
                 "“审判庭之火”"
             ],
             [
-                "Derivative Terminal.*",
-                "Derivative Terminal - Supercharged Mod"
-            ],
-            [
-                "Derivative Terminal - Supercharged Mod",
+                "Derivative Terminal[ \\- Supercharged Mod]*",
                 "衍生者终端-超级改"
             ],
             [
@@ -5698,19 +5650,11 @@
                 "林间夜话"
             ],
             [
-                "Advanced Sniper Recruitment.*",
-                "Advanced Sniper Recruitment Voucher"
-            ],
-            [
-                "Advanced Sniper Recruitment Voucher",
+                "Advanced Sniper Recruitment[ Voucher]*",
                 "精锐狙击招募券"
             ],
             [
-                "Advanced Defender Recruitment.*",
-                "Advanced Defender Recruitment Voucher"
-            ],
-            [
-                "Advanced Defender Recruitment Voucher",
+                "Advanced Defender Recruitment[ Voucher]*",
                 "精锐重装招募券"
             ],
             [
@@ -5734,18 +5678,6 @@
                 "支援急救包"
             ],
             [
-                "Mind Over Matter Squad",
-                "心胜于物分队"
-            ],
-            [
-                "Resourceful Squad",
-                "物尽其用分队"
-            ],
-            [
-                "People-Oriented Squad",
-                "以人为本分队"
-            ],
-            [
                 "6-Sided Die",
                 "六面骰子"
             ],
@@ -5766,43 +5698,23 @@
                 "鸭爵金砖"
             ],
             [
-                "Advanced Caster Recruitment.*",
-                "Advanced Caster Recruitment Voucher"
-            ],
-            [
-                "Advanced Caster Recruitment Voucher",
+                "Advanced Caster Recruitment[ Voucher]*",
                 "精锐术师招募券"
             ],
             [
-                "Advanced Medic Recruitment.*",
-                "Advanced Medic Recruitment Voucher"
-            ],
-            [
-                "Advanced Medic Recruitment Voucher",
+                "Advanced Medic Recruitment[ Voucher]*",
                 "精锐医疗招募券"
             ],
             [
-                "Advanced Vanguard Recruitment.*",
-                "Advanced Vanguard Recruitment Voucher"
-            ],
-            [
-                "Advanced Vanguard Recruitment Voucher",
+                "Advanced Vanguard Recruitment[ Voucher]*",
                 "精锐先锋招募券"
             ],
             [
-                "Advanced Specialist Recruitment.*",
-                "Advanced Specialist Recruitment Voucher"
-            ],
-            [
-                "Advanced Specialist Recruitment Voucher",
+                "Advanced Specialist Recruitment[ Voucher]*",
                 "精锐特种招募券"
             ],
             [
-                "Advanced Supporter Recruitment.*",
-                "Advanced Supporter Recruitment Voucher"
-            ],
-            [
-                "Advanced Supporter Recruitment Voucher",
+                "Advanced Supporter Recruitment[ Voucher]*",
                 "精锐辅助招募券"
             ],
             [
@@ -5878,19 +5790,11 @@
                 "铁卫-临时要塞"
             ],
             [
-                "Convalescence Experience.*",
-                "Convalescence Experience Card"
-            ],
-            [
-                "Convalescence Experience Card",
+                "Convalescence Experience[ Card]*",
                 "疗养体验卡"
             ],
             [
-                "Convalescence Prime.*",
-                "Convalescence Prime Membership"
-            ],
-            [
-                "Convalescence Prime Membership",
+                "Convalescence Prime[ Membership]*",
                 "疗养特供卡"
             ],
             [
@@ -5986,11 +5890,7 @@
                 "阿卡胡拉饭碗"
             ],
             [
-                "Three-Dimensional Art.*",
-                "Three-Dimensional Art Display"
-            ],
-            [
-                "Three-Dimensional Art Display",
+                "Three-Dimensional Art[ Display]*",
                 "立体艺术装置"
             ],
             [
@@ -6090,23 +5990,19 @@
                 "漂流秘匣"
             ],
             [
-                "Assault Co-op - Sharp Blade",
+                "Assault Co-op *-* *Sharp Blade",
                 "突击协议-利刃"
             ],
             [
-                "Fortification Co-op - Phalanx",
+                "Fortification Co-op *-* *Phalanx",
                 "堡垒协议-方阵"
             ],
             [
-                "Ranged Co-op - Remote Strike",
+                "Ranged Co-op *-* *Remote Strike",
                 "远程协议-遥击"
             ],
             [
-                "Sabotage Co-op.*",
-                "Sabotage Co-op - Suppression"
-            ],
-            [
-                "Sabotage Co-op - Suppression",
+                "Sabotage Co-op[ \\- Suppression]*",
                 "破坏协议-压制"
             ],
             [
@@ -6218,10 +6114,6 @@
                 "罗德岛战术电台-β"
             ],
             [
-                "Originium Ingots, Life Points, and Hope are doubled",
-                "源石锭生命希望变为2倍"
-            ],
-            [
                 "Silence",
                 "沉默"
             ],
@@ -6238,40 +6130,20 @@
                 "游戏室管理员权限卡-α"
             ],
             [
-                "Display Monthly Squad 1 Original Event",
-                "显示月阵容1原始事件"
-            ],
-            [
                 "Rock Horn",
                 "岩角号"
-            ],
-            [
-                "-2 Collapse value",
-                "坍缩值-2"
             ],
             [
                 "Lakebed Aegis",
                 "湖中神盾"
             ],
             [
-                "Display Monthly Squad 4 Original Event",
-                "显示月阵容4原始事件"
-            ],
-            [
                 "Roundstone Altar",
                 "圆石祭坛"
             ],
             [
-                "Display Monthly Squad 7 Original Event",
-                "显示月阵容7原始事件"
-            ],
-            [
                 "Ancient Fresco",
                 "古老壁画"
-            ],
-            [
-                "Display Monthly Squad 6 Original Event",
-                "显示月阵容6原始事件"
             ],
             [
                 "Rainbow Jar",
@@ -6286,16 +6158,8 @@
                 "游戏室管理员权限卡-γ"
             ],
             [
-                "Display Monthly Squad 3 Original Event",
-                "显示月阵容3原始事件"
-            ],
-            [
                 "Game Room Admin Access Card - β",
                 "游戏室管理员权限卡-β"
-            ],
-            [
-                "Display Monthly Squad 2 Original Event",
-                "显示月阵容2原始事件"
             ],
             [
                 "Reproduce",
@@ -6314,24 +6178,12 @@
                 "巡视"
             ],
             [
-                "+2 Objective Shield",
-                "加2护盾"
-            ],
-            [
                 "Hunt",
                 "捕猎"
             ],
             [
-                "+3 Objective Shield",
-                "加3护盾"
-            ],
-            [
                 "Nest",
                 "筑巢"
-            ],
-            [
-                "Shield + HP",
-                "护盾加生命值"
             ],
             [
                 "Weave of Snow and Soil",
@@ -6378,10 +6230,6 @@
                 "歌唱"
             ],
             [
-                "Change node(s) to Shattered Omen",
-                "变为木裂前兆"
-            ],
-            [
                 "Confess",
                 "告解"
             ],
@@ -6406,6 +6254,10 @@
                 "缠斗之手"
             ],
             [
+                "Boundless Gift",
+                "无垠赠礼"
+            ],
+            [
                 "Treescar Helm",
                 "树痕之盔"
             ],
@@ -6426,24 +6278,28 @@
                 "独奏八音盒-α"
             ],
             [
+                "Delight",
+                "喜悦"
+            ],
+            [
+                "Surprise",
+                "惊讶"
+            ],
+            [
                 "Rage",
                 "愤怒"
             ],
             [
-                "Originium Ingots are doubled",
-                "源石锭变为2倍"
+                "Doubt",
+                "疑惑"
             ],
             [
-                "Additional enemies appear",
-                "出现额外敌人"
+                "Anticipate",
+                "憧憬"
             ],
             [
-                "Foldartal Drop",
-                "密文板掉落"
-            ],
-            [
-                "Drones will appear on the field",
-                "场上出现无人机"
+                "Love",
+                "爱恋"
             ],
             [
                 "Universal Key - γ",
@@ -6454,52 +6310,12 @@
                 "荆棘环"
             ],
             [
-                "Amma's Affection",
-                "安玛的爱"
-            ],
-            [
-                "Broken Ursus Blade",
-                "乌萨斯断刃"
-            ],
-            [
-                "Slytooth, Forest Destroyer",
-                "伶牙，毁林者"
-            ],
-            [
-                "Cannot's Mark",
-                "坎诺特印记"
-            ],
-            [
-                "Routeweave Net",
-                "路网"
-            ],
-            [
-                "Guiding Vinedoll",
-                "指路藤偶"
-            ],
-            [
-                "Sprouted Stick",
-                "芽棍"
-            ],
-            [
-                "Iron Guard - Consolidation",
-                "铁卫-整固"
-            ],
-            [
-                "Antiquated Sheet Music - α",
-                "古旧乐谱残章-α"
-            ],
-            [
-                "Antiquated Sheet Music - γ",
-                "古旧乐谱残章-γ"
-            ],
-            [
-                "Antiquated Sheet Music - β",
-                "古旧乐谱残章-β"
-            ],
-            [
                 "Pried Open Toolbox - γ",
                 "被撬开的道具箱-γ"
+            ],
+            [
+                "Spectrum Analyzer",
+                "光谱分析仪"
             ],
             [
                 "Ms. Christine Petting Ticket - α",
@@ -6518,12 +6334,20 @@
                 "地形图-α"
             ],
             [
+                "Originium",
+                "源石"
+            ],
+            [
                 "Universal Key - β",
                 "万能钥匙-β"
             ],
             [
-                "Special Training Squad",
-                "特训分队"
+                "Arch",
+                "拱门"
+            ],
+            [
+                "Light",
+                "光芒"
             ],
             [
                 "Antique Coins - γ",
@@ -6532,18 +6356,6 @@
             [
                 "Antique Coins - β",
                 "古旧钱币-β"
-            ],
-            [
-                "Gives 8 Ingots",
-                "给8块钱"
-            ],
-            [
-                "4, 5 Star Temporary Recruitment",
-                "45星临时招募"
-            ],
-            [
-                "4, 5, 6 Star Temporary Recruitment",
-                "456星临时招募"
             ],
             [
                 "Regional Action Plan - α",
@@ -6558,36 +6370,8 @@
                 "地区行动方案-β"
             ],
             [
-                "Scientific Thinking Squad",
-                "科学主义分队"
-            ],
-            [
-                "Life Prioritizing Squad",
-                "生活至上分队"
-            ],
-            [
-                "Eternal Hunting Squad",
-                "永恒狩猎分队"
-            ],
-            [
                 "Antique Coins - α",
                 "古旧钱币-α"
-            ],
-            [
-                "Gives 2 Hope",
-                "给2希望"
-            ],
-            [
-                "Ending 2 change boss",
-                "结局2改变boss"
-            ],
-            [
-                "Boundless Gift",
-                "无垠赠礼"
-            ],
-            [
-                "Panoptic Survey",
-                "全面勘察"
             ],
             [
                 "Church Alms Meal Voucher - α",
@@ -6606,28 +6390,16 @@
                 "树冠"
             ],
             [
-                "-2 Collapse value",
-                "坍缩值-2"
+                "Water",
+                "水面"
+            ],
+            [
+                "Eye",
+                "眼睛"
             ],
             [
                 "Rhodes Island Tactical Transceiver - α",
                 "罗德岛战术电台-α"
-            ],
-            [
-                "Collapse Level less than 99 Divining Foldartal",
-                "坍缩等级小于99占卜密文板"
-            ],
-            [
-                "Collapse Level less than 3 Divining Foldartal",
-                "坍缩等级小于3占卜密文板"
-            ],
-            [
-                "Gives 1 HP",
-                "给1生命"
-            ],
-            [
-                "Gives 1 Relic",
-                "给1战斗藏品"
             ],
             [
                 "Actor's Jewelry Box - α",
@@ -6642,72 +6414,12 @@
                 "演员的首饰盒-γ"
             ],
             [
-                "Gives 2 HP",
-                "给2生命"
-            ],
-            [
-                "Gives scrap object",
-                "给零碎物件"
-            ],
-            [
-                "Gives more scrap objects",
-                "给更多零碎物件"
-            ],
-            [
-                "Gives 2 Hope",
-                "给2希望"
-            ],
-            [
-                "Anti-Interference Index +1",
-                "加1抗干扰指数"
-            ],
-            [
-                "Maxes out Anti-Interference Index",
-                "加满抗干扰指数"
-            ],
-            [
-                "+3 Collapse value between Floors",
-                "层间增长3坍缩值"
-            ],
-            [
-                "Discount",
-                "打折"
-            ],
-            [
-                "Increase ASPD by 50",
-                "提升50攻速"
-            ],
-            [
-                "Increase Max HP by 50%",
-                "提升50%最大生命"
-            ],
-            [
-                "Allied Shieldguard will appear on the field",
-                "场上出现我方盾卫"
-            ],
-            [
-                "Gives 4 HP",
-                "给4生命"
-            ],
-            [
-                "Redeployment Time -30%",
-                "减30%再部署"
-            ],
-            [
-                "Elite Operator joins squad",
-                "加入精英干员"
-            ],
-            [
-                "Gives 2 Hope",
-                "给2希望"
-            ],
-            [
-                "Gives 4 Hope",
-                "给4希望"
-            ],
-            [
                 "Collapse Value",
                 "坍缩值"
+            ],
+            [
+                "Shrub",
+                "灌木"
             ],
             [
                 "Collapse Level",
@@ -6716,34 +6428,6 @@
             [
                 "Collapse Purification",
                 "坍缩净化"
-            ],
-            [
-                "Not earning a Perfect will +1 Collapse value",
-                "非完美作战增长1坍缩值"
-            ],
-            [
-                "Not earning a Perfect will +2 Collapse value",
-                "非完美作战增长2坍缩值"
-            ],
-            [
-                "Inextinguishable Torch",
-                "不灭的火炬"
-            ],
-            [
-                "Display Monthly Squad 5 Original Event",
-                "显示月阵容5原始事件"
-            ],
-            [
-                "Display Monthly Squad 8 Original Event",
-                "显示月阵容8原始事件"
-            ],
-            [
-                "Tree",
-                "乔木"
-            ],
-            [
-                "Secluded region has changed",
-                "秘境出现异变"
             ],
             [
                 "Letter of Termination Contract - α",
@@ -6758,8 +6442,40 @@
                 "全局作战文件-α"
             ],
             [
+                "Iron Guard - Consolidation",
+                "铁卫-整固"
+            ],
+            [
                 "Rusted Blade - Spearhead Sharpening",
                 "锈刃-锋芒发硎"
+            ],
+            [
+                "Amma's Affection",
+                "安玛的爱"
+            ],
+            [
+                "Cannot's Mark",
+                "坎诺特印记"
+            ],
+            [
+                "Routeweave Net",
+                "路网"
+            ],
+            [
+                "Sprouted Stick",
+                "芽棍"
+            ],
+            [
+                "Guiding Vinedoll",
+                "指路藤偶"
+            ],
+            [
+                "Broken Ursus Blade",
+                "乌萨斯断刃"
+            ],
+            [
+                "Slytooth, Forest Destroyer",
+                "伶牙，毁林者"
             ],
             [
                 "Hunters' Insight",
@@ -6768,6 +6484,10 @@
             [
                 "'Devotion'",
                 "“奉献”"
+            ],
+            [
+                "Inextinguishable Torch",
+                "不灭的火炬"
             ],
             [
                 "Celestial Dust",
@@ -6838,6 +6558,18 @@
                 "被撬开的道具箱-β"
             ],
             [
+                "Antiquated Sheet Music - α",
+                "古旧乐谱残章-α"
+            ],
+            [
+                "Antiquated Sheet Music - β",
+                "古旧乐谱残章-β"
+            ],
+            [
+                "Antiquated Sheet Music - γ",
+                "古旧乐谱残章-γ"
+            ],
+            [
                 "Letter of Termination Contract - β",
                 "解约协议-β"
             ],
@@ -6894,10 +6626,6 @@
                 "琥珀伤痕"
             ],
             [
-                "Spectrum Analyzer",
-                "光谱分析仪"
-            ],
-            [
                 "Full-Auto Maintenance Station",
                 "全自动维修台"
             ],
@@ -6922,16 +6650,12 @@
                 "仪式铃"
             ],
             [
-                "Originium",
-                "源石"
+                "Tree",
+                "乔木"
             ],
             [
                 "Stone",
                 "砂石"
-            ],
-            [
-                "Shrub",
-                "灌木"
             ],
             [
                 "Beast",
@@ -6940,42 +6664,6 @@
             [
                 "Human",
                 "人类"
-            ],
-            [
-                "Delight",
-                "喜悦"
-            ],
-            [
-                "Surprise",
-                "惊讶"
-            ],
-            [
-                "Doubt",
-                "疑惑"
-            ],
-            [
-                "Anticipate",
-                "憧憬"
-            ],
-            [
-                "Love",
-                "爱恋"
-            ],
-            [
-                "Water",
-                "水面"
-            ],
-            [
-                "Eye",
-                "眼睛"
-            ],
-            [
-                "Arch",
-                "拱门"
-            ],
-            [
-                "Light",
-                "光芒"
             ],
             [
                 "Outcast",
@@ -7014,7 +6702,7 @@
                 "抗干扰指数"
             ],
             [
-                "Survey Equipment Maintenance Device",
+                "Survey Equipment[ Maintenance Device]*",
                 "设备维护装置"
             ]
         ]
