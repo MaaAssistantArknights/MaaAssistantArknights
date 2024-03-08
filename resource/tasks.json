@@ -5573,6 +5573,10 @@
             "TaskSiege.png"
         ],
         "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
         "templThreshold": 0.7,
         "action": "ClickSelf",
         "roi": [
@@ -5781,6 +5785,10 @@
         ],
         "cache": false,
         "templThreshold": 0.7,
+        "maskRange": [
+            1,
+            255
+        ],
         "action": "ClickSelf",
         "roi": [
             250,
@@ -6340,6 +6348,10 @@
             "EnterInfrastSiege.png"
         ],
         "cache": false,
+        "maskRange": [
+            1,
+            255
+        ],
         "roi": [
             930,
             540,
@@ -9561,6 +9573,10 @@
             "DepotEnterMistCity.png",
             "DepotEnterSiege.png"
         ],
+        "maskRange": [
+            1,
+            255
+        ],
         "roi": [
             1109,
             560,
@@ -9728,6 +9744,10 @@
         ],
         "cache": false,
         "action": "ClickSelf",
+        "maskRange": [
+            1,
+            255
+        ],
         "roi": [
             935,
             300,
