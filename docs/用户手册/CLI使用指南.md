@@ -28,7 +28,7 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 #### Linux
 
-ArchLinux 用户可以安装[AUR 包](https://aur.archlinux.org/packages/maa-cli/):
+ArchLinux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/):
 
 ```bash
 yay -S maa-cli
