@@ -74,7 +74,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the core version.
         /// </summary>
-        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
+        public static string CoreVersion { get; } = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
 
         private static readonly string _uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
 
@@ -112,8 +112,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
             var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-            var poolTime = (ulong)versionJson?["gacha"]?["time"];
-            var activityTime = (ulong)versionJson?["activity"]?["time"];
+            var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
+            var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
 
             if ((currentTime < poolTime) && (currentTime < activityTime))
             {
@@ -1705,7 +1705,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets the list of divider vertical offset.
         /// </summary>
-        public List<double> DividerVerticalOffsetList { get; set; }
+        public List<double> DividerVerticalOffsetList { get; set; } = new();
 
         private int _selectedIndex;
 
@@ -1723,11 +1723,7 @@ namespace MaaWpfGui.ViewModels.UI
                         _notifySource = NotifyType.SelectedIndex;
                         SetAndNotify(ref _selectedIndex, value);
 
-                        var isInRange = DividerVerticalOffsetList != null
-                            && DividerVerticalOffsetList.Count > 0
-                            && value < DividerVerticalOffsetList.Count;
-
-                        if (isInRange)
+                        if (DividerVerticalOffsetList?.Count > 0 && value < DividerVerticalOffsetList.Count)
                         {
                             ScrollOffset = DividerVerticalOffsetList[value];
                         }
@@ -1759,9 +1755,7 @@ namespace MaaWpfGui.ViewModels.UI
                         SetAndNotify(ref _scrollOffset, value);
 
                         // 设置 ListBox SelectedIndex 为当前 ScrollOffset 索引
-                        var isInRange = DividerVerticalOffsetList != null && DividerVerticalOffsetList.Count > 0;
-
-                        if (isInRange)
+                        if (DividerVerticalOffsetList?.Count > 0)
                         {
                             // 滚动条滚动到底部，返回最后一个 Divider 索引
                             if (value + ScrollViewportHeight >= ScrollExtentHeight)
@@ -2169,6 +2163,21 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "3", Value = "3" },
                 new() { Display = "4", Value = "4" },
             ];
+
+        private bool _CreditVisitFriends = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriends, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether visiting is enabled or disabled.
+        /// </summary>
+        public bool CreditVisitFriends
+        {
+            get => _CreditVisitFriends;
+            set
+            {
+                SetAndNotify(ref _CreditVisitFriends, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriends, value.ToString());
+            }
+        }
 
         private int _creditFightSelectFormation = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.CreditFightSelectFormation, "0"));
 

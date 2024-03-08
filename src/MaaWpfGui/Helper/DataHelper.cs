@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -23,12 +24,10 @@ namespace MaaWpfGui.Helper
     public static class DataHelper
     {
         // 储存角色信息的字典
-        public static Dictionary<string, CharacterInfo> Characters { get; }
+        public static Dictionary<string, CharacterInfo> Characters { get; } = new();
 
         static DataHelper()
         {
-            Characters = new Dictionary<string, CharacterInfo>();
-
             const string FilePath = "resource/battle_data.json";
             if (!File.Exists(FilePath))
             {
@@ -36,7 +35,7 @@ namespace MaaWpfGui.Helper
             }
 
             string jsonText = File.ReadAllText(FilePath);
-            var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty);
+            var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? new();
 
             foreach (var pair in characterData)
             {
@@ -44,21 +43,20 @@ namespace MaaWpfGui.Helper
             }
         }
 
-        public static CharacterInfo GetCharacterByNameOrAlias(string characterName)
+        public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)
         {
             return Characters.Values.FirstOrDefault(
-                character =>
-                    new[]
+                character => new[]
                     {
-                        character?.Name,
-                        character?.NameEn,
-                        character?.NameJp,
-                        character?.NameKr,
-                        character?.NameTw,
-                    }.Any(name => name.Equals(characterName, StringComparison.OrdinalIgnoreCase)));
+                        character.Name,
+                        character.NameEn,
+                        character.NameJp,
+                        character.NameKr,
+                        character.NameTw,
+                    }.Any(name => name?.Equals(characterName, StringComparison.OrdinalIgnoreCase) ?? false));
         }
 
-        public static string GetLocalizedCharacterName(string characterName, string language)
+        public static string? GetLocalizedCharacterName(string characterName, string language)
         {
             var characterInfo = GetCharacterByNameOrAlias(characterName);
             if (characterInfo?.Name == null)
@@ -80,28 +78,28 @@ namespace MaaWpfGui.Helper
         public class CharacterInfo
         {
             [JsonProperty("name")]
-            public string Name { get; set; }
+            public string? Name { get; set; }
 
             [JsonProperty("name_en")]
-            public string NameEn { get; set; }
+            public string? NameEn { get; set; }
 
             [JsonProperty("name_jp")]
-            public string NameJp { get; set; }
+            public string? NameJp { get; set; }
 
             [JsonProperty("name_kr")]
-            public string NameKr { get; set; }
+            public string? NameKr { get; set; }
 
             [JsonProperty("name_tw")]
-            public string NameTw { get; set; }
+            public string? NameTw { get; set; }
 
             [JsonProperty("position")]
-            public string Position { get; set; }
+            public string? Position { get; set; }
 
             [JsonProperty("profession")]
-            public string Profession { get; set; }
+            public string? Profession { get; set; }
 
             [JsonProperty("rangeId")]
-            public List<string> RangeId { get; set; }
+            public List<string>? RangeId { get; set; }
 
             [JsonProperty("rarity")]
             public int Rarity { get; set; }

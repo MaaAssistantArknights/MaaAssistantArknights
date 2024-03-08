@@ -228,6 +228,15 @@
                 ],
                 "template": "Bskill_ctrl_cost_felyne.png"
             },
+            "bskill_ctrl_ela": {
+                "desc": [
+                    "进驻控制中枢时，更容易获得线索板上尚未拥有的线索，但控制中枢内除自身以外的其余干员心情每小时消耗+0.25"
+                ],
+                "name": [
+                    "反抗者"
+                ],
+                "template": "Bskill_ctrl_ela.png"
+            },
             "bskill_ctrl_felyne": {
                 "desc": [
                     "进驻控制中枢时，控制中枢内每有1名怪物猎人小队干员，则木天蓼+2"
@@ -595,13 +604,15 @@
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
+                    "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）",
                     "进驻宿舍时，该宿舍内所有干员的心情每小时恢复+0.2（同种效果取最高）"
                 ],
                 "name": [
                     "狮心王",
                     "冬将军",
                     "提灯女神",
-                    "大锅饭·β"
+                    "大锅饭·β",
+                    "利他主义"
                 ],
                 "template": "Bskill_dorm_all3.png"
             },
@@ -1038,6 +1049,15 @@
                     "拳术指导录像"
                 ],
                 "template": "Bskill_man_exp3.png"
+            },
+            "bskill_man_fuze": {
+                "desc": [
+                    "进驻制造站时，生产力+20%，每有1瓶乌萨斯特饮，则仓库容量上限+2"
+                ],
+                "name": [
+                    "实干的寡言者"
+                ],
+                "template": "Bskill_man_fuze.png"
             },
             "bskill_man_gold&blacksteel": {
                 "desc": [
@@ -2725,6 +2745,15 @@
                     "没落贵族"
                 ],
                 "template": "Bskill_meet_glasgow2.png"
+            },
+            "bskill_meet_iana": {
+                "desc": [
+                    "进驻会客室时，线索搜集速度提升5%，同时每1点情报储备额外提升5%"
+                ],
+                "name": [
+                    "情报专家"
+                ],
+                "template": "Bskill_meet_iana.png"
             },
             "bskill_meet_kjerag2": {
                 "desc": [

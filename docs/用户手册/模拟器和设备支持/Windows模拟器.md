@@ -69,7 +69,7 @@ const particallySupport = shuffleArray([
 `
 ### ⚠️ [MuMu 模拟器 6](https://mumu.163.com/update/win/)
 
-自 MAA v5.1.0 版本起放弃支持，官方已在 2023.8.15 停止维护。
+自 MAA v5.1.0 起放弃支持，网易已在 2023.8.15 停止维护。
 
 - 不再支持自动检测连接，需使用通用连接配置，并手动配置 adb 路径和连接地址；
 - 需要在 \`设置\` - \`连接设置\` 中运行 \`强制替换 ADB\`，才能使用 Minitouch, MaaTouch 等高效的触控模式；
@@ -80,7 +80,7 @@ const particallySupport = shuffleArray([
 `
 ### ⚠️ [适用于 Android™️ 的 Windows 子系统](https://docs.microsoft.com/zh-cn/windows/android/wsa/)
 
-勉强支持。
+自 MAA v5.2.0 起放弃支持，微软将在 2025.3.5 停止维护。
 
 - 需要使用 [自定义连接](../详细介绍.html#自定义连接) 的方式来连接；
 - WSA 2204 或更高版本（版本号在子系统设置的 \`关于\` 页面中），连接配置选择 \`通用配置\`；

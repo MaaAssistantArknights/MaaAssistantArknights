@@ -324,7 +324,7 @@ namespace MaaWpfGui.Main
             string jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
 
             // Console.WriteLine(json_str);
-            JObject json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
             MaaService.ProcCallbackMsg dlg = ProcMsg;
             Execute.OnUIThread(() =>
             {
@@ -385,7 +385,7 @@ namespace MaaWpfGui.Main
 
         private void ProcConnectInfo(JObject details)
         {
-            var what = details["what"].ToString();
+            var what = details["what"]?.ToString() ?? string.Empty;
             switch (what)
             {
                 case "Connected":
@@ -460,18 +460,22 @@ namespace MaaWpfGui.Main
 
                         StringBuilder fastestScreencapStringBuilder = new();
                         string color = UiLogColor.Trace;
-                        if (!int.TryParse(costString, out var timeCost))
+                        if (int.TryParse(costString, out var timeCost))
+                        {
+                            switch (timeCost)
+                            {
+                                case > 800:
+                                    color = UiLogColor.Error;
+                                    costString = timeCost.ToString("#,#");
+                                    break;
+                                case > 400:
+                                    color = UiLogColor.Warning;
+                                    break;
+                            }
+                        }
+                        else
                         {
                             color = UiLogColor.Error;
-                        }
-                        else if (timeCost > 800)
-                        {
-                            color = UiLogColor.Error;
-                            costString = timeCost.ToString("#,#");
-                        }
-                        else if (timeCost > 400)
-                        {
-                            color = UiLogColor.Warning;
                         }
 
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
@@ -481,21 +485,31 @@ namespace MaaWpfGui.Main
 
                     break;
                 case "ScreencapCost":
-                    Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), details["details"]?["min"]?.ToString() ?? "???", details["details"]?["avg"]?.ToString() ?? "???", details["details"]?["max"]?.ToString() ?? "???", DateTimeOffset.Now.ToString("HH:mm:ss"));
-                    if (HasPrintedScreencapWarning || !int.TryParse(details["details"]?["avg"]?.ToString() ?? "???", out var screencapCostAvg))
+                    var screencapCostMin = details["details"]?["min"]?.ToString() ?? "???";
+                    var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
+                    var screencapCostMax = details["details"]?["max"]?.ToString() ?? "???";
+                    var currentTime = DateTimeOffset.Now.ToString("HH:mm:ss");
+                    Instances.SettingsViewModel.ScreencapCost = string.Format(LocalizationHelper.GetString("ScreencapCost"), screencapCostMin, screencapCostAvg, screencapCostMax, currentTime);
+                    if (!HasPrintedScreencapWarning && int.TryParse(screencapCostAvg, out var screencapCostAvgInt))
                     {
-                    }
-                    else if (screencapCostAvg >= 800)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvg), UiLogColor.Error);
-                        HasPrintedScreencapWarning = true;
-                    }
-                    else if (screencapCostAvg >= 400)
-                    {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
-                        Instances.CopilotViewModel.AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvg), UiLogColor.Warning);
-                        HasPrintedScreencapWarning = true;
+                        static void AddLog(string message, string color)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(message, color);
+                            Instances.CopilotViewModel.AddLog(message, color);
+                            HasPrintedScreencapWarning = true;
+                        }
+
+                        switch (screencapCostAvgInt)
+                        {
+                            case >= 800:
+                                AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Error);
+                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Error);
+                                break;
+                            case >= 400:
+                                AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
+                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Warning);
+                                break;
+                        }
                     }
 
                     break;
@@ -504,8 +518,7 @@ namespace MaaWpfGui.Main
 
         private void ProcTaskChainMsg(AsstMsg msg, JObject details)
         {
-            string taskChain = details["taskchain"].ToString();
-
+            string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
             switch (taskChain)
             {
                 case "CloseDown":
@@ -798,8 +811,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcSubTaskError(JObject details)
         {
-            string subTask = details["subtask"].ToString();
-
+            string subTask = details["subtask"]?.ToString() ?? string.Empty;
             switch (subTask)
             {
                 case "StartGameTask":
@@ -845,8 +857,7 @@ namespace MaaWpfGui.Main
 
         private void ProcSubTaskStart(JObject details)
         {
-            string subTask = details["subtask"].ToString();
-
+            string subTask = details["subtask"]?.ToString() ?? string.Empty;
             switch (subTask)
             {
                 case "ProcessTask":
@@ -1003,8 +1014,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcSubTaskExtraInfo(JObject details)
         {
-            string taskChain = details["taskchain"].ToString();
-
+            string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
             switch (taskChain)
             {
                 case "Recruit":
@@ -1028,14 +1038,13 @@ namespace MaaWpfGui.Main
                     break;
             }
 
-            string what = details["what"].ToString();
-
+            string what = details["what"]?.ToString() ?? string.Empty;
             switch (what)
             {
                 case "StageDrops":
                     {
                         string allDrops = string.Empty;
-                        var statistics = (JArray)subTaskDetails["stats"] ?? new();
+                        var statistics = subTaskDetails["stats"] ?? new JArray();
                         int curTimes = (int)(subTaskDetails["cur_times"] ?? -1);
 
                         foreach (var item in statistics)
@@ -1082,7 +1091,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsDetected":
                     {
-                        var tags = (JArray)subTaskDetails["tags"] ?? new();
+                        var tags = subTaskDetails["tags"] ?? new JArray();
                         string logContent = tags.Select(tagName => tagName.ToString())
                             .Aggregate(string.Empty, (current, tagStr) => current + (tagStr + "\n"));
 
@@ -1150,7 +1159,7 @@ namespace MaaWpfGui.Main
 
                 case "RecruitTagsSelected":
                     {
-                        var selected = (JArray)subTaskDetails["tags"] ?? new();
+                        var selected = subTaskDetails["tags"] ?? new JArray();
                         string selectedLog = selected.Aggregate(string.Empty, (current, tag) => current + (tag + "\n"));
 
                         selectedLog = selectedLog.EndsWith('\n') ? selectedLog.TrimEnd('\n') : LocalizationHelper.GetString("NoDrop");
@@ -1348,8 +1357,8 @@ namespace MaaWpfGui.Main
 
                     int sanityCur = sanityReport.TryGetValue("current_sanity", out var sanityCurToken) ? (int)sanityCurToken : -1;
                     int sanityMax = sanityReport.TryGetValue("max_sanity", out var sanityMaxToken) ? (int)sanityMaxToken : -1;
-                    var reportTime = sanityReport.TryGetValue("report_time", out var reportTimeToken) ? (string)reportTimeToken : string.Empty;
-                    if (sanityCur < 0 || sanityMax < 1 || reportTime?.Length < 12)
+                    var reportTime = sanityReport.TryGetValue("report_time", out var reportTimeToken) ? (string)reportTimeToken! : string.Empty;
+                    if (sanityCur < 0 || sanityMax < 1 || reportTime.Length < 12)
                     {
                         break;
                     }
@@ -1421,8 +1430,7 @@ namespace MaaWpfGui.Main
 
         private static void ProcVideoRecMsg(JObject details)
         {
-            string what = details["what"].ToString();
-
+            string what = details["what"]?.ToString() ?? string.Empty;
             switch (what)
             {
                 case "Finished":
@@ -1818,6 +1826,7 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="creditFight">是否信用战斗。</param>
         /// <param name="selectFormation">信用战斗选择编队</param>
+        /// <param name="visitFriends">是否访问好友。</param>
         /// <param name="withShopping">是否购物。</param>
         /// <param name="firstList">优先购买列表。</param>
         /// <param name="blacklist">黑名单列表。</param>
@@ -1825,12 +1834,13 @@ namespace MaaWpfGui.Main
         /// <param name="only_buy_discount">只购买折扣信用商品(未打折的白名单物品仍会购买)。</param>
         /// <param name="reserve_max_credit">设置300以下信用点停止购买商品。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendMall(bool creditFight, int selectFormation, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull, bool only_buy_discount, bool reserve_max_credit)
+        public bool AsstAppendMall(bool creditFight, int selectFormation, bool visitFriends, bool withShopping, string[] firstList, string[] blacklist, bool forceShoppingIfCreditFull, bool only_buy_discount, bool reserve_max_credit)
         {
             var taskParams = new JObject
             {
                 ["credit_fight"] = creditFight,
                 ["select_formation"] = selectFormation,
+                ["visit_friends"] = visitFriends,
                 ["shopping"] = withShopping,
                 ["buy_first"] = new JArray { firstList },
                 ["blacklist"] = new JArray { blacklist },

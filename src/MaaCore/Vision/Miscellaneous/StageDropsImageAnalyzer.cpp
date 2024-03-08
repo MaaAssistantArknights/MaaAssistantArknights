@@ -57,6 +57,7 @@ bool asst::StageDropsImageAnalyzer::analyze_stage_code()
     RegionOCRer analyzer(m_image);
     analyzer.set_task_info("StageDrops-StageName");
     analyzer.set_bin_threshold(210, 255);
+    analyzer.set_use_raw(false);
     if (!analyzer.analyze()) {
         return false;
     }

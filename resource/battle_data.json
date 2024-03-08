@@ -4056,6 +4056,66 @@
             ],
             "rarity": 5
         },
+        "char_4123_ela": {
+            "name": "艾拉",
+            "name_en": "艾拉",
+            "name_jp": "艾拉",
+            "name_kr": "艾拉",
+            "name_tw": "艾拉",
+            "position": "RANGED",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 6
+        },
+        "char_4124_iana": {
+            "name": "双月",
+            "name_en": "双月",
+            "name_jp": "双月",
+            "name_kr": "双月",
+            "name_tw": "双月",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
+        "char_4125_rdoc": {
+            "name": "医生",
+            "name_en": "医生",
+            "name_jp": "医生",
+            "name_kr": "医生",
+            "name_tw": "医生",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 5
+        },
+        "char_4126_fuze": {
+            "name": "导火索",
+            "name_en": "导火索",
+            "name_jp": "导火索",
+            "name_kr": "导火索",
+            "name_tw": "导火索",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_415_flint": {
             "name": "燧石",
             "name_en": "Flint",
@@ -5532,6 +5592,21 @@
             "name_jp": "机动盾牌",
             "name_kr": "机动盾牌",
             "name_tw": "机动盾牌",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10033_ela_grzmot": {
+            "name": "雷鸣地雷",
+            "name_en": "雷鸣地雷",
+            "name_jp": "雷鸣地雷",
+            "name_kr": "雷鸣地雷",
+            "name_tw": "雷鸣地雷",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -7181,7 +7256,7 @@
             "name_en": "Post-Firing Debt Relief Program",
             "name_jp": "解雇者清算プログラム",
             "name_kr": "해고자 채무 탕감 프로그램",
-            "name_tw": "解雇者清债程序",
+            "name_tw": "解雇者清債程式",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7196,7 +7271,7 @@
             "name_en": "Full-Auto Debit Machine",
             "name_jp": "全自動送金機",
             "name_kr": "자동 계좌 이체기",
-            "name_tw": "全自动划账器",
+            "name_tw": "全自動劃帳器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7211,7 +7286,7 @@
             "name_en": "Rupturing Canister",
             "name_jp": "毒ガスタンク",
             "name_kr": "독가스 탱크",
-            "name_tw": "爆裂毒气罐",
+            "name_tw": "爆裂毒氣罐",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7226,7 +7301,7 @@
             "name_en": "Gas Controller",
             "name_jp": "毒霧タワー制御装置",
             "name_kr": "독가스 컨트롤러",
-            "name_tw": "毒雾塔控制",
+            "name_tw": "毒霧塔控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7608,6 +7683,81 @@
                 "0-1",
                 "0-1",
                 "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_141_sheltr": {
+            "name": "封阻物",
+            "name_en": "封阻物",
+            "name_jp": "封阻物",
+            "name_kr": "封阻物",
+            "name_tw": "封阻物",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_142_barrel": {
+            "name": "源石爆炸物",
+            "name_en": "源石爆炸物",
+            "name_jp": "源石爆炸物",
+            "name_kr": "源石爆炸物",
+            "name_tw": "源石爆炸物",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_143_rnfcar": {
+            "name": "封阻加固装置",
+            "name_en": "封阻加固装置",
+            "name_jp": "封阻加固装置",
+            "name_kr": "封阻加固装置",
+            "name_tw": "封阻加固装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_144_ads": {
+            "name": "临时掩护装置",
+            "name_en": "临时掩护装置",
+            "name_jp": "临时掩护装置",
+            "name_kr": "临时掩护装置",
+            "name_tw": "临时掩护装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-4",
+                "x-4",
+                "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_145_edd": {
+            "name": "诡雷布设装置",
+            "name_en": "诡雷布设装置",
+            "name_jp": "诡雷布设装置",
+            "name_kr": "诡雷布设装置",
+            "name_tw": "诡雷布设装置",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
             ],
             "rarity": 1
         },
@@ -9026,7 +9176,7 @@
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
-            "name_tw": "能量扰动放大器",
+            "name_tw": "能量擾動放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9041,7 +9191,7 @@
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
-            "name_tw": "能量扰动放大器",
+            "name_tw": "能量擾動放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9056,7 +9206,7 @@
             "name_en": "Energy Perturbation Amplifier",
             "name_jp": "エネルギー摂動増幅器",
             "name_kr": "에너지 교란 증폭기",
-            "name_tw": "能量扰动放大器",
+            "name_tw": "能量擾動放大器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9071,7 +9221,7 @@
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
-            "name_tw": "战术装备整理箱",
+            "name_tw": "戰術裝備整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9086,7 +9236,7 @@
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
-            "name_tw": "战术装备整理箱",
+            "name_tw": "戰術裝備整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9101,7 +9251,7 @@
             "name_en": "Tactical Equipment Toolbox",
             "name_jp": "戦術装備整理箱",
             "name_kr": "전술 장비 정리함",
-            "name_tw": "战术装备整理箱",
+            "name_tw": "戰術裝備整理箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9116,7 +9266,7 @@
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
-            "name_tw": "便携式医疗设备",
+            "name_tw": "便攜式醫療設備",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9131,7 +9281,7 @@
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
-            "name_tw": "便携式医疗设备",
+            "name_tw": "便攜式醫療設備",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9146,7 +9296,7 @@
             "name_en": "Portable First-aid Kit",
             "name_jp": "携帯式医療設備",
             "name_kr": "이동식 의료 설비",
-            "name_tw": "便携式医疗设备",
+            "name_tw": "便攜式醫療設備",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [

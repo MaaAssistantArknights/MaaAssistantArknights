@@ -50,10 +50,10 @@ namespace MaaWpfGui.Views.UI
             while (true)
             {
                 errorStr.Append(exc.Message);
-                exc = exc.InnerException;
-                if (exc != null)
+                if (exc.InnerException != null)
                 {
                     errorStr.AppendLine();
+                    exc = exc.InnerException;
                 }
                 else
                 {
