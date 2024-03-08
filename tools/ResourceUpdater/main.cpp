@@ -207,7 +207,6 @@ int main([[maybe_unused]] int argc, char** argv)
 
     // Update roguelike replace for overseas from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
-        // Temporary, until roguelike_topic_table is added to arknights-toolbox-update
         std::cout << "------- Update roguelike replace for " << out << "------- " << std::endl;
         if (!check_roguelike_replace_for_overseas(overseas_data_dir / in / "gamedata" / "excel",
                                                   resource_dir / "global" / out / "resource" / "tasks.json",
@@ -1004,9 +1003,9 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
         }
 
         opers.emplace(json::object { { "id", id },
-                                           { "name", name },
-                                           { "rarity", info_iter->second.rarity },
-                                           { "tags", json::array(info_iter->second.tags) } });
+                                     { "name", name },
+                                     { "rarity", info_iter->second.rarity },
+                                     { "tags", json::array(info_iter->second.tags) } });
     }
 
     static std::unordered_map</*id*/ int, /*tag*/ std::string> base_tags_name;
@@ -1041,8 +1040,9 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 {
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
+    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
 
-    if (base_stage_names.empty() || base_item_names.empty()) {
+    if (base_stage_names.empty() || base_item_names.empty() || base_encounter_names.empty()) {
         auto rg_opt = json::open(base_dir / "roguelike_topic_table.json");
         if (!rg_opt) {
             std::cerr << "Failed to open roguelike_topic_table for" << base_dir << std::endl;
@@ -1054,7 +1054,24 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
                 base_stage_names.emplace(id, stage_obj["name"].as_string());
             }
             for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-                base_item_names.emplace(id, item_obj["name"].as_string());
+                // limits only buyable items (most of them, help needed)
+                if (!id.starts_with(rogue_index + "_band_")) {
+                    if (!id.starts_with("node_effect")) {
+                        if (!id.starts_with("rogue_3_feature")) {
+                            base_item_names.emplace(id, item_obj["name"].as_string());
+                        }
+                    }
+                }
+            }
+            for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
+                // very complicated way to reduce dupes. Will probably brake sooner or later.
+                if (id.ends_with("_enter")) {
+                    if (!id.starts_with("scene_ro3_rest")) {
+                        if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
+                            base_encounter_names.emplace(id, encounter_obj["title"].as_string());
+                        }
+                    }
+                }
             }
         }
     }
@@ -1081,6 +1098,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
 
     std::unordered_map</*id*/ std::string, /*name*/ std::string> stage_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> item_names;
+    std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
 
     auto& rg_json = rg_opt.value();
 
@@ -1089,7 +1107,24 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             stage_names.emplace(id, stage_obj["name"].as_string());
         }
         for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-            item_names.emplace(id, item_obj["name"].as_string());
+            if (!id.starts_with(rogue_index + "_band_")) {
+                if (!id.starts_with("node_effect")) {
+                    if (!id.starts_with("rogue_3_feature")) {
+
+                        item_names.emplace(id, item_obj["name"].as_string());
+                    }
+                }
+            }
+        }
+        for (auto&& [id, encounter_obj] : rogue_details["choiceScenes"].as_object()) {
+            // very complicated way to reduce dupes. Will probably brake sooner or later.
+            if (id.ends_with("_enter")) {
+                if (!id.starts_with("scene_ro3_rest")) {
+                    if (!id.starts_with("scene_ro3_portal") || id.starts_with("scene_ro3_portalsample")) {
+                        encounter_names.emplace(id, encounter_obj["title"].as_string());
+                    }
+                }
+            }
         }
     }
 
@@ -1140,6 +1175,7 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
     proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
     proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
     proc(task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(), base_item_names, item_names);
+    proc(task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(), base_encounter_names, encounter_names);
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format() << std::endl;
