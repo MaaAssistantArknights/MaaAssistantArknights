@@ -6882,11 +6882,7 @@
                 "抗干扰指数"
             ],
             [
-                "Survey Equipment.*",
-                "设备维护装置"
-            ],
-            [
-                "Survey Equipment Maintenance Device",
+                "Survey Equipment[ Maintenance Device]*",
                 "设备维护装置"
             ]
         ]
@@ -7743,23 +7739,19 @@
                 "_aggressive"
             ],
             [
-                ".*明冻土",
-                "昧明冻土"
-            ],
-            [
-                "昧明冻土",
+                "Dawning Frostbounds",
                 "_pragmatic"
             ],
             [
-                "积冰岩骸",
+                "Gelid Rockshelves",
                 "_pragmatic"
             ],
             [
-                "无瑕花园",
+                "Immaculate Garden",
                 "_default"
             ],
             [
-                "远见之构",
+                "Clairvoyant Carcass",
                 "_default"
             ],
             [
@@ -7783,19 +7775,19 @@
                 "_default"
             ],
             [
-                "昧明冻土",
+                "Dawning Frostbounds",
                 "_exit"
             ],
             [
-                "积冰岩骸",
+                "Gelid Rockshelves",
                 "_exit"
             ],
             [
-                "无瑕花园",
+                "Immaculate Garden",
                 "_exit"
             ],
             [
-                "远见之构",
+                "Clairvoyant Carcass",
                 "_exit"
             ],
             [
