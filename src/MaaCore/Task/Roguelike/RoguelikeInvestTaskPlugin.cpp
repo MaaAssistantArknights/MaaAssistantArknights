@@ -112,14 +112,14 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
 
 std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_current_count(const auto& img, const auto& task_name)
 {
-    RegionOCRer ocr(img);
-    ocr.set_task_info(task_name);
-
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     auto task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
-
-    auto merge_map = std::vector(number_replace);
+        auto merge_map = std::vector(number_replace);
     ranges::copy(task_replace, std::back_inserter(merge_map));
+
+    RegionOCRer ocr(img);
+    ocr.set_task_info(task_name);
+    ocr.set_use_raw(false);
     ocr.set_replace(merge_map);
     if (!ocr.analyze()) {
         Log.error(__FUNCTION__, "unable to analyze current investment count.");
