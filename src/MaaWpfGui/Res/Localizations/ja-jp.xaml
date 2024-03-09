@@ -115,8 +115,9 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">入力のスタッフ「{0}」がbattle_dataにありません。入力の名前が正しいか、maaリソースのバージョンをチェックしてください。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見暗号文板、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String> 
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘終了まえに「停止」を遅らせる</system:String>
@@ -639,6 +640,7 @@ Bilibili: ログイン インターフェイスに表示されるアカウント
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">予見暗号文板:</system:String>
     <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、デポジット: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}\n探検する: {1} 床 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\nリクルート: {6}\nコレクション: {7}\n困難: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>

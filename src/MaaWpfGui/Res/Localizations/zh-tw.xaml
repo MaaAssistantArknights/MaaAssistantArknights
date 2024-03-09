@@ -115,6 +115,7 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的幹員「{0}」未在 battle_data 中，請檢查輸入的名稱是否正確，或檢查 maa 資源版本。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「開局幹員」直升精二，不進行作戰</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見密文板，不進行作戰</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活隊凹開局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多寫三個，並用英文分號;隔開</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
@@ -637,6 +638,7 @@
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">預見密文板:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鴿結算: {0}\n探索: {1} 层 {2} 步\n戰鬥: {3}/{4} 緊急/{5} BOSS\n招募: {6}   收藏品: {7}\n難度: {8}   得分: {9}\nExp: {10}  Skill: {11}</system:String>
     <system:String x:Key="CurTimes">目前次數</system:String>
