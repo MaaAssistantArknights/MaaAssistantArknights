@@ -139,6 +139,20 @@
                     TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
+    Margin="0,10"
+    IsChecked="{Binding Roguelike3FirstFloorFoldartal}"
+    Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; '}">
+                <TextBlock
+        Block.TextAlignment="Left"
+        Text="{DynamicResource Roguelike3FirstFloorFoldartal}"
+        TextWrapping="Wrap" />
+            </CheckBox>
+            <TextBox
+    IsReadOnly="{c:Binding !Idle}"
+    Style="{StaticResource TextBoxExtend}"
+    Text="{Binding Roguelike3StartFloorFoldartal, UpdateSourceTrigger=LostFocus}"
+    Visibility="{c:Binding 'Roguelike3FirstFloorFoldartal and RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; '}" />
+            <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding Roguelike3NewSquad2StartingFoldartal}"
                 Visibility="{c:Binding 'RoguelikeMode == &quot;4&quot; and RoguelikeTheme == &quot;Sami&quot; and RoguelikeSquad == &quot;生活至上分队&quot; '}">

@@ -115,6 +115,7 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">입력한 오퍼레이터 「{0}」는 battle_data에 없습니다. 입력한 이름이 올바른지 확인하거나 MAA 리소스 버전을 확인하세요.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복(전투 X)</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">오목 1 층 원견 밀문판(전투 X)</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">생존지상 분대 목표 암호판 설정</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">최대 3개까지 지원하며 ";"로 구분합니다</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">시작 오퍼레이터로 지원 유닛 사용</system:String>
@@ -639,6 +640,7 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="EmergencyDps">레벨: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
     <system:String x:Key="RoguelikeEvent">이벤트:</system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">예견 밀문판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자함: {1}(+{0}), 예금: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n수집: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
     <system:String x:Key="CurTimes">현재 횟수</system:String>
