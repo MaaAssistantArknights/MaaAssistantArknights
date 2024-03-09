@@ -91,6 +91,7 @@ ClueVacancyNo7.png
 ClusCanBeSent.png
 CreditPoint.png
 CreditShop-Bought.png
+DepotEnterSiege.png
 DroneAssistMfg.png
 empty.png
 EndOfAction.png
@@ -100,6 +101,7 @@ EnterChooseLevelOfDifficulty.png
 EnterEpisode0.png
 EnterEpisode4.png
 EnterEpisode9.png
+EnterInfrastSiege.png
 EnterStageIS.png
 ExitOld.png
 ExitOldConfirm.png
@@ -110,6 +112,7 @@ FightSeries-Default-1.png
 FightSeries-Icon.png
 FightSeries-Indicator.png
 FightSeries-List-1.png
+FriendsSiege.png
 GachaLastTenTimesResult1.png
 GachaNoMoney.png
 GachaSkip.png
@@ -397,7 +400,9 @@ StageLS6.png
 StageResource.png
 StageTheme.png
 StartLoginBServer.png
+StartToVisitDetermine.png
 StartWithSanity.png
+TaskSiege.png
 UnableToAgent.png
 UnableToAgent2.png
 UseMedicine.png
