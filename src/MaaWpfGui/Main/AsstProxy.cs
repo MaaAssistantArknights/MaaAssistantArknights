@@ -503,11 +503,9 @@ namespace MaaWpfGui.Main
                         {
                             case >= 800:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Error);
-                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Error);
                                 break;
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
-                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Warning);
                                 break;
                         }
                     }
@@ -1237,6 +1235,10 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("RoguelikeEvent") + $" {subTaskDetails["name"]}");
                     break;
 
+                case "FoldartalGainOcrNextLevel":
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FoldartalGainOcrNextLevel") + $" {subTaskDetails["foldartal"]}");
+                    break;
+
                 case "PenguinId":
                     {
                         string id = subTaskDetails["id"]?.ToString();
@@ -1527,7 +1529,6 @@ namespace MaaWpfGui.Main
                     !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
-                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
 
                 if (adbResult)
                 {
@@ -1538,9 +1539,10 @@ namespace MaaWpfGui.Main
                     Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
                     error = string.Empty;
                 }
-                else if (adbConfResult)
+                else if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
                 {
-                    // 用户填了这个，虽然端口没检测到，但是凑合用吧
+                    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8547
+                    // DetectAdbConfig 会把 ConnectAddress 变成第一个不是 emulator 开头的地址，可能会存在多开问题
                     error = string.Empty;
                 }
                 else
@@ -2039,6 +2041,8 @@ namespace MaaWpfGui.Main
         /// <param name="coreChar"><paramref name="coreChar"/> TODO.</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
         /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
+        /// <param name="roguelike3FirstFloorFoldartal">凹第一层远见板子</param>
+        /// <param name="roguelike3StartFloorFoldartal">需要凹的板子</param>
         /// <param name="roguelike3NewSquad2StartingFoldartal">是否在萨米肉鸽生活队凹开局板子</param>
         /// <param name="roguelike3NewSquad2StartingFoldartals">需要凹的板子，用;连接的字符串</param>
         /// <param name="useSupport">是否core_char使用好友助战</param>
@@ -2047,7 +2051,9 @@ namespace MaaWpfGui.Main
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentEnterSecondFloor, int invests, bool stopWhenFull,
-            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool roguelike3NewSquad2StartingFoldartal, string roguelike3NewSquad2StartingFoldartals, bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
+            string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool roguelike3FirstFloorFoldartal,
+            string roguelike3StartFloorFoldartal, bool roguelike3NewSquad2StartingFoldartal, string roguelike3NewSquad2StartingFoldartals,
+            bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
         {
             var taskParams = new JObject
             {
@@ -2081,9 +2087,14 @@ namespace MaaWpfGui.Main
 
             taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
             taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
+            if (mode == 4 && theme == "Sami" && roguelike3FirstFloorFoldartal && roguelike3StartFloorFoldartal.Length > 0)
+            {
+                taskParams["first_floor_foldartal"] = roguelike3StartFloorFoldartal;
+            }
+
             if (mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
             {
-                taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';').Where(i => !string.IsNullOrEmpty(i)).Take(3));
+                taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';', '；').Where(i => !string.IsNullOrEmpty(i)).Take(3));
             }
 
             taskParams["use_support"] = useSupport;
