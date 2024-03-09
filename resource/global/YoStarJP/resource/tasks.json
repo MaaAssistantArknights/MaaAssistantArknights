@@ -2872,6 +2872,15 @@
             "戦友があリませれ"
         ]
     },
+    "StartToVisit": {
+        "doc": "Temp fix until Overseas gets the same interface as Official",
+        "roi": [
+            920,
+            91,
+            162,
+            141
+        ]
+    },
     "VisitNextOcr": {
         "text": [
             "次を訪問"
