@@ -71,7 +71,7 @@ bool asst::BattleFormationTask::_run()
     }
     
     if (!missing_operators.empty()) {
-        if (missing_operators.size()==1) {
+        if (missing_operators.size() == 1) {
             // TODO: 自动借助战？
         }
         
@@ -81,11 +81,12 @@ bool asst::BattleFormationTask::_run()
     }
 
     if (m_add_user_additional) {
+        auto limit = 12 - m_size_of_operators_in_formation;
         for (const auto& [name, skill] : m_user_additional) {
             if (m_operators_in_formation.contains(name)) {
                 continue;
             }
-            if (m_size_of_operators_in_formation >= 12) {
+            if (--limit < 0) {
                 break;
             }
             asst::battle::OperUsage oper;
@@ -93,9 +94,7 @@ bool asst::BattleFormationTask::_run()
             oper.skill = skill;
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
             m_user_formation.emplace_back(std::move(usage));
-            ++m_size_of_operators_in_formation;
         }
-        m_size_of_operators_in_formation -= (int)m_user_formation.size();
         add_formation(battle::Role::Unknown, m_user_formation, missing_operators);
     }
 
