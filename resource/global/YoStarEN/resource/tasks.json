@@ -2619,6 +2619,15 @@
             "Credit Store"
         ]
     },
+    "StartToVisit": {
+        "doc": "Temp fix until Overseas gets the same interface as Official",
+        "roi": [
+            920,
+            91,
+            162,
+            141
+        ]
+    },
     "VisitLimited": {
         "text": [
             "limit",
