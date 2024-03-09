@@ -503,11 +503,9 @@ namespace MaaWpfGui.Main
                         {
                             case >= 800:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Error);
-                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Error);
                                 break;
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
-                                AddLog(string.Format(LocalizationHelper.GetString("OptimizationTips"), screencapCostAvgInt), UiLogColor.Warning);
                                 break;
                         }
                     }
