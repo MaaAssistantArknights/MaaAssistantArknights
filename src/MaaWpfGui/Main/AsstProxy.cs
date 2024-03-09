@@ -1529,7 +1529,6 @@ namespace MaaWpfGui.Main
                     !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
                     IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
                 bool bsResult = IfPortEstablished(bsHvAddress);
-                bool adbConfResult = Instances.SettingsViewModel.DetectAdbConfig(ref error);
 
                 if (adbResult)
                 {
@@ -1540,9 +1539,10 @@ namespace MaaWpfGui.Main
                     Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
                     error = string.Empty;
                 }
-                else if (adbConfResult)
+                else if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
                 {
-                    // 用户填了这个，虽然端口没检测到，但是凑合用吧
+                    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8547
+                    // DetectAdbConfig 会把 ConnectAddress 变成第一个不是 emulator 开头的地址，可能会存在多开问题
                     error = string.Empty;
                 }
                 else
