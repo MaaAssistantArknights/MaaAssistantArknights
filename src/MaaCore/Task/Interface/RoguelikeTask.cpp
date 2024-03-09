@@ -69,8 +69,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
 
-    // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
-    for (int i = 0; i != 100; ++i) {
+    // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
+    for (int i = 0; i != 999; ++i) {
         m_subtasks.emplace_back(m_roguelike_task_ptr);
     }
 }
