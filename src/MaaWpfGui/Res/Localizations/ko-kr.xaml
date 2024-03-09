@@ -588,7 +588,6 @@ Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)�
     <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) 자동 전투 기능(예: Copilot)을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) 자동 전투 기능(예: Copilot)이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
-    <system:String x:Key="OptimizationTips">이 시간 소모는 MAA와 무관하며, 컴퓨터 성능이나 현재 사용량 또는 에뮬레이터와 관련이 있습니다. 백그라운드 프로세스를 정리하거나, 에뮬레이터를 변경하거나, 컴퓨터 구성의 업그레이드를 시도해 볼 수 있습니다.</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">작업 오류: </system:String>
     <system:String x:Key="CombatError">작전 오류</system:String>

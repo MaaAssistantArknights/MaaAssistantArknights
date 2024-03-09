@@ -584,9 +584,8 @@
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，使用自動戰鬥類功能（如自動肉鴿）時，可能會出現部分異常表現。</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器。</system:String>
-    <system:String x:Key="OptimizationTips">此項耗時與MAA無關，與電腦性能、當前佔用或模擬器相關，可嘗試清理後臺/更換模擬器/升級電腦配置。</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）時可能表現異常</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>

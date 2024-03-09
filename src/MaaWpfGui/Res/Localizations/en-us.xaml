@@ -588,7 +588,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long (avg: {0}ms), so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
-    <system:String x:Key="OptimizationTips">This time consumption is unrelated to MAA, but related to computer performance, current usage, or emulator. You can try cleaning up background processes, changing emulators, or upgrading computer configurations.</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
