@@ -87,13 +87,24 @@ void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
 bool asst::BattleProcessTask::to_group()
 {
     std::unordered_map<std::string, std::vector<std::string>> groups;
+    // 从编队任务中获取<干员-组名>映射
+    if (m_formation_task_ptr != nullptr) {
+        const auto& opers_in_formation = m_formation_task_ptr->get_opers_in_formation();
+        for (const auto& [group, oper] : opers_in_formation) {
+            groups.emplace(oper, std::vector<std::string> { group });
+        }
+    }
+    // 补充剩余的干员
     for (const auto& [group_name, oper_list] : get_combat_data().groups) {
+        if (groups.contains(group_name)) {
+            continue;
+        }
         std::vector<std::string> oper_name_list;
         ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) { return oper.name; });
         groups.emplace(group_name, std::move(oper_name_list));
     }
 
-    std::unordered_set<std::string> char_set;
+    std::unordered_set<std::string> char_set; // 干员集合
     for (const auto& oper : m_cur_deployment_opers) {
         char_set.emplace(oper.name);
     }

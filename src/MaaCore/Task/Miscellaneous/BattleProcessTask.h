@@ -5,6 +5,7 @@
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
+#include "BattleFormationTask.h"
 
 namespace asst
 {
@@ -16,6 +17,7 @@ namespace asst
 
         virtual bool set_stage_name(const std::string& stage_name) override;
         void set_wait_until_end(bool wait_until_end);
+        void set_formation_task_ptr(std::shared_ptr<BattleFormationTask> value) { m_formation_task_ptr = value; }
 
     protected:
         virtual bool _run() override;
@@ -46,5 +48,6 @@ namespace asst
 
         bool m_in_bullet_time = false;
         bool m_need_to_wait_until_end = false;
+        std::shared_ptr<BattleFormationTask> m_formation_task_ptr = nullptr;
     };
 }

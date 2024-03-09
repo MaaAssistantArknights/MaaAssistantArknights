@@ -83,7 +83,7 @@ bool asst::BattleFormationTask::_run()
     if (m_add_user_additional) {
         auto limit = 12 - m_size_of_operators_in_formation;
         for (const auto& [name, skill] : m_user_additional) {
-            if (m_operators_in_formation.contains(name)) {
+            if (m_opers_in_formation.contains(name)) {
                 continue;
             }
             if (--limit < 0) {
@@ -93,7 +93,7 @@ bool asst::BattleFormationTask::_run()
             oper.name = name;
             oper.skill = skill;
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
-            m_user_formation.emplace_back(std::move(usage));
+            m_user_formation.emplace_back(name, std::move(usage));
         }
         add_formation(battle::Role::Unknown, m_user_formation, missing_operators);
     }
@@ -265,7 +265,7 @@ void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>&
     std::vector<std::vector<std::string>> oper_names;
     for (auto& group : groups) {
         std::vector<std::string> names;
-        for (auto& oper : group) {
+        for (const auto& oper : group.second) {
             names.push_back(oper.name);
         }
         oper_names.push_back(names);
@@ -352,12 +352,12 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         bool found = false;
         auto iter = groups.begin();
         for (; iter != groups.end(); ++iter) {
-            for (const auto& oper : *iter) {
+            for (const auto& oper : iter->second) {
                 if (oper.name == name) {
                     found = true;
                     skill = oper.skill;
 
-                    m_operators_in_formation.emplace(name);
+                    m_opers_in_formation.emplace(name, iter->first);
                     ++m_size_of_operators_in_formation;
                     break;
                 }
@@ -454,7 +454,7 @@ bool asst::BattleFormationTask::parse_formation()
         }
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
-        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
+        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(name, opers_vec);
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);
