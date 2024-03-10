@@ -116,8 +116,8 @@
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor，No Battle</system:String>
-    <!--<system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and Separate with ; </system:String>-->
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ;</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
@@ -128,10 +128,10 @@
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
     <system:String x:Key="IS2NewSquad2">Resourceful Squad</system:String>
     <system:String x:Key="IS2NewSquad3">People-Oriented Squad</system:String>
-    <!-- <system:String x:Key="IS3NewSquad1">NEED TRANSLATION</system:String> -->
-    <!-- <system:String x:Key="IS3NewSquad2">NEED TRANSLATION</system:String> -->
-    <!-- <system:String x:Key="IS3NewSquad3">NEED TRANSLATION</system:String> -->
-    <!-- <system:String x:Key="IS3NewSquad4">特训分队</system:String> -->
+    <system:String x:Key="IS3NewSquad1">Eternal Hunting squad</system:String>
+    <system:String x:Key="IS3NewSquad2">Life Prioritizing Squad</system:String>
+    <system:String x:Key="IS3NewSquad3">Scientific Thinking</system:String>
+    <system:String x:Key="IS3NewSquad4">Special Training Squad</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -255,7 +255,7 @@
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
-    <system:String x:Key="RoguelikeThemeSami">Sami NOT WORKING. Wait for update</system:String>
+    <system:String x:Key="RoguelikeThemeSami">Sami BETA! WORK IN PROGRESS!</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>
