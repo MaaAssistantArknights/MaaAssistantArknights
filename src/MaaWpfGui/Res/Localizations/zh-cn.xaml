@@ -317,8 +317,9 @@
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用
 官服输入登录界面显示的手机号，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
- B服输入登录界面显示的账号名，如「张三」，可输入「张」或「三」
-暂不支持其他服</system:String>
+Ｂ服输入登录界面显示的账号名，如「张三」，可输入「张」或「三」
+暂不支持其他服
+MAA设计为只能切换到已登录账号，无法使用密码/验证码登录</system:String>
     <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或错选成了模拟器本体。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我确定没选错</system:String>

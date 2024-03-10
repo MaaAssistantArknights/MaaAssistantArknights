@@ -318,7 +318,8 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
 Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
 Bilibili: Enter the account name displayed on the login interface, such as John
-Other client types are not supported</system:String>
+Other client types are not supported
+MAA is designed to only switch to logged in accounts and cannot log in using verification codes/passwords.</system:String>
     <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">The selected file name does not contain ADB. Please check if you have chosen the wrong file or mistakenly selected the emulator itself.</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
