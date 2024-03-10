@@ -4204,18 +4204,6 @@
             "Headhunt x10"
         ]
     },
-    "RoguelikeRecruitLevel": {
-        "template": "empty.png",
-        "rectMove_Doc": "Level detection in recruit. Relative to flag (hope icon).",
-        "rectMove_Doc2": "For some reason this needs to be different from the official.",
-        "rectMove_Doc3": "(Being more precise, it seems like it's from the operator name)",
-        "rectMove": [
-            -177,
-            -7,
-            23,
-            16
-        ]
-    },
     "RoguelikeChooseSupportBtnOcr": {
         "text": [
             "Select Support"
@@ -4340,6 +4328,18 @@
                 "People-Oriented Squad",
                 "以人为本分队"
             ]
+        ]
+    },
+    "RoguelikeRecruitLevel": {
+        "rectMove_Doc2": "For some reason this needs to be different from the official.",
+        "rectMove_Doc3": "(Being more precise, it seems like it's from the operator name)",
+        "template": "empty.png",
+        "rectMove_Doc": "Level detection in recruit. Relative to flag (hope icon).",
+        "rectMove": [
+            -177,
+            -7,
+            23,
+            16
         ]
     },
     "RoguelikeRefreshSupportBtnOcr": {
@@ -7281,6 +7281,12 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
+        "roi": [
+            635,
+            44,
+            97,
+            33
+        ],
         "text": [
             "_aggressive",
             "_pragmatic",
@@ -7315,15 +7321,15 @@
                 "深埋迷境",
                 "_SKIP_"
             ]
-        ],
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode4": {
         "roi": [
             635,
             44,
             97,
             33
-        ]
-    },
-    "Sami@Roguelike@StrategyChange_mode4": {
+        ],
         "text": [
             "_default",
             "_exit"
@@ -7357,12 +7363,6 @@
                 "深埋迷境",
                 "_exit"
             ]
-        ],
-        "roi": [
-            635,
-            44,
-            97,
-            33
         ]
     },
     "Reclamation@BuyWaterProcedure": {
