@@ -4204,6 +4204,18 @@
             "Headhunt x10"
         ]
     },
+    "RoguelikeRecruitLevel": {
+        "template": "empty.png",
+        "rectMove_Doc": "Level detection in recruit. Relative to flag (hope icon).",
+        "rectMove_Doc2": "For some reason this needs to be different from the official.",
+        "rectMove_Doc3": "(Being more precise, it seems like it's from the operator name)",
+        "rectMove": [
+            -177,
+            -7,
+            23,
+            16
+        ]
+    },
     "RoguelikeChooseSupportBtnOcr": {
         "text": [
             "Select Support"
