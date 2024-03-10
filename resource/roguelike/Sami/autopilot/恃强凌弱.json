@@ -3,20 +3,23 @@
     "replacement_home": [
         {
             "location": [
-                6,
-                1
+                5,
+                5
             ],
-            "direction": "down"
-        },
-        {
-            "location": [
-                7,
-                1
-            ],
-            "direction": "down"
+            "direction": "left"
         }
     ],
     "deploy_plan": [
+        {
+            "groups": [
+                "焰苇"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "down"
+        },
         {
             "groups": [
                 "处决者"
@@ -53,17 +56,21 @@
                 7,
                 1
             ],
-            "direction": "down"
+            "direction": "down",
+            "condition": [
+                0,
+                0
+            ]
         },
         {
             "groups": [
-                "焰苇",
-                "奶",
-                "凯尔希"
+                "地面阻挡",
+                "处决者",
+                "其他地面"
             ],
             "location": [
                 5,
-                4
+                5
             ],
             "direction": "left"
         },
@@ -80,72 +87,64 @@
         },
         {
             "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                5
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
-                "单奶",
-                "凯尔希"
-            ],
-            "location": [
-                8,
-                2
-            ],
-            "direction": "left"
-        },
-        {
-            "groups": [
                 "盾法",
-                "辅助",
-                "召唤"
+                "水陈"
             ],
             "location": [
-                4,
+                3,
                 4
             ],
             "direction": "left"
         },
         {
             "groups": [
+                "奶",
+                "凯尔希"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "处决者"
+            ],
+            "location": [
+                1,
+                1
+            ],
+            "direction": "right",
+            "condition": [
+                12,
+                16
+            ]
+        },
+        {
+            "groups": [
+                "处决者"
+            ],
+            "location": [
+                1,
+                1
+            ],
+            "direction": "right",
+            "condition": [
+                20,
+                30
+            ]
+        },
+        {
+            "groups": [
                 "高台输出",
-                "其他高台"
+                "狙击"
             ],
             "location": [
-                5,
-                2
+                4,
+                4
             ],
-            "direction": "right"
-        },
-        {
-            "groups": [
-                "狙击",
-                "奶"
-            ],
-            "location": [
-                5,
-                1
-            ],
-            "direction": "down"
-        },
-        {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                1
-            ],
-            "direction": "down"
+            "direction": "left"
         },
         {
             "groups": [

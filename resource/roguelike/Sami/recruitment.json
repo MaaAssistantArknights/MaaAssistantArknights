@@ -403,6 +403,24 @@
                     ]
                 },
                 {
+                    "name": "医生",
+                    "recruit_priority": 600,
+                    "promote_priority": 350,
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤",
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "offset": -400
+                        }
+                    ]
+                },
+                {
                     "name": "风丸",
                     "skill": 2,
                     "recruit_priority": 670,
@@ -932,6 +950,34 @@
                                 "速狙"
                             ],
                             "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "艾拉",
+                    "skill": 3,
+                    "is_key": true,
+                    "alternate_skill": 2,
+                    "recruit_priority": 681,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "水陈",
+                                "速狙"
+                            ],
+                            "threshold": 1,
+                            "offset": -300
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
                             "offset": -300
                         }
                     ]
@@ -2495,12 +2541,6 @@
                     "name": "休谟斯"
                 },
                 {
-                    "name": "风丸"
-                },
-                {
-                    "name": "帕拉斯"
-                },
-                {
                     "name": "临光"
                 },
                 {
@@ -2530,6 +2570,15 @@
                 },
                 {
                     "name": "暮落"
+                },
+                {
+                    "name": "风丸"
+                },
+                {
+                    "name": "帕拉斯"
+                },
+                {
+                    "name": "医生"
                 },
                 {
                     "name": "古米"
@@ -2643,6 +2692,9 @@
                 },
                 {
                     "name": "布洛卡"
+                },
+                {
+                    "name": "导火索"
                 },
                 {
                     "name": "掠风"
@@ -2821,6 +2873,9 @@
                 },
                 {
                     "name": "帕拉斯"
+                },
+                {
+                    "name": "医生"
                 },
                 {
                     "name": "晓歌"
@@ -3104,10 +3159,16 @@
                     "name": "莱伊"
                 },
                 {
-                    "name": "空弦"
+                    "name": "艾拉"
+                },
+                {
+                    "name": "艾雅法拉"
                 },
                 {
                     "name": "能天使"
+                },
+                {
+                    "name": "空弦"
                 },
                 {
                     "name": "灰烬"
@@ -3341,6 +3402,9 @@
                 },
                 {
                     "name": "绮良"
+                },
+                {
+                    "name": "双月"
                 }
             ]
         },
@@ -3514,6 +3578,9 @@
                 },
                 {
                     "name": "诅咒娃娃"
+                },
+                {
+                    "name": "雷鸣地雷"
                 }
             ]
         },
@@ -3600,6 +3667,11 @@
                 },
                 {
                     "name": "布洛卡",
+                    "skill": 2,
+                    "recruit_priority": 412
+                },
+                {
+                    "name": "导火索",
                     "skill": 2,
                     "recruit_priority": 412
                 },

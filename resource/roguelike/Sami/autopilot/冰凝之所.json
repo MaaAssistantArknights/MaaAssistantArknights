@@ -16,6 +16,16 @@
             "direction": "up"
         }
     ],
+    "blacklist_location": [
+        [
+            5,
+            2
+        ],
+        [
+            3,
+            4
+        ]
+    ],
     "deploy_plan": [
         {
             "groups": [
@@ -30,6 +40,16 @@
                 0,
                 1
             ]
+        },
+        {
+            "groups": [
+                "焰苇"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
         },
         {
             "groups": [
@@ -58,7 +78,6 @@
         },
         {
             "groups": [
-                "焰苇",
                 "单奶",
                 "凯尔希"
             ],
@@ -87,6 +106,20 @@
         },
         {
             "groups": [
+                "处决者"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "direction": "down",
+            "condition": [
+                8,
+                10
+            ]
+        },
+        {
+            "groups": [
                 "玛恩纳",
                 "地刺"
             ],
@@ -99,19 +132,18 @@
         {
             "groups": [
                 "水陈",
-                "盾法",
-                "辅助"
+                "盾法"
             ],
             "location": [
-                6,
+                2,
                 5
             ],
             "direction": "up"
         },
         {
             "groups": [
-                "高台输出",
                 "狙击",
+                "高台输出",
                 "浊心斯卡蒂",
                 "单奶",
                 "召唤",
