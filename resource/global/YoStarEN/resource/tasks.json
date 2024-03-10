@@ -4370,115 +4370,35 @@
     "RoguelikeTraderShoppingOcr": {
         "ocrReplace": [
             [
-                "Guard Promotion Voucher",
-                "近卫进阶券"
+                "Assault Co-op Rec. *Voucher",
+                "突击协议招募券"
             ],
             [
-                "Life Point",
-                "目标生命"
+                "Special HR Dispatch Letter",
+                "特别人事调度函"
             ],
             [
-                "Route Diagram",
-                "路线说明图"
+                "Support Replenishment[ Station]*",
+                "支援补给站"
             ],
             [
-                "Letter of Termination Contract",
-                "解约协议"
+                "Fortification Co-op Rec. *Voucher",
+                "堡垒协议招募券"
             ],
             [
-                "Vanguard Rec. *Voucher",
-                "先锋招募券"
+                "Support Landmine Set",
+                "支援地雷组"
             ],
             [
-                "Sabotage Co-op Rec. *Voucher",
-                "破坏协议招募券"
+                "Elite Sniper Rec. *Voucher",
+                "高级狙击招募券"
             ],
             [
-                "Elite Defender Rec. *Voucher",
-                "高级重装招募券"
+                "Godmother's Token",
+                "教母的信物"
             ],
             [
-                "Guard Rec. *Voucher",
-                "近卫招募券"
-            ],
-            [
-                "Rusted Blade *-* *Execution",
-                "锈刃-处决"
-            ],
-            [
-                "Originium Ingot",
-                "源石锭"
-            ],
-            [
-                "Sabotage Co-op Expansion",
-                "破坏协议扩充"
-            ],
-            [
-                "Command EXP",
-                "指挥经验"
-            ],
-            [
-                "Glass Bird",
-                "玻璃小鸟"
-            ],
-            [
-                "Specialist Rec. *Voucher",
-                "特种招募券"
-            ],
-            [
-                "Sigil of Tragodia",
-                "酒神的印记"
-            ],
-            [
-                "Elite Specialist Rec. *Voucher",
-                "高级特种招募券"
-            ],
-            [
-                "Backline Corps Rec. *Voucher",
-                "后方协调招募券"
-            ],
-            [
-                "Tactical Assault Operative",
-                "突击战术分队"
-            ],
-            [
-                "Squad Size Limit",
-                "可携带干员数"
-            ],
-            [
-                "Hope",
-                "希望"
-            ],
-            [
-                "HR Dispatch Letter",
-                "人事调度函"
-            ],
-            [
-                "'Lone Wander'",
-                "《独行客》"
-            ],
-            [
-                "Defender Rec. *Voucher",
-                "重装招募券"
-            ],
-            [
-                "'Gaulish Toponym Origins'",
-                "《旧高卢地名源流考》"
-            ],
-            [
-                "Elite Medic Rec. *Voucher",
-                "高级医疗招募券"
-            ],
-            [
-                "Antique Coins",
-                "古旧钱币"
-            ],
-            [
-                "Tactical Destruction Operative",
-                "破坏战术分队"
-            ],
-            [
-                "Broken Wand *-* *Training",
+                "Broken Wand[- ]*Training",
                 "断杖-典训"
             ],
             [
@@ -4494,12 +4414,56 @@
                 "高级人事调度函"
             ],
             [
-                "Elite Sniper Rec. *Voucher",
-                "高级狙击招募券"
+                "HR Dispatch Letter",
+                "人事调度函"
             ],
             [
-                "Godmother's Token",
-                "教母的信物"
+                "Ranged Co-op Rec. *Voucher",
+                "远程协议招募券"
+            ],
+            [
+                "Support Mr. *Boom",
+                "支援轰隆隆"
+            ],
+            [
+                "Sabotage Co-op Rec. *Voucher",
+                "破坏协议招募券"
+            ],
+            [
+                "Elite Defender Rec. *Voucher",
+                "高级重装招募券"
+            ],
+            [
+                "Letter of Termination Contract",
+                "解约协议"
+            ],
+            [
+                "Vanguard Rec. *Voucher",
+                "先锋招募券"
+            ],
+            [
+                "Support Escape Crane",
+                "支援起重机"
+            ],
+            [
+                "Support Fog Machine",
+                "支援雾机"
+            ],
+            [
+                "Support Gas Tanks",
+                "支援气罐组"
+            ],
+            [
+                "Elite HR Senior Rec. *Voucher",
+                "高级人事资深招募券"
+            ],
+            [
+                "Healer's Path[- ]*Restore Sanity",
+                "医者-理智固剂"
+            ],
+            [
+                "Elite Vanguard Rec. *Voucher",
+                "高级先锋招募券"
             ],
             [
                 "Special Suppressor",
@@ -4514,164 +4478,108 @@
                 "术师招募券"
             ],
             [
-                "Healer's Path *-* *Restore Sanity",
-                "医者-理智固剂"
+                "Masquerade Mask",
+                "假面舞会面具"
             ],
             [
-                "Elite Vanguard Rec. *Voucher",
-                "高级先锋招募券"
-            ],
-            [
-                "Supporter Rec. *Voucher",
-                "辅助招募券"
-            ],
-            [
-                "Elite Supporter Rec. *Voucher",
-                "高级辅助招募券"
-            ],
-            [
-                "Medic Rec. *Voucher",
-                "医疗招募券"
-            ],
-            [
-                "‘Profound Silence'",
-                "《大静谧》"
-            ],
-            [
-                "Elite Guard Rec. *Voucher",
-                "高级近卫招募券"
-            ],
-            [
-                "'Silent Squad'",
-                "“静音小队”"
+                "Live Rose",
+                "活玫瑰"
             ],
             [
                 "Elite Caster Rec. *Voucher",
                 "高级术师招募券"
             ],
             [
-                "Assault Co-op Rec. *Voucher",
-                "突击协议招募券"
+                "‘Profound Silence'",
+                "《大静谧》"
             ],
             [
-                "Special HR Dispatch Letter",
-                "特别人事调度函"
+                "Medic Rec. *Voucher",
+                "医疗招募券"
             ],
             [
-                "Fortification Co-op Rec. *Voucher",
-                "堡垒协议招募券"
+                "Defender Rec. *Voucher",
+                "重装招募券"
             ],
             [
-                "Ranged Co-op Rec. *Voucher",
-                "远程协议招募券"
+                "'Gaulish Toponym Origins'",
+                "《旧高卢地名源流考》"
+            ],
+            [
+                "Elite Medic Rec. *Voucher",
+                "高级医疗招募券"
+            ],
+            [
+                "Military Mirror Armor",
+                "军团护心镜"
             ],
             [
                 "Frontline Corps Rec. *Voucher",
                 "前线统合招募券"
             ],
             [
-                "Abrupt Realization",
-                "恍悟"
-            ],
-            [
-                "Frontline Integration Senior Recruitment Voucher",
+                "Frontline Integration[ Senior Rec. Voucher]*",
                 "前线统合资深招募券"
             ],
             [
-                "Backline Coordination Senior Recruitment Voucher",
+                "Necklace of the Presence",
+                "显圣吊坠"
+            ],
+            [
+                "Elite Specialist Rec. *Voucher",
+                "高级特种招募券"
+            ],
+            [
+                "Glass Bird",
+                "玻璃小鸟"
+            ],
+            [
+                "Specialist Rec. *Voucher",
+                "特种招募券"
+            ],
+            [
+                "Backline Corps Rec. *Voucher",
+                "后方协调招募券"
+            ],
+            [
+                "Old Steam Armor",
+                "古旧的蒸汽甲胄"
+            ],
+            [
+                "Backline Coordination[ Senior Rec. Voucher]*",
                 "后方协调资深招募券"
             ],
             [
-                "Bend Spears *-* *Training",
-                "折戟-典训"
+                "Elite Supporter Rec. *Voucher",
+                "高级辅助招募券"
             ],
             [
-                "Elite HR Senior Recruitment Voucher",
-                "高级人事资深招募券"
+                "Supporter Rec. *Voucher",
+                "辅助招募券"
             ],
             [
-                "Golden Chalice",
-                "金酒之杯"
+                "Fortification Co-op Expansion",
+                "堡垒协议扩充"
             ],
             [
-                "Elite Logistics Rations Voucher",
-                "高级物资配给券"
+                "First Aid Kit",
+                "急救药箱"
             ],
             [
-                "Combustible Building Mats.",
-                "临时物资配给券"
+                "Guard Rec. *Voucher",
+                "近卫招募券"
+            ],
+            [
+                "'Silent Squad'",
+                "“静音小队”"
+            ],
+            [
+                "Elite Guard Rec. *Voucher",
+                "高级近卫招募券"
             ],
             [
                 "Fissured Restraints",
                 "开裂的束缚带"
-            ],
-            [
-                "Vanguard Promotion Voucher",
-                "先锋进阶券"
-            ],
-            [
-                "Defender Promotion Voucher",
-                "重装进阶券"
-            ],
-            [
-                "'Frost Buck and Snow Doe'",
-                "《霜牡与雪牝》"
-            ],
-            [
-                "Sniper Promotion Voucher",
-                "狙击进阶券"
-            ],
-            [
-                "Caster Promotion Voucher",
-                "术师进阶券"
-            ],
-            [
-                "Designer's Ruler",
-                "设计师量尺"
-            ],
-            [
-                "Supporter Promotion Voucher",
-                "辅助进阶券"
-            ],
-            [
-                "Hand of Buckler",
-                "扣挠之手"
-            ],
-            [
-                "Proof of Longevity",
-                "长生者之证"
-            ],
-            [
-                "Medic Promotion Voucher",
-                "医疗进阶券"
-            ],
-            [
-                "Specialist Promotion Voucher",
-                "特种进阶券"
-            ],
-            [
-                "Blunt Claws *-* *Proficiency",
-                "钝爪-熟稔"
-            ],
-            [
-                "Oriron Round Shield",
-                "异铁小圆盾"
-            ],
-            [
-                "Red Bow Tie",
-                "红色蝴蝶结"
-            ],
-            [
-                "Tactical Fortification Operative",
-                "堡垒战术分队"
-            ],
-            [
-                "Tactical Ranged Operative",
-                "远程战术分队"
-            ],
-            [
-                "Banshee's Kiss",
-                "女妖之吻"
             ],
             [
                 "Abyssal Wyrdmask",
@@ -4690,7 +4598,7 @@
                 "迷迭香之拥"
             ],
             [
-                "Gold-Plated Dice",
+                "Gold-Plated Die",
                 "镶金骨骰"
             ],
             [
@@ -4698,12 +4606,8 @@
                 "“黑夜呢喃”"
             ],
             [
-                "Military Mirror Armor",
-                "军团护心镜"
-            ],
-            [
-                "Old Steam Armor",
-                "古旧的蒸汽甲胄"
+                "Oriron Round Shield",
+                "异铁小圆盾"
             ],
             [
                 "Emperor's Favor",
@@ -4718,48 +4622,20 @@
                 "老近卫军之锋"
             ],
             [
-                "Pure White Dance Shoes",
-                "洁白的舞鞋"
-            ],
-            [
-                "Necklace of the Presence",
-                "显圣吊坠"
-            ],
-            [
-                "Jet-Black Dance Shoes",
-                "漆黑的舞鞋"
-            ],
-            [
                 "Silver Forks",
                 "银餐叉"
-            ],
-            [
-                "Proof of Friendship",
-                "友谊之证"
             ],
             [
                 "Damaged Revolver Cylinder",
                 "损坏的左轮弹巢"
             ],
             [
-                "Familiar Sculpture",
-                "眼熟的雕像"
-            ],
-            [
-                "Noxious Hemostatic Agent",
-                "难闻的止血剂"
-            ],
-            [
                 "Assault Co-op Reinforcements",
                 "突击协议增援"
             ],
             [
-                "First Aid Kit",
-                "急救药箱"
-            ],
-            [
-                "Fortification Co-op Expansion",
-                "堡垒协议扩充"
+                "Noxious Hemostatic Agent",
+                "难闻的止血剂"
             ],
             [
                 "Unknown Instrument",
@@ -4786,36 +4662,36 @@
                 "皇帝的收藏"
             ],
             [
-                "'Brilliant Lament'",
-                "“璀璨悲泣”"
-            ],
-            [
                 "Lucky Coin",
                 "幸运硬币"
             ],
             [
-                "Live Rose",
-                "活玫瑰"
-            ],
-            [
-                "Masquerade Mask",
-                "假面舞会面具"
-            ],
-            [
-                "White Flower Crown",
-                "苍白花冠"
+                "'Brilliant Lament'",
+                "“璀璨悲泣”"
             ],
             [
                 "Draft of a Speech",
                 "一份演讲稿"
             ],
             [
-                "Actor's Perfume",
-                "演出用香水"
+                "White Flower Crown",
+                "苍白花冠"
             ],
             [
                 "Crimson Troupe Ticket Stub",
                 "猩红剧团票根"
+            ],
+            [
+                "Actor's Perfume",
+                "演出用香水"
+            ],
+            [
+                "Caster Promotion Voucher",
+                "术师进阶券"
+            ],
+            [
+                "Designer's Ruler",
+                "设计师量尺"
             ],
             [
                 "'Arts Killer'",
@@ -4838,32 +4714,44 @@
                 "铁棍面包"
             ],
             [
+                "Fatal Bolts[- ]*Training",
+                "残弩-典训"
+            ],
+            [
                 "Test Run Chocolate",
                 "试制巧克力"
             ],
             [
-                "Fatal Bolts *-* *Training",
-                "残弩-典训"
+                "Assault Co-op[- ]*Sharp Blade",
+                "突击协议-利刃"
             ],
             [
                 "Victorian Cake",
                 "维多利亚蛋糕"
             ],
             [
+                "Assault Co-op[- ]*Skirmish",
+                "突击协议-散兵"
+            ],
+            [
+                "Route Diagram",
+                "路线说明图"
+            ],
+            [
+                "Fatal Bolts[- ]*Synergy",
+                "残弩-战场依存"
+            ],
+            [
                 "Dim Lantern",
                 "昏暗的提灯"
             ],
             [
-                "Fatal Bolts *-* *Synergy",
-                "残弩-战场依存"
+                "Fatal Bolts[- ]*Crossfire",
+                "残弩-交叉火力"
             ],
             [
                 "Brass Compass",
                 "黄铜指南针"
-            ],
-            [
-                "Fatal Bolts *-* *Crossfire",
-                "残弩-交叉火力"
             ],
             [
                 "Broke Mask",
@@ -4882,288 +4770,328 @@
                 "微缩舞台模型"
             ],
             [
+                "Iron Guard[- ]*Invasion",
+                "铁卫-侵掠"
+            ],
+            [
+                "'Tear of the Departed'",
+                "“逝者垂泪”"
+            ],
+            [
                 "Dreambind Castle Model",
                 "缠梦古堡模型"
             ],
             [
-                "Iron Guard *-* *Invasion",
-                "铁卫-侵掠"
+                "Ranged Co-op Expansion",
+                "远程协议扩充"
             ],
             [
-                "Ursus Chachek",
-                "乌萨斯弯刀"
+                "Dance of the Condemned",
+                "死囚之舞"
             ],
             [
-                "Victoria Crown",
-                "维多利亚王冠"
+                "Ranged Co-op Reinforcements",
+                "远程协议增援"
             ],
             [
-                "Leithanien Sceptre",
-                "莱塔尼亚权杖"
+                "Act 1",
+                "初幕"
             ],
             [
-                "Gaul Mantle",
-                "高卢长袍"
+                "Sabotage Co-op Expansion",
+                "破坏协议扩充"
             ],
             [
-                "Half-Refined Diamond",
-                "半洗孤钻"
+                "Today's Menu",
+                "今日菜谱"
             ],
             [
-                "'Right Eye of the Natator'",
-                "“游禽的右眼”"
+                "Sabotage Co-op Reinforcements",
+                "破坏协议增援"
             ],
             [
-                "'Left Eye of the Natator'",
-                "“游禽的左眼”"
+                "'Intoxicated Hymnoi'",
+                "“迷醉荷谟伊”"
             ],
             [
-                "'Magnificent Visage'",
-                "“华美容貌”"
+                "Empresses' Wish",
+                "女皇之愿"
             ],
             [
-                "'Blademace'",
-                "“剑锤”"
-            ],
-            [
-                "'Brokenblade'",
-                "“断剑”"
-            ],
-            [
-                "'Bladedance'",
-                "“刀舞”"
-            ],
-            [
-                "‘Whiteflower'",
-                "“白英花”"
-            ],
-            [
-                "'Shadow'",
-                "“影子”"
-            ],
-            [
-                "'Flowers of Quinde'",
-                "《坎德之花》"
-            ],
-            [
-                "'Numbness and Obscenity'",
-                "《麻木与庸俗》"
-            ],
-            [
-                "'Beauty and Ugliness in the Age of Terra'",
-                "《世间的美与丑》"
-            ],
-            [
-                "Worn-out Puppet",
-                "残破的玩偶"
-            ],
-            [
-                "Useless Scissors",
-                "无用的剪刀"
-            ],
-            [
-                "Blank Suicide Note",
-                "空白遗书"
-            ],
-            [
-                "Mantle of the Wrongly Condemned",
-                "替罪领巾"
-            ],
-            [
-                "Support Replenishmen[ Station]*",
-                "支援补给站"
-            ],
-            [
-                "Stand-in Actor",
-                "替补演员"
-            ],
-            [
-                "Blunt Claws *-* *Advancement",
-                "钝爪-突破"
-            ],
-            [
-                "Blunt Claws *-* *Burst",
-                "钝爪-爆发"
-            ],
-            [
-                "Blunt Claws *-* *Inspiration",
-                "钝爪-振奋"
-            ],
-            [
-                "Blunt Claws *-* *Mastery",
-                "钝爪-百战"
-            ],
-            [
-                "Bend Spears *-* *Advancement",
-                "折戟-突破"
-            ],
-            [
-                "Bend Spears *-* *Acuity",
-                "折戟-锋刃"
-            ],
-            [
-                "Bend Spears *-* *Bloodbath",
+                "Bend Spears[- ]*Bloodbath",
                 "折戟-浴血"
             ],
             [
-                "Bend Spears *-* *Army of One",
+                "Victory Horn",
+                "凯旋号角"
+            ],
+            [
+                "Bend Spears[- ]*Army of One",
                 "折戟-一夫当关"
             ],
             [
-                "Bend Spears *-* *Deathmatch",
-                "折戟-破釜沉舟"
+                "Flash Camera",
+                "高闪相机"
             ],
             [
-                "Iron Guard *-* *Advancement",
-                "铁卫-突破"
+                "Bend Spears[- ]*Advancement",
+                "折戟-突破"
             ],
             [
-                "Iron Guard *-* *Tranquility",
+                "Therapy Tape",
+                "精神治疗录像带"
+            ],
+            [
+                "Bend Spears[- ]*Acuity",
+                "折戟-锋刃"
+            ],
+            [
+                "Royal Brooch",
+                "皇族金胸针"
+            ],
+            [
+                "Iron Guard[- ]*Tranquility",
                 "铁卫-不动"
             ],
             [
-                "Iron Guard *-* *Advance",
-                "铁卫-推进"
+                "Old Fan",
+                "老蒲扇"
             ],
             [
-                "Iron Guard *-* *Impenetrable",
-                "铁卫-无锋"
+                "Bend Spears[- ]*Deathmatch",
+                "折戟-破釜沉舟"
             ],
             [
-                "Fatal Bolts *-* *Advancement",
+                "Nachzehrer's Cane",
+                "食腐者手杖"
+            ],
+            [
+                "Iron Guard[- ]*Advancement",
+                "铁卫-突破"
+            ],
+            [
+                "Angelina's Inspiration",
+                "安洁莉娜的创想"
+            ],
+            [
+                "Fatal Bolts[- ]*Advancement",
                 "残弩-突破"
             ],
             [
-                "Fatal Bolts *-* *Precision",
+                "Scout's Scope",
+                "Scout的狙击镜"
+            ],
+            [
+                "Fatal Bolts[- ]*Precision",
                 "残弩-百步穿杨"
             ],
             [
-                "Fatal Bolts *-* *Divine Speed",
+                "'Silence'",
+                "“噤声”"
+            ],
+            [
+                "Iron Guard[- ]*Advance",
+                "铁卫-推进"
+            ],
+            [
+                "'Focus'",
+                "“聚焦”"
+            ],
+            [
+                "Iron Guard[- ]*Impenetrable",
+                "铁卫-无锋"
+            ],
+            [
+                "Rhodes Island Tactical Transceiver",
+                "罗德岛战术电台"
+            ],
+            [
+                "Fortification Contract[- ]*Phalanx",
+                "堡垒协议-方阵"
+            ],
+            [
+                "Fortification Contract[- ]*Resolution",
+                "堡垒协议-固守"
+            ],
+            [
+                "Long-Range Contract[- ]*Remote Strike",
+                "远程协议-遥击"
+            ],
+            [
+                "Long-Range Contract[- ]*Assassination",
+                "远程协议-克敌"
+            ],
+            [
+                "Sabotage Co-op[- ]*Elimination",
+                "破坏协议-消除"
+            ],
+            [
+                "Sabotage Co-op[- ]*Suppression",
+                "破坏协议-压制"
+            ],
+            [
+                "Blunt Claws[- ]*Advancement",
+                "钝爪-突破"
+            ],
+            [
+                "Blunt Claws[- ]*Burst",
+                "钝爪-爆发"
+            ],
+            [
+                "Specialist Promotion Voucher",
+                "特种进阶券"
+            ],
+            [
+                "Blunt Claws[- ]*Proficiency",
+                "钝爪-熟稔"
+            ],
+            [
+                "Blunt Claws[- ]*Inspiration",
+                "钝爪-振奋"
+            ],
+            [
+                "Blunt Claws[- ]*Mastery",
+                "钝爪-百战"
+            ],
+            [
+                "Fatal Bolts[- ]*Divine Speed",
                 "残弩-神速"
             ],
             [
-                "Broken Wand *-* *Advancement",
+                "Broken Wand[- ]*Advancement",
                 "断杖-突破"
             ],
             [
-                "Broken Wand *-* *Arts Weaving",
+                "Broken Wand[- ]*Arts Weaving",
                 "断杖-织法者"
             ],
             [
-                "Broken Wand *-* *Chanting",
+                "Broken Wand[- ]*Chanting",
                 "断杖-咏唱"
             ],
             [
-                "Broken Wand *-* *Concentration",
+                "Broken Wand[- ]*Concentration",
                 "断杖-凝神"
             ],
             [
-                "Broken Wand *-* *Malediction",
+                "Broken Wand[- ]*Malediction",
                 "断杖-苦难巫咒"
             ],
             [
-                "Stalwart Aid *-* *Advancement",
+                "Stalwart Aid[- ]*Advancement",
                 "支柱-突破"
             ],
             [
-                "Stalwart Aid *-* *Secondary Front",
+                "Stalwart Aid[- ]*Secondary Front",
                 "支柱-次要战场"
             ],
             [
-                "Stalwart Aid *-* *Diligence",
+                "Stalwart Aid[- ]*Diligence",
                 "支柱-勤奋"
             ],
             [
-                "'Wild Gold'",
-                "《狂野之金》"
-            ],
-            [
-                "Stalwart Aid *-* *Demoralize",
+                "Stalwart Aid[- ]*Demoralize",
                 "支柱-破兵"
             ],
             [
-                "'The Golden Fowlbeast'",
-                "《金羽兽》"
-            ],
-            [
-                "Stalwart Aid *-* *Counter-Arts",
+                "Stalwart Aid[- ]*Counter-Arts",
                 "支柱-枯法"
             ],
             [
-                "Healer's Path *-* *Advancement",
+                "Healer's Path[- ]*Advancement",
                 "医者-突破"
             ],
             [
-                "Healer's Path *-* *Self-Treating",
+                "Healer's Path[- ]*Self-Treating",
                 "医者-自医"
             ],
             [
-                "Healer's Path *-* *Potency",
+                "Healer's Path[- ]*Potency",
                 "医者-强效试剂"
             ],
             [
-                "Healer's Path *-* *Keen Hands",
+                "Healer's Path[- ]*Keen Hands",
                 "医者-妙手"
             ],
             [
-                "Rusted Blade *-* *Advancement",
+                "Rusted Blade[- ]*Advancement",
                 "锈刃-突破"
             ],
             [
-                "Rusted Blade *-* *Isolation",
+                "Rusted Blade[- ]*Execution",
+                "锈刃-处决"
+            ],
+            [
+                "Rusted Blade[- ]*Isolation",
                 "锈刃-单兵"
             ],
             [
-                "Rusted Blade *-* *No Man's.*",
+                "Rusted Blade[- ]*No Man's[ Land]*",
                 "锈刃-无人之境"
             ],
             [
-                "Rusted Blade *-* *Overwhelm",
-                "锈刃-神力"
-            ],
-            [
-                "Pryed Open Toolbox",
+                "Pried Open Toolbox",
                 "被撬开的道具箱"
             ],
             [
-                "Hand of Spikes",
-                "尖刺之手"
+                "Rusted Blade[- ]*Overwhelm",
+                "锈刃-神力"
             ],
             [
                 "Antiquated Sheet Music",
                 "古旧乐谱残章"
             ],
             [
-                "Hand of Choker",
-                "扼喉之手"
+                "Hand of Spikes",
+                "尖刺之手"
             ],
             [
                 "Vampire's Bed",
                 "血魔的寝床"
             ],
             [
-                "Hand of Shredder",
-                "撕扯之手"
+                "Hand of Choker",
+                "扼喉之手"
+            ],
+            [
+                "Supporter Promotion Voucher",
+                "辅助进阶券"
+            ],
+            [
+                "Proof of Longevity",
+                "长生者之证"
+            ],
+            [
+                "Hand of Buckler",
+                "扣挠之手"
             ],
             [
                 "Stone Gargoyle",
                 "石像鬼塑像"
             ],
             [
-                "Hand of Superspeed",
-                "极速之手"
+                "Hand of Shredder",
+                "撕扯之手"
             ],
             [
-                "Hand of Snatcher",
-                "积攒之手"
+                "Hand of Superspeed",
+                "极速之手"
             ],
             [
                 "Hot Water Kettle",
                 "热水壶"
             ],
             [
+                "Hand of Snatcher",
+                "积攒之手"
+            ],
+            [
                 "Blue Silk Scarf",
                 "蓝色丝巾"
+            ],
+            [
+                "Red Bow Tie",
+                "红色蝴蝶结"
             ],
             [
                 "Weird Flute",
@@ -5250,23 +5178,27 @@
                 "“童趣玩偶”"
             ],
             [
-                "Coin *-* *Operated Toy",
-                "Coin-Operated Toy"
-            ],
-            [
-                "Coin-Operated Toy",
+                "Coin[- ]*Operated Toy",
                 "投币玩具"
             ],
             [
-                "Chivalric Commandments[ \\- New Edition]*",
+                "Chivalric Commandments[ - New Edition]*",
                 "骑士戒律·新编"
+            ],
+            [
+                "Elite Logistics Rations Voucher",
+                "高级物资配给券"
+            ],
+            [
+                "Golden Chalice",
+                "金酒之杯"
             ],
             [
                 "Spinach Pack",
                 "绿叶菜罐头"
             ],
             [
-                "No. 073 Safety Reagent",
+                "No. *073 Safety Reagent",
                 "073号安全试剂"
             ],
             [
@@ -5302,6 +5234,14 @@
                 "万能钥匙"
             ],
             [
+                "Banshee's Kiss",
+                "女妖之吻"
+            ],
+            [
+                "Antique Coins",
+                "古旧钱币"
+            ],
+            [
                 "Actor's Jewelry Box",
                 "演员的首饰盒"
             ],
@@ -5314,7 +5254,7 @@
                 "尖笑鬼牌"
             ],
             [
-                "Ms. Christine Petting Ticket",
+                "Ms. *Christine Petting Ticket",
                 "Miss.Christine摸摸券"
             ],
             [
@@ -5322,23 +5262,27 @@
                 "古旧铸物"
             ],
             [
-                "Blunt Claws *-* *Training",
+                "Blunt Claws[- ]*Training",
                 "钝爪-典训"
             ],
             [
-                "Iron Guard *-* *Training",
+                "Bend Spears[- ]*Training",
+                "折戟-典训"
+            ],
+            [
+                "Iron Guard[- ]*Training",
                 "铁卫-典训"
             ],
             [
-                "Stalwart Aid *-* *Training",
+                "Stalwart Aid[- ]*Training",
                 "支柱-典训"
             ],
             [
-                "Healer's Path *-* *Training",
+                "Healer's Path[- ]*Training",
                 "医者-典训"
             ],
             [
-                "Rusted Blade *-* *Training",
+                "Rusted Blade[- ]*Training",
                 "锈刃-典训"
             ],
             [
@@ -5370,7 +5314,7 @@
                 "锈蚀的铁锤"
             ],
             [
-                "Four-Leaf Clover Fo[ssil]*",
+                "Four-Leaf Clover Fossil",
                 "四叶草化石"
             ],
             [
@@ -5380,18 +5324,6 @@
             [
                 "Fortification Co-op Reinforcements",
                 "堡垒协议增援"
-            ],
-            [
-                "Ranged Co-op Expansion",
-                "远程协议扩充"
-            ],
-            [
-                "Ranged Co-op Reinforcements",
-                "远程协议增援"
-            ],
-            [
-                "Sabotage Co-op Reinforcements",
-                "破坏协议增援"
             ],
             [
                 "King's New Lance",
@@ -5422,160 +5354,28 @@
                 "“无度”"
             ],
             [
-                "Dance of the Condemned",
-                "死囚之舞"
+                "Combustible Building Mats.",
+                "临时物资配给券"
             ],
             [
-                "Act 1",
-                "初幕"
+                "Medic Promotion Voucher",
+                "医疗进阶券"
             ],
             [
-                "Today's Menu",
-                "今日菜谱"
+                "Vanguard Promotion Voucher",
+                "先锋进阶券"
             ],
             [
-                "'Intoxicated Hymnoi'",
-                "“迷醉荷谟伊”"
+                "Sniper Promotion Voucher",
+                "狙击进阶券"
             ],
             [
-                "Empresses' Wish",
-                "女皇之愿"
+                "Defender Promotion Voucher",
+                "重装进阶券"
             ],
             [
-                "Victory Horn",
-                "凯旋号角"
-            ],
-            [
-                "Flash Camera",
-                "高闪相机"
-            ],
-            [
-                "Therapy Tape",
-                "精神治疗录像带"
-            ],
-            [
-                "Royal Brooch",
-                "皇族金胸针"
-            ],
-            [
-                "'Tear of the Departed'",
-                "“逝者垂泪”"
-            ],
-            [
-                "Old Fan",
-                "老蒲扇"
-            ],
-            [
-                "Nachzehrer's Cane",
-                "食腐者手杖"
-            ],
-            [
-                "Angelina's Inspiration",
-                "安洁莉娜的创想"
-            ],
-            [
-                "Scout's Scope",
-                "Scout的狙击镜"
-            ],
-            [
-                "'Silence'",
-                "“噤声”"
-            ],
-            [
-                "'Focus'",
-                "“聚焦”"
-            ],
-            [
-                "Rhodes Island Tactical Transceiver",
-                "罗德岛战术电台"
-            ],
-            [
-                "Assault Contract *-* *Sharp Blade",
-                "突击协议-利刃"
-            ],
-            [
-                "Assault Contract *-* *Skirmish",
-                "突击协议-散兵"
-            ],
-            [
-                "Fortification Contract *-* *Phalanx",
-                "堡垒协议-方阵"
-            ],
-            [
-                "Fortification Contract *-* *Resolution",
-                "堡垒协议-固守"
-            ],
-            [
-                "Long-Range Contract *-* *Remote Strike",
-                "远程协议-遥击"
-            ],
-            [
-                "Long-Range Contract *-* *Assassination",
-                "远程协议-克敌"
-            ],
-            [
-                "Destruction Contract *-* *Elimination",
-                "破坏协议-消除"
-            ],
-            [
-                "Destruction Contract *-* *Suppression",
-                "破坏协议-压制"
-            ],
-            [
-                "Support Landmine Set",
-                "支援地雷组"
-            ],
-            [
-                "Support Mr. *Boom",
-                "支援轰隆隆"
-            ],
-            [
-                "Support Escape Crane",
-                "支援起重机"
-            ],
-            [
-                "Support Fog Machine",
-                "支援雾机"
-            ],
-            [
-                "Support Gas Tanks",
-                "支援气罐组"
-            ],
-            [
-                "'Ode au Triomphe'",
-                "《凯旋颂》"
-            ],
-            [
-                "'Der Ring'",
-                "《湖中至宝》"
-            ],
-            [
-                "'One Hundred and One Days'",
-                "《一百零一日》"
-            ],
-            [
-                "'Wonderland in Dream'",
-                "《梦中奇缘》"
-            ],
-            [
-                "'Light of Heria'",
-                "《赫里亚之辉》"
-            ],
-            [
-                "'Sette Colli's Mother Wolf'",
-                "《七丘的狼母》"
-            ],
-            [
-                "'The Dawn'",
-                "《初晓》"
-            ],
-            [
-                "'The Lullaby'",
-                "《摇篮曲》"
-            ],
-            [
-                "'The Carnival'",
-                "《欢欣鼓舞》"
+                "Guard Promotion Voucher",
+                "近卫进阶券"
             ],
             [
                 "Screaming Cherry",
@@ -5586,28 +5386,52 @@
                 "游戏室管理员权限卡"
             ],
             [
-                "Advanced Guard Recruitment[ Voucher]*",
+                "Hand of Branding",
+                "刻勋之手"
+            ],
+            [
+                "Advanced Guard Rec.[ Voucher]*",
                 "精锐近卫招募券"
+            ],
+            [
+                "Iron Guard[- ]*Tower",
+                "铁卫-高塔"
+            ],
+            [
+                "Iron Guard[- ]*Wall",
+                "铁卫-城墙"
+            ],
+            [
+                "Broken Wand[- ]*Solving",
+                "断杖-破解"
+            ],
+            [
+                "Broken Wand[- ]*Light of Wisdom",
+                "断杖-智慧之光"
             ],
             [
                 "Church Alms Meal Voucher",
                 "教堂救济餐券"
             ],
             [
-                "Ursus Felt Rug",
-                "乌萨斯毡毯"
+                "Broken Wand[- ]*Learning",
+                "断杖-学识"
             ],
             [
                 "Extra-Pungent Coffee Beans",
                 "特级馥郁咖啡豆"
             ],
             [
+                "Ursus Felt Rug",
+                "乌萨斯毡毯"
+            ],
+            [
                 "Uncle Vought Total Care Kit",
                 "沃特大叔养护套装"
             ],
             [
-                "Die Rolls",
-                "投掷次数"
+                "Mercenary Insurance",
+                "佣兵保单"
             ],
             [
                 "Abandoned Banner",
@@ -5618,7 +5442,11 @@
                 "“审判庭之火”"
             ],
             [
-                "Derivative Terminal[ \\- Supercharged Mod]*",
+                "Survivor Contract",
+                "生还者合约"
+            ],
+            [
+                "Derivative Terminal[ - Supercharged Mod]*",
                 "衍生者终端-超级改"
             ],
             [
@@ -5642,80 +5470,72 @@
                 "神音海螺"
             ],
             [
-                "Rejection Inhibition Selector",
-                "抑制排异反应抉择券"
-            ],
-            [
                 "Night-Whispers in the Forest",
                 "林间夜话"
             ],
             [
-                "Advanced Sniper Recruitment[ Voucher]*",
+                "5-Star Random Promotion[ Temporary Recruitment Voucher*]",
+                "5星随机直升临时招募券"
+            ],
+            [
+                "Caerula Arbor",
+                "深蓝之树"
+            ],
+            [
+                "Advanced Sniper Rec.[ Voucher]*",
                 "精锐狙击招募券"
             ],
             [
-                "Advanced Defender Recruitment[ Voucher]*",
-                "精锐重装招募券"
+                "Featured Canned Meat",
+                "精选兽肉罐头"
             ],
             [
-                "Max Life Point",
-                "生命上限"
+                "Advanced Defender Rec.[ Voucher]*",
+                "精锐重装招募券"
             ],
             [
                 "Medicine Sticks",
                 "药枚"
             ],
             [
-                "'Sui's Wrath'",
-                "“岁怒”"
-            ],
-            [
                 "Support Riot Pile",
                 "支援防暴桩"
             ],
             [
-                "Support First.*aid Kit",
+                "Support First-aid Kit",
                 "支援急救包"
-            ],
-            [
-                "6-Sided Die",
-                "六面骰子"
-            ],
-            [
-                "8-Sided Die",
-                "八面骰子"
-            ],
-            [
-                "12-Sided Die",
-                "十二面骰子"
-            ],
-            [
-                "Key",
-                "钥匙"
             ],
             [
                 "Duck Lord's Golden Brick",
                 "鸭爵金砖"
             ],
             [
-                "Advanced Caster Recruitment[ Voucher]*",
+                "Advanced Caster Rec.[ Voucher]*",
                 "精锐术师招募券"
             ],
             [
-                "Advanced Medic Recruitment[ Voucher]*",
+                "'Sui's Wrath'",
+                "“岁怒”"
+            ],
+            [
+                "Advanced Medic Rec.[ Voucher]*",
                 "精锐医疗招募券"
             ],
             [
-                "Advanced Vanguard Recruitment[ Voucher]*",
+                "Advanced Vanguard Rec.[ Voucher]*",
                 "精锐先锋招募券"
             ],
             [
-                "Advanced Specialist Recruitment[ Voucher]*",
+                "Advanced Specialist Rec.[ Voucher]*",
                 "精锐特种招募券"
             ],
             [
-                "Advanced Supporter Recruitment[ Voucher]*",
+                "Advanced Supporter Rec.[ Voucher]*",
                 "精锐辅助招募券"
+            ],
+            [
+                "6-Star Random Promotion[ Temporary Recruitment Voucher*]",
+                "6星随机直升临时招募券"
             ],
             [
                 "Portrait of Breogan",
@@ -5728,6 +5548,10 @@
             [
                 "Failed Specimen",
                 "失败的标本"
+            ],
+            [
+                "'Endless Life'",
+                "“未尽的生命”"
             ],
             [
                 "'Emergency Light'",
@@ -5746,6 +5570,10 @@
                 "深蓝之心"
             ],
             [
+                "Caerula Memory",
+                "深蓝回忆"
+            ],
+            [
                 "'The Return'",
                 "《归来》"
             ],
@@ -5754,7 +5582,7 @@
                 "黑色郁金香"
             ],
             [
-                ".*Glorious Kazimierz.*",
+                "'Glorious Kazimierz'",
                 "《光耀卡西米尔》"
             ],
             [
@@ -5786,7 +5614,7 @@
                 "捕鳞蓑"
             ],
             [
-                "Iron Guard *-* *Moving Fortress",
+                "Iron Guard[- ]*Moving Fortress",
                 "铁卫-临时要塞"
             ],
             [
@@ -5806,12 +5634,24 @@
                 "古乔治营养原浆"
             ],
             [
+                "Pure White Dance Shoes",
+                "洁白的舞鞋"
+            ],
+            [
                 "Emergency Active Agent",
                 "紧急活性剂"
             ],
             [
+                "Wrankwood Safety Suit",
+                "蓝卡坞安全衣"
+            ],
+            [
                 "Chitinous Ripper",
                 "几丁质刺刃"
+            ],
+            [
+                "'Flashing Swords'",
+                "《刀光剑影》"
             ],
             [
                 "'Wavebreaker'",
@@ -5830,6 +5670,10 @@
                 "国王的枝条"
             ],
             [
+                "Jet-Black Dance Shoes",
+                "漆黑的舞鞋"
+            ],
+            [
                 "King's Crown",
                 "诸王的冠冕"
             ],
@@ -5842,36 +5686,28 @@
                 "“荣耀套餐”"
             ],
             [
-                "Objective Shield",
-                "护盾"
-            ],
-            [
                 "Three-Key Contract",
                 "三钥协定"
             ],
             [
-                "Stalwart Aid *-* *Assistance",
+                "Stalwart Aid[- ]*Assistance",
                 "支柱-援护"
             ],
             [
-                "Healer's Path *-* *Restore Sanity",
+                "Healer's Path[- ]*Restore Sanity",
                 "医者-固化序列"
             ],
             [
-                "Rusted Blade *-* *Execution",
+                "Rusted Blade[- ]*Execution",
                 "锈刃-研磨"
             ],
             [
-                "Rusted Blade *-* *No Man's.*",
+                "Rusted Blade[- ]*No Man's[ Land]*",
                 "锈刃-可视静谧"
             ],
             [
                 "Hand of Diffusion",
                 "炸裂之手"
-            ],
-            [
-                "Featured Canned Meat",
-                "精选兽肉罐头"
             ],
             [
                 "Seaweed Salad",
@@ -5930,12 +5766,40 @@
                 "聚火源石虫"
             ],
             [
-                "Pathfinder Fins",
+                "Pathfinder Fin",
                 "指路鳞"
+            ],
+            [
+                "HR Bronze Seal",
+                "人事部铜印"
             ],
             [
                 "Topographical Map",
                 "地形图"
+            ],
+            [
+                "Doctor Silver Seal",
+                "博士银印"
+            ],
+            [
+                "Wordless Coral",
+                "无字珊瑚"
+            ],
+            [
+                "Underground Scorch",
+                "地底的灼痕"
+            ],
+            [
+                "Great Machinations",
+                "铸阳巨械"
+            ],
+            [
+                "Solidified Lamp Oil",
+                "凝固灯油"
+            ],
+            [
+                "Sanctified Lamp Oil",
+                "崇圣灯油"
             ],
             [
                 "Dario's Lantern",
@@ -5944,6 +5808,10 @@
             [
                 "'King's Fellowship'",
                 "“国王的护戒”"
+            ],
+            [
+                "'King's Crystal'",
+                "“国王的水晶”"
             ],
             [
                 "Tulip's Secret Formula",
@@ -5982,122 +5850,6 @@
                 "“绝唱”"
             ],
             [
-                "Light",
-                "灯火"
-            ],
-            [
-                "Drifting Cache",
-                "漂流秘匣"
-            ],
-            [
-                "Assault Co-op *-* *Sharp Blade",
-                "突击协议-利刃"
-            ],
-            [
-                "Fortification Co-op *-* *Phalanx",
-                "堡垒协议-方阵"
-            ],
-            [
-                "Ranged Co-op *-* *Remote Strike",
-                "远程协议-遥击"
-            ],
-            [
-                "Sabotage Co-op[ \\- Suppression]*",
-                "破坏协议-压制"
-            ],
-            [
-                "5-Star Random Promotion Temporary Recruitment Voucher",
-                "5星随机直升临时招募券"
-            ],
-            [
-                "6-Star Random Promotion Temporary Recruitment Voucher",
-                "6星随机直升临时招募券"
-            ],
-            [
-                "Hand of Branding",
-                "刻勋之手"
-            ],
-            [
-                "Iron Guard *-* *Wall",
-                "铁卫-城墙"
-            ],
-            [
-                "Iron Guard *-* *Tower",
-                "铁卫-高塔"
-            ],
-            [
-                "Broken Wand *-* *Solving",
-                "断杖-破解"
-            ],
-            [
-                "Broken Wand *-* *Light of Wisdom",
-                "断杖-智慧之光"
-            ],
-            [
-                "Broken Wand *-* *Learning",
-                "断杖-学识"
-            ],
-            [
-                "Mercenary Insurance",
-                "佣兵保单"
-            ],
-            [
-                "Survivor Contract",
-                "生还者合约"
-            ],
-            [
-                "Caerula Arbor",
-                "深蓝之树"
-            ],
-            [
-                "'Endless Life'",
-                "“未尽的生命”"
-            ],
-            [
-                "Caerula Memory",
-                "深蓝回忆"
-            ],
-            [
-                "Wrankwood Safety Suit",
-                "蓝卡坞安全衣"
-            ],
-            [
-                "'Flashing Swords'",
-                "《刀光剑影》"
-            ],
-            [
-                "HR Bronze Seal",
-                "人事部铜印"
-            ],
-            [
-                "Doctor Silver Seal",
-                "博士银印"
-            ],
-            [
-                "Wordless Coral",
-                "无字珊瑚"
-            ],
-            [
-                "Underground Scorch",
-                "地底的灼痕"
-            ],
-            [
-                "Great Machinations",
-                "铸阳巨械"
-            ],
-            [
-                "Solidified Lamp Oil",
-                "凝固灯油"
-            ],
-            [
-                "Sanctified Lamp Oil",
-                "崇圣灯油"
-            ],
-            [
-                "'King's Crystal'",
-                "“国王的水晶”"
-            ],
-            [
                 "'Determination'",
                 "“决心”"
             ],
@@ -6110,28 +5862,28 @@
                 "“犹疑”"
             ],
             [
-                "Rhodes Island Tactical Transceiver - β",
+                "Rhodes Island Tactical Transceiver[- ]*β",
                 "罗德岛战术电台-β"
             ],
             [
-                "Silence",
-                "沉默"
-            ],
-            [
-                "Frozen Husk",
-                "冰结的躯壳"
+                "Game Room Admin Access Card[- ]*α",
+                "游戏室管理员权限卡-α"
             ],
             [
                 "Galleria Stellaria's Splendor",
                 "万星园之辉"
             ],
             [
-                "Game Room Admin Access Card - α",
-                "游戏室管理员权限卡-α"
-            ],
-            [
                 "Rock Horn",
                 "岩角号"
+            ],
+            [
+                "Frozen Husk",
+                "冰结的躯壳"
+            ],
+            [
+                "Plunder",
+                "掠夺"
             ],
             [
                 "Lakebed Aegis",
@@ -6150,24 +5902,20 @@
                 "彩虹瓮"
             ],
             [
+                "Game Room Admin Access Card[- ]*γ",
+                "游戏室管理员权限卡-γ"
+            ],
+            [
                 "Cloud-Moving Totem",
                 "移云者图腾"
             ],
             [
-                "Game Room Admin Access Card - γ",
-                "游戏室管理员权限卡-γ"
-            ],
-            [
-                "Game Room Admin Access Card - β",
+                "Game Room Admin Access Card[- ]*β",
                 "游戏室管理员权限卡-β"
             ],
             [
                 "Reproduce",
                 "繁衍"
-            ],
-            [
-                "Plunder",
-                "掠夺"
             ],
             [
                 "Migrate",
@@ -6202,6 +5950,10 @@
                 "鳞皮壳盾"
             ],
             [
+                "Void",
+                "空无"
+            ],
+            [
                 "Ancient Tree Fruit",
                 "古地树实"
             ],
@@ -6214,6 +5966,10 @@
                 "霜牡的肩甲"
             ],
             [
+                "Scar",
+                "伤痕"
+            ],
+            [
                 "Snow Doe's Glove",
                 "雪牝的护手"
             ],
@@ -6224,6 +5980,10 @@
             [
                 "Recite",
                 "朗诵"
+            ],
+            [
+                "Silence",
+                "沉默"
             ],
             [
                 "Sing",
@@ -6254,6 +6014,10 @@
                 "缠斗之手"
             ],
             [
+                "Church Alms Meal Voucher[- ]*α",
+                "教堂救济餐券-α"
+            ],
+            [
                 "Boundless Gift",
                 "无垠赠礼"
             ],
@@ -6262,20 +6026,24 @@
                 "树痕之盔"
             ],
             [
-                "Night-Whispers in the Forest - α",
+                "Night-Whispers in the Forest[- ]*α",
                 "林间夜话-α"
             ],
             [
-                "Night-Whispers in the Forest - γ",
+                "Night-Whispers in the Forest[- ]*γ",
                 "林间夜话-γ"
             ],
             [
-                "Pried Open Toolbox - α",
+                "Pried Open Toolbox[- ]*α",
                 "被撬开的道具箱-α"
             ],
             [
-                "Solo Music Box - α",
+                "Solo Music Box[- ]*α",
                 "独奏八音盒-α"
+            ],
+            [
+                "Hero",
+                "英雄"
             ],
             [
                 "Delight",
@@ -6302,44 +6070,48 @@
                 "爱恋"
             ],
             [
-                "Universal Key - γ",
-                "万能钥匙-γ"
-            ],
-            [
                 "Ring of Thorns",
                 "荆棘环"
             ],
             [
-                "Pried Open Toolbox - γ",
-                "被撬开的道具箱-γ"
-            ],
-            [
-                "Spectrum Analyzer",
-                "光谱分析仪"
-            ],
-            [
-                "Ms. Christine Petting Ticket - α",
-                "Miss.Christine摸摸券-α"
-            ],
-            [
-                "Solo Music Box - β",
+                "Solo Music Box[- ]*β",
                 "独奏八音盒-β"
             ],
             [
-                "Topographical Map - β",
+                "Topographical Map[- ]*β",
                 "地形图-β"
             ],
             [
-                "Topographical Map - α",
+                "Topographical Map[- ]*α",
                 "地形图-α"
+            ],
+            [
+                "Universal Key[- ]*γ",
+                "万能钥匙-γ"
             ],
             [
                 "Originium",
                 "源石"
             ],
             [
-                "Universal Key - β",
+                "Ms. *Christine Petting Ticket[- ]*α",
+                "Miss.Christine摸摸券-α"
+            ],
+            [
+                "Universal Key[- ]*β",
                 "万能钥匙-β"
+            ],
+            [
+                "Eye",
+                "眼睛"
+            ],
+            [
+                "Canopy",
+                "树冠"
+            ],
+            [
+                "Earth",
+                "大地"
             ],
             [
                 "Arch",
@@ -6350,103 +6122,67 @@
                 "光芒"
             ],
             [
-                "Antique Coins - γ",
+                "Antique Coins[- ]*γ",
                 "古旧钱币-γ"
             ],
             [
-                "Antique Coins - β",
+                "Antique Coins[- ]*β",
                 "古旧钱币-β"
             ],
             [
-                "Regional Action Plan - α",
+                "Regional Action Plan[- ]*α",
                 "地区行动方案-α"
             ],
             [
-                "Regional Action Plan - γ",
+                "Regional Action Plan[- ]*γ",
                 "地区行动方案-γ"
             ],
             [
-                "Regional Action Plan - β",
+                "Regional Action Plan[- ]*β",
                 "地区行动方案-β"
             ],
             [
-                "Antique Coins - α",
+                "Antique Coins[- ]*α",
                 "古旧钱币-α"
             ],
             [
-                "Church Alms Meal Voucher - α",
-                "教堂救济餐券-α"
-            ],
-            [
-                "Rhodes Island Tactical Transceiver - γ",
+                "Rhodes Island Tactical Transceiver[- ]*γ",
                 "罗德岛战术电台-γ"
-            ],
-            [
-                "Earth",
-                "大地"
-            ],
-            [
-                "Canopy",
-                "树冠"
             ],
             [
                 "Water",
                 "水面"
             ],
             [
-                "Eye",
-                "眼睛"
-            ],
-            [
-                "Rhodes Island Tactical Transceiver - α",
+                "Rhodes Island Tactical Transceiver[- ]*α",
                 "罗德岛战术电台-α"
             ],
             [
-                "Actor's Jewelry Box - α",
+                "Actor's Jewelry Box[- ]*α",
                 "演员的首饰盒-α"
             ],
             [
-                "Actor's Jewelry Box - β",
+                "Actor's Jewelry Box[- ]*β",
                 "演员的首饰盒-β"
             ],
             [
-                "Actor's Jewelry Box - γ",
+                "Actor's Jewelry Box[- ]*γ",
                 "演员的首饰盒-γ"
-            ],
-            [
-                "Collapse Value",
-                "坍缩值"
-            ],
-            [
-                "Shrub",
-                "灌木"
-            ],
-            [
-                "Collapse Level",
-                "坍缩等级"
-            ],
-            [
-                "Collapse Purification",
-                "坍缩净化"
-            ],
-            [
-                "Letter of Termination Contract - α",
-                "解约协议-α"
             ],
             [
                 "'Heavy Music Anthology'",
                 "《重型音乐选集》"
             ],
             [
-                "Comprehensive Operation File - α",
+                "Comprehensive Operation File[- ]*α",
                 "全局作战文件-α"
             ],
             [
-                "Iron Guard - Consolidation",
+                "Iron Guard[- ]*Consolidation",
                 "铁卫-整固"
             ],
             [
-                "Rusted Blade - Spearhead Sharpening",
+                "Rusted Blade[- ]*Spearhead[ Sharpening]*",
                 "锈刃-锋芒发硎"
             ],
             [
@@ -6510,103 +6246,111 @@
                 "远见者之示"
             ],
             [
-                "Red Bow Tie - α",
+                "Red Bow Tie[- ]*α",
                 "红色蝴蝶结-α"
             ],
             [
-                "Topographical Map - γ",
+                "Topographical Map[- ]*γ",
                 "地形图-γ"
             ],
             [
-                "Conch of Divine Whispers - α",
+                "Conch of Divine Whispers[- ]*α",
                 "神音海螺-α"
             ],
             [
-                "Conch of Divine Whispers - β",
+                "Conch of Divine Whispers[- ]*β",
                 "神音海螺-β"
             ],
             [
-                "Conch of Divine Whispers - γ",
+                "Conch of Divine Whispers[- ]*γ",
                 "神音海螺-γ"
             ],
             [
-                "Night-Whispers in the Forest - β",
+                "Night-Whispers in the Forest[- ]*β",
                 "林间夜话-β"
             ],
             [
-                "Church Alms Meal Voucher - β",
+                "Church Alms Meal Voucher[- ]*β",
                 "教堂救济餐券-β"
             ],
             [
-                "Church Alms Meal Voucher - γ",
+                "Church Alms Meal Voucher[- ]*γ",
                 "教堂救济餐券-γ"
             ],
             [
-                "Red Bow Tie - β",
+                "Red Bow Tie[- ]*β",
                 "红色蝴蝶结-β"
             ],
             [
-                "Red Bow Tie - γ",
+                "Red Bow Tie[- ]*γ",
                 "红色蝴蝶结-γ"
             ],
             [
-                "Solo Music Box - γ",
+                "Solo Music Box[- ]*γ",
                 "独奏八音盒-γ"
             ],
             [
-                "Pried Open Toolbox - β",
+                "Pried Open Toolbox[- ]*β",
                 "被撬开的道具箱-β"
             ],
             [
-                "Antiquated Sheet Music - α",
+                "Pried Open Toolbox[- ]*γ",
+                "被撬开的道具箱-γ"
+            ],
+            [
+                "Antiquated Sheet Music[- ]*α",
                 "古旧乐谱残章-α"
             ],
             [
-                "Antiquated Sheet Music - β",
+                "Antiquated Sheet Music[- ]*β",
                 "古旧乐谱残章-β"
             ],
             [
-                "Antiquated Sheet Music - γ",
+                "Antiquated Sheet Music[- ]*γ",
                 "古旧乐谱残章-γ"
             ],
             [
-                "Letter of Termination Contract - β",
+                "Letter of Termination Contract[- ]*α",
+                "解约协议-α"
+            ],
+            [
+                "Letter of Termination Contract[- ]*β",
                 "解约协议-β"
             ],
             [
-                "Letter of Termination Contract - γ",
+                "Letter of Termination Contract[- ]*γ",
                 "解约协议-γ"
             ],
             [
-                "Universal Key - α",
+                "Universal Key[- ]*α",
                 "万能钥匙-α"
             ],
             [
-                "Ms. Christine Petting Ticket - β",
+                "Ms. *Christine Petting Ticket[- ]*β",
                 "Miss.Christine摸摸券-β"
             ],
             [
-                "Ms. Christine Petting Ticket - γ",
+                "Ms. *Christine Petting Ticket[- ]*γ",
                 "Miss.Christine摸摸券-γ"
             ],
             [
-                "Comprehensive Operation File - β",
+                "Comprehensive Operation File[- ]*β",
                 "全局作战文件-β"
             ],
             [
-                "Comprehensive Operation File - γ",
+                "Comprehensive Operation File[- ]*γ",
                 "全局作战文件-γ"
             ],
             [
-                "Secret HR Letter - α",
+                "Secret HR Letter[- ]*α",
                 "人事部密信-α"
             ],
             [
-                "Secret HR Letter - β",
+                "Secret HR Letter[- ]*β",
                 "人事部密信-β"
             ],
             [
-                "Secret HR Letter - γ",
+                "Secret HR Letter[- ]*γ",
                 "人事部密信-γ"
             ],
             [
@@ -6624,6 +6368,10 @@
             [
                 "Scarred Amber",
                 "琥珀伤痕"
+            ],
+            [
+                "Spectrum Analyzer",
+                "光谱分析仪"
             ],
             [
                 "Full-Auto Maintenance Station",
@@ -6658,6 +6406,10 @@
                 "砂石"
             ],
             [
+                "Shrub",
+                "灌木"
+            ],
+            [
                 "Beast",
                 "兽类"
             ],
@@ -6684,22 +6436,6 @@
             [
                 "Snowpriest",
                 "雪祀"
-            ],
-            [
-                "Hero",
-                "英雄"
-            ],
-            [
-                "Scar",
-                "伤痕"
-            ],
-            [
-                "Void",
-                "空无"
-            ],
-            [
-                "Anti-Interference Index",
-                "抗干扰指数"
             ],
             [
                 "Survey Equipment[ Maintenance Device]*",
@@ -6737,11 +6473,7 @@
                 "讲故事的人"
             ],
             [
-                "Adventurer Commission",
-                "委托冒险者"
-            ],
-            [
-                "Adventurer Comm.*",
+                "Adventurer Comm[ission]*",
                 "委托冒险者"
             ],
             [
@@ -7077,11 +6809,11 @@
                 "深蓝之心"
             ],
             [
-                "深蓝仪式",
+                "Caerula Ritual",
                 "深蓝仪式"
             ],
             [
-                "升华",
+                "Sublimation",
                 "升华"
             ],
             [
