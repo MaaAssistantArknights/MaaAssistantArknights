@@ -315,11 +315,9 @@
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
     <system:String x:Key="AccountSwitch">賬號切換</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換至的賬號，留空以禁用
-官服輸入登錄界面顯示的手機號，如「123****4567」，可輸入「123****4567」或「4567」或「23****45」
-Ｂ服輸入登錄界面顯示的賬號名，如「張三」，可輸入「張」或「三」
-暫不支持其他服
-MAA設計為只能切換到已登入帳號，且無法使用驗證碼/密碼登入</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用
+輸入登入界面顯示的內容，如“123****4567”，可輸入“123****4567”或“4567”或“23****45”
+僅支持官服、B服，不支持登入帳號</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>

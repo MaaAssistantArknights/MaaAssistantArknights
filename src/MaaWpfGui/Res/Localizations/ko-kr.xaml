@@ -316,10 +316,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="AccountSwitch">계정 전환</system:String>
     <system:String x:Key="AccountSwitchManualRun">수동 스위치</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">전환할 계정을 입력하고, 계정 전환을 종료하려면 공백으로 남겨두세요.
-공식(CN): 로그인 인터페이스에 표시된 휴대폰 번호(예: 123****4567)를 입력하세요.
-Bilibili: 로그인 인터페이스에 표시되는 계정 이름(예: 장산)을 입력하세요.
-다른 클라이언트 유형은 지원되지 않습니다.
-MAA는 로그인된 계정으로만 전환되도록 설계되었으며 인증 코드/비밀번호를 사용하여 로그인할 수 없습니다.</system:String>
+"123****4567"과 같이 로그인 인터페이스에 표시된 내용을 입력하세요. "123****4567", "4567" 또는 "23****45"를 입력할 수 있습니다.
+공식(CN) 및 Bilibili 서버만 지원합니다. 로그인 계정은 지원되지 않습니다.</system:String>
     <system:String x:Key="AdbPath">ADB 경로 (상대/절대)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">선택한 파일 이름에 ADB가 포함되어 있지 않습니다. 잘못된 파일을 선택했거나 에뮬레이터를 잘못 선택한 것은 아닌지 확인하세요</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
