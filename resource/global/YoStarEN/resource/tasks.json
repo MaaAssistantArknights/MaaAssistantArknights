@@ -7277,7 +7277,85 @@
             ]
         ]
     },
-    "Reclamation@BuyWaterProcedure": {
+    "Sami@Roguelike@NextLevel": {
+        "text": [
+            "Obtain after",
+            "this floor"
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode0": {
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "Brisk M?arshlands",
+                "_aggressive"
+            ],
+            [
+                "Placid Forests",
+                "_aggressive"
+            ],
+            [
+                "Dawning Frostbounds",
+                "_pragmatic"
+            ],
+            [
+                "Gelid Rockshelves",
+                "_pragmatic"
+            ],
+            [
+                "Immaculate Garden",
+                "_default"
+            ],
+            [
+                "Clairvoyant Carcass",
+                "_default"
+            ],
+            [
+                "深埋迷境",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "Brisk M?arshlands",
+                "_default"
+            ],
+            [
+                "Placid Forests",
+                "_default"
+            ],
+            [
+                "Dawning Frostbounds",
+                "_exit"
+            ],
+            [
+                "Gelid Rockshelves",
+                "_exit"
+            ],
+            [
+                "Immaculate Garden",
+                "_exit"
+            ],
+            [
+                "Clairvoyant Carcass",
+                "_exit"
+            ],
+            [
+                "深埋迷境",
+                "_exit"
+            ]
+        ]
+    },    "Reclamation@BuyWaterProcedure": {
         "text": [
             "Skip",
             "Building materials",
