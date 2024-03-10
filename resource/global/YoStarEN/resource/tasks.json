@@ -7291,33 +7291,39 @@
         ],
         "ocrReplace": [
             [
-                "Brisk M?arshlands",
+                "Brisk ?M?arshlands",
                 "_aggressive"
             ],
             [
-                "Placid Forests",
+                "Placid ?Forests",
                 "_aggressive"
             ],
             [
-                "Dawning Frostbounds",
+                "Dawning ?Frostbounds",
                 "_pragmatic"
             ],
             [
-                "Gelid Rockshelves",
+                "Gelid ?Rockshelves",
                 "_pragmatic"
             ],
             [
-                "Immaculate Garden",
+                "Immaculate ?Garden",
                 "_default"
             ],
             [
-                "Clairvoyant Carcass",
+                "Clairvoyant ?Carcass",
                 "_default"
             ],
             [
                 "深埋迷境",
                 "_SKIP_"
             ]
+        ],
+        "roi": [
+            635,
+            44,
+            97,
+            33
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
@@ -7327,35 +7333,42 @@
         ],
         "ocrReplace": [
             [
-                "Brisk M?arshlands",
+                "Brisk ?M?arshlands",
                 "_default"
             ],
             [
-                "Placid Forests",
+                "Placid ?Forests",
                 "_default"
             ],
             [
-                "Dawning Frostbounds",
+                "Dawning ?Frostbounds",
                 "_exit"
             ],
             [
-                "Gelid Rockshelves",
+                "Gelid ?Rockshelves",
                 "_exit"
             ],
             [
-                "Immaculate Garden",
+                "Immaculate ?Garden",
                 "_exit"
             ],
             [
-                "Clairvoyant Carcass",
+                "Clairvoyant ?Carcass",
                 "_exit"
             ],
             [
                 "深埋迷境",
                 "_exit"
             ]
+        ],
+        "roi": [
+            635,
+            44,
+            97,
+            33
         ]
-    },    "Reclamation@BuyWaterProcedure": {
+    },
+    "Reclamation@BuyWaterProcedure": {
         "text": [
             "Skip",
             "Building materials",
