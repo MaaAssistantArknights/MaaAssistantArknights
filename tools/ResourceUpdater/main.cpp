@@ -1054,11 +1054,14 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
                 base_stage_names.emplace(id, stage_obj["name"].as_string());
             }
             for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-                // limits only buyable items (08/03/2024 blocks 516 extracted items vs 514 shopping.json items)
+                // limits only buyable items
+                // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
                 if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
-                    if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
-                        id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
-                        id.starts_with(rogue_index + "_totem")) {
+                    if (id.starts_with(rogue_index + "_recruit")
+                        || id.starts_with(rogue_index + "_upgrade")
+                        || id.starts_with(rogue_index + "_relic")
+                        || id.starts_with(rogue_index + "_active")
+                        || id.starts_with(rogue_index + "_totem") || id.ends_with("_item")) {
                         base_item_names.emplace(id, item_obj["name"].as_string());
                     }
                 }
@@ -1107,11 +1110,14 @@ bool check_roguelike_replace_for_overseas(const std::filesystem::path& input_dir
             stage_names.emplace(id, stage_obj["name"].as_string());
         }
         for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
-            // limits only buyable items (08/03/2024 blocks 516 extracted items vs 514 shopping.json items)
+            // limits only buyable items
+            // (08/03/2024 items 516 extracted items vs 514 shopping.json items)
             if (!id.starts_with("rogue_1_relic_c") && !id.starts_with("rogue_1_relic_m")) {
-                if (id.starts_with(rogue_index + "_recruit") || id.starts_with(rogue_index + "_upgrade") ||
-                    id.starts_with(rogue_index + "_relic") || id.starts_with(rogue_index + "_active") ||
-                    id.starts_with(rogue_index + "_totem")) {
+                if (id.starts_with(rogue_index + "_recruit")
+                    || id.starts_with(rogue_index + "_upgrade")
+                    || id.starts_with(rogue_index + "_relic")
+                    || id.starts_with(rogue_index + "_active")
+                    || id.starts_with(rogue_index + "_totem") || id.ends_with("_item")) {
                     item_names.emplace(id, item_obj["name"].as_string());
                 }
             }
