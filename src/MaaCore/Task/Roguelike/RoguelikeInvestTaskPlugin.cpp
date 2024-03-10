@@ -66,7 +66,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
         else if (is_investment_error(image)) {
             Log.info(__FUNCTION__, "投资系统错误, 退出投资");
 
-            sleep(500);// 此处UI有一个从左往右的移动，等待后重新截图，防止UI错位
+            sleep(500); // 此处UI有一个从左往右的移动，等待后重新截图，防止UI错位
             if (auto ocr = ocr_current_count(ctrler()->get_image(), "Roguelike@StageTraderInvestError-Count"); ocr) {
                 // 可继续投资 / 到达投资上限999
                 count += *ocr - deposit.value_or(0);
@@ -112,14 +112,14 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
 
 std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_current_count(const auto& img, const auto& task_name)
 {
-    RegionOCRer ocr(img);
-    ocr.set_task_info(task_name);
-
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     auto task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
-
     auto merge_map = std::vector(number_replace);
     ranges::copy(task_replace, std::back_inserter(merge_map));
+
+    RegionOCRer ocr(img);
+    ocr.set_task_info(task_name);
+    ocr.set_use_raw(false);
     ocr.set_replace(merge_map);
     if (!ocr.analyze()) {
         Log.error(__FUNCTION__, "unable to analyze current investment count.");

@@ -1393,7 +1393,9 @@ namespace MaaWpfGui.ViewModels.UI
                 mode, Instances.SettingsViewModel.RoguelikeStartsCount,
                 Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentEnterSecondFloor, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
                 Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
-                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo, Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal, Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
+                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo,
+                Instances.SettingsViewModel.Roguelike3FirstFloorFoldartal, Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
+                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal, Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
                 Instances.SettingsViewModel.RoguelikeUseSupportUnit, Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 

@@ -2,6 +2,7 @@
 
 #include "Controller/Controller.h"
 #include "Status.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
@@ -78,7 +79,26 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@FoldartalGainOcrNextLevel");
     if (analyzer.analyze()) {
-        foldartal_floor = analyzer.get_result().front().text;
+        std::string foldartar_will_get_next_floor = analyzer.get_result().front().text;
+        foldartal_floor = foldartar_will_get_next_floor;
+        auto info = basic_info_with_what("FoldartalGainOcrNextLevel");
+        info["details"]["foldartal"] = foldartar_will_get_next_floor;
+        callback(AsstMsg::SubTaskExtraInfo, info);
+
+        if (m_config->get_first_floor_foldartal()) {
+            Log.info("Foldartal will get next floor:", foldartar_will_get_next_floor);
+            if (foldartar_will_get_next_floor == m_config->get_start_floor_foldartal()) {
+                m_task_ptr->set_enable(false);
+            }
+            else {
+                ProcessTask(*this, { m_config->get_theme() + "@Roguelike@NextLevel" })
+                    .set_times_limit("Roguelike@StrategyChange", 0)
+                    .run();
+                ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
+                    .set_times_limit("Roguelike@Abandon", 0)
+                    .run();
+            }
+        }
     }
     m_config->set_foldartal_floor(std::move(foldartal_floor));
 }
