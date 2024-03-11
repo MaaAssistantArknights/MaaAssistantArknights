@@ -305,10 +305,6 @@
             ],
             [
                 "Nearl? the Radiant Kn?ight",
-                "Nearl the Radiant Knight"
-            ],
-            [
-                "Nearl the Radiant Knight",
                 "耀骑士临光"
             ],
             [
@@ -456,11 +452,7 @@
                 "月见夜"
             ],
             [
-                "Reserve Operator *-* *M.*",
-                "Reserve Operator - Melee"
-            ],
-            [
-                "Reserve Operator - Melee",
+                "Reserve Operator *-* *M[elee]*",
                 "预备干员-近战"
             ],
             [
@@ -472,11 +464,7 @@
                 "空"
             ],
             [
-                "Ss?kad?i? the Co?rru?pt?ing.*",
-                "Skadi the Corrupting Heart"
-            ],
-            [
-                "Skadi the Corrupting Heart",
+                "Ss?kad?i? the Co?rru?pt?ing ?[Heart]*",
                 "浊心斯卡蒂"
             ],
             [
@@ -515,12 +503,9 @@
                 "Tsukinogi",
                 "月禾"
             ],
+
             [
                 "I?stina",
-                "Istina"
-            ],
-            [
-                "Istina",
                 "真理"
             ],
             [
@@ -543,12 +528,9 @@
                 "Orchid",
                 "梓兰"
             ],
+
             [
-                "Reserve Operator *-* *C.*",
-                "Reserve Operator - Caster"
-            ],
-            [
-                "Reserve Operator - Caster",
+                "Reserve Operator *-* *C[aster]*",
                 "预备干员-术师"
             ],
             [
@@ -557,10 +539,6 @@
             ],
             [
                 "Ansel?",
-                "Ansel"
-            ],
-            [
-                "Ansel",
                 "安赛尔"
             ],
             [
@@ -636,19 +614,11 @@
                 "蜜莓"
             ],
             [
-                "Reserve Operator *-* *L.*",
-                "Reserve Operator - Logistics"
-            ],
-            [
-                "Reserve Operator - Logistics",
+                "Reserve Operator *-* *L[ogistics]*",
                 "预备干员-后勤"
             ],
             [
                 "Flametail?",
-                "Flametail"
-            ],
-            [
-                "Flametail",
                 "焰尾"
             ],
             [
@@ -733,10 +703,6 @@
             ],
             [
                 "'?Justice Knight'?",
-                "'Justice Knight'"
-            ],
-            [
-                "'Justice Knight'",
                 "正义骑士号"
             ],
             [
@@ -797,10 +763,6 @@
             ],
             [
                 "Ambriel?",
-                "Ambriel"
-            ],
-            [
-                "Ambriel",
                 "安比尔"
             ],
             [
@@ -813,10 +775,6 @@
             ],
             [
                 "Vermeil?",
-                "Vermeil"
-            ],
-            [
-                "Vermeil",
                 "红云"
             ],
             [
@@ -829,10 +787,6 @@
             ],
             [
                 "Exusiai?",
-                "Exusiai"
-            ],
-            [
-                "Exusiai",
                 "能天使"
             ],
             [
@@ -869,10 +823,6 @@
             ],
             [
                 "Adnachiel?",
-                "Adnachiel"
-            ],
-            [
-                "Adnachiel",
                 "安德切尔"
             ],
             [
@@ -884,11 +834,7 @@
                 "巡林者"
             ],
             [
-                "Reserve Operator *-* *S.*",
-                "Reserve Operator - Sniper"
-            ],
-            [
-                "Reserve Operator - Sniper",
+                "Reserve Operator *-* *S[niper]*",
                 "预备干员-狙击"
             ],
             [
@@ -973,10 +919,6 @@
             ],
             [
                 "^Nearl?$",
-                "Nearl"
-            ],
-            [
-                "^Nearl$",
                 "临光"
             ],
             [
@@ -1036,11 +978,7 @@
                 "炎狱炎熔"
             ],
             [
-                "^I?ris$",
-                "Iris"
-            ],
-            [
-                "^Iris$",
+                "^[Iil]?ris$",
                 "爱丽丝"
             ],
             [
@@ -1073,10 +1011,6 @@
             ],
             [
                 "Leizi?",
-                "Leizi"
-            ],
-            [
-                "Leizi",
                 "惊蛰"
             ],
             [
@@ -1097,10 +1031,6 @@
             ],
             [
                 "[Iil]?frit",
-                "Ifrit"
-            ],
-            [
-                "Ifrit",
                 "伊芙利特"
             ],
             [
@@ -1129,10 +1059,6 @@
             ],
             [
                 "Mizuki?",
-                "Mizuki"
-            ],
-            [
-                "Mizuki",
                 "水月"
             ],
             [
@@ -1320,11 +1246,7 @@
                 "碎石"
             ],
             [
-                "High-Energy Originium Barrel.*",
-                "High-Energy Originium Barrel Bomb"
-            ],
-            [
-                "High-Energy Originium Barrel Bomb",
+                "High-Energy Originium Barrel[ Bomb]*",
                 "高能源石爆桶"
             ],
             [
@@ -1397,10 +1319,6 @@
             ],
             [
                 "Nine-*Colored Deer",
-                "Nine-Colored Deer"
-            ],
-            [
-                "Nine-Colored Deer",
                 "九色鹿"
             ],
             [
@@ -1420,11 +1338,7 @@
                 "加固装置"
             ],
             [
-                "Temporary Rhodes Island Empl.*",
-                "Temporary Rhodes Island Employee"
-            ],
-            [
-                "Temporary Rhodes Island Employee",
+                "Temporary Rhodes Island Empl[oyee]*",
                 "罗德岛临时雇员"
             ],
             [
@@ -1616,11 +1530,7 @@
                 "伦蒂尼姆城防副炮"
             ],
             [
-                "[Ii]?rene",
-                "Irene"
-            ],
-            [
-                "Irene",
+                "[Iil]?rene",
                 "艾丽妮"
             ],
             [
@@ -1756,11 +1666,7 @@
                 "实体程式控制"
             ],
             [
-                "Reserve Operator *-* *D.*",
-                "Reserve Operator - Defender"
-            ],
-            [
-                "Reserve Operator - Defender",
+                "Reserve Operator *-* *D[efender]*",
                 "预备干员-重装"
             ],
             [
@@ -1773,14 +1679,10 @@
             ],
             [
                 "L *ith *t* *nrey *thne",
-                "Greyy the Lightningbearer"
+                "承曦格雷伊"
             ],
             [
-                "Greyy the Lightningbe.*",
-                "Greyy the Lightningbearer"
-            ],
-            [
-                "Greyy the Lightningbearer",
+                "Greyy the Lightningbe[arer]*",
                 "承曦格雷伊"
             ],
             [
@@ -1809,10 +1711,6 @@
             ],
             [
                 "Luo Xiaohei?",
-                "Luo Xiaohei"
-            ],
-            [
-                "Luo Xiaohei",
                 "罗小黑"
             ],
             [
@@ -1960,7 +1858,7 @@
                 "谜图"
             ],
             [
-                ".*girian Oscilloscope",
+                ".*?girian Oscilloscope",
                 "阿戈尔示波器"
             ],
             [
@@ -1988,11 +1886,11 @@
                 "镀膜装置导能阀"
             ],
             [
-                "Redeployment Conduction.*",
+                "Redeployment Conduction[ Component]*",
                 "重整导能组件"
             ],
             [
-                "Counter Conduction.*",
+                "Counter Conduction[ Component]*",
                 "反制导能组件"
             ],
             [
@@ -2337,10 +2235,6 @@
             ],
             [
                 "Executor the Ex ?Foedere?",
-                "Executor the Ex Foedere"
-            ],
-            [
-                "Executor the Ex Foedere",
                 "圣约送葬人"
             ],
             [
@@ -2376,7 +2270,7 @@
                 "Eyjafjalla the Hvít Aska"
             ],
             [
-                "Eyjafjalla the Hvít Aska",
+                "Eyjafja?ll?a the Hv.t Aska",
                 "纯烬艾雅法拉"
             ],
             [
