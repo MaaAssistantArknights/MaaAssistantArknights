@@ -3826,16 +3826,12 @@
             ]
         ]
     },
-    "RoguelikeRecruitLevel": {
-        "rectMove_Doc2": "For some reason this needs to be different from the official.",
-        "rectMove_Doc3": "(Being more precise, it seems like it's from the operator name)",
-        "template": "empty.png",
-        "rectMove_Doc": "Level detection in recruit. Relative to flag (hope icon).",
-        "rectMove": [
-            -177,
-            -7,
-            23,
-            16
+    "RoguelikeFormationOcr": {
+        "roi": [
+            205,
+            83,
+            130,
+            23
         ]
     },
     "RoguelikeRefreshSupportBtnOcr": {
