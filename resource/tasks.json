@@ -8029,6 +8029,12 @@
             620,
             365,
             35
+        ],
+        "ocrReplace": [
+            [
+                "^[",
+                ""
+            ]
         ]
     },
     "InfrastTrainingLevel": {
