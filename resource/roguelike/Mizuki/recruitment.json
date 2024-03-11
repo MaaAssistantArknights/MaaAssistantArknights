@@ -1361,6 +1361,19 @@
                             "offset": -400
                         }
                     ]
+                },
+                {
+                    "name": "万顷",
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "投锋",
+                                "挡人先锋"
+                            ],
+                            "threshold": 2,
+                            "offset": -400
+                        }
+                    ]
                 }
             ]
         },
@@ -2235,6 +2248,29 @@
                     "is_start": true,
                     "recruit_priority": 323,
                     "promote_priority": 0
+                },
+                {
+                    "name": "但书",
+                    "skill": 2
+                },
+                {
+                    "name": "真理",
+                    "skill": 2
+                },
+                {
+                    "name": "小满"
+                },
+                {
+                    "name": "地灵"
+                },
+                {
+                    "name": "凛视"
+                },
+                {
+                    "name": "安洁莉娜"
+                },
+                {
+                    "name": "格劳克斯"
                 }
             ]
         },
@@ -2593,6 +2629,30 @@
                 },
                 {
                     "name": "Friston-3"
+                },
+                {
+                    "name": "左乐",
+                    "skill": 3,
+                    "alternate_skill": 2
+                },
+                {
+                    "name": "达格达",
+                    "skill": 2
+                },
+                {
+                    "name": "温蒂",
+                    "skill": 2
+                },
+                {
+                    "name": "见行者",
+                    "skill": 2
+                },
+                {
+                    "name": "食铁兽",
+                    "skill": 2
+                },
+                {
+                    "name": "阿消"
                 }
             ]
         },
@@ -2668,6 +2728,9 @@
                 },
                 {
                     "name": "杜宾"
+                },
+                {
+                    "name": "涤火杰西卡"
                 }
             ]
         },
@@ -2837,6 +2900,9 @@
                 },
                 {
                     "name": "桃金娘"
+                },
+                {
+                    "name": "万顷"
                 },
                 {
                     "name": "郁金香"
@@ -3072,6 +3138,99 @@
                 },
                 {
                     "name": "龙腾.A"
+                },
+                {
+                    "name": "戴菲恩"
+                },
+                {
+                    "name": "温米"
+                },
+                {
+                    "name": "和弦"
+                },
+                {
+                    "name": "蚀清"
+                },
+                {
+                    "name": "卡涅利安"
+                },
+                {
+                    "name": "深靛"
+                },
+                {
+                    "name": "炎狱炎熔"
+                },
+                {
+                    "name": "炎熔",
+                    "is_key": true,
+                    "recruit_priority": 206
+                },
+                {
+                    "name": "爱丽丝"
+                },
+                {
+                    "name": "薄绿"
+                },
+                {
+                    "name": "蜜蜡"
+                },
+                {
+                    "name": "莱恩哈特",
+                    "skill": 2
+                },
+                {
+                    "name": "格雷伊"
+                },
+                {
+                    "name": "承曦格雷伊",
+                    "skill": 2
+                },
+                {
+                    "name": "伊芙利特",
+                    "skill": 2
+                },
+                {
+                    "name": "远山"
+                },
+                {
+                    "name": "夜烟"
+                },
+                {
+                    "name": "玫拉"
+                },
+                {
+                    "name": "酸糖"
+                },
+                {
+                    "name": "普罗旺斯"
+                },
+                {
+                    "name": "红云"
+                },
+                {
+                    "name": "流星"
+                },
+                {
+                    "name": "杰西卡"
+                },
+                {
+                    "name": "冰酿"
+                },
+                {
+                    "name": "奥斯塔"
+                },
+                {
+                    "name": "送葬人"
+                },
+                {
+                    "name": "安德切尔",
+                    "is_key": true,
+                    "recruit_priority": 254
+                },
+                {
+                    "name": "空爆",
+                    "is_key": true,
+                    "recruit_priority": 206
                 }
             ]
         },
@@ -3306,6 +3465,63 @@
                     ]
                 },
                 {
+                    "name": "赫拉格",
+                    "skill": 2,
+                    "recruit_priority": -800
+                },
+                {
+                    "name": "赤冬",
+                    "skill": 2,
+                    "recruit_priority": -800
+                },
+                {
+                    "name": "火龙S黑角",
+                    "skill": 2,
+                    "recruit_priority": -800
+                },
+                {
+                    "name": "龙舌兰",
+                    "skill": 2
+                },
+                {
+                    "name": "维荻",
+                    "skill": 2,
+                    "recruit_priority": -800
+                },
+                {
+                    "name": "琳琅诗怀雅",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": -800
+                },
+                {
+                    "name": "老鲤",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 260,
+                    "promote_priority": 350,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "回费"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "乌有",
+                    "skill": 1,
+                    "recruit_priority": -800
+                },
+                {
+                    "name": "火神",
+                    "skill": 2,
+                    "recruit_priority": -800
+                },
+                {
                     "name": "障碍物"
                 },
                 {
@@ -3321,6 +3537,21 @@
                 {
                     "name": "幻影",
                     "doc": "即 鸟笼"
+                },
+                {
+                    "name": "铁钳号·原型机"
+                },
+                {
+                    "name": "流形"
+                },
+                {
+                    "name": "狼群"
+                },
+                {
+                    "name": "眠兽"
+                },
+                {
+                    "name": "磐蟹护卫队"
                 }
             ]
         },
@@ -3373,6 +3604,9 @@
                 },
                 {
                     "name": "“打字机”"
+                },
+                {
+                    "name": "缪尔赛思"
                 }
             ]
         }
