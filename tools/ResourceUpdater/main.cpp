@@ -116,13 +116,13 @@ int main([[maybe_unused]] int argc, char** argv)
 
     std::unordered_map<std::filesystem::path, std::string> global_dirs = {
         { "en_US", "YoStarEN" },
-        { "ja_JP", "YoStarJP" },
-        { "ko_KR", "YoStarKR" },
-        { "zh_TW", "txwy" },
+        //{ "ja_JP", "YoStarJP" },
+        //{ "ko_KR", "YoStarKR" },
+        //{ "zh_TW", "txwy" },
     };
 
     // ---- METHODS CALLS ----
-
+    /*
     // Update levels.json from ArknightsGameResource
     std::cout << "------- Update levels.json for Official -------" << std::endl;
     if (!update_levels_json(
@@ -247,7 +247,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-
+    */
     // Update roguelike replace for overseas from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------- Update roguelike replace for " << out << "------- " << std::endl;
@@ -263,7 +263,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-
+    /*
     // Update version info from ArknightsGameData
     std::cout << "------- Update version info for Official -------" << std::endl;
     if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
@@ -273,6 +273,7 @@ int main([[maybe_unused]] int argc, char** argv)
     else {
         std::cout << "Done" << std::endl;
     }
+
     // Update global version info from ArknightsGameData_Yostar
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------- Update version info for " << out << "------- " << std::endl;
@@ -286,7 +287,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-
+    */
     std::cout << "------- All success -------" << std::endl;
     return 0;
 }
@@ -1149,7 +1150,10 @@ bool check_roguelike_replace_for_overseas(
         auto& rg_json = rg_opt.value();
         for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
             for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
-                base_stage_names.emplace(id, stage_obj["name"].as_string());
+                if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_")
+                    && !id.starts_with("ro3_e_")) {
+                    base_stage_names.emplace(id, stage_obj["name"].as_string());
+                }
             }
             for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
                 // limits only buyable items
@@ -1206,7 +1210,10 @@ bool check_roguelike_replace_for_overseas(
     std::string encounter_nospace;
     for (auto& [rogue_index, rogue_details] : rg_json["details"].as_object()) {
         for (auto&& [id, stage_obj] : rogue_details["stages"].as_object()) {
-            stage_names.emplace(id, stage_obj["name"].as_string());
+            if (!id.starts_with("ro1_e_") && !id.starts_with("ro2_e_")
+                && !id.starts_with("ro3_e_")) {
+                stage_names.emplace(id, stage_obj["name"].as_string());
+            }
         }
         for (auto&& [id, item_obj] : rogue_details["items"].as_object()) {
             // limits only buyable items
@@ -1290,15 +1297,15 @@ bool check_roguelike_replace_for_overseas(
     };
 
     proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
-    proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
-    proc(
-        task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(),
-        base_item_names,
-        item_names);
-    proc(
-        task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(),
-        base_encounter_names,
-        encounter_names);
+    // proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
+    // proc(
+    //     task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(),
+    //     base_item_names,
+    //     item_names);
+    // proc(
+    //     task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(),
+    //     base_encounter_names,
+    //     encounter_names);
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format() << std::endl;
