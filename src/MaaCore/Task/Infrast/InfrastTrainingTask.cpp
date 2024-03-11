@@ -71,11 +71,10 @@ bool asst::InfrastTrainingTask::analyze_status()
     m_operator_name = raw_str.substr(0, separation_pos - 1);
     for (const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
          const auto& [regex, new_str] : replace_map) {
-        if (std::regex_search(operator_name, std::regex(regex))) {
-            operator_name = new_str;
+        if (std::regex_search(m_operator_name, std::regex(regex))) {
+            m_operator_name = new_str;
         }
     }
-    m_operator_name = operator_name;
     m_skill_name = raw_str.substr(separation_pos + 1, raw_str.length() - separation_pos + 1);
 
     // TODO: 根据角色职业增加换班功能
