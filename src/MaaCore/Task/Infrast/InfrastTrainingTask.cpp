@@ -4,7 +4,6 @@
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/OCRer.h"
 #include "Vision/RegionOCRer.h"
@@ -70,7 +69,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     }
 
     // ']'前为干员名，']'后为技能名
-    // 如果没识别到']'，则说明干员名是第一个字符
+    // 如果没识别到'['，则说明干员名是第一个字符
     size_t starting_pos = (raw_str[0] == '[') ? 1 : 0;
     auto operator_name = raw_str.substr(starting_pos, separation_pos - 1);
     for (const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
