@@ -503,7 +503,6 @@
                 "Tsukinogi",
                 "月禾"
             ],
-
             [
                 "I?stina",
                 "真理"
@@ -528,7 +527,6 @@
                 "Orchid",
                 "梓兰"
             ],
-
             [
                 "Reserve Operator *-* *C[aster]*",
                 "预备干员-术师"
@@ -3416,7 +3414,8 @@
             [
                 "'Envoy of Justice'",
                 "“正义使者”"
-            ]        ]
+            ]
+        ]
     },
     "BattleQuickFormationExpandRole": {
         "roi": [
