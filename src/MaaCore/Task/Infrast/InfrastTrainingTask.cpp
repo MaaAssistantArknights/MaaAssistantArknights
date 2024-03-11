@@ -1,12 +1,13 @@
 #include "InfrastTrainingTask.h"
 
-#include "Task/ProcessTask.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Vision/RegionOCRer.h"
-#include "Vision/BestMatcher.h"
-#include "Vision/OCRer.h"
+#include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Utils/Ranges.hpp"
+#include "Vision/BestMatcher.h"
+#include "Vision/OCRer.h"
+#include "Vision/RegionOCRer.h"
 
 #include <regex>
 
@@ -34,7 +35,7 @@ bool asst::InfrastTrainingTask::_run()
             Log.error(__FUNCTION__, "choose skill failed");
             return false;
         }
-        
+
         continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
     }
 
@@ -62,16 +63,25 @@ bool asst::InfrastTrainingTask::analyze_status()
     }
 
     std::string raw_str = rec_analyzer.get_result().text;
-    size_t separation_pos = raw_str.find("]");
+    size_t separation_pos = raw_str.find(']');
     if (separation_pos == std::string::npos) {
         Log.error(__FUNCTION__, "separate string failed");
         return false;
     }
 
-    // "]"前为干员名，"]"后为技能名
-    m_operator_name = raw_str.substr(1, separation_pos - 1);
+    // ']'前为干员名，']'后为技能名
+    // 如果没识别到']'，则说明干员名是第一个字符
+    size_t starting_pos = (raw_str[0] == '[') ? 1 : 0;
+    auto operator_name = raw_str.substr(starting_pos, separation_pos - 1);
+    for (const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+         const auto& [regex, new_str] : replace_map) {
+        if (std::regex_search(operator_name, std::regex(regex))) {
+            operator_name = new_str;
+        }
+    }
+    m_operator_name = operator_name;
     m_skill_name = raw_str.substr(separation_pos + 1, raw_str.length() - separation_pos + 1);
-    
+
     // TODO: 根据角色职业增加换班功能
     // m_operator_role = BattleData.get_role(m_operator_name);
 
@@ -94,7 +104,7 @@ bool asst::InfrastTrainingTask::analyze_status()
 
     m_continue_training = false;
 
-    if(!time_left_analyze(image)) return false;
+    if (!time_left_analyze(image)) return false;
 
     {
         json::value cb_info = basic_info();
@@ -152,7 +162,7 @@ bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
             return false;
         }
         std::string str_time = match.str();
-        
+
         if (!utils::chars_to_number(str_time, time_left[i])) {
             Log.error(__FUNCTION__, "chars_to_number failed");
             return false;
@@ -170,7 +180,8 @@ asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool
 
 bool asst::InfrastTrainingTask::continue_train(int index)
 {
-    static const std::vector<std::string> continue_train_task = { "InfrastTrainingContinue1", "InfrastTrainingContinue2",
+    static const std::vector<std::string> continue_train_task = { "InfrastTrainingContinue1",
+                                                                  "InfrastTrainingContinue2",
                                                                   "InfrastTrainingContinue3" };
     return ProcessTask { *this, { continue_train_task[index - 1] } }.run();
 }
