@@ -23,6 +23,7 @@ namespace asst
 
         void set_task_info(const std::string& templ_task_name, const std::string& ocr_task_name);
         void set_flag_rect_move(Rect flag_rect_move);
+        void set_ocr_use_raw(bool use_raw) { m_use_raw = use_raw; }
 
         ResultsVecOpt analyze() const;
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
@@ -39,6 +40,7 @@ namespace asst
 
     private:
         Rect m_flag_rect_move;
+        bool m_use_raw = true;
 
     private:
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉

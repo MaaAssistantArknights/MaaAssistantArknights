@@ -23,6 +23,7 @@ TemplDetOCRer::ResultsVecOpt TemplDetOCRer::analyze() const
 
         RegionOCRer ocr_analyzer(m_image, roi);
         ocr_analyzer.set_params(OCRerConfig::m_params);
+        ocr_analyzer.set_use_raw(m_use_raw);
         auto ocr_opt = ocr_analyzer.analyze();
         if (!ocr_opt) {
             continue;
