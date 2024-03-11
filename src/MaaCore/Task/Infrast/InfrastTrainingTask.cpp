@@ -47,8 +47,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     RegionOCRer idle_analyzer(image);
     idle_analyzer.set_task_info("InfrastTrainingIdle");
     if (idle_analyzer.analyze()) {
-        json::value cb_info = basic_info();
-        cb_info["what"] = "InfrastTrainingIdle";
+        json::value cb_info = basic_info_with_what("InfrastTrainingIdle");
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
         m_continue_training = false;
         return true;
@@ -69,9 +68,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     }
 
     // ']'前为干员名，']'后为技能名
-    // 如果没识别到'['，则说明干员名是第一个字符
-    size_t starting_pos = (raw_str[0] == '[') ? 1 : 0;
-    auto operator_name = raw_str.substr(starting_pos, separation_pos - 1);
+    m_operator_name = raw_str.substr(0, separation_pos - 1);
     for (const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
          const auto& [regex, new_str] : replace_map) {
         if (std::regex_search(operator_name, std::regex(regex))) {
@@ -90,8 +87,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     }
 
     if (training_completed()) {
-        json::value cb_info = basic_info();
-        cb_info["what"] = "InfrastTrainingCompleted";
+        json::value cb_info = basic_info_with_what("InfrastTrainingCompleted");
         cb_info["details"] = json::object {
             { "operator", m_operator_name },
             { "skill", m_skill_name },
@@ -106,8 +102,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     if (!time_left_analyze(image)) return false;
 
     {
-        json::value cb_info = basic_info();
-        cb_info["what"] = "InfrastTrainingTimeLeft";
+        json::value cb_info = basic_info_with_what("InfrastTrainingTimeLeft");
         cb_info["details"] = json::object {
             { "operator", m_operator_name }, { "skill", m_skill_name }, { "level", m_level },
             { "hh", time_left[0] },          { "mm", time_left[1] },    { "ss", time_left[2] },
@@ -138,8 +133,7 @@ bool asst::InfrastTrainingTask::level_analyze(cv::Mat image)
 
 bool asst::InfrastTrainingTask::training_completed()
 {
-    ProcessTask task(*this, { "InfrastTrainingCompleted" });
-    return task.run();
+    return ProcessTask(*this, { "InfrastTrainingCompleted" }).run();
 }
 
 bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
