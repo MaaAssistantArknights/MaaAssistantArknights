@@ -6770,10 +6770,20 @@
             ]
         ]
     },
-    "Sami@Roguelike@StageSafeHouseReuse": {
+    "Sami@Roguelike@ContinueClick": {
         "text": [
-            "Use the Safe House again",
-            "Use the Safe"
+            "Brisk Marshalands",
+            "Placid Forests",
+            "Dawning Frostbounds",
+            "Gelid Rockshelves",
+            "Immaculate Garden",
+            "Clayrovant Carcass"
+        ],
+        "roi": [
+            467,
+            531,
+            357,
+            72
         ]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
@@ -6938,6 +6948,12 @@
             "this floor"
         ]
     },
+    "Sami@Roguelike@StageSafeHouseReuse": {
+        "text": [
+            "Use the Safe House again",
+            "Use the Safe"
+        ]
+    },
     "Sami@Roguelike@StrategyChange_mode0": {
         "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [
@@ -7031,22 +7047,6 @@
                 "深埋迷境",
                 "_exit"
             ]
-        ]
-    },
-    "Sami@Roguelike@ContinueClick": {
-        "text": [
-            "Brisk Marshalands",
-            "Placid Forests",
-            "Dawning Frostbounds",
-            "Gelid Rockshelves",
-            "Immaculate Garden",
-            "Clayrovant Carcass"
-        ],
-        "roi": [
-            467,
-            531,
-            357,
-            72
         ]
     },
     "Reclamation@BuyWaterProcedure": {
