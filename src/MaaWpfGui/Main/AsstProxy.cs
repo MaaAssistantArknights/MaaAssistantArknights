@@ -2060,6 +2060,7 @@ namespace MaaWpfGui.Main
                 ["mode"] = mode,
                 ["starts_count"] = starts,
                 ["theme"] = theme,
+                ["investment_enabled"] = false,
             };
 
             if (mode == 1 || investmentEnabled)
