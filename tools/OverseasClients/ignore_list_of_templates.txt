@@ -173,6 +173,7 @@ NormalDifficulty.png
 NoStone.png
 OF-Chapter2.png
 OfflineConfirm.png
+OperBoxEnterSiege
 OperBoxFlagElite1.png
 OperBoxFlagElite2.png
 OperBoxFlagRole1.png
