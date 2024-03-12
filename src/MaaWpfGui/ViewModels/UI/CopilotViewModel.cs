@@ -44,7 +44,7 @@ namespace MaaWpfGui.ViewModels.UI
     {
         private readonly RunningState _runningState;
         private static readonly ILogger _logger = Log.ForContext<CopilotViewModel>();
-        private List<int> _copilotIdList = new(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
+        private readonly List<int> _copilotIdList = new(); // 用于保存作业列表中的作业的Id，对于同一个作业，只有都执行成功才点赞
 
         /// <summary>
         /// Gets the view models of log items.
@@ -62,7 +62,7 @@ namespace MaaWpfGui.ViewModels.UI
         public CopilotViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Copilot");
-            AddLog(LocalizationHelper.GetString("CopilotTip"));
+            AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
 
@@ -205,7 +205,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 catch (Exception)
                 {
-                    AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
                     return;
                 }
 
@@ -249,19 +249,19 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId));
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId)) ?? string.Empty;
                 var json = (JObject?)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
                     return json["data"]?["content"]?.ToString();
                 }
 
-                AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error, showTime: false);
                 return string.Empty;
             }
             catch (Exception)
             {
-                AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("NetworkServiceError"), UiLogColor.Error, showTime: false);
                 return string.Empty;
             }
         }
@@ -301,7 +301,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                 if (json == null)
                 {
-                    AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
+                    AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
                     return;
                 }
 
@@ -310,7 +310,7 @@ namespace MaaWpfGui.ViewModels.UI
                     MapUrl = MapUiUrl.Replace("areas", "map/" + stageNameValue);
                 }
 
-                AddLog(LocalizationHelper.GetString("CopilotTip"));
+                AddLog(LocalizationHelper.GetString("CopilotTip"), showTime: false);
 
                 var doc = (JObject?)json["doc"];
                 string title = string.Empty;
@@ -345,7 +345,7 @@ namespace MaaWpfGui.ViewModels.UI
                         detailsColor = detailsColorValue.ToString();
                     }
 
-                    AddLog(details, detailsColor);
+                    AddLog(details, detailsColor, showTime: false);
                     {
                         CopilotUrl = CopilotUiUrl;
                         var linkParser = new Regex(@"(?:av\d+|bv[a-z0-9]{10})(?:\/\?p=\d+)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -357,12 +357,12 @@ namespace MaaWpfGui.ViewModels.UI
                     }// 视频链接
                 }
 
-                AddLog(string.Empty, UiLogColor.Message);
+                AddLog(string.Empty, UiLogColor.Message, showTime: false);
                 int count = 0;
                 foreach (var oper in json["opers"] ?? new JArray())
                 {
                     count++;
-                    AddLog($"{oper["name"]}, {oper["skill"]} 技能", UiLogColor.Message);
+                    AddLog($"{oper["name"]}, {oper["skill"]} 技能", UiLogColor.Message, showTime: false);
                 }
 
                 if (json.TryGetValue("groups", out var groupsValue))
@@ -373,11 +373,11 @@ namespace MaaWpfGui.ViewModels.UI
                         string groupName = group["name"] + ": ";
                         var operInfos = group["opers"]!.Cast<JObject>().Select(oper => $"{oper["name"]} {oper["skill"]}").ToList();
 
-                        AddLog(groupName + string.Join(" / ", operInfos), UiLogColor.Message);
+                        AddLog(groupName + string.Join(" / ", operInfos), UiLogColor.Message, showTime: false);
                     }
                 }
 
-                AddLog($"共 {count} 名干员", UiLogColor.Message);
+                AddLog($"共 {count} 名干员", UiLogColor.Message, showTime: false);
 
                 if (json.TryGetValue("type", out var typeValue))
                 {
@@ -388,17 +388,17 @@ namespace MaaWpfGui.ViewModels.UI
 
                         if (json.TryGetValue("tool_men", out var toolMenValue))
                         {
-                            AddLog("编队工具人：\n" + toolMenValue, UiLogColor.Message);
+                            AddLog("编队工具人：\n" + toolMenValue, UiLogColor.Message, showTime: false);
                         }
 
-                        if (json.TryGetValue("equipment", out var equipmentValue))
+                        if (json.TryGetValue("equipment", out var equipmentValue) && equipmentValue is JArray equipmentJArray)
                         {
-                            AddLog("开局装备（横向）：\n" + equipmentValue, UiLogColor.Message);
+                            AddLog("开局装备（横向）：\n" + string.Join('\n', equipmentJArray.Select(i => (string?)i).Chunk(4).Select(i => string.Join(",", i))), UiLogColor.Message, showTime: false);
                         }
 
                         if (json.TryGetValue("strategy", out var strategyValue))
                         {
-                            AddLog("开局策略：" + strategyValue, UiLogColor.Message);
+                            AddLog("开局策略：" + strategyValue, UiLogColor.Message, showTime: false);
                         }
                     }
                 }
@@ -417,7 +417,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception)
             {
-                AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
             }
         }
 
@@ -477,7 +477,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var fileInfo = new FileInfo(file);
                 if (!fileInfo.Exists)
                 {
-                    AddLog($"{file} not exists");
+                    AddLog($"{file} not exists", showTime: false);
                     return;
                 }
 
@@ -489,7 +489,7 @@ namespace MaaWpfGui.ViewModels.UI
                     var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
                     if (json is null || !json.ContainsKey("stage_name") || !json.ContainsKey("actions"))
                     {
-                        AddLog($"{file} is broken", UiLogColor.Error);
+                        AddLog($"{file} is broken", UiLogColor.Error, showTime: false);
                         return;
                     }
 
@@ -498,7 +498,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     if (string.IsNullOrEmpty(stageName))
                     {
-                        AddLog($"invalid name to navigate: {fileName}[{fileInfo.FullName}]", UiLogColor.Error);
+                        AddLog($"invalid name to navigate: {fileName}[{fileInfo.FullName}]", UiLogColor.Error, showTime: false);
                         return;
                     }
 
@@ -506,7 +506,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 catch (Exception)
                 {
-                    AddLog($"{file}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                    AddLog($"{file}: " + LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
                     return;
                 }
             }
@@ -536,7 +536,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Index = CopilotItemViewModels.Count,
                 };
                 CopilotItemViewModels.Add(item);
-                AddLog("append task: " + taskPair.Key);
+                AddLog("append task: " + taskPair.Key, showTime: false);
             }
 
             SaveCopilotTask();
@@ -581,7 +581,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Filename = string.Empty;
                 ClearLog();
-                AddLog(LocalizationHelper.GetString("NotCopilotJson"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("NotCopilotJson"), UiLogColor.Error, showTime: false);
             }
         }
 
@@ -606,7 +606,7 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception exception)
             {
                 comboBox.ItemsSource = null;
-                AddLog(exception.Message, UiLogColor.Error);
+                AddLog(exception.Message, UiLogColor.Error, showTime: false);
             }
         }
 
@@ -764,7 +764,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
             catch (Exception ex)
             {
-                AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
                 Log.Error(ex.ToString());
             }
         }
@@ -968,7 +968,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 _runningState.SetIdle(true);
-                AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("CopilotFileReadError"), UiLogColor.Error, showTime: false);
             }
         }
 
@@ -1067,12 +1067,12 @@ namespace MaaWpfGui.ViewModels.UI
             var response = await Instances.HttpService.PostAsJsonAsync(new Uri(MaaUrls.PrtsPlusCopilotRating), new { id = copilotId, rating });
             if (response == null)
             {
-                AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error);
+                AddLog(LocalizationHelper.GetString("FailedToLikeWebJson"), UiLogColor.Error, showTime: false);
                 return;
             }
 
             _recentlyRatedCopilotId.Add(copilotId);
-            AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info);
+            AddLog(LocalizationHelper.GetString("ThanksForLikeWebJson"), UiLogColor.Info, showTime: false);
         }
 
         private string _urlText = LocalizationHelper.GetString("PrtsPlus");
@@ -1160,7 +1160,7 @@ namespace MaaWpfGui.ViewModels.UI
             switch (text)
             {
                 case "/help":
-                    AddLog(LocalizationHelper.GetString("HelloWorld"), UiLogColor.Message);
+                    AddLog(LocalizationHelper.GetString("HelloWorld"), UiLogColor.Message, showTime: false);
                     break;
             }
         }

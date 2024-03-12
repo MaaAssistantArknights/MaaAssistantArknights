@@ -480,7 +480,7 @@ namespace MaaWpfGui.Main
 
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
                         Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
+                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color, showTime: false);
                     }
 
                     break;
@@ -495,7 +495,7 @@ namespace MaaWpfGui.Main
                         static void AddLog(string message, string color)
                         {
                             Instances.TaskQueueViewModel.AddLog(message, color);
-                            Instances.CopilotViewModel.AddLog(message, color);
+                            Instances.CopilotViewModel.AddLog(message, color, showTime: false);
                             HasPrintedScreencapWarning = true;
                         }
 
@@ -565,7 +565,7 @@ namespace MaaWpfGui.Main
                             }
 
                             _runningState.SetIdle(true);
-                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error, showTime: true);
+                            Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
                         }
 
                         if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
@@ -633,7 +633,7 @@ namespace MaaWpfGui.Main
                             Instances.CopilotViewModel.CopilotTaskSuccess();
                         }
 
-                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info, showTime: true);
+                        Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 
                     break;
@@ -980,7 +980,7 @@ namespace MaaWpfGui.Main
                                 break;
 
                             case "BattleStartAll":
-                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info, showTime: true);
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissionStart"), UiLogColor.Info);
                                 break;
 
                             case "StageTraderSpecialShoppingAfterRefresh":
@@ -996,7 +996,7 @@ namespace MaaWpfGui.Main
                         string what = details["what"]?.ToString();
                         if (!string.IsNullOrEmpty(what))
                         {
-                            Instances.CopilotViewModel.AddLog(what, showTime: true);
+                            Instances.CopilotViewModel.AddLog(what);
                         }
 
                         break;
@@ -1248,11 +1248,11 @@ namespace MaaWpfGui.Main
                     }
 
                 case "BattleFormation":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]), showTime: true);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails["formation"]));
                     break;
 
                 case "BattleFormationSelected":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + subTaskDetails["selected"], showTime: true);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + subTaskDetails["selected"]);
                     break;
 
                 case "CopilotAction":
@@ -1261,31 +1261,31 @@ namespace MaaWpfGui.Main
                         if (doc?.Length != 0)
                         {
                             string color = subTaskDetails["doc_color"]?.ToString();
-                            Instances.CopilotViewModel.AddLog(doc, color?.Length == 0 ? UiLogColor.Message : color, showTime: true);
+                            Instances.CopilotViewModel.AddLog(doc, color?.Length == 0 ? UiLogColor.Message : color);
                         }
 
                         Instances.CopilotViewModel.AddLog(
                             string.Format(LocalizationHelper.GetString("CurrentSteps"),
                                 subTaskDetails["action"],
-                                subTaskDetails["target"]), showTime: true);
+                                subTaskDetails["target"]));
 
                         break;
                     }
 
                 case "CopilotListLoadTaskFileSuccess":
-                    Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success", showTime: true);
+                    Instances.CopilotViewModel.AddLog($"Parse {subTaskDetails["file_name"]}[{subTaskDetails["stage_name"]}] Success");
                     break;
 
                 case "SSSStage":
-                    Instances.CopilotViewModel.AddLog("CurrentStage: " + subTaskDetails["stage"], UiLogColor.Info, showTime: true);
+                    Instances.CopilotViewModel.AddLog("CurrentStage: " + subTaskDetails["stage"], UiLogColor.Info);
                     break;
 
                 case "SSSSettlement":
-                    Instances.CopilotViewModel.AddLog(details["why"].ToString(), UiLogColor.Info, showTime: true);
+                    Instances.CopilotViewModel.AddLog(details["why"].ToString(), UiLogColor.Info);
                     break;
 
                 case "SSSGamePass":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("SSSGamePass"), UiLogColor.RareOperator, showTime: true);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("SSSGamePass"), UiLogColor.RareOperator);
                     break;
 
                 case "UnsupportedLevel":
@@ -1437,7 +1437,7 @@ namespace MaaWpfGui.Main
             {
                 case "Finished":
                     var filename = details["details"]?["filename"];
-                    Instances.CopilotViewModel.AddLog("Save to: " + filename, UiLogColor.Info);
+                    Instances.CopilotViewModel.AddLog("Save to: " + filename, UiLogColor.Info, showTime: false);
 
                     // string p = @"C:\tmp\this path contains spaces, and,commas\target.txt";
                     string args = $"/e, /select, \"{filename}\"";
