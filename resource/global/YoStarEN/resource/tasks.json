@@ -6933,11 +6933,12 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [
-            635,
-            44,
-            97,
-            33
+            593,
+            48,
+            135,
+            27
         ],
         "text": [
             "_aggressive",
@@ -6946,27 +6947,31 @@
         ],
         "ocrReplace": [
             [
-                "Brisk ?M?arshlands",
+                ".*Brisk ?M?arshlands.*",
                 "_aggressive"
             ],
             [
-                "Placid ?Forests",
+                ".*Placid ?Forests.*",
                 "_aggressive"
             ],
             [
-                "Dawning ?Frostbounds",
+                ".*Dawning ?Frostbounds.*",
                 "_pragmatic"
             ],
             [
-                "Gelid ?Rockshelves",
+                ".*12.*",
                 "_pragmatic"
             ],
             [
-                "Immaculate ?Garden",
+                ".*Gelid ?Rockshelves.*",
+                "_pragmatic"
+            ],
+            [
+                ".*Immaculate ?Garden.*",
                 "_default"
             ],
             [
-                "Clairvoyant ?Carcass",
+                ".*Clairvoyant ?Carcass.*",
                 "_default"
             ],
             [
@@ -6976,11 +6981,12 @@
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
+        "doc": "Ocr can't read 3rd floor, use temperature instead (experimental)",
         "roi": [
-            635,
-            44,
-            97,
-            33
+            593,
+            48,
+            135,
+            27
         ],
         "text": [
             "_default",
@@ -6988,33 +6994,53 @@
         ],
         "ocrReplace": [
             [
-                "Brisk ?M?arshlands",
+                ".*Brisk ?M?arshlands.*",
                 "_default"
             ],
             [
-                "Placid ?Forests",
+                ".*Placid ?Forests.*",
                 "_default"
             ],
             [
-                "Dawning ?Frostbounds",
+                ".*Dawning ?Frostbounds.*",
                 "_exit"
             ],
             [
-                "Gelid ?Rockshelves",
+                ".*12.*",
                 "_exit"
             ],
             [
-                "Immaculate ?Garden",
+                ".*Gelid ?Rockshelves.*",
                 "_exit"
             ],
             [
-                "Clairvoyant ?Carcass",
+                ".*Immaculate ?Garden.*",
+                "_exit"
+            ],
+            [
+                ".*Clairvoyant ?Carcass.*",
                 "_exit"
             ],
             [
                 "深埋迷境",
                 "_exit"
             ]
+        ]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "text": [
+            "Brisk Marshalands",
+            "Placid Forests",
+            "Dawning Frostbounds",
+            "Gelid Rockshelves",
+            "Immaculate Garden",
+            "Clayrovant Carcass"
+        ],
+        "roi": [
+            467,
+            531,
+            357,
+            72
         ]
     },
     "Reclamation@BuyWaterProcedure": {
