@@ -6770,6 +6770,12 @@
             ]
         ]
     },
+    "Sami@Roguelike@StageSafeHouseReuse": {
+        "text": [
+            "Use the Safe House again",
+            "Use the Safe"
+        ]
+    },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
             [
