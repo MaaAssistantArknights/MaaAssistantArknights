@@ -116,13 +116,13 @@ int main([[maybe_unused]] int argc, char** argv)
 
     std::unordered_map<std::filesystem::path, std::string> global_dirs = {
         { "en_US", "YoStarEN" },
-        //{ "ja_JP", "YoStarJP" },
-        //{ "ko_KR", "YoStarKR" },
-        //{ "zh_TW", "txwy" },
+        { "ja_JP", "YoStarJP" },
+        { "ko_KR", "YoStarKR" },
+        { "zh_TW", "txwy" },
     };
 
     // ---- METHODS CALLS ----
-    /*
+
     // Update levels.json from ArknightsGameResource
     std::cout << "------- Update levels.json for Official -------" << std::endl;
     if (!update_levels_json(
@@ -247,7 +247,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-    */
+
     // Update roguelike replace for overseas from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------- Update roguelike replace for " << out << "------- " << std::endl;
@@ -263,7 +263,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-    /*
+
     // Update version info from ArknightsGameData
     std::cout << "------- Update version info for Official -------" << std::endl;
     if (!update_version_info(official_data_dir / "gamedata" / "excel", resource_dir)) {
@@ -287,7 +287,7 @@ int main([[maybe_unused]] int argc, char** argv)
             std::cout << "Done" << std::endl;
         }
     }
-    */
+
     std::cout << "------- All success -------" << std::endl;
     return 0;
 }
@@ -1139,9 +1139,11 @@ bool check_roguelike_replace_for_overseas(
 {
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
+    static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_totem_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_encounter_names;
 
-    if (base_stage_names.empty() || base_item_names.empty() || base_encounter_names.empty()) {
+    if (base_stage_names.empty() || base_item_names.empty() || base_totem_names.empty()
+        || base_encounter_names.empty()) {
         auto rg_opt = json::open(base_dir / "roguelike_topic_table.json");
         if (!rg_opt) {
             std::cerr << "Failed to open roguelike_topic_table for" << base_dir << std::endl;
@@ -1162,9 +1164,11 @@ bool check_roguelike_replace_for_overseas(
                     if (id.starts_with(rogue_index + "_recruit")
                         || id.starts_with(rogue_index + "_upgrade")
                         || id.starts_with(rogue_index + "_relic")
-                        || id.starts_with(rogue_index + "_active")
-                        || id.starts_with(rogue_index + "_totem") || id.ends_with("_item")) {
+                        || id.starts_with(rogue_index + "_active") || id.ends_with("_item")) {
                         base_item_names.emplace(id, item_obj["name"].as_string());
+                    }
+                    if (id.starts_with(rogue_index + "_totem")) {
+                        base_totem_names.emplace(id, item_obj["name"].as_string());
                     }
                 }
             }
@@ -1204,6 +1208,7 @@ bool check_roguelike_replace_for_overseas(
 
     std::unordered_map</*id*/ std::string, /*name*/ std::string> stage_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> item_names;
+    std::unordered_map</*id*/ std::string, /*name*/ std::string> totem_names;
     std::unordered_map</*id*/ std::string, /*name*/ std::string> encounter_names;
 
     auto& rg_json = rg_opt.value();
@@ -1222,9 +1227,11 @@ bool check_roguelike_replace_for_overseas(
                 if (id.starts_with(rogue_index + "_recruit")
                     || id.starts_with(rogue_index + "_upgrade")
                     || id.starts_with(rogue_index + "_relic")
-                    || id.starts_with(rogue_index + "_active")
-                    || id.starts_with(rogue_index + "_totem") || id.ends_with("_item")) {
+                    || id.starts_with(rogue_index + "_active") || id.ends_with("_item")) {
                     item_names.emplace(id, item_obj["name"].as_string());
+                }
+                if (id.starts_with(rogue_index + "_totem")) {
+                    totem_names.emplace(id, item_obj["name"].as_string());
                 }
             }
         }
@@ -1297,15 +1304,19 @@ bool check_roguelike_replace_for_overseas(
     };
 
     proc(task_json["BattleStageName"]["ocrReplace"].as_array(), base_stage_names, stage_names);
-    // proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
-    // proc(
-    //     task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(),
-    //     base_item_names,
-    //     item_names);
-    // proc(
-    //     task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(),
-    //     base_encounter_names,
-    //     encounter_names);
+    proc(task_json["CharsNameOcrReplace"]["ocrReplace"].as_array(), base_char_names, char_names);
+    proc(
+        task_json["RoguelikeTraderShoppingOcr"]["ocrReplace"].as_array(),
+        base_item_names,
+        item_names);
+    proc(
+        task_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(),
+        base_totem_names,
+        totem_names);
+    proc(
+        task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(),
+        base_encounter_names,
+        encounter_names);
 
     std::ofstream ofs(tasks_path, std::ios::out);
     ofs << task_json.format() << std::endl;
