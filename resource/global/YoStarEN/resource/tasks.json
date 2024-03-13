@@ -6963,7 +6963,15 @@
     "Sami@Roguelike@NextLevel": {
         "text": [
             "Obtain after",
-            "this floor"
+            "this floor",
+            "Collapse will trigger",
+            "no next floor"
+        ],
+        "roi": [
+            218,
+            600,
+            247,
+            78
         ]
     },
     "Sami@Roguelike@SelectTheme": {
