@@ -6769,9 +6769,6 @@
             ]
         ]
     },
-    "Sami@Roguelike@GetDropSelectRecruit": {
-        "template": "Sami@Roguelike@GetDropSelectRecruit.png"
-    },
     "Sami@Roguelike@ContinueClick": {
         "text": [
             "Brisk Marshalands",
@@ -6959,6 +6956,9 @@
             95,
             578
         ]
+    },
+    "Sami@Roguelike@GetDropSelectRecruit": {
+        "template": "Sami@Roguelike@GetDropSelectRecruit.png"
     },
     "Sami@Roguelike@NextLevel": {
         "text": [
