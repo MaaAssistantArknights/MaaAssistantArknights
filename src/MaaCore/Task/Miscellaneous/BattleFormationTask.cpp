@@ -42,6 +42,11 @@ void asst::BattleFormationTask::set_select_formation(int index)
     m_select_formation_index = index;
 }
 
+std::shared_ptr<std::unordered_map<std::string, std::string>>asst::BattleFormationTask::get_opers_in_formation() const
+{
+    return std::make_shared<std::unordered_map<std::string, std::string>>(m_opers_in_formation);
+}
+
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
 {
     m_data_resource = resource;

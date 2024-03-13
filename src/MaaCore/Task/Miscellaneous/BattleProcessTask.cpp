@@ -84,13 +84,17 @@ void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
     m_need_to_wait_until_end = wait_until_end;
 }
 
+void asst::BattleProcessTask::set_formation_task_ptr(std::shared_ptr<std::unordered_map<std::string, std::string>> value)
+{
+    m_formation_ptr = value;
+}
+
 bool asst::BattleProcessTask::to_group()
 {
     std::unordered_map<std::string, std::vector<std::string>> groups;
     // 从编队任务中获取<干员-组名>映射
-    if (m_formation_task_ptr != nullptr) {
-        const auto& opers_in_formation = m_formation_task_ptr->get_opers_in_formation();
-        for (const auto& [group, oper] : opers_in_formation) {
+    if (m_formation_ptr != nullptr) {
+        for (const auto& [group, oper] : *m_formation_ptr) {
             groups.emplace(oper, std::vector<std::string> { group });
         }
     }
