@@ -6770,27 +6770,6 @@
             ]
         ]
     },
-    "Sami@Roguelike@SelectTheme": {
-        "text": [
-            "Expeditioner"
-        ]
-    },
-    "Sami@Roguelike@FoldartalUseOcr": {
-        "text": [
-            "Layout"
-        ],
-        "roi": [
-            38,
-            64,
-            95,
-            578
-        ]
-    },
-    "Sami@Roguelike@FoldartalUseConfirm": {
-        "text": [
-            "Declare"
-        ]
-    },
     "Sami@Roguelike@ContinueClick": {
         "text": [
             "Brisk Marshalands",
@@ -6963,10 +6942,31 @@
             ]
         ]
     },
+    "Sami@Roguelike@FoldartalUseConfirm": {
+        "text": [
+            "Declare"
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOcr": {
+        "text": [
+            "Layout"
+        ],
+        "roi": [
+            38,
+            64,
+            95,
+            578
+        ]
+    },
     "Sami@Roguelike@NextLevel": {
         "text": [
             "Obtain after",
             "this floor"
+        ]
+    },
+    "Sami@Roguelike@SelectTheme": {
+        "text": [
+            "Expeditioner"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
