@@ -128,7 +128,7 @@ class ImageRectSelector:
         self.draw_rectangle()
 
         # Print the rectangle coordinates
-        coords = f"({self.rect_start_x}, {self.rect_start_y}), ({self.rect_end_x - self.rect_start_x}, {self.rect_end_y - self.rect_start_y})"
+        coords = f"{self.rect_start_x}, {self.rect_start_y}, {self.rect_end_x - self.rect_start_x}, {self.rect_end_y - self.rect_start_y}"
         print(coords)
 
         # Create a background rectangle for the text widget
