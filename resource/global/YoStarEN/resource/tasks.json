@@ -6770,6 +6770,10 @@
             ]
         ]
     },
+    "Sami@Roguelike@GetDropSelectRecruit": {
+        "templThreshold": 0.75,
+        "template": "Sami@Roguelike@GetDropSelectRecruit.png"
+    },
     "Sami@Roguelike@ContinueClick": {
         "text": [
             "Brisk Marshalands",
