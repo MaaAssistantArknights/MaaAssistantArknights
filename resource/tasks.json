@@ -8023,7 +8023,6 @@
     "InfrastTrainingOperatorAndSkill": {
         "algorithm": "OcrDetect",
         "text": [],
-        "action": "DoNothing",
         "roi": [
             150,
             620,
@@ -8032,7 +8031,7 @@
         ],
         "ocrReplace": [
             [
-                "^[",
+                "^\\[",
                 ""
             ]
         ]
