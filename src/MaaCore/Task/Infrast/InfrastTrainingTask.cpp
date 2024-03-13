@@ -67,8 +67,8 @@ bool asst::InfrastTrainingTask::analyze_status()
         return false;
     }
 
-    // ']'前为干员名，']'后为技能名
-    m_operator_name = raw_str.substr(0, separation_pos - 1);
+    // ']'前为干员名，']'后为技能名s
+    m_operator_name = raw_str.substr(0, separation_pos);
     for (const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
          const auto& [regex, new_str] : replace_map) {
         if (std::regex_search(m_operator_name, std::regex(regex))) {
