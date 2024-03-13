@@ -465,8 +465,8 @@ namespace MaaWpfGui.Main
                             switch (timeCost)
                             {
                                 case > 800:
-                                    color = UiLogColor.Error;
                                     costString = timeCost.ToString("#,#");
+                                    color = UiLogColor.Warning;
                                     break;
                                 case > 400:
                                     color = UiLogColor.Warning;
@@ -502,7 +502,7 @@ namespace MaaWpfGui.Main
                         switch (screencapCostAvgInt)
                         {
                             case >= 800:
-                                AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Error);
+                                AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
                                 break;
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
