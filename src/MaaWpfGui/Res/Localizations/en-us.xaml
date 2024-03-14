@@ -623,8 +623,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="InfrastDormDoubleConfirmed">Operator conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
-    <system:String x:Key="FightCompleted">Fight completed</system:String>
-    <system:String x:Key="FightFailed">Fight failed</system:String>
+    <system:String x:Key="FightCompleted">Combat completed</system:String>
+    <system:String x:Key="FightFailed">Combat failed</system:String>
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
