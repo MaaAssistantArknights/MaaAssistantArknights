@@ -1929,6 +1929,33 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _roguelike3FirstFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, false.ToString());
+
+        /// <summary>
+        /// Gets or sets a value indicating whether core char need start with elite two.
+        /// </summary>
+        public bool Roguelike3FirstFloorFoldartal
+        {
+            get => bool.Parse(_roguelike3FirstFloorFoldartal);
+            set
+            {
+                SetAndNotify(ref _roguelike3FirstFloorFoldartal, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, value.ToString());
+            }
+        }
+
+        private string _roguelike3StartFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty);
+
+        public string Roguelike3StartFloorFoldartal
+        {
+            get => _roguelike3StartFloorFoldartal;
+            set
+            {
+                SetAndNotify(ref _roguelike3StartFloorFoldartal, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, value);
+            }
+        }
+
         private string _roguelike3NewSquad2StartingFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, false.ToString());
 
         /// <summary>
