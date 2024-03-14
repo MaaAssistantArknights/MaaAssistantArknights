@@ -115,8 +115,9 @@
     <system:String x:Key="RoguelikeStartingCoreCharNotFound">The agent entered「{0}」is not in battle_data. Check that the name entered is correct, or check the maa resource version.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">Repeat for「Starting Operator」Elite 2</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
-    <!--<system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and Separate with ; </system:String>-->
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor，No Battle</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ;</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
@@ -127,10 +128,10 @@
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
     <system:String x:Key="IS2NewSquad2">Resourceful Squad</system:String>
     <system:String x:Key="IS2NewSquad3">People-Oriented Squad</system:String>
-    <!-- <system:String x:Key="IS3NewSquad1">NEED TRANSLATION</system:String> -->
-    <!-- <system:String x:Key="IS3NewSquad2">NEED TRANSLATION</system:String> -->
-    <!-- <system:String x:Key="IS3NewSquad3">NEED TRANSLATION</system:String> -->
-    <!-- <system:String x:Key="IS3NewSquad4">特训分队</system:String> -->
+    <system:String x:Key="IS3NewSquad1">Eternal Hunting squad</system:String>
+    <system:String x:Key="IS3NewSquad2">Life Prioritizing Squad</system:String>
+    <system:String x:Key="IS3NewSquad3">Scientific Thinking</system:String>
+    <system:String x:Key="IS3NewSquad4">Special Training Squad</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -254,7 +255,7 @@
     <system:String x:Key="RoguelikeTheme">I.S. Theme</system:String>
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
-    <system:String x:Key="RoguelikeThemeSami">Sami NOT WORKING. Wait for update</system:String>
+    <system:String x:Key="RoguelikeThemeSami">Sami BETA! WORK IN PROGRESS!</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>
@@ -315,9 +316,8 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
     <system:String x:Key="AccountSwitchManualRun">Switch now</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
-Official(CN): Enter the mobile phone number displayed on the login interface, such as 123****4567
-Bilibili: Enter the account name displayed on the login interface, such as John
-Other client types are not supported</system:String>
+Enter the content displayed on the login interface, such as "123****4567", you can enter "123****4567" or "4567" or "23****45"
+Only supports Official(CN) and Bilibili server. Login account is not supported.</system:String>
     <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">The selected file name does not contain ADB. Please check if you have chosen the wrong file or mistakenly selected the emulator itself.</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
@@ -587,7 +587,6 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long (avg: {0}ms), so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
-    <system:String x:Key="OptimizationTips">This time consumption is unrelated to MAA, but related to computer performance, current usage, or emulator. You can try cleaning up background processes, changing emulators, or upgrading computer configurations.</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">Task error: </system:String>
     <system:String x:Key="CombatError">Combat error</system:String>
@@ -606,7 +605,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="DropRecognitionError">Drops recognition error</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">Abort upload to Penguin Statistics</system:String>
     <system:String x:Key="TheEx">No bonus stage, stopped</system:String>
-    <system:String x:Key="MissingOperators">Operators of the following operator groups are missing: </system:String>
+    <system:String x:Key="MissingOperators">Operators of the following operator groups are missing:</system:String>
     <system:String x:Key="StageQueue">Stage Queue:</system:String>
     <system:String x:Key="UnableToAgent">Unable to use PRTS</system:String>
     <system:String x:Key="MissionStart">Mission started</system:String>
@@ -639,6 +638,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
     <system:String x:Key="RoguelikeEvent">Event:</system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">FoldartalForesee:</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}\nExp: {10}, Skill: {11}</system:String>
     <system:String x:Key="CurTimes">Current times</system:String>

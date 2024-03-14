@@ -11,7 +11,8 @@ regex_ignore_list = [
     "Reclamation@ClickAnyZoneOcr",
     "MiningActivities",
     "RecruitingActivities",
-    "Reclamation2"
+    "Reclamation2",
+    "Sami@Roguelike@FoldartalGainOcr"
 ]
 
 server_list = [

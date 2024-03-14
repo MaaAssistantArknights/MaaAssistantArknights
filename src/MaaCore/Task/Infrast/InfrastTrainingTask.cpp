@@ -1,12 +1,12 @@
 #include "InfrastTrainingTask.h"
 
-#include "Task/ProcessTask.h"
+#include "Config/TaskData.h"
 #include "Controller/Controller.h"
-#include "Vision/RegionOCRer.h"
+#include "Task/ProcessTask.h"
+#include "Utils/Logger.hpp"
 #include "Vision/BestMatcher.h"
 #include "Vision/OCRer.h"
-#include "Utils/Logger.hpp"
-#include "Utils/Ranges.hpp"
+#include "Vision/RegionOCRer.h"
 
 #include <regex>
 
@@ -34,7 +34,7 @@ bool asst::InfrastTrainingTask::_run()
             Log.error(__FUNCTION__, "choose skill failed");
             return false;
         }
-        
+
         continue_train(skill_index_from_rect(choose_skill_analyzer.get_result().front().rect));
     }
 
@@ -47,8 +47,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     RegionOCRer idle_analyzer(image);
     idle_analyzer.set_task_info("InfrastTrainingIdle");
     if (idle_analyzer.analyze()) {
-        json::value cb_info = basic_info();
-        cb_info["what"] = "InfrastTrainingIdle";
+        json::value cb_info = basic_info_with_what("InfrastTrainingIdle");
         callback(AsstMsg::SubTaskExtraInfo, cb_info);
         m_continue_training = false;
         return true;
@@ -62,16 +61,22 @@ bool asst::InfrastTrainingTask::analyze_status()
     }
 
     std::string raw_str = rec_analyzer.get_result().text;
-    size_t separation_pos = raw_str.find("]");
+    size_t separation_pos = raw_str.find(']');
     if (separation_pos == std::string::npos) {
         Log.error(__FUNCTION__, "separate string failed");
         return false;
     }
 
-    // "]"前为干员名，"]"后为技能名
-    m_operator_name = raw_str.substr(1, separation_pos - 1);
+    // ']'前为干员名，']'后为技能名s
+    m_operator_name = raw_str.substr(0, separation_pos);
+    for (const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+         const auto& [regex, new_str] : replace_map) {
+        if (std::regex_search(m_operator_name, std::regex(regex))) {
+            m_operator_name = new_str;
+        }
+    }
     m_skill_name = raw_str.substr(separation_pos + 1, raw_str.length() - separation_pos + 1);
-    
+
     // TODO: 根据角色职业增加换班功能
     // m_operator_role = BattleData.get_role(m_operator_name);
 
@@ -81,8 +86,7 @@ bool asst::InfrastTrainingTask::analyze_status()
     }
 
     if (training_completed()) {
-        json::value cb_info = basic_info();
-        cb_info["what"] = "InfrastTrainingCompleted";
+        json::value cb_info = basic_info_with_what("InfrastTrainingCompleted");
         cb_info["details"] = json::object {
             { "operator", m_operator_name },
             { "skill", m_skill_name },
@@ -94,11 +98,10 @@ bool asst::InfrastTrainingTask::analyze_status()
 
     m_continue_training = false;
 
-    if(!time_left_analyze(image)) return false;
+    if (!time_left_analyze(image)) return false;
 
     {
-        json::value cb_info = basic_info();
-        cb_info["what"] = "InfrastTrainingTimeLeft";
+        json::value cb_info = basic_info_with_what("InfrastTrainingTimeLeft");
         cb_info["details"] = json::object {
             { "operator", m_operator_name }, { "skill", m_skill_name }, { "level", m_level },
             { "hh", time_left[0] },          { "mm", time_left[1] },    { "ss", time_left[2] },
@@ -129,8 +132,7 @@ bool asst::InfrastTrainingTask::level_analyze(cv::Mat image)
 
 bool asst::InfrastTrainingTask::training_completed()
 {
-    ProcessTask task(*this, { "InfrastTrainingCompleted" });
-    return task.run();
+    return ProcessTask(*this, { "InfrastTrainingCompleted" }).run();
 }
 
 bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
@@ -152,7 +154,7 @@ bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
             return false;
         }
         std::string str_time = match.str();
-        
+
         if (!utils::chars_to_number(str_time, time_left[i])) {
             Log.error(__FUNCTION__, "chars_to_number failed");
             return false;
@@ -170,7 +172,8 @@ asst::InfrastTrainingTask& asst::InfrastTrainingTask::set_continue_training(bool
 
 bool asst::InfrastTrainingTask::continue_train(int index)
 {
-    static const std::vector<std::string> continue_train_task = { "InfrastTrainingContinue1", "InfrastTrainingContinue2",
+    static const std::vector<std::string> continue_train_task = { "InfrastTrainingContinue1",
+                                                                  "InfrastTrainingContinue2",
                                                                   "InfrastTrainingContinue3" };
     return ProcessTask { *this, { continue_train_task[index - 1] } }.run();
 }

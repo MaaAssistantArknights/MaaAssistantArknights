@@ -3419,8 +3419,12 @@
                 "维荻"
             ],
             [
-                "_ancet-2",
+                ".*ancet-2",
                 "Lancet-2"
+            ],
+            [
+                "[CcOo0]ast.*le-3",
+                "Castle-3"
             ],
             [
                 ".*HRM-EX$",
@@ -8023,12 +8027,17 @@
     "InfrastTrainingOperatorAndSkill": {
         "algorithm": "OcrDetect",
         "text": [],
-        "action": "DoNothing",
         "roi": [
             150,
             620,
             365,
             35
+        ],
+        "ocrReplace": [
+            [
+                "^\\[",
+                ""
+            ]
         ]
     },
     "InfrastTrainingLevel": {
@@ -8985,7 +8994,7 @@
     "BattleSwipeOper": {
         "algorithm": "JustReturn",
         "preDelay": 400,
-        "postDelay": 100,
+        "postDelay": 150,
         "Doc": "pre 是将干员滑动到场上的 duration 系数；post 是设置干员朝向滑动的 duration",
         "specialParams": [
             400,
@@ -9454,6 +9463,10 @@
             [
                 "l",
                 "1"
+            ],
+            [
+                "B",
+                "8"
             ],
             [
                 "十",

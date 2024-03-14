@@ -20,7 +20,7 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
     if (bounding_rect.empty()) {
         return std::nullopt;
     }
-    auto expand_roi = [](Rect roi, int exp) {
+    auto expand_roi = [](Rect& roi, int exp) {
         if (exp == 0) return;
         roi.x -= exp;
         roi.y -= exp;

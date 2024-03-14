@@ -4844,6 +4844,9 @@
             ]
         ]
     },
+    "Sami@Roguelike@FoldartalGainOcr": {
+        "ocrReplace": []
+    },
     "Reclamation@ClickAnyZoneOcr": {
         "text": [
             "區",

@@ -69,8 +69,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
 
-    // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加一点。先这样凑合用
-    for (int i = 0; i != 100; ++i) {
+    // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
+    for (int i = 0; i != 999; ++i) {
         m_subtasks.emplace_back(m_roguelike_task_ptr);
     }
 }
@@ -100,6 +100,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 是否凹指定干员开局直升
     m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
     m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
+    // 是否凹开局远见密文板
+    m_roguelike_config_ptr->set_first_floor_foldartal(params.contains("first_floor_foldartal"));
+    m_roguelike_config_ptr->set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
 
     // 是否生活队凹开局板子
     m_roguelike_config_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
