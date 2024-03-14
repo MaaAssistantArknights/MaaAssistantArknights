@@ -8738,6 +8738,159 @@
         "stageId": "act32side_08",
         "width": 13
     },
+    "act32side_ex01#f#-activities/act32side/level_act32side_ex01": {
+        "code": "CR-EX-1",
+        "filename": "act32side_ex01#f#-activities-act32side-level_act32side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act32side/level_act32side_ex01",
+        "name": "顶楼阳台",
+        "stageId": "act32side_ex01#f#",
+        "width": 11
+    },
+    "act32side_ex01-activities/act32side/level_act32side_ex01": {
+        "code": "CR-EX-1",
+        "filename": "act32side_ex01-activities-act32side-level_act32side_ex01.json",
+        "height": 9,
+        "levelId": "activities/act32side/level_act32side_ex01",
+        "name": "顶楼阳台",
+        "stageId": "act32side_ex01",
+        "width": 11
+    },
+    "act32side_ex02#f#-activities/act32side/level_act32side_ex02": {
+        "code": "CR-EX-2",
+        "filename": "act32side_ex02#f#-activities-act32side-level_act32side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_ex02",
+        "name": "观景回廊",
+        "stageId": "act32side_ex02#f#",
+        "width": 12
+    },
+    "act32side_ex02-activities/act32side/level_act32side_ex02": {
+        "code": "CR-EX-2",
+        "filename": "act32side_ex02-activities-act32side-level_act32side_ex02.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_ex02",
+        "name": "观景回廊",
+        "stageId": "act32side_ex02",
+        "width": 12
+    },
+    "act32side_ex03#f#-activities/act32side/level_act32side_ex03": {
+        "code": "CR-EX-3",
+        "filename": "act32side_ex03#f#-activities-act32side-level_act32side_ex03.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_ex03",
+        "name": "破损墙体",
+        "stageId": "act32side_ex03#f#",
+        "width": 11
+    },
+    "act32side_ex03-activities/act32side/level_act32side_ex03": {
+        "code": "CR-EX-3",
+        "filename": "act32side_ex03-activities-act32side-level_act32side_ex03.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_ex03",
+        "name": "破损墙体",
+        "stageId": "act32side_ex03",
+        "width": 11
+    },
+    "act32side_ex04#f#-activities/act32side/level_act32side_ex04": {
+        "code": "CR-EX-4",
+        "filename": "act32side_ex04#f#-activities-act32side-level_act32side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act32side/level_act32side_ex04",
+        "name": "临时遮挡",
+        "stageId": "act32side_ex04#f#",
+        "width": 11
+    },
+    "act32side_ex04-activities/act32side/level_act32side_ex04": {
+        "code": "CR-EX-4",
+        "filename": "act32side_ex04-activities-act32side-level_act32side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act32side/level_act32side_ex04",
+        "name": "临时遮挡",
+        "stageId": "act32side_ex04",
+        "width": 11
+    },
+    "act32side_ex05#f#-activities/act32side/level_act32side_ex05": {
+        "code": "CR-EX-5",
+        "filename": "act32side_ex05#f#-activities-act32side-level_act32side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_ex05",
+        "name": "交错残垣",
+        "stageId": "act32side_ex05#f#",
+        "width": 12
+    },
+    "act32side_ex05-activities/act32side/level_act32side_ex05": {
+        "code": "CR-EX-5",
+        "filename": "act32side_ex05-activities-act32side-level_act32side_ex05.json",
+        "height": 7,
+        "levelId": "activities/act32side/level_act32side_ex05",
+        "name": "交错残垣",
+        "stageId": "act32side_ex05",
+        "width": 12
+    },
+    "act32side_ex06#f#-activities/act32side/level_act32side_ex06": {
+        "code": "CR-EX-6",
+        "filename": "act32side_ex06#f#-activities-act32side-level_act32side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_ex06",
+        "name": "危险品仓库",
+        "stageId": "act32side_ex06#f#",
+        "width": 12
+    },
+    "act32side_ex06-activities/act32side/level_act32side_ex06": {
+        "code": "CR-EX-6",
+        "filename": "act32side_ex06-activities-act32side-level_act32side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_ex06",
+        "name": "危险品仓库",
+        "stageId": "act32side_ex06",
+        "width": 12
+    },
+    "act32side_ex07#f#-activities/act32side/level_act32side_ex07": {
+        "code": "CR-EX-7",
+        "filename": "act32side_ex07#f#-activities-act32side-level_act32side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_ex07",
+        "name": "特展区",
+        "stageId": "act32side_ex07#f#",
+        "width": 12
+    },
+    "act32side_ex07-activities/act32side/level_act32side_ex07": {
+        "code": "CR-EX-7",
+        "filename": "act32side_ex07-activities-act32side-level_act32side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act32side/level_act32side_ex07",
+        "name": "特展区",
+        "stageId": "act32side_ex07",
+        "width": 12
+    },
+    "act32side_ex08#f#-activities/act32side/level_act32side_ex08": {
+        "code": "CR-EX-8",
+        "filename": "act32side_ex08#f#-activities-act32side-level_act32side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act32side/level_act32side_ex08",
+        "name": "双脚触地",
+        "stageId": "act32side_ex08#f#",
+        "width": 13
+    },
+    "act32side_ex08-activities/act32side/level_act32side_ex08": {
+        "code": "CR-EX-8",
+        "filename": "act32side_ex08-activities-act32side-level_act32side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act32side/level_act32side_ex08",
+        "name": "双脚触地",
+        "stageId": "act32side_ex08",
+        "width": 13
+    },
+    "act32side_mo01-activities/act32side/level_act32side_mo01": {
+        "code": "CR-MO-1",
+        "filename": "act32side_mo01-activities-act32side-level_act32side_mo01.json",
+        "height": 9,
+        "levelId": "activities/act32side/level_act32side_mo01",
+        "name": "直击现场",
+        "stageId": "act32side_mo01",
+        "width": 13
+    },
     "act32side_tr01-activities/act32side/level_act32side_tr01": {
         "code": "CR-TR-1",
         "filename": "act32side_tr01-activities-act32side-level_act32side_tr01.json",
