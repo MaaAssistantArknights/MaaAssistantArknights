@@ -4847,6 +4847,9 @@
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": []
     },
+    "Sami@Roguelike@FoldartalUseOcr": {
+        "ocrReplace": []
+    },
     "Reclamation@ClickAnyZoneOcr": {
         "text": [
             "區",
