@@ -37,6 +37,7 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       pre_version: ${{ steps.set_tag.outputs.pre_version }}
       main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
+      changelog: ${{ steps.generate_changelog.outputs.changelog }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -88,6 +89,15 @@ jobs:
           git tag $main_tag_name -f
           git push --tags origin HEAD:refs/tags/$main_tag_name -f
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
+
+      - name: Generate Changelog
+        id: generate_changelog
+        run: |
+          $content=$(git log --pretty=format:"%s    @%an" ${{ steps.set_tag.outputs.pre_version }}..alpha/${{ steps.set_tag.outputs.tag }})
+          echo "changelog=$content" >> $env:GITHUB_OUTPUT
+          echo $content
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
@@ -233,7 +243,7 @@ jobs:
         run: |
           pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
           cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-          echo -e "${{ inputs.release_body || '' }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
+          echo -e "${{ inputs.release_body || '' }}\n\n$changelog\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
           export r=$(cat alpha_changelog.md)
 
           # https://github.com/svenstaro/upload-release-action
