@@ -44,7 +44,7 @@ void asst::BattleFormationTask::set_select_formation(int index)
 
 std::shared_ptr<std::unordered_map<std::string, std::string>>asst::BattleFormationTask::get_opers_in_formation() const
 {
-    return std::make_shared<std::unordered_map<std::string, std::string>>(m_opers_in_formation);
+    return m_opers_in_formation;
 }
 
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
@@ -68,9 +68,7 @@ bool asst::BattleFormationTask::_run()
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-
     auto missing_operators = std::vector<OperGroup>();
-
     for (auto& [role, oper_groups] : m_formation) {
         add_formation(role, oper_groups, missing_operators);
     }
@@ -88,7 +86,7 @@ bool asst::BattleFormationTask::_run()
     if (m_add_user_additional) {
         auto limit = 12 - m_size_of_operators_in_formation;
         for (const auto& [name, skill] : m_user_additional) {
-            if (m_opers_in_formation.contains(name)) {
+            if (m_opers_in_formation->contains(name)) {
                 continue;
             }
             if (--limit < 0) {
@@ -362,7 +360,7 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
                     found = true;
                     skill = oper.skill;
 
-                    m_opers_in_formation.emplace(name, iter->first);
+                    m_opers_in_formation->emplace(name, iter->first);
                     ++m_size_of_operators_in_formation;
                     break;
                 }
