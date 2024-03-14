@@ -218,7 +218,8 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
         callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
         return false;
     }
-    m_normal_tile_info = Tile.calc(m_stage_name, false);
+    auto calc_result = Tile.calc(m_stage_name);
+    m_normal_tile_info = std::move(calc_result.normal_tile_info);
 
     m_copilot_json["stage_name"] = m_stage_name;
     m_copilot_json["minimum_required"] = "v4.0.0";

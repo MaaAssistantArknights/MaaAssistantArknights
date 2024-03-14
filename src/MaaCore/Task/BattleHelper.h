@@ -74,6 +74,8 @@ namespace asst
         std::string m_stage_name;
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;   // 子弹时间的坐标映射
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info; // 正常的坐标映射
+        Point m_skill_button_pos;
+        Point m_retreat_button_pos;
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
         std::unordered_map<std::string, int> m_skill_times;
         std::unordered_map<std::string, int> m_skill_error_count;
