@@ -2,12 +2,16 @@ name: gen-changelog
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review]
+    types: 
+      - opened
+      - reopened
+      - ready_for_review
   workflow_dispatch:
 
 jobs:
   gen:
-    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v') # startsWith 表达式不区分大小写
+    # startsWith 表达式不区分大小写
+    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,27 +22,47 @@ jobs:
 
       - name: Extract tag name
         id: extract_tag
+        env:
+          PR_BODY: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
         run: |
+          output() {
+            echo "$1=$2" >> $GITHUB_OUTPUT
+          }
+
           tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-          echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
+          output tag_name $tag_name
 
           pr_title="docs: Auto Update Changelogs of "$tag_name
-          echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
+          output pr_title $pr_title
 
           latest_stable_tag=$(git tag -l 'v*' | grep -v '-' | sort -V | tail -n 1) # 上一个 stable 版本
           newest_tag=$(git describe --tags --match "v*" --abbrev=0) # 最新版本
-          echo "latest_stable_tag: $latest_stable_tag"
-          echo "newest_tag: $newest_tag"
+          output latest_stable_tag $latest_stable_tag
+          output newest_tag $newest_tag
 
-          if [[ $tag_name == *-* ]]; then                         # 判断新版本是否为 beta 版本
-            latest=$newest_tag # 若是，则将 latest 参数设置为最新版本
+          if [[ $tag_name == *-* ]]; then # 判断新版本是否为 beta 版本
+            latest=$newest_tag            # 若是，则将 latest 参数设置为最新版本
           else
-            latest=$latest_stable_tag # 若否，则设置为上一个 stable 版本
+            latest=$latest_stable_tag     # 若否，则设置为上一个 stable 版本
           fi
 
-          echo "latest=$latest" >> $GITHUB_OUTPUT
+          output latest $latest
 
-          cat $GITHUB_OUTPUT
+          log() {
+            echo "$1" >> $PR_BODY
+          }
+
+          log 'Target RP: ${{ github.event.pull_request.html_url }}'
+          log ''
+          log '```'
+          log '<details><summary>Debug info</summary>'
+          log '```'
+          log ''
+          sed 's/=/: /1' $GITHUB_OUTPUT >> $PR_BODY
+          log ''
+          log '</details>'
+
+          cat $PR_BODY
 
       - name: Generate Changelog
         run: |
@@ -63,7 +87,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
-          body: ${{ github.event.pull_request.html_url }}
+          body-path: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
           base: "dev"
           branch: "changelog"
           delete-branch: true
