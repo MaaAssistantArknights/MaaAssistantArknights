@@ -3,7 +3,7 @@ order: 3
 icon: teenyicons:linux-alt-solid
 ---
 
-# Linux 模拟器
+# Linux 模拟器&容器
 
 ## 准备工作
 
