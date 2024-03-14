@@ -7,6 +7,7 @@
 - 「围攻」适配 | Templates for new GUI (Siege) (#8510) @Lemon-miaow
 - 水晶箭行动活动导航 @ABA2396
 - 访问好友开关可关闭 | Visit Friends can be toggled off (#8488) @Constrat
+- 肉鸽适配新干员用法 (#8565) @Lancarus
 
 ### 改进 | Improved
 
@@ -15,11 +16,9 @@
 - 抽卡风险提示默认选择取消 @ABA2396
 - 碎石时锁定理智药使用量为999 (#8415) @status102
 - 运行期允许滚动战斗列表 @status102
-- 优化仓库识别速度 (#8113) @FreeSky-X @horror-proton
 - 肉鸽开局干员 隐藏未实装干员 (#8436) @Manicsteiner
 - 自动编队识别不到干员的重试次数下调为1 @status102
 - 优化自动编队逻辑 (#8393) @KevinT3Hu
-- 调整基建专精输出文本 @status102
 - 肉鸽高级设置-只凹精二，不可用时隐藏 @status102
 - 优化傀影肉鸽部分关卡策略 (#8401) @Lancarus
 - 结束后动作`仅一次`在执行后不恢复为`无动作`，而是上一次的选择项 (#8387) @status102
@@ -27,21 +26,15 @@
 - 当自动战斗选择不支持的关卡时，输出作业中的关卡名 @status102
 - 如果待部署区未识别干员全部为冷却中，则跳过暂停识别避免反复暂停 (#8337) @status102
 - 调整访问好友的模板图 @ABA2396
-- 肉鸽适配新干员用法 (#8565) @Lancarus
 - 训练室干员名识别优化 @ABA2396
 - 水月肉鸽添加缺失干员用法 (#8574) @Manicsteiner
-- 基建专精干员名增加ocrReplace @status102
-- Toast改为win10API @status102
-- 调整CopilotViewModel.AddLog @status102
 
 ### 修复 | Fix
 
-- 肉鸽开局奖励template删除文字部分 (#7991) @Manicsteiner
 - 傀影肉鸽选项造成的卡死 (#8468) @Lancarus
 - 生息演算卡在战斗结算 @ABA2396
 - 助战勾选框不出现bug (#8459) @Lancarus
 - 修复肉鸽重复部署一个干员后不会开启技能 (#8447) @Lancarus
-- [台服] 自定義基建換班辨認 麒麟R夜刀 失敗 @ABA2396
 - 修复使用干员组切换技能用法失效 (#8410) @status102
 - 修复引航者试炼S4地图的部分数据错误 @status102
 - 修复肉鸽切换模式时，投资可能在禁用的情况下显示已启用 @status102
@@ -64,6 +57,11 @@
 
 ### 其他 | Other
 
+- 肉鸽开局奖励template删除文字部分 (#7991) @Manicsteiner
+- 基建专精干员名增加ocrReplace @status102
+- Toast改为win10API @status102
+- 调整CopilotViewModel.AddLog @status102
+- 调整基建专精输出文本 @status102
 - 格式化 @ABA2396
 - 调整账号切换功能说明 @status102
 - 锁定Xcode SDK版本 (#8533) @hguandl
@@ -102,6 +100,7 @@
 
 #### txwy
 
+- [台服] 自定義基建換班辨認 麒麟R夜刀 失敗 @ABA2396
 - 繁中服「愚人號」復刻活動導航 (#8505) @momomochi987
 
 #### YostarEN
