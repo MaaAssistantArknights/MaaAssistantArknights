@@ -5,7 +5,6 @@
 #include "Common/AsstBattleDef.h"
 #include "Common/AsstTypes.h"
 #include "Config/Miscellaneous/TilePack.h"
-#include "BattleFormationTask.h"
 
 namespace asst
 {

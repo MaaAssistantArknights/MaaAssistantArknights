@@ -36,7 +36,7 @@ namespace asst
         void set_add_trust(bool add_trust);
         // 设置对指定编队自动编队
         void set_select_formation(int index);
-    std::shared_ptr<std::unordered_map<std::string, std::string>> get_opers_in_formation() const;    
+        std::shared_ptr<std::unordered_map<std::string, std::string>> get_opers_in_formation() const;
 
         enum class DataResource
         {
