@@ -75,28 +75,30 @@ namespace MaaWpfGui.ViewModels.UI
             JArray jArray = JArray.Parse(copilotTaskList);
             foreach (var it in jArray)
             {
-                if (it is JObject item && item.TryGetValue("file_path", out var pathToken) && File.Exists(pathToken.ToString()))
+                if (it is not JObject item || !item.TryGetValue("file_path", out var pathToken) || !File.Exists(pathToken.ToString()))
                 {
-                    int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
-                    var name = (string?)item["name"];
-                    if (string.IsNullOrEmpty(name))
-                    {
-                        continue;
-                    }
-
-                    bool? isRaid = false;
-                    if (item.ContainsKey("is_raid"))
-                    {
-                        isRaid = (bool?)item["is_raid"];
-                    }
-                    else if (name.EndsWith("-Adverse"))
-                    {
-                        name = name[..^8];
-                        isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
-                    }
-
-                    CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid ?? true, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
+                    continue;
                 }
+
+                int copilotIdInFile = item.TryGetValue("copilot_id", out var copilotIdToken) ? (int)copilotIdToken : -1;
+                var name = (string?)item["name"];
+                if (string.IsNullOrEmpty(name))
+                {
+                    continue;
+                }
+
+                bool? isRaid = false;
+                if (item.TryGetValue("is_raid", out var value))
+                {
+                    isRaid = (bool?)value;
+                }
+                else if (name.EndsWith("-Adverse"))
+                {
+                    name = name[..^8];
+                    isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
+                }
+
+                CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid ?? true, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
             }
 
             CopilotItemIndexChanged();
