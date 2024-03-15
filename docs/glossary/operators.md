@@ -240,8 +240,8 @@ char_4078_bdhkgt|截云|Jieyun|ジエユン|지에윈
 char_4081_warmy|温米|Warmy||
 char_4083_chimes|铎铃|Wind Chimes|ウィンドチャイム|윈드차임스
 char_4102_threye|凛视|Valarqvin|ヴァラルクビン|발라크빈
-char_4104_coldst|冰酿|Coldshot||
-char_4105_almond|杏仁|Almond||
+char_4104_coldst|冰酿|Coldshot|コールドショット|
+char_4105_almond|杏仁|Almond|アーモンド|
 char_4106_bryota|苍苔|Bryophyta|ブライオファイタ|브라이오피타
 char_4109_baslin|深律|Bassline||
 char_4110_delphn|戴菲恩|Delphine||
@@ -313,7 +313,7 @@ char_1029_yato2|麒麟R夜刀|Kirin R Yato|キリンRヤトウ|키린R 야토
 char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|사일런스 더 패러디그매틱
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere|聖約イグゼキュター|이그제큐터 디 엑스 포에데레
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit|琳琅スワイヤー|스와이어 디 엘리건트 위트
-char_1034_jesca2|涤火杰西卡|Jessica the Liberated||
+char_1034_jesca2|涤火杰西卡|Jessica the Liberated|滌火ジェシカ|
 char_2012_typhon|提丰|Typhon|ティフォン|티폰
 char_2013_cerber|刻俄柏|Ceobe|ケオベ|케오베
 char_2014_nian|年|Nian|ニェン|니엔
