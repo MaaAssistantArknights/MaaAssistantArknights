@@ -96,8 +96,6 @@ jobs:
           $content=$(git log --pretty=format:"%s    @%an" ${{ steps.set_tag.outputs.pre_version }}..alpha/${{ steps.set_tag.outputs.tag }})
           echo "changelog=$content" >> $env:GITHUB_OUTPUT
           echo $content
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
