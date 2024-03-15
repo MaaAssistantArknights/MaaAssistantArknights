@@ -2033,7 +2033,7 @@ namespace MaaWpfGui.Main
         /// </param>
         /// <param name="starts">开始探索次数。</param>
         /// <param name="investmentEnabled">是否投资源石锭</param>
-        /// <param name="investmentEnterSecondFloor">是否进入第二层</param>
+        /// <param name="investmentWithMoreScore">投资时候刷更多分</param>
         /// <param name="invests">投资源石锭次数。</param>
         /// <param name="stopWhenFull">投资满了自动停止任务。</param>
         /// <param name="squad"><paramref name="squad"/> TODO.</param>
@@ -2050,7 +2050,7 @@ namespace MaaWpfGui.Main
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentEnterSecondFloor, int invests, bool stopWhenFull,
+        public bool AsstAppendRoguelike(int mode, int starts, bool investmentEnabled, bool investmentWithMoreScore, int invests, bool stopWhenFull,
             string squad, string roles, string coreChar, bool startWithEliteTwo, bool onlyStartWithEliteTwo, bool roguelike3FirstFloorFoldartal,
             string roguelike3StartFloorFoldartal, bool roguelike3NewSquad2StartingFoldartal, string roguelike3NewSquad2StartingFoldartals,
             bool useSupport, bool enableNonFriendSupport, string theme, bool refreshTraderWithDice)
@@ -2066,7 +2066,7 @@ namespace MaaWpfGui.Main
             if (mode == 1 || investmentEnabled)
             {
                 taskParams["investment_enabled"] = true;
-                taskParams["investment_enter_second_floor"] = investmentEnterSecondFloor;
+                taskParams["investment_with_more_score"] = investmentWithMoreScore;
                 taskParams["investments_count"] = invests;
                 taskParams["stop_when_investment_full"] = stopWhenFull;
             }
