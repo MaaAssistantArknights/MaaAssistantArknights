@@ -5960,7 +5960,12 @@
         ]
     },
     "Roguelike@StageEncounterOcr": {
+        "fullMatch": true,
         "ocrReplace": [
+            [
+                "<",
+                ""
+            ],
             [
                 "Camp",
                 "扎营"
@@ -7162,15 +7167,15 @@
         ],
         "ocrReplace": [
             [
-                ".*Brisk ?M?arshlands.*",
+                ".*Brisk ?M?arshlands",
                 "_aggressive"
             ],
             [
-                ".*Placid ?Forests.*",
+                ".*Placid ?Forests",
                 "_aggressive"
             ],
             [
-                ".*Dawning ?Frostbounds.*",
+                ".*Dawning ?Frostbounds",
                 "_pragmatic"
             ],
             [
@@ -7178,15 +7183,19 @@
                 "_pragmatic"
             ],
             [
-                ".*Gelid ?Rockshelves.*",
+                ".*Gelid ?Rockshelves",
                 "_pragmatic"
             ],
             [
-                ".*Immaculate ?Garden.*",
+                ".*Immaculate ?Garden",
                 "_default"
             ],
             [
-                ".*Clairvoyant ?Carcass.*",
+                "Garden",
+                "_default"
+            ],
+            [
+                ".*Clairvoyant ?Carcass",
                 "_default"
             ],
             [
@@ -7209,15 +7218,15 @@
         ],
         "ocrReplace": [
             [
-                ".*Brisk ?M?arshlands.*",
+                ".*Brisk ?M?arshlands",
                 "_default"
             ],
             [
-                ".*Placid ?Forests.*",
+                ".*Placid ?Forests",
                 "_default"
             ],
             [
-                ".*Dawning ?Frostbounds.*",
+                ".*Dawning ?Frostbounds",
                 "_exit"
             ],
             [
@@ -7225,15 +7234,19 @@
                 "_exit"
             ],
             [
-                ".*Gelid ?Rockshelves.*",
+                ".*Gelid ?Rockshelves",
                 "_exit"
             ],
             [
-                ".*Immaculate ?Garden.*",
+                ".*Immaculate ?Garden",
                 "_exit"
             ],
             [
-                ".*Clairvoyant ?Carcass.*",
+                ".*Garden",
+                "_exit"
+            ],
+            [
+                ".*Clairvoyant ?Carcass",
                 "_exit"
             ],
             [
