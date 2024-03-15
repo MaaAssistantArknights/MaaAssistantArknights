@@ -360,12 +360,13 @@ namespace MaaWpfGui.ViewModels.UI
                 true);
         }
 
-        public static List<CombinedData> ExternalNotificationProviders => new List<CombinedData>
-        {
+        public static List<CombinedData> ExternalNotificationProviders =>
+        [
             new CombinedData { Display = LocalizationHelper.GetString("Off"), Value = "Off" },
             new CombinedData { Display = "Server Chan", Value = "ServerChan" },
-            new CombinedData { Display = "SMTP", Value = "SMTP" },
-        };
+            new CombinedData { Display = "Discord", Value = "Discord" },
+            new CombinedData { Display = "SMTP", Value = "SMTP" }
+        ];
 
         private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
 
@@ -484,6 +485,30 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _smtpRequireAuthentication, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, value.ToString());
+            }
+        }
+
+        private string _discordBotToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty);
+
+        public string DiscordBotToken
+        {
+            get => _discordBotToken;
+            set
+            {
+                SetAndNotify(ref _discordBotToken, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, value);
+            }
+        }
+
+        private string _discordUserId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
+
+        public string DiscordUserId
+        {
+            get => _discordUserId;
+            set
+            {
+                SetAndNotify(ref _discordUserId, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, value);
             }
         }
 
