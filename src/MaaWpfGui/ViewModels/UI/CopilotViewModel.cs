@@ -116,7 +116,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
         /// <param name="showTime">Wether show time.</param>
-        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = false)
+        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
             if (showTime)
