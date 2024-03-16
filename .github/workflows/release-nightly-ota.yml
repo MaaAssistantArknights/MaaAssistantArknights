@@ -60,6 +60,9 @@ jobs:
       - name: Set tag
         id: set_tag
         run: |
+          # pre_version是上一个公版，这里需要拉上一个tag，避免堆积过多commit
+          $latest_tag=$(git describe --tags --abbrev=0)
+          echo "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
           $described = $(git describe --tags --long --match 'v*')
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
@@ -93,9 +96,7 @@ jobs:
       - name: Generate Changelog
         id: generate_changelog
         run: |
-          # pre_version是上一个公版，这里需要拉上一个tag，避免堆积过多commit
-          $latest_tag=$(git describe --tags --abbrev=0)
-          $content=$(git log --pretty=format:"- %s&nbsp;&nbsp;&nbsp;&nbsp;@%an<br>" $latest_tag..alpha/${{ steps.set_tag.outputs.tag }})
+          $content=$(git log --pretty=format:"- %s&nbsp;&nbsp;&nbsp;&nbsp;@%an<br>" ${{ steps.set_tag.outputs.latest_tag }}..alpha/${{ steps.set_tag.outputs.tag }})
           echo "changelog="$content >> $env:GITHUB_OUTPUT
           echo $content
 
