@@ -1,11 +1,11 @@
 {
     "type": "SSS",
     "stage_name": "The Abandoned Lighthouse",
-    "minimum_required": "v5.2.1-alpha.1.d030.g2efe941da",
+    "minimum_required": "v5.2.1-alpha.1.d033.gc3e18d3ee",
     "doc": {
         "title": "The Abandoned Lighthouse - Chongyue core - v2.0 (Emergency)",
         "title_color": "dark",
-        "details": "Author：丨转瞬即逝丨\nBV1dP411W74g\nEN Adaptation: Constrat\nModified from：作业搬运工/碳烤沙虫腿\n\nEmergency mode: first five floors no issues. Sixth floor is luck-dependent, consider playing manually.\nManual operator selection: choose levelled operators with low DP cost\nMedic: Lumen, Sniper: Marksman archetype, Vanguard: required 2-block\nTactical Equipment: Sniper B, all others A",
+        "details": "Author：丨转瞬即逝丨\nBV1dP411W74g\nEN Adaptation: Constrat\nModified from：作业搬运工/碳烤沙虫腿\n\nManual operator selection: choose levelled operators with low DP cost\n\nCore:\nChongyue S3\nEyjafjalla the Hvìt Aska S1\nSaria S2\nLappaland S2\n\nMedic: Lumen\nSniper: Marksman archetype\nVanguard: required 2-block\n\nTactical Equipment: Sniper B, all others A\n\nEmergency mode: first five floors no issues. Sixth floor is luck-dependent, consider playing manually.",
         "details_color": "dark"
     },
     "buff": "战地援护无人机",
