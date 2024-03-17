@@ -22,23 +22,23 @@
     "strategy": "Core",
     "opers": [
         {
-            "name": "Chongyue",
+            "name": "重岳",
             "skill": 3,
             "skill_usage": 2,
             "skill_times": 5
         },
         {
-            "name": "Skadi the Corrupting Heart",
+            "name": "纯烬艾雅法拉",
             "skill": 1,
             "skill_usage": 0
         },
         {
-            "name": "Saria",
+            "name": "塞雷娅",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Lappland",
+            "name": "拉普兰德",
             "skill": 2,
             "skill_usage": 0
         }

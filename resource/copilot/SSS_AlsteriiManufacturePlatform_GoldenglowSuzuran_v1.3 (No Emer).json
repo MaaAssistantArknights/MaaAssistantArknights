@@ -22,12 +22,12 @@
     "strategy": "Core",
     "opers": [
         {
-            "name": "Goldenglow",
+            "name": "澄闪",
             "skill": 3,
             "skill_usage": 1
         },
         {
-            "name": "Suzuran",
+            "name": "铃兰",
             "skill": 2,
             "skill_usage": 0
         }

@@ -22,37 +22,32 @@
     "strategy": "Core",
     "opers": [
         {
-            "name": "Saria",
+            "name": "泥岩",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Horn",
-            "skill": 1,
-            "skill_usage": 0
+            "name": "斥罪",
+            "skill": 3,
+            "skill_usage": 1
         },
         {
-            "name": "Goldenglow",
-            "skill": 2,
-            "skill_usage": 0
-        },
-        {
-            "name": "Typhon",
+            "name": "提丰",
             "skill": 2,
             "skill_usage": 1
         },
         {
-            "name": "Suzuran",
+            "name": "澄闪",
             "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Eyjafjalla the Hvìt Aska",
-            "skill": 1,
+            "name": "铃兰",
+            "skill": 2,
             "skill_usage": 0
         },
         {
-            "name": "Skadi the Corrupting Heart",
+            "name": "浊心斯卡蒂",
             "skill": 2,
             "skill_usage": 0
         }
