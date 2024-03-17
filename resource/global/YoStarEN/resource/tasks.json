@@ -1608,7 +1608,7 @@
                 "“低音号”"
             ],
             [
-                "Equipment Activation Valve",
+                ".*Equipment Activation Valve.*",
                 "战备激活阀"
             ],
             [
