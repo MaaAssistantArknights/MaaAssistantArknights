@@ -2362,6 +2362,30 @@
             [
                 "Absorber",
                 "汲取体"
+            ],
+            [
+                "Deep Computing[ Unit]*",
+                "深度计算元件"
+            ],
+            [
+                "Data Sharing[ Unit]*",
+                "数据共享元件"
+            ],
+            [
+                "Overclock Transformation[ Module]*",
+                "超频转化模块"
+            ],
+            [
+                "Energy Recovery[ Module]*",
+                "聚能回收模块"
+            ],
+            [
+                "Targeted Repair[ Formulation]*",
+                "靶向修复制剂"
+            ],
+            [
+                "Receptor Stimulation[ Formulation]*",
+                "受体激动制剂"
             ]
         ]
     },
