@@ -3609,6 +3609,18 @@
             [
                 "Tactical Equipment Toolbox",
                 "战术装备整理箱"
+            ],
+            [
+                "Energy Overflow Converter",
+                "溢能回收转化器"
+            ],
+            [
+                "Competition Records Analyzer",
+                "竞技记录分析仪"
+            ],
+            [
+                "Field Support Drone",
+                "战地援护无人机"
             ]
         ]
     },
