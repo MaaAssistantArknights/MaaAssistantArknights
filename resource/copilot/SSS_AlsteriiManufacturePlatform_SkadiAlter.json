@@ -1,11 +1,11 @@
 {
     "type": "SSS",
     "stage_name": "Alsterii Bellariorum Manufacture Platform",
-    "minimum_required": "v5.2.1-alpha.1.d030.g2efe941da",
+    "minimum_required": "v5.2.1-alpha.1.d033.gc3e18d3ee",
     "doc": {
         "title": "Alsterii Bellariorum Manufacture Platform - Mudrock, Penance, Goldenglow, Typhon, Suzuran, Skadi Alter",
         "title_color": "dark",
-        "details": "Author: DL_君逸寒\nEN Adaptation: Constrat\nDemo Video: BV1sz4y1u7nN\n\n\nAll operators are recommended at E2. If you don't have a cost reduction module, don't use it.\n\nVanguards recommendation only Pioneers + Bagpipe (Not recommended to start with Bagpipe)\nDon't bring Duelist Defenders\nDon't bring Supporters!\nDon't bring Robots!\nMake sure to change the operators default skills!\n\nNormal difficulty is solid, with a bit of luck it can be flawless. Emergency is not difficult, just don't sink the core and necessary blocking positions to the bottom.\nPenance must come early, others can't defend!\n\nOperators: \nVanguard: 3\nDefender: 3\nSniper: 4\nCaster: 3\nSupporter: 1\n\nDirectional EC unit: Energy Overflow Converter\nTactical Equipment: Caster B, all others A\n\nScript reference: played live on the first day (叉腰)\n\nThe author supports self-modification according to personal needs, but does not support the modification of uploaded to the work station and other platforms, the use of this script is considered to agree and will fulfill the agreement",
+        "details": "Author: DL_君逸寒\nEN Adaptation: Constrat\nDemo Video: BV1sz4y1u7nN\n\n\nAll operators are recommended at E2. If you don't have a cost reduction module, don't use it.\n\nCore:\nMudrock S2\nPenance S3\nTyphon S2\nGoldenglow S2\nSuzuran S2\nSkadi the Corrupting Heart S2\n\nVanguards recommendation only Pioneers + Bagpipe (Not recommended to start with Bagpipe)\nDon't bring Duelist Defenders\nDon't bring Supporters!\nDon't bring Robots!\nMake sure to change the operators default skills!\n\nOperators: \nVanguard: 3\nDefender: 3\nSniper: 4\nCaster: 3\nSupporter: 1\n\nDirectional EC unit: Energy Overflow Converter\nTactical Equipment: Caster B, all others A\n\nNormal difficulty is solid, with a bit of luck it can be flawless. Emergency is not difficult, just don't sink the core and necessary blocking positions to the bottom.\nPenance must come early, others can't defend!\n\nScript reference: played live on the first day (叉腰)\n\nThe author supports self-modification according to personal needs, but does not support the modification of uploaded to the work station and other platforms, the use of this script is considered to agree and will fulfill the agreement",
         "details_color": "dark"
     },
     "buff": "溢能回收转化器",

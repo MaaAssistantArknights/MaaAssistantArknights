@@ -1,11 +1,11 @@
 {
     "type": "SSS",
     "stage_name": "Alsterii Bellariorum Manufacture Platform",
-    "minimum_required": "v5.2.1-alpha.1.d030.g2efe941da",
+    "minimum_required": "v5.2.1-alpha.1.d033.gc3e18d3ee",
     "doc": {
         "title": "Alsterii Bellariorum Manufacture Platform - Goldenglow, Suzuran core - v1.3(No Emergency)",
         "title_color": "dark",
-        "details": "Original Author：ドロシーです\nEN Adaptation: Constrat\nModified from：作业搬运工\n\nNot enough DPS to reach the sixth level in Emergence (Author)\n\nManual operator selection: choose levelled operators with low DP cost\nMedic: RES / Elemental, Vanguard: 2-block, Defender: Saria, Sniper and Caster: can bring 1-2 low stars\nChoose all A in the Tactical Equipment",
+        "details": "Original Author：ドロシーです\nEN Adaptation: Constrat\nModified from：作业搬运工\n\nManual operator selection: choose levelled operators with low DP cost\n\nCore:\nGoldenglow S3\nSuzuran S2\n\nMedic: RES / Elemental\nVanguard: 2-block\nDefender: Saria\nSniper and Caster: can bring 1-2 low stars\n\nChoose all A in the Tactical Equipment\n\nNot enough DPS to reach the sixth level in Emergence (Author)",
         "details_color": "dark"
     },
     "buff": "能量扰动放大器",
