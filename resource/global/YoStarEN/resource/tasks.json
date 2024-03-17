@@ -118,6 +118,19 @@
             "MOUNTAINS"
         ]
     },
+    "CV-Open": {
+        "text": [
+            "Catastrophes",
+            "Vultures",
+            "open"
+        ]
+    },
+    "CVChapterToCV": {
+        "text": [
+            "ANEMIC",
+            "PLATFORM"
+        ]
+    },
     "GA-Open": {
         "text": [
             "Event <Guide Ahead",
