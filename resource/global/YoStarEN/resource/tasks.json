@@ -50,6 +50,19 @@
             150
         ]
     },
+    "CV-Open": {
+        "text": [
+            "Catastrophes",
+            "Vultures",
+            "open"
+        ]
+    },
+    "CVChapterToCV": {
+        "text": [
+            "ANEMIC",
+            "PLATFORM"
+        ]
+    },
     "SL-Open": {
         "text": [
             "So Long, Adele: Home Away From Home",
@@ -116,19 +129,6 @@
         "text": [
             "SOUBO",
             "MOUNTAINS"
-        ]
-    },
-    "CV-Open": {
-        "text": [
-            "Catastrophes",
-            "Vultures",
-            "open"
-        ]
-    },
-    "CVChapterToCV": {
-        "text": [
-            "ANEMIC",
-            "PLATFORM"
         ]
     },
     "GA-Open": {
