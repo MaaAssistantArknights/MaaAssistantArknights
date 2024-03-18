@@ -364,6 +364,7 @@ namespace MaaWpfGui.ViewModels.UI
         [
             new CombinedData { Display = LocalizationHelper.GetString("Off"), Value = "Off" },
             new CombinedData { Display = "Server Chan", Value = "ServerChan" },
+            new CombinedData { Display = "Telegram", Value = "Telegram" },
             new CombinedData { Display = "Discord", Value = "Discord" },
             new CombinedData { Display = "SMTP", Value = "SMTP" }
         ];
@@ -509,6 +510,30 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _discordUserId, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, value);
+            }
+        }
+
+        private string _telegramBotToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, string.Empty);
+
+        public string TelegramBotToken
+        {
+            get => _telegramBotToken;
+            set
+            {
+                SetAndNotify(ref _telegramBotToken, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramBotToken, value);
+            }
+        }
+
+        private string _telegramChatId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, string.Empty);
+
+        public string TelegramChatId
+        {
+            get => _telegramChatId;
+            set
+            {
+                SetAndNotify(ref _telegramChatId, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationTelegramChatId, value);
             }
         }
 

@@ -43,6 +43,8 @@
     <system:String x:Key="ExternalNotificationSmtpTo">收件人</system:String>
     <system:String x:Key="ExternalNotificationDiscordBotToken">机器人 Token</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">用户 ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">机器人 Token</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
