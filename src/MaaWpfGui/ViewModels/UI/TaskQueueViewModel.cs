@@ -981,6 +981,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AddLog(LocalizationHelper.GetString("UnselectedTask"));
                 _runningState.SetIdle(true);
+                Instances.AsstProxy.AsstStop();
                 SetStopped();
                 return;
             }

@@ -50,6 +50,19 @@
             150
         ]
     },
+    "CV-Open": {
+        "text": [
+            "Catastrophes",
+            "Vultures",
+            "open"
+        ]
+    },
+    "CVChapterToCV": {
+        "text": [
+            "ANEMIC",
+            "PLATFORM"
+        ]
+    },
     "SL-Open": {
         "text": [
             "So Long, Adele: Home Away From Home",
@@ -1608,7 +1621,7 @@
                 "“低音号”"
             ],
             [
-                "Equipment Activation Valve",
+                ".*Equipment Activation Valve.*",
                 "战备激活阀"
             ],
             [
@@ -2316,7 +2329,7 @@
                 "溢能回收转化器"
             ],
             [
-                "Competition Records Analyzer",
+                "Competition Records Analyzer?",
                 "竞技记录分析仪"
             ],
             [
@@ -2362,6 +2375,30 @@
             [
                 "Absorber",
                 "汲取体"
+            ],
+            [
+                "Deep Computing[ Unit]*",
+                "深度计算元件"
+            ],
+            [
+                "Data Sharing[ Unit]*",
+                "数据共享元件"
+            ],
+            [
+                "Overclock Transformation[ Module]*",
+                "超频转化模块"
+            ],
+            [
+                "Energy Recovery[ Module]*",
+                "聚能回收模块"
+            ],
+            [
+                "Targeted Repair[ Formulation]*",
+                "靶向修复制剂"
+            ],
+            [
+                "Receptor Stimulation[ Formulation]*",
+                "受体激动制剂"
             ]
         ]
     },
@@ -3609,6 +3646,18 @@
             [
                 "Tactical Equipment Toolbox",
                 "战术装备整理箱"
+            ],
+            [
+                "Energy Overflow Converter",
+                "溢能回收转化器"
+            ],
+            [
+                "Competition Records Analyzer?",
+                "竞技记录分析仪"
+            ],
+            [
+                "Field Support Drone",
+                "战地援护无人机"
             ]
         ]
     },
