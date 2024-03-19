@@ -56,13 +56,20 @@ namespace MaaWpfGui.Helper
                     }.Any(name => name?.Equals(characterName, StringComparison.OrdinalIgnoreCase) ?? false));
         }
 
-        public static string? GetLocalizedCharacterName(string characterName, string language)
+        public static string? GetLocalizedCharacterName(string? characterName, string? language = null)
         {
+            if (string.IsNullOrEmpty(characterName))
+            {
+                return null;
+            }
+
             var characterInfo = GetCharacterByNameOrAlias(characterName);
             if (characterInfo?.Name == null)
             {
                 return null;
             }
+
+            language ??= Instances.SettingsViewModel.Language;
 
             return language switch
             {
