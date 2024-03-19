@@ -975,6 +975,14 @@
         "sortId": 10019,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_3801": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_3801.png",
+        "name": "尋訪數據契約",
+        "sortId": 10020,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1439,6 +1447,30 @@
         "sortId": -10000,
         "usage": "在與火龍的戰鬥中取得的素材，用作煉金素材再好不過。"
     },
+    "act25side_token_fdrchips": {
+        "classifyType": "NONE",
+        "description": "除了被娜斯提掩藏在各地的數據，在國家的支援下，新的數據也在不斷產生。哥倫比亞逐漸意識到了克麗斯騰這項研究的價值。",
+        "icon": "act25side_token_fdrchips.png",
+        "name": "飛行數據記錄晶片",
+        "sortId": -10000,
+        "usage": "記錄了各種高度與環境下飛行數據的晶片。收集一定數量可以在專案聯絡處換取必要物資。"
+    },
+    "act25side_token_key01": {
+        "classifyType": "NONE",
+        "description": "進入秘密區塊的許可證，裡面的機關似乎有些不同？",
+        "icon": "act25side_token_key01.png",
+        "name": "特殊作戰許可·α",
+        "sortId": -10000,
+        "usage": "進入秘密區塊的許可證，裡面的機關似乎有些不同？"
+    },
+    "act25side_token_key02": {
+        "classifyType": "NONE",
+        "description": "進入秘密區塊的許可證，裡面的機關似乎有些不同？",
+        "icon": "act25side_token_key02.png",
+        "name": "特殊作戰許可·β",
+        "sortId": -10000,
+        "usage": "進入秘密區塊的許可證，裡面的機關似乎有些不同？"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -1670,6 +1702,14 @@
         "name": "黑曜石節門票",
         "sortId": -10000,
         "usage": "黑曜石節官方發售的門票，用於進入各類特殊關卡。"
+    },
+    "favor_add_ulika": {
+        "classifyType": "NONE",
+        "description": "記錄了直播精彩瞬間的存儲裝置，可以增加U-Official的信賴值。",
+        "icon": "favor_add_ulika.png",
+        "name": "主播U的直播精華",
+        "sortId": -10000,
+        "usage": "提高幹員U-Official的信賴。"
     },
     "itempack_gacha_1": {
         "classifyType": "CONSUME",
@@ -1965,6 +2005,14 @@
         "icon": "randomMaterial_8.png",
         "name": "羅德島物資補給V",
         "sortId": 60108,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_rhine2": {
+        "classifyType": "CONSUME",
+        "description": "梅蘭德基金會提供的材料補給箱。由各個調查區域分別調配，因此每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_rhine2.png",
+        "name": "技術調查補給",
+        "sortId": 60109,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "return_credit_token": {
