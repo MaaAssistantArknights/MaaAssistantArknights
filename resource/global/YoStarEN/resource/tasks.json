@@ -2786,17 +2786,17 @@
             "Idle"
         ]
     },
+    "InfrastTrainingCompleted": {
+        "text": [
+            "Done"
+        ]
+    },
     "InfrastTrainingOperatorAndSkill": {
         "roi": [
             152,
             621,
             341,
             29
-        ]
-    },
-    "InfrastTrainingCompleted": {
-        "text": [
-            "Done"
         ]
     },
     "BattleStageName": {
