@@ -61,6 +61,12 @@
         "text": [
             "ANEMIC",
             "PLATFORM"
+        ],
+        "roi": [
+            1087,
+            434,
+            128,
+            57
         ]
     },
     "SL-Open": {
