@@ -1324,15 +1324,27 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "InfrastTrainingCompleted":
-                    Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
-                         LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + " " + LocalizationHelper.GetString("TrainingCompleted"), UiLogColor.Info);
-                    break;
+                    {
+                        var operatorName = DataHelper.GetLocalizedCharacterName(subTaskDetails["operator"]?.ToString()) ?? "UnKnown";
+                        var skillName = subTaskDetails["skill"]?.ToString() ?? "UnKnown";
+                        Instances.TaskQueueViewModel.AddLog(
+                            $"[{operatorName}]{skillName}\n" +
+                            $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)subTaskDetails["level"]} {LocalizationHelper.GetString("TrainingCompleted")}",
+                            UiLogColor.Info);
+                        break;
+                    }
 
                 case "InfrastTrainingTimeLeft":
-                    Instances.TaskQueueViewModel.AddLog("[" + subTaskDetails["operator"] + "]" + subTaskDetails["skill"] + "\n" +
-                        LocalizationHelper.GetString("TrainingLevel") + ": " + $"{(int)subTaskDetails["level"]}" + "\n" +
-                        string.Format(LocalizationHelper.GetString("TrainingTimeLeft") + ": {0:}:{1:}:{2:}", subTaskDetails["hh"], subTaskDetails["mm"], subTaskDetails["ss"]));
-                    break;
+                    {
+                        var operatorName = DataHelper.GetLocalizedCharacterName(subTaskDetails["operator"]?.ToString()) ?? "UnKnown";
+                        var skillName = subTaskDetails["skill"]?.ToString() ?? "UnKnown";
+                        Instances.TaskQueueViewModel.AddLog(
+                            $"[{operatorName}]{skillName}\n" +
+                            $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)subTaskDetails["level"]}\n" +
+                            $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["hh"]}:{subTaskDetails["mm"]}:{subTaskDetails["ss"]}",
+                            UiLogColor.Info);
+                        break;
+                    }
 
                 /* 生息演算 */
                 case "ReclamationReport":
