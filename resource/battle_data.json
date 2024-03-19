@@ -387,7 +387,7 @@
         "char_1034_jesca2": {
             "name": "涤火杰西卡",
             "name_en": "涤火杰西卡",
-            "name_jp": "涤火杰西卡",
+            "name_jp": "滌火ジェシカ",
             "name_kr": "涤火杰西卡",
             "name_tw": "涤火杰西卡",
             "position": "MELEE",
@@ -3861,7 +3861,7 @@
         "char_4104_coldst": {
             "name": "冰酿",
             "name_en": "冰酿",
-            "name_jp": "冰酿",
+            "name_jp": "コールドショット",
             "name_kr": "冰酿",
             "name_tw": "冰酿",
             "position": "RANGED",
@@ -3876,7 +3876,7 @@
         "char_4105_almond": {
             "name": "杏仁",
             "name_en": "杏仁",
-            "name_jp": "杏仁",
+            "name_jp": "アーモンド",
             "name_kr": "杏仁",
             "name_tw": "杏仁",
             "position": "MELEE",
@@ -5589,7 +5589,7 @@
         "token_10032_jesca2_jckshd": {
             "name": "机动盾牌",
             "name_en": "机动盾牌",
-            "name_jp": "机动盾牌",
+            "name_jp": "機動防盾",
             "name_kr": "机动盾牌",
             "name_tw": "机动盾牌",
             "position": "MELEE",
@@ -7314,7 +7314,7 @@
         "trap_116_stdurk": {
             "name": "“过去的我”",
             "name_en": "“过去的我”",
-            "name_jp": "“过去的我”",
+            "name_jp": "「過去の自分」",
             "name_kr": "“过去的我”",
             "name_tw": "“过去的我”",
             "position": "RANGED",
