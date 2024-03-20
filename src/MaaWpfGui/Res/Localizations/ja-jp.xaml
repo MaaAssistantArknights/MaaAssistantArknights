@@ -41,6 +41,11 @@
     <system:String x:Key="ExternalNotificationSmtpPassword">パスワード</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">送信者</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">受信者</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">ボットトークン</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
+
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
