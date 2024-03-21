@@ -3491,7 +3491,7 @@
         ]
     },
     "SkipThePreBattlePlot": {
-        "threshold": 0.9,
+        "templThreshold": 0.9,
         "action": "ClickSelf",
         "roi": [
             1100,
