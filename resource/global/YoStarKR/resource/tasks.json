@@ -3490,6 +3490,20 @@
             "하드모드개시"
         ]
     },
+    "SkipThePreBattlePlot": {
+        "action": "ClickSelf",
+        "roi": [
+            1100,
+            0,
+            180,
+            100
+        ],
+        "maskRange": [
+            1,
+            255
+        ],
+        "threshold": 0.9
+    },
     "BattleStartOCR": {
         "ocrReplace": [
             [
