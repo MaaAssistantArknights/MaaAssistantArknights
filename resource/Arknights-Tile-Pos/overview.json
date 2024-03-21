@@ -3842,6 +3842,231 @@
         "stageId": "act16side_tr01",
         "width": 9
     },
+    "act17d0_01-activities/act17d0/level_act17d0_01": {
+        "code": "OD-1",
+        "filename": "act17d0_01-activities-act17d0-level_act17d0_01.json",
+        "height": 7,
+        "levelId": "activities/act17d0/level_act17d0_01",
+        "name": "外勤记录",
+        "stageId": "act17d0_01",
+        "width": 10
+    },
+    "act17d0_02-activities/act17d0/level_act17d0_02": {
+        "code": "OD-2",
+        "filename": "act17d0_02-activities-act17d0-level_act17d0_02.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_02",
+        "name": "扩大防守范围",
+        "stageId": "act17d0_02",
+        "width": 11
+    },
+    "act17d0_03-activities/act17d0/level_act17d0_03": {
+        "code": "OD-3",
+        "filename": "act17d0_03-activities-act17d0-level_act17d0_03.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_03",
+        "name": "安全屋攻防战",
+        "stageId": "act17d0_03",
+        "width": 11
+    },
+    "act17d0_04-activities/act17d0/level_act17d0_04": {
+        "code": "OD-4",
+        "filename": "act17d0_04-activities-act17d0-level_act17d0_04.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_04",
+        "name": "场地清理",
+        "stageId": "act17d0_04",
+        "width": 10
+    },
+    "act17d0_05-activities/act17d0/level_act17d0_05": {
+        "code": "OD-5",
+        "filename": "act17d0_05-activities-act17d0-level_act17d0_05.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_05",
+        "name": "物资回收计划",
+        "stageId": "act17d0_05",
+        "width": 11
+    },
+    "act17d0_06-activities/act17d0/level_act17d0_06": {
+        "code": "OD-6",
+        "filename": "act17d0_06-activities-act17d0-level_act17d0_06.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_06",
+        "name": "领主宅邸攻防战",
+        "stageId": "act17d0_06",
+        "width": 12
+    },
+    "act17d0_07-activities/act17d0/level_act17d0_07": {
+        "code": "OD-7",
+        "filename": "act17d0_07-activities-act17d0-level_act17d0_07.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_07",
+        "name": "地堡防线",
+        "stageId": "act17d0_07",
+        "width": 12
+    },
+    "act17d0_08-activities/act17d0/level_act17d0_08": {
+        "code": "OD-8",
+        "filename": "act17d0_08-activities-act17d0-level_act17d0_08.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_08",
+        "name": "渗透作战",
+        "stageId": "act17d0_08",
+        "width": 13
+    },
+    "act17d0_ex01#f#-activities/act17d0/level_act17d0_ex01": {
+        "code": "OD-EX-1",
+        "filename": "act17d0_ex01#f#-activities-act17d0-level_act17d0_ex01.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex01",
+        "name": "集群",
+        "stageId": "act17d0_ex01#f#",
+        "width": 11
+    },
+    "act17d0_ex01-activities/act17d0/level_act17d0_ex01": {
+        "code": "OD-EX-1",
+        "filename": "act17d0_ex01-activities-act17d0-level_act17d0_ex01.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex01",
+        "name": "集群",
+        "stageId": "act17d0_ex01",
+        "width": 11
+    },
+    "act17d0_ex02#f#-activities/act17d0/level_act17d0_ex02": {
+        "code": "OD-EX-2",
+        "filename": "act17d0_ex02#f#-activities-act17d0-level_act17d0_ex02.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex02",
+        "name": "战场压力",
+        "stageId": "act17d0_ex02#f#",
+        "width": 11
+    },
+    "act17d0_ex02-activities/act17d0/level_act17d0_ex02": {
+        "code": "OD-EX-2",
+        "filename": "act17d0_ex02-activities-act17d0-level_act17d0_ex02.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex02",
+        "name": "战场压力",
+        "stageId": "act17d0_ex02",
+        "width": 11
+    },
+    "act17d0_ex03#f#-activities/act17d0/level_act17d0_ex03": {
+        "code": "OD-EX-3",
+        "filename": "act17d0_ex03#f#-activities-act17d0-level_act17d0_ex03.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex03",
+        "name": "伏击战",
+        "stageId": "act17d0_ex03#f#",
+        "width": 11
+    },
+    "act17d0_ex03-activities/act17d0/level_act17d0_ex03": {
+        "code": "OD-EX-3",
+        "filename": "act17d0_ex03-activities-act17d0-level_act17d0_ex03.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex03",
+        "name": "伏击战",
+        "stageId": "act17d0_ex03",
+        "width": 11
+    },
+    "act17d0_ex04#f#-activities/act17d0/level_act17d0_ex04": {
+        "code": "OD-EX-4",
+        "filename": "act17d0_ex04#f#-activities-act17d0-level_act17d0_ex04.json",
+        "height": 9,
+        "levelId": "activities/act17d0/level_act17d0_ex04",
+        "name": "爆破战术",
+        "stageId": "act17d0_ex04#f#",
+        "width": 13
+    },
+    "act17d0_ex04-activities/act17d0/level_act17d0_ex04": {
+        "code": "OD-EX-4",
+        "filename": "act17d0_ex04-activities-act17d0-level_act17d0_ex04.json",
+        "height": 9,
+        "levelId": "activities/act17d0/level_act17d0_ex04",
+        "name": "爆破战术",
+        "stageId": "act17d0_ex04",
+        "width": 13
+    },
+    "act17d0_ex05#f#-activities/act17d0/level_act17d0_ex05": {
+        "code": "OD-EX-5",
+        "filename": "act17d0_ex05#f#-activities-act17d0-level_act17d0_ex05.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex05",
+        "name": "场地优势",
+        "stageId": "act17d0_ex05#f#",
+        "width": 12
+    },
+    "act17d0_ex05-activities/act17d0/level_act17d0_ex05": {
+        "code": "OD-EX-5",
+        "filename": "act17d0_ex05-activities-act17d0-level_act17d0_ex05.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex05",
+        "name": "场地优势",
+        "stageId": "act17d0_ex05",
+        "width": 12
+    },
+    "act17d0_ex06#f#-activities/act17d0/level_act17d0_ex06": {
+        "code": "OD-EX-6",
+        "filename": "act17d0_ex06#f#-activities-act17d0-level_act17d0_ex06.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex06",
+        "name": "反伏击",
+        "stageId": "act17d0_ex06#f#",
+        "width": 12
+    },
+    "act17d0_ex06-activities/act17d0/level_act17d0_ex06": {
+        "code": "OD-EX-6",
+        "filename": "act17d0_ex06-activities-act17d0-level_act17d0_ex06.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex06",
+        "name": "反伏击",
+        "stageId": "act17d0_ex06",
+        "width": 12
+    },
+    "act17d0_ex07#f#-activities/act17d0/level_act17d0_ex07": {
+        "code": "OD-EX-7",
+        "filename": "act17d0_ex07#f#-activities-act17d0-level_act17d0_ex07.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex07",
+        "name": "要塞",
+        "stageId": "act17d0_ex07#f#",
+        "width": 12
+    },
+    "act17d0_ex07-activities/act17d0/level_act17d0_ex07": {
+        "code": "OD-EX-7",
+        "filename": "act17d0_ex07-activities-act17d0-level_act17d0_ex07.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex07",
+        "name": "要塞",
+        "stageId": "act17d0_ex07",
+        "width": 12
+    },
+    "act17d0_ex08#f#-activities/act17d0/level_act17d0_ex08": {
+        "code": "OD-EX-8",
+        "filename": "act17d0_ex08#f#-activities-act17d0-level_act17d0_ex08.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex08",
+        "name": "另一种可能",
+        "stageId": "act17d0_ex08#f#",
+        "width": 13
+    },
+    "act17d0_ex08-activities/act17d0/level_act17d0_ex08": {
+        "code": "OD-EX-8",
+        "filename": "act17d0_ex08-activities-act17d0-level_act17d0_ex08.json",
+        "height": 8,
+        "levelId": "activities/act17d0/level_act17d0_ex08",
+        "name": "另一种可能",
+        "stageId": "act17d0_ex08",
+        "width": 13
+    },
+    "act17d0_tr01-activities/act17d0/level_act17d0_tr01": {
+        "code": "OD-TR-1",
+        "filename": "act17d0_tr01-activities-act17d0-level_act17d0_tr01.json",
+        "height": 7,
+        "levelId": "activities/act17d0/level_act17d0_tr01",
+        "name": "萨尔贡岩漠",
+        "stageId": "act17d0_tr01",
+        "width": 10
+    },
     "act17d7_01-activities/act17d7/level_act17d7_01": {
         "code": "LTTB",
         "filename": "act17d7_01-activities-act17d7-level_act17d7_01.json",
@@ -10897,6 +11122,33 @@
         "name": "level_crisis_v2_01-07",
         "stageId": "level_crisis_v2_01-07",
         "width": 11
+    },
+    "level_crisis_v2_02-01-obt/crisis/v2/level_crisis_v2_02-01": {
+        "code": "level_crisis_v2_02-01",
+        "filename": "level_crisis_v2_02-01-obt-crisis-v2-level_crisis_v2_02-01.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_02-01",
+        "name": "level_crisis_v2_02-01",
+        "stageId": "level_crisis_v2_02-01",
+        "width": 12
+    },
+    "level_crisis_v2_02-02-obt/crisis/v2/level_crisis_v2_02-02": {
+        "code": "level_crisis_v2_02-02",
+        "filename": "level_crisis_v2_02-02-obt-crisis-v2-level_crisis_v2_02-02.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_02-02",
+        "name": "level_crisis_v2_02-02",
+        "stageId": "level_crisis_v2_02-02",
+        "width": 12
+    },
+    "level_crisis_v2_02-03-obt/crisis/v2/level_crisis_v2_02-03": {
+        "code": "level_crisis_v2_02-03",
+        "filename": "level_crisis_v2_02-03-obt-crisis-v2-level_crisis_v2_02-03.json",
+        "height": 8,
+        "levelId": "obt/crisis/v2/level_crisis_v2_02-03",
+        "name": "level_crisis_v2_02-03",
+        "stageId": "level_crisis_v2_02-03",
+        "width": 12
     },
     "level_rune_01-01-obt/rune/level_rune_01-01": {
         "code": "level_rune_01-01",
