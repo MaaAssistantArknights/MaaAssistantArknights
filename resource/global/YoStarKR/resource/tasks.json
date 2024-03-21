@@ -3490,6 +3490,12 @@
             "하드모드개시"
         ]
     },
+    "SkipThePreBattlePlot": {
+        "maskRange": [
+            1,
+            255
+        ]
+    },
     "BattleStartOCR": {
         "ocrReplace": [
             [
