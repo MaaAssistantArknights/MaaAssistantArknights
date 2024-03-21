@@ -3541,7 +3541,10 @@
         ]
     },
     "SkipThePreBattlePlot": {
-        "templThreshold": 0.7
+        "maskRange": [
+            50,
+            255
+        ]
     },
     "BattleStartOCR": {
         "text": [
