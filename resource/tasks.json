@@ -8409,7 +8409,6 @@
         ]
     },
     "BattleQuickFormationFilter-Click2": {
-        "action": "ClickSelf",
         "roi": [
             1125,
             60,
@@ -8417,6 +8416,28 @@
             600
         ],
         "postDelay": 500
+    },
+    "BattleQuickFormationFilter-PinUnactivated": {
+        "Doc": "特关未激活",
+        "roi": [
+            725,
+            15,
+            80,
+            50
+        ]
+    },
+    "BattleQuickFormationFilter-PinActivated": {
+        "Doc": "特关激活",
+        "action": "ClickSelf",
+        "roi": [
+            725,
+            15,
+            80,
+            50
+        ],
+        "sub": [
+            "BattleQuickFormationFilter-PinUnactivated"
+        ]
     },
     "BattleQuickFormationFilterClose": {
         "algorithm": "JustReturn",
