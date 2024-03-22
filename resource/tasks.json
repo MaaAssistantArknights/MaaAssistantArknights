@@ -8413,6 +8413,7 @@
         ]
     },
     "BattleQuickFormationFilter-Click2": {
+        "action": "ClickSelf",
         "roi": [
             1125,
             60,
