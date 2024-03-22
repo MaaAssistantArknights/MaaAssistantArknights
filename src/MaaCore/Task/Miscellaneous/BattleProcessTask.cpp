@@ -407,7 +407,7 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
         auto result = analyzer.analyze();
         m_in_battle = result.has_value();
         if (m_in_battle && !result->pause_button) {
-            if (check_skip_plot_button(image)) {
+            if (check_skip_plot_button(image) && check_in_speed_up(image)) {
                 speed_up();
             }
         }
