@@ -140,13 +140,13 @@ PackConstructorInitializers: Never
 # PenaltyIndentedWhitespace:
 # PenaltyReturnTypeOnItsOwnLine:
 PointerAlignment: Left
-QualifierAlignment: Custom
-QualifierOrder:
-  - inline
-  - static
-  - const
-  - constexpr
-  - type
+# QualifierAlignment: Custom
+# QualifierOrder:
+#  - inline
+#  - static
+#  - const
+#  - constexpr
+#  - type
 ReferenceAlignment: Left
 ReflowComments: true
 RemoveBracesLLVM: false
