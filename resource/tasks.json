@@ -8843,6 +8843,18 @@
             60
         ]
     },
+    "BattleSpeedUpCheck": {
+        "roi": [
+            1060,
+            20,
+            80,
+            70
+        ],
+        "maskRange": [
+            170,
+            220
+        ]
+    },
     "BattlePause": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
