@@ -352,12 +352,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
-            if (check_skip_plot_button(image)) {
-                speed_up();
-            }
-            else if (!update_deployment(false, image)) {
+            if (!update_deployment(false, image)) {
                 return false;
-            };
+            }
             if (auto iter =
                     ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
                 iter != m_cur_deployment_opers.end() && iter->available) {
