@@ -223,6 +223,10 @@ bool asst::BattleFormationTask::add_trust_operators()
     // 双击信赖
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
+    // 检查特关是否开启
+    ProcessTask(*this, { 
+        "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated"
+    }).run();
 
     // 重置职业选择，保证处于最左
     click_role_table(battle::Role::Caster);
