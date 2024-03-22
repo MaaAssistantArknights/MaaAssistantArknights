@@ -53,28 +53,26 @@ bool asst::InfrastTrainingTask::analyze_status()
         return true;
     }
 
+    const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
+    auto task_replace = Task.get<OcrTaskInfo>("InfrastTrainingOperatorAndSkill")->replace_map;
+    ranges::copy(replace_map, std::back_inserter(task_replace));
     RegionOCRer rec_analyzer(image);
     rec_analyzer.set_task_info("InfrastTrainingOperatorAndSkill");
+    rec_analyzer.set_replace(task_replace);
     if (!rec_analyzer.analyze()) {
         Log.error(__FUNCTION__, "recognition failed");
         return false;
     }
 
     std::string raw_str = rec_analyzer.get_result().text;
-    size_t separation_pos = raw_str.find(']');
+    size_t separation_pos = raw_str.find('\n');
     if (separation_pos == std::string::npos) {
         Log.error(__FUNCTION__, "separate string failed");
         return false;
     }
 
-    // ']'前为干员名，']'后为技能名
+    // '\n'前为干员名，'\n'后为技能名
     m_operator_name = raw_str.substr(0, separation_pos);
-    for (const auto& replace_map = Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map;
-         const auto& [regex, new_str] : replace_map) {
-        if (std::regex_search(m_operator_name, std::regex(regex))) {
-            m_operator_name = new_str;
-        }
-    }
     m_skill_name = raw_str.substr(separation_pos + 1, raw_str.length() - separation_pos + 1);
 
     // TODO: 根据角色职业增加换班功能
