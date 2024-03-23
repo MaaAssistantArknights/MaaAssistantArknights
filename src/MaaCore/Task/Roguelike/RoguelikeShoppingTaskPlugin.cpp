@@ -22,7 +22,7 @@ bool asst::RoguelikeShoppingTaskPlugin::verify(AsstMsg msg, const json::value& d
     }
 
     if (details.get("details", "task", "").ends_with("Roguelike@TraderRandomShopping")) {
-        return m_config->get_mode() != RoguelikeMode::Investment;
+        return m_config->get_mode() != RoguelikeMode::Investment || m_config->get_invest_with_more_score();
     }
     else {
         return false;
