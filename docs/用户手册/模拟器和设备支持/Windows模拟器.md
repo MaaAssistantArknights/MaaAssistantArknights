@@ -29,15 +29,15 @@ const fullySupport = shuffleArray([
 完美支持。需要在模拟器 \`设置\` - \`引擎设置\` 中打开 \`允许ADB连接\`。
 `,
 `
-### ✅ [蓝叠模拟器 5 国际版](https://www.bluestacks.com/tw/index.html)（最稳定👍）
+### ✅ [蓝叠模拟器 5 国际版](https://www.bluestacks.com/tw/index.html)
 
 完美支持。需要在模拟器 \`设定\` - \`进阶\` 中打开 \`Android调试桥\`。
 
-- 推荐下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免缓慢和捆绑安装；
+- 推荐下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免缓慢和捆绑安装；推荐安装 [Android 11](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F#:~:text=%E5%AE%89%E8%A3%9D%20BlueStacks%205%20%E7%9A%84%20Android%2011) 版本。
 - 若 adb 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [常见问题](../常见问题.html#蓝叠模拟器每次启动端口号都不一样-hyper-v) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 adb 的操作同样需要以管理员身份运行 MAA。
 `,
 `
-### ✅ [MuMu 模拟器 12](https://mumu.163.com/)（最流畅👍）
+### ✅ [MuMu 模拟器 12](https://mumu.163.com/)
 
 完美支持。
 
