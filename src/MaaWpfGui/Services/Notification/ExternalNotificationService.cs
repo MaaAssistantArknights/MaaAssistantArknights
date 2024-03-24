@@ -36,6 +36,7 @@ namespace MaaWpfGui.Services.Notification
                 "Telegram" => new TelegramNotificationProvider(Instances.HttpService),
                 "Discord" => new DiscordNotificationProvider(Instances.HttpService),
                 "SMTP" => new SmtpNotificationProvider(),
+                "Bark" => new BarkNotificationProvider(Instances.HttpService),
                 _ => new DummyNotificationProvider(),
             };
 
