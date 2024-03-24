@@ -33,6 +33,7 @@
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知テスト</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">これは MAA 外部通知テスト情報です。 このコンテンツが表示された場合、通知は正常に送信されました！</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">ServerChan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationBarkSendKey">Bark Send Key</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP サーバ</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">ポート</system:String>
     <system:String x:Key="ExternalNotificationSmtpSsl">SSL を使用します</system:String>

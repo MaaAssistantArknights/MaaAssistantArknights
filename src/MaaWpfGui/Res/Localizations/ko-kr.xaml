@@ -33,6 +33,7 @@
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 외부 알림 테스트</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">MAA 외부 알림 테스트 정보입니다. 이 콘텐츠가 표시되면 알림이 성공적으로 전송된 것입니다!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 전송 키</system:String>
+    <system:String x:Key="ExternalNotificationBarkSendKey">Bark 전송 키</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP 서버</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">포트</system:String>
     <system:String x:Key="ExternalNotificationSmtpSsl">는 SSL을 사용합니다.</system:String>
