@@ -19,8 +19,6 @@ namespace MaaWpfGui.Services.Notification
 
         private readonly ILogger _logger = Log.ForContext<BarkNotificationProvider>();
 
-        private readonly string _apiBase = "https://api.day.app";
-
         public BarkNotificationProvider(IHttpService httpService)
         {
             _httpService = httpService;
@@ -34,8 +32,14 @@ namespace MaaWpfGui.Services.Notification
                 _logger.Warning("Failed to send Bark notification, Bark send key is empty");
                 return false;
             }
+            var apiBase = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, string.Empty);
+            if (string.IsNullOrWhiteSpace(apiBase))
+            {
+                _logger.Warning("Failed to send Bark notification, Bark server address is empty");
+                return false;
+            }
             var response = await _httpService.PostAsJsonAsync(
-                new Uri($"{_apiBase}/push"),
+                new Uri(new Uri(apiBase), "/push"),
                 new BarkPostContent { Title = title, Content = content, SendKey = sendKey });
             var data = JsonSerializer.Deserialize<BarkResponse>(response);
             if (data.Code != 200)

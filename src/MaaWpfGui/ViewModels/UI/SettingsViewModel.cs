@@ -406,6 +406,18 @@ namespace MaaWpfGui.ViewModels.UI
 
         private string _barkSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
 
+        public string BarkServer
+        {
+            get => _barkServer;
+            set
+            {
+                SetAndNotify(ref _barkServer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkServer, value);
+            }
+        }
+
+        private string _barkServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app");
+
         private string _smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
 
         public string SmtpServer
