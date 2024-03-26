@@ -8,20 +8,22 @@
 
 namespace asst
 {
-    class TilePack final : public SingletonHolder<TilePack>, public AbstractConfig
-    {
-    public:
-        using LevelKey = Map::LevelKey;
-        using LazyMap = std::vector<std::pair<LevelKey, std::filesystem::path>>;
+class TilePack final
+    : public SingletonHolder<TilePack>
+    , public AbstractConfig
+{
+public:
+    using LevelKey = Map::LevelKey;
+    using LazyMap = std::vector<std::pair<LevelKey, std::filesystem::path>>;
 
-    public:
-        enum class HeightType
-        {
-            Invalid = -1,
-            Highland = 0,
-            Floor = 1
-        };
-        // clang-format off
+public:
+    enum class HeightType
+    {
+        Invalid = -1,
+        Highland = 0,
+        Floor = 1
+    };
+    // clang-format off
         enum class TileKey
         {
             Invalid = -1,
@@ -42,48 +44,62 @@ namespace asst
             Fence,     // 敌人不会走，但可以放干员的地面位置
         }; // clang-format on
 
-        struct TileInfo
-        {
-            battle::LocationType buildable = battle::LocationType::Invalid;
-            HeightType height = HeightType::Invalid;
-            TileKey key = TileKey::Invalid;
-            Point pos; // 像素坐标
-            Point loc; // 格子位置
-        };
-
-    public:
-        virtual ~TilePack() override = default;
-
-        template <typename KeyT>
-        std::optional<LazyMap::value_type> find(const KeyT& key) const
-        {
-            for (const auto& pair : m_summarize) {
-                if (pair.first == key) {
-                    return pair;
-                }
-            }
-            return std::nullopt;
-        }
-
-        template <typename KeyT>
-        std::unordered_map<Point, TileInfo> calc(const KeyT& key, bool side, double shift_x = 0,
-                                                 double shift_y = 0) const
-        {
-            auto file_opt = find(key);
-            if (!file_opt) {
-                return {};
-            }
-            return calc_(file_opt->second, side, shift_x, shift_y);
-        }
-
-    protected:
-        virtual bool parse(const json::value& json) override;
-
-    private:
-        std::unordered_map<Point, TileInfo> calc_(const std::filesystem::path& filepath, bool side, double shift_x,
-                                                  double shift_y) const;
-        LazyMap m_summarize;
+    struct TileInfo
+    {
+        battle::LocationType buildable = battle::LocationType::Invalid;
+        HeightType height = HeightType::Invalid;
+        TileKey key = TileKey::Invalid;
+        Point pos; // 像素坐标
+        Point loc; // 格子位置
     };
 
-    inline static auto& Tile = TilePack::get_instance();
+    struct result_type
+    {
+        std::unordered_map<Point, TileInfo> normal_tile_info;
+        std::unordered_map<Point, TileInfo> side_tile_info;
+        Point retreat_button;
+        Point skill_button;
+    };
+
+public:
+    virtual ~TilePack() override = default;
+
+    template <typename KeyT>
+    std::optional<LazyMap::value_type> find(const KeyT& key) const
+    {
+        for (const auto& pair : m_summarize) {
+            if (pair.first == key) {
+                return pair;
+            }
+        }
+        return std::nullopt;
+    }
+
+    template <typename KeyT>
+    result_type calc(const KeyT& key, double shift_x = 0, double shift_y = 0) const
+    {
+        auto file_opt = find(key);
+        if (!file_opt) {
+            return {};
+        }
+        auto filepath = file_opt->second;
+
+        auto json_opt = json::open(filepath);
+        if (!json_opt) {
+            // Log.info("failed to open", filepath);
+            return {};
+        }
+
+        return calc_(*json_opt, shift_x, shift_y);
+    }
+
+protected:
+    virtual bool parse(const json::value& json) override;
+
+private:
+    result_type calc_(const json::value& data, double shift_x, double shift_y) const;
+    LazyMap m_summarize;
+};
+
+inline static auto& Tile = TilePack::get_instance();
 } // namespace asst

@@ -150,8 +150,11 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             }
             calced = true;
             m_stage_name = text;
-            m_normal_tile_info = Tile.calc(stage_key, false);
-            m_side_tile_info = Tile.calc(stage_key, true);
+            auto calc_result = Tile.calc(stage_key);
+            m_normal_tile_info = std::move(calc_result.normal_tile_info);
+            m_side_tile_info = std::move(calc_result.side_tile_info);
+            m_retreat_button_pos = calc_result.retreat_button;
+            m_skill_button_pos = calc_result.skill_button;
             break;
         }
 
