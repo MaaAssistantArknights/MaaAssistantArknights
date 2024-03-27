@@ -416,6 +416,23 @@ namespace MaaWpfGui.ViewModels.UI
 
                 File.Delete(TempCopilotFile);
                 File.WriteAllText(TempCopilotFile, json.ToString());
+
+                if (_taskType == "Copilot" && UseCopilotList && json.TryGetValue("difficulty", out var diff) && diff.Type == JTokenType.Integer)
+                {
+                    switch ((int)diff)
+                    {
+                        case 1:
+                            AddCopilotTask();
+                            break;
+                        case 2:
+                            AddCopilotTask_Adverse();
+                            break;
+                        case 3:
+                            AddCopilotTask();
+                            AddCopilotTask_Adverse();
+                            break;
+                    }
+                }
             }
             catch (Exception)
             {
