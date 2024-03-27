@@ -41,6 +41,10 @@
     <system:String x:Key="ExternalNotificationSmtpUser">Username</system:String>
     <system:String x:Key="ExternalNotificationSmtpPassword">Password</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">Sender</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">Bot Token</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
