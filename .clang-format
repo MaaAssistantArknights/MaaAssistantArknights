@@ -140,13 +140,13 @@ PackConstructorInitializers: Never
 # PenaltyIndentedWhitespace:
 # PenaltyReturnTypeOnItsOwnLine:
 PointerAlignment: Left
-QualifierAlignment: Custom
-QualifierOrder:
-  - inline
-  - static
-  - const
-  - constexpr
-  - type
+# QualifierAlignment: Custom
+# QualifierOrder:
+#  - inline
+#  - static
+#  - const
+#  - constexpr
+#  - type
 ReferenceAlignment: Left
 ReflowComments: true
 RemoveBracesLLVM: false
@@ -154,7 +154,7 @@ RemoveParentheses: Leave
 RemoveSemicolon: false
 RequiresClausePosition: OwnLine
 RequiresExpressionIndentation: OuterScope
-SeparateDefinitionBlocks: Leave
+SeparateDefinitionBlocks: Always
 ShortNamespaceLines: 1000
 SortIncludes: CaseSensitive
 # SortJavaStaticImport:

@@ -41,6 +41,11 @@
     <system:String x:Key="ExternalNotificationSmtpPassword">비밀번호</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">보낸 사람</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">받는 사람</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">봇 토큰</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
+
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
@@ -261,7 +266,7 @@
     <system:String x:Key="GoldTimesLimit">N번 투자 후 작업 중지</system:String>
     <system:String x:Key="StopOnGoldLimit">오리지늄각뿔이 한계 도달 시 중지</system:String>
     <system:String x:Key="InvestmentEnabled">오리지늄각뿔 투자</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">투자 후 2층 진입</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">투자 모드에서는 쇼핑, 채용이 가능합니다.</system:String>
     <system:String x:Key="RefreshTraderWithDice">상점 새로고침</system:String>
     <system:String x:Key="PenguinId">Penguin-Stats 보고 ID (숫자만)</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Stats 보고</system:String>
@@ -672,7 +677,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="BattleFormation">편성 시작</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">지원되지 않는 레벨은 레벨 이름을 확인하세요!</system:String>
+    <system:String x:Key="UnsupportedLevel">지원되지 않는 단계입니다. 자원 버전 및 단계 이름을 확인하세요!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToStartEmulator">에뮬레이터를 시작하는 중입니다</system:String>

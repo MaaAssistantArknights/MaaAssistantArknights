@@ -144,14 +144,24 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     if (mode == RoguelikeMode::Investment) {
         m_debug_plugin_ptr->set_enable(false);
-        // 战斗后奖励只拿钱
-        Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
+        bool investment_with_more_score = params.get("investment_with_more_score", false);
+        if (!params.contains("investment_with_more_score") && params.contains("investment_enter_second_floor")) {
+            investment_with_more_score = params.get("investment_enter_second_floor", true);
+            Log.warn("================  DEPRECATED  ================");
+            Log.warn("`investment_enter_second_floor` has been deprecated since v5.2.1; Please use 'investment_with_more_score'");
+            Log.warn("================  DEPRECATED  ================");
+        }
+        m_roguelike_config_ptr->set_invest_with_more_score(investment_with_more_score);
         // 刷源石锭模式是否进入第二层
-        if (params.get("investment_enter_second_floor", true)) {
+        if (investment_with_more_score) {
+            // 战斗后奖励默认
+            Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         }
         else {
+            // 战斗后奖励只拿钱
+            Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
         }

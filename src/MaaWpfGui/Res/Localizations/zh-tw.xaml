@@ -41,6 +41,10 @@
     <system:String x:Key="ExternalNotificationSmtpPassword">密碼</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">發件者</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">收件者</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">機器人 Token</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">用戶 ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">機器人 Token</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
     <!--  設定指引  -->
     <system:String x:Key="TaskSettings">任務設定</system:String>
     <system:String x:Key="SettingsGuide">設定指引</system:String>
@@ -261,7 +265,7 @@
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止</system:String>
     <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">投資後進入第二層</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">投資模式啟用購物、招募</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
     <system:String x:Key="PenguinId">企鵝物流匯報 ID（僅數字部分）</system:String>
     <system:String x:Key="EnablePenguin">上報企鵝物流</system:String>
@@ -670,7 +674,7 @@
     <system:String x:Key="BattleFormation">開始編隊</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的關卡，請檢查關卡名！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的關卡，請檢查資源版本更新與關卡名！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>

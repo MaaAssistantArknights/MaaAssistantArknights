@@ -24,7 +24,7 @@ namespace MaaWpfGui.Services.Notification
 {
     public class SmtpNotificationProvider : IExternalNotificationProvider
     {
-        private readonly ILogger _logger = Log.ForContext<ServerChanNotificationProvider>();
+        private readonly ILogger _logger = Log.ForContext<SmtpNotificationProvider>();
 
         public async Task<bool> SendAsync(string title, string content)
         {

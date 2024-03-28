@@ -41,6 +41,10 @@
     <system:String x:Key="ExternalNotificationSmtpUser">Username</system:String>
     <system:String x:Key="ExternalNotificationSmtpPassword">Password</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">Sender</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">Bot Token</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>
@@ -261,7 +265,7 @@
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>
     <system:String x:Key="StopOnGoldLimit">Stops when invested coins reach limit</system:String>
     <system:String x:Key="InvestmentEnabled">Invest coins</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">Enter 2nd floor after investing</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">Investment mode enables shopping, recruiting</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
     <system:String x:Key="PenguinId">Penguin Report ID (Number part only)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
@@ -623,8 +627,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="InfrastDormDoubleConfirmed">Operator conflict</system:String>
     <system:String x:Key="BegunToExplore">Exploration started</system:String>
     <system:String x:Key="ExplorationAbandoned">Abandoned this Exploration</system:String>
-    <system:String x:Key="FightCompleted">Fight completed</system:String>
-    <system:String x:Key="FightFailed">Fight failed</system:String>
+    <system:String x:Key="FightCompleted">Combat completed</system:String>
+    <system:String x:Key="FightFailed">Combat failed</system:String>
     <system:String x:Key="UpperLimit">Investment limit reached</system:String>
     <system:String x:Key="GameCrash">Game crashed pending restart</system:String>
     <system:String x:Key="GameDrop">Game disconnected, pending reconnect</system:String>
@@ -672,7 +676,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check the stage name!</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check for resource version updates and stage name!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
