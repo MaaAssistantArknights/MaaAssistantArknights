@@ -6113,6 +6113,10 @@
             210,
             201
         ],
+        "maskRange": [
+            1,
+            255
+        ],
         "next": [
             "CreditShop-Bought",
             "Stop"
