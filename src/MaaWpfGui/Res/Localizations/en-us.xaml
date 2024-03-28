@@ -676,7 +676,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="BattleFormation">Start formation</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">Selection of operator: </system:String>
     <system:String x:Key="CurrentSteps">Current step: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check the stage name!</system:String>
+    <system:String x:Key="UnsupportedLevel">Unsupported stage. Please check for resource version updates and stage name!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
