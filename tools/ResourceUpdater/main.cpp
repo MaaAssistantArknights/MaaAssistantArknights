@@ -1313,6 +1313,10 @@ bool check_roguelike_replace_for_overseas(
         task_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(),
         base_totem_names,
         totem_names);
+    proc (
+        task_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(),
+        base_totem_names,
+        totem_names);
     proc(
         task_json["Roguelike@StageEncounterOcr"]["ocrReplace"].as_array(),
         base_encounter_names,

@@ -41,6 +41,11 @@
     <system:String x:Key="ExternalNotificationSmtpPassword">パスワード</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">送信者</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">受信者</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">ボットトークン</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
+
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -261,7 +266,7 @@
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達した後に停止する</system:String>
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">投資後に階層2へ</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">投資モードではショッピングや人材募集が可能</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Statsの報告</system:String>
@@ -672,7 +677,7 @@
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないレベルは、レベル名を確認してください!</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないレベルは、リソースのバージョンとステージ名を確認してください!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>

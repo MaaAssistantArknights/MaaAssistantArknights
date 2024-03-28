@@ -37,6 +37,7 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       pre_version: ${{ steps.set_tag.outputs.pre_version }}
       main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
+      changelog: ${{ steps.generate_changelog.outputs.changelog }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,6 +60,9 @@ jobs:
       - name: Set tag
         id: set_tag
         run: |
+          # pre_version是上一个公版，这里需要拉上一个tag，避免堆积过多commit
+          $latest_tag=$(git describe --tags --abbrev=0)
+          echo "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
           $described = $(git describe --tags --long --match 'v*')
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
@@ -88,6 +92,13 @@ jobs:
           git tag $main_tag_name -f
           git push --tags origin HEAD:refs/tags/$main_tag_name -f
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
+
+      - name: Generate Changelog
+        id: generate_changelog
+        run: |
+          $content=$(git log --pretty=format:"* %s [@%an](https://github.com/%an) \n\n" ${{ steps.set_tag.outputs.latest_tag }}..alpha/${{ steps.set_tag.outputs.tag }})
+          echo "changelog=###Commits:\n\n$content" >> $env:GITHUB_OUTPUT
+          echo $content
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
@@ -233,7 +244,7 @@ jobs:
         run: |
           pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
           cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-          echo -e "${{ inputs.release_body || '' }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
+          echo -e "${{ inputs.release_body || '' }}\n\n${{ needs.build-win-nightly.outputs.changelog }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
           export r=$(cat alpha_changelog.md)
 
           # https://github.com/svenstaro/upload-release-action

@@ -1375,6 +1375,14 @@
         "sortId": -10000,
         "usage": "A small medal made from metal. Gain certain amounts and receive corresponding competition rewards."
     },
+    "act1mainlinebp_token_star": {
+        "classifyType": "NONE",
+        "description": "A flickering, glinting fragment. A light so that you no longer fear the dark as you walk dauntlessly on through the thorns.",
+        "icon": "act1mainlinebp_token_star.png",
+        "name": "Milestone Fragment",
+        "sortId": -10000,
+        "usage": "Can be exchanged for Milestone Rewards."
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "Life prospers, age passes down to age, and this is their proof.",
@@ -1502,6 +1510,14 @@
         "name": "Fluffy Critter Wool",
         "sortId": -10000,
         "usage": "Looks good for padding outdoors thermal equipment, but seems to have little use in the current season. The young girl at 'White Volcano' has an inexplicable love for bizarre wool like this, and will surreptitiously trade you goods from the shop for it. N.B.: DO NOT let her big brother know!"
+    },
+    "act28side_token_box": {
+        "classifyType": "NONE",
+        "description": "Plastics, paper, wood... even scrapped Originium circuitry. Their only commonality is that they all burn when thrown in the power plant, and provide the plate with just that much more heat.",
+        "icon": "act28side_token_box.png",
+        "name": "Shoddy Fuel",
+        "sortId": -10000,
+        "usage": "Combustibles salvaged from Davistown and its environs. Practically worthless for heat, and produces way too much smoke, but fuel is fuel and there's an old worker by the energy tower who'll trade goods from the mine for it."
     },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -1798,6 +1814,14 @@
         "name": "Obsidian Festival Ticket",
         "sortId": -10000,
         "usage": "A ticket to the Obsidian Festival. Can be used to enter special stages."
+    },
+    "favor_add_ulika": {
+        "classifyType": "NONE",
+        "description": "A storage device with recordings of the most wonderful livestream moments, and can be used to raise the trust of U-Official.",
+        "icon": "favor_add_ulika.png",
+        "name": "Streamer U's Stream Clips",
+        "sortId": -10000,
+        "usage": "Used to increase U-Official's Trust."
     },
     "itempack_gacha_1": {
         "classifyType": "CONSUME",
@@ -2101,6 +2125,14 @@
         "icon": "randomMaterial_8.png",
         "name": "Rhodes Island Supplies V",
         "sortId": 60108,
+        "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_9": {
+        "classifyType": "CONSUME",
+        "description": "Rhodes Island purchases and stores boxes of supplies from various places. However, due to the lack of an organized storage system, each box contains seemingly random materials.",
+        "icon": "randomMaterial_9.png",
+        "name": "Rhodes Island Supplies VI",
+        "sortId": 60109,
         "usage": "Filled with an assortment of supplies and materials."
     },
     "randomMaterial_rhine2": {

@@ -49,7 +49,7 @@ def individual_commits(commits: dict, indent: str = "") -> (str, list):
             commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|debug|i18n)"
             commit_message = re.sub(rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *", "", commit_message)
 
-        ret_message += indent + "- " + commit_message
+        ret_message += indent + "* " + commit_message
 
         mes, ctrs = individual_commits(commit_info["branch"], indent + "   ")
 

@@ -87,10 +87,10 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                bool? isRaid = false;
+                bool isRaid = false;
                 if (item.TryGetValue("is_raid", out var value))
                 {
-                    isRaid = (bool?)value;
+                    isRaid = (bool)value;
                 }
                 else if (name.EndsWith("-Adverse"))
                 {
@@ -98,7 +98,7 @@ namespace MaaWpfGui.ViewModels.UI
                     isRaid = true; // 用于迁移配置 (since 5.1.0, 后期移除)
                 }
 
-                CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid ?? true, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
+                CopilotItemViewModels.Add(new CopilotItemViewModel(name, (string)pathToken!, isRaid, copilotIdInFile, (bool?)item?["is_checked"] ?? true));
             }
 
             CopilotItemIndexChanged();
@@ -116,7 +116,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
         /// <param name="showTime">Wether show time.</param>
-        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = false)
+        public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
         {
             LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
             if (showTime)
@@ -837,7 +837,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                     model.IsChecked = false;
 
-                    if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) > -1)
+                    if (model.CopilotId > 0 && _copilotIdList.Remove(model.CopilotId) && _copilotIdList.IndexOf(model.CopilotId) == -1)
                     {
                         CouldLikeWebJson = _recentlyRatedCopilotId.IndexOf(model.CopilotId) == -1;
                         RateWebJson("Like", model.CopilotId);

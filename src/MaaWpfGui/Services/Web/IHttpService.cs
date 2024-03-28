@@ -67,6 +67,15 @@ namespace MaaWpfGui.Services.Web
         Task<string?> PostAsJsonAsync<T>(Uri uri, T content, Dictionary<string, string>? extraHeader = null);
 
         /// <summary>
+        /// Send HTTP POST request and a string response
+        /// </summary>
+        /// <param name="uri">Target Uri</param>
+        /// <param name="content">The POST body content</param>
+        /// <param name="extraHeader">Extra HTTP Request Headers</param>
+        /// <returns>Response string, null when failed</returns>
+        Task<string?> PostAsFormUrlEncodedAsync(Uri uri, Dictionary<string, string?> content, Dictionary<string, string>? extraHeader = null);
+
+        /// <summary>
         /// Download a file from the Web
         /// </summary>
         /// <param name="uri">The URI of the file</param>

@@ -41,6 +41,10 @@
     <system:String x:Key="ExternalNotificationSmtpPassword">密码</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">发件人</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">收件人</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">机器人 Token</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">用户 ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">机器人 Token</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
@@ -261,7 +265,7 @@
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">投资后进入第二层</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">投资模式启用购物、招募</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
     <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>
@@ -672,7 +676,7 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查资源版本更新与关卡名！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>

@@ -684,6 +684,10 @@
                 "S"
             ],
             [
+                "c",
+                "C"
+            ],
+            [
                 ":",
                 ""
             ],
@@ -3299,6 +3303,10 @@
                 ""
             ],
             [
+                "^c(?!ast)",
+                ""
+            ],
+            [
                 "^\\^一",
                 ""
             ],
@@ -3403,6 +3411,10 @@
                 "煌"
             ],
             [
+                "^一煌$",
+                "煌"
+            ],
+            [
                 ".*甜蜜狂搅.*",
                 "“甜蜜狂搅”"
             ],
@@ -3463,12 +3475,20 @@
                 "黍"
             ],
             [
-                "红集",
+                "^红集$",
                 "红隼"
             ],
             [
                 "小.?满",
                 "小满"
+            ],
+            [
+                "^一山$",
+                "山"
+            ],
+            [
+                ".*夹子.*",
+                "“夹子”"
             ]
         ]
     },
@@ -6093,6 +6113,10 @@
             210,
             201
         ],
+        "maskRange": [
+            1,
+            255
+        ],
         "next": [
             "CreditShop-Bought",
             "Stop"
@@ -8037,6 +8061,10 @@
             [
                 "^\\[",
                 ""
+            ],
+            [
+                "\\]",
+                "\n"
             ]
         ]
     },
@@ -8409,6 +8437,28 @@
             600
         ],
         "postDelay": 500
+    },
+    "BattleQuickFormationFilter-PinUnactivated": {
+        "Doc": "特关未激活",
+        "roi": [
+            725,
+            15,
+            80,
+            50
+        ]
+    },
+    "BattleQuickFormationFilter-PinActivated": {
+        "Doc": "特关激活",
+        "action": "ClickSelf",
+        "roi": [
+            725,
+            15,
+            80,
+            50
+        ],
+        "sub": [
+            "BattleQuickFormationFilter-PinUnactivated"
+        ]
     },
     "BattleQuickFormationFilterClose": {
         "algorithm": "JustReturn",
@@ -8812,6 +8862,18 @@
             20,
             60,
             60
+        ]
+    },
+    "BattleSpeedUpCheck": {
+        "roi": [
+            1060,
+            20,
+            80,
+            70
+        ],
+        "maskRange": [
+            170,
+            220
         ]
     },
     "BattlePause": {
@@ -10012,6 +10074,14 @@
         "ocrReplace": [
             [
                 "LT(?=\\d)",
+                "LT-"
+            ],
+            [
+                "Lt",
+                "LT"
+            ],
+            [
+                "LT\\+",
                 "LT-"
             ]
         ]
@@ -16295,6 +16365,9 @@
             0,
             146,
             154
+        ],
+        "templThreshold": [
+            0.7
         ],
         "postDelay": 1000,
         "next": [

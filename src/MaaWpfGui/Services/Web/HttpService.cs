@@ -161,8 +161,44 @@ namespace MaaWpfGui.Services.Web
             {
                 var body = JsonSerializer.Serialize(content);
                 var message = new HttpRequestMessage(HttpMethod.Post, uri);
+
+                if (extraHeader is not null)
+                {
+                    foreach (var header in extraHeader)
+                    {
+                        message.Headers.Add(header.Key, header.Value);
+                    }
+                }
+
                 message.Headers.Accept.ParseAdd("application/json");
                 message.Content = new StringContent(body, Encoding.UTF8, "application/json");
+                var response = await _client.SendAsync(message);
+                response.Log();
+                return await response.Content.ReadAsStringAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to send POST request to {Uri}", uri);
+                return null;
+            }
+        }
+
+        public async Task<string?> PostAsFormUrlEncodedAsync(Uri uri, Dictionary<string, string?> content, Dictionary<string, string>? extraHeader = null)
+        {
+            try
+            {
+                var message = new HttpRequestMessage(HttpMethod.Post, uri);
+                message.Headers.Accept.ParseAdd("application/json");
+
+                if (extraHeader is not null)
+                {
+                    foreach (var header in extraHeader)
+                    {
+                        message.Headers.Add(header.Key, header.Value);
+                    }
+                }
+
+                message.Content = new FormUrlEncodedContent(content);
                 var response = await _client.SendAsync(message);
                 response.Log();
                 return await response.Content.ReadAsStringAsync();

@@ -463,6 +463,14 @@ bool asst::BattleHelper::check_skip_plot_button(const cv::Mat& reusable)
     return ret;
 }
 
+bool asst::BattleHelper::check_in_speed_up(const cv::Mat& reusable)
+{
+    cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
+    Matcher analyzer(image);
+    analyzer.set_task_info("BattleSpeedUpCheck");
+    return analyzer.analyze().has_value();
+}
+
 bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
 {
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
