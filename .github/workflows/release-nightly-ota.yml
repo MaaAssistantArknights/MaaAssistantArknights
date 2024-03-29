@@ -97,7 +97,7 @@ jobs:
         id: generate_changelog
         run: |
           $content=$(git log --pretty=format:"* %s [@%an](https://github.com/%an) \n\n" ${{ steps.set_tag.outputs.latest_tag }}..alpha/${{ steps.set_tag.outputs.tag }})
-          echo "changelog=###Commits:\n\n$content" >> $env:GITHUB_OUTPUT
+          echo "changelog=### Commits\n\n$content" >> $env:GITHUB_OUTPUT
           echo $content
 
       - name: Cache .nuke/temp, ~/.nuget/packages
