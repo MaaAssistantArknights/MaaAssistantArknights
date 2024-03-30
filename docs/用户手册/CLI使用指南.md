@@ -28,17 +28,31 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 #### Linux
 
-ArchLinux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/):
+- Arch Linux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/):
 
-```bash
-yay -S maa-cli
-```
+  ```bash
+  yay -S maa-cli
+  ```
 
-对于 LinuxBrew 用户，可以使用 [LinuxBrew](https://docs.brew.sh/Homebrew-on-Linux) 安装：
+- ❄️ Nix 用户可以直接运行:
 
-```bash
-brew install MaaAssistantArknights/tap/maa-cli
-```
+  ```bash
+  # 稳定版
+  nix run nixpkgs#maa-cli
+  ```
+
+  ```bash
+  # 每夜构建
+  nix run github:Cryolitia/nur-packages#maa-cli-nightly
+  ```
+
+  稳定版打包至 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix) 中，使用 `nixpkgs` 中的 Rust 工具链；每夜构建位于 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix) 中，使用 Beta channel 的 Rust 工具链，由 Github Action 每日自动更新和构建验证。
+
+- 对于 Linux Brew 用户，可以使用 [Linux Brew](https://docs.brew.sh/Homebrew-on-Linux) 安装：
+
+  ```bash
+  brew install MaaAssistantArknights/tap/maa-cli
+  ```
 
 ### 预编译二进制文件
 
