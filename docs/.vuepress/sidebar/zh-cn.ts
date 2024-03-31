@@ -14,6 +14,11 @@ export const zhcnSidebar = sidebar({
       collapsible: true,
       children: [
         {
+          text: "新手引导",
+          icon: "ri:guide-fill",
+          link: "新手引导",
+        },
+        {
           text: "功能介绍",
           icon: "mdi:information-outline",
           link: "详细介绍",
