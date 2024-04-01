@@ -3,13 +3,24 @@ order: 3
 icon: teenyicons:linux-alt-solid
 ---
 
-# Linux 模拟器&容器
+# Linux 模拟器与容器
 
 ## 准备工作
 
-### 1. 安装 MAA
+以下安装方式任选其一即可：
 
-1. 在 [MAA 官网](https://maa.plus/) 下载 Linux 动态库并解压
+### 使用 maa-cli
+
+[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) 是一个使用 Rust 编写的简单 MAA 命令行工具。相关安装与使用教程请阅读[用户手册 - CLI使用指南](../CLI使用指南)。
+
+### 使用 Python
+
+#### 1. 安装 MAA 动态库
+
+1. 在 [MAA 官网](https://maa.plus/) 下载 Linux 动态库并解压，或从软件源安装：
+
+   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后的提示编辑文件
+   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
 2. 进入 `./MAA-v{版本号}-linux-{架构}/Python/` 目录下打开 `sample.py` 文件
 
@@ -18,10 +29,7 @@ icon: teenyicons:linux-alt-solid
 可以参考 [Linux 编译教程](../../开发文档/Linux编译教程.md) 重新编译或使用容器运行
 :::
 
-- Arch Linux 系列发行版可以选择使用 aur 包 [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights),
-  并按照安装后的提示编辑文件.
-
-### 2. `adb` 配置
+#### 2. `adb` 配置
 
 1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) 一栏
 
@@ -53,7 +61,7 @@ icon: teenyicons:linux-alt-solid
 
 4. 这时候可以测试下： `$ python3 sample.py` ，如果返回 `连接成功` 则基本成功了。
 
-### 3. 任务配置
+#### 3. 任务配置
 
 自定义任务： 根据需要参考 [集成文档](../../协议文档/集成文档.md) 对 `sample.py` 的 [`# 任务及参数请参考 docs/集成文档.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一栏进行修改
 
