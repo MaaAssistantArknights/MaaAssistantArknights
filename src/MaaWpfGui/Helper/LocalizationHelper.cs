@@ -31,7 +31,7 @@ namespace MaaWpfGui.Helper
         /// <summary>
         /// The supported languages.
         /// </summary>
-        public static readonly Dictionary<string, string> SupportedLanguages = new Dictionary<string, string>
+        public static readonly Dictionary<string, string> SupportedLanguages = new()
         {
             { "zh-cn", "简体中文" },
             { "zh-tw", "繁體中文" },
@@ -55,7 +55,7 @@ namespace MaaWpfGui.Helper
                 }
 
                 foreach (var lang in from lang in SupportedLanguages
-                         let key = lang.Key.Contains("-") ? lang.Key.Split('-')[0] : lang.Key
+                         let key = lang.Key.Contains('-') ? lang.Key.Split('-')[0] : lang.Key
                          where local.StartsWith(key) || key.StartsWith(local)
                          select lang)
                 {
@@ -80,10 +80,10 @@ namespace MaaWpfGui.Helper
 
             string[] cultureList = _culture switch
             {
-                "zh-cn" => new[] { _culture },
-                "zh-tw" => new[] { "zh-cn", _culture, },
-                "en-us" => new[] { "zh-cn", _culture, },
-                _ => new[] { "zh-cn", "en-us", _culture, },
+                "zh-cn" => [_culture],
+                "zh-tw" => ["zh-cn", _culture],
+                "en-us" => ["zh-cn", _culture],
+                _ => ["zh-cn", "en-us", _culture],
             };
 
             foreach (var cur in cultureList)
@@ -127,7 +127,7 @@ namespace MaaWpfGui.Helper
                 };
                 if (dictionary.Contains(key))
                 {
-                    return Regex.Unescape(dictionary[key].ToString());
+                    return Regex.Unescape(dictionary[key]?.ToString() ?? $"{{{{ {key} }}}}");
                 }
             }
 
@@ -142,15 +142,15 @@ namespace MaaWpfGui.Helper
                 var dict = dictList[i];
                 if (dict.Contains(key))
                 {
-                    return Regex.Unescape(dict[key].ToString());
+                    return Regex.Unescape(dict[key]?.ToString() ?? $"{{{{ {key} }}}}");
                 }
             }
 
             return $"{{{{ {key} }}}}";
         }
 
-        private static readonly string[] _pallasChars = { "💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻", };
-        private static readonly Random _pallasRand = new Random();
+        private static readonly string[] _pallasChars = ["💃", "🕺", "🍷", "🍸", "🍺", "🍻", "🍷", "🍸", "🍺", "🍻"];
+        private static readonly Random _pallasRand = new();
 
         private static string GetPallasString()
         {
