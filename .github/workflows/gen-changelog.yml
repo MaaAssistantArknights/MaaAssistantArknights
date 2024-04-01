@@ -25,20 +25,16 @@ jobs:
         env:
           PR_BODY: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
         run: |
-          output() {
-            echo "$1=$2" >> $GITHUB_OUTPUT
-          }
-
           tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-          output tag_name $tag_name
+          echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
 
           pr_title="docs: Auto Update Changelogs of "$tag_name
-          output pr_title $pr_title
+          echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
 
           latest_stable_tag=$(git tag -l 'v*' | grep -v '-' | sort -V | tail -n 1) # 上一个 stable 版本
           newest_tag=$(git describe --tags --match "v*" --abbrev=0) # 最新版本
-          output latest_stable_tag $latest_stable_tag
-          output newest_tag $newest_tag
+          echo "latest_stable_tag=$latest_stable_tag" >> $GITHUB_OUTPUT
+          echo "newest_tag=$newest_tag" >> $GITHUB_OUTPUT
 
           if [[ $tag_name == *-* ]]; then # 判断新版本是否为 beta 版本
             latest=$newest_tag            # 若是，则将 latest 参数设置为最新版本
@@ -46,21 +42,21 @@ jobs:
             latest=$latest_stable_tag     # 若否，则设置为上一个 stable 版本
           fi
 
-          output latest $latest
+          echo "latest=$latest" >> $GITHUB_OUTPUT
 
-          log() {
-            echo "$1" >> $PR_BODY
-          }
+          cat $GITHUB_OUTPUT
 
-          log 'Target RP: ${{ github.event.pull_request.html_url }}'
-          log ''
-          log '```'
-          log '<details><summary>Debug info</summary>'
-          log '```'
-          log ''
+          echo '======='
+
+          echo 'Target RP: ${{ github.event.pull_request.html_url }}' >> $PR_BODY
+          echo '' >> $PR_BODY
+          echo '<details><summary>Debug info</summary>' >> $PR_BODY
+          echo '' >> $PR_BODY
+          echo '```' >> $PR_BODY
           sed 's/=/: /1' $GITHUB_OUTPUT >> $PR_BODY
-          log ''
-          log '</details>'
+          echo '```' >> $PR_BODY
+          echo '' >> $PR_BODY
+          echo '</details>' >> $PR_BODY
 
           cat $PR_BODY
 
