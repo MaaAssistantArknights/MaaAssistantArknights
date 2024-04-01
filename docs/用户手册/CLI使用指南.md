@@ -14,7 +14,7 @@ icon: material-symbols:terminal
 
 ### Appimage
 
-CLI 是 MAA 在 Linux 平台的默认界面，你可以直接下载最新的 Appimage 包来使用 CLI。
+CLI 是 MAA 在 Linux 平台的默认界面，你可以直接 [下载](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest) 最新的 AppImage 包来使用 CLI。
 
 ### 包管理器
 
@@ -28,17 +28,31 @@ brew install MaaAssistantArknights/tap/maa-cli
 
 #### Linux
 
-ArchLinux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/):
+- Arch Linux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/):
 
-```bash
-yay -S maa-cli
-```
+  ```bash
+  yay -S maa-cli
+  ```
 
-对于 LinuxBrew 用户，可以使用 [LinuxBrew](https://docs.brew.sh/Homebrew-on-Linux) 安装：
+- ❄️ Nix 用户可以直接运行:
 
-```bash
-brew install MaaAssistantArknights/tap/maa-cli
-```
+  ```bash
+  # 稳定版
+  nix run nixpkgs#maa-cli
+  ```
+
+  ```bash
+  # 每夜构建
+  nix run github:Cryolitia/nur-packages#maa-cli-nightly
+  ```
+
+  稳定版打包至 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix) 中，使用 `nixpkgs` 中的 Rust 工具链；每夜构建位于 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix) 中，使用 Beta channel 的 Rust 工具链，由 Github Action 每日自动更新和构建验证。
+
+- 对于 Linux Brew 用户，可以使用 [Linux Brew](https://docs.brew.sh/Homebrew-on-Linux) 安装：
+
+  ```bash
+  brew install MaaAssistantArknights/tap/maa-cli
+  ```
 
 ### 预编译二进制文件
 
@@ -144,7 +158,6 @@ brew install MaaAssistantArknights/tap/maa-cli
 - `maa convert <input> [output]`: 将 `JSON`，`YAML` 或者 `TOML` 格式的文件转换为其他格式;
 - `maa complete <shell>`: 生成自动补全脚本;
 - `maa activity [client]`: 获取游戏的当前活动信息，`client` 是客户端类型，默认为 `Official`。
-
 
 ## 配置
 
