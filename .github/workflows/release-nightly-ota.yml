@@ -96,8 +96,9 @@ jobs:
       - name: Generate Changelog
         id: generate_changelog
         run: |
-          $content=$(python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}")
-          echo "changelog=### Commits\n\n$content" >> $env:GITHUB_OUTPUT
+          python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
+          $content=$(cat CHANGELOG.md)
+          echo "changelog=$content" >> $env:GITHUB_OUTPUT
           echo $content
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
