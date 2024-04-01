@@ -2168,7 +2168,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
+        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
         public string LastCreditFightTaskTime
         {
@@ -3933,7 +3933,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _soberLanguage = ConfigurationHelper.GetValue("GUI.SoberLanguage", LocalizationHelper.DefaultLanguage);
+        private string _soberLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
 
         public string SoberLanguage
         {
@@ -3941,7 +3941,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _soberLanguage, value);
-                ConfigurationHelper.SetValue("GUI.SoberLanguage", value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SoberLanguage, value);
             }
         }
 
@@ -4015,7 +4015,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _cheers = bool.Parse(ConfigurationHelper.GetValue("GUI.Cheers", bool.FalseString));
+        private bool _cheers = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.Cheers, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to cheer.
@@ -4031,15 +4031,15 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _cheers, value);
-                ConfigurationHelper.SetValue("GUI.Cheers", value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.Cheers, value.ToString());
                 if (_cheers)
                 {
-                    SetPallasLanguage();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
                 }
             }
         }
 
-        private bool _hangover = bool.Parse(ConfigurationHelper.GetValue("GUI.Hangover", bool.FalseString));
+        private bool _hangover = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.Hangover, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to hangover.
@@ -4050,21 +4050,19 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _hangover, value);
-                ConfigurationHelper.SetValue("GUI.Hangover", value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.Hangover, value.ToString());
             }
         }
 
-        private static void SetPallasLanguage()
+        private string _lastBuyWineTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+
+        public string LastBuyWineTime
         {
-            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("DrunkAndStaggering"),
-                LocalizationHelper.GetString("Burping"),
-                iconKey: "DrunkAndStaggeringGeometry",
-                iconBrushKey: "PallasBrush");
-            if (result == MessageBoxResult.OK)
+            get => _lastBuyWineTime;
+            set
             {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
+                SetAndNotify(ref _lastBuyWineTime, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LastBuyWineTime, value);
             }
         }
 
@@ -4104,7 +4102,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>The answer.</returns>
         public bool DidYouBuyWine()
         {
-            if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
+            var now = DateTime.UtcNow.ToYjDate();
+            if (now == DateTime.ParseExact(LastBuyWineTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+            {
+                return false;
+            }
+
+            if (now.IsAprilFoolsDay())
             {
                 return true;
             }
