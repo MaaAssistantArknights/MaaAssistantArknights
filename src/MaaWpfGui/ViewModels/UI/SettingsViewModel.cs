@@ -2472,6 +2472,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                 public int TimerId { get; set; }
 
+                private readonly string _timerName = LocalizationHelper.GetString("Timer");
+
+                public string TimerName
+                {
+                    get => $"{_timerName} {TimerId + 1}";
+                }
+
                 private bool _isOn;
 
                 /// <summary>
