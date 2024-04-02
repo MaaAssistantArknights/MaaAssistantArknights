@@ -119,6 +119,11 @@ namespace MaaWpfGui.Helper
         /// <returns>The string.</returns>
         public static string GetString(string key, string culture = null)
         {
+            if (_culture == "pallas")
+            {
+                return GetPallasString();
+            }
+
             if (!string.IsNullOrEmpty(culture))
             {
                 var dictionary = new ResourceDictionary
@@ -129,11 +134,6 @@ namespace MaaWpfGui.Helper
                 {
                     return Regex.Unescape(dictionary[key]?.ToString() ?? $"{{{{ {key} }}}}");
                 }
-            }
-
-            if (_culture == "pallas")
-            {
-                return GetPallasString();
             }
 
             var dictList = Application.Current.Resources.MergedDictionaries;
