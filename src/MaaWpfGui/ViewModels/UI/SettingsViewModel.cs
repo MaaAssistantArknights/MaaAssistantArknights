@@ -4054,7 +4054,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _lastBuyWineTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+        private string _lastBuyWineTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
         public string LastBuyWineTime
         {
@@ -4062,7 +4062,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _lastBuyWineTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastBuyWineTime, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LastBuyWineTime, value);
             }
         }
 
