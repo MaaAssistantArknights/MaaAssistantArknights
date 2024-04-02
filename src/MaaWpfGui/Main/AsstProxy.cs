@@ -715,6 +715,7 @@ namespace MaaWpfGui.Main
 
                     if (buyWine)
                     {
+                        Instances.SettingsViewModel.LastBuyWineTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                         var result = MessageBoxHelper.Show(
                             LocalizationHelper.GetString("DrunkAndStaggering"),
                             LocalizationHelper.GetString("Burping"),
@@ -723,7 +724,6 @@ namespace MaaWpfGui.Main
                         if (result == MessageBoxResult.OK)
                         {
                             Instances.SettingsViewModel.Cheers = true;
-                            Instances.SettingsViewModel.LastBuyWineTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                             Bootstrapper.ShutdownAndRestartWithoutArgs();
                         }
                     }
