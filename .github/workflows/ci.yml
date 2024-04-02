@@ -228,7 +228,7 @@ jobs:
         uses: ./src/maa-cli/.github/actions/setup
         with:
           os: ubuntu-latest
-          target_arch: ${{ matrix.arch }}
+          arch: ${{ matrix.arch }}
 
       - name: Build CLI
         run: |
