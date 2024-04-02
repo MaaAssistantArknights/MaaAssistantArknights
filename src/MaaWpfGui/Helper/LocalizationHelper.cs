@@ -55,9 +55,9 @@ namespace MaaWpfGui.Helper
                 }
 
                 foreach (var lang in from lang in SupportedLanguages
-                         let key = lang.Key.Contains('-') ? lang.Key.Split('-')[0] : lang.Key
-                         where local.StartsWith(key) || key.StartsWith(local)
-                         select lang)
+                                     let key = lang.Key.Contains('-') ? lang.Key.Split('-')[0] : lang.Key
+                                     where local.StartsWith(key) || key.StartsWith(local)
+                                     select lang)
                 {
                     return lang.Key;
                 }
@@ -75,6 +75,16 @@ namespace MaaWpfGui.Helper
         {
             if (_culture == "pallas")
             {
+                var dictionary = new ResourceDictionary
+                {
+                    Source = new Uri($@"Res\Localizations\zh-cn.xaml", UriKind.Relative),
+                };
+                foreach (var key in dictionary.Keys)
+                {
+                    dictionary[key] = GetPallasString();
+                }
+
+                Application.Current.Resources.MergedDictionaries.Add(dictionary);
                 return;
             }
 
