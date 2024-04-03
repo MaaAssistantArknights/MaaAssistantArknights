@@ -4395,9 +4395,9 @@
         "postDelay": 1000,
         "roi": [
             1038,
-            640,
+            625,
             206,
-            46
+            61
         ],
         "exceededNext": [
             "StageSNReturnFlag",
