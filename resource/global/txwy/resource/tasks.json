@@ -4392,17 +4392,17 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "進入主題"
-        ],
         "roi": [
             1006,
             445,
             246,
             157
         ],
+        "text": [
+            "進入主題"
+        ],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "next": [
             "Roguelike@FromIntegratedStrategies",
             "Roguelike@Begin"
