@@ -6032,17 +6032,17 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "ENTER"
-        ],
         "roi": [
             1006,
             445,
             246,
             157
         ],
+        "text": [
+            "ENTER"
+        ],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "next": [
             "Roguelike@FromIntegratedStrategies",
             "Roguelike@Begin"
