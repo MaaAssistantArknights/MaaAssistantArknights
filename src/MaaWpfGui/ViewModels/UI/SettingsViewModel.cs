@@ -366,7 +366,8 @@ namespace MaaWpfGui.ViewModels.UI
             new CombinedData { Display = "Server Chan", Value = "ServerChan" },
             new CombinedData { Display = "Telegram", Value = "Telegram" },
             new CombinedData { Display = "Discord", Value = "Discord" },
-            new CombinedData { Display = "SMTP", Value = "SMTP" }
+            new CombinedData { Display = "SMTP", Value = "SMTP" },
+            new CombinedData { Display = "Bark", Value = "Bark" }
         ];
 
         private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
@@ -392,6 +393,30 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
             }
         }
+
+        public string BarkSendKey
+        {
+            get => _barkSendKey;
+            set
+            {
+                SetAndNotify(ref _barkSendKey, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, value);
+            }
+        }
+
+        private string _barkSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
+
+        public string BarkServer
+        {
+            get => _barkServer;
+            set
+            {
+                SetAndNotify(ref _barkServer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkServer, value);
+            }
+        }
+
+        private string _barkServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app");
 
         private string _smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
 

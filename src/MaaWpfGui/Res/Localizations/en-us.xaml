@@ -33,6 +33,8 @@
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationBarkSendKey">Bark Send Key</system:String>
+    <system:String x:Key="ExternalNotificationBarkServer">Bark Server</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">Recipient</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP Server</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">Port</system:String>
