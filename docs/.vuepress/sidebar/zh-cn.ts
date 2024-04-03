@@ -33,7 +33,9 @@ export const zhcnSidebar = sidebar({
         {
           text: "CLI使用指南",
           icon: "material-symbols:terminal",
-          link: "CLI使用指南",
+          prefix: "CLI使用指南/",
+          collapsible: true,
+          children: "structure",
         },
       ],
     },
