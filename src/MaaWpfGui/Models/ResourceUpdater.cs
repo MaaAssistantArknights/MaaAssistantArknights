@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -320,7 +321,7 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
-        private static UpdateResult ResponseToUpdateResult(HttpResponseMessage response)
+        private static UpdateResult ResponseToUpdateResult(HttpResponseMessage? response)
         {
             if (response == null)
             {
@@ -370,7 +371,7 @@ namespace MaaWpfGui.Models
             return updateResult;
         }
 
-        private static ObservableCollection<LogItemViewModel> _logItemViewModels;
+        private static ObservableCollection<LogItemViewModel> _logItemViewModels = [];
 
         private static void OutputDownloadProgress(int index, int count = 0, int maxCount = 1)
         {

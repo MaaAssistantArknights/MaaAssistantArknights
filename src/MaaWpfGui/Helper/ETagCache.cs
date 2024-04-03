@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -26,20 +27,20 @@ namespace MaaWpfGui.Helper
         private static readonly ILogger _logger = Log.ForContext<ETagCache>();
 
         private static readonly string _cacheFile = Path.Combine(Environment.CurrentDirectory, "cache/etag.json");
-        private static Dictionary<string, string> _cache;
+        private static Dictionary<string, string> _cache = [];
 
         public static void Load()
         {
             if (File.Exists(_cacheFile) is false)
             {
-                _cache = new Dictionary<string, string>();
+                _cache = [];
                 return;
             }
 
             try
             {
                 var jsonStr = File.ReadAllText(_cacheFile);
-                _cache = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr);
+                _cache = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonStr) ?? [];
             }
             catch (Exception e)
             {
@@ -47,7 +48,7 @@ namespace MaaWpfGui.Helper
             }
             finally
             {
-                _cache ??= new Dictionary<string, string>();
+                _cache ??= [];
             }
         }
 
@@ -65,7 +66,7 @@ namespace MaaWpfGui.Helper
                 return string.Empty;
             }
 
-            return _cache.TryGetValue(url.Replace("%23", "#"), out string ret) ? ret : string.Empty;
+            return _cache.TryGetValue(url.Replace("%23", "#"), out string? ret) ? ret : string.Empty;
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
@@ -75,18 +76,19 @@ namespace MaaWpfGui.Helper
             Save();
         }
 
-        public static void Set(HttpResponseMessage response)
+        public static void Set(HttpResponseMessage? response)
         {
-            var res = response?.Headers?.ETag?.Tag;
-            if (string.IsNullOrEmpty(res))
+            var etag = response?.Headers?.ETag?.Tag;
+            var uri = response?.RequestMessage?.RequestUri?.ToString();
+            if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(etag))
             {
                 return;
             }
 
-            Set(response.RequestMessage.RequestUri.ToString(), res);
+            Set(uri, etag);
         }
 
-        public static async Task<HttpResponseMessage> FetchResponseWithEtag(string url, bool force = false)
+        public static async Task<HttpResponseMessage?> FetchResponseWithEtag(string url, bool force = false)
         {
             var etag = force ? string.Empty : Get(url);
             Dictionary<string, string> headers = new Dictionary<string, string>
