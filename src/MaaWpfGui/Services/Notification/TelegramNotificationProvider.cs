@@ -1,7 +1,19 @@
-﻿#nullable enable
+// <copyright file="TelegramNotificationProvider.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+
+#nullable enable
 
 using System;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
@@ -11,16 +23,9 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class TelegramNotificationProvider : IExternalNotificationProvider
+public class TelegramNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
 {
-    private readonly IHttpService _httpService;
-
     private readonly ILogger _logger = Log.ForContext<TelegramNotificationProvider>();
-
-    public TelegramNotificationProvider(IHttpService httpService)
-    {
-        _httpService = httpService;
-    }
 
     public async Task<bool> SendAsync(string title, string content)
     {
@@ -29,25 +34,28 @@ public class TelegramNotificationProvider : IExternalNotificationProvider
 
         var uri = $"https://api.telegram.org/bot{botToken}/sendMessage";
 
-        var response = await _httpService.PostAsJsonAsync(
+        var response = await httpService.PostAsJsonAsync(
             new Uri(uri),
-            new TelegramPostContent { ChatId = chatId, Content = $"{title}: {content}"});
+            new TelegramPostContent { ChatId = chatId, Content = $"{title}: {content}" });
 
-        if (response is null)
+        if (response is not null)
         {
-            _logger.Warning("Failed to send message.");
-            return false;
+            return true;
         }
 
-        return true;
+        _logger.Warning("Failed to send message.");
+        return false;
     }
 
     private class TelegramPostContent
     {
+        // ReSharper disable UnusedAutoPropertyAccessor.Local
         [JsonPropertyName("chat_id")]
-        public string ChatId { get; set; }
+        public string? ChatId { get; set; }
 
         [JsonPropertyName("text")]
-        public string Content { get; set; }
+        public string? Content { get; set; }
+
+        // ReSharper restore UnusedAutoPropertyAccessor.Local
     }
 }
