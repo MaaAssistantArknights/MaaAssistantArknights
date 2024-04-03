@@ -7126,11 +7126,42 @@
             "選択"
         ]
     },
+    "Roguelike@FromIntegratedStrategies": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "テーマへ"
+        ],
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
+        "next": [
+            "Roguelike@FromIntegratedStrategies",
+            "Roguelike@Begin"
+        ]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "next": [
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@SelectTheme"
+        ]
+    },
     "Roguelike@RecruitSupportConfirm": {
         "text": [
             "サ.*ート",
             "招集",
             "召集"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "roi": [
+            0,
+            29,
+            515,
+            648
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -7790,6 +7821,9 @@
     "Phantom@Roguelike@SelectTheme": {
         "text": [
             "ファントム"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -7883,6 +7917,9 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": [
             "ミヅキ"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
@@ -8297,6 +8334,14 @@
             "通過後",
             "次段階",
             "パラダイム"
+        ]
+    },
+    "Sami@Roguelike@SelectTheme": {
+        "text": [
+            "探索"
+        ],
+        "next": [
+            "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
