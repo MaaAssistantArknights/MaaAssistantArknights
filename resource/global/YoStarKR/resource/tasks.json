@@ -5901,9 +5901,40 @@
             "선택"
         ]
     },
+    "Roguelike@FromIntegratedStrategies": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "테마진입"
+        ],
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
+        "next": [
+            "Roguelike@FromIntegratedStrategies",
+            "Roguelike@Begin"
+        ]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "next": [
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@SelectTheme"
+        ]
+    },
     "Roguelike@RecruitSupportConfirm": {
         "text": [
             "지원"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "roi": [
+            0,
+            29,
+            515,
+            648
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -6520,6 +6551,9 @@
         "text": [
             "팬텀",
             "팬럼"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -6611,6 +6645,9 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": [
             "미즈키"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Mizuki@Roguelike@StageEncounterOptionUnknown": {
@@ -7063,6 +7100,9 @@
     "Sami@Roguelike@SelectTheme": {
         "text": [
             "탐험가"
+        ],
+        "next": [
+            "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {

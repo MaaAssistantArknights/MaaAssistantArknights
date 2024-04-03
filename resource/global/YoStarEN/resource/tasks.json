@@ -6031,9 +6031,40 @@
             "Select"
         ]
     },
+    "Roguelike@FromIntegratedStrategies": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "ENTER"
+        ],
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
+        "next": [
+            "Roguelike@FromIntegratedStrategies",
+            "Roguelike@Begin"
+        ]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "next": [
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@SelectTheme"
+        ]
+    },
     "Roguelike@RecruitSupportConfirm": {
         "text": [
             "Recruit support"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "roi": [
+            0,
+            29,
+            515,
+            648
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -6685,6 +6716,9 @@
     "Phantom@Roguelike@SelectTheme": {
         "text": [
             "Phantom"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -6778,6 +6812,9 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": [
             "Mizuki"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
@@ -7221,6 +7258,9 @@
     "Sami@Roguelike@SelectTheme": {
         "text": [
             "Expeditioner"
+        ],
+        "next": [
+            "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
