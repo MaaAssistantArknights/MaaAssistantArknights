@@ -11,10 +11,12 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows;
@@ -77,7 +79,7 @@ namespace MaaWpfGui.Helper
             {
                 var dictionary = new ResourceDictionary
                 {
-                    Source = new Uri($@"Res\Localizations\zh-cn.xaml", UriKind.Relative),
+                    Source = new Uri(@"Res\Localizations\zh-cn.xaml", UriKind.Relative),
                 };
                 foreach (var key in dictionary.Keys)
                 {
@@ -127,7 +129,7 @@ namespace MaaWpfGui.Helper
         /// <param name="key">The key of the string.</param>
         /// <param name="culture">The language of the string</param>
         /// <returns>The string.</returns>
-        public static string GetString(string key, string culture = null)
+        public static string GetString(string key, string? culture = null)
         {
             if (_culture == "pallas")
             {
@@ -165,13 +167,13 @@ namespace MaaWpfGui.Helper
         private static string GetPallasString()
         {
             int len = _pallasRand.Next(3, 6);
-            string cheers = string.Empty;
+            StringBuilder cheersBuilder = new StringBuilder(len);
             for (int i = 0; i < len; i++)
             {
-                cheers += _pallasChars[_pallasRand.Next(0, _pallasChars.Length)];
+                cheersBuilder.Append(_pallasChars[_pallasRand.Next(0, _pallasChars.Length)]);
             }
 
-            return cheers;
+            return cheersBuilder.ToString();
         }
     }
 }
