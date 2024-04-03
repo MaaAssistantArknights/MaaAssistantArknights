@@ -12307,48 +12307,6 @@
             "Roguelike@PreSelectTheme"
         ]
     },
-    "Roguelike@PreSelectTheme": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "查看",
-            "TODO: image of //INTEGRATED STRATEGIES"
-        ],
-        "roi": [
-            450,
-            480,
-            60,
-            45
-        ],
-        "next": [
-            "#self",
-            "Roguelike@PreSelectThemeSwipe"
-        ]
-    },
-    "Roguelike@PreSelectThemeSwipe": {
-        "baseTask": "SwipeToTheLeft",
-        "specificRect": [
-            100,
-            560,
-            100,
-            100
-        ],
-        "rectMove": [
-            500,
-            560,
-            100,
-            100
-        ],
-        "specialParams": [
-            1000,
-            0,
-            1,
-            1
-        ],
-        "next": [
-            "Roguelike@SelectTheme"
-        ]
-    },
     "Roguelike@LastReward": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援——热水壶",
         "baseTask": "Roguelike@LastReward_default",
@@ -12590,6 +12548,48 @@
             560,
             100,
             60
+        ]
+    },
+    "Roguelike@PreSelectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "查看",
+            "TODO: image of //INTEGRATED STRATEGIES"
+        ],
+        "roi": [
+            450,
+            480,
+            60,
+            45
+        ],
+        "next": [
+            "#self",
+            "Roguelike@PreSelectThemeSwipe"
+        ]
+    },
+    "Roguelike@PreSelectThemeSwipe": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            100,
+            560,
+            100,
+            100
+        ],
+        "rectMove": [
+            500,
+            560,
+            100,
+            100
+        ],
+        "specialParams": [
+            1000,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "Roguelike@SelectTheme"
         ]
     },
     "Roguelike@QuickFormation": {
