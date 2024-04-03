@@ -11995,19 +11995,9 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "进入主题"
-        ],
-        "roi": [
-            1006,
-            445,
-            246,
-            157
-        ],
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
         "next": [
-            "Roguelike@FromIntegratedStrategies",
             "Roguelike@Begin"
         ]
     },
@@ -12314,6 +12304,48 @@
         ],
         "next": [
             "Roguelike@IntegratedStrategies",
+            "Roguelike@PreSelectTheme"
+        ]
+    },
+    "Roguelike@PreSelectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "查看",
+            "TODO: image of //INTEGRATED STRATEGIES"
+        ],
+        "roi": [
+            450,
+            480,
+            60,
+            45
+        ],
+        "next": [
+            "#self",
+            "Roguelike@PreSelectThemeSwipe"
+        ]
+    },
+    "Roguelike@PreSelectThemeSwipe": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            100,
+            560,
+            100,
+            100
+        ],
+        "rectMove": [
+            500,
+            560,
+            100,
+            100
+        ],
+        "specialParams": [
+            1000,
+            0,
+            1,
+            1
+        ],
+        "next": [
             "Roguelike@SelectTheme"
         ]
     },
@@ -12707,12 +12739,13 @@
     "Roguelike@SelectTheme": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "maxTimes": 20,
         "text": [],
         "roi": [
             0,
-            29,
-            515,
-            648
+            400,
+            1000,
+            30
         ]
     },
     "Roguelike@SpecialValRecognition": {
@@ -13767,9 +13800,10 @@
     "Phantom@Roguelike@SelectTheme": {
         "baseTask": "Roguelike@SelectTheme",
         "text": [
-            "傀影"
+            "古堡笔记"
         ],
         "next": [
+            "#self",
             "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
@@ -14369,9 +14403,10 @@
     "Mizuki@Roguelike@SelectTheme": {
         "baseTask": "Roguelike@SelectTheme",
         "text": [
-            "水月"
+            "生态谱系"
         ],
         "next": [
+            "#self",
             "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
@@ -15255,9 +15290,10 @@
     "Sami@Roguelike@SelectTheme": {
         "baseTask": "Roguelike@SelectTheme",
         "text": [
-            "探索"
+            "科考记录"
         ],
         "next": [
+            "#self",
             "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
