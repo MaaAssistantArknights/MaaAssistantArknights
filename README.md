@@ -88,7 +88,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### CLI支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南.html)
+MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南/cli-intro.html)
 
 ## 加入我们
 
