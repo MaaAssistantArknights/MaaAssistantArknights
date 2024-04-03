@@ -5902,6 +5902,8 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
         "text": [
             "테마진입"
         ],
