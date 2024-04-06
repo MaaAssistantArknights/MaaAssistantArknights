@@ -6896,6 +6896,9 @@
             ]
         ]
     },
+    "Sami@Roguelike@RecruitOther": {
+        "templThreshold": 0.75
+    },
     "Sami@Roguelike@ContinueClick": {
         "text": [
             "Brisk Marshalands",
