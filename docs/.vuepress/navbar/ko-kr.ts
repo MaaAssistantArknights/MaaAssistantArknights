@@ -2,7 +2,7 @@ import { navbar } from "vuepress-theme-hope";
 
 export const kokrNavbar = navbar([
   {
-    text: "主页",
+    text: "홈페이지",
     icon: "ic:round-home",
     link: "/ko-kr/",
   },
