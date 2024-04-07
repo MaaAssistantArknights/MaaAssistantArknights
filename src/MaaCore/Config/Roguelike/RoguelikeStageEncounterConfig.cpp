@@ -23,17 +23,14 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
                 requirement.name = requirement_json.at("name").as_string();
                 requirement.choose = requirement_json.get("choose", -1);
                 if (auto vision_opt = requirement_json.find("requirements")) {
-                    switch (vision_opt->get("name", "")) {
-                    case "Vision":
+                    auto name = vision_opt->get("name", "");
+                    if (name == "Vision") {
                         requirement.vision.value = vision_opt->get("value", "");
                         requirement.vision.type =
                             parse_comparison_type(vision_opt->get("type", ""));
-                        break;
-                    case "Relic":
+                    }
+                    else if (name == "Relic") {
                         // not supported
-                        break;
-                    default:
-                        break;
                     }
                 }
                 event.choice_require.emplace_back(std::move(requirement));
