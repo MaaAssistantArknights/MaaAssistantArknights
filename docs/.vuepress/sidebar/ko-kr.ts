@@ -1,6 +1,6 @@
 import { sidebar } from "vuepress-theme-hope";
 
-export const zhcnSidebar = sidebar({
+export const kokrSidebar = sidebar({
   "/ko-kr/": [
     {
       text: "MAA",
@@ -24,14 +24,14 @@ export const zhcnSidebar = sidebar({
           link: "FAQ",
         },
         {
-          text: "플랫폼 별 지원 에뮬레이터",
+          text: "플랫폼 별 지원 현황",
           icon: "mingcute:laptop-fill",
           prefix: "플랫폼/",
           collapsible: true,
           children: "structure",
         },
         {
-          text: "CLI使用指南",
+          text: "CLI 설명서",
           icon: "material-symbols:terminal",
           link: "CLI",
         },

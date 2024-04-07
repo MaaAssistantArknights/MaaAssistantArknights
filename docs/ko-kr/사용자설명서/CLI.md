@@ -3,6 +3,13 @@ icon: material-symbols:terminal
 ---
 # CLI 사용 설명서
 
+::: warning
+해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
+
+
+이 문서는 UTC+8 기준 2024-04-07에 작성됐습니다! 이 시간 이후 시간이 오래 경과했다면, 원본 문서를 보는것이 더 정확할 수 있습니다!
+:::
+
 ## 기능
 
 - TOML, YAML 또는 JSON 파일로 작업을 정의하고, `maa run <task>`을 사용해 실행합니다.
@@ -301,7 +308,7 @@ kill_adb_on_exit = false
 ```
 
 
-`user_resource` 필드는 사용자 리소스를 로드할지 여부를 지정하는 불리언 값입니다. `true`인 경우, 추가 리소스가 `$MAA_CONFIG_DIR/resource` 디렉토리에 로드됩니다(다른 모든 리소스 이후에). 이는 `--user-resource` 명령행 옵션과 동일합니다. 자세한 정보는 `maa help run`을 참조하십시오.
+`user_resource` 필드는 사용자 리소스를 로드할지 여부를 지정하는 불리언 값입니다. `true`인 경우, 추가 리소스가 `$MAA_CONFIG_DIR/resource` 디렉토리에 로드됩니다(다른 모든 리소스 이후에). 이는 `--user-resource` 명령행 옵션과 동일합니다. 자세한 정보는 `maa help run`을 참조하세요.
 
 `resources` 필드는 추가 리소스를 지정하는 데 사용되며, 리소스 디렉토리의 목록입니다(상대 경로가 주어진 경우 `$(maa dir resource)/resource` 디렉토리를 기준으로 합니다):
 
