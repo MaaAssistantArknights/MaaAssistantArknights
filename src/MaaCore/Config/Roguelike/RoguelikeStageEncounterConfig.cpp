@@ -18,22 +18,25 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
         event.default_choose = event_json.get("choose", 0);
         if (auto choice_require_opt = event_json.find("choices");
             choice_require_opt && choice_require_opt->is_array()) {
-            for (const auto& requirement_json : choice_require_opt->as_array()) {
-                ChoiceRequire requirement;
-                requirement.name = requirement_json.at("name").as_string();
-                requirement.choose = requirement_json.get("choose", -1);
-                if (auto vision_opt = requirement_json.find("requirements")) {
-                    auto name = vision_opt->get("name", "");
-                    if (name == "Vision") {
-                        requirement.vision.value = vision_opt->get("value", "");
-                        requirement.vision.type =
-                            parse_comparison_type(vision_opt->get("type", ""));
-                    }
-                    else if (name == "Relic") {
-                        // not supported
+            for (const auto& choice_json : choice_require_opt->as_array()) {
+                ChoiceRequire choice;
+                choice.name = choice_json.at("name").as_string();
+                choice.choose = choice_json.get("choose", -1);
+                if (auto requirements_opt = choice_json.find("requirements");
+                    requirements_opt && requirements_opt->is_array()) {
+                    for (const auto& requirement_json : requirements_opt->as_array()) {
+                        auto name = requirement_json.get("name", "");
+                        if (name == "Vision") {
+                            choice.vision.value = requirement_json.get("value", "");
+                            choice.vision.type =
+                                parse_comparison_type(requirement_json.get("type", ""));
+                        }
+                        else if (name == "Relic") {
+                            // not supported
+                        }
                     }
                 }
-                event.choice_require.emplace_back(std::move(requirement));
+                event.choice_require.emplace_back(std::move(choice));
             }
         }
         m_events[theme].emplace_back(std::move(event));

@@ -33,8 +33,8 @@ namespace asst
         struct ChoiceRequire
         {
             std::string name;
-            Vision vision;
             int choose = -1;
+            Vision vision; // 现在只有Vision解析，之后要改成requirements且支持多个条件判断同一个选择
         };
         struct RoguelikeEvent
         {
