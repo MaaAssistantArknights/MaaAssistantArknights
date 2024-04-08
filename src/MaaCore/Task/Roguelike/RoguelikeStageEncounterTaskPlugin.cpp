@@ -144,21 +144,22 @@ bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(
 {
     int value = 0;
     bool ret = utils::chars_to_number(requirement.vision.value, value);
-    Log.trace("value: ", value, ", special_val: ", special_val);
+    Log.trace("special_val: ", special_val, "value: ", value);
     switch (requirement.vision.type) {
     case Config::ComparisonType::GreaterThan:
         ret &= special_val > value;
-        Log.trace("special_val > value: ", special_val > value);
+        Log.trace("special_val > value: ", special_val > value ? "true" : "false");
         break;
     case Config::ComparisonType::LessThan:
         ret &= special_val < value;
-        Log.trace("special_val < value: ", special_val < value);
+        Log.trace("special_val < value: ", special_val < value ? "true" : "false");
         break;
     case Config::ComparisonType::Equal:
         ret &= special_val == value;
-        Log.trace("special_val == value: ", special_val == value);
+        Log.trace("special_val == value: ", special_val == value ? "true" : "false");
         break;
     case Config::ComparisonType::None:
+        Log.warn("no vision type");
         break;
     case Config::ComparisonType::Unsupported:
         Log.warn("unsupported vision type");
