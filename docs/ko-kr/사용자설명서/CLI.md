@@ -1,7 +1,7 @@
 ---
 icon: material-symbols:terminal
 ---
-# CLI 사용 설명서
+# CLI 가이드
 
 ::: warning
 해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!

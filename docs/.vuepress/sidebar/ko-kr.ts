@@ -52,7 +52,7 @@ export const kokrSidebar = sidebar({
           ],
         },
         {
-          text: "CLI 설명서",
+          text: "CLI 가이드",
           icon: "material-symbols:terminal",
           link: "CLI",
         },
@@ -65,7 +65,7 @@ export const kokrSidebar = sidebar({
       collapsible: true,
       children: [
         {
-          text: "개발시작",
+          text: "개발 환경 구축",
           icon: "iconoir:developer",
           link: "1.개발시작",
         },
