@@ -1,6 +1,7 @@
 import os
 import shutil
 import json
+import time
 from concurrent.futures import ThreadPoolExecutor
 from threading import Lock
 import requests
@@ -74,8 +75,15 @@ class Downloader:
         os.makedirs(f'temp/{self.listhash}', exist_ok=True)
         with ThreadPoolExecutor(max_workers=self.max_conn * len(self.urlist)) as executor:
             for url in self.urlist:
-                for chunk_id in range(num_chunks):
-                    executor.submit(self.download_chunk, url, chunk_id, total_size)
+                futures = [executor.submit(self.download_chunk, url, chunk_id, total_size) for chunk_id in range(num_chunks)]
+        # 添加判断所有线程是否完成下载 防止出现合并时丢失文件块报错
+        while True:
+            if all([future.done() for future in futures]):
+                print('下载完成')
+                break
+            else:
+                print("等待下载完成")
+                time.sleep(1)
 
         # 合并所有临时文件到一个文件
         with open(file_path, 'wb') as outfile:
