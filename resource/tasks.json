@@ -5879,7 +5879,6 @@
             "StartToVisitDetermine.png"
         ],
         "cache": false,
-        "templThreshold": 0.75,
         "roi": [
             990,
             90,
