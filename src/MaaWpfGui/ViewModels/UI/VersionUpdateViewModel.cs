@@ -414,7 +414,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return ret;
             }
 
-            var resRet = await ResourceUpdater.Update();
+            var resRet = await ResourceUpdater.UpdateAsync();
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
                 Instances.SettingsViewModel.IsCheckingForUpdates = false;
