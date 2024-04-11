@@ -418,6 +418,7 @@
                 "desc": [
                     "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
                     "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
+                    "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）",
                     "进驻控制中枢时，所有贸易站订单效率+7%（同种效果取最高）"
                 ],
                 "efficient": {
@@ -427,7 +428,8 @@
                 "name": [
                     "合作协议",
                     "大小姐",
-                    "朝气蓬勃"
+                    "朝气蓬勃",
+                    "情报主脑"
                 ],
                 "template": "Bskill_ctrl_t_spd.png"
             },
@@ -472,6 +474,15 @@
                     "秘传交涉术"
                 ],
                 "template": "Bskill_ctrl_token_t_spd.png"
+            },
+            "bskill_ctrl_train_spd1": {
+                "desc": [
+                    "进驻控制中枢时，如训练室有干员在进行技能专精，则该干员的专精技能训练速度+5%（同种效果取最高）"
+                ],
+                "name": [
+                    "S.W.E.E.P.主管"
+                ],
+                "template": "Bskill_ctrl_train_spd1.png"
             },
             "bskill_ctrl_ussg": {
                 "desc": [
@@ -1005,10 +1016,12 @@
             },
             "bskill_man_exp0": {
                 "desc": [
+                    "进驻制造站时，作战记录类配方的生产力+20%",
                     "进驻制造站时，作战记录类配方的生产力+20%"
                 ],
                 "name": [
-                    "公证所教习α"
+                    "公证所教习α",
+                    "公证所教习·α"
                 ],
                 "template": "Bskill_man_exp4.png"
             },
@@ -1027,6 +1040,7 @@
             "bskill_man_exp2": {
                 "desc": [
                     "进驻制造站时，作战记录类配方的生产力+30%",
+                    "进驻制造站时，作战记录类配方的生产力+30%",
                     "进驻制造站时，作战记录类配方的生产力+30%"
                 ],
                 "efficient": {
@@ -1034,7 +1048,8 @@
                 },
                 "name": [
                     "作战指导录像",
-                    "公证所教习β"
+                    "公证所教习β",
+                    "公证所教习·β"
                 ],
                 "template": "Bskill_man_exp2.png"
             },
@@ -1101,6 +1116,15 @@
                     "小奇思"
                 ],
                 "template": "Bskill_man_gold3.png"
+            },
+            "bskill_man_gold4": {
+                "desc": [
+                    "进驻制造站时，贵金属类配方的生产力+25%，心情每小时消耗+0.25"
+                ],
+                "name": [
+                    "净味香氛"
+                ],
+                "template": "Bskill_man_gold4.png"
             },
             "bskill_man_limit&cost1": {
                 "desc": [
@@ -1409,6 +1433,15 @@
                     "延时摄影"
                 ],
                 "template": "Bskill_man_spd_add2.png"
+            },
+            "bskill_man_spd_add3": {
+                "desc": [
+                    "进驻制造站后，生产力每小时+2%，最终达到+20%"
+                ],
+                "name": [
+                    "例行清扫"
+                ],
+                "template": "Bskill_man_spd_add3.png"
             },
             "bskill_man_spd_bd1": {
                 "desc": [
@@ -2578,25 +2611,29 @@
             },
             "bskill_power_rec_spd&addition1": {
                 "desc": [
+                    "进驻发电站时，无人机充能速度首小时+10%，此后每小时+1%，最终达到+15%",
                     "进驻发电站时，无人机充能速度首小时+10%，此后每小时+1%，最终达到+15%"
                 ],
                 "efficient": {
                     "all": 14.9
                 },
                 "name": [
-                    "技术交流α"
+                    "技术交流α",
+                    "技术交流·α"
                 ],
                 "template": "Bskill_power_rec_spd&addition1.png"
             },
             "bskill_power_rec_spd&addition2": {
                 "desc": [
+                    "进驻发电站时，无人机充能速度首小时+15%，此后每小时+1%，最终达到+20%",
                     "进驻发电站时，无人机充能速度首小时+15%，此后每小时+1%，最终达到+20%"
                 ],
                 "efficient": {
                     "all": 19.9
                 },
                 "name": [
-                    "技术交流β"
+                    "技术交流β",
+                    "技术交流·β"
                 ],
                 "template": "Bskill_power_rec_spd&addition2.png"
             }
@@ -2859,6 +2896,15 @@
                     "文献学顾问"
                 ],
                 "template": "Bskill_meet_spd&condChar_mustget.png"
+            },
+            "bskill_meet_spd&condChar_mustget2": {
+                "desc": [
+                    "进驻会客室时，如果会客室内只有自身处于工作状态时，连续消耗超过16点心情下一次必定获得罗德岛制药的线索"
+                ],
+                "name": [
+                    "暗线"
+                ],
+                "template": "Bskill_meet_spd&condChar_mustget2.png"
             },
             "bskill_meet_spd&cost": {
                 "desc": [

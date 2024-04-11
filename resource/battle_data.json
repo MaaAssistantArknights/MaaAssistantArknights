@@ -4116,6 +4116,51 @@
             ],
             "rarity": 5
         },
+        "char_4130_luton": {
+            "name": "露托",
+            "name_en": "露托",
+            "name_jp": "露托",
+            "name_kr": "露托",
+            "name_tw": "露托",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 4
+        },
+        "char_4131_odda": {
+            "name": "奥达",
+            "name_en": "奥达",
+            "name_jp": "奥达",
+            "name_kr": "奥达",
+            "name_tw": "奥达",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
+        "char_4132_ascln": {
+            "name": "阿斯卡纶",
+            "name_en": "阿斯卡纶",
+            "name_jp": "阿斯卡纶",
+            "name_kr": "阿斯卡纶",
+            "name_tw": "阿斯卡纶",
+            "position": "MELEE",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "y-1",
+                "y-1",
+                "y-1"
+            ],
+            "rarity": 6
+        },
         "char_415_flint": {
             "name": "燧石",
             "name_en": "Flint",
@@ -4325,6 +4370,21 @@
                 "2-5"
             ],
             "rarity": 4
+        },
+        "char_446_aroma": {
+            "name": "阿罗玛",
+            "name_en": "阿罗玛",
+            "name_jp": "阿罗玛",
+            "name_kr": "阿罗玛",
+            "name_tw": "阿罗玛",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "4-1",
+                "5-1",
+                "5-1"
+            ],
+            "rarity": 5
         },
         "char_449_glider": {
             "name": "蜜莓",
@@ -7776,6 +7836,36 @@
             ],
             "rarity": 1
         },
+        "trap_147_spblls": {
+            "name": "巫术弩炮",
+            "name_en": "巫术弩炮",
+            "name_jp": "巫术弩炮",
+            "name_kr": "巫术弩炮",
+            "name_tw": "巫术弩炮",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_148_amblls": {
+            "name": "幽影门扉",
+            "name_en": "幽影门扉",
+            "name_jp": "幽影门扉",
+            "name_kr": "幽影门扉",
+            "name_tw": "幽影门扉",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_163_foolcrate": {
             "name": "障碍物",
             "name_en": "障碍物",
@@ -9648,6 +9738,171 @@
                 "x-4",
                 "x-4",
                 "x-4"
+            ],
+            "rarity": 1
+        },
+        "trap_746_cdrhine": {
+            "name": "尖端研究成果共享终端",
+            "name_en": "尖端研究成果共享终端",
+            "name_jp": "尖端研究成果共享终端",
+            "name_kr": "尖端研究成果共享终端",
+            "name_tw": "尖端研究成果共享终端",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_747_cdrhinea": {
+            "name": "尖端研究成果共享终端",
+            "name_en": "尖端研究成果共享终端",
+            "name_jp": "尖端研究成果共享终端",
+            "name_kr": "尖端研究成果共享终端",
+            "name_tw": "尖端研究成果共享终端",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_748_cdrhineb": {
+            "name": "尖端研究成果共享终端",
+            "name_en": "尖端研究成果共享终端",
+            "name_jp": "尖端研究成果共享终端",
+            "name_kr": "尖端研究成果共享终端",
+            "name_tw": "尖端研究成果共享终端",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_749_cd1punch": {
+            "name": "声波记录扩音器",
+            "name_en": "声波记录扩音器",
+            "name_jp": "声波记录扩音器",
+            "name_kr": "声波记录扩音器",
+            "name_tw": "声波记录扩音器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "4-1",
+                "4-1",
+                "4-1"
+            ],
+            "rarity": 1
+        },
+        "trap_750_cd1puncha": {
+            "name": "声波记录扩音器",
+            "name_en": "声波记录扩音器",
+            "name_jp": "声波记录扩音器",
+            "name_kr": "声波记录扩音器",
+            "name_tw": "声波记录扩音器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "4-1",
+                "4-1",
+                "4-1"
+            ],
+            "rarity": 1
+        },
+        "trap_751_cd1punchb": {
+            "name": "声波记录扩音器",
+            "name_en": "声波记录扩音器",
+            "name_jp": "声波记录扩音器",
+            "name_kr": "声波记录扩音器",
+            "name_tw": "声波记录扩音器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "4-1",
+                "4-1",
+                "4-1"
+            ],
+            "rarity": 1
+        },
+        "trap_752_cdcaster": {
+            "name": "法术调和能量场",
+            "name_en": "法术调和能量场",
+            "name_jp": "法术调和能量场",
+            "name_kr": "法术调和能量场",
+            "name_tw": "法术调和能量场",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_753_cdcastera": {
+            "name": "法术调和能量场",
+            "name_en": "法术调和能量场",
+            "name_jp": "法术调和能量场",
+            "name_kr": "法术调和能量场",
+            "name_tw": "法术调和能量场",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_754_cdcasterb": {
+            "name": "法术调和能量场",
+            "name_en": "法术调和能量场",
+            "name_jp": "法术调和能量场",
+            "name_kr": "法术调和能量场",
+            "name_tw": "法术调和能量场",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_755_cdsoul": {
+            "name": "啸叫音响",
+            "name_en": "啸叫音响",
+            "name_jp": "啸叫音响",
+            "name_kr": "啸叫音响",
+            "name_tw": "啸叫音响",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_756_cdnest": {
+            "name": "“黏黏的赠品”",
+            "name_en": "“黏黏的赠品”",
+            "name_jp": "“黏黏的赠品”",
+            "name_kr": "“黏黏的赠品”",
+            "name_tw": "“黏黏的赠品”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
             ],
             "rarity": 1
         }
@@ -11739,6 +11994,80 @@
             [
                 1,
                 -1
+            ]
+        ],
+        "y-10": [
+            [
+                -1,
+                2
+            ],
+            [
+                0,
+                2
+            ],
+            [
+                1,
+                2
+            ],
+            [
+                -1,
+                1
+            ],
+            [
+                0,
+                1
+            ],
+            [
+                1,
+                1
+            ],
+            [
+                2,
+                1
+            ],
+            [
+                -1,
+                0
+            ],
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                -1,
+                -1
+            ],
+            [
+                0,
+                -1
+            ],
+            [
+                1,
+                -1
+            ],
+            [
+                2,
+                -1
+            ],
+            [
+                -1,
+                -2
+            ],
+            [
+                0,
+                -2
+            ],
+            [
+                1,
+                -2
             ]
         ],
         "y-2": [
