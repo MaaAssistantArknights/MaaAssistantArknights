@@ -98,7 +98,7 @@ char_4062_totter|铅踝|Totter|トター|토터
 char_4063_quartz|石英|Quartz|クォーツ|쿼츠
 char_4067_lolxh|罗小黑|Luo Xiaohei|羅小黒|나소흑
 char_4100_caper|跃跃|Caper||
-char_4107_vrdant|维荻|Verdant||
+char_4107_vrdant|维荻|Verdant||버던트
 
 ID|中文|English|日本語|한국어
 ---|---|---|---|---
@@ -203,7 +203,7 @@ char_488_buildr|青枳|Poncirus|ポンシラス|폰사이러스
 char_489_serum|蚀清|Corroserum|コロセラム|코로세럼
 char_492_quercu|夏栎|Quercus|クエルクス|퀘르쿠스
 char_493_firwhl|火哨|Firewhistle|ファイヤーホイッスル|파이어휘슬
-char_494_vendla|刺玫|Vendela||
+char_494_vendla|刺玫|Vendela||벤델라
 char_496_wildmn|野鬃|Wild Mane|ワイルドメイン|와일드메인
 char_497_ctable|晓歌|Cantabile|カンタービレ|칸타빌레
 char_498_inside|隐现|Insider|インサイダー|인사이더
@@ -244,7 +244,7 @@ char_4104_coldst|冰酿|Coldshot|コールドショット|콜드샷
 char_4105_almond|杏仁|Almond|アーモンド|아몬드
 char_4106_bryota|苍苔|Bryophyta|ブライオファイタ|브라이오피타
 char_4109_baslin|深律|Bassline||
-char_4110_delphn|戴菲恩|Delphine||
+char_4110_delphn|戴菲恩|Delphine||델핀
 char_4114_harold|哈洛德|Harold||
 char_4119_wanqin|万顷|Wanqing||
 char_4122_grabds|小满|Grain Buds||
@@ -335,7 +335,7 @@ char_4072_ironmn|白铁|Stainless|ステインレス|스테인리스
 char_4080_lin|林|Lin|リン|린
 char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
 char_4087_ines|伊内丝|Ines|イネス|이네스
-char_4088_hodrer|赫德雷|Hoederer||
+char_4088_hodrer|赫德雷|Hoederer||외드레르
 char_4098_vvana|薇薇安娜|Viviana||
 char_4116_blkkgt|锏|Degenbrecher||
 char_4117_ray|莱伊|Ray||
