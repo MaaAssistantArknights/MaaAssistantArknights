@@ -1,7 +1,7 @@
 {
   "author": "公孙长乐",
-  "description": "干员配置要求极高，若缺少干员请自行调整\\n默认每八小时使用无人机加速制造作战记录，请按实际需求修改\\n首次使用前将令的心情消耗至 15\\n请在一图流排班表生成器上导入本文件，修改后下载导出（请勿直接修改本文件，以免 MAA 更新时被覆盖）\\n\\n[20240414 修订] 视频地址: https://www.bilibili.com/video/BV1Np421R73o/?t=182",
-  "id": 1713090711836616,
+  "description": "干员配置要求极高，若缺少干员请自行调整\\n默认每八小时使用无人机加速制造作战记录，请按实际需求修改\\n首次使用前将令的心情消耗至 15\\n使用加工站后记得把梅尔放回去\\n请在一图流排班表生成器上导入本文件，修改后下载导出（请勿直接修改本文件，以免 MAA 更新时被覆盖）\\n\\n[20240414 修订] 视频地址: https://www.bilibili.com/video/BV1Np421R73o/?t=182",
+  "id": 1713115015768723,
   "title": "243 极限效率，一天四换",
   "buildingType": 243,
   "planTimes": "3班",
@@ -121,34 +121,23 @@
           {
             "skip": false,
             "operators": [
-              "菲亚梅塔",
-              "麒麟R夜刀",
-              "火龙S黑角",
-              "夕",
-              "泰拉大陆调查团"
+              "菲亚梅塔"
             ],
             "sort": false,
-            "autofill": false
+            "autofill": true
           },
           {
             "skip": false,
-            "operators": [
-              "夜烟",
-              "食铁兽",
-              "格雷伊",
-              "戴菲恩",
-              "凯尔希"
-            ],
+            "operators": [],
             "sort": false,
-            "autofill": false
+            "autofill": true
           },
           {
             "skip": false,
             "operators": [
               "爱丽丝",
               "车尔尼",
-              "塑心",
-              "柏喙"
+              "塑心"
             ],
             "sort": false,
             "autofill": true
@@ -327,38 +316,26 @@
           {
             "skip": false,
             "operators": [
-              "菲亚梅塔",
-              "推进之王",
-              "摩根",
-              "苍苔",
-              "斑点"
+              "菲亚梅塔"
             ],
             "sort": false,
-            "autofill": false
+            "autofill": true
           },
           {
             "skip": false,
-            "operators": [
-              "红云",
-              "稀音",
-              "帕拉斯",
-              "澄闪",
-              "雷蛇"
-            ],
+            "operators": [],
             "sort": false,
-            "autofill": false
+            "autofill": true
           },
           {
             "skip": false,
             "operators": [
               "爱丽丝",
               "车尔尼",
-              "塑心",
-              "伺夜",
-              "斥罪"
+              "塑心"
             ],
             "sort": false,
-            "autofill": false
+            "autofill": true
           },
           {
             "skip": false,
