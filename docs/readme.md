@@ -40,7 +40,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 自动公招，可选使用加急许可，一次全部刷完！公招数据自动上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)；
 - 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高姿回费出的是推王呢还是推王呢）~~；
 - 支持识别干员列表，统计已有和未有干员及潜能，并在公招识别显示；
-- 支持识别养成材料，并导出至 [企鹅物流刷图规划](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkn.lolicon.app/#/material)、[ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)；
+- 支持识别养成材料，并导出至 [企鹅物流刷图规划](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)；
 - 访问好友、收取信用及购物、领取日常奖励等，一键全日常自动长草；
 - 肉鸽全自动刷源石锭和等级，自动烧水和凹直升，智能识别干员及练度；
 - 选择作业 JSON 文件，自动抄作业， [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)；

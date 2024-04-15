@@ -40,11 +40,11 @@ MAA 的意思是 MAA Assistant Arknights
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流數據統計](https://penguin-stats.io/result/stage/recruit/recruit) ， [一圖流](https://ark.yituliu.cn/survey/maarecruitdata) ；
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推王呢還是推王呢）~~
 - 支援辨識幹員列表，統計已有和未有幹員（還能為手動辨識公招介面提供已有潛能數據提示）；
-- 支援辨識養成材料，並可匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) 和 [明日方舟工具箱](https://arkn.lolicon.app/#/material) 計算缺少的養成材料；
+- 支援辨識養成材料，並可匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) 和 [明日方舟工具箱](https://arkntools.app/#/material) 計算缺少的養成材料；
 - 訪問好友、收取信用及購物、領取日常獎勵等，一鍵全日常自動長草；
 - 肉鴿全自動刷源石錠和蠟燭，自動辨識幹員及練度；
 - 選擇作業 JSON 文件，自動抄作業， [影片範例](https://www.bilibili.com/video/BV1H841177Fk/) ；
-- 倉庫辨識並支援匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) ， [明日方舟工具箱](https://arkn.lolicon.app/#/material) ， [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings) ；
+- 倉庫辨識並支援匯出至 [企鵝物流刷圖規劃器](https://penguin-stats.io/planner) ， [明日方舟工具箱](https://arkntools.app/#/material) ， [ARK-NIGHTS 幹員培養表](https://ark-nights.com/settings) ；
 - 支援 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多種接口，方便集成調用，自定義你的 MAA！
 
 話不多說，看圖！
