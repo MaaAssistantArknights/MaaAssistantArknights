@@ -3009,7 +3009,11 @@
         ]
     },
     "BBChapterToBB": {
+        "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "text": [
+            "来"
+        ],
         "preDelay": 2000,
         "roi": [
             1091,
