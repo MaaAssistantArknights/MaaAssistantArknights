@@ -1,5 +1,17 @@
-#nullable enable
+// <copyright file="DiscordNotificationProvider.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
@@ -12,25 +24,18 @@ using Serilog;
 
 namespace MaaWpfGui.Services.Notification;
 
-public class DiscordNotificationProvider : IExternalNotificationProvider
+public class DiscordNotificationProvider(IHttpService httpService) : IExternalNotificationProvider
 {
     private const string DiscordApiVersion = "v9";
 
-    private readonly IHttpService _httpService;
-
     private readonly ILogger _logger = Log.ForContext<DiscordNotificationProvider>();
-
-    public DiscordNotificationProvider(IHttpService httpService)
-    {
-        _httpService = httpService;
-    }
 
     public async Task<bool> SendAsync(string title, string content)
     {
         var botToken = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordBotToken, string.Empty);
         var userId = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationDiscordUserId, string.Empty);
 
-        var channelId = await CreateDMChannel(botToken, userId);
+        var channelId = await CreateDmChannel(botToken, userId);
 
         if (channelId is null)
         {
@@ -40,12 +45,12 @@ public class DiscordNotificationProvider : IExternalNotificationProvider
         return await SendMessageAsync(botToken, channelId, content);
     }
 
-    private async Task<string?> CreateDMChannel(string token, string recipientId)
+    private async Task<string?> CreateDmChannel(string token, string recipientId)
     {
-        var uri = $"https://discord.com/api/{DiscordApiVersion}/users/@me/channels";
+        const string Uri = $"https://discord.com/api/{DiscordApiVersion}/users/@me/channels";
 
-        var response = await _httpService.PostAsJsonAsync(
-            new Uri(uri),
+        var response = await httpService.PostAsJsonAsync(
+            new Uri(Uri),
             new ChannelsCreation { RecipientId = recipientId },
             new Dictionary<string, string>
             {
@@ -60,20 +65,20 @@ public class DiscordNotificationProvider : IExternalNotificationProvider
         }
 
         var responseData = JsonSerializer.Deserialize<JsonElement>(response);
-        if (responseData.ValueKind != JsonValueKind.Undefined && responseData.TryGetProperty("id", out var channelId))
+        if (responseData.ValueKind == JsonValueKind.Undefined || !responseData.TryGetProperty("id", out var channelId))
         {
-            _logger.Debug($"DM Channel created successfully. Channel ID: {channelId}");
-            return channelId.GetString();
+            return null;
         }
 
-        return null;
+        _logger.Debug($"DM Channel created successfully. Channel ID: {channelId}");
+        return channelId.GetString();
     }
 
     public async Task<bool> SendMessageAsync(string token, string channelId, string message)
     {
         var uri = $"https://discord.com/api/{DiscordApiVersion}/channels/{channelId}/messages";
 
-        var response = await _httpService.PostAsFormUrlEncodedAsync(
+        var response = await httpService.PostAsFormUrlEncodedAsync(
             new Uri(uri),
             new Dictionary<string, string?> { { "content", message } },
             new Dictionary<string, string>
@@ -82,24 +87,29 @@ public class DiscordNotificationProvider : IExternalNotificationProvider
                 { "User-Agent", "DiscordBot" }, // browser related user-agent is not allowed.
             });
 
-        if (response is null)
+        if (response is not null)
         {
-            _logger.Warning("Failed to send message.");
-            return false;
+            return true;
         }
 
-        return true;
+        _logger.Warning("Failed to send message.");
+        return false;
     }
 
     private class ChannelsCreation
     {
+        // ReSharper disable UnusedMember.Local
+        // ReSharper disable UnusedAutoPropertyAccessor.Local
         [JsonPropertyName("recipient_id")]
-        public string RecipientId { get; set; }
+        public string? RecipientId { get; set; }
 
         [JsonPropertyName("access_tokens")]
         public string[]? AccessTokens { get; set; }
 
         [JsonPropertyName("nicks")]
         public string? Nicks { get; set; }
+
+        // ReSharper restore UnusedMember.Local
+        // ReSharper restore UnusedAutoPropertyAccessor.Local
     }
 }

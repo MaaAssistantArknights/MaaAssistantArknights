@@ -224,19 +224,18 @@ jobs:
           CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
           CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
 
-      - name: Setup Rust
+      - name: Setup Cross Compile Toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
         with:
           os: ubuntu-latest
-          arch: ${{ matrix.arch }}
+          target_arch: ${{ matrix.arch }}
 
       - name: Build CLI
         run: |
-          cargo build --release --locked --package maa-cli \
-             ${{ matrix.arch != 'x86_64' && '--features vendored-openssl' || '' }}
+          cargo build --release --locked --package maa-cli --features vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
           cargo build --release --locked --package maa-cli --no-default-features \
-            --features ${{ matrix.arch != 'x86_64' && 'git2,vendored-openssl' || 'git2' }}
+            --features git2,vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/appimage-maa
         working-directory: src/maa-cli
 

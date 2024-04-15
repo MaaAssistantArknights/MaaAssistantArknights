@@ -2172,7 +2172,7 @@
                 "便携式医疗设备"
             ],
             [
-                "(.+그.+큐터.+|.*스포.+데레)",
+                "(.+그.+큐터.+|.*스포.+데.+)",
                 "이그제큐터디엑스포에데레"
             ],
             [
@@ -2204,7 +2204,7 @@
                 "破旧的木篱"
             ],
             [
-                "(.+야.+라더.+|.*퍄.+라.+|^더카.+$)",
+                "(.+야.+라더.+|.*퍄.+라.+|.+크비트.+|^더카.+$)",
                 "에이야퍄들라더크비트아스카"
             ],
             [
@@ -2510,6 +2510,7 @@
     },
     "StartToVisit": {
         "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in September 2024 OPERATION LUCENT ARROWHEAD",
+        "templThreshold": 0.8,
         "roi": [
             920,
             91,
@@ -5902,13 +5903,39 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
         "text": [
             "테마진입"
+        ],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "next": [
+            "Roguelike@FromIntegratedStrategies",
+            "Roguelike@Begin"
+        ]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "next": [
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@SelectTheme"
         ]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": [
             "지원"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "roi": [
+            0,
+            29,
+            515,
+            648
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -6525,6 +6552,9 @@
         "text": [
             "팬텀",
             "팬럼"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -6616,6 +6646,9 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": [
             "미즈키"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Mizuki@Roguelike@StageEncounterOptionUnknown": {
@@ -7068,6 +7101,9 @@
     "Sami@Roguelike@SelectTheme": {
         "text": [
             "탐험가"
+        ],
+        "next": [
+            "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {

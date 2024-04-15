@@ -1487,6 +1487,14 @@
         "sortId": -10000,
         "usage": "用於對遏制單元進行數據迭代。"
     },
+    "act38d1_token_coin": {
+        "classifyType": "NONE",
+        "description": "純淨無瑕的源石晶體，聖所對此視若珍寶。",
+        "icon": "act38d1_token_coin.png",
+        "name": "晶化源石",
+        "sortId": -10000,
+        "usage": "完成尖滅測試作戰後得到的報酬。可用於兌換補給品。"
+    },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
         "description": "無論是任務回饋、戰利品收集、材料研究、論文交流還是戰場清掃，羅德島那高效的情報系統會不斷地運作，從種種行動中收集龐雜的資訊，並分別計算歸納以得出各類結論；作為情報黑箱外的人，看看已經量化的數值就好。",

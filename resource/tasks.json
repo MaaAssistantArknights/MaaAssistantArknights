@@ -2951,6 +2951,111 @@
             "DH-9"
         ]
     },
+    "BB-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-8@SideStoryStage",
+            "BB-8@SwipeToStage"
+        ]
+    },
+    "BB-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-7@SideStoryStage",
+            "BB-7@SwipeToStage"
+        ]
+    },
+    "BB-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-6@SideStoryStage",
+            "BB-6@SwipeToStage"
+        ]
+    },
+    "BB-4": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-4@SideStoryStage",
+            "BB-4@SwipeToStage"
+        ]
+    },
+    "BB-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "巴别塔",
+            "巴别",
+            "别塔",
+            "我驻留往昔",
+            "我驻",
+            "驻留",
+            "留往",
+            "往昔",
+            "我始终如一",
+            "我始",
+            "始终",
+            "终如",
+            "如一"
+        ],
+        "roi": [
+            103,
+            538,
+            175,
+            25
+        ],
+        "next": [
+            "BBChapterToBB"
+        ]
+    },
+    "BBChapterToBB": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "来"
+        ],
+        "preDelay": 2000,
+        "roi": [
+            1091,
+            610,
+            33,
+            30
+        ],
+        "next": [
+            "#self",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "BB-8@SideStoryStage": {
+        "text": [
+            "BB-8"
+        ]
+    },
+    "BB-7@SideStoryStage": {
+        "text": [
+            "BB-7"
+        ]
+    },
+    "BB-6@SideStoryStage": {
+        "text": [
+            "BB-6"
+        ]
+    },
+    "BB-4@SideStoryStage": {
+        "text": [
+            "BB-4"
+        ]
+    },
     "ResourceStages": {
         "algorithm": "JustReturn",
         "sub": [
@@ -3489,6 +3594,14 @@
             [
                 ".*夹子.*",
                 "“夹子”"
+            ],
+            [
+                "应泡普卡",
+                "泡普卡"
+            ],
+            [
+                "特米米.+",
+                "特米米"
             ]
         ]
     },
@@ -4391,9 +4504,9 @@
         "postDelay": 1000,
         "roi": [
             1038,
-            640,
+            625,
             206,
-            46
+            61
         ],
         "exceededNext": [
             "StageSNReturnFlag",
@@ -5870,8 +5983,11 @@
             "StartToVisit.png",
             "StartToVisitDetermine.png"
         ],
+        "templThreshold": [
+            0.9,
+            0.9
+        ],
         "cache": false,
-        "templThreshold": 0.75,
         "roi": [
             990,
             90,
@@ -6384,7 +6500,7 @@
             930,
             540,
             230,
-            200
+            180
         ],
         "action": "ClickSelf",
         "next": [
@@ -9258,15 +9374,15 @@
         "text": [],
         "ocrReplace": [
             [
-                "^.+-EX-?\\d+$",
+                "^.+-EX-?\\d+.*$",
                 "_INVALID_"
             ],
             [
-                "^.+-S-?\\d+$",
+                "^.+-S-?\\d+.*$",
                 "_INVALID_"
             ],
             [
-                "^.+-MO-?\\d+$",
+                "^.+-MO-?\\d+.*$",
                 "_INVALID_"
             ],
             [
@@ -11995,19 +12111,9 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "进入主题"
-        ],
-        "roi": [
-            1006,
-            445,
-            246,
-            157
-        ],
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
         "next": [
-            "Roguelike@FromIntegratedStrategies",
             "Roguelike@Begin"
         ]
     },
@@ -12314,7 +12420,7 @@
         ],
         "next": [
             "Roguelike@IntegratedStrategies",
-            "Roguelike@SelectTheme"
+            "Roguelike@PreSelectTheme"
         ]
     },
     "Roguelike@LastReward": {
@@ -12560,6 +12666,48 @@
             60
         ]
     },
+    "Roguelike@PreSelectTheme": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "查看",
+            "TODO: image of //INTEGRATED STRATEGIES"
+        ],
+        "roi": [
+            450,
+            480,
+            60,
+            45
+        ],
+        "next": [
+            "#self",
+            "Roguelike@PreSelectThemeSwipe"
+        ]
+    },
+    "Roguelike@PreSelectThemeSwipe": {
+        "baseTask": "SwipeToTheLeft",
+        "specificRect": [
+            100,
+            560,
+            100,
+            100
+        ],
+        "rectMove": [
+            500,
+            560,
+            100,
+            100
+        ],
+        "specialParams": [
+            1000,
+            0,
+            1,
+            1
+        ],
+        "next": [
+            "Roguelike@SelectTheme"
+        ]
+    },
     "Roguelike@QuickFormation": {
         "Doc": "本任务注册了插件 RoguelikeFormationTaskPlugin",
         "action": "ClickSelf",
@@ -12707,12 +12855,13 @@
     "Roguelike@SelectTheme": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "maxTimes": 20,
         "text": [],
         "roi": [
             0,
-            29,
-            515,
-            648
+            400,
+            1000,
+            30
         ]
     },
     "Roguelike@SpecialValRecognition": {
@@ -13767,9 +13916,10 @@
     "Phantom@Roguelike@SelectTheme": {
         "baseTask": "Roguelike@SelectTheme",
         "text": [
-            "傀影"
+            "古堡笔记"
         ],
         "next": [
+            "#self",
             "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
@@ -14369,9 +14519,10 @@
     "Mizuki@Roguelike@SelectTheme": {
         "baseTask": "Roguelike@SelectTheme",
         "text": [
-            "水月"
+            "生态谱系"
         ],
         "next": [
+            "#self",
             "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
@@ -15255,9 +15406,10 @@
     "Sami@Roguelike@SelectTheme": {
         "baseTask": "Roguelike@SelectTheme",
         "text": [
-            "探索"
+            "科考记录"
         ],
         "next": [
+            "#self",
             "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },

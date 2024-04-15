@@ -82,17 +82,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[0].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 1">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[0].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[0].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
@@ -131,17 +124,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[1].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 2">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[1].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[1].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
@@ -180,17 +166,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[2].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 3">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[2].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[2].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
@@ -229,17 +208,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[3].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 4">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[3].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[3].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
@@ -278,17 +250,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[4].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 5">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[4].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[4].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
@@ -327,17 +292,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[5].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 6">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[5].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[5].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
@@ -376,17 +334,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[6].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 7">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[6].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[6].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
@@ -425,17 +376,10 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[7].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 8">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[7].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[7].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"

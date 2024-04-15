@@ -42,6 +42,10 @@ namespace MaaWpfGui.Constants
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+        public const string SoberLanguage = "GUI.SoberLanguage";
+        public const string Cheers = "GUI.Cheers";
+        public const string Hangover = "GUI.Hangover";
+        public const string LastBuyWineTime = "GUI.LastBuyWineTime";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -211,6 +215,8 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationDiscordUserId = "ExternalNotification.Discord.UserId";
         public const string ExternalNotificationTelegramBotToken = "ExternalNotification.Telegram.BotToken";
         public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
+        public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";
+        public const string ExternalNotificationBarkServer = "ExternalNotification.Bark.Server";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";

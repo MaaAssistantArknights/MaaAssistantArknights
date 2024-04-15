@@ -99,7 +99,7 @@ namespace MaaWpfGui.ViewModels.UI
             const string OfficialClientType = "Official";
             const string BilibiliClientType = "Bilibili";
             string jsonPath = "resource/version.json";
-            if (!(clientType == string.Empty || clientType == OfficialClientType || clientType == BilibiliClientType))
+            if (clientType is not ("" or OfficialClientType or BilibiliClientType))
             {
                 jsonPath = $"resource/global/{clientType}/resource/version.json";
             }
@@ -244,7 +244,7 @@ namespace MaaWpfGui.ViewModels.UI
             var addressListJson = ConfigurationHelper.GetValue(ConfigurationKeys.AddressHistory, string.Empty);
             if (!string.IsNullOrEmpty(addressListJson))
             {
-                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? new();
+                ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
             }
         }
 
@@ -366,7 +366,8 @@ namespace MaaWpfGui.ViewModels.UI
             new CombinedData { Display = "Server Chan", Value = "ServerChan" },
             new CombinedData { Display = "Telegram", Value = "Telegram" },
             new CombinedData { Display = "Discord", Value = "Discord" },
-            new CombinedData { Display = "SMTP", Value = "SMTP" }
+            new CombinedData { Display = "SMTP", Value = "SMTP" },
+            new CombinedData { Display = "Bark", Value = "Bark" }
         ];
 
         private string _enabledExternalNotificationProvider = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationEnabled, "Off");
@@ -392,6 +393,30 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationServerChanSendKey, value);
             }
         }
+
+        public string BarkSendKey
+        {
+            get => _barkSendKey;
+            set
+            {
+                SetAndNotify(ref _barkSendKey, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, value);
+            }
+        }
+
+        private string _barkSendKey = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkSendKey, string.Empty);
+
+        public string BarkServer
+        {
+            get => _barkServer;
+            set
+            {
+                SetAndNotify(ref _barkServer, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ExternalNotificationBarkServer, value);
+            }
+        }
+
+        private string _barkServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationBarkServer, "https://api.day.app");
 
         private string _smtpServer = ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpServer, string.Empty);
 
@@ -888,7 +913,7 @@ namespace MaaWpfGui.ViewModels.UI
                 string fileName = string.Empty;
                 string arguments = string.Empty;
 
-                if (Path.GetExtension(EmulatorPath).ToLower() == ".lnk")
+                if (Path.GetExtension(EmulatorPath).Equals(".lnk", StringComparison.CurrentCultureIgnoreCase))
                 {
                     // ReSharper disable once SuspiciousTypeConversion.Global
                     var link = (IShellLink)new ShellLink();
@@ -937,7 +962,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 try
                 {
-                    // 如果之前就启动了模拟器，这步有几率会抛出异常
+                    // 如果之前就启动了模拟器，这一步有几率会抛出异常
                     process.WaitForInputIdle();
                     if (MinimizingStartup)
                     {
@@ -1009,7 +1034,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 catch (Exception e)
                 {
-                    if (e is Win32Exception win32Exception && win32Exception.NativeErrorCode == 740)
+                    if (e is Win32Exception { NativeErrorCode: 740 })
                     {
                         Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
                             LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
@@ -1210,7 +1235,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private readonly Dictionary<string, string> _serverMapping = new Dictionary<string, string>
+        private readonly Dictionary<string, string> _serverMapping = new()
         {
             { string.Empty, "CN" },
             { "Official", "CN" },
@@ -1508,18 +1533,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>The infrast order list.</returns>
         public List<string> GetInfrastOrderList()
         {
-            var orderList = new List<string>();
-            foreach (var item in InfrastItemViewModels)
-            {
-                if (item.IsChecked == false)
-                {
-                    continue;
-                }
-
-                orderList.Add(item.OriginalName);
-            }
-
-            return orderList;
+            return (from item in InfrastItemViewModels where item.IsChecked select item.OriginalName).ToList();
         }
 
         /// <summary>
@@ -1535,7 +1549,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public TaskQueueViewModel CustomInfrastPlanDataContext { get => Instances.TaskQueueViewModel; }
+        public static TaskQueueViewModel CustomInfrastPlanDataContext { get => Instances.TaskQueueViewModel; }
 
         private string _usesOfDrones = ConfigurationHelper.GetValue(ConfigurationKeys.UsesOfDrones, "Money");
 
@@ -1627,7 +1641,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false.ToString());
 
         /// <summary>
-        /// Gets or sets a value indicating whether get trust in dorm is enabled.
+        /// Gets or sets a value indicating whether trust in dorm is enabled.
         /// </summary>
         public bool DormTrustEnabled
         {
@@ -1733,7 +1747,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             _resetNotifyTimer = new Timer(20);
-            _resetNotifyTimer.Elapsed += (source, e) =>
+            _resetNotifyTimer.Elapsed += (_, _) =>
             {
                 _notifySource = NotifyType.None;
             };
@@ -1784,6 +1798,10 @@ namespace MaaWpfGui.ViewModels.UI
                     case NotifyType.ScrollOffset:
                         SetAndNotify(ref _selectedIndex, value);
                         break;
+                    case NotifyType.SelectedIndex:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -1830,6 +1848,10 @@ namespace MaaWpfGui.ViewModels.UI
                     case NotifyType.SelectedIndex:
                         SetAndNotify(ref _scrollOffset, value);
                         break;
+                    case NotifyType.ScrollOffset:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -1928,7 +1950,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private ObservableCollection<string> _roguelikeCoreCharList = new();
+        private ObservableCollection<string> _roguelikeCoreCharList = [];
 
         /// <summary>
         /// Gets the roguelike core character.
@@ -1949,14 +1971,14 @@ namespace MaaWpfGui.ViewModels.UI
             get => bool.Parse(_roguelikeStartWithEliteTwo);
             set
             {
-                if (value && RoguelikeUseSupportUnit)
+                switch (value)
                 {
-                    RoguelikeUseSupportUnit = false;
-                }
-
-                if (!value && RoguelikeOnlyStartWithEliteTwo)
-                {
-                    RoguelikeOnlyStartWithEliteTwo = false;
+                    case true when RoguelikeUseSupportUnit:
+                        RoguelikeUseSupportUnit = false;
+                        break;
+                    case false when RoguelikeOnlyStartWithEliteTwo:
+                        RoguelikeOnlyStartWithEliteTwo = false;
+                        break;
                 }
 
                 SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
@@ -2036,7 +2058,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
 
         /// <summary>
-        /// Gets or sets a value indicating whether use support unit.
+        /// Gets or sets a value indicating whether to use support unit.
         /// </summary>
         public bool RoguelikeUseSupportUnit
         {
@@ -2171,7 +2193,7 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /* 访问好友设置 */
-        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToString("yyyy/MM/dd HH:mm:ss"));
+        private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
         public string LastCreditFightTaskTime
         {
@@ -2241,17 +2263,17 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "4", Value = "4" },
             ];
 
-        private bool _CreditVisitFriends = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriends, bool.TrueString));
+        private bool _creditVisitFriends = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriends, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether visiting is enabled or disabled.
         /// </summary>
         public bool CreditVisitFriends
         {
-            get => _CreditVisitFriends;
+            get => _creditVisitFriends;
             set
             {
-                SetAndNotify(ref _CreditVisitFriends, value);
+                SetAndNotify(ref _creditVisitFriends, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriends, value.ToString());
             }
         }
@@ -2472,6 +2494,13 @@ namespace MaaWpfGui.ViewModels.UI
 
                 public int TimerId { get; set; }
 
+                private readonly string _timerName = LocalizationHelper.GetString("Timer");
+
+                public string TimerName
+                {
+                    get => $"{_timerName} {TimerId + 1}";
+                }
+
                 private bool _isOn;
 
                 /// <summary>
@@ -2498,7 +2527,7 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _hour;
                     set
                     {
-                        _hour = (value >= 0 && value <= 23) ? value : _hour;
+                        _hour = value is >= 0 and <= 23 ? value : _hour;
                         OnPropertyChanged();
                         ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
                     }
@@ -2514,7 +2543,7 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _min;
                     set
                     {
-                        _min = (value >= 0 && value <= 59) ? value : _min;
+                        _min = value is >= 0 and <= 59 ? value : _min;
                         OnPropertyChanged();
                         ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
                     }
@@ -2538,7 +2567,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 public TimerProperties()
                 {
-                    PropertyChanged += (sender, args) => { };
+                    PropertyChanged += (_, _) => { };
                 }
             }
 
@@ -2558,7 +2587,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public TimerModel TimerModels { get; set; } = new TimerModel();
+        public TimerModel TimerModels { get; set; } = new();
 
         private bool _forceScheduledStart = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ForceScheduledStart, bool.FalseString));
 
@@ -2727,7 +2756,7 @@ namespace MaaWpfGui.ViewModels.UI
         private string _selectExtraTags = ConfigurationHelper.GetValue(ConfigurationKeys.SelectExtraTags, "0");
 
         /// <summary>
-        /// Gets or sets a value indicating three tags are alway selected or select only rare tags as many as possible .
+        /// Gets or sets a value indicating three tags are always selected or select only rare tags as many as possible .
         /// </summary>
         public string SelectExtraTags
         {
@@ -2876,7 +2905,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 软件更新设置 */
 
-        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(typeof(UpdateVersionType),
+        private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
+            typeof(UpdateVersionType),
             ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
         /// <summary>
@@ -3086,7 +3116,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private ObservableCollection<string> _connectAddressHistory = new();
+        private ObservableCollection<string> _connectAddressHistory = [];
 
         public ObservableCollection<string> ConnectAddressHistory
         {
@@ -3121,9 +3151,8 @@ namespace MaaWpfGui.ViewModels.UI
         private void UpdateConnectionHistory(string address)
         {
             var history = ConnectAddressHistory.ToList();
-            if (history.Contains(address))
+            if (history.Remove(address))
             {
-                history.Remove(address);
                 history.Insert(0, address);
             }
             else
@@ -3294,15 +3323,15 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the default addresses.
         /// </summary>
-        public Dictionary<string, List<string>> DefaultAddress { get; } = new Dictionary<string, List<string>>
+        public Dictionary<string, List<string>> DefaultAddress { get; } = new()
         {
-            { "General", new List<string> { string.Empty } },
-            { "BlueStacks", new List<string> { "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554" } },
-            { "MuMuEmulator12", new List<string> { "127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576" } },
-            { "LDPlayer", new List<string> { "emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554" } },
-            { "Nox", new List<string> { "127.0.0.1:62001", "127.0.0.1:59865" } },
-            { "XYAZ", new List<string> { "127.0.0.1:21503" } },
-            { "WSA", new List<string> { "127.0.0.1:58526" } },
+            { "General", [string.Empty] },
+            { "BlueStacks", ["127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5565", "127.0.0.1:5575", "127.0.0.1:5585", "127.0.0.1:5595", "127.0.0.1:5554"] },
+            { "MuMuEmulator12", ["127.0.0.1:16384", "127.0.0.1:16416", "127.0.0.1:16448", "127.0.0.1:16480", "127.0.0.1:16512", "127.0.0.1:16544", "127.0.0.1:16576"] },
+            { "LDPlayer", ["emulator-5554", "emulator-5556", "emulator-5558", "emulator-5560", "127.0.0.1:5555", "127.0.0.1:5556", "127.0.0.1:5554"] },
+            { "Nox", ["127.0.0.1:62001", "127.0.0.1:59865"] },
+            { "XYAZ", ["127.0.0.1:21503"] },
+            { "WSA", ["127.0.0.1:58526"] },
         };
 
         /// <summary>
@@ -3721,8 +3750,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public List<string> LogItemDateFormatStringList { get; } = new List<string>
-        {
+        public List<string> LogItemDateFormatStringList { get; } =
+        [
             "HH:mm:ss",
             "MM-dd  HH:mm:ss",
             "MM/dd  HH:mm:ss",
@@ -3730,7 +3759,7 @@ namespace MaaWpfGui.ViewModels.UI
             "dd-MM  HH:mm:ss",
             "dd/MM  HH:mm:ss",
             "dd.MM  HH:mm:ss",
-        };
+        ];
 
         private string _logItemDateFormatString = ConfigurationHelper.GetValue(ConfigurationKeys.LogItemDateFormat, "HH:mm:ss");
 
@@ -3929,7 +3958,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _soberLanguage = ConfigurationHelper.GetValue("GUI.SoberLanguage", LocalizationHelper.DefaultLanguage);
+        private string _soberLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.SoberLanguage, LocalizationHelper.DefaultLanguage);
 
         public string SoberLanguage
         {
@@ -3937,7 +3966,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _soberLanguage, value);
-                ConfigurationHelper.SetValue("GUI.SoberLanguage", value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.SoberLanguage, value);
             }
         }
 
@@ -4011,7 +4040,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _cheers = bool.Parse(ConfigurationHelper.GetValue("GUI.Cheers", bool.FalseString));
+        private bool _cheers = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.Cheers, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to cheer.
@@ -4027,15 +4056,15 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 SetAndNotify(ref _cheers, value);
-                ConfigurationHelper.SetValue("GUI.Cheers", value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.Cheers, value.ToString());
                 if (_cheers)
                 {
-                    SetPallasLanguage();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
                 }
             }
         }
 
-        private bool _hangover = bool.Parse(ConfigurationHelper.GetValue("GUI.Hangover", bool.FalseString));
+        private bool _hangover = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.Hangover, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to hangover.
@@ -4046,21 +4075,19 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _hangover, value);
-                ConfigurationHelper.SetValue("GUI.Hangover", value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.Hangover, value.ToString());
             }
         }
 
-        private static void SetPallasLanguage()
+        private string _lastBuyWineTime = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.LastBuyWineTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+
+        public string LastBuyWineTime
         {
-            ConfigurationHelper.SetValue(ConfigurationKeys.Localization, PallasLangKey);
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("DrunkAndStaggering"),
-                LocalizationHelper.GetString("Burping"),
-                iconKey: "DrunkAndStaggeringGeometry",
-                iconBrushKey: "PallasBrush");
-            if (result == MessageBoxResult.OK)
+            get => _lastBuyWineTime;
+            set
             {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
+                SetAndNotify(ref _lastBuyWineTime, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.LastBuyWineTime, value);
             }
         }
 
@@ -4100,13 +4127,19 @@ namespace MaaWpfGui.ViewModels.UI
         /// <returns>The answer.</returns>
         public bool DidYouBuyWine()
         {
-            if (DateTime.UtcNow.ToYjDate().IsAprilFoolsDay())
+            var now = DateTime.UtcNow.ToYjDate();
+            if (now == DateTime.ParseExact(LastBuyWineTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+            {
+                return false;
+            }
+
+            if (now.IsAprilFoolsDay())
             {
                 return true;
             }
 
-            var wineList = new[] { "酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶" };
-            return wineList.Any(wine => CreditFirstList.Contains(wine));
+            string[] wineList = ["酒", "liquor", "drink", "wine", "beer", "술", "🍷", "🍸", "🍺", "🍻", "🥃", "🍶"];
+            return wineList.Any(CreditFirstList.Contains);
         }
 
         private void UpdateRoguelikeSquadList()
@@ -4201,7 +4234,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 foreach (var priorityItem in priorityArray)
                 {
-                    if (!(priorityItem?["opers"] is JArray opersArray))
+                    if (priorityItem?["opers"] is not JArray opersArray)
                     {
                         continue;
                     }
@@ -4310,11 +4343,13 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void SetupSleepManagement()
         {
-            if (BlockSleep)
+            if (!BlockSleep)
             {
-                SleepManagement.BlockSleep(BlockSleepWithScreenOn);
-                _logger.Information("Blocking sleep.");
+                return;
             }
+
+            SleepManagement.BlockSleep(BlockSleepWithScreenOn);
+            _logger.Information("Blocking sleep.");
         }
     }
 }

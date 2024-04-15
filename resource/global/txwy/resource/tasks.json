@@ -1709,6 +1709,10 @@
             [
                 "夜燈",
                 "夜灯"
+            ],
+            [
+                "^重岳.+",
+                "重岳"
             ]
         ]
     },
@@ -1840,6 +1844,7 @@
     },
     "StartToVisit": {
         "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in December 2024 OPERATION LUCENT ARROWHEAD",
+        "templThreshold": 0.8,
         "roi": [
             920,
             91,
@@ -4392,8 +4397,26 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
         "text": [
             "進入主題"
+        ],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "next": [
+            "Roguelike@FromIntegratedStrategies",
+            "Roguelike@Begin"
+        ]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "next": [
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@SelectTheme"
         ]
     },
     "Roguelike@RecruitSupportConfirm": {
@@ -4401,6 +4424,14 @@
             "招募助戰",
             "控募助戰",
             "招蔓訪戰"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "roi": [
+            0,
+            29,
+            515,
+            648
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -4877,6 +4908,14 @@
             "渴欲大廳"
         ]
     },
+    "Phantom@Roguelike@SelectTheme": {
+        "text": [
+            "傀影"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
+        ]
+    },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
     },
@@ -4945,6 +4984,14 @@
             "失塵岩洞",
             "幽海叢林",
             "紺碧搖籃"
+        ]
+    },
+    "Mizuki@Roguelike@SelectTheme": {
+        "text": [
+            "水月"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
@@ -5016,6 +5063,14 @@
     },
     "Sami@Roguelike@FoldartalUseOcr": {
         "ocrReplace": []
+    },
+    "Sami@Roguelike@SelectTheme": {
+        "text": [
+            "探索"
+        ],
+        "next": [
+            "Sami@Roguelike@FromIntegratedStrategies"
+        ]
     },
     "Reclamation@ClickAnyZoneOcr": {
         "text": [
