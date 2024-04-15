@@ -2981,6 +2981,16 @@
             "BB-6@SwipeToStage"
         ]
     },
+    "BB-4": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-4@SideStoryStage",
+            "BB-4@SwipeToStage"
+        ]
+    },
     "BB-OpenOcr": {
         "baseTask": "SS-OpenOcr",
         "text": [
@@ -3039,6 +3049,11 @@
     "BB-6@SideStoryStage": {
         "text": [
             "BB-6"
+        ]
+    },
+    "BB-4@SideStoryStage": {
+        "text": [
+            "BB-4"
         ]
     },
     "ResourceStages": {
