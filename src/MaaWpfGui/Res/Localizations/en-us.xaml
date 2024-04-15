@@ -33,6 +33,8 @@
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA external notification test</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">This is MAA external notification test information. If you see this content, the notification was sent successfully!</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan Send Key</system:String>
+    <system:String x:Key="ExternalNotificationBarkSendKey">Bark Send Key</system:String>
+    <system:String x:Key="ExternalNotificationBarkServer">Bark Server</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">Recipient</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP Server</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">Port</system:String>
@@ -754,8 +756,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControlCompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControlTooltips">Caution: Entering addresses from unknown sources may result in the loss of your account.</system:String>
-    <system:String x:Key="RemoteControlDeveloperTooltips">To learn more about how to develop these features, visit</system:String>
-    <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Feature Developer Documentation</system:String>
+    <system:String x:Key="RemoteControlDeveloperTooltips">Learn how to develop these features here</system:String>
+    <system:String x:Key="RemoteControlDeveloperDocLink">Remote Control Developer Documentation</system:String>
     <!--  !Remote Control  -->
     <!--  External Notification  -->
     <system:String x:Key="ExternalNotificationEmailTemplateFooterLineOne">You receive this message because you have set up an SMTP server in MAA and have the email notification service turned on.</system:String>

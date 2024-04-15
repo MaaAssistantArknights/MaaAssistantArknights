@@ -10,6 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -32,8 +33,8 @@ namespace MaaWpfGui.Models
         private const string MaaResourceVersion = "resource/version.json";
         private const string VersionChecksTemp = MaaResourceVersion + ".checks.tmp";
 
-        private static readonly List<string> _maaSingleFiles = new List<string>
-        {
+        private static readonly List<string> _maaSingleFiles =
+        [
             "resource/Arknights-Tile-Pos/overview.json",
             "resource/stages.json",
             "resource/recruitment.json",
@@ -52,7 +53,7 @@ namespace MaaWpfGui.Models
             "resource/global/YoStarKR/resource/recruitment.json",
             "resource/global/YoStarKR/resource/item_index.json",
             "resource/global/YoStarKR/resource/version.json",
-        };
+        ];
 
         private const string MaaDynamicFilesIndex = "resource/dynamic_list.txt";
 
@@ -76,9 +77,9 @@ namespace MaaWpfGui.Models
 
         // 只有 Release 版本才会检查更新
         // ReSharper disable once UnusedMember.Global
-        public static async void UpdateAndToast()
+        public static async void UpdateAndToastAsync()
         {
-            var ret = await Update();
+            var ret = await UpdateAsync();
 
             string toastMessage = ret switch
             {
@@ -96,10 +97,10 @@ namespace MaaWpfGui.Models
             }
         }
 
-        private static async Task<string> GetResourceApi()
+        private static async Task<string> GetResourceApiAsync()
         {
             string mirror = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
-            if (mirror != MaaUrls.MaaResourceApi && await IsMirrorAccessible(mirror))
+            if (mirror != MaaUrls.MaaResourceApi && await IsMirrorAccessibleAsync(mirror))
             {
                 return mirror;
             }
@@ -117,7 +118,7 @@ namespace MaaWpfGui.Models
                 var index = new Random().Next(0, mirrorList.Count);
                 var mirrorUrl = mirrorList[index];
 
-                if (await IsMirrorAccessible(mirrorUrl))
+                if (await IsMirrorAccessibleAsync(mirrorUrl))
                 {
                     mirror = mirrorUrl;
                     break;
@@ -134,7 +135,7 @@ namespace MaaWpfGui.Models
             return mirror;
         }
 
-        private static async Task<bool> IsMirrorAccessible(string mirrorUrl)
+        private static async Task<bool> IsMirrorAccessibleAsync(string mirrorUrl)
         {
             using var response = await Instances.HttpService.GetAsync(
                 new Uri(mirrorUrl + MaaResourceVersion),
@@ -143,12 +144,12 @@ namespace MaaWpfGui.Models
             return response is { StatusCode: System.Net.HttpStatusCode.OK };
         }
 
-        private static async Task<bool> CheckUpdate(string baseUrl)
+        private static async Task<bool> CheckUpdateAsync(string baseUrl)
         {
             var url = baseUrl + MaaResourceVersion;
 
             using var response = await ETagCache.FetchResponseWithEtag(url);
-            if (!(response is { StatusCode: System.Net.HttpStatusCode.OK }))
+            if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
             {
                 return false;
             }
@@ -161,7 +162,7 @@ namespace MaaWpfGui.Models
             }
 
             _versionUrl = url;
-            _versionEtag = response.Headers.ETag.Tag;
+            _versionEtag = response.Headers.ETag?.Tag ?? string.Empty;
             _ = Execute.OnUIThreadAsync(() =>
             {
                 using var toast = new ToastNotification(LocalizationHelper.GetString("GameResourceUpdating"));
@@ -192,17 +193,17 @@ namespace MaaWpfGui.Models
             ETagCache.Set(_versionUrl, _versionEtag);
         }
 
-        public static async Task<UpdateResult> Update()
+        public static async Task<UpdateResult> UpdateAsync()
         {
-            var baseUrl = await GetResourceApi();
-            bool needUpdate = await CheckUpdate(baseUrl);
+            var baseUrl = await GetResourceApiAsync();
+            bool needUpdate = await CheckUpdateAsync(baseUrl);
             if (!needUpdate)
             {
                 return UpdateResult.NotModified;
             }
 
             OutputDownloadProgress(1, LocalizationHelper.GetString("GameResourceUpdatePreparing"));
-            var ret1 = await UpdateFilesWithIndex(baseUrl);
+            var ret1 = await UpdateFilesWithIndexAsync(baseUrl);
 
             if (ret1 == UpdateResult.Failed)
             {
@@ -214,7 +215,7 @@ namespace MaaWpfGui.Models
             }
 
             OutputDownloadProgress(2, LocalizationHelper.GetString("GameResourceUpdatePreparing"));
-            var ret2 = await UpdateSingleFiles(baseUrl);
+            var ret2 = await UpdateSingleFilesAsync(baseUrl);
 
             if (ret2 == UpdateResult.Failed)
             {
@@ -240,7 +241,7 @@ namespace MaaWpfGui.Models
             return UpdateResult.NotModified;
         }
 
-        private static async Task<UpdateResult> UpdateSingleFiles(string baseUrl, int maxRetryTime = 2)
+        private static async Task<UpdateResult> UpdateSingleFilesAsync(string baseUrl, int maxRetryTime = 2)
         {
             UpdateResult ret = UpdateResult.NotModified;
 
@@ -252,7 +253,7 @@ namespace MaaWpfGui.Models
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
+                var sRet = await UpdateFileWithETagAsync(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
 
                 if (sRet == UpdateResult.Failed)
                 {
@@ -273,9 +274,9 @@ namespace MaaWpfGui.Models
 
         // 地图文件、掉落材料的图片、基建技能图片
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
-        private static async Task<UpdateResult> UpdateFilesWithIndex(string baseUrl, int maxRetryTime = 2)
+        private static async Task<UpdateResult> UpdateFilesWithIndexAsync(string baseUrl, int maxRetryTime = 2)
         {
-            var indexSRet = await UpdateFileWithETag(baseUrl, MaaDynamicFilesIndex, MaaDynamicFilesIndex, maxRetryTime);
+            var indexSRet = await UpdateFileWithETagAsync(baseUrl, MaaDynamicFilesIndex, MaaDynamicFilesIndex, maxRetryTime);
             if (indexSRet == UpdateResult.Failed)
             {
                 return UpdateResult.Failed;
@@ -288,7 +289,7 @@ namespace MaaWpfGui.Models
             }
 
             var ret = UpdateResult.NotModified;
-            var context = File.ReadAllText(indexPath);
+            var context = await File.ReadAllTextAsync(indexPath);
             var maxCount = context
                 .Split('\n')
                 .ToList()
@@ -302,7 +303,7 @@ namespace MaaWpfGui.Models
             {
                 await Task.Delay(1000);
 
-                var sRet = await UpdateFileWithETag(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
+                var sRet = await UpdateFileWithETagAsync(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
                 if (sRet == UpdateResult.Failed)
                 {
                     OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
@@ -320,7 +321,7 @@ namespace MaaWpfGui.Models
             return ret;
         }
 
-        private static UpdateResult ResponseToUpdateResult(HttpResponseMessage response)
+        private static UpdateResult ResponseToUpdateResult(HttpResponseMessage? response)
         {
             if (response == null)
             {
@@ -337,7 +338,7 @@ namespace MaaWpfGui.Models
                 : UpdateResult.Failed;
         }
 
-        private static async Task<UpdateResult> UpdateFileWithETag(string baseUrl, string file, string saveTo, int maxRetryTime = 0)
+        private static async Task<UpdateResult> UpdateFileWithETagAsync(string baseUrl, string file, string saveTo, int maxRetryTime = 0)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
             var url = baseUrl + file;
@@ -370,7 +371,7 @@ namespace MaaWpfGui.Models
             return updateResult;
         }
 
-        private static ObservableCollection<LogItemViewModel> _logItemViewModels;
+        private static ObservableCollection<LogItemViewModel> _logItemViewModels = [];
 
         private static void OutputDownloadProgress(int index, int count = 0, int maxCount = 1)
         {

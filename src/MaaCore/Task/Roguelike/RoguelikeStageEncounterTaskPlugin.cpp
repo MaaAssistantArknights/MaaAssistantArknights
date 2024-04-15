@@ -62,12 +62,12 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         Log.info("Unknown Event");
         return true;
     }
-    const auto& resultVec = name_analyzer.get_result();
-    if (resultVec.empty()) {
+    const auto& result_vec = name_analyzer.get_result();
+    if (result_vec.empty()) {
         Log.info("Unknown Event");
         return true;
     }
-    std::string text = resultVec.front().text;
+    std::string text = result_vec.front().text;
 
     Config::RoguelikeEvent event = event_map.at(text);
 
@@ -92,10 +92,12 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     auto info = basic_info_with_what("RoguelikeEvent");
     info["details"]["name"] = event.name;
     info["details"]["default_choose"] = event.default_choose;
+    info["details"]["choose_option"] = choose_option;
     callback(AsstMsg::SubTaskExtraInfo, info);
 
-    const auto click_option_task_name = [&](int item, int total) {
-        return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-" + std::to_string(item);
+    const auto click_option_task_name = [&](const int item, const int total) {
+        return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-"
+               + std::to_string(item);
     };
 
     for (int j = 0; j < 2; ++j) {
@@ -104,6 +106,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     }
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
+    sleep(500);
     image = ctrler()->get_image();
     if (hp(image) <= 0) {
         return true;
@@ -122,6 +125,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
                 return false;
             }
 
+            sleep(500);
             image = ctrler()->get_image();
             if (hp(image) <= 0) {
                 return true;
@@ -134,24 +138,30 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     return false;
 }
 
-bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(const Config::ChoiceRequire& requirement,
-                                                                  int special_val)
+bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(
+    const Config::ChoiceRequire& requirement,
+    const int special_val)
 {
-    int num = 0;
-    bool ret = true;
+    int value = 0;
+    bool ret = utils::chars_to_number(requirement.vision.value, value);
+    Log.trace("special_val: ", special_val, "value: ", value);
     switch (requirement.vision.type) {
     case Config::ComparisonType::GreaterThan:
-        ret &= utils::chars_to_number(requirement.vision.value, num) && special_val > num;
+        ret &= special_val > value;
+        Log.trace("special_val > value: ", special_val > value ? "true" : "false");
         break;
     case Config::ComparisonType::LessThan:
-        ret &= utils::chars_to_number(requirement.vision.value, num) && special_val < num;
+        ret &= special_val < value;
+        Log.trace("special_val < value: ", special_val < value ? "true" : "false");
         break;
     case Config::ComparisonType::Equal:
-        ret &= utils::chars_to_number(requirement.vision.value, num) && special_val == num;
+        ret &= special_val == value;
+        Log.trace("special_val == value: ", special_val == value ? "true" : "false");
         break;
     case Config::ComparisonType::None:
+        Log.warn("no vision type");
         break;
-    default:
+    case Config::ComparisonType::Unsupported:
         Log.warn("unsupported vision type");
         return false;
     }
@@ -166,10 +176,14 @@ bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(const Config::
     return true;
 }
 
-int asst::RoguelikeStageEncounterTaskPlugin::process_task(const Config::RoguelikeEvent& event, const int special_val)
+int asst::RoguelikeStageEncounterTaskPlugin::process_task(
+    const Config::RoguelikeEvent& event,
+    const int special_val)
 {
     for (const auto& requirement : event.choice_require) {
-        if (requirement.choose == -1) continue;
+        if (requirement.choose == -1) {
+            continue;
+        }
         if (satisfies_condition(requirement, special_val)) {
             return requirement.choose;
         }

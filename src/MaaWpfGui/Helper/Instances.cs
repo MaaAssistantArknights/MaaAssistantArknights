@@ -40,7 +40,7 @@ namespace MaaWpfGui.Helper
                 /// <summary>
                 /// Gets 当前理智 / 最大理智
                 /// </summary>
-                public static int[] Sanity { get; } = { -1, -1 };
+                public static int[] Sanity { get; } = [-1, -1];
 
                 public static DateTimeOffset ReportTime { get; set; }
             }

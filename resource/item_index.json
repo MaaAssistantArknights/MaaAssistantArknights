@@ -841,7 +841,7 @@
     },
     "7002": {
         "classifyType": "NORMAL",
-        "description": "收到这份加急许可的人请立即来人事部报道！",
+        "description": "收到这份加急许可的人请立即来人事部报到！",
         "icon": "7002.png",
         "name": "加急许可",
         "sortId": 40013,
@@ -1094,6 +1094,22 @@
         "name": "事相结晶",
         "sortId": -10000,
         "usage": "聚合关键情报的拓扑模型，可以用来重建过往事件。"
+    },
+    "SINGLE_49_0_1_GACHA": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_49_0_1_GACHA.png",
+        "name": "如死亦终寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘一位干员。"
+    },
+    "SINGLE_49_0_1_GACHA_10": {
+        "classifyType": "NORMAL",
+        "description": "为了确保人才扩展而应博士要求准备的应急手段，该批寻访条目具有一定的针对性与时效性，以及，小小的风险。",
+        "icon": "SINGLE_49_0_1_GACHA_10.png",
+        "name": "如死亦终十连寻访凭证",
+        "sortId": 40003,
+        "usage": "罗德岛人事部特别批发的许可书，在特殊的时间点上招揽特殊的人才，一次可招聘十位干员。"
     },
     "SOCIAL_PT": {
         "classifyType": "NONE",
@@ -1622,6 +1638,14 @@
         "name": "艺术馆集章卡",
         "sortId": -10000,
         "usage": "艺术馆的集章兑奖卡，集章更多就能兑换更多奖品。尽管每张卡上都有每日限量超稀有隐藏章，雷内尔仍欣然同意用它们交换物资，称这是“略表对佚名假章大师的敬意”。"
+    },
+    "act33side_token_sugar": {
+        "classifyType": "NONE",
+        "description": "机械化制作的粗糙糖块，是巴别塔在战时发放的额定物资。它能为战士们提供充足的能量以及一丝甜蜜。",
+        "icon": "act33side_token_sugar.png",
+        "name": "粗制糖块",
+        "sortId": -10000,
+        "usage": "巴别塔上的“硬通货”，如果有多余的，积攒一些，可以去工程队的血魔小姐那里换取一些稀缺的好东西。"
     },
     "act38d1_token_coin": {
         "classifyType": "NONE",

@@ -2569,6 +2569,7 @@
     },
     "StartToVisit": {
         "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in September 2024 OPERATION LUCENT ARROWHEAD",
+        "templThreshold": 0.8,
         "roi": [
             920,
             91,
@@ -6032,13 +6033,39 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
+        "roi": [
+            1006,
+            445,
+            246,
+            157
+        ],
         "text": [
             "ENTER"
+        ],
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "next": [
+            "Roguelike@FromIntegratedStrategies",
+            "Roguelike@Begin"
+        ]
+    },
+    "Roguelike@IntegratedStrategies": {
+        "next": [
+            "Roguelike@IntegratedStrategies",
+            "Roguelike@SelectTheme"
         ]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": [
             "Recruit support"
+        ]
+    },
+    "Roguelike@SelectTheme": {
+        "roi": [
+            0,
+            29,
+            515,
+            648
         ]
     },
     "Roguelike@StageEncounterOcr": {
@@ -6690,6 +6717,9 @@
     "Phantom@Roguelike@SelectTheme": {
         "text": [
             "Phantom"
+        ],
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -6783,6 +6813,9 @@
     "Mizuki@Roguelike@SelectTheme": {
         "text": [
             "Mizuki"
+        ],
+        "next": [
+            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
@@ -7223,9 +7256,15 @@
             78
         ]
     },
+    "Sami@Roguelike@RecruitOther": {
+        "templThreshold": 0.75
+    },
     "Sami@Roguelike@SelectTheme": {
         "text": [
             "Expeditioner"
+        ],
+        "next": [
+            "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
