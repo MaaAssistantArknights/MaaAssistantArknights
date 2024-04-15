@@ -2951,6 +2951,82 @@
             "DH-9"
         ]
     },
+    "BB-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-8@SideStoryStage",
+            "BB-8@SwipeToStage"
+        ]
+    },
+    "BB-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-7@SideStoryStage",
+            "BB-7@SwipeToStage"
+        ]
+    },
+    "BB-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOcr"
+        ],
+        "next": [
+            "BB-6@SideStoryStage",
+            "BB-6@SwipeToStage"
+        ]
+    },
+    "BB-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "巴别塔",
+            "巴别",
+            "别塔"
+        ],
+        "roi": [
+            103,
+            538,
+            175,
+            25
+        ],
+        "next": [
+            "BBChapterToBB"
+        ]
+    },
+    "BBChapterToBB": {
+        "action": "ClickSelf",
+        "preDelay": 2000,
+        "roi": [
+            1091,
+            610,
+            33,
+            30
+        ],
+        "next": [
+            "#self",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "BB-8@SideStoryStage": {
+        "text": [
+            "BB-8"
+        ]
+    },
+    "BB-7@SideStoryStage": {
+        "text": [
+            "BB-7"
+        ]
+    },
+    "BB-6@SideStoryStage": {
+        "text": [
+            "BB-6"
+        ]
+    },
     "ResourceStages": {
         "algorithm": "JustReturn",
         "sub": [
