@@ -101,14 +101,16 @@ Windows 7를 사용하는 경우, 아래 언급된 런타임 이전에 아래 �
 
 각 에뮬레이터의 포트들은 다음과 같습니다:
 
-    | 에뮬레이터 |     포트 기본값      |
-    | ---------- | :------------------: |
-    | MuMu 6/X   |         7555         |
-    | MuMu 12    |        16384         |
-    | NoxPlayer  |        62001         |
-    | Memu       |        21503         |
-    | BlueStacks |         5555         |
-    | LDPlayer 9 | 5555 / emulator-5554 |
+::: details 연결 포트
+| 에뮬레이터 |     포트 기본값      |
+| ---------- | :------------------: |
+| MuMu 6/X   |         7555         |
+| MuMu 12    |        16384         |
+| NoxPlayer  |        62001         |
+| Memu       |        21503         |
+| BlueStacks |         5555         |
+| LDPlayer 9 | 5555 / emulator-5554 |
+:::
 
 이 외의 에뮬레이터를 사용할 경우에는, 다음 블로그를 참조하세요. [Zhao Qingqing의 블로그](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
 
