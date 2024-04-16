@@ -3770,7 +3770,7 @@
         },
         "char_4088_hodrer": {
             "name": "赫德雷",
-            "name_en": "赫德雷",
+            "name_en": "Hoederer",
             "name_jp": "へドリー",
             "name_kr": "외드레르",
             "name_tw": "赫德雷",
@@ -3905,7 +3905,7 @@
         },
         "char_4107_vrdant": {
             "name": "维荻",
-            "name_en": "维荻",
+            "name_en": "Verdant",
             "name_jp": "ヴァーダント",
             "name_kr": "버던트",
             "name_tw": "维荻",
@@ -3935,7 +3935,7 @@
         },
         "char_4110_delphn": {
             "name": "戴菲恩",
-            "name_en": "戴菲恩",
+            "name_en": "Delphine",
             "name_jp": "デルフィーン",
             "name_kr": "델핀",
             "name_tw": "戴菲恩",
@@ -4778,7 +4778,7 @@
         },
         "char_494_vendla": {
             "name": "刺玫",
-            "name_en": "刺玫",
+            "name_en": "Vendela",
             "name_jp": "ヴァンデラ",
             "name_kr": "벤델라",
             "name_tw": "刺玫",
@@ -7508,7 +7508,7 @@
         },
         "trap_125_bonore": {
             "name": "唤血祭坛",
-            "name_en": "唤血祭坛",
+            "name_en": "Bloodcalling Altar",
             "name_jp": "血の祭壇",
             "name_kr": "피의 제단",
             "name_tw": "唤血祭坛",
@@ -7523,7 +7523,7 @@
         },
         "trap_126_outset": {
             "name": "炸弹载荷点",
-            "name_en": "炸弹载荷点",
+            "name_en": "Bomb Loading Point",
             "name_jp": "爆弾装填点",
             "name_kr": "폭탄 적재 지점",
             "name_tw": "炸弹载荷点",
@@ -7538,7 +7538,7 @@
         },
         "trap_127_bldore": {
             "name": "沥血王座",
-            "name_en": "沥血王座",
+            "name_en": "Throne of Blood",
             "name_jp": "血誓の王座",
             "name_kr": "생귀나르의 왕좌",
             "name_tw": "沥血王座",
