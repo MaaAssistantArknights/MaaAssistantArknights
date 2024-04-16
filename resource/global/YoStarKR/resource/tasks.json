@@ -140,11 +140,27 @@
                 "드래곤플라이에이"
             ],
             [
-                "\\b(?!(Ash|Blitz|Tachanka|Frost|Lancet2|THRMEX|Friston3|Castle3|W|12F|Mon3tr|Sharp|Pith|Touch|Stormeye))(\\w)+$",
-                ""
+                "[CcOo0]ast.*le3",
+                "Castle3"
             ],
             [
                 ".*ancet2",
+                "Lancet2"
+            ],
+            [
+                "[JUu][O0o]f{1,2}icial",
+                "UOfficial"
+            ],
+            [
+                "\\b(?!(Ash|Blitz|Tachanka|Frost|Lancet2|THRMEX|Friston3|Castle3|W|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|UOfficial))(\\w)+$",
+                ""
+            ],
+            [
+                "Castle3",
+                "Castle-3"
+            ],
+            [
+                "Lancet2",
                 "Lancet-2"
             ],
             [
@@ -156,8 +172,8 @@
                 "Friston-3"
             ],
             [
-                "[CcOo0]ast.*le3",
-                "Castle-3"
+                "UOfficial",
+                "U-Official"
             ],
             [
                 "실버애.*",
@@ -2360,7 +2376,7 @@
                 "杏仁"
             ],
             [
-                "피의 제단",
+                "피의제단",
                 "唤血祭坛"
             ],
             [
@@ -2380,11 +2396,11 @@
                 "维荻"
             ],
             [
-                "폭탄 적재 지점",
+                "폭탄적재지점",
                 "炸弹载荷点"
             ],
             [
-                "생귀나르의 왕좌",
+                "생귀나르의왕좌",
                 "沥血王座"
             ]
         ]
