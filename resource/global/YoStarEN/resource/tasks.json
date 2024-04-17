@@ -2486,7 +2486,7 @@
             "Start"
         ]
     },
-    "StartButton2":{
+    "StartButton2": {
         "cache": false
     },
     "PRTS2": {
@@ -3949,6 +3949,22 @@
             [
                 "People-Oriented Squad",
                 "以人为本分队"
+            ],
+            [
+                "Scientific Thinking",
+                "科学主义分队"
+            ],
+            [
+                "Life Prioritizing Squad",
+                "生活至上分队"
+            ],
+            [
+                "Eternal Hunting Squad",
+                "永恒狩猎分队"
+            ],
+            [
+                "Special Training Squad",
+                "特训分队"
             ]
         ]
     },
