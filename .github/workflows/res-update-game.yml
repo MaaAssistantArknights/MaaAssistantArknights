@@ -177,6 +177,7 @@ jobs:
           github_token: ${{ secrets.MISTEOWORKFLOW }}
 
       - name: Update OTA resource
+        if: steps.add_files.outputs.have_commits == 'True'
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
