@@ -6184,6 +6184,7 @@
             180
         ],
         "crop_doc": {
+            "doc": "Heads up: YostarEN needs 133 of 'y' instead of 120",
             "roi": [
                 903,
                 120,
