@@ -2584,15 +2584,6 @@
             "Expedite"
         ]
     },
-    "Award": {
-        "template": "Task.png",
-        "roi": [
-            665,
-            504,
-            252,
-            162
-        ]
-    },
     "NoFriends": {
         "text": [
             "No friends"
