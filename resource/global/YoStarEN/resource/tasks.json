@@ -2486,6 +2486,9 @@
             "Start"
         ]
     },
+    "StartButton2":{
+        "cache": false
+    },
     "PRTS2": {
         "text": [
             "Takeover"
