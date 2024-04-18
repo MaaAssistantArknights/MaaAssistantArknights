@@ -9215,6 +9215,150 @@
         "stageId": "act33side_10",
         "width": 13
     },
+    "act33side_ex01#f#-activities/act33side/level_act33side_ex01": {
+        "code": "BB-EX-1",
+        "filename": "act33side_ex01#f#-activities-act33side-level_act33side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act33side/level_act33side_ex01",
+        "name": "收拾行装",
+        "stageId": "act33side_ex01#f#",
+        "width": 10
+    },
+    "act33side_ex01-activities/act33side/level_act33side_ex01": {
+        "code": "BB-EX-1",
+        "filename": "act33side_ex01-activities-act33side-level_act33side_ex01.json",
+        "height": 7,
+        "levelId": "activities/act33side/level_act33side_ex01",
+        "name": "收拾行装",
+        "stageId": "act33side_ex01",
+        "width": 10
+    },
+    "act33side_ex02#f#-activities/act33side/level_act33side_ex02": {
+        "code": "BB-EX-2",
+        "filename": "act33side_ex02#f#-activities-act33side-level_act33side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex02",
+        "name": "屏息凝神",
+        "stageId": "act33side_ex02#f#",
+        "width": 12
+    },
+    "act33side_ex02-activities/act33side/level_act33side_ex02": {
+        "code": "BB-EX-2",
+        "filename": "act33side_ex02-activities-act33side-level_act33side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex02",
+        "name": "屏息凝神",
+        "stageId": "act33side_ex02",
+        "width": 12
+    },
+    "act33side_ex03#f#-activities/act33side/level_act33side_ex03": {
+        "code": "BB-EX-3",
+        "filename": "act33side_ex03#f#-activities-act33side-level_act33side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex03",
+        "name": "割下顶角",
+        "stageId": "act33side_ex03#f#",
+        "width": 12
+    },
+    "act33side_ex03-activities/act33side/level_act33side_ex03": {
+        "code": "BB-EX-3",
+        "filename": "act33side_ex03-activities-act33side-level_act33side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex03",
+        "name": "割下顶角",
+        "stageId": "act33side_ex03",
+        "width": 12
+    },
+    "act33side_ex04#f#-activities/act33side/level_act33side_ex04": {
+        "code": "BB-EX-4",
+        "filename": "act33side_ex04#f#-activities-act33side-level_act33side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_ex04",
+        "name": "裹起躯体",
+        "stageId": "act33side_ex04#f#",
+        "width": 12
+    },
+    "act33side_ex04-activities/act33side/level_act33side_ex04": {
+        "code": "BB-EX-4",
+        "filename": "act33side_ex04-activities-act33side-level_act33side_ex04.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_ex04",
+        "name": "裹起躯体",
+        "stageId": "act33side_ex04",
+        "width": 12
+    },
+    "act33side_ex05#f#-activities/act33side/level_act33side_ex05": {
+        "code": "BB-EX-5",
+        "filename": "act33side_ex05#f#-activities-act33side-level_act33side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex05",
+        "name": "穿越荒野",
+        "stageId": "act33side_ex05#f#",
+        "width": 12
+    },
+    "act33side_ex05-activities/act33side/level_act33side_ex05": {
+        "code": "BB-EX-5",
+        "filename": "act33side_ex05-activities-act33side-level_act33side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex05",
+        "name": "穿越荒野",
+        "stageId": "act33side_ex05",
+        "width": 12
+    },
+    "act33side_ex06#f#-activities/act33side/level_act33side_ex06": {
+        "code": "BB-EX-6",
+        "filename": "act33side_ex06#f#-activities-act33side-level_act33side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex06",
+        "name": "越过障碍",
+        "stageId": "act33side_ex06#f#",
+        "width": 12
+    },
+    "act33side_ex06-activities/act33side/level_act33side_ex06": {
+        "code": "BB-EX-6",
+        "filename": "act33side_ex06-activities-act33side-level_act33side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex06",
+        "name": "越过障碍",
+        "stageId": "act33side_ex06",
+        "width": 12
+    },
+    "act33side_ex07#f#-activities/act33side/level_act33side_ex07": {
+        "code": "BB-EX-7",
+        "filename": "act33side_ex07#f#-activities-act33side-level_act33side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex07",
+        "name": "登上舰体",
+        "stageId": "act33side_ex07#f#",
+        "width": 12
+    },
+    "act33side_ex07-activities/act33side/level_act33side_ex07": {
+        "code": "BB-EX-7",
+        "filename": "act33side_ex07-activities-act33side-level_act33side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_ex07",
+        "name": "登上舰体",
+        "stageId": "act33side_ex07",
+        "width": 12
+    },
+    "act33side_ex08#f#-activities/act33side/level_act33side_ex08": {
+        "code": "BB-EX-8",
+        "filename": "act33side_ex08#f#-activities-act33side-level_act33side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_ex08",
+        "name": "奔向死亡",
+        "stageId": "act33side_ex08#f#",
+        "width": 13
+    },
+    "act33side_ex08-activities/act33side/level_act33side_ex08": {
+        "code": "BB-EX-8",
+        "filename": "act33side_ex08-activities-act33side-level_act33side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_ex08",
+        "name": "奔向死亡",
+        "stageId": "act33side_ex08",
+        "width": 13
+    },
     "act33side_tr01-activities/act33side/level_act33side_tr01": {
         "code": "BB-TR-1",
         "filename": "act33side_tr01-activities-act33side-level_act33side_tr01.json",
