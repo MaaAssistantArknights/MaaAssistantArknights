@@ -2606,7 +2606,8 @@
     },
     "Mall": {
         "text": [
-            "Store"
+            "Store",
+            "STORE"
         ]
     },
     "CreditStoreOcr": {
