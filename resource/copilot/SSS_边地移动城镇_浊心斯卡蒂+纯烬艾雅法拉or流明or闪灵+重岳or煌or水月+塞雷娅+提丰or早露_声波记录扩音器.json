@@ -3,9 +3,9 @@
     "stage_name": "边地移动城镇",
     "minimum_required": "v5.2.1",
     "doc": {
-        "title": "边地移动城镇——浊心斯卡蒂+纯烬艾雅法拉+重岳+塞雷娅+提丰",
+        "title": "边地移动城镇——浊心斯卡蒂+纯烬艾雅法拉or流明or闪灵+重岳or煌or水月+塞雷娅+提丰or早露_声波记录扩音器",
         "title_color": "dark",
-        "details": "作者：DL_君逸寒\n演示视频：BV1sD421H7bp\n如果觉得脚本还可以的话，请点进视频链接给个三连支持一波\n\n该脚本可完成声波记录扩音器任务、招募15术士任务\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n\n关卡中的注意事项：\n3关要拿到至少一个战备激活阀，没有就重开（高练也不可无视）\n\n因maa在2024.01的更新中“负优化”了maa的保全节能模式，无论是部署干员还是释放技能都慢了很多很多，关卡的容错率也低了很多，如果电脑配置不过关，建议全程一倍速\n\n工具人（不包括核心）：\n先锋：6  尖兵分支（推荐）（且推荐开减费用模组）>>执旗手分支>>风笛>>其他先锋\n重装：2  选择防御力高的守护者或铁卫，但是不要选决战者分支和不屈者分支\n术士：6  扩散术士分支要上减费用模组\n辅助：1  塑心3>>铃兰3>>其余辅助带决战技或自动触发技能\n\n所有工具人的练度都建议精二30级起步，选能打的！\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能！\n详情可以打开视频链接观看并更改必要的设置\n\n导能原件：声波记录扩音器\n战术装备：术士B狙击B医疗B特种B，其余A\n开局策略：优选策略\n\n请手动编队，阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 痛心的快板\n\n脚本参考：\n自己打的\n\n连接模式请使用minitouch或者maatouch，不建议使用ADB Input模式\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、不重开通过普通难度、通过应急难度\n\n刷材料不建议在应急模式刷，也不建议使用专门用来完成任务的脚本刷\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
+        "details": "作者：DL_君逸寒\n演示视频：BV1sD421H7bp\n如果觉得脚本还可以的话，请点进视频链接给个三连支持一波\n\n该脚本可完成声波记录扩音器任务、招募15术士任务\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n\n关卡中的注意事项：\n3关要拿到至少一个战备激活阀，没有就重开（高练也不可无视）\n\n因maa在2024.01的更新中“负优化”了maa的保全模式，无论是部署干员还是释放技能都慢了很多很多，关卡的容错率也低了很多，如果电脑配置不过关，建议全程一倍速\n\n纯烬艾雅法拉1可以换成流明3或闪灵2\n重岳3可以换成煌2或水月1\n提丰2可以换成早露2\n脚本标题写的XXorXX，但是脚本里实际使用的都是XXorXX中最前面的干员，如果需要用其他干员，全选文本，ctrl+h替换成你想用的干员就好\n\n工具人（不包括核心）：\n先锋：5  尖兵分支（推荐）（且推荐开减费用模组）>>执旗手分支>>风笛>>其他先锋\n重装：2  选择防御力高的守护者或铁卫，但是不要选决战者分支和不屈者分支\n术士：6  扩散术士分支要上减费用模组\n辅助：2  塑心3>>铃兰3>>其余辅助带决战技或自动触发技能\n\n所有工具人的练度都建议精二30级起步，选能打的！\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能！\n详情可以打开视频链接观看并更改必要的设置\n\n导能原件：声波记录扩音器\n战术装备：术士B狙击B医疗B特种B，其余A\n开局策略：优选策略\n\n请手动编队，阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 痛心的快板\n\n脚本参考：\n自己打的\n\n连接模式请使用minitouch或者maatouch，不建议使用ADB Input模式\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、不重开通过普通难度、通过应急难度\n\n刷材料不建议在应急模式刷，也不建议使用专门用来完成任务的脚本刷\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
         "details_color": "dark"
     },
     "buff": "声波记录扩音器",
@@ -49,10 +49,10 @@
         }
     ],
     "tool_men": {
-        "pioneer": 6,
+        "pioneer": 5,
         "tank": 2,
         "caster": 6,
-        "support": 1
+        "support": 2
     },
     "drops": [
         "辅助",
@@ -65,7 +65,9 @@
         "近卫",
         "特种",
         "战备激活阀",
-        "声能吸收增幅"
+        "声能吸收增幅",
+        "“经济调控”磁带",
+        "机密联络存储"
     ],
     "blacklist": [
         "缪尔赛思",
@@ -676,35 +678,15 @@
                         "pioneer": 1
                     },
                     "location": [
-                        4,
+                        3,
                         4
                     ],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
-                        "pioneer": 1
-                    },
-                    "location": [
-                        3,
-                        4
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "tool_men": {
-                        "support": 1
-                    },
-                    "location": [
-                        4,
-                        2
-                    ],
-                    "direction": "Left"
-                },
-                {
-                    "core": "重岳",
-                    "tool_men": {
-                        "pioneer": 2
+                        "pioneer": 1,
+                        "tank": 1
                     },
                     "location": [
                         4,
@@ -720,7 +702,7 @@
                         4,
                         3
                     ],
-                    "direction": "Right"
+                    "direction": "Down"
                 },
                 {
                     "core": "纯烬艾雅法拉",
@@ -728,30 +710,10 @@
                         "caster": 1
                     },
                     "location": [
-                        3,
-                        2
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [
-                        3,
+                        5,
                         5
                     ],
-                    "direction": "Right"
-                },
-                {
-                    "tool_men": {
-                        "tank": 2
-                    },
-                    "location": [
-                        3,
-                        4
-                    ],
-                    "direction": "Down"
+                    "direction": "Up"
                 },
                 {
                     "core": "浊心斯卡蒂",
@@ -765,6 +727,47 @@
                     "direction": "Down"
                 },
                 {
+                    "tool_men": {
+                        "support": 3
+                    },
+                    "location": [
+                        4,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
+                        3,
+                        5
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "core": "重岳",
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
                     "core": "提丰",
                     "tool_men": {
                         "caster": 2
@@ -772,6 +775,16 @@
                     "location": [
                         3,
                         5
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "tank": 4
+                    },
+                    "location": [
+                        4,
+                        4
                     ],
                     "direction": "Right"
                 },
@@ -788,14 +801,15 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "斯卡蒂的海嗣",
                     "tool_men": {
-                        "tank": 3
+                        "caster": 0
                     },
                     "location": [
-                        3,
+                        6,
                         4
                     ],
-                    "direction": "Down"
+                    "direction": "None"
                 },
                 {
                     "core": "战备激活阀",
@@ -803,10 +817,10 @@
                         "caster": 0
                     },
                     "location": [
-                        5,
+                        2,
                         4
                     ],
-                    "direction": "Left",
+                    "direction": "Right",
                     "kills": 20
                 }
             ],
@@ -1107,7 +1121,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 10
@@ -1127,7 +1141,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 15
@@ -1147,7 +1161,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 20
@@ -1167,7 +1181,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 25
@@ -1187,7 +1201,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 30
@@ -1207,7 +1221,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 35
@@ -1227,7 +1241,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 40
@@ -1247,7 +1261,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 45
@@ -1267,7 +1281,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 50
@@ -1287,7 +1301,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 55
@@ -1307,7 +1321,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 60
@@ -1327,7 +1341,7 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        3
+                        4
                     ],
                     "direction": "None",
                     "kills": 65
@@ -1339,14 +1353,15 @@
                         7,
                         3
                     ],
-                    "direction": "None"
+                    "direction": "None",
+                    "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        5
+                        4
                     ],
                     "direction": "None"
                 },
@@ -1357,14 +1372,15 @@
                         7,
                         3
                     ],
-                    "direction": "None"
+                    "direction": "None",
+                    "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        5
+                        4
                     ],
                     "direction": "None"
                 },
@@ -1375,14 +1391,15 @@
                         7,
                         3
                     ],
-                    "direction": "None"
+                    "direction": "None",
+                    "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        5
+                        4
                     ],
                     "direction": "None"
                 },
@@ -1393,14 +1410,15 @@
                         7,
                         3
                     ],
-                    "direction": "None"
+                    "direction": "None",
+                    "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        5
+                        4
                     ],
                     "direction": "None"
                 },
@@ -1411,6 +1429,16 @@
                         7,
                         3
                     ],
+                    "direction": "None",
+                    "pre_delay": 20000
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        4
+                    ],
                     "direction": "None"
                 },
                 {
@@ -1418,7 +1446,74 @@
                     "name": "啸叫音响",
                     "location": [
                         7,
-                        5
+                        3
+                    ],
+                    "direction": "None",
+                    "pre_delay": 20000
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "None",
+                    "pre_delay": 20000
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "None",
+                    "pre_delay": 20000
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "None"
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        3
+                    ],
+                    "direction": "None",
+                    "pre_delay": 20000
+                },
+                {
+                    "type": "Deploy",
+                    "name": "啸叫音响",
+                    "location": [
+                        7,
+                        4
                     ],
                     "direction": "None"
                 }
