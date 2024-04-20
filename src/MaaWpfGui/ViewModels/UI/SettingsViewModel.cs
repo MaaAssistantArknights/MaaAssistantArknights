@@ -2697,6 +2697,21 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /* 自动公招设置 */
+        private string _autoRecruitFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty);
+
+        /// <summary>
+        /// Gets or sets the priority tag list of level-3 tags.
+        /// </summary>
+        public string AutoRecruitFirstList
+        {
+            get => _autoRecruitFirstList;
+            set
+            {
+                SetAndNotify(ref _autoRecruitFirstList, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.AutoRecruitFirstList, value);
+            }
+        }
+
         private string _recruitMaxTimes = ConfigurationHelper.GetValue(ConfigurationKeys.RecruitMaxTimes, "4");
 
         /// <summary>

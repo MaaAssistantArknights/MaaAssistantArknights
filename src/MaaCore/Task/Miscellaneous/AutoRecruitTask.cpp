@@ -146,6 +146,12 @@ asst::AutoRecruitTask& asst::AutoRecruitTask::set_select_extra_tags(ExtraTagsMod
     return *this;
 }
 
+asst::AutoRecruitTask& asst::AutoRecruitTask::set_first_tags(std::vector<std::string> first_tags) noexcept
+{
+    m_first_tags = first_tags;
+    return *this;
+}
+
 asst::AutoRecruitTask& asst::AutoRecruitTask::set_skip_robot(bool skip_robot) noexcept
 {
     m_skip_robot = skip_robot;
@@ -361,6 +367,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         bool has_special_tag = false;
         bool has_robot_tag = false;
+        bool has_preferred_tag = false;
 
         json::value info = basic_info();
         info["details"]["tags"] = json::array(get_tag_names(tag_ids));
@@ -391,6 +398,21 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             cb_info["what"] = "RecruitSpecialTag";
             cb_info["details"]["tag"] = RecruitData.get_tag_name(*robot_iter);
             callback(AsstMsg::SubTaskExtraInfo, cb_info);
+        }
+
+        // preferred tags
+        if (!m_first_tags.empty()) {
+            for (const RecruitConfig::TagId& tag_id : tag_ids) {
+                std::string tag_name = RecruitData.get_tag_name(tag_id);
+                for (const std::string& preferred_tag : m_first_tags) {
+                    if (preferred_tag.empty()) continue;
+                    // the preferred tag is the tag's substring
+                    if (tag_name.find(preferred_tag) != std::string::npos) {
+                        has_preferred_tag = true;
+                        break;
+                    }
+                }
+            }
         }
 
         std::vector<RecruitCombs> result_vec = recruit_calc::get_all_combs(tag_ids);
@@ -481,8 +503,9 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         if (need_exit()) return {};
 
         // refresh
-        if (m_need_refresh && m_has_refresh && !has_special_tag && final_combination.min_level == 3 &&
-            !(m_skip_robot && has_robot_tag)) {
+        if (m_need_refresh && m_has_refresh && !has_special_tag 
+            && (final_combination.min_level == 3 && !has_preferred_tag)
+            && !(m_skip_robot && has_robot_tag)) {
             if (refresh_count > refresh_limit) [[unlikely]] {
                 json::value cb_info = basic_info();
                 cb_info["what"] = "RecruitError";
@@ -536,7 +559,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
 
         if (!is_calc_only_task()) {
             // do not confirm, force skip
-            if (ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
+            if (!(final_combination.min_level == 3 && has_preferred_tag) &&
+                ranges::none_of(m_confirm_level, [&](const auto& i) { return i == final_combination.min_level; })) {
                 calc_task_result_type result;
                 result.success = true;
                 result.force_skip = true;
@@ -569,7 +593,8 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
         }
 
         // nothing to select, leave the selection empty
-        if (ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
+        if (!(final_combination.min_level == 3 && has_preferred_tag) &&
+            ranges::none_of(m_select_level, [&](const auto& i) { return i == final_combination.min_level; })) {
             calc_task_result_type result;
             result.success = true;
             result.force_skip = false;
@@ -578,8 +603,7 @@ asst::AutoRecruitTask::calc_task_result_type asst::AutoRecruitTask::recruit_calc
             return result;
         }
 
-        auto final_select = 
-            (m_select_extra_tags_mode != ExtraTagsMode::NoExtra) ? get_select_tags(result_vec) : final_combination.tags;
+        auto final_select = get_select_tags(result_vec, tag_ids);
 
         // select tags
         for (const std::string& final_tag_name : final_select) {
@@ -708,13 +732,31 @@ std::vector<std::string> asst::AutoRecruitTask::get_tag_names(const std::vector<
     return names;
 }
 
-std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vector<RecruitCombs>& combinations)
+std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vector<RecruitCombs>& combinations, std::vector<RecruitConfig::TagId> tag_ids)
 {
     LogTraceFunction;
     std::unordered_set<std::string> unique_tags;
     std::vector<std::string> select;
 
-    if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
+    if (combinations.front().min_level == 3) {
+        // only run if we have certain preferred tags for level-3 tags
+        if (!m_first_tags.empty()) {
+            for (const RecruitConfig::TagId& tag_id : tag_ids) {
+                std::string tag_name = RecruitData.get_tag_name(tag_id);
+                for (const std::string& preferred_tag : m_first_tags) {
+                    if (preferred_tag.empty()) continue;
+                    // the preferred tag is the tag's substring
+                    if (tag_name.find(preferred_tag) != std::string::npos) {
+                        select.emplace_back(tag_name);
+                        continue;
+                    }
+                }
+                if (select.size() == 3) return select;
+            }
+        }
+        return select;
+    }
+    else if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
         while (select.size() < 3) {
             for (const asst::RecruitCombs& comb : combinations)
                 for (const std::string& tag : comb.tags) {
