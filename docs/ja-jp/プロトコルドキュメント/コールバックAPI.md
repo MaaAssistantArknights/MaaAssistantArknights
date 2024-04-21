@@ -559,7 +559,7 @@ Todo
         },
         "data": "{\"@type\":\"@penguin-statistics/depot\",\"items\":[{\"id\":\"2004\",\"have\":4,\"name\":\"上級作戦記録\"},{\"id\":\"mod_unlock_token\",\"have\":25,\"name\":\"モジュールデータ\"},{\"id\":\"2003\",\"have\":20,\"name\":\"中級作戦記録\"}]}"
     },
-    "lolicon": {     // https://arkn.lolicon.app/#/material
+    "lolicon": {     // https://arkntools.app/#/material
         "object": {
             "2004" : 4,
             "mod_unlock_token": 25,
