@@ -17,10 +17,20 @@
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="{Binding ShowCloseButton}"
+    Topmost="{Binding IsWindowTopMost}"
     mc:Ignorable="d">
-
+    <hc:Window.NonClientAreaContent>
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button
+                BorderThickness="0"
+                Command="{s:Action ToggleTopMostCommand}"
+                Content="🔝"
+                Foreground="{Binding WindowTopMostButtonForeground}">
+            </Button>
+        </StackPanel>
+    </hc:Window.NonClientAreaContent>
     <DockPanel>
-        <local:NotifyIcon Visibility="Hidden" x:Name="NotifyIcon" />
+        <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
         <TabControl
             BorderThickness="0,1,0,0"
             DisplayMemberPath="DisplayName"
