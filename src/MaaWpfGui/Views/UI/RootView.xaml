@@ -24,7 +24,7 @@
             <Button
                 BorderThickness="0"
                 Command="{s:Action ToggleTopMostCommand}"
-                Content="🔝"
+                Content="📌"
                 Foreground="{Binding WindowTopMostButtonForeground}">
             </Button>
         </StackPanel>
