@@ -14,6 +14,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -87,6 +88,40 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get => _showCloseButton;
             set => SetAndNotify(ref _showCloseButton, value);
+        }
+
+        private bool _isWindowTopMost;
+
+        public bool IsWindowTopMost
+        {
+            get => _isWindowTopMost;
+            set
+            {
+                if (_isWindowTopMost == value)
+                {
+                    return;
+                }
+
+                SetAndNotify(ref _isWindowTopMost, value);
+            }
+        }
+
+        private SolidColorBrush _windowTopMostButtonForeground = (SolidColorBrush)Application.Current.FindResource("PrimaryTextBrush");
+
+        public SolidColorBrush WindowTopMostButtonForeground
+        {
+            get => _windowTopMostButtonForeground;
+            set => SetAndNotify(ref _windowTopMostButtonForeground, value);
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void ToggleTopMostCommand()
+        {
+            IsWindowTopMost = !IsWindowTopMost;
+            WindowTopMostButtonForeground = IsWindowTopMost
+                ? (SolidColorBrush)Application.Current.FindResource("TitleBrush")
+                : (SolidColorBrush)Application.Current.FindResource("PrimaryTextBrush");
         }
 
         /// <inheritdoc/>
