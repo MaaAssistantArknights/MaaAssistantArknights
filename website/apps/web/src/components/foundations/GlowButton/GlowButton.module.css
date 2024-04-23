@@ -1,0 +1,23 @@
+.root {
+  /* transition: box-shadow 225ms ease-out, transform 40ms ease-out,
+    background 80ms ease-out; */
+  border: thin solid rgba(255, 255, 255, 0.2);
+  box-shadow: -15px 0 45px -15px rgba(154, 52, 18, 0.4),
+    0 0 45px -15px rgba(157, 23, 77, 0.4),
+    15px 0 45px -15px rgba(91, 33, 182, 0.4);
+}
+
+.root:hover {
+  box-shadow: -15px 0 60px -15px rgba(154, 52, 18, 0.4),
+    0 0 60px -15px rgba(157, 23, 77, 0.4),
+    15px 0 60px -15px rgba(91, 33, 182, 0.4);
+}
+
+.link {
+  text-decoration: none;
+}
+.link:hover * {
+  text-decoration: underline;
+  text-underline-offset: 1px;
+  text-decoration-color: rgba(255, 255, 255, 0.15);
+}
