@@ -106,9 +106,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private SolidColorBrush _windowTopMostButtonForeground = (SolidColorBrush)Application.Current.FindResource("PrimaryTextBrush");
+        private Brush _windowTopMostButtonForeground = (SolidColorBrush)Application.Current.FindResource("PrimaryTextBrush");
 
-        public SolidColorBrush WindowTopMostButtonForeground
+        public Brush WindowTopMostButtonForeground
         {
             get => _windowTopMostButtonForeground;
             set => SetAndNotify(ref _windowTopMostButtonForeground, value);
@@ -120,8 +120,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             IsWindowTopMost = !IsWindowTopMost;
             WindowTopMostButtonForeground = IsWindowTopMost
-                ? (SolidColorBrush)Application.Current.FindResource("TitleBrush")
-                : (SolidColorBrush)Application.Current.FindResource("PrimaryTextBrush");
+                ? (Brush)Application.Current.FindResource("TitleBrush")
+                : (Brush)Application.Current.FindResource("PrimaryTextBrush");
         }
 
         /// <inheritdoc/>
