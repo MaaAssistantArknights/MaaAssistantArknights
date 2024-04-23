@@ -1,4 +1,4 @@
-name: Build Test for docs
+name: Build Test for website
 
 on:
   push:
@@ -6,11 +6,13 @@ on:
       - "master"
     paths:
       - "docs/**"
+      - "website/**"
   pull_request:
     branches:
       - "dev"
     paths:
       - "docs/**"
+      - "website/**"
   workflow_dispatch:
 
 jobs:
@@ -29,20 +31,22 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm i
-        working-directory: "./docs"
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
 
-      - name: Cleanup files
-        run: rm tsconfig.json
-        working-directory: "./docs"
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: "./website"
 
       - name: Build
-        run: npm run build
-        working-directory: "./docs"
+        run: pnpm run build
+        working-directory: "./website"
 
       - name: Upload artifact to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: docs
-          path: "./docs/.vuepress/dist"
+          path: "./website/dist"
