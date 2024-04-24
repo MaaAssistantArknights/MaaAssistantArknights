@@ -1,11 +1,12 @@
 {
-    "name": "maa-docs-main",
+    "name": "docs",
     "version": "2.0.0",
     "description": "manual for MaaAssistantArknights",
     "main": "index.js",
     "repository": "https://github.com/MaaAssistantArknights/MaaAssistantArknights",
     "author": "bakashigure <me@shigure.fun>",
     "license": "AGPL-3.0",
+    "private": true,
     "devDependencies": {
         "@vuepress/bundler-vite": "2.0.0-rc.2",
         "@vuepress/plugin-docsearch": "2.0.0-rc.3",
@@ -20,7 +21,6 @@
     "scripts": {
         "dev": "vuepress dev .",
         "build": "vuepress build .",
-        "clean": "vuepress dev . --clean-cache",
-        "lintfix": "markdownlint \"**/*.md\" --fix"
+        "clean": "vuepress dev . --clean-cache"
     }
 }

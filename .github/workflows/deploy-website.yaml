@@ -1,0 +1,56 @@
+name: Build and Deploy
+
+on:
+  release:
+    types:
+      - published
+  workflow_dispatch:
+    inputs:
+      deploy-to-azure:
+        description: "部署到Azure"
+        default: true
+        required: true
+        type: boolean
+
+jobs:
+  deploy:
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    env:
+      DO_NOT_TRACK: 1
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install
+        working-directory: "./website"
+
+      - name: Build
+        run: pnpm run build
+        working-directory: "./website"
+
+      - name: Deploy to Azure
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_MAA_WEBSITE }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          production_branch: "master"
+          app_location: "./website/dist"
+          api_location: ""
+          skip_app_build: true
+          skip_api_build: true
