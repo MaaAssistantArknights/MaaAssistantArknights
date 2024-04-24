@@ -13,6 +13,11 @@ export const enusSidebar = sidebar({
       collapsible: true,
       children: [
         {
+          text: "Beginner's guide",
+          icon: "ri:guide-fill",
+          link: "/en-us/1.0-BEGINNER'S_GUIDE",
+        },
+        {
           text: "Introduction",
           icon: "mdi:information-outline",
           link: "/en-us/1.1-USER_MANUAL",
