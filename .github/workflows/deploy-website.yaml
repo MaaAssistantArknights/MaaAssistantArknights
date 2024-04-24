@@ -48,13 +48,13 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" != "workflow_dispatch" ]]; then
             if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-              echo "AZURE_TARGET_ENV=''" >> $GITHUB_ENV
+              echo "AZURE_TARGET_ENV=prod" >> $GITHUB_ENV
             else
               echo "AZURE_TARGET_ENV=dev" >> $GITHUB_ENV
             fi
           else
             if [[ "${{ github.event.inputs.deploy-to-prod-env }}" == "true" ]]; then
-              echo "AZURE_TARGET_ENV=''" >> $GITHUB_ENV
+              echo "AZURE_TARGET_ENV=prod" >> $GITHUB_ENV
             else
               echo "AZURE_TARGET_ENV=dev" >> $GITHUB_ENV
             fi
@@ -63,14 +63,28 @@ jobs:
       - name: Show environment
         run: echo ${{ env.AZURE_TARGET_ENV }}
 
-      - name: Deploy to Azure
-        id: deploy
+      - name: Deploy to Azure (prod)
+        id: deploy-prod
         uses: Azure/static-web-apps-deploy@v1
+        if: env.AZURE_TARGET_ENV == 'prod'
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_MAA_WEBSITE }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          deployment_environment: ${{ env.AZURE_TARGET_ENV }}
+          app_location: "./website/dist"
+          api_location: ""
+          skip_app_build: true
+          skip_api_build: true
+
+      - name: Deploy to Azure (dev)
+        id: deploy-dev
+        uses: Azure/static-web-apps-deploy@v1
+        if: env.AZURE_TARGET_ENV == 'dev'
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_MAA_WEBSITE }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          deployment_environment: dev
           app_location: "./website/dist"
           api_location: ""
           skip_app_build: true
