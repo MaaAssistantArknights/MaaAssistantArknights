@@ -48,18 +48,20 @@ jobs:
         run: |
           if [[ "${{ github.event_name }}" != "workflow_dispatch" ]]; then
             if [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
-              echo "AZURE_TARGET_ENV=Production" >> $GITHUB_ENV
+              echo "AZURE_TARGET_ENV=''" >> $GITHUB_ENV
             else
               echo "AZURE_TARGET_ENV=dev" >> $GITHUB_ENV
             fi
           else
             if [[ "${{ github.event.inputs.deploy-to-prod-env }}" == "true" ]]; then
-              echo "AZURE_TARGET_ENV=Production" >> $GITHUB_ENV
+              echo "AZURE_TARGET_ENV=''" >> $GITHUB_ENV
             else
               echo "AZURE_TARGET_ENV=dev" >> $GITHUB_ENV
             fi
           fi
-          echo "Deployment environment: ${{ env.AZURE_TARGET_ENV }}"
+
+      - name: Show environment
+        run: echo ${{ env.AZURE_TARGET_ENV }}
 
       - name: Deploy to Azure
         id: deploy
