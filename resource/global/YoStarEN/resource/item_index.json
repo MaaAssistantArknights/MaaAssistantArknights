@@ -1943,6 +1943,14 @@
         "sortId": -10000,
         "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Defender Operators' needs."
     },
+    "mcardVoucher": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "mcardVoucher.png",
+        "name": "Monthly Card",
+        "sortId": -10000,
+        "usage": null
+    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "The data blocks record the endless nights the Engineering Department toiled away developing the various modules.",

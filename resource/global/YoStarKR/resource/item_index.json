@@ -1943,6 +1943,14 @@
         "sortId": -10000,
         "usage": "일회용 선택형 칩셋 각인 기기. 대량의 훈련 기록과 재료가 저장되어 있어, 디펜더 오퍼레이터의 요구 사항에 따라 칩셋을 쉽게 각인할 수 있다."
     },
+    "mcardVoucher": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "mcardVoucher.png",
+        "name": "먼슬리 카드",
+        "sortId": -10000,
+        "usage": null
+    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "데이터칩에는 엔지니어링부 오퍼레이터들이 모듈을 제작하기 위해 열심히 분투한 모든 낮과 밤이 기록되어 있다.",
