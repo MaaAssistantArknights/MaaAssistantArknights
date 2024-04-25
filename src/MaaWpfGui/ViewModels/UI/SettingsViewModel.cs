@@ -46,6 +46,7 @@ using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ObservableCollections;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -3731,7 +3732,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useLogItemDateFormat = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
+        private bool _useLogItemDateFormat = true; // Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
 
         public bool UseLogItemDateFormat
         {
@@ -3948,6 +3949,40 @@ namespace MaaWpfGui.ViewModels.UI
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+            }
+        }
+
+        private static Dictionary<int, string> _windowTitleAllShowDict = new()
+        {
+            { 1, "配置名" },
+            { 2, "连接模式" },
+            { 3, "端口地址" },
+            { 4, "客户端类型" },
+        };
+
+        private List<KeyValuePair<int, string>> _windowTitleAllShowList =
+        [
+            new(1, _windowTitleAllShowDict[1]),
+            new(2, _windowTitleAllShowDict[2]),
+            new(3, _windowTitleAllShowDict[3]),
+            new(4, _windowTitleAllShowDict[4]),
+        ];
+
+        public List<KeyValuePair<int, string>> WindowTitleAllShowList
+        {
+            get => _windowTitleAllShowList;
+            set => SetAndNotify(ref _windowTitleAllShowList, value);
+        }
+
+        private ObservableCollection<int> _windowTitleSelectShowList = [1,2];
+
+        public ObservableCollection<int> WindowTitleSelectShowList
+        {
+            get => _windowTitleSelectShowList;
+            set
+            {
+                SetAndNotify(ref _windowTitleSelectShowList, value);
+                var a = _windowTitleSelectShowList;
             }
         }
 
