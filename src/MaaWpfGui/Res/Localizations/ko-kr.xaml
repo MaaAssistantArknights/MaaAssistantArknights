@@ -119,7 +119,7 @@
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
     <system:String x:Key="StartingCoreCharTip">작성하지 않으면 기본 설정이 사용됩니다.</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">입력한 오퍼레이터 「{0}」는 battle_data에 없습니다. 입력한 이름이 올바른지 확인하거나 MAA 리소스 버전을 확인하세요.</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">오퍼레이터 는 battle_data에 없습니다.</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">시작 오퍼레이터 2정예화까지 반복(전투 X)</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">오목 1 층 원견 밀문판(전투 X)</system:String>

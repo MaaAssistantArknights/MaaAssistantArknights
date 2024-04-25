@@ -119,7 +119,7 @@
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">入力のスタッフ「{0}」がbattle_dataにありません。入力の名前が正しいか、maaリソースのバージョンをチェックしてください。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">スタッフがbattle_dataにありません。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見暗号文板、戦闘を行わない</system:String>
