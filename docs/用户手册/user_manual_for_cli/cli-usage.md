@@ -1,6 +1,6 @@
 ---
 order: 3
-icon: material-symbols:format_list_bulleted
+icon: material-symbols:summarize
 ---
 
 # 使用 maa-cli
@@ -28,7 +28,7 @@ maa self update
 
 ## 运行任务
 
-maa-cli 通过调用 MaaCore 来完成任务，这些包括一些预定义的任务和用户自定义的任务。
+一旦完成了 MaaCore 的安装，通常情况下，你无需额外配置就可以直接运行任务。默认配置可能不适用于所有用户，如果你在运行任务时遇到问题，你可以参考 [配置文档][config-core] 修改配置。
 
 ### 预定义任务
 
@@ -40,11 +40,17 @@ maa-cli 通过调用 MaaCore 来完成任务，这些包括一些预定义的任
 - `maa copilot <maa_uri>`: 运行自动战斗任务，其中 `<maa_uri>` 是作业的 URI，其可以是 `maa://1234` 或者本地文件路径 `./1234.json`；
 - `maa roguelike [theme]`: 自动集成战略，`[theme]` 是集成战略的主题，可选值为 `Phantom`，`Mizuki` 以及 `Sami`；
 
-### 用户自定义任务
+上述任务接受一些参数，你可以通过 `maa <task> --help` 来查看具体的参数。
 
-你可以通过 `maa run <task>` 来运行自定义任务。这里的 `<task>` 是一个自定义任务名，
-自定义任务通过配置文件定义，具体配置文件的位置和编写方式请参考 [自定义任务文档][custom-task].
-在定义好自定义任务后，你可以通过 `maa list` 来列出所有可用的任务。
+对于官服玩家，如果你想要打开游戏，使用 3 个理智药刷 BB-7，然后关闭游戏，你可以运行以下命令：
+
+```bash
+maa startup Official && maa fight BB-7 -m 3 && maa closedown
+```
+
+### 自定义任务
+
+由于MAA支持的任务繁多，maa-cli无法提供所有任务的预定义选项。除此之外，你可能需要像上述的例子一样运行多个任务。为了解决这个问题，maa-cli提供了自定义任务的功能。自定义任务能够组合不同的任务，并且更精细地控制每个任务的参数以及执行顺序。此外，自定义任务支持条件判断，可以根据条件来决定是否执行某个任务，或者以何种参数执行某个任务。这可以用于自动化你的日常任务。自定义任务通过配置文件定义，具体配置文件的位置和编写方式请参考 [自定义任务文档][custom-task]。在编写好配置文件后，你可以通过 `maa run <task>` 来运行自定义任务，这里的 `<task>` 是一个自定义任务文件名，不包括扩展名。
 
 ### 任务总结
 
@@ -66,6 +72,22 @@ maa-cli 默认会向标准误 (stderr) 输出日志。`--log-file` 选项可以�
 
 默认情况下，所有输出的日志会包含时间戳和日志级别的前缀。你可以通过环境变量 `MAA_LOG_PREFIX` 来改变这个行为。设置为 `Always` 时，总是会包含前缀，设置为 `Auto` 时输出到日志文件时会包含前缀，而输出到 stderr 时不会包含前缀，而设置为 `Never` 时即使是写入日志文件时也不会包含前缀。
 
+### 其他子命令
+
+除了上述的命令外，maa-cli 还提供了其他一些子命令：
+
+- `maa list`: 列出所有可用的任务；
+- `maa dir <dir>`: 获取特定目录的路径，比如 `maa dir config` 可以用来获取配置目录的路径;
+- `maa version`: 获取 `maa-cli` 以及 `MaaCore` 的版本信息；
+- `maa convert <input> [output]`: 将 `JSON`，`YAML` 或者 `TOML` 格式的文件转换为其他格式;
+- `maa complete <shell>`: 生成自动补全脚本;
+- `maa activity [client]`: 获取游戏的当前活动信息，`client` 是客户端类型，默认为 `Official`。
+- `maa cleanup`: 清除 `maa-cli` 和 `MaaCore` 的缓存。
+- `maa import <file> [-t <type>]:` 导入配置文件，`file` 是配置文件的路径。`-t` 选项可以指定配置文件的类型，如 `cli`, `profile`, `infrast` 等。
+
+更多命令的使用方法可以通过 `maa help` 查看，具体命令的使用方法可以 通过 `maa help <command>` 查看。
+
+[config-core]: cli-config.md#MaaCore-相关配置
 [custom-task]: cli-config.md#自定义任务
 
 <!-- markdownlint-disable-file MD013 -->
