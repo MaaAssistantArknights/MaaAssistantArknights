@@ -50,6 +50,12 @@
                 VerticalAlignment="Center"
                 Content="{DynamicResource UseLogItemDateFormat}"
                 IsChecked="{Binding UseLogItemDateFormat}" />-->
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{DynamicResource WindowTitleScrollable}"
+                IsChecked="{Binding WindowTitleScrollable}" />
             <hc:CheckComboBox
                 x:Name="CheckComboBox"
                 Width="180"
@@ -60,7 +66,7 @@
                 ItemsSource="{Binding WindowTitleAllShowList}"
                 Style="{StaticResource CheckComboBoxExtend}" />
         </StackPanel>
-
+        
         <StackPanel Grid.Row="0" Grid.Column="1">
             <ComboBox
                 x:Name="LanguageSelector"
