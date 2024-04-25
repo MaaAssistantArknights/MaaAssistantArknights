@@ -15,7 +15,9 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using System.Windows.Controls;
 using System.Windows.Data;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -61,6 +63,19 @@ namespace MaaWpfGui.Views.UserControl
         {
             bool isEnabled = (bool)value;
             return new object[] { isEnabled, isEnabled };
+        }
+    }
+
+    public class StartingCoreCharRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            if (value is not string stringValue)
+            {
+                return new ValidationResult(false, HandyControl.Properties.Langs.Lang.FormatError);
+            }
+
+            return new ValidationResult(DataHelper.GetCharacterByNameOrAlias(stringValue) is not null, HandyControl.Properties.Langs.Lang.FormatError);
         }
     }
 }
