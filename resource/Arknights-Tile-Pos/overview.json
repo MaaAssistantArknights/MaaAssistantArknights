@@ -9359,6 +9359,87 @@
         "stageId": "act33side_ex08",
         "width": 13
     },
+    "act33side_mo01-activities/act33side/level_act33side_mo01": {
+        "code": "BB-MO-1",
+        "filename": "act33side_mo01-activities-act33side-level_act33side_mo01.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_mo01",
+        "name": "打扫街区",
+        "stageId": "act33side_mo01",
+        "width": 13
+    },
+    "act33side_s01#f#-activities/act33side/level_act33side_sub-1-1": {
+        "code": "BB-S-1",
+        "filename": "act33side_s01#f#-activities-act33side-level_act33side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_sub-1-1",
+        "name": "模拟刺杀作战-1",
+        "stageId": "act33side_s01#f#",
+        "width": 12
+    },
+    "act33side_s01-activities/act33side/level_act33side_sub-1-1": {
+        "code": "BB-S-1",
+        "filename": "act33side_s01-activities-act33side-level_act33side_sub-1-1.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_sub-1-1",
+        "name": "模拟刺杀作战-1",
+        "stageId": "act33side_s01",
+        "width": 12
+    },
+    "act33side_s02#f#-activities/act33side/level_act33side_sub-1-2": {
+        "code": "BB-S-2",
+        "filename": "act33side_s02#f#-activities-act33side-level_act33side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_sub-1-2",
+        "name": "模拟刺杀作战-2",
+        "stageId": "act33side_s02#f#",
+        "width": 12
+    },
+    "act33side_s02-activities/act33side/level_act33side_sub-1-2": {
+        "code": "BB-S-2",
+        "filename": "act33side_s02-activities-act33side-level_act33side_sub-1-2.json",
+        "height": 8,
+        "levelId": "activities/act33side/level_act33side_sub-1-2",
+        "name": "模拟刺杀作战-2",
+        "stageId": "act33side_s02",
+        "width": 12
+    },
+    "act33side_s03#f#-activities/act33side/level_act33side_sub-1-3": {
+        "code": "BB-S-3",
+        "filename": "act33side_s03#f#-activities-act33side-level_act33side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_sub-1-3",
+        "name": "模拟刺杀作战-3",
+        "stageId": "act33side_s03#f#",
+        "width": 13
+    },
+    "act33side_s03-activities/act33side/level_act33side_sub-1-3": {
+        "code": "BB-S-3",
+        "filename": "act33side_s03-activities-act33side-level_act33side_sub-1-3.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_sub-1-3",
+        "name": "模拟刺杀作战-3",
+        "stageId": "act33side_s03",
+        "width": 13
+    },
+    "act33side_s04#f#-activities/act33side/level_act33side_sub-1-4": {
+        "code": "BB-S-4",
+        "filename": "act33side_s04#f#-activities-act33side-level_act33side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_sub-1-4",
+        "name": "模拟刺杀作战-4",
+        "stageId": "act33side_s04#f#",
+        "width": 13
+    },
+    "act33side_s04-activities/act33side/level_act33side_sub-1-4": {
+        "code": "BB-S-4",
+        "filename": "act33side_s04-activities-act33side-level_act33side_sub-1-4.json",
+        "height": 9,
+        "levelId": "activities/act33side/level_act33side_sub-1-4",
+        "name": "模拟刺杀作战-4",
+        "stageId": "act33side_s04",
+        "width": 13
+    },
     "act33side_tr01-activities/act33side/level_act33side_tr01": {
         "code": "BB-TR-1",
         "filename": "act33side_tr01-activities-act33side-level_act33side_tr01.json",

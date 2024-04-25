@@ -9066,6 +9066,81 @@
             ],
             "rarity": 1
         },
+        "trap_482_xbblure": {
+            "name": "源石虫引诱器",
+            "name_en": "源石虫引诱器",
+            "name_jp": "源石虫引诱器",
+            "name_kr": "源石虫引诱器",
+            "name_tw": "源石虫引诱器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_483_xbtrophy": {
+            "name": "“源石虫之心”",
+            "name_en": "“源石虫之心”",
+            "name_jp": "“源石虫之心”",
+            "name_kr": "“源石虫之心”",
+            "name_tw": "“源石虫之心”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_484_xbcp": {
+            "name": "检查点",
+            "name_en": "检查点",
+            "name_jp": "检查点",
+            "name_kr": "检查点",
+            "name_tw": "检查点",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_485_xbrandprop": {
+            "name": "随机道具盒",
+            "name_en": "随机道具盒",
+            "name_jp": "随机道具盒",
+            "name_kr": "随机道具盒",
+            "name_tw": "随机道具盒",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_486_xbspd": {
+            "name": "加速块",
+            "name_en": "加速块",
+            "name_jp": "加速块",
+            "name_kr": "加速块",
+            "name_tw": "加速块",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_700_cdabyss": {
             "name": "阿戈尔示波器",
             "name_en": "Ægirian Oscilloscope",

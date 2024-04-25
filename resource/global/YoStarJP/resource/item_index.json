@@ -1951,6 +1951,14 @@
         "sortId": -10000,
         "usage": "SoCを一度だけセルフプリントする機械。大量の訓練記録と素材が保存されている。重装オペレーターのニーズに合わせて、SoCを手軽にプリントアウトすることができる。"
     },
+    "mcardVoucher": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "mcardVoucher.png",
+        "name": "月パス",
+        "sortId": -10000,
+        "usage": null
+    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "データブロックの中にはエンジニア部のオペレーターたちがモジュールを作成するために日夜奮闘した記録が残されている。",
