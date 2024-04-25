@@ -3,7 +3,7 @@ order: 5
 icon: ph:question-fill
 ---
 
-# 常见问题
+# maa-cli 常见问题
 
 ## 1. 如何在 macOS 上使用 `$HOME/.config/maa` 作为配置文件目录？
 

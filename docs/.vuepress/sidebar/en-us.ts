@@ -49,6 +49,13 @@ export const enusSidebar = sidebar({
             },
           ],
         },
+        {
+          text: "User Manual For CLI",
+          icon: "material-symbols:terminal",
+          prefix: "user_manual_for_cli/",
+          collapsible: true,
+          children: "structure",
+        }
       ],
     },
     {

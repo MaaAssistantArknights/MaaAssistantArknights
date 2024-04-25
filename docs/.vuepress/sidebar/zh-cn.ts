@@ -38,7 +38,7 @@ export const zhcnSidebar = sidebar({
         {
           text: "CLI使用指南",
           icon: "material-symbols:terminal",
-          prefix: "CLI使用指南/",
+          prefix: "user_manual_for_cli/",
           collapsible: true,
           children: "structure",
         },
