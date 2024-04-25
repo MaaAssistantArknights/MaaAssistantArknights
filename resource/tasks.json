@@ -642,6 +642,12 @@
         "next": [
             "ClickedCorrectStageOrSwipe",
             "#self"
+        ],
+        "ocrReplace": [
+            [
+                "-]",
+                "-1"
+            ]
         ]
     },
     "StageNavigationSlowlySwipeLeft": {
@@ -702,6 +708,10 @@
             [
                 "-1O",
                 "-10"
+            ],
+            [
+                "O-",
+                "0-"
             ]
         ],
         "roi": [
