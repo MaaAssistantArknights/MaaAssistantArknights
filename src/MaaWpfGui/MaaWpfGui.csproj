@@ -98,7 +98,7 @@
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageReference Include="HandyControls" Version="3.5.0" />
+    <PackageReference Include="HandyControls" Version="3.5.2" />
     <PackageReference Include="MdXaml" Version="1.22.0" />
     <PackageReference Include="MdXaml.Html" Version="1.22.0" />
     <PackageReference Include="MdXaml.Plugins" Version="1.22.0" />
