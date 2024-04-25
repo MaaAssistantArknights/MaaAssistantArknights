@@ -1471,6 +1471,14 @@
         "sortId": -10000,
         "usage": "進入秘密區塊的許可證，裡面的機關似乎有些不同？"
     },
+    "act26side_token_fragmenta": {
+        "classifyType": "NONE",
+        "description": "損毀崩落的聖像碎片遺落在修道院的各個角落，每一片都獨一無二。這些碎片或許再也拼不出一個完整的持銃聖徒像，但總有人仍心懷希望。",
+        "icon": "act26side_token_fragmenta.png",
+        "name": "聖像碎片",
+        "sortId": -10000,
+        "usage": "持銃聖徒像曾經被裝飾在修道院各處，現在大部分都已不在原處。修道院虔誠的信徒們願意用他們僅有的一些物資來交換這些碎片。"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -1685,7 +1693,7 @@
         "icon": "classic_gacha.png",
         "name": "中堅尋訪憑證",
         "sortId": 40011,
-        "usage": "羅德島人事部特別批發的許可書，可以招攬一位中堅人才。"
+        "usage": "代表幹員擁有中堅能力的憑證，可用於兌換稀有物資。"
     },
     "classic_gacha_10": {
         "classifyType": "NORMAL",

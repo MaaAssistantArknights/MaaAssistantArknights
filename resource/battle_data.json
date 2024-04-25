@@ -356,7 +356,7 @@
             "name_en": "Executor the Ex Foedere",
             "name_jp": "聖約イグゼキュター",
             "name_kr": "이그제큐터 디 엑스 포에데레",
-            "name_tw": "圣约送葬人",
+            "name_tw": "聖約送葬人",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -3192,7 +3192,7 @@
             "name_en": "Spuria",
             "name_jp": "スプリア",
             "name_kr": "스푸리아",
-            "name_tw": "空构",
+            "name_tw": "空構",
             "position": "RANGED",
             "profession": "SPECIAL",
             "rangeId": [
@@ -4826,7 +4826,7 @@
             "name_en": "Insider",
             "name_jp": "インサイダー",
             "name_kr": "인사이더",
-            "name_tw": "隐现",
+            "name_tw": "隱現",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -5306,7 +5306,7 @@
             "name_en": "'Clip'",
             "name_jp": "「クリップ」",
             "name_kr": "'클립'",
-            "name_tw": "\"夾子\"",
+            "name_tw": "“夾子”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -5336,7 +5336,7 @@
             "name_en": "'Freeling'",
             "name_jp": "「小自在」",
             "name_kr": "'작은 즈자이'",
-            "name_tw": "\"小自在\"",
+            "name_tw": "“小自在”",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -7391,7 +7391,7 @@
             "name_en": "Holy Statue",
             "name_jp": "聖像",
             "name_kr": "성상",
-            "name_tw": "圣像",
+            "name_tw": "聖像",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7406,7 +7406,7 @@
             "name_en": "Crumbling Masonry",
             "name_jp": "崩れた壁",
             "name_kr": "무너진 담장",
-            "name_tw": "塌落的墙垣",
+            "name_tw": "塌落的牆垣",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7421,7 +7421,7 @@
             "name_en": "Spare Timber",
             "name_jp": "予備木材",
             "name_kr": "비상용 목재",
-            "name_tw": "备用木材",
+            "name_tw": "備用木材",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7436,7 +7436,7 @@
             "name_en": "Shabby Fence",
             "name_jp": "朽ちた木の柵",
             "name_kr": "낡은 울타리",
-            "name_tw": "破旧的木篱",
+            "name_tw": "破舊的木籬",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
