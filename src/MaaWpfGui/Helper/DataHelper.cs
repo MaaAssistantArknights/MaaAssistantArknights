@@ -26,6 +26,8 @@ namespace MaaWpfGui.Helper
         // 储存角色信息的字典
         public static Dictionary<string, CharacterInfo> Characters { get; } = new();
 
+        public static HashSet<string> CharacterNames { get; } = new();
+
         static DataHelper()
         {
             const string FilePath = "resource/battle_data.json";
@@ -37,9 +39,14 @@ namespace MaaWpfGui.Helper
             string jsonText = File.ReadAllText(FilePath);
             var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? new();
 
-            foreach (var pair in characterData)
+            foreach ((var key, var value) in characterData)
             {
-                Characters.Add(pair.Key, pair.Value);
+                Characters.Add(key, value);
+                CharacterNames.Add(value.Name ?? string.Empty);
+                CharacterNames.Add(value.NameEn ?? string.Empty);
+                CharacterNames.Add(value.NameJp ?? string.Empty);
+                CharacterNames.Add(value.NameKr ?? string.Empty);
+                CharacterNames.Add(value.NameTw ?? string.Empty);
             }
         }
 
