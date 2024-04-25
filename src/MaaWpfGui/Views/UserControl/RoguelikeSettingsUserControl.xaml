@@ -58,16 +58,23 @@
                 SelectedValue="{Binding RoguelikeRoles}"
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
-            <ComboBox
+            <hc:ComboBox
                 Margin="0,5"
                 hc:InfoElement.Title="{DynamicResource StartingCoreChar}"
+                AutoComplete="True"
                 IsEditable="True"
                 IsTextSearchEnabled="False"
                 ItemsSource="{Binding RoguelikeCoreCharList}"
                 Loaded="{s:Action MakeComboBoxSearchable}"
-                Style="{StaticResource ComboBoxExtend}"
-                Text="{Binding RoguelikeCoreChar, UpdateSourceTrigger=LostFocus}"
-                ToolTip="{DynamicResource StartingCoreCharTip}" />
+                ToolTip="{DynamicResource StartingCoreCharTip}">
+                <hc:ComboBox.Text>
+                    <Binding Path="RoguelikeCoreChar" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:StartingCoreCharRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </hc:ComboBox.Text>
+            </hc:ComboBox>
         </StackPanel>
 
         <StackPanel IsEnabled="{Binding Idle}" Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">

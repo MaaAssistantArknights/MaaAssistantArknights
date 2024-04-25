@@ -1937,13 +1937,6 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                if (!string.IsNullOrEmpty(value) && DataHelper.GetCharacterByNameOrAlias(value) is null)
-                {
-                    MessageBoxHelper.Show(
-                        string.Format(LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"), value),
-                        LocalizationHelper.GetString("Tip"));
-                }
-
                 SetAndNotify(ref _roguelikeCoreChar, value);
                 Instances.TaskQueueViewModel.AddLog(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCoreChar, value);
