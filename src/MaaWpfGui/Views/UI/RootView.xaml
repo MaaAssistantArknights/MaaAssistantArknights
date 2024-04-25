@@ -8,7 +8,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     Title="{Binding WindowTitle}"
     Width="800"
     Height="600"
@@ -17,17 +16,30 @@
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="{Binding ShowCloseButton}"
+    ShowTitle="False"
     Topmost="{Binding IsWindowTopMost}"
     mc:Ignorable="d">
     <hc:Window.NonClientAreaContent>
-        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <hc:RunningBlock
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                BorderThickness="0"
+                Content="{Binding WindowTitle}"
+                IsHitTestVisible="False"
+                Runaway="False"
+                Speed="10" />
             <Button
+                Grid.Column="1"
                 BorderThickness="0"
                 Command="{s:Action ToggleTopMostCommand}"
                 Content="📌"
-                Foreground="{Binding WindowTopMostButtonForeground}">
-            </Button>
-        </StackPanel>
+                Foreground="{Binding WindowTopMostButtonForeground}" />
+        </Grid>
     </hc:Window.NonClientAreaContent>
     <DockPanel>
         <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
