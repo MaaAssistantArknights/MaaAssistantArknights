@@ -301,6 +301,7 @@
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
     <system:String x:Key="HideCloseButton">隱藏關閉按鈕</system:String>
+    <system:String x:Key="WindowTitleScrollable">窗口標題滾動</system:String>
     <system:String x:Key="UseLogItemDateFormat">自訂日誌日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重啟應用更改？</system:String>

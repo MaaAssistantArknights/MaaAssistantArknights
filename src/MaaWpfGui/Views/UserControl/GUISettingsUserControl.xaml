@@ -29,7 +29,7 @@
         <UniformGrid
             Grid.Row="0"
             Grid.Column="0"
-            Rows="4">
+            Rows="5">
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
@@ -48,6 +48,12 @@
                 VerticalAlignment="Center"
                 Content="{DynamicResource HideCloseButton}"
                 IsChecked="{Binding HideCloseButton}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{DynamicResource WindowTitleScrollable}"
+                IsChecked="{Binding WindowTitleScrollable}" />
             <CheckBox
                 Margin="10"
                 HorizontalAlignment="Left"
