@@ -85,7 +85,6 @@
                 hc:InfoElement.Title="{DynamicResource StartTimesLimit}"
                 Minimum="0"
                 Style="{StaticResource NumericUpDownExtend}"
-                ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RoguelikeStartsCount}" />
             <CheckBox
                 Name="InvestmentEnabled"
@@ -124,7 +123,6 @@
                 Maximum="999"
                 Minimum="0"
                 Style="{StaticResource NumericUpDownExtend}"
-                ValueChanged="NumericUpDown_ValueChanged"
                 Visibility="{c:Binding ElementName=InvestmentEnabled,
                                        Path=IsChecked}"
                 Value="{Binding RoguelikeInvestsCount}" />

@@ -27,14 +27,5 @@ namespace MaaWpfGui.Views.UserControl
         {
             InitializeComponent();
         }
-
-        private static readonly MethodInfo _setText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        private static readonly object[] _paras = new object[] { true };
-
-        private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
-        {
-            _setText?.Invoke(sender, _paras);
-        }
     }
 }
