@@ -57,9 +57,7 @@
                 HorizontalAlignment="Right"
                 hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
                 hc:TitleElement.Title="标题栏显示内容"
-                DisplayMemberPath="Value"
                 ItemsSource="{Binding WindowTitleAllShowList}"
-                SelectedValuePath="Key"
                 Style="{StaticResource CheckComboBoxExtend}" />
         </StackPanel>
 

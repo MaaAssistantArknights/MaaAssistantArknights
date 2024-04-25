@@ -42,6 +42,7 @@ namespace MaaWpfGui.Constants
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
+        public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList";
         public const string SoberLanguage = "GUI.SoberLanguage";
         public const string Cheers = "GUI.Cheers";
         public const string Hangover = "GUI.Hangover";

@@ -3952,37 +3952,32 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private static Dictionary<int, string> _windowTitleAllShowDict = new()
+        private static readonly Dictionary<string, string> _windowTitleAllShowDict = new()
         {
-            { 1, "配置名" },
-            { 2, "连接模式" },
-            { 3, "端口地址" },
-            { 4, "客户端类型" },
+            { "配置名", "1" },
+            { "连接模式", "2" },
+            { "端口地址", "3" },
+            { "客户端类型", "4" },
         };
 
-        private List<KeyValuePair<int, string>> _windowTitleAllShowList =
-        [
-            new(1, _windowTitleAllShowDict[1]),
-            new(2, _windowTitleAllShowDict[2]),
-            new(3, _windowTitleAllShowDict[3]),
-            new(4, _windowTitleAllShowDict[4]),
-        ];
+        private List<string> _windowTitleAllShowList = _windowTitleAllShowDict.Keys.ToList();
 
-        public List<KeyValuePair<int, string>> WindowTitleAllShowList
+        public List<string> WindowTitleAllShowList
         {
             get => _windowTitleAllShowList;
             set => SetAndNotify(ref _windowTitleAllShowList, value);
         }
 
-        private ObservableCollection<int> _windowTitleSelectShowList = [1,2];
+        private object[] _windowTitleSelectShowList = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4").Split(' ').Select(s => _windowTitleAllShowDict.FirstOrDefault(pair => pair.Value == s).Key).ToArray();
 
-        public ObservableCollection<int> WindowTitleSelectShowList
+        public object[] WindowTitleSelectShowList
         {
             get => _windowTitleSelectShowList;
             set
             {
                 SetAndNotify(ref _windowTitleSelectShowList, value);
-                var a = _windowTitleSelectShowList;
+                var config = string.Join(' ', _windowTitleSelectShowList.Cast<string>().Select(s => _windowTitleAllShowDict[s]));
+                ConfigurationHelper.SetValue(ConfigurationKeys.WindowTitleSelectShowList, config);
             }
         }
 
