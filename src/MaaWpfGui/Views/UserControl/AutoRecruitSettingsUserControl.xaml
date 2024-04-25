@@ -28,7 +28,6 @@
                 Minimum="0"
                 hc:InfoElement.Title="{DynamicResource RecruitMaxTimes}"
                 Style="{StaticResource NumericUpDownExtend}"
-                ValueChanged="NumericUpDown_ValueChanged"
                 Value="{Binding RecruitMaxTimes}" />
         </StackPanel>
 
