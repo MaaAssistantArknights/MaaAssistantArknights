@@ -36,6 +36,8 @@ namespace MaaWpfGui.Constants
 
         public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";
 
+        public const string PrtsPlusCopilotSetGet = "https://prts.maa.plus/set/get?id=";
+
         public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
         public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
