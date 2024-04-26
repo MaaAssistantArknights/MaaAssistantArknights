@@ -78,6 +78,7 @@
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboard}"
                         IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSet}"
                         ToolTip="{DynamicResource PasteClipboardTip}" />
                 </Grid>
             </StackPanel>
@@ -221,7 +222,8 @@
                                     Content="{c:Binding Name}"
                                     IsChecked="{Binding IsChecked}"
                                     IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
-                                    IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
+                                    IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                    ToolTip="{c:Binding CopilotId}" />
                                 <controls:TextBlock
                                     Grid.Column="1"
                                     MinWidth="35"
