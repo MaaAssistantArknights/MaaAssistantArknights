@@ -3446,11 +3446,6 @@ namespace MaaWpfGui.ViewModels.UI
         public void UpdateWindowTitle()
         {
             var rvm = (RootViewModel)this.Parent;
-            var connectConfigName = string.Empty;
-            foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
-            {
-                connectConfigName = data.Display;
-            }
 
             string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
@@ -3458,8 +3453,38 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
+            List<string> windowTitleSelectShowList = _windowTitleSelectShowList.Select(x => _windowTitleAllShowDict[x.ToString() ?? string.Empty]).ToList();
+
+            string currentConfiguration = string.Empty;
+            string connectConfigName = string.Empty;
+            string connectAddress = string.Empty;
+            string clientName = string.Empty;
+
+            foreach (var select in windowTitleSelectShowList)
+            {
+                switch (select)
+                {
+                    case "1": // 配置名
+                        currentConfiguration = $" ({CurrentConfiguration})";
+                        break;
+                    case "2": // 连接模式
+                        foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
+                        {
+                            connectConfigName = $" - {data.Display}";
+                        }
+
+                        break;
+                    case "3": // 端口地址
+                        connectAddress = $" ({ConnectAddress})";
+                        break;
+                    case "4": // 客户端类型
+                        clientName = $" - {ClientName}";
+                        break;
+                }
+            }
+
             string resourceVersion = !string.IsNullOrEmpty(ResourceVersion) ? $" - {ResourceVersion}" : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {CoreVersion}{resourceVersion} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
         private readonly string _bluestacksConfig = GetBluestacksConfig();
@@ -3977,7 +4002,7 @@ namespace MaaWpfGui.ViewModels.UI
             { "客户端类型", "4" },
         };
 
-        private List<string> _windowTitleAllShowList = _windowTitleAllShowDict.Keys.ToList();
+        private List<string> _windowTitleAllShowList = [.. _windowTitleAllShowDict.Keys];
 
         public List<string> WindowTitleAllShowList
         {
@@ -3993,6 +4018,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _windowTitleSelectShowList, value);
+                UpdateWindowTitle();
                 var config = string.Join(' ', _windowTitleSelectShowList.Cast<string>().Select(s => _windowTitleAllShowDict[s]));
                 ConfigurationHelper.SetValue(ConfigurationKeys.WindowTitleSelectShowList, config);
             }
