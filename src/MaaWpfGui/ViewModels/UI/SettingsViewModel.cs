@@ -3453,7 +3453,9 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
-            List<string> windowTitleSelectShowList = _windowTitleSelectShowList.Select(x => _windowTitleAllShowDict[x.ToString() ?? string.Empty]).ToList();
+            List<string> windowTitleSelectShowList = _windowTitleSelectShowList
+                .Where(x => _windowTitleAllShowDict.ContainsKey(x?.ToString() ?? string.Empty))
+                .Select(x => _windowTitleAllShowDict[x?.ToString() ?? string.Empty]).ToList();
 
             string currentConfiguration = string.Empty;
             string connectConfigName = string.Empty;
@@ -3996,10 +3998,10 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly Dictionary<string, string> _windowTitleAllShowDict = new()
         {
-            { "配置名", "1" },
-            { "连接模式", "2" },
-            { "端口地址", "3" },
-            { "客户端类型", "4" },
+            { LocalizationHelper.GetString("ConfigurationName"), "1" },
+            { LocalizationHelper.GetString("ConnectionPreset"), "2" },
+            { LocalizationHelper.GetString("ConnectionAddress"), "3" },
+            { LocalizationHelper.GetString("ClientType"), "4" },
         };
 
         private List<string> _windowTitleAllShowList = [.. _windowTitleAllShowDict.Keys];
