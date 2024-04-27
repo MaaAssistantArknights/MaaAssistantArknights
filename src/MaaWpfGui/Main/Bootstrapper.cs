@@ -260,7 +260,7 @@ namespace MaaWpfGui.Main
             _isWaitingToRestart = true;
 
             await _runningState.UntilIdleAsync(60000);
-            ShutdownAndRestartWithoutArgs();
+            await Application.Current.Dispatcher.InvokeAsync(ShutdownAndRestartWithoutArgs);
         }
 
         /// <inheritdoc/>
