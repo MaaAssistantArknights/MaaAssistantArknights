@@ -35,6 +35,10 @@
                 Margin="0,10"
                 Content="{DynamicResource ReceiveOrundum}"
                 IsChecked="{Binding ReceiveOrundum}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource ReceiveSpecialAccess}"
+                IsChecked="{Binding ReceiveSpecialAccess}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

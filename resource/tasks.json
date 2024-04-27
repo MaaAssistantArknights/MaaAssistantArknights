@@ -5733,6 +5733,96 @@
             "Stop"
         ]
     },
+    "SpecialAccessActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "SpecialAccessActivities@ReturnButtons#next",
+            "SpecialAccessActivitiesReturnHome",
+            "SpecialAccessActivities"
+        ]
+    },
+    "SpecialAccessActivitiesReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
+        "next": [
+            "SpecialAccessActivities",
+            "Stop"
+        ]
+    },
+    "SpecialAccessActivities": {
+        "doc": "五周年月卡",
+        "algorithm": "OcrDetect",
+        "text": [
+            "五周年",
+            "专享",
+            "专享活动"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            74,
+            79,
+            79,
+            41
+        ],
+        "next": [
+            "SpecialAccessActivitiesConfirm",
+            "SpecialAccessActivitiesReturn"
+        ],
+        "onErrorNext": [
+            "Stop"
+        ]
+    },
+    "SpecialAccessActivitiesConfirm": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "立即",
+            "立即领取"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            933,
+            495,
+            156,
+            41
+        ],
+        "next": [
+            "SpecialAccessActivitiesEarnRewards"
+        ]
+    },
+    "SpecialAccessActivitiesEarnRewards": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            600,
+            70,
+            70
+        ],
+        "next": [
+            "SpecialAccessActivitiesReturn"
+        ]
+    },
+    "SpecialAccessActivitiesReturn": {
+        "template": "CloseSpecialAccess.png",
+        "action": "ClickSelf",
+        "roi": [
+            997,
+            90,
+            146,
+            141
+        ],
+        "next": [
+            "Stop"
+        ]
+    },
     "AwardBegin": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
