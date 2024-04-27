@@ -50,6 +50,22 @@
             150
         ]
     },
+    "ZT-OpenOcr": {
+        "text": [
+            "Zwilling",
+            "sturme",
+            "Herbst",
+            "open"
+        ]
+    },
+    "ZTChapterToZT": {
+        "text": [
+            "Zwillingsturme",
+            "ZWILLINGSTURME",
+            "Anbeten",
+            "ANBETEN"
+        ]
+    },
     "CV-Open": {
         "text": [
             "Catastrophes",
