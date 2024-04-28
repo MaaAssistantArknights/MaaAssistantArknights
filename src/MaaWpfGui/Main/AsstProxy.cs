@@ -1558,8 +1558,16 @@ namespace MaaWpfGui.Main
                 }
                 else if (bsResult)
                 {
+                    if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath))
+                    {
+                        Instances.SettingsViewModel.DetectAdbConfig(ref error);
+                    }
+
                     Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
-                    error = string.Empty;
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        error = string.Empty;
+                    }
                 }
                 else if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
                 {
