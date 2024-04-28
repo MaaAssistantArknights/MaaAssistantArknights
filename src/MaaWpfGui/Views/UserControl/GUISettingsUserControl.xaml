@@ -62,11 +62,11 @@
                 Margin="10"
                 HorizontalAlignment="Right"
                 hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
-                hc:TitleElement.Title="标题栏显示内容"
+                hc:TitleElement.Title="{DynamicResource TitleBarDisplayContent}"
                 ItemsSource="{Binding WindowTitleAllShowList}"
                 Style="{StaticResource CheckComboBoxExtend}" />
         </StackPanel>
-        
+
         <StackPanel Grid.Row="0" Grid.Column="1">
             <ComboBox
                 x:Name="LanguageSelector"
