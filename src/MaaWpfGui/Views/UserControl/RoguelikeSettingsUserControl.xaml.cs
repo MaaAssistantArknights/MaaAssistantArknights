@@ -56,11 +56,6 @@ namespace MaaWpfGui.Views.UserControl
             if (IsValidResult)
             {
                 var name = StartingCoreCharComboBox.Text;
-                if (!string.IsNullOrEmpty(name) && !Instances.SettingsViewModel.RoguelikeCoreCharList.Contains(name))
-                {
-                    Instances.SettingsViewModel.RoguelikeCoreCharList.Add(name);
-                }
-
                 StartingCoreCharComboBox.ItemsSource = Instances.SettingsViewModel.RoguelikeCoreCharList;
             }
         }

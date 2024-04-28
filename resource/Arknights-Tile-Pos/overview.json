@@ -10232,6 +10232,15 @@
         "stageId": "camp_r_21",
         "width": 13
     },
+    "camp_r_22-obt/campaign/level_camp_r_22": {
+        "code": "哥伦比亚",
+        "filename": "camp_r_22-obt-campaign-level_camp_r_22.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_22",
+        "name": "“离心率”实验室",
+        "stageId": "camp_r_22",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",

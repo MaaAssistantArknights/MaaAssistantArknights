@@ -118,7 +118,7 @@
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
     <system:String x:Key="StartingCoreCharTip">不填寫則使用預設策略。</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的幹員「{0}」未在 battle_data 中，請檢查輸入的名稱是否正確，或檢查 maa 資源版本。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">輸入的幹員未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「開局幹員」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「開局幹員」直升精二，不進行作戰</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見密文板，不進行作戰</system:String>
@@ -297,6 +297,7 @@
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
     <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下「確認」鍵即視為你了解並願意承擔可能出現的風險</system:String>
     <system:String x:Key="ReceiveOrundum">收集幸運墻的每日合成玉獎勵</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
     <system:String x:Key="SystemNotification">重要訊息彈出系統通知</system:String>
@@ -515,7 +516,7 @@
     <system:String x:Key="CopilotTaskNameTip">關卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">選擇作業</system:String>
     <system:String x:Key="SelectTheFileTip">作業檔可以直接用滑鼠拖進來喔 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">從剪貼簿貼上</system:String>
+    <system:String x:Key="PasteClipboardTip">從剪貼簿貼上,右鍵新增作業集</system:String>
     <system:String x:Key="ImportFilesTip">批次導入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作業怎麼樣？評價一下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出現錯誤，評價失敗 : &lt;</system:String>

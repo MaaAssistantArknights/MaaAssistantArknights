@@ -119,7 +119,7 @@
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">入力のスタッフ「{0}」がbattle_dataにありません。入力の名前が正しいか、maaリソースのバージョンをチェックしてください。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">スタッフがbattle_dataにありません。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見暗号文板、戦闘を行わない</system:String>
@@ -298,6 +298,7 @@
     <system:String x:Key="ReceiveFreeRecruitTip">無料シングル抽選がない場合は抽選されない</system:String>
     <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
     <system:String x:Key="SystemNotification">重要な通知をポップアップする</system:String>
@@ -518,7 +519,7 @@
     <system:String x:Key="CopilotTaskNameTip">ステージコード, 例えば 1-7</system:String>
     <system:String x:Key="SelectTheFile">ファイル選択</system:String>
     <system:String x:Key="SelectTheFileTip">攻略ファイルはマウスで直接ドラッグして取り込むことがきます(oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">クリップボードの貼り付け</system:String>
+    <system:String x:Key="PasteClipboardTip">クリップボードの貼り付け、右クリックで自動戦闘コレクションを追加</system:String>
     <system:String x:Key="ImportFilesTip">バッチインポート</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">この攻略ファイルは好きですか？評価してください！</system:String>
     <system:String x:Key="FailedToLikeWebJson">エラーが発生しました、いいねに失敗しました。 : &lt;</system:String>

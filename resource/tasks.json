@@ -642,6 +642,12 @@
         "next": [
             "ClickedCorrectStageOrSwipe",
             "#self"
+        ],
+        "ocrReplace": [
+            [
+                "-\\]",
+                "-1"
+            ]
         ]
     },
     "StageNavigationSlowlySwipeLeft": {
@@ -702,6 +708,10 @@
             [
                 "-1O",
                 "-10"
+            ],
+            [
+                "O-",
+                "0-"
             ]
         ],
         "roi": [
@@ -1124,6 +1134,145 @@
             60,
             1280,
             550
+        ]
+    },
+    "BB-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOpt"
+        ],
+        "next": [
+            "BB-8@SideStoryStage",
+            "BB-8@SwipeToStage"
+        ]
+    },
+    "BB-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOpt"
+        ],
+        "next": [
+            "BB-7@SideStoryStage",
+            "BB-7@SwipeToStage"
+        ]
+    },
+    "BB-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOpt"
+        ],
+        "next": [
+            "BB-6@SideStoryStage",
+            "BB-6@SwipeToStage"
+        ]
+    },
+    "BB-4": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "BB-OpenOpt"
+        ],
+        "next": [
+            "BB-4@SideStoryStage",
+            "BB-4@SwipeToStage"
+        ]
+    },
+    "BB-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": [
+            "BB-OpenOcr",
+            "BB-Open"
+        ]
+    },
+    "BB-Open": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "巴别塔",
+            "巴别",
+            "别塔",
+            "我驻留往昔",
+            "我驻",
+            "驻留",
+            "留往",
+            "往昔",
+            "我始终如一",
+            "我始",
+            "始终",
+            "终如",
+            "如一"
+        ],
+        "roi": [
+            505,
+            57,
+            462,
+            628
+        ],
+        "next": [
+            "BBChapterToBB"
+        ]
+    },
+    "BB-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "巴别塔",
+            "巴别",
+            "别塔",
+            "我驻留往昔",
+            "我驻",
+            "驻留",
+            "留往",
+            "往昔",
+            "我始终如一",
+            "我始",
+            "始终",
+            "终如",
+            "如一"
+        ],
+        "roi": [
+            103,
+            538,
+            175,
+            25
+        ],
+        "next": [
+            "BBChapterToBB"
+        ]
+    },
+    "BBChapterToBB": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "来"
+        ],
+        "preDelay": 2000,
+        "roi": [
+            1091,
+            610,
+            33,
+            30
+        ],
+        "next": [
+            "#self",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "BB-8@SideStoryStage": {
+        "text": [
+            "BB-8"
+        ]
+    },
+    "BB-7@SideStoryStage": {
+        "text": [
+            "BB-7"
+        ]
+    },
+    "BB-6@SideStoryStage": {
+        "text": [
+            "BB-6"
+        ]
+    },
+    "BB-4@SideStoryStage": {
+        "text": [
+            "BB-4"
         ]
     },
     "CR-8": {
@@ -2951,111 +3100,6 @@
             "DH-9"
         ]
     },
-    "BB-8": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "BB-OpenOcr"
-        ],
-        "next": [
-            "BB-8@SideStoryStage",
-            "BB-8@SwipeToStage"
-        ]
-    },
-    "BB-7": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "BB-OpenOcr"
-        ],
-        "next": [
-            "BB-7@SideStoryStage",
-            "BB-7@SwipeToStage"
-        ]
-    },
-    "BB-6": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "BB-OpenOcr"
-        ],
-        "next": [
-            "BB-6@SideStoryStage",
-            "BB-6@SwipeToStage"
-        ]
-    },
-    "BB-4": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "BB-OpenOcr"
-        ],
-        "next": [
-            "BB-4@SideStoryStage",
-            "BB-4@SwipeToStage"
-        ]
-    },
-    "BB-OpenOcr": {
-        "baseTask": "SS-OpenOcr",
-        "text": [
-            "巴别塔",
-            "巴别",
-            "别塔",
-            "我驻留往昔",
-            "我驻",
-            "驻留",
-            "留往",
-            "往昔",
-            "我始终如一",
-            "我始",
-            "始终",
-            "终如",
-            "如一"
-        ],
-        "roi": [
-            103,
-            538,
-            175,
-            25
-        ],
-        "next": [
-            "BBChapterToBB"
-        ]
-    },
-    "BBChapterToBB": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": [
-            "来"
-        ],
-        "preDelay": 2000,
-        "roi": [
-            1091,
-            610,
-            33,
-            30
-        ],
-        "next": [
-            "#self",
-            "ChapterSwipeToTheRight"
-        ]
-    },
-    "BB-8@SideStoryStage": {
-        "text": [
-            "BB-8"
-        ]
-    },
-    "BB-7@SideStoryStage": {
-        "text": [
-            "BB-7"
-        ]
-    },
-    "BB-6@SideStoryStage": {
-        "text": [
-            "BB-6"
-        ]
-    },
-    "BB-4@SideStoryStage": {
-        "text": [
-            "BB-4"
-        ]
-    },
     "ResourceStages": {
         "algorithm": "JustReturn",
         "sub": [
@@ -4065,6 +4109,7 @@
         "next": [
             "CloseAnno",
             "CloseAnnoTexas",
+            "CloseAnnoSpecialAccess",
             "TodaysSupplies",
             "NotDownloadVoice"
         ]
@@ -4102,6 +4147,15 @@
             24,
             138,
             139
+        ]
+    },
+    "CloseAnnoSpecialAccess": {
+        "baseTask": "CloseAnnoBase",
+        "roi": [
+            997,
+            90,
+            146,
+            141
         ]
     },
     "NotDownloadVoice": {
@@ -5686,6 +5740,90 @@
         ],
         "next": [
             "Home@ReturnButtons#next",
+            "Stop"
+        ]
+    },
+    "SpecialAccessActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "SpecialAccessActivities@ReturnButtons#next",
+            "SpecialAccessActivitiesReturnHome",
+            "SpecialAccessActivities"
+        ]
+    },
+    "SpecialAccessActivitiesReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
+        "next": [
+            "SpecialAccessActivities",
+            "Stop"
+        ]
+    },
+    "SpecialAccessActivities": {
+        "doc": "五周年月卡",
+        "algorithm": "OcrDetect",
+        "text": [
+            "五周年",
+            "专享",
+            "专享活动"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            74,
+            79,
+            79,
+            41
+        ],
+        "next": [
+            "SpecialAccessActivitiesConfirm",
+            "SpecialAccessActivitiesReturn"
+        ],
+        "onErrorNext": [
+            "Stop"
+        ]
+    },
+    "SpecialAccessActivitiesConfirm": {
+        "algorithm": "OcrDetect",
+        "text": [
+            "立即",
+            "立即领取"
+        ],
+        "action": "ClickSelf",
+        "roi": [
+            933,
+            495,
+            156,
+            41
+        ],
+        "next": [
+            "SpecialAccessActivitiesEarnRewards"
+        ]
+    },
+    "SpecialAccessActivitiesEarnRewards": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            600,
+            70,
+            70
+        ],
+        "next": [
+            "SpecialAccessActivitiesReturn"
+        ]
+    },
+    "SpecialAccessActivitiesReturn": {
+        "baseTask": "CloseAnnoSpecialAccess",
+        "template": "CloseAnnoSpecialAccess.png",
+        "next": [
             "Stop"
         ]
     },

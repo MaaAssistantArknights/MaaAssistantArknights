@@ -1952,7 +1952,15 @@ namespace MaaWpfGui.ViewModels.UI
         public ObservableCollection<string> RoguelikeCoreCharList
         {
             get => _roguelikeCoreCharList;
-            private set => SetAndNotify(ref _roguelikeCoreCharList, value);
+            private set
+            {
+                if (!string.IsNullOrEmpty(RoguelikeCoreChar) && !value.Contains(RoguelikeCoreChar))
+                {
+                    value.Add(RoguelikeCoreChar);
+                }
+
+                SetAndNotify(ref _roguelikeCoreCharList, value);
+            }
         }
 
         private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
@@ -2456,6 +2464,23 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveOrundum, value.ToString());
             }
         }
+
+        private bool _receiveReceiveSpecialAccess = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to collect special access rewards.
+        /// </summary>
+
+        public bool ReceiveSpecialAccess
+        {
+            get => _receiveReceiveSpecialAccess;
+            set
+            {
+                SetAndNotify(ref _receiveReceiveSpecialAccess, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
+            }
+        }
+
 
         /* 定时设置 */
 

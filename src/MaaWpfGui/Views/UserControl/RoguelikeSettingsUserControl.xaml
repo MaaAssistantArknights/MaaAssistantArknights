@@ -60,9 +60,8 @@
                 Style="{StaticResource ComboBoxExtend}" />
             <hc:ComboBox
                 Name="StartingCoreCharComboBox"
-                Margin="0,5"
+                Margin="0,5,0,25"
                 hc:InfoElement.Title="{DynamicResource StartingCoreChar}"
-                AutoComplete="True"
                 DropDownClosed="StartingCoreCharComboBox_DropDownClosed"
                 IsEditable="True"
                 IsTextSearchEnabled="False"

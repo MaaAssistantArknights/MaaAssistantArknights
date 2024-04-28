@@ -48,6 +48,12 @@
                 Margin="10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                Content="{DynamicResource WindowTitleScrollable}"
+                IsChecked="{Binding WindowTitleScrollable}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
                 Content="{DynamicResource UseLogItemDateFormat}"
                 IsChecked="{Binding UseLogItemDateFormat}" />-->
             <CheckBox

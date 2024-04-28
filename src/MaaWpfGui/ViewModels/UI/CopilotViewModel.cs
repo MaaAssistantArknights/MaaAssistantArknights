@@ -177,6 +177,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             StartEnabled = false;
             await UpdateFileDoc(_filename);
+            IsCopilotSet = false;
             StartEnabled = true;
         }
 
@@ -241,7 +242,16 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            if (!string.IsNullOrEmpty(jsonStr))
+            if (string.IsNullOrEmpty(jsonStr))
+            {
+                return;
+            }
+
+            if (IsCopilotSet)
+            {
+                await ParseCopilotSet(jsonStr);
+            }
+            else
             {
                 ParseJsonAndShowInfo(jsonStr);
             }
@@ -251,11 +261,11 @@ namespace MaaWpfGui.ViewModels.UI
         {
             try
             {
-                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri(MaaUrls.PrtsPlusCopilotGet + copilotId)) ?? string.Empty;
+                var jsonResponse = await Instances.HttpService.GetStringAsync(new Uri((IsCopilotSet ? MaaUrls.PrtsPlusCopilotSetGet : MaaUrls.PrtsPlusCopilotGet) + copilotId)) ?? string.Empty;
                 var json = (JObject?)JsonConvert.DeserializeObject(jsonResponse);
                 if (json != null && json.ContainsKey("status_code") && json["status_code"]?.ToString() == "200")
                 {
-                    return json["data"]?["content"]?.ToString();
+                    return (IsCopilotSet ? json["data"] : json["data"]?["content"])?.ToString();
                 }
 
                 AddLog(LocalizationHelper.GetString("CopilotNoFound"), UiLogColor.Error, showTime: false);
@@ -417,10 +427,13 @@ namespace MaaWpfGui.ViewModels.UI
                 File.Delete(TempCopilotFile);
                 File.WriteAllText(TempCopilotFile, json.ToString());
 
-                if (_taskType == "Copilot" && UseCopilotList && json.TryGetValue("difficulty", out var diff) && diff.Type == JTokenType.Integer)
+                if (_taskType == "Copilot" && UseCopilotList)
                 {
-                    switch ((int)diff)
+                    var value = json["difficulty"];
+                    var diff = value?.Type == JTokenType.Integer ? (int)value : 0;
+                    switch (diff)
                     {
+                        case 0:
                         case 1:
                             AddCopilotTask();
                             break;
@@ -433,6 +446,56 @@ namespace MaaWpfGui.ViewModels.UI
                             break;
                     }
                 }
+            }
+            catch (Exception)
+            {
+                AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
+            }
+        }
+
+        private async Task ParseCopilotSet(string jsonStr)
+        {
+            void Log(string? name, string? description)
+            {
+                ClearLog();
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    AddLog(name, UiLogColor.Message, showTime: false);
+                }
+
+                if (!string.IsNullOrWhiteSpace(description))
+                {
+                    AddLog(description, UiLogColor.Message, showTime: false);
+                }
+            }
+
+            UseCopilotList = true;
+            IsCopilotSet = false;
+            try
+            {
+                var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
+                if (json == null)
+                {
+                    AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
+                    return;
+                }
+
+                var name = json["name"]?.ToString();
+                var description = json["description"]?.ToString();
+                var copilots = json["copilot_ids"]?.Select(i => i.ToString()).ToList();
+                if (copilots is null || copilots.Count == 0)
+                {
+                    Log(name, description);
+                    return;
+                }
+
+                foreach (var copilot in copilots)
+                {
+                    AddLog(copilot, UiLogColor.Message, showTime: false);
+                    await UpdateFileDoc(copilot);
+                }
+
+                Log(name, description);
             }
             catch (Exception)
             {
@@ -471,6 +534,16 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 DropFile(Clipboard.GetFileDropList()[0]);
             }
+        }
+
+        /// <summary>
+        /// Paste clipboard contents.
+        /// </summary>
+        // ReSharper disable once UnusedMember.Global
+        public void PasteClipboardCopilotSet()
+        {
+            IsCopilotSet = true;
+            PasteClipboard();
         }
 
         /// <summary>
@@ -1040,6 +1113,14 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _isDataFromWeb, value);
                 UpdateCouldLikeWebJson();
             }
+        }
+
+        private bool _isCopilotSet;
+
+        private bool IsCopilotSet
+        {
+            get => _isCopilotSet;
+            set => SetAndNotify(ref _isCopilotSet, value);
         }
 
         private int _copilotId;
