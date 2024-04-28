@@ -4109,6 +4109,7 @@
         "next": [
             "CloseAnno",
             "CloseAnnoTexas",
+            "CloseAnnoSpecialAccess",
             "TodaysSupplies",
             "NotDownloadVoice"
         ]
@@ -4146,6 +4147,15 @@
             24,
             138,
             139
+        ]
+    },
+    "CloseAnnoSpecialAccess": {
+        "baseTask": "CloseAnnoBase",
+        "roi": [
+            997,
+            90,
+            146,
+            141
         ]
     },
     "NotDownloadVoice": {
@@ -5811,14 +5821,8 @@
         ]
     },
     "SpecialAccessActivitiesReturn": {
-        "template": "CloseSpecialAccess.png",
-        "action": "ClickSelf",
-        "roi": [
-            997,
-            90,
-            146,
-            141
-        ],
+        "baseTask": "CloseAnnoSpecialAccess",
+        "template": "CloseAnnoSpecialAccess.png",
         "next": [
             "Stop"
         ]
