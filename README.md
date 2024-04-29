@@ -14,9 +14,7 @@
 <div>
 
 [![LICENSE](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights)](https://spdx.org/licenses/AGPL-3.0-only.html)
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
-</div>
-<div>
+    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4"><br>
     <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
 </div>
