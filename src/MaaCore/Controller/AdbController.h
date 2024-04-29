@@ -117,7 +117,8 @@ namespace asst
                 // Default,
                 RawByNc,
                 RawWithGzip,
-                Encode
+                Encode,
+                MumuExtras,
             } screencap_method = ScreencapMethod::UnknownYet;
         } m_adb;
 

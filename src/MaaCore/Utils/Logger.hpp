@@ -716,5 +716,12 @@ namespace asst
 #define LogTraceFunction LogTraceScope(__FUNCTION__)
 #endif
 
+#define VAR_RAW(x) "[" << #x << "=" << (x) << "] "
+#define VAR(x) Logger::separator::none << VAR_RAW(x) <<Logger::separator::space
+#define VAR_VOIDP_RAW(x) "[" << #x << "=" << reinterpret_cast<void*>(x) << "] "
+#define VAR_VOIDP(x) \
+       Logger::separator::none << VAR_VOIDP_RAW(x) <<Logger::separator::space
+
+
 #define LogTraceFunctionWithArgs // how to do this?, like LogTraceScope(__FUNCTION__, __FUNCTION_ALL_ARGS__)
 } // namespace asst
