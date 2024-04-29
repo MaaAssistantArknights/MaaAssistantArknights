@@ -37,6 +37,22 @@
             "재개방"
         ]
     },
+    "ZT-OpenOcr": {
+        "text": [
+            "츠빌링",
+            "슈튀르메",
+            "가을",
+            "이벤트",
+            "개방중"
+        ]
+    },
+    "ZTChapterToZT": {
+        "text": [
+            "쌍둥이",
+            "둥이탑",
+            "탑알현"
+        ]
+    },
     "CV-Open": {
         "text": [
             "부정축재",
@@ -140,11 +156,27 @@
                 "드래곤플라이에이"
             ],
             [
-                "\\b(?!(Ash|Blitz|Tachanka|Frost|Lancet2|THRMEX|Friston3|Castle3|W|12F|Mon3tr|Sharp|Pith|Touch|Stormeye))(\\w)+$",
-                ""
+                "[CcOo0]ast.*le3",
+                "Castle3"
             ],
             [
                 ".*ancet2",
+                "Lancet2"
+            ],
+            [
+                "[JUu][O0o]f{1,2}icial",
+                "UOfficial"
+            ],
+            [
+                "\\b(?!(Ash|Blitz|Tachanka|Frost|Lancet2|THRMEX|Friston3|Castle3|W|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|UOfficial))(\\w)+$",
+                ""
+            ],
+            [
+                "Castle3",
+                "Castle-3"
+            ],
+            [
+                "Lancet2",
                 "Lancet-2"
             ],
             [
@@ -156,8 +188,8 @@
                 "Friston-3"
             ],
             [
-                "[CcOo0]ast.*le3",
-                "Castle-3"
+                "UOfficial",
+                "U-Official"
             ],
             [
                 "실버애.*",
@@ -2358,6 +2390,34 @@
             [
                 "아몬드",
                 "杏仁"
+            ],
+            [
+                "피의제단",
+                "唤血祭坛"
+            ],
+            [
+                "벤델라",
+                "刺玫"
+            ],
+            [
+                "외드레르",
+                "赫德雷"
+            ],
+            [
+                "델핀",
+                "戴菲恩"
+            ],
+            [
+                "버던트",
+                "维荻"
+            ],
+            [
+                "폭탄적재지점",
+                "炸弹载荷点"
+            ],
+            [
+                "생귀나르의왕좌",
+                "沥血王座"
             ]
         ]
     },

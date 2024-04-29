@@ -1346,8 +1346,9 @@ namespace MaaWpfGui.ViewModels.UI
             var receiveMail = Instances.SettingsViewModel.ReceiveMail;
             var receiveFreeRecruit = Instances.SettingsViewModel.ReceiveFreeRecruit;
             var receiveOrundum = Instances.SettingsViewModel.ReceiveOrundum;
+            var ReceiveSpecialAccess = Instances.SettingsViewModel.ReceiveSpecialAccess;
 
-            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum);
+            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, ReceiveSpecialAccess);
         }
 
         private static bool AppendRecruit()

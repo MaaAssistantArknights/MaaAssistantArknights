@@ -15,7 +15,9 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using System.Windows.Controls;
 using System.Windows.Data;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -30,15 +32,32 @@ namespace MaaWpfGui.Views.UserControl
         public RoguelikeSettingsUserControl()
         {
             InitializeComponent();
+            _current = this;
         }
 
-        private static readonly MethodInfo _setText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static RoguelikeSettingsUserControl _current;
+        private static bool _isValidResult;
 
-        private static readonly object[] _paras = { true };
-
-        private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
+        internal static bool IsValidResult
         {
-            _setText?.Invoke(sender, _paras);
+            get => _isValidResult;
+            set
+            {
+                _isValidResult = value;
+                if (!IsValidResult)
+                {
+                    _current.StartingCoreCharComboBox.ItemsSource = DataHelper.CharacterNames;
+                }
+            }
+        }
+
+        private void StartingCoreCharComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            if (IsValidResult)
+            {
+                var name = StartingCoreCharComboBox.Text;
+                StartingCoreCharComboBox.ItemsSource = Instances.SettingsViewModel.RoguelikeCoreCharList;
+            }
         }
     }
 
@@ -61,6 +80,26 @@ namespace MaaWpfGui.Views.UserControl
         {
             bool isEnabled = (bool)value;
             return new object[] { isEnabled, isEnabled };
+        }
+    }
+
+    public class StartingCoreCharRule : ValidationRule
+    {
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            if (value is not string stringValue)
+            {
+                return new ValidationResult(false, HandyControl.Properties.Langs.Lang.FormatError);
+            }
+
+            if (!string.IsNullOrEmpty(stringValue) && DataHelper.GetCharacterByNameOrAlias(stringValue) is null)
+            {
+                RoguelikeSettingsUserControl.IsValidResult = false;
+                return new ValidationResult(false, LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"));
+            }
+
+            RoguelikeSettingsUserControl.IsValidResult = true;
+            return ValidationResult.ValidResult;
         }
     }
 }

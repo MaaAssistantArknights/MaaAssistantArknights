@@ -46,6 +46,7 @@ using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ObservableCollections;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -1937,13 +1938,6 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
-                if (!string.IsNullOrEmpty(value) && DataHelper.GetCharacterByNameOrAlias(value) is null)
-                {
-                    MessageBoxHelper.Show(
-                        string.Format(LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"), value),
-                        LocalizationHelper.GetString("Tip"));
-                }
-
                 SetAndNotify(ref _roguelikeCoreChar, value);
                 Instances.TaskQueueViewModel.AddLog(value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeCoreChar, value);
@@ -1958,7 +1952,15 @@ namespace MaaWpfGui.ViewModels.UI
         public ObservableCollection<string> RoguelikeCoreCharList
         {
             get => _roguelikeCoreCharList;
-            private set => SetAndNotify(ref _roguelikeCoreCharList, value);
+            private set
+            {
+                if (!string.IsNullOrEmpty(RoguelikeCoreChar) && !value.Contains(RoguelikeCoreChar))
+                {
+                    value.Add(RoguelikeCoreChar);
+                }
+
+                SetAndNotify(ref _roguelikeCoreCharList, value);
+            }
         }
 
         private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
@@ -2462,6 +2464,23 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveOrundum, value.ToString());
             }
         }
+
+        private bool _receiveReceiveSpecialAccess = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to collect special access rewards.
+        /// </summary>
+
+        public bool ReceiveSpecialAccess
+        {
+            get => _receiveReceiveSpecialAccess;
+            set
+            {
+                SetAndNotify(ref _receiveReceiveSpecialAccess, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
+            }
+        }
+
 
         /* 定时设置 */
 
@@ -3452,11 +3471,6 @@ namespace MaaWpfGui.ViewModels.UI
         public void UpdateWindowTitle()
         {
             var rvm = (RootViewModel)this.Parent;
-            var connectConfigName = string.Empty;
-            foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
-            {
-                connectConfigName = data.Display;
-            }
 
             string prefix = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitlePrefix, string.Empty);
             if (!string.IsNullOrEmpty(prefix))
@@ -3464,8 +3478,40 @@ namespace MaaWpfGui.ViewModels.UI
                 prefix += " - ";
             }
 
+            List<string> windowTitleSelectShowList = _windowTitleSelectShowList
+                .Where(x => _windowTitleAllShowDict.ContainsKey(x?.ToString() ?? string.Empty))
+                .Select(x => _windowTitleAllShowDict[x?.ToString() ?? string.Empty]).ToList();
+
+            string currentConfiguration = string.Empty;
+            string connectConfigName = string.Empty;
+            string connectAddress = string.Empty;
+            string clientName = string.Empty;
+
+            foreach (var select in windowTitleSelectShowList)
+            {
+                switch (select)
+                {
+                    case "1": // 配置名
+                        currentConfiguration = $" ({CurrentConfiguration})";
+                        break;
+                    case "2": // 连接模式
+                        foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
+                        {
+                            connectConfigName = $" - {data.Display}";
+                        }
+
+                        break;
+                    case "3": // 端口地址
+                        connectAddress = $" ({ConnectAddress})";
+                        break;
+                    case "4": // 客户端类型
+                        clientName = $" - {ClientName}";
+                        break;
+                }
+            }
+
             string resourceVersion = !string.IsNullOrEmpty(ResourceVersion) ? $" - {ResourceVersion}" : string.Empty;
-            rvm.WindowTitle = $"{prefix}MAA ({CurrentConfiguration}) - {CoreVersion}{resourceVersion} - {connectConfigName} ({ConnectAddress}) - {ClientName}";
+            rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
         private readonly string _bluestacksConfig = GetBluestacksConfig();
@@ -3700,6 +3746,23 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _windowTitleScrollable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleScrollable, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to make window title scrollable.
+        /// </summary>
+        public bool WindowTitleScrollable
+        {
+            get => _windowTitleScrollable;
+            set
+            {
+                SetAndNotify(ref _windowTitleScrollable, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.WindowTitleScrollable, value.ToString());
+                var rvm = (RootViewModel)this.Parent;
+                rvm.WindowTitleScrollable = value;
+            }
+        }
+
         private bool _hideCloseButton = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideCloseButton, bool.FalseString));
 
         /// <summary>
@@ -3738,7 +3801,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useLogItemDateFormat = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
+        private bool _useLogItemDateFormat = true; // Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseLogItemDateFormat, bool.FalseString));
 
         public bool UseLogItemDateFormat
         {
@@ -3955,6 +4018,36 @@ namespace MaaWpfGui.ViewModels.UI
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+            }
+        }
+
+        private static readonly Dictionary<string, string> _windowTitleAllShowDict = new()
+        {
+            { LocalizationHelper.GetString("ConfigurationName"), "1" },
+            { LocalizationHelper.GetString("ConnectionPreset"), "2" },
+            { LocalizationHelper.GetString("ConnectionAddress"), "3" },
+            { LocalizationHelper.GetString("ClientType"), "4" },
+        };
+
+        private List<string> _windowTitleAllShowList = [.. _windowTitleAllShowDict.Keys];
+
+        public List<string> WindowTitleAllShowList
+        {
+            get => _windowTitleAllShowList;
+            set => SetAndNotify(ref _windowTitleAllShowList, value);
+        }
+
+        private object[] _windowTitleSelectShowList = ConfigurationHelper.GetValue(ConfigurationKeys.WindowTitleSelectShowList, "1 2 3 4").Split(' ').Select(s => _windowTitleAllShowDict.FirstOrDefault(pair => pair.Value == s).Key).ToArray();
+
+        public object[] WindowTitleSelectShowList
+        {
+            get => _windowTitleSelectShowList;
+            set
+            {
+                SetAndNotify(ref _windowTitleSelectShowList, value);
+                UpdateWindowTitle();
+                var config = string.Join(' ', _windowTitleSelectShowList.Cast<string>().Select(s => _windowTitleAllShowDict[s]));
+                ConfigurationHelper.SetValue(ConfigurationKeys.WindowTitleSelectShowList, config);
             }
         }
 

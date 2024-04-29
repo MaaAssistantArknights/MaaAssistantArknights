@@ -2,13 +2,14 @@
     x:Class="MaaWpfGui.Views.UI.RootView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:CalcBinding;assembly=CalcBinding"
+    xmlns:controls="clr-namespace:MaaWpfGui.Styles.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:hc="https://handyorg.github.io/handycontrol"
     xmlns:local="clr-namespace:MaaWpfGui.Views.UI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
-    xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     Title="{Binding WindowTitle}"
     Width="800"
     Height="600"
@@ -17,10 +18,41 @@
     d:DataContext="{d:DesignInstance {x:Type ui:RootViewModel}}"
     Icon="../../newlogo.ico"
     ShowCloseButton="{Binding ShowCloseButton}"
+    ShowTitle="False"
+    Topmost="{Binding IsWindowTopMost}"
     mc:Ignorable="d">
-
+    <hc:Window.NonClientAreaContent>
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <hc:RunningBlock
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                BorderThickness="0"
+                Content="{Binding WindowTitle}"
+                IsHitTestVisible="False"
+                Runaway="False"
+                Speed="10"
+                Visibility="{c:Binding WindowTitleScrollable}" />
+            <controls:TextBlock
+                Grid.Column="0"
+                Margin="10,0"
+                HorizontalAlignment="Left"
+                IsHitTestVisible="False"
+                Text="{Binding WindowTitle}"
+                Visibility="{c:Binding !WindowTitleScrollable}" />
+            <Button
+                Grid.Column="1"
+                BorderThickness="0"
+                Command="{s:Action ToggleTopMostCommand}"
+                Content="📌"
+                Foreground="{Binding WindowTopMostButtonForeground}" />
+        </Grid>
+    </hc:Window.NonClientAreaContent>
     <DockPanel>
-        <local:NotifyIcon Visibility="Hidden" x:Name="NotifyIcon" />
+        <local:NotifyIcon x:Name="NotifyIcon" Visibility="Hidden" />
         <TabControl
             BorderThickness="0,1,0,0"
             DisplayMemberPath="DisplayName"

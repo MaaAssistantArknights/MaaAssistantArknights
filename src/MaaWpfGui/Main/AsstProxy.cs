@@ -1558,8 +1558,16 @@ namespace MaaWpfGui.Main
                 }
                 else if (bsResult)
                 {
+                    if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath))
+                    {
+                        Instances.SettingsViewModel.DetectAdbConfig(ref error);
+                    }
+
                     Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
-                    error = string.Empty;
+                    if (string.IsNullOrEmpty(error))
+                    {
+                        error = string.Empty;
+                    }
                 }
                 else if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
                 {
@@ -1784,8 +1792,9 @@ namespace MaaWpfGui.Main
         /// <param name="mail">是否领取所有邮件奖励</param>
         /// <param name="recruit">是否进行每日免费单抽</param>
         /// <param name="orundum">是否领取幸运墙合成玉奖励</param>
+        /// <param name="specialaccess">是否领取五周年赠送月卡奖励</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendAward(bool award, bool mail, bool recruit, bool orundum)
+        public bool AsstAppendAward(bool award, bool mail, bool recruit, bool orundum, bool specialaccess)
         {
             var taskParams = new JObject
             {
@@ -1793,6 +1802,7 @@ namespace MaaWpfGui.Main
                 ["mail"] = mail,
                 ["recruit"] = recruit,
                 ["orundum"] = orundum,
+                ["specialaccess"] = specialaccess,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Award", taskParams);
             _latestTaskId[TaskType.Award] = id;
