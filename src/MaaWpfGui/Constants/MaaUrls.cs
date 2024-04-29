@@ -36,13 +36,15 @@ namespace MaaWpfGui.Constants
 
         public const string PrtsPlusCopilotRating = "https://prts.maa.plus/copilot/rating";
 
+        public const string PrtsPlusCopilotSetGet = "https://prts.maa.plus/set/get?id=";
+
         public const string MapPrts = "https://map.ark-nights.com/areas?coord_override=maa";
 
         public const string MaaApi = "https://ota.maa.plus/MaaAssistantArknights/api/";
 
         public const string MaaResourceApi = "https://ota.maa.plus/MaaAssistantArknights/MaaAssistantArknights/";
         public const string AnnMirrorResourceApi = "https://maa-ota.annangela.cn/MaaAssistantArknights/MaaAssistantArknights/";
-        public const string S3ResourceApi = "https://s3.maa-org.net:25240/maa-resources/MaaAssistantArknights/MaaAssistantArknights/";
+        public const string S3ResourceApi = "https://s3.maa-org.net:25240/maaassistantarknights/MaaAssistantArknights/MaaAssistantArknights/";
         public const string R2ResourceApi = "https://maa.r2.imgg.dev/MaaAssistantArknights/MaaAssistantArknights/";
 
         public const string QqGroups = "https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html";

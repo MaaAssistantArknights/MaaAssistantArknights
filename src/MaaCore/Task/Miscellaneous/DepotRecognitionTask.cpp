@@ -78,7 +78,7 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
         arkplanner["data"] = arkplanner_obj.to_string();
     }
 
-    // https://arkn.lolicon.app/#/material
+    // https://arkntools.app/#/material
     {
         auto& lolicon = details["lolicon"];
         auto& lolicon_obj = lolicon["object"];

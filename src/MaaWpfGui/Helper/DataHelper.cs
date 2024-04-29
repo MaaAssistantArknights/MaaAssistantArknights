@@ -16,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MaaWpfGui.Constants;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -25,6 +26,8 @@ namespace MaaWpfGui.Helper
     {
         // 储存角色信息的字典
         public static Dictionary<string, CharacterInfo> Characters { get; } = new();
+
+        public static HashSet<string> CharacterNames { get; } = new();
 
         static DataHelper()
         {
@@ -37,10 +40,49 @@ namespace MaaWpfGui.Helper
             string jsonText = File.ReadAllText(FilePath);
             var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? new();
 
-            foreach (var pair in characterData)
+            var characterNames_Lang_Add = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
+            var characterNames_client_Add = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+            foreach ((var key, var value) in characterData)
             {
-                Characters.Add(pair.Key, pair.Value);
+                Characters.Add(key, value);
+                if (!key.StartsWith("char_"))
+                {
+                    continue;
+                }
+
+                characterNames_Lang_Add.Invoke(value);
+                characterNames_client_Add.Invoke(value);
             }
+        }
+
+        private static Action<CharacterInfo> GetCharacterNamesAddAction(string str)
+        {
+            if (str == "zh-cn" || str == "Official" || str == "Bilibili")
+            {
+                return v => CharacterNames.Add(v.Name ?? string.Empty);
+            }
+
+            if (str == "zh-tw" || str == "txwy")
+            {
+                return v => CharacterNames.Add(v.NameTw ?? string.Empty);
+            }
+
+            if (str == "en-us" || str == "YoStarEN")
+            {
+                return v => CharacterNames.Add(v.NameEn ?? string.Empty);
+            }
+
+            if (str == "ja-jp" || str == "YoStarJP")
+            {
+                return v => CharacterNames.Add(v.NameJp ?? string.Empty);
+            }
+
+            if (str == "ko-kr" || str == "YoStarKR")
+            {
+                return v => CharacterNames.Add(v.NameKr ?? string.Empty);
+            }
+
+            return v => CharacterNames.Add(v.Name ?? string.Empty);
         }
 
         public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)

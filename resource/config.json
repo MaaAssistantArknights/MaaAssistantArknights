@@ -75,7 +75,7 @@
             "click": "[Adb] -s [AdbSerial] shell input tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input swipe [x1] [y1] [x2] [y2] [duration]",
             "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111",
-            "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+",
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+\"",
             "displayFormat": "%d%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncAddress": "[Adb] -s [AdbSerial] shell \" cat /proc/net/arp | grep : \"",
@@ -85,7 +85,7 @@
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
             "stop": "[Adb] -s [AdbSerial] shell \"PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -i -o -E '(packageName|Activities)=.+arknights' 2>/dev/null | grep -i -o -E '[^= ]*arknights[^ /]*' | head -n 1); if [ -n \\\"$PACKAGE_NAME\\\" ]; then echo \\\"Closing $PACKAGE_NAME\\\"; am force-stop $PACKAGE_NAME; else echo \\\"app not running or arknights package name not found\\\"; fi\"",
             "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
-            "orientation": "[Adb] -s [AdbSerial] shell dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]",
+            "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
             "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i",
@@ -123,7 +123,7 @@
         {
             "configName": "WSA",
             "baseConfig": "CapWithShell",
-            "displayId": "[Adb] -s [AdbSerial] shell dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights",
+            "displayId": "[Adb] -s [AdbSerial] shell \"dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights\"",
             "click": "[Adb] -s [AdbSerial] shell input -d [DisplayId] tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]",
             "display": "[Adb] -s [AdbSerial] shell \"wm size -d [DisplayId] | grep -o -E [0-9]+\""
@@ -136,7 +136,7 @@
         {
             "configName": "SecondResolution",
             "baseConfig": "General",
-            "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+"
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+\""
         },
         {
             "configName": "CompatMac",

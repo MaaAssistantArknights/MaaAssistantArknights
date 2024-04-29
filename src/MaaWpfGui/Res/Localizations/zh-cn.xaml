@@ -118,7 +118,7 @@
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员「{0}」未在 battle_data 中，请检查输入的名称是否正确，或检查 maa 资源版本。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「开局干员」直升精二，不进行作战</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>
@@ -297,10 +297,13 @@
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免费单抽，则不会抽取</system:String>
     <system:String x:Key="GachaWarning">该功能属于危险功能，可能会造成误抽\n按下「确认」键即视为你了解并愿意承担可能出现的风险</system:String>
     <system:String x:Key="ReceiveOrundum">领取幸运墙的每日合成玉奖励</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">领取五周年赠送月卡奖励</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
     <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
+    <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
+    <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
@@ -515,7 +518,7 @@
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">粘贴剪贴板</system:String>
+    <system:String x:Key="PasteClipboardTip">粘贴剪贴板，右键添加作业集</system:String>
     <system:String x:Key="ImportFilesTip">批量导入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
@@ -678,7 +681,7 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查资源版本更新与关卡名！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 软件更新 - 检查更新」尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>

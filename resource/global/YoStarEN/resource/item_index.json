@@ -447,6 +447,38 @@
         "sortId": 100010,
         "usage": "A compound crystal mass that has undergone high-tolerance refinement. Used in a variety of strengthening projects, and is a common material in synthetic items at factories."
     },
+    "31073": {
+        "classifyType": "MATERIAL",
+        "description": "A derived product in Originium engineering, widely used in industrial fields due to its exceptional functionality. In recent years, its unique appearance has also drawn keen interest from those working in design.",
+        "icon": "31073.png",
+        "name": "Fuscous Fiber",
+        "sortId": 100009,
+        "usage": "A specialized fiber bundle, possessing high tensile strength and elastic modulus. Used in a variety of strengthening projects."
+    },
+    "31074": {
+        "classifyType": "MATERIAL",
+        "description": "A compound fiber board crafted through bespoke manufacturing. Exhibits outstanding functionality, both physically and chemically, coupled with a rarely-seen ease of processing. An irreplaceable part of many an industrial workflow.",
+        "icon": "31074.png",
+        "name": "Solidified Fiber Board",
+        "sortId": 100008,
+        "usage": "A specialized fiber board, solidified in a mold. Used in a variety of strengthening projects."
+    },
+    "31083": {
+        "classifyType": "MATERIAL",
+        "description": "A novel transparent material born from the laboratory. Its high luminous transmittance and phenomenal durability in all aspects promise to make it an excellent substitute for many conventional materials.",
+        "icon": "31083.png",
+        "name": "Aggregate Cyclicene",
+        "sortId": 100007,
+        "usage": "A superlatively heat- and chemical-resistant industrial material. Used in a variety of strengthening projects."
+    },
+    "31084": {
+        "classifyType": "MATERIAL",
+        "description": "An industrial product arrived at through the introduction of several excellent materials into the synthesis process, preserving luminous transmittance while vastly increasing strength and shock resistance. Prospects are high for its wide adoption in the field of defense.",
+        "icon": "31084.png",
+        "name": "Cyclicene Prefab",
+        "sortId": 100006,
+        "usage": "A prefabricated industrial intermediate composed of multiple first-rate materials. Used in a variety of strengthening projects."
+    },
     "3112": {
         "classifyType": "NORMAL",
         "description": "One of the necessary industrial materials, it can be used to produce a variety of polymers.",
@@ -1044,7 +1076,7 @@
         "description": "An auxiliary function of Rhodes Island's intelligence processing system. After extracting effective intelligence from a complex batch of information, the system was able to recreate images of past events with astonishing fidelity.\nThe information was packaged as videotapes to make it easier for ordinary people to understand.",
         "icon": "STORY_REVIEW_COIN.png",
         "name": "Information Fragments",
-        "sortId": 10202,
+        "sortId": 10203,
         "usage": "A topological model of effective intelligence that can be used to reconstruct past events."
     },
     "act10d5_token_biscuit": {
@@ -1910,6 +1942,14 @@
         "name": "Defender Chip Pack Etcher",
         "sortId": -10000,
         "usage": "A disposable chip pack etching apparatus, storing large quantities of training records and data. Can print chip packs hassle-free, in accordance with Defender Operators' needs."
+    },
+    "mcardVoucher": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "mcardVoucher.png",
+        "name": "Monthly Card",
+        "sortId": -10000,
+        "usage": null
     },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",

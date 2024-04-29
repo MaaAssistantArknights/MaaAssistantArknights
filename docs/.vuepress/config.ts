@@ -1,5 +1,6 @@
 import { defineUserConfig } from "vuepress";
 import { viteBundler } from "@vuepress/bundler-vite";
+import { googleAnalyticsPlugin } from "@vuepress/plugin-google-analytics";
 import Theme from "./theme";
 
 export default defineUserConfig({
@@ -40,7 +41,11 @@ export default defineUserConfig({
 
   theme: Theme,
 
-  plugins: [],
+  plugins: [
+    googleAnalyticsPlugin({
+      id: "G-FJQDKG394Z",
+    }),
+  ],
 
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],

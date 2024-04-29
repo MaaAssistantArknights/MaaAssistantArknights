@@ -41,7 +41,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿<br>
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.
 - Importing JSON task file for auto-battle! [Video](https://www.bilibili.com/video/BV1H841177Fk/)
-- Depot recognition and upports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkn.lolicon.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
+- Depot recognition and upports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner), [Arknight Tools](https://arkntools.app/#/material), and [ARK-NIGHTS Operator Builds](https://ark-nights.com/settings)
 - Support C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP and other interfaces, easy to integrate and call, customize your MAA!
 
 Talk is cheap. Show me the pictures!<br>

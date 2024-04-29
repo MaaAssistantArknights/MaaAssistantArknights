@@ -2047,6 +2047,14 @@
         "sortId": -10000,
         "usage": "一次性自助芯片印刻器械，存储了大量训练记录与材料，根据重装干员们的需求，可以轻松印刻出芯片组合。"
     },
+    "mcardVoucher": {
+        "classifyType": "NONE",
+        "description": "考虑到流通性与便捷性，许多新的认证应运而生，该凭证便是其中的一项。",
+        "icon": "mcardVoucher.png",
+        "name": "月卡兑换凭证",
+        "sortId": -10000,
+        "usage": "使用后可激活月卡的相关权限。"
+    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "数据块中记录了工程部干员们为制作模组而奋斗的每个日夜。",
