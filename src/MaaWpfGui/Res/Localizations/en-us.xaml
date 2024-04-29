@@ -297,11 +297,13 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">If there is no free single pull, it will not be pooled</system:String>
     <system:String x:Key="GachaWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing "Confirm", you understand and are willing to assume the possible risks.</system:String>
     <system:String x:Key="ReceiveOrundum">Collect daily Orundum reward from the lucky wall</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
     <system:String x:Key="MinimizeToTray">Hide to tray when minimized</system:String>
     <system:String x:Key="SystemNotification">System Notification</system:String>
     <system:String x:Key="HideCloseButton">Hide close button</system:String>
     <system:String x:Key="WindowTitleScrollable">Window Title Scrolling</system:String>
+    <system:String x:Key="TitleBarDisplayContent">Title Bar Display Content</system:String>
     <system:String x:Key="UseLogItemDateFormat">Custom log date format</system:String>
     <system:String x:Key="LogItemDateFormatString">Date format string</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">Restart immediately to apply changes?</system:String>
@@ -516,7 +518,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CopilotTaskNameTip">Stage Code, e.g. 1-7</system:String>
     <system:String x:Key="SelectTheFile">Select task file</system:String>
     <system:String x:Key="SelectTheFileTip">Task files can be imported by dragging the mouse</system:String>
-    <system:String x:Key="PasteClipboardTip">Paste Clipboard</system:String>
+    <system:String x:Key="PasteClipboardTip">Paste Clipboard, right click to add a copilot set</system:String>
     <system:String x:Key="ImportFilesTip">Import task files</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">Do you like this task file? Rate it!</system:String>
     <system:String x:Key="FailedToLikeWebJson">An error occurred, the like failed. : &lt;</system:String>

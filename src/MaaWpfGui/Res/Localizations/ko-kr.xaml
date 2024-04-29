@@ -298,11 +298,13 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">무료 단챠가 없는 경우 가챠를 하지 않습니다</system:String>
     <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n'인식' 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인식한 것입니다</system:String>
     <system:String x:Key="ReceiveOrundum">복권방에서 매일 합성옥 보상 받기</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수집</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
     <system:String x:Key="SystemNotification">중요 알림 팝업</system:String>
     <system:String x:Key="HideCloseButton">닫기 버튼 숨기기</system:String>
     <system:String x:Key="WindowTitleScrollable">창 제목 스크롤</system:String>
+    <system:String x:Key="TitleBarDisplayContent">타이틀 바 표시 내용</system:String>
     <system:String x:Key="UseLogItemDateFormat">사용자 정의 로그 날짜 형식</system:String>
     <system:String x:Key="LogItemDateFormatString">날짜 형식 문자열</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">변경 사항을 적용을 위해 즉시 다시 시작하시겠습니까?</system:String>
@@ -517,7 +519,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="CopilotTaskNameTip">스테이지 코드, 예시: 1-7</system:String>
     <system:String x:Key="SelectTheFile">작업 선택</system:String>
     <system:String x:Key="SelectTheFileTip">마우스로 작업 파일을 드래그해 선택할 수 있어요 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기</system:String>
+    <system:String x:Key="PasteClipboardTip">클립보드 붙여넣기，오른쪽 클릭하여 작업 세트 추가하기</system:String>
     <system:String x:Key="ImportFilesTip">일괄 가져오기</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">마음에 드셨나요? 평가해 주세요!</system:String>
     <system:String x:Key="FailedToLikeWebJson">오류로 인해 평가에 실패했습니다: &lt;</system:String>

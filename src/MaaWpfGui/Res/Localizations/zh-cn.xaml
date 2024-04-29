@@ -297,11 +297,13 @@
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免费单抽，则不会抽取</system:String>
     <system:String x:Key="GachaWarning">该功能属于危险功能，可能会造成误抽\n按下「确认」键即视为你了解并愿意承担可能出现的风险</system:String>
     <system:String x:Key="ReceiveOrundum">领取幸运墙的每日合成玉奖励</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">领取五周年赠送月卡奖励</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
     <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
     <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
+    <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
@@ -516,7 +518,7 @@
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">粘贴剪贴板</system:String>
+    <system:String x:Key="PasteClipboardTip">粘贴剪贴板，右键添加作业集</system:String>
     <system:String x:Key="ImportFilesTip">批量导入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>

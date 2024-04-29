@@ -7,7 +7,7 @@ icon: material-symbols:terminal
 해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
 
 
-이 문서는 UTC+8 기준 2024-04-09에 작성됐습니다! 이 시간 이후 시간이 오래 경과했다면, 원본 문서를 보는것이 더 정확할 수 있습니다!
+이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
 :::
 
 ## 기능
@@ -148,7 +148,7 @@ type = "StartUp" # maa 작업의 유형
 params = { client_type = "Official", start_game_enabled = true } # 주어진 작업의 매개 변수
 ```
 
-모든 사용 가능한 작업 유형 및 매개 변수에 대한 문서를 확인하려면 [MAA](https://maa.plus/docs/en-us/3.1-INTEGRATION.html#asstappendtask) 문서를 참조하세요.
+모든 사용 가능한 작업 유형 및 매개 변수에 대한 문서를 확인하려면 [MAA](../스키마/1.통합문서.md#asstappendtask) 문서를 참조하세요.
 
 #### 작업 변형 및 조건
 
@@ -334,7 +334,7 @@ config = "CompatMac" # 위와 동일
 
 `ADB` 및 `PlayTools` 모두 `config` 필드를 공유합니다. 이는 `maa`의 `connect` 함수의 매개 변수이며, `macOS`에서는 기본값이 `CompatMac`, `Linux`에서는 `CompatPOSIXShell`, 다른 플랫폼에서는 `General`입니다. 추가 옵션 구성은 리소스 디렉토리의 `config.json`에서 찾을 수 있습니다.
 
-`instance_options` 섹션은 `maa` [인스턴스 옵션](https://maa.plus/docs/en-us/3.1-INTEGRATION.html#asstsetinstanceoption)을 구성하는 데 사용됩니다:
+`instance_options` 섹션은 `maa` [인스턴스 옵션](../스키마/1.통합문서.md#asstsetinstanceoption)을 구성하는 데 사용됩니다:
 
 ```toml
 [instance_options]
