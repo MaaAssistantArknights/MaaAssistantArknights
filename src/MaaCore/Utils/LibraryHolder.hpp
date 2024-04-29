@@ -11,6 +11,8 @@
 #include <dlfcn.h>
 #endif
 
+#include "Utils/Logger.hpp"
+
 
 namespace asst
 {
@@ -45,7 +47,7 @@ private:
 template <typename T>
 inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
 {
-    LogFunc << VAR(libname);
+    LogInfo << VAR(libname);
 
     std::unique_lock<std::mutex> lock(mutex_);
 
@@ -81,7 +83,7 @@ inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)
 template <typename T>
 inline void LibraryHolder<T>::unload_library()
 {
-    LogFunc << VAR(libname_);
+    LogInfo << VAR(libname_);
 
     std::unique_lock<std::mutex> lock(mutex_);
 
@@ -113,7 +115,7 @@ template <typename T>
 template <typename FuncT>
 inline std::function<FuncT> LibraryHolder<T>::get_function(const std::string& func_name)
 {
-    LogFunc << VAR(func_name);
+    LogInfo << VAR(func_name);
 
     std::unique_lock<std::mutex> lock(mutex_);
 

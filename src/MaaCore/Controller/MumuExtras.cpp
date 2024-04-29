@@ -55,7 +55,7 @@ std::optional<cv::Mat> MumuExtras::screencap()
     if (ret) {
         LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_)
                  << VAR(mumu_display_id_) << VAR(display_buffer_.size()) << VAR(display_width_)
-                 << VAR(display_height_) << VAR(capture_display_func_);
+                 << VAR(display_height_);
         return std::nullopt;
     }
 
@@ -134,7 +134,7 @@ bool MumuExtras::load_mumu_library()
 
 bool MumuExtras::connect_mumu()
 {
-    LogInfo << VAR(mumu_path_) << VAR(mumu_inst_index_) << VAR(connect_func_);
+    LogInfo << VAR(mumu_path_) << VAR(mumu_inst_index_);
 
     if (!connect_func_) {
         LogError << "connect_func_ is null";
@@ -149,8 +149,7 @@ bool MumuExtras::connect_mumu()
     mumu_handle_ = connect_func_(wpath.c_str(), mumu_inst_index_);
 
     if (mumu_handle_ == 0) {
-        LogError << "Failed to connect mumu" << VAR(wpath) << VAR(mumu_inst_index_)
-                 << VAR(connect_func_);
+        LogError << "Failed to connect mumu" << VAR(mumu_path_) << VAR(mumu_inst_index_);
         return false;
     }
 
@@ -175,7 +174,7 @@ bool MumuExtras::init_screencap()
     // mumu 的文档给错了，这里 0 才是成功
     if (ret) {
         LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_)
-                 << VAR(mumu_display_id_) << VAR(capture_display_func_);
+                 << VAR(mumu_display_id_);
         return false;
     }
 
