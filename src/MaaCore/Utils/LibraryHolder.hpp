@@ -21,7 +21,7 @@ template <typename T>
 class LibraryHolder
 {
 public:
-    virtual ~LibraryHolder() = default;
+    virtual ~LibraryHolder();
 
     static bool load_library(const std::filesystem::path& libname);
     static void unload_library();
@@ -43,6 +43,12 @@ private:
     inline static void* module_ = nullptr;
 #endif
 };
+
+template <typename T>
+inline LibraryHolder<T>::~LibraryHolder()
+{
+    unload_library();
+}
 
 template <typename T>
 inline bool LibraryHolder<T>::load_library(const std::filesystem::path& libname)

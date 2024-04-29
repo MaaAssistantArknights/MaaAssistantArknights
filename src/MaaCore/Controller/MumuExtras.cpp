@@ -5,29 +5,29 @@
 
 namespace asst
 {
-
-MumuExtras::MumuExtras(
-    const std::filesystem::path& mumu_path,
-    int mumu_inst_index,
-    int mumu_display_id)
-    : mumu_path_(mumu_path)
-    , mumu_inst_index_(mumu_inst_index)
-    , mumu_display_id_(mumu_display_id)
-{
-}
-
 MumuExtras::~MumuExtras()
 {
     uninit();
 }
 
-bool MumuExtras::init()
+bool MumuExtras::init(
+    const std::filesystem::path& mumu_path,
+    int mumu_inst_index,
+    int mumu_display_id)
 {
-    if (inited_) {
+    bool same = mumu_path == mumu_path_ && mumu_inst_index == mumu_inst_index_
+                && mumu_display_id == mumu_display_id_;
+
+    if (same && inited_) {
         return true;
     }
 
+    mumu_path_ = mumu_path;
+    mumu_inst_index_ = mumu_inst_index;
+    mumu_display_id_ = mumu_display_id;
+
     inited_ = load_mumu_library() && connect_mumu() && init_screencap();
+
     return inited_;
 }
 

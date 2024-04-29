@@ -14,14 +14,14 @@ namespace asst
 class MumuExtras : public LibraryHolder<MumuExtras>
 {
 public:
-    MumuExtras(
-        const std::filesystem::path& mumu_path,
-        int mumu_inst_index,
-        int mumu_display_id = 0);
+    MumuExtras() = default;
 
-    ~MumuExtras();
+    virtual ~MumuExtras();
 
-    bool init();
+    bool inited() const { return inited_; }
+
+
+    bool init(const std::filesystem::path& mumu_path, int mumu_inst_index, int mumu_display_id);
     void uninit();
 
     std::optional<cv::Mat> screencap();
