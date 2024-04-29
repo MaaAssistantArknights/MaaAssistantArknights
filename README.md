@@ -4,17 +4,17 @@
 
 # MaaAssistantArknights
 
-<br>
-<div>
-    <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
-</div>
+
+![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
+
 <div>
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
 </div>
-<div>
-    <a href="https://spdx.org/licenses/AGPL-3.0-only.html"><img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights"></a>
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
-</div>
+
+[![LICENSE](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights)](https://spdx.org/licenses/AGPL-3.0-only.html)
+![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
+<img alt="commit" src="">
+
 <div>
     <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
