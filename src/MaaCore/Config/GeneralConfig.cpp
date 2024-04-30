@@ -79,7 +79,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         std::string base_name = cfg_json.get("baseConfig", std::string());
         const AdbCfg& base_cfg = base_name.empty() ? AdbCfg() : m_adb_cfg.at(base_name);
 
-        AdbCfg adb;
+        AdbCfg& adb = m_adb_cfg[cfg_json.at("configName").as_string()];
         adb.connect = cfg_json.get("connect", base_cfg.connect);
         adb.display_id = cfg_json.get("displayId", base_cfg.display_id);
         adb.uuid = cfg_json.get("uuid", base_cfg.uuid);
@@ -102,9 +102,6 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.call_minitouch = cfg_json.get("callMinitouch", base_cfg.call_minitouch);
         adb.call_maatouch = cfg_json.get("callMaatouch", base_cfg.call_maatouch);
         adb.back_to_home = cfg_json.get("back_to_home", base_cfg.back_to_home);
-        adb.extras = cfg_json.get("extras", base_cfg.extras);
-
-        m_adb_cfg[cfg_json.at("configName").as_string()] = std::move(adb);
     }
 
     return true;
