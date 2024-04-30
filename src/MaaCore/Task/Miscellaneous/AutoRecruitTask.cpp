@@ -756,6 +756,9 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(const std::vecto
         }
         return select;
     }
+    else if (m_select_extra_tags_mode == ExtraTagsMode::NoExtra) {
+        return combinations.front().tags;
+    }
     else if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
         while (select.size() < 3) {
             for (const asst::RecruitCombs& comb : combinations)
