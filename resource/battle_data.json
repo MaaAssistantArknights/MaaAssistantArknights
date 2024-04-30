@@ -1885,7 +1885,7 @@
         },
         "char_245_cello": {
             "name": "塑心",
-            "name_en": "塑心",
+            "name_en": "Virtuosa",
             "name_jp": "ヴィルトゥオーサ",
             "name_kr": "비르투오사",
             "name_tw": "塑心",
@@ -3144,7 +3144,7 @@
         },
         "char_4011_lessng": {
             "name": "止颂",
-            "name_en": "止颂",
+            "name_en": "Lessing",
             "name_jp": "レッシング",
             "name_kr": "레싱",
             "name_tw": "止颂",
@@ -3815,7 +3815,7 @@
         },
         "char_4098_vvana": {
             "name": "薇薇安娜",
-            "name_en": "薇薇安娜",
+            "name_en": "Viviana",
             "name_jp": "ヴィヴィアナ",
             "name_kr": "비비아나",
             "name_tw": "薇薇安娜",
@@ -3830,7 +3830,7 @@
         },
         "char_4100_caper": {
             "name": "跃跃",
-            "name_en": "跃跃",
+            "name_en": "Caper",
             "name_jp": "ケイパー",
             "name_kr": "케이퍼",
             "name_tw": "跃跃",
@@ -3920,7 +3920,7 @@
         },
         "char_4109_baslin": {
             "name": "深律",
-            "name_en": "深律",
+            "name_en": "Bassline",
             "name_jp": "ベースライン",
             "name_kr": "베이스라인",
             "name_tw": "深律",
@@ -4838,7 +4838,7 @@
         },
         "char_499_kaitou": {
             "name": "折光",
-            "name_en": "折光",
+            "name_en": "Diamante",
             "name_jp": "ディアマンテ",
             "name_kr": "디아만테",
             "name_tw": "折光",
@@ -7643,7 +7643,7 @@
         },
         "trap_134_condtr": {
             "name": "调谐节点",
-            "name_en": "调谐节点",
+            "name_en": "Tuning Node",
             "name_jp": "調律器",
             "name_kr": "조화 장치",
             "name_tw": "调谐节点",
@@ -7658,7 +7658,7 @@
         },
         "trap_135_portlent": {
             "name": "湮灭之相",
-            "name_en": "湮灭之相",
+            "name_en": "Aspect of Annihilation",
             "name_jp": "湮滅の相",
             "name_kr": "파멸의 상",
             "name_tw": "湮灭之相",
@@ -7673,7 +7673,7 @@
         },
         "trap_136_portlexi": {
             "name": "创生之相",
-            "name_en": "创生之相",
+            "name_en": "Aspect of Creation",
             "name_jp": "創生の相",
             "name_kr": "창조의 상",
             "name_tw": "创生之相",

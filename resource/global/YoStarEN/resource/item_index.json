@@ -1023,6 +1023,14 @@
         "sortId": 10021,
         "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
     },
+    "LMTGS_COIN_4401": {
+        "classifyType": "NORMAL",
+        "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
+        "icon": "LMTGS_COIN_4401.png",
+        "name": "Headhunting Data Contract",
+        "sortId": 10022,
+        "usage": "A time-limited currency arranged for a new type of headhunting contract; Collect enough to recruit an operator from a designated pool for a limited time"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "A long-term, stable relationship with the headhunting agency can effectively control our expenditures. However, we hope that this method will not be required every time.",
@@ -1550,6 +1558,46 @@
         "name": "Shoddy Fuel",
         "sortId": -10000,
         "usage": "Combustibles salvaged from Davistown and its environs. Practically worthless for heat, and produces way too much smoke, but fuel is fuel and there's an old worker by the energy tower who'll trade goods from the mine for it."
+    },
+    "act29side_frag_1": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through joy.",
+        "icon": "act29side_frag_1.png",
+        "name": "Note of Joy",
+        "sortId": 5200001,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_frag_2": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through anger.",
+        "icon": "act29side_frag_2.png",
+        "name": "Note of Anger",
+        "sortId": 5200002,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_frag_3": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through sorrow.",
+        "icon": "act29side_frag_3.png",
+        "name": "Note of Sorrow",
+        "sortId": 5200003,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_frag_4": {
+        "classifyType": "NONE",
+        "description": "Knock on the shut door and reach out. We should have been united through fear.",
+        "icon": "act29side_frag_4.png",
+        "name": "Note of Fear",
+        "sortId": 5200004,
+        "usage": "A piece of fallen memory, preserved with Arts. It pulses in your palm to the rhythm of emotion. It will be forged into a key before oblivion."
+    },
+    "act29side_token_erin": {
+        "classifyType": "NONE",
+        "description": "Memories of the past are scattered across the ancient capital of Leithanien, carried by broken passages of music. Like today's Leithanien, they will need be tuned before they can be heard.",
+        "icon": "act29side_token_erin.png",
+        "name": "Die Klänge von den Erinnerungen",
+        "sortId": -10000,
+        "usage": "Leaves that fall on the streets of Zwillingstürme. Missing phrases of music can be found on them from time to time. Give them to tune seekers at concerts and be rewarded with the gift of music."
     },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2174,6 +2222,14 @@
         "name": "Rhodes Island Supplies VI",
         "sortId": 60109,
         "usage": "Filled with an assortment of supplies and materials."
+    },
+    "randomMaterial_leith2": {
+        "classifyType": "CONSUME",
+        "description": "'Though the contents are as unalike as the sounds of the heart, they will help you in your search for the truth. Follow the echoes not yet forgotten, and you will eventually find the answer.'",
+        "icon": "randomMaterial_leith2.png",
+        "name": "Investigation Resupply",
+        "sortId": 60113,
+        "usage": "Package from an unknown source containing various supplies, including random materials."
     },
     "randomMaterial_rhine2": {
         "classifyType": "CONSUME",
