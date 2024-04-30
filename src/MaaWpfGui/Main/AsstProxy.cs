@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Xml.Linq;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -98,6 +99,22 @@ namespace MaaWpfGui.Main
                 _logger.Information($"handle: {(long)handle}, adbPath: {adbPath}, address: {address}, config: {config}, return: {ret}");
                 return ret;
             }
+        }
+
+        private static unsafe void AsstSetConnectionExtras(string name, string extras)
+        {
+            _logger.Information($"name: {name}, extras: {extras}");
+
+            fixed (byte* ptr1 = EncodeNullTerminatedUtf8(name),
+                ptr2 = EncodeNullTerminatedUtf8(extras))
+            {
+                MaaService.AsstSetConnectionExtras(ptr1, ptr2);
+            }
+        }
+
+        private static unsafe void AsstSetConnectionExtrasMuMu12(string extras)
+        {
+            AsstSetConnectionExtras("MuMuEmulator12", extras);
         }
 
         private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string taskParams)
@@ -1534,6 +1551,11 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
+            if (Instances.SettingsViewModel.MuMuEmulator12Extras.IsEnable)
+            {
+                AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.GetConfig);
+            }
+
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
                 string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();

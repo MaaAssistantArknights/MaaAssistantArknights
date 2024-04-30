@@ -3245,6 +3245,86 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public class MuMuEmulator12ConnectionExtras : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected void OnPropertyChanged([CallerMemberName] string name = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+
+            private string _emulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, string.Empty);
+
+            /// <summary>
+            /// Gets or sets a value indicating the path of the emulator.
+            /// </summary>
+            public string EmulatorPath
+            {
+                get => _emulatorPath;
+                set
+                {
+                    _emulatorPath = value;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12EmulatorPath, value);
+                }
+            }
+
+            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, string.Empty);
+
+            /// <summary>
+            /// Gets or sets the index of the emulator.
+            /// </summary>
+            public string Index
+            {
+                get => _index;
+                set
+                {
+                    _index = value;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
+                }
+            }
+
+            private string _display = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Display, string.Empty);
+
+            /// <summary>
+            /// Gets or sets the display of the emulator.
+            /// </summary>
+            public string Display
+            {
+                get => _display;
+                set
+                {
+                    _display = value;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Display, _display);
+                }
+            }
+
+            public string GetConfig =>
+                $$"""
+                     {
+                         "path": "{{EmulatorPath}}",
+                         "index": {{Index}},
+                         "display": {{Display}}
+                     }
+                """;
+
+            public bool IsEnable =>
+                Instances.SettingsViewModel.ConnectConfig == "MuMuEmulator12" &&
+                !string.IsNullOrEmpty(EmulatorPath) &&
+                !string.IsNullOrEmpty(Index) &&
+                !string.IsNullOrEmpty(Display);
+
+            public MuMuEmulator12ConnectionExtras()
+            {
+                PropertyChanged += (_, _) => { };
+            }
+        }
+
+        public MuMuEmulator12ConnectionExtras MuMuEmulator12Extras { get; set; } = new();
+
         private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
 
         /// <summary>
