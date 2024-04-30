@@ -194,8 +194,8 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg)
 
     std::filesystem::path mumu_path = utils::path(adb_cfg.extras.get("path", ""));
     int mumu_index = adb_cfg.extras.get("index", 0);
-    int mumu_display_id = adb_cfg.extras.get("display_id", 0);
-    m_mumu_extras.init(mumu_path, mumu_index, mumu_display_id);
+    int mumu_display = adb_cfg.extras.get("display", 0);
+    m_mumu_extras.init(mumu_path, mumu_index, mumu_display);
 }
 
 void asst::AdbController::close_socket() noexcept
