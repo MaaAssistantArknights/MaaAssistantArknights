@@ -5417,6 +5417,30 @@
             "Stop"
         ]
     },
+    "MiningActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "MiningActivitiesReturnHome@ReturnButtons#next",
+            "MiningActivitiesReturnHome",
+            "MiningActivities"
+        ]
+    },
+    "MiningActivitiesReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
+        "next": [
+            "MiningActivities",
+            "Stop"
+        ]
+    },
     "MiningActivities": {
         "algorithm": "OcrDetect",
         "text": [
