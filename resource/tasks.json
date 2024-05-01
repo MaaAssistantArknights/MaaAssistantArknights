@@ -5455,11 +5455,11 @@
             302
         ],
         "next": [
-            "MiningActivityDigging",
+            "MiningActivityConfirm",
             "MiningActivitiesReturn"
         ]
     },
-    "MiningActivityDigging": {
+    "MiningActivityConfirm": {
         "action": "ClickSelf",
         "roi": [
             901,
@@ -5468,34 +5468,27 @@
             182
         ],
         "next": [
-            "MiningActivityDigging",
-            "MiningActivityDiggingEnd",
-            "MiningActivitiesReturn"
-        ]
+            "MiningActivitiesEarnRewards"
+        ],
+        "postDelay": 6000
     },
-    "MiningActivityDiggingEnd": {
-        "action": "ClickSelf",
-        "roi": [
-            559,
-            563,
-            160,
-            157
+    "MiningActivitiesEarnRewards": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            600,
+            70,
+            70
         ],
         "next": [
             "MiningActivitiesReturn"
         ]
     },
     "MiningActivitiesReturn": {
+        "baseTask": "CloseAnno",
         "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "roi": [
-            1146,
-            0,
-            134,
-            162
-        ],
         "next": [
-            "MiningActivitiesReturn",
             "Stop"
         ]
     },
