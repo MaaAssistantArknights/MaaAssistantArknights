@@ -399,6 +399,39 @@
             ],
             "rarity": 6
         },
+        "char_1035_wisdel": {
+            "name": "维什戴尔",
+            "name_en": "维什戴尔",
+            "name_jp": "维什戴尔",
+            "name_kr": "维什戴尔",
+            "name_tw": "维什戴尔",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": [
+                "3-3",
+                "3-9",
+                "3-9"
+            ],
+            "rarity": 6,
+            "tokens": [
+                "魂灵之影"
+            ]
+        },
+        "char_1036_fang2": {
+            "name": "历阵锐枪芬",
+            "name_en": "历阵锐枪芬",
+            "name_jp": "历阵锐枪芬",
+            "name_kr": "历阵锐枪芬",
+            "name_tw": "历阵锐枪芬",
+            "position": "MELEE",
+            "profession": "PIONEER",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 5
+        },
         "char_103_angel": {
             "name": "能天使",
             "name_en": "Exusiai",
@@ -4161,6 +4194,51 @@
             ],
             "rarity": 6
         },
+        "char_4133_logos": {
+            "name": "逻各斯",
+            "name_en": "逻各斯",
+            "name_jp": "逻各斯",
+            "name_kr": "逻各斯",
+            "name_tw": "逻各斯",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ],
+            "rarity": 6
+        },
+        "char_4134_cetsyr": {
+            "name": "魔王",
+            "name_en": "魔王",
+            "name_jp": "魔王",
+            "name_kr": "魔王",
+            "name_tw": "魔王",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "x-4",
+                "x-1",
+                "x-1"
+            ],
+            "rarity": 6
+        },
+        "char_4136_phonor": {
+            "name": "PhonoR-0",
+            "name_en": "PhonoR-0",
+            "name_jp": "PhonoR-0",
+            "name_kr": "PhonoR-0",
+            "name_tw": "PhonoR-0",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-2",
+                "y-2"
+            ],
+            "rarity": 1
+        },
         "char_415_flint": {
             "name": "燧石",
             "name_en": "Flint",
@@ -5688,6 +5766,21 @@
                 "x-4",
                 "x-4",
                 "x-4"
+            ],
+            "rarity": 6
+        },
+        "token_10035_wisdel_wward": {
+            "name": "魂灵之影",
+            "name_en": "魂灵之影",
+            "name_jp": "魂灵之影",
+            "name_kr": "魂灵之影",
+            "name_tw": "魂灵之影",
+            "position": "ALL",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
             ],
             "rarity": 6
         },
@@ -7866,12 +7959,102 @@
             ],
             "rarity": 1
         },
+        "trap_158_lrsteam": {
+            "name": "查尔斯·林奇",
+            "name_en": "查尔斯·林奇",
+            "name_jp": "查尔斯·林奇",
+            "name_kr": "查尔斯·林奇",
+            "name_tw": "查尔斯·林奇",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_159_lrcore": {
+            "name": "核心增幅器",
+            "name_en": "核心增幅器",
+            "name_jp": "核心增幅器",
+            "name_kr": "核心增幅器",
+            "name_tw": "核心增幅器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_160_lrlgun": {
+            "name": "洪流束激发器",
+            "name_en": "洪流束激发器",
+            "name_jp": "洪流束激发器",
+            "name_kr": "洪流束激发器",
+            "name_tw": "洪流束激发器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_161_lrcage": {
+            "name": "枯朽祭坛",
+            "name_en": "枯朽祭坛",
+            "name_jp": "枯朽祭坛",
+            "name_kr": "枯朽祭坛",
+            "name_tw": "枯朽祭坛",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_162_lrctrl": {
+            "name": "十四章机制控制器",
+            "name_en": "十四章机制控制器",
+            "name_jp": "十四章机制控制器",
+            "name_kr": "十四章机制控制器",
+            "name_tw": "十四章机制控制器",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_163_foolcrate": {
             "name": "障碍物",
             "name_en": "障碍物",
             "name_jp": "障碍物",
             "name_kr": "障碍物",
             "name_tw": "障碍物",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_164_lrsiege": {
+            "name": "振奋荣光",
+            "name_en": "振奋荣光",
+            "name_jp": "振奋荣光",
+            "name_kr": "振奋荣光",
+            "name_tw": "振奋荣光",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
