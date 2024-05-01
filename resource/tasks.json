@@ -8925,7 +8925,7 @@
             232,
             374
         ],
-        "postDelay": 3000,
+        "postDelay": 4000,
         "next": [
             "BattleOfficiallyBegin",
             "SkipThePreBattlePlot",
