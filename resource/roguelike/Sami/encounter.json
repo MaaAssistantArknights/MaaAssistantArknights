@@ -957,7 +957,7 @@
                 {
                     "name": "树上就不能走吗？",
                     "option_num": 2,
-                    "choose": 2,
+                    "choose": 1,
                     "requirements": [
                         {
                             "name": "Vision",

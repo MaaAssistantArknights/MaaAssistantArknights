@@ -10997,6 +10997,168 @@
         "stageId": "easy_13-19",
         "width": 12
     },
+    "easy_14-01-obt/main/level_easy_14-01": {
+        "code": "14-2",
+        "filename": "easy_14-01-obt-main-level_easy_14-01.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-01",
+        "name": "作战对策会议",
+        "stageId": "easy_14-01",
+        "width": 11
+    },
+    "easy_14-02-obt/main/level_easy_14-02": {
+        "code": "14-3",
+        "filename": "easy_14-02-obt-main-level_easy_14-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-02",
+        "name": "破解锤砧战术",
+        "stageId": "easy_14-02",
+        "width": 11
+    },
+    "easy_14-03-obt/main/level_easy_14-03": {
+        "code": "14-4",
+        "filename": "easy_14-03-obt-main-level_easy_14-03.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_14-03",
+        "name": "通讯静默解除",
+        "stageId": "easy_14-03",
+        "width": 10
+    },
+    "easy_14-04-obt/main/level_easy_14-04": {
+        "code": "14-5",
+        "filename": "easy_14-04-obt-main-level_easy_14-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-04",
+        "name": "探查岩洞区域",
+        "stageId": "easy_14-04",
+        "width": 12
+    },
+    "easy_14-05-obt/main/level_easy_14-05": {
+        "code": "14-6",
+        "filename": "easy_14-05-obt-main-level_easy_14-05.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_14-05",
+        "name": "确认交战视界",
+        "stageId": "easy_14-05",
+        "width": 10
+    },
+    "easy_14-06-obt/main/level_easy_14-06": {
+        "code": "14-7",
+        "filename": "easy_14-06-obt-main-level_easy_14-06.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-06",
+        "name": "执行反制作战",
+        "stageId": "easy_14-06",
+        "width": 11
+    },
+    "easy_14-07-obt/main/level_easy_14-07": {
+        "code": "14-8",
+        "filename": "easy_14-07-obt-main-level_easy_14-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-07",
+        "name": "抵近支援作战",
+        "stageId": "easy_14-07",
+        "width": 12
+    },
+    "easy_14-08-obt/main/level_easy_14-08": {
+        "code": "14-9",
+        "filename": "easy_14-08-obt-main-level_easy_14-08.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-08",
+        "name": "应对饱和打击",
+        "stageId": "easy_14-08",
+        "width": 11
+    },
+    "easy_14-10-obt/main/level_easy_14-10": {
+        "code": "14-11",
+        "filename": "easy_14-10-obt-main-level_easy_14-10.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_14-10",
+        "name": "所谓“英雄”",
+        "stageId": "easy_14-10",
+        "width": 12
+    },
+    "easy_14-11-obt/main/level_easy_14-11": {
+        "code": "14-12",
+        "filename": "easy_14-11-obt-main-level_easy_14-11.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-11",
+        "name": "使徒",
+        "stageId": "easy_14-11",
+        "width": 12
+    },
+    "easy_14-12-obt/main/level_easy_14-12": {
+        "code": "14-14",
+        "filename": "easy_14-12-obt-main-level_easy_14-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-12",
+        "name": "高空拒阻行动",
+        "stageId": "easy_14-12",
+        "width": 11
+    },
+    "easy_14-13-obt/main/level_easy_14-13": {
+        "code": "14-15",
+        "filename": "easy_14-13-obt-main-level_easy_14-13.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_14-13",
+        "name": "突破外围防线",
+        "stageId": "easy_14-13",
+        "width": 12
+    },
+    "easy_14-14-obt/main/level_easy_14-14": {
+        "code": "14-16",
+        "filename": "easy_14-14-obt-main-level_easy_14-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-14",
+        "name": "抢占舷侧区域",
+        "stageId": "easy_14-14",
+        "width": 12
+    },
+    "easy_14-15-obt/main/level_easy_14-15": {
+        "code": "14-17",
+        "filename": "easy_14-15-obt-main-level_easy_14-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_easy_14-15",
+        "name": "核心舱攻防战",
+        "stageId": "easy_14-15",
+        "width": 12
+    },
+    "easy_14-16-obt/main/level_easy_14-16": {
+        "code": "14-18",
+        "filename": "easy_14-16-obt-main-level_easy_14-16.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_14-16",
+        "name": "在炽燃间咆哮",
+        "stageId": "easy_14-16",
+        "width": 13
+    },
+    "easy_14-17-obt/main/level_easy_14-17": {
+        "code": "14-19",
+        "filename": "easy_14-17-obt-main-level_easy_14-17.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_14-17",
+        "name": "晶簇之内",
+        "stageId": "easy_14-17",
+        "width": 12
+    },
+    "easy_14-18-obt/main/level_easy_14-18": {
+        "code": "14-20",
+        "filename": "easy_14-18-obt-main-level_easy_14-18.json",
+        "height": 7,
+        "levelId": "obt/main/level_easy_14-18",
+        "name": "列王行迹",
+        "stageId": "easy_14-18",
+        "width": 12
+    },
+    "easy_14-19-obt/main/level_easy_14-19": {
+        "code": "14-21",
+        "filename": "easy_14-19-obt-main-level_easy_14-19.json",
+        "height": 9,
+        "levelId": "obt/main/level_easy_14-19",
+        "name": "万千愿景",
+        "stageId": "easy_14-19",
+        "width": 13
+    },
     "easy_sub_09-1-1-obt/main/level_easy_sub_09-1-1": {
         "code": "S9-1",
         "filename": "easy_sub_09-1-1-obt-main-level_easy_sub_09-1-1.json",
@@ -15461,6 +15623,186 @@
         "stageId": "main_13-19",
         "width": 12
     },
+    "main_14-01-obt/main/level_main_14-01": {
+        "code": "14-2",
+        "filename": "main_14-01-obt-main-level_main_14-01.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-01",
+        "name": "作战对策会议",
+        "stageId": "main_14-01",
+        "width": 11
+    },
+    "main_14-02-obt/main/level_main_14-02": {
+        "code": "14-3",
+        "filename": "main_14-02-obt-main-level_main_14-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-02",
+        "name": "破解锤砧战术",
+        "stageId": "main_14-02",
+        "width": 11
+    },
+    "main_14-03-obt/main/level_main_14-03": {
+        "code": "14-4",
+        "filename": "main_14-03-obt-main-level_main_14-03.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_14-03",
+        "name": "通讯静默解除",
+        "stageId": "main_14-03",
+        "width": 10
+    },
+    "main_14-04-obt/main/level_main_14-04": {
+        "code": "14-5",
+        "filename": "main_14-04-obt-main-level_main_14-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-04",
+        "name": "探查岩洞区域",
+        "stageId": "main_14-04",
+        "width": 12
+    },
+    "main_14-05-obt/main/level_main_14-05": {
+        "code": "14-6",
+        "filename": "main_14-05-obt-main-level_main_14-05.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_14-05",
+        "name": "确认交战视界",
+        "stageId": "main_14-05",
+        "width": 10
+    },
+    "main_14-06-obt/main/level_main_14-06": {
+        "code": "14-7",
+        "filename": "main_14-06-obt-main-level_main_14-06.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-06",
+        "name": "执行反制作战",
+        "stageId": "main_14-06",
+        "width": 11
+    },
+    "main_14-07-obt/main/level_main_14-07": {
+        "code": "14-8",
+        "filename": "main_14-07-obt-main-level_main_14-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-07",
+        "name": "抵近支援作战",
+        "stageId": "main_14-07",
+        "width": 12
+    },
+    "main_14-08-obt/main/level_main_14-08": {
+        "code": "14-9",
+        "filename": "main_14-08-obt-main-level_main_14-08.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-08",
+        "name": "应对饱和打击",
+        "stageId": "main_14-08",
+        "width": 11
+    },
+    "main_14-09-obt/main/level_main_14-09": {
+        "code": "14-10",
+        "filename": "main_14-09-obt-main-level_main_14-09.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_14-09",
+        "name": "自光辉中奔涌",
+        "stageId": "main_14-09",
+        "width": 12
+    },
+    "main_14-10-obt/main/level_main_14-10": {
+        "code": "14-11",
+        "filename": "main_14-10-obt-main-level_main_14-10.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_14-10",
+        "name": "所谓“英雄”",
+        "stageId": "main_14-10",
+        "width": 12
+    },
+    "main_14-11-obt/main/level_main_14-11": {
+        "code": "14-12",
+        "filename": "main_14-11-obt-main-level_main_14-11.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-11",
+        "name": "使徒",
+        "stageId": "main_14-11",
+        "width": 12
+    },
+    "main_14-12-obt/main/level_main_14-12": {
+        "code": "14-14",
+        "filename": "main_14-12-obt-main-level_main_14-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-12",
+        "name": "高空拒阻行动",
+        "stageId": "main_14-12",
+        "width": 11
+    },
+    "main_14-13-obt/main/level_main_14-13": {
+        "code": "14-15",
+        "filename": "main_14-13-obt-main-level_main_14-13.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_14-13",
+        "name": "突破外围防线",
+        "stageId": "main_14-13",
+        "width": 12
+    },
+    "main_14-14-obt/main/level_main_14-14": {
+        "code": "14-16",
+        "filename": "main_14-14-obt-main-level_main_14-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-14",
+        "name": "抢占舷侧区域",
+        "stageId": "main_14-14",
+        "width": 12
+    },
+    "main_14-15-obt/main/level_main_14-15": {
+        "code": "14-17",
+        "filename": "main_14-15-obt-main-level_main_14-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_main_14-15",
+        "name": "核心舱攻防战",
+        "stageId": "main_14-15",
+        "width": 12
+    },
+    "main_14-16-obt/main/level_main_14-16": {
+        "code": "14-18",
+        "filename": "main_14-16-obt-main-level_main_14-16.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_14-16",
+        "name": "在炽燃间咆哮",
+        "stageId": "main_14-16",
+        "width": 13
+    },
+    "main_14-17-obt/main/level_main_14-17": {
+        "code": "14-19",
+        "filename": "main_14-17-obt-main-level_main_14-17.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_14-17",
+        "name": "晶簇之内",
+        "stageId": "main_14-17",
+        "width": 12
+    },
+    "main_14-18-obt/main/level_main_14-18": {
+        "code": "14-20",
+        "filename": "main_14-18-obt-main-level_main_14-18.json",
+        "height": 7,
+        "levelId": "obt/main/level_main_14-18",
+        "name": "列王行迹",
+        "stageId": "main_14-18",
+        "width": 12
+    },
+    "main_14-19-obt/main/level_main_14-19": {
+        "code": "14-21",
+        "filename": "main_14-19-obt-main-level_main_14-19.json",
+        "height": 9,
+        "levelId": "obt/main/level_main_14-19",
+        "name": "万千愿景",
+        "stageId": "main_14-19",
+        "width": 13
+    },
+    "main_14-20-obt/main/level_main_14-20": {
+        "code": "14-22",
+        "filename": "main_14-20-obt-main-level_main_14-20.json",
+        "height": 5,
+        "levelId": "obt/main/level_main_14-20",
+        "name": "在哀愁绽放的时刻",
+        "stageId": "main_14-20",
+        "width": 9
+    },
     "mem_12fce_1-obt/memory/level_memory_12fce_1": {
         "code": "mem_12fce_1",
         "filename": "mem_12fce_1-obt-memory-level_memory_12fce_1.json",
@@ -15578,6 +15920,15 @@
         "stageId": "mem_ardign_1",
         "width": 11
     },
+    "mem_aroma_1-obt/memory/level_memory_aroma_1": {
+        "code": "mem_aroma_1",
+        "filename": "mem_aroma_1-obt-memory-level_memory_aroma_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_aroma_1",
+        "name": "表面活性",
+        "stageId": "mem_aroma_1",
+        "width": 11
+    },
     "mem_asbest_1-obt/memory/level_memory_asbest_1": {
         "code": "mem_asbest_1",
         "filename": "mem_asbest_1-obt-memory-level_memory_asbest_1.json",
@@ -15586,6 +15937,15 @@
         "name": "耐心！",
         "stageId": "mem_asbest_1",
         "width": 10
+    },
+    "mem_ascln_1-obt/memory/level_memory_ascln_1": {
+        "code": "mem_ascln_1",
+        "filename": "mem_ascln_1-obt-memory-level_memory_ascln_1.json",
+        "height": 6,
+        "levelId": "obt/memory/level_memory_ascln_1",
+        "name": "独刃",
+        "stageId": "mem_ascln_1",
+        "width": 11
     },
     "mem_astesi_1-obt/memory/level_memory_astesi_1": {
         "code": "mem_astesi_1",
@@ -16134,6 +16494,15 @@
         "levelId": "obt/memory/level_memory_frostl_1",
         "name": "小队",
         "stageId": "mem_frostl_1",
+        "width": 9
+    },
+    "mem_ghost2_1-obt/memory/level_memory_ghost2_1": {
+        "code": "mem_ghost2_1",
+        "filename": "mem_ghost2_1-obt-memory-level_memory_ghost2_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_ghost2_1",
+        "name": "倒影",
+        "stageId": "mem_ghost2_1",
         "width": 9
     },
     "mem_ghost_1-obt/memory/level_memory_ghost_1": {
@@ -17000,6 +17369,15 @@
         "stageId": "mem_sesa_1",
         "width": 11
     },
+    "mem_shining_1-obt/memory/level_memory_shining_1": {
+        "code": "mem_shining_1",
+        "filename": "mem_shining_1-obt-memory-level_memory_shining_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_shining_1",
+        "name": "坚如磐石",
+        "stageId": "mem_shining_1",
+        "width": 10
+    },
     "mem_shotst_1-obt/memory/level_memory_shotst_1": {
         "code": "mem_shotst_1",
         "filename": "mem_shotst_1-obt-memory-level_memory_shotst_1.json",
@@ -17025,6 +17403,15 @@
         "levelId": "obt/memory/level_memory_sidero_1",
         "name": "不息",
         "stageId": "mem_sidero_1",
+        "width": 11
+    },
+    "mem_siege_1-obt/memory/level_memory_siege_1": {
+        "code": "mem_siege_1",
+        "filename": "mem_siege_1-obt-memory-level_memory_siege_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_siege_1",
+        "name": "头阵冲锋",
+        "stageId": "mem_siege_1",
         "width": 11
     },
     "mem_silent_1-obt/memory/level_memory_silent_1": {
@@ -17206,6 +17593,15 @@
         "name": "钱能通神",
         "stageId": "mem_swire_1",
         "width": 14
+    },
+    "mem_swllow_1-obt/memory/level_memory_swllow_1": {
+        "code": "mem_swllow_1",
+        "filename": "mem_swllow_1-obt-memory-level_memory_swllow_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_swllow_1",
+        "name": "锲而不舍",
+        "stageId": "mem_swllow_1",
+        "width": 9
     },
     "mem_takila_1-obt/memory/level_memory_takila_1": {
         "code": "mem_takila_1",
@@ -21077,6 +21473,168 @@
         "stageId": "tough_13-19",
         "width": 12
     },
+    "tough_14-01-obt/main/level_tough_14-01": {
+        "code": "14-2",
+        "filename": "tough_14-01-obt-main-level_tough_14-01.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-01",
+        "name": "作战对策会议",
+        "stageId": "tough_14-01",
+        "width": 11
+    },
+    "tough_14-02-obt/main/level_tough_14-02": {
+        "code": "14-3",
+        "filename": "tough_14-02-obt-main-level_tough_14-02.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-02",
+        "name": "破解锤砧战术",
+        "stageId": "tough_14-02",
+        "width": 11
+    },
+    "tough_14-03-obt/main/level_tough_14-03": {
+        "code": "14-4",
+        "filename": "tough_14-03-obt-main-level_tough_14-03.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_14-03",
+        "name": "通讯静默解除",
+        "stageId": "tough_14-03",
+        "width": 10
+    },
+    "tough_14-04-obt/main/level_tough_14-04": {
+        "code": "14-5",
+        "filename": "tough_14-04-obt-main-level_tough_14-04.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-04",
+        "name": "探查岩洞区域",
+        "stageId": "tough_14-04",
+        "width": 12
+    },
+    "tough_14-05-obt/main/level_tough_14-05": {
+        "code": "14-6",
+        "filename": "tough_14-05-obt-main-level_tough_14-05.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_14-05",
+        "name": "确认交战视界",
+        "stageId": "tough_14-05",
+        "width": 10
+    },
+    "tough_14-06-obt/main/level_tough_14-06": {
+        "code": "14-7",
+        "filename": "tough_14-06-obt-main-level_tough_14-06.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-06",
+        "name": "执行反制作战",
+        "stageId": "tough_14-06",
+        "width": 11
+    },
+    "tough_14-07-obt/main/level_tough_14-07": {
+        "code": "14-8",
+        "filename": "tough_14-07-obt-main-level_tough_14-07.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-07",
+        "name": "抵近支援作战",
+        "stageId": "tough_14-07",
+        "width": 12
+    },
+    "tough_14-08-obt/main/level_tough_14-08": {
+        "code": "14-9",
+        "filename": "tough_14-08-obt-main-level_tough_14-08.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-08",
+        "name": "应对饱和打击",
+        "stageId": "tough_14-08",
+        "width": 11
+    },
+    "tough_14-10-obt/main/level_tough_14-10": {
+        "code": "14-11",
+        "filename": "tough_14-10-obt-main-level_tough_14-10.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_14-10",
+        "name": "所谓“英雄”",
+        "stageId": "tough_14-10",
+        "width": 12
+    },
+    "tough_14-11-obt/main/level_tough_14-11": {
+        "code": "14-12",
+        "filename": "tough_14-11-obt-main-level_tough_14-11.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-11",
+        "name": "使徒",
+        "stageId": "tough_14-11",
+        "width": 12
+    },
+    "tough_14-12-obt/main/level_tough_14-12": {
+        "code": "14-14",
+        "filename": "tough_14-12-obt-main-level_tough_14-12.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-12",
+        "name": "高空拒阻行动",
+        "stageId": "tough_14-12",
+        "width": 11
+    },
+    "tough_14-13-obt/main/level_tough_14-13": {
+        "code": "14-15",
+        "filename": "tough_14-13-obt-main-level_tough_14-13.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_14-13",
+        "name": "突破外围防线",
+        "stageId": "tough_14-13",
+        "width": 12
+    },
+    "tough_14-14-obt/main/level_tough_14-14": {
+        "code": "14-16",
+        "filename": "tough_14-14-obt-main-level_tough_14-14.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-14",
+        "name": "抢占舷侧区域",
+        "stageId": "tough_14-14",
+        "width": 12
+    },
+    "tough_14-15-obt/main/level_tough_14-15": {
+        "code": "14-17",
+        "filename": "tough_14-15-obt-main-level_tough_14-15.json",
+        "height": 8,
+        "levelId": "obt/main/level_tough_14-15",
+        "name": "核心舱攻防战",
+        "stageId": "tough_14-15",
+        "width": 12
+    },
+    "tough_14-16-obt/main/level_tough_14-16": {
+        "code": "14-18",
+        "filename": "tough_14-16-obt-main-level_tough_14-16.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_14-16",
+        "name": "在炽燃间咆哮",
+        "stageId": "tough_14-16",
+        "width": 13
+    },
+    "tough_14-17-obt/main/level_tough_14-17": {
+        "code": "14-19",
+        "filename": "tough_14-17-obt-main-level_tough_14-17.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_14-17",
+        "name": "晶簇之内",
+        "stageId": "tough_14-17",
+        "width": 12
+    },
+    "tough_14-18-obt/main/level_tough_14-18": {
+        "code": "14-20",
+        "filename": "tough_14-18-obt-main-level_tough_14-18.json",
+        "height": 7,
+        "levelId": "obt/main/level_tough_14-18",
+        "name": "列王行迹",
+        "stageId": "tough_14-18",
+        "width": 12
+    },
+    "tough_14-19-obt/main/level_tough_14-19": {
+        "code": "14-21",
+        "filename": "tough_14-19-obt-main-level_tough_14-19.json",
+        "height": 9,
+        "levelId": "obt/main/level_tough_14-19",
+        "name": "万千愿景",
+        "stageId": "tough_14-19",
+        "width": 13
+    },
     "tr_01-obt/training/level_training_1": {
         "code": "TR-1",
         "filename": "tr_01-obt-training-level_training_1.json",
@@ -21292,6 +21850,15 @@
         "name": "寻迹而行",
         "stageId": "tr_24",
         "width": 11
+    },
+    "tr_25-obt/training/level_training_25": {
+        "code": "TR-25",
+        "filename": "tr_25-obt-training-level_training_25.json",
+        "height": 6,
+        "levelId": "obt/training/level_training_25",
+        "name": "特殊环境适应作战",
+        "stageId": "tr_25",
+        "width": 9
     },
     "wk_armor_1-obt/weekly/level_weekly_armor_1": {
         "code": "SK-1",

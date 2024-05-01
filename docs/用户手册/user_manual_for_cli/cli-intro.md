@@ -1,6 +1,6 @@
 ---
 order: 1
-icon: material-symbols:summarize
+icon: material-symbols:toc
 ---
 
 # maa-cli
