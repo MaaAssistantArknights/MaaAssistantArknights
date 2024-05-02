@@ -2465,6 +2465,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _receiveMining = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether receive mining is enabled.
+        /// </summary>
+        public bool ReceiveMining
+        {
+            get => _receiveMining;
+            set
+            {
+                SetAndNotify(ref _receiveMining, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveMining, value.ToString());
+            }
+        }
+
         private bool _receiveReceiveSpecialAccess = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, false.ToString()));
 
         /// <summary>
