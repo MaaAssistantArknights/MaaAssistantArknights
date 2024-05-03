@@ -337,7 +337,7 @@
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 独家极速操控模式</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu 模拟器路径</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
-    <system:String x:Key="MuMu12Display">实例屏幕</system:String>
+    <system:String x:Key="MuMu12Display">屏幕编号</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 连接失败时尝试启动模拟器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重连失败 20 次后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模拟器路径为空！请填写「启动设置-模拟器路径」后重新勾选。</system:String>
