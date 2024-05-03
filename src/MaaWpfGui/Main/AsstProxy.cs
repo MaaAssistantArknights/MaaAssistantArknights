@@ -485,6 +485,7 @@ namespace MaaWpfGui.Main
                                     costString = timeCost.ToString("#,#");
                                     color = UiLogColor.Warning;
                                     break;
+
                                 case > 400:
                                     color = UiLogColor.Warning;
                                     break;
@@ -501,6 +502,7 @@ namespace MaaWpfGui.Main
                     }
 
                     break;
+
                 case "ScreencapCost":
                     var screencapCostMin = details["details"]?["min"]?.ToString() ?? "???";
                     var screencapCostAvg = details["details"]?["avg"]?.ToString() ?? "???";
@@ -521,6 +523,7 @@ namespace MaaWpfGui.Main
                             case >= 800:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapErrorTip"), screencapCostAvgInt), UiLogColor.Warning);
                                 break;
+
                             case >= 400:
                                 AddLog(string.Format(LocalizationHelper.GetString("FastestWayToScreencapWarningTip"), screencapCostAvgInt), UiLogColor.Warning);
                                 break;
@@ -1551,7 +1554,7 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (Instances.SettingsViewModel.MuMuEmulator12Extras.IsEnable)
+            if (Instances.SettingsViewModel.MuMuEmulator12Extras.Enable)
             {
                 AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
             }

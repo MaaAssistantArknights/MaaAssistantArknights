@@ -21,6 +21,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Management;
+using System.Printing;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -1798,8 +1799,10 @@ namespace MaaWpfGui.ViewModels.UI
                     case NotifyType.ScrollOffset:
                         SetAndNotify(ref _selectedIndex, value);
                         break;
+
                     case NotifyType.SelectedIndex:
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -1848,8 +1851,10 @@ namespace MaaWpfGui.ViewModels.UI
                     case NotifyType.SelectedIndex:
                         SetAndNotify(ref _scrollOffset, value);
                         break;
+
                     case NotifyType.ScrollOffset:
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -1977,6 +1982,7 @@ namespace MaaWpfGui.ViewModels.UI
                     case true when RoguelikeUseSupportUnit:
                         RoguelikeUseSupportUnit = false;
                         break;
+
                     case false when RoguelikeOnlyStartWithEliteTwo:
                         RoguelikeOnlyStartWithEliteTwo = false;
                         break;
@@ -2479,7 +2485,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
             }
         }
-
 
         /* 定时设置 */
 
@@ -3253,6 +3258,19 @@ namespace MaaWpfGui.ViewModels.UI
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
 
+            private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, bool.FalseString));
+
+            public bool Enable
+            {
+                get => _enable;
+                set
+                {
+                    _enable = value;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
+                }
+            }
+
             private string _emulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, string.Empty);
 
             /// <summary>
@@ -3307,12 +3325,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : -1,
                 ["display"] = int.TryParse(Display, out var displayParse) ? displayParse : -1,
             });
-
-            public bool IsEnable =>
-                Instances.SettingsViewModel.ConnectConfig == "MuMuEmulator12" &&
-                !string.IsNullOrEmpty(EmulatorPath) &&
-                !string.IsNullOrEmpty(Index) &&
-                !string.IsNullOrEmpty(Display);
 
             public MuMuEmulator12ConnectionExtras()
             {
@@ -3462,6 +3474,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case 0:
                     error = LocalizationHelper.GetString("EmulatorNotFound");
                     return false;
+
                 case > 1:
                     error = LocalizationHelper.GetString("EmulatorTooMany");
                     break;
@@ -3482,6 +3495,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case 1:
                     ConnectAddress = addresses.First();
                     break;
+
                 case > 1:
                     {
                         foreach (var address in addresses.Where(address => address != "emulator-5554"))
@@ -3571,6 +3585,7 @@ namespace MaaWpfGui.ViewModels.UI
                     case "1": // 配置名
                         currentConfiguration = $" ({CurrentConfiguration})";
                         break;
+
                     case "2": // 连接模式
                         foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
                         {
@@ -3578,9 +3593,11 @@ namespace MaaWpfGui.ViewModels.UI
                         }
 
                         break;
+
                     case "3": // 端口地址
                         connectAddress = $" ({ConnectAddress})";
                         break;
+
                     case "4": // 客户端类型
                         clientName = $" - {ClientName}";
                         break;

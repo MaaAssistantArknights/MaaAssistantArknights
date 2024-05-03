@@ -334,6 +334,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu’s exclusive extreme speed control mode</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Instance Screen</system:String>

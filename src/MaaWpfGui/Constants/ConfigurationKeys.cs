@@ -55,6 +55,7 @@ namespace MaaWpfGui.Constants
         public const string ConnectAddress = "Connect.Address";
         public const string AdbPath = "Connect.AdbPath";
         public const string ConnectConfig = "Connect.ConnectConfig";
+        public const string MuMu12ExtrasEnabled = "Connect.MuMu12Extras.Enabled";
         public const string MuMu12EmulatorPath = "Connect.MuMu12EmulatorPath";
         public const string MuMu12Index = "Connect.MuMu12Index";
         public const string MuMu12Display = "Connect.MuMu12Display";

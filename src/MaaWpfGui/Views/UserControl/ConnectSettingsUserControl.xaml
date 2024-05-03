@@ -124,6 +124,11 @@
                 ItemsSource="{Binding ConnectConfigList}"
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value" />
+            <CheckBox
+                Margin="10"
+                Content="{DynamicResource MuMu12ExtrasEnabled}"
+                IsChecked="{Binding MuMuEmulator12Extras.Enable}"
+                Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}" />
             <hc:TextBox
                 Width="420"
                 Height="30"
@@ -131,6 +136,7 @@
                 hc:InfoElement.Placeholder="C:/Program Files/Netease/MuMuPlayer-12.0"
                 hc:TitleElement.Title="{DynamicResource MuMu12EmulatorPath}"
                 hc:TitleElement.TitlePlacement="Left"
+                IsEnabled="{Binding MuMuEmulator12Extras.Enable}"
                 Text="{Binding MuMuEmulator12Extras.EmulatorPath}"
                 Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}" />
             <hc:TextBox
@@ -140,6 +146,7 @@
                 hc:InfoElement.Placeholder="0"
                 hc:TitleElement.Title="{DynamicResource MuMu12Index}"
                 hc:TitleElement.TitlePlacement="Left"
+                IsEnabled="{Binding MuMuEmulator12Extras.Enable}"
                 Text="{Binding MuMuEmulator12Extras.Index}"
                 Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}" />
             <hc:TextBox
@@ -149,6 +156,7 @@
                 hc:InfoElement.Placeholder="0"
                 hc:TitleElement.Title="{DynamicResource MuMu12Display}"
                 hc:TitleElement.TitlePlacement="Left"
+                IsEnabled="{Binding MuMuEmulator12Extras.Enable}"
                 Text="{Binding MuMuEmulator12Extras.Display}"
                 Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}" />
         </StackPanel>
