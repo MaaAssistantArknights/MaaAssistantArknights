@@ -1553,7 +1553,7 @@ namespace MaaWpfGui.Main
         {
             if (Instances.SettingsViewModel.MuMuEmulator12Extras.IsEnable)
             {
-                AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.GetConfig);
+                AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
             }
 
             if (Instances.SettingsViewModel.AutoDetectConnection)
