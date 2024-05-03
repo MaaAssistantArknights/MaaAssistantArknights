@@ -349,6 +349,25 @@
             "name": "高台C",
             "opers": [
                 {
+                    "name": "维什戴尔",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 952,
+                    "promote_priority": 981,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "高台C",
+                                "玛恩纳",
+                                "号角"
+                            ],
+                            "threshold": 3,
+                            "offset": -200
+                        }
+                    ]
+                },
+                {
                     "name": "假日威龙陈",
                     "skill": 3,
                     "alternate_skill": 1,
@@ -410,6 +429,25 @@
                     "alternate_skill": 2,
                     "recruit_priority": 764,
                     "promote_priority": 932,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "高台C",
+                                "玛恩纳",
+                                "号角"
+                            ],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "逻各斯",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 765,
+                    "promote_priority": 832,
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
@@ -749,6 +787,26 @@
                             "threshold": 2,
                             "offset": -150
                         },
+                        {
+                            "groups": [
+                                "百嘉",
+                                "基石",
+                                "号角",
+                                "地面C",
+                                "重装"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -600
+                        }
+                    ]
+                },
+                {
+                    "name": "阿斯卡纶",
+                    "skill": 2,
+                    "recruit_priority": 446,
+                    "promote_priority": 440,
+                    "recruit_priority_offsets": [
                         {
                             "groups": [
                                 "百嘉",
@@ -1307,6 +1365,18 @@
                             "offset": -300
                         }
                     ]
+                },
+                {
+                    "name": "浊心斯卡蒂",
+                    "skill": 2,
+                    "recruit_priority": 527,
+                    "promote_priority": 220
+                },
+                {
+                    "name": "魔王",
+                    "skill": 2,
+                    "recruit_priority": 457,
+                    "promote_priority": 220
                 }
             ]
         },
@@ -1509,6 +1579,10 @@
                 },
                 {
                     "name": "苇草"
+                },
+                {
+                    "name": "历阵锐枪芬",
+                    "skill": 1
                 },
                 {
                     "name": "野鬃"
@@ -2207,12 +2281,6 @@
             "name": "辅助",
             "opers": [
                 {
-                    "name": "浊心斯卡蒂",
-                    "skill": 2,
-                    "recruit_priority": 527,
-                    "promote_priority": 220
-                },
-                {
                     "name": "铃兰",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -2538,6 +2606,9 @@
                     "name": "医生"
                 },
                 {
+                    "name": "奥达"
+                },
+                {
                     "name": "苍苔",
                     "skill": 2
                 },
@@ -2828,6 +2899,9 @@
                     "name": "浊心斯卡蒂"
                 },
                 {
+                    "name": "魔王"
+                },
+                {
                     "name": "调香师"
                 },
                 {
@@ -2956,6 +3030,9 @@
                 },
                 {
                     "name": "艾雅法拉"
+                },
+                {
+                    "name": "逻各斯"
                 },
                 {
                     "name": "焰影苇草"

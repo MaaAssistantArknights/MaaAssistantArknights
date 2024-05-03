@@ -51,6 +51,25 @@
                     ]
                 },
                 {
+                    "name": "逻各斯",
+                    "skill": 3,
+                    "alternate_skill": 1,
+                    "recruit_priority": 651,
+                    "promote_priority": 882,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "高台C",
+                                "高台输出"
+                            ],
+                            "threshold": 2,
+                            "is_less": true,
+                            "offset": 300
+                        }
+                    ]
+                },
+                {
                     "name": "假日威龙陈",
                     "skill": 3,
                     "alternate_skill": 1,
@@ -1431,6 +1450,23 @@
                             "offset": -180
                         }
                     ]
+                },
+                {
+                    "name": "魔王",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 627,
+                    "promote_priority": 710,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 3,
+                            "offset": -180
+                        }
+                    ]
                 }
             ]
         },
@@ -1520,6 +1556,9 @@
                 },
                 {
                     "name": "浊心斯卡蒂"
+                },
+                {
+                    "name": "魔王"
                 },
                 {
                     "name": "海蒂",
@@ -1622,6 +1661,9 @@
                 },
                 {
                     "name": "浊心斯卡蒂"
+                },
+                {
+                    "name": "魔王"
                 },
                 {
                     "name": "调香师"
@@ -1799,6 +1841,9 @@
                 },
                 {
                     "name": "风笛"
+                },
+                {
+                    "name": "历阵锐枪芬"
                 },
                 {
                     "name": "镜中虚影",
@@ -2046,6 +2091,9 @@
                     "name": "风笛"
                 },
                 {
+                    "name": "历阵锐枪芬"
+                },
+                {
                     "name": "苇草",
                     "skill": 2
                 },
@@ -2148,6 +2196,9 @@
                     "name": "艾雅法拉"
                 },
                 {
+                    "name": "逻各斯"
+                },
+                {
                     "name": "莫斯提马",
                     "skill": 3,
                     "is_key": true,
@@ -2238,10 +2289,28 @@
             "name": "提丰",
             "opers": [
                 {
+                    "name": "维什戴尔",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 930,
+                    "promote_priority": 960,
+                    "is_key": true,
+                    "is_start": true
+                },
+                {
                     "name": "提丰",
                     "skill": 2,
                     "recruit_priority": 829,
                     "promote_priority": 890,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "提丰"
+                            ],
+                            "threshold": 3,
+                            "offset": -200
+                        }
+                    ],
                     "is_key": true,
                     "is_start": true
                 }
@@ -2251,6 +2320,9 @@
             "name": "狙击",
             "doc": "远程狙击",
             "opers": [
+                {
+                    "name": "维什戴尔"
+                },
                 {
                     "name": "提丰"
                 },
@@ -2496,18 +2568,6 @@
                             "offset": -300
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "name": "浊心斯卡蒂",
-            "opers": [
-                {
-                    "name": "浊心斯卡蒂",
-                    "skill": 2,
-                    "recruit_priority": 910,
-                    "promote_priority": 700,
-                    "is_key": true
                 }
             ]
         },
@@ -2775,6 +2835,9 @@
                     "name": "医生"
                 },
                 {
+                    "name": "奥达"
+                },
+                {
                     "name": "苍苔",
                     "skill": 2
                 },
@@ -2806,6 +2869,9 @@
                 },
                 {
                     "name": "风笛"
+                },
+                {
+                    "name": "历阵锐枪芬"
                 },
                 {
                     "name": "野鬃"
@@ -3236,6 +3302,25 @@
             "name": "地刺",
             "opers": [
                 {
+                    "name": "阿斯卡纶",
+                    "skill": 2,
+                    "recruit_priority": 396,
+                    "promote_priority": 440,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "棘刺",
+                                "召唤",
+                                "地面阻挡"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -600
+                        }
+                    ]
+                },
+                {
                     "name": "水月",
                     "skill": 1,
                     "recruit_priority": 395,
@@ -3480,6 +3565,9 @@
                             "offset": -300
                         }
                     ]
+                },
+                {
+                    "name": "历阵锐枪芬"
                 },
                 {
                     "name": "歌蕾蒂娅",
