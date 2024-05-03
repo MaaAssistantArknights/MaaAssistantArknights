@@ -29,6 +29,24 @@
                 ],
                 "template": "Bskill_ctrl_aegir2.png"
             },
+            "bskill_ctrl_amiya": {
+                "desc": [
+                    "当与阿米娅一起进驻控制中枢时，自身和阿米娅心情每小时恢复+0.05"
+                ],
+                "name": [
+                    "魔王传承"
+                ],
+                "template": "Bskill_ctrl_amiya.png"
+            },
+            "bskill_ctrl_amiya1": {
+                "desc": [
+                    "当与阿米娅一起进驻控制中枢时，自身和阿米娅心情每小时恢复+0.1"
+                ],
+                "name": [
+                    "“未完的故事”"
+                ],
+                "template": "Bskill_ctrl_amiya1.png"
+            },
             "bskill_ctrl_ash": {
                 "desc": [
                     "进驻控制中枢时，控制中枢内每有1名彩虹小队干员，则情报储备+1"
@@ -50,6 +68,24 @@
                 ],
                 "template": "Bskill_ctrl_bd_spd.png"
             },
+            "bskill_ctrl_c_babel": {
+                "desc": [
+                    "进驻控制中枢时，当伊内丝入驻会客室时，会客室效率+5%；当赫德雷入驻贸易站时，赫德雷所在贸易站订单上限+1"
+                ],
+                "name": [
+                    "同谋·α"
+                ],
+                "template": "Bskill_ctrl_c_babel.png"
+            },
+            "bskill_ctrl_c_babel2": {
+                "desc": [
+                    "进驻控制中枢时，当伊内丝入驻会客室时，会客室效率+5%；当赫德雷入驻贸易站时，赫德雷所在贸易站订单上限+2"
+                ],
+                "name": [
+                    "同谋·β"
+                ],
+                "template": "Bskill_ctrl_c_babel2.png"
+            },
             "bskill_ctrl_c_spd": {
                 "desc": [
                     "进驻控制中枢时，会客室线索搜集速度+25%"
@@ -61,6 +97,15 @@
                     "世事洞明"
                 ],
                 "template": "Bskill_ctrl_c_spd.png"
+            },
+            "bskill_ctrl_c_spd1": {
+                "desc": [
+                    "进驻控制中枢时，会客室线索搜集速度+15%（同种效果取最高）"
+                ],
+                "name": [
+                    "期冀之汇"
+                ],
+                "template": "Bskill_ctrl_c_spd1.png"
             },
             "bskill_ctrl_c_victoria": {
                 "desc": [
@@ -218,6 +263,15 @@
                     "孤光共照"
                 ],
                 "template": "Bskill_ctrl_cost_bd4.png"
+            },
+            "bskill_ctrl_cost_expand": {
+                "desc": [
+                    "进驻控制中枢时，其他设施内处于工作状态的干员心情每小时恢复+0.1，当魔王进驻中枢时额外+0.1（与控制中枢加成有特殊比较规则）"
+                ],
+                "name": [
+                    "巴别塔之帜"
+                ],
+                "template": "Bskill_ctrl_cost_expand.png"
             },
             "bskill_ctrl_cost_felyne": {
                 "desc": [
@@ -941,6 +995,15 @@
                     "患难拍档"
                 ],
                 "template": "Bskill_formula_spd_sunbr.png"
+            },
+            "bskill_man_A1": {
+                "desc": [
+                    "进驻制造站时，当前制造站内每个A1小队干员为自身+10%的生产力"
+                ],
+                "name": [
+                    "重聚时光"
+                ],
+                "template": "Bskill_man_A1.png"
             },
             "bskill_man_bd1": {
                 "desc": [
@@ -2533,6 +2596,7 @@
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%",
+                    "进驻发电站时，无人机充能速度+10%",
                     "进驻发电站时，无人机充能速度+10%"
                 ],
                 "efficient": {
@@ -2542,7 +2606,8 @@
                     "光能充能·α",
                     "电磁充能·α",
                     "备用能源",
-                    "热能充能·α"
+                    "热能充能·α",
+                    "挽歌充能·α"
                 ],
                 "template": "Bskill_pow_spd1.png"
             },
@@ -2596,6 +2661,15 @@
                     "“愉快的对谈”"
                 ],
                 "template": "Bskill_pow_spd_P.png"
+            },
+            "bskill_pow_spd_P1": {
+                "desc": [
+                    "进驻发电站时，如果逻各斯进驻在训练室协助位，则无人机充能速度+5%"
+                ],
+                "name": [
+                    "咒文共鸣"
+                ],
+                "template": "Bskill_pow_spd_P1.png"
             },
             "bskill_power_rec_rhine": {
                 "desc": [

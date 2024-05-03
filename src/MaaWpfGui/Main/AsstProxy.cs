@@ -1792,9 +1792,10 @@ namespace MaaWpfGui.Main
         /// <param name="mail">是否领取所有邮件奖励</param>
         /// <param name="recruit">是否进行每日免费单抽</param>
         /// <param name="orundum">是否领取幸运墙合成玉奖励</param>
+        /// <param name="mining">是否领取限时开采许可合成玉奖励</param>
         /// <param name="specialaccess">是否领取五周年赠送月卡奖励</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendAward(bool award, bool mail, bool recruit, bool orundum, bool specialaccess)
+        public bool AsstAppendAward(bool award, bool mail, bool recruit, bool orundum, bool mining, bool specialaccess)
         {
             var taskParams = new JObject
             {
@@ -1802,6 +1803,7 @@ namespace MaaWpfGui.Main
                 ["mail"] = mail,
                 ["recruit"] = recruit,
                 ["orundum"] = orundum,
+                ["mining"] = mining,
                 ["specialaccess"] = specialaccess,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Award", taskParams);
@@ -1891,6 +1893,7 @@ namespace MaaWpfGui.Main
         /// 公开招募。
         /// </summary>
         /// <param name="maxTimes">加急次数，仅在 <paramref name="useExpedited"/> 为 <see langword="true"/> 时有效。</param>
+        /// <param name="firstTags">首选 Tags，仅在 Tag 等级为 3 时有效。</param>
         /// <param name="selectLevel">会去点击标签的 Tag 等级。</param>
         /// <param name="confirmLevel">会去点击确认的 Tag 等级。若仅公招计算，可设置为空数组。</param>
         /// <param name="needRefresh">是否刷新三星 Tags。</param>
@@ -1917,7 +1920,7 @@ namespace MaaWpfGui.Main
         /// <param name="isLevel3UseShortTime">三星Tag是否使用短时间（7:40）</param>
         /// <param name="isLevel3UseShortTime2">三星Tag是否使用短时间（1:00）</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendRecruit(int maxTimes, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
+        public bool AsstAppendRecruit(int maxTimes, string[] firstTags, int[] selectLevel, int[] confirmLevel, bool needRefresh, bool needForceRefresh, bool useExpedited,
             int selectExtraTagsMode, bool skipRobot, bool isLevel3UseShortTime, bool isLevel3UseShortTime2 = false)
         {
             var taskParams = new JObject
@@ -1932,6 +1935,7 @@ namespace MaaWpfGui.Main
                 ["extra_tags_mode"] = selectExtraTagsMode,
                 ["expedite_times"] = maxTimes,
                 ["skip_robot"] = skipRobot,
+                ["first_tags"] = new JArray(firstTags),
             };
             if (isLevel3UseShortTime)
             {

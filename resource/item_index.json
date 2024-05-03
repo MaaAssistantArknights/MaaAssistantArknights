@@ -1055,6 +1055,14 @@
         "sortId": 10023,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_5001": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_5001.png",
+        "name": "寻访数据契约",
+        "sortId": 10024,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1470,6 +1478,14 @@
         "name": "里程碑碎片",
         "sortId": -10000,
         "usage": "可用于兑换里程碑奖励。"
+    },
+    "act1mainss_token_medi": {
+        "classifyType": "NONE",
+        "description": "请注意，使用本药剂时最好由外周静脉注射，如遇紧急抢救可尝试经中央静脉注射给药。在第一次注射后，如发生休克，可在5-7分钟内重复给予第二剂静脉注射。战场上的每一支药剂都可能成为救治伤者的关键，请利用好它。",
+        "icon": "act1mainss_token_medi.png",
+        "name": "急性感染抑制剂",
+        "sortId": -10000,
+        "usage": "罗德岛医疗部研制出的新型药剂，能够在天灾和战场等活性化的源石环境里起到暂时抑制矿石病恶化的作用。本药品会给身体带来极大负担，请谨慎使用。"
     },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
@@ -2213,6 +2229,14 @@
         "icon": "randomMaterial_1.png",
         "name": "罗德岛物资补给",
         "sortId": 60101,
+        "usage": "装有各种物资补给，包含多种随机材料。"
+    },
+    "randomMaterial_10": {
+        "classifyType": "CONSUME",
+        "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
+        "icon": "randomMaterial_10.png",
+        "name": "罗德岛物资补给VII",
+        "sortId": 60109,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_2": {

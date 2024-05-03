@@ -298,6 +298,7 @@
     <system:String x:Key="ReceiveFreeRecruitTip">無料シングル抽選がない場合は抽選されない</system:String>
     <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
+    <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成翡翠の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
@@ -675,6 +676,8 @@
     <system:String x:Key="DefaultNoExtraTags">デフォルトでは、追加のタグを選択しない</system:String>
     <system:String x:Key="SelectExtraTags">タグを選択すると、常に 3 つのタグが選択されます</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">可能な限り多くのタグを選択し、高い星のタグのみを選択する</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">優先タグ（セミコロンで区切）</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">サブストリングで十分です、できるだけ多くのタグの傾向を選択します</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
     <system:String x:Key="StageInfoError">ステージ認識エラー</system:String>
     <system:String x:Key="UseFormation">使用編成</system:String>

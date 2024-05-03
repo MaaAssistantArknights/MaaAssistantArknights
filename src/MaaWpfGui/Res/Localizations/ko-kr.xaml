@@ -298,6 +298,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">무료 단챠가 없는 경우 가챠를 하지 않습니다</system:String>
     <system:String x:Key="GachaWarning">이 기능은 위험한 기능이며 문제가 발생할 수 있습니다\n'인식' 버튼을 누름으로써 귀하는 발생 가능한 위험성을 인식한 것입니다</system:String>
     <system:String x:Key="ReceiveOrundum">복권방에서 매일 합성옥 보상 받기</system:String>
+    <system:String x:Key="ReceiveMining">기간 한정 채굴 허가로 매일 합성 옥 보상 받기</system:String>
     <system:String x:Key="ReceiveSpecialAccess">스페셜 액세스 보상 수집</system:String>
     <system:String x:Key="DroneUsage">드론 사용처</system:String>
     <system:String x:Key="MinimizeToTray">트레이로 최소화</system:String>
@@ -675,6 +676,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="DefaultNoExtraTags">기본값: 추가 태그 없음</system:String>
     <system:String x:Key="SelectExtraTags">항상 3개의 태그를 선택</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">가능한 한 많은 태그를 선택하고 높은 등급의 태그만 선택</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">태그 경향을 세미콜론으로 구분한 3단계 태그로 표시합니다 (세미콜론으로 구분)</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">하위 문자열이면 충분하며 가능한 한 많은 태그 기본 설정을 선택합니다</system:String>
     <system:String x:Key="NotEnoughStaff">오퍼레이터 부족</system:String>
     <system:String x:Key="StageInfoError">스테이지 인식 오류</system:String>
     <system:String x:Key="UseFormation">편성 사용</system:String>
