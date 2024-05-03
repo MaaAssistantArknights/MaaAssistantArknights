@@ -495,7 +495,7 @@ namespace MaaWpfGui.Main
                             color = UiLogColor.Error;
                         }
 
-                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString));
+                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
                         Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
                         Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color, showTime: false);
                     }
