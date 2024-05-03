@@ -12,7 +12,7 @@
 
 #ifdef _MSC_VER
 #pragma warning(push)
-#pragma warning(disable : 4068)
+#pragma warning(disable: 4068)
 #endif
 #include <zlib/decompress.hpp>
 #ifdef _MSC_VER
@@ -25,7 +25,9 @@
 #include "Utils/Logger.hpp"
 
 asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
-    : InstHelper(inst), m_callback(callback), m_rand_engine(std::random_device {}())
+    : InstHelper(inst)
+    , m_callback(callback)
+    , m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
 
@@ -119,15 +121,27 @@ bool asst::Controller::click(const Rect& rect)
     return m_scale_proxy->click(rect);
 }
 
-bool asst::Controller::swipe(const Point& p1, const Point& p2, int duration, bool extra_swipe, double slope_in,
-                             double slope_out, bool with_pause)
+bool asst::Controller::swipe(
+    const Point& p1,
+    const Point& p2,
+    int duration,
+    bool extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
 {
     CHECK_EXIST(m_controller, false);
     return m_scale_proxy->swipe(p1, p2, duration, extra_swipe, slope_in, slope_out, with_pause);
 }
 
-bool asst::Controller::swipe(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
-                             double slope_out, bool with_pause)
+bool asst::Controller::swipe(
+    const Rect& r1,
+    const Rect& r2,
+    int duration,
+    bool extra_swipe,
+    double slope_in,
+    double slope_out,
+    bool with_pause)
 {
     CHECK_EXIST(m_controller, false);
     return m_scale_proxy->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out, with_pause);
@@ -153,14 +167,18 @@ asst::ControlFeat::Feat asst::Controller::support_features()
     return m_controller->support_features();
 }
 
-bool asst::Controller::connect(const std::string& adb_path, const std::string& address, const std::string& config)
+bool asst::Controller::connect(
+    const std::string& adb_path,
+    const std::string& address,
+    const std::string& config)
 {
     LogTraceFunction;
 
     clear_info();
 
     m_controller =
-        m_controller_factory->create_controller(m_controller_type, adb_path, address, config, m_platform_type);
+        m_controller_factory
+            ->create_controller(m_controller_type, adb_path, address, config, m_platform_type);
 
     if (!m_controller) {
         Log.error("connect failed");
@@ -197,7 +215,8 @@ bool asst::Controller::connect(const std::string& adb_path, const std::string& a
     };
 
     try {
-        m_scale_proxy = std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
+        m_scale_proxy =
+            std::make_shared<ControlScaleProxy>(m_controller, m_controller_type, proxy_callback);
     }
     catch (const std::exception& e) {
         Log.error("Cannot create controller proxy: {}", e.what());
