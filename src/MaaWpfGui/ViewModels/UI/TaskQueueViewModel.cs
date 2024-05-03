@@ -1362,6 +1362,9 @@ namespace MaaWpfGui.ViewModels.UI
                 maxTimes = 0;
             }
 
+            var firstList = Instances.SettingsViewModel.AutoRecruitFirstList.Split(';', '；')
+                .Select(s => s.Trim());
+
             var reqList = new List<int>();
             var cfmList = new List<int>();
 
@@ -1386,7 +1389,7 @@ namespace MaaWpfGui.ViewModels.UI
             int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
+                maxTimes, firstList.ToArray(), reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
                 selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
