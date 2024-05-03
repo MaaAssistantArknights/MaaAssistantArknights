@@ -10,14 +10,17 @@ bool StartGameTaskPlugin::_run()
         return false;
     }
 
-    for (int i = 0; i < 4; i++) {
+    do {
         if (!ctrler()->start_game(m_client_type)) {
             return false;
         }
-        sleep(2000);
-    }
 
-    return true;
+        if (ctrler()->get_pipe_data_size() > 167) {
+            return true;
+        }
+        sleep(1500);
+
+    } while (true);
 }
 
 StartGameTaskPlugin& StartGameTaskPlugin::set_client_type(std::string client_type) noexcept

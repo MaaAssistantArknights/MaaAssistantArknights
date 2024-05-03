@@ -28,6 +28,8 @@ namespace asst
         virtual bool inited() const noexcept override;
 
         virtual const std::string& get_uuid() const override;
+        
+        virtual size_t get_pipe_data_size() override;
 
         virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
@@ -122,6 +124,7 @@ namespace asst
         } m_adb;
 
         std::string m_uuid;
+        size_t m_pipe_data_size = 0;
         std::pair<int, int> m_screen_size = { 0, 0 };
         int m_width = 0;
         int m_height = 0;

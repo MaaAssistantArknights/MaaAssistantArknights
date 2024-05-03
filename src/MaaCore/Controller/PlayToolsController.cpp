@@ -42,6 +42,11 @@ const std::string& asst::PlayToolsController::get_uuid() const
     return uuid;
 }
 
+size_t asst::PlayToolsController::get_pipe_data_size()
+{
+    return size_t();
+}
+
 bool asst::PlayToolsController::screencap(cv::Mat& image_payload, bool allow_reconnect [[maybe_unused]])
 {
     LogTraceFunction;

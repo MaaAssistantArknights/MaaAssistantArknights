@@ -138,6 +138,7 @@ std::optional<std::string> asst::AdbController::call_command(const std::string& 
     Log.info("Call `", cmd, "` ret", exit_ret, ", cost", m_last_command_duration, "ms , stdout size:", pipe_data.size(),
              ", socket size:", sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
+        m_pipe_data_size = pipe_data.size();
         Log.trace("stdout output:", Logger::separator::newline, pipe_data);
     }
     if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
@@ -158,6 +159,11 @@ std::optional<std::string> asst::AdbController::call_command(const std::string& 
     }
 
     return std::nullopt;
+}
+
+size_t asst::AdbController::get_pipe_data_size()
+{
+    return m_pipe_data_size;
 }
 
 void asst::AdbController::callback(AsstMsg msg, const json::value& details)

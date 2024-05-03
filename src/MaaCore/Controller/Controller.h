@@ -46,6 +46,8 @@ namespace asst
         void set_kill_adb_on_exit(bool enable) noexcept;
 
         const std::string& get_uuid() const;
+        size_t get_pipe_data_size();
+
         cv::Mat get_image(bool raw = false);
         cv::Mat get_image_cache() const;
         bool screencap(bool allow_reconnect = false);
