@@ -8,7 +8,7 @@
   "plans": [
     {
       "name": "A+B 高效长班 1",
-      "description": "请在八小时后换班",
+      "description_post": "请在八小时后换班",
       "Fiammetta": {
         "enable": true,
         "target": "巫恋",
@@ -203,7 +203,7 @@
     },
     {
       "name": "A+B 高效长班 2",
-      "description": "请在八小时后换班",
+      "description_post": "请在八小时后换班",
       "Fiammetta": {
         "enable": true,
         "target": "龙舌兰",
@@ -398,7 +398,7 @@
     },
     {
       "name": "B+C 替补短班 1",
-      "description": "请在四小时后换班",
+      "description_post": "请在四小时后换班",
       "Fiammetta": {
         "enable": true,
         "target": "但书",
@@ -606,7 +606,7 @@
     },
     {
       "name": "A+C 替补短班 2",
-      "description": "请在四小时后换班（提前十分钟左右把回满 15 心情的令移出宿舍）",
+      "description_post": "请在四小时后换班（提前十分钟左右把回满 15 心情的令移出宿舍）",
       "Fiammetta": {
         "enable": false,
         "target": "",
