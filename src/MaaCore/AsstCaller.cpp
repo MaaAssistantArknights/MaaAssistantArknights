@@ -190,7 +190,7 @@ void AsstSetConnectionExtras(const char* name, const char* extras)
 {
     auto jopt = json::parse(extras);
     if (!jopt) {
-        LogError << "falied to parse json" << extras;
+        LogError << "failed to parse json" << extras;
         return;
     }
 
