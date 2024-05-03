@@ -367,6 +367,7 @@ bool asst::AdbController::convert_lf(std::string& data)
 
 bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect)
 {
+    using namespace std::chrono;
     DecodeFunc decode_raw = [&](const std::string& data) -> bool {
         if (data.size() < 8) {
             return false;
@@ -425,7 +426,6 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
     };
 
     if (m_adb.screencap_method == AdbProperty::ScreencapMethod::UnknownYet) {
-        using namespace std::chrono;
         Log.info("Try to find the fastest way to screencap");
         auto min_cost = milliseconds(LLONG_MAX);
         clear_lf_info();
@@ -521,6 +521,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         return m_adb.screencap_method != AdbProperty::ScreencapMethod::UnknownYet;
     }
     else {
+        auto start_time = high_resolution_clock::now();
         bool screencap_ret = false;
         switch (m_adb.screencap_method) {
         case AdbProperty::ScreencapMethod::RawByNc:
@@ -543,22 +544,20 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         default:
             break;
         }
+        auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
         // 记录截图耗时，每10次截图回传一次最值+平均值
-        m_screencap_duration.emplace_back(
-            screencap_ret ? m_last_command_duration : LLONG_MAX); // 记录截图耗时
-        ++m_screencap_time;
+        m_screencap_cost.emplace_back(screencap_ret ? duration.count() : -1); // 记录截图耗时
+        ++m_screencap_times;
 
-        if (m_screencap_duration.size() > 30) {
-            m_screencap_duration.pop_front();
+        if (m_screencap_cost.size() > 30) {
+            m_screencap_cost.pop_front();
         }
-        if (m_screencap_time > 9) { // 每 10 次截图计算一次平均耗时
-            m_screencap_time = 0;
-            auto filtered_duration =
-                m_screencap_duration | views::filter([](long long num) { return num < LLONG_MAX; });
+        if (m_screencap_times > 9) { // 每 10 次截图计算一次平均耗时
+            m_screencap_times = 0;
+            auto filtered_cost = m_screencap_cost | views::filter([](auto num) { return num > 0; });
             // 过滤后的有效截图用时次数
-            auto filtered_count =
-                m_screencap_duration.size() - ranges::count(m_screencap_duration, LLONG_MAX);
-            auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(filtered_duration);
+            auto filtered_count = m_screencap_cost.size() - ranges::count(m_screencap_cost, -1);
+            auto [screencap_cost_min, screencap_cost_max] = ranges::minmax(filtered_cost);
             json::value info = json::object {
                 { "uuid", m_uuid },
                 { "what", "ScreencapCost" },
@@ -567,16 +566,14 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                       { "min", screencap_cost_min },
                       { "max", screencap_cost_max },
                       { "avg",
-                        filtered_count > 0 ? std::accumulate(
-                                                 filtered_duration.begin(),
-                                                 filtered_duration.end(),
-                                                 0ll)
-                                                 / filtered_count
-                                           : -1 },
+                        filtered_count > 0
+                            ? std::accumulate(filtered_cost.begin(), filtered_cost.end(), 0ll)
+                                  / filtered_count
+                            : -1 },
                   } },
             };
-            if (m_screencap_duration.size() - filtered_count > 0) {
-                info["details"]["fault_times"] = m_screencap_duration.size() - filtered_count;
+            if (m_screencap_cost.size() - filtered_count > 0) {
+                info["details"]["fault_times"] = m_screencap_cost.size() - filtered_count;
             }
             callback(AsstMsg::ConnectionInfo, info);
         }
