@@ -125,8 +125,8 @@
                 SelectedValue="{Binding ConnectConfig}"
                 SelectedValuePath="Value" />
             <CheckBox
-                Width="200"
                 Margin="10"
+                HorizontalAlignment="Center"
                 Content="{DynamicResource MuMu12ExtrasEnabled}"
                 IsChecked="{Binding MuMuEmulator12Extras.Enable}"
                 Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}" />
