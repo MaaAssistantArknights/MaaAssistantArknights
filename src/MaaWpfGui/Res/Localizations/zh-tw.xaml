@@ -333,6 +333,9 @@
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
+    <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
+    <system:String x:Key="MuMu12Index">實例號碼</system:String>
+    <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫「啟動設置-模擬器路徑」後重新勾選。</system:String>
@@ -592,7 +595,7 @@
     <system:String x:Key="ReconnectFailed">重連失敗，連接斷開！</system:String>
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
-    <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms</system:String>
+    <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）時可能表現異常</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>

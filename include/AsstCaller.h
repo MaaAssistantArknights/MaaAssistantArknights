@@ -32,12 +32,16 @@ extern "C"
     AsstHandle ASSTAPI AsstCreateEx(AsstApiCallback callback, void* custom_arg);
     void ASSTAPI AsstDestroy(AsstHandle handle);
 
-    AsstBool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
+    AsstBool ASSTAPI
+        AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, const char* value);
 
     // 同步连接，功能已完全被异步连接取代
     // FIXME: 5.0 版本将废弃此接口
-    /* deprecated */ AsstBool ASSTAPI AsstConnect(AsstHandle handle, const char* adb_path, const char* address,
-                                                  const char* config);
+    /* deprecated */ AsstBool ASSTAPI AsstConnect(
+        AsstHandle handle,
+        const char* adb_path,
+        const char* address,
+        const char* config);
 
     AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* params);
     AsstBool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* params);
@@ -49,8 +53,14 @@ extern "C"
     AsstBool ASSTAPI AsstBackToHome(AsstHandle handle);
 
     /* Async with AsstMsg::AsyncCallInfo Callback*/
-    AsstAsyncCallId ASSTAPI AsstAsyncConnect(AsstHandle handle, const char* adb_path, const char* address,
-                                             const char* config, AsstBool block);
+    AsstAsyncCallId ASSTAPI AsstAsyncConnect(
+        AsstHandle handle,
+        const char* adb_path,
+        const char* address,
+        const char* config,
+        AsstBool block);
+    void ASSTAPI AsstSetConnectionExtras(const char* name, const char* extras);
+
     AsstAsyncCallId ASSTAPI AsstAsyncClick(AsstHandle handle, int32_t x, int32_t y, AsstBool block);
     AsstAsyncCallId ASSTAPI AsstAsyncScreencap(AsstHandle handle, AsstBool block);
 
