@@ -9,11 +9,17 @@
 
 ### 修复 | Fix
 
-* 修正赠送月卡选项卡位移导致的领取失败问题 @SherkeyXD
 * 避免识别到不存在的连续作战图标 (#8951) @Manicsteiner
 
 ### 其他 | Other
 
+* bump maa-cli to v0.4.7 and update docs @wangl-cc
+
+### For Overseas
+
+* 修正赠送月卡选项卡位移导致的领取失败问题 @SherkeyXD
+
+#### YostarKR
+
 * YoStarKR Improved RecruitRefresh recognition score @HX3N
 * YoStarKR fix some ocr @HX3N
-* bump maa-cli to v0.4.7 and update docs @wangl-cc
