@@ -46,7 +46,6 @@ using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ObservableCollections;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -3302,14 +3301,12 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            public string GetConfig =>
-                $$"""
-                     {
-                         "path": "{{EmulatorPath}}",
-                         "index": {{Index}},
-                         "display": {{Display}}
-                     }
-                """;
+            public string GetConfig => JsonConvert.SerializeObject(new JObject()
+            {
+                ["path"] = EmulatorPath,
+                ["index"] = Index,
+                ["display"] = Display,
+            });
 
             public bool IsEnable =>
                 Instances.SettingsViewModel.ConnectConfig == "MuMuEmulator12" &&
