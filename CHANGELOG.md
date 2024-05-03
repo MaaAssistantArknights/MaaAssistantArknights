@@ -9,7 +9,7 @@
 
 ### 修复 | Fix
 
-* 避免识别到不存在的连续作战图标 (#8951) @Manicsteiner
+* 修正赠送月卡选项卡位移导致的领取失败问题 @SherkeyXD
 
 ### 其他 | Other
 
@@ -17,7 +17,7 @@
 
 ### For Overseas
 
-* 修正赠送月卡选项卡位移导致的领取失败问题 @SherkeyXD
+* 避免识别到不存在的连续作战图标 (#8951) @Manicsteiner
 
 #### YostarKR
 
