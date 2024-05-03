@@ -156,27 +156,15 @@
                 "드래곤플라이에이"
             ],
             [
-                "[CcOo0]ast.*le3",
-                "Castle3"
-            ],
-            [
-                ".*ancet2",
-                "Lancet2"
-            ],
-            [
-                "[JUu][O0o]f{1,2}icial",
-                "UOfficial"
-            ],
-            [
-                "\\b(?!(Ash|Blitz|Tachanka|Frost|Lancet2|THRMEX|Friston3|Castle3|W|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|UOfficial))(\\w)+$",
+                "\\b(?!(Ash|Blitz|Tachanka|Frost|.*ancet2|THRMEX|Friston3|[CcOo0]ast.*le3|[Ww]|12F|Mon3tr|Sharp|Pith|Touch|Stormeye|[JUu][O0o]f{0,2}icial))(\\w)+$",
                 ""
             ],
             [
-                "Castle3",
+                "[CcOo0]ast.*le3",
                 "Castle-3"
             ],
             [
-                "Lancet2",
+                ".*ancet2",
                 "Lancet-2"
             ],
             [
@@ -188,7 +176,7 @@
                 "Friston-3"
             ],
             [
-                "UOfficial",
+                "[JUu][O0o]f{0,2}icial",
                 "U-Official"
             ],
             [
@@ -1080,7 +1068,7 @@
                 "红"
             ],
             [
-                "쇼",
+                "^(쇼|소)$",
                 "阿消"
             ],
             [
@@ -2418,6 +2406,42 @@
             [
                 "생귀나르의왕좌",
                 "沥血王座"
+            ],
+            [
+                "파멸의상",
+                "湮灭之相"
+            ],
+            [
+                "디아만테",
+                "折光"
+            ],
+            [
+                "비르투오사",
+                "塑心"
+            ],
+            [
+                "창조의상",
+                "创生之相"
+            ],
+            [
+                "레싱",
+                "止颂"
+            ],
+            [
+                "비비아나",
+                "薇薇安娜"
+            ],
+            [
+                "케이퍼",
+                "跃跃"
+            ],
+            [
+                "베이스라인",
+                "深律"
+            ],
+            [
+                "조화장치",
+                "调谐节点"
             ]
         ]
     },

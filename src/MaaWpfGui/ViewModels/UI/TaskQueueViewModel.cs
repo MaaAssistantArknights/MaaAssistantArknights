@@ -1346,9 +1346,12 @@ namespace MaaWpfGui.ViewModels.UI
             var receiveMail = Instances.SettingsViewModel.ReceiveMail;
             var receiveFreeRecruit = Instances.SettingsViewModel.ReceiveFreeRecruit;
             var receiveOrundum = Instances.SettingsViewModel.ReceiveOrundum;
-            var ReceiveSpecialAccess = Instances.SettingsViewModel.ReceiveSpecialAccess;
+            var receiveMining = Instances.SettingsViewModel.ReceiveMining;
+            var receiveSpecialAccess = Instances.SettingsViewModel.ReceiveSpecialAccess;
 
-            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, ReceiveSpecialAccess);
+            return Instances.AsstProxy.AsstAppendAward(
+                receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, receiveMining, receiveSpecialAccess
+            );
         }
 
         private static bool AppendRecruit()
@@ -1358,6 +1361,9 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 maxTimes = 0;
             }
+
+            var firstList = Instances.SettingsViewModel.AutoRecruitFirstList.Split(';', '；')
+                .Select(s => s.Trim());
 
             var reqList = new List<int>();
             var cfmList = new List<int>();
@@ -1383,7 +1389,7 @@ namespace MaaWpfGui.ViewModels.UI
             int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes, reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
+                maxTimes, firstList.ToArray(), reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
                 selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 

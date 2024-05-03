@@ -297,6 +297,7 @@
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
     <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下「確認」鍵即視為你了解並願意承擔可能出現的風險</system:String>
     <system:String x:Key="ReceiveOrundum">收集幸運墻的每日合成玉獎勵</system:String>
+    <system:String x:Key="ReceiveMining">領取限時開采許可的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
@@ -673,6 +674,8 @@
     <system:String x:Key="DefaultNoExtraTags">默認不選擇額外的 Tags</system:String>
     <system:String x:Key="SelectExtraTags">選擇高星時總是選擇三個 Tag</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">盡可能多地選且只選高星 Tags</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">3 星 Tags 時的 Tags 傾向，分號分隔</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">子串即可，會盡可能多的選擇傾向的 Tags</system:String>
     <system:String x:Key="StageInfoError">關卡辨識錯誤</system:String>
     <system:String x:Key="UseFormation">使用編隊</system:String>
     <system:String x:Key="Current">當前</system:String>

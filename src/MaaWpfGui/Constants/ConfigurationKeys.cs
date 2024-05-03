@@ -131,6 +131,7 @@ namespace MaaWpfGui.Constants
         public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
+        public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
         public const string ForceRefresh = "AutoRecruit.ForceRefresh";
         public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
@@ -153,6 +154,7 @@ namespace MaaWpfGui.Constants
         public const string ReceiveMail = "Mission.ReceiveMail";
         public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit";
         public const string ReceiveOrundum = "Mission.ReceiveOrundum";
+        public const string ReceiveMining = "Mission.ReceiveMining";
         public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess";
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";

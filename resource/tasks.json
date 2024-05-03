@@ -4472,6 +4472,7 @@
             380
         ],
         "cache": false,
+        "templThreshold": 0.9,
         "maskRange": [
             1,
             255
@@ -5416,6 +5417,30 @@
             "Stop"
         ]
     },
+    "MiningActivitiesBegin": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "next": [
+            "MiningActivitiesReturnHome@ReturnButtons#next",
+            "MiningActivitiesReturnHome",
+            "MiningActivities"
+        ]
+    },
+    "MiningActivitiesReturnHome": {
+        "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
+        "next": [
+            "MiningActivities",
+            "Stop"
+        ]
+    },
     "MiningActivities": {
         "algorithm": "OcrDetect",
         "text": [
@@ -5430,11 +5455,11 @@
             302
         ],
         "next": [
-            "MiningActivityDigging",
+            "MiningActivityConfirm",
             "MiningActivitiesReturn"
         ]
     },
-    "MiningActivityDigging": {
+    "MiningActivityConfirm": {
         "action": "ClickSelf",
         "roi": [
             901,
@@ -5443,34 +5468,27 @@
             182
         ],
         "next": [
-            "MiningActivityDigging",
-            "MiningActivityDiggingEnd",
-            "MiningActivitiesReturn"
-        ]
+            "MiningActivitiesEarnRewards"
+        ],
+        "postDelay": 6000
     },
-    "MiningActivityDiggingEnd": {
-        "action": "ClickSelf",
-        "roi": [
-            559,
-            563,
-            160,
-            157
+    "MiningActivitiesEarnRewards": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            600,
+            600,
+            70,
+            70
         ],
         "next": [
             "MiningActivitiesReturn"
         ]
     },
     "MiningActivitiesReturn": {
+        "baseTask": "CloseAnno",
         "template": "CloseAnno.png",
-        "action": "ClickSelf",
-        "roi": [
-            1146,
-            0,
-            134,
-            162
-        ],
         "next": [
-            "MiningActivitiesReturn",
             "Stop"
         ]
     },
@@ -5778,9 +5796,9 @@
         "action": "ClickSelf",
         "roi": [
             74,
-            79,
-            79,
-            41
+            184,
+            80,
+            44
         ],
         "next": [
             "SpecialAccessActivitiesConfirm",
