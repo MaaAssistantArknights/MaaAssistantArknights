@@ -68,5 +68,8 @@ namespace MaaWpfGui.Services
 
         [DllImport("MaaCore.dll")]
         public static extern bool AsstBackToHome(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
+        public static extern unsafe void AsstSetConnectionExtras(byte* name, byte* extras);
     }
 }
