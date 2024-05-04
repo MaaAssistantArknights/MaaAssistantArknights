@@ -1599,7 +1599,7 @@ namespace MaaWpfGui.Main
             {
                 case "MuMuEmulator12":
                     bool result = AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config, ref error);
-                    if (result)
+                    if (!result)
                     {
                         return false;
                     }
