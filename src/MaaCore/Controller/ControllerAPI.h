@@ -36,6 +36,8 @@ public:
 
     virtual size_t get_pipe_data_size() const noexcept = 0;
 
+    virtual size_t get_version() const noexcept = 0;
+
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) = 0;
 
     virtual bool start_game(const std::string& client_type) = 0;

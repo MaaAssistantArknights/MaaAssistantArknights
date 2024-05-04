@@ -33,6 +33,8 @@ public:
 
     virtual size_t get_pipe_data_size() const noexcept override;
 
+    virtual size_t get_version() const noexcept override;
+
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
 
     virtual bool start_game(const std::string& client_type) override;
