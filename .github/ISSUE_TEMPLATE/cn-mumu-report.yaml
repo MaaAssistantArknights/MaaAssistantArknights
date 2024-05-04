@@ -1,6 +1,6 @@
-name: Bug 反馈（使用中文）
-description: 识别错误、操作异常、连接错误等
-labels: ['bug']
+name: MuMu 极速操控反馈（使用中文）
+description: 有关 MuMu 极速操控模式的集中反馈
+labels: ['mumu api']
 body:
   - type: checkboxes
     id: checks
@@ -11,10 +11,14 @@ body:
         required: true
       - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
         required: true
-      - label: 我已查看最新测试版本的更新内容，并未提及该 Bug 已被修复的情况
-        required: true
       - label: 我已检查了置顶议题（pinned issue），确认我的问题未被提及
         required: true
+      - label: 我正在使用最新的 MAA 内测版本，问题依然存在
+        required: true
+      - label: 我正在使用最新的官版 MuMu 模拟器，而非方舟专版或国际版等
+        required: true
+      - label: 我正在使用后台保活功能，并确定该问题仅在开启后台保活时出现（此条非必需）
+        required: false
   - type: textarea
     id: describe
     attributes:
@@ -27,11 +31,12 @@ body:
     attributes:
       label: Version
       description: >-
-        请提供 MAA 版本。可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。
+        请提供 MAA 版本和 MuMu 版本。MAA 版本可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。MuMu 版本可在右上角菜单按钮 -> 关于MuMu 中找到。
       placeholder: |
-        Resource Version:
-        UI Version:
-        Core Version:
+        Resource Version: 
+        UI Version: 
+        Core Version: 
+        MuMu 版本号: 
     validations:
       required: true
   - type: textarea
