@@ -1554,9 +1554,11 @@ namespace MaaWpfGui.Main
         /// <returns>是否成功。</returns>
         public bool AsstConnect(ref string error)
         {
-            if (Instances.SettingsViewModel.MuMuEmulator12Extras.Enable)
+            switch (Instances.SettingsViewModel.ConnectConfig)
             {
-                AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
+                case "MuMuEmulator12":
+                    AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
+                    break;
             }
 
             if (Instances.SettingsViewModel.AutoDetectConnection)
