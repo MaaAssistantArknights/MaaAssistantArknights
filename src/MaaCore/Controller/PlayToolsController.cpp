@@ -48,7 +48,7 @@ const std::string& asst::PlayToolsController::get_uuid() const
     return uuid;
 }
 
-size_t asst::PlayToolsController::get_pipe_data_size()
+const size_t asst::PlayToolsController::get_pipe_data_size() const noexcept
 {
     return size_t();
 }

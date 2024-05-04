@@ -34,7 +34,7 @@ public:
 
     virtual const std::string& get_uuid() const = 0;
 
-    virtual size_t get_pipe_data_size() = 0;
+    virtual const size_t get_pipe_data_size() const noexcept = 0;
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) = 0;
 

@@ -47,7 +47,7 @@ public:
     void set_kill_adb_on_exit(bool enable) noexcept;
 
     const std::string& get_uuid() const;
-    size_t get_pipe_data_size();
+    const size_t get_pipe_data_size() const noexcept;
 
     cv::Mat get_image(bool raw = false);
     cv::Mat get_image_cache() const;

@@ -35,7 +35,7 @@ public:
 
     virtual const std::string& get_uuid() const override;
 
-    virtual size_t get_pipe_data_size() override;
+    virtual const size_t get_pipe_data_size() const noexcept override;
 
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) override;
 

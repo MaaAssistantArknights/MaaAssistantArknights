@@ -179,7 +179,7 @@ std::optional<std::string> asst::AdbController::call_command(
     return std::nullopt;
 }
 
-size_t asst::AdbController::get_pipe_data_size()
+const size_t asst::AdbController::get_pipe_data_size() const noexcept
 {
     return m_pipe_data_size;
 }

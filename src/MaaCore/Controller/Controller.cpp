@@ -39,7 +39,7 @@ asst::Controller::~Controller()
     LogTraceFunction;
 }
 
-size_t asst::Controller::get_pipe_data_size()
+const size_t asst::Controller::get_pipe_data_size() const noexcept
 {
     return m_controller->get_pipe_data_size();
 }
