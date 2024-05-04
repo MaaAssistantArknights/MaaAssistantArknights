@@ -419,6 +419,7 @@
             302,
             155
         ],
+        "preDelay": 500,
         "sub": [
             "EnterChooseLevelOfDifficulty"
         ]
