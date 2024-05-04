@@ -14,7 +14,8 @@ bool StartGameTaskPlugin::_run()
         if (!ctrler()->start_game(m_client_type)) {
             return false;
         }
-
+        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/8961#issue-2277568882
+        // 167 magic value :)
         if (ctrler()->get_pipe_data_size() > 167) {
             return true;
         }
