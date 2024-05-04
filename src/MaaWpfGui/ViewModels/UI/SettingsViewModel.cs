@@ -3295,7 +3295,13 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _enable;
                 set
                 {
+                    if (_enable == value)
+                    {
+                        return;
+                    }
+
                     _enable = value;
+                    Instances.AsstProxy.Connected = false;
                     OnPropertyChanged();
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
                 }
@@ -3349,12 +3355,24 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            public string Config => JsonConvert.SerializeObject(new JObject()
+            public string Config
             {
-                ["path"] = EmulatorPath,
-                ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
-                ["display"] = int.TryParse(Display, out var displayParse) ? displayParse : 0,
-            });
+                get
+                {
+                    if (!Enable)
+                    {
+                        return JsonConvert.SerializeObject(new JObject());
+                    }
+
+                    var configObject = new JObject
+                    {
+                        ["path"] = EmulatorPath,
+                        ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
+                        ["display"] = int.TryParse(Display, out var displayParse) ? displayParse : 0,
+                    };
+                    return JsonConvert.SerializeObject(configObject);
+                }
+            }
 
             public MuMuEmulator12ConnectionExtras()
             {
