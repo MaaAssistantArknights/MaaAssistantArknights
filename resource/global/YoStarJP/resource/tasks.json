@@ -7272,6 +7272,12 @@
         ]
     },
     "Roguelike@StageEncounterOcr": {
+        "roi": [
+            0,
+            370,
+            725,
+            260
+        ],
         "ocrReplace": [
             [
                 "野営",
@@ -8252,8 +8258,15 @@
         ]
     },
     "Sami@Roguelike@FoldartalUseConfirm": {
-        "text": [
-            "宣告する"
+        "ocrReplace": [
+            [
+                "宣告する",
+                "开始宣告"
+            ],
+            [
+                "^宣.*る$",
+                "开始宣告"
+            ]
         ]
     },
     "Sami@Roguelike@FoldartalUseOcr": {
