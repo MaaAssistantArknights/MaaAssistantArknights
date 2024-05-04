@@ -509,6 +509,18 @@ namespace MaaWpfGui.Main
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
                         Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
                         Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color, showTime: false);
+
+                        switch (Instances.SettingsViewModel.ConnectConfig)
+                        {
+                            case "MuMuEmulator12":
+                                if (Instances.SettingsViewModel.MuMuEmulator12Extras.Enable && method != "MumuExtras")
+                                {
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Warning);
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Warning, showTime: false);
+                                }
+
+                                break;
+                        }
                     }
 
                     break;
