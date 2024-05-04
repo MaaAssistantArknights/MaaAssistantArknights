@@ -3318,6 +3318,7 @@ namespace MaaWpfGui.ViewModels.UI
                 set
                 {
                     _emulatorPath = value;
+                    Instances.AsstProxy.Connected = false;
                     OnPropertyChanged();
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12EmulatorPath, value);
                 }
@@ -3334,6 +3335,7 @@ namespace MaaWpfGui.ViewModels.UI
                 set
                 {
                     _index = value;
+                    Instances.AsstProxy.Connected = false;
                     OnPropertyChanged();
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
                 }
@@ -3350,6 +3352,7 @@ namespace MaaWpfGui.ViewModels.UI
                 set
                 {
                     _display = value;
+                    Instances.AsstProxy.Connected = false;
                     OnPropertyChanged();
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Display, _display);
                 }
