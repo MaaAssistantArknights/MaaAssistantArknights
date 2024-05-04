@@ -111,9 +111,16 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private static void AsstSetConnectionExtrasMuMu12(string extras)
+        private static bool AsstSetConnectionExtrasMuMu12(string extras, ref string error)
         {
+            if (!Directory.Exists(Instances.SettingsViewModel.MuMuEmulator12Extras.EmulatorPath))
+            {
+                error = "MuMu Emulator 12 Path Not Found";
+                return false;
+            }
+
             AsstSetConnectionExtras("MuMuEmulator12", extras);
+            return true;
         }
 
         private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string taskParams)
@@ -1237,26 +1244,28 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "RoguelikeSettlement":
-                    // 肉鸽结算
-                    bool roguelikeGamePass = (bool)subTaskDetails["game_pass"];
-                    StringBuilder roguelikeInfo = new();
-                    roguelikeInfo.AppendFormat(
-                        LocalizationHelper.GetString("RoguelikeSettlement"),
-                        roguelikeGamePass ? "✓" : "✗",
-                        subTaskDetails["floor"],
-                        subTaskDetails["step"],
-                        subTaskDetails["combat"],
-                        subTaskDetails["emergency"],
-                        subTaskDetails["boss"],
-                        subTaskDetails["recruit"],
-                        subTaskDetails["collection"],
-                        subTaskDetails["difficulty"],
-                        subTaskDetails["score"],
-                        subTaskDetails["exp"],
-                        subTaskDetails["skill"]);
+                    {// 肉鸽结算
+                        var report = subTaskDetails;
+                        bool pass = (bool)report["game_pass"];
+                        StringBuilder roguelikeInfo = new();
+                        roguelikeInfo.AppendFormat(
+                            LocalizationHelper.GetString("RoguelikeSettlement"),
+                            pass ? "✓" : "✗",
+                            report["floor"],
+                            report["step"],
+                            report["combat"],
+                            report["emergency"],
+                            report["boss"],
+                            report["recruit"],
+                            report["collection"],
+                            report["difficulty"],
+                            report["score"],
+                            report["exp"],
+                            report["skill"]);
 
-                    Instances.TaskQueueViewModel.AddLog(roguelikeInfo.ToString(), UiLogColor.Message);
-                    break;
+                        Instances.TaskQueueViewModel.AddLog(roguelikeInfo.ToString(), UiLogColor.Message);
+                        break;
+                    }
 
                 /* Roguelike */
                 case "StageInfo":
@@ -1577,7 +1586,12 @@ namespace MaaWpfGui.Main
             switch (Instances.SettingsViewModel.ConnectConfig)
             {
                 case "MuMuEmulator12":
-                    AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
+                    bool result = AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config, ref error);
+                    if (result)
+                    {
+                        return false;
+                    }
+
                     break;
             }
 
