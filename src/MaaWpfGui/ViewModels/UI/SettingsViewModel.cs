@@ -3307,7 +3307,8 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            private string _emulatorPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, "C:\\Program Files\\Netease\\MuMuPlayer-12.0");
+            private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, @"C:\Program Files\Netease\MuMuPlayer-12.0");
+            private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
 
             /// <summary>
             /// Gets or sets a value indicating the path of the emulator.
@@ -3317,6 +3318,12 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _emulatorPath;
                 set
                 {
+                    if (!Directory.Exists(value))
+                    {
+                        MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
+                        value = string.Empty;
+                    }
+
                     _emulatorPath = value;
                     Instances.AsstProxy.Connected = false;
                     OnPropertyChanged();
