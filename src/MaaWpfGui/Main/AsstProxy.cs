@@ -1577,12 +1577,6 @@ namespace MaaWpfGui.Main
             switch (Instances.SettingsViewModel.ConnectConfig)
             {
                 case "MuMuEmulator12":
-                    if (!Directory.Exists(Instances.SettingsViewModel.MuMuEmulator12Extras.EmulatorPath))
-                    {
-                        error = "MuMu Emulator 12 Path Not Found";
-                        return false;
-                    }
-
                     AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
                     break;
             }
