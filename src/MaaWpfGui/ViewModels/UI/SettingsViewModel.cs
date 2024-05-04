@@ -3361,7 +3361,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     if (!Enable)
                     {
-                        return JsonConvert.SerializeObject(new JObject());
+                        return string.Empty;
                     }
 
                     var configObject = new JObject
