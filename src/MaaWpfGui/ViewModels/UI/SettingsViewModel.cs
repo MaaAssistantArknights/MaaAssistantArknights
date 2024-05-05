@@ -3307,7 +3307,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, @"C:\Program Files\Netease\MuMuPlayer-12.0");
+            private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, string.Empty);
             private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
 
             /// <summary>
