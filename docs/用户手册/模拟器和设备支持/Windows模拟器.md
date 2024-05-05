@@ -48,6 +48,7 @@ const fullySupport = shuffleArray([
 #### MuMu 独家极速操控模式
 
 需使用 MuMu 12 3.8.13 及更新版本，并关闭后台保活。
+- 粥专用版mumu不支持最新的低延迟模式
 
 ##### 连接设置
 
