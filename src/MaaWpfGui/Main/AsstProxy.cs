@@ -111,16 +111,9 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private static bool AsstSetConnectionExtrasMuMu12(string extras, ref string error)
+        private static void AsstSetConnectionExtrasMuMu12(string extras, ref string error)
         {
-            if (!Directory.Exists(Instances.SettingsViewModel.MuMuEmulator12Extras.EmulatorPath))
-            {
-                error = "MuMu Emulator 12 Path Not Found";
-                return false;
-            }
-
             AsstSetConnectionExtras("MuMuEmulator12", extras);
-            return true;
         }
 
         private static unsafe AsstTaskId AsstAppendTask(AsstHandle handle, string type, string taskParams)
@@ -1598,12 +1591,7 @@ namespace MaaWpfGui.Main
             switch (Instances.SettingsViewModel.ConnectConfig)
             {
                 case "MuMuEmulator12":
-                    bool result = AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config, ref error);
-                    if (!result)
-                    {
-                        return false;
-                    }
-
+                    AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config, ref error);
                     break;
             }
 
