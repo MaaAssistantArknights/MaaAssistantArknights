@@ -7276,12 +7276,6 @@
         ]
     },
     "Roguelike@StageEncounterOcr": {
-        "roi": [
-            0,
-            370,
-            725,
-            260
-        ],
         "ocrReplace": [
             [
                 "野営",
@@ -7927,6 +7921,12 @@
                 "ビジネス帝国？",
                 "商业帝国？"
             ]
+        ],
+        "roi": [
+            0,
+            370,
+            725,
+            260
         ]
     },
     "Phantom@Roguelike@NextLevel": {
