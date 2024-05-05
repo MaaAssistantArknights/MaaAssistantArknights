@@ -6,6 +6,7 @@ import {
 } from '@/components/home/HomeActionsRelease/HomeActionsRelease'
 import mdiDocument from '@iconify/icons-mdi/document'
 import mdiGitHub from '@iconify/icons-mdi/github'
+import mdiMonitorEye from '@iconify/icons-mdi/monitor-eye'
 import mdiLoading from '@iconify/icons-mdi/loading'
 import { Icon } from '@iconify/react'
 
@@ -47,6 +48,13 @@ export const HomeActions: FC = () => {
           <div className="flex items-center -ml-1 text-sm">
             <Icon icon={mdiGitHub} fontSize="20px" />
             <span className="ml-2">GitHub</span>
+          </div>
+        </GlowButton>
+
+        <GlowButton translucent href="https://status.annangela.cn/status/maa">
+          <div className="flex items-center -ml-1 text-sm">
+            <Icon icon={mdiMonitorEye} fontSize="20px" />
+            <span className="ml-2">MAA 状态监测</span>
           </div>
         </GlowButton>
       </div>
