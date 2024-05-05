@@ -336,7 +336,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
-    <system:String x:Key="MuMu12ExtrasEnabled">MuMu 전용 초고속 컨트롤 모드 활성화</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">MuMu의 스크린샷 향상 모드를 활성화하세요</system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
     <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
     <system:String x:Key="MuMu12Display">표시 번호</system:String>
