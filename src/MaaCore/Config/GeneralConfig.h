@@ -78,6 +78,7 @@ struct AdbCfg
     std::string start;
     std::string stop;
     std::string abilist;
+    std::string version;
     std::string orientation;
     std::string push_minitouch;
     std::string chmod_minitouch;
