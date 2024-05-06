@@ -2337,8 +2337,8 @@
                     "name": "维什戴尔",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 930,
-                    "promote_priority": 960,
+                    "recruit_priority": 999,
+                    "promote_priority": 1000,
                     "is_key": true,
                     "is_start": true
                 },
@@ -3207,6 +3207,9 @@
         {
             "name": "高台输出",
             "opers": [
+                {
+                    "name": "维什戴尔"
+                },
                 {
                     "name": "澄闪"
                 },
