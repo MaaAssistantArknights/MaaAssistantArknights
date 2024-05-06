@@ -97,7 +97,7 @@ char_4041_chnut|褐果|Chestnut|チェストナット|체스트넛
 char_4062_totter|铅踝|Totter|トター|토터
 char_4063_quartz|石英|Quartz|クォーツ|쿼츠
 char_4067_lolxh|罗小黑|Luo Xiaohei|羅小黒|나소흑
-char_4100_caper|跃跃|Caper||
+char_4100_caper|跃跃|Caper|ケイパー|
 char_4107_vrdant|维荻|Verdant|ヴァーダント|버던트
 
 ID|中文|English|日本語|한국어
@@ -207,7 +207,7 @@ char_494_vendla|刺玫|Vendela|ヴァンデラ|벤델라
 char_496_wildmn|野鬃|Wild Mane|ワイルドメイン|와일드메인
 char_497_ctable|晓歌|Cantabile|カンタービレ|칸타빌레
 char_498_inside|隐现|Insider|インサイダー|인사이더
-char_499_kaitou|折光|Diamante||
+char_499_kaitou|折光|Diamante|ディアマンテ|
 char_508_aguard|Sharp|Sharp|Sharp|Sharp
 char_509_acast|Pith|Pith|Pith|Pith
 char_510_amedic|Touch|Touch|Touch|Touch
@@ -243,7 +243,7 @@ char_4102_threye|凛视|Valarqvin|ヴァラルクビン|발라크빈
 char_4104_coldst|冰酿|Coldshot|コールドショット|콜드샷
 char_4105_almond|杏仁|Almond|アーモンド|아몬드
 char_4106_bryota|苍苔|Bryophyta|ブライオファイタ|브라이오피타
-char_4109_baslin|深律|Bassline||
+char_4109_baslin|深律|Bassline|ベースライン|
 char_4110_delphn|戴菲恩|Delphine|デルフィーン|델핀
 char_4114_harold|哈洛德|Harold||
 char_4119_wanqin|万顷|Wanqing||
@@ -270,7 +270,7 @@ char_206_gnosis|灵知|Gnosis|ノーシス|노시스
 char_213_mostma|莫斯提马|Mostima|モスティマ|모스티마
 char_222_bpipe|风笛|Bagpipe|バグパイプ|백파이프
 char_225_haak|阿|Aak|ア|아
-char_245_cello|塑心|Virtuosa||
+char_245_cello|塑心|Virtuosa|ヴィルトゥオーサ|
 char_248_mgllan|麦哲伦|Magallan|マゼラン|마젤란
 char_249_mlyss|缪尔赛思|Muelsyse|ミュルジス|뮤엘시스
 char_250_phatom|傀影|Phantom|ファントム|팬텀
@@ -322,7 +322,7 @@ char_2023_ling|令|Ling|リィン|링
 char_2024_chyue|重岳|Chongyue|チョンユエ|총웨
 char_2025_shu|黍|Shu||
 char_4009_irene|艾丽妮|Irene|アイリーニ|아이린
-char_4011_lessng|止颂|Lessing||
+char_4011_lessng|止颂|Lessing|レッシング|
 char_4027_heyak|霍尔海雅|Ho'olheyak|ホルハイヤ|오올헤약
 char_4039_horn|号角|Horn|ホルン|혼
 char_4042_lumen|流明|Lumen|ルーメン|루멘
@@ -336,7 +336,7 @@ char_4080_lin|林|Lin|リン|린
 char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
 char_4087_ines|伊内丝|Ines|イネス|이네스
 char_4088_hodrer|赫德雷|Hoederer|ヘドリー|외드레르
-char_4098_vvana|薇薇安娜|Viviana||
+char_4098_vvana|薇薇安娜|Viviana|ヴィヴィアナ|
 char_4116_blkkgt|锏|Degenbrecher||
 char_4117_ray|莱伊|Ray||
 char_4121_zuole|左乐|Zuo Le||
