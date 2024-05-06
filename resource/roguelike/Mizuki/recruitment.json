@@ -352,20 +352,10 @@
                     "name": "维什戴尔",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 952,
-                    "promote_priority": 981,
+                    "recruit_priority": 997,
+                    "promote_priority": 1000,
                     "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
-                            "threshold": 3,
-                            "offset": -200
-                        }
-                    ]
+                    "is_start": true
                 },
                 {
                     "name": "假日威龙陈",
@@ -3022,6 +3012,9 @@
         {
             "name": "高台输出",
             "opers": [
+                {
+                    "name": "维什戴尔"
+                },
                 {
                     "name": "假日威龙陈"
                 },
