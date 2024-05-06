@@ -39,7 +39,7 @@ body:
     attributes:
       label: 日志文件
       description: |
-        **上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
+        **请在关闭MAA后，上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
     validations:
       required: true
