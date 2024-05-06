@@ -156,6 +156,7 @@ std::optional<std::string> asst::AdbController::call_command(
         ", socket size:",
         sock_data.size());
     if (!pipe_data.empty() && pipe_data.size() < 4096) {
+        m_pipe_data_size = pipe_data.size();
         Log.trace("stdout output:", Logger::separator::newline, pipe_data);
     }
     if (recv_by_socket && !sock_data.empty() && sock_data.size() < 4096) {
@@ -176,6 +177,16 @@ std::optional<std::string> asst::AdbController::call_command(
     }
 
     return std::nullopt;
+}
+
+size_t asst::AdbController::get_pipe_data_size() const noexcept
+{
+    return m_pipe_data_size;
+}
+
+size_t asst::AdbController::get_version() const noexcept
+{
+    return m_version;
 }
 
 void asst::AdbController::callback(AsstMsg msg, const json::value& details)
@@ -759,6 +770,23 @@ bool asst::AdbController::connect(
                              };
         info["details"]["uuid"] = m_uuid;
         callback(AsstMsg::ConnectionInfo, info);
+    }
+    /* get android version */
+    {
+        auto version_ret = call_command(cmd_replace(adb_cfg.version));
+        if (!version_ret) {
+            json::value info = get_info_json()
+                               | json::object {
+                                     { "what", "ConnectFailed" },
+                                     { "why", "Android version command failed to exec" },
+                                 };
+            callback(AsstMsg::ConnectionInfo, info);
+            return false;
+        }
+
+        auto& version_str = version_ret.value();
+        convert_lf(version_str);
+        m_version = std::stoul(version_str);
     }
 
     if (need_exit()) {
