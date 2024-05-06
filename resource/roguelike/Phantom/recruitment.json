@@ -32,6 +32,15 @@
             "name": "高台C",
             "opers": [
                 {
+                    "name": "维什戴尔",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 997,
+                    "promote_priority": 1000,
+                    "is_key": true,
+                    "is_start": true
+                },
+                {
                     "name": "澄闪",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -75,7 +84,8 @@
                     "alternate_skill": 1,
                     "recruit_priority": 910,
                     "promote_priority": 990,
-                    "is_key": true
+                    "is_key": true,
+                    "is_start": true
                 },
                 {
                     "name": "艾雅法拉",
@@ -2289,13 +2299,7 @@
             "name": "提丰",
             "opers": [
                 {
-                    "name": "维什戴尔",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 930,
-                    "promote_priority": 960,
-                    "is_key": true,
-                    "is_start": true
+                    "name": "维什戴尔"
                 },
                 {
                     "name": "提丰",
@@ -3111,6 +3115,9 @@
         {
             "name": "高台输出",
             "opers": [
+                {
+                    "name": "维什戴尔"
+                },
                 {
                     "name": "空弦"
                 },
