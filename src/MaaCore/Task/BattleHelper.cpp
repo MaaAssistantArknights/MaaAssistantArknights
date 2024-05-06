@@ -388,7 +388,8 @@ bool asst::BattleHelper::deploy_oper(
     }
 
     if (deploy_with_pause) {
-        m_inst_helper.ctrler()->press_esc();
+        // m_inst_helper.ctrler()->press_esc();
+        ProcessTask(this_task(), { "BattlePause" }).run();
     }
 
     // for SSS, multiple operator may be deployed at the same location.
