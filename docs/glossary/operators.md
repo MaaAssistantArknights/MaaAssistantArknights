@@ -5,8 +5,9 @@ char_286_cast3|Castle-3|Castle-3|Castle-3|Castle-3
 char_376_therex|THRM-EX|THRM-EX|THRM-EX|THRM-EX
 char_4000_jnight|正义骑士号|'Justice Knight'|ジャスティスナイト|저스티스 나이트
 char_4077_palico|泰拉大陆调查团|Terra Research Commission|テラ大陸調査団|테라 대륙 조사단
-char_4091_ulika|U-Official|U-Official|U-Official|
+char_4091_ulika|U-Official|U-Official|U-Official|U-Official
 char_4093_frston|Friston-3|Friston-3|Friston-3|Friston-3
+char_4136_phonor|PhonoR-0|PhonoR-0||
 
 ID|中文|English|日本語|한국어
 ---|---|---|---|---
@@ -97,8 +98,9 @@ char_4041_chnut|褐果|Chestnut|チェストナット|체스트넛
 char_4062_totter|铅踝|Totter|トター|토터
 char_4063_quartz|石英|Quartz|クォーツ|쿼츠
 char_4067_lolxh|罗小黑|Luo Xiaohei|羅小黒|나소흑
-char_4100_caper|跃跃|Caper|ケイパー|
+char_4100_caper|跃跃|Caper|ケイパー|케이퍼
 char_4107_vrdant|维荻|Verdant|ヴァーダント|버던트
+char_4130_luton|露托|Lutonada||
 
 ID|中文|English|日本語|한국어
 ---|---|---|---|---
@@ -186,6 +188,7 @@ char_422_aurora|极光|Aurora|オーロラ|오로라
 char_431_ashlok|灰毫|Ashlock|アッシュロック|애쉬락
 char_433_windft|掠风|Windflit|ウインドフリット|윈드플릿
 char_436_whispr|絮雨|Whisperain|ウィスパーレイン|위스퍼레인
+char_446_aroma|阿罗玛|Aroma||
 char_449_glider|蜜莓|Honeyberry|ハニーベリー|허니베리
 char_451_robin|罗宾|Robin|ロビン|로빈
 char_455_nothin|乌有|Mr. Nothing|ウユウ|우요우
@@ -207,17 +210,19 @@ char_494_vendla|刺玫|Vendela|ヴァンデラ|벤델라
 char_496_wildmn|野鬃|Wild Mane|ワイルドメイン|와일드메인
 char_497_ctable|晓歌|Cantabile|カンタービレ|칸타빌레
 char_498_inside|隐现|Insider|インサイダー|인사이더
-char_499_kaitou|折光|Diamante|ディアマンテ|
+char_499_kaitou|折光|Diamante|ディアマンテ|디아만테
 char_508_aguard|Sharp|Sharp|Sharp|Sharp
 char_509_acast|Pith|Pith|Pith|Pith
 char_510_amedic|Touch|Touch|Touch|Touch
 char_511_asnipe|Stormeye|Stormeye|Stormeye|Stormeye
+char_512_aprot|暮落|Shalem|シャレム|샬렘
 char_513_apionr|郁金香|Tulip|チューリップ|튤립
 char_1011_lava2|炎狱炎熔|Lava the Purgatory|炎獄ラヴァ|라바 더 퍼거토리
 char_1021_kroos2|寒芒克洛丝|Kroos the Keen Glint|寒芒クルース|크루스 더 킨 글린트
 char_1024_hbisc2|濯尘芙蓉|Hibiscus the Purifier|濯塵ハイビスカス|히비스커스 더 퓨리파이어
 char_1027_greyy2|承曦格雷伊|Greyy the Lightningbearer|承曦グレイ|그레이 더 라이트닝베어러
 char_1030_noirc2|火龙S黑角|Rathalos S Noir Corne|レウスSノイルホーン|레우스S 느와르 코르네
+char_1036_fang2|历阵锐枪芬|Fang the Fire-sharpened||
 char_4006_melnte|玫拉|Melanite|メラナイト|멜라나이트
 char_4013_kjera|耶拉|Kjera|イェラ|쉐라
 char_4014_lunacu|子月|Lunacub|ルナカブ|루나컵
@@ -243,11 +248,15 @@ char_4102_threye|凛视|Valarqvin|ヴァラルクビン|발라크빈
 char_4104_coldst|冰酿|Coldshot|コールドショット|콜드샷
 char_4105_almond|杏仁|Almond|アーモンド|아몬드
 char_4106_bryota|苍苔|Bryophyta|ブライオファイタ|브라이오피타
-char_4109_baslin|深律|Bassline|ベースライン|
+char_4109_baslin|深律|Bassline|ベースライン|베이스라인
 char_4110_delphn|戴菲恩|Delphine|デルフィーン|델핀
 char_4114_harold|哈洛德|Harold||
 char_4119_wanqin|万顷|Wanqing||
 char_4122_grabds|小满|Grain Buds||
+char_4124_iana|双月|Iana||
+char_4125_rdoc|医生|Doc||
+char_4126_fuze|导火索|Fuze||
+char_4131_odda|奥达|Odda||
 
 ID|中文|English|日本語|한국어
 ---|---|---|---|---
@@ -270,7 +279,7 @@ char_206_gnosis|灵知|Gnosis|ノーシス|노시스
 char_213_mostma|莫斯提马|Mostima|モスティマ|모스티마
 char_222_bpipe|风笛|Bagpipe|バグパイプ|백파이프
 char_225_haak|阿|Aak|ア|아
-char_245_cello|塑心|Virtuosa|ヴィルトゥオーサ|
+char_245_cello|塑心|Virtuosa|ヴィルトゥオーサ|비르투오사
 char_248_mgllan|麦哲伦|Magallan|マゼラン|마젤란
 char_249_mlyss|缪尔赛思|Muelsyse|ミュルジス|뮤엘시스
 char_250_phatom|傀影|Phantom|ファントム|팬텀
@@ -314,6 +323,7 @@ char_1031_slent2|淬羽赫默|Silence the Paradigmatic|淬羽サイレンス|사
 char_1032_excu2|圣约送葬人|Executor the Ex Foedere|聖約イグゼキュター|이그제큐터 디 엑스 포에데레
 char_1033_swire2|琳琅诗怀雅|Swire the Elegant Wit|琳琅スワイヤー|스와이어 디 엘리건트 위트
 char_1034_jesca2|涤火杰西卡|Jessica the Liberated|滌火ジェシカ|제시카 더 리버레이티드
+char_1035_wisdel|维什戴尔|Wiš'adel||
 char_2012_typhon|提丰|Typhon|ティフォン|티폰
 char_2013_cerber|刻俄柏|Ceobe|ケオベ|케오베
 char_2014_nian|年|Nian|ニェン|니엔
@@ -322,7 +332,7 @@ char_2023_ling|令|Ling|リィン|링
 char_2024_chyue|重岳|Chongyue|チョンユエ|총웨
 char_2025_shu|黍|Shu||
 char_4009_irene|艾丽妮|Irene|アイリーニ|아이린
-char_4011_lessng|止颂|Lessing|レッシング|
+char_4011_lessng|止颂|Lessing|レッシング|레싱
 char_4027_heyak|霍尔海雅|Ho'olheyak|ホルハイヤ|오올헤약
 char_4039_horn|号角|Horn|ホルン|혼
 char_4042_lumen|流明|Lumen|ルーメン|루멘
@@ -335,9 +345,12 @@ char_4072_ironmn|白铁|Stainless|ステインレス|스테인리스
 char_4080_lin|林|Lin|リン|린
 char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
 char_4087_ines|伊内丝|Ines|イネス|이네스
-char_4088_hodrer|赫德雷|Hoederer|ヘドリー|외드레르
-char_4098_vvana|薇薇安娜|Viviana|ヴィヴィアナ|
+char_4088_hodrer|赫德雷|Hoederer|へドリー|외드레르
+char_4098_vvana|薇薇安娜|Viviana|ヴィヴィアナ|비비아나
 char_4116_blkkgt|锏|Degenbrecher||
 char_4117_ray|莱伊|Ray||
 char_4121_zuole|左乐|Zuo Le||
-
+char_4123_ela|艾拉|Ela||
+char_4132_ascln|阿斯卡纶|Ascalon||
+char_4133_logos|逻各斯|Logos||
+char_4134_cetsyr|魔王|Civilight Eterna||
