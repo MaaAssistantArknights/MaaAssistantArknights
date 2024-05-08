@@ -10014,7 +10014,8 @@
             350,
             20,
             20
-        ]
+        ],
+        "postDelay": 500
     },
     "BattleFormationOperListSwipeToTheLeft": {
         "baseTask": "SwipeToTheLeft",
