@@ -2108,7 +2108,7 @@
         "description": "没有人知道到底是谁掏的腰包，只有对罗德岛满怀希望的情感是真切的。",
         "icon": "randomDiamondShd_1.png",
         "name": "罗德岛迎春红包",
-        "sortId": 60110,
+        "sortId": 60111,
         "usage": "分发给罗德岛全员的红包，数额随机，饱含着对新年的祝福。"
     },
     "randomDiamondShd_2": {
@@ -2116,7 +2116,7 @@
         "description": "没有人知道到底是谁掏的腰包，只有对罗德岛满怀希望的情感是真切的。",
         "icon": "randomDiamondShd_2.png",
         "name": "庆典礼盒",
-        "sortId": 60111,
+        "sortId": 60112,
         "usage": "分发给罗德岛全员的礼盒，数额随机，饱含着庆典到来的喜悦。"
     },
     "randomMaterialRune_0": {
@@ -2236,7 +2236,7 @@
         "description": "罗德岛从各地采购、储备的材料补给箱。不过因为缺乏系统性的整理收纳，每一个箱子里都装着截然不同的材料。",
         "icon": "randomMaterial_10.png",
         "name": "罗德岛物资补给VII",
-        "sortId": 60109,
+        "sortId": 60110,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_2": {
@@ -2308,7 +2308,7 @@
         "description": "“尽管内里如心声般各不相似，它们也足以成为你探寻真相的助力。跟随尚未忘却的回响，你终会抓住那个答案。”",
         "icon": "randomMaterial_leith2.png",
         "name": "查访补给",
-        "sortId": 60113,
+        "sortId": 60114,
         "usage": "不知何人将其交予你，装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_rhine2": {
@@ -2316,7 +2316,7 @@
         "description": "梅兰德基金会提供的材料补给箱。由各个调查区域分别调配，因此每一个箱子里都装着截然不同的材料。",
         "icon": "randomMaterial_rhine2.png",
         "name": "技术调查补给",
-        "sortId": 60110,
+        "sortId": 60111,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "randomMaterial_siesta2": {
@@ -2324,7 +2324,7 @@
         "description": "来自峯联贸易的材料补给箱。供货商很高兴能与大客户合作，协同物流公司为您送来这些赠品。",
         "icon": "randomMaterial_siesta2.png",
         "name": "峯联贸易物流补给",
-        "sortId": 60112,
+        "sortId": 60113,
         "usage": "装有各种物资补给，包含多种随机材料。"
     },
     "return_credit_token": {
