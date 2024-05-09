@@ -475,7 +475,7 @@
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">オペレーター</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">この機能はまだテスト中です。もし統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">開始する前に、すべてのオペレーターをお気に入りリストから削除してください。\nこの機能はまだテスト中です。もし統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">所有していない: {0} : \n\n{1}\n\n所有している: {2} : \n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">認識開始</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">クリップボードにコピー</system:String>
