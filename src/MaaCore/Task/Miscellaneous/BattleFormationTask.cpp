@@ -401,7 +401,6 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
 void asst::BattleFormationTask::swipe_page()
 {
     ProcessTask(*this, { "BattleFormationOperListSlowlySwipeToTheRight" }).run();
-    sleep(Task.get("BattleFormationOperListSlowlySwipeToTheRight")->post_delay);
 }
 
 void asst::BattleFormationTask::swipe_to_the_left(int times)
