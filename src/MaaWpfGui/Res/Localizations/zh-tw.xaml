@@ -719,7 +719,7 @@
     <system:String x:Key="Level3UseShortTime2">3 星設定 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影響其他星級 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次執行時最大招募次數</system:String>
-    <system:String x:Key="ManuallySelectLevel1">手動確認「支援機械」</system:String>
+    <system:String x:Key="ManuallySelectLevel1">手動確認 1 星</system:String>
     <system:String x:Key="AutoSelectLevel3">自動確認 3 星</system:String>
     <system:String x:Key="AutoSelectLevel4">自動確認 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自動確認 5 星</system:String>
