@@ -87,8 +87,9 @@ jobs:
         uses: actions/download-artifact@v4
 
       - name: Fetch MaaRelease
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
+          show-progress: false
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
           path: MaaRelease
           fetch-depth: 0
