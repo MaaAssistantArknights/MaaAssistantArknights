@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Fetch MaaRelease
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
         with:
           show-progress: false
           repository: ${{ format('{0}/{1}', github.repository_owner, 'MaaRelease') }}
