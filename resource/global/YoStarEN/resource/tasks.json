@@ -6768,9 +6768,6 @@
             ]
         ]
     },
-    "Roguelike@StageTraderInvestConfirm": {
-        "templThreshold": 0.55
-    },
     "Roguelike@StageTraderInvestSystem": {
         "maskRange": [
             1,
