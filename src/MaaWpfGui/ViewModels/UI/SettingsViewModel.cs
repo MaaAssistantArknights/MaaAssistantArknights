@@ -4061,6 +4061,22 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide series.
+        /// </summary>
+        public bool HideSeries
+        {
+            get => _hideSeries;
+            set
+            {
+                SetAndNotify(ref _hideSeries, value);
+                Instances.TaskQueueViewModel.HideSeries = value;
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideSeries, value.ToString());
+            }
+        }
+
         private bool _customStageCode = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomStageCode, bool.FalseString));
 
         /// <summary>

@@ -314,6 +314,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제나 오리지늄을 사용하지 않습니다.</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 남은 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
+    <system:String x:Key="HideSeries">연속 전투 횟수 숨기기</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
@@ -345,10 +346,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
         인 경우,\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0」\n
         을 기입하십시오. \n\n
-
         2. 인스턴스 번호: (예: 0) \n
         인스턴스 번호는 MuMu 다중 인스턴스 관리자에서 확인할 수 있습니다. 기본값은 0입니다. 다중 인스턴스가 있는 경우 번호는 인스턴스 앞에 표시됩니다. \n\n
-
         3. 창 번호: (예: 0) \n
         참고: MuMu의 백그라운드 유지를 닫은 후 0을 기입하십시오. 백그라운드 유지를 시작하려면 직접 방법을 찾으십시오.
     </system:String>

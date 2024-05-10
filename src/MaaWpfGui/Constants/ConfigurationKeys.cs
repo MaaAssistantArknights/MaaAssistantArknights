@@ -40,6 +40,7 @@ namespace MaaWpfGui.Constants
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing";
         public const string UseAlternateStage = "GUI.UseAlternateStage";
         public const string HideUnavailableStage = "GUI.HideUnavailableStage";
+        public const string HideSeries = "GUI.HideSeries";
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode";
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix";
