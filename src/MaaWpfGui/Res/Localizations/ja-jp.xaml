@@ -337,6 +337,21 @@
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabledTip">
+        以下の情報を記入してください：\n
+        1. エミュレーターパス：（例：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
+        エミュレーターパスは、エミュレーターアプリケーションの親フォルダーパスを記入してください。例えば、アプリケーションのパスが\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
+        の場合、\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」\n
+        を記入してください。\n\n
+
+        2. インスタンス番号：（例：0）\n
+        インスタンス番号はMuMuマルチインスタンスマネージャーで確認できます。デフォルトは0です。複数のインスタンスがある場合、番号はインスタンスの前に表示されます。\n\n
+
+        3. ウィンドウ番号：（例：0）\n
+        注意：MuMuのバックグラウンドでのアクティブ維持を閉じた後は0を記入してください。バックグラウンドでのアクティブ維持を開始する場合は、自分で方法を探してください。
+    </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 エミュレータパス</system:String>
     <system:String x:Key="MuMu12Index">インスタンス番号</system:String>
     <system:String x:Key="MuMu12Display">表示番号</system:String>
