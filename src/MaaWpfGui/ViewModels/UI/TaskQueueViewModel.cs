@@ -3007,6 +3007,17 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide series.
+        /// </summary>
+        public bool HideSeries
+        {
+            get => _hideSeries;
+            set => SetAndNotify(ref _hideSeries, value);
+        }
+
         #region Drops
 
         private bool? _isSpecifiedDropsWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));

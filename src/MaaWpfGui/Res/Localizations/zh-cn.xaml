@@ -313,6 +313,7 @@
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃48小时内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
+    <system:String x:Key="HideSeries">隐藏连战次数</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">显示基建计划</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
@@ -338,16 +339,13 @@
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
         请填写以下信息：\n\n
-
         1. 模拟器路径：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         模拟器路径应填写模拟器应用的上一层文件夹路径，例如应用路径为\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
         应填写\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0」。\n\n
-
         2. 实例编号：（例如：0）\n
         实例编号可在 MuMu 多开器中查看，默认为 0，若有多开实例，编号见实例前的数字。\n\n
-
         3. 窗口编号：（例如：0）\n
         注意：关闭MuMu的后台保活后填写0，如需打开后台保活，请自行探索方法。\n
     </system:String>

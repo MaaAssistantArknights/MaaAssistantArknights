@@ -314,6 +314,7 @@
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、理性剤も源石も使わない</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
+    <system:String x:Key="HideSeries">連戦回数を隠します</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">基地計画を表示する</system:String>
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
@@ -345,10 +346,8 @@
         の場合、\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0」\n
         を記入してください。\n\n
-
         2. インスタンス番号：（例：0）\n
         インスタンス番号はMuMuマルチインスタンスマネージャーで確認できます。デフォルトは0です。複数のインスタンスがある場合、番号はインスタンスの前に表示されます。\n\n
-
         3. ウィンドウ番号：（例：0）\n
         注意：MuMuのバックグラウンドでのアクティブ維持を閉じた後は0を記入してください。バックグラウンドでのアクティブ維持を開始する場合は、自分で方法を探してください。
     </system:String>

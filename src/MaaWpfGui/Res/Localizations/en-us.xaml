@@ -313,6 +313,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
+    <system:String x:Key="HideSeries">Hide series</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
@@ -343,10 +344,8 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」,\n
         you should fill in\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0」.\n\n
-
         2. Instance Number: (e.g., 0)\n
         The instance number can be found in the MuMu Multi-Instance Manager, default is 0. If there are multiple instances, the number is shown before the instance.\n\n
-
         3. Window Number: (e.g., 0)\n
         Note: Fill in 0 after closing MuMu's background keep-alive. If you need to open the background keep-alive, please explore the method yourself.
     </system:String>
