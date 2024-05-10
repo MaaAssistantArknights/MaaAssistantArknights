@@ -475,7 +475,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <!--  !창고 정리  -->
     <!--  오퍼레이터 식별  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 식별</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 즐겨찾기 목록에서 모든 운영자를 삭제하세요. 이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 즐겨찾기 목록에서 모든 오퍼레이터들을 삭제하세요.\n이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">미소유: {0}\n목록:\n\n{1}\n소유: {2}\n목록:\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">식별 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
