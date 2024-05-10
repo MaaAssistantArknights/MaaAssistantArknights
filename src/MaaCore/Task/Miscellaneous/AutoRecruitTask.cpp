@@ -443,7 +443,7 @@ asst::AutoRecruitTask::calc_task_result_type
         }
 
         // robot tags
-        const std::vector<RecruitConfig::TagId> RobotTags = { "支援机械" };
+        const std::vector<RecruitConfig::TagId> RobotTags = { "支援机械", "元素" };
         if (auto robot_iter = ranges::find_first_of(RobotTags, tag_ids);
             robot_iter != RobotTags.cend()) [[unlikely]] {
             has_robot_tag = true;

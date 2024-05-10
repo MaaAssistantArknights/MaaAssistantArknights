@@ -722,7 +722,7 @@
     <system:String x:Key="Level3UseShortTime2">星3タグを1:00に設定する</system:String>
     <system:String x:Key="Level3UseShortTimeTip">他のレアリティには影響しない</system:String>
     <system:String x:Key="RecruitMaxTimes">1回の実行あたりの求人の最大回数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">「ロボット」を手動的に確認する</system:String>
+    <system:String x:Key="ManuallySelectLevel1">星1を手動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel3">星3を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel4">星4を自動的に確認する</system:String>
     <system:String x:Key="AutoSelectLevel5">星5を自動的に確認する</system:String>
