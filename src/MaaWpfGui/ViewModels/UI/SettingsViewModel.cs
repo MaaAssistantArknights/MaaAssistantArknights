@@ -21,7 +21,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Management;
-using System.Printing;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -51,7 +50,6 @@ using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
-using MessageBox = HandyControl.Controls.MessageBox;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
