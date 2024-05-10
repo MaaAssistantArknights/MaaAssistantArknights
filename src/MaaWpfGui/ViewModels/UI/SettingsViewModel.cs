@@ -51,6 +51,7 @@ using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
+using MessageBox = HandyControl.Controls.MessageBox;
 using Timer = System.Timers.Timer;
 
 namespace MaaWpfGui.ViewModels.UI
@@ -3301,6 +3302,12 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     _enable = value;
+
+                    if (value)
+                    {
+                        MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+                    }
+
                     Instances.AsstProxy.Connected = false;
                     OnPropertyChanged();
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());

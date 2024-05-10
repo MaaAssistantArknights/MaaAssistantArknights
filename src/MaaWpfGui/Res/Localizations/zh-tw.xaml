@@ -334,6 +334,20 @@
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabledTip">
+        請填寫以下信息：\n
+        1. 模擬器路徑：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
+        模擬器路徑應填寫模擬器應用的上一層文件夾路徑，例如應用路徑為\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
+        應填寫\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」。\n\n
+
+        2. 實例編號：（例如：0）\n
+        實例編號可在 MuMu 多開器中查看，默認為 0，若有多開實例，編號見實例前的數字。\n\n
+
+        3. 窗口編號：（例如：0）\n
+        注意：關閉MuMu的後台保活後填寫0，如需打開後台保活，請自行探索方法。
+    </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>

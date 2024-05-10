@@ -336,6 +336,20 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabledTip">
+        Please fill in the following information:\n
+        1. Emulator Path: (e.g., C:\\Program Files\\Netease\\MuMuPlayer-12.0)\n
+        The emulator path should be the parent folder path of the emulator application. For example, if the application path is\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」,\n
+        you should fill in\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」.\n\n
+
+        2. Instance Number: (e.g., 0)\n
+        The instance number can be found in the MuMu Multi-Instance Manager, default is 0. If there are multiple instances, the number is shown before the instance.\n\n
+
+        3. Window Number: (e.g., 0)\n
+        Note: Fill in 0 after closing MuMu's background keep-alive. If you need to open the background keep-alive, please explore the method yourself.
+    </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
     <system:String x:Key="MuMu12Index">Instance Number</system:String>
     <system:String x:Key="MuMu12Display">Display Number</system:String>
