@@ -722,7 +722,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Level3UseShortTime2">★3 태그 9:00 대신 1:00 설정</system:String>
     <system:String x:Key="Level3UseShortTimeTip">다른 등급에는 적용되지 않습니다</system:String>
     <system:String x:Key="RecruitMaxTimes">시행 시의 최대 모집횟수</system:String>
-    <system:String x:Key="ManuallySelectLevel1">로봇 수동 모집</system:String>
+    <system:String x:Key="ManuallySelectLevel1">★1 수동 모집</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
