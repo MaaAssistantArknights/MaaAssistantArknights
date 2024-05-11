@@ -30,7 +30,7 @@ using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
-using Microsoft.Toolkit.Uwp.Notifications;
+using MaaWpfGui.WineCompat;
 using Serilog;
 using Serilog.Core;
 using Stylet;
@@ -118,6 +118,12 @@ namespace MaaWpfGui.Main
             if (IsUserAdministrator())
             {
                 _logger.Information("Run as Administrator");
+            }
+
+            if (WineRuntimeInformation.IsRunningUnderWine)
+            {
+                _logger.Information($"Running under Wine {WineRuntimeInformation.WineVersion} on {WineRuntimeInformation.HostSystemName}");
+                _logger.Information($"MaaWineBridge status: {MaaWineBridge.Availability}");
             }
 
             _logger.Information("===================================");

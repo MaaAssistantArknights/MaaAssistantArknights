@@ -1,0 +1,7 @@
+# CMake behaves differently when CMAKE_SYSTEM_NAME is set
+# set(CMAKE_SYSTEM_NAME ${CMAKE_HOST_SYSTEM_NAME})
+# set(CMAKE_SYSTEM_PROCESSOR ${CMAKE_HOST_SYSTEM_PROCESSOR})
+set(CMAKE_C_COMPILER winegcc)
+set(CMAKE_CXX_COMPILER wineg++)
+set(CMAKE_C_STANDARD_INCLUDE_DIRECTORIES /usr/include/wine/windows)
+set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES /usr/include/wine/windows)
