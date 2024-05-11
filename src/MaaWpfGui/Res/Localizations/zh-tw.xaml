@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">常規設定</system:String>
@@ -326,9 +323,9 @@
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
     <system:String x:Key="AccountSwitch">賬號切換</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用。
 輸入登入界面顯示的內容，如“123****4567”，可輸入“123****4567”或“4567”或“23****45”
-僅支持官服、B服，不支持登入帳號</system:String>
+僅支持官服、B服，不支持登入帳號。</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
@@ -336,7 +333,7 @@
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        請填寫以下信息：\n
+        請填寫以下信息：\n\n
         1. 模擬器路徑：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         模擬器路徑應填寫模擬器應用的上一層文件夾路徑，例如應用路徑為\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
@@ -611,8 +608,8 @@
     <system:String x:Key="TouchModeNotAvailable">觸控模式不可用。請進入 設定 - 連接設定 切換其他觸控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截圖失敗，如反覆出現請嘗試重開或更換模擬器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截圖用時: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）時可能表現異常</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截圖用時較長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）時可能表現異常。</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截圖用時過長(平均: {0}ms)，自動戰鬥類功能（如自動肉鴿）很可能無法正常運行，建議嘗試重新啟動或更換模擬器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">辨識錯誤</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任務出錯: </system:String>
     <system:String x:Key="CombatError">戰鬥出錯</system:String>
@@ -774,7 +771,7 @@
     <system:String x:Key="RemoteControlConnectionTestSuccess">連接測試成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">連接測試失敗，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">連接測試失敗，連接端點為空。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">連接測試失敗，連接端點不為http(s)地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">連接測試失敗，連接端點不為 http(s) 地址。</system:String>
     <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">連接端點未啟用https，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到遠端任務{0}，任務Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成遠端任務{0}，任務Id:{1}。</system:String>
