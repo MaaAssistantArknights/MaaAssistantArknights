@@ -503,8 +503,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                     }
 
-                    toast.AddButtonLeft(text, action);
-                    toast.ButtonSystemUrl = UpdateUrl;
+                    toast.AddButton(text, ToastNotification.GetActionTagForOpenWeb(UpdateUrl));
                     toast.ShowUpdateVersion();
                 });
 
@@ -593,10 +592,9 @@ namespace MaaWpfGui.ViewModels.UI
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                     _ = Execute.OnUIThreadAsync(() =>
                     {
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                        toast.ButtonSystemUrl = UpdateUrl;
+                        var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
-                             .AddButtonLeft(text, action)
+                             .AddButton(text, ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
                              .Show();
                     });
                     return CheckUpdateRetT.NoNeedToUpdate;

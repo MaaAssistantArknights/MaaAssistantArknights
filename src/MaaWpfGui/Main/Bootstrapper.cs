@@ -211,12 +211,7 @@ namespace MaaWpfGui.Main
             Instances.MaaHotKeyManager.Release();
 
             // 关闭程序时清理操作中心中的通知
-            var os = RuntimeInformation.OSDescription;
-            if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
-            {
-                // new ToastNotificationHistory().Clear();
-                ToastNotificationManagerCompat.History.Clear();
-            }
+            ToastNotification.Cleanup();
 
             ConfigurationHelper.Release();
 
