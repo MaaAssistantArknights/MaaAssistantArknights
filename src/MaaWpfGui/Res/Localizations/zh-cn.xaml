@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  设置  -->
     <system:String x:Key="Settings">设置</system:String>
     <system:String x:Key="GeneralSettings">常规设置</system:String>
@@ -123,7 +120,7 @@
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「开局干员」直升精二，不进行作战</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号;隔开</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号「;」隔开</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
@@ -171,7 +168,7 @@
     <system:String x:Key="AdbException">检测ADB出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接</system:String>
-    <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器</system:String>
+    <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器。</system:String>
     <system:String x:Key="SwitchLanguage">切换语言</system:String>
     <system:String x:Key="Language">语言</system:String>
     <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
@@ -287,7 +284,7 @@
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
     <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">信用点低于300时停止购买商品</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意：可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
     <system:String x:Key="ReserveMaxCreditTips">低于300信用点也仍然会购买白名单物品！</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士！ \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
@@ -326,9 +323,9 @@
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
     <system:String x:Key="AccountSwitch">账号切换</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用。
 输入登录界面显示的内容，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
-仅支持官服、B服，不支持登录账号</system:String>
+仅支持官服、B服，不支持登录账号。</system:String>
     <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或错选成了模拟器本体。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我确定没选错</system:String>
@@ -347,9 +344,9 @@
         2. 实例编号：（例如：0）\n
         实例编号可在 MuMu 多开器中查看，默认为 0，若有多开实例，编号见实例前的数字。\n\n
         3. 窗口编号：（例如：0）\n
-        注意：关闭MuMu的后台保活后填写0，如需打开后台保活，请自行探索方法。\n
+        注意：关闭MuMu的后台保活后填写0，如需打开后台保活，请自行探索方法。
     </system:String>
-    <system:String x:Key="MuMu12EmulatorPath">MuMu 模拟器路径</system:String>
+    <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
     <system:String x:Key="MuMu12Index">实例编号</system:String>
     <system:String x:Key="MuMu12Display">屏幕编号</system:String>
     <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras 未生效，请检查相关设置</system:String>
@@ -613,8 +610,8 @@
     <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
     <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms ({1})</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）可能表现异常</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）可能表现异常。</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -776,8 +773,8 @@
     <system:String x:Key="RemoteControlConnectionTestSuccess">连接测试成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">连接测试失败，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">连接测试失败，连接端点为空。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">连接测试失败，连接端点不为http(s)地址。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">连接端点未启用https，可能不安全。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">连接测试失败，连接端点不为 http(s) 地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">连接端点未启用 https，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的账户受到损失。</system:String>

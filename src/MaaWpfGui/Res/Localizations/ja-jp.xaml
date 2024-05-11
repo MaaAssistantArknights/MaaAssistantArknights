@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -47,7 +44,6 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
-
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -327,7 +323,7 @@
     <system:String x:Key="AlwaysAutoDetectConnection">毎回再検出する</system:String>
     <system:String x:Key="AccountSwitch">アカウントの切り替え</system:String>
     <system:String x:Key="AccountSwitchManualRun">今すぐ切り替える</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">切り替える必要があるアカウントを入力し、空白のままにしてアカウントの切り替えを完了します。
 ログインインターフェイスに表示される内容を入力します（「123****4567」など）。「123****4567」または「4567」または「23****45」を入力できます。
 公式(CN)とBilibiliサーバーのみをサポートします。 ログインアカウントはサポートされていません。</system:String>
     <system:String x:Key="AdbPath">ADBパス（相対/絶対）</system:String>
@@ -339,7 +335,7 @@
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        以下の情報を記入してください：\n
+        以下の情報を記入してください：\n\n
         1. エミュレーターパス：（例：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         エミュレーターパスは、エミュレーターアプリケーションの親フォルダーパスを記入してください。例えば、アプリケーションのパスが\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
@@ -616,7 +612,7 @@
     <system:String x:Key="ScreencapFailed">スクリーンキャプチャに失敗しました。繰り返し発生する場合は、エミュレータの再起動または変更をお試しください！</system:String>
     <system:String x:Key="FastestWayToScreencap">スクリーンショット テストには: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">スクリーンキャップには時間がかかるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) を使用すると異常な動作が発生する可能性があります。</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります。</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">スクリーンキャップに時間がかかりすぎるため(平均: {0}ms)、自動戦闘機能 (Auto I.S. など) が適切に動作しない可能性があります、シミュレータの再起動や交換をお勧めします!</system:String>
     <system:String x:Key="IdentifyTheMistakes">認識エラー</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">タスクエラー: </system:String>
     <system:String x:Key="CombatError">戦闘エラー</system:String>
