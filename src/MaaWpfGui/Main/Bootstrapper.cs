@@ -124,6 +124,7 @@ namespace MaaWpfGui.Main
             {
                 _logger.Information($"Running under Wine {WineRuntimeInformation.WineVersion} on {WineRuntimeInformation.HostSystemName}");
                 _logger.Information($"MaaWineBridge status: {MaaWineBridge.Availability}");
+                _logger.Information($"MaaDesktopIntegration available: {MaaDesktopIntegration.Availabile}");
             }
 
             _logger.Information("===================================");
