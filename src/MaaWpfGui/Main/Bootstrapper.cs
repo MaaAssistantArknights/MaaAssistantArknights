@@ -234,7 +234,7 @@ namespace MaaWpfGui.Main
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo
                 {
-                    FileName = System.Windows.Forms.Application.ExecutablePath,
+                    FileName = Environment.ProcessPath,
                 };
 
                 Process.Start(startInfo);
