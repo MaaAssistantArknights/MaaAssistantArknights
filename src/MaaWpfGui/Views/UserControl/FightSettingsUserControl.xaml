@@ -148,7 +148,7 @@
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Visibility="{c:Binding !HideSeries}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
@@ -365,6 +365,10 @@
                 Margin="0,10"
                 Content="{DynamicResource HideUnavailableStage}"
                 IsChecked="{Binding HideUnavailableStage}" />
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource HideSeries}"
+                IsChecked="{Binding HideSeries}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"

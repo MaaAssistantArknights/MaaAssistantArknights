@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -290,7 +287,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReserveMaxCredit">Stop purchasing items when credits below 300</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ Caution: Risk of credits overflow! Purchases of whitelisted items at regular prices will still occur!</system:String>
     <system:String x:Key="ReserveMaxCreditTips">Will still purchase whitelisted items even if credits are below 300!</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">Doctor! \nPurchasing only discounted items has caused an overflow in credits! \nBe cautious of wasting credits!\nRemaining credits:</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">Collect daily/weekly mission rewards</system:String>
     <system:String x:Key="ReceiveMail">Collect all mail rewards</system:String>
     <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
@@ -313,6 +310,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">Brush the specified stage after completing the main task, won't use sanity potion or stone</system:String>
     <system:String x:Key="UseExpiringMedicine">Unlimited use of expiring sanity potion</system:String>
     <system:String x:Key="HideUnavailableStage">Hide today's not open stages</system:String>
+    <system:String x:Key="HideSeries">Hide series</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">Show Base Plan</system:String>
     <system:String x:Key="MainViewButtonFeature">Variable function button</system:String>
     <system:String x:Key="CustomStageCode">Manual entry of stage names</system:String>
@@ -325,7 +323,7 @@ Enter 「SSReopen-XX」to pass SS normal difficulty level at one time</system:St
     <system:String x:Key="AlwaysAutoDetectConnection">Re-detect every times</system:String>
     <system:String x:Key="AccountSwitch">Account Switch</system:String>
     <system:String x:Key="AccountSwitchManualRun">Switch now</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">Fill in the account that needs to be switched to, leave blank to close the account switching.
 Enter the content displayed on the login interface, such as "123****4567", you can enter "123****4567" or "4567" or "23****45"
 Only supports Official(CN) and Bilibili server. Login account is not supported.</system:String>
     <system:String x:Key="AdbPath">ADB path (rel/abs)</system:String>
@@ -335,6 +333,23 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabledTip">
+        Please fill in the following information:\n\n
+        1. Emulator Path: (e.g., C:\\Program Files\\Netease\\MuMuPlayer-12.0)\n
+        The emulator path should be the parent folder path of the emulator application. For example, if the application path is\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」,\n
+        you should fill in\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」.\n\n
+        2. Instance Number: (e.g., 0)\n
+        The instance number can be found in the MuMu Multi-Instance Manager, default is 0. If there are multiple instances, the number is shown before the instance.\n\n
+        3. Window Number: (e.g., 0)\n
+        Note: Fill in 0 after closing MuMu's background keep-alive. If you need to open the background keep-alive, please explore the method yourself.
+    </system:String>
+    <system:String x:Key="MuMu12EmulatorPath">MuMu12 Emulator exec path</system:String>
+    <system:String x:Key="MuMu12Index">Instance Number</system:String>
+    <system:String x:Key="MuMu12Display">Display Number</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras not enabled, please check related settings</system:String>
     <system:String x:Key="RetryOnDisconnected">Retry launching the emulator when ADB connection fails</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">Try restarting the emulator after 20 failed reconnect attempts, must be checked when using a background timed task and setting the task to close the emulator when finished</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">Emulator path is empty! Please fill in "Launch Settings - Emulator Path" and reselect.</system:String>
@@ -469,7 +484,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->
     <system:String x:Key="OperBoxRecognition">Operator</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">"Marked" operators can't be recognized. Please unmark them before starting.\nThis function is still in testing. If you encounter any unexpected results, please zip the 「debug/oper」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="OperBoxRecognitionResult">Not owned: {0}\n\n{1}\n\nOwned: {2}\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">Start to Identify</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">Copy to Clipboard</system:String>
@@ -594,7 +609,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ReconnectFailed">Reconnection failed. The connection is down!</system:String>
     <system:String x:Key="TouchModeNotAvailable">Touch mode is not available, please go to 「Settings - Connection Settings」 to switch to a different touch mode.</system:String>
     <system:String x:Key="ScreencapFailed">Screencap failed. If it happens repeatedly, try to restart or change the emulator!</system:String>
-    <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms</system:String>
+    <system:String x:Key="FastestWayToScreencap">Screenshot test tasks: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">Screencap takes a long time (avg: {0}ms) which may cause some abnormal behaviors using automatic combat functions (e.g. Auto I. S.).</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">Screencap takes too long (avg: {0}ms), so automatic combat functions (e.g. Auto I. S.) may not run properly. It is recommended to try restarting or changing the simulator!</system:String>
     <system:String x:Key="IdentifyTheMistakes">Recognition error</system:String>
@@ -716,7 +731,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="Level3UseShortTime2">Set 1:00 instead of 9:00 for 3★ Tags</system:String>
     <system:String x:Key="Level3UseShortTimeTip">Doesn't interfere with other ★ stars</system:String>
     <system:String x:Key="RecruitMaxTimes">Recruit max times</system:String>
-    <system:String x:Key="ManuallySelectLevel1">Manually confirm Robot tag</system:String>
+    <system:String x:Key="ManuallySelectLevel1">Manually confirm 1★</system:String>
     <system:String x:Key="AutoSelectLevel3">Auto confirm 3★</system:String>
     <system:String x:Key="AutoSelectLevel4">Auto confirm 4★</system:String>
     <system:String x:Key="AutoSelectLevel5">Auto confirm 5★</system:String>
@@ -777,4 +792,5 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CheckAndDownloadAnnouncement">View Announcement</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">Do not show this announcement again</system:String>
     <!--  !Announcement  -->
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">Connection test failed, connection endpoint is not a http(s) address.</system:String>
 </ResourceDictionary>

@@ -867,7 +867,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             Instances.SettingsViewModel.SetupSleepManagement();
 
-            // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
+            // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
 
@@ -1092,7 +1092,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             _runningState.SetIdle(false);
 
-            // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
+            // 虽然更改时已经保存过了，不过保险起见在点击开始之后再次保存任务和基建列表
             TaskItemSelectionChanged();
             Instances.SettingsViewModel.InfrastOrderSelectionChanged();
 
@@ -1349,9 +1349,7 @@ namespace MaaWpfGui.ViewModels.UI
             var receiveMining = Instances.SettingsViewModel.ReceiveMining;
             var receiveSpecialAccess = Instances.SettingsViewModel.ReceiveSpecialAccess;
 
-            return Instances.AsstProxy.AsstAppendAward(
-                receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, receiveMining, receiveSpecialAccess
-            );
+            return Instances.AsstProxy.AsstAppendAward(receiveAward, receiveMail, receiveFreeRecruit, receiveOrundum, receiveMining, receiveSpecialAccess);
         }
 
         private static bool AppendRecruit()
@@ -3009,6 +3007,17 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide series.
+        /// </summary>
+        public bool HideSeries
+        {
+            get => _hideSeries;
+            set => SetAndNotify(ref _hideSeries, value);
+        }
+
         #region Drops
 
         private bool? _isSpecifiedDropsWithNull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DropsEnable, bool.FalseString));
@@ -3045,22 +3054,22 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// 关卡不可掉落的材料
         /// </summary>
-        private static readonly HashSet<string> _excludedValues = new()
-        {
+        private static readonly HashSet<string> _excludedValues =
+        [
             "3213", "3223", "3233", "3243", // 双芯片
-            "3253", "3263", "3273", "3283",
-            "7001", "7002", "7003", "7004", // 许可/凭证
-            "4004", "4005",
+            "3253", "3263", "3273", "3283", // 双芯片
+            "7001", "7002", "7003", "7004", // 许可
+            "4004", "4005",                 // 凭证
             "3105", "3131", "3132", "3233", // 龙骨/加固建材
-            "6001", // 演习券
-            "3141", "4002", // 源石
-            "32001", // 芯片助剂
-            "30115", // 聚合剂
-            "30125", // 双极纳米片
-            "30135", // D32钢
-            "30145", // 晶体电子单元
-            "30155", // 烧结核凝晶
-        };
+            "6001",                         // 演习券
+            "3141", "4002",                 // 源石
+            "32001",                        // 芯片助剂
+            "30115",                        // 聚合剂
+            "30125",                        // 双极纳米片
+            "30135",                        // D32钢
+            "30145",                        // 晶体电子单元
+            "30155",                        // 烧结核凝晶
+        ];
 
         private void InitDrops()
         {

@@ -56,10 +56,10 @@ D32钢|D32 Steel|D32鋼|D32강
 转质盐组|Transmuted Salt|転化塩|합성 소금 번들
 转质盐聚块|Transmuted Salt Agglomerate|上級転化塩|합성 소금 팩
 烧结核凝晶|Nucleic Crystal Sinter|焼結核凝晶|핵결정체 소결물
-环烃聚质|||
-褐素纤维|||
-环烃预制体|||
-固化纤维板|||
+环烃聚质|Aggregate Cyclicene|炭化水素ポリマー|고리탄화수소 응집질
+褐素纤维|Fuscous Fiber|褐素繊維|퓨신 섬유
+环烃预制体|Cyclicene Prefab|プレハブ式炭化水素|고리탄화수소 프리폼
+固化纤维板|Solidified Fiber Board|硬化ファイバー基板|경화 섬유판
 
 中文|English|日本語|한국어
 ---|---|---|---

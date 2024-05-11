@@ -28,80 +28,98 @@
 
 namespace asst
 {
-    class Assistant;
+class Assistant;
 
-    class Controller : private InstHelper
-    {
-    public:
-        Controller(const AsstCallback& callback, Assistant* inst);
-        Controller(const Controller&) = delete;
-        Controller(Controller&&) = delete;
-        ~Controller();
+class Controller : private InstHelper
+{
+public:
+    Controller(const AsstCallback& callback, Assistant* inst);
+    Controller(const Controller&) = delete;
+    Controller(Controller&&) = delete;
+    ~Controller();
 
-        bool connect(const std::string& adb_path, const std::string& address, const std::string& config);
-        bool inited() noexcept;
-        void set_touch_mode(const TouchMode& mode) noexcept;
-        void set_swipe_with_pause(bool enable) noexcept;
-        void set_adb_lite_enabled(bool enable) noexcept;
-        void set_kill_adb_on_exit(bool enable) noexcept;
+    bool
+        connect(const std::string& adb_path, const std::string& address, const std::string& config);
+    bool inited() noexcept;
+    void set_touch_mode(const TouchMode& mode) noexcept;
+    void set_swipe_with_pause(bool enable) noexcept;
+    void set_adb_lite_enabled(bool enable) noexcept;
+    void set_kill_adb_on_exit(bool enable) noexcept;
 
-        const std::string& get_uuid() const;
-        cv::Mat get_image(bool raw = false);
-        cv::Mat get_image_cache() const;
-        bool screencap(bool allow_reconnect = false);
+    const std::string& get_uuid() const;
 
-        bool start_game(const std::string& client_type);
-        bool stop_game();
+    size_t get_pipe_data_size() const noexcept;
 
-        bool click(const Point& p);
-        bool click(const Rect& rect);
+    size_t get_version() const noexcept;
 
-        bool swipe(const Point& p1, const Point& p2, int duration = 0, bool extra_swipe = false, double slope_in = 1,
-                   double slope_out = 1, bool with_pause = false);
-        bool swipe(const Rect& r1, const Rect& r2, int duration = 0, bool extra_swipe = false, double slope_in = 1,
-                   double slope_out = 1, bool with_pause = false);
+    cv::Mat get_image(bool raw = false);
+    cv::Mat get_image_cache() const;
+    bool screencap(bool allow_reconnect = false);
 
-        bool inject_input_event(InputEvent& event);
+    bool start_game(const std::string& client_type);
+    bool stop_game();
 
-        bool press_esc();
-        ControlFeat::Feat support_features();
+    bool click(const Point& p);
+    bool click(const Rect& rect);
 
-        std::pair<int, int> get_scale_size() const noexcept;
+    bool swipe(
+        const Point& p1,
+        const Point& p2,
+        int duration = 0,
+        bool extra_swipe = false,
+        double slope_in = 1,
+        double slope_out = 1,
+        bool with_pause = false);
+    bool swipe(
+        const Rect& r1,
+        const Rect& r2,
+        int duration = 0,
+        bool extra_swipe = false,
+        double slope_in = 1,
+        double slope_out = 1,
+        bool with_pause = false);
 
-        Controller& operator=(const Controller&) = delete;
-        Controller& operator=(Controller&&) = delete;
+    bool inject_input_event(InputEvent& event);
 
-        bool back_to_home();
+    bool press_esc();
+    ControlFeat::Feat support_features();
 
-    private:
-        cv::Mat get_resized_image_cache() const;
+    std::pair<int, int> get_scale_size() const noexcept;
 
-        void clear_info() noexcept;
-        void callback(AsstMsg msg, const json::value& details);
-        void sync_params();
+    Controller& operator=(const Controller&) = delete;
+    Controller& operator=(Controller&&) = delete;
 
-        AsstCallback m_callback = nullptr;
+    bool back_to_home();
 
-        std::minstd_rand m_rand_engine;
+private:
+    cv::Mat get_resized_image_cache() const;
 
-        PlatformType m_platform_type = PlatformType::Native;
+    void clear_info() noexcept;
+    void callback(AsstMsg msg, const json::value& details);
+    void sync_params();
 
-        ControllerType m_controller_type = ControllerType::Minitouch;
+    AsstCallback m_callback = nullptr;
 
-        std::shared_ptr<ControllerAPI> m_controller = nullptr;
+    std::minstd_rand m_rand_engine;
 
-        std::unique_ptr<ControllerFactory> m_controller_factory = nullptr;
+    PlatformType m_platform_type = PlatformType::Native;
 
-        std::shared_ptr<ControlScaleProxy> m_scale_proxy = nullptr;
+    ControllerType m_controller_type = ControllerType::Minitouch;
 
-        std::string m_uuid;
+    std::shared_ptr<ControllerAPI> m_controller = nullptr;
 
-        std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+    std::unique_ptr<ControllerFactory> m_controller_factory = nullptr;
 
-        bool m_swipe_with_pause = false;
-        bool m_kill_adb_on_exit = false;
+    std::shared_ptr<ControlScaleProxy> m_scale_proxy = nullptr;
 
-        mutable std::shared_mutex m_image_mutex;
-        cv::Mat m_cache_image;
-    };
+    std::string m_uuid;
+
+    std::pair<int, int> m_scale_size = { WindowWidthDefault, WindowHeightDefault };
+
+    bool m_swipe_with_pause = false;
+    bool m_kill_adb_on_exit = false;
+
+    mutable std::shared_mutex m_image_mutex;
+    cv::Mat m_cache_image;
+};
 } // namespace asst

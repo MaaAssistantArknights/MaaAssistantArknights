@@ -11519,6 +11519,42 @@
         "stageId": "hard_13-04",
         "width": 12
     },
+    "hard_14-01-obt/hard/level_hard_14-01": {
+        "code": "H14-1",
+        "filename": "hard_14-01-obt-hard-level_hard_14-01.json",
+        "height": 8,
+        "levelId": "obt/hard/level_hard_14-01",
+        "name": "灯塔行动-1",
+        "stageId": "hard_14-01",
+        "width": 12
+    },
+    "hard_14-02-obt/hard/level_hard_14-02": {
+        "code": "H14-2",
+        "filename": "hard_14-02-obt-hard-level_hard_14-02.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_14-02",
+        "name": "灯塔行动-2",
+        "stageId": "hard_14-02",
+        "width": 13
+    },
+    "hard_14-03-obt/hard/level_hard_14-03": {
+        "code": "H14-3",
+        "filename": "hard_14-03-obt-hard-level_hard_14-03.json",
+        "height": 7,
+        "levelId": "obt/hard/level_hard_14-03",
+        "name": "灯塔行动-3",
+        "stageId": "hard_14-03",
+        "width": 14
+    },
+    "hard_14-04-obt/hard/level_hard_14-04": {
+        "code": "H14-4",
+        "filename": "hard_14-04-obt-hard-level_hard_14-04.json",
+        "height": 9,
+        "levelId": "obt/hard/level_hard_14-04",
+        "name": "灯塔行动-4",
+        "stageId": "hard_14-04",
+        "width": 13
+    },
     "level_act38rune_01-01-activities/act38rune/level_act38rune_01-01": {
         "code": "哥伦比亚",
         "filename": "level_act38rune_01-01-activities-act38rune-level_act38rune_01-01.json",

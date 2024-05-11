@@ -699,6 +699,12 @@
     <ClInclude Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Controller\MumuExtras.h">
+      <Filter>Source\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils\LibraryHolder.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1165,6 +1171,9 @@
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller\MumuExtras.cpp">
+      <Filter>Source\Controller</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
