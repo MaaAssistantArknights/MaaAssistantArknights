@@ -546,7 +546,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="AddUserAdditionalTip">Use「;」as the separator,「,」to separate the operator name and skills, for example: W, 3; Ash, 2</system:String>
     <system:String x:Key="UseCopilotList">Battle list</system:String>
     <system:String x:Key="UseCopilotListTip">Please switch to the level selection page before starting</system:String>
-    <system:String x:Key="CopilotTaskRaidStage">(Raid)</system:String>
+    <system:String x:Key="CopilotTaskRaidStage">(Challenge)</system:String>
     <system:String x:Key="CopilotAddTask">Right click to add challenge difficulty</system:String>
     <system:String x:Key="CopilotClearTask">Right click to clear inactive tasks</system:String>
     <system:String x:Key="LoopTimes">Loop Times</system:String>
