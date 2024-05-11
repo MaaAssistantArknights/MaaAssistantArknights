@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(MaaDesktopIntegration C)
 
+find_package(Fontconfig REQUIRED)
 find_package(PkgConfig REQUIRED)
 
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
@@ -15,6 +16,7 @@ add_library(MaaDesktopIntegration SHARED
     main_loop.c
     gobject.c
     gdk-pixbuf.c
+    fontconfig.c
     MaaDesktopIntegration.spec
 )
 
@@ -24,6 +26,6 @@ set_target_properties(MaaDesktopIntegration PROPERTIES
     OUTPUT_NAME "MaaDesktopIntegration"
     SUFFIX ".so"
 )
-target_link_libraries(MaaDesktopIntegration PkgConfig::GLIB PkgConfig::GDK_PIXBUF PkgConfig::LIBNOTIFY MaaDesktopIntegration_SPEC)
+target_link_libraries(MaaDesktopIntegration PkgConfig::GLIB PkgConfig::GDK_PIXBUF PkgConfig::LIBNOTIFY Fontconfig::Fontconfig MaaDesktopIntegration_SPEC)
 
 install(TARGETS MaaDesktopIntegration LIBRARY DESTINATION ".")

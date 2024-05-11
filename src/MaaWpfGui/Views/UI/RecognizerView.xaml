@@ -154,7 +154,7 @@
                             Margin="10"
                             HorizontalAlignment="Stretch"
                             BorderThickness="0"
-                            FontFamily="SimSun"
+                            FontFamily="SimSun, Global Monospace"
                             FontSize="14"
                             IsReadOnly="True"
                             Text="{Binding OperBoxResult}"
