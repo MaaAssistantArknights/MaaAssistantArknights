@@ -19,6 +19,8 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Helper;
@@ -123,6 +125,7 @@ namespace MaaWpfGui.Main
             if (WineRuntimeInformation.IsRunningUnderWine)
             {
                 _logger.Information($"Running under Wine {WineRuntimeInformation.WineVersion} on {WineRuntimeInformation.HostSystemName}");
+                RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
                 _logger.Information($"MaaWineBridge status: {MaaWineBridge.Availability}");
                 _logger.Information($"MaaDesktopIntegration available: {MaaDesktopIntegration.Availabile}");
             }
