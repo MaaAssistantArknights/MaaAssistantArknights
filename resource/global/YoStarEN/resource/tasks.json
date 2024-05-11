@@ -503,7 +503,7 @@
                 "空"
             ],
             [
-                "Ss?kad?i? the Co?rru?pt?ing ?[Heart]*",
+                "Ss?k?ad?i? the Co?rru?pt?ing ?[Heart]*",
                 "浊心斯卡蒂"
             ],
             [
@@ -2834,6 +2834,7 @@
         "text": [
             "Morale",
             "Resting",
+            "In Use",
             "Working",
             "Assign"
         ]
@@ -6767,9 +6768,6 @@
                 "悲观者囚笼"
             ]
         ]
-    },
-    "Roguelike@StageTraderInvestConfirm": {
-        "templThreshold": 0.55
     },
     "Roguelike@StageTraderInvestSystem": {
         "maskRange": [

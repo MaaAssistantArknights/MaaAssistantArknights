@@ -419,6 +419,7 @@
             302,
             155
         ],
+        "preDelay": 500,
         "sub": [
             "EnterChooseLevelOfDifficulty"
         ]
@@ -3646,6 +3647,10 @@
             [
                 "特米米.+",
                 "特米米"
+            ],
+            [
+                "崖心.+",
+                "崖心"
             ]
         ]
     },
@@ -8943,7 +8948,7 @@
             232,
             374
         ],
-        "postDelay": 3000,
+        "postDelay": 4000,
         "next": [
             "BattleOfficiallyBegin",
             "SkipThePreBattlePlot",
@@ -9784,19 +9789,15 @@
         "text": [],
         "ocrReplace": [
             [
-                "o",
+                "[Oo]",
                 "0"
             ],
             [
-                "O",
-                "0"
-            ],
-            [
-                "I",
+                "[Ii]",
                 "1"
             ],
             [
-                "l",
+                "[Ll]",
                 "1"
             ],
             [
@@ -10013,7 +10014,8 @@
             350,
             20,
             20
-        ]
+        ],
+        "postDelay": 500
     },
     "BattleFormationOperListSwipeToTheLeft": {
         "baseTask": "SwipeToTheLeft",

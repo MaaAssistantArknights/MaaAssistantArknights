@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -47,7 +44,6 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
-
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
@@ -172,7 +168,7 @@
     <system:String x:Key="AdbException">ADB를 찾을 수 없었습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorNotFound">에뮬레이터를 찾을 수 없습니다.\n관리자 권한으로 실행하거나\n수동으로 연결을 설정해 주세요</system:String>
     <system:String x:Key="EmulatorTooMany">다수의 에뮬레이터가 실행 중입니다.\n사용하지 않는 에뮬레이터를 종료하거나\n수동으로 연결을 설정해 주세요</system:String>
-    <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요</system:String>
+    <system:String x:Key="EmulatorStartFailed">에뮬레이터를 시작하지 못했습니다.\n사용하지 않는 에뮬레이터를 종료하거나\n또는 에뮬레이터를 수동으로 시작하세요.</system:String>
     <system:String x:Key="SwitchLanguage">언어 전환</system:String>
     <system:String x:Key="Language">언어</system:String>
     <system:String x:Key="LanguageChangedTip">언어가 변경되었습니다. 지금 MAA를 재실행하여 새 설정을 적용하시겠습니까?</system:String>
@@ -241,7 +237,7 @@
     <system:String x:Key="MinimizeAfterLaunch">MAA 실행 후 최소화</system:String>
     <system:String x:Key="ClientType">클라이언트 종류</system:String>
     <system:String x:Key="AutoRestartOption">게임 연결이 끊어지면 자동으로 다시 연결</system:String>
-    <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다. 저희를 도와주세요! 전문 지식이 없어도 됩니다!</system:String>
+    <system:String x:Key="HelpUsWithOverseasServersTip">해외 서버의 현지화는 어려운 작업입니다!저희를 도와주세요! 전문 지식이 없어도 됩니다.</system:String>
     <system:String x:Key="OpenEmulatorAfterLaunch">MAA 실행 후 에뮬레이터를 실행</system:String>
     <system:String x:Key="MinimizingStartup">시작 시 에뮬레이터 최소화</system:String>
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
@@ -314,6 +310,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">주요 작업을 완료한 후 지정된 스테이지를 실행하며, 이성 회복제나 오리지늄을 사용하지 않습니다.</system:String>
     <system:String x:Key="UseExpiringMedicine">48시간 미만 남은 이성 회복제 사용</system:String>
     <system:String x:Key="HideUnavailableStage">미개방 스테이지 숨기기</system:String>
+    <system:String x:Key="HideSeries">연속 전투 횟수 숨기기</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">기반시설 계획 표시</system:String>
     <system:String x:Key="MainViewButtonFeature">메인 화면 버튼의 기능</system:String>
     <system:String x:Key="CustomStageCode">스테이지 코드 수동 입력</system:String>
@@ -336,6 +333,24 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">MuMu의 스크린샷 향상 모드를 활성화하세요</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabledTip">
+        다음 정보를 기입하세요: \n\n
+        1. 에뮬레이터 경로: (예: C:\\Program Files\\Netease\\MuMuPlayer-12.0) \n
+        에뮬레이터 경로는 에뮬레이터 응용 프로그램의 상위 폴더 경로를 기입해야 합니다. 예를 들어, 응용 프로그램 경로가\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
+        인 경우,\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」\n
+        을 기입하십시오. \n\n
+        2. 인스턴스 번호: (예: 0) \n
+        인스턴스 번호는 MuMu 다중 인스턴스 관리자에서 확인할 수 있습니다. 기본값은 0입니다. 다중 인스턴스가 있는 경우 번호는 인스턴스 앞에 표시됩니다. \n\n
+        3. 창 번호: (예: 0) \n
+        참고: MuMu의 백그라운드 유지를 닫은 후 0을 기입하십시오. 백그라운드 유지를 시작하려면 직접 방법을 찾으십시오.
+    </system:String>
+    <system:String x:Key="MuMu12EmulatorPath">MuMu12 에뮬레이터 경로</system:String>
+    <system:String x:Key="MuMu12Index">인스턴스 번호</system:String>
+    <system:String x:Key="MuMu12Display">표시 번호</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MuMuExtras가 활성화되지 않았습니다. 관련 설정을 확인하세요</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 연결이 실패하면 에뮬레이터를 다시 시도합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">재연결을 20회 시도해도 실패하면 에뮬레이터를 다시 시작합니다. 백그라운드 예약을 사용하고 작업이 완료되면 에뮬레이터가 종료되도록 설정하려면 반드시 선택해야 합니다</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">에뮬레이터 경로가 비어 있습니다!「시작 설정 - 에뮬레이터 경로」를 입력한 후 다시 선택하세요</system:String>
@@ -470,7 +485,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <!--  !창고 정리  -->
     <!--  오퍼레이터 식별  -->
     <system:String x:Key="OperBoxRecognition">오퍼레이터 식별</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">시작하기 전에 즐겨찾기 목록에서 모든 오퍼레이터들을 삭제하세요.\n이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">미소유: {0}\n목록:\n\n{1}\n소유: {2}\n목록:\n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">식별 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
@@ -595,7 +610,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ReconnectFailed">다시 연결하지 못했습니다. 연결 해제되었습니다!</system:String>
     <system:String x:Key="TouchModeNotAvailable">터치 수행 방식이 사용 불가능합니다. 설정 - 연결 설정에서 다른 방식으로 변경해 주세요.</system:String>
     <system:String x:Key="ScreencapFailed">스크린샷 캡처에 실패했습니다. 반복적으로 발생 시 에뮬레이터를 다시 시작하거나 변경해 보세요!</system:String>
-    <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms</system:String>
+    <system:String x:Key="FastestWayToScreencap">스크린샷 캡쳐 속도: {0}ms ({1})</system:String>
     <system:String x:Key="FastestWayToScreencapWarningTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) 자동 전투 기능(예: Copilot)을 사용하면 비정상적인 동작이 발생할 수 있습니다.</system:String>
     <system:String x:Key="FastestWayToScreencapErrorTip">스크린샷 캡쳐 속도가 느리므로 (평균: {0}ms) 자동 전투 기능(예: Copilot)이 제대로 실행되지 않을 수 있습니다. 에뮬레이터를 다시 시작하거나 변경해 보는 것이 좋습니다!</system:String>
     <system:String x:Key="IdentifyTheMistakes">인식 오류</system:String>
@@ -616,15 +631,15 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="DropRecognitionError">드롭 인식 오류</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">펭귄 물류에 업로드 불가</system:String>
     <system:String x:Key="TheEx">EX 스테이지가 없어 중단되었습니다</system:String>
-    <system:String x:Key="MissingOperators">다음 오퍼레이터들이 누락되었습니다. 목록:</system:String>
+    <system:String x:Key="MissingOperators">다음 오퍼레이터들이 누락되었습니다:</system:String>
     <system:String x:Key="StageQueue">레벨 대기열:</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}</system:String>
-    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복 아이템: {0}</system:String>
-    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복 아이템: {0}/{1}(만료 예정)</system:String>
-    <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}</system:String>
+    <system:String x:Key="MedicineUsedTimes" xml:space="preserve">이성 회복 아이템: {0}  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복 아이템: {0}/{1}(만료 예정)  </system:String>
+    <system:String x:Key="StoneUsedTimes" xml:space="preserve">순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복 아이템을 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="StoneUsed">순오리지늄을 사용했습니다</system:String>
@@ -717,7 +732,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Level3UseShortTime2">★3 태그 9:00 대신 1:00 설정</system:String>
     <system:String x:Key="Level3UseShortTimeTip">다른 등급에는 적용되지 않습니다</system:String>
     <system:String x:Key="RecruitMaxTimes">시행 시의 최대 모집횟수</system:String>
-    <system:String x:Key="ManuallySelectLevel1">로봇 수동 모집</system:String>
+    <system:String x:Key="ManuallySelectLevel1">★1 수동 모집</system:String>
     <system:String x:Key="AutoSelectLevel3">★3 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel4">★4 자동 모집</system:String>
     <system:String x:Key="AutoSelectLevel5">★5 자동 모집</system:String>
@@ -778,4 +793,5 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
     <!--  !Announcement  -->
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">연결 테스트 실패, 연결 끝점이 http(s) 주소가 아닙니다.</system:String>
 </ResourceDictionary>

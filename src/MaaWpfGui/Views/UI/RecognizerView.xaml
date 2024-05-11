@@ -142,7 +142,6 @@
                     PanningMode="Both">
                     <StackPanel>
                         <controls:TextBlock
-                            Height="36"
                             Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"

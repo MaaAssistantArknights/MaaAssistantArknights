@@ -52,7 +52,7 @@ body:
     attributes:
       label: Log files
       description: >-
-        **Upload the `asst.log` and `gui.log` log file in the `debug` folder and**
+        **After closing the MAA, upload the `asst.log` and `gui.log` log file in the `debug` folder and**
         **indicate the approximate point in time when the problem occurred.**
 
         **Please drag and drop the full file in, not your own cuttings or copies;**

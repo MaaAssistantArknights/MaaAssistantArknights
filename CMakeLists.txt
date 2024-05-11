@@ -41,7 +41,7 @@ endif ()
 
 
 add_library(header_only_libraries INTERFACE)
-target_include_directories(header_only_libraries INTERFACE 3rdparty/include)
+target_include_directories(header_only_libraries INTERFACE 3rdparty/include 3rdparty/EmulatorExtras)
 
 file(GLOB_RECURSE maa_src src/MaaCore/*.cpp)
 

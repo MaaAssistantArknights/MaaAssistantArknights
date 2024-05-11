@@ -121,23 +121,23 @@ jobs:
           echo "numbers: "$numbers
 
           $length = $numbers.Length
-          $isAllEqual = $true
+          $noDiff = $true
           for ($i = 0; $i -lt $length; $i += 2) {
             $firstNumber = $numbers[$i]
             $secondNumber = $numbers[$i+1]
 
             if ($firstNumber -gt 1) {
-              $isAllEqual = $false
+              $noDiff = $false
               break
             }
             
             if ($firstNumber -ne $secondNumber) {
-                $isAllEqual = $false
+                $noDiff = $false
                 break
             }
           }
-          echo "isAllEqual: "$isAllEqual
-          echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
+          echo "noDiff: "$noDiff
+          echo "only_sorted=$noDiff" >> $env:GITHUB_OUTPUT
 
       - name: Cancelling
         if: steps.check_only_sorted.outputs.only_sorted == 'True'

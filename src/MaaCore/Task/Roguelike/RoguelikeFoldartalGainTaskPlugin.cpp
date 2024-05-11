@@ -78,6 +78,7 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
     foldartal_floor.reset();
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@FoldartalGainOcrNextLevel");
+    sleep(500);
     if (analyzer.analyze()) {
         std::string foldartar_will_get_next_floor = analyzer.get_result().front().text;
         foldartal_floor = foldartar_will_get_next_floor;

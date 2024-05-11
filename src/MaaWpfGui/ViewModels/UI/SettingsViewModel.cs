@@ -46,7 +46,6 @@ using MaaWpfGui.Utilities.ValueType;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using ObservableCollections;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -1799,8 +1798,10 @@ namespace MaaWpfGui.ViewModels.UI
                     case NotifyType.ScrollOffset:
                         SetAndNotify(ref _selectedIndex, value);
                         break;
+
                     case NotifyType.SelectedIndex:
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -1849,8 +1850,10 @@ namespace MaaWpfGui.ViewModels.UI
                     case NotifyType.SelectedIndex:
                         SetAndNotify(ref _scrollOffset, value);
                         break;
+
                     case NotifyType.ScrollOffset:
                         break;
+
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -1978,6 +1981,7 @@ namespace MaaWpfGui.ViewModels.UI
                     case true when RoguelikeUseSupportUnit:
                         RoguelikeUseSupportUnit = false;
                         break;
+
                     case false when RoguelikeOnlyStartWithEliteTwo:
                         RoguelikeOnlyStartWithEliteTwo = false;
                         break;
@@ -2495,7 +2499,6 @@ namespace MaaWpfGui.ViewModels.UI
                 ConfigurationHelper.SetValue(ConfigurationKeys.ReceiveSpecialAccess, value.ToString());
             }
         }
-
 
         /* 定时设置 */
 
@@ -3275,6 +3278,125 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public class MuMuEmulator12ConnectionExtras : INotifyPropertyChanged
+        {
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected void OnPropertyChanged([CallerMemberName] string name = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
+
+            private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, bool.FalseString));
+
+            public bool Enable
+            {
+                get => _enable;
+                set
+                {
+                    if (_enable == value)
+                    {
+                        return;
+                    }
+
+                    _enable = value;
+
+                    if (value)
+                    {
+                        MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+                    }
+
+                    Instances.AsstProxy.Connected = false;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
+                }
+            }
+
+            private static readonly string _configuredPath = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12EmulatorPath, @"C:\Program Files\Netease\MuMuPlayer-12.0");
+            private string _emulatorPath = Directory.Exists(_configuredPath) ? _configuredPath : string.Empty;
+
+            /// <summary>
+            /// Gets or sets a value indicating the path of the emulator.
+            /// </summary>
+            public string EmulatorPath
+            {
+                get => _emulatorPath;
+                set
+                {
+                    if (!Directory.Exists(value))
+                    {
+                        MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
+                        value = string.Empty;
+                    }
+
+                    _emulatorPath = value;
+                    Instances.AsstProxy.Connected = false;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12EmulatorPath, value);
+                }
+            }
+
+            private string _index = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Index, "0");
+
+            /// <summary>
+            /// Gets or sets the index of the emulator.
+            /// </summary>
+            public string Index
+            {
+                get => _index;
+                set
+                {
+                    _index = value;
+                    Instances.AsstProxy.Connected = false;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
+                }
+            }
+
+            private string _display = ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12Display, "0");
+
+            /// <summary>
+            /// Gets or sets the display of the emulator.
+            /// </summary>
+            public string Display
+            {
+                get => _display;
+                set
+                {
+                    _display = value;
+                    Instances.AsstProxy.Connected = false;
+                    OnPropertyChanged();
+                    ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Display, _display);
+                }
+            }
+
+            public string Config
+            {
+                get
+                {
+                    if (!Enable)
+                    {
+                        return JsonConvert.SerializeObject(new JObject());
+                    }
+
+                    var configObject = new JObject
+                    {
+                        ["path"] = EmulatorPath,
+                        ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
+                        ["display"] = int.TryParse(Display, out var displayParse) ? displayParse : 0,
+                    };
+                    return JsonConvert.SerializeObject(configObject);
+                }
+            }
+
+            public MuMuEmulator12ConnectionExtras()
+            {
+                PropertyChanged += (_, _) => { };
+            }
+        }
+
+        public MuMuEmulator12ConnectionExtras MuMuEmulator12Extras { get; set; } = new();
+
         private bool _retryOnDisconnected = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RetryOnAdbDisconnected, bool.FalseString));
 
         /// <summary>
@@ -3415,6 +3537,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case 0:
                     error = LocalizationHelper.GetString("EmulatorNotFound");
                     return false;
+
                 case > 1:
                     error = LocalizationHelper.GetString("EmulatorTooMany");
                     break;
@@ -3435,6 +3558,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case 1:
                     ConnectAddress = addresses.First();
                     break;
+
                 case > 1:
                     {
                         foreach (var address in addresses.Where(address => address != "emulator-5554"))
@@ -3524,6 +3648,7 @@ namespace MaaWpfGui.ViewModels.UI
                     case "1": // 配置名
                         currentConfiguration = $" ({CurrentConfiguration})";
                         break;
+
                     case "2": // 连接模式
                         foreach (var data in ConnectConfigList.Where(data => data.Value == ConnectConfig))
                         {
@@ -3531,9 +3656,11 @@ namespace MaaWpfGui.ViewModels.UI
                         }
 
                         break;
+
                     case "3": // 端口地址
                         connectAddress = $" ({ConnectAddress})";
                         break;
+
                     case "4": // 客户端类型
                         clientName = $" - {ClientName}";
                         break;
@@ -3931,6 +4058,22 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 Instances.TaskQueueViewModel.UpdateStageList(true);
+            }
+        }
+
+        private bool _hideSeries = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.HideSeries, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to hide series.
+        /// </summary>
+        public bool HideSeries
+        {
+            get => _hideSeries;
+            set
+            {
+                SetAndNotify(ref _hideSeries, value);
+                Instances.TaskQueueViewModel.HideSeries = value;
+                ConfigurationHelper.SetValue(ConfigurationKeys.HideSeries, value.ToString());
             }
         }
 
