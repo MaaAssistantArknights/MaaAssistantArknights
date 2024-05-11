@@ -37,6 +37,8 @@ namespace MaaWpfGui.Views.UI
 
         private void InitIcon()
         {
+            notifyIcon.Icon = AppIcon.GetIcon();
+
             notifyIcon.Click += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
 
