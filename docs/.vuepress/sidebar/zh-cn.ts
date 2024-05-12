@@ -5,7 +5,7 @@ export const zhcnSidebar = sidebar({
     {
       text: "MAA",
       icon: "ic:round-home",
-      link: "/",
+      link: "/zh-cn/",
     },
     {
       text: "用户手册",
@@ -16,29 +16,29 @@ export const zhcnSidebar = sidebar({
         {
           text: "新手上路",
           icon: "ri:guide-fill",
-          link: "新手上路",
+          link: "/zh-cn/newbie",
         },
         {
           text: "功能介绍",
           icon: "mdi:information-outline",
-          link: "详细介绍",
+          link: "/zh-cn/introduction",
         },
         {
           text: "常见问题",
           icon: "ph:question-fill",
-          link: "常见问题",
+          link: "/zh-cn/faq",
         },
         {
           text: "模拟器和设备支持",
           icon: "mingcute:laptop-fill",
-          prefix: "模拟器和设备支持/",
+          prefix: "devices/",
           collapsible: true,
           children: "structure",
         },
         {
-          text: "CLI使用指南",
+          text: "CLI 使用指南",
           icon: "material-symbols:terminal",
-          prefix: "user_manual_for_cli/",
+          prefix: "cli/",
           collapsible: true,
           children: "structure",
         },
@@ -47,14 +47,14 @@ export const zhcnSidebar = sidebar({
     {
       text: "开发文档",
       icon: "ph:code-bold",
-      prefix: "开发文档/",
+      prefix: "develop/",
       collapsible: true,
       children: "structure",
     },
     {
       text: "协议文档",
       icon: "basil:document-solid",
-      prefix: "协议文档/",
+      prefix: "protocol/",
       collapsible: true,
       children: "structure",
     },

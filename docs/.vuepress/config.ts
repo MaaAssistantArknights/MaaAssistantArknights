@@ -15,21 +15,9 @@ export default defineUserConfig({
       lang: "zh-CN",
       description: "开发者文档",
     },
-    "/zh-tw/": {
-      lang: "zh-TW",
-      description: "開發者文件",
-    },
     "/en-us/": {
       lang: "en-US",
       title: "Documents",
-    },
-    "/ja-jp/": {
-      lang: "ja-JP",
-      description: "ドキュメント",
-    },
-    "/ko-kr/": {
-      lang: "ko-KR",
-      description: "문서",
     },
   },
 
