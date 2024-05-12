@@ -471,6 +471,7 @@ namespace MaaWpfGui.Main
 
                 case "TouchModeNotAvailable":
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TouchModeNotAvailable"), UiLogColor.Error);
+                    Connected = false;
                     break;
 
                 case "FastestWayToScreencap":
