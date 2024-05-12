@@ -50,12 +50,12 @@ const std::string& asst::PlayToolsController::get_uuid() const
 
 size_t asst::PlayToolsController::get_pipe_data_size() const noexcept
 {
-    return 170;
+    return size_t();
 }
 
 size_t asst::PlayToolsController::get_version() const noexcept
 {
-    return 9;
+    return size_t();
 }
 
 bool asst::PlayToolsController::screencap(
