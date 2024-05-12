@@ -26,7 +26,7 @@ namespace MaaWpfGui.Utilities
     {
         private static readonly ILogger _logger = Log.ForContext("SourceContext", "AutoStart");
 
-        private static readonly string _fileValue = Process.GetCurrentProcess().MainModule?.FileName;
+        private static readonly string _fileValue = Environment.ProcessPath;
         private static readonly string _uniqueIdentifier = GetHashCode(_fileValue);
 
         private static readonly string _startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Startup);

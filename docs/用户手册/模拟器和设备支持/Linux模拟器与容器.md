@@ -13,6 +13,47 @@ icon: teenyicons:linux-alt-solid
 
 [maa-cli](https://github.com/MaaAssistantArknights/maa-cli) 是一个使用 Rust 编写的简单 MAA 命令行工具。相关安装与使用教程请阅读[用户手册 - CLI使用指南](../CLI使用指南)。
 
+### 使用 Wine
+
+MAA WPF GUI 当前可以通过 Wine 运行。
+
+#### 安装步骤
+
+1. 前往 [.NET 发布页](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)下载并安装 Windows 版 .NET **桌面**运行时。
+
+3. 下载 Windows 版 MAA，解压后运行 `wine MAA.exe`。
+
+::: info 注意
+需要在连接设置中将 ADB 路径设置为 [Windows 版 `adb.exe`](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)。
+
+如果您需要通过 ADB 连接 USB 设备，请先在 Wine 外运行 `adb start-server`，即通过 Wine 连接原生 ADB server。
+:::
+
+#### 使用 Linux 原生 MaaCore（实验性功能）
+
+下载 [MAA Wine Bridge](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/src/MaaWineBridge) 源码并构建，用生成的 `MaaCore.dll`（ELF 文件）替换 Windows 版本，并将 Linux 原生动态库（`libMaaCore.so` 以及依赖）放在同一目录下。
+
+此时通过 Wine 运行 `MAA.exe`，将会加载 Linux 原生动态库。
+
+::: info 注意 
+使用 Linux 原生 MaaCore 时，需要在连接设置中将 ADB 路径设置为 Linux 原生 ADB。
+:::
+
+#### Linux 桌面整合（实验性功能）
+
+桌面整合提供原生桌面通知支持，以及将 fontconfig 字体配置映射到 WPF 的功能。
+
+将 MAA Wine Bridge 生成的 `MaaDesktopIntegration.so` 放到 `MAA.exe` 同目录下即可启用。
+
+#### 已知问题
+
+* Wine DirectWrite 强制启用 hinting，并且不将 DPI 传递给 FreeType，导致字体显示效果不佳。
+* 不使用原生桌面通知时，弹出通知会抢占全系统鼠标焦点，导致无法操作其他窗口。可以通过 `winecfg` 启用虚拟桌面模式缓解，或禁用桌面通知。
+* Wine-staging 用户需要关闭 `winecfg` 中的 `隐藏 Wine 版本` 选项，以便 MAA 正确检测 Wine 环境。
+* Wine 的 Light 主题会导致 WPF 中部分文字颜色异常，建议在 `winecfg` 中切换到无主题（Windows 经典主题）。
+* Wine 使用旧式 XEmbed 托盘图标，在 GNOME 下可能无法正常工作。
+* 使用 Linux 原生 MaaCore 时暂不支持自动更新（~~更新程序：我寻思我应该下载个 Windows 版~~）
+
 ### 使用 Python
 
 #### 1. 安装 MAA 动态库
