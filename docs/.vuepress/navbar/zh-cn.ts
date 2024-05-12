@@ -4,7 +4,7 @@ export const zhcnNavbar = navbar([
   {
     text: "主页",
     icon: "ic:round-home",
-    link: "/zh-cn/readme.md",
+    link: "/zh-cn/",
   },
   {
     text: "用户手册",
