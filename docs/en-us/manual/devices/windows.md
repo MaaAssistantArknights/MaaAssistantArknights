@@ -3,7 +3,7 @@ order: 1
 icon: ri:windows-fill
 ---
 
-# Emulator Supports
+# Windows Emulator Support
 
 ## ✅ [Bluestacks-CN 5](https://www.bluestacks.cn/)
 
