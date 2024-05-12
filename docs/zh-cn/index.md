@@ -3,7 +3,7 @@ home: true
 
 actions:
   - text: Link Start!
-    link: /zh-cn/readme.html
+    link: /zh-cn/
     type: primary
 
 # features:
