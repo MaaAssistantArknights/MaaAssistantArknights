@@ -15,44 +15,28 @@ export const enusSidebar = sidebar({
         {
           text: "Beginner's guide",
           icon: "ri:guide-fill",
-          link: "/en-us/1.0-BEGINNER'S_GUIDE",
+          link: "/en-us/newbie",
         },
         {
           text: "Introduction",
           icon: "mdi:information-outline",
-          link: "/en-us/1.1-USER_MANUAL",
+          link: "/en-us/introduction",
         },
         {
           text: "FAQs",
           icon: "ph:question-fill",
-          link: "/en-us/1.2-FAQ",
+          link: "/en-us/faq",
         },
         {
           text: "Emulator Supports",
           icon: "mingcute:laptop-fill",
           collapsible: true,
-          children: [
-            {
-              text: "Windows",
-              icon: "ri:windows-fill",
-              link: "/en-us/1.3-EMULATOR_SUPPORTS",
-            },
-            {
-              text: "Mac",
-              icon: "basil:apple-solid",
-              link: "/en-us/1.4-EMULATOR_SUPPORTS_FOR_MAC",
-            },
-            {
-              text: "Linux",
-              icon: "teenyicons:linux-alt-solid",
-              link: "/en-us/1.5-EMULATOR_SUPPORTS_FOR_LINUX",
-            },
-          ],
+          children: "structure",
         },
         {
           text: "User Manual For CLI",
           icon: "material-symbols:terminal",
-          prefix: "user_manual_for_cli/",
+          prefix: "cli/",
           collapsible: true,
           children: "structure",
         }
