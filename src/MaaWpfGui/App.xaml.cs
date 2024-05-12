@@ -18,6 +18,8 @@ using System.Windows;
 using System.Windows.Documents;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.WineCompat;
+using MaaWpfGui.WineCompat.FontConfig;
 using Serilog;
 
 namespace MaaWpfGui
@@ -44,6 +46,12 @@ namespace MaaWpfGui
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (WineRuntimeInformation.IsRunningUnderWine && MaaDesktopIntegration.Availabile)
+            {
+                // override buintin font map as early as possible
+                FontConfigIntegration.Install();
+            }
+
             base.OnStartup(e);
 
             string[] args = e.Args;

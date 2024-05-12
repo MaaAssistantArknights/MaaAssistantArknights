@@ -10,7 +10,7 @@
 
     <Style x:Key="MdXamlStyle" TargetType="FlowDocument">
         <Setter Property="Background" Value="{DynamicResource MdXamlBackground}" />
-        <Setter Property="FontFamily" Value="Microsoft YaHei" />
+        <Setter Property="FontFamily" Value="Microsoft YaHei, Global User Interface" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="TextAlignment" Value="Left" />
         <Setter Property="PagePadding" Value="10" />
@@ -57,7 +57,7 @@
                         <Setter Property="FontWeight" Value="Bold" />
                     </Trigger>
                     <Trigger Property="Tag" Value="CodeBlock">
-                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei" />
+                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei, Global Monospace" />
                         <Setter Property="FontSize" Value="14" />
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
                         <Setter Property="Padding" Value="20, 10" />
@@ -76,7 +76,7 @@
                 <Style.Triggers>
                     <Trigger Property="Tag" Value="CodeSpan">
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
-                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei" />
+                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei, Global Monospace" />
                         <Setter Property="FontSize" Value="14" />
                     </Trigger>
                 </Style.Triggers>
@@ -86,7 +86,7 @@
                 <Style.Triggers>
                     <Trigger Property="Tag" Value="CodeSpan">
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
-                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei" />
+                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei, Global Monospace" />
                         <Setter Property="FontSize" Value="14" />
                     </Trigger>
                 </Style.Triggers>
