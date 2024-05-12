@@ -3,7 +3,7 @@ home: true
 
 actions:
   - text: Link Start!
-    link: /en-us/readme.html
+    link: /readme.html
     type: primary
 
 # features:
