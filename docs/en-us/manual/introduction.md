@@ -1,3 +1,7 @@
+---
+icon: ic:baseline-article
+---
+
 # MAA User Manual
 
 ## Features

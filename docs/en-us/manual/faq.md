@@ -1,3 +1,7 @@
+---
+icon: ph:question-fill
+---
+
 # Frequently Asked Questions
 
 ::: warning
