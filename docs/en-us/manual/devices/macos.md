@@ -3,7 +3,7 @@ order: 2
 icon: basil:apple-solid
 ---
 
-# Emulator Support for Mac
+# Mac Emulator Support
 
 ## Apple Silicon Chips
 

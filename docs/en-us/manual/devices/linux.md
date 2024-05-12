@@ -3,7 +3,7 @@ order: 3
 icon: teenyicons:linux-alt-solid
 ---
 
-# Emulator Support for Linux
+# Linux Emulator Support
 
 ## Preparation
 
