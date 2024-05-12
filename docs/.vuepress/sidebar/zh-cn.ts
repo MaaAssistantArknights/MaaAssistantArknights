@@ -1,7 +1,7 @@
 import { sidebar } from "vuepress-theme-hope";
 
 export const zhcnSidebar = sidebar({
-  "/": [
+  "/zh-cn/": [
     {
       text: "MAA",
       icon: "ic:round-home",
@@ -10,23 +10,23 @@ export const zhcnSidebar = sidebar({
     {
       text: "用户手册",
       icon: "mdi:user",
-      prefix: "用户手册/",
+      prefix: "manual/",
       collapsible: true,
       children: [
         {
           text: "新手上路",
           icon: "ri:guide-fill",
-          link: "/zh-cn/newbie",
+          link: "newbie",
         },
         {
           text: "功能介绍",
           icon: "mdi:information-outline",
-          link: "/zh-cn/introduction",
+          link: "introduction",
         },
         {
           text: "常见问题",
           icon: "ph:question-fill",
-          link: "/zh-cn/faq",
+          link: "faq",
         },
         {
           text: "模拟器和设备支持",
