@@ -4,59 +4,50 @@
 
 using namespace asst;
 
+bool StartGameTaskPlugin::start_game_with_retries(size_t pipe_data_size_limit, bool newer_android)
+    const
+{
+    int extra_runs = 0;
+    for (int i = 0; i < 30; ++i) {
+        if (!ctrler()->start_game(m_client_type)) {
+            return false;
+        }
+
+        if (ctrler()->get_pipe_data_size() > pipe_data_size_limit) {
+            if (newer_android || ++extra_runs > 3) {
+                return true;
+            }
+        }
+
+        sleep(1500);
+    }
+
+    return false;
+}
+
 bool StartGameTaskPlugin::_run()
 {
     if (m_client_type.empty()) {
         return false;
     }
+
     // check for MAC / iOS
     if (ctrler()->get_controller_type() == ControllerType::MacPlayTools) {
         return ctrler()->start_game(m_client_type);
     }
-    else {
-        // check for android version, because it leads to different magic values
-        // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/8966#issuecomment-2094369694
-        if (ctrler()->get_version() > 8) {
-            do {
-                if (!ctrler()->start_game(m_client_type)) {
-                    return false;
-                }
 
-                // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/8961#issue-2277568882
-                // 167: magic value needs to be >164 but <172 (as that's max)
-                if (ctrler()->get_pipe_data_size() > 167) {
-                    return true;
-                }
+    // check for android version, because it leads to different magic values
+    // >8:  167: magic value needs to be >164 but <172 (as that's max)
+    // <=8: 145: needs to be >85 but <153 (as that's max)
+    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/8966#issuecomment-2094369694
+    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/8961#issue-2277568882
+    int pipe_data_size_limit = (ctrler()->get_version() > 8) ? 167 : 145;
 
-                sleep(1500);
+    // In Android 9 and above, there's a way to check if the game started correctly
+    // so no need for limited tries
+    bool newer_android = (ctrler()->get_version() > 8);
 
-            } while (true);
-        }
-        else {
-            do {
-                if (!ctrler()->start_game(m_client_type)) {
-                    return false;
-                }
-
-                // 145: needs to be >85 but <153 (as that's max)
-                // magic value lowered because of different android version
-                if (ctrler()->get_pipe_data_size() > 145) {
-                    // As there's no way to know (in Android < 8) if Ark has correctly started
-                    // we run the command a few more times to be sure
-                    for (auto _ = 3; _--;) {
-                        sleep(1500);
-                        if (!ctrler()->start_game(m_client_type)) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-
-                sleep(1500);
-
-            } while (true);
-        }
-    }
+    return start_game_with_retries(pipe_data_size_limit, newer_android);
 }
 
 StartGameTaskPlugin& StartGameTaskPlugin::set_client_type(std::string client_type) noexcept
