@@ -11,7 +11,7 @@ export default hopeTheme({
   docsDir: "/docs",
 
   locales: {
-    "/": {
+    "/zh-cn/": {
       navbar: zhcnNavbar,
       sidebar: zhcnSidebar,
       displayFooter: false,
