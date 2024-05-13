@@ -3,7 +3,7 @@ order: 1
 icon: ri:windows-fill
 ---
 
-# Windows 模拟器支持
+# Windows 模拟器
 
 ::: tip
 遇到问题请先参阅 [常见问题](../faq.md)

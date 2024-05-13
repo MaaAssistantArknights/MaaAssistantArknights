@@ -117,9 +117,9 @@ MAA 会以 1 秒的间隔持续轮询这个端点，尝试获取他要执行的�
 
 A 开发者想要用自己的 QQBot 控制 MAA，于是他开发了一个后端，暴露在公网上，提供两个端点：
 
-```
+```text
 https://myqqbot.com/maa/getTask
-https://myqqbot.com/maa/reportStatus。
+https://myqqbot.com/maa/reportStatus
 ```
 
 为了让用户用的更方便，他的 getTask 接口不管接收什么参数都默认返回 200OK 和一个空的 tasks 列表。
@@ -144,9 +144,9 @@ MAA 在任务执行完后，会调用 reportStatus 汇报结果，Bot 在收到�
 
 B 开发者写了一个网站，设想通过网站批量管理 MAA，因此，他拥有一套自己的用户管理系统。但是它的后端在公网上，提供两个可匿名访问的端点：
 
-```
+```text
 https://mywebsite.com/maa/getTask
-https://mywebsite.com/maa/reportStatus。
+https://mywebsite.com/maa/reportStatus
 ```
 
 在网站上，有个连接 MAA 实例的界面，会展示一个 B 开发者称之为 `用户密钥` 的随机字符串，并有一个填入设备 id 的文本框。

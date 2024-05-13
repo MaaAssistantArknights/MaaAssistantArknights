@@ -16,8 +16,8 @@ Issue Bot 使用的 action 为 [issue-checker](https://github.com/zzyyyl/issue-c
 ### 自动触发
 
 - 给 议题 和 拉取请求 增加标签，包括 `module` 系列，`Client` 系列，`ambiguous`，`translation required` 等。  
-    Issue Bot 会根据关键词自动增加分类标签。  
-    具体关键词可以参考[配置文件](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
+  Issue Bot 会根据关键词自动增加分类标签。  
+  具体关键词可以参考[配置文件](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
 - 给作者是可见性设置为 public 的 MAA 成员的 议题 和 拉取请求 增加 `MAA Team` 标签。
 
 #### 议题（Issue）及其评论
@@ -48,10 +48,10 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 - `Skip {LABEL_NAME}` 可以保证不增加标签。
 - `Skip labels` 可以保证不增加任何标签。
 - 以下几种方法可以为议题增加 `fixed` 标签：<sup>1</sup>  
-    - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH} fixed`
-    - `fixed by https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH}`
-    - `{VERSION} fixed`
-    - `fixed by {VERSION}`
+  - `https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH} fixed`
+  - `fixed by https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/{COMMIT_HASH}`
+  - `{VERSION} fixed`
+  - `fixed by {VERSION}`
 - `Duplicate of #{ISSUE_NUMBER}` 可以为当前议题增加 `duplicate` 标签。
 - **当你知道自己的议题评论会导致 Issue Bot 误解时，尽量添加一些 skip 操作。**
 
@@ -64,7 +64,7 @@ Issue Bot 会对拉取请求标题的格式进行简单审查。它会增加 `am
 对于一个推送中的任意提交：
 
 - 在 commit message 中包含以下几种任意一个，可以为对应议题加上 `fixed` 标签：
-    - `fix #{ISSUE_NUMBER}`
-    - `close #{ISSUE_NUMBER}`
-    - `fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
-    - `close https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
+  - `fix #{ISSUE_NUMBER}`
+  - `close #{ISSUE_NUMBER}`
+  - `fix https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`
+  - `close https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/{ISSUE_NUMBER}`

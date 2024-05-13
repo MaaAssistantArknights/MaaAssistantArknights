@@ -30,7 +30,7 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 此处仅列出官方安装方法，我们无法保证第三方整合包的可靠性。
 :::
 
-- 请安装 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 8](https://download.visualstudio.microsoft.com/download/pr/84ba33d4-4407-4572-9bfa-414d26e7c67c/bb81f8c9e6c9ee1ca547396f6e71b65f/windowsdesktop-runtime-8.0.2-win-x64.exe) 并重新启动计算机后再次运行 MAA。  
+- 请安装 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 8](https://download.visualstudio.microsoft.com/download/pr/c1d08a81-6e65-4065-b606-ed1127a954d3/14fe55b8a73ebba2b05432b162ab3aa8/windowsdesktop-runtime-8.0.4-win-x64.exe) 并重新启动计算机后再次运行 MAA。  
   使用 Windows 10 或 11 的用户也可以使用 winget 工具进行安装，只需在终端中运行以下命令。
   
     ```bash
@@ -46,17 +46,17 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 
 对于 Windows 7，在安装上文提到的运行库之前，您还需要检查以下补丁是否已安装：
 
-    1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-    2. SHA-2 代码签名补丁：
-        - KB4474419：[下载链接 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[下载链接 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-        - KB4490628：[下载链接 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下载链接 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-    3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下载链接 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下载链接 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+2. SHA-2 代码签名补丁：
+    - KB4474419：[下载链接 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)、[下载链接 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+    - KB4490628：[下载链接 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)、[下载链接 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+3. Platform Update for Windows 7（DXGI 1.2、Direct3D 11.1，KB2670838）：[下载链接 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)、[下载链接 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
-.NET 8 应用在 Windows 7 上运行异常的缓解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
+##### .NET 8 应用在 Windows 7 上运行异常的缓解措施 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
 
-    1. 打开 `计算机`，右键空白处，点击属性，点击左侧 `高级系统设置`，点击 `环境变量`。
-    2. 新建一个系统变量，变量名 `DOTNET_EnableWriteXorExecute`，变量值 `0`。
-    3. 重启电脑。
+1. 打开 `计算机`，右键空白处，点击属性，点击左侧 `高级系统设置`，点击 `环境变量`。
+2. 新建一个系统变量，变量名 `DOTNET_EnableWriteXorExecute`，变量值 `0`。
+3. 重启电脑。
 
 我们无法保证将来的版本对 Windows 7 的兼容性，~~都是微软的错~~。
 
@@ -85,6 +85,7 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 - 确认 MAA `设置` - `连接设置` - `adb 路径` 是否已自动填写，若已填写请忽略这步
 
 ::: details 若未填写
+
 - 找到模拟器安装路径，Windows 可在运行模拟器时在任务管理器中右键进程点击 `打开文件所在的位置`。
 - 顶层或下层目录中大概率会有一个 `adb.exe`（不一定就叫这个名字，可能叫 `nox_adb.exe`；`HD-adb.exe`；`adb_server.exe` 等等，总之是名字带`adb` 的 exe），搜索它，选择它！
 :::
@@ -162,6 +163,7 @@ Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
 ```json
 "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
 ```
+
 :::
 
 ### 指定 `Bluestacks.Config.Path`
