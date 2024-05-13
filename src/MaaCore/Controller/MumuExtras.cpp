@@ -1,5 +1,7 @@
 #include "MumuExtras.h"
 
+#if ASST_WITH_EMULATOR_EXTRAS
+
 #include "Utils/Logger.hpp"
 #include "Utils/NoWarningCV.h"
 
@@ -194,3 +196,4 @@ void MumuExtras::disconnect_mumu()
 }
 
 }
+#endif
