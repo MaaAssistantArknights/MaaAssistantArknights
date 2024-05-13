@@ -110,7 +110,7 @@ MAA uses Chinese (Simplified) as its first language, and all translation entries
 
 Check [Development Guide](./develop/development.md).
 
-### Linux/MacOS
+### Linux | MacOS
 
 Check [Linux Compiling Tutorial](./develop/linux-tutorial.md)
 
