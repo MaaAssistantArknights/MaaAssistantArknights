@@ -237,7 +237,7 @@ Supports some of the special stages,Please refer to [autoLocalization example](.
 }
 ```
 
-For more details about auto-copilot JSON, please refer to [Copilot Schema](3.3-COPILOT_SCHEMA.md)
+For more details about auto-copilot JSON, please refer to [Copilot Schema](./copilot-schema.md)
 
 - `SSSCopilot`  
     Copilot auto-combat feature for STATIONARY SECURITY SERVICE
@@ -250,7 +250,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](3.3-C
 }
 ```
 
-For more details about auto-copilot JSON, please refer to [Copilot Schema](3.7-SECURITY_PRESENCE_SCHEMA.md)
+For more details about auto-copilot JSON, please refer to [Copilot Schema](./copilot-schema.md)
 
 - `Depot`
     Depot recognition

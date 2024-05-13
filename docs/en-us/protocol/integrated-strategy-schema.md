@@ -45,7 +45,7 @@ Please note that JSON files do not support comments. Comments are for demonstrat
 
 ### Operator classification
 
-Split operators in different ***groups*** according to your understanding of the game(Group, related conceptual references [COPILOT_SCHEMA](3.3-COPILOT_SCHEMA.md))
+Split operators in different ***groups*** according to your understanding of the game(Group, related conceptual references [Copilot Schema](./copilot-schema.md))
 
 ::: info
 1. Operators and summons within the same group must be deployed in the same way (i.e. both melee or ranged)
