@@ -35,15 +35,15 @@ MAA 的意思是 MAA Assistant Arknights
 
 ## 亮点功能
 
-- 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)，[一图流](https://ark.yituliu.cn/)；
-- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/zh-cn/protocol/base-scheduling-schema.md)；
-- 自动公招，可选使用加急许可，一次全部刷完！公招数据自动上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)；
-- 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高姿回费出的是推王呢还是推王呢）~~；
-- 支持识别干员列表，统计已有和未有干员及潜能，并在公招识别显示；
-- 支持识别养成材料，并导出至 [企鹅物流刷图规划](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)；
-- 访问好友、收取信用及购物、领取日常奖励等，一键全日常自动长草；
-- 肉鸽全自动刷源石锭和等级，自动烧水和凹直升，智能识别干员及练度；
-- 选择作业 JSON 文件，自动抄作业， [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)；
+- 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)，[一图流](https://ark.yituliu.cn/)。
+- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/zh-cn/protocol/base-scheduling-schema.md)。
+- 自动公招，可选使用加急许可，一次全部刷完！公招数据自动上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)。
+- 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高姿回费出的是推王呢还是推王呢）~~。
+- 支持识别干员列表，统计已有和未有干员及潜能，并在公招识别显示。
+- 支持识别养成材料，并导出至 [企鹅物流刷图规划](https://penguin-stats.cn/planner)、[明日方舟工具箱](https://arkntools.app/#/material)、[ARK-NIGHTS 干员培养表](https://ark-nights.com/settings)。
+- 访问好友、收取信用及购物、领取日常奖励等，一键全日常自动长草。
+- 肉鸽全自动刷源石锭和等级，自动烧水和凹直升，智能识别干员及练度。
+- 选择作业 JSON 文件，自动抄作业， [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)。
 - 支持 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多种接口，方便集成调用，自定义你的 MAA！
 
 话不多说，看图！  
@@ -54,6 +54,8 @@ MAA 的意思是 MAA Assistant Arknights
 ![zh4](https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png)
 
 ## 下载地址
+
+前往[官网](https://maa.plus)自动匹配镜像源并下载稳定版，或：
 
 - [稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 - [内测版](https://github.com/MaaAssistantArknights/MaaRelease/releases)
@@ -155,17 +157,17 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - 机器学习加速器：[onnxruntime](https://github.com/microsoft/onnxruntime)
 - ~~关卡掉落识别：[企鹅物流识别](https://github.com/penguin-statistics/recognizer)~~
 - 地图格子识别：[Arknights-Tile-Pos](https://github.com/yuanyan3060/Arknights-Tile-Pos)
-- C++ JSON库：[meojson](https://github.com/MistEO/meojson.git)
+- C++ JSON 库：[meojson](https://github.com/MistEO/meojson.git)
 - C++ 运算符解析器：[calculator](https://github.com/kimwalisch/calculator)
-- ~~C++ base64编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
+- ~~C++ base64 编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
-- C++ Gzip封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
+- C++ Gzip 封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
 - 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
 - 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
-- WPF MVVM框架：[Stylet](https://github.com/canton7/Stylet)
-- WPF控件库：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
+- WPF MVVM 框架：[Stylet](https://github.com/canton7/Stylet)
+- WPF 控件库：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
 - C# 日志：[Serilog](https://github.com/serilog/serilog)
-- C# JSON库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
+- C# JSON 库：[Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
 - ~~下载器：[aria2](https://github.com/aria2/aria2)~~
 
 ### 数据源
