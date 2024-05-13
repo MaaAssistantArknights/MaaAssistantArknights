@@ -161,10 +161,10 @@ Check [Issue Bot Usage](./develop/issue-bot-usage.md).
 - Touch event producer for Android: [minitouch](https://github.com/openstf/minitouch)
 - Touch event producer for Android: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM framework: [Stylet](https://github.com/canton7/Stylet)
-- WPF control library: [HandyControl](https://github.com/HandyOrg/HandyControl)
+- WPF control library: [HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
 - C# Log：[Serilog](https://github.com/serilog/serilog)
-- C# JSON library: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
-- Downloader: [aria2](https://github.com/aria2/aria2)
+- C# JSON library: [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) & [System.Text.Json](https://github.com/dotnet/runtime)
+- ~~Downloader: [aria2](https://github.com/aria2/aria2)~~
 
 ### Data Source
 
