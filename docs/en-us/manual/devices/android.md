@@ -15,7 +15,7 @@ icon: mingcute:android-fill
 
 ::: tip
 Typical `16:9` ratio resolutions are `3840*2160` (4K), `2560*1440` (2K), `1920*1080` (1080P), `1280*720` (720P).
-:::.
+:::
 
 ## Download, run adb debugging tool and connect the device
 
@@ -25,9 +25,9 @@ Typical `16:9` ratio resolutions are `3840*2160` (4K), `2560*1440` (2K), `1920*1
 4. Turn on `USB debugging` on your mobile phone, this may be different for each brand of mobile phone, so please use a search engine. Manufacturers may provide additional options for USB debugging, such as `USB Installation` and `USB Debugging (Security Settings)` in MIUI, please enable them at the same time.
 5. Connect your phone to your computer via data cable and enter the following command in the command prompt window you just got.
 
-   ``bash
+   ```bash
    adb devices
-   ``
+   ```
 
 - If executed successfully, it will give you a message that the ``USB debugging`` device is connected.
 
@@ -38,14 +38,15 @@ Typical `16:9` ratio resolutions are `3840*2160` (4K), `2560*1440` (2K), `1920*1
     VFNDU1682100xxxx device
     ```
 
-  - **The alphanumeric combination in front of `device` is the serial number of the device, which also serves as the `connection address` of the MAA. **
+  - **The alphanumeric combination in front of `device` is the serial number of the device, which also serves as the `connection address` of the MAA.**
 
-- For modern Android devices to perform ``USB debugging``, you need to click the pop-up window on the debugged device to authorise it, if not authorised, the example is as follows:
+- For modern Android devices to perform `USB debugging`, you need to click the pop-up window on the debugged device to authorise it, if not authorised, the example is as follows:
 
-  ``bash
+  ```bash
   List of devices attached
   VFNDU1682100xxxx unauthorized
   Unauthorised
+  ```
 
 - If you are prompted for unauthorised or the serial number of the device shows `offline`, you need to reboot the device and computer and try again. If the problem is still not solved, you can delete the `.android` folder under the current user's personal folder and reboot again to retry, please search for the exact location.
 
@@ -81,12 +82,12 @@ Mobile phone screen resolution is `short side*long side`, not `long side*short s
   adb -s VFNDU1682100xxxx shell wm size 720x1280
   :: Change resolution to 1080p
   adb -s VFNDU1682100xxxx shell wm size 1080x1920
-  ``.
+  ```
 
 - Some applications with irregular design may still have wrong layout after restoring the resolution, usually restarting the corresponding application or device can solve the problem.
 
 ::: danger Note
-It is strongly recommended to restore the resolution **before** restarting the device next time, otherwise it may lead to unpredictable consequences depending on the device, ~~ including but not limited to chaotic layout, touch misalignment, application flashback, unlocking, etc. ~~.
+It is strongly recommended to restore the resolution **before** restarting the device next time, otherwise it may lead to unpredictable consequences depending on the device, ~~including but not limited to chaotic layout, touch misalignment, application flashback, unlocking, etc~~.
 :::
 
 ## Automating resolution changes
@@ -98,9 +99,9 @@ It is strongly recommended to restore the resolution **before** restarting the d
    adb -s <target device serial number> shell wm size 1080x1920
    :: Reduce screen brightness (optional)
    adb -s <target device serial number> shell settings put system screen_brightness 1
-   adb -s <target device serial number> shell settings put system screen_brightness 1
+   ```
 
-   adb -s <target device serial number> shell settings put system screen_brightness 1 ````bash
+   ```bash
    :: Restore resolution
    adb -s <target device serial number> shell wm size reset
    :: Increase screen brightness (optional)
@@ -137,7 +138,7 @@ A wired connection does not require any IP address or port, only the device seri
 
 1. Enable wireless debugging by entering the following command in the command prompt window you just opened.
 
-   ``bash
+   ```bash
    adb tcpip 5555
    :: Add the -s parameter to specify the serial number if multiple devices are present.
    ```
@@ -145,16 +146,16 @@ A wired connection does not require any IP address or port, only the device seri
 2. View the device IP address.
 
    - Go to `Settings` - `WLAN` on your mobile phone and click on the currently connected wireless network to view the IP address.
-   - The IP address is different for different brands of devices, so please find it yourself. 3.
+   - The IP address is different for different brands of devices, so please find it yourself.
 
-3. Put `<IP>:5555` into MAA `Settings` - `Connection` - `Connection Address`, such as `192.168.1.2:5555`. 4.
+3. Put `<IP>:5555` into MAA `Settings` - `Connection` - `Connection Address`, such as `192.168.1.2:5555`.
 4. Link Start!
 
 #### Use `adb pair` to open the wireless port.
 
 ::: tip
 `adb pair` wireless pairing, i.e. connecting after pairing using `wireless debugging` in Developer Options on Android 11 and newer, avoids the need for a wired connection compared to `adb tcpip`.
-:::: 1. Go to your phone's developer options.
+:::
 
 1. Go to your phone's developer options, tap `Wireless debugging` and turn it on, tap OK, tap `Pair device using pairing code` and don't close the pop-up window that appears until pairing is complete. 2.
 
