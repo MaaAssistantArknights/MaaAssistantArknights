@@ -10,6 +10,17 @@ export default defineUserConfig({
   description: "MAA",
   port: 3001,
 
+  locales: {
+    "/zh-cn/": {
+      lang: "zh-CN",
+      description: "开发者文档",
+    },
+    "/en-us/": {
+      lang: "en-US",
+      title: "Documents",
+    },
+  },
+
   markdown: {
     headers: {
       level: [2, 3, 4, 5],
