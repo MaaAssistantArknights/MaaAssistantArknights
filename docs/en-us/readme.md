@@ -21,7 +21,7 @@
 </div>
 <br>
 
-[简体中文](../zh-cn/readme.md) | [English](./readme.md)
+[简体中文](../zh-cn/readme.md) | English
 
 MAA means MAA Assistant Arknights
 
