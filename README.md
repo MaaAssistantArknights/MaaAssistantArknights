@@ -21,7 +21,7 @@
 </div>
 <br>
 
-[简体中文](https://maa.plus/docs/zh-cn) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
+[简体中文](https://maa.plus/docs/zh-cn) | [繁體中文](https://maa.plus/docs/en-us/)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -29,14 +29,14 @@ MAA 的意思是 MAA Assistant Arknights
 
 基于图像识别技术，一键完成全部日常任务！
 
-绝赞更新中  ✿✿ヽ(°▽°)ノ✿<br>
+绝赞更新中  ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
 ## 亮点功能
 
 - 刷理智，掉落识别及上传 [企鹅物流](https://penguin-stats.cn/)，[一图流](https://ark.yituliu.cn/)；
-- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/协议文档/基建排班协议.html)；
+- 智能基建换班，自动计算干员效率，单设施内最优解；同时也支持 [自定义排班](https://maa.plus/docs/zh-cn/protocol/base-scheduling-schema.md)；
 - 自动公招，可选使用加急许可，一次全部刷完！公招数据自动上传 [企鹅物流](https://penguin-stats.cn/result/stage/recruit/recruit)，[一图流](https://ark.yituliu.cn/survey/maarecruitdata)；
 - 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高姿回费出的是推王呢还是推王呢）~~；
 - 支持识别干员列表，统计已有和未有干员及潜能，并在公招识别显示；
@@ -62,7 +62,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-请参阅 [新手上路](https://maa.plus/docs/用户手册/新手上路.html) 与 [详细介绍](https://maa.plus/docs/用户手册/详细介绍.html)。
+请参阅 [新手上路](https://maa.plus/docs/zh-cn/manual/newbie.md) 与 [详细介绍](https://maa.plus/docs/zh-cn/manual/introduction.md)。
 
 ### 常见问题
 
@@ -74,16 +74,16 @@ MAA 的意思是 MAA Assistant Arknights
 - 下载到一半提示“登陆”/“鉴权”；
 - 连接正常，任务开始了，但是没反应。
 
-请参阅 [常见问题](https://maa.plus/docs/用户手册/常见问题.html)
+请参阅 [常见问题](https://maa.plus/docs/zh-cn/manual/faq.md)
 
 ### 外服支持
 
 目前国际服（美服）、日服、韩服、繁中服的绝大部分功能均已支持。但由于外服用户较少及项目人手不足，很多功能并没有进行全面的测试，所以请自行体验。  
 若您遇到了 Bug，或对某个功能有强需求，欢迎在 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 和 [讨论区](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 催更；或加入我们一起建设 MAA！请参阅 [外服适配教程](#外服适配)
 
-### CLI支持
+### CLI 支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](https://maa.plus/docs/用户手册/CLI使用指南/cli-intro.html)
+MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](https://maa.plus/docs/zh-cn/manual/cli/intro.md)
 
 ## 加入我们
 
@@ -91,7 +91,7 @@ MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，�
 
 **目前项目组非常缺前端大佬，若您有相关经验，欢迎加入我们！**
 
-- 全新框架：[MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
+- 全新框架：[MaaFramework](https://github.com/MaaXYZ/MaaFramework)
 - 全新 GUI：[MaaX](https://github.com/MaaAssistantArknights/MaaX)
 - [作业站](https://prts.plus) 前端：[maa-copilot-frontend](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - [作业站](https://prts.plus) 后端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
@@ -106,50 +106,43 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 [![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
 
+## 参与开发
+
 ### Windows
 
-1. 下载预构建的第三方库
-
-    ```cmd
-    python maadeps-download.py
-    ```
-
-2. 使用 Visual Studio 2022 打开 `MAA.sln`，右键 `MaaWpfGui`，设为启动项目
-3. VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
-4. 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
-5. （可选）若准备提交 PR，建议启用 [clang-format 支持](https://maa.plus/docs/开发文档/开始开发.html#在-visual-studio-中启用-clang-format)
+请参阅 [开始开发](./develop/development.md)。
 
 ### Linux | macOS
 
-请参阅 [Linux 编译教程](https://maa.plus/docs/开发文档/Linux编译教程.html)
+请参阅 [Linux 编译教程](https://maa.plus/docs/zh-cn/develop/linux-tutorial.md)。
 
 ### API
 
 - [C 接口](include/AsstCaller.h)：[集成示例](src/Cpp/main.cpp)
 - [Python 接口](src/Python/asst/asst.py)：[集成示例](src/Python/sample.py)
-- [Golang 接口](src/Golang/)：[集成示例](src/Golang/maa/maa.go)
-- [Dart 接口](src/Dart/)
+- [Golang 接口](src/Golang)：[集成示例](src/Golang/maa/maa.go)
+- [Dart 接口](src/Dart)
 - [Java 接口](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaCore.java)：[集成示例](src/Java/src/main/java/com/iguigui/maaj/easySample/MaaJavaSample.java)
 - [Java HTTP 接口](src/Java/Readme.md)
-- [Rust 接口](src/Rust/src/maa_sys/)：[HTTP 接口](src/Rust)
-- [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/main.wo)
-- [集成文档](https://maa.plus/docs/协议文档/集成文档.html)
-- [回调消息协议](https://maa.plus/docs/协议文档/回调消息协议.html)
-- [任务流程协议](https://maa.plus/docs/协议文档/任务流程协议.html)
-- [自动抄作业协议](https://maa.plus/docs/协议文档/战斗流程协议.html)
+- [Rust 接口](src/Rust/src/maa_sys)：[HTTP 接口](src/Rust)
+- [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaX/tree/main/packages/main/coreLoader)
+- [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/demo.wo)
+- [集成文档](https://maa.plus/docs/zh-cn/protocol/integration.md)
+- [回调消息协议](https://maa.plus/docs/zh-cn/protocol/callback-schema.md)
+- [任务流程协议](https://maa.plus/docs/zh-cn/protocol/task-schema.md)
+- [自动抄作业协议](https://maa.plus/docs/zh-cn/protocol/copilot-schema.md)
 
 ### 外服适配
 
-请参阅 [外服适配教程](https://maa.plus/docs/开发文档/外服适配教程.html)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
+请参阅 [外服适配教程](https://maa.plus/docs/zh-cn/develop/overseas-client-adaptation.md)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
 ### 想参与开发，但不太会用 GitHub?
 
-[GitHub Pull Request 流程简述](https://maa.plus/docs/开发文档/开始开发.html#github-pull-request-流程简述)
+[GitHub Pull Request 流程简述](https://maa.plus/docs/zh-cn/develop/development.md#github-pull-request-流程简述)
 
 ### Issue bot
 
-请参阅 [Issue bot 使用方法](https://maa.plus/docs/开发文档/IssueBot使用方法.html)
+请参阅 [Issue bot 使用方法](https://maa.plus/docs/zh-cn/develop/issue-bot-usage.md)
 
 ## 致谢
 
