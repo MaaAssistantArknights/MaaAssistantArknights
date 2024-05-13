@@ -11,6 +11,12 @@ icon: jam:write-f
 
 我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) 主题，你也可以查看[官方文档](https://theme-hope.vuejs.press/zh/)来获取更加详细的说明，这里仅介绍一些常用的功能
 
+## Deploy Locally
+
+1. Install [Pnpm](https://pnpm.io/installation), and clone the repository refer to [Introduction to Github Pull request Flow](./development.md#introduction-to-github-pull-request-flow).
+2. Create a terminal in the `website` directory, then run `pnpm i` to download dependencies.
+3. Run `pnpm run dev` to deploy.
+
 ## 容器
 
 ~~不是 docker 那个容器~~

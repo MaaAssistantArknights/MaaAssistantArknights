@@ -11,6 +11,12 @@ icon: jam:write-f
 
 我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) 主题，你也可以查看[官方文档](https://theme-hope.vuejs.press/zh/)来获取更加详细的说明，这里仅介绍一些常用的功能
 
+## 本地部署
+
+1. 安装 [Pnpm](https://pnpm.io/zh/installation)，并参考 [Pull Request 流程简述](./development.md#github-pull-request-流程简述)将仓库克隆到本地。
+2. 在 `website` 目录下新建终端，运行 `pnpm i` 下载依赖。
+3. 运行 `pnpm run dev` 进行部署。
+
 ## 容器
 
 ~~不是 docker 那个容器~~
