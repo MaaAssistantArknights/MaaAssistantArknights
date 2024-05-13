@@ -8,7 +8,7 @@ icon: ri:guide-fill
 
 1. Confirm system version
 
-    MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](1.2-FAQ.md) at the top.
+    MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](./faq.md) at the top.
 
 2. Install the runtime library
 
@@ -18,7 +18,8 @@ icon: ri:guide-fill
     winget install Microsoft.VCRedist.2015+.x64
     winget install Microsoft.DotNet.DesktopRuntime.8
     ```
-    Refer to [FAQ](faq.md#Possible-cause-2-missing-runtime-libraries) for more information
+
+    Refer to [FAQ](faq.md#possible-cause-2-missing-runtime-libraries) for more information
 
 3. Download the correct version
 

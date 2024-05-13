@@ -85,7 +85,7 @@ Except for the above subcommands, maa-cli also provides other subcommands:
 
 More command usage can be viewed by `maa help`, and the usage of specific commands can be viewed by `maa help <command>`.
 
-[config-core]: cli-config.md#MaaCore-related-configurations
-[custom-task]: cli-config.md#custom-task
+[config-core]: ./config.md#maacore-related-configurations
+[custom-task]: ./config.md#custom-tasks
 
 <!-- markdownlint-disable-file MD013 -->

@@ -6,6 +6,7 @@ icon: ph:question-fill
 
 ::: warning
 MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as follows:
+
 1. MAA now requires the .NET 8 runtime library, which will automatically prompt the user to install it when starting. If the installation fails, please read the following and download the installation package to install manually.
 2. MAA will no longer be falsely reported by Windows Defender.
 3. [.NET 8 does not support Windows 7/8/8.1](https://github.com/dotnet/core/issues/7556), so MAA is also no longer supported, even though it can still run normally.
@@ -65,15 +66,15 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 ## Connection error
 
-- Tips: please refer to the [List of the Supported Emulators](1.3-EMULATOR_SUPPORTS.md) section to ensure that the emulator you are using is officially supported and that your configuration is correct.
+- Tips: please refer to the [List of the Supported Emulators](./devices/) section to ensure that the emulator you are using is officially supported and that your configuration is correct.
 - If you are using softwares such as a game accelerator, please close the softwares, RESTART your computer and try again.
 - Please check your decompression software - in some cases, using uncommon software such as `7z` or _other niche decompression software_ may cause errors in Minitouch related files.
 
 ### Approach 1: make sure ADB and address are correct
 
 - Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in. If so, skip to the next step. Otherwise:
-    - Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-    - Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
+  - Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
+  - Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
 
 - Confirm that your connection address is filled in correctly. The ADB address is usually like `127.0.0.1:5555`, depending on the emulators (except Leidian emulator).
 
@@ -97,9 +98,9 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 - Multi-instance mode
 
-    - For NoxPlayer emulator, the port of the first device is `62001`, and the ports for subsequent devices start from `62025`.
-    - For NetEase MuMu emulator 12, the ADB ports for multi-instance mode are irregular. To find the ADB port for a running emulator, launch the emulator from MuMu Multi-instance Manager 12, then click on the ADB icon in the upper-right corner.
-    - For LDPlayer emulator 9, the local ADB port starts from `5555`, and subsequent ports increment by 2. For example, the second emulator has a local port of `5557`.
+  - For NoxPlayer emulator, the port of the first device is `62001`, and the ports for subsequent devices start from `62025`.
+  - For NetEase MuMu emulator 12, the ADB ports for multi-instance mode are irregular. To find the ADB port for a running emulator, launch the emulator from MuMu Multi-instance Manager 12, then click on the ADB icon in the upper-right corner.
+  - For LDPlayer emulator 9, the local ADB port starts from `5555`, and subsequent ports increment by 2. For example, the second emulator has a local port of `5557`.
 
 ### Approach 2: change emulator
 

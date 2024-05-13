@@ -448,12 +448,12 @@ The JSON schema of configuration files can be found at [`schemas` directory][sch
 
 With the help of JSON schema, you can get auto-completion and validation in some editors with plugins.
 
-[task-types]: ../3.1-INTEGRATION.md#list-of-task-types
-[emulator-ports]: ../1.2-FAQ.md#common-adb-ports-for-popular-android-emulators
-[playcover-doc]: ../1.4-EMULATOR_SUPPORTS_FOR_MAC.md#✅-playcover-the-software-runs-most-fluently-for-its-nativity-🚀
-[example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/config_examples
+[task-types]: ../../protocol/integration.md#list-of-task-types
+[emulator-ports]: ../faq.md#common-adb-ports-for-popular-android-emulators
+[playcover-doc]: ../devices/macos.md#-playcover-the-software-runs-most-fluently-for-its-nativity-
+[example-config]: https://github.com/MaaAssistantArknights/maa-cli/tree/main/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
-[schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/
+[schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/tree/main/maa-cli/schemas
 [task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/task.schema.json
 [asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/asst.schema.json
 [cli-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/cli.schema.json

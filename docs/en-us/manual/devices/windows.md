@@ -6,7 +6,7 @@ icon: ri:windows-fill
 # Windows Emulator Support
 
 ::: tip
-If you encounter problems, please refer to the [FAQ](../FAQ.md)
+If you encounter problems, please refer to the [FAQ](../faq.md)
 :::
 
 The following emulators are displayed randomly in no particular order
