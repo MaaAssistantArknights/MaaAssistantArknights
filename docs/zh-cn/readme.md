@@ -21,7 +21,7 @@
 </div>
 <br>
 
-[简体中文](./readme.md) | [English](../en-us/readme.md)
+简体中文 | [English](../en-us/readme.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -29,7 +29,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 基于图像识别技术，一键完成全部日常任务！
 
-绝赞更新中  ✿✿ヽ(°▽°)ノ✿<br>
+绝赞更新中  ✿✿ヽ(°▽°)ノ✿
 
 </div>
 
