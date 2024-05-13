@@ -35,7 +35,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 ## Features
 
-- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/)，[Yituliu](https://ark.yituliu.cn/).
+- Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/), [Yituliu](https://ark.yituliu.cn/).
 - Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room; also supports [customized schedule](./protocol/base-scheduling-schema.md).
 - Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata).
 - 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高姿回费出的是推王呢还是推王呢）~~。

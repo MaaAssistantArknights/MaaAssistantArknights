@@ -40,11 +40,11 @@ Only official sources listed here. We can't gurantee whether some random third-p
 
 #### Notes on Windows N/KN
 
-- If you are using Windows 8/8.1/10/11 N/KN（Europe/Korea）editions，you also need [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+- If you are using Windows 8/8.1/10/11 N/KN（Europe/Korea）editions, you also need [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
 
 #### Notes on Windows 7
 
-- If you are using Windows 7，you need to check following updates before installing runtime libraries：
+- If you are using Windows 7, you need to check following updates before installing runtime libraries：
 
   1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
   2. SHA-2 code-signing update：

@@ -418,7 +418,7 @@ Set instance-level parameters
         Invalid = 0,
         // Deprecated // MinitouchEnabled = 1,   // Is minitouch enabled
                                 // If you can't use minitouch, it's useless to turn it on.
-                                // "1" - on，"0" - off
+                                // "1" - on, "0" - off
         TouchMode = 2,          // Touch mode, minitouch by default
                                 // minitouch | maatouch | adb
         DeploymentWithPause = 3,    // Deployment with Pause (Works for IS, Copilot and 保全派驻)
