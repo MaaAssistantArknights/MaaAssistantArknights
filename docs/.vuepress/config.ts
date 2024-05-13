@@ -17,7 +17,7 @@ export default defineUserConfig({
     },
     "/en-us/": {
       lang: "en-US",
-      title: "Documents",
+      description: "Documents",
     },
   },
 
