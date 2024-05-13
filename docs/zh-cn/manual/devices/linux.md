@@ -47,12 +47,12 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 
 #### 已知问题
 
-* Wine DirectWrite 强制启用 hinting，并且不将 DPI 传递给 FreeType，导致字体显示效果不佳。
-* 不使用原生桌面通知时，弹出通知会抢占全系统鼠标焦点，导致无法操作其他窗口。可以通过 `winecfg` 启用虚拟桌面模式缓解，或禁用桌面通知。
-* Wine-staging 用户需要关闭 `winecfg` 中的 `隐藏 Wine 版本` 选项，以便 MAA 正确检测 Wine 环境。
-* Wine 的 Light 主题会导致 WPF 中部分文字颜色异常，建议在 `winecfg` 中切换到无主题（Windows 经典主题）。
-* Wine 使用旧式 XEmbed 托盘图标，在 GNOME 下可能无法正常工作。
-* 使用 Linux 原生 MaaCore 时暂不支持自动更新（~~更新程序：我寻思我应该下载个 Windows 版~~）
+- Wine DirectWrite 强制启用 hinting，并且不将 DPI 传递给 FreeType，导致字体显示效果不佳。
+- 不使用原生桌面通知时，弹出通知会抢占全系统鼠标焦点，导致无法操作其他窗口。可以通过 `winecfg` 启用虚拟桌面模式缓解，或禁用桌面通知。
+- Wine-staging 用户需要关闭 `winecfg` 中的 `隐藏 Wine 版本` 选项，以便 MAA 正确检测 Wine 环境。
+- Wine 的 Light 主题会导致 WPF 中部分文字颜色异常，建议在 `winecfg` 中切换到无主题（Windows 经典主题）。
+- Wine 使用旧式 XEmbed 托盘图标，在 GNOME 下可能无法正常工作。
+- 使用 Linux 原生 MaaCore 时暂不支持自动更新（~~更新程序：我寻思我应该下载个 Windows 版~~）
 
 ### 使用 Python
 
@@ -60,8 +60,8 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 
 1. 在 [MAA 官网](https://maa.plus/) 下载 Linux 动态库并解压，或从软件源安装：
 
-   * AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后的提示编辑文件
-   * Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+   - AUR：[maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)，按照安装后的提示编辑文件
+   - Nixpkgs: [maa-assistant-arknights](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 
 2. 进入 `./MAA-v{版本号}-linux-{架构}/Python/` 目录下打开 `sample.py` 文件
 
@@ -76,17 +76,17 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 
 2. `adb` 工具调用
 
-   * 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 `adb` 。可以直接在 `adb.exe` 一栏填写 `adb` 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
+   - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 `adb` 。可以直接在 `adb.exe` 一栏填写 `adb` 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
 
    ```python
    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 adb 地址"):
    ```
 
-   * 如果使用其他模拟器须先下载 `adb` ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
+   - 如果使用其他模拟器须先下载 `adb` ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
 
 3. 模拟器 `adb` 路径获取
 
-   * 可以直接使用 adb 工具： `$ adb路径 devices` ，例如：
+   - 可以直接使用 adb 工具： `$ adb路径 devices` ，例如：
 
    ```shell
    $ /home/foo/Android/Sdk/platform-tools/adb devices
@@ -94,7 +94,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。
    emulator-5554 device
    ```
 
-   * 返回的 `emulator-5554` 就是模拟器的 adb 地址，覆盖掉 `127.0.0.1:5555` ，例如：
+   - 返回的 `emulator-5554` 就是模拟器的 adb 地址，覆盖掉 `127.0.0.1:5555` ，例如：
 
    ```python
    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):

@@ -3,7 +3,7 @@ order: 1
 icon: material-symbols:toc
 ---
 
-# maa-cli
+# maa-cli Introduction
 
 A simple CLI for [MAA][maa-home] written in Rust.
 

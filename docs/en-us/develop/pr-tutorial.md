@@ -11,6 +11,7 @@ This document is machine-translated. If you have the ability, please refer to th
 Many concepts in this tutorial have been simplified in order to make it more accessible to a wider audience, even at the expense of some elegance and accuracy.
 For those who have experience using Git and programming knowledge, you may refer to the more advanced tutorial in [Development](./development.md)
 :::
+
 ## Basic concepts and terminology
 
 This chapter contains slightly dry content. If you're not interested, you can skip directly to the practical section below. If there is anything you don't understand, you can come back to read this chapter later.
@@ -52,11 +53,11 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 1. First, go to the MAA main repository and fork a copy of the code.
 
-    ![~ NKHB1CIE8`G(UK@ %3 `H](https://user-images.githubusercontent.com/18511905/193751017-c052c3d4-fe77-433c-af21-eb8138f4b32e.png)
+    ![image](https://user-images.githubusercontent.com/18511905/193751017-c052c3d4-fe77-433c-af21-eb8138f4b32e.png)
 
 2. Remove the "Only master branch" option, then click "Create Fork".
 
-    ![20221004144039](https://user-images.githubusercontent.com/18511905/193751300-ba9890fd-0916-4c85-8a46-756e686608b1.png)
+    ![image](https://user-images.githubusercontent.com/18511905/193751300-ba9890fd-0916-4c85-8a46-756e686608b1.png)
 
 3. You will be taken to your personal repository, which will have a title of "Your Name/MaaAssistantArknights", with a small note below stating "forked from MaaAssistantArknights/MaaAssistantArknights" (copied from the MAA main repository).
 

@@ -201,3 +201,5 @@ Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播
 开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
+
+<!-- markdownlint-disable-file MD033 MD041 -->

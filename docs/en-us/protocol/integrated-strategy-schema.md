@@ -9,26 +9,23 @@ icon: ri:game-fill
 Please note that JSON files do not support comments. Comments are for demonstration purposes only and should not be copied directly
 :::
 
-## Integrated Strategy resources location 
+## Integrated Strategy resources location
 
- - `resource/roguelike/` the files for each theme are below
-   - Theme folder
+- `resource/roguelike/` the files for each theme are below
+  - Theme folder
     `Phantom/` for Phantom's I.S.
     `Mizuki/` for Mizuki's I.S.
     `Sami/` for Sami's I.S.
-     - `autopilot/`combat json for each level
-       - `level_name_in_chinese.json` combat logic of the level
-     - `encounter.json` encounter nodes logic(levelling mode)
-     - `encounter_for_deposit.json` encounter nodes logic (investing mode)
-     - `recruitment.json` operators recruitment logic
-     - `shopping.json` trade store purchasing logic
-
-
+    - `autopilot/`combat json for each level
+      - `level_name_in_chinese.json` combat logic of the level
+    - `encounter.json` encounter nodes logic(levelling mode)
+    - `encounter_for_deposit.json` encounter nodes logic (investing mode)
+    - `recruitment.json` operators recruitment logic
+    - `shopping.json` trade store purchasing logic
 
 ## Integrated Strategy Step 1: Operator Recruitment
 
 `resource/roguelike/theme_name/recruitment.json` describes the logic of the operator recruitment
-
 
 ```json
 {
@@ -42,25 +39,25 @@ Please note that JSON files do not support comments. Comments are for demonstrat
 } 
 ```
 
-
 ### Operator classification
 
 Split operators in different ***groups*** according to your understanding of the game(Group, related conceptual references [Copilot Schema](./copilot-schema.md))
 
 ::: info
+
 1. Operators and summons within the same group must be deployed in the same way (i.e. both melee or ranged)
 
 2. Allows the same operator or summon to be sorted in different groups, depending on its usage.
 
 3. Please do not change the name of an existing group, as this may cause previous versions of the task to be unavailable when MAA is updated!
 
-4. Please try not to add new group, instead try to implement new operators added to the task, into existing groups according to the usage 
+4. Please try not to add new group, instead try to implement new operators added to the task, into existing groups according to the usage
 :::
 
 ::: tip
 By default, only E1 Level 55 operators will be recruited
 :::
-     
+
 ```json
 {
     "theme": "Phantom",              
@@ -122,7 +119,7 @@ Currently fixed to group unidentified ground crews behind the penultimate format
 
 In a team that you expect to pass or reach the top, what are the basic core players? Are they essential? How many do you need?
 
-::: info 
+::: info
 The current script's recruiting logic is to only recruit 0 hope and key agents before the lineup meets the lineup readiness level, and save hope for high star key agents.
 So don't set the threshold number too high, it is recommended that the number of all the operators needed (the basic core lineup) should add up to 4-8 digits.
 :::
@@ -153,73 +150,74 @@ So don't set the threshold number too high, it is recommended that the number of
         ]
 } 
 ```
+
 ### Adjusting parameters for operator recruitment
 
 1. The order within a group represents the priority of the deployment detection
 
 2. Meaning of each field and script-related logic for group members
 
-```json
-{
-    "theme": "Phantom",              
-    "priority": [
-        "name": "GroundBlocking",                         // Group name (in this case GroundBlocking)
-        "doc": "The standard line is 1st gear (clearing ability or field ability is better than mountain) > Mountain > 2nd gear (block>2, can return to itself) > Spot, field ability is less than spot to single cut or cannon fodder group",
-                                                          // Doc field are just notes. Has no effect on the program
-        "opers": [                                        // What operators should be included, in ordered, represents deployment priority.
-            {
-                "name": "Gavial the Invincible",          // Operator name (Gavial the Invincible, the first position in the group indicates that
-                                                          //when it is necessary to deploy a ground blocking group, the first thing to check is whether it is a Gavial Alter or not.)
-                "skill": 3,                               // Which skill to use (In this case skill 3)
-                "skill_usage": 2,                         // Skill usage mode, refer to 3.3COPILOT_SCHEMA, default to 1 if empty, 2 is only put x times
-                                                          // (x is set by "skill_times" field), 3 is not supported for now.
-                "skill_times": 2,                         // Skill usage, default is 1, effective when "skill_usage" field is 2.
-                "alternate_skill": 2,                     // Alternative skills used when there is no designated skill, usually 6-star operators who have not 
-                                                          // E2'd and use 3 skills after promotion
-                                                          // (in this case, 2 skills are used when there is no 3 skills).
-                "alternate_skill_usage": 1                // Skill use mode for alternative skills (this field has not yet been implemented)
-                "alternate_skill_times": 1                // Number of skill uses for alternative skills (this field has not yet been implemented)
-                "recruit_priority": 900,                  // Recruitment priority, bigger number, higher priority, more than 900 belongs to must be recruited
-                                                          // 400 below the recruitment priority than some of the key operator essence of the second priority is still low
-                                                          // Temporarily recruited operator priority automatically +800
-                "promote_priority": 600,                  // Advancement priority, bigger number, higher priority, above 900 is a guaranteed E2 if there's enough hope
-                                                          // below 400 recruitment priority is lower than the recruitment of ordinary three-star operators
-                                                          // Tip: When you lower your recruitment priority or don't write it in, and raise the priority of some of
-                                                          // your E2, you're actually raising the priority of the E2 who temporarily recruited these operators.
-                "is_key": true,                           // If true, the operator is a key element. Default to false if empty.
-                                                          // If the lineup completeness test is not passed, only key and 0 hope are recruited, saving hope.
-                "is_start": true,                         // If true, the operator is a stater. Default to false if empty. If there is no start player in the team,
-                                                          // only start players and 0 hopeful players will be recruited, and user-filled players will be recruited.
-                "auto_retreat": 0,                        // Auto-retreat after a few full-seconds of deployment, takes effect when greater than 0, mainly used for specialists and vanguards, 
-                                                          // since I.S. usually starts at 2x speed, it is recommended to set it to skill duration divided by 2
-                "promote_priority_when_team_full": 850,   
-                "recruit_priority_offsets": [             // Prioritise recruitment according to current line-up
-                    {
-                        "groups": [                       // Which groups are required to fulfil the conditions
-                            "Kaltsit",                      
-                            "GroundBlocking",
-                            "Thorns"
-                        ],
-                        "is_less": false,                 // True is less than, false is greater than. Default to false if empty
-                        "threshold": 2,                   // Number of conditions met
-                        "offset": -300                    // Adjustments to recruitment priorities after fulfilment
-                                                          // (This means that when there are 2 or more operators in Kaltsit, GroundBlocking and Thorns,
-                                                          // the recruitment priority of Gavial the Invincible is reduced by 300)
-                    }
-                ]
-            },
-            ...
-        ],
-    ],
-    "team_complete_condition": [     
-        ...
-    ]
-}
-```
+   ```json
+   {
+       "theme": "Phantom",              
+       "priority": [
+           "name": "GroundBlocking",                         // Group name (in this case GroundBlocking)
+           "doc": "The standard line is 1st gear (clearing ability or field ability is better than mountain) > Mountain > 2nd gear (block>2, can return to itself) > Spot, field ability is less than spot to single cut or cannon fodder group",
+                                                             // Doc field are just notes. Has no effect on the program
+           "opers": [                                        // What operators should be included, in ordered, represents deployment priority.
+               {
+                   "name": "Gavial the Invincible",          // Operator name (Gavial the Invincible, the first position in the group indicates that
+                                                             //when it is necessary to deploy a ground blocking group, the first thing to check is whether it is a Gavial Alter or not.)
+                   "skill": 3,                               // Which skill to use (In this case skill 3)
+                   "skill_usage": 2,                         // Skill usage mode, refer to 3.3COPILOT_SCHEMA, default to 1 if empty, 2 is only put x times
+                                                             // (x is set by "skill_times" field), 3 is not supported for now.
+                   "skill_times": 2,                         // Skill usage, default is 1, effective when "skill_usage" field is 2.
+                   "alternate_skill": 2,                     // Alternative skills used when there is no designated skill, usually 6-star operators who have not 
+                                                             // E2'd and use 3 skills after promotion
+                                                             // (in this case, 2 skills are used when there is no 3 skills).
+                   "alternate_skill_usage": 1                // Skill use mode for alternative skills (this field has not yet been implemented)
+                   "alternate_skill_times": 1                // Number of skill uses for alternative skills (this field has not yet been implemented)
+                   "recruit_priority": 900,                  // Recruitment priority, bigger number, higher priority, more than 900 belongs to must be recruited
+                                                             // 400 below the recruitment priority than some of the key operator essence of the second priority is still low
+                                                             // Temporarily recruited operator priority automatically +800
+                   "promote_priority": 600,                  // Advancement priority, bigger number, higher priority, above 900 is a guaranteed E2 if there's enough hope
+                                                             // below 400 recruitment priority is lower than the recruitment of ordinary three-star operators
+                                                             // Tip: When you lower your recruitment priority or don't write it in, and raise the priority of some of
+                                                             // your E2, you're actually raising the priority of the E2 who temporarily recruited these operators.
+                   "is_key": true,                           // If true, the operator is a key element. Default to false if empty.
+                                                             // If the lineup completeness test is not passed, only key and 0 hope are recruited, saving hope.
+                   "is_start": true,                         // If true, the operator is a stater. Default to false if empty. If there is no start player in the team,
+                                                             // only start players and 0 hopeful players will be recruited, and user-filled players will be recruited.
+                   "auto_retreat": 0,                        // Auto-retreat after a few full-seconds of deployment, takes effect when greater than 0, mainly used for specialists and vanguards, 
+                                                             // since I.S. usually starts at 2x speed, it is recommended to set it to skill duration divided by 2
+                   "promote_priority_when_team_full": 850,   
+                   "recruit_priority_offsets": [             // Prioritise recruitment according to current line-up
+                       {
+                           "groups": [                       // Which groups are required to fulfil the conditions
+                               "Kaltsit",                      
+                               "GroundBlocking",
+                               "Thorns"
+                           ],
+                           "is_less": false,                 // True is less than, false is greater than. Default to false if empty
+                           "threshold": 2,                   // Number of conditions met
+                           "offset": -300                    // Adjustments to recruitment priorities after fulfilment
+                                                             // (This means that when there are 2 or more operators in Kaltsit, GroundBlocking and Thorns,
+                                                             // the recruitment priority of Gavial the Invincible is reduced by 300)
+                       }
+                   ]
+               },
+               ...
+           ],
+       ],
+       "team_complete_condition": [     
+           ...
+       ]
+   }
+   ```
+
 3. Add groups and opeators as you see fit
 
     When you add a new group, you can copy the operator from an existing group. Refer to the ratings already given by the devs, and modify them on that basis
-
 
 ## Integrated Strategy Step 2: Battle Logic
 
@@ -232,7 +230,7 @@ So don't set the threshold number too high, it is recommended that the number of
     - MAA performs basic combat operations based on whether the grid on the map is a blue or red gate, whether it's a high platform or ground, and whether it can be deployed or not.
 
     - MAA decides which job to use based on the name or number of the map only, and does not judge the map's **Standard**, **Emergency**, **Road Network**, **Classified Board Use**, etc.
-      
+
     - MAA does not judge **in combat the situation of undefined squares on the map**, e.g. the position of the altar in the `Taming Hut`, the `follower effect` of monsters coming out of the left side or the right side.
 
    So in the future, you need to try to design a set of combat logic that can cope with **all the different scenarios of a map name** (the above mentioned scenarios), and be careful of being hung up on the issue that this map operates in Emergency Mode.
@@ -249,9 +247,9 @@ So don't set the threshold number too high, it is recommended that the number of
 
 1. Blue Gate Alternative
 
-    It's obviously not smart to just pile up your operators in front of the blue door, some levels have grids where you can't get through, and the defence is obviously very efficient here 
+    It's obviously not smart to just pile up your operators in front of the blue door, some levels have grids where you can't get through, and the defence is obviously very efficient here
 
-    Or if there are levels with multiple blue gates, and the MAA doesn't know which blue gate corresponds to which red gate, they may deploy randomly 
+    Or if there are levels with multiple blue gates, and the MAA doesn't know which blue gate corresponds to which red gate, they may deploy randomly
 
     At this point you'll need to open the [map wiki](https://map.ark-nights.com/areas?coord_override=maa) while imagining the battle in your head
 
@@ -302,6 +300,7 @@ So don't set the threshold number too high, it is recommended that the number of
             ]
         ],
     ```
+
 3. Alternative map strategies
 
     For example, if there is a monster at the blue door in Mizuki I.S. should we use the dice to ease the pressure of stacking monsters?
@@ -320,7 +319,8 @@ The customised strategy takes precedence over the basic combat strategy, and whe
 There is no need to set up too many customised plans when there is a problem. It may be better to hand over to MAA after completing the key steps, or a combination of both.
 
 1. Deployment of operators using groups
-    ```json 
+
+    ```json
     "deploy_plan": [ // Deployment logic: order from top-to-bottom, left-to-right
                      // Tries to deploy the first operator it finds, or skips it if it doesn't.
         {
@@ -348,10 +348,11 @@ There is no need to set up too many customised plans when there is a problem. It
     If a "Gavial" operator on [6,4] is retreated during battle, the "Cornerstone" operator in hand, if avaiable, will be deployed on [6,4], instead of [6,3]
     :::
 
-3. Deployment of operators at a point in time
+2. Deployment of operators at a point in time
     ::: tip
     Suitable for certain single-cutting operators or usage scenarios that require cannon fodder
     :::
+
     ```json
     "deploy_plan": [
             {
@@ -369,10 +370,12 @@ There is no need to set up too many customised plans when there is a problem. It
             ...
         ]
     ```
-4. Retrieval of the operators at some point
+
+3. Retrieval of the operators at some point
    ::: tip
    Sometimes the fodder is too strong to hold the field or you need to deploy to move the lineup. What should I do? Retreat!
    :::
+
     ```json
      "retreat_plan": [                  // Retrieval targets at specific points in time
             {
@@ -381,12 +384,12 @@ There is no need to set up too many customised plans when there is a problem. It
             }
         ]
     ```
-5. Disable a skill at a certain point in time (to do)    
-        
 
-7. Additional fields (not recommended) 
+4. Disable a skill at a certain point in time (to do)
 
-    ```json        
+5. Additional fields (not recommended)
+
+    ```json
         "role_order_Doc": "Operator type deployment order, the unspecified parts will be filled in with the order of Guard, Vanguard, Medic, Defender, Sniper, Caster, Supporter, Specialist, Summoner, and so on.",
         "role_order": [                 // Not recommended, please configure the deploy_plan field.
             "warrior",
@@ -431,6 +434,7 @@ There is no need to set up too many customised plans when there is a problem. It
             }
         ],
     ```
+
 ### Have a special understanding of an operator’s playing style? -- Refined operation of specific operators
 
 Please group this officer separately
@@ -462,7 +466,8 @@ Generally, it only requires slight adjustment or no adjustment at all (the devs 
 Please refer to [prts.wiki](https://prts.wiki/w/%E9%9B%86%E6%88%90%E6%88%98%E7%95%A5) to see the effects of each Encouter's options, note that the options are not necessarily fixed.
 
 The Encounter options can be modified to guide MAA towards special endings
-```json        
+
+```json
 {
     "theme": "Sami",                              // I.S. Theme
     "stage": [                                    // Encounter event
@@ -496,12 +501,9 @@ The Encounter options can be modified to guide MAA towards special endings
 
 ### Dynamically prioritise certain options according to the team situation (TODO)
 
-
-
 ## Integrated Strategy Step 4: Prioritising Trade Store collection
 
 `resource/roguelike/theme_name/shopping.json` Describes strategies for purchasing collectibles in the store (and selecting collectibles after combat?)
-
 
 ```json
 {
@@ -571,3 +573,5 @@ The operator deployed in a certain frame, wait x seconds for the skill to turn o
 ### Skills Shutdown
 
 Useful for operators that have ammo skills
+
+<!-- markdownlint-disable-file MD026 -->
