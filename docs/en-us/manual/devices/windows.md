@@ -3,7 +3,7 @@ order: 1
 icon: ri:windows-fill
 ---
 
-# Windows Emulator Support
+# Windows Emulator
 
 ::: tip
 If you encounter problems, please refer to the [FAQ](../faq.md)

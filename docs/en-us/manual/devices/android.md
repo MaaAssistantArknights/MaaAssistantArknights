@@ -6,6 +6,7 @@ icon: mingcute:android-fill
 # Android Physical Devices
 
 ::: info Note
+
 1. Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode, please switch to other touch modes or switch SELinux **temporary** to `Permissive` mode.
 2. Due to the extreme complexity of the Android ecosystem, try to change the `Connection Configuration` in MAA `Settings` - `Connection` to `General Mode` or `Compatibility Mode` or `2nd Resolution` or `General Mode (Blocked exception output)` until one of the modes is working properly.
 3. Since MAA only supports `16:9` ratio resolutions, devices with non-`16:9` or `9:16` screen ratios will need to be forced to change their resolution, which includes most modern devices. If the connected device has a native `16:9` or `9:16` screen resolution ratio, you can skip the `Change resolution' section. 4.
@@ -151,7 +152,7 @@ A wired connection does not require any IP address or port, only the device seri
 3. Put `<IP>:5555` into MAA `Settings` - `Connection` - `Connection Address`, such as `192.168.1.2:5555`.
 4. Link Start!
 
-#### Use `adb pair` to open the wireless port.
+#### Use `adb pair` to open the wireless port
 
 ::: tip
 `adb pair` wireless pairing, i.e. connecting after pairing using `wireless debugging` in Developer Options on Android 11 and newer, avoids the need for a wired connection compared to `adb tcpip`.

@@ -169,6 +169,7 @@ Any parameter that is not explicitly defined uses the value of the `baseTask` pa
 #### Multi-File Task
 
 If a task defined in a later loaded task file (e.g. `tasks.json` for foreign services; hereinafter called File 2) also has a task of the same name defined in a earlier loaded task file (e.g. `tasks.json` for official services; hereinafter called File 1), then.
+
 - if the task in File 2 does not have a `baseTask` field, then it inherits the fields of the task with the same name in File 1 directly.
 - If the task in File 2 has a `baseTask` field, then it does not inherit the fields of the task with the same name in File 1, but overwrites them.
 

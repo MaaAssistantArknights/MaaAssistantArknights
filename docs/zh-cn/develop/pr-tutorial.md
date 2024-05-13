@@ -57,11 +57,11 @@ icon: mingcute:git-pull-request-fill
 
 1. 首先进入 MAA 主仓库，fork 一份代码
 
-   ![~ NKHB1CIE8`G(UK@ %3`H](https://user-images.githubusercontent.com/18511905/193751017-c052c3d4-fe77-433c-af21-eb8138f4b32e.png)
+   ![image](https://user-images.githubusercontent.com/18511905/193751017-c052c3d4-fe77-433c-af21-eb8138f4b32e.png)
 
 2. 把 “仅 master 分支” 这个选项去掉，然后点击 Create Fork
 
-   ![20221004144039](https://user-images.githubusercontent.com/18511905/193751300-ba9890fd-0916-4c85-8a46-756e686608b1.png)
+   ![image](https://user-images.githubusercontent.com/18511905/193751300-ba9890fd-0916-4c85-8a46-756e686608b1.png)
 
 3. 接下来来到了你的个人仓库，可以看到标题是 “你的名字/MaaAssistantArknights”，下面一行小字 forked from MaaAssistantArknights/MaaAssistantArknights （复制自 MAA 主仓库）
 

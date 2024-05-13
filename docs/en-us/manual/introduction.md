@@ -40,6 +40,7 @@ Note that `Use Originium` will only be used after `Use Sanity Option`, because M
 |    B    |        x          |       x       |       100       |     x    | The AI will attempt to complete 100 runs, but if all available sanity is used up (which may be less than 100 runs), and the conditions `Use Sanity Potion: No` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs.                                 |
 |    C    |        1          |       x       |       100       |     x    | The AI will attempt to complete 100 runs, using at most one sanity potion. If the AI uses a sanity potion and runs out of sanity during the process, and the conditions `Use Sanity Potion: 1` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs. |
 |    D    |       999         |       x       |       100       | 3 Orirock| The AI will attempt to complete 100 runs, using up to 999 sanity potions. If during the process, the AI accumulates 3 Orirock cubes, satisfying the condition `Material: 3 Orirock`, the AI will stop without completing the full 100 runs.                                            |
+
 :::
 
 - Note that `Material` and `Stage` are independent options.
