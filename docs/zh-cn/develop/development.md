@@ -9,7 +9,7 @@ icon: iconoir:developer
 
 ### 我不懂编程，只是想改一点点 JSON 文件/文档等，要怎么操作？
 
-欢迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./纯网页端PR教程.md) （纯网页端操作）
+欢迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （纯网页端操作 Github.com）
 
 ### 我会编程，但没接触过 GitHub/C++/……，要怎么操作？
 
@@ -17,41 +17,41 @@ icon: iconoir:developer
 2. 打开 [MAA 主仓库](https://github.com/MaaAssistantArknights/MaaAssistantArknights)，点击 `Fork`，继续点击 `Create fork`
 3. 克隆你自己仓库下的 dev 分支到本地，并拉取子模块
 
-   ```bash
-   git clone --recurse-submodules <你的仓库的 git 链接> -b dev
-   ```
+    ```bash
+    git clone --recurse-submodules <你的仓库的 git 链接> -b dev
+    ```
 
-   如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
+    如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
 
 4. 下载预构建的第三方库
 
-   **需要有 Python 环境，请自行搜索 Python 安装教程**  
-   _（maadeps-download.py 文件在项目根目录）_
+    **需要有 Python 环境，请自行搜索 Python 安装教程**  
+    _（maadeps-download.py 文件在项目根目录）_
 
-   ```cmd
-   python maadeps-download.py
-   ```
+    ```cmd
+    python maadeps-download.py
+    ```
 
 5. 配置编程环境
 
-   - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于c++的桌面开发` 和 `.NET桌面开发`
+    - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于c++的桌面开发` 和 `.NET桌面开发`
 
 6. 双击打开 `MAA.sln` 文件。Visual Studio 会自动加载整个项目。
 7. 设置 VS
 
-   - VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
-   - 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
+    - VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）
+    - 右键 `MaaWpfGui` - 属性 - 调试 - 启用本地调试（这样就能把断点挂到 C++ Core 那边了）
 
 8. 到这里，你就可以愉快地 ~~瞎 JB 改~~ 发电了
 9. 开发过程中，每一定数量，记得提交一个 commit, 别忘了写上 message  
    假如你不熟悉 git 的使用，你可能想要新建一个分支进行更改，而不是直接提交在 `dev` 上
 
-   ```bash
-   git branch your_own_branch
-   git checkout your_own_branch
-   ```
+    ```bash
+    git branch your_own_branch
+    git checkout your_own_branch
+    ```
 
-   这样你的提交就能在新的分支上生长，不会受到 `dev` 更新的打扰
+    这样你的提交就能在新的分支上生长，不会受到 `dev` 更新的打扰
 
 10. 完成开发后，推送你修改过的本地分支（以 `dev` 为例）到远程（fork 的仓库）
 
@@ -64,27 +64,27 @@ icon: iconoir:developer
 
     1. 关联 MAA 原仓库
 
-       ```bash
-       git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
-       ```
+        ```bash
+        git remote add upstream https://github.com/MaaAssistantArknights/MaaAssistantArknights.git
+        ```
 
     2. 从 MAA 原仓库拉取更新
 
-       ```bash
-       git fetch upstream
-       ```
+        ```bash
+        git fetch upstream
+        ```
 
     3. 变基（推荐）或者合并修改
 
-       ```bash
-       git rebase upstream/dev # 变基
-       ```
+        ```bash
+        git rebase upstream/dev # 变基
+        ```
 
-       或者
+        或者
 
-       ```bash
-       git merge # 合并
-       ```
+        ```bash
+        git merge # 合并
+        ```
 
     4. 重复上述 7, 8, 9, 10 中的操作
 
@@ -119,4 +119,4 @@ icon: iconoir:developer
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
 
-随后根据 vscode 的提示或 [Linux 教程](./Linux编译教程.md) 配置 GCC 12 和 CMake 工程
+随后根据 vscode 的提示或 [Linux 教程](./linux-tutorial.md) 配置 GCC 12 和 CMake 工程

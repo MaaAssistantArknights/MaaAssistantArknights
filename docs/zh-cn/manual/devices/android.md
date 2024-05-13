@@ -58,28 +58,28 @@ icon: mingcute:android-fill
 - 如果上文设备列表内仅有一台设备，则可直接运行以下命令更改/还原分辨率。
 
   ```bash
-  #查看当前分辨率
+  # 查看当前分辨率
   adb shell wm size
   #还原默认分辨率
   adb shell wm size reset
 
-  #更改分辨率为 720p
+  # 更改分辨率为 720p
   adb shell wm size 720x1280
-  #更改分辨率为 1080p
+  # 更改分辨率为 1080p
   adb shell wm size 1080x1920
   ```
 
 - 若存在多台设备，则需在 `adb` 和 `shell` 中间添加参数 `-s <目标设备序列号>`，例子如下。
 
   ```bash
-  #查看当前分辨率
+  # 查看当前分辨率
   adb -s VFNDU1682100xxxx shell wm size
-  #还原默认分辨率
+  # 还原默认分辨率
   adb -s VFNDU1682100xxxx shell wm size reset
 
-  #更改分辨率为 720p
+  # 更改分辨率为 720p
   adb -s VFNDU1682100xxxx shell wm size 720x1280
-  #更改分辨率为 1080p
+  # 更改分辨率为 1080p
   adb -s VFNDU1682100xxxx shell wm size 1080x1920
   ```
 
@@ -94,20 +94,20 @@ icon: mingcute:android-fill
 1. 在 MAA 目录下新建两个文本文件，分别在其中填入以下内容。
 
    ```bash
-   #调整分辨率为 1080p
+   # 调整分辨率为 1080p
    adb -s <目标设备序列号> shell wm size 1080x1920
-   #降低屏幕亮度（可选）
+   # 降低屏幕亮度（可选）
    adb -s <目标设备序列号> shell settings put system screen_brightness 1
    ```
 
    ```bash
-   #还原分辨率
+   # 还原分辨率
    adb -s <目标设备序列号> shell wm size reset
-   #提高屏幕亮度（可选）
+   # 提高屏幕亮度（可选）
    adb -s <目标设备序列号> shell settings put system screen_brightness 20
-   #返回桌面（可选）
+   # 返回桌面（可选）
    adb -s <目标设备序列号> shell input keyevent 3
-   #锁屏（可选）
+   # 锁屏（可选）
    adb -s <目标设备序列号> shell input keyevent 26
    ```
 
@@ -139,7 +139,7 @@ icon: mingcute:android-fill
 
    ```bash
    adb tcpip 5555
-   #存在多台设备则添加参数 -s 以指定序列号
+   # 存在多台设备则添加参数 -s 以指定序列号
    ```
 
 2. 查看设备 IP 地址。

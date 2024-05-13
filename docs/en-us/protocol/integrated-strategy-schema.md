@@ -3,7 +3,7 @@ order: 5
 icon: ri:game-fill
 ---
 
-# Integrated Strategy (I.S.) -- Schema
+# Integrated Strategy (I.S.) Schema
 
 ::: tip
 Please note that JSON files do not support comments. Comments are for demonstration purposes only and should not be copied directly
@@ -25,7 +25,7 @@ Please note that JSON files do not support comments. Comments are for demonstrat
 
 
 
-## Integrated Strategy Step 1 -- Operator Recruitment
+## Integrated Strategy Step 1: Operator Recruitment
 
 `resource/roguelike/theme_name/recruitment.json` describes the logic of the operator recruitment
 
@@ -48,15 +48,17 @@ Please note that JSON files do not support comments. Comments are for demonstrat
 Split operators in different ***groups*** according to your understanding of the game(Group, related conceptual references [COPILOT_SCHEMA](3.3-COPILOT_SCHEMA.md))
 
 ::: info
+1. Operators and summons within the same group must be deployed in the same way (i.e. both melee or ranged)
 
-  1. Operators and summons within the same group must be deployed in the same way (i.e. both melee or ranged)
-  
-  2. Allows the same operator or summon to be sorted in different groups, depending on its usage.
-  
-  3. Please do not change the name of an existing group, as this may cause previous versions of the task to be unavailable when MAA is updated!
-  
-  4. Please try not to add new group, instead try to implement new operators added to the task, into existing groups according to the usage 
+2. Allows the same operator or summon to be sorted in different groups, depending on its usage.
 
+3. Please do not change the name of an existing group, as this may cause previous versions of the task to be unavailable when MAA is updated!
+
+4. Please try not to add new group, instead try to implement new operators added to the task, into existing groups according to the usage 
+:::
+
+::: tip
+By default, only E1 Level 55 operators will be recruited
 :::
      
 ```json
@@ -156,6 +158,7 @@ So don't set the threshold number too high, it is recommended that the number of
 1. The order within a group represents the priority of the deployment detection
 
 2. Meaning of each field and script-related logic for group members
+
 ```json
 {
     "theme": "Phantom",              
@@ -218,7 +221,7 @@ So don't set the threshold number too high, it is recommended that the number of
     When you add a new group, you can copy the operator from an existing group. Refer to the ratings already given by the devs, and modify them on that basis
 
 
-## Integrated Strategy Step 2 -- Battle Logic
+## Integrated Strategy Step 2: Battle Logic
 
 `resource/roguelike/theme_name/autopilot/level_name.json` Describes the combat strategy for each level
 
@@ -440,7 +443,7 @@ It’s also possible to use just one operator! Use MAA to clear the level (due t
 
 Reference examples: 1. Thorns in Phantom I.S. 2. Texas the Omertosa in Mizuki I.S. 3. Reed the Flame Shadow in Sami I.S.
 
-## Integrated Strategy Step 3 -- Encounters Node logic
+## Integrated Strategy Step 3: Encounters Node logic
 
 `resource/roguelike/theme_name/encounter.json` Strategy for the selection of Encounter events in the leveling mode
 
@@ -495,7 +498,7 @@ The Encounter options can be modified to guide MAA towards special endings
 
 
 
-## Integrated Strategy Step 4 -- Prioritising Trade Store collection
+## Integrated Strategy Step 4: Prioritising Trade Store collection
 
 `resource/roguelike/theme_name/shopping.json` Describes strategies for purchasing collectibles in the store (and selecting collectibles after combat?)
 

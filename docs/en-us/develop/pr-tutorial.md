@@ -7,11 +7,10 @@ icon: mingcute:git-pull-request-fill
 
 This document is machine-translated. If you have the ability, please refer to the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
 
-⚠️ **PALLAS WARNING** ⚠️ **Buff Stacking Warning** ⚠️
-
+::: warning
 Many concepts in this tutorial have been simplified in order to make it more accessible to a wider audience, even at the expense of some elegance and accuracy.
-For those who have experience using Git and programming knowledge, you may refer to the more advanced tutorial:[DEVELOPMENT](2.2-DEVELOPMENT.md)
-
+For those who have experience using Git and programming knowledge, you may refer to the more advanced tutorial in [Development](./development.md)
+:::
 ## Basic concepts and terminology
 
 This chapter contains slightly dry content. If you're not interested, you can skip directly to the practical section below. If there is anything you don't understand, you can come back to read this chapter later.
