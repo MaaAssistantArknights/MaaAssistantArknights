@@ -8,32 +8,33 @@ icon: ri:guide-fill
 
 1. Confirm system version
 
-   MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](1.2-FAQ.md) at the top.
+    MAA only supports Windows 10 / 11. For earlier versions of Windows, please refer to [FAQ](1.2-FAQ.md) at the top.
 
 2. Install the runtime library
 
-   MAA requires VCRedist x64 and .NET 8. Right-click the start button to open the terminal, paste the following command in it and Enter to install.
+    MAA requires VCRedist x64 and .NET 8. Right-click the start button to open the terminal, paste the following command in it and Enter to install.
 
-   ```sh
-   winget install Microsoft.VCRedist.2015+.x64
-   winget install Microsoft.DotNet.DesktopRuntime.8
-   ```
+    ```sh
+    winget install Microsoft.VCRedist.2015+.x64
+    winget install Microsoft.DotNet.DesktopRuntime.8
+    ```
+    Refer to [FAQ](faq.md#Possible-cause-2-missing-runtime-libraries) for more information
 
 3. Download the correct version
 
-   [MAA official website](https://maa.plus/) will automatically selects the correct version architecture, which for most users reading this article should be Windows x64.
+    [MAA official website](https://maa.plus/) will automatically selects the correct version architecture, which for most users reading this article should be Windows x64.
 
 4. Unzip correctly
 
-   Verify that the extraction is complete and make sure to extract the MAA to a separate folder. Do not extract MAA to a path that requires UAC permissions such as `C:\`, `C:\Program Files\`, etc.
+    Verify that the extraction is complete and make sure to extract the MAA to a separate folder. Do not extract MAA to a path that requires UAC permissions such as `C:\`, `C:\Program Files\`, etc.
 
 5. Confirm simulator support
 
-   Check [Emulator Supports](./1.3-EMULATOR_SUPPORTS.md) to confirm the support of the emulator you are using.
+    Check [Emulator Supports](./devices/) to confirm the support of the emulator you are using.
 
 6. Correctly set the emulator resolution
 
-   The simulator resolution should be `16:9` ratio, with a minimum of `1280x720`; for YostarEN, a minimum of `1920x1080`.
+    The simulator resolution should be `16:9` ratio, with a minimum of `1280x720`; for YostarEN, a minimum of `1920x1080`.
 
 ## Initial
 
@@ -51,7 +52,7 @@ Check out the documentation.
 
 ## Other
 
-- **When encountering problems, read the documents plz.**
+- **When encountering problems, read the documents please.**
 
 1. The log files are located in the folder under the MAA folder which named `debug`. Logs are important. When asking others for help, be sure to take `asst.log` and `gui.log` with you.
 

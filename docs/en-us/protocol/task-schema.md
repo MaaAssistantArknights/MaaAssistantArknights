@@ -152,9 +152,9 @@ Allows a task "A" to be used as a template, and then "B@A" to represent the task
     ```
 
 - If task "B@A" is defined in `tasks.json`, then
-  1. if the `algorithm` field of `B@A` is different from that of `A`, the derived class parameters are not inherited (only the parameters defined by `TaskInfo` are inherited)
-  2. for image matching task, `template` is `B@A.png` if not explicitly defined (instead of inheriting the `template` name of "A"), otherwise any derived class parameters are inherited directly from "A" task if not explicitly defined
-  3. for the parameters defined in the `TaskInfo` base class (any type of task parameters, such as `algorithm`, `roi`, `next`, etc.), if not explicitly defined in "B@A", all parameters are inherited directly from the "A" task parameters, except for the five fields mentioned above, such as `sub`, which will be prefixed with "B@" when inherited
+    1. if the `algorithm` field of `B@A` is different from that of `A`, the derived class parameters are not inherited (only the parameters defined by `TaskInfo` are inherited)
+    2. for image matching task, `template` is `B@A.png` if not explicitly defined (instead of inheriting the `template` name of "A"), otherwise any derived class parameters are inherited directly from "A" task if not explicitly defined
+    3. for the parameters defined in the `TaskInfo` base class (any type of task parameters, such as `algorithm`, `roi`, `next`, etc.), if not explicitly defined in "B@A", all parameters are inherited directly from the "A" task parameters, except for the five fields mentioned above, such as `sub`, which will be prefixed with "B@" when inherited
 
 ### Base Task
 

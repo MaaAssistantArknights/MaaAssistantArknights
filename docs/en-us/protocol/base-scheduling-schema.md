@@ -10,7 +10,7 @@ This document is machine-translated. If you have the ability, please refer to th
 Usage and Field Description for `resource/custom_infrast/*.json` files
 
 ::: tip
-Note: As JSON format does not support comments, please remove the comments when using the examples below.
+As JSON format does not support comments, please remove the comments when using the examples below.
 :::
 
 [Visual Schedule Generation Tool](https://ark.yituliu.cn/tools/schedule)

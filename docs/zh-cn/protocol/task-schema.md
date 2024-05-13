@@ -137,28 +137,28 @@ Template task 与 base task 合称**模板任务**。
 
 - 如果 `tasks.json` 中未显式定义任务 "B@A"，则在 `sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes` 字段中增加 `B@` 前缀（如遇任务名开头为 `#` 则增加 `B` 前缀），其余参数与 "A" 任务相同。就是说如果任务 "A" 有以下参数：
 
-  ```json
-  "A": {
-      "template": "A.png",
-      ...,
-      "next": [ "N1", "N2" ]
-  }
-  ```
+    ```json
+    "A": {
+        "template": "A.png",
+        ...,
+        "next": [ "N1", "N2" ]
+    }
+    ```
 
-  就相当于同时定义了
+    就相当于同时定义了
 
-  ```json
-  "B@A": {
-      "template": "A.png",
-      ...,
-      "next": [ "B@N1", "B@N2" ]
-  }
-  ```
+    ```json
+    "B@A": {
+        "template": "A.png",
+        ...,
+        "next": [ "B@N1", "B@N2" ]
+    }
+    ```
 
 - 如果 `tasks.json` 中定义了任务 "B@A"，则：
-  1. 如果 "B@A" 与 "A" 的 `algorithm` 字段不同，则派生类参数不继承（只继承 `TaskInfo` 定义的参数）
-  2. 如果是图像匹配任务，`template` 若未显式定义则为 `B@A.png`（而不是继承"A"的 `template` 名），其余情况任何派生类参数若未显式定义，直接继承 "A" 任务的参数
-  3. 对于 `TaskInfo` 基类中定义的参数（任何类型任务都有的参数，例如 `algorithm`, `roi`, `next` 等），若没有在 "B@A" 内显式定义，则除了上面提到的 `sub` 等五个字段在继承时会增加 "B@" 前缀外，其余参数直接继承 "A" 任务的参数
+    1. 如果 "B@A" 与 "A" 的 `algorithm` 字段不同，则派生类参数不继承（只继承 `TaskInfo` 定义的参数）
+    2. 如果是图像匹配任务，`template` 若未显式定义则为 `B@A.png`（而不是继承"A"的 `template` 名），其余情况任何派生类参数若未显式定义，直接继承 "A" 任务的参数
+    3. 对于 `TaskInfo` 基类中定义的参数（任何类型任务都有的参数，例如 `algorithm`, `roi`, `next` 等），若没有在 "B@A" 内显式定义，则除了上面提到的 `sub` 等五个字段在继承时会增加 "B@" 前缀外，其余参数直接继承 "A" 任务的参数
 
 ### Base Task
 
@@ -195,15 +195,15 @@ _Note<sup>1</sup>: `"XXX#self"` 与 `"#self"` 含义相同。_
 
 ```json
 {
-  "A": { "next": ["N1", "N2"] },
-  "C": { "next": ["B@A#next"] },
+    "A": { "next": ["N1", "N2"] },
+    "C": { "next": ["B@A#next"] },
 
-  "Loading": {
-    "next": ["#self", "#next", "#back"]
-  },
-  "B": {
-    "next": ["Other", "B@Loading"]
-  }
+    "Loading": {
+        "next": ["#self", "#next", "#back"]
+    },
+    "B": {
+        "next": ["Other", "B@Loading"]
+    }
 }
 ```
 
@@ -225,9 +225,9 @@ Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 
 ```json
 {
-  "A": { "next": ["N0"] },
-  "B": { "next": ["A#next"] },
-  "C@A": { "next": ["N1"] }
+    "A": { "next": ["N0"] },
+    "B": { "next": ["A#next"] },
+    "C@A": { "next": ["N1"] }
 }
 ```
 
@@ -244,18 +244,18 @@ Task.get_raw("B@Loading")->next = { "B#self", "B#next", "B#back" };
 
 ```json
 {
-  "A": {
-    "baseTask": "A_default"
-  },
-  "A_default": {
-    "next": ["xxx"]
-  },
-  "A_mode1": {
-    "next": ["yyy"]
-  },
-  "A_mode2": {
-    "next": ["zzz"]
-  }
+    "A": {
+        "baseTask": "A_default"
+    },
+    "A_default": {
+        "next": ["xxx"]
+    },
+    "A_mode1": {
+        "next": ["yyy"]
+    },
+    "A_mode2": {
+        "next": ["zzz"]
+    }
 }
 ```
 

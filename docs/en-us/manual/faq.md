@@ -37,17 +37,17 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 
 - If you are using Windows 7，you need to check following updates before installing runtime libraries：
 
-  1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
-  2. SHA-2 code-signing update：
-     - KB4474419：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-     - KB4490628：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
-  3. Platform Update for Windows 7 (DXGI 1.2 & Direct3D 11.1, KB2670838)：[link 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu), [link 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
+    1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
+    2. SHA-2 code-signing update：
+        - KB4474419：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+        - KB4490628：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+    3. Platform Update for Windows 7 (DXGI 1.2 & Direct3D 11.1, KB2670838)：[link 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu), [link 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
 Mitigation measures for .NET 8 applications running abnormally on Windows 7 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
 
-   1. Open `Computer`, right-click a blank space, click Properties, click `Advanced System Settings` on the left, and click `Environment Variables`.
-   2. Create a new system variable with variable name `DOTNET_EnableWriteXorExecute` and variable value `0`.
-   3. Restart the computer.
+    1. Open `Computer`, right-click a blank space, click Properties, click `Advanced System Settings` on the left, and click `Environment Variables`.
+    2. Create a new system variable with variable name `DOTNET_EnableWriteXorExecute` and variable value `0`.
+    3. Restart the computer.
 
 We cannot guarantee compatibility of future versions with Windows 7, ~~it's all Microsoft's fault~~.
 
@@ -72,8 +72,8 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 ### Approach 1: make sure ADB and address are correct
 
 - Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in. If so, skip to the next step. Otherwise:
-  - Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-  - Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
+    - Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
+    - Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
 
 - Confirm that your connection address is filled in correctly. The ADB address is usually like `127.0.0.1:5555`, depending on the emulators (except Leidian emulator).
 
@@ -97,9 +97,9 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 - Multi-instance mode
 
-  - For NoxPlayer emulator, the port of the first device is `62001`, and the ports for subsequent devices start from `62025`.
-  - For NetEase MuMu emulator 12, the ADB ports for multi-instance mode are irregular. To find the ADB port for a running emulator, launch the emulator from MuMu Multi-instance Manager 12, then click on the ADB icon in the upper-right corner.
-  - For LDPlayer emulator 9, the local ADB port starts from `5555`, and subsequent ports increment by 2. For example, the second emulator has a local port of `5557`.
+    - For NoxPlayer emulator, the port of the first device is `62001`, and the ports for subsequent devices start from `62025`.
+    - For NetEase MuMu emulator 12, the ADB ports for multi-instance mode are irregular. To find the ADB port for a running emulator, launch the emulator from MuMu Multi-instance Manager 12, then click on the ADB icon in the upper-right corner.
+    - For LDPlayer emulator 9, the local ADB port starts from `5555`, and subsequent ports increment by 2. For example, the second emulator has a local port of `5557`.
 
 ### Approach 2: change emulator
 
@@ -119,7 +119,7 @@ Try restarting your computer.
 
 The adb version packaged with some emulators is too old and does not support minitouch. Please open MAA with administrator priviledge and navigate to `Settings` - `Connection Settings` - `Forced Replace ADB`. (It is recommended to close the emulator and restart MAA before proceeding, otherwise the replacement may not be sussessful.)
 
-The emulator will reset the ADB version after updating. If the problems occurs again, please repeat the above steps. Or you can try to use the [custom connection](1.1-USER_MANUAL.md#custom-connection) method to solve it once and for all.
+The emulator will reset the ADB version after updating. If the problems occurs again, please repeat the above steps. Or you can try to use the [custom connection](./introduction.md#custom-connection) method to solve it once and for all.
 
 If it still doesn't work, please retry after switching to `MaaTouch` from `Minitouch` in `Settings` - `Connection Settings`.
 
@@ -139,7 +139,7 @@ If it still doesn't work, please retry after switching to `MaaTouch` from `Minit
 
 ## The download speed is slow and the mirror site is not accessible
 
-1. Go to [Download](../../README.md#Download) to get the link (non-mirror) to you want to download.
+1. Go to [Download](../readme.md) to get the link (non-mirror) to you want to download.
 2. Find the link to your file you need to download.
 3. Right-click it and select `Copy link address`.
 4. Paste the link into your browser.

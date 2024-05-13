@@ -5,7 +5,12 @@ icon: iconoir:developer
 
 # Development
 
-## Introduction to GitHub pull request flow
+## Introduction to GitHub Pull Request flow
+
+###
+Welcome to the [ GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
+
+### I can program, but I've never used Github/C++/..., what can I do?
 
 1. If you have forked this repository long time ago, please go to `Settings`, scroll down to the bottom, and click `Delete Repository`.
 2. Go to [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights) and click `Fork`, then `Create fork`.
@@ -105,4 +110,4 @@ Create GitHub codespace with pre configured C++ dev envirinments:
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
 
-Then follow the instructions in vscode or [Linux tutorial](./2.1-LINUX_TUTORIAL.md) to configure GCC 12 and the CMake project.
+Then follow the instructions in vscode or [Linux tutorial](./linux-tutorial.md.md) to configure GCC 12 and the CMake project.

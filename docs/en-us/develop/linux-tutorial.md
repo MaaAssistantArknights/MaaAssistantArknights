@@ -6,10 +6,10 @@ icon: teenyicons:linux-alt-solid
 # Linux Compiling Tutorial
 
 **The tutorial requires some basic knowledge about Linux OS!**
-If you just want to install MAA directly instead of compiling it yourself, please read [Emulator Support for Linux](./1.5-EMULATOR_SUPPORTS_FOR_LINUX).
+If you just want to install MAA directly instead of compiling it yourself, please read [Emulator Support for Linux](../manual/devices/linux.md).
 
-::: info **Note**
-Linux build of MAA is still under discussion, some of the content might be outdated, please follow the script in [GitHub workflow file](../.github/workflows/release-maa-linux.yml), also reference [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights), [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
+::: info Note
+Linux build of MAA is still under discussion, some of the content might be outdated, please follow the script in [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134), also reference [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights), [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)
 :::
 
 ## Compiling MAA
@@ -69,7 +69,7 @@ Linux build of MAA is still under discussion, some of the content might be outda
 
 ## Integration
 
-[~~Maybe not a doc~~](https://github.com/MistEO/MaaCoreArknights/wiki)
+[~~Maybe not a doc~~](../protocol/integration.md)
 
 ### Python
 

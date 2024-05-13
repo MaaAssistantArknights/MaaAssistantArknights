@@ -22,17 +22,17 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 #### 返回值
 
 - `AsstTaskId`  
-  若添加成功，返回该任务 ID, 可用于后续设置任务参数；  
-  若添加失败，返回 0
+    若添加成功，返回该任务 ID, 可用于后续设置任务参数；  
+    若添加失败，返回 0
 
 #### 参数说明
 
 - `AsstHandle handle`  
-  实例句柄
+    实例句柄
 - `const char* type`  
-  任务类型
+    任务类型
 - `const char* params`  
-  任务参数，json string
+    任务参数，json string
 
 ##### 任务类型一览
 
@@ -54,7 +54,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `CloseDown`  
-  关闭游戏  
+    关闭游戏  
 
 ```json
 // 对应的任务参数
@@ -64,7 +64,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Fight`  
-  刷理智
+    刷理智
 
 ```json
 // 对应的任务参数
@@ -96,7 +96,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-另支持少部分资源关卡名请参考[集成示例](..\tools\AutoLocalization\example\zh-cn.xaml#L260)
+另支持少部分资源关卡名请参考[集成示例](..\..\..\tools\AutoLocalization\example\zh-cn.xaml#L260)
 
 - `Recruit`  
   公开招募
@@ -143,14 +143,14 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Infrast`  
-  基建换班
+    基建换班
 
 ```json
 {
     "enable": bool,         // 是否启用本任务，可选，默认为 true
     "mode": int,            // 换班工作模式，可选，默认 0
                             // 0 - 默认换班模式，单设施最优解
-                            // 10000 - 自定义换班模式，读取用户配置，可参考 协议文档/基建排班协议.md
+                            // 10000 - 自定义换班模式，读取用户配置，可参考 protocol/base-scheduling-schema.md
 
     "facility": [           // 要换班的设施（有序），必选。不支持运行中设置
         string,             // 设施名，"Mfg" | "Trade" | "Power" | "Control" | "Reception" | "Office" | "Dorm"
@@ -173,8 +173,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Mall`  
-  领取信用及商店购物。  
-  会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
+    领取信用及商店购物。  
+    会先有序的按 `buy_first` 购买一遍，再从左到右并避开 `blacklist` 购买第二遍，在信用溢出时则会无视黑名单从左到右购买第三遍直到不再溢出
 
 ```json
 // 对应的任务参数
@@ -196,7 +196,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Award`  
-  领取各种奖励
+    领取各种奖励
 
 ```json
 // 对应的任务参数
@@ -212,7 +212,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Roguelike`  
-  无限刷肉鸽
+    无限刷肉鸽
 
 ```json
 {
@@ -245,7 +245,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Copilot`  
-  自动抄作业
+    自动抄作业
 
 ```json
 {
@@ -255,10 +255,10 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-作业 JSON 请参考 [战斗流程协议](./战斗流程协议.md)
+作业 JSON 请参考 [战斗流程协议](./copilot-schema.md)
 
 - `SSSCopilot`  
-  自动抄保全作业
+    自动抄保全作业
 
 ```json
 {
@@ -268,10 +268,10 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-保全作业 JSON 请参考 [保全派驻协议](./保全派驻协议.md)
+保全作业 JSON 请参考 [保全派驻协议](./sss-schema.md)
 
 - `Depot`  
-  仓库识别
+    仓库识别
 
 ```json
 // 对应的任务参数
@@ -281,7 +281,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `OperBox`  
-  干员 box 识别
+    干员 box 识别
 
 ```json
 // 对应的任务参数
@@ -291,7 +291,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `ReclamationAlgorithm`  
-  生息演算
+    生息演算
 
 ```json
 {
@@ -306,7 +306,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `Custom`  
-  自定义任务
+    自定义任务
 
 ```json
 {
@@ -320,7 +320,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```
 
 - `SingleStep`  
-  单步任务（目前仅支持战斗）
+    单步任务（目前仅支持战斗）
 
 ```json
 {
@@ -330,7 +330,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                         // "stage" 设置关卡名，需要 "details": { "stage": "xxxx" }
                         // "start" 开始作战，无 details
                         // "action": 单步作战操作，details 需为作战协议中的单个 action，
-                        //           例如："details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }，详情参考 协议文档/战斗流程协议.md
+                        //           例如："details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }，详情参考 protocol/copilot-schema.md
     "details": {
         ...
     }
@@ -362,17 +362,17 @@ bool ASSTAPI AsstSetTaskParams(AsstHandle handle, AsstTaskId id, const char* par
 #### 返回值
 
 - `bool`  
-  返回是否设置成功
+    返回是否设置成功
 
 #### 参数说明
 
 - `AsstHandle handle`  
-  实例句柄
+    实例句柄
 - `AsstTaskId task`  
-  任务 ID, `AsstAppendTask` 接口的返回值
+    任务 ID, `AsstAppendTask` 接口的返回值
 - `const char* params`  
-  任务参数，json string，与 `AsstAppendTask` 接口相同。  
-  未标注“不支持运行中设置”的字段都支持实时修改；否则若当前任务正在运行，会忽略对应的字段
+    任务参数，json string，与 `AsstAppendTask` 接口相同。  
+    未标注“不支持运行中设置”的字段都支持实时修改；否则若当前任务正在运行，会忽略对应的字段
 
 ### `AsstSetStaticOption`
 
@@ -389,14 +389,14 @@ bool ASSTAPI AsstSetStaticOption(AsstStaticOptionKey key, const char* value);
 #### 返回值
 
 - `bool`  
-  返回是否设置成功
+    返回是否设置成功
 
 #### 参数说明
 
 - `AsstStaticOptionKey key`  
-  键
+    键
 - `const char* value`  
-  值
+    值
 
 ##### 键值一览
 
@@ -417,20 +417,20 @@ bool ASSTAPI AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key,
 #### 返回值
 
 - `bool`  
-  返回是否设置成功
+    返回是否设置成功
 
 #### 参数说明
 
 - `AsstHandle handle`  
-  实例句柄
+    实例句柄
 - `AsstInstanceOptionKey key`  
-  键
+    键
 - `const char* value`  
-  值
+    值
 
 ##### 键值一览
 
-```json
+```cpp
     enum InstanceOptionKey
     {
         Invalid = 0,

@@ -7,7 +7,9 @@ icon: game-icons:prisoner
 
 This document is machine-translated. If you have the ability, please refer to the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
 
-**Note: As JSON format does not support comments, please remove the comments when using the examples below.**
+::: tip
+As JSON format does not support comments, please remove the comments when using the examples below.
+:::
 
 ```json
 {
