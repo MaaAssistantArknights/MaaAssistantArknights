@@ -10,7 +10,7 @@ icon: ri:earth-fill
 Before starting this tutorial, make sure you have:
 
 1. Installed and properly configured the required software. There should be information in the `readme.md` of the ZH-CN client or the corresponding client to ensure that the supported features work properly.
-2. Read `3.4-TASK_SCHEMA.md` and have a basic understanding of the meaning and usage of each field. You should also understand the meaning and usage of `@` and `#` in the code.
+2. Read  [Task Schema](../protocol/task-schema.md) and have a basic understanding of the meaning and usage of each field. You should also understand the meaning and usage of `@` and `#` in the code.
 3. Understand that the `task.json` file and template image of the ZH-CN client will be used as alternatives when they are unmentioned or missing for the overseas client. The content in the `task.json` for the overseas client should be rewritten according to the fields of the ZH-CN task.
 4. Have some English ability, be able to read English logs, and be able to find missing pictures and other information through the logs.
 5. Understand that it is recommended to perform the modification individually according to the task chain. For example, to modify the Award task, you should modify the `template image`, `text`, and `roi` step by step in accordance with the order in its `next` field. This will ensure that every task is working normally after modification and errors can be easily spotted. Additionally, this can prevent confusion and forgetting which task the software is stuck on when too much content is modified at once.
@@ -135,3 +135,7 @@ In addition, the execution of the command (e.g. `Call`) and the `OCR` informatio
 For example, in this log, `"to_be_recognized"`,`"cur_retry":3,"retry_times":20` means that the task has been attempted to be recognized 10 times, and the maximum number of times is 20. After the maximum number of times is reached, the task will be skipped and an error will be reported, and the next task will be performed. If there are no issues with the previous task, it is likely that there is a problem with the recognition here. To troubleshoot this issue, you can check the tasks mentioned in the log to see if there is a corresponding template file, if the `text` field of the corresponding task is incorrect, or if the `roi` range for task recognition is incorrect, and make any necessary modifications.
 
 By looking at the corresponding template image, you may find that there is a template for this image in the EN client template folder, but the size is larger than the image in template folder for the ZH-CN client . This could cause the `roi` in ZH-CN client to not be recognized in the EN client, so you may need to modify the corresponding task's `roi` in the EN client's `task.json` file to match the size of the image in the EN client.
+
+## Submit your changes
+
+Check out [Github Pull Request Guide](./pr-tutorial.md)

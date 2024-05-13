@@ -92,7 +92,7 @@ Appends a task.
 }
 ```
 
-Supports some of the special stages,Please refer to [autoLocalization example](..\..\tools\AutoLocalization\example\en-us.xaml#L260).
+Supports some of the special stages,Please refer to [autoLocalization example](..\..\..\tools\AutoLocalization\example\en-us.xaml#L260).
 
 - `Recruit`  
     Recruitment
@@ -273,7 +273,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](3.7-S
 ```
 
 - `ReclamationAlgorithm`  
-  ReclamationAlgorithm ( A new mode in CN client)
+    ReclamationAlgorithm ( A new mode in CN client)
 
 ```json
 {
@@ -288,8 +288,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](3.7-S
 ```
 
 - `Custom`  
-
-  Custom Task
+    Custom Task
 
 ```json
 {
@@ -303,8 +302,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](3.7-S
 ```
 
 - `SingleStep`  
-
-  Single-step task (currently only supports copilot)
+    Single-step task (currently only supports copilot)
 
 ```json
 {
@@ -322,8 +320,7 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](3.7-S
 ```
 
 - `VideoRecognition`  
-
-  Video recognition, currently only supports operation (combat) video
+    Video recognition, currently only supports operation (combat) video
 
 ```json
 {
@@ -415,7 +412,7 @@ Set instance-level parameters
 
 ##### List of Key and value
 
-```json
+```cpp
     enum InstanceOptionKey
     {
         Invalid = 0,

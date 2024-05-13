@@ -1,5 +1,5 @@
 ---
-icon: ic:baseline-article
+icon: mdi:information-outline
 ---
 
 # MAA User Manual
@@ -8,9 +8,10 @@ icon: ic:baseline-article
 
 ### Operations
 
-- If the stage you need is not available in the selection, please choose "Current/Previous" in MAA and manually locate the stage in the game, making sure the screen stays on the stage detail page with the **Start** and **Delegate** buttons available.
-  - If you are not on this page, `Current/Previous` will automatically navigate to the last stage played according to the record in the lower right corner of the terminal homepage.
-  - You can also enable `Manually input stage name` in `Task Settings` - `Combat` - `Advanced` and enter the stage number manually. Currently supported stages include:
+- If the stage you need is not available in the selection, please choose "Current/Last" in MAA and manually locate the stage in the game.
+    Make sure the screen stays on the stage detail page with the **Start** and **Auto-Deploy** buttons available.
+- If you are not on this page, `Current/Previous` will automatically navigate to the last stage played according to the record in the lower right corner of the terminal homepage.
+- You can also enable `Manually input stage name` in `Task Settings` - `Combat` - `Advanced` and enter the stage number manually. Currently supported stages include:
     - All main theme stages, where `-NORMAL` or `-HARD` can be added at the end to switch between standard and challenge modes.
     - LMD stages and Battle Record stages 5/6. The input should be `CE-6` or `LS-6` even if you have not unlocked it yet. In that case, the program will automatically switch to corresponding stage 5.
     - Skill Summary, Shop Voucher, and Carbon Stages 5. The input also should be `CA-5`, `AP-5`, and `SK-5` respectively.
@@ -25,21 +26,27 @@ icon: ic:baseline-article
 :::
 
 - Fight options include `Use Sanity Potion + Use Originium`, `Perform Battles` and `Material`, you can specific any of them. The fight tasks stops once one of the specifications is met.
-  - `Use Sanity Potion` specifies the number of sanity potions to use at most. Multiple medicines may be used at a time.
-  - `Use Originium` specifies the number of Originium to use at most. It is used one at a time. When using the Origin Stone to restore sanity, if you still have the Sanity Potion, the stone will not be used.
-  - `Perform Battles` specifies the number of battles to perform at most.
-  - `Material` specifies the number of materials to collect.
+    - `Use Sanity Potion` specifies the number of sanity potions to use at most. Multiple medicines may be used at a time.
+    - `Use Originium` specifies the number of Originium to use at most. It is used one at a time. When using the Origin Stone to restore sanity, if you still have the Sanity Potion, the stone will not be used.
+    - `Perform Battles` specifies the number of battles to perform at most.
+    - `Material` specifies the number of materials to collect.
 
+Note that `Use Originium` will only be used after `Use Sanity Option`, because MAA will only use Originium to replenish sanity when there are no Sanity Potions left. Therefore, after ticking `Use Originium`, you need to set the number of times `Use Sanity Potion` to a value greater than or equal to the value of the existing Sanity Potion in the storehouse, e.g. 999, in order to avoid skipping `Use Originium`.
+
+::: details Example
 | Example | Use Sanity Potion | Use Originium | Perform Battles | Material | Result                                                                                                                                                                                                                                                                                 |
 |:-------:|:-----------------:|:-------------:|:---------------:|:--------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |    A    |       999         |      10       |        1        |     x    | The AI will attempt to use sanity potions and/or originium until **one** full run is completed, satisfying the condition `Perform Battles: 1`. If there are not enough sanity potions, originium, or initial sanity to start, the AI will stop without starting the run.               |
 |    B    |        x          |       x       |       100       |     x    | The AI will attempt to complete 100 runs, but if all available sanity is used up (which may be less than 100 runs), and the conditions `Use Sanity Potion: No` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs.                                 |
 |    C    |        1          |       x       |       100       |     x    | The AI will attempt to complete 100 runs, using at most one sanity potion. If the AI uses a sanity potion and runs out of sanity during the process, and the conditions `Use Sanity Potion: 1` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs. |
 |    D    |       999         |       x       |       100       | 3 Orirock| The AI will attempt to complete 100 runs, using up to 999 sanity potions. If during the process, the AI accumulates 3 Orirock cubes, satisfying the condition `Material: 3 Orirock`, the AI will stop without completing the full 100 runs.                                            |
+:::
 
-- Note that `Material` and `Stage` are independent options which means the program is not going to automatically navigate the the stage for the specified material. You still to mannually configure the stage option.
-- `Delegate` will be automatically selected if not already in case you forget to do so.
-- Material drops are automatically recognized and printed to the program log. The data also gets uploaded to [Penguin Stats](https://penguin-stats.io/). You can also manually set your Penguin Stats user ID in the settings.
+
+- Note that `Material` and `Stage` are independent options.
+    - `Material` is not going to automatically navigate to the the stage for the specified material. You still need to manually configure the stage option.
+- `Auto-Deploy` will be automatically selected if not already in case you forget to do so.
+- Material drops are automatically recognized and printed to the program log. The data also gets uploaded to [Penguin Stats](https://penguin-stats.io/) and [Yituliu](https://ark.yituliu.cn/). You can manually set your Penguin Stats user ID in the settings.
 - After disconnection or flashing at 4 am, it will automatically reconnect and continue to play the last stage selected in the game. If you need to cross the day, please check the last stage selection.
 - A level up situation can be automatically handled as well as a failed delegation in which case this time of the operation will be given up.
 

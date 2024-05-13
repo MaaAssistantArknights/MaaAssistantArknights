@@ -15,9 +15,9 @@ icon: material-symbols:toc
 
 ## 文档
 
-- [安装及编译](cli-install.md)
-- [使用](cli-usage.md)
-- [配置](cli-config.md)
-- [常见问题](cli-faq.md)
+- [安装及编译](install.md)
+- [使用](usage.md)
+- [配置](config.md)
+- [常见问题](faq.md)
 
 [maa-home]: https://github.com/MaaAssistantArknights/MaaAssistantArknights/
