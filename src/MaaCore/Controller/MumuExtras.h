@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Common/AsstConf.h"
+
+#if ASST_WITH_EMULATOR_EXTRAS
+
 #include <filesystem>
 #include <optional>
 #include <string>
@@ -65,3 +69,4 @@ private:
     std::function<decltype(nemu_input_event_key_up)> input_event_key_up_func_;
 };
 }
+#endif

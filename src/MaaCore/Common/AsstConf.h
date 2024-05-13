@@ -8,6 +8,10 @@
 #endif
 #endif
 
+#if !defined (ASST_WITH_EMULATOR_EXTRAS)
+#define ASST_WITH_EMULATOR_EXTRAS 1
+#endif
+
 #ifdef _MSC_VER
 #define ASST_DO_PRAGMA(x) __pragma(x)
 #elif defined(__GNUC__)
