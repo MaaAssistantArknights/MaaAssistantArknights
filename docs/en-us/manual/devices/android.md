@@ -59,28 +59,28 @@ Mobile phone screen resolution is `short side*long side`, not `long side*short s
 - If there is only one device within the device list above, you can change/restore the resolution directly by running the following command.
 
   ```bash
-  :: View current resolution
+  #View current resolution
   adb shell wm size
-  :: Restore the default resolution
+  #Restore the default resolution
   adb shell wm size reset
 
-  :: Change resolution to 720p
+  #Change resolution to 720p
   adb shell wm size 720x1280
-  :: Change resolution to 1080p
+  #Change resolution to 1080p
   adb shell wm size 1080x1920
   ```
 
 - If there are multiple devices, you need to add the parameter `-s <target device serial number>` between `adb` and `shell`, as shown in the following example.
 
   ```bash
-  :: View current resolution
+  #View current resolution
   adb -s VFNDU1682100xxxx shell wm size
-  :: Restore the default resolution
+  #Restore the default resolution
   adb -s VFNDU1682100xxxx shell wm size reset
 
-  :: Change resolution to 720p
+  #Change resolution to 720p
   adb -s VFNDU1682100xxxx shell wm size 720x1280
-  :: Change resolution to 1080p
+  #Change resolution to 1080p
   adb -s VFNDU1682100xxxx shell wm size 1080x1920
   ```
 
@@ -95,20 +95,20 @@ It is strongly recommended to restore the resolution **before** restarting the d
 1. Create two new text files in the MAA directory and fill them with the following contents.
 
    ```bash
-   :: Adjust resolution to 1080p
+   #Adjust resolution to 1080p
    adb -s <target device serial number> shell wm size 1080x1920
-   :: Reduce screen brightness (optional)
+   #Reduce screen brightness (optional)
    adb -s <target device serial number> shell settings put system screen_brightness 1
    ```
 
    ```bash
-   :: Restore resolution
+   #Restore resolution
    adb -s <target device serial number> shell wm size reset
-   :: Increase screen brightness (optional)
+   #Increase screen brightness (optional)
    adb -s <target device serial number> shell settings put system screen_brightness 20
-   :: Return to desktop (optional)
+   #Return to desktop (optional)
    adb -s <target device serial number> shell input keyevent 3
-   :: Lock screen (optional)
+   #Lock screen (optional)
    adb -s <target device serial number> shell input keyevent 26
    ```
 
@@ -140,7 +140,7 @@ A wired connection does not require any IP address or port, only the device seri
 
    ```bash
    adb tcpip 5555
-   :: Add the -s parameter to specify the serial number if multiple devices are present.
+   #Add the -s parameter to specify the serial number if multiple devices are present.
    ```
 
 2. View the device IP address.
