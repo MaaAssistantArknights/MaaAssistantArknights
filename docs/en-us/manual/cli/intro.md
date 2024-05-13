@@ -15,9 +15,9 @@ A simple CLI for [MAA][maa-home] written in Rust.
 
 ## Documentation
 
-- [Installation and Compilation](cli-install.md)
-- [Usage](cli-usage.md)
-- [Configuration](cli-config.md)
-- [FAQ](cli-faq.md)
+- [Installation and Compilation](./install.md)
+- [Usage](./usage.md)
+- [Configuration](./config.md)
+- [FAQ](./faq.md)
 
 [maa-home]: https://github.com/MaaAssistantArknights/MaaAssistantArknights

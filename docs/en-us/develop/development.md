@@ -7,8 +7,7 @@ icon: iconoir:developer
 
 ## Introduction to GitHub Pull Request flow
 
-###
-Welcome to the [ GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
+Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
 
 ### I can program, but I've never used Github/C++/..., what can I do?
 
@@ -110,4 +109,4 @@ Create GitHub codespace with pre configured C++ dev envirinments:
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
 
-Then follow the instructions in vscode or [Linux tutorial](./linux-tutorial.md.md) to configure GCC 12 and the CMake project.
+Then follow the instructions in vscode or [Linux tutorial](./linux-tutorial.md) to configure GCC 12 and the CMake project.

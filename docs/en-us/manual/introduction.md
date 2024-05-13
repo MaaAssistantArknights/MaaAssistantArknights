@@ -12,24 +12,24 @@ icon: mdi:information-outline
     Make sure the screen stays on the stage detail page with the **Start** and **Auto-Deploy** buttons available.
 - If you are not on this page, `Current/Previous` will automatically navigate to the last stage played according to the record in the lower right corner of the terminal homepage.
 - You can also enable `Manually input stage name` in `Task Settings` - `Combat` - `Advanced` and enter the stage number manually. Currently supported stages include:
-    - All main theme stages, where `-NORMAL` or `-HARD` can be added at the end to switch between standard and challenge modes.
-    - LMD stages and Battle Record stages 5/6. The input should be `CE-6` or `LS-6` even if you have not unlocked it yet. In that case, the program will automatically switch to corresponding stage 5.
-    - Skill Summary, Shop Voucher, and Carbon Stages 5. The input also should be `CA-5`, `AP-5`, and `SK-5` respectively.
-    - Chip stages. The input should be complete with stage number, such as `PR-A-1`.
-    - Annihilation. The input should be `Annihilation`.
-    - Certain side story stages. This includes `OF-1`, `OF-F3` and `GT-5`.
-    - The last three stages of the current SS event. This is available after downloading updates automatically from the [API](https://ota.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) when the event is on. Prompt will be shown in the main page when this is available.
-    - For the SS event rerun, you can enter `SSReopen-XX` to clear XX-1 ~ XX-9 levels once. Example `SSReopen-IC`.
+  - All main theme stages, where `-NORMAL` or `-HARD` can be added at the end to switch between standard and challenge modes.
+  - LMD stages and Battle Record stages 5/6. The input should be `CE-6` or `LS-6` even if you have not unlocked it yet. In that case, the program will automatically switch to corresponding stage 5.
+  - Skill Summary, Shop Voucher, and Carbon Stages 5. The input also should be `CA-5`, `AP-5`, and `SK-5` respectively.
+  - Chip stages. The input should be complete with stage number, such as `PR-A-1`.
+  - Annihilation. The input should be `Annihilation`.
+  - Certain side story stages. This includes `OF-1`, `OF-F3` and `GT-5`.
+  - The last three stages of the current SS event. This is available after downloading updates automatically from the [API](https://ota.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) when the event is on. Prompt will be shown in the main page when this is available.
+  - For the SS event rerun, you can enter `SSReopen-XX` to clear XX-1 ~ XX-9 levels once. Example `SSReopen-IC`.
 
 ::: details Example
 ![Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/56174894/e94a0842-a42f-449d-9f2e-f2339175cbdd)
 :::
 
 - Fight options include `Use Sanity Potion + Use Originium`, `Perform Battles` and `Material`, you can specific any of them. The fight tasks stops once one of the specifications is met.
-    - `Use Sanity Potion` specifies the number of sanity potions to use at most. Multiple medicines may be used at a time.
-    - `Use Originium` specifies the number of Originium to use at most. It is used one at a time. When using the Origin Stone to restore sanity, if you still have the Sanity Potion, the stone will not be used.
-    - `Perform Battles` specifies the number of battles to perform at most.
-    - `Material` specifies the number of materials to collect.
+  - `Use Sanity Potion` specifies the number of sanity potions to use at most. Multiple medicines may be used at a time.
+  - `Use Originium` specifies the number of Originium to use at most. It is used one at a time. When using the Origin Stone to restore sanity, if you still have the Sanity Potion, the stone will not be used.
+  - `Perform Battles` specifies the number of battles to perform at most.
+  - `Material` specifies the number of materials to collect.
 
 Note that `Use Originium` will only be used after `Use Sanity Option`, because MAA will only use Originium to replenish sanity when there are no Sanity Potions left. Therefore, after ticking `Use Originium`, you need to set the number of times `Use Sanity Potion` to a value greater than or equal to the value of the existing Sanity Potion in the storehouse, e.g. 999, in order to avoid skipping `Use Originium`.
 
@@ -42,9 +42,8 @@ Note that `Use Originium` will only be used after `Use Sanity Option`, because M
 |    D    |       999         |       x       |       100       | 3 Orirock| The AI will attempt to complete 100 runs, using up to 999 sanity potions. If during the process, the AI accumulates 3 Orirock cubes, satisfying the condition `Material: 3 Orirock`, the AI will stop without completing the full 100 runs.                                            |
 :::
 
-
 - Note that `Material` and `Stage` are independent options.
-    - `Material` is not going to automatically navigate to the the stage for the specified material. You still need to manually configure the stage option.
+  - `Material` is not going to automatically navigate to the the stage for the specified material. You still need to manually configure the stage option.
 - `Auto-Deploy` will be automatically selected if not already in case you forget to do so.
 - Material drops are automatically recognized and printed to the program log. The data also gets uploaded to [Penguin Stats](https://penguin-stats.io/) and [Yituliu](https://ark.yituliu.cn/). You can manually set your Penguin Stats user ID in the settings.
 - After disconnection or flashing at 4 am, it will automatically reconnect and continue to play the last stage selected in the game. If you need to cross the day, please check the last stage selection.
@@ -110,7 +109,7 @@ Note that `Use Originium` will only be used after `Use Sanity Option`, because M
 
 #### Create Tasks
 
-- A tool for creating tasks is provided in the directory of MAA. See also: [Copilot Schema](3.3-COPILOT_SCHEMA.md) for help.
+- A tool for creating tasks is provided in the directory of MAA. See also: [Copilot Schema](../protocol/copilot-schema.md) for help.
 - How to get map coordinates: start an operation after filling in `stage_name`. A file named `map.png` will be generated for your reference. Or you can refer to [PRTS.map](https://map.ark-nights.com/), with the `coordinates` set to `MAA` mode.
 - Drill plan is recommended for testing.
 - Welcome to share your tasks with [www.抄作业.com](https://www.抄作业.com), or [www.prts.plus](https://www.prts.plus)!
@@ -148,7 +147,7 @@ Note that clicking `General` `Advanced` will also switch `Task Settings`.
   - Go to the "Settings" - "Connection Settings" of the software, select the file path of `adb.exe`, fill in the adb address (IP + port need to be filled in, such as `127.0.0.1:5555`), and select the emulator type.
 
 - Method 2: Find the adb execution port of the emulator and connect
-  - For emulators that come with adb, you can find the location of the adb executable file according to the [Confirm adb address section](1.2-FAQ.md#Method-1-Confirm-that-the-adb-and-connection-address-are-correct).
+  - For emulators that come with adb, you can find the location of the adb executable file according to the [Confirm adb address section](./faq.md#approach-1-make-sure-adb-and-address-are-correct).
   - Mac Android emulators are generally installed in the `/Application/` directory. Right-click on `[emulator name].app` and select "Show Package Contents". Find the adb executable file in the directory.
 
 #### Get the port number
