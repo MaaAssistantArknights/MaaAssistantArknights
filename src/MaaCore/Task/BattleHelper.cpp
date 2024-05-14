@@ -405,7 +405,8 @@ bool asst::BattleHelper::deploy_oper(
         Point pre_loc = m_battlefield_opers.at(name);
         Log.info("remove deploy failed oper", name, pre_loc);
         m_battlefield_opers.erase(name);
-        m_used_tiles.erase(pre_loc);
+        // 擦除已使用干员,但是不擦除已使用格子
+        // m_used_tiles.erase(pre_loc);
     }
 
     m_used_tiles.emplace(loc, name);
