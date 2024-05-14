@@ -70,6 +70,16 @@
         },
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                6,
+                1
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
                 "凯尔希",
                 "盾法"
             ],

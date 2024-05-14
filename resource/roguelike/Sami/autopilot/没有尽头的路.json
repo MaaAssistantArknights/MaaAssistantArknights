@@ -19,6 +19,16 @@
     "deploy_plan": [
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "回费",
                 "锏",
                 "地面阻挡",
