@@ -132,6 +132,16 @@
         },
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                1,
+                3
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
                 "高台输出",
                 "盾法",
                 "辅助",

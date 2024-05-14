@@ -43,6 +43,16 @@
         },
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "凯尔希",
                 "浊心斯卡蒂"
             ],
