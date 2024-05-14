@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -584,9 +587,10 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ErrorProlog">MAA에서 오류가 발생했습니다</system:String>
     <system:String x:Key="ErrorDetails">세부 정보</system:String>
     <system:String x:Key="ErrorSolution">해결 방법</system:String>
-    <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 크래시 관련 문단을 참고하세요</system:String>
-    <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요</system:String>
-    <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 다시 시작하고 다시 시도하세요</system:String>
+    <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 크래시 관련 문단을 참고하세요.</system:String>
+    <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
+    <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 다시 시작하고 다시 시도하세요.</system:String>
+    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. "Windows 설정"으로 이동하여 기본 브라우저를 선택하세요.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">GitHub에 issue 생성</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">QQ 그룹 가입</system:String>
     <system:String x:Key="CopyErrorMessage">오류 메시지 복사</system:String>
@@ -794,7 +798,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="CheckAndDownloadAnnouncement">공지사항 확인</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
     <!--  !Announcement  -->
-        <!--  Reclamation  -->
+    <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">현재 생명연산 기능은 초기 단계이며, 다음 사항을 주의하세요:
  1. 기존 데이터(진행사항)가 있으면 사용할 수 없습니다
  2. 생명연산의 편성창에 오퍼레이터가 있으면 안됩니다
