@@ -7959,6 +7959,51 @@
             ],
             "rarity": 1
         },
+        "trap_151_muruinw": {
+            "name": "折叠式堡垒模块",
+            "name_en": "折叠式堡垒模块",
+            "name_jp": "折叠式堡垒模块",
+            "name_kr": "折叠式堡垒模块",
+            "name_tw": "折叠式堡垒模块",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_152_muruino": {
+            "name": "折叠式辅助器械",
+            "name_en": "折叠式辅助器械",
+            "name_jp": "折叠式辅助器械",
+            "name_kr": "折叠式辅助器械",
+            "name_tw": "折叠式辅助器械",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_154_mugtps": {
+            "name": "阵地屏障",
+            "name_en": "阵地屏障",
+            "name_jp": "阵地屏障",
+            "name_kr": "阵地屏障",
+            "name_tw": "阵地屏障",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_158_lrsteam": {
             "name": "查尔斯·林奇",
             "name_en": "查尔斯·林奇",
@@ -8055,6 +8100,81 @@
             "name_jp": "振奋荣光",
             "name_kr": "振奋荣光",
             "name_tw": "振奋荣光",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_165_muftbl": {
+            "name": "足球",
+            "name_en": "足球",
+            "name_jp": "足球",
+            "name_kr": "足球",
+            "name_tw": "足球",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_166_muwork": {
+            "name": "折叠设施维护员",
+            "name_en": "折叠设施维护员",
+            "name_jp": "折叠设施维护员",
+            "name_kr": "折叠设施维护员",
+            "name_tw": "折叠设施维护员",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 1
+        },
+        "trap_167_muruinf": {
+            "name": "折叠式维护车",
+            "name_en": "折叠式维护车",
+            "name_jp": "折叠式维护车",
+            "name_kr": "折叠式维护车",
+            "name_tw": "折叠式维护车",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_169_muruinb": {
+            "name": "折叠式后勤站",
+            "name_en": "折叠式后勤站",
+            "name_jp": "折叠式后勤站",
+            "name_kr": "折叠式后勤站",
+            "name_tw": "折叠式后勤站",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_179_muctrl": {
+            "name": "促融共竞控制",
+            "name_en": "促融共竞控制",
+            "name_jp": "促融共竞控制",
+            "name_kr": "促融共竞控制",
+            "name_tw": "促融共竞控制",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
