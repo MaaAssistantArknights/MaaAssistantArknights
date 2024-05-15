@@ -143,7 +143,7 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 
         // more materials to reveal?
 
-        auto swipe_begin = Point { WindowWidthDefault - 40, 632 };
+        auto swipe_begin = Point { WindowWidthDefault - 240, 632 };
 
         const int swipe_dist = 200;
         ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
