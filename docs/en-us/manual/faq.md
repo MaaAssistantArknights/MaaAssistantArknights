@@ -80,35 +80,7 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 ### Approach 1: make sure ADB and address are correct
 
-- Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in. If so, skip to the next step. Otherwise:
-  - Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-  - Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
-
-- Confirm that your connection address is filled in correctly. The ADB address is usually like `127.0.0.1:5555`, depending on the emulators (except Leidian emulator).
-
-#### Common ADB ports for popular Android emulators
-
-- Single instance / first instance in multi-instance mode
-
-  For single instance mode, please refer to the documentation for each emulator and the blog post by NetEase senior game development engineer @Zhao Qingqing to find the default ADB ports for common Android emulators:
-
-    |Emulator|Default ADB port|
-    |-|:-:|
-    |NetEase MuMu emulator 6/X|7555|
-    |NetEase MuMu emulator 12|16384|
-    |NoxPlayer emulator|62001|
-    |BlueStacks emulator|5555|
-    |LDPlayer emulator 9|5555 / emulator-5554|
-
-    You can connect to emulators with purely numeric ports using `127.0.0.1:[port]`. LDPlayer emulator has its own wrapper, so you can also use `emulator-5554` to connect.
-
-    If you need to modify the connection settings in the `Settings` - `Connection Settings` - `Connection Address` on Windows or Mac, please refer to the table above.
-
-- Multi-instance mode
-
-  - For NoxPlayer emulator, the port of the first device is `62001`, and the ports for subsequent devices start from `62025`.
-  - For NetEase MuMu emulator 12, the ADB ports for multi-instance mode are irregular. To find the ADB port for a running emulator, launch the emulator from MuMu Multi-instance Manager 12, then click on the ADB icon in the upper-right corner.
-  - For LDPlayer emulator 9, the local ADB port starts from `5555`, and subsequent ports increment by 2. For example, the second emulator has a local port of `5557`.
+TODO [Custom Connection](./custom-connection.md)
 
 ### Approach 2: change emulator
 
