@@ -5801,9 +5801,9 @@
         "action": "ClickSelf",
         "roi": [
             74,
-            184,
-            80,
-            44
+            79,
+            79,
+            41
         ],
         "next": [
             "SpecialAccessActivitiesConfirm",
