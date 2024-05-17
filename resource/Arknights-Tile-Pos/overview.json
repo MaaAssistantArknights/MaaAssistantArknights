@@ -8342,6 +8342,195 @@
         "stageId": "act2bossrush_tm04",
         "width": 21
     },
+    "act2vmulti-01-activities\\act2vmulti\\level_act2vmulti_01": {
+        "code": "IG-1",
+        "filename": "act2vmulti-01-activities\\act2vmulti\\level_act2vmulti_01.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_01",
+        "name": "嘟嘟喇叭",
+        "stageId": "act2vmulti-01",
+        "width": 13
+    },
+    "act2vmulti-02-activities\\act2vmulti\\level_act2vmulti_02": {
+        "code": "IG-2",
+        "filename": "act2vmulti-02-activities\\act2vmulti\\level_act2vmulti_02.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_02",
+        "name": "军事化训练",
+        "stageId": "act2vmulti-02",
+        "width": 13
+    },
+    "act2vmulti-03-activities\\act2vmulti\\level_act2vmulti_03": {
+        "code": "IG-3",
+        "filename": "act2vmulti-03-activities\\act2vmulti\\level_act2vmulti_03.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_03",
+        "name": "单行赛道",
+        "stageId": "act2vmulti-03",
+        "width": 13
+    },
+    "act2vmulti-04-activities\\act2vmulti\\level_act2vmulti_04": {
+        "code": "IG-4",
+        "filename": "act2vmulti-04-activities\\act2vmulti\\level_act2vmulti_04.json",
+        "height": 8,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_04",
+        "name": "迎宾大道",
+        "stageId": "act2vmulti-04",
+        "width": 12
+    },
+    "act2vmulti-05-activities\\act2vmulti\\level_act2vmulti_05": {
+        "code": "IG-5",
+        "filename": "act2vmulti-05-activities\\act2vmulti\\level_act2vmulti_05.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_05",
+        "name": "夜舞与晨跑",
+        "stageId": "act2vmulti-05",
+        "width": 13
+    },
+    "act2vmulti-06-activities\\act2vmulti\\level_act2vmulti_06": {
+        "code": "IG-6",
+        "filename": "act2vmulti-06-activities\\act2vmulti\\level_act2vmulti_06.json",
+        "height": 11,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_06",
+        "name": "黑夜骑士",
+        "stageId": "act2vmulti-06",
+        "width": 14
+    },
+    "act2vmulti-07-activities\\act2vmulti\\level_act2vmulti_07": {
+        "code": "IG-7",
+        "filename": "act2vmulti-07-activities\\act2vmulti\\level_act2vmulti_07.json",
+        "height": 7,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_07",
+        "name": "发射试验场",
+        "stageId": "act2vmulti-07",
+        "width": 13
+    },
+    "act2vmulti-de01-activities\\act2vmulti\\level_act2vmulti_fortress": {
+        "code": "IG-S-2",
+        "filename": "act2vmulti-de01-activities\\act2vmulti\\level_act2vmulti_fortress.json",
+        "height": 16,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_fortress",
+        "name": "请无序入场",
+        "stageId": "act2vmulti-de01",
+        "width": 26
+    },
+    "act2vmulti-de02-activities\\act2vmulti\\level_act2vmulti_fortress": {
+        "code": "IG-S-4",
+        "filename": "act2vmulti-de02-activities\\act2vmulti\\level_act2vmulti_fortress.json",
+        "height": 16,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_fortress",
+        "name": "请无序入场",
+        "stageId": "act2vmulti-de02",
+        "width": 26
+    },
+    "act2vmulti-ex01-activities\\act2vmulti\\level_act2vmulti_01": {
+        "code": "IG-EX-1",
+        "filename": "act2vmulti-ex01-activities\\act2vmulti\\level_act2vmulti_01.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_01",
+        "name": "嘟嘟喇叭",
+        "stageId": "act2vmulti-ex01",
+        "width": 13
+    },
+    "act2vmulti-ex02-activities\\act2vmulti\\level_act2vmulti_02": {
+        "code": "IG-EX-2",
+        "filename": "act2vmulti-ex02-activities\\act2vmulti\\level_act2vmulti_02.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_02",
+        "name": "军事化训练",
+        "stageId": "act2vmulti-ex02",
+        "width": 13
+    },
+    "act2vmulti-ex03-activities\\act2vmulti\\level_act2vmulti_03": {
+        "code": "IG-EX-3",
+        "filename": "act2vmulti-ex03-activities\\act2vmulti\\level_act2vmulti_03.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_03",
+        "name": "单行赛道",
+        "stageId": "act2vmulti-ex03",
+        "width": 13
+    },
+    "act2vmulti-ex04-activities\\act2vmulti\\level_act2vmulti_04": {
+        "code": "IG-EX-4",
+        "filename": "act2vmulti-ex04-activities\\act2vmulti\\level_act2vmulti_04.json",
+        "height": 8,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_04",
+        "name": "迎宾大道",
+        "stageId": "act2vmulti-ex04",
+        "width": 12
+    },
+    "act2vmulti-ex05-activities\\act2vmulti\\level_act2vmulti_05": {
+        "code": "IG-EX-5",
+        "filename": "act2vmulti-ex05-activities\\act2vmulti\\level_act2vmulti_05.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_05",
+        "name": "夜舞与晨跑",
+        "stageId": "act2vmulti-ex05",
+        "width": 13
+    },
+    "act2vmulti-ex06-activities\\act2vmulti\\level_act2vmulti_06": {
+        "code": "IG-EX-6",
+        "filename": "act2vmulti-ex06-activities\\act2vmulti\\level_act2vmulti_06.json",
+        "height": 11,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_06",
+        "name": "黑夜骑士",
+        "stageId": "act2vmulti-ex06",
+        "width": 14
+    },
+    "act2vmulti-ex07-activities\\act2vmulti\\level_act2vmulti_07": {
+        "code": "IG-EX-7",
+        "filename": "act2vmulti-ex07-activities\\act2vmulti\\level_act2vmulti_07.json",
+        "height": 7,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_07",
+        "name": "发射试验场",
+        "stageId": "act2vmulti-ex07",
+        "width": 13
+    },
+    "act2vmulti-ft01-activities\\act2vmulti\\level_act2vmulti_football": {
+        "code": "IG-S-1",
+        "filename": "act2vmulti-ft01-activities\\act2vmulti\\level_act2vmulti_football.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_football",
+        "name": "大力出奇迹",
+        "stageId": "act2vmulti-ft01",
+        "width": 13
+    },
+    "act2vmulti-ft02-activities\\act2vmulti\\level_act2vmulti_football": {
+        "code": "IG-S-3",
+        "filename": "act2vmulti-ft02-activities\\act2vmulti\\level_act2vmulti_football.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_football",
+        "name": "大力出奇迹",
+        "stageId": "act2vmulti-ft02",
+        "width": 13
+    },
+    "act2vmulti-tr01-activities\\act2vmulti\\level_act2vmulti_tr01": {
+        "code": "IG-TR-1",
+        "filename": "act2vmulti-tr01-activities\\act2vmulti\\level_act2vmulti_tr01.json",
+        "height": 8,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_tr01",
+        "name": "规则教学-常规项目",
+        "stageId": "act2vmulti-tr01",
+        "width": 10
+    },
+    "act2vmulti-tr02-activities\\act2vmulti\\level_act2vmulti_tr02": {
+        "code": "IG-TR-2",
+        "filename": "act2vmulti-tr02-activities\\act2vmulti\\level_act2vmulti_tr02.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_tr02",
+        "name": "规则教学-阵地足球",
+        "stageId": "act2vmulti-tr02",
+        "width": 13
+    },
+    "act2vmulti-tr03-activities\\act2vmulti\\level_act2vmulti_tr03": {
+        "code": "IG-TR-3",
+        "filename": "act2vmulti-tr03-activities\\act2vmulti\\level_act2vmulti_tr03.json",
+        "height": 9,
+        "levelId": "activities\\act2vmulti\\level_act2vmulti_tr03",
+        "name": "规则教学-堡垒守御",
+        "stageId": "act2vmulti-tr03",
+        "width": 20
+    },
     "act30side_01-activities/act30side/level_act30side_01": {
         "code": "RS-1",
         "filename": "act30side_01-activities-act30side-level_act30side_01.json",

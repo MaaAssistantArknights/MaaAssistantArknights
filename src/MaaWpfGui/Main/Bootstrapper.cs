@@ -19,6 +19,8 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Helper;
@@ -30,7 +32,7 @@ using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
-using Microsoft.Toolkit.Uwp.Notifications;
+using MaaWpfGui.WineCompat;
 using Serilog;
 using Serilog.Core;
 using Stylet;
@@ -118,6 +120,14 @@ namespace MaaWpfGui.Main
             if (IsUserAdministrator())
             {
                 _logger.Information("Run as Administrator");
+            }
+
+            if (WineRuntimeInformation.IsRunningUnderWine)
+            {
+                _logger.Information($"Running under Wine {WineRuntimeInformation.WineVersion} on {WineRuntimeInformation.HostSystemName}");
+                RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+                _logger.Information($"MaaWineBridge status: {MaaWineBridge.Availability}");
+                _logger.Information($"MaaDesktopIntegration available: {MaaDesktopIntegration.Availabile}");
             }
 
             _logger.Information("===================================");
@@ -211,12 +221,7 @@ namespace MaaWpfGui.Main
             Instances.MaaHotKeyManager.Release();
 
             // 关闭程序时清理操作中心中的通知
-            var os = RuntimeInformation.OSDescription;
-            if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
-            {
-                // new ToastNotificationHistory().Clear();
-                ToastNotificationManagerCompat.History.Clear();
-            }
+            ToastNotification.Cleanup();
 
             ConfigurationHelper.Release();
 
@@ -229,7 +234,7 @@ namespace MaaWpfGui.Main
             {
                 ProcessStartInfo startInfo = new ProcessStartInfo
                 {
-                    FileName = System.Windows.Forms.Application.ExecutablePath,
+                    FileName = Environment.ProcessPath,
                 };
 
                 Process.Start(startInfo);

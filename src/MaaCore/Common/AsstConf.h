@@ -1,11 +1,11 @@
 #pragma once
 
 #if !defined(ASST_USE_RANGES_STL) && !defined(ASST_USE_RANGES_RANGE_V3) && !defined(ASST_USE_RANGES_BOOST)
-#if !defined(__cpp_lib_ranges) || __cpp_lib_ranges < 201911L
-#define ASST_USE_RANGES_RANGE_V3
-#else
 #define ASST_USE_RANGES_STL
 #endif
+
+#if !defined (ASST_WITH_EMULATOR_EXTRAS)
+#define ASST_WITH_EMULATOR_EXTRAS 1
 #endif
 
 #ifdef _MSC_VER

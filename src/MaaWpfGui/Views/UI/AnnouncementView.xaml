@@ -8,6 +8,7 @@
     xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
+    Icon="../../newlogo.ico"
     Title="{DynamicResource Announcement}"
     Width="600"
     Height="500"

@@ -196,8 +196,11 @@ void asst::AdbController::callback(AsstMsg msg, const json::value& details)
     }
 }
 
-void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg)
+void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg [[maybe_unused]])
 {
+#if !ASST_WITH_EMULATOR_EXTRAS
+    Log.error("MaaCore is not compiled with ASST_WITH_EMULATOR_EXTRAS");
+#else
     if (adb_cfg.extras.empty()) {
         LogWarn << "adb_cfg.extras is empty";
         return;
@@ -207,6 +210,7 @@ void asst::AdbController::init_mumu_extras(const AdbCfg& adb_cfg)
     int mumu_index = adb_cfg.extras.get("index", 0);
     int mumu_display = adb_cfg.extras.get("display", 0);
     m_mumu_extras.init(mumu_path, mumu_index, mumu_display);
+#endif
 }
 
 void asst::AdbController::close_socket() noexcept
@@ -486,6 +490,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
             Log.info("Encode is not supported");
         }
 
+#if ASST_WITH_EMULATOR_EXTRAS
         if (m_mumu_extras.inited()) {
             start_time = high_resolution_clock::now();
             if (m_mumu_extras.screencap()) {
@@ -502,13 +507,16 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 Log.info("MumuExtras is not supported");
             }
         }
+#endif
 
         static const std::unordered_map<AdbProperty::ScreencapMethod, std::string> MethodName = {
             { AdbProperty::ScreencapMethod::UnknownYet, "UnknownYet" },
             { AdbProperty::ScreencapMethod::RawByNc, "RawByNc" },
             { AdbProperty::ScreencapMethod::RawWithGzip, "RawWithGzip" },
             { AdbProperty::ScreencapMethod::Encode, "Encode" },
+#if ASST_WITH_EMULATOR_EXTRAS
             { AdbProperty::ScreencapMethod::MumuExtras, "MumuExtras" },
+#endif
         };
         Log.info(
             "The fastest way is",
@@ -545,6 +553,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         case AdbProperty::ScreencapMethod::Encode:
             screencap_ret = screencap(m_adb.screencap_encode, decode_encode, allow_reconnect);
             break;
+#if ASST_WITH_EMULATOR_EXTRAS
         case AdbProperty::ScreencapMethod::MumuExtras: {
             auto img_opt = m_mumu_extras.screencap();
             screencap_ret = img_opt.has_value();
@@ -552,6 +561,7 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
                 image_payload = img_opt.value();
             }
         } break;
+#endif
         default:
             break;
         }

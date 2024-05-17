@@ -89,6 +89,11 @@ namespace MaaWpfGui.Views.UI
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
 
+            if (details.Contains("Hyperlink_Click") && details.Contains("StartWithShellExecuteEx"))
+            {
+                return LocalizationHelper.GetString("ErrorSolutionSelectDefaultBrowser");
+            }
+
             // ReSharper disable once ConvertIfStatementToReturnStatement
             if (details.Contains("System.IO.File.InternalMove"))
             {

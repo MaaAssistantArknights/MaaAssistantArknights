@@ -41,6 +41,16 @@
         },
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
                 "玛恩纳"
             ],
             "location": [
@@ -80,7 +90,18 @@
         },
         {
             "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                7,
+                6
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
                 "地面阻挡",
+                "玛恩纳",
                 "处决者",
                 "其他地面"
             ],

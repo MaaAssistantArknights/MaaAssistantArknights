@@ -43,6 +43,7 @@ using MaaWpfGui.Services.RemoteControl;
 using MaaWpfGui.States;
 using MaaWpfGui.Utilities;
 using MaaWpfGui.Utilities.ValueType;
+using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -3608,10 +3609,11 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void SelectFile()
         {
-            var dialog = new OpenFileDialog
+            var dialog = new OpenFileDialog();
+            if (MaaWineBridge.Availability == WineBridgeAvailability.NotAvailable)
             {
-                Filter = LocalizationHelper.GetString("AdbProgram") + "|*.exe",
-            };
+                dialog.Filter = LocalizationHelper.GetString("AdbProgram") + "|*.exe";
+            }
 
             if (dialog.ShowDialog() == true)
             {

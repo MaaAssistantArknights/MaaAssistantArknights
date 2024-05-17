@@ -9,12 +9,12 @@ on:
       limit:
         description: Number of releases to fetch from MaaAssistantArknights, 2 at least
         required: false
-        default: 31
+        default: '31'
         type: number
       limit_2:
         description: Number of releases to fetch from MaaRelease
         required: false
-        default: 30
+        default: '30'
         type: number
 
 env:
@@ -125,7 +125,7 @@ jobs:
 
   make-ota-mac:
     needs: create-tag
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - name: Fetch release info
         run: gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 31 }} | tee ./release_maa.txt
@@ -202,30 +202,3 @@ jobs:
       - name: Setup release mirror
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run release-mirrors.yml
-
-      - name: Deploy docs
-        run: |
-          mkdir -p ${{ runner.temp }}/new
-          mkdir -p ${{ runner.temp }}/old
-          gh api /repos/MaaAssistantArknights/MaaAssistantArknights/tags --jq '.[].name' > ${{ runner.temp }}/release_maa.txt
-          export NEW_VERSION=$(sed -n '1p' ${{ runner.temp }}/release_maa.txt)
-          echo "NEW_VERSION: $NEW_VERSION"
-          export OLD_VERSION=$(sed -n '2p' ${{ runner.temp }}/release_maa.txt)
-          echo "OLD_VERSION: $OLD_VERSION"
-          gh api "/repos/MaaAssistantArknights/MaaAssistantArknights/tarball/$NEW_VERSION" > ${{ runner.temp }}/new.tar.gz
-          gh api "/repos/MaaAssistantArknights/MaaAssistantArknights/tarball/$OLD_VERSION" > ${{ runner.temp }}/old.tar.gz
-          tar -xzf ${{ runner.temp }}/new.tar.gz -C ${{ runner.temp }}/new
-          tar -xzf ${{ runner.temp }}/old.tar.gz -C ${{ runner.temp }}/old
-          export NEW_PATH="${{ runner.temp }}/new/$(ls ${{ runner.temp }}/new)/docs"
-          echo "NEW_PATH: $NEW_PATH"
-          export OLD_PATH="${{ runner.temp }}/old/$(ls ${{ runner.temp }}/old)/docs"
-          echo "OLD_PATH: $OLD_PATH"
-          export DOCS_DIFF=$(diff -aqr $NEW_PATH $OLD_PATH)
-          if [ -n "$DOCS_DIFF" ]; then
-            echo "Found changes, start to deploy the docs:"
-            echo "$DOCS_DIFF"
-            gh workflow --repo MaaAssistantArknights/MaaAssistantArknights run deploy-website.yaml --field deploy-to-prod-env=true
-            echo "Deploying the docs."
-          else
-            echo "Nothing changed, exit."
-          fi
