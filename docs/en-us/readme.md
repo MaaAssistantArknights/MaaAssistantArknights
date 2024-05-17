@@ -158,7 +158,7 @@ Check [Issue Bot Usage](./develop/issue-bot-usage.md).
 - ~~C++ Base64 encoding/decoding[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ ZIP library: [zlib](https://github.com/madler/zlib)
 - C++ Gzip library: [gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- Touch event producer for Android: [minitouch](https://github.com/openstf/minitouch)
+- Touch event producer for Android: [minitouch](https://github.com/DeviceFarmer/minitouch)
 - Touch event producer for Android: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM framework: [Stylet](https://github.com/canton7/Stylet)
 - WPF control library: [HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
