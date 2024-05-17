@@ -19,7 +19,7 @@ icon: mdi:plug
 
 前往模拟器安装路径，Windows 可在模拟器运行时在任务管理器中右键进程点击 `打开文件所在的位置`。
 
-顶层或下层目录中应该会有一个名字中带有 `adb` 的 exe 文件，可以使用搜索功能，搜索并选择。
+顶层或下层目录中应该会有一个名字中带有 `adb` 的 exe 文件，可以使用搜索功能，然后选择。
 
 :::details 一些例子
 `adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`
@@ -54,14 +54,14 @@ icon: mdi:plug
 
 - MuMu 12 多开器右上角可查看正在运行的多开端口。
 - Bluestacks 5 模拟器设置内可查看当前的多开端口。
-- *待补充*
+- _待补充_
 
 #### 备选方案
 
 - 方案 1 : 使用 adb 命令查看模拟器端口
 
-  1. 启动**一个**模拟器，并确认没有其他安卓设备连接在此计算机上。
-  2. 在存放有 adb 可执行文件的文件夹中启动命令窗口。
+  1. 启动**一个**模拟器，并确保没有其他安卓设备连接在此计算机上。
+  2. 在存放有 adb 可执行文件的文件夹中启动终端。
   3. 执行以下命令。
 
   ```sh
@@ -126,8 +126,8 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 1. 在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件
 
-    - 国际版默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-    - 中国内地版默认路径为 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+   - 国际版默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
+   - 中国内地版默认路径为 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
 2. 如果是第一次使用，请运行一次 MAA，使 MAA 自动生成配置文件。
 
@@ -138,12 +138,12 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ```json
 {
-    "Configurations": {
-        "Default": {
-            "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-            // 其余配置字段，不要手动输入修改
-        }
+  "Configurations": {
+    "Default": {
+      "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+      // 其余配置字段，不要手动输入修改
     }
+  }
 }
 ```
 
@@ -158,9 +158,11 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 ## 触控模式
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现。高版本 Android 可用性待测试。
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现。高版本 Android 可用性尚待测试。
 3. Adb Input：直接调用 ADB 命令进行触控操作，兼容性最强，速度最慢。
 
 ## ADB Lite
 
-由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，但部分截图方式不可用。
+由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能损耗，但部分截图方式不可用。
+
+推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试~~
