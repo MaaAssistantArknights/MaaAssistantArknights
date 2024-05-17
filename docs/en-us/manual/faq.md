@@ -32,11 +32,11 @@ Only official sources listed here. We can't gurantee whether some random third-p
 
 - Please try installing [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET8](https://download.visualstudio.microsoft.com/download/pr/c1d08a81-6e65-4065-b606-ed1127a954d3/14fe55b8a73ebba2b05432b162ab3aa8/windowsdesktop-runtime-8.0.4-win-x64.exe), then restart computer.
   Windows 10 or 11 users can also install using Winget by running the following command in the terminal.
-  
-    ```bash
-    winget install Microsoft.VCRedist.2015+.x64
-    winget install Microsoft.DotNet.DesktopRuntime.8
-    ```
+
+  ```sh
+  winget install Microsoft.VCRedist.2015+.x64
+  winget install Microsoft.DotNet.DesktopRuntime.8
+  ```
 
 #### Notes on Windows N/KN
 
@@ -48,8 +48,8 @@ Only official sources listed here. We can't gurantee whether some random third-p
 
   1. [Windows 7 Service Pack 1](https://support.microsoft.com/en-us/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
   2. SHA-2 code-signing update：
-      - KB4474419：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
-      - KB4490628：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
+     - KB4474419：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/09/windows6.1-kb4474419-v3-x64_b5614c6cea5cb4e198717789633dca16308ef79c.msu)
+     - KB4490628：[link 1](https://catalog.s.download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu), [link 2](http://download.windowsupdate.com/c/msdownload/update/software/secu/2019/03/windows6.1-kb4490628-x64_d3de52d6987f7c8bdc2c015dca69eac96047c76e.msu)
   3. Platform Update for Windows 7 (DXGI 1.2 & Direct3D 11.1, KB2670838)：[link 1](https://catalog.s.download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu), [link 2](http://download.windowsupdate.com/msdownload/update/software/ftpk/2013/02/windows6.1-kb2670838-x64_9f667ff60e80b64cbed2774681302baeaf0fc6a6.msu)
 
 ##### Mitigation measures for .NET 8 applications running abnormally on Windows 7 [#8238](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8238)
