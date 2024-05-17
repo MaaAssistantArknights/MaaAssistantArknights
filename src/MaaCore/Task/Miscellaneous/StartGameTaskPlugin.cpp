@@ -9,11 +9,7 @@ bool StartGameTaskPlugin::start_game_with_retries(size_t pipe_data_size_limit, b
 {
     int extra_runs = 0;
     for (int i = 0; i < 30; ++i) {
-        if (need_exit()) {
-            return false;
-        }
-
-        if (!ctrler()->start_game(m_client_type)) {
+        if (need_exit() || !ctrler()->start_game(m_client_type)) {
             return false;
         }
 
