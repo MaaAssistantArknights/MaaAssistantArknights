@@ -11,7 +11,7 @@ icon: teenyicons:linux-alt-solid
 
 ### 使用 maa-cli
 
-[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) 是一个使用 Rust 编写的简单 MAA 命令行工具。相关安装与使用教程请阅读[用户手册 - CLI使用指南](../CLI使用指南)。
+[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) 是一个使用 Rust 编写的简单 MAA 命令行工具。相关安装与使用教程请阅读 [CLI 使用指南](../cli/intro.md)。
 
 ### 使用 Wine
 

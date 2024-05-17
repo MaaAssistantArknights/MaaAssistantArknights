@@ -2,105 +2,113 @@
 icon: mdi:plug
 ---
 
-# Custom Connection
+# Connection
 
-- Make sure that MAA `Settings` - `Connection Settings` - `adb path` is automatically filled in. If so, skip to the next step. Otherwise:
-  - Option 1: find the installation path of your emulator, where there may be a file named `adb.exe` (or something similar, e.g. `nox_adb.exe`, `HD-adb.exe`, `adb_server.exe`, etc., any EXE files with `adb`). Simply choose the file in the connection settings of MAA!
-  - Option 2: download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. Select the `adb.exe` file.
+:::note
+For information about physical machines, please also check [Android Physical Devices](./devices/android.md).
+:::
 
-- Confirm that your connection address is filled in correctly. The ADB address is usually like `127.0.0.1:5555`, depending on the emulators (except Leidian emulator).
+## ADB Path
 
-## Obtain adb path
+:::info Technical Details
+Automatic detection uses the emulator's ADB, but sometimes problems occur with automatic detection, then manual settings are required.
+`Replace ADB` is to download the ADB provided by Google and then replace it. If you set up Google's ADB yourself, you can do it once and for all.
+:::
 
-- Method 1: Download adb and set up connection manually
-  - (Only for Windows users) Download [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) and unzip it. It is recommended to unzip to the MAA directory.
-  - Go to the "Settings" - "Connection Settings" of the software, select the file path of `adb.exe`, fill in the adb address (IP + port need to be filled in, such as `127.0.0.1:5555`), and select the emulator type.
+### Use the ADB provided by the emulator
 
-- Method 2: Find the adb execution port of the emulator and connect
-  - For emulators that come with adb, you can find the location of the adb executable file according to the [Confirm adb address section](./faq.md#approach-1-make-sure-adb-and-address-are-correct).
-  - Mac Android emulators are generally installed in the `/Application/` directory. Right-click on `[emulator name].app` and select "Show Package Contents". Find the adb executable file in the directory.
+Go to the simulator installation path. In Windows, when the simulator is running, right-click the process in the Task Manager and click `Open the location of the file`.
 
-## Get the port number
+There should be an exe file with `adb` in its name in the top-level or lower directory. You can search and select it.
 
-### Common ADB ports for popular Android emulators
+:::details Examples
+`adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`
+:::
 
-- Single instance / first instance in multi-instance mode
+### Use ADB provided by Google
 
-  For single instance mode, please refer to the documentation for each emulator and the blog post by NetEase senior game development engineer @Zhao Qingqing to find the default ADB ports for common Android emulators:
+[Click](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) to download and unzip, then select `adb.exe`.
 
-    |Emulator|Default ADB port|
-    |-|:-:|
-    |NetEase MuMu emulator 6/X|7555|
-    |NetEase MuMu emulator 12|16384|
-    |NoxPlayer emulator|62001|
-    |BlueStacks emulator|5555|
-    |LDPlayer emulator 9|5555 / emulator-5554|
+We are recommended to extract it directly to the MAA folder, so that you can directly fill in `.\platform-tools\adb.exe` in the ADB path, and move it with MAA.
 
-    You can connect to emulators with purely numeric ports using `127.0.0.1:[port]`. LDPlayer emulator has its own wrapper, so you can also use `emulator-5554` to connect.
+## Connection Address
 
-    If you need to modify the connection settings in the `Settings` - `Connection Settings` - `Connection Address` on Windows or Mac, please refer to the table above.
+::: tip
+The connection address of the emulator running on this computer should be `127.0.0.1:<port>` 或 `emulator-<four numbers>`。
+:::
 
-- Multi-instance mode
+### Obtain Port Number
 
-  - For NoxPlayer emulator, the port of the first device is `62001`, and the ports for subsequent devices start from `62025`.
-  - For NetEase MuMu emulator 12, the ADB ports for multi-instance mode are irregular. To find the ADB port for a running emulator, launch the emulator from MuMu Multi-instance Manager 12, then click on the ADB icon in the upper-right corner.
-  - For LDPlayer emulator 9, the local ADB port starts from `5555`, and subsequent ports increment by 2. For example, the second emulator has a local port of `5557`.
+#### Simulator documents and ports for reference
 
-### Obtain Manually
+_TODO: replace these Chinese emulators and documents with English ones_
+
+- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
+- [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
+- [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
+- [MuMu 6](https://mumu.163.com/help/20210531/35047_951108.html) `7555`
+- [Memu](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
+- [Nox](https://support.yeshen.com/zh-CN/qt/ml) `62001`
+
+For other simulators, please check [Zhao Qingqing’s blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html).
+
+#### Multiple Emulators
+
+- You can view the running multi-open ports in the upper right corner of the MuMu 12 multi-open device.
+- The current multi-open ports can be viewed in the Bluestacks 5 emulator settings.
+- _TODO & These sentences should not start with "you"_
+
+#### Alternatives
 
 - Method 1: Use the adb command to view the running port directly
 
-  **Replace adb in the command below with the name of the found adb executable file**, and then execute:
+  1. Launch **one** emulator and make sure no other Android devices are connected to this computer.
+  2. Launch a terminal in the folder where the adb executable is.
+  3. Execute the following command.
 
   ```sh
-  # mac/linux/windows cmd
+  # Windows CMD
   adb devices
-  # windows PowerShell
+  # Windows PowerShell
   .\adb devices
   ```
 
-  After most emulator adb execution commands are run, they will be output in the following form, where `[ADBPORT]` is a specific number:
+  An example of output:
 
-  ```sh
+  ```text
   List of devices attached
-        127.0.0.1:[ADBPORT] device
-  # may be more output like the above one
+  127.0.0.1:<port>   device
+  emulator-<four numbers>  device
   ```
 
-  Use `127.0.0.1:[ADBPORT]` as the connection address (replace `[ADBPORT]` with the actual number).
+  Use `127.0.0.1:<port>` or `emulator-<four numbers>` as the connection address.
 
-- Method 2: Use system command to check emulator debugging port
+- Method 2: Find established adb connections
 
-  If the output of the adb command does not display the port information in the form of `127.0.0.1:[port]`, you can use the following method to check:
-    1. First, run the adb executable program once (need to start the adb daemon process), and run the Arknights emulator application.
-    2. Then use the system command to check the port information of the adb process.
+  1. Do method 1.
+  2. Press `Win+S` to open the search bar, type `Resource Monitor` and open it.
+  3. Switch to the `Network` tab and look for the emulator process name in the name column of `Listening Port`, such as `HD-Player.exe`.
+  4. Make a note of all listening ports for the emulator process.
+  5. Find `adb.exe` in the name column of `TCP connection`. The port in the remote port column that is consistent with the simulator listening port is the simulator debugging port.
 
-    Windows Command
+### The port number of BlueStack emulator Hyper-V is different every time it is started
 
-    You can use `win` + `R` to open the command line by entering `cmd`, and use the following command to check:
+_TODO I can't find the original document_
 
-    ```sh
-    for /F "tokens=1,2" %A in ('"tasklist | findstr "adb""') do ( ^
-    netstat -ano | findstr "%B" |)
-    ```
+## Connection Present
 
-    Mac / Linux Command
+You need to select the configuration of the simulator you are using. If it is not in the list, select General Mode. If General Mode is not available please try and select any of the other available presents.
 
-    Enter the following command in the terminal after starting the emulator:
+For specific differences, you can read the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68).
 
-    ```sh
-    tmp=$(sudo ps aux | grep "[a]db" | awk '{print $2}') && \
-    sudo netstat -vanp tcp | grep -e "\b$tmp"
-    ```
+## Touch Mode
 
-    The output will be in the following format, where `[PID]` is the actual process number of the adb, `[ADBPORT]` is the remote connection port of the target emulator adb, and `[localport]` is the local address of the process, which does not need to be concerned (there will also be other irrelevant indicators in the Mac operation result):
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：An Android touch eventer written in C provides a Socket interface for external programs to trigger touch events and gestures. Starting with Android 10, Minitouch no longer works when SELinux is `Enforcing`.
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：A Java-based reimplementation of Minitouch by MAA. Availability of higher versions of Android is yet to be tested.
+3. Adb Input：Directly calling ADB commands for touch operations. It has the highest compatibility and the slowest speed.
 
-    ```sh
-    > ( netstat -ano | findstr "[PID]" )
-    TCP  127.0.0.1:[localport]   127.0.0.1:0.0.0.0     LISTENING   [PID]
-    TCP  127.0.0.1:[localport]   127.0.0.1:[ADBPORT]   ESTABLISHED [PID]
-    # ...
-    # maybe more output like the above line
-    ```
+## ADB Lite
 
-  Use `127.0.0.1:[ADBPORT]` (replace `[ADBPORT]` with the actual number) in the results as the actual connection address of the emulator adb and fill it in `Settings` - `Connection Settings` - `Connection Address`.
+The ADB Client independently implemented by MAA can avoid continuously opening multiple ADB processes and reduce performance loss compared to the original ADB, but some screenshot methods are not available.
+
+It is recommended to enable it, but the specific advantages and disadvantages need feedback. ~~Help us do the testing plz~~

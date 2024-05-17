@@ -9,7 +9,7 @@ icon: mdi:information-outline
 ### Operations
 
 - If the stage you need is not available in the selection, please choose "Current/Last" in MAA and manually locate the stage in the game.
-    Make sure the screen stays on the stage detail page with the **Start** and **Auto-Deploy** buttons available.
+  Make sure the screen stays on the stage detail page with the **Start** and **Auto-Deploy** buttons available.
 - If you are not on this page, `Current/Previous` will automatically navigate to the last stage played according to the record in the lower right corner of the terminal homepage.
 - You can also enable `Manually input stage name` in `Task Settings` - `Combat` - `Advanced` and enter the stage number manually. Currently supported stages include:
   - All main theme stages, where `-NORMAL` or `-HARD` can be added at the end to switch between standard and challenge modes.
@@ -34,12 +34,12 @@ icon: mdi:information-outline
 Note that `Use Originium` will only be used after `Use Sanity Option`, because MAA will only use Originium to replenish sanity when there are no Sanity Potions left. Therefore, after ticking `Use Originium`, you need to set the number of times `Use Sanity Potion` to a value greater than or equal to the value of the existing Sanity Potion in the storehouse, e.g. 999, in order to avoid skipping `Use Originium`.
 
 ::: details Example
-| Example | Use Sanity Potion | Use Originium | Perform Battles | Material | Result                                                                                                                                                                                                                                                                                 |
+| Example | Use Sanity Potion | Use Originium | Perform Battles | Material | Result |
 |:-------:|:-----------------:|:-------------:|:---------------:|:--------:|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|    A    |       999         |      10       |        1        |     x    | The AI will attempt to use sanity potions and/or originium until **one** full run is completed, satisfying the condition `Perform Battles: 1`. If there are not enough sanity potions, originium, or initial sanity to start, the AI will stop without starting the run.               |
-|    B    |        x          |       x       |       100       |     x    | The AI will attempt to complete 100 runs, but if all available sanity is used up (which may be less than 100 runs), and the conditions `Use Sanity Potion: No` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs.                                 |
-|    C    |        1          |       x       |       100       |     x    | The AI will attempt to complete 100 runs, using at most one sanity potion. If the AI uses a sanity potion and runs out of sanity during the process, and the conditions `Use Sanity Potion: 1` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs. |
-|    D    |       999         |       x       |       100       | 3 Orirock| The AI will attempt to complete 100 runs, using up to 999 sanity potions. If during the process, the AI accumulates 3 Orirock cubes, satisfying the condition `Material: 3 Orirock`, the AI will stop without completing the full 100 runs.                                            |
+| A | 999 | 10 | 1 | x | The AI will attempt to use sanity potions and/or originium until **one** full run is completed, satisfying the condition `Perform Battles: 1`. If there are not enough sanity potions, originium, or initial sanity to start, the AI will stop without starting the run. |
+| B | x | x | 100 | x | The AI will attempt to complete 100 runs, but if all available sanity is used up (which may be less than 100 runs), and the conditions `Use Sanity Potion: No` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs. |
+| C | 1 | x | 100 | x | The AI will attempt to complete 100 runs, using at most one sanity potion. If the AI uses a sanity potion and runs out of sanity during the process, and the conditions `Use Sanity Potion: 1` and `Use Originium: No` are met, the AI will stop without completing the full 100 runs. |
+| D | 999 | x | 100 | 3 Orirock| The AI will attempt to complete 100 runs, using up to 999 sanity potions. If during the process, the AI accumulates 3 Orirock cubes, satisfying the condition `Material: 3 Orirock`, the AI will stop without completing the full 100 runs. |
 
 :::
 
@@ -152,6 +152,7 @@ Note that clicking `General` `Advanced` will also switch `Task Settings`.
     4. Fill in the found content, similar to `--instance Nougat32`, in `Startup Settings` - `Additional Commands`.
 
     Note: After the operation is completed, it is recommended to hide the `Command Line` column opened in `Step 2` to prevent freezing.
+
     - Example:
 
       ```bash
@@ -171,6 +172,7 @@ Note that clicking `General` `Advanced` will also switch `Task Settings`.
     2. Fill in the path of the emulator shortcut in `Startup Settings` - `Emulator Path`.
 
     Note: Some emulators support creating app shortcuts, which can directly launch the emulator and open Arknights with the app shortcut.
+
     - Example:
 
       ```bash
@@ -190,8 +192,8 @@ Note that clicking `General` `Advanced` will also switch `Task Settings`.
 ## Miscellaneous
 
 - Tasks order can be changed on the UI. So can the shifting order in the infrastructure.
-- Almost all configuration changes will be saved automatically, except for options containing an *.
+- Almost all configuration changes will be saved automatically, except for options containing an \*.
 - All clicking event is randomized within a region, following Poisson distribution (higher probability at the center, lower probability around).
 - Developed in C++, the core algorithm supports multi-level cache, in order to reduce CPU and memory usage as much as possible.
-- Our software supports auto-update ✿✿ヽ(°▽°)ノ✿ Beta-testers can try beta versions, which updates faster and less buggy (maybe).
+- Our software supports auto-update ✿✿ ヽ(°▽°)ノ ✿ Beta-testers can try beta versions, which updates faster and less buggy (maybe).
 - If auto-update fails, you can download manually and put the ZIP file under the same directory. The update will start automatically.
