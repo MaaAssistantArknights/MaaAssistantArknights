@@ -1,15 +1,9 @@
 ---
+order: 4
 icon: bxs:bot
 ---
 
 # Issue Bot 사용 방법
-
-::: warning
-해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
-
-
-이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
-:::
 
 ::: warning
 Commitizen 규격으로 커밋하지 않는 경우, 병합 요청(Merge Request)가 `ambiguous(애매모호한)`로 표시됨에 주의해주세요.

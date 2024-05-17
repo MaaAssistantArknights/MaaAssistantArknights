@@ -3,23 +3,21 @@ order: 1
 icon: material-symbols:toc
 ---
 
-(translation required)
+# maa-cli 소개
 
-# maa-cli 介绍
+Rust로 작성된 간단한 [MAA][maa-home] 명령줄 도구입니다.
 
-一个使用 Rust 编写的简单 [MAA][maa-home] 命令行工具。
+## 기능
 
-## 功能
+- `maa fight`, `maa run <task>`와 같은 미리 정의된 또는 사용자 정의 작업을 실행합니다.
+- `maa install` 및 `maa update`를 사용하여 MaaCore 및 리소스를 설치하고 업데이트합니다.
+- `maa self update`를 사용하여 자체 업데이트를 수행합니다.
 
-- 运行预定义或自定义的任务，例如 `maa fight`，`maa run <task>`;
-- 使用 `maa install` 和 `maa update` 安装和更新MaaCore及资源；
-- 使用 `maa self update` 更新自身。
+## 문서
 
-## 文档
-
-- [安装及编译](install.md)
-- [使用](usage.md)
-- [配置](config.md)
-- [常见问题](faq.md)
+- [설치 및 빌드](install.md)
+- [사용법](usage.md)
+- [설정](config.md)
+- [FAQ](faq.md)
 
 [maa-home]: https://github.com/MaaAssistantArknights/MaaAssistantArknights/

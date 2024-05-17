@@ -1,15 +1,9 @@
 ---
+order: 3
 icon: teenyicons:linux-alt-solid
 ---
 
 # Linux 에뮬레이터 지원
-
-::: warning
-해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
-
-
-이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
-:::
 
 ## 준비 작업
 
@@ -17,7 +11,7 @@ icon: teenyicons:linux-alt-solid
 
 ### maa-cli 사용
 
-[maa-cli](https://github.com/MaaAssistantArknights/maa-cli)는 Rust로 작성된 간단한 MAA 커맨드 라인 도구입니다. 관련 설치 및 사용 방법은 [CLI 가이드](../CLI.md)를 참조하세요.
+[maa-cli](https://github.com/MaaAssistantArknights/maa-cli)는 Rust로 작성된 간단한 MAA 커맨드 라인 도구입니다. 관련 설치 및 사용 방법은 [CLI 가이드](../cli/intro.md)를 참조하세요.
 
 ### Python 사용
 
@@ -31,7 +25,7 @@ icon: teenyicons:linux-alt-solid
 2. `./MAA-v{버전}-linux-{아키텍처}/Python/` 폴더로 이동하여 `sample.py` 파일을 엽니다.
 
 ::: tip
-사전 컴파일된 버전은 상대적으로 최신 버전의 리눅스 배포판 (Ubuntu 22.04)에서 컴파일된 동적 라이브러리를 포함하고 있습니다. 시스템의 libstdc++ 버전이 오래되어 ABI 호환성 문제가 발생할 수 있습니다. [Linux 컴파일 가이드](../../개발문서/2.Linux가이드.md)를 참조하여 다시 컴파일하거나 컨테이너를 실행할 수 있습니다.
+사전 컴파일된 버전은 상대적으로 최신 버전의 리눅스 배포판 (Ubuntu 22.04)에서 컴파일된 동적 라이브러리를 포함하고 있습니다. 시스템의 libstdc++ 버전이 오래되어 ABI 호환성 문제가 발생할 수 있습니다. [Linux 컴파일 가이드](../../develop/linux-tutorial.md)를 참조하여 다시 컴파일하거나 컨테이너를 실행할 수 있습니다.
 :::
 
 #### 2. `adb` 구성
@@ -68,7 +62,7 @@ icon: teenyicons:linux-alt-solid
 
 #### 3. 작업 설정
 
-사용자 정의 작업: [통합 문서](../../스키마/1.통합문서.md)를 참조하고, `sample.py`의 # 작업 및 매개 변수는 [예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54)를 참조해 줄을 수정하세요.
+사용자 정의 작업: [통합 문서](../../protocol/integration.md)를 참조하고, `sample.py`의 # 작업 및 매개 변수는 [예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54)를 참조해 줄을 수정하세요.
 
 ## 모바일 시뮬레이터 지원
 

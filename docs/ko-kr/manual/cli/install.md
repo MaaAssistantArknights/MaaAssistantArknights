@@ -3,27 +3,25 @@ order: 2
 icon: material-symbols:download
 ---
 
-(translation required)
+# maa-cli 설치 및 빌드
 
-# 安装及编译 maa-cli
+maa-cli는 패키지 관리자, 사전 컴파일된 바이너리 파일, `cargo`를 통한 자체 컴파일 설치 등 다양한 설치 방법을 제공합니다.
 
-maa-cli 提供多种方式安装，包括包管理器、预编译二进制文件和通过 `cargo` 自行编译安装。
+## 패키지 관리자를 통한 설치
 
-## 通过包管理器安装
-
-对于 macOS 和受支持的 Linux 发行版用户，推荐使用包管理器安装 maa-cli。
+macOS 및 지원되는 Linux 배포판 사용자에게는 패키지 관리자를 통해 maa-cli를 설치하는 것을 권장합니다.
 
 ### macOS
 
-Homebrew 用户可以通过非官方的 [tap](https://github.com/MaaAssistantArknights/homebrew-tap/) 安装 maa-cli：
+Homebrew 사용자는 비공식 [tap](https://github.com/MaaAssistantArknights/homebrew-tap/)을 통해 maa-cli를 설치할 수 있습니다:
 
-- 稳定版本：
+- 안정 버전:
 
   ```bash
   brew install MaaAssistantArknights/tap/maa-cli
   ```
 
-- 不稳定预发行版本：
+- 불안정 베타 버전:
 
   ```bash
   brew install MaaAssistantArknights/tap/maa-cli-beta
@@ -31,73 +29,75 @@ Homebrew 用户可以通过非官方的 [tap](https://github.com/MaaAssistantArk
 
 ### Linux
 
-- Arch Linux 用户可以安装 [AUR 包](https://aur.archlinux.org/packages/maa-cli/)：
+- Arch Linux 사용자는 [AUR 패캐지](https://aur.archlinux.org/packages/maa-cli/)를 설치할 수 있습니다:
 
   ```bash
   yay -S maa-cli
   ```
 
-- ❄️ Nix 用户可以直接运行:
+- ❄️ Nix 사용자는 다음 명령어를 실행할 수 있습니다:
 
   ```bash
-  # 稳定版
+  # 안정 버전
   nix run nixpkgs#maa-cli
   ```
 
   ```bash
-  # 每夜构建
+  # 매일 최신화 버전
   nix run github:Cryolitia/nur-packages#maa-cli-nightly
   ```
 
-  稳定版打包至 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix) 中，使用 `nixpkgs` 中的 Rust 工具链；每夜构建位于 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix) 中，使用 Beta channel 的 Rust 工具链，由 Github Action 每日自动更新和构建验证。
+  안정 버전은 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-cli/package.nix)에 포함되어 있으며, `nixpkgs`의 Rust 도구 체인을 사용합니다. 매일 빌드는 [NUR](https://github.com/Cryolitia/nur-packages/blob/master/pkgs/maa-assistant-arknights/maa-cli.nix)에 위치하며, Beta 채널의 Rust 도구 체인을 사용하고 GitHub Action을 통해 매일 자동으로 업데이트 및 빌드 검증을 수행합니다.
 
-- 对于在 Linux 上使用 Homebrew 的用户，参见上述 macOS 的安装方式。
+- Linux에서 Homebrew를 사용하는 경우 위의 macOS 설치 방법을 참조하세요.
 
-## 预编译二进制文件
+## 사전 컴파일된 바이너리 파일
 
-如果你的系统不受支持或者不想使用包管理器，你可以点击以下链接下载对应平台的预编译二进制文件，解压后将可执行文件放入 `PATH` 中即可使用。
+지원되지 않는 시스템을 사용하거나 패키지 관리자를 사용하지 않으려는 경우, 아래 링크를 통해 해당 플랫폼의 사전 컴파일된 바이너리 파일을 다운로드하고, 압축을 풀어 실행 파일을 `PATH`에 추가하여 사용할 수 있습니다.
 
 - [macOS](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-universal-apple-darwin.zip)
 - [Linux x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-x86_64-unknown-linux-gnu.tar.gz)
 - [Linux aarch64 (arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-aarch64-unknown-linux-gnu.tar.gz)
 - [Windows x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-x86_64-pc-windows-msvc.zip)
 
-如果你的平台不在上述列表中，可以尝试自行编译安装（参见下文）。
+위의 목록에 없는 플랫폼의 경우, 직접 컴파일하여 설치할 수 있습니다(아래 참조).
 
-## 编译安装
+## 컴파일 설치
 
-Rust 开发者可以通过 `cargo` 自行编译安装 maa-cli：
+Rust 개발자는 `cargo`를 통해 maa-cli를 직접 컴파일하여 설치할 수 있습니다:
 
-- 稳定版本：
+- 안정 버전:
 
   ```bash
   cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin maa --tag stable --locked
   ```
 
-- 开发版本：
+- 개발 버전:
 
   ```bash
   cargo install --git https://github.com/MaaAssistantArknights/maa-cli.git --bin maa --locked
   ```
 
-### 编译选项
+### 컴파일 옵션
 
-从源码编译时，你可以通过 `--no-default-features` 禁用默认的特性，然后通过 `--features` 来启用特定的特性。目前可用的特性有：
+소스에서 컴파일할 때 `--no-default-features`를 통해 기본 기능을 비활성화하고 `--features`를 통해 특정 기능을 활성화할 수 있습니다. 현재 사용 가능한 기능은 다음과 같습니다:
 
-- `cli_installer`: 启用 `maa self update` 命令，用于更新自身，这个特性默认启用；
-- `core_installer`: 启用 `maa install` 和 `maa update` 命令，用于安装和更新 MaaCore 及资源，这个特性默认启用；
-- `git2`: 提供 `libgit2` 资源更新后端，这个特性默认启用；
-- `vendored-openssl`: 自行编译 `openssl` 库，而不是使用系统的 `openssl` 库，这个特性默认禁用，这个特性通常在你的系统没有安装 `openssl` 库或者 `openssl` 版本过低时启用。
+- `cli_installer`: `maa self update` 명령어를 활성화하여 자체 업데이트를 가능하게 합니다. 이 기능은 기본적으로 활성화되어 있습니다.
+- `core_installer`: `maa install` 및 `maa update` 명령어를 활성화하여 MaaCore 및 리소스를 설치하고 업데이트할 수 있습니다. 이 기능은 기본적으로 활성화되어 있습니다.
+- `git2`: `libgit2` 리소스 업데이트 백엔드를 제공합니다. 이 기능은 기본적으로 활성화되어 있습니다.
+- `vendored-openssl`: 시스템의 `openssl` 라이브러리를 사용하는 대신 자체적으로 `openssl` 라이브러리를 컴파일합니다. 이 기능은 기본적으로 비활성화되어 있으며, 시스템에 `openssl` 라이브러리가 없거나 버전이 너무 낮을 때 활성화합니다.
 
-## 安装 MaaCore 及资源
+## MaaCore 및 리소스 설치
 
-maa-cli 只提供了一个命令行界面，它需要 MaaCore 和资源来运行任务。一旦 maa-cli 安装完成，你可以通过它安装 MaaCore 及资源：
+maa-cli는 명령줄 인터페이스만 제공하며, 작업을 실행하려면 MaaCore와 리소스가 필요합니다. maa-cli를 설치한 후, 다음 명령어를 통해 MaaCore와 리소스를 설치할 수 있습니다:
 
 ```bash
 maa install
 ```
 
-对于使用包管理器安装的用户，可以通过包管理器安装 MaaCore：
+패키지 관리자를 통해 설치한 사용자는 패키지 관리자를 통해 MaaCore를 설치할 수 있습니다:
+
+
 
 - Homebrew：
 
@@ -117,6 +117,6 @@ maa install
   nix-env -iA nixpkgs.maa-assistant-arknights
   ```
 
-**注意**：只有使用包管理器安装 maa-cli 的用户才能使用包管理器安装 MaaCore，否则请使用 `maa install` 命令安装。此外，`maa install` 通过下载官方预编译的 MaaCore，而包管理器安装的 MaaCore 的编译选项和依赖版本与官方预编译的版本不同。这不会影响 maa-cli 的使用，但可能会导致 MaaCore 的功能和性能有所不同。比如，包管理器安装的 MaaCore 使用较新版本的 `fastdeploy`，而官方预编译的 MaaCore 使用较旧版本的 `fastdeploy`。而在新版本的 `fastdeploy` 中，日志可以被隐藏，这可以消除了一些不必要的日志输出。
+**주의**: 패키지 관리자를 통해 maa-cli를 설치한 경우에만 패키지 관리자를 통해 MaaCore를 설치할 수 있습니다. 그렇지 않으면 `maa install` 명령어를 사용해야 합니다. 또한, `maa install` 명령어는 공식적으로 사전 컴파일된 MaaCore를 다운로드합니다. 패키지 관리자를 통해 설치된 MaaCore는 컴파일 옵션과 종속성 버전이 공식 사전 컴파일 버전과 다를 수 있습니다. 이는 maa-cli의 사용에 영향을 미치지 않지만, MaaCore의 기능과 성능에 차이가 있을 수 있습니다. 예를 들어, 패키지 관리자를 통해 설치된 MaaCore는 최신 버전의 `fastdeploy`를 사용하고, 공식 사전 컴파일된 MaaCore는 구버전의 `fastdeploy`를 사용합니다. 최신 버전의 `fastdeploy`에서는 로그를 숨길 수 있어 불필요한 로그 출력을 줄일 수 있습니다.
 
 <!-- markdownlint-disable-file MD013 -->

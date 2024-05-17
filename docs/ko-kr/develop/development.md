@@ -1,21 +1,15 @@
 ---
+order: 1
 icon: iconoir:developer
 ---
 
 # 개발 환경 구축
 
-::: warning
-해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
-
-
-이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
-:::
-
 ## Github Pull Request 진행 과정
 
-### 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
+### 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?sa
 
-[웹사이트로 GitHub Pull Request 하기!](./3.웹기반PR.md)를 참고하세요! (웹사이트로만 가능합니다)
+[웹 기반 PR 가이드](./pr-tutorial.md)를 참고하세요! (웹사이트로만 가능합니다)
 
 ### 프로그래밍을 할 줄 알지만 GitHub/C++/...에 익숙하지 않아요. 어떻게 해야 하나요?
 
@@ -122,4 +116,4 @@ GitHub codespace를 사용하여 자동으로 C++ 개발 환경을 구성하세�
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
 
-그런 다음 vscode의 지침을 따르거나 [Linux 컴파일 가이드](./2.Linux가이드.md)를 참고하여 GCC 12 및 CMake 프로젝트를 설정하세요.
+그런 다음 vscode의 지침을 따르거나 [Linux 컴파일 가이드](./linux-tutorial.md)를 참고하여 GCC 12 및 CMake 프로젝트를 설정하세요.
