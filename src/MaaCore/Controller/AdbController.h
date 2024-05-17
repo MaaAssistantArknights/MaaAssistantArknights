@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Common/AsstConf.h"
+
 #include "ControllerAPI.h"
 
 #include <deque>
@@ -152,7 +154,9 @@ protected:
             RawByNc,
             RawWithGzip,
             Encode,
+#if ASST_WITH_EMULATOR_EXTRAS
             MumuExtras,
+#endif
         } screencap_method = ScreencapMethod::UnknownYet;
     } m_adb;
 
@@ -170,6 +174,8 @@ protected:
     std::deque<long long> m_screencap_cost; // 截图用时
     int m_screencap_times = 0;              // 截图次数
 
+#if ASST_WITH_EMULATOR_EXTRAS
     MumuExtras m_mumu_extras;
+#endif
 };
 } // namespace asst

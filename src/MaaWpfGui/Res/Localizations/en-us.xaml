@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -585,7 +588,8 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="ErrorSolution">Solution</system:String>
     <system:String x:Key="ErrorSolutionCrash">Please refer to the documentation: 「FAQ - Crashes」 to solve.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">Please retry after shutting down the emulator and killing ADB. Otherwise restart your computer, then run MAA as administrator without opening the emulator, finally retry it.</system:String>
-    <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again</system:String>
+    <system:String x:Key="ErrorSolutionFailedToMove">The file is occupied, please restart the computer and try again.</system:String>
+    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">Open link failure, please go to "Windows Settings" and select the default browser.</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">Create a GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">Join QQ Group</system:String>
     <system:String x:Key="CopyErrorMessage">Copy error message</system:String>

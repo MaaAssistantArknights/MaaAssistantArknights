@@ -33,6 +33,16 @@
         },
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                6,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "召唤"
             ],
             "location": [

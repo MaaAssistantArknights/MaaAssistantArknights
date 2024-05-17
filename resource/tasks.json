@@ -5801,9 +5801,9 @@
         "action": "ClickSelf",
         "roi": [
             74,
-            184,
-            80,
-            44
+            79,
+            79,
+            41
         ],
         "next": [
             "SpecialAccessActivitiesConfirm",
@@ -6142,7 +6142,8 @@
         "action": "ClickSelf",
         "template": [
             "StartToVisit.png",
-            "StartToVisitDetermine.png"
+            "StartToVisitDetermine.png",
+            "StartToVisitSportsman"
         ],
         "templThreshold": [
             0.9,

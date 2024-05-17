@@ -2,6 +2,20 @@
     "theme": "Sami",
     "priority": [
         {
+            "name": "益达",
+            "opers": [
+                {
+                    "name": "维什戴尔",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 999,
+                    "promote_priority": 1000,
+                    "is_key": true,
+                    "is_start": true
+                }
+            ]
+        },
+        {
             "name": "焰苇",
             "opers": [
                 {
@@ -1771,6 +1785,13 @@
                             ],
                             "threshold": 2,
                             "offset": -300
+                        },
+                        {
+                            "groups": [
+                                "益达"
+                            ],
+                            "threshold": 1,
+                            "offset": 250
                         }
                     ]
                 },
@@ -2191,16 +2212,7 @@
                     "alternate_skill": 1,
                     "is_key": true,
                     "recruit_priority": 642,
-                    "promote_priority": 811,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "术师"
-                            ],
-                            "threshold": 1,
-                            "offset": -120
-                        }
-                    ]
+                    "promote_priority": 841
                 },
                 {
                     "name": "澄闪",
@@ -2312,7 +2324,16 @@
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 626,
-                    "promote_priority": 750
+                    "promote_priority": 750,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "术师"
+                            ],
+                            "threshold": 1,
+                            "offset": -100
+                        }
+                    ]
                 },
                 {
                     "name": "卡涅利安",
@@ -2334,13 +2355,7 @@
             "name": "提丰",
             "opers": [
                 {
-                    "name": "维什戴尔",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 999,
-                    "promote_priority": 1000,
-                    "is_key": true,
-                    "is_start": true
+                    "name": "维什戴尔"
                 },
                 {
                     "name": "提丰",
@@ -3211,6 +3226,9 @@
                     "name": "维什戴尔"
                 },
                 {
+                    "name": "逻各斯"
+                },
+                {
                     "name": "澄闪"
                 },
                 {
@@ -3224,9 +3242,6 @@
                 },
                 {
                     "name": "艾拉"
-                },
-                {
-                    "name": "逻各斯"
                 },
                 {
                     "name": "假日威龙陈"
@@ -3413,7 +3428,7 @@
                 {
                     "name": "阿斯卡纶",
                     "skill": 2,
-                    "recruit_priority": 396,
+                    "recruit_priority": 406,
                     "promote_priority": 440,
                     "recruit_priority_offsets": [
                         {
@@ -4192,7 +4207,8 @@
             "groups": [
                 "凯尔希",
                 "近卫",
-                "重装"
+                "重装",
+                "益达"
             ],
             "threshold": 2
         },

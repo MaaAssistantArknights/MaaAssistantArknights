@@ -70,33 +70,7 @@
         {
             "name": "疗愈仪式",
             "option_num": 2,
-            "choose": 2,
-            "choices": [
-                {
-                    "name": "谨慎尝试",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "0"
-                        }
-                    ]
-                },
-                {
-                    "name": "欣然加入",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": "=",
-                            "value": "0"
-                        }
-                    ]
-                }
-            ]
+            "choose": 2
         },
         {
             "name": "黑色足迹",
@@ -255,7 +229,7 @@
         {
             "name": "不见群山",
             "option_num": 4,
-            "choose": 3,
+            "choose": 1,
             "choices": [
                 {
                     "name": "选择她弃在手边的塔罗牌",
@@ -274,7 +248,7 @@
         {
             "name": "远见所向",
             "option_num": 4,
-            "choose": 2,
+            "choose": 1,
             "choices": [
                 {
                     "name": "我们或许能协作互助",
@@ -313,45 +287,12 @@
         {
             "name": "有利可图",
             "option_num": 3,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "分我一点",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                }
-            ]
+            "choose": 1
         },
         {
             "name": "随行人员",
             "option_num": 3,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "偷听他们聊天",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "LivePoint",
-                            "type": ">",
-                            "value": "3"
-                        },
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "1"
-                        }
-                    ]
-                }
-            ]
+            "choose": 1
         },
         {
             "name": "邪恶计划鸭",
@@ -375,7 +316,7 @@
         {
             "name": "百里连营",
             "option_num": 3,
-            "choose": 2,
+            "choose": 3,
             "choices": [
                 {
                     "name": "一边警戒一边前进",
@@ -388,44 +329,18 @@
                             "value": "1"
                         }
                     ]
-                },
-                {
-                    "name": "走近一些",
-                    "option_num": 3,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "LivePoint",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
                 }
             ]
         },
         {
             "name": "请君入戏",
             "option_num": 3,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "钱包掉了",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "OriginiumIngot",
-                            "type": ">",
-                            "value": "12"
-                        }
-                    ]
-                }
-            ]
+            "choose": 1
         },
         {
             "name": "北风女巫",
             "option_num": 3,
-            "choose": 2,
+            "choose": 1,
             "choices": [
                 {
                     "name": "乖乖照做",
@@ -464,6 +379,11 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "变化",
+            "option_num": 2,
+            "choose": 2
         },
         {
             "name": "走过萨米的臂膀",
@@ -581,119 +501,17 @@
         {
             "name": "北地巫师竞技",
             "option_num": 2,
-            "choose": 2,
-            "choices": [
-                {
-                    "name": "接过名册木板，是该选择了！",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "OriginiumIngot",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "没来过萨米的人一定没见过！",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "OriginiumIngot",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                }
-            ]
+            "choose": 2
         },
         {
             "name": "最好的朋友",
             "option_num": 2,
-            "choose": 2,
-            "choices": [
-                {
-                    "name": "仓皇离开",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Shield",
-                            "type": ">",
-                            "value": "1"
-                        }
-                    ]
-                },
-                {
-                    "name": "留下",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "LivePointCap",
-                            "type": ">",
-                            "value": "1"
-                        }
-                    ]
-                },
-                {
-                    "name": "再喝一口",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "LivePoint",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                }
-            ]
+            "choose": 2
         },
         {
             "name": "深渊入口",
             "option_num": 2,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "那就试试看",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "1"
-                        }
-                    ]
-                },
-                {
-                    "name": "再试试看吧",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "1"
-                        }
-                    ]
-                },
-                {
-                    "name": "设备坏了，就地点样",
-                    "option_num": 2,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": "=",
-                            "value": "0"
-                        }
-                    ]
-                }
-            ]
+            "choose": 2
         },
         {
             "name": "低地市集",
@@ -962,7 +780,7 @@
                         {
                             "name": "Vision",
                             "type": ">",
-                            "value": "1"
+                            "value": "0"
                         }
                     ]
                 }

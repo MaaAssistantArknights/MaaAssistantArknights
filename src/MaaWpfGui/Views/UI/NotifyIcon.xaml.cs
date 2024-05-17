@@ -33,12 +33,12 @@ namespace MaaWpfGui.Views.UI
             InitializeComponent();
             InitIcon();
             _menuItemNum = notifyIcon.ContextMenu.Items.Count;
-            ToastNotification.ShowBalloonTip = notifyIcon.ShowBalloonTip;
-            ToastNotification.AddMenuItemOnFirst = AddMenuItemOnFirst;
         }
 
         private void InitIcon()
         {
+            notifyIcon.Icon = AppIcon.GetIcon();
+
             notifyIcon.Click += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
 

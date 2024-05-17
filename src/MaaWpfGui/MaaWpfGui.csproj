@@ -11,6 +11,7 @@
     <UseWpf>true</UseWpf>
     <Configurations>Debug;Release;RelWithDebInfo</Configurations>
     <Platforms>ARM64;x64</Platforms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
   <!-- Build and Publish -->
