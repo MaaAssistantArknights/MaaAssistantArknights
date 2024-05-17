@@ -4,6 +4,8 @@
 
 # MaaAssistantArknights
 
+*MAA 的文檔以簡體中文為主，其他語言的文檔可能品質低或尚未翻譯，請諒解。*
+
 <br>
 <div>
     <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
