@@ -52,6 +52,8 @@ public:
 
     size_t get_version() const noexcept;
 
+    ControllerType get_controller_type() const noexcept;
+
     cv::Mat get_image(bool raw = false);
     cv::Mat get_image_cache() const;
     bool screencap(bool allow_reconnect = false);
