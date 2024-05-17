@@ -29,6 +29,11 @@ export const enusSidebar = sidebar({
           link: "faq",
         },
         {
+          text: "Custom Connection",
+          icon: "mdi:plug",
+          link: "custom-connection",
+        },
+        {
           text: "Emulator Supports",
           icon: "mingcute:laptop-fill",
           prefix: "devices/",
