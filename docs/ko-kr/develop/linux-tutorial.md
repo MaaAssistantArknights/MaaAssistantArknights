@@ -1,15 +1,9 @@
 ---
+order: 2
 icon: teenyicons:linux-alt-solid
 ---
 
 # Linux 컴파일 가이드
-
-::: warning
-해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
-
-
-이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
-:::
 
 ::: info 정보
 MAA의 빌드 방법은 여전히 논의 중입니다. 이 튜토리얼의 내용은 오래되었을 수 있으므로 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134)의 스크립트를 참고하세요. 또한 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 및 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)을 참고할 수 있습니다.
@@ -17,7 +11,7 @@ MAA의 빌드 방법은 여전히 논의 중입니다. 이 튜토리얼의 내�
 
 **이 튜토리얼은 독자가 일정한 Linux 환경 설정 능력과 프로그래밍 기초를 가지고 있다고 가정합니다!**
 
-만약 당신이 MAA를 직접 컴파일하는 대신에 단순히 설치하길 원한다면 [Linux 설명서](../사용자설명서/플랫폼/3.Linux.md)를 참고하세요.
+만약 당신이 MAA를 직접 컴파일하는 대신에 단순히 설치하길 원한다면 [Linux 설명서](../manual/devices/linux.md)를 참고하세요.
 
 ## 컴파일 과정
 

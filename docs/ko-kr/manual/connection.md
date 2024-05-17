@@ -2,117 +2,115 @@
 icon: mdi:plug
 ---
 
-(translation required)
-
-# 连接设置
+# 연결 설정
 
 :::note
-实体机相关问题请同时参阅 [Android 实体设备](./devices/android.md)。
+에뮬레이터가 아닌 실제 디바이스의 경우 [Android 디바이스 지원](./devices/android.md)을 참고하세요.
 :::
 
-## ADB 路径
+## ADB  경로
 
-:::info 技术细节
-自动检测使用的是模拟器的 ADB，但有时自动检测会出现问题，此时就需要手动设置。
-`强制替换 ADB` 是下载谷歌提供的 ADB 后再进行替换，如果自己设置谷歌的 ADB 即可一劳永逸。
+:::info 기술적 정보
+자동 감지는 에뮬레이터의 ADB를 사용하지만, 자동 감지에 문제가 있을 경우 수동 설정이 필요합니다.
+`ADB 강제 교체`는 구글이 제공하는 ADB를 다운로드한 후 교체하는 것으로, 구글 ADB를 설정하면 한 번만 설정해두면 됩니다.
 :::
 
-### 使用模拟器提供的 ADB
+### 에뮬레이터에서 제공하는 ADB 사용
 
-前往模拟器安装路径，Windows 可在模拟器运行时在任务管理器中右键进程点击 `打开文件所在的位置`。
+에뮬레이터 설치 경로로 이동합니다. Windows에서는 에뮬레이터 실행 중 작업 관리자를 열어 프로세스를 오른쪽 클릭하고 `파일 위치 열기`를 선택합니다.
 
-顶层或下层目录中应该会有一个名字中带有 `adb` 的 exe 文件，可以使用搜索功能，搜索并选择。
+상위 또는 하위 디렉토리에서 `adb`가 포함된 exe 파일을 찾을 수 있습니다. 검색 기능을 사용하여 파일을 찾고 선택하세요.
 
-:::details 一些例子
+:::details 예시
 `adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`
 :::
 
-### 使用谷歌提供的 ADB
+### 구글이 제공하는 ADB 사용
 
-[点击下载](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)后解压，然后选择其中的 `adb.exe`。
+[여기서](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 다운로드 후 압축을 풀고, `adb.exe`를 선택합니다.
 
-推荐直接解压到 MAA 文件夹下，这样可以直接在 ADB 路径中填写 `.\platform-tools\adb.exe`，也可以随着 MAA 文件夹一起移动。
+MAA 폴더에 직접 압축을 푸는 것을 권장합니다. 그러면 ADB 경로에 `.\platform-tools\adb.exe`를 입력할 수 있으며, MAA 폴더와 함께 이동할 수 있습니다.
 
-## 连接地址
+## 연결 주소
 
 ::: tip
-运行在本机的模拟器连接地址应该是 `127.0.0.1:<端口号>` 或 `emulator-<四位数字>`。
+로컬에서 실행되는 에뮬레이터의 연결 주소는 `127.0.0.1:<포트 번호>` 또는 `emulator-<네 자리 숫자>`이어야 합니다.
 :::
 
-### 获取端口号
+### 포트 번호 입력
 
-#### 模拟器相关文档及参考端口
+#### 에뮬레이터 관련 문서 및 참조 포트
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
 - [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
 - [MuMu 6](https://mumu.163.com/help/20210531/35047_951108.html) `7555`
-- [逍遥](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
-- [夜神](https://support.yeshen.com/zh-CN/qt/ml) `62001`
+- [逍遥(Xiaoyao)](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
+- [夜神(Yeshen)](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
-其他模拟器可参考 [赵青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
+기타 에뮬레이터는 [赵青青의 블로그](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)를 참고하세요.
 
-#### 关于多开
+#### 멀티 인스턴스에 관하여
 
-- MuMu 12 多开器右上角可查看正在运行的多开端口。
-- Bluestacks 5 模拟器设置内可查看当前的多开端口。
-- *待补充*
+- MuMu 12 의 멀티 인스턴스 관리자 오른쪽 상단에서 실행 중인 인스턴스의 포트를 확인할 수 있습니다.
+- Bluestacks 5 에뮬레이터 설정 내에서 현재 멀티 인스턴스 포트를 확인할 수 있습니다.
+- *추가 예정*
 
-#### 备选方案
+#### 대체 방법
 
-- 方案 1 : 使用 adb 命令查看模拟器端口
+- 방법 1: adb 명령어로 에뮬레이터 포트 확인
 
-  1. 启动**一个**模拟器，并确认没有其他安卓设备连接在此计算机上。
-  2. 在存放有 adb 可执行文件的文件夹中启动命令窗口。
-  3. 执行以下命令。
+  1. **하나의 에뮬레이터**를 실행하고, 다른 안드로이드 장치가 이 컴퓨터에 연결되어 있지 않은지 확인합니다.
+  2. adb 실행 파일이 있는 폴더에서 명령어 창을 엽니다.
+  3. 다음 명령어를 실행합니다.
 
   ```sh
-  # Windows 命令提示符
+  # Windows 명령 프롬프트
   adb devices
   # Windows PowerShell
   .\adb devices
   ```
 
-  以下为输出内容的例子：
+  다음은 출력 예시입니다:
 
   ```text
   List of devices attached
-  127.0.0.1:<端口号>   device
-  emulator-<四位数字>  device
+  127.0.0.1:<포트 번호>   device
+  emulator-<네 자리 숫자>  device
   ```
 
-  使用 `127.0.0.1:<端口>` 或 `emulator-<四位数字>` 作为连接地址。
+  `127.0.0.1:<포트>` 또는 `emulator-<네 자리 숫자>`를 연결 주소로 사용합니다.
 
-- 方案 2 : 查找已建立的 adb 连接
+- 방법 2: 기존 adb 연결 찾기
 
-  1. 执行方案 1。
-  2. 按 `徽标键+S` 打开搜索栏，输入 `资源监视器` 并打开。
-  3. 切换到 `网络` 选项卡，在 `侦听端口` 的名称列中查找模拟器进程名，如 `HD-Player.exe`。
-  4. 记录模拟器进程的所有侦听端口。
-  5. 在 `TCP 连接` 的名称列中查找 `adb.exe`，在远程端口列中与模拟器侦听端口一致的端口即为模拟器调试端口。
+  1. 방법 1을 시도합니다.
+  2. `윈도우 키 + S`를 눌러 검색 창을 열고, `리소스 모니터`를 입력한 후 실행합니다.
+  3. `네트워크` 탭으로 전환하고, 수신 대기 포트의 이름 열에서 에뮬레이터 프로세스명을 찾습니다. 예: `HD-Player.exe`.
+  4. 에뮬레이터 프로세스의 모든 수신 대기 포트를 기록합니다.
+  5. `TCP 연결`의 목록에서 `adb.exe`를 찾아, 원격 포트 열에서 에뮬레이터 수신 대기 포트와 일치하는 포트를 에뮬레이터 디버깅 포트로 사용합니다.
 
-### 蓝叠模拟器 Hyper-V 每次启动端口号都不一样
+### Bluestacks 에뮬레이터 Hyper-V 포트 번호 변경
 
-在 `连接设置` 中设置 `连接配置` 为 `蓝叠模拟器` ，随后勾选 `自动检测连接` 和 `每次重新检测`。
+`연결 설정`에서 `연결 프리셋`을 `Bluestacks 에뮬레이터`로 설정한 후, `연결 자동 감지`와 `매번 재감지`를 선택합니다.
 
-通常情况下这样就可以连接。如果无法连接，可能是存在多个模拟器核心或出现了问题，请阅读下文进行额外设置。
+일반적으로 이렇게 설정하면 연결됩니다. 연결되지 않는 경우, 여러 에뮬레이터 코어가 존재하거나 문제가 발생한 것입니다. 아래의 추가 설정을 읽어보세요.
 
-#### 指定 `Bluestacks.Config.Keyword`
+#### `Bluestacks.Config.Keyword` 지정
 
-::: info 注意
-如果启用了多开功能或安装了多个模拟器核心，则需要进行额外设置来指定使用的模拟器编号
+::: info 주의
+멀티 인스턴스 기능을 활성화했거나 여러 에뮬레이터 코어를 설치한 경우, 사용 중인 에뮬레이터 번호를 지정해야 합니다.
 :::
 
-在 `.\config\gui.json` 中搜索 `Bluestacks.Config.Keyword` 字段，内容为 `"bst.instance.<模拟器编号>.status.adb_port"`，模拟器编号可在模拟器路径的 `BlueStacks_nxt\Engine` 中看到
+`.\config\gui.json`에서 `Bluestacks.Config.Keyword` 필드를 검색합니다. 내용은 `"bst.instance.<에뮬레이터 번호>.status.adb_port"`입니다. 에뮬레이터 번호는 에뮬레이터 경로의 `BlueStacks_nxt\Engine`에서 확인할 수 있습니다.
 
-::: details 示例
-Nougat64 核心：
+::: details 예시
+Nougat64 코어：
 
 ```json
 "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
 ```
 
-Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
+Pie64_2 코어：（코어 이름 뒤의 숫자는 멀티 인스턴스 코어를 나타냅니다）
 
 ```json
 "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
@@ -120,30 +118,30 @@ Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
 
 :::
 
-#### 指定 `Bluestacks.Config.Path`
+#### `Bluestacks.Config.Path` 지정
 
-::: info 注意
-MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当该功能无法工作时，则需要手动指定配置文件路径
+::: info 주의
+MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어오려고 시도합니다. 이 기능이 작동하지 않을 경우 수동으로 구성 파일 경로를 지정해야 합니다.
 :::
 
-1. 在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件
+1. 블루스택 데이터 디렉토리에서 `bluestacks.conf` 파일을 찾습니다.
 
-    - 国际版默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-    - 中国内地版默认路径为 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+    - 글로벌 버전 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
+    - 중국 내륙 버전 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
 
-2. 如果是第一次使用，请运行一次 MAA，使 MAA 自动生成配置文件。
+2. 처음 사용하는 경우, MAA를 한 번 실행하여 MAA가 자동으로 구성 파일을 생성하게 합니다.
 
-3. **先关闭** MAA，**然后**打开 `gui.json`，找到 `Configurations` 下的当前配置名字段（可在 设置-切换配置 中查看，默认为 `Default`），在其中搜索字段 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路径。（注意斜杠要用转义 `\\`）
+3. **MAA를 종료**한 후, `gui.json`을 열어 `Configurations` 아래의 현재 구성 이름 필드를 찾습니다(설정-구성 전환에서 확인할 수 있으며, 기본값은 `Default`입니다). 그 안에서 `Bluestacks.Config.Path` 필드를 찾아 `bluestacks.conf`의 전체 경로를 입력합니다. (슬래시를 이스케이프 `\\`해서 사용해야 합니다.)
 
-::: details 示例
-以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例
+::: details 예시
+`C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 경로 예시
 
 ```json
 {
     "Configurations": {
         "Default": {
             "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-            // 其余配置字段，不要手动输入修改
+            // 다른 구성 필드, 수동으로 입력하지 마세요.
         }
     }
 }
@@ -151,18 +149,20 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 :::
 
-## 连接配置
+## 연결 구성
 
-需选择对应模拟器的配置，若列表中没有则选择通用配置。若通用配置不可用请尝试并选择其他任一可用的配置。
+해당 에뮬레이터의 구성을 선택해야 합니다. 목록에 없으면 일반 구성을 선택하세요. 일반 구성이 작동하지 않으면 다른 사용 가능한 구성을 시도하세요.
 
-具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)。
+자세한 차이점은 [소스 코드](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)를 참조하세요.
 
-## 触控模式
+## 터치 모드
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现。高版本 Android 可用性待测试。
-3. Adb Input：直接调用 ADB 命令进行触控操作，兼容性最强，速度最慢。
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch): C로 작성된 Android 터치 이벤트 핸들러로, 외부 프로그램이 터치 이벤트와 제스처를 트리거할 수 있는 소켓 인터페이스를 제공합니다. Android 10부터는 SELinux가 `Enforcing` 모드일 때 Minitouch가 더 이상 사용되지 않습니다.
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch):  MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. 높은 버전의 Android에서도 사용 가능성이 테스트 중입니다.
+3. Adb Input: ADB 명령어를 직접 호출하여 터치 작업을 수행하며, 호환성이 가장 좋고 속도는 가장 느립니다.
 
 ## ADB Lite
 
-由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，但部分截图方式不可用。
+MAA가 독립적으로 구현한 ADB 클라이언트로, 원본 ADB와 비교했을 때 여러 ADB 프로세스를 계속해서 실행하지 않아도 되지만, 일부 스크린샷 방식은 사용할 수 없습니다.
+
+활성화하는 것을 권장하지만, 구체적인 장단점은 피드백이 필요합니다. ~~테스트를 도와주세요~~

@@ -1,15 +1,9 @@
 ---
+order: 4
 icon: mingcute:android-fill
 ---
 
 # Android 디바이스 지원
-
-::: warning
-해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
-
-
-이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
-:::
 
 ::: info 주의사항
 1. Android 10부터 `Minitouch`는 `SELinux`가 `Enforcing` 모드인 경우 더 이상 사용할 수 없습니다. 다른 터치 모드로 전환하거나 `SELinux`를 일시적으로 `Permissive` 모드로 전환하세요.
