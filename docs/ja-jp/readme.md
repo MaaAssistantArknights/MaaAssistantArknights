@@ -4,6 +4,8 @@
 
 # MaaAssistantArknights
 
+*MAA のドキュメントは主に簡体字中国語で書かれており、他の言語のドキュメントは低品質であるか、翻訳されていない可能性がありますので、ご了承ください。*
+
 <br>
 <div>
     <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">

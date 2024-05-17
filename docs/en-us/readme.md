@@ -4,6 +4,8 @@
 
 # MaaAssistantArknights
 
+*MAA's documents are mainly in Simplified Chinese. Documents in other languages may be of low quality or not yet translated. Please understand.*
+
 <br>
 <div>
     <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
@@ -38,8 +40,8 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 - Auto-battle, drop items recognition, auto-uploading to [Penguin Stats](https://penguin-stats.io/), [Yituliu](https://ark.yituliu.cn/).
 - Auto-shifting in the Base, auto efficiency calculation of operators, optimal solution in single room; also supports [customized schedule](./protocol/base-scheduling-schema.md).
 - Auto-recruitment, support for expedited plan. Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata).
-- 支持手动识别公招界面，方便对高星公招做出选择 ~~（你的这个高姿回费出的是推王呢还是推王呢）~~。
-- 支持识别干员列表，统计已有和未有干员及潜能，并在公招识别显示。
+- Supports manual identification of the public recruitment interface to facilitate selection of high-star public recruitment.
+- Supports identifying operator lists, counting existing and unavailable operators and their potential, and displaying them in the open recruitment identification interface.
 - Depot recognition and upports exporting to [Penguin Stats Planner](https://penguin-stats.cn/planner)、[Arknight Tools](https://arkntools.app/#/material)、[ARK-NIGHTS Operator Builds](https://ark-nights.com/settings).
 - Visiting friends, collecting credits and purchasing items, collecting daily rewards, completing daily quests in one click!
 - Auto-battle for Integrated Strategy (I.S.) for collecting originium ingots and candles.

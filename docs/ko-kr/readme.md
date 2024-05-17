@@ -4,6 +4,8 @@
 
 # MaaAssistantArknights
 
+*MAA의 문서는 주로 중국어 간체로 되어 있습니다. 다른 언어로 된 문서는 품질이 낮거나 번역되지 않았을 수 있습니다.*
+
 <br>
 <div>
     <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
