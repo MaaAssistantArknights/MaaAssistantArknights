@@ -24,14 +24,14 @@ export const zhcnSidebar = sidebar({
           link: "introduction",
         },
         {
+          text: "连接设置",
+          icon: "mdi:plug",
+          link: "connection",
+        },
+        {
           text: "常见问题",
           icon: "ph:question-fill",
           link: "faq",
-        },
-        {
-          text: "自定义连接",
-          icon: "mdi:plug",
-          link: "custom-connection",
         },
         {
           text: "模拟器和设备支持",

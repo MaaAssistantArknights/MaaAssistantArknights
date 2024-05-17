@@ -162,7 +162,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - ~~C++ base64 编解码：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解压压缩库：[zlib](https://github.com/madler/zlib)
 - C++ Gzip 封装：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- 安卓触控事件器：[minitouch](https://github.com/openstf/minitouch)
+- 安卓触控事件器：[minitouch](https://github.com/DeviceFarmer/minitouch)
 - 安卓触控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM 框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF 控件库：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
