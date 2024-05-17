@@ -12,17 +12,17 @@
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
 </div>
 <div>
-    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
+    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">&#20;
     <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
 </div>
 <div>
-    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
+    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">&#20;
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
 </div>
 <br>
 <br>
 
-[简体中文](../readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](./readme.md)
+[简体中文](../zh-cn/readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | 한국어
 
 MAA는 MAA Assistant Arknights의 약자입니다
 
@@ -209,3 +209,5 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 프로그램이 도움이 된다고 생각하시면 Star를 눌러주세요! (페이지 우측 상단의 작은 별) 저희에게 가장 큰 도움이 됩니다!
+
+<!-- markdownlint-disable-file MD041 -->

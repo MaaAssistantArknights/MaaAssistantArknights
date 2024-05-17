@@ -1,7 +1,8 @@
 ---
-icon: ic:baseline-article
+icon: mdi:information-outline
 ---
-# MAA 使用說明
+
+# 功能介紹
 
 ## 功能介紹
 
