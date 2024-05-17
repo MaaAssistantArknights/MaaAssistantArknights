@@ -5,10 +5,6 @@ icon: basil:apple-solid
 
 # Mac 模拟器
 
-::: tip
-遇到问题请先参阅 [常见问题](../faq.md)
-:::
-
 ## Apple Silicon 芯片
 
 ### ✅ [PlayCover](https://playcover.io)（原生运行最流畅 🚀）

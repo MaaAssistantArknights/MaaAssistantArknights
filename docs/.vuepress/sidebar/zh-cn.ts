@@ -29,6 +29,11 @@ export const zhcnSidebar = sidebar({
           link: "faq",
         },
         {
+          text: "自定义连接",
+          icon: "mdi:plug",
+          link: "custom-connection",
+        },
+        {
           text: "模拟器和设备支持",
           icon: "mingcute:laptop-fill",
           prefix: "devices/",
