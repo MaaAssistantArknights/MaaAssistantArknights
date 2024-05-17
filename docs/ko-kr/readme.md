@@ -64,12 +64,16 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### 기본 설정
 
-1. [Windows 지원 목록](./사용자설명서/플랫폼/1.Windows.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
+1. [Windows 지원 목록](./manual/devices/windows.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
 2. 에뮬레이터 해상도를 '1280 * 720' 이상으로 변경하세요. 최대값은 '2K'이고 가로세로 비율은 '16:9'입니다.   
-  > YoStarKR의 경우 게임 인터페이스 문제로 인해 해상도를 '1280 * 720' 또는 '1920 * 1080'으로 변경하는 것을 권장합니다.
+
+::: tip
+ YoStarKR의 경우 게임 인터페이스 문제로 인해 [1280x720] 또는 [1920x1080] 해상도를 권장합니다.
+:::
+
 1. 어시스턴트 시작!
 
-자세한 내용은 [사용자 설명서](./사용자설명서/사용자설명서.md)를 참조해 주세요.
+자세한 내용은 [사용자 설명서](./manual/introduction.md)를 참조해 주세요.
 
 ### FAQ
 
@@ -80,7 +84,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 - 다운로드 속도가 너무 느려요/미러 사이트가 접속이 안 돼요
 - 다운로드 도중에 “로그인”이나 “인증”이라는 메시지가 떠요
 
-[FAQ](./사용자설명서/FAQ.md) 문서를 참조해 주세요.
+[FAQ](./manual/faq.md) 문서를 참조해 주세요.
 
 ### 해외 서버 지원
 
@@ -88,11 +92,11 @@ MAA는 MAA Assistant Arknights의 약자입니다
 그러나, 해외 서버 사용자가 적고 프로젝트 인원이 부족하기 때문에 대부분의 기능이 자세하게 테스트를 거치지 않았습니다.
 그러니 직접 사용해서 어떠한지 확인하시기 바랍니다.
 만약 버그가 있거나, 특정 기능에 대한 강한 요구가 있다면 [Issues](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues) 및 [토론](https://github.com/MaaAssistantArknights/MaaAssistantArknights/discussions) 에서 요청하거나 참여해주세요!
-현지화는 다음을 참조해주세요. [해외 클라이언트 현지화](./개발문서/5.해외클라이언트현지화.md)
+현지화는 다음을 참조해주세요. [해외 클라이언트 현지화](./develop/overseas-client-adaptation.md)
 
 ### CLI지원
 
-MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에서 사용할 수 있으며, 자동화 스크립트 작성 및 그래픽 인터페이스가 없는 서버에서 사용할 수 있습니다. [CLI 가이드](./사용자설명서/CLI.md)
+MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에서 사용할 수 있으며, 자동화 스크립트 작성 및 그래픽 인터페이스가 없는 서버에서 사용할 수 있습니다. [CLI 가이드](./manual/cli/intro.md)
 
 ## 관련 프로젝트
 
@@ -126,11 +130,11 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 2. Visual Studio 2022 로 `MAA.sln`파일을 열고, `MaaWpfGui`를 마우스 우클릭을 해 시작 프로젝트로 설정합니다.
 3. VS 상단에서 `RelWithDebInfo` `x64`을 선택합니다. (릴리즈 패키지 또는 ARM 플랫폼을 컴파일하는 경우 이 단계를 무시하세요)
 4.  `MaaWpfGui` - 속성 - 디버깅 - 로컬 디버깅 활성화（이렇게 하면 C++ Core에 중단점을 설정할 수 있습니다）
-5. （선택사항）PR을 제출하기전에, [clang-format 지원](./개발문서/1.개발시작.md#visual-studio에서-clang-format-사용-설정)을 활성화하는 것이 좋습니다.
+5. （선택사항）PR을 제출하기전에, [clang-format 지원](./develop/development.md#visual-studio에서-clang-format-사용-설정)을 활성화하는 것이 좋습니다.
 
 ### Linux | macOS
 
-[Linux 가이드](./개발문서/2.Linux가이드.md)을 참조하세요
+[Linux 가이드](./develop/linux-tutorial.md)을 참조하세요
 
 ### API
 
@@ -143,22 +147,22 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - [Rust 인터페이스](src/Rust/src/maa_sys/)：[HTTP 인터페이스](src/Rust)
 - [TypeScript 인터페이스](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
 - [Woolang 인터페이스](src/Woolang/maa.wo)：[예제](src/Woolang/main.wo)
-- [통합문서](./스키마/1.통합문서.md)
-- [콜백 스키마](./스키마/2.콜백.md)
-- [전투 스키마](./스키마/3.전투.md)
-- [작업 스키마](./스키마/4.작업.md)
+- [통합문서](./protocol/integration.md)
+- [콜백 스키마](./protocol/callback-schema.md)
+- [전투 스키마](./protocol/copilot-schema.md)
+- [작업 스키마](./protocol/task-schema.md)
 
 ### 해외 서버 현지화
 
-[해외 클라이언트 현지화](./개발문서/5.해외클라이언트현지화.md)를 참조하세요. 대부분은 스크린샷 + 간단한 json 수정만 필요합니다.
+[해외 클라이언트 현지화](./develop/overseas-client-adaptation.md)를 참조하세요. 대부분은 스크린샷 + 간단한 json 수정만 필요합니다.
 
 ### 개발에 기여를 원하지만, GitHub 사용이 어려운 경우?
 
-[GitHub Pull Request 가이드](./개발문서/3.웹기반PR.md)
+[GitHub Pull Request 가이드](./develop/pr-tutorial.md)
 
 ### Issue bot
 
-[Issue bot 사용법](./개발문서/4.IssueBot.md)
+[Issue bot 사용법](./develop/issue-bot-usage.md)
 
 ## 감사의 말
 

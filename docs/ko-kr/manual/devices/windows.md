@@ -1,18 +1,12 @@
 ---
+order: 1
 icon: ri:windows-fill
 ---
 
 # Windows 에뮬레이터 지원
 
-::: warning
-해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
-
-
-이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
-:::
-
 ::: tip
-문제가 발생하면 [FAQ](../FAQ.md)를 먼저 참조하세요.
+문제가 발생하면 [FAQ](../faq.md)를 먼저 참조하세요.
 :::
 
 아래의 목록은 무작위순이며, 성능순이 아닙니다.
@@ -124,7 +118,7 @@ icon: ri:windows-fill
 
 호환되지 않습니다. [소비자 클라이언트](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)의 ADB 포트를 사용할 수 없습니다.
 
-단, KR의 경우 [PlayBridge](https://github.com/ACK72/PlayBridge)를 이용해 사용이 가능하지만, 오류가 있을 수 있습니다!
+단, KR의 경우 [PlayBridge](https://github.com/ACK72/PlayBridge)를 이용해 사용이 가능하지만, `MAA 5.2.3 버전` 이후는 사용이 불가능합니다.
 
 ### 🚫 Tencent Mobile Game Assistant
 

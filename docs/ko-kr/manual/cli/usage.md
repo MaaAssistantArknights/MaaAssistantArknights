@@ -3,93 +3,90 @@ order: 3
 icon: material-symbols:summarize
 ---
 
-(translation required)
+# maa-cli 사용법
 
-# 使用 maa-cli
+maa-cli의 주요 기능은 MaaCore를 호출하여 명일방주의 게임 작업을 자동화하는 것입니다. 또한 사용의 편의성을 위해 MaaCore 관리 기능도 제공합니다.
 
-maa-cli 主要功能是通过调用 MaaCore，自动化完成明日方舟的游戏任务。此外，为了方便使用，maa-cli 还提供了管理 MaaCore 的功能。
+## MaaCore 관리
 
-## 管理 MaaCore
-
-maa-cli 可以安装和更新 MaaCore 及资源，只需运行以下命令：
+maa-cli는 MaaCore 및 리소스를 설치하고 업데이트할 수 있습니다. 다음 명령어를 실행하세요:
 
 ```bash
-maa install # 安装 MaaCore 及资源
-maa update # 更新 MaaCore 及资源
+maa install # MaaCore 및 리소스 설치
+maa update # MaaCore 및 리소스 업데이트
 ```
 
-## 更新 maa-cli 自身
+## maa-cli 자체 업데이트
 
-maa-cli 可以更新自身，只需运行以下命令：
+maa-cli는 자체 업데이트가 가능합니다. 다음 명령어를 실행하세요:
 
 ```bash
 maa self update
 ```
 
-**注意**：使用包管理器安装 maa-cli 的用户请使用包管理器更新 maa-cli，此命令在这些用户中无效。
+**주의**: 패키지 관리자를 통해 maa-cli를 설치한 사용자는 이 명령어가 작동하지 않으므로, 패키지 관리자를 통해 업데이트하세요.
 
-## 运行任务
+## 작업 실행
 
-一旦完成了 MaaCore 的安装，通常情况下，你无需额外配置就可以直接运行任务。默认配置可能不适用于所有用户，如果你在运行任务时遇到问题，你可以参考 [配置文档][config-core] 修改配置。
+MaaCore 설치가 완료되면 일반적으로 추가 설정 없이 바로 작업을 실행할 수 있습니다. 기본 설정이 모든 사용자에게 적합하지 않을 수 있으며, 작업 실행 중 문제가 발생하면 [설정 문서][config-core]를 참고하여 설정을 변경할 수 있습니다.
 
-### 预定义任务
+### 사전 정의 작업
 
-对于常见任务，maa-cli 提供了一些预定义的任务：
+일반적인 작업에 대해 maa-cli는 몇 가지 사전 정의 작업을 제공합니다:
 
-- `maa startup [client]`: 启动游戏并进入主界面，`[client]` 是客户端类型，如果留空则不会启动游戏客户端。
-- `maa closedown`: 关闭游戏客户端；
-- `maa fight [stage]`: 运行战斗任务，`[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡；
-- `maa copilot <maa_uri>`: 运行自动战斗任务，其中 `<maa_uri>` 是作业的 URI，其可以是 `maa://1234` 或者本地文件路径 `./1234.json`；
-- `maa roguelike [theme]`: 自动集成战略，`[theme]` 是集成战略的主题，可选值为 `Phantom`，`Mizuki` 以及 `Sami`；
+- `maa startup [client]`: 게임을 시작하고 메인 화면으로 이동합니다. `[client]`는 클라이언트 유형이며, 생략하면 게임 클라이언트를 시작하지 않습니다.
+- `maa closedown`: 게임 클라이언트를 종료합니다.
+- `maa fight [stage]`: 전투 작업을 실행합니다. `[stage]`는 스테이지 이름이며, 예를 들어 `1-7`입니다. 생략하면 이전 또는 현재 스테이지를 선택합니다.
+- `maa copilot <maa_uri>`: 자동 전투 작업을 실행합니다. `<maa_uri>`는 작업의 URI로 `maa://1234` 또는 로컬 파일 경로 `./1234.json`일 수 있습니다.
+- `maa roguelike [theme]`: 자동 통합 전략을 실행합니다. `[theme]`는 통합 전략의 주제이며, 선택 가능한 값은 `Phantom`, `Mizuki`, `Sami`입니다.
 
-上述任务接受一些参数，你可以通过 `maa <task> --help` 来查看具体的参数。
+위 작업들은 몇 가지 매개변수를 받습니다. `maa <task> --help` 명령어를 통해 자세한 매개변수를 확인할 수 있습니다.
 
-对于官服玩家，如果你想要打开游戏，使用 3 个理智药刷 BB-7，然后关闭游戏，你可以运行以下命令：
+예를 들어, 공식 서버 사용자가 게임을 열고, BB-7을 3번 플레이하고, 게임을 종료하려면 다음 명령어를 실행할 수 있습니다:
 
 ```bash
 maa startup Official && maa fight BB-7 -m 3 && maa closedown
 ```
 
-### 自定义任务
+### 사용자 정의 작업
 
-由于MAA支持的任务繁多，maa-cli无法提供所有任务的预定义选项。除此之外，你可能需要像上述的例子一样运行多个任务。为了解决这个问题，maa-cli提供了自定义任务的功能。自定义任务能够组合不同的任务，并且更精细地控制每个任务的参数以及执行顺序。此外，自定义任务支持条件判断，可以根据条件来决定是否执行某个任务，或者以何种参数执行某个任务。这可以用于自动化你的日常任务。自定义任务通过配置文件定义，具体配置文件的位置和编写方式请参考 [自定义任务文档][custom-task]。在编写好配置文件后，你可以通过 `maa run <task>` 来运行自定义任务，这里的 `<task>` 是一个自定义任务文件名，不包括扩展名。
+MAA가 지원하는 작업이 많기 때문에, maa-cli는 모든 작업에 대한 미리 정의된 옵션을 제공할 수 없습니다. 위 예시처럼 여러 작업을 실행해야 할 수도 있습니다. 이를 해결하기 위해 maa-cli는 사용자 정의 작업 기능을 제공합니다. 사용자 정의 작업은 다양한 작업을 조합하고 각 작업의 매개변수와 실행 순서를 세부적으로 제어할 수 있습니다. 또한, 조건 판단을 통해 특정 작업을 실행할지 여부나 어떤 매개변수를 사용할지 결정할 수 있습니다. 이를 통해 일상 작업을 자동화할 수 있습니다. 사용자 정의 작업은 설정 파일을 통해 정의되며, 설정 파일의 위치와 작성 방법은 [사용자 정의 작업 문서][custom-task]를 참고하세요. 설정 파일 작성이 완료되면 `maa run <task>` 명령어를 통해 사용자 정의 작업을 실행할 수 있습니다. 여기서 `<task>`는 확장자를 제외한 사용자 정의 작업 파일 이름입니다.
 
-### 任务总结
+### 작업 요약
 
-不管是预定义任务还是自定义任务，maa-cli 都会在任务运行结束后输出任务的总结信息，
-其包括每个子任务的运行时间（开始时间、结束时间、运行时长）。对于部份任务，还会输出任务的结果汇总：
+미리 정의된 작업이든 사용자 정의 작업이든, maa-cli는 작업이 종료되면 작업 요약 정보를 출력합니다. 여기에는 각 하위 작업의 실행 시간(시작 시간, 종료 시간, 실행 기간)이 포함됩니다. 일부 작업의 경우 결과 요약도 출력됩니다:
 
-- `fight` 任务: 关卡名称，次数，消耗理智药个数以及掉落统计；
-- `infrast`: 各设施进驻的干员，对于制造站和贸易站，还会包括产物类型；
-- `recruit`: 每次公招的 tag ，星级以及状态，以及总共的招募次数；
-- `roguelike`: 探索次数，投资次数。
+- `fight`  작업: 스테이지 이름, 실행 횟수, 사용된 약물 수량 및 드롭 통계.
+- `infrast`: 각 시설에 배치된 오퍼레이터, 제조소 및 무역소의 경우 생성된 아이템 유형 포함.
+- `recruit`: 각 모집의 태그, 별 등급 및 상태, 총 모집 횟수.
+- `roguelike`: 탐험 횟수, 투자 횟수.
 
-如果你不想要任务总结，可以通过 `--no-summary` 参数来关闭。
+작업 요약을 원하지 않는 경우 `--no-summary` 매개변수를 통해 비활성화할 수 있습니다.
 
-### 任务日志
+### 작업 로그
 
-maa-cli 会输出日志，日志输出级别从低到高分别为 `Error`，`Warn`，`Info`，`Debug` 和 `Trace`。默认的日志输出级别为 `Warn`。日志级别可以通过 `MAA_LOG` 环境变量来设置，例如 `MAA_LOG=debug`。你也可以通过 `-v` 或者 `-q` 来增加或者减少日志输出级别。
+maa-cli는 로그를 출력하며, 로그 출력 레벨은 `Error`, `Warn`, `Info`, `Debug`, `Trace` 순으로 낮은 레벨에서 높은 레벨로 나뉩니다. 기본 로그 출력 레벨은 Warn입니다. 로그 레벨은 `MAA_LOG` 환경 변수를 통해 설정할 수 있으며, 예를 들어 `MAA_LOG=debug`와 같이 설정할 수 있습니다. `-v` 또는 `-q`를 통해 로그 출력 레벨을 높이거나 낮출 수도 있습니다.
 
-maa-cli 默认会向标准误 (stderr) 输出日志。`--log-file` 选项可以将日志输出到文件中，日志保存在 `$(maa dir log)/YYYY/MM/DD/HH:MM:SS.log` 中，其中 `$(maa dir log)` 是日志目录，你可以通过 `maa dir log` 获取。你也可以通过 `--log-file=path/to/log` 来指定日志文件的路径。
+maa-cli는 기본적으로 표준 오류(stderr)에 로그를 출력합니다. `--log-file` 옵션을 사용하여 로그를 파일에 출력할 수 있습니다. 로그는 `$(maa dir log)/YYYY/MM/DD/HH:MM:SS.log` 경로에 저장됩니다. `$(maa dir log)`는 로그 디렉토리로 `maa dir log` 명령어를 통해 확인할 수 있습니다. `--log-file=path/to/log` 옵션을 사용하여 로그 파일의 경로를 지정할 수도 있습니다.
 
-默认情况下，所有输出的日志会包含时间戳和日志级别的前缀。你可以通过环境变量 `MAA_LOG_PREFIX` 来改变这个行为。设置为 `Always` 时，总是会包含前缀，设置为 `Auto` 时输出到日志文件时会包含前缀，而输出到 stderr 时不会包含前缀，而设置为 `Never` 时即使是写入日志文件时也不会包含前缀。
+기본적으로 모든 출력 로그는 타임스탬프와 로그 레벨의 접두사를 포함합니다. `MAA_LOG_PREFIX` 환경 변수를 통해 이 동작을 변경할 수 있습니다. `Always`로 설정하면 항상 접두사를 포함하고, `Auto`로 설정하면 로그 파일 출력 시에만 접두사를 포함하며, 표준 오류 출력 시에는 포함하지 않습니다. `Never`로 설정하면 로그 파일 출력 시에도 접두사를 포함하지 않습니다.
 
-### 其他子命令
+### 기타 하위 명령어
 
-除了上述的命令外，maa-cli 还提供了其他一些子命令：
+위 명령어 외에도 maa-cli는 다음과 같은 하위 명령어를 제공합니다:
 
-- `maa list`: 列出所有可用的任务；
-- `maa dir <dir>`: 获取特定目录的路径，比如 `maa dir config` 可以用来获取配置目录的路径;
-- `maa version`: 获取 `maa-cli` 以及 `MaaCore` 的版本信息；
-- `maa convert <input> [output]`: 将 `JSON`，`YAML` 或者 `TOML` 格式的文件转换为其他格式;
-- `maa complete <shell>`: 生成自动补全脚本;
-- `maa activity [client]`: 获取游戏的当前活动信息，`client` 是客户端类型，默认为 `Official`。
-- `maa cleanup`: 清除 `maa-cli` 和 `MaaCore` 的缓存。
-- `maa import <file> [-t <type>]:` 导入配置文件，`file` 是配置文件的路径。`-t` 选项可以指定配置文件的类型，如 `cli`, `profile`, `infrast` 等。
+- `maa list`: 모든 사용 가능한 작업을 나열합니다.
+- `maa dir <dir>`:특정 디렉토리의 경로를 확인합니다. 예: `maa dir config`는 설정 디렉토리의 경로를 확인합니다.
+- `maa version`: `maa-cli` 및 `MaaCore`의 버전 정보를 확인합니다.
+- `maa convert <input> [output]`: `JSON`, `YAML`, `TOML` 형식 파일을 다른 형식으로 변환합니다.
+- `maa complete <shell>`: 자동 완성 스크립트를 생성합니다.
+- `maa activity [client]`: 게임의 현재 이벤트 정보를 확인합니다. `client`는 클라이언트 유형이며, 기본값은 `Official`입니다.
+- `maa cleanup`: `maa-cli` 및 `MaaCore`의 캐시를 정리합니다.
+- `maa import <file> [-t <type>]:` 설정 파일을 가져옵니다. `file`은 설정 파일의 경로입니다. `-t` 옵션을 통해 설정 파일의 유형(`cli`, `profile`, `infrast` 등)을 지정할 수 있습니다.
 
-更多命令的使用方法可以通过 `maa help` 查看，具体命令的使用方法可以 通过 `maa help <command>` 查看。
+더 많은 명령어 사용 방법은 `maa help`를 통해 확인할 수 있으며, 특정 명령어의 사용 방법은 `maa help <command`>를 통해 확인할 수 있습니다.
 
-[config-core]: config.md#MaaCore-相关配置
-[custom-task]: config.md#自定义任务
+[config-core]: config.md#maacore-관련-설정
+[custom-task]: config.md#사용자-정의-작업
 
 <!-- markdownlint-disable-file MD013 -->

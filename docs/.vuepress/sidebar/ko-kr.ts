@@ -14,7 +14,7 @@ export const kokrSidebar = sidebar({
       collapsible: true,
       children: [
         {
-          text: "新手上路(translation required)",
+          text: "초보자 가이드",
           icon: "ri:guide-fill",
           link: "newbie",
         },
@@ -24,7 +24,7 @@ export const kokrSidebar = sidebar({
           link: "introduction",
         },
         {
-          text: "连接设置(translation required)",
+          text: "연결 설정",
           icon: "mdi:plug",
           link: "connection",
         },
@@ -34,7 +34,7 @@ export const kokrSidebar = sidebar({
           link: "faq",
         },
         {
-          text: "플랫폼 별 지원(translation required)",
+          text: "플랫폼 별 지원",
           icon: "mingcute:laptop-fill",
           prefix: "devices/",
           collapsible: true,

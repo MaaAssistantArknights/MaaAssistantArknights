@@ -4,13 +4,6 @@ icon: ic:baseline-article
 
 # MAA 사용자 설명서
 
-::: warning
-해당 문서는 잠재적으로 잘못된 정보를 포함할 수 있습니다!
-
-
-이 문서는 2024년 4월에 작성됐습니다! 오랜 시간이 지났다면 원본 문서를 보는 것을 권장합니다!
-:::
-
 ## 기능 소개
 
 ### 원클릭 이성 사용! (이성 사용)
@@ -112,7 +105,7 @@ icon: ic:baseline-article
 
 #### 커스텀 기반시설 (테스트)
 
-- Yituliu의 JSON 생성기를 참고해서 작성하세요. [기반시설 JSON 생성기](https://ark.yituliu.cn/tools/schedule),  [기반시설 스키마 문서](../스키마/6.기반시설.md)도 참조하세요.
+- Yituliu의 JSON 생성기를 참고해서 작성하세요. [기반시설 JSON 생성기](https://ark.yituliu.cn/tools/schedule),  [기반시설 스키마 문서](../protocol/base-scheduling-schema.md)도 참조하세요.
 - MAA 폴더의 `/resource/custom_infrast/`에는 이론적 최대 효율의 작업 몇 개가 내장되어 있습니다. 오퍼레이터 인원 수 및 육성의 요구 사항이 매우 높기 때문에 직접 사용하는 것은 권장하지 않습니다.
 
 ### 크레딧 수급 및 상점
@@ -168,7 +161,7 @@ Copilot은 `일반/이벤트 스테이지` 및 `보안파견` 등을 지원합�
 
 #### Copilot 파일 작성
 
-- [파일 작성기](https://prts.plus/create)를 사용할 수 있고, [전투 스키마 문서](../스키마/3.전투.md)를 참조할 수도 있습니다.
+- [파일 작성기](https://prts.plus/create)를 사용할 수 있고, [전투 스키마 문서](../protocol/copilot-schema.md)를 참조할 수도 있습니다.
 - 좌표를 가져오려면:
   - 파일 작성기에서 스테이지를 입력한 후, 왼쪽 하단에 자동으로 확대/축소 가능한 좌표 지도가 표시됩니다. 오퍼레이터 위치를 클릭하여 설정할 수 있습니다.
   - 스테이지를 입력하고 JSON을 내보낸 후, 시작 버튼을 누르면 MAA 폴더의 `debug\map`에 좌표 정보가 포함된 지도 스크린샷이 생성됩니다.
