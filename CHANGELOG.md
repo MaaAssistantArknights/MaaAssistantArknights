@@ -4,6 +4,7 @@
 
 * Wine 支持 (#8960) @dantmnf
 * add compile def to disable emulator extras @horror-proton
+*「健将」名片识别
 
 ### 改进 | Improved
 

@@ -6142,7 +6142,8 @@
         "action": "ClickSelf",
         "template": [
             "StartToVisit.png",
-            "StartToVisitDetermine.png"
+            "StartToVisitDetermine.png",
+            "StartToVisitSportsman"
         ],
         "templThreshold": [
             0.9,
