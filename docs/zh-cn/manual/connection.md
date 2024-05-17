@@ -2,17 +2,13 @@
 icon: mdi:plug
 ---
 
-# 自定义连接
+# 连接设置
 
 :::note
-实体机相关问题请前往 [Android 实体设备](./devices/android.md)。
+实体机相关问题请同时参阅 [Android 实体设备](./devices/android.md)。
 :::
 
-## 选择连接配置
-
-用什么模拟器就选什么配置，列表中没有就选通用配置，连接失败就每个都试一下。
-
-## 设置 ADB 路径
+## ADB 路径
 
 :::info 技术细节
 自动检测使用的是模拟器的 ADB，但有时自动检测会出现问题，此时就需要手动设置。
@@ -35,7 +31,7 @@ icon: mdi:plug
 
 推荐直接解压到 MAA 文件夹下，这样可以直接在 ADB 路径中填写 `.\platform-tools\adb.exe`，也可以随着 MAA 文件夹一起移动。
 
-## 设置连接地址
+## 连接地址
 
 ::: tip
 运行在本机的模拟器连接地址应该是 `127.0.0.1:<端口号>` 或 `emulator-<四位数字>`。
@@ -43,7 +39,7 @@ icon: mdi:plug
 
 ### 获取端口号
 
-模拟器相关文档及参考端口：
+#### 模拟器相关文档及参考端口
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
@@ -54,7 +50,15 @@ icon: mdi:plug
 
 其他模拟器可参考 [赵青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
 
-- 备选方案 1 : 使用 adb 命令查看模拟器端口
+#### 关于多开
+
+- MuMu 12 多开器右上角可查看正在运行的多开端口。
+- Bluestacks 5 模拟器设置内可查看当前的多开端口。
+- *待补充*
+
+#### 备选方案
+
+- 方案 1 : 使用 adb 命令查看模拟器端口
 
   1. 启动**一个**模拟器，并确认没有其他安卓设备连接在此计算机上。
   2. 在存放有 adb 可执行文件的文件夹中启动命令窗口。
@@ -77,21 +81,21 @@ icon: mdi:plug
 
   使用 `127.0.0.1:<端口>` 或 `emulator-<四位数字>` 作为连接地址。
 
-- 备选方案 2 : 查找已建立的 adb 连接
+- 方案 2 : 查找已建立的 adb 连接
 
-  1. 执行备选方案 1。
+  1. 执行方案 1。
   2. 按 `徽标键+S` 打开搜索栏，输入 `资源监视器` 并打开。
   3. 切换到 `网络` 选项卡，在 `侦听端口` 的名称列中查找模拟器进程名，如 `HD-Player.exe`。
   4. 记录模拟器进程的所有侦听端口。
   5. 在 `TCP 连接` 的名称列中查找 `adb.exe`，在远程端口列中与模拟器侦听端口一致的端口即为模拟器调试端口。
 
-## 蓝叠模拟器 Hyper-V 每次启动端口号都不一样
+### 蓝叠模拟器 Hyper-V 每次启动端口号都不一样
 
-打开 MAA，在 `设置` - `连接设置` 中设置 `连接配置` 为 `蓝叠模拟器` ，随后勾选 `自动检测连接` 和 `每次重新检测`（或是在主界面 `开始唤醒` 旁的设置中勾选这两项）。
+在 `连接设置` 中设置 `连接配置` 为 `蓝叠模拟器` ，随后勾选 `自动检测连接` 和 `每次重新检测`。
 
 通常情况下这样就可以连接。如果无法连接，可能是存在多个模拟器核心或出现了问题，请阅读下文进行额外设置。
 
-### 指定 `Bluestacks.Config.Keyword`
+#### 指定 `Bluestacks.Config.Keyword`
 
 ::: info 注意
 如果启用了多开功能或安装了多个模拟器核心，则需要进行额外设置来指定使用的模拟器编号
@@ -114,7 +118,7 @@ Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
 
 :::
 
-### 指定 `Bluestacks.Config.Path`
+#### 指定 `Bluestacks.Config.Path`
 
 ::: info 注意
 MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当该功能无法工作时，则需要手动指定配置文件路径
@@ -144,3 +148,19 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 ```
 
 :::
+
+## 连接配置
+
+需选择对应模拟器的配置，若列表中没有则选择通用配置。若通用配置不可用请尝试并选择其他任一可用的配置。
+
+具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)。
+
+## 触控模式
+
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现。高版本 Android 可用性待测试。
+3. Adb Input：直接调用 ADB 命令进行触控操作，兼容性最强，速度最慢。
+
+## ADB Lite
+
+由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，但部分截图方式不可用。

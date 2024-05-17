@@ -24,14 +24,14 @@ export const enusSidebar = sidebar({
           link: "introduction",
         },
         {
+          text: "Connection",
+          icon: "mdi:plug",
+          link: "connection",
+        },
+        {
           text: "FAQs",
           icon: "ph:question-fill",
           link: "faq",
-        },
-        {
-          text: "Custom Connection",
-          icon: "mdi:plug",
-          link: "custom-connection",
         },
         {
           text: "Emulator Supports",

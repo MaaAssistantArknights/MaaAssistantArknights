@@ -2,7 +2,7 @@
 icon: mdi:information-outline
 ---
 
-# MAA 使用说明
+# 功能介绍
 
 ## 功能介绍
 
