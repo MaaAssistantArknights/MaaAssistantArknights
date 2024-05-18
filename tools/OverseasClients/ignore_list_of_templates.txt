@@ -335,6 +335,7 @@ Sami@Roguelike@StageSafeHouse.png
 Sami@Roguelike@StageSafeHouseAI6.png
 Sami@Roguelike@StageTrader.png
 Sami@Roguelike@StageTraderAI6.png
+Sami@Roguelike@StageTraderRefreshConfirm.png
 Sami@Roguelike@StageVerticalBoons.png
 Sami@Roguelike@StageVerticalBoonsAI6.png
 Sami@Roguelike@StageVerticalBoskyPassage.png
