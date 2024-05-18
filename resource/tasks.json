@@ -15844,6 +15844,33 @@
         ]
     },
     "Sami@Roguelike@StageTraderEnter": {},
+    "Sami@Roguelike@StageTraderRefresh": {
+        "template": "Sami@Roguelike@StageTraderRefresh.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "roi": [
+            230,
+            73,
+            212,
+            141
+        ],
+        "next": [
+            "Sami@Roguelike@StageTraderRefreshConfirm"
+        ]
+    },
+    "Sami@Roguelike@StageTraderRefreshConfirm": {
+        "template": "Sami@Roguelike@StageTraderRefreshConfirm.png",
+        "action": "ClickSelf",
+        "cache": false,
+        "postDelay": 500,
+        "roi": [
+            640,
+            414,
+            504,
+            154
+        ],
+        "next": []
+    },
     "Sami@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "postDelay": 1000,
@@ -15906,6 +15933,10 @@
         "action": "ClickSelf",
         "next": [
             "#back"
+        ],
+        "exceededNext": [
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@NextLevelThenExit"
         ]
     },
     "Sami@Roguelike@StageVerticalConfirmBoons": {

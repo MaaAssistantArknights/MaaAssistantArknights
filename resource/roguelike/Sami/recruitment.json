@@ -194,7 +194,16 @@
                     "recruit_priority": 829,
                     "promote_priority": 940,
                     "is_key": true,
-                    "is_start": true
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "益达"
+                            ],
+                            "threshold": 1,
+                            "offset": -230
+                        }
+                    ]
                 }
             ]
         },
@@ -1131,6 +1140,14 @@
                             ],
                             "threshold": 1,
                             "offset": -300
+                        },
+                        {
+                            "groups": [
+                                "益达"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": 200
                         }
                     ]
                 },
@@ -1941,6 +1958,15 @@
                             ],
                             "threshold": 2,
                             "offset": -200
+                        },
+                        {
+                            "groups": [
+                                "提丰",
+                                "水陈",
+                                "速狙"
+                            ],
+                            "threshold": 2,
+                            "offset": 50
                         }
                     ]
                 },
@@ -2363,7 +2389,16 @@
                     "recruit_priority": 830,
                     "promote_priority": 910,
                     "is_key": true,
-                    "is_start": true
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "益达"
+                            ],
+                            "threshold": 1,
+                            "offset": -230
+                        }
+                    ]
                 }
             ]
         },
