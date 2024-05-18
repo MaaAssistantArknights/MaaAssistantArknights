@@ -2513,6 +2513,14 @@
             "START"
         ]
     },
+    "StartUpConnectingFlag": {
+        "roi": [
+            0,
+            635,
+            530,
+            85
+        ]
+    },
     "TodaysSupplies": {
         "text": [
             "Resource Today"
