@@ -7,7 +7,7 @@ icon: iconoir:developer
 
 ## Github Pull Request 진행 과정
 
-### 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?sa
+### 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
 
 [웹 기반 PR 가이드](./pr-tutorial.md)를 참고하세요! (웹사이트로만 가능합니다)
 
@@ -18,10 +18,10 @@ icon: iconoir:developer
 3. 로컬에서 레포(dev 브랜치)를 클론합니다.
 
    ```bash
-   git clone <당신의 저장소 git 링크> -b dev
+   git clone --recurse-submodules <당신의 저장소의 git 링크> -b dev
    ```
 
-4. 사전 빌드된 서드파티 라이브러리를 다운로드합니다.
+4. Visual Studio와 같은 --recurse-submodules 매개변수가 포함되지 않은 Git GUI를 사용 중이라면, 클론한 후에 `git submodule update --init` 명령을 실행하여 서브모듈을 가져와야 합니다.
 
    **Python 환경이 필요합니다. Python 설치 방법은 스스로 찾아보세요.**  
    _（maadeps-download.py 파일은 프로젝트 루트에 있습니다）_
