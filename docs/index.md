@@ -26,7 +26,7 @@ actions:
     icon: signs-post
     type: primary
 
-  - text: 한국인
+  - text: 한국어
     link: ./ko-kr/
     icon: signs-post
     type: primary
