@@ -26,6 +26,8 @@ BattleOperRoleSupport.png
 BattleOperRoleTank.png
 BattleOperRoleWarrior.png
 BattleOpersFlag.png
+BattleQuickFormationFilter-PinActivated.png
+BattleQuickFormationFilter-PinUnactivated.png
 BattleQuickFormation-OperNameFlag0.png
 BattleQuickFormation-OperNameFlag1.png
 BattleQuickFormation-OperNameFlag2.png
@@ -64,6 +66,7 @@ BattleSkillReadyOnClick.png
 BattleSkillStopOnClick-SquareMap.png
 BattleSkillStopOnClick.png
 BattleSpeedUp.png
+BattleSpeedUpCheck.png
 BattleStartPlot.png
 BattleSupportUnitFormationSelect.png
 BuyIt.png
@@ -75,6 +78,7 @@ ChoosePureGold.png
 ChoosePureGoldTab.png
 ClickPlotStage.png
 CloseAnno.png
+CloseAnnoSpecialAccess.png
 CloseAnnoTexas.png
 CloseCluePage.png
 CloseHomeSanity.png
@@ -402,6 +406,7 @@ StageResource.png
 StageTheme.png
 StartLoginBServer.png
 StartToVisitDetermine.png
+StartToVisitSportsman.png
 StartWithSanity.png
 TaskSiege.png
 UnableToAgent.png
