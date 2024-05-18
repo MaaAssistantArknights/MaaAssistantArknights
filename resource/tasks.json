@@ -15844,6 +15844,14 @@
         ]
     },
     "Sami@Roguelike@StageTraderEnter": {},
+    "Sami@Roguelike@StageTraderLeaveConfirm": {
+        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "postDelay": 1000,
+        "exceededNext": [
+            "Sami@Roguelike@ExitThenAbandon",
+            "Sami@Roguelike@NextLevelThenExit"
+        ]
+    },
     "Sami@Roguelike@StageTraderRefresh": {
         "template": "Sami@Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
@@ -15870,14 +15878,6 @@
             154
         ],
         "next": []
-    },
-    "Sami@Roguelike@StageTraderLeaveConfirm": {
-        "template": "Roguelike@StageTraderLeaveConfirm.png",
-        "postDelay": 1000,
-        "exceededNext": [
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@NextLevelThenExit"
-        ]
     },
     "Sami@Roguelike@StageVerticalBoons": {
         "baseTask": "Roguelike@StageVertical",
