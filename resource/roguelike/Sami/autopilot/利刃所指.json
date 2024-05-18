@@ -30,9 +30,22 @@
     "deploy_plan": [
         {
             "groups": [
-                "情报官",
-                "挡人先锋",
-                "投锋",
+                "回费"
+            ],
+            "location": [
+                2,
+                1
+            ],
+            "direction": "down",
+            "condition": [
+                0,
+                1
+            ]
+        },
+        {
+            "groups": [
+                "伊内丝",
+                "地面阻挡",
                 "地面远程"
             ],
             "location": [
