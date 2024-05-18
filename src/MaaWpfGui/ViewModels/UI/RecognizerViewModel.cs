@@ -309,7 +309,7 @@ namespace MaaWpfGui.ViewModels.UI
                         foreach (var combs in resultArray ?? new JArray())
                         {
                             int tagLevel = (int)combs["level"];
-                            resultContent += tagLevel + " ★ Tags:  ";
+                            resultContent += tagLevel + "★ Tags:    ";
                             resultContent = (((JArray)combs["tags"]) ?? new JArray()).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
 
                             resultContent += "\n\t";
@@ -334,7 +334,7 @@ namespace MaaWpfGui.ViewModels.UI
                                     }
                                 }
 
-                                resultContent += operLevel + " - " + operName + potential + "    ";
+                                resultContent += operLevel + "★ " + operName + potential + "    ";
                             }
 
                             resultContent += "\n\n";
