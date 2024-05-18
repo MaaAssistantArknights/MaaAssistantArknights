@@ -3,7 +3,7 @@ order: 3
 icon: teenyicons:linux-alt-solid
 ---
 
-# Linux 에뮬레이터 지원
+# Linux 지원
 
 ## 준비 작업
 

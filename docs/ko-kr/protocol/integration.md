@@ -90,6 +90,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
                                 // 이성 1 포인트가 복구되면 오리지늄을 사용하여 확정화면에서 대기한 다음 즉시 오리지늄을 사용합니다.
 }
 ```
+특수 스테이지의 일부를 지원합니다. 자세한 내용은 [자동 현지화 예제](..\..\..\tools\AutoLocalization\example\ko-kr.xaml)를 참고하세요.
 
 - `Recruit`  
   공개모집
@@ -229,7 +230,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-더 많은 자세한 정보는 [전투 스키마](./3.전투.md)를 참조하세요.
+더 많은 자세한 정보는 [전투 스키마](./copilot-schema.md)를 참조하세요.
 
 - `SSSCopilot`  
   보안파견용 AI 동반(Copilot 기반) 자동 전투 기능
@@ -242,7 +243,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-더 많은 자세한 정보는 [보안파견 스키마](./7.보안파견.md)를 참조하세요.
+더 많은 자세한 정보는 [보안파견 스키마](./sss-schema.md)를 참조하세요.
 
 - `Depot`
   창고 인식

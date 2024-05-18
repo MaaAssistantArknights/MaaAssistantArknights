@@ -3,7 +3,7 @@ order: 2
 icon: basil:apple-solid
 ---
 
-# Mac 에뮬레이터 지원
+# Mac 지원
 
 ::: tip
 문제가 발생하면 [FAQ](../faq.md)를 먼저 참조하세요.

@@ -4,7 +4,7 @@
 
 # MaaAssistantArknights
 
-*MAA의 문서는 주로 중국어 간체로 되어 있습니다. 다른 언어로 된 문서는 품질이 낮거나 번역되지 않았을 수 있습니다.*
+*MAA의 문서는 주로 중국어 간체로 되어 있습니다. 다른 언어로 된 문서는 번역이 이상하거나, 번역이 되어있지 않을 수 있습니다.*
 
 <br>
 <div>
@@ -40,11 +40,13 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 
 - 이성을 사용하고, 아이템 드랍을 인식해 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.cn/), [Yituliu](https://ark.yituliu.cn/)
-- 자동으로 오퍼레이터 효율을 고려해 기반시설 교대를 하며, 동시에 사용자 커스텀 교대 기능도 지원합니다. [기반시설 스키마](./스키마/6.기반시설.md)
+- 자동으로 오퍼레이터 효율을 고려해 기반시설 교대를 하며, 동시에 사용자 커스텀 교대 기능도 지원합니다. [기반시설 스키마](./protocol/base-scheduling-schema.md)
 - 자동으로 공개모집 및 즉시 모집을 선택할 수 있으며, 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.cn/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)
 - 공개 모집 화면에서 태그 인식을 할 수 있습니다.
 - 오퍼레이터 목록을 인식해, 보유중인 오퍼레이터들 및 잠재를 통계화하여 공개모집 태그 인식 시 표시합니다.
 - 현재 보유중인 육성 재화를 인식해 다음 사이트로 데이터를 내보낼 수 있습니다. [펭귄 물류 플래너](https://penguin-stats.cn/planner), [arkn.lolicon](https://arkntools.app/#/material), [ark-nights](https://ark-nights.com/settings)
+- 공개 모집 인터페이스에 수동 식별을 지원하여 높은 등급의 오퍼레이터 공개 모집을 용이하게 합니다.
+- 오퍼레이터 목록을 식별하고, 보유 및 미보유 오퍼레이터와 그들의 잠재를 계산하며, 이를 공개 모집 인터페이스에서 표시하는 것을 지원합니다.
 - 원클릭으로 친구 방문 및 크레딧 획득/구매를 하며, 임무 보상 수령 등의 모든 일과를 수행합니다. 
 - 통합전략에서 자동으로 오퍼레이터 레벨을 인식하며, 오리지늄 각뿔 획득 및 노드 개방과 레벨을 올려줍니다.
 - Copliot 파일을 통한 자동 지휘가 가능합니다. [영상 설명](https://www.bilibili.com/video/BV1H841177Fk/)

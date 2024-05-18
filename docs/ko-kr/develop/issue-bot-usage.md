@@ -5,11 +5,11 @@ icon: bxs:bot
 
 # Issue Bot 사용 방법
 
+Issue Bot의 동작은 [issue-checker](https://github.com/zzyyyl/issue-checker)로 이루어지며, 설정 파일은 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) 입니다.
+
 ::: warning
 Commitizen 규격으로 커밋하지 않는 경우, 병합 요청(Merge Request)가 `ambiguous(애매모호한)`로 표시됨에 주의해주세요.
 :::
-
-Issue Bot의 동작은 [issue-checker](https://github.com/zzyyyl/issue-checker)로 이루어지며, 설정 파일은 [issue-checker.yml](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml) 입니다.
 
 ## 기능
 

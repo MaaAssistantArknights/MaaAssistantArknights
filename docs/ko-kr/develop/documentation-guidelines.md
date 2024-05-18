@@ -11,6 +11,12 @@ icon: jam:write-f
 
 우리의 문서는 [vuepress](https://github.com/vuejs/vuepress)로 작성되었으며, [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) 테마를 사용하고 있습니다. 더 자세한 설명은 [공식 문서](https://theme-hope.vuejs.press/zh/)를 참조할 수 있으며, 여기서는 일부 일반적인 기능에 대해서만 소개하겠습니다.
 
+## 로컬 배포
+
+1. [pnpm](https://pnpm.io/zh/installation)을 설치하고, [Pull Request 가이드](./development.md#github-pull-request-진행-과정)을 참고해, 저장소를 로컬에 클론합니다.
+2.  `website` 경로에서 새로운 터미널을 열고, `pnpm i` 을 실행하여 의존성 파일을 다운로드합니다.
+3. `pnpm run dev` 를 실행하여 배포를 시작합니다.
+
 ## 컨테이너
 
 ~~도커 컨테이너가 아닙니다~~
