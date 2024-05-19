@@ -439,7 +439,7 @@ url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 
 [task-types]: ../../protocol/integration.md#任务类型一览
 [emulator-ports]: ../../manual/faq.md#模拟器调试端口
-[playcover-doc]: ../../manual/devices/macos.md#-playcover原生运行最流畅-
+[playcover-doc]: ../../manual/device/macos.md#-playcover原生运行最流畅-
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/

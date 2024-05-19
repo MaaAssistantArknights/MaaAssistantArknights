@@ -7,6 +7,7 @@ icon: mingcute:android-fill
 
 ::: info 注意
 
+0. 需同时参阅 [连接设置](../connection.md)。
 1. 从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用，请切换至其他触控模式，或将 SELinux **临时**切换为 `Permissive` 模式。
 2. 由于 Android 生态极为复杂，可在 MAA `设置` - `连接设置` 中尝试将 `连接配置` 修改为 `通用模式` 或 `兼容模式` 或 `第二分辨率` 或 `通用模式（屏蔽异常输出）`，直到某个模式可以正常使用。
 3. 由于 MAA 仅支持 `16:9` 比例的分辨率，所以非 `16:9` 或 `9:16` 屏幕比例的设备需要强制修改分辨率，这包含大多数现代设备。若被连接设备屏幕分辨率比例原生为 `16:9` 或 `9:16`，则可跳过 `更改分辨率` 部分。
@@ -18,9 +19,9 @@ icon: mingcute:android-fill
 典型的 `16:9` 比例的分辨率有 `3840*2160` (4K)、`2560*1440` (2K)、`1920*1080` (1080P)、`1280*720` (720P)。
 :::
 
-## 下载、运行 adb 调试工具并连接设备
+## 下载、运行 ADB 调试工具并连接设备
 
-1. 下载 [adb](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 并解压。
+1. 下载 [ADB](https://dl.google.com/android/repository/platform-tools-latest-windows.zip) 并解压。
 2. 打开解压后的文件夹，清空地址栏并输入 `cmd` 后回车。
 3. 在弹出的命令提示符窗口中输入 `adb` ，若给出大量英文帮助文本则运行成功。
 4. 手机开启 `USB 调试`，每个品牌的手机进入方式可能不同，请善用搜索引擎。厂商可能会提供有关 USB 调试的额外选项，如 MIUI 中的 `USB安装` 和 `USB调试（安全设置）`，请同时开启。

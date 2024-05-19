@@ -7,7 +7,7 @@ icon: mdi:plug
 # 连接设置
 
 :::note
-实体机相关问题请同时参阅 [Android 实体设备](./devices/android.md)。
+实体机相关问题请同时参阅 [Android 实体设备](./device/android.md)。
 :::
 
 ## ADB 路径

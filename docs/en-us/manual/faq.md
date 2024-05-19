@@ -74,7 +74,7 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 ## Connection error
 
-- Tips: please refer to the [List of the Supported Emulators](./devices/) section to ensure that the emulator you are using is officially supported and that your configuration is correct.
+- Tips: please refer to the [List of the Supported Emulators](./device/) section to ensure that the emulator you are using is officially supported and that your configuration is correct.
 - If you are using softwares such as a game accelerator, please close the softwares, RESTART your computer and try again.
 - Please check your decompression software - in some cases, using uncommon software such as `7z` or _other niche decompression software_ may cause errors in Minitouch related files.
 

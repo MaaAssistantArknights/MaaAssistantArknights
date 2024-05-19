@@ -30,7 +30,7 @@ const fullySupport = shuffleArray([
 完美支持，需要在模拟器 \`设定\` - \`进阶\` 中打开 \`Android调试桥\`。已知兼容 Hyper-V。
 
 - 推荐下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免缓慢和捆绑安装；推荐安装 [Android 11](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F#:~:text=%E5%AE%89%E8%A3%9D%20BlueStacks%205%20%E7%9A%84%20Android%2011) 版本；卸载请使用官方提供的 [卸载工具](https://support.bluestacks.com/hc/zh-tw/articles/360057724751-%E5%A6%82%E4%BD%95%E5%BE%9E%E6%82%A8%E7%9A%84%E9%9B%BB%E8%85%A6%E4%B8%8A%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4-BlueStacks-5-BlueStacks-X-%E5%92%8C-BlueStacks-%E6%9C%8D%E5%8B%99) 以清除残留。
-- 若 ADB 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [自定义连接](../custom-connection.md#蓝叠模拟器-hyper-v-每次启动端口号都不一样) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 ADB 的操作同样需要以管理员身份运行 MAA。
+- 若 ADB 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [连接设置](../connection.md#蓝叠模拟器-hyper-v-每次启动端口号都不一样) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 ADB 的操作同样需要以管理员身份运行 MAA。
 `,
 `
 ### ✅ [MuMu 模拟器 12](https://mumu.163.com/)
@@ -39,30 +39,6 @@ const fullySupport = shuffleArray([
 
 - “完成后退出模拟器”功能可能偶现异常，如果遇到请向 MuMu 官方反馈。
 - 3.5.4 ~ 3.5.7 版本 MuMu 12 的“后台保活”功能会导致截图失败，推荐使用 3.5.7 之后的版本；若您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，请关闭 MuMu 12 设置 - 其他 中的“后台挂机时保活运行”（详见[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）。
-- 多开时需通过 MuMu 12 多开器的 ADB 按钮查看对应实例的端口信息，将 MAA \`设置\` - \`连接设置\` 的连接地址的端口号修改为对应的端口。
-
-#### MuMu 截图增强模式
-
-需使用官版或方舟专版 MuMu 12 V3.8.22 (2892) 及更新版本，并关闭后台保活。国际版等暂不支持。
-
-##### 连接设置
-
-1. 设置 → 连接设置，勾选 \`启用 MuMu 截图增强模式\`。
-
-2. \`MuMu 模拟器路径\` 填写 \`MuMuPlayer-12.0\` 文件夹的路径，如 \`C:\\Program Files\\Netease\\MuMuPlayer-12.0\`。
-
-3. \`实例编号\` 填写 MuMu 多开器内对应模拟器的序号，如主多开为 \`0\`。
-
-4. \`实例屏幕\` 填 \`0\`。
-
-##### 关于后台保活
-
-推荐关闭，此时实例屏幕始终为 \`0\`。
-
-开启时，MuMu 模拟器标签页的顺序应为实例屏幕的序号，如 \`0\` 为模拟器桌面，\`1\` 为明日方舟客户端。
-
-针对后台保活的适配非常不完善，总会出现各种各样莫名其妙的问题，非常不建议使用。
-
 `,
 `
 ### ✅ [雷电模拟器](https://www.ldmnq.com/)
@@ -95,7 +71,7 @@ const particallySupport = shuffleArray([
 
 自 MAA v5.1.0 起放弃支持，网易已在 2023.8.15 停止维护。
 
-- 不再支持自动检测连接，需使用通用连接配置，并手动配置 adb 路径和连接地址。
+- 不再支持自动检测连接，需使用通用连接配置，并手动配置 ADB 路径和连接地址。
 - 需要在 \`设置\` - \`连接设置\` 中运行 \`强制替换 ADB\`，才能使用 Minitouch, MaaTouch 等高效的触控模式。
 - 需要使用管理员权限运行 MAA 才能使用“完成后退出模拟器”相关功能。
 - 不支持使用 MuMu 6 默认的几个奇葩分辨率，需要改成 \`1280x720\`，\`1920x1080\`，\`2560x1440\` 等 16:9 比例。
