@@ -108,17 +108,17 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 [![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
 
-## 参与开发
+### 参与开发
 
-### Windows
+#### Windows
 
 请参阅 [开始开发](./develop/development.md)。
 
-### Linux | macOS
+#### Linux | macOS
 
 请参阅 [Linux 编译教程](./develop/linux-tutorial.md)。
 
-### API
+#### API
 
 - [C 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
 - [Python 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py)：[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
@@ -134,15 +134,15 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [任务流程协议](./protocol/task-schema.md)
 - [自动抄作业协议](./protocol/copilot-schema.md)
 
-### 外服适配
+#### 外服适配
 
 请参阅 [外服适配教程](./develop/overseas-client-adaptation.md)，对于国服已支持的功能，绝大部分的外服适配工作仅需要截图 + 简单的 JSON 修改即可。
 
-### 想参与开发，但不太会用 GitHub?
+#### 想参与开发，但不太会用 GitHub?
 
 [GitHub Pull Request 流程简述](./develop/development.md#github-pull-request-流程简述)
 
-### Issue bot
+#### Issue bot
 
 请参阅 [Issue Bot 使用方法](./develop/issue-bot-usage.md)
 

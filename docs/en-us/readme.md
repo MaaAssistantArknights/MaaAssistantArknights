@@ -87,7 +87,7 @@ MAA supports command line interface (CLI) operation, supports Linux, macOS and W
 
 ## Join us
 
-## Associated Projects
+### Associated Projects
 
 **Currently, the project team is very short of front-end experts. If you have relevant experience, you are welcome to join us!**
 
@@ -106,17 +106,17 @@ MAA uses Chinese (Simplified) as its first language, and all translation entries
 
 [![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
 
-## Development Related Information
+### Development Related Information
 
-### Windows
+#### Windows
 
 Check [Development Guide](./develop/development.md).
 
-### Linux | MacOS
+#### Linux | MacOS
 
 Check [Linux Compiling Tutorial](./develop/linux-tutorial.md)
 
-### API
+#### API
 
 - [C interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/include/AsstCaller.h): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Cpp/main.cpp)
 - [Python interface](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/asst/asst.py): [Integration Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/Python/sample.py)
@@ -132,15 +132,15 @@ Check [Linux Compiling Tutorial](./develop/linux-tutorial.md)
 - [Task Schema](./protocol/task-schema.md)
 - [Copilot Schema](./protocol/copilot-schema.md)
 
-### Overseas Clients Adaptation
+#### Overseas Clients Adaptation
 
 Please refer to [Overseas clients Adaptation](./develop/overseas-client-adaptation.md). For the functions already supported by the CN client, most of the overseas clients adaptation tasks only need screenshots and simple JSON modification.
 
-### For Novice Users of GitHub
+#### For Novice Users of GitHub
 
 Check [Introduction to Github Pull request Flow](./develop/development.md#introduction-to-github-pull-request-flow).
 
-### Issue Bot
+#### Issue Bot
 
 Check [Issue Bot Usage](./develop/issue-bot-usage.md).
 
