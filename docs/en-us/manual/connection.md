@@ -5,7 +5,7 @@ icon: mdi:plug
 # Connection
 
 :::note
-For information about physical machines, please also check [Android Physical Devices](./devices/android.md).
+For information about physical machines, please also check [Android Physical Devices](./device/android.md).
 :::
 
 ## ADB Path

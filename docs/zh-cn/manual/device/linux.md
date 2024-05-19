@@ -70,23 +70,23 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 可以参考 [Linux 编译教程](../../develop/linux-tutorial.md) 重新编译或使用容器运行
 :::
 
-#### 2. `adb` 配置
+#### 2. ADB 配置
 
-1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L48) 一栏
+1. 找到 [`if asst.connect('adb.exe', '127.0.0.1:5554'):`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/b4fc3528decd6777441a8aca684c22d35d2b2574/src/Python/sample.py#L62) 一栏
 
-2. `adb` 工具调用
+2. ADB 工具调用
 
-   - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 `adb` 。可以直接在 `adb.exe` 一栏填写 `adb` 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
+   - 如果模拟器使用 `Android Studio` 的 `avd` ，其自带 ADB 。可以直接在 `adb.exe` 一栏填写 ADB 路径，一般在 `$HOME/Android/Sdk/platform-tools/` 里面可以找到，例如：
 
    ```python
-   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 adb 地址"):
+   if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "模拟器的 ADB 地址"):
    ```
 
-   - 如果使用其他模拟器须先下载 `adb` ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
+   - 如果使用其他模拟器须先下载 ADB ： `$ sudo apt install adb` 后填写路径或利用 `PATH` 环境变量直接填写 `adb` 即可。
 
-3. 模拟器 `adb` 路径获取
+3. 模拟器 ADB 路径获取
 
-   - 可以直接使用 adb 工具： `$ adb路径 devices` ，例如：
+   - 可以直接使用 ADB 工具： `$ adb路径 devices` ，例如：
 
    ```shell
    $ /home/foo/Android/Sdk/platform-tools/adb devices
@@ -94,7 +94,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。
    emulator-5554 device
    ```
 
-   - 返回的 `emulator-5554` 就是模拟器的 adb 地址，覆盖掉 `127.0.0.1:5555` ，例如：
+   - 返回的 `emulator-5554` 就是模拟器的 ADB 地址，覆盖掉 `127.0.0.1:5555` ，例如：
 
    ```python
    if asst.connect("/home/foo/Android/Sdk/platform-tools/adb", "emulator-5554"):
@@ -120,7 +120,7 @@ MAA WPF GUI 当前可以通过 Wine 运行。
 
 高版本安卓自带 x86_64 框架，轻量但是运行明日方舟时易闪退
 
-暂未严格测试， adb 功能和路径获取没有问题
+暂未严格测试， ADB 功能和路径获取没有问题
 
 ## 容器化安卓的支持
 
@@ -137,7 +137,7 @@ waydroid prop set persist.waydroid.width 1280
 waydroid prop set persist.waydroid.height 720
 ```
 
-设置 adb 的 IP 地址：打开 `设置` - `关于` - `IP地址` ，记录第一个 `IP` ，将 `${记录的IP}:5555` 填入`sample.py` 的 adb IP 一栏。
+设置 ADB 的 IP 地址：打开 `设置` - `关于` - `IP地址` ，记录第一个 `IP` ，将 `${记录的IP}:5555` 填入`sample.py` 的 adb IP 一栏。
 
 如果使用 amdgpu, `screencap` 命令可能向 stderr 输出信息导致图片解码失败.
 可以运行 `adb exec-out screencap | xxd | head` 并检查输出中是否有类似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文本来确认这一点.
@@ -145,4 +145,4 @@ waydroid prop set persist.waydroid.height 720
 
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
-安卓 11 版本的镜像可正常运行游戏, 需要暴露 5555 adb 端口.
+安卓 11 版本的镜像可正常运行游戏, 需要暴露 5555 ADB 端口.

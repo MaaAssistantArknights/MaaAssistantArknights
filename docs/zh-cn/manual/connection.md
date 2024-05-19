@@ -1,12 +1,12 @@
 ---
-order: 4
+order: 3
 icon: mdi:plug
 ---
 
 # 连接设置
 
 :::note
-实体机相关问题请同时参阅 [Android 实体设备](./devices/android.md)。
+实体机相关问题请同时参阅 [Android 实体设备](./device/android.md)。
 :::
 
 ## ADB 路径
@@ -59,10 +59,10 @@ icon: mdi:plug
 
 #### 备选方案
 
-- 方案 1 : 使用 adb 命令查看模拟器端口
+- 方案 1 : 使用 ADB 命令查看模拟器端口
 
   1. 启动**一个**模拟器，并确保没有其他安卓设备连接在此计算机上。
-  2. 在存放有 adb 可执行文件的文件夹中启动终端。
+  2. 在存放有 ADB 可执行文件的文件夹中启动终端。
   3. 执行以下命令。
 
   ```sh
@@ -82,7 +82,7 @@ icon: mdi:plug
 
   使用 `127.0.0.1:<端口>` 或 `emulator-<四位数字>` 作为连接地址。
 
-- 方案 2 : 查找已建立的 adb 连接
+- 方案 2 : 查找已建立的 ADB 连接
 
   1. 执行方案 1。
   2. 按 `徽标键+S` 打开搜索栏，输入 `资源监视器` 并打开。
@@ -93,7 +93,7 @@ icon: mdi:plug
 ### 自动启动多开模拟器
 
 若需要多开模拟器同时操作，可将 MAA 文件夹复制多份，使用 **不同的 MAA**、**同一个 adb.exe**、**不同的连接地址** 来进行连接。
-**以[蓝叠国际版](./devices/windows.md)为例**，介绍两种启动多开模拟器的方式。
+**以[蓝叠国际版](./device/windows.md)为例**，介绍两种启动多开模拟器的方式。
 
 #### 通过为模拟器 exe 附加命令来进行多开操作
 
@@ -208,14 +208,36 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)。
 
+### MuMu 截图增强模式
+
+需使用官版或方舟专版 MuMu 12 V3.8.22 (2892) 及更新版本，并关闭后台保活。国际版等暂不支持。
+
+#### 连接设置
+
+1. 设置 → 连接设置，勾选 `启用 MuMu 截图增强模式`。
+
+2. `MuMu 模拟器路径` 填写 `MuMuPlayer-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMuPlayer-12.0`。
+
+3. `实例编号` 填写 MuMu 多开器内对应模拟器的序号，如主多开为 `0`。
+
+4. `实例屏幕` 填 `0`。
+
+#### 关于后台保活
+
+推荐关闭，此时实例屏幕始终为 `0`。
+
+开启时，MuMu 模拟器标签页的顺序应为实例屏幕的序号，如 `0` 为模拟器桌面，`1` 为明日方舟客户端。
+
+针对后台保活的适配非常不完善，总会出现各种各样莫名其妙的问题，非常不建议使用。
+
 ## 触控模式
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现。高版本 Android 可用性尚待测试。
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现。高版本 Android 可用性尚待测试。~~帮我们做做测试~~
 3. Adb Input：直接调用 ADB 命令进行触控操作，兼容性最强，速度最慢。
 
 ## ADB Lite
 
 由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能损耗，但部分截图方式不可用。
 
-推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试~~
+推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试 x2~~

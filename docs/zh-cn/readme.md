@@ -64,12 +64,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本说明
 
-请参阅 [新手上路](./manual/newbie.md) 与 [详细介绍](./manual/introduction.md)。
+请参阅 [新手上路](./manual/newbie.md) 与 [功能介绍](./manual/introduction/)。
 
 ### 常见问题
 
 - 软件一打开就闪退；
-- 连接错误、不知道 adb 路径怎么填写；
+- 连接错误、不知道 ADB 路径怎么填写；
 - 连接成功了，但没反应；
 - 如何连接自定义端口；
 - 下载速度慢，且镜像站无法打开网页；
