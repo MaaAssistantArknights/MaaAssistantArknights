@@ -15078,6 +15078,19 @@
             "Sami@Roguelike@ChooseOperConfirm#next"
         ]
     },
+    "Sami@Roguelike@ClickToDrops": {
+        "next": [
+            "Sami@Roguelike@Collapsal",
+            "Sami@Roguelike@Stages#next",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@StageEncounterSpecialClose",
+            "Sami@Roguelike@TraderRandomShopping",
+            "Sami@Roguelike@StageTraderLeave",
+            "Sami@Roguelike@DropsFlag",
+            "Sami@Roguelike@StartUpThemes#next",
+            "Sami@Roguelike@ClickToDrops"
+        ]
+    },
     "Sami@Roguelike@CloseCollection": {
         "next": [
             "Sami@Roguelike@LastReward",
@@ -15107,6 +15120,33 @@
         ]
     },
     "Sami@Roguelike@CloseEvent": {},
+    "Sami@Roguelike@Collapsal": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "目空",
+            "目空一些",
+            "图像",
+            "图像损坏"
+        ],
+        "roi": [
+            1000,
+            22,
+            280,
+            165
+        ],
+        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
+        "specificRect": [
+            150,
+            0,
+            0,
+            0
+        ],
+        "next": [
+            "RoguelikeControlTaskPlugin-Stop"
+        ]
+    },
     "Sami@Roguelike@Continue": {
         "roi": [
             967,
@@ -15484,46 +15524,6 @@
             "Sami@Roguelike@GetDropSelectReward2",
             "Sami@Roguelike@ChooseOperFlag",
             "Sami@Roguelike@ClickToDrops"
-        ]
-    },
-    "Sami@Roguelike@ClickToDrops": {
-        "next": [
-            "Sami@Roguelike@Collapsal",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@StageEncounterSpecialClose",
-            "Sami@Roguelike@TraderRandomShopping",
-            "Sami@Roguelike@StageTraderLeave",
-            "Sami@Roguelike@DropsFlag",
-            "Sami@Roguelike@StartUpThemes#next",
-            "Sami@Roguelike@ClickToDrops"
-        ]
-    },
-    "Sami@Roguelike@Collapsal": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "text": [
-            "目空",
-            "目空一些",
-            "图像",
-            "图像损坏"
-        ],
-        "roi": [
-            1000,
-            22,
-            280,
-            165
-        ],
-        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
-        "specificRect": [
-            150,
-            0,
-            0,
-            0
-        ],
-        "next": [
-            "RoguelikeControlTaskPlugin-Stop"
         ]
     },
     "Sami@Roguelike@GetDrops": {
