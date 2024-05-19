@@ -52,6 +52,16 @@
         },
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                7,
+                4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "凯尔希",
                 "单奶"
             ],

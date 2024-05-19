@@ -191,7 +191,7 @@
                     "name": "假日威龙陈",
                     "skill": 3,
                     "alternate_skill": 1,
-                    "recruit_priority": 829,
+                    "recruit_priority": 810,
                     "promote_priority": 940,
                     "is_key": true,
                     "is_start": true,
@@ -1715,6 +1715,13 @@
                             ],
                             "threshold": 3,
                             "offset": -180
+                        },
+                        {
+                            "groups": [
+                                "浊心斯卡蒂"
+                            ],
+                            "threshold": 1,
+                            "offset": -380
                         }
                     ]
                 },
@@ -1732,6 +1739,13 @@
                             ],
                             "threshold": 3,
                             "offset": -180
+                        },
+                        {
+                            "groups": [
+                                "浊心斯卡蒂"
+                            ],
+                            "threshold": 1,
+                            "offset": -380
                         }
                     ]
                 }
@@ -2468,12 +2482,22 @@
                     "skill": 3,
                     "alternate_skill": 2,
                     "is_key": true,
-                    "recruit_priority": 586,
-                    "promote_priority": 612
+                    "recruit_priority": 486,
+                    "promote_priority": 612,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "术师"
+                            ],
+                            "threshold": 2,
+                            "offset": 80
+                        }
+                    ]
+                    
                 },
                 {
                     "name": "灵知",
-                    "skill": 1,
+                    "skill": 2,
                     "is_key": true,
                     "recruit_priority": 526,
                     "promote_priority": 602
