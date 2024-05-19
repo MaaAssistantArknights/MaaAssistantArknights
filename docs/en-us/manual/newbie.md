@@ -31,7 +31,7 @@ icon: ri:guide-fill
 
 5. Confirm simulator support
 
-   Check [Emulator Supports](./devices/) to confirm the support of the emulator you are using.
+   Check [Emulator Supports](./device/) to confirm the support of the emulator you are using.
 
 6. Correctly set the emulator resolution
 

@@ -66,7 +66,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### 기본 설정
 
-1. [Windows 지원 목록](./manual/devices/windows.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
+1. [Windows 지원 목록](./manual/device/windows.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
 2. 에뮬레이터 해상도를 '1280 * 720' 이상으로 변경하세요. 최대값은 '2K'이고 가로세로 비율은 '16:9'입니다.   
 
 ::: tip

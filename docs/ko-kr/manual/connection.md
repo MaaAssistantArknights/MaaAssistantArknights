@@ -5,7 +5,7 @@ icon: mdi:plug
 # 연결 설정
 
 :::note
-에뮬레이터가 아닌 실제 디바이스의 경우 [Android 디바이스 지원](./devices/android.md)을 참고하세요.
+에뮬레이터가 아닌 실제 디바이스의 경우 [Android 디바이스 지원](./device/android.md)을 참고하세요.
 :::
 
 ## ADB  경로

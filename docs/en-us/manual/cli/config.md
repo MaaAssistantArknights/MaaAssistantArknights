@@ -450,7 +450,7 @@ With the help of JSON schema, you can get auto-completion and validation in some
 
 [task-types]: ../../protocol/integration.md#list-of-task-types
 [emulator-ports]: ../faq.md#common-adb-ports-for-popular-android-emulators
-[playcover-doc]: ../devices/macos.md#-playcover-the-software-runs-most-fluently-for-its-nativity-
+[playcover-doc]: ../device/macos.md#-playcover-the-software-runs-most-fluently-for-its-nativity-
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/tree/main/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/tree/main/maa-cli/schemas
