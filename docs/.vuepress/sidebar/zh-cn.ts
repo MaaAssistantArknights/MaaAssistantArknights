@@ -12,42 +12,7 @@ export const zhcnSidebar = sidebar({
       icon: "mdi:user",
       prefix: "manual/",
       collapsible: true,
-      children: [
-        {
-          text: "新手上路",
-          icon: "ri:guide-fill",
-          link: "newbie",
-        },
-        {
-          text: "功能介绍",
-          icon: "mdi:information-outline",
-          link: "introduction",
-        },
-        {
-          text: "连接设置",
-          icon: "mdi:plug",
-          link: "connection",
-        },
-        {
-          text: "常见问题",
-          icon: "ph:question-fill",
-          link: "faq",
-        },
-        {
-          text: "模拟器和设备支持",
-          icon: "mingcute:laptop-fill",
-          prefix: "devices/",
-          collapsible: true,
-          children: "structure",
-        },
-        {
-          text: "CLI 使用指南",
-          icon: "material-symbols:terminal",
-          prefix: "cli/",
-          collapsible: true,
-          children: "structure",
-        },
-      ],
+      children: "structure",
     },
     {
       text: "开发文档",
