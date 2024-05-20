@@ -20,7 +20,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    if (m_config->get_theme() != RoguelikeTheme::Sami) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_use_foldartal()) {
         return false;
     }
     auto mode = m_config->get_mode();
