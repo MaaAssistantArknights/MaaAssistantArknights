@@ -69,6 +69,8 @@ namespace asst
         bool get_invest_stop_when_full() const { return m_invest_stop_when_full; }
         void set_invest_with_more_score(bool value) { m_invest_with_more_score = value; }
         bool get_invest_with_more_score() const { return m_invest_with_more_score; }
+        void set_use_foldartal(bool use_foldrtal) { m_use_foldartal = use_foldrtal; }
+        bool get_use_foldartal() const {return m_use_foldartal; }
 
     private:
         std::string m_theme;                             // 主题
@@ -83,6 +85,7 @@ namespace asst
         int m_invest_maximum = 0;                        // 投资次数上限
         bool m_invest_stop_when_full = false;            // 存款满了就停止
         bool m_invest_with_more_score = false;           // 投资时招募、购物刷分
+        bool m_use_foldartal = true;                     // 是否使用密文板
 
         /* 以下为每次重置 */
     public:

@@ -121,6 +121,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_config_ptr->set_start_foldartal_list(std::move(list));
     }
 
+    // 是否使用密文版
+    m_roguelike_config_ptr->set_use_foldartal(params.get("use_foldartal", true));
+
     m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
     m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
