@@ -20,7 +20,6 @@
                         <main:Bootstrapper />
                     </s:ApplicationLoader.Bootstrapper>
                 </s:ApplicationLoader>
-                <ResourceDictionary Source="pack://application:,,,/PresentationFramework.Aero2;component/themes/Aero2.NormalColor.xaml" />
                 <ResourceDictionary Source="/MAA;component/Res/Theme.xaml" />
                 <ResourceDictionary Source="/MAA;component/Res/Style.xaml" />
             </ResourceDictionary.MergedDictionaries>
