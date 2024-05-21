@@ -8,6 +8,13 @@ icon: teenyicons:linux-alt-solid
 ## 准备工作
 
 以下安装方式任选其一即可：
+### 使用 MaaX
+[MaaX](https://github.com/MaaAssistantArknights/MaaX)是一个基于electron的maa图形化前端，支持linux。
+如果是Arch Linux,可以通过AUR安装。
+   ```shell
+   yay -S --noconfirm maa-x-bin
+   ```
+
 
 ### 使用 maa-cli
 
