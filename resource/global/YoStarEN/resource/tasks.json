@@ -50,31 +50,6 @@
             150
         ]
     },
-    "IS-Open": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "roi": [
-            0,
-            500,
-            500,
-            150
-        ],
-        "text": [
-            "Siracusano"
-        ]
-    },
-    "IS-OpenOcr": {
-        "text": [
-            "Siracusano",
-            "",
-            "open"
-        ]
-    },
-    "EnterChapterIS": {
-        "text": [
-            "Volsinii"
-        ]
-    },
     "ZT-OpenOcr": {
         "text": [
             "Zwilling",
@@ -241,6 +216,31 @@
         "text": [
             "SWAMP",
             "MISTS"
+        ]
+    },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "Siracusano"
+        ]
+    },
+    "IS-OpenOcr": {
+        "text": [
+            "Siracusano",
+            "",
+            "open"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "Volsinii"
         ]
     },
     "StageEpisodeToGT": {
