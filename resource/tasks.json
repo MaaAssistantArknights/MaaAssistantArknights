@@ -6525,7 +6525,7 @@
     "RecruitNoPermit": {
         "action": "DoNothing",
         "roi": [
-            450,
+            300,
             600,
             190,
             110
