@@ -153,6 +153,7 @@ SILLY   [main /app/packages/main/coreLoader/callback.ts:11:12 <anonymous>]      
 ```
 可以运行 `adb exec-out screencap | xxd | head` 并检查输出中是否有类似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文本来确认这一点.
 尝试将 `resource/config.json` 中的截图命令由 `adb exec-out screencap` 改为 `adb exec-out 'screencap 2>/dev/null'`.
+
 对于[MaaX](https://github.com/MaaAssistantArknights/MaaX),可以尝试更改设置-触控模式到Adb(兼容模式)。
 ### ✅ [redroid](https://github.com/remote-android/redroid-doc)
 
