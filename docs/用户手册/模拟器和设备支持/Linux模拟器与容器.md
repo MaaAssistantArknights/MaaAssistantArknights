@@ -151,7 +151,7 @@ waydroid prop set persist.waydroid.height 720
 可以运行 `adb exec-out screencap | xxd | head` 并检查输出中是否有类似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文本来确认这一点.
 尝试将 `resource/config.json` 中的截图命令由 `adb exec-out screencap` 改为 `adb exec-out 'screencap 2>/dev/null'`.
 
-对于[MaaX](https://github.com/MaaAssistantArknights/MaaX),截图失败时可能图形界面可能不会有反应，但你应该能在终端看见类似这样的输出：
+对于[MaaX](https://github.com/MaaAssistantArknights/MaaX),截图失败时图形界面可能不会有反应，但你应该能在终端看见类似这样的输出：
 ```shell
 SILLY   [main /app/packages/main/coreLoader/callback.ts:11:12 <anonymous>]      {"details":{},"uuid":"","what":"ScreencapFailed","why":"ScreencapFailed"}
 ```
