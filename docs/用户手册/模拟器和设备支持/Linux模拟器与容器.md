@@ -148,9 +148,9 @@ waydroid prop set persist.waydroid.height 720
 
 如果使用 amdgpu, `screencap` 命令可能向 stderr 输出信息导致图片解码失败.
 届时可以在终端看见类似这样的输出：
-'''shell
+```shell
 SILLY   [main /app/packages/main/coreLoader/callback.ts:11:12 <anonymous>]      {"details":{},"uuid":"","what":"ScreencapFailed","why":"ScreencapFailed"}
-'''
+```
 可以运行 `adb exec-out screencap | xxd | head` 并检查输出中是否有类似 `/vendor/etc/hwdata/amdgpu.ids: No such file...` 的文本来确认这一点.
 尝试将 `resource/config.json` 中的截图命令由 `adb exec-out screencap` 改为 `adb exec-out 'screencap 2>/dev/null'`.
 对于[MaaX](https://github.com/MaaAssistantArknights/MaaX),可以尝试更改设置-触控模式到Adb(兼容模式)。
