@@ -1,13 +1,22 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
 #include "Config/Roguelike/RoguelikeFoldartalConfig.h"
+#include "RoguelikeCollapsalParadigmTaskPlugin.h"
 
 namespace asst
 {
     class RoguelikeFoldartalUseTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+        RoguelikeFoldartalUseTaskPlugin(const AsstCallback& callback,
+                                             Assistant* inst,
+                                             std::string_view task_chain,
+                                             std::shared_ptr<RoguelikeConfig> config)
+                                             : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
+        {
+            register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(config);
+        }
         virtual ~RoguelikeFoldartalUseTaskPlugin() override = default;
 
     public:
