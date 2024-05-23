@@ -338,6 +338,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
+        MuMu 12 3.8.13 and later is required, not supported by MuMu 12 Global. \n\n
         Please fill in the following information:\n\n
         1. Emulator Path: (e.g., C:\\Program Files\\Netease\\MuMuPlayer-12.0)\n
         The emulator path should be the parent folder path of the emulator application. For example, if the application path is\n
