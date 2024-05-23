@@ -1,4 +1,15 @@
 {
+    "StartUpNotificationKR": {
+        "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": [
+            "알겠습니다"
+        ],
+        "next": [
+            "StartUpThemes#next"
+        ]
+    },
     "ClickChapter1": {
         "text": [
             "각성"
@@ -2456,6 +2467,19 @@
                 "조화장치",
                 "调谐节点"
             ]
+        ]
+    },
+    "StartUpThemes": {
+        "next": [
+            "GameStart",
+            "StartUpNotificationKR",
+            "StartToWakeUp",
+            "StartToWakeUpOCR",
+            "StartLoginBServer",
+            "StartUpConnectingFlag",
+            "MainThemes#next",
+            "CloseAnnos#next",
+            "OfflineConfirm"
         ]
     },
     "StartToWakeUp": {
