@@ -138,9 +138,12 @@
         ],
         "text": [
             "シラクザーノ"
-        ],
-        "next": [
-            "EnterChapterIS"
+        ]
+    },
+    "IS-OpenOcr": {
+        "text": [
+            "シラクザーノ",
+            "イベント復刻開催中"
         ]
     },
     "EnterChapterIS": {

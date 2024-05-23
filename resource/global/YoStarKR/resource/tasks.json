@@ -1,4 +1,15 @@
 {
+    "StartUpNotificationKR": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
+        "next": [
+            "StartUpThemes#next"
+        ],
+        "text": [
+            "알겠습니다"
+        ]
+    },
     "ClickChapter1": {
         "text": [
             "각성"
@@ -95,6 +106,19 @@
         "text": [
             "안갯속",
             "늪지대"
+        ]
+    },
+    "IS-OpenOcr": {
+        "text": [
+            "시라쿠사인",
+            "이벤트",
+            "재개방",
+            "개방중"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "볼시니"
         ]
     },
     "StageEpisodeToOF": {
@@ -2443,6 +2467,19 @@
                 "조화장치",
                 "调谐节点"
             ]
+        ]
+    },
+    "StartUpThemes": {
+        "next": [
+            "GameStart",
+            "StartUpNotificationKR",
+            "StartToWakeUp",
+            "StartToWakeUpOCR",
+            "StartLoginBServer",
+            "StartUpConnectingFlag",
+            "MainThemes#next",
+            "CloseAnnos#next",
+            "OfflineConfirm"
         ]
     },
     "StartToWakeUp": {
