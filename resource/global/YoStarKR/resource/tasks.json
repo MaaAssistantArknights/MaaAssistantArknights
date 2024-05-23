@@ -1,13 +1,13 @@
 {
     "StartUpNotificationKR": {
-        "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
-        "text": [
-            "알겠습니다"
-        ],
+        "doc": "This is a task for handling KR-specific announcements (linked StartUpThemes)",
         "next": [
             "StartUpThemes#next"
+        ],
+        "text": [
+            "알겠습니다"
         ]
     },
     "ClickChapter1": {
