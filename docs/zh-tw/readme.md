@@ -116,7 +116,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~C++ base64 編解碼：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解壓壓縮庫：[zlib](https://github.com/madler/zlib)
 - C++ Gzip 封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- 安卓觸控事件器：[minitouch](https://github.com/DeviceFarmer/minitouch)
+- 安卓觸控事件器：[Minitouch](https://github.com/DeviceFarmer/minitouch)
 - 安卓觸控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM 框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF 控件庫：[HandyControl](https://github.com/HandyOrg/HandyControl)
