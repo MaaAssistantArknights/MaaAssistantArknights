@@ -231,7 +231,7 @@
                 9,
                 4
             ],
-            "direction": "right",
+            "direction": "up",
             "condition": [
                 1,
                 52
@@ -260,12 +260,12 @@
                 "其他地面"
             ],
             "location": [
-                10,
+                9,
                 6
             ],
-            "direction": "right",
+            "direction": "up",
             "condition": [
-                1,
+                10,
                 52
             ]
         },
