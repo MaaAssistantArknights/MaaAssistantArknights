@@ -43,7 +43,7 @@ const fullySupport = shuffleArray([
 `
 ### ✅ [雷电模拟器](https://www.ldmnq.com/)
 
-完美支持。
+完美支持。已知兼容 Hyper-V。
 
 - 雷电 9 推荐使用 9.0.57 及以上版本；雷电 5 推荐使用 5.0.67 及以上版本。
 - 低于上述版本则需要在 \`设置\` - \`连接设置\` 中运行 \`强制替换 ADB\`，才能使用 Minitouch, MaaTouch 等高效的触控模式。
