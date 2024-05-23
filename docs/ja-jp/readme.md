@@ -172,7 +172,7 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 - ~~C++ base64エンコードとデコード：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 圧縮・解凍ライブラリ：[zlib](https://github.com/madler/zlib)
 - C++ Gzipカプセル化ライブラリ：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- Android タッチ イベント: [minitouch](https://github.com/DeviceFarmer/minitouch)
+- Android タッチ イベント: [Minitouch](https://github.com/DeviceFarmer/minitouch)
 - Android タッチ イベント: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVWフレームワーク：[Stylet](https://github.com/canton7/Stylet)
 - WPFコントロールライブラリ：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)

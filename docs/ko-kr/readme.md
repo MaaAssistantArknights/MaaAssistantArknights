@@ -182,7 +182,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - ~~C++ Base64 인코딩/디코딩: [cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ ZIP 라이브러리: [zlib](https://github.com/madler/zlib)
 - C++ Gzip 라이브러리: [gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- 안드로이드 터치 이벤트 구현: [minitouch](https://github.com/DeviceFarmer/minitouch)
+- 안드로이드 터치 이벤트 구현: [Minitouch](https://github.com/DeviceFarmer/minitouch)
 - 안드로이드 터치 이벤트 구현: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM 프레임워크: [Stylet](https://github.com/canton7/Stylet)
 - WPF 조작 라이브러리: [HandyControl](https://github.com/HandyOrg/HandyControl)
