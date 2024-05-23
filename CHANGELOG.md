@@ -1,46 +1,31 @@
-## v5.3.0-beta.2
+## v5.3.0-beta.3
 
 ### 新增 | New
 
-* Wine 支持 (#8960) @dantmnf
-* add compile def to disable emulator extras @horror-proton
-*「健将」名片识别
+* YostarEN Siracusano navigation EnterChapterIS might need future regex. Wait for event @Constrat
+* add workaround to limit roguelike framerate @horror-proton
+* 萨米肉鸽刷等级增加商店刷新 (#9142) @Lancarus @Constrat
+* Improved Recruitment tab readability @Constrat
 
 ### 改进 | Improved
 
-* 优化萨米肉鸽策略 (#9114) @Lancarus
-* 开始唤醒优化 (#9083) @Constrat
+* 更新 mumu12 截图增强模式使用说明 @ABA2396
+* 优化萨米肉鸽策略 (#9149) @Lancarus
 
 ### 修复 | Fix
 
-* mac 开始唤醒报错 (#9083) @Constrat
-* 修正赠送月卡选项卡位移导致的领取失败问题 @SherkeyXD
-* 部署失败后不清除已占用格子 (#9111) @Lancarus
-* 触控模式不可用时仍继续任务 @ABA2396
-* remove incorrect use of __cpp_lib_ranges @horror-proton
+* handling KR-specific announcements (#9177) @HX3N
+* update roi of RecruitNoPermit @horror-proton
+* change swipe position in StageDropsTaskPlugin @aur3l14no
+* attempt to fix winrt notification crash @dantmnf
+* adding delay between swipe and click @Constrat
+* delay between FriendsList analyze and click @Constrat
+* 尝试修复肉鸽编队不选干员 (#9148) @Lancarus
+* StartUpConnectingFlag not detecting @Constrat
 
 ### 其他 | Other
 
-* 添加超链接未设置默认浏览器的报错解决方案 @ABA2396
-* macOS 版本使用运行于 M1 芯片的 macOS 14 系统编译 (#9071) @AnnAngela
-* 无需手动验证 doc (#9070) @AnnAngela
-* run MaaWpfGui under Wine (#8960) @Constrat
-* fix a bad link (#9085) @lizy14
-
-### For Overseas
-
-#### txwy
-
-* 繁中服「塵影餘音」復刻活動導航 (#9108) @momomochi987
-
-#### YostarEN
-
-* increased roi + foldartal regex for EN @Constrat
-
-#### YostarJP
-
-* YoStarJP ocr fix (#9068) @Manicsteiner
-
-#### YostarKR
-
-* YoStarKR translation fix @HX3N
+* Revert "chore: force Aero2 theme" @ABA2396
+* YoStarKR IS navigation @HX3N
+* YoStarJP IS rerun navigation (#9164) @Manicsteiner
+* StartGameTaskPlugin.cpp for improved readability @Constrat
