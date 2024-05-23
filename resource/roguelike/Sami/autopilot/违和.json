@@ -196,10 +196,10 @@
                 "障碍物"
             ],
             "location": [
-                4,
-                3
+                6,
+                2
             ],
-            "direction": "right"
+            "direction": "down"
         },
         {
             "groups": [

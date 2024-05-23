@@ -1454,52 +1454,6 @@
                     ]
                 },
                 {
-                    "name": "淬羽赫默",
-                    "skill": 2
-                },
-                {
-                    "name": "月禾"
-                },
-                {
-                    "name": "九色鹿",
-                    "skill": 2
-                },
-                {
-                    "name": "夏栎",
-                    "skill": 1,
-                    "recruit_priority": 132,
-                    "promote_priority": 0,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
-                            "threshold": 0,
-                            "is_less": true,
-                            "offset": 500
-                        }
-                    ]
-                },
-                {
-                    "name": "波登可",
-                    "skill": 1,
-                    "recruit_priority": 131,
-                    "promote_priority": 0,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "单奶",
-                                "群奶",
-                                "凯尔希"
-                            ],
-                            "threshold": 0,
-                            "is_less": true,
-                            "offset": 450
-                        }
-                    ]
-                },
-                {
                     "name": "末药"
                 },
                 {
@@ -1721,14 +1675,13 @@
                                 "浊心斯卡蒂"
                             ],
                             "threshold": 1,
-                            "offset": -380
+                            "offset": -580
                         }
                     ]
                 },
                 {
                     "name": "魔王",
                     "skill": 2,
-                    "is_key": true,
                     "recruit_priority": 630,
                     "promote_priority": 690,
                     "recruit_priority_offsets": [
@@ -1738,14 +1691,14 @@
                                 "群奶"
                             ],
                             "threshold": 3,
-                            "offset": -180
+                            "offset": -280
                         },
                         {
                             "groups": [
                                 "浊心斯卡蒂"
                             ],
                             "threshold": 1,
-                            "offset": -380
+                            "offset": -580
                         }
                     ]
                 }
@@ -1753,6 +1706,7 @@
         },
         {
             "name": "群奶",
+            "doc": "主要以攻击范围区分",
             "opers": [
                 {
                     "name": "夜莺",
@@ -1839,6 +1793,52 @@
                             ],
                             "threshold": 2,
                             "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "淬羽赫默",
+                    "skill": 2
+                },
+                {
+                    "name": "月禾"
+                },
+                {
+                    "name": "九色鹿",
+                    "skill": 2
+                },
+                {
+                    "name": "夏栎",
+                    "skill": 1,
+                    "recruit_priority": 132,
+                    "promote_priority": 0,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶"
+                            ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 500
+                        }
+                    ]
+                },
+                {
+                    "name": "波登可",
+                    "skill": 1,
+                    "recruit_priority": 131,
+                    "promote_priority": 0,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "单奶",
+                                "群奶",
+                                "凯尔希"
+                            ],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 450
                         }
                     ]
                 },
@@ -2493,7 +2493,6 @@
                             "offset": 80
                         }
                     ]
-                    
                 },
                 {
                     "name": "灵知",
