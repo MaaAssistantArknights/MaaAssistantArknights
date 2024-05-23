@@ -17,6 +17,8 @@ body:
         required: true
       - label: 我正在使用最新的官版或方舟专版 MuMu 模拟器，而非国际版等
         required: true
+      - label: 我已参考文档确定安装路径、实例编号、屏幕编号填写正确。
+        required: true
       - label: 我正在使用后台保活功能，并确定该问题仅在开启后台保活时出现（此条非必需）
         required: false
   - type: textarea
