@@ -194,7 +194,16 @@
                     "recruit_priority": 829,
                     "promote_priority": 940,
                     "is_key": true,
-                    "is_start": true
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "益达"
+                            ],
+                            "threshold": 1,
+                            "offset": -230
+                        }
+                    ]
                 }
             ]
         },
@@ -480,37 +489,6 @@
                             "is_less": true,
                             "offset": -300,
                             "Doc": "地面阻挡≤1时，幽灵鲨的招募优先级-300"
-                        }
-                    ]
-                },
-                {
-                    "name": "归溟幽灵鲨",
-                    "skill": 2,
-                    "recruit_priority": 570,
-                    "promote_priority": 601,
-                    "is_key": true,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
-                            "threshold": 2,
-                            "offset": -150
-                        },
-                        {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "重装",
-                                "情报官",
-                                "挡人先锋"
-                            ],
-                            "threshold": 1,
-                            "is_less": true,
-                            "offset": -300,
-                            "Doc": "地面阻挡≤1时，招募优先级-500"
                         }
                     ]
                 }
@@ -961,7 +939,8 @@
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
                             "offset": -300
@@ -973,16 +952,17 @@
                     "skill": 3,
                     "is_key": true,
                     "alternate_skill": 2,
-                    "recruit_priority": 681,
+                    "recruit_priority": 682,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
-                            "offset": -300
+                            "offset": -200
                         },
                         {
                             "groups": [
@@ -1001,13 +981,14 @@
                     "skill": 3,
                     "is_key": true,
                     "alternate_skill": 2,
-                    "recruit_priority": 680,
+                    "recruit_priority": 580,
                     "promote_priority": 500,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
                             "offset": -300
@@ -1031,7 +1012,8 @@
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
                             "offset": -300
@@ -1041,7 +1023,7 @@
                 {
                     "name": "空弦",
                     "skill": 3,
-                    "alternate_skill": 2,
+                    "alternate_skill": 1,
                     "recruit_priority": 478,
                     "promote_priority": 500,
                     "is_key": true,
@@ -1049,7 +1031,8 @@
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
                             "offset": -300
@@ -1065,7 +1048,8 @@
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
                             "offset": -300
@@ -1081,7 +1065,8 @@
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
                             "offset": -300
@@ -1097,7 +1082,8 @@
                         {
                             "groups": [
                                 "水陈",
-                                "速狙"
+                                "速狙",
+                                "益达"
                             ],
                             "threshold": 1,
                             "offset": -300
@@ -1139,7 +1125,6 @@
                     "skill": 0,
                     "recruit_priority": 205,
                     "recruit_priority_when_team_full": 0,
-                    "promote_priority": 0,
                     "is_alternate": true
                 }
             ]
@@ -1419,7 +1404,7 @@
                 },
                 {
                     "name": "清流",
-                    "skill": 1,
+                    "skill": 2,
                     "recruit_priority": 688,
                     "promote_priority": 200,
                     "recruit_priority_offsets": [
@@ -1941,6 +1926,15 @@
                             ],
                             "threshold": 2,
                             "offset": -200
+                        },
+                        {
+                            "groups": [
+                                "提丰",
+                                "水陈",
+                                "速狙"
+                            ],
+                            "threshold": 2,
+                            "offset": 50
                         }
                     ]
                 },
@@ -2363,7 +2357,16 @@
                     "recruit_priority": 830,
                     "promote_priority": 910,
                     "is_key": true,
-                    "is_start": true
+                    "is_start": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "益达"
+                            ],
+                            "threshold": 1,
+                            "offset": -230
+                        }
+                    ]
                 }
             ]
         },
@@ -3428,8 +3431,8 @@
                 {
                     "name": "阿斯卡纶",
                     "skill": 2,
-                    "recruit_priority": 406,
-                    "promote_priority": 440,
+                    "recruit_priority": 576,
+                    "promote_priority": 602,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -3439,7 +3442,7 @@
                             ],
                             "threshold": 1,
                             "is_less": true,
-                            "offset": -600
+                            "offset": -500
                         }
                     ]
                 },
@@ -3462,7 +3465,35 @@
                     ]
                 },
                 {
-                    "name": "归溟幽灵鲨"
+                    "name": "归溟幽灵鲨",
+                    "skill": 2,
+                    "recruit_priority": 570,
+                    "promote_priority": 601,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "召唤"
+                            ],
+                            "threshold": 2,
+                            "offset": -350
+                        },
+                        {
+                            "groups": [
+                                "凯尔希",
+                                "近卫",
+                                "重装",
+                                "情报官",
+                                "挡人先锋"
+                            ],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -600,
+                            "Doc": "地面阻挡≤1时，招募优先级-500"
+                        }
+                    ]
                 },
                 {
                     "name": "伊桑",
@@ -4052,7 +4083,7 @@
                     "name": "安德切尔",
                     "skill": 1,
                     "is_key": true,
-                    "recruit_priority": 255
+                    "recruit_priority": 455
                 },
                 {
                     "name": "罗宾",
@@ -4136,7 +4167,8 @@
                 },
                 {
                     "name": "蚀清",
-                    "skill": 2
+                    "skill": 2,
+                    "recruit_priority": -800
                 },
                 {
                     "name": "冰酿",
@@ -4198,17 +4230,17 @@
         {
             "groups": [
                 "玛恩纳",
-                "水陈",
-                "焰苇"
+                "焰苇",
+                "水陈"
             ],
             "threshold": 1
         },
         {
             "groups": [
-                "凯尔希",
-                "近卫",
+                "益达",
                 "重装",
-                "益达"
+                "凯尔希",
+                "近卫"
             ],
             "threshold": 2
         },

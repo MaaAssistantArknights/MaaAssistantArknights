@@ -218,6 +218,31 @@
             "MISTS"
         ]
     },
+    "IS-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "roi": [
+            0,
+            500,
+            500,
+            150
+        ],
+        "text": [
+            "Siracusano"
+        ]
+    },
+    "IS-OpenOcr": {
+        "text": [
+            "Siracusano",
+            "",
+            "open"
+        ]
+    },
+    "EnterChapterIS": {
+        "text": [
+            "Volsinii"
+        ]
+    },
     "StageEpisodeToGT": {
         "text": [
             "Grani and the Knights' Treasure",
@@ -2031,7 +2056,7 @@
                 "备勤激活站"
             ],
             [
-                "Ter*a .ese.*r.*",
+                "[TL]er*a .ese.*r.*",
                 "Terra Research Commission"
             ],
             [
@@ -2511,6 +2536,14 @@
     "StartToWakeUpOCR": {
         "text": [
             "START"
+        ]
+    },
+    "StartUpConnectingFlag": {
+        "roi": [
+            0,
+            635,
+            530,
+            85
         ]
     },
     "TodaysSupplies": {

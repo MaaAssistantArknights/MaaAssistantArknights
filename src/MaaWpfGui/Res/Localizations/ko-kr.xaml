@@ -338,6 +338,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu의 스크린샷 향상 모드를 활성화하세요</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
+        mumu 12 3.8.13과 mumu 12 글로벌이 지원하지 않는 업데이트된 버전이 필요하다.\n\n
         다음 정보를 기입하세요: \n\n
         1. 에뮬레이터 경로: (예: C:\\Program Files\\Netease\\MuMuPlayer-12.0) \n
         에뮬레이터 경로는 에뮬레이터 응용 프로그램의 상위 폴더 경로를 입력해야 합니다. 예를 들어, 응용 프로그램 경로가\n

@@ -30,6 +30,16 @@
     "deploy_plan": [
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                7,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "情报官",
                 "回费",
                 "地面远程",
@@ -50,7 +60,7 @@
                 "单奶"
             ],
             "location": [
-                7,
+                6,
                 1
             ],
             "direction": "down"
@@ -61,7 +71,7 @@
                 "单奶"
             ],
             "location": [
-                6,
+                7,
                 1
             ],
             "direction": "down"

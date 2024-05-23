@@ -453,7 +453,20 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 {
     check_drone_tiles();
 
+    // TODO: move this to controller
+    static thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static constexpr auto min_frame_interval = std::chrono::milliseconds(100);
+
+    // prevent our program from consuming too much CPU
+    if (const auto now = std::chrono::steady_clock::now();
+        prev_frame_time > now - min_frame_interval) [[unlikely]] {
+        Log.debug("Sleeping for framerate limit");
+        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
+    }
+
     cv::Mat image = ctrler()->get_image();
+    prev_frame_time = std::chrono::steady_clock::now();
+
     if (!m_first_deploy) {
         use_all_ready_skill(image);
     }
