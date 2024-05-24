@@ -1,0 +1,17 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: MaaAssistantArknights
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - name: Maa Team
+    website: 'https://maa.plus/'
+    date-start: '2021-07-10'
+repository-code: >-
+  https://github.com/MaaAssistantArknights/MaaAssistantArknights/
+url: 'https://maa.plus/'
+license: AGPL-3.0-only
