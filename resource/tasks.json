@@ -4095,10 +4095,10 @@
         "cache": false,
         "action": "DoNothing",
         "roi": [
-            880,
-            100,
-            180,
-            120
+            844,
+            58,
+            268,
+            272
         ],
         "Doc": "有时候明明已经在主界面了，停了一小会又弹个窗。多检测几次，一直在主界面才算完成",
         "postDelay": 1000,
@@ -5213,10 +5213,10 @@
         "cache": false,
         "action": "ClickSelf",
         "roi": [
-            880,
-            100,
-            180,
-            120
+            844,
+            58,
+            268,
+            272
         ],
         "exceededNext": [
             "Fight@TodaysSupplies",
@@ -6342,10 +6342,10 @@
         "cache": false,
         "action": "Stop",
         "roi": [
-            880,
-            100,
-            230,
-            180
+            844,
+            58,
+            268,
+            272
         ],
         "crop_doc": {
             "doc": "Heads up: YostarEN needs 133 of 'y' instead of 120",
@@ -11297,10 +11297,10 @@
         "cache": false,
         "action": "ClickSelf",
         "roi": [
-            880,
-            100,
-            230,
-            180
+            844,
+            58,
+            268,
+            272
         ],
         "next": [
             "Roguelike",
@@ -16453,10 +16453,10 @@
         "cache": false,
         "action": "ClickSelf",
         "roi": [
-            880,
-            100,
-            230,
-            180
+            844,
+            58,
+            268,
+            272
         ],
         "next": [
             "Reclamation",
