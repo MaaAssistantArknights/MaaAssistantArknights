@@ -336,7 +336,7 @@
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 Global 不支援。\n\n
+        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 遊戲專版、Global 不支援。\n\n
         請填寫以下信息：\n\n
         1. 模擬器路徑：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         模擬器路徑應填寫模擬器應用的上一層文件夾路徑，例如應用路徑為\n
