@@ -1,8 +1,9 @@
 ---
+order: 4
 icon: ph:question-fill
 ---
 
-# Frequently Asked Questions
+# FAQs
 
 ::: warning
 MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as follows:
@@ -80,7 +81,7 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 ### Approach 1: make sure ADB and address are correct
 
-TODO [Custom Connection](./custom-connection.md)
+Check [Connection](./connection.md)
 
 ### Approach 2: change emulator
 
@@ -100,7 +101,7 @@ Try restarting your computer.
 
 The adb version packaged with some emulators is too old and does not support minitouch. Please open MAA with administrator priviledge and navigate to `Settings` - `Connection Settings` - `Forced Replace ADB`. (It is recommended to close the emulator and restart MAA before proceeding, otherwise the replacement may not be sussessful.)
 
-The emulator will reset the ADB version after updating. If the problems occurs again, please repeat the above steps. Or you can try to use the [custom connection](./introduction.md#custom-connection) method to solve it once and for all.
+The emulator will reset the ADB version after updating. If the problems occurs again, please repeat the above steps. Or you can try to use the [custom connection](./connection.md) method to solve it once and for all.
 
 If it still doesn't work, please retry after switching to `MaaTouch` from `Minitouch` in `Settings` - `Connection Settings`.
 
