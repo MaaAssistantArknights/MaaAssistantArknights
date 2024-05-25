@@ -39,18 +39,25 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
 
     public void ShowNotification(NotificationContent content)
     {
-        Application.Current.Dispatcher.Invoke(() =>
+        try
         {
-            var builder = new ToastContentBuilder().AddText(content.Body).AddText(content.Summary);
-
-            foreach (var action in content.Actions)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                builder.AddButton(new ToastButton()
-                    .SetContent(action.Label)
-                    .AddArgument(action.Tag));
-            }
+                var builder = new ToastContentBuilder().AddText(content.Body).AddText(content.Summary);
 
-            builder.Show();
-        });
+                foreach (var action in content.Actions)
+                {
+                    builder.AddButton(new ToastButton()
+                        .SetContent(action.Label)
+                        .AddArgument(action.Tag));
+                }
+
+                builder.Show();
+            });
+        }
+        catch
+        {
+            // ignored
+        }
     }
 }
