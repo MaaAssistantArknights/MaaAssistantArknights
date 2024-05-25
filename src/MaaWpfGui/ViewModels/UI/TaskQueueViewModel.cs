@@ -1073,6 +1073,8 @@ namespace MaaWpfGui.ViewModels.UI
         {
             SleepManagement.AllowSleep();
 
+            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+
             if (!_runningState.GetIdle() || Stopping)
             {
                 AddLog(LocalizationHelper.GetString("Stopped"));

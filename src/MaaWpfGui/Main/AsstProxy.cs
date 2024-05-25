@@ -669,6 +669,15 @@ namespace MaaWpfGui.Main
                             Instances.CopilotViewModel.CopilotTaskSuccess();
                         }
 
+                        if (Instances.SettingsViewModel.CopilotWithScript)
+                        {
+                            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
+                            if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                            {
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
+                            }
+                        }
+
                         Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CompleteCombat"), UiLogColor.Info);
                     }
 

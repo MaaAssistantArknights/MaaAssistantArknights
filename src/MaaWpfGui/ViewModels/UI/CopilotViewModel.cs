@@ -994,6 +994,15 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            if (Instances.SettingsViewModel.CopilotWithScript)
+            {
+                await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.StartsWithScript))
+                {
+                    AddLog(LocalizationHelper.GetString("StartsWithScript"));
+                }
+            }
+
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
             if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
             {
@@ -1011,6 +1020,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (errMsg.Length != 0)
             {
                 AddLog(errMsg, UiLogColor.Error);
+                Stop();
             }
 
             UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
@@ -1076,6 +1086,15 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
+            if (Instances.SettingsViewModel.CopilotWithScript)
+            {
+                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                {
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
+                }
+            }
+
             if (!Instances.AsstProxy.AsstStop())
             {
                 _logger.Warning("Failed to stop Asst");
