@@ -3,7 +3,7 @@ order: 1
 icon: ri:windows-fill
 ---
 
-# Windows 模拟器支持
+# Windows 模拟器
 
 以下模拟器排序为随机生成，排名不分先后。
 
@@ -78,12 +78,10 @@ const partiallySupport = shuffleArray([
 const notSupport = shuffleArray([
     {
         name: 'MuMu 手游助手（星云引擎）',
-        link: '',
         note: '不支持，未开放 ADB 端口。',
     },
     {
         name: '腾讯手游助手',
-        link: '',
         note: '不支持，未开放 ADB 端口。',
     },
     {
@@ -96,24 +94,18 @@ const notSupport = shuffleArray([
 const md = new MarkdownIt();
 md.use(MarkdownItAnchor);
 
-const fullySupportHtml = md.render(fullySupport.map(simulator => {
-    return `
-### ✅ [${simulator.name}](${simulator.link})
+const fullySupportHtml = md.render(fullySupport.map(simulator => `
+### ✅ ${simulator.link ? `[${simulator.name}](${simulator.link})` : simulator.name}
 ${simulator.note}
-`;
-}).join(''));
-const partiallySupportHtml = md.render(partiallySupport.map(simulator => {
-    return `
-### ⚠️ [${simulator.name}](${simulator.link})
+`).join(''));
+const partiallySupportHtml = md.render(partiallySupport.map(simulator => `
+### ⚠️ ${simulator.link ? `[${simulator.name}](${simulator.link})` : simulator.name}
 ${simulator.note}
-`;
-}).join(''));
-const notSupportHtml = md.render(notSupport.map(simulator => {
-    return `
-### 🚫 [${simulator.name}](${simulator.link})
+`).join(''));
+const notSupportHtml = md.render(notSupport.map(simulator => `
+### 🚫 ${simulator.link ? `[${simulator.name}](${simulator.link})` : simulator.name}
 ${simulator.note}
-`;
-}).join(''));
+`).join(''));
 </script>
 
 ## ✅ 完美支持
