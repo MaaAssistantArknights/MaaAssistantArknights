@@ -6305,7 +6305,7 @@
                 "邪恶之棺"
             ],
             [
-                "Eye For an Eye",
+                ".*Eye For an Eye",
                 "以血还血"
             ],
             [
@@ -6323,10 +6323,6 @@
             [
                 "Art Connoisseur",
                 "鉴赏家"
-            ],
-            [
-                "Reprieve",
-                "解脱"
             ],
             [
                 ".*Reprieve.*",
