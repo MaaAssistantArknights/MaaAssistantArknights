@@ -18,6 +18,7 @@
 ### 改进 | Improved
 
 * 更新 mumu12 截图增强模式使用说明 @ABA2396
+* 优化萨米肉鸽策略 (#9185) @Lancarus
 * 优化萨米肉鸽策略 (#9149) @Lancarus
 * 优化萨米肉鸽策略 (#9114) @Lancarus
 * 开始唤醒优化 (#9083) @Constrat
@@ -26,9 +27,11 @@
 * Mumu12模拟器截图增强模式禁用时隐藏配置项输入框 @status102
 * 增加Mumu12模拟器截图增强配置的模拟器路径存在检查 @status102
 * 更新文档(#8981)(#8964) @Rbqwow @horror-proton
+* refactor(WpfGui): config (#7683) @Cryolitia @ABA2396 @moomiji @SherkeyXD @LiamSho
 
 ### 修复 | Fix
 
+* 部分立绘使用「银凇」主题无法进入刷理智任务 @ABA2396
 * 尝试修复肉鸽编队不选干员 (#9148) @Lancarus
 * 修复仓库识别界面显示异常 @ABA2396
 * mac 开始唤醒报错 (#9083) @Constrat
@@ -82,6 +85,11 @@
 * StartGameTaskPlugin.cpp for improved readability @Constrat
 * run MaaWpfGui under Wine (#8960) @Constrat
 * fix a bad link (#9085) @lizy14
+* updated missingtemplates py for overseas @Constrat
+* update CMakeLists.txt @horror-proton
+* cmake fastdeploy_ppocr, windows only option @horror-proton
+* include path of onnxruntime>=1.16 @horror-proton
+* add cmake option USE_RANGE_V3 (#9169) @horror-proton @wangl-cc
 
 ### For Overseas
 
@@ -91,11 +99,14 @@
 
 #### YostarEN
 
+* DepotEnter for YostarEN themes @Constrat
+* Sami theme for YostarEN @Constrat
 * YostarEN Siracusano navigation EnterChapterIS might need future regex. Wait for event @Constrat
 * increased roi + foldartal regex for EN @Constrat
 
 #### YostarJP
 
+* Sami theme for YoStarJP (#9194) @Manicsteiner
 * YoStarJP IS rerun navigation (#9164) @Manicsteiner
 * YoStarJP ocr fix (#9068) @Manicsteiner
 * YoStarJP ocr fix (#9033) @Manicsteiner
@@ -105,6 +116,7 @@
 
 #### YostarKR
 
+* Sami theme for YostarKR @HX3N
 * handling KR-specific announcements (#9177) @HX3N
 * YoStarKR IS navigation @HX3N
 * YoStarKR translation fix @HX3N
