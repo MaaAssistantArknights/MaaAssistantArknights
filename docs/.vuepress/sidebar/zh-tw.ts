@@ -36,7 +36,7 @@ export const zhtwSidebar = sidebar({
         {
           text: "模拟器和设备支持(translation required)",
           icon: "mingcute:laptop-fill",
-          prefix: "devices/",
+          prefix: "device/",
           collapsible: true,
           children: "structure",
         },

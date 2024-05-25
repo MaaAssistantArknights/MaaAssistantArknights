@@ -36,7 +36,7 @@ export const jajpSidebar = sidebar({
         {
           text: "エミュレータのサポート(translation required)",
           icon: "mingcute:laptop-fill",
-          prefix: "devices/",
+          prefix: "device/",
           collapsible: true,
           children: "structure",
         },
