@@ -3,7 +3,7 @@ order: 3
 icon: material-symbols:summarize
 ---
 
-# Use maa-cli
+# Usage
 
 maa-cli is a command-line interface for MaaCore that automates tasks in the game Arknights. Additionally, maa-cli can manage MaaCore.
 

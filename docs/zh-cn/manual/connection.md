@@ -206,13 +206,11 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 需选择对应模拟器的配置，若列表中没有则选择通用配置。若通用配置不可用请尝试并选择其他任一可用的配置。
 
-具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)。
+具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/321347fa6bf1d29648c8ec3eaaa27d10c1245e35/resource/config.json#L68)。
 
 ### MuMu 截图增强模式
 
 需使用官版 MuMu 12 V3.8.13 及更新版本，并关闭后台保活。方舟专版、国际版等暂不支持。
-
-#### 连接设置
 
 1. 设置 → 连接设置，勾选 `启用 MuMu 截图增强模式`。
 

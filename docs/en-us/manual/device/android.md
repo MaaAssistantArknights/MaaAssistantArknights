@@ -3,10 +3,11 @@ order: 4
 icon: mingcute:android-fill
 ---
 
-# Android Physical Devices
+# Android Physical Device
 
 ::: info Note
 
+0. Please also check [Connection](../connection.md).
 1. Starting from Android 10, Minitouch is no longer available when SELinux is in `Enforcing` mode, please switch to other touch modes or switch SELinux **temporary** to `Permissive` mode.
 2. Due to the extreme complexity of the Android ecosystem, try to change the `Connection Configuration` in MAA `Settings` - `Connection` to `General Mode` or `Compatibility Mode` or `2nd Resolution` or `General Mode (Blocked exception output)` until one of the modes is working properly.
 3. Since MAA only supports `16:9` ratio resolutions, devices with non-`16:9` or `9:16` screen ratios will need to be forced to change their resolution, which includes most modern devices. If the connected device has a native `16:9` or `9:16` screen resolution ratio, you can skip the `Change resolution' section. 4.

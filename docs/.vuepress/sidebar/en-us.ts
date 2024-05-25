@@ -12,42 +12,7 @@ export const enusSidebar = sidebar({
       icon: "mdi:user",
       prefix: "manual/",
       collapsible: true,
-      children: [
-        {
-          text: "Beginner's guide",
-          icon: "ri:guide-fill",
-          link: "newbie",
-        },
-        {
-          text: "Introduction",
-          icon: "mdi:information-outline",
-          link: "introduction",
-        },
-        {
-          text: "Connection",
-          icon: "mdi:plug",
-          link: "connection",
-        },
-        {
-          text: "FAQs",
-          icon: "ph:question-fill",
-          link: "faq",
-        },
-        {
-          text: "Emulator Supports",
-          icon: "mingcute:laptop-fill",
-          prefix: "device/",
-          collapsible: true,
-          children: "structure",
-        },
-        {
-          text: "User Manual For CLI",
-          icon: "material-symbols:terminal",
-          prefix: "cli/",
-          collapsible: true,
-          children: "structure",
-        }
-      ],
+      children: "structure",
     },
     {
       text: "Development Docs",

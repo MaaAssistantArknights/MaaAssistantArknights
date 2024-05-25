@@ -3,7 +3,7 @@ order: 2
 icon: material-symbols:download
 ---
 
-# Install and Build maa-cli
+# Install and Build
 
 There are multiple ways to install maa-cli, including package managers, precompiled binaries, and building from source with `cargo`.
 
