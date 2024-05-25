@@ -69,13 +69,29 @@ namespace MaaWpfGui.Configuration
 
                 if (parsed is null)
                 {
+                    if (File.Exists(_configurationBakFile))
+                    {
+                        File.Copy(_configurationBakFile, _configurationFile, true);
+                        try
+                        {
+                            parsed = JsonSerializer.Deserialize<Root>(File.ReadAllText(_configurationFile), _options);
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.Information("Failed to parse configuration file: " + e);
+                        }
+                    }
+                }
+
+                if (parsed is null)
+                {
                     _logger.Information("Failed to load configuration file, creating a new one");
                     parsed = new Root();
                 }
 
                 parsed.CurrentConfig ??= new SpecificConfig();
 
-                parsed.PropertyChanged += OnPropertyChangedFactory("Configurations.");
+                parsed.PropertyChanged += OnPropertyChangedFactory("Root.");
                 parsed.Configurations.CollectionChanged += (in NotifyCollectionChangedEventArgs<KeyValuePair<string, SpecificConfig>> args) =>
                 {
                     switch (args.Action)
@@ -84,13 +100,13 @@ namespace MaaWpfGui.Configuration
                         case NotifyCollectionChangedAction.Replace:
                             if (args.IsSingleItem)
                             {
-                                args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
+                                args.NewItem.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + args.NewItem.Key, JsonSerializer.Serialize(args.NewItem.Value, _options), null);
                             }
                             else
                             {
                                 foreach (var value in args.NewItems)
                                 {
-                                    value.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Configurations." + value.Key, JsonSerializer.Serialize(value.Value, _options), null);
+                                    value.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Root.Configurations." + value.Key, JsonSerializer.Serialize(value.Value, _options), null);
                                 }
                             }
 
@@ -103,12 +119,19 @@ namespace MaaWpfGui.Configuration
                             throw new ArgumentOutOfRangeException();
                     }
 
-                    OnPropertyChangedFactory("Configurations");
+                    OnPropertyChanged("Root.Configurations", null, null);
                 };
+
+                parsed.Timers.CollectionChanged += OnCollectionChangedFactory<int, Timer>("Root.Timers.");
+                parsed.VersionUpdate.PropertyChanged += OnPropertyChangedFactory();
 
                 foreach (var keyValue in parsed.Configurations)
                 {
-                    keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory("Configurations." + keyValue.Key + ".GUIConfig.");
+                    var key = "Root.Configurations." + keyValue.Key + ".";
+                    keyValue.Value.GUI.PropertyChanged += OnPropertyChangedFactory(key);
+                    keyValue.Value.DragItemIsChecked.CollectionChanged += OnCollectionChangedFactory<string, bool>(key + nameof(SpecificConfig.DragItemIsChecked) + ".");
+                    keyValue.Value.InfrastOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.InfrastOrder) + ".");
+                    keyValue.Value.TaskQueueOrder.CollectionChanged += OnCollectionChangedFactory<string, int>(key + nameof(SpecificConfig.TaskQueueOrder) + ".");
                 }
 
                 return parsed;
@@ -129,7 +152,7 @@ namespace MaaWpfGui.Configuration
             };
         }
 
-        private static PropertyChangedEventHandler OnPropertyChangedFactory(string key)
+        private static PropertyChangedEventHandler OnPropertyChangedFactory(string key = "")
         {
             return (o, args) =>
             {
@@ -139,7 +162,15 @@ namespace MaaWpfGui.Configuration
                     after = detailArgs.NewValue;
                 }
 
-                OnPropertyChanged(key + args.PropertyName, null, after);
+                OnPropertyChanged(key + o.GetType().Name + "." + args.PropertyName, null, after);
+            };
+        }
+
+        private static NotifyCollectionChangedEventHandler<KeyValuePair<T1, T2>> OnCollectionChangedFactory<T1, T2>(string key)
+        {
+            return (in NotifyCollectionChangedEventArgs<KeyValuePair<T1, T2>> args) =>
+            {
+                OnPropertyChanged(key + args.NewItem.Key, null, args.NewItem.Value);
             };
         }
 
@@ -181,6 +212,91 @@ namespace MaaWpfGui.Configuration
                     return true;
                 }
             });
+        }
+
+        public static void Release()
+        {
+            lock (_lock)
+            {
+                Save().Wait();
+                Save(_configurationBakFile).Wait();
+            }
+        }
+
+        public static bool SwitchConfig(string configName)
+        {
+            if (Root.Configurations.ContainsKey(configName) is false)
+            {
+                _logger.Warning("Configuration {ConfigName} does not exist", configName);
+                return false;
+            }
+
+            Root.Current = configName;
+            return true;
+        }
+
+        public static bool AddConfiguration(string configName, string copyFrom = null)
+        {
+            if (string.IsNullOrEmpty(configName))
+            {
+                return false;
+            }
+
+            if (Root.Configurations.ContainsKey(configName))
+            {
+                _logger.Warning("Configuration {ConfigName} already exists", configName);
+                return false;
+            }
+
+            if (copyFrom is null)
+            {
+                Root.Configurations[configName] = new SpecificConfig();
+            }
+            else
+            {
+                if (Root.Configurations.ContainsKey(copyFrom) is false)
+                {
+                    _logger.Warning("Configuration {ConfigName} does not exist", copyFrom);
+                    return false;
+                }
+
+                Root.Configurations[configName] = JsonSerializer.Deserialize<SpecificConfig>(JsonSerializer.Serialize(Root.Configurations[copyFrom], _options), _options);
+            }
+
+            return true;
+        }
+
+        public static bool DeleteConfiguration(string configName)
+        {
+            if (Root.Configurations.ContainsKey(configName) is false)
+            {
+                _logger.Warning("Configuration {ConfigName} does not exist", configName);
+                return false;
+            }
+
+            if (Root.Current == configName)
+            {
+                _logger.Warning("Configuration {ConfigName} is current configuration, cannot delete", configName);
+                return false;
+            }
+
+            Root.Configurations.Remove(configName);
+            return true;
+        }
+
+        public static List<string> ConfigList
+        {
+            get
+            {
+                List<string> lists = new List<string>(Root.Configurations.Count);
+                using IEnumerator<KeyValuePair<string, SpecificConfig>> enumerator = Root.Configurations.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    lists.Add(enumerator.Current.Key);
+                }
+
+                return lists;
+            }
         }
     }
 }

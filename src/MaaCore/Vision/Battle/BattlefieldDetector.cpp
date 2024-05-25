@@ -5,7 +5,6 @@
 #include <cmath>
 
 #include "Utils/NoWarningCV.h"
-#include <onnxruntime/core/session/onnxruntime_cxx_api.h>
 
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/OnnxSessions.h"
