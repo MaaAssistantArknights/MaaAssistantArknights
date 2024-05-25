@@ -3,7 +3,7 @@ order: 4
 icon: material-symbols:settings
 ---
 
-# 配置 maa-cli
+# 配置
 
 ## 配置目录
 

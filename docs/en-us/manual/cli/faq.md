@@ -3,7 +3,7 @@ order: 5
 icon: ph:question-fill
 ---
 
-# FAQs for maa-cli
+# FAQs
 
 ## 1. How to use `$HOME/.config/maa` as the configuration directory on macOS?
 

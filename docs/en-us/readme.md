@@ -62,7 +62,7 @@ Talk is cheap. Show me the pictures!
 
 ### Basic Settings
 
-Check [Beginner’s Guide](./manual/newbie.md) and [User Manual](././manual/introduction.md).
+Check [Beginner’s Guide](./manual/newbie.md) and [User Manual](./manual/introduction/).
 
 ## FAQ
 
