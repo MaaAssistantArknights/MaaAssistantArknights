@@ -105,6 +105,7 @@ EnterChooseLevelOfDifficulty.png
 EnterEpisode0.png
 EnterEpisode4.png
 EnterEpisode9.png
+EnterInfrastSami.png
 EnterInfrastSiege.png
 EnterStageIS.png
 ExitOld.png
@@ -177,7 +178,7 @@ NormalDifficulty.png
 NoStone.png
 OF-Chapter2.png
 OfflineConfirm.png
-OperBoxEnterSiege
+OperBoxEnterSiege.png
 OperBoxFlagElite1.png
 OperBoxFlagElite2.png
 OperBoxFlagRole1.png
@@ -410,6 +411,7 @@ StartToVisitDetermine.png
 StartToVisitSportsman.png
 StartWithSanity.png
 TaskSiege.png
+TerminalSiege.png
 UnableToAgent.png
 UnableToAgent2.png
 UseMedicine.png
