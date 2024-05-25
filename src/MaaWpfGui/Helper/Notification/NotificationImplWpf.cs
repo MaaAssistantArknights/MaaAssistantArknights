@@ -143,8 +143,9 @@ internal class NotificationImplWpf : INotificationPoster
             wpfcontent.RightButtonAction = () => ActionActivated?.Invoke(this, action.Tag);
         }
 
-        _notificationManager.Show(wpfcontent, expirationTime: expirationTime, ShowXbtn: false);
-
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            _notificationManager.Show(wpfcontent, expirationTime: expirationTime, ShowXbtn: false);
+        });
     }
-
 }
