@@ -36,7 +36,7 @@ export const enusSidebar = sidebar({
         {
           text: "Emulator Supports",
           icon: "mingcute:laptop-fill",
-          prefix: "devices/",
+          prefix: "device/",
           collapsible: true,
           children: "structure",
         },

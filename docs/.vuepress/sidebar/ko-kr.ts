@@ -36,7 +36,7 @@ export const kokrSidebar = sidebar({
         {
           text: "플랫폼 별 지원",
           icon: "mingcute:laptop-fill",
-          prefix: "devices/",
+          prefix: "device/",
           collapsible: true,
           children: "structure",
         },
