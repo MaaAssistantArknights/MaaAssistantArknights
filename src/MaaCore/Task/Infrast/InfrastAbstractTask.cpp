@@ -199,7 +199,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         Log.warn("index out of range:", index, m_custom_config.size());
         return false;
     }
-    
+
     InfrastFacilityImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
@@ -211,8 +211,6 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         Log.info("facility index is out of range");
         return false;
     }
-    // 点击前先等一下，避免点太快 | Wait a moment before clicking to avoid clicking too fast
-    sleep(500);
     ctrler()->click(rect);
     m_cur_facility_index = index;
 
