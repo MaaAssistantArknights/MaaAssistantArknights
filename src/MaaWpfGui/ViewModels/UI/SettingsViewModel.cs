@@ -771,6 +771,30 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _copilotWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, bool.FalseString));
+
+        public bool CopilotWithScript
+        {
+            get => _copilotWithScript;
+            set
+            {
+                SetAndNotify(ref _copilotWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotWithScript, value.ToString());
+            }
+        }
+
+        private bool _manualStopWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, bool.FalseString));
+
+        public bool ManualStopWithScript
+        {
+            get => _manualStopWithScript;
+            set
+            {
+                SetAndNotify(ref _manualStopWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ManualStopWithScript, value.ToString());
+            }
+        }
+
         private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
 
         public bool BlockSleep
@@ -803,7 +827,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _screencapCost, value);
         }
 
-        public void RunScript(string str)
+        public void RunScript(string str, bool showLog = true)
         {
             bool enable = str switch
             {
@@ -824,8 +848,18 @@ namespace MaaWpfGui.ViewModels.UI
                 _ => () => false,
             };
 
+            if (!showLog)
+            {
+                if (!func())
+                {
+                    _logger.Warning("Failed to execute the script.");
+                }
+
+                return;
+            }
+
             Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
+                    LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
             if (func())
             {
                 Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
