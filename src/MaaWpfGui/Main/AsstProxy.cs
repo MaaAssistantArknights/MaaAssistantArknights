@@ -267,7 +267,7 @@ namespace MaaWpfGui.Main
                     () =>
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("ResourceBroken"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
                 });
             }
 
@@ -362,7 +362,7 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.InitFailed:
                     MessageBoxHelper.Show(LocalizationHelper.GetString("InitializationError"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
                     break;
 
                 case AsstMsg.ConnectionInfo:

@@ -15,6 +15,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
@@ -107,7 +108,7 @@ namespace MaaWpfGui.Views.UI
         {
             if (Instances.TaskQueueViewModel.ConfirmExit())
             {
-                Application.Current.Shutdown();
+                Bootstrapper.Shutdown();
             }
         }
 

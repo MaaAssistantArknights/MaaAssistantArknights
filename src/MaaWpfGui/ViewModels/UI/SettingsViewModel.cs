@@ -1037,10 +1037,10 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     if (e is Win32Exception { NativeErrorCode: 740 })
                     {
-                        Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                            LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning);
 
-                        _logger.Warning("Insufficient permissions to start the emulator:\n" +
+                        _logger.Warning(
+                            "Insufficient permissions to start the emulator:\n" +
                             "EmulatorPath: " + EmulatorPath + "\n");
                     }
                     else
@@ -1065,18 +1065,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (i % 10 == 0)
                 {
-                    // 避免捕获的变量在闭包中被修改
-                    var i1 = i;
-                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i1) + "s"));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s");
                     _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
                 Thread.Sleep(1000);
             }
 
-            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                LocalizationHelper.GetString("WaitForEmulatorFinish")));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
             _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断

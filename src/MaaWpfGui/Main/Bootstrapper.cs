@@ -67,7 +67,7 @@ namespace MaaWpfGui.Main
                                 "Only one instance can be launched under the same path!\n\n" +
                                 "同じパスの下で1つのインスタンスしか起動できません！\n\n" +
                                 "동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!");
-                Application.Current.Shutdown();
+                Bootstrapper.Shutdown();
                 return;
             }
             */
@@ -230,15 +230,22 @@ namespace MaaWpfGui.Main
             Log.CloseAndFlush();
             base.OnExit(e);
 
-            if (_isRestartingWithoutArgs)
+            if (!_isRestartingWithoutArgs)
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = Environment.ProcessPath,
-                };
-
-                Process.Start(startInfo);
+                return;
             }
+
+            if (Environment.ProcessPath is null)
+            {
+                return;
+            }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = Environment.ProcessPath,
+            };
+
+            Process.Start(startInfo);
         }
 
         private static bool _isRestartingWithoutArgs;
@@ -250,7 +257,13 @@ namespace MaaWpfGui.Main
         {
             _isRestartingWithoutArgs = true;
             _logger.Information("Shutdown and restart without Args");
-            Application.Current.Shutdown();
+            Execute.OnUIThread(Application.Current.Shutdown);
+        }
+
+        public static void Shutdown()
+        {
+            _logger.Information("Shutdown");
+            Execute.OnUIThread(Application.Current.Shutdown);
         }
 
         private static bool _isWaitingToRestart;
@@ -265,7 +278,7 @@ namespace MaaWpfGui.Main
             _isWaitingToRestart = true;
 
             await _runningState.UntilIdleAsync(60000);
-            await Application.Current.Dispatcher.InvokeAsync(ShutdownAndRestartWithoutArgs);
+            ShutdownAndRestartWithoutArgs();
         }
 
         /// <inheritdoc/>

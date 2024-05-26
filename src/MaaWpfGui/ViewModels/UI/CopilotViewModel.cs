@@ -118,11 +118,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="showTime">Wether show time.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
         {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
-            if (showTime)
+            Execute.OnUIThread(() =>
             {
-                _logger.Information(content);
-            }
+                LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
+                if (showTime)
+                {
+                    _logger.Information(content);
+                }
+            });
 
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
@@ -916,7 +919,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void CopilotTaskSuccess()
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Execute.OnUIThread(() =>
             {
                 foreach (var model in CopilotItemViewModels)
                 {
@@ -947,7 +950,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once MemberCanBePrivate.Global
         public void CopilotItemIndexChanged()
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Execute.OnUIThread(() =>
             {
                 for (int i = 0; i < CopilotItemViewModels.Count; i++)
                 {

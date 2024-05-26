@@ -866,7 +866,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             var log = new LogItemViewModel(downloading ? LocalizationHelper.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UiLogColor.Download);
 
-            Application.Current.Dispatcher.Invoke(() =>
+            Execute.OnUIThread(() =>
             {
                 if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UiLogColor.Download)
                 {

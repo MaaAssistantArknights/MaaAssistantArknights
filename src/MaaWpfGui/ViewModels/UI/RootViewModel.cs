@@ -138,7 +138,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <inheritdoc/>
         protected override void OnClose()
         {
-            Application.Current.Shutdown();
+            Bootstrapper.Shutdown();
         }
     }
 }
