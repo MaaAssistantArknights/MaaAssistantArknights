@@ -169,9 +169,9 @@ Adaptation for backend live is very imperfect, there are always all kinds of ine
 
 ## Touch Mode
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：An Android touch eventer written in C provides a Socket interface for external programs to trigger touch events and gestures. Starting with Android 10, Minitouch no longer works when SELinux is `Enforcing`.
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：A Java-based reimplementation of Minitouch by MAA, and added additional features. Availability of higher versions of Android is yet to be tested. ~~Help us do some testing~~
-3. Adb Input：Directly calling ADB commands for touch operations. It has the highest compatibility and the slowest speed.
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：An Android touch eventer written in C uses `evdev` to provide a Socket interface for external programs to trigger touch events and gestures. Starting with Android 10, Minitouch no longer works when SELinux is `Enforcing`.<sup>[Source](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：A Java-based reimplementation of Minitouch by MAA, which uses Android's `InputDevice`, and added additional features. Availability of higher versions of Android is yet to be tested. ~~Help us do some testing~~
+3. Adb Input：Directly call ADB to use Android's `input` command to perform touch operations. It has the highest compatibility and the slowest speed.
 
 ## ADB Lite
 
