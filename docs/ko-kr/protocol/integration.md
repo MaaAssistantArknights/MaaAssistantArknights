@@ -274,7 +274,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "theme": int,           // 테마, 선택사항, 기본값은 1입니다.
                             // 0 - *모래 속의 불꽃*
                             // 1 - *모래 안의 이야기*
-    "mode": int             // 모드，선택사항, 기본값은 0 (*모래 속의 불꽃*에서만 지원)
+    "mode": int             // 모드,선택사항, 기본값은 0 (*모래 속의 불꽃*에서만 지원)
                             // 0 - 점수를 획득하고 건설 점수를 얻어 전투에 진입한 후 바로 나가기
                             // 1 - 황금을 얻기 위해 오퍼레이터가 물을 사고 기지를 강화합니다.
 }
@@ -307,7 +307,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
                         // "stage"는 단계 이름 설정 (예: "details": { "stage": "xxxx" })
                         // "start"는 미션 시작으로, 추가적인 세부사항 없이 시작합니다.
                         // "action"은 단일 전투 동작으로, 세부사항은 Copilot의 단일 동작입니다.
-                        //           예: "details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" }，자세한 내용은 전투 스키마 문서 참조
+                        //           예시: "details": { "name": "史尔特尔", "location": [ 4, 5 ], "direction": "左" },자세한 내용은 전투 스키마 문서 참조
     "details": {
         ...
     }
