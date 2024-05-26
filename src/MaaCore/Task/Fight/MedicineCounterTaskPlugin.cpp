@@ -187,7 +187,8 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
                                           .reduce_button_position = result.rect,
                                           .is_expiring = is_expiring });
         LogTrace << __FUNCTION__ << "medicine using count:" << using_count << ","
-                 << "inventory count:" << inventory_count << "is expiring:" << is_expiring;
+                 << "inventory count:" << inventory_count << ","
+                 << "is expiring:" << static_cast<int>(is_expiring);
     }
     return MedicineResult { .using_count = use, .medicines = medicines };
 }
