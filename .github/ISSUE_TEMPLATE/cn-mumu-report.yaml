@@ -21,7 +21,7 @@ body:
         required: true
       - label: 我确定未开启高帧率模式，显存使用策略为“画面表现更好”
         required: true
-      - label: 我正在使用后台保活功能，并确定该问题仅在开启后台保活时出现（此条非必需）
+      - label: 我正在使用后台保活功能，并确定该问题仅在开启后台保活时出现
         required: false
   - type: textarea
     id: describe
