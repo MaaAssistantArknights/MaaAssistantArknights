@@ -40,6 +40,8 @@ bool asst::MedicineCounterTaskPlugin::_run()
     if (!using_medicine) [[unlikely]] {
         return false;
     }
+    LogTrace << __FUNCTION__ << "Using medicines init finished,"
+             << " using:" << using_medicine->using_count << "used:" << m_used_count;
 
     // 移除超量使用的理智药后，再次获取理智药数量
     // 如果移除后没有使用任何理智药，则单独返回数据；进入插件时应当有使用至少一瓶药
@@ -184,6 +186,8 @@ std::optional<asst::MedicineCounterTaskPlugin::MedicineResult>
                                           .inventry = inventory_count,
                                           .reduce_button_position = result.rect,
                                           .is_expiring = is_expiring });
+        LogTrace << __FUNCTION__ << "medicine using count:" << using_count << ","
+                 << "inventory count:" << inventory_count << "is expiring:" << is_expiring;
     }
     return MedicineResult { .using_count = use, .medicines = medicines };
 }
