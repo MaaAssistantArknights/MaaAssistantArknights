@@ -68,7 +68,7 @@ body:
     attributes:
       label: 还有别的吗？
       description: |
-        使用的模拟器？操作系统？相关的配置？链接？参考资料？
+        操作系统？相关的配置？链接？参考资料？
         任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false
