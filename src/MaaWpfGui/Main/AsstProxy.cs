@@ -702,6 +702,18 @@ namespace MaaWpfGui.Main
                         isMainTaskQueueAllCompleted = taskList.All(i => !latestMinorTaskIds.Contains(i));
                     }
 
+                    if (_latestTaskId.ContainsKey(TaskType.Copilot))
+                    {
+                        if (Instances.SettingsViewModel.CopilotWithScript)
+                            {
+                                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
+                                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                                {
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
+                                }
+                            }
+                    }
+
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 

@@ -1076,6 +1076,10 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetStopped()
         {
             SleepManagement.AllowSleep();
+            if (Instances.SettingsViewModel.ManualStopWithScript)
+            {
+                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+            }
 
             if (!_runningState.GetIdle() || Stopping)
             {
