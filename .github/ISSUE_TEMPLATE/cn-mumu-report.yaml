@@ -44,7 +44,7 @@ body:
     validations:
       required: true
   - type: textarea
-    id: maalogs
+    id: logs
     attributes:
       label: MAA 日志文件
       description: |
