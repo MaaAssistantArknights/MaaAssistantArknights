@@ -87,6 +87,13 @@ const fullySupport = shuffleArray([
 
 const particallySupport = shuffleArray([
 `
+### ⚠️ [Google Play Games Beta](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)
+
+호환되지 않습니다. [클라이언트](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)의 ADB 포트를 사용할 수 없습니다.
+
+단, KR의 경우 [PlayBridge](https://github.com/ACK72/PlayBridge)를 이용해 사용이 가능하지만, 공식 지원이 아니므로 서비스가 불안정할 수 있습니다.
+`,
+`
 ### ⚠️ [MuMu Player](https://www.mumuglobal.com/kr/)
 
 지원됩니다. 단,
@@ -119,13 +126,6 @@ MAA v5.2.0부터 지원이 중단되었으며, 마이크로소프트가 2025년 
 ])
 
 const notSupport = shuffleArray([
-`
-### 🚫 [Google Play Games Beta](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)
-
-호환되지 않습니다. [클라이언트](https://developer.android.com/games/playgames/pg-emulator?hl=zh-cn#installing-game-consumer)의 ADB 포트를 사용할 수 없습니다.
-
-단, KR의 경우 [PlayBridge](https://github.com/ACK72/PlayBridge)를 이용해 사용이 가능하지만, \`MAA 5.2.3 버전\` 이후는 사용이 불가능합니다.
-`,
 `
 ### 🚫 Tencent Mobile Game Assistant
 
