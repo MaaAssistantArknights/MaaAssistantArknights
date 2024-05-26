@@ -44,12 +44,21 @@ body:
     validations:
       required: true
   - type: textarea
-    id: logs
+    id: maalogs
     attributes:
-      label: 日志文件
+      label: MAA 日志文件
       description: |
         **上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
+    validations:
+      required: true
+  - type: textarea
+    id: mumulogs
+    attributes:
+      label: MuMu 问题诊断
+      description: |
+        **在 MuMu 右上角菜单按钮 -> 问题诊断 中点击 复制配置信息，并将全部内容粘贴进来。**
+        **注意隐去 电脑出口IP地址 等以保护个人隐私**
     validations:
       required: true
   - type: textarea
