@@ -35,7 +35,7 @@ body:
     attributes:
       label: Version
       description: >-
-        请提供 MAA 版本和 MuMu 版本。MAA 版本可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。MuMu 版本可在右上角菜单按钮 -> 关于MuMu 中找到。
+        请提供 MAA 版本和 MuMu 版本。MAA 版本可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。MuMu 版本可在右上角菜单按钮 -> 关于 MuMu 中找到。
       placeholder: |
         Resource Version: 
         UI Version: 
