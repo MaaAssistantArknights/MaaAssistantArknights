@@ -20,6 +20,7 @@ using Notification.Wpf;
 using Notification.Wpf.Base;
 using Notification.Wpf.Constants;
 using Notification.Wpf.Controls;
+using Stylet;
 
 namespace MaaWpfGui.Helper.Notification;
 
@@ -145,7 +146,7 @@ internal class NotificationImplWpf : INotificationPoster
 
         try
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Execute.OnUIThread(() =>
             {
                 _notificationManager.Show(wpfcontent, expirationTime: expirationTime, ShowXbtn: false);
             });

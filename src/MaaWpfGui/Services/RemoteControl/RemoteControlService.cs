@@ -29,6 +29,7 @@ using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Stylet;
 
 namespace MaaWpfGui.Services.RemoteControl
 {
@@ -332,18 +333,15 @@ namespace MaaWpfGui.Services.RemoteControl
                             await _runningState.UntilIdleAsync();
                             var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
 
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Instances.TaskQueueViewModel.AddLog(startLogStr);
+                            await Execute.OnUIThreadAsync(() =>
                             {
-                                Instances.TaskQueueViewModel.AddLog(startLogStr);
                                 Instances.TaskQueueViewModel.LinkStart();
                             });
                             await _runningState.UntilIdleAsync();
 
                             var stopLogStr = string.Format(LocalizationHelper.GetString("RemoteControlCompletedTask"), type, id);
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                Instances.TaskQueueViewModel.AddLog(stopLogStr);
-                            });
+                            Instances.TaskQueueViewModel.AddLog(stopLogStr);
                             break;
                         }
 
@@ -416,13 +414,13 @@ namespace MaaWpfGui.Services.RemoteControl
 
                     case "Settings-ConnectAddress":
                         // ConfigurationHelper.SetValue(type.Split('-')[1], data);
-                        Application.Current.Dispatcher.Invoke(() =>
+                        await Execute.OnUIThreadAsync(() =>
                         {
                             Instances.SettingsViewModel.ConnectAddress = data;
                         });
                         break;
                     case "Settings-Stage1":
-                        Application.Current.Dispatcher.Invoke(() =>
+                        await Execute.OnUIThreadAsync(() =>
                         {
                             Instances.TaskQueueViewModel.Stage1 = data;
                         });
@@ -573,7 +571,7 @@ namespace MaaWpfGui.Services.RemoteControl
 
             _runningState.SetIdle(false);
 
-            await Application.Current.Dispatcher.Invoke(async () =>
+            await Execute.OnUIThreadAsync(async () =>
             {
                 // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
                 Instances.TaskQueueViewModel.TaskItemSelectionChanged();

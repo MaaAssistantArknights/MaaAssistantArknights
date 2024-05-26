@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.WineCompat;
+using Stylet;
 
 namespace MaaWpfGui.Helper.Notification;
 
@@ -44,7 +45,7 @@ internal class NotificationImplLibNotify : INotificationPoster
             return false;
         }
 
-        Application.Current.Dispatcher.Invoke(() =>
+        Execute.OnUIThread(() =>
         {
             var bmp3 = new FormatConvertedBitmap(AppIcon.GetIcon(), PixelFormats.Bgra32, null, 0);
             var pixels = new byte[bmp3.PixelWidth * bmp3.PixelHeight * 4];

@@ -26,6 +26,7 @@ using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
@@ -74,7 +75,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once MemberCanBePrivate.Global
         public void TaskItemSelectionChanged()
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Execute.OnUIThread(() =>
             {
                 int index = 0;
                 foreach (var item in TaskItemViewModels)
@@ -626,9 +627,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
         {
-            var log = new LogItemViewModel(content, color, weight);
-            LogItemViewModels.Add(log);
-            _logger.Information(content);
+            Execute.OnUIThread(() =>
+            {
+                var log = new LogItemViewModel(content, color, weight);
+                LogItemViewModels.Add(log);
+                _logger.Information(content);
+            });
         }
 
         /// <summary>
@@ -2072,7 +2076,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case ActionType.ExitSelf:
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
 
                     // Environment.Exit(0);
                     break;
@@ -2092,7 +2096,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
 
                     // Environment.Exit(0);
                     break;
@@ -2144,7 +2148,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Process.Start("shutdown.exe", "-h");
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
 
                     // Environment.Exit(0);
                     break;

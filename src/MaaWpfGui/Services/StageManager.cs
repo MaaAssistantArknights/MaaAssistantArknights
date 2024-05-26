@@ -80,9 +80,9 @@ namespace MaaWpfGui.Services
             }
 
             const string FilePath = "cache/allFileDownloadComplete.json";
-            File.WriteAllText(FilePath, GenerateJsonString(false));
+            await File.WriteAllTextAsync(FilePath, GenerateJsonString(false));
             UpdateStageInternal(await LoadWebStages());
-            File.WriteAllText(FilePath, GenerateJsonString(true));
+            await File.WriteAllTextAsync(FilePath, GenerateJsonString(true));
 
             _ = Execute.OnUIThreadAsync(() =>
             {

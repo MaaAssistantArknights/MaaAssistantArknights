@@ -14,6 +14,7 @@
 using System;
 using System.Windows;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Stylet;
 
 namespace MaaWpfGui.Helper.Notification;
 
@@ -41,7 +42,7 @@ internal class NotificationImplWinRT : INotificationPoster, IDisposable
     {
         try
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Execute.OnUIThread(() =>
             {
                 var builder = new ToastContentBuilder().AddText(content.Body).AddText(content.Summary);
 
