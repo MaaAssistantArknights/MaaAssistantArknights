@@ -267,7 +267,7 @@
             Drop="EndsWithScript_Drop"
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
-        <StackPanel
+        <WrapPanel
             Grid.Row="9"
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -279,7 +279,13 @@
                 VerticalAlignment="Center"
                 Content="{DynamicResource CopilotWithScript}"
                 IsChecked="{Binding CopilotWithScript}" />
-        </StackPanel>
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource ManualStopWithScript}"
+                IsChecked="{Binding ManualStopWithScript}" />
+        </WrapPanel>
         <StackPanel
             Grid.Row="10"
             Grid.Column="0"

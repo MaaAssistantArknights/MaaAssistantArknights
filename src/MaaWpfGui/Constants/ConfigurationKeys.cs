@@ -81,6 +81,7 @@ namespace MaaWpfGui.Constants
         public const string StartsWithScript = "Start.StartsWithScript";
         public const string EndsWithScript = "Start.EndsWithScript";
         public const string CopilotWithScript = "Start.CopilotWithScript";
+        public const string ManualStopWithScript = "Start.ManualStopWithScript";
         public const string BlockSleep = "Start.BlockSleep";
         public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
 

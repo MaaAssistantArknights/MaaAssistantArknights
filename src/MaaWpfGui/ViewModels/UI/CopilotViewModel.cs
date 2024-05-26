@@ -1086,7 +1086,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
-            if (Instances.SettingsViewModel.CopilotWithScript)
+            if (Instances.SettingsViewModel.CopilotWithScript && Instances.SettingsViewModel.ManualStopWithScript)
             {
                 Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
                 if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
