@@ -71,7 +71,7 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 
 - Installation of runtime libraries above requires the Component-Based Servicing (CBS) infrastructure (i.e. TrustedInstaller/TiWorker, WinSxS). Installation may fail if CBS is broken.
 
-- We have no suggestion other than reinstalling Windows. Please avoid using so-called "lite" editions, or some old versions of the system from thousands of years ago (e.g. 1809).
+- We have no suggestion other than reinstalling Windows. Please avoid using so-called "lite" editions, or some old versions of Windows from thousands of years ago (e.g. 1809).
 
 ## Connection error
 
