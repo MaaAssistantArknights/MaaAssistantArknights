@@ -21,7 +21,9 @@ export const kokrSidebar = sidebar({
         {
           text: "기능",
           icon: "mdi:information-outline",
-          link: "introduction",
+          prefix: "introduction/",
+          collapsible: true,
+          children: "structure",
         },
         {
           text: "연결 설정",
