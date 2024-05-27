@@ -9,7 +9,8 @@
 
 #include <set>
 
-bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
+bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json::value& details)
+    const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
@@ -39,7 +40,8 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
     if (task_view.ends_with(task_name_suf)) {
         task_view.remove_suffix(task_name_suf.length());
     }
-    if (task_view == "CombatDps" || task_view == "EmergencyDps" || task_view == "FerociousPresage") {
+    if (task_view == "CombatDps" || task_view == "EmergencyDps"
+        || task_view == "FerociousPresage") {
         if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
             m_stage = "SkipBattle";
         }
@@ -60,8 +62,9 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         m_stage = "Encounter";
         return true;
     }
-    if ((task_view == "Gambling" || task_view == "EmergencyTransportation" || task_view == "WindAndRain") &&
-        mode == RoguelikeMode::Exp) {
+    if ((task_view == "Gambling" || task_view == "EmergencyTransportation"
+         || task_view == "WindAndRain" || task_view == "MysteriousPresage")
+        && mode == RoguelikeMode::Exp) {
         m_stage = "Gambling";
         return true;
     }
@@ -74,11 +77,13 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    std::vector<RoguelikeFoldartalCombination> combination = RoguelikeFoldartal.get_combination(m_config->get_theme());
+    std::vector<RoguelikeFoldartalCombination> combination =
+        RoguelikeFoldartal.get_combination(m_config->get_theme());
 
     auto foldartal_list = m_config->get_foldartal();
-    Log.debug("All foldartal got yet:", foldartal_list);
-    auto filter = views::filter([&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
+    Log.trace("All foldartal got yet:", foldartal_list);
+    auto filter = views::filter(
+        [&](const RoguelikeFoldartalCombination& usage) { return m_stage == usage.usage; });
     for (const auto& comb : combination | filter) {
         if (need_exit()) {
             break;
@@ -89,8 +94,9 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
     return true;
 }
 
-void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::string>& list,
-                                                            const asst::RoguelikeFoldartalCombination& usage)
+void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
+    std::vector<std::string>& list,
+    const asst::RoguelikeFoldartalCombination& usage)
 {
     LogTraceFunction;
     auto check_pair = [&](const auto& pair) {
@@ -101,7 +107,8 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
             if (need_exit()) {
                 return;
             }
-            if (auto iter_up = ranges::find(list, up_board); iter_up == list.end() || boards_to_skip.contains(up_board)) {
+            if (auto iter_up = ranges::find(list, up_board);
+                iter_up == list.end() || boards_to_skip.contains(up_board)) {
                 continue;
             }
 
@@ -110,7 +117,8 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
                 if (need_exit()) {
                     return;
                 }
-                if (auto iter_down = ranges::find(list, down_board); iter_down == list.end() || boards_to_skip.contains(down_board)) {
+                if (auto iter_down = ranges::find(list, down_board);
+                    iter_down == list.end() || boards_to_skip.contains(down_board)) {
                     continue;
                 }
                 const auto result = use_board(up_board, down_board);
@@ -167,10 +175,15 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(std::vector<std::str
     return;
 }
 
-asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult asst::RoguelikeFoldartalUseTaskPlugin::use_board(
-    const std::string& up_board, const std::string& down_board) const
+asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult
+    asst::RoguelikeFoldartalUseTaskPlugin::use_board(
+        const std::string& up_board,
+        const std::string& down_board) const
 {
+    LogTraceFunction;
+
     auto result = UseBoardResult::ClickFoldartalError;
+
     Log.trace("Try to use the board pair", up_board, down_board);
 
     if (!ProcessTask(*this, { m_config->get_theme() + "@Roguelike@Foldartal" }).run()) {
@@ -188,7 +201,8 @@ asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult asst::RoguelikeFoldartalUs
     else if (!search_and_click_stage()) {
         result = UseBoardResult::StageNotFound;
     }
-    else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" }).run()) {
+    else if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseConfirm" })
+                 .run()) {
         return UseBoardResult::UseBoardResultSuccess;
     }
     else {
@@ -201,6 +215,8 @@ asst::RoguelikeFoldartalUseTaskPlugin::UseBoardResult asst::RoguelikeFoldartalUs
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_board(const std::string& board) const
 {
+    LogTraceFunction;
+
     Log.trace("Search and click the board", board);
 
     constexpr int max_retry = 10;
@@ -215,7 +231,8 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_board(const std::st
             slowly_swipe(true);
         }
         else {
-            ctrler()->click(analyzer.get_result().front().rect.move(Task.get(task_name)->rect_move));
+            ctrler()->click(
+                analyzer.get_result().front().rect.move(Task.get(task_name)->rect_move));
             return true;
         }
         try_time++;
@@ -225,6 +242,8 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_board(const std::st
 
 bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_stage() const
 {
+    LogTraceFunction;
+
     Log.trace("Try to click stage", m_stage);
     // todo:根据坐标换算位置,根据节点类型设置识别优先度
 
@@ -233,13 +252,15 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::search_and_click_stage() const
     sleep(1000);
 
     // 节点会闪烁，所以这里不用单次Match
-    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" }).run()) {
+    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" + m_stage })
+            .run()) {
         return true;
     }
     // 滑到最右边，萨米的地图只有两页，暂时先这么糊着，出现识别不到再写循环
     ProcessTask(*this, { "SwipeToTheRight" }).run();
     sleep(1000);
-    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" }).run()) {
+    if (ProcessTask(*this, { m_config->get_theme() + "@Roguelike@FoldartalUseOnStage" + m_stage })
+            .run()) {
         return true;
     }
     return false;
@@ -272,18 +293,24 @@ void asst::RoguelikeFoldartalUseTaskPlugin::slowly_swipe(const bool direction, i
 {
     std::string swipe_task_name =
         direction ? "RoguelikeFoldartalSlowlySwipeToTheUp" : "RoguelikeFoldartalSwipeToTheDown";
-    if (!ControlFeat::support(ctrler()->support_features(),
-                              ControlFeat::PRECISE_SWIPE)) { // 不能精准滑动时不使用 swipe_dist 参数
+    if (!ControlFeat::support(
+            ctrler()->support_features(),
+            ControlFeat::PRECISE_SWIPE)) { // 不能精准滑动时不使用 swipe_dist 参数
         ProcessTask(*this, { swipe_task_name }).run();
         return;
     }
 
-    if (!direction) swipe_dist = -swipe_dist;
+    if (!direction) {
+        swipe_dist = -swipe_dist;
+    }
     const auto swipe_task = Task.get(swipe_task_name);
     const Rect& start_point = swipe_task->specific_rect;
     ctrler()->swipe(
         start_point,
-        { start_point.x + swipe_dist - start_point.width, start_point.y, start_point.width, start_point.height },
+        { start_point.x + swipe_dist - start_point.width,
+          start_point.y,
+          start_point.width,
+          start_point.height },
         swipe_task->special_params.empty() ? 0 : swipe_task->special_params.at(0),
         (swipe_task->special_params.size() < 2) ? false : swipe_task->special_params.at(1),
         (swipe_task->special_params.size() < 3) ? 1 : swipe_task->special_params.at(2),

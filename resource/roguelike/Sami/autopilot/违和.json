@@ -33,6 +33,20 @@
     "deploy_plan": [
         {
             "groups": [
+                "伊内丝"
+            ],
+            "location": [
+                5,
+                2
+            ],
+            "direction": "right",
+            "condition": [
+                0,
+                0
+            ]
+        },
+        {
+            "groups": [
                 "回费"
             ],
             "location": [
@@ -255,6 +269,18 @@
                 4
             ],
             "direction": "right"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                3,
+                6
+            ],
+            "condition": [
+                5,
+                2
+            ]
         }
     ]
 }
