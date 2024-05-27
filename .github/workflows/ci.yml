@@ -40,7 +40,6 @@ jobs:
         with:
           path: temp
           show-progress: false
-          submodules: recursive
 
       - name: Fetch history
         if: ${{ !startsWith(github.ref, 'refs/pull/') }}
@@ -302,7 +301,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-          submodules: recursive
 
       - name: Install Dependencies
         run: |
