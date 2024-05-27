@@ -15435,6 +15435,20 @@
             0,
             0,
             0
+        ],
+        "ocrReplace": [
+            [
+                "黜",
+                "黜人"
+            ],
+            [
+                "满",
+                "萨满"
+            ],
+            [
+                "\"",
+                ""
+            ]
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStage": {
@@ -15471,6 +15485,117 @@
             477
         ]
     },
+    "Sami@Roguelike@FoldartalUseOnStageSkipBattle": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageBattle": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageBoss": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png"
+        ],
+        "templThreshold": [
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageTrader": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnTrader.png"
+        ],
+        "templThreshold": [
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageEncounter": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnEncounter.png"
+        ],
+        "templThreshold": [
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageGambling": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnGambling.png",
+            "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyTransportation.png",
+            "Sami@Roguelike@FoldartalUseOnMysteriousPresage.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7,
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+
     "Sami@Roguelike@GamePass": {},
     "Sami@Roguelike@GamePassSkip1": {},
     "Sami@Roguelike@GamePassSkip1Confirm": {
@@ -16180,11 +16305,69 @@
     "Sami@Roguelike@Stages": {
         "baseTask": "Sami@Roguelike@Stages_default"
     },
+    "Sami@Roguelike@StagesChaosZero": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "Doc": "特殊值识别，当抗干扰为0时不进行纵向移动",
+        "text": [
+            "0"
+        ],
+        "roi": [
+            615,
+            0,
+            80,
+            45
+        ],
+        "ocrReplace": [
+            [
+                "O",
+                "0"
+            ]
+        ],
+        "next": [
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StageBoskyPassage",
+            "Sami@Roguelike@StageBoskyPassageAI6",
+            "Sami@Roguelike@StageTrader",
+            "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageSafeHouse",
+            "Sami@Roguelike@StageSafeHouseAI6",
+            "Sami@Roguelike@StageBoons",
+            "Sami@Roguelike@StageBoonsAI6",
+            "Sami@Roguelike@StageEmergencyTransportation",
+            "Sami@Roguelike@StageEmergencyTransportationAI6",
+            "Sami@Roguelike@StageGambling",
+            "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageProphecy",
+            "Sami@Roguelike@StageProphecyAI6",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageWindAndRain",
+            "Sami@Roguelike@StageWindAndRainAI6",
+            "Sami@Roguelike@StageMysteriousPresage",
+            "Sami@Roguelike@StageFerociousPresage",
+            "Sami@Roguelike@StageDreadfulFoe",
+            "Sami@Roguelike@StageDreadfulFoe-5",
+            "Sami@Roguelike@StageCombatDps",
+            "Sami@Roguelike@StageCombatDpsAI6",
+            "Sami@Roguelike@StageEmergencyDps",
+            "Sami@Roguelike@StageEmergencyDpsAI6",
+            "Sami@Roguelike@CloseCollectionClose",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@StageEncounterSpecialClose",
+            "Sami@Roguelike@TraderRandomShopping",
+            "Sami@Roguelike@StageTraderLeave",
+            "Sami@Roguelike@DropsFlag",
+            "Sami@Roguelike@StartUpThemes#next",
+            "Sami@Roguelike@ClickToDrops"
+        ]
+    },
     "Sami@Roguelike@Stages_aggressive": {
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
             "Sami@Roguelike@StageBoskyPassage",
@@ -16212,8 +16395,6 @@
             "Sami@Roguelike@StageTraderAI6",
             "Sami@Roguelike@StageEncounter",
             "Sami@Roguelike@StageEncounterAI6",
-            "Sami@Roguelike@StageVerticalEncounter",
-            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalProphecy",
             "Sami@Roguelike@StageVerticalProphecyAI6",
             "Sami@Roguelike@StageWindAndRain",
@@ -16235,6 +16416,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
             "Sami@Roguelike@StageVerticalBoskyPassage",
@@ -16287,6 +16469,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
             "Sami@Roguelike@StageBoskyPassage",
