@@ -14860,7 +14860,7 @@
         "baseTask": "Mizuki@Roguelike@Stages_default"
     },
     "Mizuki@Roguelike@Stages_aggressive": {
-        "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
+        "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
@@ -14877,7 +14877,9 @@
             "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@CloseCollectionContinue",
-            "Mizuki@Roguelike@CloseCollectionClose"
+            "Mizuki@Roguelike@CloseCollectionClose",
+            "Mizuki@Roguelike@StageDreadfulFoe",
+            "Mizuki@Roguelike@StageDreadfulFoe-5"
         ]
     },
     "Mizuki@Roguelike@Stages_default": {
@@ -16179,7 +16181,7 @@
         "baseTask": "Sami@Roguelike@Stages_default"
     },
     "Sami@Roguelike@Stages_aggressive": {
-        "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
+        "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
@@ -16222,6 +16224,8 @@
             "Sami@Roguelike@StageEmergencyTransportationAI6",
             "Sami@Roguelike@StageGambling",
             "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageDreadfulFoe",
+            "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageMysteriousPresage",
             "Sami@Roguelike@CloseCollectionClose"
         ]
