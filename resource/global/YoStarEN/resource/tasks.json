@@ -7193,6 +7193,16 @@
         ]
     },
     "Sami@Roguelike@FoldartalUseOcr": {
+        "text": [
+            "Layout",
+            "Lavout"
+        ],
+        "roi": [
+            36,
+            64,
+            90,
+            578
+        ],
         "ocrReplace": [
             [
                 "Hunt",
@@ -7346,16 +7356,6 @@
                 "Confess",
                 "告解"
             ]
-        ],
-        "text": [
-            "Layout",
-            "Lavout"
-        ],
-        "roi": [
-            36,
-            64,
-            90,
-            578
         ]
     },
     "Sami@Roguelike@GetDropSelectRecruit": {

@@ -7045,6 +7045,9 @@
         ]
     },
     "Sami@Roguelike@FoldartalUseOcr": {
+        "text": [
+            "구성"
+        ],
         "ocrReplace": [
             [
                 "수렵",
@@ -7198,9 +7201,6 @@
                 "고해",
                 "告解"
             ]
-        ],
-        "text": [
-            "구성"
         ]
     },
     "Sami@Roguelike@NextLevel": {
