@@ -163,7 +163,7 @@ You need to use the official China MuMu 12 3.8.13 and later versions, and close 
 
 It is recommended to turn it off, at this time the instance screen is always `0`.
 
-When it is on, the order of MuMu emulator tabs should be the serial number of the instance screen, e.g. `0` for emulator desktop, `1` for Tomorrow's Ark client.
+When it is on, the order of MuMu emulator tabs should be the serial number of the instance screen, e.g. `0` for emulator desktop, `1` for Arknights client.
 
 Adaptation for backend live is very imperfect, there are always all kinds of inexplicable problems, it is very not recommended.
 
