@@ -8403,6 +8403,9 @@
         ]
     },
     "Sami@Roguelike@FoldartalUseOcr": {
+        "text": [
+            "構成"
+        ],
         "ocrReplace": [
             [
                 "狩猟",
@@ -8524,9 +8527,6 @@
                 "空無",
                 "空无"
             ]
-        ],
-        "text": [
-            "構成"
         ]
     },
     "Sami@Roguelike@GetDropSelectRecruit": {

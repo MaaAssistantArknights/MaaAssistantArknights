@@ -15485,26 +15485,6 @@
             477
         ]
     },
-    "Sami@Roguelike@FoldartalUseOnStageSkipBattle": {
-        "cache": false,
-        "action": "ClickSelf",
-        "template": [
-            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
-            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
-            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png"
-        ],
-        "templThreshold": [
-            0.7,
-            0.7,
-            0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
-        ]
-    },
     "Sami@Roguelike@FoldartalUseOnStageBattle": {
         "cache": false,
         "action": "ClickSelf",
@@ -15530,22 +15510,6 @@
         "action": "ClickSelf",
         "template": [
             "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png"
-        ],
-        "templThreshold": [
-            0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
-        ]
-    },
-    "Sami@Roguelike@FoldartalUseOnStageTrader": {
-        "cache": false,
-        "action": "ClickSelf",
-        "template": [
-            "Sami@Roguelike@FoldartalUseOnTrader.png"
         ],
         "templThreshold": [
             0.7
@@ -15595,7 +15559,42 @@
             477
         ]
     },
-
+    "Sami@Roguelike@FoldartalUseOnStageSkipBattle": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageTrader": {
+        "cache": false,
+        "action": "ClickSelf",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnTrader.png"
+        ],
+        "templThreshold": [
+            0.7
+        ],
+        "roi": [
+            429,
+            111,
+            844,
+            477
+        ]
+    },
     "Sami@Roguelike@GamePass": {},
     "Sami@Roguelike@GamePassSkip1": {},
     "Sami@Roguelike@GamePassSkip1Confirm": {
