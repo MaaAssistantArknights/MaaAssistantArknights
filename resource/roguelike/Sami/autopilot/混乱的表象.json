@@ -48,6 +48,16 @@
         },
         {
             "groups": [
+                "益达"
+            ],
+            "location": [
+                6,
+                6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "玛恩纳"
             ],
             "location": [
@@ -71,6 +81,7 @@
         },
         {
             "groups": [
+                "重装",
                 "地面阻挡",
                 "处决者",
                 "其他地面",
@@ -84,8 +95,21 @@
         },
         {
             "groups": [
-                "高台输出",
+                "浊心斯卡蒂",
+                "单奶",
+                "群奶",
+                "召唤"
+            ],
+            "location": [
+                7,
+                6
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "狙击",
+                "高台输出",
                 "辅助",
                 "其他高台"
             ],
@@ -94,6 +118,19 @@
                 2
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "炮灰",
+                "处决者",
+                "障碍物",
+                "其他地面"
+            ],
+            "location": [
+                3,
+                5
+            ],
+            "direction": "right"
         },
         {
             "groups": [
@@ -152,6 +189,17 @@
             "location": [
                 5,
                 4
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "奶",
+                "高台输出"
+            ],
+            "location": [
+                9,
+                2
             ],
             "direction": "left"
         }

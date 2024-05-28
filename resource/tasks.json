@@ -15454,30 +15454,8 @@
     "Sami@Roguelike@FoldartalUseOnStage": {
         "cache": false,
         "action": "ClickSelf",
-        "template": [
-            "Sami@Roguelike@FoldartalUseOnGambling.png",
-            "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
-            "Sami@Roguelike@FoldartalUseOnEmergencyTransportation.png",
-            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
-            "Sami@Roguelike@FoldartalUseOnMysteriousPresage.png",
-            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
-            "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png",
-            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png",
-            "Sami@Roguelike@FoldartalUseOnEncounter.png",
-            "Sami@Roguelike@FoldartalUseOnTrader.png"
-        ],
-        "templThreshold": [
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7
-        ],
+        "template": "empty.png",
+        "maxTimes": 10,
         "roi": [
             429,
             111,
@@ -15486,8 +15464,7 @@
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStageBattle": {
-        "cache": false,
-        "action": "ClickSelf",
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
         "template": [
             "Sami@Roguelike@FoldartalUseOnCombatDps.png",
             "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
@@ -15497,49 +15474,28 @@
             0.7,
             0.7,
             0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStageBoss": {
-        "cache": false,
-        "action": "ClickSelf",
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
         "template": [
             "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png"
         ],
         "templThreshold": [
             0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStageEncounter": {
-        "cache": false,
-        "action": "ClickSelf",
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
         "template": [
             "Sami@Roguelike@FoldartalUseOnEncounter.png"
         ],
         "templThreshold": [
             0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStageGambling": {
-        "cache": false,
-        "action": "ClickSelf",
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
         "template": [
             "Sami@Roguelike@FoldartalUseOnGambling.png",
             "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
@@ -15551,17 +15507,10 @@
             0.7,
             0.7,
             0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStageSkipBattle": {
-        "cache": false,
-        "action": "ClickSelf",
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
         "template": [
             "Sami@Roguelike@FoldartalUseOnCombatDps.png",
             "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
@@ -15571,28 +15520,15 @@
             0.7,
             0.7,
             0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStageTrader": {
-        "cache": false,
-        "action": "ClickSelf",
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
         "template": [
             "Sami@Roguelike@FoldartalUseOnTrader.png"
         ],
         "templThreshold": [
             0.7
-        ],
-        "roi": [
-            429,
-            111,
-            844,
-            477
         ]
     },
     "Sami@Roguelike@GamePass": {},
@@ -16333,8 +16269,12 @@
             "Sami@Roguelike@StageSafeHouseAI6",
             "Sami@Roguelike@StageBoons",
             "Sami@Roguelike@StageBoonsAI6",
+            "Sami@Roguelike@StageCombatDps",
+            "Sami@Roguelike@StageCombatDpsAI6",
+            "Sami@Roguelike@StageFerociousPresage",
             "Sami@Roguelike@StageEmergencyTransportation",
             "Sami@Roguelike@StageEmergencyTransportationAI6",
+            "Sami@Roguelike@StageMysteriousPresage",
             "Sami@Roguelike@StageGambling",
             "Sami@Roguelike@StageGamblingAI6",
             "Sami@Roguelike@StageProphecy",
@@ -16343,12 +16283,8 @@
             "Sami@Roguelike@StageEncounterAI6",
             "Sami@Roguelike@StageWindAndRain",
             "Sami@Roguelike@StageWindAndRainAI6",
-            "Sami@Roguelike@StageMysteriousPresage",
-            "Sami@Roguelike@StageFerociousPresage",
             "Sami@Roguelike@StageDreadfulFoe",
             "Sami@Roguelike@StageDreadfulFoe-5",
-            "Sami@Roguelike@StageCombatDps",
-            "Sami@Roguelike@StageCombatDpsAI6",
             "Sami@Roguelike@StageEmergencyDps",
             "Sami@Roguelike@StageEmergencyDpsAI6",
             "Sami@Roguelike@CloseCollectionClose",
@@ -16356,6 +16292,7 @@
             "Sami@Roguelike@StageEncounterSpecialClose",
             "Sami@Roguelike@TraderRandomShopping",
             "Sami@Roguelike@StageTraderLeave",
+            "Sami@Roguelike@StageEncounterOptions#next",
             "Sami@Roguelike@DropsFlag",
             "Sami@Roguelike@StartUpThemes#next",
             "Sami@Roguelike@ClickToDrops"
