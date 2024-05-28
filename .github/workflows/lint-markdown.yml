@@ -1,0 +1,46 @@
+name: Lint Markdown files
+
+on:
+  push:
+    branches: ["dev"]
+    paths:
+      - "**/*.md"
+      - ".github/workflows/lint-markdown.yml"
+  pull_request:
+    branches: ["dev"]
+    paths:
+      - "**/*.md"
+      - ".github/workflows/lint-markdown.yml"
+  schedule:
+    - cron: "44 7 * * 2"
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          config: docs/.markdownlint.yaml
+          globs: |
+            README.md
+            docs/**/*.md
+
+  check-links:
+    name: Check Dead Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Check Dead Link
+        uses: umbrelladocs/action-linkspector@v1
+        with:
+          # Use github-pr-review when triggered by a pull request; otherwise, use github-check
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          # Check only the diff when triggered by a push or pull request; otherwise, check all files
+          filter_mode: ${{ contains(fromJSON('["push", "pull_request"]'), github.event_name) && 'diff_context' || 'nofilter' }}
+          fail_on_error: true
