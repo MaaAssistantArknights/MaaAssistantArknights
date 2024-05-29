@@ -5908,6 +5908,7 @@
             330,
             150
         ],
+        "preDelay": 500,
         "next": [
             "CloseTaskAward"
         ]
