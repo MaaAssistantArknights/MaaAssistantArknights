@@ -6,6 +6,16 @@
 
 #include "Utils/Logger.hpp"
 
+#if __has_include(<onnxruntime/dml_provider_factory.h>)
+#define WITH_DML
+#include <onnxruntime/dml_provider_factory.h>
+#endif
+
+#if __has_include(<onnxruntime/coreml_provider_factory.h>)
+#define WITH_COREML
+#include <onnxruntime/coreml_provider_factory.h>
+#endif
+
 bool asst::OnnxSessions::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
@@ -29,4 +39,62 @@ Ort::Session& asst::OnnxSessions::get(const std::string& name)
         m_sessions.emplace(name, std::move(session));
     }
     return m_sessions.at(name);
+}
+
+bool asst::OnnxSessions::use_cpu()
+{
+    if (m_sessions.size() != 0) return false;
+    m_options = Ort::SessionOptions();
+    gpu_enabled = false;
+    return true;
+}
+
+bool asst::OnnxSessions::use_gpu(int device_id)
+{
+    if (gpu_enabled) return true;
+    if (m_sessions.size() != 0) return false;
+    auto all_providers = Ort::GetAvailableProviders();
+    bool support_cuda = false;
+    bool support_dml = false;
+    bool support_coreml = false;
+    for (const auto& provider : all_providers) {
+        if (provider == "CUDAExecutionProvider") {
+            support_cuda = true;
+        }
+        if (provider == "DmlExecutionProvider") {
+            support_dml = true;
+        }
+        if (provider == "CoreMLExecutionProvider") {
+            support_coreml = true;
+        }
+    }
+
+    bool any_gpu = support_cuda || support_dml || support_coreml;
+
+    if (support_cuda) {
+        OrtCUDAProviderOptions cuda_options;
+        cuda_options.device_id = device_id;
+        m_options.AppendExecutionProvider_CUDA(cuda_options);
+    }
+#ifdef WITH_DML
+    else if (support_dml) {
+        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_DML(m_options, device_id)).IsOK()) {
+            return false;
+        }
+    }
+#endif
+#ifdef WITH_COREML
+    else if (support_coreml) {
+        if (!Ort::Status(OrtSessionOptionsAppendExecutionProvider_CoreML((OrtSessionOptions*)m_options, 0)).IsOK()) {
+            return false;
+        }
+    }
+#endif
+    if (!any_gpu) {
+        Log.error(__FUNCTION__, "No GPU execution provider available");
+        return false;
+    }
+
+    gpu_enabled = true;
+    return true;
 }

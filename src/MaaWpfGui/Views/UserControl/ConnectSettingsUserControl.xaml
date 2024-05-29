@@ -306,11 +306,5 @@
                 IsChecked="{Binding BlockSleepWithScreenOn}"
                 Visibility="{c:Binding BlockSleep}" />
         </StackPanel>
-        <controls:TextBlock
-            Grid.Row="11"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            HorizontalAlignment="Center"
-            Text="{c:Binding ScreencapCost}" />
     </Grid>
 </UserControl>

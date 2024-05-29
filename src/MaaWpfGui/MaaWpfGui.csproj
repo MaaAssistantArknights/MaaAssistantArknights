@@ -89,6 +89,7 @@
   <!-- Nuget Packages -->
   <ItemGroup>
     <PackageReference Include="CalcBinding" Version="2.5.2" />
+    <PackageReference Include="DirectNCore" Version="1.16.1" />
     <PackageReference Include="FluentEmail.Liquid" Version="3.0.2" />
     <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
     <PackageReference Include="Fody" Version="6.8.0">

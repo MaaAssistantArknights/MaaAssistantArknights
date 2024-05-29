@@ -259,6 +259,11 @@ namespace MaaWpfGui.Main
         /// </summary>
         public void Init()
         {
+            if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
+            {
+                AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
+            }
+
             bool loaded = LoadResource();
 
             _handle = MaaService.AsstCreateEx(_callback, AsstHandle.Zero);
@@ -1597,6 +1602,11 @@ namespace MaaWpfGui.Main
             return AsstSetInstanceOption(_handle, (AsstInstanceOptionKey)key, value);
         }
 
+        public bool AsstSetStaticOption(AsstStaticOptionKey key, string value)
+        {
+            return MaaService.AsstSetStaticOption(key, value);
+        }
+
         private static readonly bool _forcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
         /// <summary>
@@ -2630,6 +2640,24 @@ namespace MaaWpfGui.Main
         /// 原子任务手动停止
         /// </summary>
         SubTaskStopped,
+    }
+
+    public enum AsstStaticOptionKey
+    {
+        /// <summary>
+        /// 无效
+        /// </summary>
+        Invalid,
+
+        /// <summary>
+        /// 用CPU进行OCR
+        /// </summary>
+        CpuOCR,
+
+        /// <summary>
+        /// 用GPU进行OCR
+        /// </summary>
+        GpuOCR,
     }
 
     public enum InstanceOptionKey
