@@ -116,7 +116,7 @@
             "direction": "right",
             "condition": [
                 2,
-                60
+                52
             ]
         },
         {
@@ -323,6 +323,20 @@
                 5
             ],
             "direction": "up",
+            "condition": [
+                53,
+                60
+            ]
+        },
+        {
+            "groups": [
+                "玛恩纳"
+            ],
+            "location": [
+                9,
+                4
+            ],
+            "direction": "left",
             "condition": [
                 53,
                 60

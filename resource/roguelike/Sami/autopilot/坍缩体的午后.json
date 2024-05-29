@@ -51,17 +51,6 @@
         },
         {
             "groups": [
-                "凯尔希",
-                "单奶"
-            ],
-            "location": [
-                2,
-                3
-            ],
-            "direction": "right"
-        },
-        {
-            "groups": [
                 "高台输出",
                 "辅助",
                 "其他高台"
@@ -69,6 +58,17 @@
             "location": [
                 4,
                 5
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "凯尔希",
+                "单奶"
+            ],
+            "location": [
+                2,
+                3
             ],
             "direction": "right"
         },
