@@ -231,6 +231,10 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";
         public const string ExternalNotificationBarkServer = "ExternalNotification.Bark.Server";
 
+        public const string PerformanceUseGpu = "Performance.UseGpu";
+        public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
+        public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
+
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";
 

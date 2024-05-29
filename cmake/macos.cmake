@@ -15,13 +15,13 @@ if (BUILD_XCFRAMEWORK)
         COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libonnxruntime.1.14.1.dylib" -output ONNXRuntime.xcframework
     )
 
-    add_custom_command(OUTPUT MaaDerpLearning.xcframework
-        COMMAND rm -rf MaaDerpLearning.xcframework
-        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libMaaDerpLearning.dylib" -output MaaDerpLearning.xcframework
+    add_custom_command(OUTPUT fastdeploy_ppocr.xcframework
+        COMMAND rm -rf fastdeploy_ppocr.xcframework
+        COMMAND xcodebuild -create-xcframework -library "${PROJECT_SOURCE_DIR}/MaaDeps/runtime/${MAADEPS_TRIPLET}/libfastdeploy_ppocr.dylib" -output fastdeploy_ppocr.xcframework
     )
 
     add_custom_target(MaaXCFramework ALL
-        DEPENDS MaaCore MaaCore.xcframework OpenCV.xcframework ONNXRuntime.xcframework MaaDerpLearning.xcframework
+        DEPENDS MaaCore MaaCore.xcframework OpenCV.xcframework ONNXRuntime.xcframework fastdeploy_ppocr.xcframework
     )
 endif (BUILD_XCFRAMEWORK)
 

@@ -6,6 +6,7 @@
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
     <system:String x:Key="AdvancedSettings">Advanced</system:String>
+    <system:String x:Key="PerformanceSettings">Performance</system:String>
     <system:String x:Key="GameSettings">Client</system:String>
     <system:String x:Key="BaseSettings">Base</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
@@ -47,6 +48,9 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">User ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">Bot Token</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">Chat ID</system:String>
+    <system:String x:Key="UseGpuForInference">Use GPU for inference acceleration</system:String>
+    <system:String x:Key="GpuOptionDisable">Don’t use</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">System default GPU</system:String>
     <!--  Settings Guide  -->
     <system:String x:Key="TaskSettings">Task Settings</system:String>
     <system:String x:Key="SettingsGuide">Settings Guide</system:String>

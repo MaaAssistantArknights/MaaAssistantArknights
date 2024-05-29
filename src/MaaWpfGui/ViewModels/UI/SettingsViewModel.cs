@@ -565,10 +565,27 @@ namespace MaaWpfGui.ViewModels.UI
 
         #endregion External Notifications
 
+        #region Performance
+
+        public List<GpuOption> GpuOptions => GpuOption.GetGpuOptions();
+
+        public GpuOption ActiveGpuOption
+        {
+            get => GpuOption.GetCurrent();
+            set
+            {
+                GpuOption.SetCurrent(value);
+                AskRestartToApplySettings();
+            }
+        }
+
+        #endregion Performance
+
         private List<string> _listTitle =
             [
                 LocalizationHelper.GetString("SwitchConfiguration"),
                 LocalizationHelper.GetString("ScheduleSettings"),
+                LocalizationHelper.GetString("PerformanceSettings"),
                 LocalizationHelper.GetString("GameSettings"),
                 LocalizationHelper.GetString("ConnectionSettings"),
                 LocalizationHelper.GetString("StartupSettings"),
@@ -1237,15 +1254,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
-                var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("PromptRestartForSettingsChange"),
-                    LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
-                {
-                    Bootstrapper.ShutdownAndRestartWithoutArgs();
-                }
+                AskRestartToApplySettings();
             }
         }
 
@@ -2555,7 +2564,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets or sets a value indicating whether to collect special access rewards.
         /// </summary>
-
         public bool ReceiveSpecialAccess
         {
             get => _receiveReceiveSpecialAccess;
@@ -3798,15 +3806,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SetAndNotify(ref _touchMode, value);
                 UpdateInstanceSettings();
                 ConfigurationHelper.SetValue(ConfigurationKeys.TouchMode, value);
-                var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("PromptRestartForSettingsChange"),
-                    LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
-                {
-                    Bootstrapper.ShutdownAndRestartWithoutArgs();
-                }
+                AskRestartToApplySettings();
             }
         }
 
@@ -4173,15 +4173,7 @@ namespace MaaWpfGui.ViewModels.UI
                 SwitchDarkMode();
 
                 /*
-                var result = MessageBoxHelper.Show(
-                    LocalizationHelper.GetString("PromptRestartForSettingsChange"),
-                    LocalizationHelper.GetString("Tip"),
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
-                {
-                    Bootstrapper.ShutdownAndRestartWithOutArgs();
-                }
+                AskToRestartToApplySettings();
                 */
             }
         }
@@ -4651,6 +4643,22 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion SettingsGuide
+
+        /// <summary>
+        /// 要求用户重启以应用设置
+        /// </summary>
+        private void AskRestartToApplySettings()
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("PromptRestartForSettingsChange"),
+                LocalizationHelper.GetString("Tip"),
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+            if (result == MessageBoxResult.OK)
+            {
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
+            }
+        }
 
         /// <summary>
         /// Make comboBox searchable
