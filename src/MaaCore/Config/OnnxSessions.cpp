@@ -98,3 +98,14 @@ bool asst::OnnxSessions::use_gpu(int device_id)
     gpu_enabled = true;
     return true;
 }
+
+asst::OnnxSessions::~OnnxSessions()
+{
+    // FIXME: intentionally leak ort objects to avoid crash (double free?)
+    // https://github.com/microsoft/onnxruntime/issues/15174
+    auto leak_sessions = new decltype(m_sessions);
+    *leak_sessions = std::move(m_sessions);
+
+    auto leak_options = new Ort::SessionOptions(nullptr);
+    *leak_options = std::move(m_options);
+}
