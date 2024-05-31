@@ -17,7 +17,7 @@ namespace asst
     class OnnxSessions final : public SingletonHolder<OnnxSessions>, public AbstractResource
     {
     public:
-        virtual ~OnnxSessions() override = default;
+        virtual ~OnnxSessions();
         virtual bool load(const std::filesystem::path& path) override;
 
         Ort::Session& get(const std::string& name);
