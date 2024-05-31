@@ -118,6 +118,7 @@ bool asst::PlayToolsController::stop_game()
 
 bool asst::PlayToolsController::click(const Point& p)
 {
+    Log.trace("PlayTools click:", p);
     return toucher_down(p) && toucher_up(p);
 }
 
@@ -143,6 +144,8 @@ bool asst::PlayToolsController::swipe(
         y1 = std::clamp(y1, 0, height - 1);
     }
 
+    Log.trace("PlayTools swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
+    
     toucher_down(p1);
 
     auto cubic_spline = [](double slope_0, double slope_1, double t) {

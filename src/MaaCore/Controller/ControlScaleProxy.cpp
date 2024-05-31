@@ -1,6 +1,7 @@
 #include "ControlScaleProxy.h"
 
 #include "Config/GeneralConfig.h"
+#include "Utils/Logger.hpp"
 
 asst::ControlScaleProxy::ControlScaleProxy(std::shared_ptr<ControllerAPI> controller, ControllerType controller_type,
                                            ProxyCallback proxy_callback)
@@ -56,6 +57,8 @@ bool asst::ControlScaleProxy::click(const Point& p)
     int x = static_cast<int>(p.x * m_control_scale);
     int y = static_cast<int>(p.y * m_control_scale);
 
+    Log.trace("Click with scaled coordinates", p, m_control_scale);
+    
     return m_controller->click(Point(x, y));
 }
 
@@ -71,6 +74,8 @@ bool asst::ControlScaleProxy::swipe(const Point& p1, const Point& p2, int durati
     int y1 = static_cast<int>(p1.y * m_control_scale);
     int x2 = static_cast<int>(p2.x * m_control_scale);
     int y2 = static_cast<int>(p2.y * m_control_scale);
+
+    Log.trace("Swipe with scaled coordinates", p1, p2, m_control_scale);
 
     return m_controller->swipe(Point(x1, y1), Point(x2, y2), duration, extra_swipe, slope_in, slope_out, with_pause);
 }
