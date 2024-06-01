@@ -12,6 +12,16 @@
     "deploy_plan": [
         {
             "groups": [
+                "益达",
+            ],
+            "location": [
+                5,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
                 "情报官",
                 "地面远程",
                 "地面阻挡",
