@@ -189,7 +189,7 @@ bool asst::RoguelikeFormationTaskPlugin::select(RoguelikeFormationImageAnalyzer:
     if (cur_page != oper.page) {
         Log.info(__FUNCTION__, "swipe from page", cur_page, "to page", oper.page);
         // 在最大页码时（当总页数>=2），从右往左划可能会有对不齐的问题，直接划动到底
-        if (cur_page > oper.page && max_page >= 2 && cur_page == max_page || max_page == 1) {
+        if ((cur_page > oper.page && max_page >= 2 && cur_page == max_page) || max_page == 1) {
             for (; cur_page > 0; --cur_page) { // 多划一次到不存在的第0页
                 ProcessTask(*this, { "RoguelikeRecruitOperListSwipeToTheLeft" }).run();
             }
