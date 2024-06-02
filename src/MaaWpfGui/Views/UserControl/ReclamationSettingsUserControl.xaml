@@ -20,7 +20,6 @@
         <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <controls:TextBlock
                 Margin="5,10,5,10"
-                FontSize="16"
                 Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource ReclamationEarlyTip}"
                 TextWrapping="Wrap" />
