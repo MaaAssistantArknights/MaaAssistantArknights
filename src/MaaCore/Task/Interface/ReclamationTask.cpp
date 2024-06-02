@@ -21,7 +21,7 @@ auto asst::ReclamationTask::init_reclamation_fire_within_the_sand()
 auto asst::ReclamationTask::init_reclamation_tales_within_the_sand()
 {
     auto ptr = std::make_shared<tales_within_the_sand_task>(m_callback, m_inst, TaskType);
-    ptr->set_tasks({ "Reclamation2" });
+    ptr->set_tasks({ "Reclamation2Ex" });
     m_subtasks = { ptr };
     m_reclamation_task_ptr = ptr;
     return ptr;
