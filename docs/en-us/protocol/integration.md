@@ -281,9 +281,12 @@ For more details about auto-copilot JSON, please refer to [Copilot Schema](./cop
     "theme": int,           // Theme, optional, 1 by default
                             // 0 - *Fire Within the Sand*
                             // 1 - *Tales Within the Sand*
-    "mode": int             // Mode, optional, by default 0 (supported by theme *Fire Within the Sand* only)
+    "mode": int,            // Mode, optional, 0 by default
                             // 0 - Farm badges & construction pts (exiting the stage immediately)
-                            // 1 - Farm Crude Gold (forging Gold at headquarter after purchasing water)
+                            // 1 - Fire Within the Sand: Farm Crude Gold (forging Gold at headquarter after purchasing water)
+                            //     Tales Within the Sand: Automatically craft items and load to earn currency
+    "product": string       // Automatically crafted items, optional, glow stick by default 
+                            // Suggested fill in the substring
 }
 ```
 
