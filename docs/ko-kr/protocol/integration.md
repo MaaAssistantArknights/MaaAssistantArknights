@@ -74,6 +74,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "expiring_medicine": int,   // 48시간 이내에 만료되는 이성 회복제 수, 선택 사항, 기본값은 0
     "stone": int,               // 최대 사용 가능한 오리지늄의 수, 선택 사항, 기본값은 0
     "times": int,               // 최대 반복 횟수, 선택 사항, 기본값은 무한대입니다.
+    "series": int,              // 연전 횟수, 선택사항, 1~6
     "drops": {                  // 드랍 수량을 지정합니다. 선택 사항, 기본적으로 지정되지 않습니다.
         "30011": int,           // 키: 아이템 ID; 값: 아이템 수량. 키는 resource/item_index.json을 참조합니다.
         "30062": int            // OR 조합

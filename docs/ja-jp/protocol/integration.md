@@ -81,6 +81,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
     "expiring_medicine": int,   // 48 時間以内に期限切れになった理性回復剤の最大使用数、オプション、デフォルトは 0
     "stone": int,               // 純正源石の最大使用数、オプション、デフォルトは 0
     "times": int,               // 最大周回数、オプション、デフォルトは無限
+    "series": int,              // 連戦回数、オプション、1~6
     "drops": {                  // ドロップ数の指定、オプション、デフォルトは指定なし
         "30011": int,           // Key: item_ID; value: 素材の数。Keyは resource/item_index.json に記載されています
         "30062": int            // OR 組み合わせ

@@ -75,6 +75,7 @@ Appends a task.
     "expiring_medicine": int,   // Maximum number of expired Sanity Potion within 48 hours, optional, by default 0
     "stone": int,               // Maximum number of Originite Prime used, optional, by default 0
     "times": int,               // Maximum times, optional, by default infinite
+    "series": int,              // Number of series, optional, 1~6
     "drops": {                  // Specifying the number of drops, optional, no specification by default
         "30011": int,           // Key: item ID; value: number of items. Key refers to resource/item_index.json
         "30062": int            // OR combination
