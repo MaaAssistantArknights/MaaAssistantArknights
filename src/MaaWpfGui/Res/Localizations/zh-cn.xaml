@@ -807,5 +807,7 @@
     3. 必须在生息演算主界面开始任务（导航还没写）
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
+    <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">制造物品</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

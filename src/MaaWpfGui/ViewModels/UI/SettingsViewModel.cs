@@ -2229,6 +2229,32 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        /* 生息演算设置 */
+
+        private bool _reclamation2ExEnable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Reclamation2ExEnable, bool.FalseString));
+
+        public bool Reclamation2ExEnable
+        {
+            get => _reclamation2ExEnable;
+            set
+            {
+                SetAndNotify(ref _reclamation2ExEnable, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Reclamation2ExEnable, value.ToString());
+            }
+        }
+
+        private string _reclamation2ExProduct = ConfigurationHelper.GetValue(ConfigurationKeys.Reclamation2ExProduct, string.Empty);
+
+        public string Reclamation2ExProduct
+        {
+            get => _reclamation2ExProduct;
+            set
+            {
+                SetAndNotify(ref _reclamation2ExProduct, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Reclamation2ExProduct, value);
+            }
+        }
+
         /* 访问好友设置 */
         private string _lastCreditFightTaskTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditFightTaskTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 

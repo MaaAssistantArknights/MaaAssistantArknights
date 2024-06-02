@@ -2,6 +2,7 @@
 
 #include "Common/AsstBattleDef.h"
 #include "Status.h"
+#include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
@@ -18,10 +19,14 @@ auto asst::ReclamationTask::init_reclamation_fire_within_the_sand()
     return ptr;
 }
 
-auto asst::ReclamationTask::init_reclamation_tales_within_the_sand()
+auto asst::ReclamationTask::init_reclamation_tales_within_the_sand(const bool enable_ex)
 {
     auto ptr = std::make_shared<tales_within_the_sand_task>(m_callback, m_inst, TaskType);
-    ptr->set_tasks({ "Reclamation2Ex" });
+    if (enable_ex) {
+        ptr->set_tasks({ "Reclamation2Ex" });
+    } else {
+        ptr->set_tasks({ "Reclamation2" });
+    }
     m_subtasks = { ptr };
     m_reclamation_task_ptr = ptr;
     return ptr;
@@ -31,24 +36,24 @@ asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* 
     : InterfaceTask(callback, inst, TaskType)
 {
     LogTraceFunction;
-    init_reclamation_tales_within_the_sand();
+    init_reclamation_tales_within_the_sand(false);
 }
 
 bool asst::ReclamationTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    int theme = params.get("theme", 1);
-
-    switch (theme) {
+    switch (int theme = params.get("theme", 1)) {
     case 0: // 沙中之火
     {
-        auto ptr = std::dynamic_pointer_cast<fire_within_the_sand_task>(m_reclamation_task_ptr);
-        if (!ptr) ptr = init_reclamation_fire_within_the_sand();
+        if (m_current_theme != TaskTheme::FireWithinTheSand) {
+            m_reclamation_task_ptr = init_reclamation_fire_within_the_sand();
+            m_current_theme = TaskTheme::FireWithinTheSand;
+        }
+        const auto ptr = std::static_pointer_cast<fire_within_the_sand_task>(m_reclamation_task_ptr);
         // 0 - 刷分与建造点，进入战斗直接退出
         // 1 - 刷赤金，联络员买水后基地锻造
-        int mode = params.get("mode", 0);
-        switch (mode) {
+        switch (int mode = params.get("mode", 0)) {
         case 0:
             ptr->set_task_mode(ReclamationTaskMode::GiveupUponFight);
             break;
@@ -63,8 +68,14 @@ bool asst::ReclamationTask::set_params(const json::value& params)
     }
     case 1: // 沙洲遗闻
     {
-        auto ptr = std::dynamic_pointer_cast<tales_within_the_sand_task>(m_reclamation_task_ptr);
-        if (!ptr) ptr = init_reclamation_tales_within_the_sand();
+        const int enable_ex = params.get("mode", 0);
+        if (m_current_theme != TaskTheme::TalesWithinTheSand) {
+            m_current_theme = TaskTheme::TalesWithinTheSand;
+        }
+        m_reclamation_task_ptr = init_reclamation_tales_within_the_sand(enable_ex);
+        auto ptr = std::static_pointer_cast<tales_within_the_sand_task>(m_reclamation_task_ptr);
+        if (const std::string product = params.get("product", ""); !product.empty())
+            Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { product };
         break;
     }
     default:
