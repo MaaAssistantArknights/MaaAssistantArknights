@@ -17085,10 +17085,10 @@
             0
         ],
         "specialParams": [
-            150,
-            1,
-            1,
-            1
+            500,
+            0,
+            3,
+            0
         ],
         "next": [
             "Reclamation2ExSwipeAndClickProduct#next"
