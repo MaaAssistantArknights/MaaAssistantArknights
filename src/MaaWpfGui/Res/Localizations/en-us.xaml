@@ -269,7 +269,7 @@
     <system:String x:Key="InvestmentEnabled">Invest coins</system:String>
     <system:String x:Key="InvestmentWithMoreScore">Investment mode enables shopping, recruiting</system:String>
     <system:String x:Key="RefreshTraderWithDice">Refresh Rogue Trader with Dice</system:String>
-    <system:String x:Key="PenguinId">Penguin Report ID (Number part only)</system:String>
+    <system:String x:Key="PenguinId">Penguin Report ID (Number part)</system:String>
     <system:String x:Key="EnablePenguin">Report Penguin</system:String>
     <system:String x:Key="EnableYituliu">Report Yituliu</system:String>
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
