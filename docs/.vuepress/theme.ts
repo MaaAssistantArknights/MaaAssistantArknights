@@ -64,7 +64,7 @@ export default hopeTheme({
       repoId: "R_kgDOHY7Gyg",
       category: "General",
       categoryId: "DIC_kwDOHY7Gys4CYefe",
-      mapping: "title",
+      mapping: "pathname",
       strict: false,
     },
 
