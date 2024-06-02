@@ -288,9 +288,12 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "theme": int,           // 主題，可選項。預設 1
                             // 0 - *沙中之火*
                             // 1 - *沙洲遺聞*
-    "mode": int             // 模式，可選項。預設 0 (僅主題 *沙中之火* 支持)
+    "mode": int,            // 模式，可選項。默認為 0
                             // 0 - 刷分與建造點，進入戰鬥直接退出
-                            // 1 - 刷赤金，聯絡員買水後基地鍛造
+                            // 1 - 沙中之火：刷赤金，聯絡員買水後基地鍛造；
+                            //     沙洲遺聞：自動製造物品並讀檔刷貨幣
+    "product": string       // 自動製造的物品，可選項，默認為荧光棒
+                            // 建議填寫子串
 }
 ```
 
