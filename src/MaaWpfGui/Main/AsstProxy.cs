@@ -2297,19 +2297,16 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 自动生息演算。
         /// </summary>
+        /// <param name="mode">是否通过制造刷点数。</param>
+        /// <param name="product">制造产物。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation2()
+        public bool AsstAppendReclamation2(int mode = 0, string product = "")
         {
-            /*
-            var taskParams = new JObject
-            {
-                ["task_names"] = new JArray { "Reclamation2" },
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
-            */
             var taskParams = new JObject
             {
                 ["theme"] = 1,
+                ["mode"] = mode,
+                ["product"] = product,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm", taskParams);
             _latestTaskId[TaskType.ReclamationAlgorithm2] = id;

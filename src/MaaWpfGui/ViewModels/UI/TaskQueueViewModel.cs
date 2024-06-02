@@ -1420,7 +1420,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation2()
         {
-            return Instances.AsstProxy.AsstAppendReclamation2();
+            return Instances.AsstProxy.AsstAppendReclamation2(
+                Instances.SettingsViewModel.Reclamation2ExEnable ? 1 : 0,
+                Instances.SettingsViewModel.Reclamation2ExProduct);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
