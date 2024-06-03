@@ -691,6 +691,7 @@ asst::AutoRecruitTask::calc_task_result_type
             return result;
         }
 
+        // get selections
         auto final_select = get_select_tags(result_vec, tag_ids);
 
         // select tags
@@ -862,12 +863,13 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(
                     return select;
                 }
             }
+            return select;
         }
     }
     if (m_select_extra_tags_mode == ExtraTagsMode::NoExtra) {
         return combinations.front().tags;
     }
-    if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
+    else if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
         while (select.size() < 3) {
             for (const asst::RecruitCombs& comb : combinations) {
                 for (const std::string& tag : comb.tags) {
