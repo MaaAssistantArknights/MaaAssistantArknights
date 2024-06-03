@@ -12316,8 +12316,10 @@
             190,
             144
         ],
+        "postDelay": 1000,
         "next": [
-            "Roguelike@GamePassSkip1Confirm"
+            "Roguelike@GamePassSkip1Confirm",
+            "Roguelike@GamePassSkip1"
         ]
     },
     "Roguelike@GamePassSkip1Confirm": {
@@ -14433,14 +14435,15 @@
     },
     "Mizuki@Roguelike@Continue": {},
     "Mizuki@Roguelike@DataTraceback": {
-        "action": "DoNothing",
+        "action": "ClickSelf",
         "cache": false,
         "roi": [
-            56,
-            277,
-            243,
-            152
+            1114,
+            0,
+            166,
+            134
         ],
+        "postDelay": 500,
         "next": [
             "Mizuki@Roguelike@ClickToStartPoint"
         ]
