@@ -168,7 +168,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
     notify_action(action);
 
     thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
-    static constexpr auto min_frame_interval = std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
+    static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
 
     // prevent our program from consuming too much CPU
     if (const auto now = std::chrono::steady_clock::now();
