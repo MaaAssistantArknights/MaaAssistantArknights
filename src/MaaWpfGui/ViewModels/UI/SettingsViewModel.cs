@@ -2148,18 +2148,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _roguelikeGiveUpTeamCompleteCheck = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false.ToString()));
+        private bool _roguelikeSkipTeamCompleteCheck = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false.ToString()));
 
         /// <summary>
         /// Gets or sets a value indicating whether team complete checking can be skipped
         /// </summary>
-        public bool RoguelikeGiveUpTeamCompleteCheck
+        public bool RoguelikeSkipTeamCompleteCheck
         {
-            get => _roguelikeGiveUpTeamCompleteCheck;
+            get => _roguelikeSkipTeamCompleteCheck;
             set
             {
-                SetAndNotify(ref _roguelikeGiveUpTeamCompleteCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeGiveUpTeamCompleteCheck, value.ToString());
+                SetAndNotify(ref _roguelikeSkipTeamCompleteCheck, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeSkipTeamCompleteCheck, value.ToString());
             }
         }
 
