@@ -858,18 +858,14 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
             if (func())
             {
-                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str)));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
             }
             else
             {
-                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str),
-                    UiLogColor.Warning));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
             }
         }
 
@@ -1942,6 +1938,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool RoguelikeSquadIsProfessional =>
+            RoguelikeMode == "4" &&
+            RoguelikeTheme != "Phantom" &&
+            RoguelikeSquad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
+
+        public bool RoguelikeSquadIsFoldartal =>
+            RoguelikeMode == "4" &&
+            RoguelikeTheme == "Sami" &&
+            RoguelikeSquad == "生活至上分队";
+
         private string _roguelikeRoles = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRoles, string.Empty);
 
         /// <summary>
@@ -2004,7 +2010,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeStartWithEliteTwo
         {
-            get => bool.Parse(_roguelikeStartWithEliteTwo);
+            get => bool.Parse(_roguelikeStartWithEliteTwo) && RoguelikeSquadIsProfessional;
             set
             {
                 switch (value)
@@ -2030,7 +2036,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeOnlyStartWithEliteTwo
         {
-            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo);
+            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo) && RoguelikeStartWithEliteTwo;
             set
             {
                 SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value.ToString());
@@ -2045,7 +2051,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool Roguelike3FirstFloorFoldartal
         {
-            get => bool.Parse(_roguelike3FirstFloorFoldartal);
+            get => bool.Parse(_roguelike3FirstFloorFoldartal) && RoguelikeMode == "4" && RoguelikeTheme == "Sami";
             set
             {
                 SetAndNotify(ref _roguelike3FirstFloorFoldartal, value.ToString());
@@ -2072,7 +2078,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool Roguelike3NewSquad2StartingFoldartal
         {
-            get => bool.Parse(_roguelike3NewSquad2StartingFoldartal);
+            get => bool.Parse(_roguelike3NewSquad2StartingFoldartal) && RoguelikeSquadIsFoldartal;
             set
             {
                 SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, value.ToString());
@@ -2179,7 +2185,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeInvestmentWithMoreScore
         {
-            get => bool.Parse(_roguelikeInvestmentWithMoreScore);
+            get => bool.Parse(_roguelikeInvestmentWithMoreScore) && RoguelikeMode == "1";
             set
             {
                 SetAndNotify(ref _roguelikeInvestmentWithMoreScore, value.ToString());

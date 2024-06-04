@@ -1392,25 +1392,46 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
-            int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+            _ = int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes, firstList.ToArray(), reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                maxTimes,
+                firstList.ToArray(),
+                [.. reqList],
+                [.. cfmList],
+                Instances.SettingsViewModel.RefreshLevel3,
+                Instances.SettingsViewModel.ForceRefresh,
+                Instances.SettingsViewModel.UseExpedited,
+                selectExtra,
+                Instances.SettingsViewModel.NotChooseLevel1,
+                Instances.SettingsViewModel.IsLevel3UseShortTime,
+                Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()
         {
-            int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
+            _ = int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendRoguelike(
-                mode, Instances.SettingsViewModel.RoguelikeStartsCount,
-                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentWithMoreScore, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
-                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
-                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo,
-                Instances.SettingsViewModel.Roguelike3FirstFloorFoldartal, Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
-                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal, Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
-                Instances.SettingsViewModel.RoguelikeUseSupportUnit, Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
+                mode,
+                Instances.SettingsViewModel.RoguelikeStartsCount,
+                Instances.SettingsViewModel.RoguelikeInvestmentEnabled,
+                Instances.SettingsViewModel.RoguelikeInvestmentWithMoreScore,
+                Instances.SettingsViewModel.RoguelikeInvestsCount,
+                Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
+                Instances.SettingsViewModel.RoguelikeSquad,
+                Instances.SettingsViewModel.RoguelikeRoles,
+                DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
+                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo,
+                Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo,
+                Instances.SettingsViewModel.Roguelike3FirstFloorFoldartal,
+                Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
+                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal,
+                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
+                Instances.SettingsViewModel.RoguelikeUseSupportUnit,
+                Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport,
+                Instances.SettingsViewModel.RoguelikeTheme,
+                Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 
         private static bool AppendReclamation()
@@ -2063,9 +2084,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Checks after completion.
         /// </summary>
-        public void CheckAfterCompleted()
+        public async void CheckAfterCompleted()
         {
-            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+            await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
 
             switch (ActionAfterCompleted)
             {

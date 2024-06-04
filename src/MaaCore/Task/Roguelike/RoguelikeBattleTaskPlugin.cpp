@@ -454,8 +454,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     check_drone_tiles();
 
     // TODO: move this to controller
-    static thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
-    static constexpr auto min_frame_interval = std::chrono::milliseconds(100);
+    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().roguelike_fight_screencap_interval);
 
     // prevent our program from consuming too much CPU
     if (const auto now = std::chrono::steady_clock::now();
