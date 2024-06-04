@@ -2148,6 +2148,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _roguelikeGiveUpTeamCompleteCheck = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether delay abort until battle complete
+        /// </summary>
+        public bool RoguelikeGiveUpTeamCompleteCheck
+        {
+            get => _roguelikeGiveUpTeamCompleteCheck;
+            set
+            {
+                SetAndNotify(ref _roguelikeGiveUpTeamCompleteCheck, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeGiveUpTeamCompleteCheck, value.ToString());
+            }
+        }
+
         private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "9999999");
 
         /// <summary>
