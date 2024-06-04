@@ -2084,9 +2084,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Checks after completion.
         /// </summary>
-        public void CheckAfterCompleted()
+        public async void CheckAfterCompleted()
         {
-            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+            await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
 
             switch (ActionAfterCompleted)
             {

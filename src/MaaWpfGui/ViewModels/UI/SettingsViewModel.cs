@@ -858,18 +858,14 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
             if (func())
             {
-                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str)));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
             }
             else
             {
-                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str),
-                    UiLogColor.Warning));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
             }
         }
 
