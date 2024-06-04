@@ -285,7 +285,9 @@ bool asst::AutoRecruitTask::_run()
                 // the bottom-right slot. ref: #1491
                 if (check_recruit_home_page()) {
                     // ran out of expedited plan? stop trying
-                    try_use_expedited = false;
+                    // however, there is another possibility (#7266: all the slots are empty now)
+                    // if we can get another start btn, we still have a chance to continue
+                    try_use_expedited = try_get_start_button(ctrler()->get_image()).has_value();
                 }
                 else {
                     Log.info("Not in home page after failing to use expedited plan.");
