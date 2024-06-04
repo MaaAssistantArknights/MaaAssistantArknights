@@ -167,9 +167,22 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     notify_action(action);
 
+    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static constexpr auto min_frame_interval = std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
+
+    // prevent our program from consuming too much CPU
+    if (const auto now = std::chrono::steady_clock::now();
+        prev_frame_time > now - min_frame_interval) [[unlikely]] {
+        Log.debug("Sleeping for framerate limit");
+        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
+    }
+
     if (!wait_condition(action)) {
         return false;
     }
+
+     prev_frame_time = std::chrono::steady_clock::now();
+
     if (action.pre_delay > 0) {
         sleep_and_do_strategy(action.pre_delay);
         // 等待之后画面可能会变化，更新下干员信息
