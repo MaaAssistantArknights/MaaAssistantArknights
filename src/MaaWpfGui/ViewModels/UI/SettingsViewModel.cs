@@ -2151,7 +2151,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _roguelikeGiveUpTeamCompleteCheck = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false.ToString()));
 
         /// <summary>
-        /// Gets or sets a value indicating whether delay abort until battle complete
+        /// Gets or sets a value indicating whether team complete checking can be skipped
         /// </summary>
         public bool RoguelikeGiveUpTeamCompleteCheck
         {
