@@ -9638,6 +9638,96 @@
         "stageId": "act33side_tr01",
         "width": 11
     },
+    "act34side_01-activities/act34side/level_act34side_01": {
+        "code": "BP-1",
+        "filename": "act34side_01-activities-act34side-level_act34side_01.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_01",
+        "name": "第一次接触",
+        "stageId": "act34side_01",
+        "width": 9
+    },
+    "act34side_02-activities/act34side/level_act34side_02": {
+        "code": "BP-2",
+        "filename": "act34side_02-activities-act34side-level_act34side_02.json",
+        "height": 7,
+        "levelId": "activities/act34side/level_act34side_02",
+        "name": "评议式迎接",
+        "stageId": "act34side_02",
+        "width": 11
+    },
+    "act34side_03-activities/act34side/level_act34side_03": {
+        "code": "BP-3",
+        "filename": "act34side_03-activities-act34side-level_act34side_03.json",
+        "height": 7,
+        "levelId": "activities/act34side/level_act34side_03",
+        "name": "如海雪纷散",
+        "stageId": "act34side_03",
+        "width": 10
+    },
+    "act34side_04-activities/act34side/level_act34side_04": {
+        "code": "BP-4",
+        "filename": "act34side_04-activities-act34side-level_act34side_04.json",
+        "height": 7,
+        "levelId": "activities/act34side/level_act34side_04",
+        "name": "牺牲与代价",
+        "stageId": "act34side_04",
+        "width": 10
+    },
+    "act34side_05-activities/act34side/level_act34side_05": {
+        "code": "BP-5",
+        "filename": "act34side_05-activities-act34side-level_act34side_05.json",
+        "height": 7,
+        "levelId": "activities/act34side/level_act34side_05",
+        "name": "不治的命运",
+        "stageId": "act34side_05",
+        "width": 11
+    },
+    "act34side_06-activities/act34side/level_act34side_06": {
+        "code": "BP-6",
+        "filename": "act34side_06-activities-act34side-level_act34side_06.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_06",
+        "name": "阿戈尔失格",
+        "stageId": "act34side_06",
+        "width": 12
+    },
+    "act34side_07-activities/act34side/level_act34side_07": {
+        "code": "BP-7",
+        "filename": "act34side_07-activities-act34side-level_act34side_07.json",
+        "height": 7,
+        "levelId": "activities/act34side/level_act34side_07",
+        "name": "从历史中来",
+        "stageId": "act34side_07",
+        "width": 12
+    },
+    "act34side_08-activities/act34side/level_act34side_08": {
+        "code": "BP-8",
+        "filename": "act34side_08-activities-act34side-level_act34side_08.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_08",
+        "name": "“何谓存续？”",
+        "stageId": "act34side_08",
+        "width": 12
+    },
+    "act34side_09-activities/act34side/level_act34side_09": {
+        "code": "BP-9",
+        "filename": "act34side_09-activities-act34side-level_act34side_09.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_09",
+        "name": "文明的壁垒",
+        "stageId": "act34side_09",
+        "width": 11
+    },
+    "act34side_tr01-activities/act34side/level_act34side_tr01": {
+        "code": "BP-TR-1",
+        "filename": "act34side_tr01-activities-act34side-level_act34side_tr01.json",
+        "height": 6,
+        "levelId": "activities/act34side/level_act34side_tr01",
+        "name": "信标投放演习",
+        "stageId": "act34side_tr01",
+        "width": 10
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
@@ -16460,6 +16550,15 @@
         "stageId": "mem_clour_1",
         "width": 11
     },
+    "mem_coldst_1-obt/memory/level_memory_coldst_1": {
+        "code": "mem_coldst_1",
+        "filename": "mem_coldst_1-obt-memory-level_memory_coldst_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_coldst_1",
+        "name": "保持清醒",
+        "stageId": "mem_coldst_1",
+        "width": 11
+    },
     "mem_crow_1-obt/memory/level_memory_crow_1": {
         "code": "mem_crow_1",
         "filename": "mem_crow_1-obt-memory-level_memory_crow_1.json",
@@ -16964,6 +17063,15 @@
         "stageId": "mem_indigo_1",
         "width": 11
     },
+    "mem_inside_1-obt/memory/level_memory_inside_1": {
+        "code": "mem_inside_1",
+        "filename": "mem_inside_1-obt-memory-level_memory_inside_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_inside_1",
+        "name": "按部就班",
+        "stageId": "mem_inside_1",
+        "width": 12
+    },
     "mem_irene_1-obt/memory/level_memory_irene_1": {
         "code": "mem_irene_1",
         "filename": "mem_irene_1-obt-memory-level_memory_irene_1.json",
@@ -17125,6 +17233,15 @@
         "name": "荒野伏击",
         "stageId": "mem_lunacu_1",
         "width": 13
+    },
+    "mem_luton_1-obt/memory/level_memory_luton_1": {
+        "code": "mem_luton_1",
+        "filename": "mem_luton_1-obt-memory-level_memory_luton_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_luton_1",
+        "name": "举起盾牌",
+        "stageId": "mem_luton_1",
+        "width": 10
     },
     "mem_malist_1-obt/memory/level_memory_malist_1": {
         "code": "mem_malist_1",
