@@ -92,9 +92,11 @@ export default hopeTheme({
       vPre: true,
     },
 
-    prismjs: {
-      light: "one-dark",
-      dark: "nord",
+    shiki: {
+      themes: {
+        light: "light-plus",
+        dark: "nord",
+      }
     },
 
     sitemap: true,
