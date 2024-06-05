@@ -189,6 +189,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseNonfriendSupport,
                                           params.get("use_nonfriend_support", false) ? "1"
                                                                                      : "0"); // 是否可以是非好友助战干员
-    m_roguelike_config_ptr->set_recruitment_team_complete(params.get("team_complete", false));
+    m_roguelike_config_ptr->set_recruitment_team_complete(params.get("team_complete", false)); // 是否跳过阵容完备度检测
     return true;
 }
