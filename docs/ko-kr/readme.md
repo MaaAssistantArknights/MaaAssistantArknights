@@ -38,7 +38,6 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 개요
 
-
 - 이성을 사용하고, 아이템 드랍을 인식해 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.cn/), [Yituliu](https://ark.yituliu.cn/)
 - 자동으로 오퍼레이터 효율을 고려해 기반시설 교대를 하며, 동시에 사용자 커스텀 교대 기능도 지원합니다. [기반시설 스키마](./protocol/base-scheduling-schema.md)
 - 자동으로 공개모집 및 즉시 모집을 선택할 수 있으며, 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.cn/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)
@@ -47,7 +46,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 - 현재 보유중인 육성 재화를 인식해 다음 사이트로 데이터를 내보낼 수 있습니다. [펭귄 물류 플래너](https://penguin-stats.cn/planner), [arkn.lolicon](https://arkntools.app/#/material), [ark-nights](https://ark-nights.com/settings)
 - 공개 모집 인터페이스에 수동 식별을 지원하여 높은 등급의 오퍼레이터 공개 모집을 용이하게 합니다.
 - 오퍼레이터 목록을 식별하고, 보유 및 미보유 오퍼레이터와 그들의 잠재를 계산하며, 이를 공개 모집 인터페이스에서 표시하는 것을 지원합니다.
-- 원클릭으로 친구 방문 및 크레딧 획득/구매를 하며, 임무 보상 수령 등의 모든 일과를 수행합니다. 
+- 원클릭으로 친구 방문 및 크레딧 획득/구매를 하며, 임무 보상 수령 등의 모든 일과를 수행합니다.
 - 통합전략에서 자동으로 오퍼레이터 레벨을 인식하며, 오리지늄 각뿔 획득 및 노드 개방과 레벨을 올려줍니다.
 - Copliot 파일을 통한 자동 지휘가 가능합니다. [영상 설명](https://www.bilibili.com/video/BV1H841177Fk/)
 - C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 다음과 같은 다양한 환경에서 MAA를 사용할 수 있습니다!！
@@ -67,7 +66,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 ### 기본 설정
 
 1. [Windows 지원 목록](./manual/device/windows.md) 문서를 참고하여 에뮬레이터/기기를 설정해 주세요.
-2. 에뮬레이터 해상도를 `1280x720` 이상으로 변경하세요. 최대값은 `2K`이고 가로세로 비율은 `16:9`입니다.   
+2. 에뮬레이터 해상도를 `1280x720` 이상으로 변경하세요. 최대값은 `2K`이고 가로세로 비율은 `16:9`입니다.
 
 ::: tip
  YoStarKR의 경우 게임 인터페이스 문제로 인해 `1280x720` 또는 `1920x1080` 해상도를 권장합니다.
@@ -131,7 +130,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 
 2. Visual Studio 2022 로 `MAA.sln`파일을 열고, `MaaWpfGui`를 마우스 우클릭을 해 시작 프로젝트로 설정합니다.
 3. VS 상단에서 `RelWithDebInfo` `x64`을 선택합니다. (릴리즈 패키지 또는 ARM 플랫폼을 컴파일하는 경우 이 단계를 무시하세요)
-4.  `MaaWpfGui` - 속성 - 디버깅 - 로컬 디버깅 활성화（이렇게 하면 C++ Core에 중단점을 설정할 수 있습니다）
+4. `MaaWpfGui` - 속성 - 디버깅 - 로컬 디버깅 활성화（이렇게 하면 C++ Core에 중단점을 설정할 수 있습니다）
 5. （선택사항）PR을 제출하기전에, [clang-format 지원](./develop/development.md#visual-studio에서-clang-format-사용-설정)을 활성화하는 것이 좋습니다.
 
 ### Linux | macOS
