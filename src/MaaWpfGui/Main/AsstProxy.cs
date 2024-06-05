@@ -2279,7 +2279,13 @@ namespace MaaWpfGui.Main
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
-            taskParams["team_complete"] = team_complete; // Roguelike.RoguelikeSkipTeamCompleteCheck
+            taskParams["team_complete"] = team_complete;
+            /// <summary>
+            /// or:
+            /// taskParams["Roguelike.RoguelikeSkipTeamCompleteCheck"] = team_complete;
+            /// choose one if anyone knows which one is better.
+            /// </summary>
+
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;
