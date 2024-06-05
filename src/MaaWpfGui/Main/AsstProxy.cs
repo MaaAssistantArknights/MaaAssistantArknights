@@ -2229,7 +2229,8 @@ namespace MaaWpfGui.Main
             bool useSupport,
             bool enableNonFriendSupport,
             string theme,
-            bool refreshTraderWithDice)
+            bool refreshTraderWithDice,
+            bool team_complete)
         {
             var taskParams = new JObject
             {
@@ -2277,6 +2278,7 @@ namespace MaaWpfGui.Main
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
+            taskParams["team_complete"] = team_complete;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;
