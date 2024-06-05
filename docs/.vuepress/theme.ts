@@ -11,7 +11,7 @@ export default hopeTheme({
   docsDir: "/docs",
 
   locales: {
-    "/": {
+    "/zh-cn/": {
       navbar: zhcnNavbar,
       sidebar: zhcnSidebar,
       displayFooter: false,
@@ -64,7 +64,7 @@ export default hopeTheme({
       repoId: "R_kgDOHY7Gyg",
       category: "General",
       categoryId: "DIC_kwDOHY7Gys4CYefe",
-      mapping: "title",
+      mapping: "pathname",
       strict: false,
     },
 
@@ -92,9 +92,11 @@ export default hopeTheme({
       vPre: true,
     },
 
-    prismjs: {
-      light: "one-dark",
-      dark: "nord",
+    shiki: {
+      themes: {
+        light: "light-plus",
+        dark: "nord",
+      }
     },
 
     sitemap: true,

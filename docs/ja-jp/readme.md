@@ -4,6 +4,8 @@
 
 # MaaAssistantArknights
 
+*MAA のドキュメントは主に簡体字中国語で書かれており、他の言語のドキュメントは低品質であるか、翻訳されていない可能性がありますので、ご了承ください。*
+
 <br>
 <div>
     <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
@@ -12,16 +14,16 @@
     <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
 </div>
 <div>
-    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
+    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">&#20;
     <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
 </div>
 <div>
-    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
+    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">&#20;
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
 </div>
 <br>
 
-[简体中文](../readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
+[简体中文](../zh-cn/readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | 日本語 | [한국어](../ko-kr/readme.md)
 
 MAAは、MAA Assistant Arknightsです。
 
@@ -39,10 +41,10 @@ MAAは、MAA Assistant Arknightsです。
 - 自動基地シフト、オペレーター効率計算、単一設備内に最適なソリューション；[カスタムシフト](./プロトコルドキュメント/基地シフトAPI.md)にも対応しています。
 - 自動公開求人、緊急招集票を使う、使い切るのもサポート。[PenguinStats](https://penguin-stats.io/result/stage/recruit/recruit)と[Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)へ公開求人データのアップロード。
 - 高スターの公開求人を選択するのに便利な公開求人のパネルの手動認識をサポートします。~~（この上級エリートとCost回復はシージかシージか）~~
-- オペレーターのリストを識別し、既存および未所有のオペレーターを記録するためのサポート、公開求人を手動で識別するための潜在データヒントを提供することもできます。（日本語版のクライアントではオペレーターの名刺のフォントサイズが異なるためサポートが貧弱です）
-- 倉庫のアイテム認識機能（ベータ） [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkntools.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
+- 所持オペレーターを認識し、既存および未所有のオペレーターの記録サポート、公開求人を手動で設定するためのヒントを提供することもできます。（日本サーバーではオペレーターの名前部分のフォントサイズが異なるため認識にややブレがあります）
+- 倉庫のアイテム認識機能 [Arkplanner](https://penguin-stats.io/planner)/[ARK-NIGHTS.com](https://ark-nights.com/settings)と[アークナイツ ツールボックス](https://arkntools.app/#/material)へ出力可能！使用方法はツール内文章を参照してください。
 - 戦友訪問、FP収集、買い物、デイリーリワード収集、ワンクリックして全自動操作！
-- 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集、電気ケトルを獲得する！
+- 統合戦略自動作戦、オペレーターとレベルの自動認識、源石錐とキャンドルの自動収集、電気ケトルを獲得！
 - 作業JSONファイルをインポートし、自動操作も可能！ [ビデオデモ](https://www.bilibili.com/video/BV1H841177Fk/)（現在JP未対応/中文）
 - C、Python、Java、Rust、Golang、Java HTTP、Rust HTTPなどの多種多様なインターフェースに対応、統合や呼び出しが簡単で、自分好みにMAAをカスタマイズできます!
 
@@ -60,12 +62,7 @@ UIを見れば使い方もすぐ分かる！
 
 ### 基本設定
 
-1. [エミュレータのサポート](./使用説明/エミュレータのサポート/Windowsでのエミューレータ.md)を参照して、対応するエミュレーターの操作に進んでください。
-2. エミュレータの解像度を「1280 * 720」以上に変更します。最大は「2K」、アスペクト比は「16:9」です。  
-   YostarENでは、ゲームインターフェイスの問題から、解像度を`1920 * 1080`に変更することをお勧めします。
-3. ゲームスタート！
-
-詳しいマニュアルは[MAA使用説明書](./使用説明/詳細説明.md)を参照してください。
+はじめに[エミュレータのサポート](./manual/device)と[MAA使用説明書](./manual/introduction.md)を参照してください。
 
 ## よくある質問
 
@@ -77,7 +74,7 @@ UIを見れば使い方もすぐ分かる！
 - ダウンロードが中途半端になり "ログイン"/"認証 "のプロンプトが出る。
 - 接続は成功しますが、オペレーション開始した後に反応がない。
 
-[よくある質問](./使用説明/よくある質問.md)を参照してください。
+[よくある質問](./manual/faq.md)を参照してください。
 
 ## サーバーに応じてサポートされる機能
 
@@ -86,9 +83,9 @@ UIを見れば使い方もすぐ分かる！
 
 ### CLI支持
 
-MAA はコマンドラインインタフェース（CLI）操作をサポートし、LinuxとmacOSをサポートし、自動スクリプトやグラフィックインタフェースのないサーバで使用することができる。[CLI使用ガイド](./使用説明/CLIユーザーガイド.md)を参照してください。
+MAA はコマンドラインインタフェース（CLI）操作をサポートし、LinuxとmacOSをサポートし、自動スクリプトやグラフィックインタフェースのないサーバで使用することができる。[CLI使用ガイド](./manual/cli)を参照してください。
 
-## 私たちに参加して
+## 一緒に参加しよう
 
 ### 主な関連プロジェクト
 
@@ -96,7 +93,7 @@ MAA はコマンドラインインタフェース（CLI）操作をサポート�
 
 - 新しいFramework: [MaaFramework](https://github.com/MaaAssistantArknights/MaaFramework)
 - 新しいGUI：[MaaX](https://github.com/MaaAssistantArknights/MaaX)
-- [作業シェアサイト](https://www.prts.plus)：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
+- [作業シェアサイト](https://prts.plus)：[フロントエンド](https://github.com/MaaAssistantArknights/maa-copilot-frontend)
 - バックエンド：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [公式ウェブサイト](https://www.maa.plus): [フロントエンド](https://github.com/MaaAssistantArknights/maa-website)
 - Deep Learning: [MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
@@ -105,7 +102,7 @@ MAA はコマンドラインインタフェース（CLI）操作をサポート�
 
 MAA は多言語をサポートし、Weblateを使用してローカライズ管理を行います。複数の言語に精通している場合は、[MAA Weblate](https://weblate.maa-org.net)で翻訳のお手伝いをしてください。
 
-MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべて中国語（簡体字）を基準とする。
+MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべて中国語（簡体字）を基準としています。
 
 [![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
 
@@ -170,7 +167,7 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 - ~~C++ base64エンコードとデコード：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 圧縮・解凍ライブラリ：[zlib](https://github.com/madler/zlib)
 - C++ Gzipカプセル化ライブラリ：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- Android タッチ イベント: [minitouch](https://github.com/openstf/minitouch)
+- Android タッチ イベント: [Minitouch](https://github.com/DeviceFarmer/minitouch)
 - Android タッチ イベント: [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVWフレームワーク：[Stylet](https://github.com/canton7/Stylet)
 - WPFコントロールライブラリ：[HandyControl](https://github.com/HandyOrg/HandyControl) -> [HandyControls](https://github.com/ghost1372/HandyControls)
@@ -207,3 +204,5 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！
+
+<!-- markdownlint-disable-file MD041 -->
