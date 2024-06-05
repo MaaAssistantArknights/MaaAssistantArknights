@@ -6,10 +6,4 @@ dir:
   order: 6
 ---
 
-## Index
-
-- [Introduction](./intro.md)
-- [Install and Build](./install.md)
-- [Usage](./usage.md)
-- [Configuration](./config.md)
-- [FAQs](./faq.md)
+<Catalog base='/en-us/manual/cli/' />
