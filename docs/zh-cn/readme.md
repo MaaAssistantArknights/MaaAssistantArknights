@@ -1,25 +1,13 @@
-<div align="center">
+::: center
 
-<img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
+![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
 
 # MaaAssistantArknights
 
-<br>
-<div>
-    <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
-</div>
-<div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
-</div>
-<div>
-    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">&#20;
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
-</div>
-<div>
-    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">&#20;
-    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
-</div>
-<br>
+![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
+![platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet)
+![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
+![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)
 
 简体中文 | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
 
@@ -31,7 +19,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 绝赞更新中  ✿✿ヽ(°▽°)ノ✿
 
-</div>
+:::
 
 ## 亮点功能
 

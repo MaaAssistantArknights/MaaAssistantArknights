@@ -1,28 +1,15 @@
-<div align="center">
+::: center
 
-<img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
+![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
 
 # MaaAssistantArknights
 
 *MAA의 문서는 주로 중국어 간체로 되어 있습니다. 다른 언어로 된 문서는 번역이 이상하거나, 번역이 되어있지 않을 수 있습니다.*
 
-<br>
-<div>
-    <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
-</div>
-<div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
-</div>
-<div>
-    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">&#20;
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
-</div>
-<div>
-    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">&#20;
-    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
-</div>
-<br>
-<br>
+![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
+![platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet)
+![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
+![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)
 
 [简体中文](../zh-cn/readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | 한국어
 
@@ -32,9 +19,9 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 이미지 인식을 기반으로, 한 번의 클릭만으로 그날의 모든 작업을 끝내드립니다!
 
-개발 진행 중입니다  ✿✿ヽ(°▽°)ノ✿<br>
+개발 진행 중입니다  ✿✿ヽ(°▽°)ノ✿
 
-</div>
+:::
 
 ## 개요
 
