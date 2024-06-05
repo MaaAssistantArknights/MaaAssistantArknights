@@ -4,8 +4,6 @@
 
 # MaaAssistantArknights
 
-*MAA 的文檔以簡體中文為主，其他語言的文檔可能品質低或尚未翻譯，請諒解。*
-
 ![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
 ![platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet)
 ![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
