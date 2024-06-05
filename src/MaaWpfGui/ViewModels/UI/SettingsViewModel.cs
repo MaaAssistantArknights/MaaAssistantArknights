@@ -2148,6 +2148,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _roguelikeSkipTeamCompleteCheck = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeSkipTeamCompleteCheck, false.ToString()));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether team complete checking can be skipped
+        /// </summary>
+        public bool RoguelikeSkipTeamCompleteCheck
+        {
+            get => _roguelikeSkipTeamCompleteCheck;
+            set
+            {
+                SetAndNotify(ref _roguelikeSkipTeamCompleteCheck, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeSkipTeamCompleteCheck, value.ToString());
+            }
+        }
+
         private string _roguelikeStartsCount = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartsCount, "9999999");
 
         /// <summary>

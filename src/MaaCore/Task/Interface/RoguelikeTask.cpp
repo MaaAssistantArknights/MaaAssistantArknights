@@ -107,6 +107,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 是否生活队凹开局板子
     m_roguelike_config_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
 
+    // 是否跳过阵容完备度检测
+    m_roguelike_config_ptr->set_recruitment_team_complete(params.get("Roguelike.RoguelikeSkipTeamCompleteCheck", false));
+
     if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
         std::vector<std::string> list;
         for (const auto& name : *opt) {

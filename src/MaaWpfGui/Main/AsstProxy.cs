@@ -2209,6 +2209,7 @@ namespace MaaWpfGui.Main
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
+        /// <param name="team_complete">是否跳过阵容完备度检测</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
@@ -2229,7 +2230,8 @@ namespace MaaWpfGui.Main
             bool useSupport,
             bool enableNonFriendSupport,
             string theme,
-            bool refreshTraderWithDice)
+            bool refreshTraderWithDice,
+            bool team_complete)
         {
             var taskParams = new JObject
             {
@@ -2277,6 +2279,7 @@ namespace MaaWpfGui.Main
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
+            taskParams["skip_team_completeness_check"] = team_complete;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;
