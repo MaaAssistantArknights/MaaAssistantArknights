@@ -18,8 +18,10 @@ icon: iconoir:developer
 3. （自分のアカウントの）リポジトリの `dev` のブランチをローカルに clone をします。
 
     ```bash
-    git clone <リポジトリの git のリンク> -b dev
+    git clone --recurse-submodules <リポジトリの git のリンク> -b dev
     ```
+
+    Visual Studioなどの `--recurse-submodules` パラメータを含まないGit GUIを使用している場合は、クローン後に `git submodule update --init` を実行して、サブモジュールを取得する必要があります。
 
 4. 構築済みのサードパーティライブラリをダウンロードする
 
@@ -37,11 +39,11 @@ icon: iconoir:developer
 6. ダブルクリックして `MAA.sln` ファイルを開きます。 Visual Studioは、プロジェクト全体を自動的に読み込みます。
 7. VS を設定する
 
-    - VS 上記の `RelWithDebInfo` 、 `x64` を選択します （リリース パッケージまたは ARM プラットフォームをコンパイルする場合は、この手順を無視してください）
+    - VS 上で構成を `RelWithDebInfo` `x64` に選択します （リリースパッケージまたは ARM プラットフォームをコンパイルする場合は、この手順をスキップしてください）
     - `MaaWpfGui` を右クリックして、 - `プロパティー` - `デバッグ` - `ローカル デバッグを有効にする` （これにより、ブレークポイントを C++ コアにフックできます）
 
 8. ここまで楽しくコードを変更できます～
-9. 開発中は、一定量修正するたびに commit を忘れず、コメントを書くことを忘れないでください。  
+9. 開発中は、一定量修正するたびに commit を忘れず、コミットメッセージを書くことを忘れないでください。  
     git を初めて使用する場合は、 `dev` に直接コミットする代わりに、新しいブランチを作成して変更を加えることをお勧めします
 
     ```bash
@@ -78,7 +80,7 @@ icon: iconoir:developer
         git rebase upstream/dev  # リベース
         ```
 
-        或いは
+        または
 
         ```bash
         git merge  # マージ
