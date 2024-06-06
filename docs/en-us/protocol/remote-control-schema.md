@@ -3,160 +3,147 @@ order: 8
 icon: mdi:remote-desktop
 ---
 
-(translation required)
+# Remote Control Schema
 
-# 远程控制协议
-
-要实现对 MAA 的远程控制，你需要提供一个服务，该服务必须是 http(s) 服务，并且提供下面两个可匿名访问的端点（Endpoint）。这两个端点必须是 http(s) 协议的 web 端点。
+To achieve remote control of MAA, you need to provide a service that must be an HTTP(S) service and provide the following two anonymously accessible endpoints. These endpoints must be HTTP(S) web endpoints.
 
 ::: warning
-如果该端点为 http 协议，MAA 会在每次连接时发出不安全警告。**在公网部署明文传输服务是一种非常不推荐且危险的行为，仅供测试使用。**
+If the endpoint is an HTTP protocol, MAA will issue a security warning with each connection. **Deploying plaintext transmission services on the public network is highly discouraged and dangerous, for testing purposes only.**
 :::
 
 ::: tip
-请注意 JSON 文件是不支持注释的，文本中的注释仅用于演示，请勿直接复制使用
+Please note that JSON files do not support comments. The comments in the text are for demonstration purposes only and should NOT be copied directly.
 :::
 
-## 获取任务端点
+## Task Retrieval Endpoint
 
-MAA 会以 1 秒的间隔持续轮询这个端点，尝试获取他要执行的任务，并按照获取到的列表按顺序执行。
+MAA will continuously poll this endpoint at 1-second intervals, attempting to retrieve tasks it needs to perform and execute them in the order they are retrieved.
 
-端点路径随意，但是必须是 http(s) 端点。比如：`https://your-control-host.net/maa/getTask`
+The endpoint path is arbitrary but must be an HTTP(S) endpoint. For example: `https://your-control-host.net/maa/getTask`
 
-被控 MAA 需要将该端点填写到 MAA 配置的`获取任务端点`文本框中。
+The controlled MAA needs to fill this endpoint into the `Task Retrieval Endpoint` text box in the MAA configuration.
 
-该端点必需能够接受一个 `Content-Type=application/json` 的 POST 请求，并该请求必须可以接受下面这个 Json 作为请求的 content：
-
-```json
-{
-    "user":"ea6c39eb-a45f-4d82-9ecc-33a7bf2ae4dc",          // 用户在MAA设置中填写的用户标识符。
-    "device":"f7cd9682-3de9-4eef-9137-ec124ea9e9ec"         // MAA自动生成的设备标识符。
-    ...     // 如果你的这个端点还有其他用途，你可以自行添加可选的参数，但是MAA只会传递user和device
-}
-```
-
-该端点必须返回一个 Json 格式的 Response，并且至少要满足下列格式：
+This endpoint must be able to accept a `Content-Type=application/json` POST request and must be able to accept the following JSON as the request content:
 
 ```json
 {
-    "tasks":                            // 需要让MAA执行的Task的列表，目前可以支持的类型如示例中所示，如果不存在tasks则视为连接无效。
+    "tasks":                            // A list of Tasks that need to be allowed to be executed by the MAA, the types supported currently are shown in the example, and the connection is considered invalid if the tasks do not exist.
     [
-        // 顺序执行的任务：下面这些任务会按照下发的顺序排队执行
+        // Sequential tasks: the following tasks are queued for execution in the order in which they are issued.
         {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "CaptureImage",                         //截图任务，会截取一张当前模拟器的截图，并以Base64字符串的形式放在汇报任务的payload里。如果你需要下发这种类型的任务，请务必注意你的端点可接受的最大请求大小，因为截图会有数十MB，会超过一般网关的默认大小限制。
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //A unique uuid for the task, type : string, which will be used when reporting on the task.
+            "type": "CaptureImage",                         //A screenshot task that takes a screenshot of the current emulator and puts it in the payload of the reporting task as a Base64 string. If you need to issue this type of task, be sure to pay attention to the maximum request size that your endpoint can accept, as the screenshot size will lager than 10MB and exceed the default size limit of a typical gateway.
         },
         {
-            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "LinkStart",                            //启动一键长草
+            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   //A unique uuid for the task, type : string, which will be used when reporting on the task.
+            "type": "LinkStart",                            //LinkStart😄
         },
         {
-            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "LinkStart-Recruiting",                 //立即根据当前配置，单独执行一键长草中的对应子功能，无视主界面上该功能的勾选框。这一类Type的可选值详见下述
+            "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   // A unique uuid, used in the same way as above.
+            "type": "LinkStart-Recruiting",                 // Immediately executes the corresponding sub-function of ‘LinkStart’ individually according to the current configuration, ignoring the tick box of this function on the GUI. The optional values for this type of Type are detailed below.
         },
         {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "Toolbox-GachaOnce",                    //工具箱中的牛牛抽卡任务，该类Type的可选取值为：Toolbox-GachaOnce, Toolbox-GachaTenTimes
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Same as ‘id’ above
+            "type": "Toolbox-GachaOnce",                    //The Gacha function in the toolbox, with optional values for this class Type:Toolbox-GachaOnce, Toolbox-GachaTenTimes
         },
         {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "Settings-ConnectionAddress",           //修改配置项的任务，等同于执行ConfigurationHelper.SetValue("ConnectionAddress", params); 为了安全起见，不是每个配置都可以修改，能修改的配置详见下述。
-            "params": "value"                               //要修改的值
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
+            "type": "Settings-ConnectionAddress",           //The task of modifying a configuration item is equivalent to executing the ConfigurationHelper.SetValue("ConnectionAddress", params); For security reasons, not every configuration can be modified, and those that can are detailed below.
+            "params": "value"                               //The value you want to config
         },
-        // 立即执行任务：下面这些任务可以在顺序执行任务运行中执行，并且MAA保证下面的任何一个任务都会尽快返回结果，通常用于对远程控制功能本身的控制。
+        // Immediate Execution Tasks: these following tasks can be executed in a Sequential Execution Task run and the MAA guarantees that any of the following tasks will return results as soon as possible, and are typically used for control of the remote control function itself.
         {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "CaptureImageNow",                      //立刻截图任务，和上面的截图任务是基本一样的，唯一的区别是这个任务会立刻被运行，而不会等待其他任务。
-        },
-        {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "StopTask",                             //"结束当前任务"任务，将会尝试结束当前运行的任务。如果任务列表还有其他任务会继续开始执行下一个。该任务不会等待并确认当前任务已停止才会返回，因此请使用心跳任务来确认停止命令是否已生效。
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
+            "type": "CaptureImageNow",                      //The Immediate Screenshot task is basically the same as the Screenshot task above, the only difference is that this task will be run immediately without waiting for other tasks.
         },
         {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   //任务的唯一id，字符串类型，在汇报任务时会使用
-            "type": "HeartBeat",                            //心跳任务，该任务会立即返回，并且将当前“顺序执行的任务”队列中正在执行的任务的Id作为Payload返回，如果当前没有任务执行，返回空字符串。
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
+            "type": "StopTask",                             //The "Stop current task" task will attempt to end the currently running task. If there are other tasks in the task list it will continue with the next one. This task does not wait to confirm that the current task has stopped before returning, so use the "HeartBeat" task to confirm that the stop command has taken effect.
+        },
+        {
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
+            "type": "HeartBeat",                            // "Heartbeat" task, the task will immediately return the current ‘sequential task’ queue in the task is executing as the Payload, if there is currently no task execution, return the empty string.
         },
     ],
-    ...     // 如果你的这个端点还有其他用途，你可以自行添加可选的返回值，但是MAA只会读取tasks
+    ...     // If you have other uses for this endpoint, you can add other return values of your own, but MAA will only read tasks.
 }
 ```
 
-这些任务会被按顺序执行，也就是说如果你先发下一个公招任务，再发下一个截图任务，则截图会在公招任务结束后执行。
-该端点应当可以重入并且重复返回需要执行的任务，MAA 会自动记录任务 id，对于相同的 id，不会重复执行。
+This endpoint must return a JSON formatted Response and must at least meet the following format:
 
 ::: note
 
-- LinkStart-[TaskName] 型的任务 type 的可选值为 LinkStart-Base，LinkStart-WakeUp，LinkStart-Combat，LinkStart-Recruiting，LinkStart-Mall，LinkStart-Mission，LinkStart-AutoRoguelike，LinkStart-ReclamationAlgorithm
-- Settings-[SettingsName] 型的任务的 type 的可选值为 Settings-ConnectionAddress, Settings-Stage1
-- Settings 系列任务仍然是要按顺序执行的，并不会在收到任务的时候立刻执行，而是排在上一个任务的后面
-- 多个立即执行的任务也会按下发顺序执行，只不过这些任务的执行速度都很快，通常来说，并不需要关注他们的顺序。
-:::
+- The `LinkStart-[TaskName]` series of tasks have optinal `type` : `LinkStart-Base`，`LinkStart-WakeUp`，`LinkStart-Combat`，`LinkStart-Recruiting`，`LinkStart-Mall`，`LinkStart-Mission`，`LinkStart-AutoRoguelike`，`LinkStart-ReclamationAlgorithm`
+- The `Settings-[SettingsName]` series of tasks have optinal `type` : `Settings-ConnectionAddress`, `Settings-Stage1`
+- The Settings series of tasks are still meant to be executed sequentially, not immediately upon receipt, but after the previous task.
+- Multiple immediately executable tasks are also executed in the order in which they are issued, except that they are all executed so quickly that, in general, it is not necessary to be concerned about their order.
+    :::
 
-## 汇报任务端点
+## Report Status Endpoint
 
-每当 MAA 执行完一个任务，他就会通过该端点将任务的执行结果汇报给远端。
+When MAA completes a task, it will report the result to this endpoint.
 
-端点路径随意，但是必须是 http(s) 端点。比如：`https://your-control-host.net/maa/reportStatus`
+The endpoint path is arbitrary but must be an HTTP(S) endpoint. For example: `https://your-control-host.net/maa/reportStatus`
 
-被控 MAA 需要将该端点填写到 MAA 配置的 `汇报任务端点` 文本框中。
+The controlled MAA needs to fill this endpoint into the `Report Status Endpoint` text box in the MAA configuration.
 
-该端点必需能够接受一个 `Content-Type=application/json` 的 POST 请求，并该请求必须可以接受下面这个 Json 作为请求的 content：
+This endpoint must be able to accept a `Content-Type=application/json` POST request and must be able to accept the following JSON as the request content:
 
 ```json
 {
-    "user":"ea6c39eb-a45f-4d82-9ecc-33a7bf2ae4dc",          // 用户在MAA设置中填写的用户标识符。
-    "device":"f7cd9682-3de9-4eef-9137-ec124ea9e9ec",        // MAA自动生成的设备标识符。
-    "task":"15be4725-5bd3-443d-8ae3-0a5ae789254c",          // 要汇报的任务的Id，和获取任务时的Id对应。
-    "status":"SUCCESS",                                     // 任务执行结果，SUCCESS或者FAILED。一般不论任务执行成功与否只会返回SUCCESS，只有特殊情况才会返回FAILED，会返回FAILED的情况，会在上面的任务介绍时明确说明。
-    "payload":"",                                           //汇报时携带的数据，字符串类型。具体取决于任务类型，比如截图任务汇报时，这里就会携带截图的Base64字符串。
-    ...     // 如果你的这个端点还有其他用途，你可以自行添加可选的参数，但是MAA只会传递user和device
+    "user":"ea6c39eb-a45f-4d82-9ecc-33a7bf2ae4dc",          // The "User Identifier" you filled in the MAA settings.
+    "device":"f7cd9682-3de9-4eef-9137-ec124ea9e9ec",        // The "Device Identifier" automatically generated in the MAA.
+    "task":"15be4725-5bd3-443d-8ae3-0a5ae789254c",          // The Id of the task to be reported on, corresponding to the Id when 'getTask'.
+    "status":"SUCCESS",                                     // The result of the task execution, SUCCESS or FAILED. generally, regardless of the success of the task execution will only return SUCCESS, only in special circumstances will return FAILED, will return FAILED situation, will be explicitly described in the above task introduction.
+    "payload":"",                                           //The data to carry when reporting, string type. Depends on the task type, for example, when reporting on a screenshot task, the Base64 string of the screenshot will be carried here.
+    ...     // If you have other uses for this endpoint, you can add other return values of your own, but MAA will only post upper value.
 }
 ```
 
-该端点的返回内容任意，但是如果你不返回 200OK，会在 MAA 端弹出一个 Notification，显示 `上传失败`
+The content returned by this endpoint is arbitrary, but if you do not return `200 OK`, a notification will pop up on the MAA side displaying `Upload failed`.
 
-## 范例工作流-用 QQBot 控制 MAA
+## Example Workflow : Controlling MAA with QQBot
 
-A 开发者想要用自己的 QQBot 控制 MAA，于是他开发了一个后端，暴露在公网上，提供两个端点：
+A developer wants to control MAA with their QQBot (QQ is an instant messaging software,like WhatsApp or Telegram), so they develop a backend exposed on the public network, providing two endpoints:
 
 ```text
 https://myqqbot.com/maa/getTask
 https://myqqbot.com/maa/reportStatus
 ```
 
-为了让用户用的更方便，他的 getTask 接口不管接收什么参数都默认返回 200OK 和一个空的 tasks 列表。
-每次他接收到一个请求，他就去数据库里看一下有没有重复的 device，如果没有，他就将该 device 和 user 记录在数据库。
-也就是说，在这个工作流下，这个接口同时还承担了用户注册的功能。
+To make it more convenient for users, their `getTask` interface always returns `200 OK` and an empty tasks list regardless of the parameters received.
+Each time they receive a request, they check the database for duplicate devices, and if none, they record the device and user in the database.
+In this workflow, this interface also serves as a user registration function.
 
-他在 QQBot 上提供了一条指令，供用户提交自己的 deviceId。
+They provide a command on the QQBot for users to submit their deviceId.
 
-在它的 QQBot 的使用说明上，他告诉用户，在 MAA 的`用户标识符`中填写自己的 QQ 号，然后将`设备标识符`通过 QQ 聊天发送给 Bot。
+In the QQBot's usage instructions, they tell users to fill in their QQ number in the `User Identifier` field of MAA and send the `Device Identifier` to the Bot via QQ chat.
 
-QQBot 在收到标识符后，再根据消息中的用户 QQ 号，寻找数据库中是否有对应的数据，如果没有，则叫用户先去配置 MAA。
+Upon receiving the identifier, the QQBot checks the database for corresponding data based on the user's QQ number in the message. If none is found, it tells the user to configure MAA first.
 
-因为 MAA 在配置好后就会持续的发送请求，因此如果用户配置好了 MAA，在他通过 QQ 提交时，数据库内应该有匹配的记录。
+Since MAA continuously sends requests once configured, if the user has configured MAA, there should be matching records in the database when they submit via QQ.
 
-这时 Bot 将数据库内的该记录设置一个已验证标记，未来 getTask 再使用这套 device 和 user 请求时，就会返回真正的任务列表。
+At this point, the Bot marks the record in the database as verified, so future requests from getTask with this device and user will return the real task list.
 
-当用户通过 QQBot 提交指令后，Bot 将一条任务写入数据库，这样稍后，getTask 就会返回这条任务。并且，该 QQbot 还很贴心的，在每次用户提交指令后，都默认再附加一个截图任务。
+When the user submits a command via QQBot, the Bot writes a task into the database. Shortly after, getTask will return this task. Additionally, the QQBot thoughtfully adds a screenshot task each time the user submits a command.
 
-MAA 在任务执行完后，会调用 reportStatus 汇报结果，Bot 在收到结果后，在 QQ 端发送消息通知用户以及展示截图。
+MAA will call reportStatus to report the result after completing the task. The Bot will send a message notifying the user and display the screenshot on QQ.
 
-## 范例工作流-用网站控制 MAA
+## Example Workflow : Controlling MAA with a Website
 
-B 开发者写了一个网站，设想通过网站批量管理 MAA，因此，他拥有一套自己的用户管理系统。但是它的后端在公网上，提供两个可匿名访问的端点：
+Developer B wrote a website to manage MAA in bulk through a website, so they have their own user management system. However, their backend is publicly accessible, providing two anonymously accessible endpoints:
 
 ```text
 https://mywebsite.com/maa/getTask
 https://mywebsite.com/maa/reportStatus
 ```
 
-在网站上，有个连接 MAA 实例的界面，会展示一个 B 开发者称之为 `用户密钥` 的随机字符串，并有一个填入设备 id 的文本框。
+On the website, there is an interface to connect MAA instances, will generate a random string called `User Key`, along with a text box for entering the `Device Identifier`.
 
-网站要求用户在 MAA 的 `用户标识符` 中填写自己的用户密钥，然后将 `设备标识符` 填入网站。
+The website requires users to fill in their `User Key` in the `User Identifier` field of MAA GUI and then enter the `Device Identifier` on the website.
 
-只有在网站上成功创建了 MAA 连接，getTask 才会返回 200OK，其他时候都返回 401Unauthorized。
+Only after successfully creating a connection to MAA on the website, `getTask` will return `200 OK`. Otherwise, it returns `401 Unauthorized`.
 
-因此如果用户在 MAA 上填错了，按下测试连接按钮，会得到测试失败的提示。
+If the user fills it incorrectly on MAA and presses the test connection button, they will get a test failure prompt.
 
-用户可以在网站上下发任务，为任务排队，查看截图等等，这些功能的实现和上面 QQBot 例子类似，都是通过 getTask 和 reportStatus 组合完成。
+Users can issue tasks on the website, queue tasks, view screenshots, and more. The implementation of these functions is similar to the QQBot example above, achieved through a combination of `getTask` and `reportStatus`.
