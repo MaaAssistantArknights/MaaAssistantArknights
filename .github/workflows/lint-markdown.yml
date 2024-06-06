@@ -7,7 +7,6 @@ on:
       - "**/*.md"
       - ".github/workflows/lint-markdown.yml"
   pull_request:
-    branches: ["dev"]
     paths:
       - "**/*.md"
       - ".github/workflows/lint-markdown.yml"
