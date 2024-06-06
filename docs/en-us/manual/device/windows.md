@@ -5,7 +5,9 @@ icon: ri:windows-fill
 
 # Windows Emulator
 
-_TODO: replace these Chinese emulators links with English ones_
+:::warning
+TODO: replace these Chinese emulators links with English ones
+:::
 
 The following emulators are displayed randomly in no particular order.
 

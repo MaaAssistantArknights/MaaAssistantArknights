@@ -42,7 +42,9 @@ The connection address of the emulator running on this computer should be `127.0
 
 #### Simulator documents and ports for reference
 
-#### _TODO: replace these Chinese emulators and documents with English ones_
+:::warning
+TODO: replace these Chinese emulators links with English ones
+:::
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
@@ -55,9 +57,8 @@ For other simulators, please check [Zhao Qingqing’s blog](https://www.cnblogs.
 
 #### Multiple Emulators
 
-- You can view the running multi-open ports in the upper right corner of the MuMu 12 multi-open device.
-- The current multi-open ports can be viewed in the Bluestacks 5 emulator settings.
-- _TODO & These sentences should not start with "you"_
+- MuMu 12: The running emulator ports can be found in the upper right corner of the MultiPlayer.
+- Bluestacks 5: The current emulator ports can be viewed in the emulator settings.
 
 #### Alternatives
 
@@ -139,7 +140,9 @@ For other simulators, please check [Zhao Qingqing’s blog](https://www.cnblogs.
 
 ### The port number of BlueStack emulator Hyper-V is different every time it is started
 
-#### _TODO I can't find the original document_
+:::warning
+TODO: replace these Chinese emulators links with English ones
+:::
 
 ## Connection Present
 
