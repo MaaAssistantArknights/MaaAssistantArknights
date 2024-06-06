@@ -7709,7 +7709,7 @@
         },
         "trap_128_toolore": {
             "name": "祭坛式雷达",
-            "name_en": "祭坛式雷达",
+            "name_en": "Altar-type Radar",
             "name_jp": "祭壇式レーダー",
             "name_kr": "제단식 레이더",
             "name_tw": "祭坛式雷达",
@@ -7724,7 +7724,7 @@
         },
         "trap_129_tooltower": {
             "name": "R-45便携式“留声机”",
-            "name_en": "R-45便携式“留声机”",
+            "name_en": "R-45 Portable 'Gramophone'",
             "name_jp": "R-45ポータブル「蓄音機」",
             "name_kr": "R-45 휴대용 '축음기'",
             "name_tw": "R-45便携式“留声机”",
@@ -7739,7 +7739,7 @@
         },
         "trap_130_tooltree": {
             "name": "景观巨蕈",
-            "name_en": "景观巨蕈",
+            "name_en": "Ornamental Giant Mushroom",
             "name_jp": "鑑賞用おばけ茸",
             "name_kr": "관상용 거대버섯",
             "name_tw": "景观巨蕈",
@@ -7754,7 +7754,7 @@
         },
         "trap_131_toolgun": {
             "name": "战场装置LUD-99X",
-            "name_en": "战场装置LUD-99X",
+            "name_en": "Field Device LUD-99X",
             "name_jp": "フィールドデバイスLUD-99X",
             "name_kr": "전투 장치 LUD-99X",
             "name_tw": "战场装置LUD-99X",
@@ -7769,7 +7769,7 @@
         },
         "trap_132_toolinvert": {
             "name": "“二踢脚”型数据收集装置",
-            "name_en": "“二踢脚”型数据收集装置",
+            "name_en": "Two-step Firecracker and Data-collector",
             "name_jp": "爆竹型データ収集装置",
             "name_kr": "'양자폭죽' 데이터 수집 장치",
             "name_tw": "“二踢脚”型数据收集装置",
@@ -7784,7 +7784,7 @@
         },
         "trap_133_toolgarage": {
             "name": "勘察用自走车",
-            "name_en": "勘察用自走车",
+            "name_en": "Self-Driving Recon Cart",
             "name_jp": "自走式探査車",
             "name_kr": "탐사용 자율차",
             "name_tw": "勘察用自走车",
