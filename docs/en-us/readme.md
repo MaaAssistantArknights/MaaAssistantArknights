@@ -184,4 +184,4 @@ User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.m
 
 Please click "Star" if you consider it helpful! Thank you for your support!
 
-<!-- markdownlint-disable-file MD041 -->
+<!-- markdownlint-disable-file MD034 MD041 -->
