@@ -74,8 +74,12 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         }
         m_reclamation_task_ptr = init_reclamation_tales_within_the_sand(enable_ex);
         auto ptr = std::static_pointer_cast<tales_within_the_sand_task>(m_reclamation_task_ptr);
-        if (const std::string product = params.get("product", ""); !product.empty())
+        if (const std::string product = params.get("product", "荧光棒"); !product.empty()) {
             Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { product };
+        }
+        else {
+            Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { "荧光棒" };
+        }
         break;
     }
     default:

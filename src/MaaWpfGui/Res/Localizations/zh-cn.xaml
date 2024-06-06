@@ -818,5 +818,6 @@
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
     <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
     <system:String x:Key="Reclamation2ExProductTip">支援道具名称</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>
