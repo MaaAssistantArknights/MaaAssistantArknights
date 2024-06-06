@@ -17030,7 +17030,6 @@
             124
         ],
         "sub": [
-            "Reclamation2ExReadArchiveConfirm*2",
             "Reclamation2ExReadArchiveSelectDay",
             "Reclamation2ExReadArchiveSelectDayConfirm"
         ]
