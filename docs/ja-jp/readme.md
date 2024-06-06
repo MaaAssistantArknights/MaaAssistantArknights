@@ -191,4 +191,4 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！
 
-<!-- markdownlint-disable-file MD041 -->
+<!-- markdownlint-disable-file MD034 MD041 -->

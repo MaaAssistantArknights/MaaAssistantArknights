@@ -186,4 +186,4 @@ Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
 
-<!-- markdownlint-disable-file MD041 -->
+<!-- markdownlint-disable-file MD034 MD041 -->
