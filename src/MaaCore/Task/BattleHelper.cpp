@@ -42,6 +42,7 @@ void asst::BattleHelper::clear()
     m_skill_usage.clear();
     m_skill_times.clear();
     m_skill_error_count.clear();
+    m_last_use_skill_time.clear();
     m_camera_count = 0;
     m_camera_shift = { 0., 0. };
 
@@ -411,6 +412,7 @@ bool asst::BattleHelper::deploy_oper(
 
     m_used_tiles.emplace(loc, name);
     m_battlefield_opers.emplace(name, loc);
+    m_last_use_skill_time.emplace(loc, std::chrono::steady_clock::time_point());
 
     return true;
 }
@@ -553,15 +555,27 @@ bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 {
+    // TODO: 可配置延迟时间
+    static constexpr auto min_frame_interval =
+        std::chrono::milliseconds(1000);
+
     bool used = false;
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
     for (const auto& [name, loc] : m_battlefield_opers) {
         auto& usage = m_skill_usage[name];
         auto& retry = m_skill_error_count[name];
         auto& times = m_skill_times[name];
+        auto& last_use_time = m_last_use_skill_time[name];
         if (usage != SkillUsage::Possibly && usage != SkillUsage::Times) {
             continue;
         }
+
+        const auto now = std::chrono::steady_clock::now();
+        if (auto interval = now - last_use_time; min_frame_interval > interval) {
+            Log.debug(name, "use skill too fast, interval time:", std::chrono::duration_cast<std::chrono::milliseconds>(interval));
+            continue;
+        }
+
         bool has_error = false;
         if (!check_and_use_skill(loc, has_error, image)) {
             continue;
@@ -578,6 +592,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
         }
         used = true;
         retry = 0;
+        m_last_use_skill_time[name] = now;
 
         if (usage == SkillUsage::Times) {
             times--;
@@ -585,7 +600,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
                 usage = SkillUsage::TimesUsed;
             }
         }
-        image = m_inst_helper.ctrler()->get_image();
+        // image = m_inst_helper.ctrler()->get_image();
     }
 
     return used;
