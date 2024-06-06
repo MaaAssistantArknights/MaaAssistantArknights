@@ -41,7 +41,5 @@ jobs:
         with:
           # Use github-pr-review when triggered by a pull request; otherwise, use github-check
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
-          # Check only the diff when triggered by a push or pull request; otherwise, check all files
-          # filter_mode: ${{ contains(fromJSON('["push", "pull_request"]'), github.event_name) && 'diff_context' || 'nofilter' }}
-          filter_mode: nofilter # use the above line before merging
+          filter_mode: nofilter
           fail_on_error: true
