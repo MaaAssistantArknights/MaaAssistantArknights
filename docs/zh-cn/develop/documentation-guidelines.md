@@ -6,7 +6,7 @@ icon: jam:write-f
 # 文档编写指南
 
 ::: tip
-本文档的目的在于指导文档编写者更好的使用主题提供的功能，以此达到更易读的效果
+本文档的目的在于指导文档编写者更好的使用主题提供的功能，以此达到更易读的效果。
 :::
 
 我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) 主题，你也可以查看[官方文档](https://theme-hope.vuejs.press/zh/)来获取更加详细的说明，这里仅介绍一些常用的功能
@@ -70,17 +70,17 @@ icon: jam:write-f
 
 该主题提供了图标支持，你可以在以下地方使用图标:
 
-- 文档标题: 在 frontmatter 中设置文档标题旁边的图标
+- 文档标题: 在 frontmatter 中设置文档标题旁边的图标。
 
-- 导航栏/侧边栏: 设置在导航栏与侧边栏中显示的图标
+- 导航栏/侧边栏: 设置在导航栏与侧边栏中显示的图标。
 
-- 文档内容: 在文档中使用图标
+- 文档内容: 在文档中使用图标。
 
 ### 设置文档的图标
 
-你可以在文档的 [frontmatter](#frontmatter) 中使用 icon 来设置文档的图标
+你可以在文档的 [frontmatter](#frontmatter) 中使用 `icon` 来设置文档的图标。
 
-这个图标会显示在文档标题的旁边
+这个图标会显示在文档标题的旁边。
 
 ::: details 本文档的 frontmatter 设置
 
@@ -115,11 +115,11 @@ icon: jam:write-f
 
 ### 图标关键字的获取
 
-本文档使用的图标来自于 [iconify](https://iconify.design/)，你可以在其给出的 [图标搜索界面](https://icon-sets.iconify.design/) 中搜索你想要的图标，然后复制其关键字
+本文档使用的图标来自于 [iconify](https://iconify.design/)，你可以在其给出的 [图标搜索界面](https://icon-sets.iconify.design/) 中搜索你想要的图标，然后复制其关键字。
 
 ## Frontmatter
 
-Frontmatter 是 Markdown 文档开头一段用 `---` 包裹起来的内容，其内部使用 yml 语法。通过 Frontmatter，我们可以标识文档的编辑时间，使用的图标，分类，标签等等
+Frontmatter 是 Markdown 文档开头一段用 `---` 包裹起来的内容，其内部使用 yml 语法。通过 Frontmatter，我们可以标识文档的编辑时间，使用的图标，分类，标签等等。
 
 ::: details 示例
 
@@ -139,6 +139,6 @@ order: 1
 
 各字段含义如下：
 
-- `date` 文档的编辑时间
-- `icon` 文档标题旁边的图标
-- `order` 文档在侧边栏中的排序
+- `date`：文档的编辑时间
+- `icon`：文档标题旁边的图标
+- `order`：文档在侧边栏中的排序

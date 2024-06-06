@@ -11,7 +11,7 @@ icon: iconoir:developer
 
 Welcome to the [GitHub Pull Request Tutorial](./pr-tutorial.md) that anyone can understand (purely web-based on Github.com)
 
-### I can program, but I've never used Github/C++/..., what can I do?
+### I can program, but I've never used GitHub/C++/..., what can I do?
 
 1. If you have forked this repository a long time ago, please go to `Settings`, scroll down to the bottom, and click `Delete Repository`.
 2. Go to [MAA main repository](https://github.com/MaaAssistantArknights/MaaAssistantArknights) and click `Fork`, then `Create fork`.
