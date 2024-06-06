@@ -1,13 +1,15 @@
 ---
+order: 1
 icon: iconoir:developer
 ---
-# 開發相關
+
+# 開始開發
 
 ## Github Pull Request 流程簡述
 
 ### 我不懂程式，只是想改一點點 JSON 檔案，要怎麽操作？
 
-歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用說明](2.4-純網頁端PR教學.md) （純網頁端操作）
+歡迎收看 [牛牛也能看懂的 GitHub Pull Request 使用指南](./pr-tutorial.md) （純網頁端操作）
 
 ### 我會程式，但沒接觸過 GitHub/C++/……，要怎麽操作？
 
@@ -16,8 +18,10 @@ icon: iconoir:developer
 3. clone MAA 主倉庫（到你自己帳號下） dev 分支到本地
 
     ```bash
-    git clone <你的倉庫 git 連結> -b dev
+    git clone --recurse-submodules <你的倉庫 git 連結> -b dev
     ```
+
+    如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，則需在克隆後再執行 `git submodule update --init` 以拉取子模塊。
 
 4. 下載預構建的第三方庫
 
@@ -36,7 +40,7 @@ icon: iconoir:developer
 7. 設定 Visual Studio
 
     - Visual Studio 上方配置選擇 `RelWithDebInfo` `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
-    - 右鍵 `MaaWpfGui` - 屬性 - 偵錯 - 啟用本地偵錯（這樣就能把斷點掛到 C++ Core 那邊了）
+    - 右鍵 `MaaWpfGui` - 屬性 - 調試 - 啟用本地調試（這樣就能把斷點掛到 C++ Core 那邊了）
 
 8. 到這裡，你就可以愉快地~~瞎ㄐㄅ改~~發電了
 9. 開發過程中，每一定數量，記得提交一個 commit，別忘了寫上 message  
@@ -55,8 +59,7 @@ icon: iconoir:developer
     git push origin dev
     ```
 
-11. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。
-    別忘了你是在 dev 分支上修改，別提交到 master 分支去了。
+11. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了你是在 dev 分支上修改，別提交到 master 分支去了。
  
 12. 當 MAA 主倉庫出現更改（別人做的），你可能需要把這些更改同步到你的分支
     1. 關聯 MAA 主倉庫
@@ -109,10 +112,10 @@ icon: iconoir:developer
 
 - `python tools\ClangFormatter\clang-formatter.py --clang-format=PATH\TO\YOUR\clang-format.exe --input=src\MaaCore`
 
-## ## 使用 GitHub codespace 進行線上開發
+## 使用 GitHub codespace 進行在線開發
 
 建立 GitHub codespace 自動配置 C++ 開發環境
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
 
-隨後根據 vscode 的提示或 [Linux 教程](./2.1-Linux編譯教學.md) 配置 GCC 12 和 CMake 工程
+隨後根據 vscode 的提示或 [Linux 教程](./linux-tutorial.md) 配置 GCC 12 和 CMake 工程

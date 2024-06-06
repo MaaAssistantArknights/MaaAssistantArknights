@@ -9,7 +9,7 @@ icon: iconoir:developer
 
 ### 프로그래밍을 잘 모르지만, json 파일과 docs 문서를 수정하고싶어요. 어떻게 해야하나요?
 
-[웹 기반 PR 가이드](./pr-tutorial.md)를 참고하세요! (웹사이트로만 가능합니다)
+[웹 기반 PR 가이드](./pr-tutorial.md)를 참고하세요! (GitHub.com 웹사이트에서만 가능합니다)
 
 ### 프로그래밍을 할 줄 알지만 GitHub/C++/...에 익숙하지 않아요. 어떻게 해야 하나요?
 
@@ -102,7 +102,7 @@ Visual Studio 2022를 열면 관련된 git 작업을 명령 줄 도구 대신 vs
 3. Visual Studio에서 `도구`-`옵션`을 검색하여 `clang-format`을 클릭합니다.
 4. `ClangFormat 지원 활성화`를 클릭하고 아래의 `사용자 정의 clang-format.exe 파일 사용`을 선택한 다음 2단계에서 찾은 `clang-format.exe`를 선택합니다.
 
-![Visual Studio 设置 clang-format](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
+![Visual Studio에서 clang-format 사용 설정](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
 
 이제 Visual Studio에서 C++20 구문을 지원하는 clang-format을 사용할 수 있습니다!
 
