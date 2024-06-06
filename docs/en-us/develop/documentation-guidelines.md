@@ -3,88 +3,86 @@ order: 6
 icon: jam:write-f
 ---
 
-(translation required)
-
-# 文档编写指南
+# Document Writing Guide
 
 ::: tip
-本文档的目的在于指导文档编写者更好的使用主题提供的功能，以此达到更易读的效果
+The purpose of this document is to guide document writers to better utilize the functionalities provided by the theme, thus achieving a more readable effect.
 :::
 
-我们的文档基于 [vuepress](https://github.com/vuejs/vuepress) 构建，使用了 [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) 主题，你也可以查看[官方文档](https://theme-hope.vuejs.press/zh/)来获取更加详细的说明，这里仅介绍一些常用的功能
+Our documentation is built on [vuepress](https://github.com/vuejs/vuepress) and utilizes the [vuepress-theme-hope](https://github.com/vuepress-theme-hope/vuepress-theme-hope) theme. You can also refer to the [official documentation](https://theme-hope.vuejs.press/en/) for more detailed explanations. Here, we only introduce some common functionalities.
 
 ## Deploy Locally
 
-1. Install [Pnpm](https://pnpm.io/installation), and clone the repository refer to [Introduction to Github Pull request Flow](./development.md#introduction-to-github-pull-request-flow).
+1. Install [Pnpm](https://pnpm.io/installation), and clone the repository refer to [Introduction to GitHub Pull request Flow](./development.md#introduction-to-github-pull-request-flow).
 2. Create a terminal in the `website` directory, then run `pnpm i` to download dependencies.
 3. Run `pnpm run dev` to deploy.
 
-## 容器
+## Containers
 
-~~不是 docker 那个容器~~
+~~Not the docker container~~
 
-该主题提供了关于提示、注释、信息、注意、警告和详情自定义容器的支持，我们可以利用这一特性来强调部分内容
+This theme provides support for custom containers such as tips, notes, info, warnings, alerts, and details. We can utilize this feature to emphasize certain content.
 
-容器的使用方法：
+Usage of containers:
 
 ```markdown
-::: [容器类型] [容器标题（可选）]
-你想写的内容
+::: [Container Type] [Container Title (optional)]
+Content you want to write
 :::
 ```
 
-接受的容器内容与其默认标题如下：
+Accepted container types and their default titles are as follows:
 
-- `tip` 提示
-- `note` 注释
-- `info` 信息
-- `warning` 注意
-- `danger` 警告
-- `details` 详情
+- `tip` Tip
+- `note` note
+- `info` info
+- `warning` warning
+- `danger` danger
+- `details` details
 
-### 容器示例
+### Container Examples
 
 ::: tip
-这是提示容器
+This is a tip container
 :::
 
 ::: note
-这是注释容器
+This is a note container
 :::
 
 ::: info
-这是信息容器
+This is an info container
 :::
 
 ::: warning
-这是注意容器
+This is a warning container
 :::
 
 ::: danger
-这是危险容器
+This is a danger container
 :::
 
 ::: details
-这是详情容器
+This is a details container
 :::
 
-## 图标
+## Icons
 
-该主题提供了图标支持，你可以在以下地方使用图标:
+This theme provides icon support, where you can use icons in the following places:
 
-- 文档标题: 在 frontmatter 中设置文档标题旁边的图标
+- Document title: Set the icon next to the document title in frontmatter.
 
-- 导航栏/侧边栏: 设置在导航栏与侧边栏中显示的图标
+- Navbar/Sidebar: Set icons displayed in the navbar and sidebar.
 
-- 文档内容: 在文档中使用图标
+- Document content: Use icons in the document content.
 
-### 设置文档的图标
+### Setting Document Icons
 
-你可以在文档的 [frontmatter](#frontmatter) 中使用 icon 来设置文档的图标
+You can use `icon` in the document's [frontmatter](#Frontmatter) to set the document's icon.
 
-这个图标会显示在文档标题的旁边
+This icon will be displayed next to the document title.
 
-::: details 本文档的 frontmatter 设置
+::: details Frontmatter settings of this document
 
 ```markdown
 ---
@@ -94,15 +92,15 @@ icon: jam:write-f
 
 :::
 
-### 在文档中使用图标
+### Using Icons in Documents
 
-你可以使用 `<HopeIcon />` 组件在 markdown 中添加图标。该组件有以下属性：
+You can use the `<HopeIcon />` component to add icons in markdown. This component has the following attributes:
 
-- `icon` 接受图标关键字及 Url，如 `jam:write-f`，`ic:round-home` 等
-- `color` 接受 css 风格的颜色值，如 `#fff`，`red` 等（该选项仅对 svg 图标有效）
-- `size` 接受 css 风格的大小，如 `1rem`，`2em`，`100px` 等
+- `icon`: Accepts icon keywords and URLs, such as `jam:write-f`, `ic:round-home`, etc.
+- `color`: Accepts CSS-style color values, such as `#fff`, `red`, etc. (This option only works for SVG icons).
+- `size`: Accepts CSS-style sizes, such as `1rem`, `2em`, `100px`, etc.
 
-::: details 案例
+::: details Example
 <HopeIcon icon="ic:round-home" color="#1f1e33"/>
 
 ```markdown
@@ -115,15 +113,15 @@ icon: jam:write-f
 ```
 :::
 
-### 图标关键字的获取
+### Obtaining Icon Keywords
 
-本文档使用的图标来自于 [iconify](https://iconify.design/)，你可以在其给出的 [图标搜索界面](https://icon-sets.iconify.design/) 中搜索你想要的图标，然后复制其关键字
+The icons used in this document are from [iconify](https://iconify.design/). You can search for the icons you want in its provided [icon search interface](https://icon-sets.iconify.design/) and then copy their keywords.
 
 ## Frontmatter
 
-Frontmatter 是 Markdown 文档开头一段用 `---` 包裹起来的内容，其内部使用 yml 语法。通过 Frontmatter，我们可以标识文档的编辑时间，使用的图标，分类，标签等等
+Frontmatter is the content at the beginning of a Markdown document enclosed in `---,` using YAML syntax internally. Through frontmatter, we can identify the document's editing time, the icon used, the classification, tags, etc.
 
-::: details 示例
+::: details Example
 
 ```markdown
 ---
@@ -132,15 +130,15 @@ icon: jam:write-f
 order: 1
 ---
 
-# 文档标题
+# Document Title
 
 ...
 ```
 
 :::
 
-各字段含义如下：
+The meanings of each field are as follows:
 
-- `date` 文档的编辑时间
-- `icon` 文档标题旁边的图标
-- `order` 文档在侧边栏中的排序
+- `date`: Editing time of the document
+- `icon`: Icon next to the document title
+- `order`: Document order in the sidebar
