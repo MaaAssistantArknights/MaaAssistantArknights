@@ -202,4 +202,4 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 
 프로그램이 도움이 된다고 생각하시면 Star를 눌러주세요! (페이지 우측 상단의 작은 별) 저희에게 가장 큰 도움이 됩니다!
 
-<!-- markdownlint-disable-file MD041 -->
+<!-- markdownlint-disable-file MD034 MD041 -->
