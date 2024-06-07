@@ -611,11 +611,14 @@ namespace MaaWpfGui.ViewModels.UI
             get => _startSelf;
             set
             {
-                SetAndNotify(ref _startSelf, value);
-                if (!AutoStart.SetStart(value))
+                if (!AutoStart.SetStart(value, out var error))
                 {
                     _logger.Error("Failed to set startup.");
+                    MessageBoxHelper.Show(error);
+                    return;
                 }
+
+                SetAndNotify(ref _startSelf, value);
             }
         }
 
