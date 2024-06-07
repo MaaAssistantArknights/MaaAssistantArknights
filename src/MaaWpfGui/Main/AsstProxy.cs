@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -550,6 +551,30 @@ namespace MaaWpfGui.Main
             }
         }
 
+        private DispatcherTimer _toastNotificationTimer;
+
+        private void OnToastNotificationTimerTick(object sender, EventArgs e)
+        {
+            var sanityReport = LocalizationHelper.GetString("SanityReport");
+            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
+            sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
+            using var toast = new ToastNotification(sanityReport);
+
+            DisposeTimer();
+        }
+
+        public void DisposeTimer()
+        {
+            if (_toastNotificationTimer is null)
+            {
+                return;
+            }
+
+            _toastNotificationTimer.Stop();
+            _toastNotificationTimer.Tick -= OnToastNotificationTimerTick;
+            _toastNotificationTimer = null;
+        }
+
         private void ProcTaskChainMsg(AsstMsg msg, JObject details)
         {
             string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
@@ -571,7 +596,7 @@ namespace MaaWpfGui.Main
                     }
             }
 
-            bool isCopilotTaskChain = taskChain == "Copilot" || taskChain == "VideoRecognition";
+            bool isCopilotTaskChain = taskChain is "Copilot" or "VideoRecognition";
 
             switch (msg)
             {
@@ -705,13 +730,13 @@ namespace MaaWpfGui.Main
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
                     {
                         if (Instances.SettingsViewModel.CopilotWithScript)
+                        {
+                            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
+                            if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
                             {
-                                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
-                                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
-                                {
-                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
-                                }
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
                             }
+                        }
                     }
 
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
@@ -740,6 +765,18 @@ namespace MaaWpfGui.Main
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
+
+                            if (_toastNotificationTimer is not null)
+                            {
+                                DisposeTimer();
+                            }
+
+                            _toastNotificationTimer = new DispatcherTimer
+                            {
+                                Interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6),
+                            };
+                            _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
+                            _toastNotificationTimer.Start();
                         }
                         else
                         {
