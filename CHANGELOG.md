@@ -17,9 +17,7 @@
 * 更新macOS SDK版本 @hguandl
 * 垂直滑动优化 @ABA2396
 * 优化萨米ew部署策略 (#9249) @Daydreamer114
-* 优化萨米肉鸽策略 (#9234) @Lancarus
-* 优化萨米肉鸽策略 (#9232) @Lancarus
-* 优化萨米肉鸽部分关卡策略 (#9224) @Lancarus
+* 优化萨米肉鸽策略 (#9234)(#9232)(#9224) @Lancarus
 
 ### 修复 | Fix
 
@@ -38,28 +36,31 @@
 * 自然之怒.json格式错误 @Lancarus
 * Mac Gui使用Swift 5.9以下的语法 @hguandl
 * 修复Mac Gui在CI的编译错误 @hguandl
-* unable to get rewards because ReceiveAward is too fast @Constrat
 * 尝试修复萨米卡0干扰并优化密文板使用策略 (#9223) @Lancarus
 * 肉鸽特殊情况下第三层boss门口退出 (#9222) @Lancarus
 * call_command timeout时提前返回 std::nullopt @ABA2396
 * type cast @status102
+* unable to get rewards because ReceiveAward is too fast @Constrat
 
 ### 其他 | Other
 
 * issue模板添加mumu反馈 (#8993) @Rbqwow @ABA2396
-* fix wrong link maa_cli (#9264) @wlwxj
 * chroe: 增加开技能最小间隔时间 @ABA2396
 * 界面添加支援道具名称提示，传入内容为空白时自动切换为”荧光棒“ @ABA2396
 * Update 肉鸽辅助协议.md @Lancarus
+* 忽略括号周围resharper格式检查 @ABA2396
+* 统一使用OnUIThread，AddLog默认在ui线程执行 @ABA2396
+* 增加「实例已销毁」 (#9201) @aleck099
+* fix wrong link maa_cli (#9264) @wlwxj
+* fix license typo @Cryolitia
 * reduced filename check description for more info @Constrat
 * Add trace log for scaled coordinates in ControlScaleProxy click & swipe @ABA2396
 * no need to checkout sumodule after https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9168 @Cryolitia
-* 忽略括号周围resharper格式检查 @ABA2396
-* 统一使用OnUIThread，AddLog默认在ui线程执行 @ABA2396
-* Revert "fix: adding delay between swipe and click" (#9170) @Constrat
-* format @status102
-* fix license typo @Cryolitia
-* 增加「实例已销毁」 (#9201) @aleck099
 * add CITATION @Cryolitia
 * add LICENSE.SPDX @Cryolitia
+
+### For Overseas
+
+#### YostarJP
+
 * YoStarJP roguelike ocr fix (#9203) @Manicsteiner
