@@ -60,4 +60,3 @@ icon: basil:apple-solid
 ### ✅ [AVD](https://developer.android.com/studio/run/managing-avds)
 
 지원됩니다. 그러나 Android 10부터는 SELinux가 `Enforcing` 모드일 때 `Minitouch`를 사용할 수 없습니다. 다른 터치 모드로 전환하거나 SELinux를 **임시**로 `Permissive` 모드로 변경하세요.
-

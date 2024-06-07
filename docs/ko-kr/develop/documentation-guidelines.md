@@ -14,7 +14,7 @@ icon: jam:write-f
 ## 로컬 배포
 
 1. [pnpm](https://pnpm.io/zh/installation)을 설치하고, [Pull Request 가이드](./development.md#github-pull-request-진행-과정)을 참고해, 저장소를 로컬에 클론합니다.
-2.  `website` 경로에서 새로운 터미널을 열고, `pnpm i` 을 실행하여 의존성 파일을 다운로드합니다.
+2. `website` 경로에서 새로운 터미널을 열고, `pnpm i` 을 실행하여 의존성 파일을 다운로드합니다.
 3. `pnpm run dev` 를 실행하여 배포를 시작합니다.
 
 ## 컨테이너

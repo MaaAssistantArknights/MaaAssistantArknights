@@ -77,6 +77,6 @@ MAAの構築方法はまだ議論されていますが、このチュートリ�
 
 [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp) での実装を参照可能
 
-### C#
+### C\#
 
 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs) での実装を参照可能

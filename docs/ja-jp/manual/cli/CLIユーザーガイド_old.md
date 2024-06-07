@@ -145,7 +145,6 @@ brew install MaaAssistantArknights/tap/maa-cli
 - `maa complete <shell>`: 自動完了スクリプトを生成します。
 - `maa activity [client]`: ゲームの現在のアクティビティ情報を取得します。 `client` はクライアントタイプであり、デフォルトは `Official` です。
 
-
 ## 設定
 
 ### 設定ディレクトリー

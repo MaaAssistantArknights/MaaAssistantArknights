@@ -18,7 +18,7 @@ icon: mdi:information-outline
     - 剿滅作戰，必須輸入 `Annihilation`。
     - 部分別傳，只支援 `OF-1` / `OF-F3` / `GT-5`。
     - 當期 SideStory 後三關，在自動訪問 [API](https://ota.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 下載更新後，會在主介面下方顯示相應提示。
-	<!--對於復刻的 SideStory，可以輸入 `SSReopen-XX` ，來一次性刷完 XX-1 ~ XX-9 關。如 `SSReopen-IC`。-->
+ <!--對於復刻的 SideStory，可以輸入 `SSReopen-XX` ，來一次性刷完 XX-1 ~ XX-9 關。如 `SSReopen-IC`。-->
 
 <details><summary>範例畫面</summary>
 

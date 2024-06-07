@@ -43,6 +43,7 @@ icon: iconoir:developer
 8. 이제 마음껏 개발을 시작할 수 있습니다.
 9. 개발 중에 정기적으로 커밋을 하고 메시지를 작성하는 것을 잊지 마세요.
    Git 사용에 익숙하지 않다면 변경 사항을 직접 `dev` 브랜치에 제출하는 대신 새 브랜치를 만들어 작업하고 커밋하는 것이 좋습니다.
+
    ```bash
    git branch your_own_branch
    git checkout your_own_branch

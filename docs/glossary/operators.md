@@ -354,3 +354,5 @@ char_4123_ela|艾拉|Ela||
 char_4132_ascln|阿斯卡纶|Ascalon||
 char_4133_logos|逻各斯|Logos||
 char_4134_cetsyr|魔王|Civilight Eterna||
+
+<!-- markdownlint-disable-file MD041 MD055 MD056 -->

@@ -13,7 +13,7 @@ Pull Request 被增加 `ambiguous` 標籤是因為沒有按照 commitizen 規則
 
 ### 自動觸發
 
-- 給 issue 和 Pull Request 增加標籤，包括 `module` 系列	、`Client` 系列、`ambiguous`、`translation required` 等。  
+- 給 issue 和 Pull Request 增加標籤，包括 `module` 系列、`Client` 系列、`ambiguous`、`translation required` 等。  
   Issue Bot 會根據關鍵字自動增加分類標籤。  
   具體關鍵字可以參考 [配置檔案](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/issue-checker.yml)。
 - 給作者是可見性設定為 public 的 MAA 成員的 issue 和 Pull Request 增加 `MAA Team` 標籤。

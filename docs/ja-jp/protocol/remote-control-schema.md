@@ -117,7 +117,7 @@ MAAは、タスクの実行を終了するたびに、エンドポイントを�
 
 開発者Aは、 QQBot で MAA を制御したいので、パブリックネットワークで公開されるバックエンドを開発し、2つのエンドポイントを提供します：
 
-```
+```text
 https://myqqbot.com/maa/getTask
 https://myqqbot.com/maa/reportStatus。
 ```
@@ -144,7 +144,7 @@ Bot がデータベース内のこのレコードに検証済みフラグを設�
 
 B開発者はサイトを通じて MAA を一括管理することを想定したサイトを書いているので、独自のユーザー管理システムを持っています。しかし、バックエンドはパブリックネットワーク上にあり、匿名でアクセスできる2つのエンドポイントを提供します。
 
-```
+```text
 https://mywebsite.com/maa/getTask
 https://mywebsite.com/maa/reportStatus。
 ```

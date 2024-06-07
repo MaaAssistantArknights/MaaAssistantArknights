@@ -153,6 +153,7 @@ MAA 現在會嘗試從註冊表中讀取 `bluestacks.conf` 的儲存位置，當
 
 ::: details 範例
 以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 為例
+
 ```json
 {
     "Configurations": {
@@ -163,6 +164,7 @@ MAA 現在會嘗試從註冊表中讀取 `bluestacks.conf` 的儲存位置，當
     }
 }
 ```
+
 :::
 
 ## 連接正常，但是操作卡頓、異常或頻繁出錯

@@ -6,6 +6,7 @@ icon: ph:question-fill
 
 ::: warning
 MAA はバージョン 5.0 で .NET 8 に更新され、エンドユーザーにとって次のような影響を与えます：
+
 1. MAA には .NET 8 Runtime が必要になり、起動時にインストールするようにユーザーに自動的にプロンプトが表示されます。インストールに失敗した場合は、以下をお読みになり、インストールパッケージをダウンロードして手動でインストールしてください。
 2. MAA が Windows Defender によって誤検出されることはなくなりました。~~それが目的です~~
 3. [.NET 8 は Windows 7/8/8.1 システムをサポートしていません](https://github.com/dotnet/core/issues/7556)、その結果、MAA もサポートしなくなりました。 たとえそれがまだ機能していたとしても。
@@ -57,7 +58,7 @@ MAA はバージョン 5.0 で .NET 8 に更新され、エンドユーザーに
 
 - 記のランタイム・ライブラリのインストールはすべて、コンポーネントストレージサービス（CBS、TrustedInstaller/TiWorker、WinSxS）に依存しています。 コンポーネントストレージサービスが破損している場合、インストールは正しく動作しません。
 
--  システムの再インストール以外の修正はお勧めできませんので、いわゆる「軽量/ライト」システムの使用は避けてください。
+- システムの再インストール以外の修正はお勧めできませんので、いわゆる「軽量/ライト」システムの使用は避けてください。
 
 ## 接続エラー
 
@@ -70,8 +71,9 @@ MAA はバージョン 5.0 で .NET 8 に更新され、エンドユーザーに
 - MAA `設定` - `接続設定` - `adbパス` が自動的に入力されていることを確認してください。入力されている場合は、この手順を無視してください。
 
 ::: details 未記入の場合は
-+ エミュレータのインストールパスを見つける。Windowsはエミュレータの実行中にタスクマネージャーでプロセスを右クリックし、 `ファイルの場所を開く` をクリックします。
-+ トップまたはボトムのディレクトリに高確率で `adb.exe` が存在する可能性があります（必ずしもこの名前で呼ばれているとは限りません。`nox_adb.exe`、`HD-adb.exe`、`adb_server.exe` などと呼ばれる場合があります。とにかく名前に `adb` が含まれるexeです） 。それを選択してください。
+
+- エミュレータのインストールパスを見つける。Windowsはエミュレータの実行中にタスクマネージャーでプロセスを右クリックし、 `ファイルの場所を開く` をクリックします。
+- トップまたはボトムのディレクトリに高確率で `adb.exe` が存在する可能性があります（必ずしもこの名前で呼ばれているとは限りません。`nox_adb.exe`、`HD-adb.exe`、`adb_server.exe` などと呼ばれる場合があります。とにかく名前に `adb` が含まれるexeです） 。それを選択してください。
 :::
 
 - 接続アドレスが正しく入力されていることを確認してください。使用しているエミュレータのadbアドレスをインターネットで検索できます。通常は `127.0.0.1:5555` のような形式です（LDPlayerを除く）。
@@ -80,11 +82,11 @@ MAA はバージョン 5.0 で .NET 8 に更新され、エンドユーザーに
 
 関連資料およびリファレンス adbポート：
 
-  - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
-  - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
-  - [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
-  - [Nemu](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
-  - [NOX](https://support.yeshen.com/zh-CN/qt/ml) `62001`
+- [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
+- [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
+- [MuMu 12](https://mumu.163.com/help/20230214/35047_1073151.html) `16384`
+- [Nemu](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
+- [NOX](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
 他のエミュレーターは[@赵青青のブログ](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)を参照してください
 
@@ -144,6 +146,7 @@ Pie64_2コア：（コア名の後の数字は、これがマルチコアであ�
 ```json
 "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
 ```
+
 :::
 
 ### `Bluestacks.Config.Path` を指定する

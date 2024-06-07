@@ -78,7 +78,7 @@ This theme provides icon support, where you can use icons in the following place
 
 ### Setting Document Icons
 
-You can use `icon` in the document's [frontmatter](#Frontmatter) to set the document's icon.
+You can use `icon` in the document's [frontmatter](#frontmatter) to set the document's icon.
 
 This icon will be displayed next to the document title.
 

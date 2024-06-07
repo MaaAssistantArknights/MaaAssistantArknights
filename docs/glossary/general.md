@@ -15,3 +15,5 @@
 好友|Friends|戦友|친구
 情报|Info|図鑑|정보
 理智|Sanity|理性|이성
+
+<!-- markdownlint-disable-file MD041 -->
