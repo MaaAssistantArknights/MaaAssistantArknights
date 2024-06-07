@@ -14,6 +14,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Security;
 using Microsoft.Win32;
 using Serilog;
 
@@ -62,13 +63,6 @@ namespace MaaWpfGui.Utilities
         {
             try
             {
-                // 管理员权限下无法通过启动文件夹开机自启，因此需要检查注册表
-                if (File.Exists(_startupShortcutPath))
-                {
-                    File.Delete(_startupShortcutPath);
-                    SetStart(true);
-                }
-
                 using var key = Registry.CurrentUser.OpenSubKey(CurrentUserRunKey, false);
                 return key?.GetValue(_registryKeyName) != null;
             }
@@ -83,15 +77,19 @@ namespace MaaWpfGui.Utilities
         /// Sets whether this program starts up with OS.
         /// </summary>
         /// <param name="set">The new value.</param>
+        /// <param name="error">Outputs the error message in case of failure.</param>
         /// <returns>Whether the operation is successful.</returns>
-        public static bool SetStart(bool set)
+        public static bool SetStart(bool set, out string error)
         {
+            error = string.Empty;
+
             try
             {
                 using var key = Registry.CurrentUser.OpenSubKey(CurrentUserRunKey, true);
                 if (key == null)
                 {
-                    _logger.Error("Failed to open registry key.");
+                    error = "Failed to open registry key.";
+                    _logger.Error(error);
                     return false;
                 }
 
@@ -107,9 +105,22 @@ namespace MaaWpfGui.Utilities
 
                 return set == CheckStart();
             }
+            catch (UnauthorizedAccessException uae)
+            {
+                error = "Unauthorized access: " + uae.Message;
+                _logger.Error(error);
+                return false;
+            }
+            catch (SecurityException se)
+            {
+                error = "Security error: " + se.Message;
+                _logger.Error(error);
+                return false;
+            }
             catch (Exception e)
             {
-                _logger.Error("Failed to set startup: " + e.Message);
+                error = "Failed to set startup: " + e.Message;
+                _logger.Error(error);
                 return false;
             }
         }
