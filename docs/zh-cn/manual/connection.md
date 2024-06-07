@@ -206,7 +206,7 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 需选择对应模拟器的配置，若列表中没有则选择通用配置。若通用配置不可用请尝试并选择其他任一可用的配置。
 
-具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/321347fa6bf1d29648c8ec3eaaa27d10c1245e35/resource/config.json#L68)。
+具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b/resource/config.json#L74)。
 
 ### MuMu 截图增强模式
 

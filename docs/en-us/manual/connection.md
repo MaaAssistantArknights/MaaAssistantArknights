@@ -59,6 +59,7 @@ For other simulators, please check [Zhao Qingqing’s blog](https://www.cnblogs.
 
 - MuMu 12: The running emulator ports can be found in the upper right corner of the MultiPlayer.
 - Bluestacks 5: The current emulator ports can be viewed in the emulator settings.
+- _TODO_
 
 #### Alternatives
 
@@ -148,7 +149,7 @@ TODO: replace these Chinese emulators links with English ones
 
 You need to select the configuration of the simulator you are using. If it is not in the list, select General Mode. If General Mode is not available please try and select any of the other available presents.
 
-For specific differences, you can read the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/321347fa6bf1d29648c8ec3eaaa27d10c1245e35/resource/config.json#L68).
+For specific differences, you can read the [source code](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b/resource/config.json#L74).
 
 ### MuMu Screenshot Enhanced Mode
 
