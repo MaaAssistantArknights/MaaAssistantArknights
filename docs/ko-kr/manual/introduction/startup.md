@@ -19,3 +19,5 @@ order: 1
 ## 연결 설정
 
 [여기로!](../connection.md)
+
+<!-- markdownlint-disable-file MD036 -->

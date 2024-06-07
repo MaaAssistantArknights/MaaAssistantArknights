@@ -60,7 +60,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 1. まず、MAAのメインリポジトリにアクセスして、コードをforkします。
 
-    ![~ NKHB1CIE8`G(UK@ %3 `H](https://user-images.githubusercontent.com/18511905/193751017-c052c3d4-fe77-433c-af21-eb8138f4b32e.png)
+    ![image](https://user-images.githubusercontent.com/18511905/193751017-c052c3d4-fe77-433c-af21-eb8138f4b32e.png)
 
 2. 「Copy the master branch only」オプションを外して、Create Forkをクリックします。
 

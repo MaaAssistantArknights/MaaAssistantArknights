@@ -111,7 +111,7 @@ icon: mingcute:git-pull-request-fill
     [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
 
-16. 下次如果還想提別的 PR，請先切換到 dev 分支，然後直接如下圖操作  
+15. 下次如果還想提別的 PR，請先切換到 dev 分支，然後直接如下圖操作  
     ::: warning
     這個操作會強制將你的個人倉庫同步到和主倉庫一模一樣的狀態，這是最簡單粗暴但行之有效的解決衝突的方法。但如果你的個人倉庫已經有額外的編輯了，會被直接刪掉！
     :::

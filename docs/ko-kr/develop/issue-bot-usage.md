@@ -54,7 +54,6 @@ Issue Bot은 풀 리퀘스트의 제목을 확인합니다. 아래 키워드로 
 - `Duplicate of #{ISSUE_NUMBER}`는 이슈에 `duplicate(중복)` 라벨을 추가합니다.
 - **코멘트가 Issue Bot을 혼동시킬 수 있는 경우 `skip` 작업을 추가할 수 있습니다.**
 
-
 ::: info 참고
 <sup>1</sup> 여기서 `COMMIT_HASH`는 40자 길이의 전체 해시값입니다.
 :::

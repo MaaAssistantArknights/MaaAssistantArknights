@@ -11,8 +11,6 @@ icon: teenyicons:linux-alt-solid
 MAA의 빌드 방법은 여전히 논의 중입니다. 이 튜토리얼의 내용은 오래되었을 수 있으므로 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134)의 스크립트를 참고하세요. 또한 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights) 및 [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)을 참고할 수 있습니다.
 :::
 
-
-
 ## 컴파일 과정
 
 1. 컴파일에 필요한 종속성 다운로드
@@ -77,6 +75,3 @@ MAA의 빌드 방법은 여전히 논의 중입니다. 이 튜토리얼의 내�
 ### C\#
 
 [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Helper/AsstProxy.cs)의 구현을 참조하세요.
-
-
-

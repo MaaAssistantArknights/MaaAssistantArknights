@@ -60,7 +60,7 @@ icon: iconoir:developer
     ```
 
 11. 打開 [MAA 主倉庫](https://github.com/MaaAssistantArknights/MaaAssistantArknights)。提交一個 Pull Request，等待管理員通過。別忘了你是在 dev 分支上修改，別提交到 master 分支去了。
- 
+
 12. 當 MAA 主倉庫出現更改（別人做的），你可能需要把這些更改同步到你的分支
     1. 關聯 MAA 主倉庫
 

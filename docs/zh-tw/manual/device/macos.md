@@ -6,6 +6,7 @@ icon: basil:apple-solid
 ::: tip
 遇到問題請先參考 [1.2-常見問題](1.2-常見問題.md)
 :::
+
 ## Apple Silicon 晶片
 
 ### ✅ [PlayCover](https://playcover.io)（原生執行最流暢🚀）
