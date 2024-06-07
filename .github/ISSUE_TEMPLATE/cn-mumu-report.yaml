@@ -1,6 +1,6 @@
-name: Bug 反馈（使用中文）
-description: 识别错误、操作异常、连接错误等
-labels: ['bug']
+name: MuMu 极速操控反馈（使用中文）
+description: 有关 MuMu 极速操控模式的集中反馈
+labels: ['mumu api']
 body:
   - type: checkboxes
     id: checks
@@ -11,10 +11,18 @@ body:
         required: true
       - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
         required: true
-      - label: 我已查看最新测试版本的更新内容，并未提及该 Bug 已被修复的情况
-        required: true
       - label: 我已检查了置顶议题（pinned issue），确认我的问题未被提及
         required: true
+      - label: 我正在使用最新的 MAA 内测版本，问题依然存在
+        required: true
+      - label: 我正在使用最新的官版 MuMu 模拟器，而非方舟专版、国际版等
+        required: true
+      - label: 我已参考文档确定安装路径、实例编号、屏幕编号填写正确
+        required: true
+      - label: 我确定未开启高帧率模式，显存使用策略为“画面表现更好”
+        required: false
+      - label: 我正在使用后台保活功能，并确定该问题仅在开启后台保活时出现
+        required: false
   - type: textarea
     id: describe
     attributes:
@@ -27,20 +35,30 @@ body:
     attributes:
       label: Version
       description: >-
-        请提供 MAA 版本。可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。
+        请提供 MAA 版本和 MuMu 版本。MAA 版本可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。MuMu 版本可在右上角菜单按钮 -> 关于 MuMu 中找到。
       placeholder: |
-        Resource Version:
-        UI Version:
-        Core Version:
+        Resource Version: 
+        UI Version: 
+        Core Version: 
+        MuMu 版本号: 
     validations:
       required: true
   - type: textarea
     id: logs
     attributes:
-      label: 日志文件
+      label: MAA 日志文件
       description: |
-        **请在关闭MAA后，上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
+        **上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
+    validations:
+      required: true
+  - type: textarea
+    id: mumulogs
+    attributes:
+      label: MuMu 问题诊断
+      description: |
+        **在 MuMu 右上角菜单按钮 -> 问题诊断 中点击 复制配置信息，并将全部内容粘贴进来。**
+        **注意隐去 电脑出口IP地址 等以保护个人隐私**
     validations:
       required: true
   - type: textarea
@@ -59,7 +77,7 @@ body:
     attributes:
       label: 还有别的吗？
       description: |
-        使用的模拟器？操作系统？相关的配置？链接？参考资料？
+        操作系统？相关的配置？链接？参考资料？
         任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false
