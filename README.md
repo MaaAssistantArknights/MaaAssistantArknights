@@ -21,7 +21,7 @@
 </div>
 <br>
 
-[简体中文](https://maa.plus/docs/zh-cn) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
+[简体中文](https://maa.plus/docs/zh-cn/) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -129,10 +129,10 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - [Rust 接口](src/Rust/src/maa_sys)：[HTTP 接口](src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaX/tree/main/packages/main/coreLoader)
 - [Woolang 接口](src/Woolang/maa.wo)：[集成示例](src/Woolang/demo.wo)
-- [集成文档](https://maa.plus/docs/zh-cn/protocol/integration.md)
-- [回调消息协议](https://maa.plus/docs/zh-cn/protocol/callback-schema.md)
-- [任务流程协议](https://maa.plus/docs/zh-cn/protocol/task-schema.md)
-- [自动抄作业协议](https://maa.plus/docs/zh-cn/protocol/copilot-schema.md)
+- [集成文档](https://maa.plus/docs/zh-cn/protocol/integration.html)
+- [回调消息协议](https://maa.plus/docs/zh-cn/protocol/callback-schema.html)
+- [任务流程协议](https://maa.plus/docs/zh-cn/protocol/task-schema.html)
+- [自动抄作业协议](https://maa.plus/docs/zh-cn/protocol/copilot-schema.html)
 
 #### 外服适配
 
@@ -144,7 +144,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 #### Issue bot
 
-请参阅 [Issue bot 使用方法](https://maa.plus/docs/zh-cn/develop/issue-bot-usage.html)
+请参阅 [Issue Bot 使用方法](https://maa.plus/docs/zh-cn/develop/issue-bot-usage.html)
 
 ## 致谢
 
