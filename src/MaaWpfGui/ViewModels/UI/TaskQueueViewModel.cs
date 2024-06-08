@@ -259,6 +259,7 @@ namespace MaaWpfGui.ViewModels.UI
                 _ = Task.Run(async () =>
                 {
                     await Task.Delay(delayTime);
+                    await _runningState.UntilIdleAsync(60000);
                     await _stageManager.UpdateStageWeb();
                     UpdateDatePrompt();
                     UpdateStageList(false);
