@@ -255,6 +255,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
+    <system:String x:Key="CopilotWithScript">自动战斗时启用上述脚本</system:String>
+    <system:String x:Key="ManualStopWithScript">手动暂停时启用上述脚本</system:String>
     <system:String x:Key="BlockSleep">运行任务时阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠时保持屏幕常亮</system:String>
     <system:String x:Key="ScreencapCost">截图耗时 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
@@ -729,7 +731,7 @@
     <system:String x:Key="Issue">问题反馈</system:String>
     <!--  !About  -->
     <!--  AutoRecruitSettings  -->
-    <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
+    <system:String x:Key="AutoRefresh">无倾向 Tag 时自动刷新 3 星 Tags</system:String>
     <system:String x:Key="ForceRefresh">无招聘许可时继续尝试刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</system:String>
@@ -799,11 +801,23 @@
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">目前生息演算的支持仍处于早期阶段，使用时请注意以下几点：
-    1. 不能在已经有存档的情况下使用（删除现有存档即可）
-    2. 不能在生息演算的编队中有干员的情况下使用（把生息演算中的当前编队清空即可，特别是打完浪潮之后）
-    3. 必须在生息演算主界面开始任务（导航还没写）
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">可通过高级设置中的选项切换模式
+
+目前生息演算的支持仍处于早期阶段，使用时请注意以下几点：
+
+ 在普通模式下：
+  1. 不能在已经有存档的情况下使用（删除现有存档即可）
+  2. 不能在生息演算的编队中有干员的情况下使用（把生息演算中的当前编队清空即可，特别是打完浪潮之后）
+  3. 必须在生息演算主界面开始任务（导航还没写）
+
+ 通过制造刷点数：
+  1. 要求是结算后的第一天，且后续三天没有敌袭进入驻扎地
+  2. 必须在进入生息演算中开始（能看到驻扎地的页面）
+  3. 如果能制造的数量刚好是 99 的倍数会卡住，在存档前可以先用掉一点，这个之后再修
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
+    <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">支援道具名称</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

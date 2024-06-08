@@ -199,7 +199,7 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         Log.warn("index out of range:", index, m_custom_config.size());
         return false;
     }
-    
+
     InfrastFacilityImageAnalyzer analyzer(ctrler()->get_image());
     analyzer.set_to_be_analyzed({ facility_name() });
     if (!analyzer.analyze()) {
@@ -211,8 +211,6 @@ bool asst::InfrastAbstractTask::enter_facility(int index)
         Log.info("facility index is out of range");
         return false;
     }
-    // 点击前先等一下，避免点太快 | Wait a moment before clicking to avoid clicking too fast
-    sleep(500);
     ctrler()->click(rect);
     m_cur_facility_index = index;
 
@@ -308,7 +306,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         // 最后一页会触底反弹，先糊个屎避免一下
         // 总不能有成体系的干员了还没160个人吧）
         if(swipe_times > 20) {
-            sleep(1500);
+            sleep(500);
         }
     }
 
@@ -333,11 +331,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         order_opers_selection(opers_order);
     }
 
-    if (!room_config.names.empty()) {
-        return false;
-    }
-
-    if (!is_dorm_order && !select_opers_review(origin_room_config)) {
+    if (!room_config.names.empty() || (!is_dorm_order && !select_opers_review(origin_room_config))) {
         // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
         current_room_config() = std::move(origin_room_config);
         return false;

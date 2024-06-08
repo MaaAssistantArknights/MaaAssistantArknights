@@ -130,7 +130,6 @@ bool asst::MinitouchController::use_swipe_with_pause() const noexcept
 
 bool asst::MinitouchController::click(const Point& p)
 {
-
     if (!m_minitoucher) {
         Log.error("minitoucher is not initialized");
         return false;

@@ -30,6 +30,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -266,8 +267,27 @@
             Drop="EndsWithScript_Drop"
             PreviewDragOver="TextBox_PreviewDragOver"
             Text="{Binding EndsWithScript}" />
-        <StackPanel
+        <WrapPanel
             Grid.Row="9"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource CopilotWithScript}"
+                IsChecked="{Binding CopilotWithScript}" />
+            <CheckBox
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Content="{DynamicResource ManualStopWithScript}"
+                IsChecked="{Binding ManualStopWithScript}" />
+        </WrapPanel>
+        <StackPanel
+            Grid.Row="10"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
@@ -287,7 +307,7 @@
                 Visibility="{c:Binding BlockSleep}" />
         </StackPanel>
         <controls:TextBlock
-            Grid.Row="10"
+            Grid.Row="11"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"

@@ -887,6 +887,14 @@
         "sortId": 10201,
         "usage": "위기 협약을 완료한 후 획득하는 보수. 보급품으로 교환할 수 있다."
     },
+    "CRISIS_SHOP_COIN_V2": {
+        "classifyType": "NORMAL",
+        "description": "냉혹하지만 효과적인 상금 제도. 위기 협약 시스템이 정상적으로 운영되도록 해주는 유일한 보증이다.",
+        "icon": "CRISIS_SHOP_COIN_V2.png",
+        "name": "결정 협약 상금",
+        "sortId": 10202,
+        "usage": "위기 협약을 완료한 후 획득하는 보수. 보급품으로 교환할 수 있다."
+    },
     "EPGS_COIN": {
         "classifyType": "NORMAL",
         "description": "헤드헌팅 회사에 얼마나 많은 성의를 증명하였는지 고려해볼 수 있는 부분이다. 이와 같은 수단을 써서 자원을 보충하려 했다간, 득보다 실이 더 클 수도 있으니 주의하도록 하자.",

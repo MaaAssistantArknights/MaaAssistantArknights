@@ -7,7 +7,7 @@
       "variables": {
         "projectName": "MaaWpfGui",
         "solutionName": "MaaCoreArknights",
-        "licenseName": "GNU General Public License"
+        "licenseName": "GNU Affero General Public License v3.0 only"
       }
     }
   }

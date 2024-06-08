@@ -285,7 +285,9 @@ bool asst::AutoRecruitTask::_run()
                 // the bottom-right slot. ref: #1491
                 if (check_recruit_home_page()) {
                     // ran out of expedited plan? stop trying
-                    try_use_expedited = false;
+                    // however, there is another possibility (#7266: all the slots are empty now)
+                    // if we can get another start btn, we still have a chance to continue
+                    try_use_expedited = try_get_start_button(ctrler()->get_image()).has_value();
                 }
                 else {
                     Log.info("Not in home page after failing to use expedited plan.");
@@ -691,6 +693,7 @@ asst::AutoRecruitTask::calc_task_result_type
             return result;
         }
 
+        // get selections
         auto final_select = get_select_tags(result_vec, tag_ids);
 
         // select tags
@@ -862,12 +865,13 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(
                     return select;
                 }
             }
+            return select;
         }
     }
     if (m_select_extra_tags_mode == ExtraTagsMode::NoExtra) {
         return combinations.front().tags;
     }
-    if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
+    else if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
         while (select.size() < 3) {
             for (const asst::RecruitCombs& comb : combinations) {
                 for (const std::string& tag : comb.tags) {

@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -15,6 +15,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
@@ -107,7 +108,7 @@ namespace MaaWpfGui.Views.UI
         {
             if (Instances.TaskQueueViewModel.ConfirmExit())
             {
-                Application.Current.Shutdown();
+                Bootstrapper.Shutdown();
             }
         }
 

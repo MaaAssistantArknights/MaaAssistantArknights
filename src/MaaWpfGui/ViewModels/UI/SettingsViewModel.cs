@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -611,11 +611,14 @@ namespace MaaWpfGui.ViewModels.UI
             get => _startSelf;
             set
             {
-                SetAndNotify(ref _startSelf, value);
-                if (!AutoStart.SetStart(value))
+                if (!AutoStart.SetStart(value, out var error))
                 {
                     _logger.Error("Failed to set startup.");
+                    MessageBoxHelper.Show(error);
+                    return;
                 }
+
+                SetAndNotify(ref _startSelf, value);
             }
         }
 
@@ -771,6 +774,30 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _copilotWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotWithScript, bool.FalseString));
+
+        public bool CopilotWithScript
+        {
+            get => _copilotWithScript;
+            set
+            {
+                SetAndNotify(ref _copilotWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CopilotWithScript, value.ToString());
+            }
+        }
+
+        private bool _manualStopWithScript = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ManualStopWithScript, bool.FalseString));
+
+        public bool ManualStopWithScript
+        {
+            get => _manualStopWithScript;
+            set
+            {
+                SetAndNotify(ref _manualStopWithScript, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.ManualStopWithScript, value.ToString());
+            }
+        }
+
         private bool _blockSleep = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BlockSleep, bool.FalseString));
 
         public bool BlockSleep
@@ -803,7 +830,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _screencapCost, value);
         }
 
-        public void RunScript(string str)
+        public void RunScript(string str, bool showLog = true)
         {
             bool enable = str switch
             {
@@ -824,18 +851,24 @@ namespace MaaWpfGui.ViewModels.UI
                 _ => () => false,
             };
 
-            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str)));
+            if (!showLog)
+            {
+                if (!func())
+                {
+                    _logger.Warning("Failed to execute the script.");
+                }
+
+                return;
+            }
+
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("StartTask") + LocalizationHelper.GetString(str));
             if (func())
             {
-                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str)));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString(str));
             }
             else
             {
-                Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                    LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str),
-                    UiLogColor.Warning));
+                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + LocalizationHelper.GetString(str), UiLogColor.Warning);
             }
         }
 
@@ -1037,10 +1070,10 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     if (e is Win32Exception { NativeErrorCode: 740 })
                     {
-                        Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                            LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning));
+                        Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("EmulatorStartFailed"), UiLogColor.Warning);
 
-                        _logger.Warning("Insufficient permissions to start the emulator:\n" +
+                        _logger.Warning(
+                            "Insufficient permissions to start the emulator:\n" +
                             "EmulatorPath: " + EmulatorPath + "\n");
                     }
                     else
@@ -1065,18 +1098,14 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (i % 10 == 0)
                 {
-                    // 避免捕获的变量在闭包中被修改
-                    var i1 = i;
-                    Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                        LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i1) + "s"));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulator") + ": " + (delay - i) + "s");
                     _logger.Information("Waiting for the emulator to start: " + (delay - i) + "s");
                 }
 
                 Thread.Sleep(1000);
             }
 
-            Execute.OnUIThread(() => Instances.TaskQueueViewModel.AddLog(
-                LocalizationHelper.GetString("WaitForEmulatorFinish")));
+            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("WaitForEmulatorFinish"));
             _logger.Information("The wait is over");
 
             // 重置按钮状态，不影响后续判断
@@ -1912,6 +1941,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool RoguelikeSquadIsProfessional =>
+            RoguelikeMode == "4" &&
+            RoguelikeTheme != "Phantom" &&
+            RoguelikeSquad is "突击战术分队" or "堡垒战术分队" or "远程战术分队" or "破坏战术分队";
+
+        public bool RoguelikeSquadIsFoldartal =>
+            RoguelikeMode == "4" &&
+            RoguelikeTheme == "Sami" &&
+            RoguelikeSquad == "生活至上分队";
+
         private string _roguelikeRoles = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRoles, string.Empty);
 
         /// <summary>
@@ -1974,7 +2013,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeStartWithEliteTwo
         {
-            get => bool.Parse(_roguelikeStartWithEliteTwo);
+            get => bool.Parse(_roguelikeStartWithEliteTwo) && RoguelikeSquadIsProfessional;
             set
             {
                 switch (value)
@@ -2000,7 +2039,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeOnlyStartWithEliteTwo
         {
-            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo);
+            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo) && RoguelikeStartWithEliteTwo;
             set
             {
                 SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value.ToString());
@@ -2015,7 +2054,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool Roguelike3FirstFloorFoldartal
         {
-            get => bool.Parse(_roguelike3FirstFloorFoldartal);
+            get => bool.Parse(_roguelike3FirstFloorFoldartal) && RoguelikeMode == "4" && RoguelikeTheme == "Sami";
             set
             {
                 SetAndNotify(ref _roguelike3FirstFloorFoldartal, value.ToString());
@@ -2042,7 +2081,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool Roguelike3NewSquad2StartingFoldartal
         {
-            get => bool.Parse(_roguelike3NewSquad2StartingFoldartal);
+            get => bool.Parse(_roguelike3NewSquad2StartingFoldartal) && RoguelikeSquadIsFoldartal;
             set
             {
                 SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, value.ToString());
@@ -2149,7 +2188,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeInvestmentWithMoreScore
         {
-            get => bool.Parse(_roguelikeInvestmentWithMoreScore);
+            get => bool.Parse(_roguelikeInvestmentWithMoreScore) && RoguelikeMode == "1";
             set
             {
                 SetAndNotify(ref _roguelikeInvestmentWithMoreScore, value.ToString());
@@ -2196,6 +2235,32 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, value.ToString());
+            }
+        }
+
+        /* 生息演算设置 */
+
+        private bool _reclamation2ExEnable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Reclamation2ExEnable, bool.FalseString));
+
+        public bool Reclamation2ExEnable
+        {
+            get => _reclamation2ExEnable;
+            set
+            {
+                SetAndNotify(ref _reclamation2ExEnable, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Reclamation2ExEnable, value.ToString());
+            }
+        }
+
+        private string _reclamation2ExProduct = ConfigurationHelper.GetValue(ConfigurationKeys.Reclamation2ExProduct, string.Empty);
+
+        public string Reclamation2ExProduct
+        {
+            get => _reclamation2ExProduct;
+            set
+            {
+                SetAndNotify(ref _reclamation2ExProduct, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.Reclamation2ExProduct, value);
             }
         }
 

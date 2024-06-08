@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -80,6 +80,8 @@ namespace MaaWpfGui.Constants
         public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
         public const string StartsWithScript = "Start.StartsWithScript";
         public const string EndsWithScript = "Start.EndsWithScript";
+        public const string CopilotWithScript = "Start.CopilotWithScript";
+        public const string ManualStopWithScript = "Start.ManualStopWithScript";
         public const string BlockSleep = "Start.BlockSleep";
         public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
 
@@ -130,6 +132,9 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
+
+        public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
+        public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";

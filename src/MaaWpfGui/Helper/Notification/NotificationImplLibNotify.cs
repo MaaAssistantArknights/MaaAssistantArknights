@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -19,6 +19,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MaaWpfGui.WineCompat;
+using Stylet;
 
 namespace MaaWpfGui.Helper.Notification;
 
@@ -44,7 +45,7 @@ internal class NotificationImplLibNotify : INotificationPoster
             return false;
         }
 
-        Application.Current.Dispatcher.Invoke(() =>
+        Execute.OnUIThread(() =>
         {
             var bmp3 = new FormatConvertedBitmap(AppIcon.GetIcon(), PixelFormats.Bgra32, null, 0);
             var pixels = new byte[bmp3.PixelWidth * bmp3.PixelHeight * 4];

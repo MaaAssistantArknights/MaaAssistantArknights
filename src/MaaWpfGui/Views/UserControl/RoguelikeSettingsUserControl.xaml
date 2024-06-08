@@ -100,7 +100,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding RoguelikeInvestmentWithMoreScore}"
-                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot;'}" >
+                Visibility="{c:Binding 'RoguelikeMode == &quot;1&quot;'}">
                 <TextBlock
                     Block.TextAlignment="Left"
                     Text="{DynamicResource InvestmentWithMoreScore}"

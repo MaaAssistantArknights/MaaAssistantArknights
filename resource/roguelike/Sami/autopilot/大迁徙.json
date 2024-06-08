@@ -176,5 +176,17 @@
             ],
             "direction": "down"
         }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                10,
+                1
+            ],
+            "condition": [
+                8,
+                11
+            ]
+        }
     ]
 }
