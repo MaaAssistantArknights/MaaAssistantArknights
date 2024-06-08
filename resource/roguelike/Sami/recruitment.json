@@ -2339,7 +2339,7 @@
                                 "术师"
                             ],
                             "threshold": 1,
-                            "offset": -100
+                            "offset": -130
                         }
                     ]
                 },
@@ -2496,8 +2496,9 @@
                 },
                 {
                     "name": "灵知",
-                    "skill": 2,
+                    "skill": 3,
                     "is_key": true,
+                    "alternate_skill": 1,
                     "recruit_priority": 526,
                     "promote_priority": 602
                 },
@@ -3492,7 +3493,6 @@
                     "skill": 2,
                     "recruit_priority": 570,
                     "promote_priority": 601,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": [
@@ -4252,23 +4252,23 @@
     "team_complete_condition": [
         {
             "groups": [
+                "益达",
                 "玛恩纳",
-                "焰苇",
                 "水陈"
             ],
             "threshold": 1
         },
         {
             "groups": [
-                "益达",
                 "重装",
-                "凯尔希",
-                "近卫"
+                "近卫",
+                "凯尔希"
             ],
             "threshold": 2
         },
         {
             "groups": [
+                "焰苇",
                 "单奶",
                 "群奶"
             ],

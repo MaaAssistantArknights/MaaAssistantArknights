@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -26,6 +26,7 @@ using System.Windows.Threading;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.Models;
 using MaaWpfGui.Services;
 using MaaWpfGui.States;
@@ -74,7 +75,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once MemberCanBePrivate.Global
         public void TaskItemSelectionChanged()
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Execute.OnUIThread(() =>
             {
                 int index = 0;
                 foreach (var item in TaskItemViewModels)
@@ -626,9 +627,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="weight">The font weight.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular")
         {
-            var log = new LogItemViewModel(content, color, weight);
-            LogItemViewModels.Add(log);
-            _logger.Information(content);
+            Execute.OnUIThread(() =>
+            {
+                var log = new LogItemViewModel(content, color, weight);
+                LogItemViewModels.Add(log);
+                _logger.Information(content);
+            });
         }
 
         /// <summary>
@@ -1072,6 +1076,10 @@ namespace MaaWpfGui.ViewModels.UI
         public void SetStopped()
         {
             SleepManagement.AllowSleep();
+            if (Instances.SettingsViewModel.ManualStopWithScript)
+            {
+                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+            }
 
             if (!_runningState.GetIdle() || Stopping)
             {
@@ -1384,25 +1392,46 @@ namespace MaaWpfGui.ViewModels.UI
                 cfmList.Add(5);
             }
 
-            int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
+            _ = int.TryParse(Instances.SettingsViewModel.SelectExtraTags, out var selectExtra);
 
             return Instances.AsstProxy.AsstAppendRecruit(
-                maxTimes, firstList.ToArray(), reqList.ToArray(), cfmList.ToArray(), Instances.SettingsViewModel.RefreshLevel3, Instances.SettingsViewModel.ForceRefresh, Instances.SettingsViewModel.UseExpedited,
-                selectExtra, Instances.SettingsViewModel.NotChooseLevel1, Instances.SettingsViewModel.IsLevel3UseShortTime, Instances.SettingsViewModel.IsLevel3UseShortTime2);
+                maxTimes,
+                firstList.ToArray(),
+                [.. reqList],
+                [.. cfmList],
+                Instances.SettingsViewModel.RefreshLevel3,
+                Instances.SettingsViewModel.ForceRefresh,
+                Instances.SettingsViewModel.UseExpedited,
+                selectExtra,
+                Instances.SettingsViewModel.NotChooseLevel1,
+                Instances.SettingsViewModel.IsLevel3UseShortTime,
+                Instances.SettingsViewModel.IsLevel3UseShortTime2);
         }
 
         private static bool AppendRoguelike()
         {
-            int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
+            _ = int.TryParse(Instances.SettingsViewModel.RoguelikeMode, out var mode);
 
             return Instances.AsstProxy.AsstAppendRoguelike(
-                mode, Instances.SettingsViewModel.RoguelikeStartsCount,
-                Instances.SettingsViewModel.RoguelikeInvestmentEnabled, Instances.SettingsViewModel.RoguelikeInvestmentWithMoreScore, Instances.SettingsViewModel.RoguelikeInvestsCount, Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
-                Instances.SettingsViewModel.RoguelikeSquad, Instances.SettingsViewModel.RoguelikeRoles, DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
-                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo, Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo,
-                Instances.SettingsViewModel.Roguelike3FirstFloorFoldartal, Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
-                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal, Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
-                Instances.SettingsViewModel.RoguelikeUseSupportUnit, Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport, Instances.SettingsViewModel.RoguelikeTheme, Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
+                mode,
+                Instances.SettingsViewModel.RoguelikeStartsCount,
+                Instances.SettingsViewModel.RoguelikeInvestmentEnabled,
+                Instances.SettingsViewModel.RoguelikeInvestmentWithMoreScore,
+                Instances.SettingsViewModel.RoguelikeInvestsCount,
+                Instances.SettingsViewModel.RoguelikeStopWhenInvestmentFull,
+                Instances.SettingsViewModel.RoguelikeSquad,
+                Instances.SettingsViewModel.RoguelikeRoles,
+                DataHelper.GetCharacterByNameOrAlias(Instances.SettingsViewModel.RoguelikeCoreChar)?.Name ?? Instances.SettingsViewModel.RoguelikeCoreChar,
+                Instances.SettingsViewModel.RoguelikeStartWithEliteTwo,
+                Instances.SettingsViewModel.RoguelikeOnlyStartWithEliteTwo,
+                Instances.SettingsViewModel.Roguelike3FirstFloorFoldartal,
+                Instances.SettingsViewModel.Roguelike3StartFloorFoldartal,
+                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartal,
+                Instances.SettingsViewModel.Roguelike3NewSquad2StartingFoldartals,
+                Instances.SettingsViewModel.RoguelikeUseSupportUnit,
+                Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport,
+                Instances.SettingsViewModel.RoguelikeTheme,
+                Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
         }
 
         private static bool AppendReclamation()
@@ -1412,7 +1441,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static bool AppendReclamation2()
         {
-            return Instances.AsstProxy.AsstAppendReclamation2();
+            return Instances.AsstProxy.AsstAppendReclamation2(
+                Instances.SettingsViewModel.Reclamation2ExEnable ? 1 : 0,
+                Instances.SettingsViewModel.Reclamation2ExProduct);
         }
 
         [DllImport("User32.dll", EntryPoint = "FindWindow")]
@@ -2053,9 +2084,9 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Checks after completion.
         /// </summary>
-        public void CheckAfterCompleted()
+        public async void CheckAfterCompleted()
         {
-            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+            await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
 
             switch (ActionAfterCompleted)
             {
@@ -2072,7 +2103,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 case ActionType.ExitSelf:
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
 
                     // Environment.Exit(0);
                     break;
@@ -2092,7 +2123,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
 
                     // Environment.Exit(0);
                     break;
@@ -2144,7 +2175,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Process.Start("shutdown.exe", "-h");
 
                     // Shutdown 会调用 OnExit 但 Exit 不会
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
 
                     // Environment.Exit(0);
                     break;

@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -118,11 +118,14 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="showTime">Wether show time.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
         {
-            LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
-            if (showTime)
+            Execute.OnUIThread(() =>
             {
-                _logger.Information(content);
-            }
+                LogItemViewModels.Add(new LogItemViewModel(content, color, weight, "HH':'mm':'ss", showTime: showTime));
+                if (showTime)
+                {
+                    _logger.Information(content);
+                }
+            });
 
             // LogItemViewModels.Insert(0, new LogItemViewModel(time + content, color, weight));
         }
@@ -916,7 +919,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public void CopilotTaskSuccess()
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Execute.OnUIThread(() =>
             {
                 foreach (var model in CopilotItemViewModels)
                 {
@@ -947,7 +950,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once MemberCanBePrivate.Global
         public void CopilotItemIndexChanged()
         {
-            Application.Current.Dispatcher.InvokeAsync(() =>
+            Execute.OnUIThread(() =>
             {
                 for (int i = 0; i < CopilotItemViewModels.Count; i++)
                 {
@@ -994,6 +997,15 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
+            if (Instances.SettingsViewModel.CopilotWithScript)
+            {
+                await Task.Run(() => Instances.SettingsViewModel.RunScript("StartsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.StartsWithScript))
+                {
+                    AddLog(LocalizationHelper.GetString("StartsWithScript"));
+                }
+            }
+
             AddLog(LocalizationHelper.GetString("ConnectingToEmulator"));
             if (!Instances.SettingsViewModel.AdbReplaced && !Instances.SettingsViewModel.IsAdbTouchMode())
             {
@@ -1011,6 +1023,7 @@ namespace MaaWpfGui.ViewModels.UI
             if (errMsg.Length != 0)
             {
                 AddLog(errMsg, UiLogColor.Error);
+                Stop();
             }
 
             UserAdditional = UserAdditional.Replace("，", ",").Replace("；", ";").Trim();
@@ -1076,6 +1089,15 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void Stop()
         {
+            if (Instances.SettingsViewModel.CopilotWithScript && Instances.SettingsViewModel.ManualStopWithScript)
+            {
+                Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
+                if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                {
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
+                }
+            }
+
             if (!Instances.AsstProxy.AsstStop())
             {
                 _logger.Warning("Failed to stop Asst");

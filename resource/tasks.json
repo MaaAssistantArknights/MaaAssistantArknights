@@ -5908,6 +5908,7 @@
             330,
             150
         ],
+        "preDelay": 500,
         "next": [
             "CloseTaskAward"
         ]
@@ -12315,8 +12316,10 @@
             190,
             144
         ],
+        "postDelay": 1000,
         "next": [
-            "Roguelike@GamePassSkip1Confirm"
+            "Roguelike@GamePassSkip1Confirm",
+            "Roguelike@GamePassSkip1"
         ]
     },
     "Roguelike@GamePassSkip1Confirm": {
@@ -14432,14 +14435,15 @@
     },
     "Mizuki@Roguelike@Continue": {},
     "Mizuki@Roguelike@DataTraceback": {
-        "action": "DoNothing",
+        "action": "ClickSelf",
         "cache": false,
         "roi": [
-            56,
-            277,
-            243,
-            152
+            1114,
+            0,
+            166,
+            134
         ],
+        "postDelay": 500,
         "next": [
             "Mizuki@Roguelike@ClickToStartPoint"
         ]
@@ -14860,7 +14864,7 @@
         "baseTask": "Mizuki@Roguelike@Stages_default"
     },
     "Mizuki@Roguelike@Stages_aggressive": {
-        "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
+        "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
             "Mizuki@Roguelike@NextLevel",
@@ -14877,7 +14881,9 @@
             "Mizuki@Roguelike@CommissionedMissionCompleted",
             "Mizuki@Roguelike@DiceConfirm",
             "Mizuki@Roguelike@CloseCollectionContinue",
-            "Mizuki@Roguelike@CloseCollectionClose"
+            "Mizuki@Roguelike@CloseCollectionClose",
+            "Mizuki@Roguelike@StageDreadfulFoe",
+            "Mizuki@Roguelike@StageDreadfulFoe-5"
         ]
     },
     "Mizuki@Roguelike@Stages_default": {
@@ -15433,40 +15439,100 @@
             0,
             0,
             0
+        ],
+        "ocrReplace": [
+            [
+                "黜",
+                "黜人"
+            ],
+            [
+                "满",
+                "萨满"
+            ],
+            [
+                "\"",
+                ""
+            ]
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStage": {
         "cache": false,
         "action": "ClickSelf",
-        "template": [
-            "Sami@Roguelike@FoldartalUseOnGambling.png",
-            "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
-            "Sami@Roguelike@FoldartalUseOnEmergencyTransportation.png",
-            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
-            "Sami@Roguelike@FoldartalUseOnMysteriousPresage.png",
-            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
-            "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png",
-            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png",
-            "Sami@Roguelike@FoldartalUseOnEncounter.png",
-            "Sami@Roguelike@FoldartalUseOnTrader.png"
-        ],
-        "templThreshold": [
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7,
-            0.7
-        ],
+        "template": "empty.png",
+        "maxTimes": 10,
         "roi": [
             429,
             111,
             844,
             477
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageBattle": {
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageBoss": {
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png"
+        ],
+        "templThreshold": [
+            0.7
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageEncounter": {
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnEncounter.png"
+        ],
+        "templThreshold": [
+            0.7
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageGambling": {
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnGambling.png",
+            "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyTransportation.png",
+            "Sami@Roguelike@FoldartalUseOnMysteriousPresage.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7,
+            0.7
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageSkipBattle": {
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+            "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+            "Sami@Roguelike@FoldartalUseOnFerociousPresage.png"
+        ],
+        "templThreshold": [
+            0.7,
+            0.7,
+            0.7
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseOnStageTrader": {
+        "baseTask": "Sami@Roguelike@FoldartalUseOnStage",
+        "template": [
+            "Sami@Roguelike@FoldartalUseOnTrader.png"
+        ],
+        "templThreshold": [
+            0.7
         ]
     },
     "Sami@Roguelike@GamePass": {},
@@ -16178,11 +16244,70 @@
     "Sami@Roguelike@Stages": {
         "baseTask": "Sami@Roguelike@Stages_default"
     },
+    "Sami@Roguelike@StagesChaosZero": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "Doc": "特殊值识别，当抗干扰为0时不进行纵向移动",
+        "text": [
+            "0"
+        ],
+        "roi": [
+            615,
+            0,
+            80,
+            45
+        ],
+        "ocrReplace": [
+            [
+                "O",
+                "0"
+            ]
+        ],
+        "next": [
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StageBoskyPassage",
+            "Sami@Roguelike@StageBoskyPassageAI6",
+            "Sami@Roguelike@StageTrader",
+            "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageSafeHouse",
+            "Sami@Roguelike@StageSafeHouseAI6",
+            "Sami@Roguelike@StageBoons",
+            "Sami@Roguelike@StageBoonsAI6",
+            "Sami@Roguelike@StageCombatDps",
+            "Sami@Roguelike@StageCombatDpsAI6",
+            "Sami@Roguelike@StageFerociousPresage",
+            "Sami@Roguelike@StageEmergencyTransportation",
+            "Sami@Roguelike@StageEmergencyTransportationAI6",
+            "Sami@Roguelike@StageMysteriousPresage",
+            "Sami@Roguelike@StageGambling",
+            "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageProphecy",
+            "Sami@Roguelike@StageProphecyAI6",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageWindAndRain",
+            "Sami@Roguelike@StageWindAndRainAI6",
+            "Sami@Roguelike@StageDreadfulFoe",
+            "Sami@Roguelike@StageDreadfulFoe-5",
+            "Sami@Roguelike@StageEmergencyDps",
+            "Sami@Roguelike@StageEmergencyDpsAI6",
+            "Sami@Roguelike@CloseCollectionClose",
+            "Sami@Roguelike@ChooseOperFlag",
+            "Sami@Roguelike@StageEncounterSpecialClose",
+            "Sami@Roguelike@TraderRandomShopping",
+            "Sami@Roguelike@StageTraderLeave",
+            "Sami@Roguelike@StageEncounterOptions#next",
+            "Sami@Roguelike@DropsFlag",
+            "Sami@Roguelike@StartUpThemes#next",
+            "Sami@Roguelike@ClickToDrops"
+        ]
+    },
     "Sami@Roguelike@Stages_aggressive": {
-        "Doc": "优先紧急作战,1-2层，删掉了boss点的判断",
+        "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
             "Sami@Roguelike@StageBoskyPassage",
@@ -16210,8 +16335,6 @@
             "Sami@Roguelike@StageTraderAI6",
             "Sami@Roguelike@StageEncounter",
             "Sami@Roguelike@StageEncounterAI6",
-            "Sami@Roguelike@StageVerticalEncounter",
-            "Sami@Roguelike@StageVerticalEncounterAI6",
             "Sami@Roguelike@StageVerticalProphecy",
             "Sami@Roguelike@StageVerticalProphecyAI6",
             "Sami@Roguelike@StageWindAndRain",
@@ -16222,6 +16345,8 @@
             "Sami@Roguelike@StageEmergencyTransportationAI6",
             "Sami@Roguelike@StageGambling",
             "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageDreadfulFoe",
+            "Sami@Roguelike@StageDreadfulFoe-5",
             "Sami@Roguelike@StageMysteriousPresage",
             "Sami@Roguelike@CloseCollectionClose"
         ]
@@ -16231,6 +16356,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageBoskyPassage",
             "Sami@Roguelike@StageBoskyPassageAI6",
             "Sami@Roguelike@StageVerticalBoskyPassage",
@@ -16283,6 +16409,7 @@
         "algorithm": "JustReturn",
         "next": [
             "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StagesChaosZero",
             "Sami@Roguelike@StageVerticalBoskyPassage",
             "Sami@Roguelike@StageVerticalBoskyPassageAI6",
             "Sami@Roguelike@StageBoskyPassage",
@@ -16720,6 +16847,255 @@
             "#back"
         ]
     },
+    "Reclamation2Ex": {
+        "algorithm": "JustReturn",
+        "action": "DoNothing",
+        "sub": [
+            "Reclamation2ExAssemblyStation",
+            "Reclamation2ExManufacture",
+            "Reclamation2ExAssemblyStationBack",
+            "Reclamation2SkipDays*3",
+            "Reclamation2ExReadArchive",
+            "Reclamation2SkipDaysBeginNewDay"
+        ],
+        "Doc": "现在是纯tasks实现的，先一直跑着",
+        "next": [
+            "#self"
+        ]
+    },
+    "Reclamation2ExAdd": {
+        "action": "ClickSelf",
+        "roi": [
+            814,
+            445,
+            166,
+            160
+        ]
+    },
+    "Reclamation2ExAddProduct": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "Reclamation2ExAdd*99"
+        ]
+    },
+    "Reclamation2ExAssemblyStation": {
+        "Doc": "进入组装台",
+        "action": "ClickSelf",
+        "roi": [
+            564,
+            596,
+            155,
+            124
+        ],
+        "next": [
+            "Reclamation2ExAssemblyStationOcr",
+            "#self"
+        ]
+    },
+    "Reclamation2ExAssemblyStationBack": {
+        "baseTask": "Reclamation2ExAssemblyStationOcr",
+        "action": "ClickSelf"
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "Doc": "确认进入组装台",
+        "algorithm": "OcrDetect",
+        "roi": [
+            56,
+            0,
+            185,
+            134
+        ],
+        "text": [
+            "组装台"
+        ]
+    },
+    "Reclamation2ExBegin": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "继",
+            "续",
+            "演",
+            "算"
+        ],
+        "roi": [
+            844,
+            569,
+            436,
+            151
+        ]
+    },
+    "Reclamation2ExClickProduct": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "荧光棒"
+        ],
+        "cache": false
+    },
+    "Reclamation2ExManufacture": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "Reclamation2ExSwipeAndClickProduct",
+            "Reclamation2ExAddProduct"
+        ],
+        "next": [
+            "Reclamation2ExManufactureConfirmAmount",
+            "Reclamation2ExManufactureConfirm"
+        ]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "开始组装"
+        ],
+        "roi": [
+            981,
+            461,
+            198,
+            128
+        ],
+        "next": [
+            "Reclamation2ExManufactureConfirmClickToContinue"
+        ]
+    },
+    "Reclamation2ExManufactureConfirmAmount": {
+        "algorithm": "OcrDetect",
+        "Doc": "如果刚好用完的话可能会卡住，这个之后再处理了",
+        "text": [
+            "99"
+        ],
+        "roi": [
+            720,
+            442,
+            175,
+            166
+        ],
+        "sub": [
+            "Reclamation2ExManufactureConfirm"
+        ],
+        "next": [
+            "Reclamation2ExManufacture"
+        ]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "点击",
+            "空白",
+            "继续"
+        ],
+        "roi": [
+            507,
+            398,
+            268,
+            139
+        ],
+        "preDelay": 1000
+    },
+    "Reclamation2ExReadArchive": {
+        "Doc": "读取存档",
+        "template": "Reclamation2DeleteArchive.png",
+        "baseTask": "Reclamation2DeleteArchive",
+        "next": [
+            "Reclamation2ExReadArchiveEnter",
+            "#self"
+        ]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "确认"
+        ],
+        "roi": [
+            820,
+            406,
+            308,
+            146
+        ]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "读取"
+        ],
+        "roi": [
+            1030,
+            548,
+            170,
+            124
+        ],
+        "sub": [
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "生息",
+            "日"
+        ],
+        "roi": [
+            406,
+            368,
+            166,
+            128
+        ]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "点击",
+            "确认"
+        ],
+        "roi": [
+            528,
+            480,
+            225,
+            142
+        ]
+    },
+    "Reclamation2ExSwipeAndClickProduct": {
+        "algorithm": "JustReturn",
+        "Doc": "寻找需要制作的物品，暂定荧光棒，后续可以增加参数指定",
+        "next": [
+            "Reclamation2ExClickProduct",
+            "Reclamation2ExSwipeToProduct"
+        ]
+    },
+    "Reclamation2ExSwipeToProduct": {
+        "Doc": "竖直滑动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [
+            752,
+            620,
+            0,
+            0
+        ],
+        "rectMove": [
+            752,
+            80,
+            0,
+            0
+        ],
+        "specialParams": [
+            500,
+            0,
+            3,
+            0
+        ],
+        "next": [
+            "Reclamation2ExSwipeAndClickProduct#next"
+        ]
+    },
     "Reclamation2Fight": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -16806,7 +17182,12 @@
             152,
             182
         ],
-        "preDelay": 1000,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.7,
+        "preDelay": 2000,
         "next": [
             "Reclamation2SkipDaysAward"
         ]
@@ -16819,7 +17200,12 @@
             229,
             184
         ],
-        "preDelay": 1000,
+        "maskRange": [
+            1,
+            255
+        ],
+        "templThreshold": 0.7,
+        "preDelay": 2000,
         "next": [
             "Reclamation2SkipDays2SkipTime",
             "#self"

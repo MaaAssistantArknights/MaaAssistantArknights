@@ -137,6 +137,7 @@ std::optional<std::string> asst::AdbController::call_command(
         m_platform_io->call_command(cmd, recv_by_socket, pipe_data, sock_data, timeout, start_time);
 
     if (!exit_res) {
+        Log.warn("Call `", cmd, "` failed");
         return std::nullopt;
     }
     const int exit_ret = exit_res.value();

@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -80,9 +80,9 @@ namespace MaaWpfGui.Services
             }
 
             const string FilePath = "cache/allFileDownloadComplete.json";
-            File.WriteAllText(FilePath, GenerateJsonString(false));
+            await File.WriteAllTextAsync(FilePath, GenerateJsonString(false));
             UpdateStageInternal(await LoadWebStages());
-            File.WriteAllText(FilePath, GenerateJsonString(true));
+            await File.WriteAllTextAsync(FilePath, GenerateJsonString(true));
 
             _ = Execute.OnUIThreadAsync(() =>
             {

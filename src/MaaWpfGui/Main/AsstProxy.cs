@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using HandyControl.Data;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Extensions;
@@ -267,7 +268,7 @@ namespace MaaWpfGui.Main
                     () =>
                 {
                     MessageBoxHelper.Show(LocalizationHelper.GetString("ResourceBroken"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
                 });
             }
 
@@ -362,7 +363,7 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.InitFailed:
                     MessageBoxHelper.Show(LocalizationHelper.GetString("InitializationError"), LocalizationHelper.GetString("Error"), iconKey: ResourceToken.FatalGeometry, iconBrushKey: ResourceToken.DangerBrush);
-                    Application.Current.Shutdown();
+                    Bootstrapper.Shutdown();
                     break;
 
                 case AsstMsg.ConnectionInfo:
@@ -550,6 +551,30 @@ namespace MaaWpfGui.Main
             }
         }
 
+        private DispatcherTimer _toastNotificationTimer;
+
+        private void OnToastNotificationTimerTick(object sender, EventArgs e)
+        {
+            var sanityReport = LocalizationHelper.GetString("SanityReport");
+            var recoveryTime = SanityReport.ReportTime.AddMinutes(SanityReport.Sanity[0] < SanityReport.Sanity[1] ? (SanityReport.Sanity[1] - SanityReport.Sanity[0]) * 6 : 0);
+            sanityReport = sanityReport.Replace("{DateTime}", recoveryTime.ToString("yyyy-MM-dd HH:mm")).Replace("{TimeDiff}", (recoveryTime - DateTimeOffset.Now).ToString(@"h\h\ m\m"));
+            using var toast = new ToastNotification(sanityReport);
+
+            DisposeTimer();
+        }
+
+        public void DisposeTimer()
+        {
+            if (_toastNotificationTimer is null)
+            {
+                return;
+            }
+
+            _toastNotificationTimer.Stop();
+            _toastNotificationTimer.Tick -= OnToastNotificationTimerTick;
+            _toastNotificationTimer = null;
+        }
+
         private void ProcTaskChainMsg(AsstMsg msg, JObject details)
         {
             string taskChain = details["taskchain"]?.ToString() ?? string.Empty;
@@ -571,7 +596,7 @@ namespace MaaWpfGui.Main
                     }
             }
 
-            bool isCopilotTaskChain = taskChain == "Copilot" || taskChain == "VideoRecognition";
+            bool isCopilotTaskChain = taskChain is "Copilot" or "VideoRecognition";
 
             switch (msg)
             {
@@ -702,6 +727,18 @@ namespace MaaWpfGui.Main
                         isMainTaskQueueAllCompleted = taskList.All(i => !latestMinorTaskIds.Contains(i));
                     }
 
+                    if (_latestTaskId.ContainsKey(TaskType.Copilot))
+                    {
+                        if (Instances.SettingsViewModel.CopilotWithScript)
+                        {
+                            Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript", showLog: false));
+                            if (!string.IsNullOrWhiteSpace(Instances.SettingsViewModel.EndsWithScript))
+                            {
+                                Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("EndsWithScript"));
+                            }
+                        }
+                    }
+
                     bool buyWine = _latestTaskId.ContainsKey(TaskType.Mall) && Instances.SettingsViewModel.DidYouBuyWine();
                     _latestTaskId.Clear();
 
@@ -728,6 +765,18 @@ namespace MaaWpfGui.Main
 
                             Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AllTasksComplete") + Environment.NewLine + sanityReport);
                             ExternalNotificationService.Send(allTaskCompleteTitle, allTaskCompleteMessage + Environment.NewLine + sanityReport);
+
+                            if (_toastNotificationTimer is not null)
+                            {
+                                DisposeTimer();
+                            }
+
+                            _toastNotificationTimer = new DispatcherTimer
+                            {
+                                Interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6),
+                            };
+                            _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
+                            _toastNotificationTimer.Start();
                         }
                         else
                         {
@@ -2285,19 +2334,16 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// 自动生息演算。
         /// </summary>
+        /// <param name="mode">是否通过制造刷点数。</param>
+        /// <param name="product">制造产物。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstAppendReclamation2()
+        public bool AsstAppendReclamation2(int mode = 0, string product = "")
         {
-            /*
-            var taskParams = new JObject
-            {
-                ["task_names"] = new JArray { "Reclamation2" },
-            };
-            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
-            */
             var taskParams = new JObject
             {
                 ["theme"] = 1,
+                ["mode"] = mode,
+                ["product"] = product,
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("ReclamationAlgorithm", taskParams);
             _latestTaskId[TaskType.ReclamationAlgorithm2] = id;

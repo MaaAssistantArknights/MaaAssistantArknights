@@ -3726,6 +3726,21 @@
             ],
             "rarity": 5
         },
+        "char_4079_haini": {
+            "name": "海霓",
+            "name_en": "海霓",
+            "name_jp": "海霓",
+            "name_kr": "海霓",
+            "name_tw": "海霓",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ],
+            "rarity": 5
+        },
         "char_4080_lin": {
             "name": "林",
             "name_en": "Lin",
@@ -4238,6 +4253,39 @@
                 "y-2"
             ],
             "rarity": 1
+        },
+        "char_4137_udflow": {
+            "name": "深巡",
+            "name_en": "深巡",
+            "name_jp": "深巡",
+            "name_kr": "深巡",
+            "name_tw": "深巡",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 5
+        },
+        "char_4145_ulpia": {
+            "name": "乌尔比安",
+            "name_en": "乌尔比安",
+            "name_jp": "乌尔比安",
+            "name_kr": "乌尔比安",
+            "name_tw": "乌尔比安",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6,
+            "tokens": [
+                "从不混淆的方向"
+            ]
         },
         "char_415_flint": {
             "name": "燧石",
@@ -5776,6 +5824,21 @@
             "name_kr": "魂灵之影",
             "name_tw": "魂灵之影",
             "position": "ALL",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 6
+        },
+        "token_10039_ulpia_block": {
+            "name": "从不混淆的方向",
+            "name_en": "从不混淆的方向",
+            "name_jp": "从不混淆的方向",
+            "name_kr": "从不混淆的方向",
+            "name_tw": "从不混淆的方向",
+            "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
                 "0-1",
@@ -7646,9 +7709,9 @@
         },
         "trap_128_toolore": {
             "name": "祭坛式雷达",
-            "name_en": "祭坛式雷达",
-            "name_jp": "祭坛式雷达",
-            "name_kr": "祭坛式雷达",
+            "name_en": "Altar-type Radar",
+            "name_jp": "祭壇式レーダー",
+            "name_kr": "제단식 레이더",
             "name_tw": "祭坛式雷达",
             "position": "NONE",
             "profession": "TRAP",
@@ -7661,9 +7724,9 @@
         },
         "trap_129_tooltower": {
             "name": "R-45便携式“留声机”",
-            "name_en": "R-45便携式“留声机”",
-            "name_jp": "R-45便携式“留声机”",
-            "name_kr": "R-45便携式“留声机”",
+            "name_en": "R-45 Portable 'Gramophone'",
+            "name_jp": "R-45ポータブル「蓄音機」",
+            "name_kr": "R-45 휴대용 '축음기'",
             "name_tw": "R-45便携式“留声机”",
             "position": "NONE",
             "profession": "TRAP",
@@ -7676,9 +7739,9 @@
         },
         "trap_130_tooltree": {
             "name": "景观巨蕈",
-            "name_en": "景观巨蕈",
-            "name_jp": "景观巨蕈",
-            "name_kr": "景观巨蕈",
+            "name_en": "Ornamental Giant Mushroom",
+            "name_jp": "鑑賞用おばけ茸",
+            "name_kr": "관상용 거대버섯",
             "name_tw": "景观巨蕈",
             "position": "NONE",
             "profession": "TRAP",
@@ -7691,9 +7754,9 @@
         },
         "trap_131_toolgun": {
             "name": "战场装置LUD-99X",
-            "name_en": "战场装置LUD-99X",
-            "name_jp": "战场装置LUD-99X",
-            "name_kr": "战场装置LUD-99X",
+            "name_en": "Field Device LUD-99X",
+            "name_jp": "フィールドデバイスLUD-99X",
+            "name_kr": "전투 장치 LUD-99X",
             "name_tw": "战场装置LUD-99X",
             "position": "NONE",
             "profession": "TRAP",
@@ -7706,9 +7769,9 @@
         },
         "trap_132_toolinvert": {
             "name": "“二踢脚”型数据收集装置",
-            "name_en": "“二踢脚”型数据收集装置",
-            "name_jp": "“二踢脚”型数据收集装置",
-            "name_kr": "“二踢脚”型数据收集装置",
+            "name_en": "Two-step Firecracker and Data-collector",
+            "name_jp": "爆竹型データ収集装置",
+            "name_kr": "'양자폭죽' 데이터 수집 장치",
             "name_tw": "“二踢脚”型数据收集装置",
             "position": "NONE",
             "profession": "TRAP",
@@ -7721,9 +7784,9 @@
         },
         "trap_133_toolgarage": {
             "name": "勘察用自走车",
-            "name_en": "勘察用自走车",
-            "name_jp": "勘察用自走车",
-            "name_kr": "勘察用自走车",
+            "name_en": "Self-Driving Recon Cart",
+            "name_jp": "自走式探査車",
+            "name_kr": "탐사용 자율차",
             "name_tw": "勘察用自走车",
             "position": "NONE",
             "profession": "TRAP",
@@ -8004,6 +8067,51 @@
             ],
             "rarity": 1
         },
+        "trap_155_aegiret": {
+            "name": "航道信标",
+            "name_en": "航道信标",
+            "name_jp": "航道信标",
+            "name_kr": "航道信标",
+            "name_tw": "航道信标",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_156_dsshell": {
+            "name": "赘生甲壳",
+            "name_en": "赘生甲壳",
+            "name_jp": "赘生甲壳",
+            "name_kr": "赘生甲壳",
+            "name_tw": "赘生甲壳",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_157_bounc2": {
+            "name": "小帮手",
+            "name_en": "小帮手",
+            "name_jp": "小帮手",
+            "name_kr": "小帮手",
+            "name_tw": "小帮手",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_158_lrsteam": {
             "name": "查尔斯·林奇",
             "name_en": "查尔斯·林奇",
@@ -8175,6 +8283,21 @@
             "name_jp": "促融共竞控制",
             "name_kr": "促融共竞控制",
             "name_tw": "促融共竞控制",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_180_dsblock": {
+            "name": "封印的地面",
+            "name_en": "封印的地面",
+            "name_jp": "封印的地面",
+            "name_kr": "封印的地面",
+            "name_tw": "封印的地面",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -11980,6 +12103,36 @@
             [
                 5,
                 -1
+            ]
+        ],
+        "6-1": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                5,
+                0
+            ],
+            [
+                6,
+                0
             ]
         ],
         "b-1": [

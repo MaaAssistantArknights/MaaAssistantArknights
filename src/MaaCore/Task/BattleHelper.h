@@ -79,6 +79,7 @@ namespace asst
         std::unordered_map<std::string, battle::SkillUsage> m_skill_usage;
         std::unordered_map<std::string, int> m_skill_times;
         std::unordered_map<std::string, int> m_skill_error_count;
+        std::unordered_map<std::string, std::chrono::steady_clock::time_point> m_last_use_skill_time;
         int m_camera_count = 0;
         std::pair<double, double> m_camera_shift = { 0., 0. };
 

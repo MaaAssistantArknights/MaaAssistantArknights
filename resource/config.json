@@ -3,6 +3,12 @@
     "options": {
         "taskDelay": 500,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认500",
+        "SSSFightScreencapInterval": 0,
+        "SSSFightScreencapInterval_Doc": "保全战斗截图最小间隔",
+        "RoguelikeFightScreencapInterval": 100,
+        "RoguelikeFightScreencapInterval_Doc": "肉鸽战斗截图最小间隔",
+        "CopilotFightScreencapInterval": 0,
+        "CopilotFightScreencapInterval_Doc": "抄作业战斗截图最小间隔",
         "controlDelayRange": [
             0,
             0

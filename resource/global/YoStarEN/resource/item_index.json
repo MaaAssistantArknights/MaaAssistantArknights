@@ -887,6 +887,14 @@
         "sortId": 10201,
         "usage": "Rewards earned after completing a contract. Can be used to redeem supplies."
     },
+    "CRISIS_SHOP_COIN_V2": {
+        "classifyType": "NORMAL",
+        "description": "The ruthless but effective bounty mechanism is the only way to ensure the normal operations of the Contingency Contract system.",
+        "icon": "CRISIS_SHOP_COIN_V2.png",
+        "name": "Crystal Contract Bounty",
+        "sortId": 10202,
+        "usage": "Rewards earned after completing a contract. Can be used to redeem supplies."
+    },
     "EPGS_COIN": {
         "classifyType": "NORMAL",
         "description": "The fact that the headhunting agency has taken this consideration proves its sincerity. A word of warning though - if you seek to exploit this method for profit, I'm afraid the consequences will far outweigh any gains.",
