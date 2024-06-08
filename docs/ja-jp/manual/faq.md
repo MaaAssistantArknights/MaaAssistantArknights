@@ -30,7 +30,7 @@ MAA はバージョン 5.0 で .NET 8 に更新され、エンドユーザーに
 ここでは公式のインストール方法のみを掲載しており、サードパーティの統合パックの信頼性を保証することはできません。
 :::
 
-- [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) と [.NET8](https://download.visualstudio.microsoft.com/download/pr/f18288f6-1732-415b-b577-7fb46510479a/a98239f751a7aed31bc4aa12f348a9bf/windowsdesktop-runtime-8.0.1-win-x64.exe)パッケージをインストールし、コンピューターを再起動してアプリを実行してみてください。
+- [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) と [.NET 8.0.6](https://download.visualstudio.microsoft.com/download/pr/76e5dbb2-6ae3-4629-9a84-527f8feb709c/09002599b32d5d01dc3aa5dcdffcc984/windowsdesktop-runtime-8.0.6-win-x64.exe)パッケージをインストールし、コンピューターを再起動してアプリを実行してみてください。
 
 #### Windows N/KN 関連
 

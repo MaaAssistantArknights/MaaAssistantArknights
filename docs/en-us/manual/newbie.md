@@ -16,8 +16,7 @@ icon: ri:guide-fill
    MAA requires VCRedist x64 and .NET 8. Right-click the start button to open the terminal, paste the following command in it and Enter to install.
 
    ```sh
-   winget install Microsoft.VCRedist.2015+.x64
-   winget install Microsoft.DotNet.DesktopRuntime.8
+   winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
    ```
 
    Refer to [FAQ](faq.md#possible-cause-2-missing-runtime-libraries) for more information

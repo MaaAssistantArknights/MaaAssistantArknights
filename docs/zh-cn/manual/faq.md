@@ -31,13 +31,14 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 此处仅列出官方安装方法，我们无法保证第三方整合包的可靠性。
 :::
 
-- 请安装 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 8](https://download.visualstudio.microsoft.com/download/pr/c1d08a81-6e65-4065-b606-ed1127a954d3/14fe55b8a73ebba2b05432b162ab3aa8/windowsdesktop-runtime-8.0.4-win-x64.exe) 并重新启动计算机后再次运行 MAA。  
+- 请安装 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 8.0.6](https://download.visualstudio.microsoft.com/download/pr/76e5dbb2-6ae3-4629-9a84-527f8feb709c/09002599b32d5d01dc3aa5dcdffcc984/windowsdesktop-runtime-8.0.6-win-x64.exe) 并重新启动计算机后再次运行 MAA。  
   使用 Windows 10 或 11 的用户也可以使用 winget 工具进行安装，只需在终端中运行以下命令。
 
-  ```bash
-  winget install Microsoft.VCRedist.2015+.x64
-  winget install Microsoft.DotNet.DesktopRuntime.8
+  ```sh
+  winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
   ```
+
+- 若 MAA 在某次更新后无法运行，也有可能是因运行库版本导致的问题，同样可以尝试再次安装或更新运行库。
 
 #### Windows N/KN 相关
 
