@@ -15,8 +15,7 @@ icon: ri:guide-fill
    MAAはVCRedist x64と.NET 8が必要です。スタートボタンを右クリックしてターミナルを開き、下記のコマンドを入力しエンターキーを押してインストールしてください。
 
    ```sh
-   winget install Microsoft.VCRedist.2015+.x64
-   winget install Microsoft.DotNet.DesktopRuntime.8
+   winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
    ```
 
 3. 環境にあったバージョンのダウンロード

@@ -28,16 +28,17 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 ### Possible cause 2: missing runtime libraries
 
 ::: info Notice
-Only official sources listed here. We can't gurantee whether some random third-party all-in-one pack can work.
+Only official sources are listed here. We can't gurantee whether some random third-party all-in-one pack can work.
 :::
 
-- Please try installing [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET8](https://download.visualstudio.microsoft.com/download/pr/c1d08a81-6e65-4065-b606-ed1127a954d3/14fe55b8a73ebba2b05432b162ab3aa8/windowsdesktop-runtime-8.0.4-win-x64.exe), then restart computer.
+- Please try installing [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET 8.0.6](https://download.visualstudio.microsoft.com/download/pr/76e5dbb2-6ae3-4629-9a84-527f8feb709c/09002599b32d5d01dc3aa5dcdffcc984/windowsdesktop-runtime-8.0.6-win-x64.exe), then restart computer.
   Windows 10 or 11 users can also install using Winget by running the following command in the terminal.
 
   ```sh
-  winget install Microsoft.VCRedist.2015+.x64
-  winget install Microsoft.DotNet.DesktopRuntime.8
+  winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
   ```
+
+- If MAA cannot run after an update, it may be caused by the runtime too. You can also try to install or update the runtime again.
 
 #### Notes on Windows N/KN
 
