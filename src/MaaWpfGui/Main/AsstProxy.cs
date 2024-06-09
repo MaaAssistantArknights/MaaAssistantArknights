@@ -771,12 +771,15 @@ namespace MaaWpfGui.Main
                                 DisposeTimer();
                             }
 
-                            _toastNotificationTimer = new DispatcherTimer
-                            {
-                                Interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6),
-                            };
-                            _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
-                            _toastNotificationTimer.Start();
+                            var interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6);
+                            if (interval > 0) {
+                                _toastNotificationTimer = new DispatcherTimer
+                                {
+                                    Interval = interval,
+                                };
+                                _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
+                                _toastNotificationTimer.Start();
+                            }
                         }
                         else
                         {
