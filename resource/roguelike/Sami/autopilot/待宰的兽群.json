@@ -13,10 +13,6 @@
         [
             6,
             1
-        ],
-        [
-            6,
-            2
         ]
     ],
     "deploy_plan": [
@@ -31,6 +27,16 @@
                 3
             ],
             "direction": "left"
+        },
+        {
+            "groups": [
+                "益达"
+            ],
+            "location": [
+                3,
+                2
+            ],
+            "direction": "right"
         },
         {
             "groups": [
@@ -76,6 +82,21 @@
         },
         {
             "groups": [
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "condition": [
+                1,
+                15
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
                 "高台输出",
                 "辅助",
                 "其他高台"
@@ -85,6 +106,17 @@
                 2
             ],
             "direction": "right"
+        },
+        {
+            "groups": [
+                "高台输出"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "condition": [ 16, 20 ],
+            "direction": "left"
         },
         {
             "groups": [
@@ -122,6 +154,28 @@
                 2
             ],
             "direction": "down"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                6,
+                2
+            ],
+            "condition": [
+                16,
+                21
+            ]
+        },
+        {
+            "location": [
+                2,
+                2
+            ],
+            "condition": [
+                21,
+                22
+            ]
         }
     ]
 }
