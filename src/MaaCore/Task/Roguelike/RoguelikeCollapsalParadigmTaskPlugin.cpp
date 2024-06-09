@@ -201,9 +201,9 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
     if (DEBUG) { analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms")); }
     analyzer.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_panel");
     OCRer::ResultsVec ocr_results = analyzer.analyze() ? analyzer.get_result() : OCRer::ResultsVec{};
-    // 识别到三个及以上坍缩范式的时候，向上滑动一下再识别一次
+    // 识别到两个及以上坍缩范式的时候，向上滑动一下再识别一次
     // if detect more than three collapsal paradigms, swipe up and analyze again
-    if (ocr_results.size() >= 3) {
+    if (ocr_results.size() >= 2) {
         ctrler()->swipe(m_swipe_begin, m_swipe_end, 500);
         sleep(500);
         analyzer.set_image(ctrler()->get_image());
