@@ -97,6 +97,20 @@
         },
         {
             "groups": [
+                "高台输出"
+            ],
+            "location": [
+                2,
+                2
+            ],
+            "condition": [
+                1,
+                20
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "高台输出",
                 "辅助",
                 "其他高台"
@@ -106,17 +120,6 @@
                 2
             ],
             "direction": "right"
-        },
-        {
-            "groups": [
-                "高台输出"
-            ],
-            "location": [
-                2,
-                2
-            ],
-            "condition": [ 16, 20 ],
-            "direction": "left"
         },
         {
             "groups": [
