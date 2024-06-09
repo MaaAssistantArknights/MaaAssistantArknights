@@ -772,7 +772,8 @@ namespace MaaWpfGui.Main
                             }
 
                             var interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6);
-                            if (interval > 0) {
+                            if (interval > TimeSpan.Zero)
+                            {
                                 _toastNotificationTimer = new DispatcherTimer
                                 {
                                     Interval = interval,
