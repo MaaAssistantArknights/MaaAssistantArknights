@@ -511,11 +511,14 @@ bool asst::InfrastProductionTask::optimal_calc()
                         name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                                   Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                         Log.trace("Analyze name filter");
-                        if (!name_analyzer.analyze()) {
-                            continue;
+                        if (name_analyzer.analyze()) {
+                            std::string name = name_analyzer.get_result().text;
+                            hash_matched =
+                                ranges::find(opt.name_filter, name) != opt.name_filter.cend();
                         }
-                        std::string name = name_analyzer.get_result().text;
-                        hash_matched = ranges::find(opt.name_filter, name) != opt.name_filter.cend();
+                        else {
+                            hash_matched = false;
+                        }
                     }
                     if (!hash_matched) {
                         ++find_iter;
