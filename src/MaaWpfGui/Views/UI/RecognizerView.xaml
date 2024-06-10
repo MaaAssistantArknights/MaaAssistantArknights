@@ -349,15 +349,15 @@
                                     <LinearGradientBrush.Transform>
                                         <TranslateTransform x:Name="LinearGradientBrushTranslate" />
                                     </LinearGradientBrush.Transform>
-                                    <GradientStop Offset="0.83" Color="Indigo" />
-                                    <GradientStop Offset="1.00" Color="Violet" />
-                                    <GradientStop Offset="0.00" Color="Red" />
-                                    <GradientStop Offset="0.17" Color="Orange" />
-                                    <GradientStop Offset="0.33" Color="Yellow" />
-                                    <GradientStop Offset="0.50" Color="Green" />
-                                    <GradientStop Offset="0.67" Color="Blue" />
-                                    <GradientStop Offset="0.83" Color="Indigo" />
-                                    <GradientStop Offset="1.00" Color="Violet" />
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0.00" Color="Red" />
+                                        <GradientStop Offset="0.17" Color="Orange" />
+                                        <GradientStop Offset="0.33" Color="Yellow" />
+                                        <GradientStop Offset="0.50" Color="Green" />
+                                        <GradientStop Offset="0.67" Color="Blue" />
+                                        <GradientStop Offset="0.83" Color="Indigo" />
+                                        <GradientStop Offset="1.00" Color="Violet" />
+                                    </LinearGradientBrush.GradientStops>
                                     
                                 </LinearGradientBrush>
                             </controls:TextBlock.Foreground>
