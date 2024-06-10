@@ -63,13 +63,14 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
 
 bool asst::RoguelikeCollapsalParadigmTaskPlugin::_run()
 {
+    if (DEBUG) { clp_pd_callback("Current Zone: " + m_zone, 0, "CollapsalParadigmInfo"); }
     if (m_check_banner) {
-        if (DEBUG) { clp_pd_callback("坍缩范式Banner识别", 0, "CollapsalParadigmInfo"); }
+        if (DEBUG) { clp_pd_callback("Banner Check", 0, "CollapsalParadigmInfo"); }
         m_check_banner = false;
         return check_collapsal_paradigm_banner();
     }
     if (m_check_panel) {
-        if (DEBUG) { clp_pd_callback(std::string("坍缩范式Panel") + (m_verification_check ? "验证" : "识别"), 0, "CollapsalParadigmInfo"); }
+        if (DEBUG) { clp_pd_callback(std::string("Panel Check") + (m_verification_check ? " (Verification)" : ""), 0, "CollapsalParadigmInfo"); }
         m_check_panel = false;
         return check_collapsal_paradigm_panel();
     }
@@ -112,7 +113,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
         for (const OCRer::Result& result : ocr_results) {
             if (!deepen_or_weaken) {
                 if (result.text != deepen_text && result.text != weaken_text) {
-                    clp_pd_callback("坍缩范式Banner识别错误" , 0, "CollapsalParadigmError");
+                    clp_pd_callback("Erroneous Recognition in Banner Check" , 0, "CollapsalParadigmError");
                     continue;
                 }
                 if (result.text == deepen_text) {
@@ -125,7 +126,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
             } else {
                 if (result.text == deepen_text || result.text == weaken_text
                     || result.rect.y >= banner_y + 25) {
-                    clp_pd_callback("坍缩范式Banner识别错误" , 0, "CollapsalParadigmError");
+                    clp_pd_callback("Erroneous Recognition in Banner Check" , 0, "CollapsalParadigmError");
                     continue;
                 }
                 cur_clp_pd = result.text;
@@ -157,7 +158,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
                             return true;
                         }
                     } else {
-                        clp_pd_callback("坍缩范式Banner识别重复" , 0, "CollapsalParadigmInfo");
+                        clp_pd_callback("Duplicate Recognition in Banner Check" , 0, "CollapsalParadigmInfo");
                     }
                 } else {
                     it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_clp_pd);
@@ -174,7 +175,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
                         }
                     }
                     else {
-                        clp_pd_callback("坍缩范式Banner识别重复" , 0, "CollapsalParadigmInfo");
+                        clp_pd_callback("Duplicate Recognition in Banner Check" , 0, "CollapsalParadigmInfo");
                     }
                 }
                 deepen_or_weaken = 0;
@@ -239,9 +240,6 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
             ++it;
         }
         if (it == prev_clp_pds.end()) { // 全新的坍缩范式
-            if (m_verification_check) {
-                clp_pd_callback("Miss Collapsal Paradigm: " + cur_clp_pd, 0, "CollapsalParadigmError");
-            }
             clp_pd_callback(cur_clp_pd, 1);
         } else {
             if (cur_clp_pd == cur_class.level_2 && *it == cur_class.level_1) { // 从1级加深到2级
