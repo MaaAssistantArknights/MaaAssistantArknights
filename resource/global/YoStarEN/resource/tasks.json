@@ -7031,57 +7031,6 @@
             72
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onStage": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "text": [
-            "初霜湖泽",
-            "密静林地",
-            "昧明冻土",
-            "积冰岩骸",
-            "无瑕花园",
-            "远见之构",
-            "永恒之尘",
-            "深埋迷境"
-        ],
-        "ocrReplace": [
-            [
-                "Brisk Marshalands",
-                "初霜湖泽" 
-            ],
-            [
-                "Placid Forests",
-                "密静林地" 
-            ],
-            [
-                "Dawning Frostbounds",
-                "昧明冻土" 
-            ],
-            [
-                "Gelid Rockshelves",
-                "积冰岩骸" 
-            ],
-            [
-                "Immaculate Garden",
-                "无瑕花园" 
-            ],
-            [
-                "Clayrovant Carcass",
-                "远见之构" 
-            ],
-            [
-                "Secluded Passage",
-                "深埋迷境" 
-            ]
-        ],
-        "roi": [
-            530,
-            30,
-            240,
-            60
-        ]
-    },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",

@@ -6,6 +6,7 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
+#include "Vision/Matcher.h"
 
 #include <algorithm>
 
@@ -39,7 +40,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
     }
 
     if(msg == AsstMsg::SubTaskStart && m_panel_triggers.find(task_name) != m_panel_triggers.end()) {
-        if (new_level()) {
+        if (new_zone()) {
             m_need_check_panel = true;
             m_verification_check = false;
         }
@@ -287,7 +288,8 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_restart()
         .run();
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::clp_pd_callback(std::string cur, int deepen_or_weaken, std::string prev) {
+void asst::RoguelikeCollapsalParadigmTaskPlugin::clp_pd_callback(std::string cur, int deepen_or_weaken, std::string prev)
+{
     callback(AsstMsg::SubTaskExtraInfo, json::object { 
         { "what", "RoguelikeCollapsalParadigms" },
         { "details", json::object {
@@ -304,7 +306,8 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_collapsal_status_panel()
     sleep(500);
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading(unsigned int millisecond) {
+void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading(unsigned int millisecond)
+{
     OCRer analyzer(ctrler()->get_image());
     // if (DEBUG) { analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms")); }
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_loading");
@@ -316,25 +319,27 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading(unsigned int m
     sleep(millisecond);
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage(unsigned int millisecond) {
-    OCRer analyzer(ctrler()->get_image());
+void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage(unsigned int millisecond)
+{
+    Matcher matcher(ctrler()->get_image());
     // if (DEBUG) { analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms")); }
-    analyzer.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
-    while (!analyzer.analyze()) {
+    matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
+    while (!matcher.analyze()) {
         sleep(100);
-        analyzer.set_image(ctrler()->get_image());
+        matcher.set_image(ctrler()->get_image());
         // if (DEBUG) { analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms")); }
     }
     sleep(millisecond);
 }
 
-bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_level() const {
-    OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
-    if (analyzer.analyze()) {
-        std::string level = analyzer.get_result().front().text;
-        if (level != m_level) {
-            m_level = level;
+bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
+{
+    Matcher matcher(ctrler()->get_image());
+    matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
+    if (matcher.analyze()) {
+        std::string zone = m_zone_dict.at(matcher.get_result().templ_name);
+        if (zone != m_zone) {
+            m_zone = zone;
             return true;
         }
     }
