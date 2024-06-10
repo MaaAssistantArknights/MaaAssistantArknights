@@ -966,6 +966,18 @@ bool update_battle_chars_info(
     Amiya_data["position"] = "MELEE";
     chars.emplace("char_1001_amiya2", std::move(Amiya_data));
 
+    json::value Amiya_data3;
+    Amiya_data3["name"] = "阿米娅-MEDIC";
+    Amiya_data3["name_en"] = "Amiya-MEDIC";
+    Amiya_data3["name_jp"] = "アーミヤ-MEDIC";
+    Amiya_data3["name_kr"] = "아미야-MEDIC";
+    Amiya_data3["name_tw"] = "阿米婭-MEDIC";
+    Amiya_data3["profession"] = "MEDIC";
+    Amiya_data3["rangeId"] = json::array { "3-1", "3-3", "3-3" };
+    Amiya_data3["rarity"] = 5;
+    Amiya_data3["position"] = "RANGED";
+    chars.emplace("char_1037_amiya3", std::move(Amiya_data3));
+
     const auto& out_file = output_dir / "battle_data.json";
     std::ofstream ofs(out_file, std::ios::out);
     ofs << result.format() << std::endl;

@@ -432,6 +432,21 @@
             ],
             "rarity": 5
         },
+        "char_1037_amiya3": {
+            "name": "阿米娅-MEDIC",
+            "name_en": "Amiya-MEDIC",
+            "name_jp": "アーミヤ-MEDIC",
+            "name_kr": "아미야-MEDIC",
+            "name_tw": "阿米婭-MEDIC",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 5
+        },
         "char_103_angel": {
             "name": "能天使",
             "name_en": "Exusiai",
