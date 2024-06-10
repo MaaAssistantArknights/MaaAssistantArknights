@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -12,10 +12,11 @@
 // </copyright>
 
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -35,16 +36,13 @@ using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
 {
-    public class MyViewModel
-    {
-        public string InputText { get; set; }
-    }
+    
     /// <summary>
     /// The view model of recruit.
     /// </summary>
     public class RecognizerViewModel : Screen
     {
-        string[] RogueStaffList_sR = { "艾丽妮", "乌尔比安", "斯卡蒂", "铃兰", "赫拉格", "棘刺", "塑心", "缄默德克萨斯", "维什戴尔", "逻各斯", "凯尔希", "黑键", "夕", "号角", "早露", "灵知", "耀骑士临光", "令", "白铁", "浊心斯卡蒂", "仇白", "伊芙利特", "左乐", "W", "帕拉斯", "山", "赫德雷", "风笛", "莱伊", "焰尾", "嵯峨", "艾拉", "淬羽赫默", "温蒂", "菲亚梅塔", "黍", "麒麟R夜刀", "阿斯卡纶", "重岳", "归溟幽灵鲨", "远牙", "百炼嘉维尔", "森蚺", "涤火杰西卡", "流明", "魔王", "薇薇安娜", "银灰", "假日威龙陈", "傀影", "能天使", "纯烬艾雅法拉", "黑", "迷迭香", "圣约送葬人", "斥罪", "伺夜", "阿", "止颂", "空弦", "莫斯提马", "澄闪", "锏", "焰影苇草", "霍尔海雅", "年", "塞雷娅", "煌", "泥岩", "星熊", "伊内丝", "水月", "陈", "琳琅诗怀雅", "麦哲伦", "艾雅法拉", "鸿雪", "林", "闪灵", "灰烬", "老鲤", "歌蕾蒂娅", "安洁莉娜", "卡涅利安", "推进之王", "提丰", "琴柳", "异客", "瑕光", "多萝西", "刻俄柏", "玛恩纳", "史尔特尔", "缪尔赛思", "夜莺" };
+        private readonly string[] RogueStaffListSR = File.ReadAllLines(@".\\resource\\staff_s.txt");
         private readonly RunningState _runningState;
         public ICommand RogueOpeningBegin { get; }
         /// <summary>
@@ -56,8 +54,6 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
             RogueOpeningBegin = new RelayCommand(param => RogueOpeningBeginM());
-
-            //RogueOpeningIn = new MyViewModel { InputText = "初始文本" };
         }
         public class RelayCommand : ICommand
         {
@@ -576,10 +572,10 @@ namespace MaaWpfGui.ViewModels.UI
                     RogueOpeningOut = "NO";
                 }
             }*/
-            int RogueSLLen = RogueStaffList_sR.Length;
+            int RogueSLLen = RogueStaffListSR.Length;
             Random RoRandom = new Random();
             int randomNumber = RoRandom.Next(RogueSLLen);
-            RogueOpeningOut = "我掐指一算，今天 " + RogueOpeningIn + " 适合用 " + RogueStaffList_sR[randomNumber] + " 开局";
+            RogueOpeningOut = "我掐指一算，今天 " + RogueOpeningIn + " 适合用 " + RogueStaffListSR[randomNumber] + " 开局";
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
