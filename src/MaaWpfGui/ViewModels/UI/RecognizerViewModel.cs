@@ -14,10 +14,16 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using MaaWpfGui.Constants;
@@ -25,17 +31,20 @@ using MaaWpfGui.Helper;
 using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Notifications.Wpf.Annotations;
 using Stylet;
 
 namespace MaaWpfGui.ViewModels.UI
 {
+    
     /// <summary>
     /// The view model of recruit.
     /// </summary>
     public class RecognizerViewModel : Screen
     {
+        private readonly string[] RogueStaffListSR = File.ReadAllLines(@".\\resource\\staff_s.txt");
         private readonly RunningState _runningState;
-
+        public ICommand RogueOpeningBegin { get; }
         /// <summary>
         /// Initializes a new instance of the <see cref="RecognizerViewModel"/> class.
         /// </summary>
@@ -44,6 +53,34 @@ namespace MaaWpfGui.ViewModels.UI
             DisplayName = LocalizationHelper.GetString("Toolbox");
             _runningState = RunningState.Instance;
             _runningState.IdleChanged += RunningState_IdleChanged;
+            RogueOpeningBegin = new RelayCommand(param => RogueOpeningBeginM());
+        }
+        public class RelayCommand : ICommand
+        {
+            private readonly Action<object> _execute;
+            private readonly Predicate<object> _canExecute;
+
+            public RelayCommand(Action<object> execute, Predicate<object> canExecute = null)
+            {
+                _execute = execute ?? throw new ArgumentNullException(nameof(execute));
+                _canExecute = canExecute;
+            }
+
+            public bool CanExecute(object parameter)
+            {
+                return _canExecute == null || _canExecute(parameter);
+            }
+
+            public event EventHandler CanExecuteChanged
+            {
+                add { CommandManager.RequerySuggested += value; }
+                remove { CommandManager.RequerySuggested -= value; }
+            }
+
+            public void Execute(object parameter)
+            {
+                _execute(parameter);
+            }
         }
 
         private void RunningState_IdleChanged(object sender, bool e)
@@ -309,7 +346,7 @@ namespace MaaWpfGui.ViewModels.UI
                         foreach (var combs in resultArray ?? new JArray())
                         {
                             int tagLevel = (int)combs["level"];
-                            resultContent += tagLevel + "★ Tags:    ";
+                            resultContent += tagLevel + " ★ Tags:  ";
                             resultContent = (((JArray)combs["tags"]) ?? new JArray()).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
 
                             resultContent += "\n\t";
@@ -334,7 +371,7 @@ namespace MaaWpfGui.ViewModels.UI
                                     }
                                 }
 
-                                resultContent += operLevel + "★ " + operName + potential + "    ";
+                                resultContent += operLevel + " - " + operName + potential + "    ";
                             }
 
                             resultContent += "\n\n";
@@ -495,8 +532,60 @@ namespace MaaWpfGui.ViewModels.UI
 
             Instances.AsstProxy.AsstStartDepot();
         }
-
         #endregion Depot
+
+
+        /// <summary>
+        /// Starts depot recognition.
+        /// </summary>
+        #region RogueOpening
+        private string _textBlockText = "";
+        public string RogueOpeningOut
+        {
+            get => _textBlockText;
+            set => SetAndNotify(ref _textBlockText, value);
+        }
+        private string _RogueOpeningIn;
+        public string RogueOpeningIn
+        {
+            get => _RogueOpeningIn;
+            set => SetAndNotify(ref _RogueOpeningIn, value);
+        }
+        private void RogueOpeningBeginM()
+        {
+            /*var assembly = this.GetType().Assembly;
+            string RogueStaffList_sR_Y = "staff_s.txt";
+            
+            using (Stream stream = assembly.GetManifestResourceStream(RogueStaffList_sR_Y))
+            {
+                if (stream != null)
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        string content = reader.ReadToEnd();
+                        RogueStaffList_sR.Add(content); // 将内容添加到列表中
+                        RogueOpeningOut = RogueStaffList_sR[0];
+                    }
+                }
+                else
+                {
+                    RogueOpeningOut = "NO";
+                }
+            }*/
+            int RogueSLLen = RogueStaffListSR.Length;
+            Random RoRandom = new Random();
+            int randomNumber = RoRandom.Next(RogueSLLen);
+            RogueOpeningOut = "我掐指一算，今天 " + RogueOpeningIn + " 适合用 " + RogueStaffListSR[randomNumber] + " 开局";
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion RogueOpening
 
         #region OperBox
 
