@@ -36,6 +36,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
+using static System.Windows.Forms.AxHost;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = System.IntPtr;
 using AsstInstanceOptionKey = System.Int32;
@@ -611,6 +612,20 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.TaskChainError:
                     {
+                        // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
+                        if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
+                        {
+                            if (new[]
+                                {
+                                    Instances.TaskQueueViewModel.Stage1,
+                                    Instances.TaskQueueViewModel.Stage2,
+                                    Instances.TaskQueueViewModel.Stage3
+                                }.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            {
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                            }
+                        }
+
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
                         using var toast = new ToastNotification(LocalizationHelper.GetString("TaskError") + taskChain);
                         toast.Show();
@@ -627,11 +642,6 @@ namespace MaaWpfGui.Main
 
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
-                        }
-
-                        if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
-                        {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                         }
 
                         break;
