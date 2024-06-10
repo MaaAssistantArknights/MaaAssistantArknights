@@ -86,14 +86,15 @@ class Asst:
             ``callback``:   回调函数
             ``arg``:        自定义参数
         """
-
+        self.__callback = callback
         if callback:
             self.__ptr = Asst.__lib.AsstCreateEx(callback, arg)
         else:
             self.__ptr = Asst.__lib.AsstCreate()
 
     def __del__(self):
-        Asst.__lib.AsstDestroy(self.__ptr)
+        if self.__callback:
+            Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
     def set_instance_option(self, option_type: InstanceOptionType, option_value: str):
