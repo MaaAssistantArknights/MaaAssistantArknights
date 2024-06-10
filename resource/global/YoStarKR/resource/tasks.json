@@ -6874,57 +6874,6 @@
             "숨겨진비경"
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onStage": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "text": [
-            "初霜湖泽",
-            "密静林地",
-            "昧明冻土",
-            "积冰岩骸",
-            "无瑕花园",
-            "远见之构",
-            "永恒之尘",
-            "深埋迷境"
-        ],
-        "ocrReplace": [
-            [
-                "은빛의호수",
-                "初霜湖泽" 
-            ],
-            [
-                "고요한숲",
-                "密静林地" 
-            ],
-            [
-                "여명의툰드라",
-                "昧明冻土" 
-            ],
-            [
-                "얼어붙은바위",
-                "积冰岩骸" 
-            ],
-            [
-                "무결점의정원",
-                "无瑕花园" 
-            ],
-            [
-                "예견의구상",
-                "远见之构" 
-            ],
-            [
-                "숨겨진비경",
-                "深埋迷境" 
-            ]
-        ],
-        "roi": [
-            530,
-            30,
-            240,
-            60
-        ]
-    },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",

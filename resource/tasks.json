@@ -15253,24 +15253,25 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onStage": {
-        "algorithm": "OcrDetect",
+        "algorithm": "MatchTemplate",
+        "template": [
+            "Sami@Roguelike@OnStage_1",
+            "Sami@Roguelike@OnStage_2",
+            "Sami@Roguelike@OnStage_3",
+            "Sami@Roguelike@OnStage_4",
+            "Sami@Roguelike@OnStage_5",
+            "Sami@Roguelike@OnStage_6",
+            "Sami@Roguelike@OnStage_7",
+            "Sami@Roguelike@OnStage_0"
+        ],
+        "templThreshold": 0.96,
         "action": "DoNothing",
         "cache": false,
-        "text": [
-            "初霜湖泽",
-            "密静林地",
-            "昧明冻土",
-            "积冰岩骸",
-            "无瑕花园",
-            "远见之构",
-            "永恒之尘",
-            "深埋迷境"
-        ],
         "roi": [
-            530,
-            30,
-            240,
-            60
+            590,
+            45,
+            45,
+            35
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {

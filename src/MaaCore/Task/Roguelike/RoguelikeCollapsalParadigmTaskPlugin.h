@@ -25,7 +25,7 @@ namespace asst
         mutable bool m_check_panel = false;
         mutable bool m_need_check_panel = false;
         mutable bool m_verification_check = false;
-        mutable std::string m_level;
+        mutable std::string m_zone;
 
         const std::unordered_set<std::string_view> m_banner_triggers_start = {
             "NeedCheckCollapsalParadigmBanner",
@@ -108,7 +108,18 @@ namespace asst
             "Sami@Roguelike@StageFerociousPresage"
         };
 
-        bool new_level() const;
+        const std::unordered_map<std::string_view, std::string> m_zone_dict = {
+            {"Sami@Roguelike@OnStage_0", "深埋迷境"},
+            {"Sami@Roguelike@OnStage_1", "初霜湖泽"},
+            {"Sami@Roguelike@OnStage_2", "密静林地"},
+            {"Sami@Roguelike@OnStage_3", "昧明冻土"},
+            {"Sami@Roguelike@OnStage_4", "积冰岩骸"},
+            {"Sami@Roguelike@OnStage_5", "无瑕花园"},
+            {"Sami@Roguelike@OnStage_6", "远见之构"},
+            {"Sami@Roguelike@OnStage_7", "永恒之尘"}
+        };
+
+        bool new_zone() const;
 
         bool check_collapsal_paradigm_banner();
         bool check_collapsal_paradigm_panel();
