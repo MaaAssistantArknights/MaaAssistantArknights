@@ -516,6 +516,7 @@ namespace MaaWpfGui.ViewModels.UI
             "char_509_acast",
             "char_508_aguard",
             "char_1001_amiya2",
+            "char_1037_amiya3",
         };
 
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
