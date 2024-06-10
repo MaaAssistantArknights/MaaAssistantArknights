@@ -476,7 +476,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         /// <param name="name">stage name</param>
         /// <returns>Whether the specified stage is open</returns>
-        private bool IsStageOpen(string name)
+        public bool IsStageOpen(string name)
         {
             return _stageManager.IsStageOpen(name, _curDayOfWeek);
         }
@@ -1222,6 +1222,7 @@ namespace MaaWpfGui.ViewModels.UI
                         continue;
                     }
 
+                    AddLog(LocalizationHelper.GetString("AnnihilationTaskTip"), UiLogColor.Info);
                     mainFightRet = Instances.AsstProxy.AsstAppendFight(stage, medicine, 0, int.MaxValue, series, string.Empty, 0);
                     break;
                 }
