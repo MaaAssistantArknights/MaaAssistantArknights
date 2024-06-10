@@ -196,15 +196,19 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
     std::vector<std::string>::iterator it = prev_clp_pds.begin();
 
     wait_for_stage(200);
-    toggle_collapsal_status_panel();
 
-    OCRer analyzer(ctrler()->get_image());
-    if (DEBUG) { analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms")); }
+    OCRer analyzer;
     analyzer.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_panel");
-    OCRer::ResultsVec ocr_results = analyzer.analyze() ? analyzer.get_result() : OCRer::ResultsVec{};
+    do {
+        toggle_collapsal_status_panel();
+        analyzer.set_image(ctrler()->get_image());
+    } while (!analyzer.analyze()); // 即便没有坍缩范式也应当检测到“当前坍缩值”
+    if (DEBUG) { analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms")); }
+
+    OCRer::ResultsVec ocr_results = analyzer.get_result();
     // 识别到两个及以上坍缩范式的时候，向上滑动一下再识别一次
     // if detect more than three collapsal paradigms, swipe up and analyze again
-    if (ocr_results.size() >= 2) {
+    if (ocr_results.size() >= 3) {
         ctrler()->swipe(m_swipe_begin, m_swipe_end, 500);
         sleep(500);
         analyzer.set_image(ctrler()->get_image());
@@ -218,7 +222,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
         [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; });
     
     std::vector<std::string> cur_clp_pds;
-    std::transform(ocr_results.begin(), ocr_results.end(),
+    std::transform(ocr_results.begin() + 1, ocr_results.end(), // 第一个结果肯定是“当前坍缩值”
         std::back_inserter(cur_clp_pds),
         [](OCRer::Result x) { return x.text; });
     

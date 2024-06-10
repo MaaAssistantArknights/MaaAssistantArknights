@@ -15299,6 +15299,7 @@
         "action": "DoNothing",
         "cache": false,
         "text": [
+            "当前坍缩值",
             "去量化",
             "去量深化",
             "实质性坍缩",

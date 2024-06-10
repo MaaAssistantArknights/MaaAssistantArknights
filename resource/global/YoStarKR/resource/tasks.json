@@ -6899,10 +6899,12 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_panel": {
+        "doc": "The translation 현재붕괴값 is not verified.",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
         "text": [
+            "当前坍缩值",
             "去量化",
             "去量深化",
             "实质性坍缩",
@@ -6925,6 +6927,10 @@
             "一抹黑"
         ],
         "ocrReplace": [
+            [
+                "현재붕괴값",
+                "当前坍缩值"
+            ],
             [
                 "수적붕괴",
                 "去量化"
