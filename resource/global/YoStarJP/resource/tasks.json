@@ -8288,10 +8288,10 @@
             ]
         ],
         "roi": [
-            700,
-            600,
-            350,
-            120
+            720,
+            645,
+            355,
+            45
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_panel": {
@@ -8411,11 +8411,12 @@
         "roi": [
             350,
             120,
-            300,
+            310,
             520
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_banner": {
+        "doc": "The translations パラダイムロストの進行により and パラダイムロストの減退により are not verified.",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
@@ -8910,11 +8911,11 @@
                 "_collapsal_paradigms"
             ],
             [
-                "静謐な森",
+                "静謐な.*",
                 "_collapsal_paradigms"
             ],
             [
-                "夜明けの凍土",
+                "夜明けの凍.*",
                 "_SKIP_"
             ],
             [

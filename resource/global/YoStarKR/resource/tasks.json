@@ -6892,10 +6892,10 @@
             ]
         ],
         "roi": [
-            700,
-            620,
-            400,
-            80
+            720,
+            645,
+            355,
+            45
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_panel": {
@@ -7015,11 +7015,12 @@
         "roi": [
             350,
             120,
-            300,
+            310,
             520
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_banner": {
+        "doc": "The translations 붕괴패러다임심화 and 붕괴패러다임약화 are not verified.",
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
@@ -7581,31 +7582,31 @@
         ],
         "ocrReplace": [
             [
-                "은빛의호수",
+                ".*은빛의호.+",
                 "_collapsal_paradigms"
             ],
             [
-                "고요한숲",
+                ".*고요한숲",
                 "_collapsal_paradigms"
             ],
             [
-                "여명의툰드라",
+                ".*여명의.+",
                 "_SKIP_"
             ],
             [
-                "얼어붙은바위",
+                ".*얼어붙은바위",
                 "_SKIP_"
             ],
             [
-                "무결점의정원",
+                ".*무결점의정원",
                 "_SKIP_"
             ],
             [
-                "예견의구상",
+                ".*예견의구상",
                 "_SKIP_"
             ],
             [
-                "숨겨진비경",
+                ".*숨겨진비경",
                 "_SKIP_"
             ]
         ]
