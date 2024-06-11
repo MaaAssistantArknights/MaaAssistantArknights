@@ -93,8 +93,7 @@ class Asst:
             self.__ptr = Asst.__lib.AsstCreate()
 
     def __del__(self):
-        if self.__callback:
-            Asst.__lib.AsstDestroy(self.__ptr)
+        Asst.__lib.AsstDestroy(self.__ptr)
         self.__ptr = None
 
     def set_instance_option(self, option_type: InstanceOptionType, option_value: str):
