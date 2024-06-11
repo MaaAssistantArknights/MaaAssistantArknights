@@ -212,6 +212,10 @@ AsstAsyncCallId __stdcall WineShimAsstAsyncConnect(
     return result;
 }
 
+void __stdcall WineShimAsstSetConnectionExtras(const char* name, const char* extras) {
+    dl_AsstSetConnectionExtras(name, extras);
+}
+
 AsstAsyncCallId __stdcall WineShimAsstAsyncClick(
     AsstHandle handle,
     int32_t x,

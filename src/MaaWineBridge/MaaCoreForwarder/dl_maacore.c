@@ -31,6 +31,7 @@ void dl_init_maacore()
     FILL_DL_FUNC(maacore, AsstBackToHome)
 
     FILL_DL_FUNC(maacore, AsstAsyncConnect)
+    FILL_DL_FUNC(maacore, AsstSetConnectionExtras)
     FILL_DL_FUNC(maacore, AsstAsyncClick)
     FILL_DL_FUNC(maacore, AsstAsyncScreencap)
 

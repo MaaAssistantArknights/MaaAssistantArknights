@@ -19,6 +19,7 @@
 @ stdcall AsstBackToHome(ptr) WineShimAsstBackToHome
 
 @ stdcall AsstAsyncConnect(ptr ptr ptr ptr long) WineShimAsstAsyncConnect
+@ stdcall AsstSetConnectionExtras(ptr ptr) WineShimAsstSetConnectionExtras
 @ stdcall AsstAsyncClick(ptr long long long) WineShimAsstAsyncClick
 @ stdcall AsstAsyncScreencap(ptr long) WineShimAsstAsyncScreencap
 
