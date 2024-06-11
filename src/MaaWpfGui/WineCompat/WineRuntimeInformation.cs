@@ -24,35 +24,44 @@ namespace MaaWpfGui.WineCompat
 {
     internal class WineRuntimeInformation
     {
-        [DllImport("ntdll.dll", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr wine_get_version();
-
-        [DllImport("ntdll.dll", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
-        private static extern void wine_get_host_version(out IntPtr sysname, out IntPtr release);
-
         public static bool IsRunningUnderWine { get; }
 
         public static string? WineVersion { get; }
 
         public static string? HostSystemName { get; }
 
-        static WineRuntimeInformation()
+        static unsafe WineRuntimeInformation()
         {
+            var ntdll = NativeLibrary.Load("ntdll.dll");
             try
             {
-                var ptr = wine_get_version();
-                if (ptr != IntPtr.Zero)
+                if (NativeLibrary.TryGetExport(ntdll, "wine_get_version", out var fn))
                 {
-                    IsRunningUnderWine = true;
-                }
+                    var wine_get_version = (delegate* unmanaged[Cdecl]<nint>)fn;
+                    var str = wine_get_version();
+                    if (str != IntPtr.Zero)
+                    {
+                        IsRunningUnderWine = true;
+                    }
 
-                WineVersion = Marshal.PtrToStringUTF8(ptr);
-                wine_get_host_version(out var sysname, out var release);
-                HostSystemName = Marshal.PtrToStringUTF8(sysname);
+                    WineVersion = Marshal.PtrToStringUTF8(str);
+
+                    if (NativeLibrary.TryGetExport(ntdll, "wine_get_host_version", out fn))
+                    {
+                        var wine_get_host_version = (delegate* unmanaged[Cdecl]<nint*, nint*, void>)fn;
+                        nint sysname = 0, release = 0;
+                        wine_get_host_version(&sysname, &release);
+                        HostSystemName = Marshal.PtrToStringUTF8(sysname);
+                    }
+                }
+                else
+                {
+                    IsRunningUnderWine = false;
+                }
             }
-            catch
+            finally
             {
-                IsRunningUnderWine = false;
+                NativeLibrary.Free(ntdll);
             }
         }
     }
