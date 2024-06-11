@@ -23,6 +23,7 @@ DEFINE_DL_FUNC(AsstConnected)
 DEFINE_DL_FUNC(AsstBackToHome)
 
 DEFINE_DL_FUNC(AsstAsyncConnect)
+DEFINE_DL_FUNC(AsstSetConnectionExtras)
 DEFINE_DL_FUNC(AsstAsyncClick)
 DEFINE_DL_FUNC(AsstAsyncScreencap)
 
