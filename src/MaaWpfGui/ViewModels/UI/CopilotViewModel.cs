@@ -332,7 +332,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (doc != null && doc.TryGetValue("title", out var titleValue))
                 {
                     title = titleValue.ToString();
-                    CopilotTaskName = FindStageName((IsDataFromWeb ? string.Empty : _filename).Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty, title);
+                    CopilotTaskName = FindStageName((IsDataFromWeb ? string.Empty : _filename).Split(Path.DirectorySeparatorChar).LastOrDefault()?.Split('.').FirstOrDefault() ?? string.Empty, title).Replace("(Raid)", string.Empty);
                 }
 
                 if (title.Length != 0)
