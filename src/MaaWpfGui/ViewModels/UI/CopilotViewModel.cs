@@ -819,7 +819,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void AddCopilotTaskToList(string? stageName, bool isRaid)
         {
-            var invalidChar = @":',\.\(\)\|\[\]\?，。【】｛｝；："; // 无效字符
+            var invalidChar = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
             if (string.IsNullOrEmpty(stageName) || Regex.IsMatch(stageName, invalidChar))
             {
                 AddLog("Invalid stage name for navigation", UiLogColor.Error, showTime: false);
