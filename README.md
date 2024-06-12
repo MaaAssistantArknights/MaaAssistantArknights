@@ -112,7 +112,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 #### Windows
 
-请参阅 [开始开发](./develop/development.html)。
+请参阅 [开始开发](https://maa.plus/docs/zh-cn/develop/development.html)。
 
 #### Linux | macOS
 
