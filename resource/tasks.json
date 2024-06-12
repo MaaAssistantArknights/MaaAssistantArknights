@@ -9169,6 +9169,35 @@
         ],
         "postDelay": 200
     },
+    "BattlePauseCancel": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1170,
+            20,
+            60,
+            60
+        ],
+        "postDelay": 50,
+        "next": [
+            "BattlePauseCancelCheck",
+            "BattlePauseCancel"
+        ]
+    },
+    "BattlePauseCancelCheck": {
+        "template": "BattleOfficiallyBegin.png",
+        "roi": [
+            1165,
+            20,
+            65,
+            65
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "action": "DoNothing"
+    },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
