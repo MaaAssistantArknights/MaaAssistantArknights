@@ -19,6 +19,9 @@ bool asst::GeneralConfig::parse(const json::value& json)
     {
         const json::value& options_json = json.at("options");
         m_options.task_delay = options_json.at("taskDelay").as_integer();
+        m_options.sss_fight_screencap_interval = options_json.at("SSSFightScreencapInterval").as_integer();
+        m_options.roguelike_fight_screencap_interval = options_json.at("RoguelikeFightScreencapInterval").as_integer();
+        m_options.copilot_fight_screencap_interval = options_json.at("CopilotFightScreencapInterval").as_integer();
         m_options.control_delay_lower = options_json.at("controlDelayRange")[0].as_integer();
         m_options.control_delay_upper = options_json.at("controlDelayRange")[1].as_integer();
         // m_options.print_window = options_json.at("printWindow").as_boolean();

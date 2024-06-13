@@ -101,7 +101,9 @@ Assistant::~Assistant()
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
     }
-    m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
+    if (m_callback) {
+        m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
+    }
 }
 
 bool asst::Assistant::set_instance_option(InstanceOptionKey key, const std::string& value)

@@ -464,7 +464,8 @@
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即将休眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的结束动作</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效</system:String>
+    <system:String x:Key="AnnihilationTaskTip">关卡选择为剿灭任务，任务结束后将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
+    <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
     <!--  !日志  -->
     <!--  !一键长草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
@@ -731,7 +732,7 @@
     <system:String x:Key="Issue">问题反馈</system:String>
     <!--  !About  -->
     <!--  AutoRecruitSettings  -->
-    <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
+    <system:String x:Key="AutoRefresh">无倾向 Tag 时自动刷新 3 星 Tags</system:String>
     <system:String x:Key="ForceRefresh">无招聘许可时继续尝试刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</system:String>
@@ -818,5 +819,6 @@
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
     <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
     <system:String x:Key="Reclamation2ExProductTip">支援道具名称</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

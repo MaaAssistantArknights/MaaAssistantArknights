@@ -432,6 +432,21 @@
             ],
             "rarity": 5
         },
+        "char_1037_amiya3": {
+            "name": "阿米娅-MEDIC",
+            "name_en": "Amiya-MEDIC",
+            "name_jp": "アーミヤ-MEDIC",
+            "name_kr": "아미야-MEDIC",
+            "name_tw": "阿米婭-MEDIC",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 5
+        },
         "char_103_angel": {
             "name": "能天使",
             "name_en": "Exusiai",
@@ -1418,7 +1433,7 @@
             "name_en": "Typhon",
             "name_jp": "ティフォン",
             "name_kr": "티폰",
-            "name_tw": "提丰",
+            "name_tw": "提豐",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3726,6 +3741,21 @@
             ],
             "rarity": 5
         },
+        "char_4079_haini": {
+            "name": "海霓",
+            "name_en": "海霓",
+            "name_jp": "海霓",
+            "name_kr": "海霓",
+            "name_tw": "海霓",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": [
+                "y-2",
+                "y-6",
+                "y-6"
+            ],
+            "rarity": 5
+        },
         "char_4080_lin": {
             "name": "林",
             "name_en": "Lin",
@@ -3881,7 +3911,7 @@
             "name_en": "Valarqvin",
             "name_jp": "ヴァラルクビン",
             "name_kr": "발라크빈",
-            "name_tw": "凛视",
+            "name_tw": "凜視",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -4238,6 +4268,39 @@
                 "y-2"
             ],
             "rarity": 1
+        },
+        "char_4137_udflow": {
+            "name": "深巡",
+            "name_en": "深巡",
+            "name_jp": "深巡",
+            "name_kr": "深巡",
+            "name_tw": "深巡",
+            "position": "MELEE",
+            "profession": "TANK",
+            "rangeId": [
+                "2-2",
+                "2-2",
+                "2-2"
+            ],
+            "rarity": 5
+        },
+        "char_4145_ulpia": {
+            "name": "乌尔比安",
+            "name_en": "乌尔比安",
+            "name_jp": "乌尔比安",
+            "name_kr": "乌尔比安",
+            "name_tw": "乌尔比安",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": [
+                "1-1",
+                "1-1",
+                "1-1"
+            ],
+            "rarity": 6,
+            "tokens": [
+                "从不混淆的方向"
+            ]
         },
         "char_415_flint": {
             "name": "燧石",
@@ -5784,6 +5847,21 @@
             ],
             "rarity": 6
         },
+        "token_10039_ulpia_block": {
+            "name": "从不混淆的方向",
+            "name_en": "从不混淆的方向",
+            "name_jp": "从不混淆的方向",
+            "name_kr": "从不混淆的方向",
+            "name_tw": "从不混淆的方向",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 6
+        },
         "trap_001_crate": {
             "name": "障碍物",
             "name_en": "Roadblock",
@@ -7319,7 +7397,7 @@
             "name_en": "Silvernwhite Bulwark",
             "name_jp": "積雪の銀樹",
             "name_kr": "은백의 적설",
-            "name_tw": "积雪银凇 ",
+            "name_tw": "積雪銀淞",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7334,7 +7412,7 @@
             "name_en": "Dimensional Anchoring Pylon",
             "name_jp": "空間安定化設備",
             "name_kr": "공간 안정 시설",
-            "name_tw": "空间稳定设施",
+            "name_tw": "空間穩定設施",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7349,7 +7427,7 @@
             "name_en": "Treasure Chest",
             "name_jp": "宝箱",
             "name_kr": "보물 상자",
-            "name_tw": "宝箱",
+            "name_tw": "寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7364,7 +7442,7 @@
             "name_en": "Spiked Treasure Chest",
             "name_jp": "トゲトゲ宝箱",
             "name_kr": "가시 돋은 보물 상자",
-            "name_tw": "尖刺宝箱",
+            "name_tw": "尖刺寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7379,7 +7457,7 @@
             "name_en": "Testaceous Vinecreeps",
             "name_jp": "巨殻のツル",
             "name_kr": "상자 넝쿨",
-            "name_tw": "巨壳藤蔓",
+            "name_tw": "巨殼藤蔓",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7589,7 +7667,7 @@
             "name_en": "Waste Heat Vent",
             "name_jp": "廃熱噴出口",
             "name_kr": "폐열 분출구",
-            "name_tw": "废热喷口",
+            "name_tw": "廢熱噴口",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7646,9 +7724,9 @@
         },
         "trap_128_toolore": {
             "name": "祭坛式雷达",
-            "name_en": "祭坛式雷达",
-            "name_jp": "祭坛式雷达",
-            "name_kr": "祭坛式雷达",
+            "name_en": "Altar-type Radar",
+            "name_jp": "祭壇式レーダー",
+            "name_kr": "제단식 레이더",
             "name_tw": "祭坛式雷达",
             "position": "NONE",
             "profession": "TRAP",
@@ -7661,9 +7739,9 @@
         },
         "trap_129_tooltower": {
             "name": "R-45便携式“留声机”",
-            "name_en": "R-45便携式“留声机”",
-            "name_jp": "R-45便携式“留声机”",
-            "name_kr": "R-45便携式“留声机”",
+            "name_en": "R-45 Portable 'Gramophone'",
+            "name_jp": "R-45ポータブル「蓄音機」",
+            "name_kr": "R-45 휴대용 '축음기'",
             "name_tw": "R-45便携式“留声机”",
             "position": "NONE",
             "profession": "TRAP",
@@ -7676,9 +7754,9 @@
         },
         "trap_130_tooltree": {
             "name": "景观巨蕈",
-            "name_en": "景观巨蕈",
-            "name_jp": "景观巨蕈",
-            "name_kr": "景观巨蕈",
+            "name_en": "Ornamental Giant Mushroom",
+            "name_jp": "鑑賞用おばけ茸",
+            "name_kr": "관상용 거대버섯",
             "name_tw": "景观巨蕈",
             "position": "NONE",
             "profession": "TRAP",
@@ -7691,9 +7769,9 @@
         },
         "trap_131_toolgun": {
             "name": "战场装置LUD-99X",
-            "name_en": "战场装置LUD-99X",
-            "name_jp": "战场装置LUD-99X",
-            "name_kr": "战场装置LUD-99X",
+            "name_en": "Field Device LUD-99X",
+            "name_jp": "フィールドデバイスLUD-99X",
+            "name_kr": "전투 장치 LUD-99X",
             "name_tw": "战场装置LUD-99X",
             "position": "NONE",
             "profession": "TRAP",
@@ -7706,9 +7784,9 @@
         },
         "trap_132_toolinvert": {
             "name": "“二踢脚”型数据收集装置",
-            "name_en": "“二踢脚”型数据收集装置",
-            "name_jp": "“二踢脚”型数据收集装置",
-            "name_kr": "“二踢脚”型数据收集装置",
+            "name_en": "Two-step Firecracker and Data-collector",
+            "name_jp": "爆竹型データ収集装置",
+            "name_kr": "'양자폭죽' 데이터 수집 장치",
             "name_tw": "“二踢脚”型数据收集装置",
             "position": "NONE",
             "profession": "TRAP",
@@ -7721,9 +7799,9 @@
         },
         "trap_133_toolgarage": {
             "name": "勘察用自走车",
-            "name_en": "勘察用自走车",
-            "name_jp": "勘察用自走车",
-            "name_kr": "勘察用自走车",
+            "name_en": "Self-Driving Recon Cart",
+            "name_jp": "自走式探査車",
+            "name_kr": "탐사용 자율차",
             "name_tw": "勘察用自走车",
             "position": "NONE",
             "profession": "TRAP",
@@ -8004,6 +8082,51 @@
             ],
             "rarity": 1
         },
+        "trap_155_aegiret": {
+            "name": "航道信标",
+            "name_en": "航道信标",
+            "name_jp": "航道信标",
+            "name_kr": "航道信标",
+            "name_tw": "航道信标",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "x-2",
+                "x-2",
+                "x-2"
+            ],
+            "rarity": 1
+        },
+        "trap_156_dsshell": {
+            "name": "赘生甲壳",
+            "name_en": "赘生甲壳",
+            "name_jp": "赘生甲壳",
+            "name_kr": "赘生甲壳",
+            "name_tw": "赘生甲壳",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_157_bounc2": {
+            "name": "小帮手",
+            "name_en": "小帮手",
+            "name_jp": "小帮手",
+            "name_kr": "小帮手",
+            "name_tw": "小帮手",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
         "trap_158_lrsteam": {
             "name": "查尔斯·林奇",
             "name_en": "查尔斯·林奇",
@@ -8175,6 +8298,21 @@
             "name_jp": "促融共竞控制",
             "name_kr": "促融共竞控制",
             "name_tw": "促融共竞控制",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_180_dsblock": {
+            "name": "封印的地面",
+            "name_en": "封印的地面",
+            "name_jp": "封印的地面",
+            "name_kr": "封印的地面",
+            "name_tw": "封印的地面",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -11980,6 +12118,36 @@
             [
                 5,
                 -1
+            ]
+        ],
+        "6-1": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                0
+            ],
+            [
+                2,
+                0
+            ],
+            [
+                3,
+                0
+            ],
+            [
+                4,
+                0
+            ],
+            [
+                5,
+                0
+            ],
+            [
+                6,
+                0
             ]
         ],
         "b-1": [

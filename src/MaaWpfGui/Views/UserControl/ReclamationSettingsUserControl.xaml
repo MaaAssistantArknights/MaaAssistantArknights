@@ -33,6 +33,7 @@
                 IsEnabled="{c:Binding Idle}" />
             <TextBox
                 hc:InfoElement.Title="{DynamicResource Reclamation2ExProductTip}"
+                hc:InfoElement.Placeholder="{DynamicResource Reclamation2ExProductPlaceholder}"
                 Style="{StaticResource TextBoxExtend}"
                 Margin="0,10"
                 VerticalContentAlignment="Center"

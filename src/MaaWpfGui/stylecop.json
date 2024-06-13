@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
+  "$schema": "https://cdn.jsdelivr.net/gh/DotNetAnalyzers/StyleCopAnalyzers@master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
   "settings": {
     "documentationRules": {
       "companyName": "MaaAssistantArknights",
