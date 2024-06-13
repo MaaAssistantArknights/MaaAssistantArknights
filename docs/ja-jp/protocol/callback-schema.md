@@ -5,7 +5,9 @@ icon: material-symbols:u-turn-left
 
 # コールバック図式
 
-**This document is outdated due to the rapid update of the interface. Since the developers are not good at foreign languages, it is recommended that you refer to the Chinese or English documentation for the latest content**
+::: info 注意
+This document is outdated due to the rapid update of the interface. Since the developers are not good at foreign languages, it is recommended that you refer to the Chinese or English documentation for the latest content
+:::
 
 ::: info 注意
 コールバックメッセージがバージョンとともに更新される高速反復では、本書は古くなる可能性があります。最新のコンテンツを入手するには、[C#統合ソースコード](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs) を参照してください。
