@@ -762,6 +762,7 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
         { "BattleSkillReadyOnClick",
           "BattleSkillReadyOnClick-SquareMap",
           "BattleSkillStopOnClick",
+          "BattleSkillStopOnClick-MiddleMap",
           "BattleSkillStopOnClick-SquareMap" });
     skill_task.set_task_delay(0);
 

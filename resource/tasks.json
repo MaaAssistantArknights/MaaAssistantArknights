@@ -9474,6 +9474,10 @@
         "baseTask": "BattleSkillReadyOnClick",
         "template": "BattleSkillStopOnClick"
     },
+    "BattleSkillStopOnClick-MiddleMap": {
+        "baseTask": "BattleSkillReadyOnClick",
+        "template": "BattleSkillStopOnClick-MiddleMap"
+    },
     "BattleSkillStopOnClick-SquareMap": {
         "baseTask": "BattleSkillReadyOnClick",
         "template": "BattleSkillStopOnClick-SquareMap"
