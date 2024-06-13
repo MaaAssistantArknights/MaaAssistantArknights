@@ -514,7 +514,6 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
         m_in_battle = analyzer.analyze().has_value();
     }
     else {
-        check_skip_plot_button(image);
         m_in_battle = check_pause_button(image);
     }
     return m_in_battle;
