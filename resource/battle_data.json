@@ -1433,7 +1433,7 @@
             "name_en": "Typhon",
             "name_jp": "ティフォン",
             "name_kr": "티폰",
-            "name_tw": "提丰",
+            "name_tw": "提豐",
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": [
@@ -3911,7 +3911,7 @@
             "name_en": "Valarqvin",
             "name_jp": "ヴァラルクビン",
             "name_kr": "발라크빈",
-            "name_tw": "凛视",
+            "name_tw": "凜視",
             "position": "RANGED",
             "profession": "SUPPORT",
             "rangeId": [
@@ -7397,7 +7397,7 @@
             "name_en": "Silvernwhite Bulwark",
             "name_jp": "積雪の銀樹",
             "name_kr": "은백의 적설",
-            "name_tw": "积雪银凇 ",
+            "name_tw": "積雪銀淞",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7412,7 +7412,7 @@
             "name_en": "Dimensional Anchoring Pylon",
             "name_jp": "空間安定化設備",
             "name_kr": "공간 안정 시설",
-            "name_tw": "空间稳定设施",
+            "name_tw": "空間穩定設施",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7427,7 +7427,7 @@
             "name_en": "Treasure Chest",
             "name_jp": "宝箱",
             "name_kr": "보물 상자",
-            "name_tw": "宝箱",
+            "name_tw": "寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7442,7 +7442,7 @@
             "name_en": "Spiked Treasure Chest",
             "name_jp": "トゲトゲ宝箱",
             "name_kr": "가시 돋은 보물 상자",
-            "name_tw": "尖刺宝箱",
+            "name_tw": "尖刺寶箱",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7457,7 +7457,7 @@
             "name_en": "Testaceous Vinecreeps",
             "name_jp": "巨殻のツル",
             "name_kr": "상자 넝쿨",
-            "name_tw": "巨壳藤蔓",
+            "name_tw": "巨殼藤蔓",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -7667,7 +7667,7 @@
             "name_en": "Waste Heat Vent",
             "name_jp": "廃熱噴出口",
             "name_kr": "폐열 분출구",
-            "name_tw": "废热喷口",
+            "name_tw": "廢熱噴口",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
