@@ -6877,6 +6877,14 @@
             ]
         ]
     },
+    "Sami@Roguelike@Collapsal": {
+        "text": [
+            "선택적",
+            "선택적무시",
+            "이미지",
+            "이미지에러"
+        ]
+    },
     "Sami@Roguelike@ContinueClick": {
         "ocrReplace": [
             [
@@ -7291,14 +7299,6 @@
                 ".*숨겨진비경",
                 "_SKIP_"
             ]
-        ]
-    },
-    "Sami@Roguelike@Collapsal": {
-        "text": [
-            "선택적",
-            "선택적무시",
-            "이미지",
-            "이미지에러"
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
