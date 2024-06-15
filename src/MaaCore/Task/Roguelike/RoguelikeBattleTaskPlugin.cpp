@@ -112,6 +112,9 @@ std::string
     if (oper.role == Role::Warrior && oper.name == "阿米娅") {
         return "阿米娅-WARRIOR"; // 在 BattleData.json 中有
     }
+    else if (oper.role == Role::Medic && oper.name == "阿米娅") {
+        return "阿米娅-MEDIC"; // 在 BattleData.json 中有
+    }
     else {
         return oper.name;
     }
