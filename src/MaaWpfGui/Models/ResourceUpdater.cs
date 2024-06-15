@@ -19,7 +19,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Windows;
+using System.Web;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
@@ -141,7 +141,10 @@ namespace MaaWpfGui.Models
                 new Uri(mirrorUrl + MaaResourceVersion),
                 httpCompletionOption: HttpCompletionOption.ResponseHeadersRead);
 
-            return response is { StatusCode: System.Net.HttpStatusCode.OK };
+            return response is
+            {
+                StatusCode: System.Net.HttpStatusCode.OK
+            };
         }
 
         private static async Task<bool> CheckUpdateAsync(string baseUrl)
@@ -149,7 +152,10 @@ namespace MaaWpfGui.Models
             var url = baseUrl + MaaResourceVersion;
 
             using var response = await ETagCache.FetchResponseWithEtag(url);
-            if (response is not { StatusCode: System.Net.HttpStatusCode.OK })
+            if (response is not
+                {
+                    StatusCode: System.Net.HttpStatusCode.OK
+                })
             {
                 return false;
             }
@@ -251,9 +257,7 @@ namespace MaaWpfGui.Models
             // TODO: 加个文件存这些文件的 hash，如果 hash 没变就不下载了，只需要请求一次
             foreach (var file in _maaSingleFiles)
             {
-                await Task.Delay(1000);
-
-                var sRet = await UpdateFileWithETagAsync(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
+                var sRet = await UpdateFileWithETagAsync(baseUrl, file, file, maxRetryTime);
 
                 if (sRet == UpdateResult.Failed)
                 {
@@ -301,9 +305,7 @@ namespace MaaWpfGui.Models
                          .Where(file => !string.IsNullOrEmpty(file))
                          .Where(file => !File.Exists(Path.Combine(Environment.CurrentDirectory, file))))
             {
-                await Task.Delay(1000);
-
-                var sRet = await UpdateFileWithETagAsync(baseUrl, file.Replace("#", "%23"), file, maxRetryTime);
+                var sRet = await UpdateFileWithETagAsync(baseUrl, file, file, maxRetryTime);
                 if (sRet == UpdateResult.Failed)
                 {
                     OutputDownloadProgress(LocalizationHelper.GetString("GameResourceFailed"));
@@ -341,7 +343,8 @@ namespace MaaWpfGui.Models
         private static async Task<UpdateResult> UpdateFileWithETagAsync(string baseUrl, string file, string saveTo, int maxRetryTime = 0)
         {
             saveTo = Path.Combine(Environment.CurrentDirectory, saveTo);
-            var url = baseUrl + file;
+            var encodedFilePath = string.Join('/', file.Split('/').Select(HttpUtility.UrlEncode));
+            var url = baseUrl + encodedFilePath;
 
             int retryCount = 0;
             UpdateResult updateResult;
