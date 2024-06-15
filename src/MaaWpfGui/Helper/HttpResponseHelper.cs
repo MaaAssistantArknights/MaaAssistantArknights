@@ -36,8 +36,8 @@ namespace MaaWpfGui.Helper
 
             try
             {
-                using var stream = await GetStreamAsync(response);
-                using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
+                await using var stream = await GetStreamAsync(response);
+                await using var fileStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write, FileShare.None, 8192, true);
                 await stream!.CopyToAsync(fileStream).ConfigureAwait(false);
             }
             catch (Exception e)
