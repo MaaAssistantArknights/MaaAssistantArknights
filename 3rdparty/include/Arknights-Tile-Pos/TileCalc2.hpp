@@ -5,13 +5,14 @@
 #include <opencv2/core/matx.hpp>
 #include <opencv2/core/types.hpp>
 
-#include "TileCalc.hpp"
+#include "TileDef.hpp"
 
 namespace Map::TileCalc2
 {
 using vec3d = cv::Vec3d;
 using matrix4x4 = cv::Matx44d;
 static constexpr double degree = std::numbers::pi / 180;
+
 inline vec3d camera_pos(const Level& level, bool side = false, int width = 1280, int height = 720)
 {
     const auto [x, y, z] = level.view[side ? 1 : 0];
@@ -89,8 +90,8 @@ inline cv::Point
     result = result / result(3);
     result = (result + cv::Vec4d::ones()) / 2.;
     return {
-        static_cast<int>(result(0) * width),
-        static_cast<int>((1 - result(1)) * height),
+        static_cast<int>(std::round(result(0) * width)),
+        static_cast<int>(std::round((1 - result(1)) * height)),
     };
 }
 

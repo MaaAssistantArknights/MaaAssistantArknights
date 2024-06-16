@@ -164,7 +164,8 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             }
             calced = true;
             m_stage_name = text;
-            auto calc_result = Tile.calc(stage_key);
+            m_map_data = TilePack::find_level(stage_key).value_or(Map::Level {});
+            auto calc_result = TilePack::calc(m_map_data);
             m_normal_tile_info = std::move(calc_result.normal_tile_info);
             m_side_tile_info = std::move(calc_result.side_tile_info);
             m_retreat_button_pos = calc_result.retreat_button;
