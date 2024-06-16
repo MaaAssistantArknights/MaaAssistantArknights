@@ -256,7 +256,15 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                     }
 
-                    File.Move(path, moveTo);
+                    try
+                    {
+                        File.Move(path, moveTo);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error($"move file error, path: {path}, moveTo: {moveTo}, error: {e.Message}");
+                        throw;
+                    }
                 }
             }
 
@@ -279,18 +287,26 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 string curFileName = file.Replace(extractDir, curDir);
-                if (File.Exists(curFileName))
+                try
                 {
-                    string moveTo = file.Replace(extractDir, oldFileDir);
-                    if (File.Exists(moveTo))
+                    if (File.Exists(curFileName))
                     {
-                        DeleteFileWithBackup(moveTo);
+                        string moveTo = file.Replace(extractDir, oldFileDir);
+                        if (File.Exists(moveTo))
+                        {
+                            DeleteFileWithBackup(moveTo);
+                        }
+
+                        File.Move(curFileName, moveTo);
                     }
 
-                    File.Move(curFileName, moveTo);
+                    File.Move(file, curFileName);
                 }
-
-                File.Move(file, curFileName);
+                catch (Exception e)
+                {
+                    _logger.Error($"move file error, file name: {file}");
+                    throw;
+                }
             }
 
             // 操作完了，把解压的文件删了
@@ -308,8 +324,9 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     File.Delete(filePath);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    _logger.Error($"delete file error, filePath: {filePath}, error: {e.Message}, try to backup.");
                     int index = 0;
                     string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
                     string backupFilePath = $"{filePath}.{currentDate}.{index}";
@@ -320,7 +337,15 @@ namespace MaaWpfGui.ViewModels.UI
                         backupFilePath = $"{filePath}.{currentDate}.{index}";
                     }
 
-                    File.Move(filePath, backupFilePath);
+                    try
+                    {
+                        File.Move(filePath, backupFilePath);
+                    }
+                    catch (Exception e1)
+                    {
+                        _logger.Error($"move file error, path: {filePath}, moveTo: {backupFilePath}, error: {e1.Message}");
+                        throw;
+                    }
                 }
             }
         }
