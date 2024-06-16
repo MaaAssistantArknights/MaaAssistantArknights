@@ -714,18 +714,18 @@ bool asst::InfrastProductionTask::use_drone()
 }
 
 asst::infrast::SkillsComb asst::InfrastProductionTask::efficient_regex_calc(
-    std::unordered_set<infrast::Skill> skills) const
+    const std::unordered_set<infrast::Skill>& skills) const
 {
-    infrast::SkillsComb comb(std::move(skills));
+    infrast::SkillsComb comb(skills);
     // 根据正则，计算当前干员的实际效率
-    for (auto&& [product, formula] : comb.efficient_regex) {
+    for (const auto& [product, formula] : comb.efficient_regex) {
         std::string cur_formula = formula;
         for (size_t pos = 0; pos != std::string::npos;) {
             pos = cur_formula.find('[', pos);
             if (pos == std::string::npos) {
                 break;
             }
-            size_t rp_pos = cur_formula.find(']', pos);
+            const size_t rp_pos = cur_formula.find(']', pos);
             if (rp_pos == std::string::npos) {
                 break;
                 // TODO 报错！

@@ -27,7 +27,8 @@ namespace asst::battle
         std::string name;
         int skill = 0; // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
         SkillUsage skill_usage = SkillUsage::NotUse;
-        int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
+
+        static constexpr int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
     };
 
     enum class DeployDirection
@@ -38,6 +39,23 @@ namespace asst::battle
         Up = 3,
         None = 4 // 没有方向，通常是无人机之类的
     };
+
+    constexpr DeployDirection operator~(const DeployDirection& direction)
+    {
+        switch (direction) {
+        case DeployDirection::Right:
+            return DeployDirection::Left;
+        case DeployDirection::Down:
+            return DeployDirection::Up;
+        case DeployDirection::Left:
+            return DeployDirection::Right;
+        case DeployDirection::Up:
+            return DeployDirection::Down;
+        default:
+            return DeployDirection::None;
+        }
+    }
+
 
     enum class Role
     {
@@ -91,7 +109,7 @@ namespace asst::battle
             { "无人机", Role::Drone },       { "SUMMON", Role::Drone },       { "summon", Role::Drone },
             { "Summon", Role::Drone },       { "召唤物", Role::Drone },
         };
-        if (auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
+        if (const auto iter = NameToRole.find(role_name); iter != NameToRole.end()) {
             return iter->second;
         }
         return Role::Unknown;
