@@ -590,6 +590,7 @@
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
     <system:String x:Key="ErrorSolution">解決策</system:String>
     <system:String x:Key="ErrorSolutionCrash">ドキュメント「よくある問題 - クラッシュ」を参照してください。</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。ルートディレクトリにあるアップデートパッケージを手動で解凍してみてください。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">リンクを開けませんでした。Windows 設定に移動してデフォルトのブラウザを選択してください。</system:String>
