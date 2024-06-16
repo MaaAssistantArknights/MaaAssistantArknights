@@ -598,6 +598,34 @@ public:
         std::unique_lock lock { m_trace_mutex };                                       \
         log(std::move(lock), level::lv, m_scopes.next(), std::forward<Args>(args)...); \
     }
+
+    template <typename... Args>
+    inline void debug(Args&&... args)
+    {
+        std::unique_lock lock { m_trace_mutex };
+        log(std::move(lock), level::debug, std::forward<Args>(args)...);
+    }
+
+#define LOGGER_FMT_FUNC_WITH_LEVEL(lv)                                              \
+    template <typename... Args>                                                     \
+    inline void lv##_fmt(const std::string& fmt, Args&&... args)                    \
+    {                                                                               \
+        std::unique_lock lock { m_trace_mutex };                                    \
+        log(std::move(lock),                                                        \
+            level::lv,                                                              \
+            m_scopes.next(),                                                        \
+            std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...))); \
+    }
+
+    template <typename... Args>
+    inline void debug_fmt(const std::string& fmt, Args&&... args)
+    {
+        std::unique_lock lock { m_trace_mutex };
+        log(std::move(lock),
+            level::debug,
+            std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...)));
+    }
+
 #else
 #define LOGGER_FUNC_WITH_LEVEL(lv)                   \
     template <typename... Args>                      \
@@ -605,6 +633,18 @@ public:
     {                                                \
         log(level::lv, std::forward<Args>(args)...); \
     }
+
+    static inline void debug([[maybe_unused]] auto&&...) {}
+
+#define LOGGER_FMT_FUNC_WITH_LEVEL(lv)                                                         \
+    template <typename... Args>                                                                \
+    inline void lv##_fmt(const std::string& fmt, Args&&... args)                               \
+    {                                                                                          \
+        log(level::lv, std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...))); \
+    }
+
+    static inline void debug_fmt([[maybe_unused]] auto&&...) {}
+
 #endif
 
     LOGGER_FUNC_WITH_LEVEL(trace)
@@ -612,16 +652,13 @@ public:
     LOGGER_FUNC_WITH_LEVEL(warn)
     LOGGER_FUNC_WITH_LEVEL(error)
 
-    template <typename... Args>
-    inline void debug([[maybe_unused]] Args&&... args)
-    {
-#ifdef ASST_DEBUG
-        std::unique_lock lock { m_trace_mutex };
-        log(std::move(lock), level::debug, std::forward<Args>(args)...);
-#endif
-    }
+    LOGGER_FMT_FUNC_WITH_LEVEL(trace)
+    LOGGER_FMT_FUNC_WITH_LEVEL(info)
+    LOGGER_FMT_FUNC_WITH_LEVEL(warn)
+    LOGGER_FMT_FUNC_WITH_LEVEL(error)
 
 #undef LOGGER_FUNC_WITH_LEVEL
+#undef LOGGER_FMT_FUNC_WITH_LEVEL
 
     template <typename... Args>
     inline int push(Args&&... args)
