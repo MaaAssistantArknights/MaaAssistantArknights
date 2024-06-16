@@ -48,17 +48,14 @@ namespace asst::infrast
     };
 }
 
-namespace std
+template <>
+struct std::hash<asst::infrast::Skill>
 {
-    template <>
-    struct hash<asst::infrast::Skill>
+    size_t operator()(const asst::infrast::Skill& skill) const noexcept
     {
-        size_t operator()(const asst::infrast::Skill& skill) const noexcept
-        {
-            return ::std::hash<std::string>()(skill.id);
-        }
-    };
-}
+        return ::std::hash<std::string>()(skill.id);
+    }
+};
 
 namespace asst::infrast
 {
@@ -79,9 +76,8 @@ namespace asst::infrast
     struct SkillsComb
     {
         SkillsComb() = default;
-        SkillsComb(std::unordered_set<Skill> skill_vec)
+        SkillsComb(const std::unordered_set<Skill>& skill_vec) : skills{skill_vec}
         {
-            skills = std::move(skill_vec);
             for (const auto& s : skills) {
                 for (const auto& [key, value] : s.efficient) {
                     efficient[key] += value;
