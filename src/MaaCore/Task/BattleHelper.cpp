@@ -65,7 +65,8 @@ bool asst::BattleHelper::calc_tiles_info(
         return false;
     }
 
-    auto calc_result = Tile.calc(stage_name, shift_x, shift_y);
+    m_map_data = TilePack::find_level(stage_name).value_or(Map::Level {});
+    auto calc_result = TilePack::calc(stage_name, shift_x, shift_y);
     m_normal_tile_info = std::move(calc_result.normal_tile_info);
     m_side_tile_info = std::move(calc_result.side_tile_info);
     m_retreat_button_pos = calc_result.retreat_button;

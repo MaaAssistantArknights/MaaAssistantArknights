@@ -78,20 +78,19 @@ bool proc_data(
         TileInfo { static_cast<battle::LocationType>(tile.buildableType),
                    static_cast<TilePack::HeightType>(tile.heightType),
                    key,
-                   Point(static_cast<int>(cv_p.x), static_cast<int>(cv_p.y)),
+                   Point(cv_p.x, cv_p.y),
                    loc });
     return true;
 }
 
 asst::TilePack::result_type
-    asst::TilePack::calc_(const json::value& data, double shift_x, double shift_y) const
+    asst::TilePack::calc_(const Map::Level& level, double shift_x, double shift_y)
 {
     LogTraceFunction;
 
     std::vector<std::vector<cv::Point2d>> pos;
     std::vector<std::vector<Map::Tile>> tiles;
 
-    Map::Level level(data);
     result_type result;
     const int w = level.get_width();
     const int h = level.get_height();
