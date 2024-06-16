@@ -1,5 +1,6 @@
 #pragma once
 
+#include <format>
 #include <functional>
 #include <ostream>
 #include <unordered_map>
@@ -31,7 +32,8 @@ namespace asst
         SubTaskStopped,       // 原子任务停止（手动停止）
     };
 
-    inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
+    //format 也能用到（）
+    inline static std::string to_string(const AsstMsg& type)
     {
         static const std::unordered_map<AsstMsg, std::string> _type_name = {
             /* Global Info */
@@ -54,7 +56,20 @@ namespace asst
             { AsstMsg::SubTaskExtraInfo, "SubTaskExtraInfo" },
             { AsstMsg::SubTaskStopped, "SubTaskStopped" },
         };
-        return os << _type_name.at(type);
+
+        const auto it = _type_name.find(type);
+        if (it != _type_name.end()) {
+            return it->second;
+        }
+        else {
+            throw std::out_of_range("Invalid AsstMsg type");
+        }
+    }
+
+
+    inline std::ostream& operator<<(std::ostream& os, const AsstMsg& type)
+    {
+        return os << to_string(type);
     }
 
     // 对外的回调接口
@@ -65,3 +80,13 @@ namespace asst
     class Assistant;
     using AsstCallback = std::function<void(AsstMsg msg, const json::value& details, Assistant* inst)>;
 }
+
+template <>
+struct std::formatter<asst::AsstMsg> : std::formatter<std::string>
+{
+    auto format(const asst::AsstMsg& msg, format_context& ctx) const
+    {
+        return std::formatter<std::string>::format(to_string(msg), ctx);
+    }
+};
+

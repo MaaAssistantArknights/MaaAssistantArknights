@@ -28,7 +28,7 @@ namespace asst::battle
         int skill = 0; // 技能序号，取值范围 [0, 3]，0时使用默认技能 或 上次编队时使用的技能
         SkillUsage skill_usage = SkillUsage::NotUse;
 
-        static constexpr int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
+        int skill_times = 1; // 使用技能的次数，默认为 1，兼容曾经的作业
     };
 
     enum class DeployDirection
