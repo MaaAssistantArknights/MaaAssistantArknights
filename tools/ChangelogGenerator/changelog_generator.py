@@ -8,6 +8,7 @@ import re
 import urllib.request
 import urllib.error
 
+repo = "MaaAssistantArknights/MaaAssistantArknights" # Owner/ Repo name
 cur_dir = Path(__file__).parent
 contributors_path = cur_dir / "contributors.json"
 changelog_path = cur_dir.parent.parent / "CHANGELOG.md"
@@ -217,7 +218,7 @@ def convert_contributors_name(name: str, commit_hash: str, name_type: str):
     if name not in contributors:
         try:
             req = urllib.request.Request(
-                f"https://api.github.com/repos/MaaAssistantArknights/MaaAssistantArknights/commits/{commit_hash}"
+                f"https://api.github.com/repos/{repo}/commits/{commit_hash}"
             )
             token = os.environ.get("GH_TOKEN", os.environ.get("GITHUB_TOKEN", None))
             if token:
