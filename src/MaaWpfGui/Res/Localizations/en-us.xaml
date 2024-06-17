@@ -259,6 +259,8 @@
     <system:String x:Key="AdditionCommand">Additional command arguments</system:String>
     <system:String x:Key="StartsWithScript">Starts with Script</system:String>
     <system:String x:Key="EndsWithScript">Ends with Script</system:String>
+    <system:String x:Key="CopilotWithScript">Enable the above script during Copilot</system:String>
+    <system:String x:Key="ManualStopWithScript">Enable the above script during manual stop</system:String>
     <system:String x:Key="BlockSleep">Prevent hibernation when running tasks</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">Keep screen on when preventing hibernation</system:String>
     <system:String x:Key="ScreencapCost">Screencap Cost min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>

@@ -6,6 +6,7 @@
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
     <system:String x:Key="AdvancedSettings">高度な設定</system:String>
+    <system:String x:Key="PerformanceSettings">パフォーマンス設定</system:String>
     <system:String x:Key="GameSettings">対象クライアント</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">統合戦略設定</system:String>
@@ -47,6 +48,9 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
+    <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用</system:String>
+    <system:String x:Key="GpuOptionDisable">使用しない</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -255,6 +259,8 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
+    <system:String x:Key="CopilotWithScript">自動戦闘時に上記のスクリプトを有効にする</system:String>
+    <system:String x:Key="ManualStopWithScript">手動停止時に上記のスクリプトを有効にする</system:String>
     <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
     <system:String x:Key="ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>

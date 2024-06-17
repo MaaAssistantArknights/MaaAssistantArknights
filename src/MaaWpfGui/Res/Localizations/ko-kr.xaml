@@ -6,6 +6,7 @@
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
     <system:String x:Key="AdvancedSettings">고급 설정</system:String>
+    <system:String x:Key="PerformanceSettings">성능 설정</system:String>
     <system:String x:Key="GameSettings">클라이언트</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합 전략</system:String>
@@ -47,6 +48,9 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
+    <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
+    <system:String x:Key="GpuOptionDisable">사용안함</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
@@ -255,9 +259,11 @@
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
+    <system:String x:Key="CopilotWithScript">자동 지휘 시 스크립트 사용</system:String>
+    <system:String x:Key="ManualStopWithScript">수동 종료 시 스크립트 사용</system:String>
     <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">절전 모드 방지 시 항상 밝게 표시</system:String>
-    <system:String x:Key="ScreencapCost">스크린샷을 찍는 데는 시간이 걸립니다 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
+    <system:String x:Key="ScreencapCost">스크린샷 소요 시간 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
