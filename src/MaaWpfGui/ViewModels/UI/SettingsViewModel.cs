@@ -491,7 +491,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _smtpUseSsl = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"));
+        private bool _smtpUseSsl = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpUseSsl, "false"));
 
         public bool SmtpUseSsl
         {
@@ -503,7 +503,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _smtpRequireAuthentication = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"));
+        private bool _smtpRequireAuthentication = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExternalNotificationSmtpRequiresAuthentication, "false"));
 
         public bool SmtpRequireAuthentication
         {
@@ -1285,7 +1285,7 @@ namespace MaaWpfGui.ViewModels.UI
             { "txwy", "ZH_TW" },
         };
 
-        private bool _autoRestartOnDrop = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, "True"));
+        private bool _autoRestartOnDrop = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoRestartOnDrop, "True"));
 
         public bool AutoRestartOnDrop
         {
@@ -1605,7 +1605,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _continueTraining = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, false.ToString()));
+        private bool _continueTraining = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ContinueTraining, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to continue training after current training completed.
@@ -1647,67 +1647,67 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _isCustomInfrastFileReadOnly = ConfigurationHelper.GetValue(ConfigurationKeys.IsCustomInfrastFileReadOnly, false.ToString());
+        private bool _isCustomInfrastFileReadOnly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IsCustomInfrastFileReadOnly, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether  CustomInfrastFile is read-only
         /// </summary>
         public bool IsCustomInfrastFileReadOnly
         {
-            get => bool.Parse(_isCustomInfrastFileReadOnly);
+            get => _isCustomInfrastFileReadOnly;
             set
             {
-                SetAndNotify(ref _isCustomInfrastFileReadOnly, value.ToString());
+                SetAndNotify(ref _isCustomInfrastFileReadOnly, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.IsCustomInfrastFileReadOnly, value.ToString());
             }
         }
 
-        private string _dormFilterNotStationedEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, true.ToString());
+        private bool _dormFilterNotStationedEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormFilterNotStationedEnabled, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether the not stationed filter in dorm is enabled.
         /// </summary>
         public bool DormFilterNotStationedEnabled
         {
-            get => bool.Parse(_dormFilterNotStationedEnabled);
+            get => _dormFilterNotStationedEnabled;
             set
             {
-                SetAndNotify(ref _dormFilterNotStationedEnabled, value.ToString());
+                SetAndNotify(ref _dormFilterNotStationedEnabled, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.DormFilterNotStationedEnabled, value.ToString());
             }
         }
 
-        private string _dormTrustEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, false.ToString());
+        private bool _dormTrustEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DormTrustEnabled, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether trust in dorm is enabled.
         /// </summary>
         public bool DormTrustEnabled
         {
-            get => bool.Parse(_dormTrustEnabled);
+            get => _dormTrustEnabled;
             set
             {
-                SetAndNotify(ref _dormTrustEnabled, value.ToString());
+                SetAndNotify(ref _dormTrustEnabled, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.DormTrustEnabled, value.ToString());
             }
         }
 
-        private string _originiumShardAutoReplenishment = ConfigurationHelper.GetValue(ConfigurationKeys.OriginiumShardAutoReplenishment, true.ToString());
+        private bool _originiumShardAutoReplenishment = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.OriginiumShardAutoReplenishment, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether Originium shard auto replenishment is enabled.
         /// </summary>
         public bool OriginiumShardAutoReplenishment
         {
-            get => bool.Parse(_originiumShardAutoReplenishment);
+            get => _originiumShardAutoReplenishment;
             set
             {
-                SetAndNotify(ref _originiumShardAutoReplenishment, value.ToString());
+                SetAndNotify(ref _originiumShardAutoReplenishment, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.OriginiumShardAutoReplenishment, value.ToString());
             }
         }
 
-        private bool _customInfrastEnabled = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastEnabled, false.ToString()));
+        private bool _customInfrastEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastEnabled, bool.FalseString));
 
         public bool CustomInfrastEnabled
         {
@@ -1930,6 +1930,11 @@ namespace MaaWpfGui.ViewModels.UI
             get => _roguelikeMode;
             set
             {
+                if (value == "1")
+                {
+                    RoguelikeInvestmentEnabled = true;
+                }
+
                 SetAndNotify(ref _roguelikeMode, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeMode, value);
             }
@@ -2015,14 +2020,14 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, false.ToString());
+        private bool _roguelikeStartWithEliteTwo = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
-        public bool RoguelikeStartWithEliteTwo
+        public bool RoguelikeStartWithEliteTwoRaw
         {
-            get => bool.Parse(_roguelikeStartWithEliteTwo) && RoguelikeSquadIsProfessional;
+            get => _roguelikeStartWithEliteTwo;
             set
             {
                 switch (value)
@@ -2031,45 +2036,61 @@ namespace MaaWpfGui.ViewModels.UI
                         RoguelikeUseSupportUnit = false;
                         break;
 
-                    case false when RoguelikeOnlyStartWithEliteTwo:
-                        RoguelikeOnlyStartWithEliteTwo = false;
+                    case false when RoguelikeOnlyStartWithEliteTwoRaw:
+                        RoguelikeOnlyStartWithEliteTwoRaw = false;
                         break;
                 }
 
-                SetAndNotify(ref _roguelikeStartWithEliteTwo, value.ToString());
+                SetAndNotify(ref _roguelikeStartWithEliteTwo, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStartWithEliteTwo, value.ToString());
             }
         }
 
-        private string _roguelikeOnlyStartWithEliteTwo = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, false.ToString());
+        /// <summary>
+        /// Gets a value indicating whether core char need start with elite two.
+        /// </summary>
+        public bool RoguelikeStartWithEliteTwo => _roguelikeStartWithEliteTwo && RoguelikeSquadIsProfessional;
+
+        private bool _roguelikeOnlyStartWithEliteTwo = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether only need with elite two's core char.
         /// </summary>
-        public bool RoguelikeOnlyStartWithEliteTwo
+        public bool RoguelikeOnlyStartWithEliteTwoRaw
         {
-            get => bool.Parse(_roguelikeOnlyStartWithEliteTwo) && RoguelikeStartWithEliteTwo;
+            get => _roguelikeOnlyStartWithEliteTwo;
             set
             {
-                SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value.ToString());
+                SetAndNotify(ref _roguelikeOnlyStartWithEliteTwo, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeOnlyStartWithEliteTwo, value.ToString());
             }
         }
 
-        private string _roguelike3FirstFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, false.ToString());
+        /// <summary>
+        /// Gets a value indicating whether only need with elite two's core char.
+        /// </summary>
+        public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && RoguelikeStartWithEliteTwo;
+
+
+        private bool _roguelike3FirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
-        public bool Roguelike3FirstFloorFoldartal
+        public bool Roguelike3FirstFloorFoldartalRaw
         {
-            get => bool.Parse(_roguelike3FirstFloorFoldartal) && RoguelikeMode == "4" && RoguelikeTheme == "Sami";
+            get => _roguelike3FirstFloorFoldartal;
             set
             {
-                SetAndNotify(ref _roguelike3FirstFloorFoldartal, value.ToString());
+                SetAndNotify(ref _roguelike3FirstFloorFoldartal, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, value.ToString());
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether core char need start with elite two.
+        /// </summary>
+        public bool Roguelike3FirstFloorFoldartal => _roguelike3FirstFloorFoldartal && RoguelikeMode == "4" && RoguelikeTheme == "Sami";
 
         private string _roguelike3StartFloorFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3StartFloorFoldartal, string.Empty);
 
@@ -2083,20 +2104,26 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelike3NewSquad2StartingFoldartal = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, false.ToString());
+        private bool _roguelike3NewSquad2StartingFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether core char need start with elite two.
         /// </summary>
-        public bool Roguelike3NewSquad2StartingFoldartal
+        public bool Roguelike3NewSquad2StartingFoldartalRaw
         {
-            get => bool.Parse(_roguelike3NewSquad2StartingFoldartal) && RoguelikeSquadIsFoldartal;
+            get => _roguelike3NewSquad2StartingFoldartal;
             set
             {
-                SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, value.ToString());
+                SetAndNotify(ref _roguelike3NewSquad2StartingFoldartal, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartal, value.ToString());
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether core char need start with elite two.
+        /// </summary>
+        public bool Roguelike3NewSquad2StartingFoldartal => _roguelike3NewSquad2StartingFoldartal && RoguelikeSquadIsFoldartal;
+
 
         private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty);
 
@@ -2110,42 +2137,42 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeUseSupportUnit = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, false.ToString());
+        private bool _roguelikeUseSupportUnit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportUnit, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use support unit.
         /// </summary>
         public bool RoguelikeUseSupportUnit
         {
-            get => bool.Parse(_roguelikeUseSupportUnit);
+            get => _roguelikeUseSupportUnit;
             set
             {
                 if (value && RoguelikeStartWithEliteTwo)
                 {
-                    RoguelikeStartWithEliteTwo = false;
+                    RoguelikeStartWithEliteTwoRaw = false;
                 }
 
-                SetAndNotify(ref _roguelikeUseSupportUnit, value.ToString());
+                SetAndNotify(ref _roguelikeUseSupportUnit, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeUseSupportUnit, value.ToString());
             }
         }
 
-        private string _roguelikeEnableNonfriendSupport = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, false.ToString());
+        private bool _roguelikeEnableNonfriendSupport = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether can roguelike support unit belong to nonfriend
         /// </summary>
         public bool RoguelikeEnableNonfriendSupport
         {
-            get => bool.Parse(_roguelikeEnableNonfriendSupport);
+            get => _roguelikeEnableNonfriendSupport;
             set
             {
-                SetAndNotify(ref _roguelikeEnableNonfriendSupport, value.ToString());
+                SetAndNotify(ref _roguelikeEnableNonfriendSupport, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, value.ToString());
             }
         }
 
-        private bool _roguelikeDelayAbortUntilCombatComplete = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, false.ToString()));
+        private bool _roguelikeDelayAbortUntilCombatComplete = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDelayAbortUntilCombatComplete, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether delay abort until battle complete
@@ -2175,44 +2202,59 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeInvestmentEnabled = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, true.ToString());
+        private bool _roguelikeInvestmentEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether investment is enabled.
         /// </summary>
         public bool RoguelikeInvestmentEnabled
         {
-            get => bool.Parse(_roguelikeInvestmentEnabled);
+            get => _roguelikeInvestmentEnabled;
             set
             {
-                SetAndNotify(ref _roguelikeInvestmentEnabled, value.ToString());
+                SetAndNotify(ref _roguelikeInvestmentEnabled, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnabled, value.ToString());
             }
         }
 
-        private string _roguelikeInvestmentWithMoreScore = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, true.ToString());
+        private bool _roguelikeInvestmentWithMoreScore = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether investment is enabled.
         /// </summary>
-        public bool RoguelikeInvestmentWithMoreScore
+        public bool RoguelikeInvestmentWithMoreScoreRaw
         {
-            get => bool.Parse(_roguelikeInvestmentWithMoreScore) && RoguelikeMode == "1";
+            get => _roguelikeInvestmentWithMoreScore;
             set
             {
-                SetAndNotify(ref _roguelikeInvestmentWithMoreScore, value.ToString());
+                SetAndNotify(ref _roguelikeInvestmentWithMoreScore, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeInvestmentEnterSecondFloor, value.ToString());
             }
         }
 
-        private string _roguelikeRefreshTraderWithDice = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, false.ToString());
+        /// <summary>
+        /// Gets a value indicating whether investment is enabled.
+        /// </summary>
+        public bool RoguelikeInvestmentWithMoreScore => _roguelikeInvestmentWithMoreScore && RoguelikeMode == "1";
+
+        private bool _roguelikeRefreshTraderWithDice = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, bool.FalseString));
+
+        public bool RoguelikeRefreshTraderWithDiceRaw
+        {
+            get => _roguelikeRefreshTraderWithDice;
+            set
+            {
+                SetAndNotify(ref _roguelikeRefreshTraderWithDice, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
+            }
+        }
 
         public bool RoguelikeRefreshTraderWithDice
         {
-            get => bool.Parse(_roguelikeRefreshTraderWithDice);
+            get => _roguelikeRefreshTraderWithDice && RoguelikeTheme == "Mizuki";
             set
             {
-                SetAndNotify(ref _roguelikeRefreshTraderWithDice, value.ToString());
+                SetAndNotify(ref _roguelikeRefreshTraderWithDice, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeRefreshTraderWithDice, value.ToString());
             }
         }
@@ -2232,17 +2274,17 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _roguelikeStopWhenInvestmentFull = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, false.ToString());
+        private bool _roguelikeStopWhenInvestmentFull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to stop when investment is full.
         /// </summary>
         public bool RoguelikeStopWhenInvestmentFull
         {
-            get => bool.Parse(_roguelikeStopWhenInvestmentFull);
+            get => _roguelikeStopWhenInvestmentFull;
             set
             {
-                SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value.ToString());
+                SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, value.ToString());
             }
         }
@@ -2421,7 +2463,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _creditForceShoppingIfCreditFull = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, false.ToString()));
+        private bool _creditForceShoppingIfCreditFull = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditForceShoppingIfCreditFull, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether save credit is enabled.
@@ -2436,7 +2478,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _creditOnlyBuyDiscount = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, false.ToString()));
+        private bool _creditOnlyBuyDiscount = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditOnlyBuyDiscount, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether only buy discount is enabled.
@@ -2451,7 +2493,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _creditReserveMaxCredit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, false.ToString()));
+        private bool _creditReserveMaxCredit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditReserveMaxCredit, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether reserve max credit is enabled.
@@ -2468,7 +2510,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 领取奖励设置 */
 
-        private bool _receiveAward = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, true.ToString()));
+        private bool _receiveAward = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveAward, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether receive award is enabled.
@@ -2483,7 +2525,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _receiveMail = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, false.ToString()));
+        private bool _receiveMail = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMail, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether receive mail is enabled.
@@ -2498,7 +2540,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _receiveFreeRecruit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, false.ToString()));
+        private bool _receiveFreeRecruit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveFreeRecruit, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether receive mail is enabled.
@@ -2529,7 +2571,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _receiveOrundum = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, false.ToString()));
+        private bool _receiveOrundum = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveOrundum, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether receive orundum is enabled.
@@ -2544,7 +2586,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _receiveMining = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, false.ToString()));
+        private bool _receiveMining = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveMining, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether receive mining is enabled.
@@ -2559,7 +2601,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _receiveReceiveSpecialAccess = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, false.ToString()));
+        private bool _receiveReceiveSpecialAccess = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ReceiveSpecialAccess, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to collect special access rewards.
@@ -2598,7 +2640,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
-                protected void OnPropertyChanged([CallerMemberName] string name = null)
+                protected void OnPropertyChanged([CallerMemberName]string name = null)
                 {
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
                 }
@@ -3218,7 +3260,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         /* 连接设置 */
 
-        private bool _autoDetectConnection = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, true.ToString()));
+        private bool _autoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
 
         public bool AutoDetectConnection
         {
@@ -3230,7 +3272,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _alwaysAutoDetectConnection = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, false.ToString()));
+        private bool _alwaysAutoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AlwaysAutoDetect, bool.FalseString));
 
         public bool AlwaysAutoDetectConnection
         {
@@ -3356,7 +3398,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             public event PropertyChangedEventHandler PropertyChanged;
 
-            protected void OnPropertyChanged([CallerMemberName] string name = null)
+            protected void OnPropertyChanged([CallerMemberName]string name = null)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
@@ -3526,7 +3568,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _deploymentWithPause = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, false.ToString()));
+        private bool _deploymentWithPause = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeDeploymentWithPause, bool.FalseString));
 
         public bool DeploymentWithPause
         {
@@ -3539,7 +3581,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _adbLiteEnabled = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, false.ToString()));
+        private bool _adbLiteEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbLiteEnabled, bool.FalseString));
 
         public bool AdbLiteEnabled
         {
@@ -3552,7 +3594,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _killAdbOnExit = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, false.ToString()));
+        private bool _killAdbOnExit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.KillAdbOnExit, bool.FalseString));
 
         public bool KillAdbOnExit
         {
@@ -3923,7 +3965,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AdbReplaced = true;
 
-                ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, true.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.AdbReplaced, bool.TrueString);
 
                 _ = Execute.OnUIThreadAsync(() =>
                 {
@@ -3943,7 +3985,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, false.ToString()));
+        public bool AdbReplaced { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AdbReplaced, bool.FalseString));
 
         /* 界面设置 */
 
@@ -4080,7 +4122,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useRemainingSanityStage = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
+        private bool _useRemainingSanityStage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseRemainingSanityStage, bool.TrueString));
 
         public bool UseRemainingSanityStage
         {
@@ -4093,7 +4135,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _useExpiringMedicine = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, bool.FalseString));
+        private bool _useExpiringMedicine = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseExpiringMedicine, bool.FalseString));
 
         public bool UseExpiringMedicine
         {
@@ -4365,7 +4407,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _cheers = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.Cheers, bool.FalseString));
+        private bool _cheers = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Cheers, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to cheer.
@@ -4389,7 +4431,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _hangover = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.Hangover, bool.FalseString));
+        private bool _hangover = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Hangover, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to hangover.
