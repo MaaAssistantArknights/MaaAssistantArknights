@@ -15,7 +15,6 @@
 #include "Platform/AdbLiteIO.h"
 
 #include "ControllerAPI.h"
-#include "ControllerFactory.h"
 
 #include "ControlScaleProxy.h"
 
@@ -37,6 +36,13 @@ public:
     Controller(const Controller&) = delete;
     Controller(Controller&&) = delete;
     ~Controller();
+
+    std::shared_ptr<ControllerAPI> create_controller(
+        ControllerType type,
+        const std::string& adb_path,
+        const std::string& address,
+        const std::string& config,
+        PlatformType platform_type) const;
 
     bool
         connect(const std::string& adb_path, const std::string& address, const std::string& config);
@@ -109,8 +115,6 @@ private:
     ControllerType m_controller_type = ControllerType::Minitouch;
 
     std::shared_ptr<ControllerAPI> m_controller = nullptr;
-
-    std::unique_ptr<ControllerFactory> m_controller_factory = nullptr;
 
     std::shared_ptr<ControlScaleProxy> m_scale_proxy = nullptr;
 
