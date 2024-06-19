@@ -297,7 +297,9 @@ namespace MaaWpfGui.ViewModels.UI
                     continue;
                 }
 
-                DateTime startTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day,
+                DateTime startTime = new DateTime(currentTime.Year,
+                    currentTime.Month,
+                    currentTime.Day,
                     Instances.SettingsViewModel.TimerModels.Timers[i].Hour,
                     Instances.SettingsViewModel.TimerModels.Timers[i].Min,
                     0);
@@ -2216,7 +2218,7 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 default:
-                    Execute.OnUIThread(() =>
+                    _ = Execute.OnUIThreadAsync(() =>
                     {
                         using var toast = new ToastNotification(LocalizationHelper.GetString("UnknownActionAfterCompleted"));
                         toast.Show();
@@ -3115,17 +3117,15 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitDrops()
         {
-            foreach (var item in ItemListHelper.ArkItems)
+            foreach (var (val, value) in ItemListHelper.ArkItems)
             {
-                var val = item.Key;
-
                 // 不是数字的东西都是正常关卡不会掉的（大概吧）
                 if (!int.TryParse(val, out _))
                 {
                     continue;
                 }
 
-                var dis = item.Value.Name;
+                var dis = value.Name;
 
                 if (_excludedValues.Contains(val))
                 {

@@ -36,7 +36,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
-using static System.Windows.Forms.AxHost;
 using static MaaWpfGui.Helper.Instances.Data;
 using AsstHandle = System.IntPtr;
 using AsstInstanceOptionKey = System.Int32;
@@ -113,7 +112,7 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private static void AsstSetConnectionExtrasMuMu12(string extras, ref string error)
+        private static void AsstSetConnectionExtrasMuMu12(string extras)
         {
             AsstSetConnectionExtras("MuMuEmulator12", extras);
         }
@@ -1665,7 +1664,7 @@ namespace MaaWpfGui.Main
             switch (Instances.SettingsViewModel.ConnectConfig)
             {
                 case "MuMuEmulator12":
-                    AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config, ref error);
+                    AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
                     break;
             }
 
@@ -1907,12 +1906,11 @@ namespace MaaWpfGui.Main
         public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
             var type = isMainFight ? TaskType.Fight : TaskType.FightRemainingSanity;
-            if (!_latestTaskId.ContainsKey(type))
+            if (!_latestTaskId.TryGetValue(type, out var id))
             {
                 return false;
             }
 
-            var id = _latestTaskId[type];
             if (id == 0)
             {
                 return false;
