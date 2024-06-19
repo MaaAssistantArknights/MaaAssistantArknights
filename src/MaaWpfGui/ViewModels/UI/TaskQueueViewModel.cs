@@ -1300,8 +1300,17 @@ namespace MaaWpfGui.ViewModels.UI
         private void SetInfrastParams()
         {
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
-            Instances.AsstProxy.AsstSetInfrastTaskParams(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.ContinueTraining, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled,
-                Instances.SettingsViewModel.OriginiumShardAutoReplenishment, Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
+            Instances.AsstProxy.AsstSetInfrastTaskParams(
+                order.ToArray(),
+                Instances.SettingsViewModel.UsesOfDrones,
+                Instances.SettingsViewModel.ContinueTraining,
+                Instances.SettingsViewModel.DormThreshold / 100.0,
+                Instances.SettingsViewModel.DormFilterNotStationedEnabled,
+                Instances.SettingsViewModel.DormTrustEnabled,
+                Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
+                Instances.SettingsViewModel.CustomInfrastEnabled,
+                Instances.SettingsViewModel.CustomInfrastFile,
+                CustomInfrastPlanIndex);
         }
 
         private bool AppendInfrast()

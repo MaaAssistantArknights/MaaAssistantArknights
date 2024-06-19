@@ -35,8 +35,8 @@ namespace MaaWpfGui.Helper
 
         private readonly bool _loadWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.LoadWindowPlacement, bool.TrueString));
         private readonly bool _saveWindowPlacement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.SaveWindowPlacement, bool.TrueString));
-        private readonly bool _minimizeDirectly = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
-        private readonly bool _minimizeToTray = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
+        private readonly bool _minimizeDirectly = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeDirectly, bool.FalseString));
+        private readonly bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
         /// <summary>
         /// Center other windows in MaaWpfGui.RootView
@@ -44,7 +44,7 @@ namespace MaaWpfGui.Helper
         private static void MoveWindowToDisplay(Window window)
         {
             var mainWindow = Application.Current.MainWindow;
-            if (!(mainWindow is { WindowState: WindowState.Normal }))
+            if (mainWindow is not { WindowState: WindowState.Normal })
             {
                 return;
             }

@@ -132,7 +132,7 @@ namespace MaaWpfGui.Models
 
         #region 双入口设置可见性
 
-        private bool _customInfrastPlanShowInFightSettings = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, false.ToString()));
+        private bool _customInfrastPlanShowInFightSettings = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CustomInfrastPlanShowInFightSettings, bool.FalseString));
 
         public bool CustomInfrastPlanShowInFightSettings
         {
