@@ -61,28 +61,6 @@ namespace MaaWpfGui.Views.UserControl
         }
     }
 
-    public class InvestmentButtonCheckedConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            string isEnabled = System.Convert.ToString(values[0]);
-            string roguelikeMode = System.Convert.ToString(values[1]);
-
-            if (roguelikeMode == "1")
-            {
-                return true;
-            }
-
-            return isEnabled == "True";
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            bool isEnabled = (bool)value;
-            return new object[] { isEnabled, isEnabled };
-        }
-    }
-
     public class StartingCoreCharRule : ValidationRule
     {
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
