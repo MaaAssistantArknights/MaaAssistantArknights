@@ -2300,7 +2300,7 @@ namespace MaaWpfGui.Main
                 ["investment_enabled"] = false,
             };
 
-            if (mode == 1 || investmentEnabled)
+            if (investmentEnabled)
             {
                 taskParams["investment_enabled"] = true;
                 taskParams["investment_with_more_score"] = investmentWithMoreScore;
@@ -2323,14 +2323,14 @@ namespace MaaWpfGui.Main
                 taskParams["core_char"] = coreChar;
             }
 
-            taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
-            taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
-            if (mode == 4 && theme == "Sami" && roguelike3FirstFloorFoldartal && roguelike3StartFloorFoldartal.Length > 0)
+            taskParams["start_with_elite_two"] = startWithEliteTwo;
+            taskParams["only_start_with_elite_two"] = onlyStartWithEliteTwo;
+            if (roguelike3FirstFloorFoldartal && roguelike3StartFloorFoldartal.Length > 0)
             {
                 taskParams["first_floor_foldartal"] = roguelike3StartFloorFoldartal;
             }
 
-            if (mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
+            if (roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
             {
                 taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';', '；').Where(i => !string.IsNullOrEmpty(i)).Take(3));
             }

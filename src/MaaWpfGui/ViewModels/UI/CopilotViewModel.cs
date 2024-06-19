@@ -735,7 +735,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useSanityPotion, value);
         }
 
-        private bool _addUserAdditional = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false.ToString()));
+        private bool _addUserAdditional = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
