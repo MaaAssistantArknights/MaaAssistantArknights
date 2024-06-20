@@ -3065,6 +3065,22 @@
             [
                 "以.*分.*",
                 "以人为本分队"
+            ],
+            [
+                "特訓分隊",
+                "特训分队"
+            ],
+            [
+                "永恆狩獵分隊",
+                "永恒狩猎分队"
+            ],
+            [
+                "生活至上分隊",
+                "生活至上分队"
+            ],
+            [
+                "科學主義分隊",
+                "科学主义分队"
             ]
         ]
     },
@@ -5765,6 +5781,25 @@
             ]
         ]
     },
+    "Sami@Roguelike@Collapsal": {
+        "text": [
+            "目空",
+            "目空一些",
+            "圖像",
+            "圖像損壞"
+        ]
+    },
+    "Sami@Roguelike@ContinueClick": {
+        "text": [
+            "初霜湖澤",
+            "密靜林地",
+            "昧明凍土",
+            "積冰巖骸",
+            "無瑕花園",
+            "遠見之構",
+            "深埋迷境"
+        ]
+    },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
             [
@@ -5850,6 +5885,21 @@
             [
                 "空無",
                 "空无"
+            ]
+        ]
+    },
+    "Sami@Roguelike@FoldartalUseConfirm": {
+        "text": [
+            "開始宣告"
+        ],
+        "ocrReplace": [
+            [
+                "開始告",
+                "開始宣告"
+            ],
+            [
+                "^開始宣.*",
+                "開始宣告"
             ]
         ]
     },
@@ -5941,12 +5991,86 @@
             ]
         ]
     },
+    "Sami@Roguelike@NextLevel": {
+        "text": [
+            "完成本層",
+            "下一層級"
+        ]
+    },
     "Sami@Roguelike@SelectTheme": {
         "text": [
             "探索"
         ],
         "next": [
             "Sami@Roguelike@FromIntegratedStrategies"
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode0": {
+        "ocrReplace": [
+            [
+                "初霜湖澤",
+                "_aggressive"
+            ],
+            [
+                "密靜林地",
+                "_aggressive"
+            ],
+            [
+                ".*明凍土",
+                "昧明凍土"
+            ],
+            [
+                "昧明凍土",
+                "_pragmatic"
+            ],
+            [
+                "積冰巖骸",
+                "_pragmatic"
+            ],
+            [
+                "無瑕花園",
+                "_default"
+            ],
+            [
+                "遠見之構",
+                "_default"
+            ],
+            [
+                "深埋迷境",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode4": {
+        "ocrReplace": [
+            [
+                "初霜湖澤",
+                "_default"
+            ],
+            [
+                "密靜林地",
+                "_default"
+            ],
+            [
+                "昧明凍土",
+                "_exit"
+            ],
+            [
+                "積冰巖骸",
+                "_exit"
+            ],
+            [
+                "無瑕花園",
+                "_exit"
+            ],
+            [
+                "遠見之構",
+                "_exit"
+            ],
+            [
+                "深埋迷境",
+                "_exit"
+            ]
         ]
     },
     "Reclamation@ClickAnyZoneOcr": {
