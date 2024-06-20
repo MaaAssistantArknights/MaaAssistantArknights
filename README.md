@@ -48,10 +48,39 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！  
 
-![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
-![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
-![zh3](https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png)
-![zh4](https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png)
+<!-- markdownlint-disable -->
+
+<div class="image-readme">
+  <img src="https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png" />
+  <img src="https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png" />
+  <img src="https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png" />
+  <img src="https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png" />
+</div>
+
+<style>
+  .image-readme {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .image-readme > img {
+     box-sizing: border-box;
+     width: 50% !important;
+     padding: 9px;
+     border-radius: 16px;
+  }
+
+  @media (max-width: 719px){
+    .image-readme > img {
+      width: 100% !important;
+    }
+  }
+
+</style>
+
+<!-- markdownlint-restore -->
 
 ## 下载地址
 
