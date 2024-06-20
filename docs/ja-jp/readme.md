@@ -36,8 +36,36 @@ MAAは、MAA Assistant Arknightsです。
 
 UIを見れば使い方もすぐ分かる！  
 
-![jp1](https://user-images.githubusercontent.com/99072975/232383662-9000d3dd-f6be-4bb6-8ffd-526a8815aa24.png)
-![jp2](https://user-images.githubusercontent.com/99072975/232383668-6a42a55c-8c83-4c3c-a203-51e64eb4f39a.png)
+<!-- markdownlint-disable -->
+
+<div class="image-ja-jp">
+  <img src="https://user-images.githubusercontent.com/99072975/232383662-9000d3dd-f6be-4bb6-8ffd-526a8815aa24.png" />
+  <img src="https://user-images.githubusercontent.com/99072975/232383668-6a42a55c-8c83-4c3c-a203-51e64eb4f39a.png" />
+</div>
+
+<style>
+  .image-ja-jp {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .image-ja-jp > img {
+     box-sizing: border-box;
+     width: 50% !important;
+     padding: 9px;
+     border-radius: 16px;
+  }
+
+  @media (max-width: 419px){
+    .image-ja-jp > img {
+      width: 100% !important;
+    }
+  }
+</style>
+
+<!-- markdownlint-restore -->
 
 ## ダウンロードリンク
 

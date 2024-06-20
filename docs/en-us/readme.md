@@ -36,8 +36,36 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!
 
-![en1](https://user-images.githubusercontent.com/99072975/232383365-0b6f657a-c482-4a82-86eb-c129bf676f0c.png)
-![en2](https://user-images.githubusercontent.com/99072975/232383370-250eec85-15a1-49cd-8d8d-77545658ae74.png)
+<!-- markdownlint-disable -->
+
+<div class="image-en-us">
+  <img src="https://user-images.githubusercontent.com/99072975/232383365-0b6f657a-c482-4a82-86eb-c129bf676f0c.png" />
+  <img src="https://user-images.githubusercontent.com/99072975/232383370-250eec85-15a1-49cd-8d8d-77545658ae74.png" />
+</div>
+
+<style>
+  .image-en-us {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .image-en-us > img {
+     box-sizing: border-box;
+     width: 50% !important;
+     padding: 9px;
+     border-radius: 16px;
+  }
+
+  @media (max-width: 419px){
+    .image-en-us > img {
+      width: 100% !important;
+    }
+  }
+</style>
+
+<!-- markdownlint-restore -->
 
 ## Download
 
