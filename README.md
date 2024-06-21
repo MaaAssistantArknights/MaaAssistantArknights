@@ -1,5 +1,3 @@
-<!-- markdownlint-disable -->
-
 <div align="center">
 
 <img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
@@ -22,8 +20,6 @@
     <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
 </div>
 <br>
-
-<!-- markdownlint-restore -->
 
 [简体中文](https://maa.plus/docs/zh-cn/) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
 
@@ -50,18 +46,12 @@ MAA 的意思是 MAA Assistant Arknights
 - 选择作业 JSON 文件，自动抄作业， [视频演示](https://www.bilibili.com/video/BV1H841177Fk/)
 - 支持 C, Python, Java, Rust, Golang, Java HTTP, Rust HTTP 等多种接口，方便集成调用，自定义你的 MAA！
 
-话不多说，看图！
+话不多说，看图！  
 
-<!-- markdownlint-disable -->
-
-<div style="display: flex; justify-content: space-evenly; align-items: center; flex-wrap: wrap;">
-    <img style="box-sizing: border-box; width: 50%; padding: 9px; border-radius: 16px;" src="https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png" />
-    <img style="box-sizing: border-box; width: 50%; padding: 9px; border-radius: 16px;" src="https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png" />
-    <img style="box-sizing: border-box; width: 50%; padding: 9px; border-radius: 16px;" src="https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png" />
-    <img style="box-sizing: border-box; width: 50%; padding: 9px; border-radius: 16px;" src="https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png" />
-</div>
-
-<!-- markdownlint-restore -->
+![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
+![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
+![zh3](https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png)
+![zh4](https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png)
 
 ## 下载地址
 
@@ -211,3 +201,5 @@ Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播
 开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
+
+<!-- markdownlint-disable-file MD033 MD041 -->
