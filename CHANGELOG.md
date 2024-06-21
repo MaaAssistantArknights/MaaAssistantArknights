@@ -3,9 +3,7 @@
 ### 新增 | New
 
 * 无法连接设备时尝试断开连接然后重新连接 (#9433) @lingting
-* YostarEN RS navigation @Constrat
-* YoStarKR RS stage navigation @HX3N
-* GPU acceleration (DX12/DirectML) @dantmnf @SherkeyXD
+* GPU 加速推理 (DX12/DirectML) @dantmnf @SherkeyXD
 * SideStory「生路」活动导航 @ABA2396
 * 增加暂停放技能和暂停撤退 (#9348) @Lancarus
 
@@ -19,7 +17,6 @@
 * 增加更新时解压更新包失败日志，增加解压失败解决方案 @ABA2396
 * 优化萨米肉鸽棘刺技能携带 (#9400) @Daydreamer114
 * 优化热更新 @ABA2396
-* 允许使用“feat!”表示重大更新 @zzyyyl
 * 允许使用“feat!”表示重大更新 @zzyyyl
 * 更新 py 回调 @ABA2396
 * 优化关卡选择为剿灭时的逻辑判断 @ABA2396
@@ -37,7 +34,6 @@
 * 战斗列表禁用包含非法字符的关卡名添加 (#9363) @status102
 * add AsstSetConnectionExtras to wine bridge @dantmnf
 * check before destroy callback @dantmnf
-* depot analyzer to detect multipliers for KR (#9343) @178619
 * en 服在没有源石和理智药的情况下无法退出刷理智任务 @ABA2396
 * 修复时间比较报错的问题 @SherkeyXD
 * 刷理智结束时有概率报错 @ChingCdesu
@@ -47,15 +43,11 @@
 
 ### 其他 | Other
 
-* 初步適配繁中服薩米肉鴿 (#9429) @momomochi987
-* YoStarJP RS navigation (#9427) @Manicsteiner
-* YoStarJP roguelike ocr fix (#9426) @Manicsteiner
 * update cn-mumu-report.yaml @Rbqwow
 * fix missing includes @horror-proton
 * use factory function instead of class @horror-proton
 * bump zzyyyl/issue-checker from 1.7 to 1.8 @zzyyyl
 * 修正生息演算相关打标签逻辑 @zzyyyl
-* YoStar add translations for new feat @HX3N
 * changelog生成器repo独立设置 @SherkeyXD
 * move functions to TileCalc2 and TileDef @horror-proton
 * Amiya new promotion in RoguelikeBattleTaskPlugin (#9377) @Manicsteiner
@@ -63,3 +55,24 @@
 * Amiya new promotion (#9347) @178619
 * 修正临时招募优先度描述错误 (#9344) @IzakyL
 * StyleCop链接使用cdn @SherkeyXD
+
+### For Overseas
+
+#### txwy
+
+* 初步適配繁中服薩米肉鴿 (#9429) @momomochi987
+
+#### YostarEN
+
+* YostarEN RS navigation @Constrat
+
+#### YostarJP
+
+* YoStarJP RS navigation (#9427) @Manicsteiner
+* YoStarJP roguelike ocr fix (#9426) @Manicsteiner
+
+#### YostarKR
+
+* YoStarKR RS stage navigation @HX3N
+* depot analyzer to detect multipliers for KR (#9343) @178619
+* YoStar add translations for new feat @HX3N
