@@ -491,7 +491,7 @@
     <system:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。エラーが発生/統計情報に問題があれば、debug/depotフォルダを圧縮し、issueを提出してください~</system:String>
     <system:String x:Key="StartToDepotRecognition">認識開始</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplannerへ出力</system:String>
-    <system:String x:Key="ExportToLolicon">Loliconへ出力</system:String>
+    <system:String x:Key="ExportToLolicon">Arkntoolsへ出力</system:String>
     <system:String x:Key="CopiedToClipboard">クリップボードへコピー</system:String>
     <!--  !倉庫アイテム認識  -->
     <!--  Operator Recognition  -->
