@@ -39,8 +39,8 @@ UIを見れば使い方もすぐ分かる！
 <!-- markdownlint-disable -->
 
 <div class="image-ja-jp">
-  <img src="https://user-images.githubusercontent.com/99072975/232383662-9000d3dd-f6be-4bb6-8ffd-526a8815aa24.png" />
-  <img src="https://user-images.githubusercontent.com/99072975/232383668-6a42a55c-8c83-4c3c-a203-51e64eb4f39a.png" />
+  <img src="/image/ja-jp/readme/1-light.png" />
+  <img src="/image/ja-jp/readme/2-light.png" />
 </div>
 
 <style>

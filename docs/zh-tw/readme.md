@@ -40,21 +40,33 @@ MAA 的意思是 MAA Assistant Arknights
 <!-- markdownlint-disable -->
 
 <div class="image-zh-tw">
-  <img src="https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png" />
-  <img src="https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png" />
-  <img src="https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png" />
-  <img src="https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png" />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/1-dark.png">
+  <img alt="zh1" src="/image/zh-cn/readme/1-light.png">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/2-dark.png">
+  <img alt="zh2" src="/image/zh-cn/readme/2-light.png">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/3-dark.png">
+  <img alt="zh3" src="/image/zh-cn/readme/3-light.png">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/4-dark.png">
+  <img alt="zh4" src="/image/zh-cn/readme/4-light.png">
+</picture>
 </div>
 
 <style>
   .image-zh-tw {
-    display: flex;
+    display: inline-block;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
   }
 
-  .image-zh-tw > img {
+  .image-zh-tw > picture img {
      box-sizing: border-box;
      width: 25% !important;
      padding: 9px;
@@ -62,13 +74,13 @@ MAA 的意思是 MAA Assistant Arknights
   }
 
   @media (max-width: 719px){
-    .image-zh-tw > img {
+    .image-zh-tw > picture img {
       width: 50% !important;
     }
   }
 
   @media (max-width: 419px){
-    .image-zh-tw > img {
+    .image-zh-tw > picture img {
       width: 100% !important;
     }
   }

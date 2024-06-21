@@ -54,10 +54,22 @@ MAA 的意思是 MAA Assistant Arknights
 
 <details><summary>话不多说，看图！</summary>
 
-![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
-![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
-![zh3](https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png)
-![zh4](https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/1-dark.png">
+  <img alt="zh1" src="./docs/.vuepress/public/image/zh-cn/readme/1-light.png">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/2-dark.png">
+  <img alt="zh2" src="./docs/.vuepress/public/image/zh-cn/readme/2-light.png">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/3-dark.png">
+  <img alt="zh3" src="./docs/.vuepress/public/image/zh-cn/readme/3-light.png">
+</picture>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/.vuepress/public/image/zh-cn/readme/4-dark.png">
+  <img alt="zh4" src="./docs/.vuepress/public/image/zh-cn/readme/4-light.png">
+</picture>
 
 </details>
 
