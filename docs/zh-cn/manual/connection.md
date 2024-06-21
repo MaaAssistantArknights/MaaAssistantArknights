@@ -212,7 +212,7 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 需使用官版 MuMu 12 V3.8.13 及更新版本，并关闭后台保活。方舟专版、国际版等暂不支持。
 
-1. 设置 → 连接设置，勾选 `启用 MuMu 截图增强模式`。
+1. `设置` - `连接设置`，勾选 `启用 MuMu 截图增强模式`。
 
 2. `MuMu 模拟器路径` 填写 `MuMuPlayer-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMuPlayer-12.0`。
 

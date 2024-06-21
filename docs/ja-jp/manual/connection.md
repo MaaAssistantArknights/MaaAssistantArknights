@@ -1,47 +1,46 @@
 ---
+order: 3
 icon: mdi:plug
 ---
 
-(translation required)
-
-# 连接设置
+# 接続設定
 
 :::note
-实体机相关问题请同时参阅 [Android 实体设备](./device/android.md)。
+実機に関する問題については、[Android 実機](./device/android.md) を参照してください。
 :::
 
-## ADB 路径
+## ADB パス
 
-:::info 技术细节
-自动检测使用的是模拟器的 ADB，但有时自动检测会出现问题，此时就需要手动设置。
-`强制替换 ADB` 是下载谷歌提供的 ADB 后再进行替换，如果自己设置谷歌的 ADB 即可一劳永逸。
+:::info 技術的詳細
+自動検出ではエミュレータの ADB を使用しますが、自動検出に問題が発生することがあります。その場合、手動で設定する必要があります。
+`ADB の強制置換`は、Google が提供する ADB をダウンロードして置換することで、一度設定すれば解決します。
 :::
 
-### 使用模拟器提供的 ADB
+### エミュレータ提供の ADB を使用する
 
-前往模拟器安装路径，Windows 可在模拟器运行时在任务管理器中右键进程点击 `打开文件所在的位置`。
+エミュレータのインストールパスに移動し、Windows ではタスクマネージャでプロセスを右クリックし、「ファイルの場所を開く」を選択します。
 
-顶层或下层目录中应该会有一个名字中带有 `adb` 的 exe 文件，可以使用搜索功能，搜索并选择。
+最上位またはサブディレクトリに、`adb` を含む exe ファイルがあるはずです。検索機能を使用して選択します。
 
-:::details 一些例子
+:::details いくつかの例
 `adb.exe` `HD-adb.exe` `adb_server.exe` `nox_adb.exe`
 :::
 
-### 使用谷歌提供的 ADB
+### Google 提供の ADB を使用する
 
-[点击下载](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)后解压，然后选择其中的 `adb.exe`。
+[ここをクリックしてダウンロード](https://dl.google.com/android/repository/platform-tools-latest-windows.zip)し、解凍して、その中から `adb.exe` を選択します。
 
-推荐直接解压到 MAA 文件夹下，这样可以直接在 ADB 路径中填写 `.\platform-tools\adb.exe`，也可以随着 MAA 文件夹一起移动。
+おすすめは、直接 `MAA` フォルダに解凍することです。そうすると、ADB パスに `.\platform-tools\adb.exe` を入力することができます。`MAA` フォルダと一緒に移動することもできます。
 
-## 连接地址
+## 接続アドレス
 
-::: tip
-运行在本机的模拟器连接地址应该是 `127.0.0.1:<端口号>` 或 `emulator-<四位数字>`。
+:::tip
+ローカルで実行しているエミュレータの接続アドレスは `127.0.0.1:<ポート番号>` または `emulator-<四桁の数字>` です。
 :::
 
-### 获取端口号
+### ポート番号の取得
 
-#### 模拟器相关文档及参考端口
+#### エミュレータ関連ドキュメントおよび参考ポート
 
 - [Bluestacks 5](https://support.bluestacks.com/hc/zh-tw/articles/360061342631-%E5%A6%82%E4%BD%95%E5%B0%87%E6%82%A8%E7%9A%84%E6%87%89%E7%94%A8%E5%BE%9EBlueStacks-4%E8%BD%89%E7%A7%BB%E5%88%B0BlueStacks-5#%E2%80%9C2%E2%80%9D) `5555`
 - [MuMu Pro](https://mumu.163.com/mac/function/20240126/40028_1134600.html) `16384`
@@ -50,69 +49,121 @@ icon: mdi:plug
 - [逍遥](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [夜神](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
-其他模拟器可参考 [赵青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
+他のエミュレータについては[Zhaoqingqing's Blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)を参照してください。
 
-#### 关于多开
+#### 多重起動について
 
-- MuMu 12 多开器右上角可查看正在运行的多开端口。
-- Bluestacks 5 模拟器设置内可查看当前的多开端口。
-- *待补充*
+- MuMu 12 の多重起動マネージャーでは、実行中のポートを確認できます。
+- Bluestacks 5 の設定内で現在の多重ポートを確認できます。
+- _追加予定_
 
-#### 备选方案
+#### 代替案
 
-- 方案 1 : 使用 adb 命令查看模拟器端口
+- オプション 1 : ADB コマンドを使用してエミュレータのポートを確認します
 
-  1. 启动**一个**模拟器，并确认没有其他安卓设备连接在此计算机上。
-  2. 在存放有 adb 可执行文件的文件夹中启动命令窗口。
-  3. 执行以下命令。
+  1. **単一**のエミュレータを起動し、他に Android デバイスがこのコンピュータに接続されていないことを確認します。
+  2. ADB 実行可能ファイルが格納されているフォルダでターミナルを起動します。
+  3. 次のコマンドを実行します。
 
   ```sh
-  # Windows 命令提示符
+  # Windows コマンド プロンプト
   adb devices
   # Windows PowerShell
   .\adb devices
   ```
 
-  以下为输出内容的例子：
+  以下は、出力例です
 
   ```text
   List of devices attached
-  127.0.0.1:<端口号>   device
-  emulator-<四位数字>  device
+  127.0.0.1:<ポート番号>   device
+  emulator-<四桁の数字>  device
   ```
 
-  使用 `127.0.0.1:<端口>` 或 `emulator-<四位数字>` 作为连接地址。
+  使用 `127.0.0.1:<ポート>` または `emulator-<四桁の数字>` を接続アドレスとして使用します。
 
-- 方案 2 : 查找已建立的 adb 连接
+- 方法2：すでに確立されたADB接続を検索する
 
-  1. 执行方案 1。
-  2. 按 `徽标键+S` 打开搜索栏，输入 `资源监视器` 并打开。
-  3. 切换到 `网络` 选项卡，在 `侦听端口` 的名称列中查找模拟器进程名，如 `HD-Player.exe`。
-  4. 记录模拟器进程的所有侦听端口。
-  5. 在 `TCP 连接` 的名称列中查找 `adb.exe`，在远程端口列中与模拟器侦听端口一致的端口即为模拟器调试端口。
+  1. 方法1を実行します。
+  2. `Windowsキー+S` を押して検索バーを開き、「リソースモニター」を入力して開きます。
+  3. `ネットワーク` タブに切り替えて、モニターするポート名であるシミュレータープロセス名（例：`HD-Player.exe`）を検索します。
+  4. シミュレータープロセスのすべてのリッスンポートを記録します。
+  5. `TCP接続` タブの中で、`adb.exe` を探し、リモートポート列でシミュレーターリッスンポートに一致するポートを探します。
 
-### 蓝叠模拟器 Hyper-V 每次启动端口号都不一样
+### 自動的に複数のエミュレーターを起動する
 
-在 `连接设置` 中设置 `连接配置` 为 `蓝叠模拟器` ，随后勾选 `自动检测连接` 和 `每次重新检测`。
+複数のエミュレーターを同時に操作する場合、MAAフォルダを複数コピーし、**異なるMAA**、**同じadb.exe**、**異なる接続アドレス** を使用して接続します。
+**[ブルースタックス国際版](./device/windows.md)を例に**、2つの多重起動エミュレーターの開始方法を紹介します。
 
-通常情况下这样就可以连接。如果无法连接，可能是存在多个模拟器核心或出现了问题，请阅读下文进行额外设置。
+#### エミュレーターexeにコマンドを添付して複数起動する
 
-#### 指定 `Bluestacks.Config.Keyword`
+1. **単一**のエミュレーターを複数開始します。
+2. タスクマネージャーを開き、該当するエミュレータープロセスを見つけます。詳細情報タブに移動し、列ヘッダーで右クリックし、「列の選択」をクリックし、「コマンドライン」を選択します。
+3. 追加された「コマンドライン」列で、「...\Bluestacks_nxt\HD-Player.exe」の後にある内容を見つけます。
+4. 見つけた `--instance Nougat32` のような内容を「起動設定」 - 「追加コマンド」に記入します。
 
-::: info 注意
-如果启用了多开功能或安装了多个模拟器核心，则需要进行额外设置来指定使用的模拟器编号
+::: tip
+操作が終了したら、「ステップ2」で開いた「コマンドライン」列を再度非表示にすることをお勧めします。これにより、パフォーマンスの低下を防ぎます。
 :::
 
-在 `.\config\gui.json` 中搜索 `Bluestacks.Config.Keyword` 字段，内容为 `"bst.instance.<模拟器编号>.status.adb_port"`，模拟器编号可在模拟器路径的 `BlueStacks_nxt\Engine` 中看到
+::: details 例
 
-::: details 示例
-Nougat64 核心：
+```text
+多開1:
+エミュレーターパス: C:\Program Files\BlueStacks_nxt\HD-Player.exe
+追加コマンド: --instance Nougat32 --cmd launchApp --package "com.hypergryph.arknights"
+多開2:
+エミュレーターパス: C:\Program Files\BlueStacks_nxt\HD-Player.exe
+追加コマンド: --instance Nougat32_1 --cmd launchApp --package "com.hypergryph.arknights.bilibili"
+```
+
+`--cmd launchApp --package` の部分は起動後に指定のパッケージ名のアプリを自動で起動するためのものであり、必要に応じて変更してください。
+:::
+
+#### シミュレーターやアプリを使用した複数起動の方法
+
+1. マルチインスタンス管理ツールを開き、対応するシミュレーターのショートカットを追加します。
+2. シミュレーターのショートカットのパスを「起動設定」-「シミュレーターのパス」に入力します。
+
+::: tip
+一部のシミュレーターはアプリケーションのショートカットを作成することができ、それを使用してシミュレーターを直接起動し、明日方舟を開くことができます。
+:::
+
+::: details 例
+
+```text
+多開1:
+シミュレーターのパス: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\多開1.lnk
+多開2:
+シミュレーターのパス: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\多開2-明日方舟.lnk
+```
+
+:::
+
+もし `シミュレータのパス` を使用して複数の起動操作を行う場合、`起動設定` - `追加コマンド` を空に設定することをお勧めします。
+
+### BlueStacksシミュレータ Hyper-V 启動ごとにポート番号が異なります
+
+`接続設定` で `接続構成` を `BlueStacksシミュレータ` に設定し、その後 `自動接続の検出` と `毎回再検出` をチェックします。
+
+通常、これで接続できるはずです。接続できない場合、複数のシミュレータコアが存在するか、問題が発生している可能性がありますので、以下の追加設定をお読みください。
+
+#### `Bluestacks.Config.Keyword` を指定
+
+::: info 注意
+複数の起動機能が有効になっている場合や複数のシミュレータコアがインストールされている場合は、追加の設定が必要です。
+:::
+
+`.\config\gui.json` 内で `Bluestacks.Config.Keyword` フィールドを検索し、内容を `"bst.instance.<シミュレータ番号>.status.adb_port"` に設定します。シミュレータ番号はシミュレータパスの `BlueStacks_nxt\Engine` 内で確認できます。
+
+::: details 例
+Nougat64 コア：
 
 ```json
 "Bluestacks.Config.Keyword":"bst.instance.Nougat64.status.adb_port",
 ```
 
-Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
+Pie64_2 コア：（コア名の後の数字は複数の起動コアを示します）
 
 ```json
 "Bluestacks.Config.Keyword": "bst.instance.Pie64_2.status.adb_port",
@@ -120,49 +171,71 @@ Pie64_2 核心：（核心名称后的数字代表这是一个多开核心）
 
 :::
 
-#### 指定 `Bluestacks.Config.Path`
+#### `Bluestacks.Config.Path` を指定
 
 ::: info 注意
-MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当该功能无法工作时，则需要手动指定配置文件路径
+MAA は現在 `bluestacks.conf` の保存場所をレジストリから読み取ろうとしますが、この機能が機能しない場合は、手動で設定ファイルのパスを指定する必要があります。
 :::
 
-1. 在蓝叠模拟器的数据目录下找到 `bluestacks.conf` 这个文件
+1. ブルースタックスシミュレータのデータディレクトリ内にある `bluestacks.conf` ファイルを見つけます。
 
-    - 国际版默认路径为 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf`
-    - 中国内地版默认路径为 `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf`
+   - 国際版のデフォルトパスは `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` です。
+   - 中国本土版のデフォルトパスは `C:\ProgramData\BlueStacks_nxt_cn\bluestacks.conf` です。
 
-2. 如果是第一次使用，请运行一次 MAA，使 MAA 自动生成配置文件。
+2. 初めて使用する場合は、一度 MAA を実行して、MAA が設定ファイルを自動生成するようにします。
 
-3. **先关闭** MAA，**然后**打开 `gui.json`，找到 `Configurations` 下的当前配置名字段（可在 设置-切换配置 中查看，默认为 `Default`），在其中搜索字段 `Bluestacks.Config.Path`，填入 `bluestacks.conf` 的完整路径。（注意斜杠要用转义 `\\`）
+3. **MAA を閉じた後に**、`gui.json` を開き、`Configurations` の下の現在の設定名フィールド（設定-切り替え設定 で確認できます。デフォルトは `Default`）を検索し、`Bluestacks.Config.Path` フィールドを検索して、`bluestacks.conf` の完全なパスを入力します。（スラッシュはエスケープ `\\` を使用してください）
 
-::: details 示例
-以 `C:\ProgramData\BlueStacks_nxt\bluestacks.conf` 为例
+::: details 例
+`C:\ProgramData\BlueStacks_nxt\bluestacks.conf` を使用しています。
 
 ```json
 {
-    "Configurations": {
-        "Default": {
-            "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
-            // 其余配置字段，不要手动输入修改
-        }
+  "Configurations": {
+    "Default": {
+      "Bluestacks.Config.Path": "C:\\ProgramData\\BlueStacks_nxt\\bluestacks.conf"
+      // 残りの構成フィールドは、手入力しないで修正します。
     }
+  }
 }
 ```
 
 :::
 
-## 连接配置
+## 接続設定
 
-需选择对应模拟器的配置，若列表中没有则选择通用配置。若通用配置不可用请尝试并选择其他任一可用的配置。
+対応するエミュレーターの設定を選択してください。リストにない場合は汎用設定を選択してください。汎用設定が利用できない場合は他の利用可能な設定を試し、選択してください。
 
-具体区别可以阅读[源码](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/resource/config.json#L68)。
+具体的な違いについては、[ソースコード](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/4f1ef65a9c217c414f52461e88e9705115b5c338/resource/config.json#L74)をご覧ください。
 
-## 触控模式
+### MuMu スクリーンショット強化モード
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现。高版本 Android 可用性待测试。
-3. Adb Input：直接调用 ADB 命令进行触控操作，兼容性最强，速度最慢。
+公式版 MuMu 12 V3.8.13 またはそれ以降のバージョンを使用し、バックグラウンドでの保持を無効にしてください。方舟専用版や国際版などはサポートされていません。
+
+1. `設定` - `接続設定` で `MuMu スクリーンショット強化モードを有効にする` をチェックします。
+
+2. `MuMu エミュレーターのパス` には `MuMuPlayer-12.0` フォルダのパスを入力してください。例: `C:\Program Files\Netease\MuMuPlayer-12.0`。
+
+3. `インスタンス番号` には MuMu マルチインスタンス内でのエミュレーターの番号を入力してください。主インスタンスの場合は `0` です。
+
+4. `インスタンスのスクリーン` には `0` を入力してください。
+
+#### バックグラウンドでの保持について
+
+推奨される設定は、バックグラウンドでの保持を無効にすることです。この設定では、インスタンスのスクリーンは常に `0` です。
+
+バックグラウンドでの保持を有効にすると、MuMu エミュレーターのタブの順序がインスタンスのスクリーンの番号と一致する必要があります。例: `0` はエミュレーターのデスクトップ、`1` は明日方舟クライアントです。
+
+バックグラウンドでの保持についてのサポートは非常に不完全であり、さまざまな問題が発生する可能性がありますので、使用を強く推奨しません。
+
+## タッチモード
+
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：Android タッチイベントを操作するための C 言語で書かれたツールで、`evdev` デバイスを操作し、外部プログラムがタッチイベントとジェスチャーをトリガーできる Socket インターフェースを提供します。Android 10 以降、SELinux が `Enforcing` モードの場合、Minitouch は使用できなくなりました。<sup>[出典](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：MAA による Java で Minitouch を再実装し、Android の `InputDevice` を使用し、追加の機能を付加しました。高バージョンの Android での利用可能性はまだテスト中です。~~テストを手伝ってください~~
+3. Adb Input：直接 ADB を呼び出して、Android の `input` コマンドを使用してタッチ操作を行います。最も互換性があり、最も遅い速度です。
 
 ## ADB Lite
 
-由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，但部分截图方式不可用。
+MAA によって独自に実装された ADB クライアントで、オリジナルの ADB よりも多重の ADB プロセスを開始せずに済み、パフォーマンスの低下を抑えることができますが、一部のスクリーンショット方法は使用できません。
+
+推奨されますが、具体的な利点と欠点はまだフィードバックを得ていません。~~テストを手伝ってください x2~~
