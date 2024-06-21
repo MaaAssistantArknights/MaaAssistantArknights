@@ -2,6 +2,8 @@
 order: 7
 ---
 
+(translation required)
+
 # Integrated Strategy (I.S.)
 
 MAA selects the latest theme by default, and can be changed in `Auto I.S.` - `General`.

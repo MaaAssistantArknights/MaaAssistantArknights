@@ -2,6 +2,8 @@
 order: 11
 ---
 
+(translation required)
+
 # Others
 
 ## Automatically switch configurations on startup

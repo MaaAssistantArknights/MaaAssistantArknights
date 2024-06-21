@@ -2,6 +2,8 @@
 order: 9
 ---
 
+(translation required)
+
 # Copilot
 
 Welcome to share your tasks with [prts.plus](https://prts.plus)!

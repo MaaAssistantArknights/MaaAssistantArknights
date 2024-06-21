@@ -2,6 +2,8 @@
 order: 2
 ---
 
+(translation required)
+
 # Recruit
 
 Auto-recruitment and [recruitment recognition](./tools.md#recruitment-recognition) are two different features.

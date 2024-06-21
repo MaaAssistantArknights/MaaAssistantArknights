@@ -2,11 +2,13 @@
 order: 1
 ---
 
+(translation required)
+
 # Startup
 
 自动启动模拟器，自动启动客户端，自动进入游戏。
 
-自动启动模拟器需额外设置，详见 TODO。
+自动启动模拟器需额外设置，详见启动设置。
 
 ## Account Switch
 

@@ -2,6 +2,8 @@
 order: 5
 ---
 
+(translation required)
+
 # Credit Store
 
 - Automatically visit friends to obtain credit points 并前往信用交易所购物.
