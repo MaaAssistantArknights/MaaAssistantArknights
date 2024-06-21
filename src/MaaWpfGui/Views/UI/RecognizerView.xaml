@@ -232,12 +232,6 @@
                         <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
                         <DataGridTextColumn Binding="{Binding Count}" Header="Count" />
                     </DataGrid.Columns>
-                    <DataGrid.RowStyle>
-                        <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="DataGridRow">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                        </Style>
-                    </DataGrid.RowStyle>
                 </DataGrid>
                 <StackPanel
                     Grid.Row="2"
