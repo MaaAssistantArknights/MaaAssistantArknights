@@ -404,6 +404,21 @@ namespace MaaWpfGui.ViewModels.UI
             Native,
         }
 
+        private bool _doNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the update.
+        /// </summary>
+        public bool DoNotShowUpdate
+        {
+            get => _doNotShowUpdate;
+            set
+            {
+                SetAndNotify(ref _doNotShowUpdate, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, value.ToString());
+            }
+        }
+
         /// <summary>
         /// 如果是在更新后第一次启动，显示ReleaseNote弹窗，否则检查更新并下载更新包。
         /// </summary>
@@ -412,7 +427,10 @@ namespace MaaWpfGui.ViewModels.UI
             if (IsFirstBootAfterUpdate)
             {
                 IsFirstBootAfterUpdate = false;
-                Instances.WindowManager.ShowWindow(this);
+                if (!DoNotShowUpdate)
+                {
+                    Instances.WindowManager.ShowWindow(this);
+                }
             }
             else
             {

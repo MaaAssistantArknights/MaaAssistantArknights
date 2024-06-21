@@ -54,6 +54,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _doNotShowAnnouncement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotShowAnnouncement, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the update.
+        /// </summary>
+        public bool DoNotShowAnnouncement
+        {
+            get => _doNotShowAnnouncement;
+            set
+            {
+                SetAndNotify(ref _doNotShowAnnouncement, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DoNotShowAnnouncement, value.ToString());
+            }
+        }
+
         /// <summary>
         /// 检查更新
         /// </summary>
