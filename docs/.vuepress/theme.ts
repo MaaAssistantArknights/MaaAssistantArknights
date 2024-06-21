@@ -88,6 +88,7 @@ export default hopeTheme({
       tabs: true,
       tasklist: true,
       vPre: true,
+      component: true,
     },
 
     shiki: {
