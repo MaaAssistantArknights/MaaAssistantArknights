@@ -1185,6 +1185,36 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
+        /// Reconnect by ADB (Android Debug Bridge).
+        /// </summary>
+        public void ReconnectByAdb()
+        {
+            string adbPath = AdbPath;
+            string address = ConnectAddress;
+
+            if (string.IsNullOrEmpty(adbPath))
+            {
+                return;
+            }
+
+            ProcessStartInfo processStartInfo = new ProcessStartInfo
+            {
+                FileName = "cmd.exe",
+                RedirectStandardInput = true,
+                RedirectStandardOutput = true,
+                CreateNoWindow = true,
+                UseShellExecute = false,
+            };
+
+            Process process = new Process { StartInfo = processStartInfo, };
+
+            process.Start();
+            process.StandardInput.WriteLine($"{adbPath} disconnect {address}");
+            process.StandardInput.WriteLine("exit");
+            process.WaitForExit();
+        }
+
+        /// <summary>
         /// Kill and restart the ADB (Android Debug Bridge) process.
         /// </summary>
         public void HardRestartAdb()
