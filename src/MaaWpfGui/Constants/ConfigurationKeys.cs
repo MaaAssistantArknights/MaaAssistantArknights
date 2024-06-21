@@ -241,6 +241,7 @@ namespace MaaWpfGui.Constants
         public const string VersionUpdateBody = "VersionUpdate.body";
         public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot";
         public const string VersionUpdatePackage = "VersionUpdate.package";
+        public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate";
 
         public const string OperBoxData = "OperBox.Data";
 
@@ -254,5 +255,6 @@ namespace MaaWpfGui.Constants
 
         public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
         public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
+        public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";
     }
 }
