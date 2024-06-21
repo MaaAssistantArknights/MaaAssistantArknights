@@ -128,6 +128,17 @@
         },
         {
             "groups": [
+                "益达",
+                "提丰"
+            ],
+            "location": [
+                6,
+                6
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
                 "狙击"
             ],
             "location": [

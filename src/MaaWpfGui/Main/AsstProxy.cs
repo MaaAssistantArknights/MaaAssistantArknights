@@ -112,7 +112,7 @@ namespace MaaWpfGui.Main
             }
         }
 
-        private static void AsstSetConnectionExtrasMuMu12(string extras, ref string error)
+        private static void AsstSetConnectionExtrasMuMu12(string extras)
         {
             AsstSetConnectionExtras("MuMuEmulator12", extras);
         }
@@ -258,6 +258,11 @@ namespace MaaWpfGui.Main
         /// </summary>
         public void Init()
         {
+            if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
+            {
+                AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
+            }
+
             bool loaded = LoadResource();
 
             _handle = MaaService.AsstCreateEx(_callback, AsstHandle.Zero);
@@ -611,6 +616,20 @@ namespace MaaWpfGui.Main
 
                 case AsstMsg.TaskChainError:
                     {
+                        // 对剿灭的特殊处理，如果刷完了剿灭还选了剿灭会因为找不到入口报错
+                        if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
+                        {
+                            if (new[]
+                                {
+                                    Instances.TaskQueueViewModel.Stage1,
+                                    Instances.TaskQueueViewModel.Stage2,
+                                    Instances.TaskQueueViewModel.Stage3
+                                }.Any(stage => Instances.TaskQueueViewModel.IsStageOpen(stage) && (stage != "Annihilation")))
+                            {
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
+                            }
+                        }
+
                         Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("TaskError") + taskChain, UiLogColor.Error);
                         using var toast = new ToastNotification(LocalizationHelper.GetString("TaskError") + taskChain);
                         toast.Show();
@@ -627,11 +646,6 @@ namespace MaaWpfGui.Main
 
                             _runningState.SetIdle(true);
                             Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("CombatError"), UiLogColor.Error);
-                        }
-
-                        if (taskChain == "Fight" && (Instances.TaskQueueViewModel.Stage == "Annihilation"))
-                        {
-                            Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AnnihilationTaskFailed"), UiLogColor.Warning);
                         }
 
                         break;
@@ -771,12 +785,16 @@ namespace MaaWpfGui.Main
                                 DisposeTimer();
                             }
 
-                            _toastNotificationTimer = new DispatcherTimer
+                            var interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6);
+                            if (interval > TimeSpan.Zero)
                             {
-                                Interval = recoveryTime - DateTimeOffset.Now.AddMinutes(6),
-                            };
-                            _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
-                            _toastNotificationTimer.Start();
+                                _toastNotificationTimer = new DispatcherTimer
+                                {
+                                    Interval = interval,
+                                };
+                                _toastNotificationTimer.Tick += OnToastNotificationTimerTick;
+                                _toastNotificationTimer.Start();
+                            }
                         }
                         else
                         {
@@ -1583,6 +1601,11 @@ namespace MaaWpfGui.Main
             return AsstSetInstanceOption(_handle, (AsstInstanceOptionKey)key, value);
         }
 
+        public bool AsstSetStaticOption(AsstStaticOptionKey key, string value)
+        {
+            return MaaService.AsstSetStaticOption(key, value);
+        }
+
         private static readonly bool _forcedReloadResource = File.Exists("DEBUG") || File.Exists("DEBUG.txt");
 
         /// <summary>
@@ -1641,7 +1664,7 @@ namespace MaaWpfGui.Main
             switch (Instances.SettingsViewModel.ConnectConfig)
             {
                 case "MuMuEmulator12":
-                    AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config, ref error);
+                    AsstSetConnectionExtrasMuMu12(Instances.SettingsViewModel.MuMuEmulator12Extras.Config);
                     break;
             }
 
@@ -1883,12 +1906,11 @@ namespace MaaWpfGui.Main
         public bool AsstSetFightTaskParams(string stage, int maxMedicine, int maxStone, int maxTimes, int series, string dropsItemId, int dropsItemQuantity, bool isMainFight = true)
         {
             var type = isMainFight ? TaskType.Fight : TaskType.FightRemainingSanity;
-            if (!_latestTaskId.ContainsKey(type))
+            if (!_latestTaskId.TryGetValue(type, out var id))
             {
                 return false;
             }
 
-            var id = _latestTaskId[type];
             if (id == 0)
             {
                 return false;
@@ -2276,7 +2298,7 @@ namespace MaaWpfGui.Main
                 ["investment_enabled"] = false,
             };
 
-            if (mode == 1 || investmentEnabled)
+            if (investmentEnabled)
             {
                 taskParams["investment_enabled"] = true;
                 taskParams["investment_with_more_score"] = investmentWithMoreScore;
@@ -2299,14 +2321,14 @@ namespace MaaWpfGui.Main
                 taskParams["core_char"] = coreChar;
             }
 
-            taskParams["start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo;
-            taskParams["only_start_with_elite_two"] = mode == 4 && theme != "Phantom" && startWithEliteTwo && onlyStartWithEliteTwo;
-            if (mode == 4 && theme == "Sami" && roguelike3FirstFloorFoldartal && roguelike3StartFloorFoldartal.Length > 0)
+            taskParams["start_with_elite_two"] = startWithEliteTwo;
+            taskParams["only_start_with_elite_two"] = onlyStartWithEliteTwo;
+            if (roguelike3FirstFloorFoldartal && roguelike3StartFloorFoldartal.Length > 0)
             {
                 taskParams["first_floor_foldartal"] = roguelike3StartFloorFoldartal;
             }
 
-            if (mode == 4 && theme == "Sami" && roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
+            if (roguelike3NewSquad2StartingFoldartal && roguelike3NewSquad2StartingFoldartals.Length > 0)
             {
                 taskParams["start_foldartal_list"] = new JArray(roguelike3NewSquad2StartingFoldartals.Trim().Split(';', '；').Where(i => !string.IsNullOrEmpty(i)).Take(3));
             }
@@ -2616,6 +2638,24 @@ namespace MaaWpfGui.Main
         /// 原子任务手动停止
         /// </summary>
         SubTaskStopped,
+    }
+
+    public enum AsstStaticOptionKey
+    {
+        /// <summary>
+        /// 无效
+        /// </summary>
+        Invalid,
+
+        /// <summary>
+        /// 用CPU进行OCR
+        /// </summary>
+        CpuOCR,
+
+        /// <summary>
+        /// 用GPU进行OCR
+        /// </summary>
+        GpuOCR,
     }
 
     public enum InstanceOptionKey

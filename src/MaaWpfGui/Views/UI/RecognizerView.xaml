@@ -205,15 +205,39 @@
                 </StackPanel>
                 <DataGrid
                     Grid.Row="1"
-                    Width="600"
+                    Width="680"
                     HorizontalAlignment="Center"
+                    AutoGenerateColumns="False"
+                    HeadersVisibility="None"
                     IsReadOnly="True"
-                    ItemsSource="{Binding DepotResult}">
+                    ItemsSource="{Binding DepotResult}"
+                    ScrollViewer.CanContentScroll="True"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <DataGrid.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="3" />
+                            <WrapPanel  HorizontalAlignment="Center"/>
                         </ItemsPanelTemplate>
                     </DataGrid.ItemsPanel>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image
+                                        Width="30"
+                                        Height="30"
+                                        Source="{Binding Image}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                        <DataGridTextColumn Binding="{Binding Count}" Header="Count" />
+                    </DataGrid.Columns>
+                    <DataGrid.RowStyle>
+                        <Style BasedOn="{StaticResource DataGridRowStyle}" TargetType="DataGridRow">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGrid.RowStyle>
                 </DataGrid>
                 <StackPanel
                     Grid.Row="2"
@@ -358,9 +382,9 @@
                         Margin="6"
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
-                        IsEnabled="False"
                         Content="{DynamicResource ShowDisclaimerNoMore}"
-                        IsChecked="{Binding GachaShowDisclaimerNoMore}" />
+                        IsChecked="{Binding GachaShowDisclaimerNoMore}"
+                        IsEnabled="False" />
                 </StackPanel>
 
                 <StackPanel

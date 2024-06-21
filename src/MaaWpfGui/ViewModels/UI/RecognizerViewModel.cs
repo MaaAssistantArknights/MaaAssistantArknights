@@ -377,6 +377,10 @@ namespace MaaWpfGui.ViewModels.UI
         {
             public string Name { get; set; }
 
+            public string Id { get; set; }
+
+            public BitmapImage Image { get; set; }
+
             public int Count { get; set; }
         }
 
@@ -405,7 +409,14 @@ namespace MaaWpfGui.ViewModels.UI
             DepotResult.Clear();
             foreach (var item in details["arkplanner"]?["object"]?["items"]?.Cast<JObject>()!)
             {
-                DepotResultDate result = new DepotResultDate() { Name = (string)item["name"], Count = (int)item["have"] };
+                var id = (string)item["id"];
+                DepotResultDate result = new DepotResultDate()
+                {
+                    Id = id,
+                    Name = ItemListHelper.GetItemName(id),
+                    Image = ItemListHelper.GetItemImage(id),
+                    Count = (int)item["have"]
+                };
                 DepotResult.Add(result);
             }
 
@@ -516,6 +527,7 @@ namespace MaaWpfGui.ViewModels.UI
             "char_509_acast",
             "char_508_aguard",
             "char_1001_amiya2",
+            "char_1037_amiya3",
         };
 
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");

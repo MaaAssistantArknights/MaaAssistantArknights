@@ -65,7 +65,8 @@ bool asst::BattleHelper::calc_tiles_info(
         return false;
     }
 
-    auto calc_result = Tile.calc(stage_name, shift_x, shift_y);
+    m_map_data = TilePack::find_level(stage_name).value_or(Map::Level {});
+    auto calc_result = TilePack::calc(stage_name, shift_x, shift_y);
     m_normal_tile_info = std::move(calc_result.normal_tile_info);
     m_side_tile_info = std::move(calc_result.side_tile_info);
     m_retreat_button_pos = calc_result.retreat_button;
@@ -390,7 +391,7 @@ bool asst::BattleHelper::deploy_oper(
 
     if (deploy_with_pause) {
         // m_inst_helper.ctrler()->press_esc();
-        ProcessTask(this_task(), { "BattlePause" }).run();
+        ProcessTask(this_task(), { "BattlePauseCancel" }).run();
     }
 
     // for SSS, multiple operator may be deployed at the same location.
@@ -514,6 +515,7 @@ bool asst::BattleHelper::check_in_battle(const cv::Mat& reusable, bool weak)
         m_in_battle = analyzer.analyze().has_value();
     }
     else {
+        check_skip_plot_button(image);
         m_in_battle = check_pause_button(image);
     }
     return m_in_battle;
@@ -556,8 +558,7 @@ bool asst::BattleHelper::do_strategic_action(const cv::Mat& reusable)
 bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 {
     // TODO: 可配置延迟时间
-    static constexpr auto min_frame_interval =
-        std::chrono::milliseconds(1000);
+    static constexpr auto min_frame_interval = std::chrono::milliseconds(1000);
 
     bool used = false;
     cv::Mat image = reusable.empty() ? m_inst_helper.ctrler()->get_image() : reusable;
@@ -572,7 +573,10 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
 
         const auto now = std::chrono::steady_clock::now();
         if (auto interval = now - last_use_time; min_frame_interval > interval) {
-            Log.debug(name, "use skill too fast, interval time:", std::chrono::duration_cast<std::chrono::milliseconds>(interval));
+            Log.debug(
+                name,
+                "use skill too fast, interval time:",
+                std::chrono::duration_cast<std::chrono::milliseconds>(interval));
             continue;
         }
 
@@ -727,21 +731,39 @@ bool asst::BattleHelper::click_oper_on_battlefield(const Point& loc)
 bool asst::BattleHelper::click_retreat()
 {
     LogTraceFunction;
+    bool deploy_with_pause = ControlFeat::support(
+        m_inst_helper.ctrler()->support_features(),
+        ControlFeat::SWIPE_WITH_PAUSE);
 
+    if (deploy_with_pause) {
+        ProcessTask(this_task(), { "BattlePause" }).run();
+    }
     // return ProcessTask(this_task(), { "BattleOperRetreatJustClick" }).run();
-    return m_inst_helper.ctrler()->click(m_retreat_button_pos);
+    bool ret = m_inst_helper.ctrler()->click(m_retreat_button_pos);
+
+    if (deploy_with_pause) {
+        ProcessTask(this_task(), { "BattlePauseCancel" }).run();
+    }
+    return ret;
 }
 
 // TODO: use m_skill_button_pos
 bool asst::BattleHelper::click_skill(bool keep_waiting)
 {
     LogTraceFunction;
+    bool deploy_with_pause = ControlFeat::support(
+        m_inst_helper.ctrler()->support_features(),
+        ControlFeat::SWIPE_WITH_PAUSE);
 
+    if (!keep_waiting && deploy_with_pause) {
+        ProcessTask(this_task(), { "BattlePause" }).run();
+    }
     ProcessTask skill_task(
         this_task(),
         { "BattleSkillReadyOnClick",
           "BattleSkillReadyOnClick-SquareMap",
           "BattleSkillStopOnClick",
+          "BattleSkillStopOnClick-MiddleMap",
           "BattleSkillStopOnClick-SquareMap" });
     skill_task.set_task_delay(0);
 
@@ -752,6 +774,9 @@ bool asst::BattleHelper::click_skill(bool keep_waiting)
         bool ret = skill_task.set_retry_times(5).run();
         if (!ret) {
             cancel_oper_selection();
+        }
+        if (deploy_with_pause) {
+            ProcessTask(this_task(), { "BattlePauseCancel" }).run();
         }
         return ret;
     }

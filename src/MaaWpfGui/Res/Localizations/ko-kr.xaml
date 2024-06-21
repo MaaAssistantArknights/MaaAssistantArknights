@@ -6,6 +6,7 @@
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
     <system:String x:Key="AdvancedSettings">고급 설정</system:String>
+    <system:String x:Key="PerformanceSettings">성능 설정</system:String>
     <system:String x:Key="GameSettings">클라이언트</system:String>
     <system:String x:Key="BaseSettings">기반시설</system:String>
     <system:String x:Key="RoguelikeSettings">통합 전략</system:String>
@@ -47,6 +48,9 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">사용자 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">봇 토큰</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">채팅 ID</system:String>
+    <system:String x:Key="UseGpuForInference">추론 가속화를 위해 GPU 사용</system:String>
+    <system:String x:Key="GpuOptionDisable">사용안함</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">시스템 기본 GPU</system:String>
     <!--  설정 가이드  -->
     <system:String x:Key="TaskSettings">작업 설정</system:String>
     <system:String x:Key="SettingsGuide">설정 가이드</system:String>
@@ -255,9 +259,11 @@
     <system:String x:Key="AdditionCommand">추가 변수</system:String>
     <system:String x:Key="StartsWithScript">시작 시 추가 스크립트</system:String>
     <system:String x:Key="EndsWithScript">종료 시 추가 스크립트</system:String>
+    <system:String x:Key="CopilotWithScript">자동 지휘 시 스크립트 사용</system:String>
+    <system:String x:Key="ManualStopWithScript">수동 종료 시 스크립트 사용</system:String>
     <system:String x:Key="BlockSleep">작업 실행 시 절전 모드 차단</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">절전 모드 방지 시 항상 밝게 표시</system:String>
-    <system:String x:Key="ScreencapCost">스크린샷을 찍는 데는 시간이 걸립니다 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
+    <system:String x:Key="ScreencapCost">스크린샷 소요 시간 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
     <system:String x:Key="RoguelikeTheme">통합전략 테마</system:String>
     <system:String x:Key="RoguelikeThemePhantom">팬텀</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">미즈키</system:String>
@@ -463,6 +469,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ShutdownPrompt">알림</system:String>
     <system:String x:Key="HibernatePrompt">작업을 완료했습니다. 곧 절전 모드에 진입합니다</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">알 수 없는 종료 동작</system:String>
+    <system:String x:Key="AnnihilationTaskTip">선택한 스테이지는 섬멸 임무입니다. 임무 완료 후 남은 대체 스테이지가 시도됩니다. 일부 전투 설정은 적용되지 않습니다.</system:String>
     <system:String x:Key="AnnihilationTaskFailed">섬멸 작전에 실패하여 대체 스테이지를 진행합니다. 일부 전투 설정이 무시될 수 있습니다</system:String>
     <!--  !로그  -->
     <!--  !메인 화면  -->
@@ -589,6 +596,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ErrorDetails">세부 정보</system:String>
     <system:String x:Key="ErrorSolution">해결 방법</system:String>
     <system:String x:Key="ErrorSolutionCrash">FAQ 문서의 크래시 관련 문단을 참고하세요.</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">업데이트 패키지 압축 해제에 실패했습니다. 루트 디렉토리에 있는 업데이트 패키지를 수동으로 압축 해제해 보십시오.</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">에뮬레이터와 ADB를 종료하거나 컴퓨터를 재시작하고 관리자 권한으로 MAA를 실행해 주세요.</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">파일이 사용 중입니다. 컴퓨터를 다시 시작하고 다시 시도하세요.</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">링크 열기 실패. "Windows 설정"으로 이동하여 기본 브라우저를 선택하세요.</system:String>
@@ -708,6 +716,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 레벨입니다. 레벨 이름을 확인하거나 설정으로 이동하여 소프트웨어 업데이트를 확인하고 리소스 버전을 업데이트해보세요!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
+    <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
     <system:String x:Key="TryToStartEmulator">에뮬레이터를 시작하는 중입니다</system:String>
     <system:String x:Key="RestartAdb">ADB 서버 재시작을 시도 중입니다</system:String>
     <system:String x:Key="HardRestartAdb">ADB 프로세스 재시작을 시도 중입니다</system:String>

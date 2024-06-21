@@ -1,5 +1,6 @@
 #include "SSSBattleProcessTask.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"

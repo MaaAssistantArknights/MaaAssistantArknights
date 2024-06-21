@@ -20,6 +20,10 @@
 #endif
 
 #include "AdbController.h"
+#include "ControllerAPI.h"
+#include "MaatouchController.h"
+#include "MinitouchController.h"
+#include "PlayToolsController.h"
 
 #include "Common/AsstTypes.h"
 #include "Utils/Logger.hpp"
@@ -30,13 +34,47 @@ asst::Controller::Controller(const AsstCallback& callback, Assistant* inst)
     , m_rand_engine(std::random_device {}())
 {
     LogTraceFunction;
-
-    m_controller_factory = std::make_unique<ControllerFactory>(callback, inst);
 }
 
 asst::Controller::~Controller()
 {
     LogTraceFunction;
+}
+
+std::shared_ptr<asst::ControllerAPI> asst::Controller::create_controller(
+    ControllerType type,
+    const std::string& adb_path,
+    const std::string& address,
+    const std::string& config,
+    PlatformType platform_type) const
+{
+    std::shared_ptr<ControllerAPI> controller;
+    try {
+        switch (type) {
+        case ControllerType::Adb:
+            controller = std::make_shared<AdbController>(m_callback, m_inst, platform_type);
+            break;
+        case ControllerType::Minitouch:
+            controller = std::make_shared<MinitouchController>(m_callback, m_inst, platform_type);
+            break;
+        case ControllerType::Maatouch:
+            controller = std::make_shared<MaatouchController>(m_callback, m_inst, platform_type);
+            break;
+        case ControllerType::MacPlayTools:
+            controller = std::make_shared<PlayToolsController>(m_callback, m_inst, platform_type);
+            break;
+        default:
+            return nullptr;
+        }
+    }
+    catch (const std::exception& e) {
+        Log.error("Unable to create controller: {}", e.what());
+        return nullptr;
+    }
+    if (controller->connect(adb_path, address, config)) {
+        return controller;
+    }
+    return nullptr;
 }
 
 size_t asst::Controller::get_pipe_data_size() const noexcept
@@ -186,10 +224,7 @@ bool asst::Controller::connect(
 
     clear_info();
 
-    m_controller =
-        m_controller_factory
-            ->create_controller(m_controller_type, adb_path, address, config, m_platform_type);
-
+    m_controller = create_controller(m_controller_type, adb_path, address, config, m_platform_type);
     if (!m_controller) {
         Log.error("connect failed");
         return false;

@@ -460,7 +460,8 @@
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即將休眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的結束動作</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效</system:String>
+    <system:String x:Key="AnnihilationTaskTip">關卡選擇為剿滅任務，任務結束後將嘗試使用剩餘備選關卡，部分戰鬥設置將不生效。</system:String>
+    <system:String x:Key="AnnihilationTaskFailed">剿滅任務失敗，將嘗試使用剩餘備選關卡，部分戰鬥設定將不生效。</system:String>
     <!--  !設定失敗  -->
     <!--  !一鍵長草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
@@ -586,6 +587,7 @@
     <system:String x:Key="ErrorDetails">詳細資訊</system:String>
     <system:String x:Key="ErrorSolution">解決方法</system:String>
     <system:String x:Key="ErrorSolutionCrash">請參考文件: 常見問題 - 閃退 進行操作。</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解壓更新包失敗，請嘗試手動解壓根目錄下更新包。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">請關閉模擬器與 ADB 或重開電腦後，使用系統管理員身分執行 MAA 進行操作。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">檔被佔用，請重開電腦後重試。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打開連結失敗，請前往「Windows 設置」選擇默認瀏覽器。</system:String>
@@ -705,6 +707,7 @@
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往「設置 - 軟體更新 - 檢查更新」，嘗試更新資源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
+    <system:String x:Key="TryToReconnectByAdb">正在嘗試重连</system:String>
     <system:String x:Key="TryToStartEmulator">正在嘗試啟動模擬器</system:String>
     <system:String x:Key="RestartAdb">正在嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="HardRestartAdb">正在嘗試重開 ADB 程式</system:String>

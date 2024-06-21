@@ -735,7 +735,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _useSanityPotion, value);
         }
 
-        private bool _addUserAdditional = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, false.ToString()));
+        private bool _addUserAdditional = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CopilotAddUserAdditional, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to use auto-formation.
@@ -806,10 +806,7 @@ namespace MaaWpfGui.ViewModels.UI
         public void AddCopilotTask()
         {
             var stageName = CopilotTaskName.Trim();
-            if (!string.IsNullOrEmpty(stageName))
-            {
-                AddCopilotTaskToList(stageName, false);
-            }
+            AddCopilotTaskToList(stageName, false);
         }
 
         // UI 绑定的方法
@@ -817,14 +814,18 @@ namespace MaaWpfGui.ViewModels.UI
         public void AddCopilotTask_Adverse()
         {
             var stageName = CopilotTaskName.Trim();
-            if (!string.IsNullOrEmpty(stageName))
-            {
-                AddCopilotTaskToList(stageName, true);
-            }
+            AddCopilotTaskToList(stageName, true);
         }
 
-        private void AddCopilotTaskToList(string stageName, bool isRaid)
+        private void AddCopilotTaskToList(string? stageName, bool isRaid)
         {
+            var invalidChar = @"[:',\.\(\)\|\[\]\?，。【】｛｝；：]"; // 无效字符
+            if (string.IsNullOrEmpty(stageName) || Regex.IsMatch(stageName, invalidChar))
+            {
+                AddLog("Invalid stage name for navigation", UiLogColor.Error, showTime: false);
+                return;
+            }
+
             var cachePath = $"{CopilotJsonDir}/{stageName}" + (isRaid ? "(Raid)" : string.Empty) + ".json";
 
             try

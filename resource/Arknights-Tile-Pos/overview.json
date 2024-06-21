@@ -9719,6 +9719,150 @@
         "stageId": "act34side_09",
         "width": 11
     },
+    "act34side_ex01#f#-activities/act34side/level_act34side_ex01": {
+        "code": "BP-EX-1",
+        "filename": "act34side_ex01#f#-activities-act34side-level_act34side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex01",
+        "name": "纪耻柱-无谓的纷争",
+        "stageId": "act34side_ex01#f#",
+        "width": 12
+    },
+    "act34side_ex01-activities/act34side/level_act34side_ex01": {
+        "code": "BP-EX-1",
+        "filename": "act34side_ex01-activities-act34side-level_act34side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex01",
+        "name": "纪耻柱-无谓的纷争",
+        "stageId": "act34side_ex01",
+        "width": 12
+    },
+    "act34side_ex02#f#-activities/act34side/level_act34side_ex02": {
+        "code": "BP-EX-2",
+        "filename": "act34side_ex02#f#-activities-act34side-level_act34side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex02",
+        "name": "纪念坛-阿戈尔和平",
+        "stageId": "act34side_ex02#f#",
+        "width": 11
+    },
+    "act34side_ex02-activities/act34side/level_act34side_ex02": {
+        "code": "BP-EX-2",
+        "filename": "act34side_ex02-activities-act34side-level_act34side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex02",
+        "name": "纪念坛-阿戈尔和平",
+        "stageId": "act34side_ex02",
+        "width": 11
+    },
+    "act34side_ex03#f#-activities/act34side/level_act34side_ex03": {
+        "code": "BP-EX-3",
+        "filename": "act34side_ex03#f#-activities-act34side-level_act34side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex03",
+        "name": "大浴场-智识交会处",
+        "stageId": "act34side_ex03#f#",
+        "width": 11
+    },
+    "act34side_ex03-activities/act34side/level_act34side_ex03": {
+        "code": "BP-EX-3",
+        "filename": "act34side_ex03-activities-act34side-level_act34side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex03",
+        "name": "大浴场-智识交会处",
+        "stageId": "act34side_ex03",
+        "width": 11
+    },
+    "act34side_ex04#f#-activities/act34side/level_act34side_ex04": {
+        "code": "BP-EX-4",
+        "filename": "act34side_ex04#f#-activities-act34side-level_act34side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex04",
+        "name": "熔岩导桥-地幔脉搏",
+        "stageId": "act34side_ex04#f#",
+        "width": 11
+    },
+    "act34side_ex04-activities/act34side/level_act34side_ex04": {
+        "code": "BP-EX-4",
+        "filename": "act34side_ex04-activities-act34side-level_act34side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex04",
+        "name": "熔岩导桥-地幔脉搏",
+        "stageId": "act34side_ex04",
+        "width": 11
+    },
+    "act34side_ex05#f#-activities/act34side/level_act34side_ex05": {
+        "code": "BP-EX-5",
+        "filename": "act34side_ex05#f#-activities-act34side-level_act34side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex05",
+        "name": "水脉中枢-洋流喷泉",
+        "stageId": "act34side_ex05#f#",
+        "width": 12
+    },
+    "act34side_ex05-activities/act34side/level_act34side_ex05": {
+        "code": "BP-EX-5",
+        "filename": "act34side_ex05-activities-act34side-level_act34side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex05",
+        "name": "水脉中枢-洋流喷泉",
+        "stageId": "act34side_ex05",
+        "width": 12
+    },
+    "act34side_ex06#f#-activities/act34side/level_act34side_ex06": {
+        "code": "BP-EX-6",
+        "filename": "act34side_ex06#f#-activities-act34side-level_act34side_ex06.json",
+        "height": 7,
+        "levelId": "activities/act34side/level_act34side_ex06",
+        "name": "探测基站-谜题之门",
+        "stageId": "act34side_ex06#f#",
+        "width": 12
+    },
+    "act34side_ex06-activities/act34side/level_act34side_ex06": {
+        "code": "BP-EX-6",
+        "filename": "act34side_ex06-activities-act34side-level_act34side_ex06.json",
+        "height": 7,
+        "levelId": "activities/act34side/level_act34side_ex06",
+        "name": "探测基站-谜题之门",
+        "stageId": "act34side_ex06",
+        "width": 12
+    },
+    "act34side_ex07#f#-activities/act34side/level_act34side_ex07": {
+        "code": "BP-EX-7",
+        "filename": "act34side_ex07#f#-activities-act34side-level_act34side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex07",
+        "name": "基因种质库-万物殿",
+        "stageId": "act34side_ex07#f#",
+        "width": 12
+    },
+    "act34side_ex07-activities/act34side/level_act34side_ex07": {
+        "code": "BP-EX-7",
+        "filename": "act34side_ex07-activities-act34side-level_act34side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act34side/level_act34side_ex07",
+        "name": "基因种质库-万物殿",
+        "stageId": "act34side_ex07",
+        "width": 12
+    },
+    "act34side_ex08#f#-activities/act34side/level_act34side_ex08": {
+        "code": "BP-EX-8",
+        "filename": "act34side_ex08#f#-activities-act34side-level_act34side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act34side/level_act34side_ex08",
+        "name": "玛利图斯的斗智场",
+        "stageId": "act34side_ex08#f#",
+        "width": 13
+    },
+    "act34side_ex08-activities/act34side/level_act34side_ex08": {
+        "code": "BP-EX-8",
+        "filename": "act34side_ex08-activities-act34side-level_act34side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act34side/level_act34side_ex08",
+        "name": "玛利图斯的斗智场",
+        "stageId": "act34side_ex08",
+        "width": 13
+    },
     "act34side_tr01-activities/act34side/level_act34side_tr01": {
         "code": "BP-TR-1",
         "filename": "act34side_tr01-activities-act34side-level_act34side_tr01.json",
