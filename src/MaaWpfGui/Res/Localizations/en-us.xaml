@@ -715,6 +715,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UnsupportedLevel">Unsupported stage, please check the level name or go to「Settings - Update - Check update」and try updating the resource version!</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">Identification results: </system:String>
     <system:String x:Key="ConnectFailed">Connection Failed</system:String>
+    <system:String x:Key="TryToReconnectByAdb">Attempting to reconnect</system:String>
     <system:String x:Key="TryToStartEmulator">Trying to start the emulator</system:String>
     <system:String x:Key="RestartAdb">Trying to restart the ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">Trying to kill and restart the ADB process</system:String>

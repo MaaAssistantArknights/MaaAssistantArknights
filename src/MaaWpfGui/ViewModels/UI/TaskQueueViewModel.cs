@@ -817,6 +817,22 @@ namespace MaaWpfGui.ViewModels.UI
                 connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
             }
 
+            // 尝试断开连接, 然后重新连接
+            if (!connected)
+            {
+                AddLog(LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("TryToReconnectByAdb"));
+                await Task.Run(() => Instances.SettingsViewModel.ReconnectByAdb());
+
+                if (Stopping)
+                {
+                    SetStopped();
+                    return false;
+                }
+
+                Instances.AsstProxy.Connected = false;
+                connected = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            }
+
             // 尝试重启 ADB
             if (!connected && Instances.SettingsViewModel.AllowAdbRestart)
             {
