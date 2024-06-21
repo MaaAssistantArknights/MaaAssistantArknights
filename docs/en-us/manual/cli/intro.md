@@ -13,11 +13,4 @@ A simple CLI for [MAA][maa-home] written in Rust.
 - Install and update MaaCore and resources with `maa install` and `maa update`;
 - Update self with `maa self update`.
 
-## Documentation
-
-- [Installation and Compilation](./install.md)
-- [Usage](./usage.md)
-- [Configuration](./config.md)
-- [FAQ](./faq.md)
-
 [maa-home]: https://github.com/MaaAssistantArknights/MaaAssistantArknights

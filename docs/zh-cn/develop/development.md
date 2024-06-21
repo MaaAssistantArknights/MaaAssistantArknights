@@ -21,7 +21,9 @@ icon: iconoir:developer
     git clone --recurse-submodules <你的仓库的 git 链接> -b dev
     ```
 
+    ::: warning
     如果正在使用 Visual Studio 等不附带 `--recurse-submodules` 参数的 Git GUI，则需在克隆后再执行 `git submodule update --init` 以拉取子模块。
+    :::
 
 4. 下载预构建的第三方库
 
@@ -34,9 +36,9 @@ icon: iconoir:developer
 
 5. 配置编程环境
 
-    - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于c++的桌面开发` 和 `.NET桌面开发`
+    - 下载并安装 `Visual Studio 2022 community`, 安装的时候需要选中 `基于c++的桌面开发` 和 `.NET桌面开发`。
 
-6. 双击打开 `MAA.sln` 文件。Visual Studio 会自动加载整个项目。
+6. 双击打开 `MAA.sln` 文件，Visual Studio 会自动加载整个项目。
 7. 设置 VS
 
     - VS 上方配置选择 `RelWithDebInfo` `x64` （如果编译 Release 包 或 ARM 平台，请忽略这步）

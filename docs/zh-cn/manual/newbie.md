@@ -11,7 +11,7 @@ icon: ri:guide-fill
 
 1. 确认系统版本
 
-   MAA 仅支持 Windows 10 / 11，旧版 Windows 请参考[常见问题](./faq.md)置顶。
+   MAA 仅支持 Windows 10 / 11，旧版 Windows 请参阅[常见问题](./faq.md)置顶。
 
 2. 安装运行库
 
@@ -21,7 +21,7 @@ icon: ri:guide-fill
    winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
    ```
 
-   更多信息参考[常见问题](faq.md#可能性-2--运行库问题)。
+   更多信息参考[常见问题](faq.md#运行库问题)。
 
 3. 下载正确的版本
 

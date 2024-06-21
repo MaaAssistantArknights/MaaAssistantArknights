@@ -164,7 +164,6 @@ icon: ri:game-fill
 
 3. 群组内干员各个字段的意思和脚本相关的逻辑
 
-
    ```json
    {
        "theme": "Phantom",

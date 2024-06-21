@@ -19,7 +19,7 @@ icon: ri:guide-fill
    winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
    ```
 
-   Refer to [FAQ](faq.md#possible-cause-2-missing-runtime-libraries) for more information
+   Refer to [FAQ](faq.md#missing-runtime-libraries) for more information
 
 3. Download the correct version
 

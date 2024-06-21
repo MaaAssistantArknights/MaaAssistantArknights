@@ -30,7 +30,7 @@ MAA는 5.0 버전에서 .NET 8로 업데이트 되었습니다. 사용자에게�
 이곳에서는 공식 설치 방법만 안내합니다. 공식 설치가 아닌 제 3자의 설치 패키지의 신뢰성은 보장할 수 없습니다.
 :::
 
-- [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)와 [.NET 8.0.6](https://download.visualstudio.microsoft.com/download/pr/76e5dbb2-6ae3-4629-9a84-527f8feb709c/09002599b32d5d01dc3aa5dcdffcc984/windowsdesktop-runtime-8.0.6-win-x64.exe)를 설치하고 컴퓨터를 다시 시작한 후 MAA를 다시 실행해보세요.
+- [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)와 [.NET 8.0.6](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=x86-,.NET%20Desktop%20Runtime,-8.0.6)를 설치하고 컴퓨터를 다시 시작한 후 MAA를 다시 실행해보세요.
 Windows 10 또는 11을 사용하는 경우 winget 도구를 사용하여 설치할 수도 있습니다. 다음 명령어를 터미널에서 실행하세요.
 
   ```sh

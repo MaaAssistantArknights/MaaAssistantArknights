@@ -18,7 +18,7 @@ icon: ph:question-fill
 
 > 此處僅列出官方安裝方法，我們無法保證第三方整合檔案的可靠性。
 
-- 請安裝 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)、[.NET 8.0.6](https://download.visualstudio.microsoft.com/download/pr/76e5dbb2-6ae3-4629-9a84-527f8feb709c/09002599b32d5d01dc3aa5dcdffcc984/windowsdesktop-runtime-8.0.6-win-x64.exe) 並重新啟動電腦後，再次嘗試執行本軟體。
+- 請安裝 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe)、[.NET 8.0.6](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=x86-,.NET%20Desktop%20Runtime,-8.0.6) 並重新啟動電腦後，再次嘗試執行本軟體。
 
 #### Windows N/KN 相關
 

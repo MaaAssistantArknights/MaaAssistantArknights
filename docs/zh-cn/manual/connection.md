@@ -5,10 +5,6 @@ icon: mdi:plug
 
 # 连接设置
 
-:::note
-实体机相关问题请同时参阅 [Android 实体设备](./device/android.md)。
-:::
-
 ## ADB 路径
 
 :::info 技术细节
@@ -51,13 +47,13 @@ icon: mdi:plug
 
 其他模拟器可参考 [赵青青的博客](https://www.cnblogs.com/zhaoqingqing/p/15238464.html)。
 
-#### 关于多开
+#### 获取多开端口
 
 - MuMu 12 多开器右上角可查看正在运行的多开端口。
 - Bluestacks 5 模拟器设置内可查看当前的多开端口。
 - _待补充_
 
-#### 备选方案
+::: details 备选方案
 
 - 方案 1 : 使用 ADB 命令查看模拟器端口
 
@@ -90,57 +86,7 @@ icon: mdi:plug
   4. 记录模拟器进程的所有侦听端口。
   5. 在 `TCP 连接` 的名称列中查找 `adb.exe`，在远程端口列中与模拟器侦听端口一致的端口即为模拟器调试端口。
 
-### 自动启动多开模拟器
-
-若需要多开模拟器同时操作，可将 MAA 文件夹复制多份，使用 **不同的 MAA**、**同一个 adb.exe**、**不同的连接地址** 来进行连接。
-**以[蓝叠国际版](./device/windows.md)为例**，介绍两种启动多开模拟器的方式。
-
-#### 通过为模拟器 exe 附加命令来进行多开操作
-
-1. 启动**单一**模拟器多开。
-2. 打开任务管理器，找到对应模拟器进程，转到详细信息选项卡，右键列首，点击 `选择列`，勾选 `命令行`。
-3. 在多出来的 `命令行` 列中找到 `...\Bluestacks_nxt\HD-Player.exe"` 后的内容。
-4. 将找到的类似于 `--instance Nougat32` 的内容填写到 `启动设置` - `附加命令` 中。
-
-::: tip
-操作结束后建议重新隐藏 `步骤 2` 中打开的 `命令行` 列以防止卡顿
 :::
-
-::: details 示例
-
-```text
-多开1:
-模拟器路径: C:\Program Files\BlueStacks_nxt\HD-Player.exe
-附加命令: --instance Nougat32 --cmd launchApp --package "com.hypergryph.arknights"
-多开2:
-模拟器路径: C:\Program Files\BlueStacks_nxt\HD-Player.exe
-附加命令: --instance Nougat32_1 --cmd launchApp --package "com.hypergryph.arknights.bilibili"
-```
-
-其中 `--cmd launchApp --package` 部分为启动后自动运行指定包名应用，可自行更改。
-:::
-
-#### 通过使用模拟器或应用的快捷方式来进行多开操作
-
-1. 打开多开管理器，新增对应模拟器的快捷方式。
-2. 将模拟器快捷方式的路径填入 `启动设置` - `模拟器路径` 中
-
-::: tip
-部分模拟器支持创建应用快捷方式，可直接使用应用的快捷方式直接启动模拟器并打开明日方舟
-:::
-
-::: details 示例
-
-```text
-多开1:
-模拟器路径: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\多开1.lnk
-多开2:
-模拟器路径: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\多开2-明日方舟.lnk
-```
-
-:::
-
-若使用 `模拟器路径` 进行多开操作，建议将 `启动设置` - `附加命令` 置空。
 
 ### 蓝叠模拟器 Hyper-V 每次启动端口号都不一样
 
@@ -230,8 +176,8 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ## 触控模式
 
-1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，操作 `evdev` 设备，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。<sup>[来源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现，使用安卓的 `InputDevice`，并添加了额外特性。高版本 Android 可用性尚待测试。~~帮我们做做测试~~
+1. [Minitouch](https://github.com/DeviceFarmer/minitouch)：使用 C 编写的 Android 触控事件器，操作 `evdev` 设备，提供 Socket 接口供外部程序触发触控事件和手势。从 Android 10 开始，Minitouch 在 SELinux 为 `Enforcing` 模式时不再可用。<sup>[源](https://github.com/DeviceFarmer/minitouch?tab=readme-ov-file#for-android-10-and-up)</sup>
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)：由 MAA 基于 Java 对 Minitouch 的重新实现，使用安卓原生的 `InputDevice`，并添加了额外特性。高版本 Android 可用性尚待测试。~~帮我们做做测试~~
 3. Adb Input：直接调用 ADB 使用安卓的 `input` 命令进行触控操作，兼容性最强，速度最慢。
 
 ## ADB Lite
@@ -239,3 +185,58 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能损耗，但部分截图方式不可用。
 
 推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试 x2~~
+
+## 多开 MAA
+
+::: info
+若需要多开模拟器同时操作，可将 MAA 文件夹复制多份，使用 **不同的 MAA**、**同一个 adb.exe**、**不同的连接地址** 来进行连接。
+:::
+
+### 自动启动多开模拟器
+
+以[蓝叠国际版](./device/windows.md)为例，介绍两种自动启动多开模拟器的方式。
+
+#### 通过附加命令启动
+
+1. 启动**单一**模拟器多开。
+2. 打开任务管理器，找到对应模拟器进程，转到详细信息选项卡，右键列首，点击 `选择列`，勾选 `命令行`。
+3. 在多出来的 `命令行` 列中找到 `...\Bluestacks_nxt\HD-Player.exe"` 后的内容。
+4. 将找到的类似于 `--instance Nougat32` 的内容填写到 `启动设置` - `附加命令` 中。
+
+::: note
+操作结束后建议重新隐藏 `步骤 2` 中打开的 `命令行` 列以防止卡顿
+:::
+
+::: details 示例
+
+```text
+多开1:
+模拟器路径: C:\Program Files\BlueStacks_nxt\HD-Player.exe
+附加命令: --instance Nougat32 --cmd launchApp --package "com.hypergryph.arknights"
+多开2:
+模拟器路径: C:\Program Files\BlueStacks_nxt\HD-Player.exe
+附加命令: --instance Nougat32_1 --cmd launchApp --package "com.hypergryph.arknights.bilibili"
+```
+
+其中 `--cmd launchApp --package` 部分为启动后自动运行指定包名应用，可自行更改。
+:::
+
+#### 通过模拟器的快捷方式启动
+
+部分模拟器支持创建应用快捷方式，可直接使用应用的快捷方式直接启动模拟器并打开明日方舟。
+
+1. 打开多开管理器，新增对应模拟器的快捷方式。
+2. 将模拟器快捷方式的路径填入 `启动设置` - `模拟器路径` 中
+
+::: details 示例
+
+```text
+多开1:
+模拟器路径: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\多开1.lnk
+多开2:
+模拟器路径: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\BlueStacks\多开2-明日方舟.lnk
+```
+
+:::
+
+若使用 `模拟器路径` 进行多开操作，建议将 `启动设置` - `附加命令` 置空。

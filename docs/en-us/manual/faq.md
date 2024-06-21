@@ -16,22 +16,17 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 
 ## The program crashes immediately when I try to run it
 
-### Possible cause 0: incomplete file downloaded
+### Incomplete file downloaded
 
 - If you don't have a complete package of this software already, please DO NOT download the zip files marked with `OTA` in the file name, which are for incremental update and shall not be used alone. In most cases, Windows users should download `MAA-vX.X.X-win-x64.zip`.
+- In most cases, you need x64 operating system and x64 variant of MAA, i.e. `MAA-*-win-x64.zip`. There are no support for 32-bit (x86) operating systems.
 - If the application does not run properly after an automatic update, it may be due to some bugs within the autoupdater. Please try reinstalling the application and migrating `config` directory from the old install to the new install.
 
-### Possible cause 1: architecture mismatch
+### Missing runtime libraries
 
-- In most cases, you need x64 operating system and x64 variant of MAA, i.e. `MAA-*-win-x64.zip`. There are no support for 32-bit (x86) operating systems.
-
-### Possible cause 2: missing runtime libraries
-
-::: info Notice
 Only official sources are listed here. We can't gurantee whether some random third-party all-in-one pack can work.
-:::
 
-- Please try installing [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET 8.0.6](https://download.visualstudio.microsoft.com/download/pr/76e5dbb2-6ae3-4629-9a84-527f8feb709c/09002599b32d5d01dc3aa5dcdffcc984/windowsdesktop-runtime-8.0.6-win-x64.exe), then restart computer.
+- Please try installing [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET 8.0.6](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=x86-,.NET%20Desktop%20Runtime,-8.0.6), then restart computer.
   Windows 10 or 11 users can also install using Winget by running the following command in the terminal.
 
   ```sh
@@ -62,13 +57,7 @@ Only official sources are listed here. We can't gurantee whether some random thi
 
 We cannot guarantee compatibility of future versions with Windows 7, ~~it's all Microsoft's fault~~.
 
-#### Alternative approach: install development tools
-
-- Install [Microsoft C++ Build Tools](https://visualstudio.microsoft.com/visual-cpp-build-tools/) to configure a complete development environment (only .NET and C++ environments are required).
-
-- **Please note that you may need about 10GB disk space to install these tools, so make sure that your free space is enough.**
-
-### Possible cause 3: broken system
+### System broken
 
 - Installation of runtime libraries above requires the Component-Based Servicing (CBS) infrastructure (i.e. TrustedInstaller/TiWorker, WinSxS). Installation may fail if CBS is broken.
 
@@ -80,21 +69,21 @@ We cannot guarantee compatibility of future versions with Windows 7, ~~it's all 
 - If you are using softwares such as a game accelerator, please close the softwares, RESTART your computer and try again.
 - Please check your decompression software - in some cases, using uncommon software such as `7z` or _other niche decompression software_ may cause errors in Minitouch related files.
 
-### Approach 1: make sure ADB and address are correct
+### Make sure ADB and address are correct
 
 Check [Connection](./connection.md)
 
-### Approach 2: change emulator
+### Change emulator
 
 Change to another emulator, such as [Bluestacks international version](https://www.bluestacks.com/download.html) Nougat 64 bit.
 
 _After installation of Bluestack, you need to enable `Android Debug Bridge` in the settings._
 
-### Approach 3: close extra adb processes
+### Close extra adb processes
 
 - Close MAA and check for any adb processes in the task manager. If there are any, please close them and retry.
 
-### Approach 4: restart computer
+### Restart computer
 
 Try restarting your computer.
 

@@ -13,11 +13,4 @@ icon: material-symbols:toc
 - 使用 `maa install` 和 `maa update` 安装和更新MaaCore及资源；
 - 使用 `maa self update` 更新自身。
 
-## 文档
-
-- [安装及编译](install.md)
-- [使用](usage.md)
-- [配置](config.md)
-- [常见问题](faq.md)
-
 [maa-home]: https://github.com/MaaAssistantArknights/MaaAssistantArknights/

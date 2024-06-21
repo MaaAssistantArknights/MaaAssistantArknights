@@ -8,31 +8,27 @@ icon: ph:question-fill
 ::: warning
 MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下：
 
-1. MAA 现在需要 .NET 8 运行库，在启动时会自动提示用户安装。若安装失败，请阅读下文，下载安装包手动安装。
+1. MAA 现在需要 .NET 8 运行库，在启动时会自动提示用户安装。若安装失败，请阅读下文并手动安装。
 2. MAA 不会再被 Windows Defender 误报了。~~为了这碟醋包的饺子~~
-3. [.NET 8 不支持 Windows 7/8/8.1 系统](https://github.com/dotnet/core/issues/7556)，所以 MAA 也同样不再支持，即使它现在依旧能正常运行。
-4. 在 Windows 7 上运行 MAA 时，会出现内存占用异常的问题，请参阅下文 Windows 7 部分实施缓解措施。Windows 8/8.1 未经测试，若存在相同问题，请顺手发个 Issue 提醒我们补充文档。
-:::
+3. .NET 8 不支持 Windows 7/8/8.1 系统<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同样不再支持，~~即使它现在依旧能正常运行~~。
+4. ~~在 Windows 7 上运行 MAA 时，会出现内存占用异常的问题，请参阅[下文](#net-8-应用在-windows-7-上运行异常的缓解措施-8238)实施缓解措施。Windows 8/8.1 未经测试，若存在相同问题，请顺手发个 Issue 提醒我们补充文档。~~
+5. 经确认，MAA 自 `v5.4.0-beta.1.d037.g98ecb301b` 版本开始不再支持在 Windows 7 系统上运行<sup>[源](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9413)</sup>，原因未知。若发现了问题原因或解决方案，也请发个 Issue 给我们补补知识。
+   :::
 
 ## 软件无法运行/闪退/报错
 
-### 可能性 0 : 下载的压缩包不完整
+### 下载/安装问题
 
-完整 MAA 软件压缩包命名格式为 "MAA-`版本`-`平台`-`架构`.zip"，其余均为无法单独使用的“零部件”，请仔细阅读。
-若在某次自动更新后无法使用或缺失功能，可能是自动更新出现了问题, 请尝试重新下载并解压完整包后手动迁移 `config` 文件夹。
+- 完整 MAA 软件压缩包命名格式为 "MAA-`版本`-`平台`-`架构`.zip"，其余均为无法单独使用的“零部件”，请仔细阅读。
+  在大部分情况下，您需要使用 x64 架构的 MAA，即您需要下载 `MAA-*-win-x64.zip`，而非 `MAA-*-win-arm64.zip`。
+- 若在某次自动更新后无法使用或缺失功能，可能是自动更新出现了问题, 请尝试重新下载并解压完整包后手动迁移 `config` 文件夹。
 
-### 可能性 1 : 架构错误
+### 运行库问题
 
-在大部分情况下，您需要使用 x64 架构的 MAA，即您需要下载 `MAA-*-win-x64.zip`，而非 `MAA-*-win-arm64.zip`。MAA 不会支持 32 位操作系统。
-
-### 可能性 2 : 运行库问题
-
-::: info 注意
 此处仅列出官方安装方法，我们无法保证第三方整合包的可靠性。
-:::
 
-- 请安装 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 8.0.6](https://download.visualstudio.microsoft.com/download/pr/76e5dbb2-6ae3-4629-9a84-527f8feb709c/09002599b32d5d01dc3aa5dcdffcc984/windowsdesktop-runtime-8.0.6-win-x64.exe) 并重新启动计算机后再次运行 MAA。  
-  使用 Windows 10 或 11 的用户也可以使用 winget 工具进行安装，只需在终端中运行以下命令。
+- 请安装 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=x86-,.NET%20Desktop%20Runtime,-8.0.6) 并重新启动计算机后再次运行 MAA。  
+  推荐使用 Windows 10 或 11 的用户使用 winget 工具进行安装，只需在终端中运行以下命令。
 
   ```sh
   winget install Microsoft.VCRedist.2015+.x64 Microsoft.DotNet.DesktopRuntime.8
@@ -40,13 +36,19 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 
 - 若 MAA 在某次更新后无法运行，也有可能是因运行库版本导致的问题，同样可以尝试再次安装或更新运行库。
 
-#### Windows N/KN 相关
+### 系统问题
 
-对于 Windows 8/8.1/10/11 N/KN（欧洲/韩国）版本，您还需要安装[媒体功能包](https://support.microsoft.com/zh-cn/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+- MAA 不支持 32 位操作系统。
+- 以上运行库安装均需要依赖组件存储服务（CBS、TrustedInstaller/TiWorker、WinSxS）。如果组件存储服务被破坏，将不能正常安装。
+  我们无法提供除重装系统以外的修复建议，请避免使用未标明精简项及精简风险的“精简版”系统，亦或万年前的旧版系统（1809 等）。
 
-#### Windows 7 相关
+#### Windows N/KN
 
-对于 Windows 7，在安装上文提到的运行库之前，您还需要检查以下补丁是否已安装：
+对于 Windows N/KN（欧洲/韩国），还需安装[媒体功能包](https://support.microsoft.com/zh-cn/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+
+#### Windows 7
+
+对于 Windows 7，在安装上文提到的运行库之前，还需检查以下补丁是否已安装：
 
 1. [Windows 7 Service Pack 1](https://support.microsoft.com/zh-cn/windows/b3da2c0f-cdb6-0572-8596-bab972897f61)
 2. SHA-2 代码签名补丁：
@@ -60,21 +62,7 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 2. 新建一个系统变量，变量名 `DOTNET_EnableWriteXorExecute`，变量值 `0`。
 3. 重启电脑。
 
-我们无法保证将来的版本对 Windows 7 的兼容性，~~都是微软的错~~。
-
-#### 官方整合包（确信）
-
-::: info 注意
-此项操作将会耗费 10GB 左右的磁盘空间，请务必在排查完其他可能性后使用
-:::
-
-安装 [Microsoft C++ 生成工具](https://visualstudio.microsoft.com/zh-hans/visual-cpp-build-tools/) 进行完整的开发环境配置（仅需要安装 .NET 及 C++ 开发环境）。
-
-### 可能性 3 : 系统组件问题
-
-以上运行库安装均需要依赖组件存储服务（CBS、TrustedInstaller/TiWorker、WinSxS）。如果组件存储服务被破坏，将不能正常安装。
-
-我们无法提供除重装系统以外的修复建议，请避免使用未标明精简项及精简风险的“精简版”系统，亦或万年前的旧版系统（1809 等）。
+我们无法保证将来的版本对 Windows 7 的兼容性，~~都是微软的错~~。+
 
 ## 连接错误
 
@@ -102,17 +90,15 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 
 ### 换模拟器
 
-请参阅 [模拟器支持](./device/)。
+请参阅 [模拟器和设备支持](./device/)。
 
 ## 连接正常，但是无操作
 
-小部分模拟器自带的 ADB 版本过于老旧，不支持 `Minitouch` 相关操作。
+小部分模拟器自带的 ADB 版本过于老旧，不支持 `Minitouch`、`MaaTouch`。
 
 请使用管理员权限打开 MAA，关闭模拟器并重启 MAA 后点击 `MAA 设置` - `连接设置` - `强制替换 ADB`。
 
 模拟器更新后可能会重新覆盖 ADB 文件。若更新后问题复现，请再次尝试替换，或使用 [其他 ADB](./connection.md#使用谷歌提供的-adb)。
-
-如果即使这样也无法正常使用，可将 `连接设置` - `触控模式` 从 `Minitouch` 切换到 `MaaTouch` 再次尝试。由于 `Adb Input` 操作过于缓慢，请仅将其作为万不得已的模式。
 
 ## 连接正常，但是操作卡顿、异常或频繁出错
 
@@ -123,7 +109,7 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 
 ### 提示截图用时较长 / 过长
 
-- MAA 目前支持 `RawByNc` 、 `RawWithGzip` 、 `Encode` 三种 ADB 截图方式，当执行任务平均截图耗时 >400 / >800 时会输出一次提示信息（单次任务只会输出一次）。
+- MAA 目前支持 `RawByNc` 、 `RawWithGzip` 、 `Encode` 三种基于 ADB 的截图方式，当执行任务平均截图耗时 >400 / >800 时会输出一次提示信息（单次任务只会输出一次）。
 - `设置 - 连接设置` 中会显示近 30 次截图耗时的 最小/平均/最大值，每 10 次截图刷新。
 - 自动战斗类功能（如自动肉鸽）受截图耗时影响较大。
 - 此项耗时与 MAA 无关，与电脑性能、当前占用或模拟器相关，可尝试清理后台/更换模拟器/升级电脑配置。
