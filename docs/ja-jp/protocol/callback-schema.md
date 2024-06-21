@@ -569,7 +569,7 @@ Todo
         },
         "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
     }
-    // 現在は ArkPlanner と Lolicon 形式のみ対応、今後対応するサイトが増える可能性あり
+    // 現在は ArkPlanner と Lolicon (Arkntools) 形式のみ対応、今後対応するサイトが増える可能性あり
     ```
 
 - `OperBoxInfo`  

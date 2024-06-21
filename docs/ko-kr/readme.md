@@ -28,7 +28,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 - 자동으로 공개모집 및 즉시 모집을 선택할 수 있으며, 자동으로 통계 사이트에 업로드 합니다. [펭귄 물류](https://penguin-stats.cn/result/stage/recruit/recruit), [Yituliu](https://ark.yituliu.cn/survey/maarecruitdata)
 - 공개 모집 화면에서 태그 인식을 할 수 있습니다.
 - 오퍼레이터 목록을 인식해, 보유중인 오퍼레이터들 및 잠재를 통계화하여 공개모집 태그 인식 시 표시합니다.
-- 현재 보유중인 육성 재화를 인식해 다음 사이트로 데이터를 내보낼 수 있습니다. [펭귄 물류 플래너](https://penguin-stats.cn/planner), [arkn.lolicon](https://arkntools.app/#/material), [ark-nights](https://ark-nights.com/settings)
+- 현재 보유중인 육성 재화를 인식해 다음 사이트로 데이터를 내보낼 수 있습니다. [펭귄 물류 플래너](https://penguin-stats.cn/planner), [Arkntools](https://arkntools.app/#/material), [ark-nights](https://ark-nights.com/settings)
 - 공개 모집 인터페이스에 수동 식별을 지원하여 높은 등급의 오퍼레이터 공개 모집을 용이하게 합니다.
 - 오퍼레이터 목록을 식별하고, 보유 및 미보유 오퍼레이터와 그들의 잠재를 계산하며, 이를 공개 모집 인터페이스에서 표시하는 것을 지원합니다.
 - 원클릭으로 친구 방문 및 크레딧 획득/구매를 하며, 임무 보상 수령 등의 모든 일과를 수행합니다.

@@ -563,7 +563,7 @@ Todo
         },
         "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
     }
-    // 目前只支援 ArkPlanner 和 Lolicon 的格式，以後可能會兼容更多網站
+    // 目前只支援 ArkPlanner 和 Lolicon (Arkntools) 的格式，以後可能會兼容更多網站
     ```
 
 - `OperBox`  
