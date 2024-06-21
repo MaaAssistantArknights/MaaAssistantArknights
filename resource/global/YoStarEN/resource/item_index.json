@@ -1623,6 +1623,14 @@
         "sortId": -10000,
         "usage": "Used to perform Data Iteration on Limiter Units."
     },
+    "act30side_token_box": {
+        "classifyType": "NONE",
+        "description": "Blind boxes from the cultural industries in collaboration with 'BangBang Burdenbeast.' Collect all nine, including a limited-edition secret burdenbeast.\nNOTE: Pray faithfully to the newly erected Kjeragandr statue, and your odds of drawing the secret one go up!",
+        "icon": "act30side_token_box.png",
+        "name": "Burdenbeast Blind Box",
+        "sortId": -10000,
+        "usage": "Burdenbeast Blind Boxes—such a smash hit, Onboard Services ran out of stock for a time. That means this batch couldn't have come sooner, and the train attendants will be delighted to trade other goods for it."
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "A chunk of flawless Originium crystal. The Sanctuary considers it a precious treasure.",
