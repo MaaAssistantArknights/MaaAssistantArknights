@@ -130,7 +130,7 @@ char_166_skfire|天火|Skyfire|スカイフレア|스카이파이어
 char_171_bldsk|华法琳|Warfarin|ワルファリン|와파린
 char_173_slchan|崖心|Cliffheart|クリフハート|클리프하트
 char_174_slbell|初雪|Pramanix|プラマニクス|프라마닉스
-char_194_leto|烈夏|Лето||
+char_194_leto|烈夏|Лето|リェータ|
 char_195_glassb|真理|Istina|イースチナ|이스티나
 char_201_moeshd|可颂|Croissant|クロワッサン|크루아상
 char_204_platnm|白金|Platinum|プラチナ|플래티넘
@@ -250,7 +250,7 @@ char_4105_almond|杏仁|Almond|アーモンド|아몬드
 char_4106_bryota|苍苔|Bryophyta|ブライオファイタ|브라이오피타
 char_4109_baslin|深律|Bassline|ベースライン|베이스라인
 char_4110_delphn|戴菲恩|Delphine|デルフィーン|델핀
-char_4114_harold|哈洛德|Harold||
+char_4114_harold|哈洛德|Harold|ハロルド|
 char_4119_wanqin|万顷|Wanqing||
 char_4122_grabds|小满|Grain Buds||
 char_4124_iana|双月|Iana||
@@ -347,7 +347,7 @@ char_4082_qiubai|仇白|Qiubai|チューバイ|치우바이
 char_4087_ines|伊内丝|Ines|イネス|이네스
 char_4088_hodrer|赫德雷|Hoederer|へドリー|외드레르
 char_4098_vvana|薇薇安娜|Viviana|ヴィヴィアナ|비비아나
-char_4116_blkkgt|锏|Degenbrecher||
+char_4116_blkkgt|锏|Degenbrecher|デーゲンブレヒャー|
 char_4117_ray|莱伊|Ray||
 char_4121_zuole|左乐|Zuo Le||
 char_4123_ela|艾拉|Ela||
