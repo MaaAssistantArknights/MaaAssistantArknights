@@ -551,7 +551,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       },
       "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
   }
-  // 현재는 ArkPlanner와 Lolicon 포맷만 지원하며, 미래에 더 많은 웹사이트가 지원될 예정입니다.
+  // 현재는 ArkPlanner와 Lolicon (Arkntools) 포맷만 지원하며, 미래에 더 많은 웹사이트가 지원될 예정입니다.
   ```
 - `OperBoxInfo`  
   오퍼레이터 보유 목록 인식 결과

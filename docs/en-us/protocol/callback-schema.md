@@ -558,7 +558,7 @@ Todo
         },
         "data": "{\"2003\":20,\"2004\": 4,\"mod_unlock_token\": 25}"
     }
-    // Only ArkPlanner and Lolicon formats are supported. More websites will be supported in future.
+    // Only ArkPlanner and Lolicon (Arkntools) formats are supported. More websites will be supported in future.
     ```
 
 - `OperBoxInfo`  
