@@ -3,6 +3,7 @@
     "version": "2.0.0",
     "description": "manual for MaaAssistantArknights",
     "main": "index.js",
+    "type": "module",
     "repository": "https://github.com/MaaAssistantArknights/MaaAssistantArknights",
     "author": "bakashigure <me@shigure.fun>",
     "license": "AGPL-3.0",

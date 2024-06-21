@@ -36,39 +36,28 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！  
 
-<!-- markdownlint-disable -->
-
-<div class="image-zh-cn">
-
-![img](/image/zh-cn/readme/1-light.png#light)![img](/image/zh-cn/readme/1-dark.png#dark)![img](/image/zh-cn/readme/2-light.png#light)![img](/image/zh-cn/readme/2-dark.png#dark)![img](/image/zh-cn/readme/3-light.png#light)![img](/image/zh-cn/readme/3-dark.png#dark)![img](/image/zh-cn/readme/4-light.png#light)![img](/image/zh-cn/readme/4-dark.png#dark)
-</div>
-
-<style>
-  .image-zh-cn p {
-    margin: 0;
-  }
-
-  .image-zh-cn img {
-    box-sizing: border-box;
-    width: 25%;
-    padding: 9px;
-    border-radius: 16px;
-  }
-
-  @media (max-width: 719px){
-    .image-zh-cn img {
-      width: 50%;
+```component ImageGrid
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/readme/1-light.png",
+      "dark": "image/zh-cn/readme/1-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/2-light.png",
+      "dark": "image/zh-cn/readme/2-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/3-light.png",
+      "dark": "image/zh-cn/readme/3-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/4-light.png",
+      "dark": "image/zh-cn/readme/4-dark.png"
     }
-  }
-
-  @media (max-width: 419px){
-    .image-zh-cn img {
-      width: 100%;
-    }
-  }
-</style>
-
-<!-- markdownlint-restore -->
+  ]
+}
+```
 
 ## 下载地址
 
