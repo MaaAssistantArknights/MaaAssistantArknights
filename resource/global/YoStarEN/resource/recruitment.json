@@ -1163,17 +1163,6 @@
             ]
         },
         {
-            "id": "char_415_flint",
-            "name": "Flint",
-            "rarity": 5,
-            "tags": [
-                "输出",
-                "近战位",
-                "资深干员",
-                "近卫干员"
-            ]
-        },
-        {
             "id": "char_103_angel",
             "name": "Exusiai",
             "rarity": 6,
