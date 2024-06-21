@@ -34,7 +34,6 @@
 * 战斗列表禁用包含非法字符的关卡名添加 (#9363) @status102
 * add AsstSetConnectionExtras to wine bridge @dantmnf
 * check before destroy callback @dantmnf
-* en 服在没有源石和理智药的情况下无法退出刷理智任务 @ABA2396
 * 修复时间比较报错的问题 @SherkeyXD
 * 刷理智结束时有概率报错 @ChingCdesu
 * fix endless loop in InfrastProductionTask @horror-proton
@@ -65,6 +64,7 @@
 #### YostarEN
 
 * YostarEN RS navigation @Constrat
+* en 服在没有源石和理智药的情况下无法退出刷理智任务 @ABA2396
 
 #### YostarJP
 
