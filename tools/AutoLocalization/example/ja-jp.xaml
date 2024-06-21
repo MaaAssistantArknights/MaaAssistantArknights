@@ -361,7 +361,7 @@
             <s:String x:Key="DepotRecognitionTip">この機能はまだテスト版です。倉庫を開いた後、素材のタブを選択してから認識を行い、結果が正しいかどうか確認してください。エラーが発生した場合は、debug/depotフォルダを作業パスに圧縮して、issueを提出してください。</s:String>
             <s:String x:Key="StartToDepotRecognition">認識開始</s:String>
             <s:String x:Key="ExportToArkplanner">Arkplannerへ出力</s:String>
-            <s:String x:Key="ExportToLolicon">Loliconへ出力</s:String>
+            <s:String x:Key="ExportToLolicon">Arkntoolsへ出力</s:String>
             <s:String x:Key="CopiedToClipboard">クリップボードへコピー</s:String>
         </ResourceDictionary>
 
