@@ -39,48 +39,31 @@ MAA 的意思是 MAA Assistant Arknights
 <!-- markdownlint-disable -->
 
 <div class="image-zh-cn">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/1-dark.png">
-  <img alt="zh1" src="/image/zh-cn/readme/1-light.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/2-dark.png">
-  <img alt="zh2" src="/image/zh-cn/readme/2-light.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/3-dark.png">
-  <img alt="zh3" src="/image/zh-cn/readme/3-light.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/4-dark.png">
-  <img alt="zh4" src="/image/zh-cn/readme/4-light.png">
-</picture>
+
+![img](/image/zh-cn/readme/1-light.png#light)![img](/image/zh-cn/readme/1-dark.png#dark)![img](/image/zh-cn/readme/2-light.png#light)![img](/image/zh-cn/readme/2-dark.png#dark)![img](/image/zh-cn/readme/3-light.png#light)![img](/image/zh-cn/readme/3-dark.png#dark)![img](/image/zh-cn/readme/4-light.png#light)![img](/image/zh-cn/readme/4-dark.png#dark)
 </div>
 
 <style>
-  .image-zh-cn {
-    display: inline-block;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
+  .image-zh-cn p {
+    margin: 0;
   }
 
-  .image-zh-cn > picture img {
-     box-sizing: border-box;
-     width: 25% !important;
-     padding: 9px;
-     border-radius: 16px;
+  .image-zh-cn img {
+    box-sizing: border-box;
+    width: 25%;
+    padding: 9px;
+    border-radius: 16px;
   }
 
   @media (max-width: 719px){
-    .image-zh-cn > picture img {
-      width: 50% !important;
+    .image-zh-cn img {
+      width: 50%;
     }
   }
 
   @media (max-width: 419px){
-    .image-zh-cn > picture img {
-      width: 100% !important;
+    .image-zh-cn img {
+      width: 100%;
     }
   }
 </style>
