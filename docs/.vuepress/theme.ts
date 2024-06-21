@@ -53,8 +53,6 @@ export default hopeTheme({
     },
   },
 
-  sidebarIcon: true,
-
   plugins: {
     activeHeaderLinks: false,
 

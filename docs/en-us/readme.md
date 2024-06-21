@@ -39,8 +39,8 @@ Talk is cheap. Show me the pictures!
 <!-- markdownlint-disable -->
 
 <div class="image-en-us">
-  <img src="https://user-images.githubusercontent.com/99072975/232383365-0b6f657a-c482-4a82-86eb-c129bf676f0c.png" />
-  <img src="https://user-images.githubusercontent.com/99072975/232383370-250eec85-15a1-49cd-8d8d-77545658ae74.png" />
+  <img src="/image/en-us/readme/1-light.png" />
+  <img src="/image/en-us/readme/2-light.png" />
 </div>
 
 <style>

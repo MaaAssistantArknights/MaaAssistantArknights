@@ -41,8 +41,8 @@ MAA는 MAA Assistant Arknights의 약자입니다
 <!-- markdownlint-disable -->
 
 <div class="image-ko-kr">
-  <img src="https://user-images.githubusercontent.com/61264540/216660360-dc8b96b4-2daa-41d1-a6fc-024886861e4c.png" />
-  <img src="https://user-images.githubusercontent.com/61264540/216660420-2b0c759e-f8fd-48bf-ae7f-112105faa3a4.png" />
+  <img src="/image/ko-kr/readme/1-light.png" />
+  <img src="/image/ko-kr/readme/2-light.png" />
 </div>
 
 <style>
