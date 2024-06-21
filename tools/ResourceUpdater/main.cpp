@@ -1101,14 +1101,17 @@ bool update_recruitment_data(
     for (const std::string& name : chars_list) {
         auto id_iter = chars_id_list.find(name);
         if (id_iter == chars_id_list.cend()) {
-            std::cerr << "Failed to find char: " << name << std::endl;
+            std::cerr << "Failed to find char: " << std::endl;
+            std::cerr << "char: " << name << std::endl;
             return false;
         }
 
         const std::string& id = id_iter->second;
         auto info_iter = base_chars_info.find(id);
         if (info_iter == base_chars_info.cend()) {
-            std::cerr << "Failed to find char's info: " << id << name << std::endl;
+            std::cerr << "Failed to find char's info:" << std::endl;
+            std::cerr << "id: " << id << std::endl;
+            std::cerr << "char: " << name << std::endl; 
             return false;
         }
 
