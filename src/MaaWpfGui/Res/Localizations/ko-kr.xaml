@@ -491,7 +491,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후 사용하세요\n만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요</system:String>
     <system:String x:Key="StartToDepotRecognition">식별 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
-    <system:String x:Key="ExportToLolicon">Lolicon으로 내보내기</system:String>
+    <system:String x:Key="ExportToLolicon">Arkntools으로 내보내기</system:String>
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>
     <!--  !창고 정리  -->
     <!--  오퍼레이터 식별  -->
