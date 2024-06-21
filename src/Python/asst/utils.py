@@ -24,6 +24,10 @@ class Message(Enum):
 
     AllTasksCompleted = auto()
 
+    AsyncCallInfo = auto()
+
+    Destroyed = auto()
+
     TaskChainError = 10000
 
     TaskChainStart = auto()

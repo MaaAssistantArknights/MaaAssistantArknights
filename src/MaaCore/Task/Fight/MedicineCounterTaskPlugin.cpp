@@ -3,6 +3,7 @@
 #include <ranges>
 
 #include "Config/TaskData.h"
+#include "Config/GeneralConfig.h"
 #include "Controller/Controller.h"
 #include "InstHelper.h"
 #include "Task/Fight/DrGrandetTaskPlugin.h"

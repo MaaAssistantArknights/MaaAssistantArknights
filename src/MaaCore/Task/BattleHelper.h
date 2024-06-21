@@ -72,6 +72,7 @@ namespace asst
         std::optional<Rect> get_oper_rect_on_deployment(const std::string& name) const;
 
         std::string m_stage_name;
+        Map::Level m_map_data;
         std::unordered_map<Point, TilePack::TileInfo> m_side_tile_info;   // 子弹时间的坐标映射
         std::unordered_map<Point, TilePack::TileInfo> m_normal_tile_info; // 正常的坐标映射
         Point m_skill_button_pos;

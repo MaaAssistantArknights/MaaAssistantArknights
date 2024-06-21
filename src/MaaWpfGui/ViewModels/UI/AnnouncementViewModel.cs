@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Threading.Tasks;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
@@ -41,7 +42,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _doNotRemindThisAnnouncementAgain = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, false.ToString()));
+        private bool _doNotRemindThisAnnouncementAgain = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, bool.FalseString));
 
         public bool DoNotRemindThisAnnouncementAgain
         {

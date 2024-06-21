@@ -4,7 +4,9 @@
 #include "Common/AsstTypes.h"
 #include "Config/AbstractConfig.h"
 
+ASST_SUPPRESS_CV_WARNINGS_START
 #include <Arknights-Tile-Pos/TileDef.hpp>
+ASST_SUPPRESS_CV_WARNINGS_END
 
 namespace asst
 {
@@ -76,28 +78,40 @@ public:
     }
 
     template <typename KeyT>
-    result_type calc(const KeyT& key, double shift_x = 0, double shift_y = 0) const
+    std::optional<Map::Level> static find_level(const KeyT& key)
     {
-        auto file_opt = find(key);
+        auto file_opt = TilePack::get_instance().find(key);
         if (!file_opt) {
             return {};
         }
-        auto filepath = file_opt->second;
-
-        auto json_opt = json::open(filepath);
+        auto json_opt = json::open(file_opt->second);
         if (!json_opt) {
-            // Log.info("failed to open", filepath);
+            return {};
+        }
+        return Map::Level(*json_opt);
+    }
+
+    template <typename KeyT>
+    result_type static calc(const KeyT& key, double shift_x = 0, double shift_y = 0)
+    {
+        auto level_opt = find_level(key);
+        if (!level_opt) {
             return {};
         }
 
-        return calc_(*json_opt, shift_x, shift_y);
+        return calc_(*level_opt, shift_x, shift_y);
+    }
+
+    result_type static calc(const Map::Level& data, double shift_x = 0, double shift_y = 0)
+    {
+        return calc_(data, shift_x, shift_y);
     }
 
 protected:
-    virtual bool parse(const json::value& json) override;
+    bool parse(const json::value& json) override;
 
 private:
-    result_type calc_(const json::value& data, double shift_x, double shift_y) const;
+    result_type static calc_(const Map::Level& data, double shift_x, double shift_y);
     LazyMap m_summarize;
 };
 

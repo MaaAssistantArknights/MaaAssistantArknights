@@ -51,6 +51,10 @@ namespace MaaWpfGui.Constants
 
         public const string QqChannel = "https://pd.qq.com/s/4j1ju9z47";
 
+        public const string GoogleAdbDownloadUrl = "https://dl.google.com/android/repository/platform-tools-latest-windows.zip";
+        public const string AdbMaaMirrorDownloadUrl = "https://ota.maa.plus/MaaAssistantArknights/api/binaries/adb-windows.zip";
+        public const string GoogleAdbFilename = "adb-windows.zip";
+
         private static string Language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
         public static string HelpUri => $"{MaaDocs}/{_helpUrl[Language]}";

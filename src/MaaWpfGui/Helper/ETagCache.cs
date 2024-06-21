@@ -46,10 +46,6 @@ namespace MaaWpfGui.Helper
             {
                 _logger.Error(e.Message);
             }
-            finally
-            {
-                _cache ??= [];
-            }
         }
 
         public static void Save()
@@ -59,26 +55,26 @@ namespace MaaWpfGui.Helper
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
-        public static string Get(string url)
+        public static string Get(string? url)
         {
             if (url is null)
             {
                 return string.Empty;
             }
 
-            return _cache.TryGetValue(url.Replace("%23", "#"), out string? ret) ? ret : string.Empty;
+            return _cache.TryGetValue(url, out string? ret) ? ret : string.Empty;
         }
 
         // ReSharper disable once MemberCanBePrivate.Global
         public static void Set(string url, string etag)
         {
-            _cache[url.Replace("%23", "#")] = etag;
+            _cache[url] = etag;
             Save();
         }
 
         public static void Set(HttpResponseMessage? response)
         {
-            var etag = response?.Headers?.ETag?.Tag;
+            var etag = response?.Headers.ETag?.Tag;
             var uri = response?.RequestMessage?.RequestUri?.ToString();
             if (string.IsNullOrEmpty(uri) || string.IsNullOrEmpty(etag))
             {
@@ -93,7 +89,9 @@ namespace MaaWpfGui.Helper
             var etag = force ? string.Empty : Get(url);
             Dictionary<string, string> headers = new Dictionary<string, string>
             {
-                { "Accept", "application/octet-stream" },
+                {
+                    "Accept", "application/octet-stream"
+                },
             };
 
             if (!string.IsNullOrEmpty(etag))

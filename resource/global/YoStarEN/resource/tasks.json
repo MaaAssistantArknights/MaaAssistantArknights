@@ -50,6 +50,22 @@
             150
         ]
     },
+    "RS-OpenOcr": {
+        "text": [
+            "Rides",
+            "Silberneherze",
+            "Lake",
+            "open"
+        ]
+    },
+    "RSChapterToRS": {
+        "text": [
+            "Platform",
+            "PLATFORM",
+            "No",
+            "NO"
+        ]
+    },
     "ZT-OpenOcr": {
         "text": [
             "Zwilling",

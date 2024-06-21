@@ -89,6 +89,11 @@ namespace MaaWpfGui.Views.UI
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
             }
 
+            if (details.Contains("CheckAndUpdateNow()") && details.Contains("MoveFile"))
+            {
+                return LocalizationHelper.GetString("ErrorSolutionUpdatePackageExtractionFailed");
+            }
+
             if (details.Contains("Hyperlink_Click") && details.Contains("StartWithShellExecuteEx"))
             {
                 return LocalizationHelper.GetString("ErrorSolutionSelectDefaultBrowser");

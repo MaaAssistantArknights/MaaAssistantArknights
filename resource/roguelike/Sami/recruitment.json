@@ -352,7 +352,7 @@
                 {
                     "name": "棘刺",
                     "skill": 3,
-                    "alternate_skill": 2,
+                    "alternate_skill": 1,
                     "recruit_priority": 605,
                     "promote_priority": 950,
                     "recruit_priority_offsets": [
@@ -3114,6 +3114,9 @@
                     "name": "濯尘芙蓉"
                 },
                 {
+                    "name": "阿米娅-MEDIC"
+                },
+                {
                     "name": "苏苏洛"
                 },
                 {
@@ -3354,6 +3357,9 @@
                 {
                     "name": "阿米娅",
                     "skill": 2
+                },
+                {
+                    "name": "阿米娅-MEDIC"
                 },
                 {
                     "name": "至简",

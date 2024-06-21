@@ -86,7 +86,7 @@ class Asst:
             ``callback``:   回调函数
             ``arg``:        自定义参数
         """
-
+        self.__callback = callback
         if callback:
             self.__ptr = Asst.__lib.AsstCreateEx(callback, arg)
         else:

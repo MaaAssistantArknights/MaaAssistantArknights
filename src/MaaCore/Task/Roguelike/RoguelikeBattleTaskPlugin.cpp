@@ -7,6 +7,7 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/Roguelike/RoguelikeCopilotConfig.h"
@@ -112,6 +113,9 @@ std::string
     if (oper.role == Role::Warrior && oper.name == "阿米娅") {
         return "阿米娅-WARRIOR"; // 在 BattleData.json 中有
     }
+    else if (oper.role == Role::Medic && oper.name == "阿米娅") {
+        return "阿米娅-MEDIC"; // 在 BattleData.json 中有
+    }
     else {
         return oper.name;
     }
@@ -161,7 +165,8 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             }
             calced = true;
             m_stage_name = text;
-            auto calc_result = Tile.calc(stage_key);
+            m_map_data = TilePack::find_level(stage_key).value_or(Map::Level {});
+            auto calc_result = TilePack::calc(m_map_data);
             m_normal_tile_info = std::move(calc_result.normal_tile_info);
             m_side_tile_info = std::move(calc_result.side_tile_info);
             m_retreat_button_pos = calc_result.retreat_button;
@@ -455,7 +460,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 
     // TODO: move this to controller
     thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
-    static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().roguelike_fight_screencap_interval);
+    static const auto min_frame_interval =
+        std::chrono::milliseconds(Config.get_options().roguelike_fight_screencap_interval);
 
     // prevent our program from consuming too much CPU
     if (const auto now = std::chrono::steady_clock::now();

@@ -67,6 +67,12 @@ labels:
 - name: remove roguelike
   content:
   regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)roguelike(?:`|)'
+- name: skip reclamation
+  content:
+  regexes: '[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)reclamation(?:`|)'
+- name: remove reclamation
+  content:
+  regexes: '[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)reclamation(?:`|)'
 
 - name: skip client
   content:
@@ -167,7 +173,7 @@ labels:
 - name: roguelike
   content: "module: roguelike"
   regexes:
-    "肉[鸽鴿]|集成战略|[Rr]ogue|[Ii]ntegrated [Ss]tategy|I.S.|ローグ"
+    "肉[鸽鴿]|集成战略|[Rr]ogue|[Ii]ntegrated [Ss]tategy|I\\.S\\.|ローグ"
   skip-if:
   - skip all
   - skip module
@@ -185,11 +191,11 @@ labels:
   skip-if:
   - skip all
   - skip module
-  - skip roguelike
+  - skip reclamation
   remove-if:
   - remove all
   - remove module
-  - remove roguelike
+  - remove reclamation
 
 # `module: copilot`
 - name: copilot1
@@ -375,7 +381,7 @@ labels:
 - name: pr-ambiguous
   # 不符合 commitizen 的 PR
   content: ambiguous
-  regexes: '^(?!(?:build|chore|ci|docs?|feat|fix|i18n|perf|refactor|rft|style|test)[\:\.\(\,]|[Rr]evert|[Rr]elease)'
+  regexes: '^(?!(?:build|chore|ci|docs?|feat!?|fix|i18n|perf|refactor|rft|style|test)[\:\.\(\,]|[Rr]evert|[Rr]elease)'
   mode:
     pull_request_target:
   skip-if:
@@ -408,6 +414,7 @@ labels:
   - others
   - recruit
   - roguelike
+  - reclamation
 
 # `release`
 - name: release

@@ -1,5 +1,6 @@
 #include "RoguelikeSettlementTaskPlugin.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Utils/ImageIo.hpp"

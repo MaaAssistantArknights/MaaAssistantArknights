@@ -6,6 +6,7 @@
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
     <system:String x:Key="AdvancedSettings">高度な設定</system:String>
+    <system:String x:Key="PerformanceSettings">パフォーマンス設定</system:String>
     <system:String x:Key="GameSettings">対象クライアント</system:String>
     <system:String x:Key="BaseSettings">基地設定</system:String>
     <system:String x:Key="RoguelikeSettings">統合戦略設定</system:String>
@@ -47,6 +48,9 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
+    <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用</system:String>
+    <system:String x:Key="GpuOptionDisable">使用しない</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <!--  設定ガイド  -->
     <system:String x:Key="TaskSettings">タスク設定</system:String>
     <system:String x:Key="SettingsGuide">設定ガイド</system:String>
@@ -255,6 +259,8 @@
     <system:String x:Key="AdditionCommand">追加コマンド</system:String>
     <system:String x:Key="StartsWithScript">スクリプトを使用して始めます</system:String>
     <system:String x:Key="EndsWithScript">終了時にスクリプトを使用します</system:String>
+    <system:String x:Key="CopilotWithScript">自動戦闘時に上記のスクリプトを有効にする</system:String>
+    <system:String x:Key="ManualStopWithScript">手動停止時に上記のスクリプトを有効にする</system:String>
     <system:String x:Key="BlockSleep">タスク実行時の休止状態の防止</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">休止状態を防ぐときは画面をオンのままにします</system:String>
     <system:String x:Key="ScreencapCost">スクリーンショットの撮影には時間がかかります min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
@@ -463,6 +469,7 @@
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
+    <system:String x:Key="AnnihilationTaskTip">ステージ選択は殲滅任務です。任務終了後、残りの代替ステージが試されます。一部の戦闘設定は有効になりません。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>
     <!--  !Logs  -->
     <!--  !動作不明  -->
@@ -589,6 +596,7 @@
     <system:String x:Key="ErrorDetails">詳細情報</system:String>
     <system:String x:Key="ErrorSolution">解決策</system:String>
     <system:String x:Key="ErrorSolutionCrash">ドキュメント「よくある問題 - クラッシュ」を参照してください。</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">アップデートパッケージの解凍に失敗しました。ルートディレクトリにあるアップデートパッケージを手動で解凍してみてください。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">エミュレータとADBを閉じるか、コンピューターを再起動してから、管理者権限でMAAを開いて操作してください。</system:String>
     <system:String x:Key="ErrorSolutionFailedToMove">ファイルが占有されています。コンピュータを再起動して再試行してください。</system:String>
     <system:String x:Key="ErrorSolutionSelectDefaultBrowser">リンクを開けませんでした。Windows 設定に移動してデフォルトのブラウザを選択してください。</system:String>
@@ -708,6 +716,7 @@
     <system:String x:Key="UnsupportedLevel">サポートされていないレベルです。レベル名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
+    <system:String x:Key="TryToReconnectByAdb">再接続を試みています </system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>

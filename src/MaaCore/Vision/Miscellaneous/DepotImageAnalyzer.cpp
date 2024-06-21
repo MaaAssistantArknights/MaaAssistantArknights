@@ -288,6 +288,14 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         multiple = 1000000;
         digit_str.erase(m_pos, digit_str.size());
     }
+    else if (size_t n_pos = digit_str.find("만"); n_pos != std::string::npos) {
+        multiple = 10000;
+        digit_str.erase(n_pos, digit_str.size());
+    }
+    else if (size_t o_pos = digit_str.find("억"); o_pos != std::string::npos) {
+        multiple = 100000000;
+        digit_str.erase(o_pos, digit_str.size());
+    }
 
     constexpr char Dot = '.';
     if (digit_str.empty() ||
