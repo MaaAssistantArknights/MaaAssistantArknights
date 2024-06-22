@@ -134,10 +134,10 @@
     <system:String x:Key="IS2NewSquad1">心勝於物分隊</system:String>
     <system:String x:Key="IS2NewSquad2">物盡其用分隊</system:String>
     <system:String x:Key="IS2NewSquad3">以人爲本分隊</system:String>
-    <system:String x:Key="IS3NewSquad1">永恆狩獵分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad2">生活至上分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad3">科學主義分隊(To be updated)</system:String>
-    <system:String x:Key="IS3NewSquad4">特訓分隊(To be updated)</system:String>
+    <system:String x:Key="IS3NewSquad1">永恆狩獵分隊</system:String>
+    <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
+    <system:String x:Key="IS3NewSquad3">科學主義分隊</system:String>
+    <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
     <system:String x:Key="SupportSquad">後勤分隊</system:String>
@@ -261,7 +261,7 @@
     <system:String x:Key="RoguelikeTheme">肉鴿主題</system:String>
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
-    <system:String x:Key="RoguelikeThemeSami">薩米(To be updated)</system:String>
+    <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
