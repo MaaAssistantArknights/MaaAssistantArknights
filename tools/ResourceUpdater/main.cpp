@@ -1110,7 +1110,7 @@ bool update_recruitment_data(
 
         const std::string& id = id_iter->second;
         if (id == "trap_138_winstone") {
-            std::cerr << "TEMP FIX. trap_138_winstone has the same name as the operator Flint"
+            std::cout << "TEMP FIX. trap_138_winstone has the same name as the operator Flint"
                       << std::endl;
             continue;
         }
