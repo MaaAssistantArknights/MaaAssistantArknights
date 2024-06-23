@@ -564,6 +564,12 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="LoopTimes">반복 횟수</system:String>
     <system:String x:Key="Start">시작</system:String>
     <system:String x:Key="VideoLink">영상 링크</system:String>
+    <system:String x:Key="CopilotSkill">기능</system:String>
+    <system:String x:Key="TotalOperatorsCount">총 {count} 명의 오퍼레이터</system:String>
+    <system:String x:Key="DirectiveComponentTerm">에너지 전도체:</system:String>
+    <system:String x:Key="OtherOperators">기타 오퍼레이터:</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">시작 장비 (가로)：</system:String>
+    <system:String x:Key="InitialStrategy">初期戦略：</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         팁:\n\n

@@ -564,6 +564,12 @@
     <system:String x:Key="CopilotClearTask">右键清除未激活任务</system:String>
     <system:String x:Key="Start">开始</system:String>
     <system:String x:Key="VideoLink">视频链接</system:String>
+    <system:String x:Key="CopilotSkill">技能</system:String>
+    <system:String x:Key="TotalOperatorsCount">共 {count} 名干员</system:String>
+    <system:String x:Key="DirectiveECTerm">导能原件：</system:String>
+    <system:String x:Key="OtherOperators">编队工具人：</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">开局装备（横向）：</system:String>
+    <system:String x:Key="InitialStrategy">开局策略：</system:String>
     <!--  日志  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n

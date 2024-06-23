@@ -564,6 +564,12 @@
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
+    <system:String x:Key="CopilotSkill">技能</system:String>
+    <system:String x:Key="TotalOperatorsCount">合計 {count} 名の戦術要員</system:String>
+    <system:String x:Key="DirectiveComponentTerm">導能組件：</system:String>
+    <system:String x:Key="OtherOperators">その他の戦術要員：</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">初期装備（横）：</system:String>
+    <system:String x:Key="InitialStrategy">初期戦略：</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         ヒント: \n\n
@@ -716,7 +722,7 @@
     <system:String x:Key="UnsupportedLevel">サポートされていないレベルです。レベル名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
-    <system:String x:Key="TryToReconnectByAdb">再接続を試みています </system:String>
+    <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
