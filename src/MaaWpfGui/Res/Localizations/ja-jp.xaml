@@ -566,7 +566,7 @@
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
     <system:String x:Key="CopilotSkill">技能</system:String>
     <system:String x:Key="TotalOperatorsCount">合計 {0} 名の戦術要員</system:String>
-    <system:String x:Key="DirectiveComponentTerm">導能組件：</system:String>
+    <system:String x:Key="DirectiveECTerm">導能組件：</system:String>
     <system:String x:Key="OtherOperators">その他の戦術要員：</system:String>
     <system:String x:Key="InitialEquipmentHorizontal">初期装備（横）：</system:String>
     <system:String x:Key="InitialStrategy">初期戦略：</system:String>

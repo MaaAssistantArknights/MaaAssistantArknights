@@ -458,7 +458,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                         if (json.TryGetValue("buff", out var buffValue))
                         {
-                            string buffLog = LocalizationHelper.GetString("DirectiveComponentTerm");
+                            string buffLog = LocalizationHelper.GetString("DirectiveECTerm");
                             AddLog(buffLog + DataHelper.GetLocalizedCharacterName((string?)buffValue, language), UiLogColor.Message, showTime: false);
                         }
 
