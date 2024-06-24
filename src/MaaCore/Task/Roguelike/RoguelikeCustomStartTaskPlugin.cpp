@@ -141,6 +141,7 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     sleep(Task.get("RoguelikeCustom-HijackCoChar")->pre_delay);
 
     m_config->set_use_support(m_customs[RoguelikeCustomType::UseSupport] == "1");
+    m_config->set_use_support_min_level(std::stoi(m_customs[RoguelikeCustomType::UseSupportMinLevel]));
     m_config->set_use_nonfriend_support(m_customs[RoguelikeCustomType::UseNonfriendSupport] == "1");
     m_config->set_core_char(char_name);
     return true;
