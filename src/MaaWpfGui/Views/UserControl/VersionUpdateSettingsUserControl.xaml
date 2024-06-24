@@ -39,19 +39,22 @@
                     Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Content="{DynamicResource UpdateAutoCheck}"/>
+                    Content="{DynamicResource UpdateAutoCheck}"
+                    IsChecked="{Binding UpdateAutoCheck}" />
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="{DynamicResource UpdateAutoDownload}"
-                    IsChecked="{Binding AutoDownloadUpdatePackage}"/>
+                    IsChecked="{Binding AutoDownloadUpdatePackage}"
+                    IsEnabled="{Binding UpdateCheck}" />
                 <CheckBox
                     Margin="10"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Content="{DynamicResource AutoInstallUpdatePackage}"
-                    IsChecked="{Binding AutoInstallUpdatePackage}"/>
+                    IsChecked="{Binding AutoInstallUpdatePackage}"
+                    IsEnabled="{Binding UpdateCheck}" />
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <controls:TextBlock
                         Margin="10,10,0,10"
@@ -61,6 +64,7 @@
                         Width="120"
                         Margin="10"
                         DisplayMemberPath="Display"
+                        IsEnabled="{Binding UpdateCheck}"
                         ItemsSource="{Binding VersionTypeList}"
                         SelectedValue="{Binding VersionType}"
                         SelectedValuePath="Value" />
