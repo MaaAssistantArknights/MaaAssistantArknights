@@ -10664,6 +10664,15 @@
         "stageId": "camp_r_22",
         "width": 13
     },
+    "camp_r_23-obt/campaign/level_camp_r_23": {
+        "code": "维多利亚",
+        "filename": "camp_r_23-obt-campaign-level_camp_r_23.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_23",
+        "name": "燃烧街区",
+        "stageId": "camp_r_23",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
