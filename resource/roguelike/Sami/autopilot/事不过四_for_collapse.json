@@ -18,11 +18,21 @@
     "deploy_plan": [
         {
             "groups": [
-                "锏",
                 "地面阻挡"
             ],
             "location": [
                 5,
+                1
+            ],
+            "direction": "left",
+            "condition": [ 1, 13 ]
+        },
+        {
+            "groups": [
+                "锏"
+            ],
+            "location": [
+                4,
                 1
             ],
             "direction": "left",
@@ -93,6 +103,17 @@
                 1
             ],
             "direction": "left",
+            "condition": [ 3, 13 ]
+        },
+        {
+            "groups": [
+                "辅助"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "down",
             "condition": [ 3, 13 ]
         },
         {
