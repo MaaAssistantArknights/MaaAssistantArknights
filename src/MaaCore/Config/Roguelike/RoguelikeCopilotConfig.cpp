@@ -19,7 +19,7 @@ bool asst::RoguelikeCopilotConfig::load(const std::filesystem::path& path)
         }
         ret &= AbstractConfig::load(entry.path());
     }
-    //Log.enable(Logger::LOG_TRACE);
+    Logger::level::trace.set_enabled(true);
     return ret;
 }
 
