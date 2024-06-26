@@ -1,7 +1,5 @@
 #include "RoguelikeCopilotConfig.h"
 
-#include "Utils/LogControl.hpp"
-
 #include <meojson/json.hpp>
 
 #include "Utils/Logger.hpp"
@@ -14,14 +12,14 @@ bool asst::RoguelikeCopilotConfig::load(const std::filesystem::path& path)
     LogTraceFunction;
 
     bool ret = true;
-    LogControl::disable();
+    Logger::level::trace.set_enabled(false);
     for (auto& entry : std::filesystem::recursive_directory_iterator(path)) {
         if (!entry.is_regular_file() || entry.path().extension() != ".json") {
             continue;
         }
         ret &= AbstractConfig::load(entry.path());
     }
-    LogControl::enable();
+    //Log.enable(Logger::LOG_TRACE);
     return ret;
 }
 
