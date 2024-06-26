@@ -3,6 +3,7 @@
 #include <meojson/json.hpp>
 
 #include "Utils/Demangle.hpp"
+#include "Utils/LogControl.hpp"
 #include "Utils/Logger.hpp"
 
 bool asst::AbstractConfig::load(const std::filesystem::path& path)
@@ -15,12 +16,14 @@ bool asst::AbstractConfig::load(const std::filesystem::path& path)
     }
     m_path = path;
 
-    LogTraceScope(class_name + " :: " + __FUNCTION__);
-    Log.info(path.lexically_relative(UserDir.get()));
+    if (LogControl::is_enabled()) {
+        LogTraceScope(class_name + " :: " + __FUNCTION__);
+    }
 
     auto ret = json::open(path, true);
     if (!ret) {
         Log.error("Json open failed", path);
+        Log.info(path.lexically_relative(UserDir.get()));
         return false;
     }
 
