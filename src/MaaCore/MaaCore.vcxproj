@@ -108,6 +108,7 @@
     <ClInclude Include="Utils\Algorithm.hpp" />
     <ClInclude Include="Utils\File.hpp" />
     <ClInclude Include="Utils\LibraryHolder.hpp" />
+    <ClInclude Include="Utils\LogControl.hpp" />
     <ClInclude Include="Vision\VisionHelper.h" />
     <ClInclude Include="Vision\Battle\BattleFormationAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattlefieldMatcher.h" />
@@ -286,6 +287,7 @@
     <ClCompile Include="Task\SSS\SSSBattleProcessTask.cpp" />
     <ClCompile Include="Task\SSS\SSSDropRewardsTaskPlugin.cpp" />
     <ClCompile Include="Task\SSS\SSSStageManagerTask.cpp" />
+    <ClCompile Include="Utils\LogControl.cpp" />
     <ClCompile Include="Vision\VisionHelper.cpp" />
     <ClCompile Include="Vision\Battle\BattleFormationAnalyzer.cpp" />
     <ClCompile Include="Vision\Battle\BattlefieldMatcher.cpp" />

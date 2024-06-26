@@ -122,6 +122,7 @@ namespace asst::utils
         }
         if (parse_json_as(*opt, output)) {
 #ifdef ASST_DEBUG
+            /*
             // 如果有默认值，检查是否与默认值相同
             if constexpr (std::constructible_from<OutT, DefaultT>) {
                 if (output == default_val) {
@@ -133,6 +134,7 @@ namespace asst::utils
                     Log.warn("Value of", key, "in", repr, "is same as default value");
                 }
             }
+            */
 #endif
             return true;
         }
