@@ -2,9 +2,11 @@
 order: 8
 ---
 
-(translation required)
-
 # Reclamation Algorithm
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 目前生息演算的支持仍处于早期阶段，暂不推荐无人值守，现阶段无法保证稳定性。
 

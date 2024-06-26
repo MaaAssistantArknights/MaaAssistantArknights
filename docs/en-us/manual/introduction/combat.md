@@ -2,9 +2,11 @@
 order: 3
 ---
 
-(translation required)
-
 # Combat
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 ## General Settings
 

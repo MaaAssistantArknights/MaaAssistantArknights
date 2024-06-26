@@ -2,9 +2,11 @@
 order: 2
 ---
 
-(translation required)
-
 # Recruit
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 Auto-recruitment and [recruitment recognition](./tools.md#recruitment-recognition) are two different features.
 

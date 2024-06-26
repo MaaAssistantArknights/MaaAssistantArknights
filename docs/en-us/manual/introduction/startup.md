@@ -2,9 +2,11 @@
 order: 1
 ---
 
-(translation required)
-
 # Startup
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 自动启动模拟器，自动启动客户端，自动进入游戏。
 

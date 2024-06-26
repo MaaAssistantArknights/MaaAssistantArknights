@@ -2,9 +2,11 @@
 order: 11
 ---
 
-(translation required)
-
 # Others
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 ## Automatically switch configurations on startup
 

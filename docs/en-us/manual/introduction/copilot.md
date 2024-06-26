@@ -2,9 +2,11 @@
 order: 9
 ---
 
-(translation required)
-
 # Copilot
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 Welcome to share your tasks with [prts.plus](https://prts.plus)!
 

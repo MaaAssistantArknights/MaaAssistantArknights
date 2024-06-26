@@ -2,9 +2,11 @@
 order: 5
 ---
 
-(translation required)
-
 # Credit Store
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 - Automatically visit friends to obtain credit points 并前往信用交易所购物.
 - With the help of Warfarin's credit:

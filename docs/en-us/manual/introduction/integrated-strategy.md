@@ -2,9 +2,11 @@
 order: 7
 ---
 
-(translation required)
-
 # Integrated Strategy (I.S.)
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 MAA selects the latest theme by default, and can be changed in `Auto I.S.` - `General`.
 

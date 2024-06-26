@@ -2,9 +2,11 @@
 order: 4
 ---
 
-(translation required)
-
 # Infrastructure
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 ## Shifting Strategy
 

@@ -2,9 +2,11 @@
 order: 6
 ---
 
-(translation required)
-
 # Rewards
+
+::: important Translation Required
+This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+:::
 
 自动领取每日奖励和每周奖励。
 
