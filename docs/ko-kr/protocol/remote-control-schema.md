@@ -84,7 +84,7 @@ MAA는 이 엔드 포인트를 계속하여 폴링하여 실행해야하는 작�
 
 ::: note
 
--LinkStart-[TaskName] 유형의 작업 유형의 LinkStart의 선택 가능한 값은 LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike, LinkStart-ReclamationAlgorithm입니다.
+- LinkStart-[TaskName] 유형의 작업 유형의 LinkStart의 선택 가능한 값은 LinkStart-Base, LinkStart-WakeUp, LinkStart-Combat, LinkStart-Recruiting, LinkStart-Mall, LinkStart-Mission, LinkStart-AutoRoguelike, LinkStart-ReclamationAlgorithm입니다.
 - Settings-[SettingsName] 작업 유형의 유형 매개 변수의 선택 가능한 값은 Settings-ConnectionAddress, Settings-Stage1입니다.
 - 설정 시리즈 작업은 여전히 순서대로 실행되며 작업을 받은 즉시 실행되지 않으며 이전 작업 뒤에 배치됩니다.
 - 여러 즉시 실행 작업은 순서대로 실행되지만 이러한 작업은 모두 빠르게 실행되므로 순서에 관심을 두지 않아도됩니다.
@@ -117,10 +117,9 @@ MAA가 작업을 완료하면 작업의 실행 결과를 원격에 보고해야�
 
 A 개발자는 자신의 QQBot을 사용하여 MAA를 제어하려고합니다. 따라서 공개 네트워크에서 노출 된 백엔드를 개발하여 다음 두 가지 엔드포인트를 제공합니다.
 
-```
-https://myqqbot.com/maa/getTask
-https://myqqbot.com/maa/reportStatus。
-```
+> [!tip]
+> https://myqqbot.com/maa/getTask
+> https://myqqbot.com/maa/reportStatus
 
 사용자의 편의를 위해 getTask 인터페이스는 어떤 매개 변수를 받더라도 기본적으로 200OK와 비어있는 작업 목록을 반환합니다.
 요청이 수신되면 A는 데이터베이스에서 중복 장치를 확인하고 그렇지 않으면 해당 장치와 사용자를 데이터베이스에 기록합니다.
@@ -143,10 +142,9 @@ MAA를 구성 한 후 사용자가 MAA를 구성하면 MAA가 지속적으로 �
 
 B 개발자는 웹 사이트를 작성했으며 웹 사이트를 통해 MAA를 대량으로 관리하려고합니다. 따라서 공개 네트워크에서 자체 사용자 관리 시스템을 보유하고 두 가지 익명 엔드 포인트를 제공하는 백엔드를 개발했습니다.
 
-```
-https://mywebsite.com/maa/getTask
-https://mywebsite.com/maa/reportStatus。
-```
+> [!tip]
+> https://mywebsite.com/maa/getTask
+> https://mywebsite.com/maa/reportStatus。
 
 웹 사이트에는 MAA 인스턴스에 대한 연결을 표시하는 페이지가 있습니다. B 개발자는 랜덤 문자열을 `사용자 키`라고하는 이 페이지에 표시하고 장치 ID를 입력할 수있는 텍스트 상자가 있습니다.
 
@@ -159,3 +157,5 @@ MAA의 설정에 올바르게 MAA 연결을 만들려면 웹 사이트에서 사
 웹 사이트는이 페이지를 공개하기 때문에 누구나 사용자 키를 복사하여 사용할 수 있지만 장치 ID가 없으면 적절한 데이터베이스 레코드를 찾을 수 없으므로 getTask 호출에 대한 결과는 빈 목록입니다.
 
 작업이 완료되면 MAA가 reportStatus를 호출하여 결과를 보고하면 웹 사이트는 결과를받고 사용자에게 페이지를 업데이트하여 작업 결과를 표시합니다.
+
+<!-- markdownlint-disable-file MD034 -->

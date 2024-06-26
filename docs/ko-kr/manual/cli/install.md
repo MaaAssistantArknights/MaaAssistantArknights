@@ -97,8 +97,6 @@ maa install
 
 패키지 관리자를 통해 설치한 사용자는 패키지 관리자를 통해 MaaCore를 설치할 수 있습니다:
 
-
-
 - Homebrew：
 
   ```bash

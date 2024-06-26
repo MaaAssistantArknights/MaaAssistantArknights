@@ -330,7 +330,7 @@ address = "127.0.0.1:7777" # 필요 시 사전 설정된 주소를 재정의할 
 
 현재 `MuMuPro` 한 가지 에뮬레이터만 사전 설정이 있으며, 다른 일반적인 에뮬레이터의 사전 설정을 추가하고 싶다면 issue나 PR을 제출하세요.
 
-여기에는 `PlayCover`라는 특수한 사전 설정이 있으며, 이는 macOS에서 `PlayCover`를 통해 네이티브로 실행되는 게임 클라이언트에 연결하는 데 사용됩니다. 이 경우 `adb_path`를 지정할 필요가 없으며, `address`는 `adb` 연결 주소가 아닌 `PlayTools`의 주소입니다. 자세한 내용은 [PlayCover 지원 문서][playcover-doc]를 참고하세요. 
+여기에는 `PlayCover`라는 특수한 사전 설정이 있으며, 이는 macOS에서 `PlayCover`를 통해 네이티브로 실행되는 게임 클라이언트에 연결하는 데 사용됩니다. 이 경우 `adb_path`를 지정할 필요가 없으며, `address`는 `adb` 연결 주소가 아닌 `PlayTools`의 주소입니다. 자세한 내용은 [PlayCover 지원 문서][playcover-doc]를 참고하세요.
 
 ### 리소스 설정
 

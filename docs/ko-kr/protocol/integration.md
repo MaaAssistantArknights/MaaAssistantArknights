@@ -91,6 +91,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
                                 // 이성 1 포인트가 복구되면 오리지늄을 사용하여 확정화면에서 대기한 다음 즉시 오리지늄을 사용합니다.
 }
 ```
+
 특수 스테이지의 일부를 지원합니다. 자세한 내용은 [자동 현지화 예제](..\..\..\tools\AutoLocalization\example\ko-kr.xaml)를 참고하세요.
 
 - `Recruit`  

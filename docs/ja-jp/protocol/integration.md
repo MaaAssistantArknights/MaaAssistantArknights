@@ -5,7 +5,9 @@ icon: bxs:book
 
 # インテグレーション
 
-**This document is outdated due to the rapid update of the interface. Since the developers are not good at foreign languages, it is recommended that you refer to the Chinese or English documentation for the latest content**
+::: warning
+This document is outdated due to the rapid update of the interface. Since the developers are not good at foreign languages, it is recommended that you refer to the Chinese documentation for the latest content.
+:::
 
 ## API
 

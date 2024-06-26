@@ -140,6 +140,7 @@ icon: material-symbols:task
 - 작업 "B@A"가 `tasks.json`에 명시적으로 정의되어 있지 않으면 `sub`, `next`, `onErrorNext`, `exceededNext`, `reduceOtherTimes` 필드에 "B@" 접두사를 추가합니다(또는 작업 이름이 `#`로 시작하는 경우 "B"로 접두사를 추가
 
 합니다). 나머지 매개변수는 "A" 작업과 동일합니다. 즉, 작업 "A"에 다음과 같은 매개변수가 있는 경우:
+
 ```json
     "A": {
         "template": "A.png",
@@ -180,6 +181,7 @@ icon: material-symbols:task
 #### 멀티 파일 Task
 
 나중에 로드된 작업 파일 (예: 글로벌 서버의 `tasks.json` 파일)에서 정의된 작업이 먼저 로드된 작업 파일 (예: CN 서버의 `tasks.json` 파일)에서도 동일한 이름의 작업이 정의된 경우 다음과 같습니다:
+
 - 파일 2에 작업에 `baseTask` 필드가 없으면 파일 1에서 동일한 이름의 작업의 필드를 직접 상속합니다
 - 파일 2에 작업에 `baseTask` 필드가 있으면 파일 1에서 동일한 이름의 작업의 필드를 직접 상속하는 대신에 덮어씁니다.
 

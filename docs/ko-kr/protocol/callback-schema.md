@@ -43,6 +43,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       SubTaskStopped,             // 서브태스크 중지
   };
   ```
+
 - `const char* details`  
   메시지 세부사항, JSON 형식입니다. 또한 [필드 설명](#필드-설명)도 참조하세요.
 - `void* custom_arg`  
@@ -196,6 +197,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
 #### 자주 사용되는 `subtask` 필드 값
 
 - `ProcessTask`  
+
   ```json
   // 상세 정보에 대한 예시
   {
@@ -206,6 +208,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       "algorithm": 0
   }
   ```
+
 - 기타 할 일
 
 ##### 자주 사용되는 `task` 필드 값
@@ -324,7 +327,9 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       }
     ]
   }
+
   ```
+
 - `RecruitTagsDetected`  
   공개모집 태그 감지
 
@@ -339,8 +344,8 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
           "近战位"
       ]
   }
-
   ```
+
 - `RecruitSpecialTag`  
   고급 특별 채용 감지
 
@@ -350,6 +355,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
      "tag": "高级资深干员" // 고급 특별 채용
   }
   ```
+
 - `RecruitResult`  
   공개모집 결과
 
@@ -426,6 +432,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       ]
   }
   ```
+
 - `RecruitTagsRefreshed`  
   공개모집 태그 갱신 완료
 
@@ -436,6 +443,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       "refresh_limit": 3        // 갱신 횟수 제한
   }
   ```
+
 - `RecruitNoPermit`  
     모집 라이센스가 없습니다
 
@@ -445,6 +453,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
         "continue": true,   // 계속 새로고침할지 말지
     }
     ```
+
 - `RecruitTagsSelected`  
   공개모집 태그 선택 완료
 
@@ -457,6 +466,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       ]
   }
   ```
+
 - `RecruitSlotCompleted`  
   모집 슬롯 완료
 - `RecruitError`  
@@ -471,6 +481,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       "index": 0          // 시설 ID
   }
   ```
+
 - `NotEnoughStaff`  
   사용 가능한 오퍼레이터가 부족함
 
@@ -481,6 +492,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       "index": 0          // 시설 ID
   }
   ```
+
 - `ProductOfFacility`  
   시설의 생산물
 
@@ -492,6 +504,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       "index": 0          // 시설 ID
   }
   ```
+
 - `StageInfo`  
   자동 전투 스테이지 정보
 
@@ -501,6 +514,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       "name": string  // 스테이지 이름
   }
   ```
+
 - `StageInfoError`  
   자동 전투 스테이지 정보 오류
 - `PenguinId`  
@@ -512,6 +526,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       "id": string
   }
   ```
+
 - `DepotInfo`  
   창고 인식 결과
 
@@ -553,6 +568,7 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
   }
   // 현재는 ArkPlanner와 Lolicon (Arkntools) 포맷만 지원하며, 미래에 더 많은 웹사이트가 지원될 예정입니다.
   ```
+
 - `OperBoxInfo`  
   오퍼레이터 보유 목록 인식 결과
 
@@ -597,5 +613,6 @@ typedef void(ASST_CALL* AsstCallback)(int msg, const char* details, void* custom
       }
   ]
   ```
+
 - `UnsupportedLevel`  
   지원되지 않는 레벨 이름
