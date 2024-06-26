@@ -690,7 +690,6 @@ private:
     Logger()
         : m_directory(UserDir.get())
     {
-        level::trace.set_enabled(false);
         std::filesystem::create_directories(m_log_path.parent_path());
         rotate();
         log_init_info();
