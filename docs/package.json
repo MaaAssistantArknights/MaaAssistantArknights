@@ -10,7 +10,7 @@
     "private": true,
     "devDependencies": {
         "@vuepress/bundler-vite": "2.0.0-rc.13",
-        "@vuepress/plugin-docsearch": "2.0.0-rc.34",
+        "@vuepress/plugin-docsearch": "2.0.0-rc.36",
         "@vuepress/plugin-google-analytics": "2.0.0-rc.34",
         "@vuepress/plugin-shiki": "^2.0.0-rc.34",
         "markdown-it": "^14.1.0",
@@ -18,7 +18,7 @@
         "markdownlint-cli": "^0.39.0",
         "vue": "^3.4.27",
         "vuepress": "2.0.0-rc.13",
-        "vuepress-theme-hope": "2.0.0-rc.46"
+        "vuepress-theme-hope": "2.0.0-rc.49"
     },
     "scripts": {
         "dev": "vuepress dev .",
