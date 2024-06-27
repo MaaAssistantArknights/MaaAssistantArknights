@@ -158,7 +158,7 @@
             "name_en": "Eyjafjalla the Hvít Aska",
             "name_jp": "純燼エイヤフィヤトラ",
             "name_kr": "에이야퍄들라 더 크비트 아스카",
-            "name_tw": "纯烬艾雅法拉",
+            "name_tw": "純燼艾雅法拉",
             "position": "RANGED",
             "profession": "MEDIC",
             "rangeId": [
@@ -371,7 +371,7 @@
             "name_en": "Swire the Elegant Wit",
             "name_jp": "琳琅スワイヤー",
             "name_kr": "스와이어 디 엘리건트 위트",
-            "name_tw": "琳琅诗怀雅",
+            "name_tw": "琳瑯詩懷雅",
             "position": "MELEE",
             "profession": "SPECIAL",
             "rangeId": [
@@ -3956,7 +3956,7 @@
             "name_en": "Bryophyta",
             "name_jp": "ブライオファイタ",
             "name_kr": "브라이오피타",
-            "name_tw": "苍苔",
+            "name_tw": "蒼苔",
             "position": "MELEE",
             "profession": "WARRIOR",
             "rangeId": [
@@ -5777,7 +5777,7 @@
             "name_en": "Champagne Bomb",
             "name_jp": "シャンパン爆弾",
             "name_kr": "샴페인 폭탄",
-            "name_tw": "香槟炸弹",
+            "name_tw": "香檳炸彈",
             "position": "MELEE",
             "profession": "TOKEN",
             "rangeId": [
@@ -7637,7 +7637,7 @@
             "name_en": "Decorative Geyser",
             "name_jp": "景観噴水",
             "name_kr": "분수대",
-            "name_tw": "景观喷泉",
+            "name_tw": "景觀噴泉",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9932,7 +9932,7 @@
             "name_en": "Energy Overflow Converter",
             "name_jp": "オーバーフロー変換機",
             "name_kr": "오버플로우 컨버터",
-            "name_tw": "溢能回收转化器",
+            "name_tw": "溢能回收轉化器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9947,7 +9947,7 @@
             "name_en": "Energy Overflow Converter",
             "name_jp": "オーバーフロー変換機",
             "name_kr": "오버플로우 컨버터",
-            "name_tw": "溢能回收转化器",
+            "name_tw": "溢能回收轉化器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9962,7 +9962,7 @@
             "name_en": "Energy Overflow Converter",
             "name_jp": "オーバーフロー変換機",
             "name_kr": "오버플로우 컨버터",
-            "name_tw": "溢能回收转化器",
+            "name_tw": "溢能回收轉化器",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9977,7 +9977,7 @@
             "name_en": "Field Support Drone",
             "name_jp": "戦場サポートドローン",
             "name_kr": "전장 지원 드론",
-            "name_tw": "战地援护无人机",
+            "name_tw": "戰地援護無人機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -9992,7 +9992,7 @@
             "name_en": "Field Support Drone",
             "name_jp": "戦場サポートドローン",
             "name_kr": "전장 지원 드론",
-            "name_tw": "战地援护无人机",
+            "name_tw": "戰地援護無人機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -10007,7 +10007,7 @@
             "name_en": "Field Support Drone",
             "name_jp": "戦場サポートドローン",
             "name_kr": "전장 지원 드론",
-            "name_tw": "战地援护无人机",
+            "name_tw": "戰地援護無人機",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -10022,7 +10022,7 @@
             "name_en": "Competition Records Analyzer",
             "name_jp": "競技記録アナライザー",
             "name_kr": "경기 기록 분석기",
-            "name_tw": "竞技记录分析仪",
+            "name_tw": "競技記錄分析儀",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -10037,7 +10037,7 @@
             "name_en": "'Supersweetie Superblend'",
             "name_jp": "「スイート・スーパーブレンド」",
             "name_kr": "'달콤한 교란'",
-            "name_tw": "“甜蜜狂搅”",
+            "name_tw": "“甜蜜狂攪”",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -10052,7 +10052,7 @@
             "name_en": "Neuronal Revival",
             "name_jp": "神経再生",
             "name_kr": "신경 재생",
-            "name_tw": "神经再生",
+            "name_tw": "神經再生",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -10067,7 +10067,7 @@
             "name_en": "Competition Records Analyzer",
             "name_jp": "競技記録アナライザー",
             "name_kr": "경기 기록 분석기",
-            "name_tw": "竞技记录分析仪",
+            "name_tw": "競技記錄分析儀",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -10082,7 +10082,7 @@
             "name_en": "Competition Records Analyzer",
             "name_jp": "競技記録アナライザー",
             "name_kr": "경기 기록 분석기",
-            "name_tw": "竞技记录分析仪",
+            "name_tw": "競技記錄分析儀",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
@@ -10097,7 +10097,7 @@
             "name_en": "Absorber",
             "name_jp": "渇望の触手",
             "name_kr": "흡수체",
-            "name_tw": "汲取体",
+            "name_tw": "汲取體",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
