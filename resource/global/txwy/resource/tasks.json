@@ -130,8 +130,10 @@
     "SL-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
-        "next": [
-            "SLChapterToSL"
+        "text": [
+            "火山",
+            "旅夢",
+            "已開放"
         ],
         "postDelay": 2000,
         "roi": [
@@ -140,10 +142,8 @@
             500,
             150
         ],
-        "text": [
-            "火山",
-            "旅夢",
-            "已開放"
+        "next": [
+            "SLChapterToSL"
         ]
     },
     "SLChapterToSL": {
