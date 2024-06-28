@@ -1,0 +1,96 @@
+{
+    "stage_name": "天途半道",
+    "replacement_home": [
+        {
+            "location": [
+                4,
+                4
+            ],
+            "direction": "up"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": [
+                "益达"
+            ],
+            "location": [
+                2,
+                4
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+
+                "地面阻挡"
+            ],
+            "location": [
+                4,
+                3
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "焰苇",
+                "高台输出"
+            ],
+            "location": [
+                7,
+                1
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "单奶",
+                "凯尔希"
+            ],
+            "location": [
+                5,
+                4
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "伊内丝",
+                "玛恩纳",
+                "地面阻挡",
+                "其他地面"
+            ],
+            "location": [
+                4,
+                5
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "狙击",
+                "高台输出",
+                "浊心斯卡蒂",
+                "单奶",
+                "群奶",
+                "召唤",
+                "其他高台"
+            ],
+            "location": [
+                5,
+                3
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "炮灰"
+            ],
+            "location": [
+                3,
+                3
+            ],
+            "direction": "left"
+        }
+    ]
+}
