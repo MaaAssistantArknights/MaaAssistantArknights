@@ -79,21 +79,22 @@ Assistant::~Assistant()
     // which creates empty files with random name on Linux. I have no idea how this could work
     ResourceLoader::get_instance().cancel();
 
-    m_thread_exit = true;
-    m_thread_idle = true;
+    {
+        // m_thread_exit is locked, in case wait happens after notify
+        std::unique_lock work_lock { m_mutex };
+        std::unique_lock call_lock { m_call_mutex };
+        m_thread_exit = true;
+    }
 
-    {
-        std::unique_lock<std::mutex> lock(m_call_mutex);
-        m_call_condvar.notify_all();
-    }
-    {
-        std::unique_lock<std::mutex> lock(m_mutex);
-        m_condvar.notify_all();
-    }
-    {
-        std::unique_lock<std::mutex> lock(m_msg_mutex);
-        m_msg_condvar.notify_all();
-    }
+    m_run_status = RunStatus::Stopping;
+
+    m_call_condvar.notify_all();
+
+    m_completed_call_condvar.notify_all();
+
+    m_condvar.notify_all();
+
+    m_msg_condvar.notify_all();
 
     if (m_working_thread.joinable()) {
         m_working_thread.join();
@@ -175,18 +176,15 @@ bool asst::Assistant::ctrl_connect(const std::string& adb_path, const std::strin
     std::unique_lock<std::mutex> lock(m_mutex);
 
     // 仍有任务进行，connect 前需要 stop
-    if (!m_thread_idle) {
+    if (running()) {
         return false;
     }
-
-    m_thread_idle = false;
 
     bool ret = m_ctrler->connect(adb_path, address, config.empty() ? "General" : config);
     if (ret) {
         m_uuid = m_ctrler->get_uuid();
     }
 
-    m_thread_idle = true;
     return ret;
 }
 
@@ -358,15 +356,12 @@ bool asst::Assistant::start(bool block)
     LogTraceFunction;
     Log.info("Start |", block ? "block" : "non block");
 
-    if (!m_thread_idle) {
-        return false;
+    auto old_run_status = RunStatus::Stopped;
+    while (!m_run_status.compare_exchange_weak(old_run_status, RunStatus::Starting)) {
+        if (m_thread_exit) return false;
+        if (old_run_status != RunStatus::Stopped) return false;
     }
-    std::unique_lock<std::mutex> lock;
-    if (block) { // 外部调用
-        lock = std::unique_lock<std::mutex>(m_mutex);
-    }
-    m_thread_idle = false;
-    m_running = true;
+
     m_condvar.notify_one();
 
     return true;
@@ -377,11 +372,15 @@ bool Assistant::stop(bool block)
     LogTraceFunction;
     Log.info("Stop |", block ? "block" : "non block");
 
-    m_thread_idle = true;
+    auto old_run_status = RunStatus::Started;
+    while (!m_run_status.compare_exchange_weak(old_run_status, RunStatus::Stopping)) {
+        if (m_thread_exit) return true;
+        if (old_run_status == RunStatus::Stopping || old_run_status == RunStatus::Stopped) break;
+    }
 
-    std::unique_lock<std::mutex> lock;
+    std::unique_lock<std::mutex> lock(m_mutex, std::defer_lock);
     if (block) { // 外部调用
-        lock = std::unique_lock<std::mutex>(m_mutex);
+        lock.lock();
     }
     m_tasks_list.clear();
 
@@ -391,7 +390,7 @@ bool Assistant::stop(bool block)
 
 bool asst::Assistant::running() const
 {
-    return m_running;
+    return m_run_status.load() != RunStatus::Stopped;
 }
 
 void Assistant::working_proc()
@@ -399,23 +398,43 @@ void Assistant::working_proc()
     LogTraceFunction;
 
     std::vector<TaskId> finished_tasks;
+    std::unique_lock<std::mutex> lock(m_mutex, std::defer_lock);
+
     while (true) {
-        std::unique_lock<std::mutex> lock(m_mutex);
-        if (m_thread_exit) {
-            m_running = false;
+        if (!lock.owns_lock()) lock.lock();
+        if (m_thread_exit) [[unlikely]] {
+            m_run_status = RunStatus::Stopped;
             return;
         }
-
-        if (m_thread_idle || m_tasks_list.empty()) {
+        auto old_run_status = m_run_status.load();
+        switch (old_run_status) {
+        case RunStatus::Stopping: // set status to stopped, block on condvar.wait
+            // start() stop() would fail, no need to cmpxchg
+            m_run_status = RunStatus::Stopped;
             finished_tasks.clear();
-            m_thread_idle = true;
-            m_running = false;
+            clear_cache();
             Log.flush();
+            [[fallthrough]];
+        case RunStatus::Stopped:
             m_condvar.wait(lock);
             continue;
-        }
 
-        m_running = true;
+        case RunStatus::Starting: // set status to started
+            m_run_status = RunStatus::Started;
+            old_run_status = RunStatus::Started;
+            [[fallthrough]];
+        case RunStatus::Started: // run task or set status to stopped if there is nothing to runs
+            if (m_tasks_list.empty()) {
+                if (!m_run_status.compare_exchange_weak(old_run_status, RunStatus::Stopped)) continue;
+                finished_tasks.clear();
+                clear_cache();
+                Log.flush();
+                continue;
+            }
+            break; //--+
+        }          //  | the only way out
+        //           <-+
+
         const auto [id, task_ptr] = m_tasks_list.front();
         lock.unlock();
         // only one instance of working_proc running, unlock here to allow set_task_param to the running task
@@ -430,20 +449,23 @@ void Assistant::working_proc()
         finished_tasks.emplace_back(id);
 
         lock.lock();
-        if (!m_tasks_list.empty()) {
-            m_tasks_list.pop_front();
-        }
+        for (auto iter = m_tasks_list.begin(); iter != m_tasks_list.end(); ++iter)
+            if (iter->first == id) {
+                m_tasks_list.erase(iter);
+                break;
+            }
         lock.unlock();
 
-        auto msg =
-            m_thread_idle ? AsstMsg::TaskChainStopped : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
+        auto msg = (m_run_status == Assistant::RunStatus::Stopping)
+                       ? AsstMsg::TaskChainStopped
+                       : (ret ? AsstMsg::TaskChainCompleted : AsstMsg::TaskChainError);
         append_callback(msg, callback_json);
 
-        if (m_thread_idle) {
-            finished_tasks.clear();
+        if (m_run_status != RunStatus::Started) {
             continue;
         }
 
+        lock.lock();
         if (m_tasks_list.empty()) {
             callback_json["finished_tasks"] = json::array(finished_tasks);
             append_callback(AsstMsg::AllTasksCompleted, callback_json);
@@ -452,10 +474,11 @@ void Assistant::working_proc()
         }
 
         const int delay = Config.get_options().task_delay;
-        lock.lock();
-        m_condvar.wait_for(lock, std::chrono::milliseconds(delay), [&]() -> bool { return m_thread_idle; });
+        m_condvar.wait_for(lock, std::chrono::milliseconds(delay),
+                           [this]() -> bool { return m_run_status != RunStatus::Started; });
+        if (lock.owns_lock()) lock.unlock();
 
-        if (m_thread_idle) {
+        if (m_run_status == RunStatus::Stopping) { // status became 'Stopping' while we were waiting?
             append_callback(AsstMsg::TaskChainStopped, callback_json);
         }
     }
@@ -512,18 +535,22 @@ asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::T
 bool asst::Assistant::wait_async_id(AsyncCallId id)
 {
     while (true) {
-        std::unique_lock<std::mutex> lock(m_completed_call_mutex);
+        std::unique_lock<std::mutex> lock { m_completed_call_mutex };
         if (m_thread_exit) {
             return false;
         }
 
+        auto old = m_completed_call.load();
         // 需要保证队列中id一定是有序的
-        if (id <= m_completed_call) {
+        if (id <= old) {
             return true;
         }
+#ifdef ASST_USE_ATOMIC_WAIT
+        m_completed_call.wait(old);
+#else
         m_completed_call_condvar.wait(lock);
+#endif
     }
-    return false;
 }
 
 void asst::Assistant::call_proc()
@@ -572,8 +599,9 @@ void asst::Assistant::call_proc()
         }
 
         {
-            std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
             m_completed_call = call_item.id;
+
+            std::unique_lock<std::mutex> completed_call_lock(m_completed_call_mutex);
             m_completed_call_condvar.notify_all();
         }
 
@@ -612,9 +640,10 @@ void Assistant::append_callback(AsstMsg msg, const json::value& detail)
 
     // 加入回调消息队列，由回调消息线程外抛给外部
     Log.info("Assistant::append_callback |", msg, more_detail.to_string());
-
-    std::unique_lock<std::mutex> lock(m_msg_mutex);
-    m_msg_queue.emplace(msg, std::move(more_detail));
+    {
+        std::unique_lock<std::mutex> lock(m_msg_mutex);
+        m_msg_queue.emplace(msg, std::move(more_detail));
+    }
     m_msg_condvar.notify_one();
 }
 
