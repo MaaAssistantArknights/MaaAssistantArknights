@@ -1,25 +1,35 @@
 ---
 home: true
-
+navbar: false
+containerClass: home
+heroText: MAA 文档站 | Document
+tagline: 选择语言 | Select Language
+heroAlt: MAA Logo
+heroImage: https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png
+heroFullScreen: true
 actions:
-  - text: Link Start!
-    link: /readme.html
+  - text: 简体中文
+    link: ./zh-cn/
+    icon: signs-post
     type: primary
 
-# features:
-#   - title: 多设备兼容
-#     details: 手机真机、手机虚拟机、云手机、模拟器全部支持。免ROOT，适配异形屏。
-#   - title: 完全托管
-#     details: 定时启动、自动热更新、多账号管理、原创QQ通知服务，助你远离明日方舟。
-#   - title: 高性能
-#     details: 极致耗时优化，快过手操。每日任务速通、源石锭速刷冠军。
-#   - title: 高效率
-#     details: 根据实际基建情况，穷举计算最优基建排班，不套用固定组合。
-#   - title: 高自定义
-#     details: 多账号独立设置、信用商品优先级、抢登次数设置、自动吃到期理智药...
-#   - title: 允许商用
-#     details: 遵循GPL3.0协议，不限商用。修改代码后商用必须开源。
+  - text: 繁體中文
+    link: ./zh-tw/
+    icon: signs-post
+    type: primary
 
-# 这到底是谁写的？？？
+  - text: English
+    icon: lightbulb
+    link: ./en-us/
+    type: primary
 
+  - text: 日本語
+    link: ./ja-jp/
+    icon: signs-post
+    type: primary
+
+  - text: 한국어
+    link: ./ko-kr/
+    icon: signs-post
+    type: primary
 ---

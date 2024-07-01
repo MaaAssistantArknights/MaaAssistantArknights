@@ -357,3 +357,5 @@ char_4132_ascln|阿斯卡纶|Ascalon||
 char_4133_logos|逻各斯|Logos||
 char_4134_cetsyr|魔王|Civilight Eterna||
 char_4145_ulpia|乌尔比安|Ulpianus||
+
+<!-- markdownlint-disable-file MD041 MD055 MD056 -->
