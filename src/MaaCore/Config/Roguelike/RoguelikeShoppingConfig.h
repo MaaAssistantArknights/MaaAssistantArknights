@@ -16,6 +16,7 @@ namespace asst
         int promotion = 0; // 晋升 N 个干员
         bool no_longer_buy = false;
         bool ignore_no_longer_buy = false;
+        bool decrease_collapse = false;
     };
 
     class RoguelikeShoppingConfig final : public SingletonHolder<RoguelikeShoppingConfig>, public AbstractConfig

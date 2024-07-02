@@ -185,7 +185,8 @@
         {
             "name": "警戒篱木",
             "effect": "坍缩值-2，目标生命上限+2",
-            "No": 198
+            "No": 198,
+            "decrease_collapse": true
         },
         {
             "name": "石像鬼塑像",
@@ -402,7 +403,8 @@
         {
             "name": "《重型音乐选集》",
             "effect": "坍缩值-2，希望+2",
-            "No": 199
+            "No": 199,
+            "decrease_collapse": true
         },
         {
             "name": "彩虹瓮",
@@ -537,17 +539,20 @@
         {
             "name": "万能钥匙-α",
             "effect": "【高寒化】希望+6，坍缩值-1",
-            "No": 10
+            "No": 10,
+            "decrease_collapse": true
         },
         {
             "name": "万能钥匙-β",
             "effect": "【冻土化】希望+7，坍缩值-1",
-            "No": 10
+            "No": 10,
+            "decrease_collapse": true
         },
         {
             "name": "万能钥匙-γ",
             "effect": "【极地化】希望+7，坍缩值-2",
-            "No": 10
+            "No": 10,
+            "decrease_collapse": true
         },
         {
             "name": "万能钥匙",
@@ -1528,7 +1533,8 @@
         {
             "name": "流浪术师的怀乡",
             "effect": "进入深埋迷境时，坍缩值-3",
-            "No": 200
+            "No": 200,
+            "decrease_collapse": true
         },
         {
             "name": "食腐者手杖",

@@ -215,6 +215,7 @@ namespace asst
 
         Rect rect;
         double score = 0.0;
+        std::string templ_name;
     };
 } // namespace asst
 

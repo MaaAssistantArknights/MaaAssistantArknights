@@ -3,13 +3,22 @@
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
 #include "Config/TaskData.h"
 #include "Vision/OCRer.h"
+#include "RoguelikeCollapsalParadigmTaskPlugin.h"
 
 namespace asst
 {
     class RoguelikeStageEncounterTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+        RoguelikeStageEncounterTaskPlugin(const AsstCallback& callback,
+                                             Assistant* inst,
+                                             std::string_view task_chain,
+                                             std::shared_ptr<RoguelikeConfig> config)
+                                             : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
+        {
+            register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(config);
+        }
         using Config = RoguelikeStageEncounterConfig;
         virtual ~RoguelikeStageEncounterTaskPlugin() override = default;
 
