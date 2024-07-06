@@ -157,6 +157,7 @@ bool asst::AccountSwitchTask::select_account(std::vector<std::string>& account_l
 {
     LogTraceFunction;
 
+    sleep(200);
     auto raw_img = ctrler()->get_image();
     MultiMatcher matcher(raw_img);
     matcher.set_task_info("AccountManagerTrashButton");
