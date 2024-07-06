@@ -962,7 +962,7 @@ void asst::AutoRecruitTask::upload_to_penguin(Rng&& tags)
     m_report_penguin_task_ptr->set_report_type(ReportType::PenguinStats)
         .set_body(body.to_string())
         .set_extra_headers(extra_headers)
-        .set_retry_times(5)
+        .set_retry_times(3)
         .run();
 }
 
