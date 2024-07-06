@@ -274,7 +274,7 @@ int main([[maybe_unused]] int argc, char** argv)
         std::cout << "Done" << std::endl;
     }
 
-    // Update global version info from ArknightsGameData_Yostar
+    // Update global version info from ArknightsGameData_YoStar
     for (const auto& [in, out] : global_dirs) {
         std::cout << "------- Update version info for " << out << "------- " << std::endl;
         if (!update_version_info(
