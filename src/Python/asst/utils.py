@@ -7,6 +7,14 @@ JSON = Union[Dict[str, Any], List[Any], int, str, float, bool, Type[None]]
 class InstanceOptionType(IntEnum):
     touch_type = 2
     deployment_with_pause = 3
+    adblite_enabled = 4
+    kill_on_adb_exit = 5
+
+
+class StaticOptionType(IntEnum):
+    invalid = 0
+    cpu_ocr = 1
+    gpu_ocr = 2
 
 
 @unique
