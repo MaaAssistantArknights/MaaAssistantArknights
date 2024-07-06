@@ -144,10 +144,8 @@ class Asst:
         :params:
             ``name``:           Extras名称
             ``extras``:         Extras配置
-
-        :return: 是否连接成功
         """
-        return Asst.__lib.AsstSetConnectionExtras(name.encode('utf-8'), json.dumps(extras, ensure_ascii=False).encode('utf-8'))
+        Asst.__lib.AsstSetConnectionExtras(name.encode('utf-8'), json.dumps(extras, ensure_ascii=False).encode('utf-8'))
 
     TaskId = int
 
