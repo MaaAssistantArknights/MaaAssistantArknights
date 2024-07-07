@@ -1,3 +1,10 @@
+---
+icon: ic:round-home
+index: true
+dir:
+  order: 0
+---
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)

@@ -1,7 +1,8 @@
 ---
+order: 2
 icon: basil:apple-solid
 ---
-# Mac模擬器支援
+# Mac 模擬器
 
 ::: tip
 遇到問題請先參考 [1.2-常見問題](1.2-常見問題.md)

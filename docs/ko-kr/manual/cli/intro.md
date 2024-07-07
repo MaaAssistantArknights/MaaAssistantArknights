@@ -3,7 +3,7 @@ order: 1
 icon: material-symbols:toc
 ---
 
-# maa-cli 소개
+# 소개
 
 Rust로 작성된 간단한 [MAA][maa-home] 명령줄 도구입니다.
 

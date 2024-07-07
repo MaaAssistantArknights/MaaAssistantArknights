@@ -3,7 +3,7 @@ order: 3
 icon: teenyicons:linux-alt-solid
 ---
 
-# Linuxでのエミューレータ
+# Linux でのエミューレータ
 
 ## 準備作業
 

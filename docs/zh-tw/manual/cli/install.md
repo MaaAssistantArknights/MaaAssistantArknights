@@ -3,7 +3,7 @@ order: 2
 icon: material-symbols:download
 ---
 
-# 安装及编译 maa-cli
+# 安装及编译
 
 ::: important Translation Required
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.

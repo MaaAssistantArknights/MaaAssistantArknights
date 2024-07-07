@@ -1,7 +1,8 @@
 ---
+order: 5
 icon: ri:earth-fill
 ---
-# 外服適配
+# 外服適配教學
 
 ## 準備工作
 

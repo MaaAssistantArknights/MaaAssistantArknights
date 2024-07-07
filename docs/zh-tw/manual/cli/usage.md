@@ -3,7 +3,7 @@ order: 3
 icon: material-symbols:summarize
 ---
 
-# 使用 maa-cli
+# 使用
 
 ::: important Translation Required
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.

@@ -3,7 +3,7 @@ order: 4
 icon: material-symbols:settings
 ---
 
-# 配置 maa-cli
+# 配置
 
 ::: important Translation Required
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.

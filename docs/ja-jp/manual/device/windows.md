@@ -3,7 +3,7 @@ order: 1
 icon: ri:windows-fill
 ---
 
-# Windowsでのエミューレータ
+# Windows でのエミューレータ
 
 ::: tip
 問題がある場合は [よくある質問](../よくある質問.md)を、先にお読みください。

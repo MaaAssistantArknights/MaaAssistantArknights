@@ -3,7 +3,7 @@ order: 2
 icon: material-symbols:download
 ---
 
-# maa-cli 설치 및 빌드
+# 설치 및 빌드
 
 maa-cli는 패키지 관리자, 사전 컴파일된 바이너리 파일, `cargo`를 통한 자체 컴파일 설치 등 다양한 설치 방법을 제공합니다.
 

@@ -3,7 +3,7 @@ order: 5
 icon: ph:question-fill
 ---
 
-# maa-cli 常见问题
+# 常见问题
 
 ::: important Translation Required
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.

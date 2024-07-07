@@ -5,10 +5,6 @@ icon: ri:windows-fill
 
 # Windows 지원
 
-::: tip
-문제가 발생하면 [FAQ](../faq.md)를 먼저 참조하세요.
-:::
-
 아래의 목록은 무작위순이며, 성능순이 아닙니다.
 
 <script setup>

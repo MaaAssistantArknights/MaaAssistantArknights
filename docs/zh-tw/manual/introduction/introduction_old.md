@@ -1,8 +1,9 @@
 ---
-icon: mdi:information-outline
+order: 0
+icon: ic:baseline-article
 ---
 
-# 功能介紹
+# 功能介紹（舊）
 
 ## 功能介紹
 

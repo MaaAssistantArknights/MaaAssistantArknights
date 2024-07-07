@@ -16,7 +16,7 @@ export default hopeTheme({
       sidebar: zhcnSidebar,
       displayFooter: false,
       metaLocales: {
-        editLink: "在Github上编辑此页面",
+        editLink: "在 Github 上编辑此页面",
       },
     },
     "/zh-tw/": {
@@ -24,7 +24,7 @@ export default hopeTheme({
       sidebar: zhtwSidebar,
       displayFooter: false,
       metaLocales: {
-        editLink: "在Github上編輯此頁面",
+        editLink: "在 Github 上編輯此頁面",
       },
     },
     "/en-us/": {
@@ -40,7 +40,7 @@ export default hopeTheme({
       sidebar: jajpSidebar,
       displayFooter: false,
       metaLocales: {
-        editLink: "このページをGithubで編集する",
+        editLink: "このページを Github で編集する",
       },
     },
     "/ko-kr/": {
@@ -48,7 +48,7 @@ export default hopeTheme({
       sidebar: kokrSidebar,
       displayFooter: false,
       metaLocales: {
-        editLink: "Github에서 이 페이지를 편집",
+        editLink: "Github 에서 이 페이지를 편집",
       },
     },
   },

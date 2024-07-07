@@ -1,6 +1,8 @@
 ---
+order: 6
 icon: material-symbols:view-quilt-rounded
 ---
+
 # 基建排班協議
 
 `resource/custom_infrast/*.json` 的使用方法及各欄位說明

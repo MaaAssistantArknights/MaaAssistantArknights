@@ -1,9 +1,10 @@
 ---
+order: 2
 icon: teenyicons:linux-alt-solid
 ---
 # Linux 編譯教學
 
-**本教程需要讀者有一定的 Linux 環境配置能力及程式設計基礎！**，若您僅希望直接安裝MAA而非自行編譯，請閱讀[使用者手冊 - Linux 模擬器&容器](./1.5-Linux模擬器支援)。
+**本教程需要讀者有一定的 Linux 環境配置能力及程式設計基礎！**，若您僅希望直接安裝MAA而非自行編譯，請閱讀[使用者手冊 - Linux 模擬器與容器](../manual/device/linux.md)。
 
 ::: info 注意
 MAA 的構建方法仍在討論中, 本教程的內容可能過時, 請以 [GitHub workflow file](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/.github/workflows/ci.yml#L134) 中的指令碼為準。也可參考 [AUR PKGBUILD](https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=maa-assistant-arknights)、[nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-unstable/pkgs/by-name/ma/maa-assistant-arknights/package.nix)。

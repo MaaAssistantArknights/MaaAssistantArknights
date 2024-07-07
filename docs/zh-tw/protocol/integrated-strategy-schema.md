@@ -1,4 +1,5 @@
 ---
+order: 5
 icon: ri:game-fill
 ---
 # 集成戰略協議

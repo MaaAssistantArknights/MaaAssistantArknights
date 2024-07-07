@@ -3,7 +3,7 @@ order: 3
 icon: material-symbols:summarize
 ---
 
-# maa-cli 사용법
+# 사용법
 
 maa-cli의 주요 기능은 MaaCore를 호출하여 명일방주의 게임 작업을 자동화하는 것입니다. 또한 사용의 편의성을 위해 MaaCore 관리 기능도 제공합니다.
 

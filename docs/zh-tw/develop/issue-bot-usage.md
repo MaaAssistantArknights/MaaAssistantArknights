@@ -1,4 +1,5 @@
 ---
+order: 4
 icon: bxs:bot
 ---
 # Issue Bot 使用方法
