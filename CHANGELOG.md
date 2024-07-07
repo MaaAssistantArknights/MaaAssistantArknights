@@ -13,9 +13,7 @@
 * Mac Gui 支持连战次数、指定掉落 @hguandl
 * 在特定环节执行启动前/后脚本 (#9153) @Linisdjxm
 * 无法连接设备时尝试断开连接然后重新连接 (#9433) @lingting
-* YostarEN RS navigation @Constrat
-* YoStarKR RS stage navigation @HX3N
-* GPU acceleration (DX12/DirectML) @dantmnf @SherkeyXD
+* GPU 推理加速 @dantmnf @SherkeyXD
 * SideStory「生路」活动导航 @ABA2396
 * 增加暂停放技能和暂停撤退 (#9348) @Lancarus
 
@@ -28,18 +26,16 @@
 * 更新macOS SDK版本 @hguandl
 * 垂直滑动优化 @ABA2396
 * 优化萨米ew部署策略 (#9249) @Daydreamer114
-* 优化萨米肉鸽策略 (#9234) @Lancarus
-* 优化萨米肉鸽策略 (#9232) @Lancarus
+* 优化萨米肉鸽策略 (#9234)(#9232) @Lancarus
 * 优化萨米肉鸽部分关卡策略 (#9224) @Lancarus
 * 优化仓库识别结果展示，支持多语言显示 (#9434) @ABA2396
-* 继续#7904的重构 (#9409) @IzakyL
+* 继续7904的重构 (#9409) @IzakyL
 * 优化代码 @ABA2396
 * 优化数据绑定逻辑，减少 AsstProxy 逻辑处理 @ABA2396
 * 优化肉鸽选项显示逻辑 @ABA2396
 * 增加更新时解压更新包失败日志，增加解压失败解决方案 @ABA2396
 * 优化萨米肉鸽棘刺技能携带 (#9400) @Daydreamer114
 * 优化热更新 @ABA2396
-* 允许使用“feat!”表示重大更新 @zzyyyl
 * 允许使用“feat!”表示重大更新 @zzyyyl
 * 更新 py 回调 @ABA2396
 * 优化关卡选择为剿灭时的逻辑判断 @ABA2396
@@ -49,13 +45,10 @@
 
 ### 修复 | Fix
 
-* 修正繁中服薩米肉鴿無法開始探索、密文板無法宣告的問題 (#9484) @momomochi987
 * 五周年活动结束后单选领取月卡功能时报错 fix #9452 @ABA2396
 * increase mask range for SkipThePreBattlePlotConfirm (#9446) @Constrat
-* priority to Flint 点火石 trap instead of operator @Constrat
-* ResourceUpdater temporary fix for trap_138_winstone having same as Flint @Constrat
 * arkntools localization (#9438) @Tsuk1ko
-* #7266: 公招没有使用足量的加急许可 @Toby-Shi-cloud
+* 公招没有使用足量的加急许可 @Toby-Shi-cloud
 * “dorm_notstationed_enabled”参数默认值错误 @ABA2396
 * 基建换班重试时只找缺少干员，已选干员无法入驻 @ABA2396
 * 生息演算更新后无法选择日期 @ABA2396
@@ -84,7 +77,6 @@
 * add AsstSetConnectionExtras to wine bridge @dantmnf
 * check before destroy callback @dantmnf
 * depot analyzer to detect multipliers for KR (#9343) @178619
-* en 服在没有源石和理智药的情况下无法退出刷理智任务 @ABA2396
 * 修复时间比较报错的问题 @SherkeyXD
 * 刷理智结束时有概率报错 @ChingCdesu
 * fix endless loop in InfrastProductionTask @horror-proton
@@ -93,25 +85,15 @@
 
 ### 其他 | Other
 
-* 繁中服「火山旅夢」活動導航 (#9497) @momomochi987
 * 简化Release日志输出 @ABA2396
-* unlocks update options (#9471) @Constrat
-* Revert "chore: unlocks update options when UpdateCheck = false" @Constrat
 * unlocks update options when UpdateCheck = false @Constrat
-* 補充繁中服薩米肉鴿相關內容 (#9450) @momomochi987
-* YoStarJP ocr fix 锏 (#9447) @Manicsteiner
-* YoStarKR modified CharsNameOcrReplace @HX3N
-* update operator.md @HX3N
+* update operator.md @HX3N @wallsman
 * Improve error output in recruitment ResourceUpdater @Constrat
-* Update operators.md @wallsman
 * 删除多余 style @ABA2396
-* Release v5.4.0-beta.2 (#9423) @ABA2396
-* Release v5.4.0-beta.1 (#9309) @ABA2396
-* Auto Update Changelogs of v5.4.0-beta.1 (#9311) @github-actions[bot] @ABA2396
 * issue模板添加mumu反馈 (#8993) @Rbqwow @ABA2396
 * fix wrong link maa_cli (#9264) @wlwxj @ntgmc
-* chroe: 增加开技能最小间隔时间 @ABA2396
-* 界面添加支援道具名称提示，传入内容为空白时自动切换为”荧光棒“ @ABA2396
+* 增加开技能最小间隔时间 @ABA2396
+* 界面添加支援道具名称提示，传入内容为空白时自动切换为 荧光棒 @ABA2396
 * Update 肉鸽辅助协议.md @Lancarus
 * reduced filename check description for more info @Constrat
 * Add trace log for scaled coordinates in ControlScaleProxy click & swipe @ABA2396
@@ -125,10 +107,6 @@
 * add CITATION @Cryolitia
 * add LICENSE.SPDX @Cryolitia
 * YoStarJP roguelike ocr fix (#9203) @Manicsteiner
-* Auto Update Changelogs of v5.4.0-beta.2 (#9437) @github-actions[bot] @ABA2396
-* 初步適配繁中服薩米肉鴿 (#9429) @momomochi987
-* YoStarJP RS navigation (#9427) @Manicsteiner
-* YoStarJP roguelike ocr fix (#9426) @Manicsteiner
 * update cn-mumu-report.yaml @Rbqwow
 * fix missing includes @horror-proton
 * use factory function instead of class @horror-proton
@@ -142,3 +120,30 @@
 * Amiya new promotion (#9347) @178619
 * 修正临时招募优先度描述错误 (#9344) @IzakyL
 * StyleCop链接使用cdn @SherkeyXD
+
+### For Overseas
+
+#### txwy
+
+* 修正繁中服薩米肉鴿無法開始探索、密文板無法宣告的問題 (#9484) @momomochi987
+* 繁中服「火山旅夢」活動導航 (#9497) @momomochi987
+* 補充繁中服薩米肉鴿相關內容 (#9450) @momomochi987
+* 初步適配繁中服薩米肉鴿 (#9429) @momomochi987
+
+#### YostarEN
+
+* YostarEN RS navigation @Constrat
+* priority to Flint 点火石 trap instead of operator @Constrat
+* ResourceUpdater temporary fix for trap_138_winstone having same as Flint @Constrat
+* en 服在没有源石和理智药的情况下无法退出刷理智任务 @ABA2396
+
+#### YostarJP
+
+* YoStarJP ocr fix 锏 (#9447) @Manicsteiner
+* YoStarJP RS navigation (#9427) @Manicsteiner
+* YoStarJP roguelike ocr fix (#9426) @Manicsteiner
+
+#### YostarKR
+
+* YostarKR RS stage navigation @HX3N
+* YoStarKR modified CharsNameOcrReplace @HX3N
