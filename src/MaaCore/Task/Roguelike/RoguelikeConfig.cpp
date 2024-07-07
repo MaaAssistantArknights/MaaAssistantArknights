@@ -13,4 +13,6 @@ void asst::RoguelikeConfig::clear()
 
     m_foldartal_floor.reset();
     m_foldartal = std::vector<std::string>();
+
+    m_clp_pds = std::vector<std::string>();
 }

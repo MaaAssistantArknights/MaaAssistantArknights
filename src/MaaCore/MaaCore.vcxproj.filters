@@ -234,6 +234,9 @@
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h">
       <Filter>Source\Resource\Miscellaneous</Filter>
     </ClInclude>
@@ -495,6 +498,9 @@
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="InstHelper.h">
       <Filter>Source</Filter>
     </ClInclude>
@@ -705,6 +711,9 @@
     <ClInclude Include="Utils\LibraryHolder.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\LogControl.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -789,6 +798,9 @@
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
@@ -998,6 +1010,9 @@
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="InstHelper.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -1174,6 +1189,9 @@
     </ClCompile>
     <ClCompile Include="Controller\MumuExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\LogControl.cpp">
+      <Filter>Source\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

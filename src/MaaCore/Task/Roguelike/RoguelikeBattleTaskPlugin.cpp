@@ -185,7 +185,16 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         return false;
     }
 
-    auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+    std::optional<CombatData> opt;
+    if (m_config->get_mode() == RoguelikeMode::CLP_PDS) {
+        opt = RoguelikeCopilot.get_stage_data(m_stage_name + "_collapse");
+        if (opt == std::nullopt) {
+            opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+        }
+    } else {
+        opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+    }
+
     if (opt) {
         m_homes = opt->replacement_home;
         m_allow_to_use_dice = opt->use_dice_stage;

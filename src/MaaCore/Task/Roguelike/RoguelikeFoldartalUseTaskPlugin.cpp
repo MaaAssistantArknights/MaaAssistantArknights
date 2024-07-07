@@ -20,7 +20,7 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         Log.error("Roguelike name doesn't exist!");
         return false;
     }
-    if (m_config->get_theme() != RoguelikeTheme::Sami) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_use_foldartal()) {
         return false;
     }
     auto mode = m_config->get_mode();
@@ -164,6 +164,10 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     list.erase(ranges::find(list, up_board));
                     list.erase(ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
+                    callback(AsstMsg::SubTaskStart, json::object {
+                        { "subtask", "ProcessTask" },
+                        { "details", json::object { { "task", "NeedCheckCollapsalParadigmBanner" }, { "pre_task", "RoguelikeFoldartalUseTask"} } }
+                    });
                     break;
                 }
             }

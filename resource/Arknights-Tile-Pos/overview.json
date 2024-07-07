@@ -10664,6 +10664,15 @@
         "stageId": "camp_r_22",
         "width": 13
     },
+    "camp_r_23-obt/campaign/level_camp_r_23": {
+        "code": "维多利亚",
+        "filename": "camp_r_23-obt-campaign-level_camp_r_23.json",
+        "height": 9,
+        "levelId": "obt/campaign/level_camp_r_23",
+        "name": "燃烧街区",
+        "stageId": "camp_r_23",
+        "width": 13
+    },
     "easy_09-01-obt/main/level_easy_09-01": {
         "code": "9-2",
         "filename": "easy_09-01-obt-main-level_easy_09-01.json",
@@ -20941,6 +20950,834 @@
         "name": "“正义使者”",
         "stageId": "ro3_t_4",
         "width": 11
+    },
+    "sandbox_1_01-obt/sandbox/sandbox_1/level_sandbox1_01": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_01-obt-sandbox-sandbox_1-level_sandbox1_01.json",
+        "height": 16,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_01",
+        "name": "丰饶灌木林",
+        "stageId": "sandbox_1_01",
+        "width": 12
+    },
+    "sandbox_1_02-obt/sandbox/sandbox_1/level_sandbox1_02": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_02-obt-sandbox-sandbox_1-level_sandbox1_02.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_02",
+        "name": "崎岖乱石岗",
+        "stageId": "sandbox_1_02",
+        "width": 18
+    },
+    "sandbox_1_03-obt/sandbox/sandbox_1/level_sandbox1_03": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_03-obt-sandbox-sandbox_1-level_sandbox1_03.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_03",
+        "name": "熔铁之心",
+        "stageId": "sandbox_1_03",
+        "width": 18
+    },
+    "sandbox_1_04-obt/sandbox/sandbox_1/level_sandbox1_04": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_04-obt-sandbox-sandbox_1-level_sandbox1_04.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_04",
+        "name": "寻觅澄亮",
+        "stageId": "sandbox_1_04",
+        "width": 20
+    },
+    "sandbox_1_05-obt/sandbox/sandbox_1/level_sandbox1_05": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_05-obt-sandbox-sandbox_1-level_sandbox1_05.json",
+        "height": 17,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_05",
+        "name": "惊叫洞穴",
+        "stageId": "sandbox_1_05",
+        "width": 19
+    },
+    "sandbox_1_06-obt/sandbox/sandbox_1/level_sandbox1_06": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_06-obt-sandbox-sandbox_1-level_sandbox1_06.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_06",
+        "name": "“迎宾走廊”",
+        "stageId": "sandbox_1_06",
+        "width": 20
+    },
+    "sandbox_1_07-obt/sandbox/sandbox_1/level_sandbox1_07": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_07-obt-sandbox-sandbox_1-level_sandbox1_07.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_07",
+        "name": "“金库”",
+        "stageId": "sandbox_1_07",
+        "width": 23
+    },
+    "sandbox_1_08-obt/sandbox/sandbox_1/level_sandbox1_08": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_08-obt-sandbox-sandbox_1-level_sandbox1_08.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_08",
+        "name": "藏宝湾",
+        "stageId": "sandbox_1_08",
+        "width": 24
+    },
+    "sandbox_1_09-obt/sandbox/sandbox_1/level_sandbox1_09": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_09-obt-sandbox-sandbox_1-level_sandbox1_09.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_09",
+        "name": "聚羽之地",
+        "stageId": "sandbox_1_09",
+        "width": 20
+    },
+    "sandbox_1_10-obt/sandbox/sandbox_1/level_sandbox1_10": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_10-obt-sandbox-sandbox_1-level_sandbox1_10.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_10",
+        "name": "浅草荒原",
+        "stageId": "sandbox_1_10",
+        "width": 19
+    },
+    "sandbox_1_11-obt/sandbox/sandbox_1/level_sandbox1_11": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_11-obt-sandbox-sandbox_1-level_sandbox1_11.json",
+        "height": 17,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_11",
+        "name": "岛中蟹穴",
+        "stageId": "sandbox_1_11",
+        "width": 19
+    },
+    "sandbox_1_12-obt/sandbox/sandbox_1/level_sandbox1_12": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_12-obt-sandbox-sandbox_1-level_sandbox1_12.json",
+        "height": 10,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_12",
+        "name": "迷失沼滩",
+        "stageId": "sandbox_1_12",
+        "width": 19
+    },
+    "sandbox_1_13-obt/sandbox/sandbox_1/level_sandbox1_13": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_13-obt-sandbox-sandbox_1-level_sandbox1_13.json",
+        "height": 14,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_13",
+        "name": "献祭之所",
+        "stageId": "sandbox_1_13",
+        "width": 15
+    },
+    "sandbox_1_14-obt/sandbox/sandbox_1/level_sandbox1_14": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_14-obt-sandbox-sandbox_1-level_sandbox1_14.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_14",
+        "name": "炎岩关",
+        "stageId": "sandbox_1_14",
+        "width": 20
+    },
+    "sandbox_1_15-obt/sandbox/sandbox_1/level_sandbox1_15": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_15-obt-sandbox-sandbox_1-level_sandbox1_15.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_15",
+        "name": "翠影关",
+        "stageId": "sandbox_1_15",
+        "width": 20
+    },
+    "sandbox_1_16-obt/sandbox/sandbox_1/level_sandbox1_16": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_16-obt-sandbox-sandbox_1-level_sandbox1_16.json",
+        "height": 29,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_16",
+        "name": "矿牢爬行",
+        "stageId": "sandbox_1_16",
+        "width": 25
+    },
+    "sandbox_1_17-obt/sandbox/sandbox_1/level_sandbox1_17": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_17-obt-sandbox-sandbox_1-level_sandbox1_17.json",
+        "height": 40,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_17",
+        "name": "峰回歧路",
+        "stageId": "sandbox_1_17",
+        "width": 39
+    },
+    "sandbox_1_18-obt/sandbox/sandbox_1/level_sandbox1_18": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_18-obt-sandbox-sandbox_1-level_sandbox1_18.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_18",
+        "name": "翠梦遗址",
+        "stageId": "sandbox_1_18",
+        "width": 26
+    },
+    "sandbox_1_19-obt/sandbox/sandbox_1/level_sandbox1_19": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_19-obt-sandbox-sandbox_1-level_sandbox1_19.json",
+        "height": 18,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_19",
+        "name": "火圈狂舞",
+        "stageId": "sandbox_1_19",
+        "width": 16
+    },
+    "sandbox_1_20-obt/sandbox/sandbox_1/level_sandbox1_20": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_20-obt-sandbox-sandbox_1-level_sandbox1_20.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_20",
+        "name": "宿命终结",
+        "stageId": "sandbox_1_20",
+        "width": 15
+    },
+    "sandbox_1_21-obt/sandbox/sandbox_1/level_sandbox1_21": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_21-obt-sandbox-sandbox_1-level_sandbox1_21.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_21",
+        "name": "清泉之下",
+        "stageId": "sandbox_1_21",
+        "width": 20
+    },
+    "sandbox_1_22-obt/sandbox/sandbox_1/level_sandbox1_22": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_22-obt-sandbox-sandbox_1-level_sandbox1_22.json",
+        "height": 17,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_22",
+        "name": "晶生玲珑",
+        "stageId": "sandbox_1_22",
+        "width": 28
+    },
+    "sandbox_1_23-obt/sandbox/sandbox_1/level_sandbox1_23": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_23-obt-sandbox-sandbox_1-level_sandbox1_23.json",
+        "height": 23,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_23",
+        "name": "深岩裂谷",
+        "stageId": "sandbox_1_23",
+        "width": 17
+    },
+    "sandbox_1_24-obt/sandbox/sandbox_1/level_sandbox1_24": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_24-obt-sandbox-sandbox_1-level_sandbox1_24.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_24",
+        "name": "广袤迎敌之处",
+        "stageId": "sandbox_1_24",
+        "width": 16
+    },
+    "sandbox_1_25-obt/sandbox/sandbox_1/level_sandbox1_25": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_25-obt-sandbox-sandbox_1-level_sandbox1_25.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_25",
+        "name": "峥嵘迎敌之处",
+        "stageId": "sandbox_1_25",
+        "width": 16
+    },
+    "sandbox_1_26-obt/sandbox/sandbox_1/level_sandbox1_26": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_26-obt-sandbox-sandbox_1-level_sandbox1_26.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_26",
+        "name": "荒弃迎敌之处",
+        "stageId": "sandbox_1_26",
+        "width": 17
+    },
+    "sandbox_1_27-obt/sandbox/sandbox_1/level_sandbox1_27": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_27-obt-sandbox-sandbox_1-level_sandbox1_27.json",
+        "height": 24,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_27",
+        "name": "驻扎地",
+        "stageId": "sandbox_1_27",
+        "width": 29
+    },
+    "sandbox_1_28-obt/sandbox/sandbox_1/level_sandbox1_28": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_28-obt-sandbox-sandbox_1-level_sandbox1_28.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_28",
+        "name": "乌胡米什",
+        "stageId": "sandbox_1_28",
+        "width": 19
+    },
+    "sandbox_1_29-obt/sandbox/sandbox_1/level_sandbox1_29": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_29-obt-sandbox-sandbox_1-level_sandbox1_29.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_29",
+        "name": "布卢塔巴图",
+        "stageId": "sandbox_1_29",
+        "width": 15
+    },
+    "sandbox_1_30-obt/sandbox/sandbox_1/level_sandbox1_30": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_30-obt-sandbox-sandbox_1-level_sandbox1_30.json",
+        "height": 19,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_30",
+        "name": "那穆图巴辛",
+        "stageId": "sandbox_1_30",
+        "width": 18
+    },
+    "sandbox_1_31-obt/sandbox/sandbox_1/level_sandbox1_31": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_31-obt-sandbox-sandbox_1-level_sandbox1_31.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_31",
+        "name": "别塔卜-阿帕卡里",
+        "stageId": "sandbox_1_31",
+        "width": 22
+    },
+    "sandbox_1_32-obt/sandbox/sandbox_1/level_sandbox1_32": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_32-obt-sandbox-sandbox_1-level_sandbox1_32.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_32",
+        "name": "前进营地",
+        "stageId": "sandbox_1_32",
+        "width": 23
+    },
+    "sandbox_1_33-obt/sandbox/sandbox_1/level_sandbox1_33": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_33-obt-sandbox-sandbox_1-level_sandbox1_33.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_33",
+        "name": "众人会聚之地",
+        "stageId": "sandbox_1_33",
+        "width": 18
+    },
+    "sandbox_1_34-obt/sandbox/sandbox_1/level_sandbox1_tr01": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_34-obt-sandbox-sandbox_1-level_sandbox1_tr01.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_tr01",
+        "name": "狩猎训练",
+        "stageId": "sandbox_1_34",
+        "width": 23
+    },
+    "sandbox_1_35-obt/sandbox/sandbox_1/level_sandbox1_tr02": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_35-obt-sandbox-sandbox_1-level_sandbox1_tr02.json",
+        "height": 8,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_tr02",
+        "name": "采掘训练",
+        "stageId": "sandbox_1_35",
+        "width": 17
+    },
+    "sandbox_1_36-obt/sandbox/sandbox_1/level_sandbox1_tr03": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_36-obt-sandbox-sandbox_1-level_sandbox1_tr03.json",
+        "height": 18,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_tr03",
+        "name": "工具训练",
+        "stageId": "sandbox_1_36",
+        "width": 9
+    },
+    "sandbox_1_37-obt/sandbox/sandbox_1/level_sandbox1_34": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_37-obt-sandbox-sandbox_1-level_sandbox1_34.json",
+        "height": 10,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_34",
+        "name": "树林之主",
+        "stageId": "sandbox_1_37",
+        "width": 15
+    },
+    "sandbox_1_38-obt/sandbox/sandbox_1/level_sandbox1_35": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_38-obt-sandbox-sandbox_1-level_sandbox1_35.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_35",
+        "name": "参差林木",
+        "stageId": "sandbox_1_38",
+        "width": 13
+    },
+    "sandbox_1_39-obt/sandbox/sandbox_1/level_sandbox1_36": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_39-obt-sandbox-sandbox_1-level_sandbox1_36.json",
+        "height": 14,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_36",
+        "name": "伐木征税",
+        "stageId": "sandbox_1_39",
+        "width": 15
+    },
+    "sandbox_1_40-obt/sandbox/sandbox_1/level_sandbox1_37": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_40-obt-sandbox-sandbox_1-level_sandbox1_37.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_37",
+        "name": "射程以内",
+        "stageId": "sandbox_1_40",
+        "width": 19
+    },
+    "sandbox_1_41-obt/sandbox/sandbox_1/level_sandbox1_38": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_41-obt-sandbox-sandbox_1-level_sandbox1_38.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_38",
+        "name": "林中寻宝",
+        "stageId": "sandbox_1_41",
+        "width": 19
+    },
+    "sandbox_1_42-obt/sandbox/sandbox_1/level_sandbox1_39": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_42-obt-sandbox-sandbox_1-level_sandbox1_39.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_39",
+        "name": "试验场",
+        "stageId": "sandbox_1_42",
+        "width": 16
+    },
+    "sandbox_1_43-obt/sandbox/sandbox_1/level_sandbox1_40": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_43-obt-sandbox-sandbox_1-level_sandbox1_40.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_40",
+        "name": "遗智还家",
+        "stageId": "sandbox_1_43",
+        "width": 18
+    },
+    "sandbox_1_44-obt/sandbox/sandbox_1/level_sandbox1_41": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_44-obt-sandbox-sandbox_1-level_sandbox1_41.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_41",
+        "name": "守卫自然",
+        "stageId": "sandbox_1_44",
+        "width": 20
+    },
+    "sandbox_1_45-obt/sandbox/sandbox_1/level_sandbox1_42": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_45-obt-sandbox-sandbox_1-level_sandbox1_42.json",
+        "height": 18,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_42",
+        "name": "取舍",
+        "stageId": "sandbox_1_45",
+        "width": 14
+    },
+    "sandbox_1_46-obt/sandbox/sandbox_1/level_sandbox1_43": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_46-obt-sandbox-sandbox_1-level_sandbox1_43.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_43",
+        "name": "十字路口",
+        "stageId": "sandbox_1_46",
+        "width": 19
+    },
+    "sandbox_1_47-obt/sandbox/sandbox_1/level_sandbox1_44": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_47-obt-sandbox-sandbox_1-level_sandbox1_44.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_44",
+        "name": "矿脉守卫",
+        "stageId": "sandbox_1_47",
+        "width": 15
+    },
+    "sandbox_1_48-obt/sandbox/sandbox_1/level_sandbox1_45": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_48-obt-sandbox-sandbox_1-level_sandbox1_45.json",
+        "height": 17,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_45",
+        "name": "乱石岗",
+        "stageId": "sandbox_1_48",
+        "width": 12
+    },
+    "sandbox_1_49-obt/sandbox/sandbox_1/level_sandbox1_46": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_49-obt-sandbox-sandbox_1-level_sandbox1_46.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_46",
+        "name": "见证所",
+        "stageId": "sandbox_1_49",
+        "width": 17
+    },
+    "sandbox_1_50-obt/sandbox/sandbox_1/level_sandbox1_47": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_50-obt-sandbox-sandbox_1-level_sandbox1_47.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_47",
+        "name": "岩壳蟹群",
+        "stageId": "sandbox_1_50",
+        "width": 18
+    },
+    "sandbox_1_51-obt/sandbox/sandbox_1/level_sandbox1_48": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_51-obt-sandbox-sandbox_1-level_sandbox1_48.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_48",
+        "name": "固守险境",
+        "stageId": "sandbox_1_51",
+        "width": 20
+    },
+    "sandbox_1_52-obt/sandbox/sandbox_1/level_sandbox1_49": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_52-obt-sandbox-sandbox_1-level_sandbox1_49.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_49",
+        "name": "部落之争",
+        "stageId": "sandbox_1_52",
+        "width": 20
+    },
+    "sandbox_1_53-obt/sandbox/sandbox_1/level_sandbox1_50": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_53-obt-sandbox-sandbox_1-level_sandbox1_50.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_50",
+        "name": "源石虫入侵",
+        "stageId": "sandbox_1_53",
+        "width": 20
+    },
+    "sandbox_1_54-obt/sandbox/sandbox_1/level_sandbox1_51": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_54-obt-sandbox-sandbox_1-level_sandbox1_51.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_51",
+        "name": "原始奔腾",
+        "stageId": "sandbox_1_54",
+        "width": 20
+    },
+    "sandbox_1_55-obt/sandbox/sandbox_1/level_sandbox1_52": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_55-obt-sandbox-sandbox_1-level_sandbox1_52.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_52",
+        "name": "饮水为饵",
+        "stageId": "sandbox_1_55",
+        "width": 17
+    },
+    "sandbox_1_56-obt/sandbox/sandbox_1/level_sandbox1_53": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_56-obt-sandbox-sandbox_1-level_sandbox1_53.json",
+        "height": 14,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_53",
+        "name": "直奔深渊",
+        "stageId": "sandbox_1_56",
+        "width": 17
+    },
+    "sandbox_1_57-obt/sandbox/sandbox_1/level_sandbox1_54": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_57-obt-sandbox-sandbox_1-level_sandbox1_54.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_54",
+        "name": "夺路而逃",
+        "stageId": "sandbox_1_57",
+        "width": 22
+    },
+    "sandbox_1_58-obt/sandbox/sandbox_1/level_sandbox1_55": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_58-obt-sandbox-sandbox_1-level_sandbox1_55.json",
+        "height": 18,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_55",
+        "name": "无形界限",
+        "stageId": "sandbox_1_58",
+        "width": 13
+    },
+    "sandbox_1_59-obt/sandbox/sandbox_1/level_sandbox1_56": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_59-obt-sandbox-sandbox_1-level_sandbox1_56.json",
+        "height": 14,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_56",
+        "name": "驯化",
+        "stageId": "sandbox_1_59",
+        "width": 20
+    },
+    "sandbox_1_60-obt/sandbox/sandbox_1/level_sandbox1_57": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_60-obt-sandbox-sandbox_1-level_sandbox1_57.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_57",
+        "name": "方形竞技场",
+        "stageId": "sandbox_1_60",
+        "width": 15
+    },
+    "sandbox_1_61-obt/sandbox/sandbox_1/level_sandbox1_58": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_61-obt-sandbox-sandbox_1-level_sandbox1_58.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_58",
+        "name": "大迁徙",
+        "stageId": "sandbox_1_61",
+        "width": 26
+    },
+    "sandbox_1_62-obt/sandbox/sandbox_1/level_sandbox1_59": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_62-obt-sandbox-sandbox_1-level_sandbox1_59.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_59",
+        "name": "征税的选择",
+        "stageId": "sandbox_1_62",
+        "width": 21
+    },
+    "sandbox_1_63-obt/sandbox/sandbox_1/level_sandbox1_60": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_63-obt-sandbox-sandbox_1-level_sandbox1_60.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_60",
+        "name": "千仞关",
+        "stageId": "sandbox_1_63",
+        "width": 15
+    },
+    "sandbox_1_64-obt/sandbox/sandbox_1/level_sandbox1_61": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_64-obt-sandbox-sandbox_1-level_sandbox1_61.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_61",
+        "name": "不速之客",
+        "stageId": "sandbox_1_64",
+        "width": 31
+    },
+    "sandbox_1_65-obt/sandbox/sandbox_1/level_sandbox1_62": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_65-obt-sandbox-sandbox_1-level_sandbox1_62.json",
+        "height": 14,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_62",
+        "name": "战争本能",
+        "stageId": "sandbox_1_65",
+        "width": 24
+    },
+    "sandbox_1_66-obt/sandbox/sandbox_1/level_sandbox1_63": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_66-obt-sandbox-sandbox_1-level_sandbox1_63.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_63",
+        "name": "失落的“长生军”",
+        "stageId": "sandbox_1_66",
+        "width": 21
+    },
+    "sandbox_1_67-obt/sandbox/sandbox_1/level_sandbox1_64": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_67-obt-sandbox-sandbox_1-level_sandbox1_64.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_64",
+        "name": "失落的巨翼兽",
+        "stageId": "sandbox_1_67",
+        "width": 24
+    },
+    "sandbox_1_68-obt/sandbox/sandbox_1/level_sandbox1_65": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_68-obt-sandbox-sandbox_1-level_sandbox1_65.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_65",
+        "name": "大地病征",
+        "stageId": "sandbox_1_68",
+        "width": 25
+    },
+    "sandbox_1_69-obt/sandbox/sandbox_1/level_sandbox1_66": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_69-obt-sandbox-sandbox_1-level_sandbox1_66.json",
+        "height": 7,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_66",
+        "name": "风啸峡谷",
+        "stageId": "sandbox_1_69",
+        "width": 11
+    },
+    "sandbox_1_70-obt/sandbox/sandbox_1/level_sandbox1_67": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_70-obt-sandbox-sandbox_1-level_sandbox1_67.json",
+        "height": 7,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_67",
+        "name": "砾沙平原",
+        "stageId": "sandbox_1_70",
+        "width": 11
+    },
+    "sandbox_1_71-obt/sandbox/sandbox_1/level_sandbox1_68": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_71-obt-sandbox-sandbox_1-level_sandbox1_68.json",
+        "height": 8,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_68",
+        "name": "崎岖窄路",
+        "stageId": "sandbox_1_71",
+        "width": 12
+    },
+    "sandbox_1_72-obt/sandbox/sandbox_1/level_sandbox1_69": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_72-obt-sandbox-sandbox_1-level_sandbox1_69.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_69",
+        "name": "战士的视野",
+        "stageId": "sandbox_1_72",
+        "width": 12
+    },
+    "sandbox_1_73-obt/sandbox/sandbox_1/level_sandbox1_70": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_73-obt-sandbox-sandbox_1-level_sandbox1_70.json",
+        "height": 7,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_70",
+        "name": "佣兵的所属",
+        "stageId": "sandbox_1_73",
+        "width": 18
+    },
+    "sandbox_1_74-obt/sandbox/sandbox_1/level_sandbox1_71": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_74-obt-sandbox-sandbox_1-level_sandbox1_71.json",
+        "height": 8,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_71",
+        "name": "丢失的订单",
+        "stageId": "sandbox_1_74",
+        "width": 13
+    },
+    "sandbox_1_75-obt/sandbox/sandbox_1/level_sandbox1_72": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_75-obt-sandbox-sandbox_1-level_sandbox1_72.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_72",
+        "name": "不尽烈火",
+        "stageId": "sandbox_1_75",
+        "width": 13
+    },
+    "sandbox_1_76-obt/sandbox/sandbox_1/level_sandbox1_73": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_76-obt-sandbox-sandbox_1-level_sandbox1_73.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_73",
+        "name": "被限制的怒火",
+        "stageId": "sandbox_1_76",
+        "width": 13
+    },
+    "sandbox_1_77-obt/sandbox/sandbox_1/level_sandbox1_74": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_77-obt-sandbox-sandbox_1-level_sandbox1_74.json",
+        "height": 9,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_74",
+        "name": "囚笼",
+        "stageId": "sandbox_1_77",
+        "width": 12
+    },
+    "sandbox_1_78-obt/sandbox/sandbox_1/level_sandbox1_75": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_78-obt-sandbox-sandbox_1-level_sandbox1_75.json",
+        "height": 11,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_75",
+        "name": "苦难河床",
+        "stageId": "sandbox_1_78",
+        "width": 18
+    },
+    "sandbox_1_79-obt/sandbox/sandbox_1/level_sandbox1_76": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_79-obt-sandbox-sandbox_1-level_sandbox1_76.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_76",
+        "name": "寻觅道路",
+        "stageId": "sandbox_1_79",
+        "width": 18
+    },
+    "sandbox_1_80-obt/sandbox/sandbox_1/level_sandbox1_77": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_80-obt-sandbox-sandbox_1-level_sandbox1_77.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_77",
+        "name": "遭遇战",
+        "stageId": "sandbox_1_80",
+        "width": 14
+    },
+    "sandbox_1_85-obt/sandbox/sandbox_1/level_sandbox1_78": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_85-obt-sandbox-sandbox_1-level_sandbox1_78.json",
+        "height": 22,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_78",
+        "name": "虫影密植",
+        "stageId": "sandbox_1_85",
+        "width": 16
+    },
+    "sandbox_1_86-obt/sandbox/sandbox_1/level_sandbox1_79": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_86-obt-sandbox-sandbox_1-level_sandbox1_79.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_79",
+        "name": "幽邃巨洞",
+        "stageId": "sandbox_1_86",
+        "width": 26
+    },
+    "sandbox_1_87-obt/sandbox/sandbox_1/level_sandbox1_80": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_87-obt-sandbox-sandbox_1-level_sandbox1_80.json",
+        "height": 15,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_80",
+        "name": "熔金巢穴",
+        "stageId": "sandbox_1_87",
+        "width": 26
+    },
+    "sandbox_1_88-obt/sandbox/sandbox_1/level_sandbox1_81": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_88-obt-sandbox-sandbox_1-level_sandbox1_81.json",
+        "height": 12,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_81",
+        "name": "埃什南纳耐力赛",
+        "stageId": "sandbox_1_88",
+        "width": 16
+    },
+    "sandbox_1_89-obt/sandbox/sandbox_1/level_sandbox1_82": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_89-obt-sandbox-sandbox_1-level_sandbox1_82.json",
+        "height": 26,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_82",
+        "name": "阿格拉折返赛",
+        "stageId": "sandbox_1_89",
+        "width": 32
+    },
+    "sandbox_1_90-obt/sandbox/sandbox_1/level_sandbox1_83": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_90-obt-sandbox-sandbox_1-level_sandbox1_83.json",
+        "height": 27,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_83",
+        "name": "乌尔凯什冲刺赛",
+        "stageId": "sandbox_1_90",
+        "width": 47
+    },
+    "sandbox_1_91-obt/sandbox/sandbox_1/level_sandbox1_84": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_91-obt-sandbox-sandbox_1-level_sandbox1_84.json",
+        "height": 25,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_84",
+        "name": "杜安娜碰撞赛",
+        "stageId": "sandbox_1_91",
+        "width": 35
+    },
+    "sandbox_1_92-obt/sandbox/sandbox_1/level_sandbox1_85": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_92-obt-sandbox-sandbox_1-level_sandbox1_85.json",
+        "height": 23,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_85",
+        "name": "加苏尔拟真赛",
+        "stageId": "sandbox_1_92",
+        "width": 43
+    },
+    "sandbox_1_93-obt/sandbox/sandbox_1/level_sandbox1_86": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_93-obt-sandbox-sandbox_1-level_sandbox1_86.json",
+        "height": 44,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_86",
+        "name": "雷兰穿梭赛",
+        "stageId": "sandbox_1_93",
+        "width": 34
+    },
+    "sandbox_1_94-obt/sandbox/sandbox_1/level_sandbox1_87": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_94-obt-sandbox-sandbox_1-level_sandbox1_87.json",
+        "height": 27,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_87",
+        "name": "西帕尔爬坡赛",
+        "stageId": "sandbox_1_94",
+        "width": 50
+    },
+    "sandbox_1_95-obt/sandbox/sandbox_1/level_sandbox1_88": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_95-obt-sandbox-sandbox_1-level_sandbox1_88.json",
+        "height": 20,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_88",
+        "name": "“庆典须知”",
+        "stageId": "sandbox_1_95",
+        "width": 30
+    },
+    "sandbox_1_96-obt/sandbox/sandbox_1/level_sandbox1_89": {
+        "code": "RA-NO",
+        "filename": "sandbox_1_96-obt-sandbox-sandbox_1-level_sandbox1_89.json",
+        "height": 13,
+        "levelId": "obt/sandbox/sandbox_1/level_sandbox1_89",
+        "name": "回廊关",
+        "stageId": "sandbox_1_96",
+        "width": 21
     },
     "sub_02-01-obt/main/level_sub_02-01": {
         "code": "S2-1",

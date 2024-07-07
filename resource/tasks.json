@@ -6469,7 +6469,7 @@
             272
         ],
         "crop_doc": {
-            "doc": "Heads up: YostarEN needs 133 of 'y' instead of 120",
+            "doc": "Heads up: YoStarEN needs 133 of 'y' instead of 120",
             "roi": [
                 903,
                 120,
@@ -13986,6 +13986,9 @@
     "Roguelike@StrategyChange_mode4": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
+    "Roguelike@StrategyChange_mode5": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
     "Roguelike@TempRecruitFlag": {
         "action": "DoNothing",
         "roi": [
@@ -15181,6 +15184,117 @@
             ],
             "mask": []
         }
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_banner": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "坍缩范式加深",
+            "坍缩范式消退",
+            "去量化",
+            "去量深化",
+            "实质性坍缩",
+            "蔓延性坍缩",
+            "非线性移动",
+            "非线性行动",
+            "情绪实体",
+            "恐怖实体",
+            "泛社会悖论",
+            "泛文明悖论",
+            "气压异常",
+            "气压失序",
+            "触发性损伤",
+            "触发性危殆",
+            "趋同性消耗",
+            "趋同性缺失",
+            "目空一些",
+            "睁眼瞎",
+            "图像损坏",
+            "一抹黑"
+        ],
+        "roi": [
+            945,
+            60,
+            335,
+            660
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "正在提交反馈至神经"
+        ],
+        "ocrReplace": [
+            [
+                "正在提交反馈神经",
+                "正在提交反馈至神经"
+            ]
+        ],
+        "roi": [
+            720,
+            645,
+            355,
+            45
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_onStage": {
+        "algorithm": "MatchTemplate",
+        "template": [
+            "Sami@Roguelike@OnStage_1",
+            "Sami@Roguelike@OnStage_2",
+            "Sami@Roguelike@OnStage_3",
+            "Sami@Roguelike@OnStage_4",
+            "Sami@Roguelike@OnStage_5",
+            "Sami@Roguelike@OnStage_6",
+            "Sami@Roguelike@OnStage_7",
+            "Sami@Roguelike@OnStage_0"
+        ],
+        "templThreshold": 0.96,
+        "action": "DoNothing",
+        "cache": false,
+        "roi": [
+            590,
+            45,
+            45,
+            35
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_panel": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "当前坍缩值",
+            "去量化",
+            "去量深化",
+            "实质性坍缩",
+            "蔓延性坍缩",
+            "非线性移动",
+            "非线性行动",
+            "情绪实体",
+            "恐怖实体",
+            "泛社会悖论",
+            "泛文明悖论",
+            "气压异常",
+            "气压失序",
+            "触发性损伤",
+            "触发性危殆",
+            "趋同性消耗",
+            "趋同性缺失",
+            "目空一些",
+            "睁眼瞎",
+            "图像损坏",
+            "一抹黑"
+        ],
+        "roi": [
+            350,
+            120,
+            310,
+            520
+        ]
     },
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [
@@ -16504,6 +16618,51 @@
             "Sami@Roguelike@CloseCollectionClose"
         ]
     },
+    "Sami@Roguelike@Stages_collapsal_paradigms": {
+        "Doc": "为了刷隐藏坍缩而优先作战",
+        "algorithm": "JustReturn",
+        "next": [
+            "Sami@Roguelike@NextLevel",
+            "Sami@Roguelike@StageCombatDps",
+            "Sami@Roguelike@StageCombatDpsAI6",
+            "Sami@Roguelike@StageVerticalCombatDps",
+            "Sami@Roguelike@StageVerticalCombatDpsAI6",
+            "Sami@Roguelike@StageFerociousPresage",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageMysteriousPresage",
+            "Sami@Roguelike@StageTrader",
+            "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageEmergencyDps",
+            "Sami@Roguelike@StageEmergencyDpsAI6",
+            "Sami@Roguelike@StageVerticalEmergencyDps",
+            "Sami@Roguelike@StageVerticalEmergencyDpsAI6",
+            "Sami@Roguelike@StageSafeHouse",
+            "Sami@Roguelike@StageSafeHouseAI6",
+            "Sami@Roguelike@StageBoons",
+            "Sami@Roguelike@StageBoonsAI6",
+            "Sami@Roguelike@StageVerticalSafeHouse",
+            "Sami@Roguelike@StageVerticalSafeHouseAI6",
+            "Sami@Roguelike@StageVerticalBoons",
+            "Sami@Roguelike@StageVerticalBoonsAI6",
+            "Sami@Roguelike@StageVerticalTrader",
+            "Sami@Roguelike@StageVerticalTraderAI6",
+            "Sami@Roguelike@StageWindAndRain",
+            "Sami@Roguelike@StageWindAndRainAI6",
+            "Sami@Roguelike@StageProphecy",
+            "Sami@Roguelike@StageProphecyAI6",
+            "Sami@Roguelike@StageBoskyPassage",
+            "Sami@Roguelike@StageBoskyPassageAI6",
+            "Sami@Roguelike@StageEmergencyTransportation",
+            "Sami@Roguelike@StageEmergencyTransportationAI6",
+            "Sami@Roguelike@StageGambling",
+            "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageDreadfulFoe",
+            "Sami@Roguelike@StageDreadfulFoe-5",
+            "Sami@Roguelike@CloseCollectionClose",
+            "Sami@Roguelike@Abandon"
+        ]
+    },
     "Sami@Roguelike@Stages_default": {
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
@@ -16698,6 +16857,41 @@
             [
                 "深埋迷境",
                 "_exit"
+            ]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode5": {
+        "text": [
+            "_collapsal_paradigms"
+        ],
+        "ocrReplace": [
+            [
+                "初霜湖泽",
+                "_collapsal_paradigms"
+            ],
+            [
+                "密静林地",
+                "_collapsal_paradigms"
+            ],
+            [
+                "昧明冻土",
+                "_SKIP_"
+            ],
+            [
+                "积冰岩骸",
+                "_SKIP_"
+            ],
+            [
+                "无瑕花园",
+                "_SKIP_"
+            ],
+            [
+                "远见之构",
+                "_SKIP_"
+            ],
+            [
+                "深埋迷境",
+                "_SKIP_"
             ]
         ]
     },
