@@ -61,17 +61,17 @@
 
 * 初步適配繁中服薩米肉鴿 (#9429) @momomochi987
 
-#### YoStarEN
+#### YostarEN
 
-* YoStarEN RS navigation @Constrat
+* YostarEN RS navigation @Constrat
 * en 服在没有源石和理智药的情况下无法退出刷理智任务 @ABA2396
 
-#### YoStarJP
+#### YostarJP
 
 * YoStarJP RS navigation (#9427) @Manicsteiner
 * YoStarJP roguelike ocr fix (#9426) @Manicsteiner
 
-#### YoStarKR
+#### YostarKR
 
 * YoStarKR RS stage navigation @HX3N
 * depot analyzer to detect multipliers for KR (#9343) @178619
