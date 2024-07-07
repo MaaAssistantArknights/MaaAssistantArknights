@@ -155,6 +155,7 @@
     <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.h" />
     <ClInclude Include="Config\TaskData.h" />
     <ClInclude Include="Config\TemplResource.h" />
     <ClInclude Include="Status.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.h" />
     <ClInclude Include="Utils\Demangle.hpp" />
     <ClInclude Include="Utils\Http.hpp" />
     <ClInclude Include="Utils\ImageIo.hpp" />
@@ -331,6 +333,7 @@
     <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.cpp" />
     <ClCompile Include="Config\TaskData.cpp" />
     <ClCompile Include="Config\TemplResource.cpp" />
     <ClCompile Include="Status.cpp" />
@@ -383,6 +386,7 @@
     <ClCompile Include="Task\Roguelike\RoguelikeShoppingTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeSkillSelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeStageEncounterTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.cpp" />
     <ClCompile Include="Task\Interface\CustomTask.cpp" />
     <ClCompile Include="Utils\Platform\PlatformPosix.cpp" />
     <ClCompile Include="Utils\Platform\PlatformWin32.cpp" />
