@@ -38,14 +38,18 @@
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
         <controls:TextBlock
-            Margin="10"
+            HorizontalAlignment="Center"
+            Text="{DynamicResource ResolutionInfoYoStarEN}"
+            Visibility="{c:Binding 'ClientType == &quot;YoStarEN&quot;'}"/>
+        <controls:TextBlock
+            Margin="0,20,0,0"
             HorizontalAlignment="Center"
             Visibility="{c:Binding 'ClientType != &quot;Official&quot; and ClientType != &quot;Bilibili&quot; and ClientType != &quot;&quot;'}">
             <Hyperlink
                 Cursor="Hand"
                 NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
                 TextDecorations="None">
-                <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}" />
+                <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}" TextAlignment="Center" FontSize="10"/>
             </Hyperlink>
         </controls:TextBlock>
     </StackPanel>
