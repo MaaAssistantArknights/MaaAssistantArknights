@@ -587,7 +587,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var latencies = await Task.WhenAll(tasks);
 
                 var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
-                var hasProxy = string.IsNullOrEmpty(proxy);
+                var hasProxy = !string.IsNullOrEmpty(proxy);
 
                 // select the fastest mirror
                 _logger.Information("Selecting the fastest mirror:");
