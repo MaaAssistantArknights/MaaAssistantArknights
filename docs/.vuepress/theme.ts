@@ -60,10 +60,10 @@ export default hopeTheme({
       provider: "Giscus",
       repo: "MaaAssistantArknights/maa-website",
       repoId: "R_kgDOHY7Gyg",
-      category: "General",
-      categoryId: "DIC_kwDOHY7Gys4CYefe",
+      category: "Comments",
+      categoryId: "DIC_kwDOHY7Gys4CYefd",
       mapping: "pathname",
-      strict: false,
+      strict: true,
     },
 
     copyright: {
