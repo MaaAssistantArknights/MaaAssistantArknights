@@ -314,6 +314,8 @@
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
+    <system:String x:Key="SwitchResolutionTip">エミュレータの解像度を1920x1080に変更!</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、理性剤も源石も使わない</system:String>
