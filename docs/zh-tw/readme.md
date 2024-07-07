@@ -44,56 +44,28 @@ MAA 的意思是 MAA Assistant Arknights
 
 話不多說，看圖！
 
-<!-- markdownlint-disable -->
-
-<div class="image-zh-tw">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/1-dark.png">
-  <img alt="zh1" src="/image/zh-cn/readme/1-light.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/2-dark.png">
-  <img alt="zh2" src="/image/zh-cn/readme/2-light.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/3-dark.png">
-  <img alt="zh3" src="/image/zh-cn/readme/3-light.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="/image/zh-cn/readme/4-dark.png">
-  <img alt="zh4" src="/image/zh-cn/readme/4-light.png">
-</picture>
-</div>
-
-<style>
-  .image-zh-tw {
-    display: inline-block;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .image-zh-tw > picture img {
-     box-sizing: border-box;
-     width: 25% !important;
-     padding: 9px;
-     border-radius: 16px;
-  }
-
-  @media (max-width: 719px){
-    .image-zh-tw > picture img {
-      width: 50% !important;
+```component ImageGrid
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/readme/1-light.png",
+      "dark": "image/zh-cn/readme/1-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/2-light.png",
+      "dark": "image/zh-cn/readme/2-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/3-light.png",
+      "dark": "image/zh-cn/readme/3-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/4-light.png",
+      "dark": "image/zh-cn/readme/4-dark.png"
     }
-  }
-
-  @media (max-width: 419px){
-    .image-zh-tw > picture img {
-      width: 100% !important;
-    }
-  }
-</style>
-
-<!-- markdownlint-restore -->
+  ]
+}
+```
 
 ## 下載地址
 
