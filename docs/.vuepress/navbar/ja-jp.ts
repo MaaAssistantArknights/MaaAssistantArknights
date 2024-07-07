@@ -9,17 +9,17 @@ export const jajpNavbar = navbar([
   {
     text: "使用説明",
     icon: "mdi:user",
-    link: "/ja-jp/使用説明",
+    link: "/ja-jp/manual/",
   },
   {
     text: "開発関連",
     icon: "ph:code-bold",
-    link: "/ja-jp/開発関連",
+    link: "/ja-jp/develop/",
   },
   {
     text: "プロトコルドキュメント",
     icon: "basil:document-solid",
-    link: "/ja-jp/プロトコルドキュメント",
+    link: "/ja-jp/protocol/",
   },
   {
     text: "MAA 公式サイト",

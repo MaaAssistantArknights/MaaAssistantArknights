@@ -4,22 +4,22 @@ export const zhcnNavbar = navbar([
   {
     text: "主页",
     icon: "ic:round-home",
-    link: "/",
+    link: "/zh-cn/",
   },
   {
     text: "用户手册",
     icon: "mdi:user",
-    link: "/用户手册",
+    link: "/zh-cn/manual/",
   },
   {
     text: "开发文档",
     icon: "ph:code-bold",
-    link: "/开发文档",
+    link: "/zh-cn/develop/",
   },
   {
     text: "协议文档",
     icon: "basil:document-solid",
-    link: "/协议文档",
+    link: "/zh-cn/protocol/",
   },
   {
     text: "MAA 官网",
