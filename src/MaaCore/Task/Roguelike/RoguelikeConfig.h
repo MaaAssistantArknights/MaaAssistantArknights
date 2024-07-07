@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <unordered_set>
 
 namespace asst
 {
@@ -13,6 +14,7 @@ namespace asst
                         // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
         Ending = 3,     // 3 - 尝试通关，激进策略（TODO）
         Collectible = 4, // 4 - 刷开局，以获得热水壶或者演讲稿开局或只凹直升，不期而遇采用保守策略
+        CLP_PDS = 5      // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
     };
 
     class RoguelikeTheme
@@ -38,10 +40,11 @@ namespace asst
         {
             return theme == RoguelikeTheme::Phantom || theme == RoguelikeTheme::Mizuki || theme == RoguelikeTheme::Sami;
         }
-        static constexpr bool is_valid_mode(RoguelikeMode mode)
+        static constexpr bool is_valid_mode(RoguelikeMode mode, std::string_view theme = RoguelikeTheme::Sami)
         {
             return mode == RoguelikeMode::Exp || mode == RoguelikeMode::Investment ||
-                   mode == RoguelikeMode::Collectible;
+                   mode == RoguelikeMode::Collectible ||
+                   (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami);
         }
 
     public:
@@ -69,6 +72,14 @@ namespace asst
         bool get_invest_stop_when_full() const { return m_invest_stop_when_full; }
         void set_invest_with_more_score(bool value) { m_invest_with_more_score = value; }
         bool get_invest_with_more_score() const { return m_invest_with_more_score; }
+        void set_use_foldartal(bool use_foldrtal) { m_use_foldartal = use_foldrtal; }
+        bool get_use_foldartal() const {return m_use_foldartal; }
+        void set_check_clp_pds(bool check_clp_pds) { m_check_clp_pds = check_clp_pds; }
+        bool get_check_clp_pds() const {return m_check_clp_pds; }
+        void set_double_check_clp_pds(bool double_check_clp_pds) { m_double_check_clp_pds = double_check_clp_pds; }
+        bool get_double_check_clp_pds() const {return m_double_check_clp_pds; }
+        void set_expected_clp_pds(std::unordered_set<std::string> expected_clp_pds) { m_expected_clp_pds = expected_clp_pds; }
+        std::unordered_set<std::string> get_expected_clp_pds() const { return m_expected_clp_pds; }
 
     private:
         std::string m_theme;                             // 主题
@@ -83,6 +94,10 @@ namespace asst
         int m_invest_maximum = 0;                        // 投资次数上限
         bool m_invest_stop_when_full = false;            // 存款满了就停止
         bool m_invest_with_more_score = false;           // 投资时招募、购物刷分
+        bool m_use_foldartal = true;                     // 是否使用密文板
+        bool m_check_clp_pds = false;                    // 是否检查坍缩范式
+        bool m_double_check_clp_pds = false;             // 是否反复检查坍缩范式
+        std::unordered_set<std::string> m_expected_clp_pds; // 期望获得坍缩范式
 
         /* 以下为每次重置 */
     public:
@@ -108,6 +123,8 @@ namespace asst
         const std::optional<std::string>& get_foldartal_floor() const { return m_foldartal_floor; }
         void set_foldartal(std::vector<std::string> foldartal) { m_foldartal = std::move(foldartal); }
         const std::vector<std::string>& get_foldartal() const { return m_foldartal; }
+        void set_clp_pds(std::vector<std::string> clp_pds) { m_clp_pds = std::move(clp_pds); }
+        const std::vector<std::string>& get_clp_pds() const { return m_clp_pds; }
 
     private:
         int m_recruitment_count = 0;                           // 招募次数
@@ -121,5 +138,6 @@ namespace asst
         std::unordered_map<std::string, RoguelikeOper> m_oper; // 干员精英&等级
         std::optional<std::string> m_foldartal_floor;          // 当前层的预见密文板，在下一层获得
         std::vector<std::string> m_foldartal;                  // 所有已获得密文板
+        std::vector<std::string> m_clp_pds;                    // 已受到的坍缩范式
     };
 } // namespace asst

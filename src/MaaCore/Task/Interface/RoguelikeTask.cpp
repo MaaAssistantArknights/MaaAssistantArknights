@@ -25,6 +25,9 @@
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 
+#include "Task/Roguelike/RoguelikeCollapsalParadigmTaskPlugin.h"
+#include "Config/Roguelike/RoguelikeCollapsalParadigmConfig.h"
+
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
@@ -69,6 +72,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
 
+    m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_roguelike_config_ptr);
+
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
         m_subtasks.emplace_back(m_roguelike_task_ptr);
@@ -87,7 +92,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
 
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
-    if (!RoguelikeConfig::is_valid_mode(mode)) {
+    if (!RoguelikeConfig::is_valid_mode(mode, theme)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
         return false;
@@ -120,6 +125,16 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         }
         m_roguelike_config_ptr->set_start_foldartal_list(std::move(list));
     }
+
+    // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
+    m_roguelike_config_ptr->set_use_foldartal(params.get("use_foldartal", !(mode == RoguelikeMode::CLP_PDS)));
+
+    // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
+    m_roguelike_config_ptr->set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
+    m_roguelike_config_ptr->set_double_check_clp_pds(params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
+
+    const std::unordered_set<std::string>& rare_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
+    m_roguelike_config_ptr->set_expected_clp_pds(params.get("expected_collapsal_paradigms", rare_clp_pds));
 
     m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
     m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));

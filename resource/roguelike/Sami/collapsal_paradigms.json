@@ -1,0 +1,56 @@
+{
+    "theme": "Sami",
+    "collapsal_paradigms": [
+        {
+            "level_1": "去量化",
+            "level_2" : "去量深化",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "实质性坍缩",
+            "level_2" : "蔓延性坍缩",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "非线性移动",
+            "level_2" : "非线性行动",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "情绪实体",
+            "level_2" : "恐怖实体",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "泛社会悖论",
+            "level_2" : "泛文明悖论",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "气压异常",
+            "level_2" : "气压失序",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "触发性损伤",
+            "level_2" : "触发性危殆",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "趋同性消耗",
+            "level_2" : "趋同性缺失",
+            "rarity": "normal"
+        },
+        {
+            "level_1": "目空一些",
+            "level_2" : "睁眼瞎",
+            "rarity": "rare"
+        },
+        {
+            "level_1": "图像损坏",
+            "level_2" : "一抹黑",
+            "rarity": "rare"
+        }
+
+    ]
+}

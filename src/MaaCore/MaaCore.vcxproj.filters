@@ -234,6 +234,9 @@
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h">
       <Filter>Source\Resource\Miscellaneous</Filter>
     </ClInclude>
@@ -493,6 +496,9 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="InstHelper.h">
@@ -794,6 +800,9 @@
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
       <Filter>Source\Resource\Miscellaneous</Filter>
     </ClCompile>
@@ -999,6 +1008,9 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="InstHelper.cpp">

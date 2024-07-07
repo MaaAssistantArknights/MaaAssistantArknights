@@ -36,11 +36,15 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    auto mode = m_config->get_mode();
-    std::vector events = RoguelikeStageEncounter.get_events(m_config->get_theme());
+    const std::string& theme = m_config->get_theme();
+    const RoguelikeMode& mode = m_config->get_mode();
+    std::vector events = RoguelikeStageEncounter.get_events(theme);
     // 刷源石锭模式和烧水模式
     if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
-        events = RoguelikeStageEncounter.get_events(m_config->get_theme() + "_deposit");
+        events = RoguelikeStageEncounter.get_events(theme + "_deposit");
+    }
+    if (mode == RoguelikeMode::CLP_PDS) { 
+        events = RoguelikeStageEncounter.get_events(theme + "_collapse");
     }
     std::vector<std::string> event_names;
     std::unordered_map<std::string, Config::RoguelikeEvent> event_map;
@@ -104,6 +108,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
+    callback(AsstMsg::SubTaskStart, json::object {
+        { "subtask", "ProcessTask" },
+        { "details", json::object { { "task", "NeedCheckCollapsalParadigmBanner" }, { "pre_task", "RoguelikeStageEncounterTask"} } }
+    });
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     sleep(500);
@@ -120,6 +128,10 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
             }
+            callback(AsstMsg::SubTaskStart, json::object {
+                { "subtask", "ProcessTask" },
+                { "details", json::object { { "task", "NeedCheckCollapsalParadigmBanner" }, { "pre_task", "RoguelikeStageEncounterTask"} } }
+            });
 
             if (need_exit()) {
                 return false;
