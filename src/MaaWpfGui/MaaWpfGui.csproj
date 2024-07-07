@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
+
   <!-- Project -->
   <PropertyGroup>
     <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
@@ -12,6 +12,7 @@
     <Configurations>Debug;Release;RelWithDebInfo</Configurations>
     <Platforms>ARM64;x64</Platforms>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
   </PropertyGroup>
 
   <!-- Build and Publish -->
