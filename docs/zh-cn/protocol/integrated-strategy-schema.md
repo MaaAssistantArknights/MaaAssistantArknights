@@ -443,9 +443,9 @@ icon: ri:game-fill
 
 ## 肉鸽第三步——不期而遇类节点逻辑
 
-`resource/roguelike/主题名/encounter.json` 描述了刷等级模式下不期而遇事件选择的策略
+`resource/roguelike/主题名/encounter/default.json` 描述了刷等级模式下不期而遇事件选择的策略
 
-`resource/roguelike/主题名/encounter_for_deposit.json` 描述了刷源石锭模式下不期而遇事件选择的策略
+`resource/roguelike/主题名/encounter/deposit.json` 描述了刷源石锭模式下不期而遇事件选择的策略
 
 ### MAA 现有对不期而遇的判断方法
 
@@ -636,7 +636,7 @@ OCR 识别不期而遇事件，但是选项是操作固定的位置
 当`mode`为`5`时：
 
 - 优先使用`stage_name`为`关卡名_collapse`的作战策略，例如`resource/roguelike/Sami/autopilot/事不过四_collapse.json`；
-- 使用`resource/roguelike/Sami/encounter_for_collapse.json`中描述的不期而遇事件选择的策略，
+- 使用`resource/roguelike/Sami/encounter/collapse.json`中描述的不期而遇事件选择的策略，
 - 不会购买`decrease_collapse`为`true`的藏品。
 
 当`mode`不为`5`但`check_collapsal_paradigms`为`true`时，仍会检测坍缩范式并在遇到`expected_collapsal_paradigms`列表中的坍缩范式时停止任务，但在遇到其他坍缩范式时将不会重开。
