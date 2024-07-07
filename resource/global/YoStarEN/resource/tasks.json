@@ -60,10 +60,9 @@
     },
     "RSChapterToRS": {
         "text": [
-            "Platform",
             "PLATFORM",
-            "No",
-            "NO"
+            "NO",
+            "3"
         ]
     },
     "ZT-OpenOcr": {
@@ -478,10 +477,6 @@
             [
                 "Tequila",
                 "龙舌兰"
-            ],
-            [
-                "Flint",
-                "燧石"
             ],
             [
                 "Astesia",
@@ -2570,6 +2565,30 @@
             [
                 "Self-Driving Recon Cart",
                 "勘察用自走车"
+            ],
+            [
+                "Leto",
+                "烈夏"
+            ],
+            [
+                "Degenbrecher",
+                "锏"
+            ],
+            [
+                "Harold",
+                "哈洛德"
+            ],
+            [
+                "Emergency Heater",
+                "紧急供暖器"
+            ],
+            [
+                "Flint",
+                "点火石"
+            ],
+            [
+                "Flint",
+                "燧石"
             ]
         ]
     },
@@ -7224,6 +7243,26 @@
             [
                 "Confess",
                 "告解"
+            ],
+            [
+                "Advent",
+                "到来"
+            ],
+            [
+                "Departure",
+                "离去"
+            ],
+            [
+                "Respite",
+                "歇息"
+            ],
+            [
+                "Satisfy",
+                "满足"
+            ],
+            [
+                "Cry",
+                "呼救"
             ]
         ]
     },
@@ -7395,6 +7434,26 @@
             [
                 "Confess",
                 "告解"
+            ],
+            [
+                "Advent",
+                "到来"
+            ],
+            [
+                "Departure",
+                "离去"
+            ],
+            [
+                "Respite",
+                "歇息"
+            ],
+            [
+                "Satisfy",
+                "满足"
+            ],
+            [
+                "Cry",
+                "呼救"
             ]
         ]
     },

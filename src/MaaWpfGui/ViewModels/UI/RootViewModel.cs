@@ -47,6 +47,11 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                if (Instances.AnnouncementViewModel.DoNotShowAnnouncement)
+                {
+                    return;
+                }
+
                 _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
             });
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();

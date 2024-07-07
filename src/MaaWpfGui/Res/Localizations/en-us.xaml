@@ -490,7 +490,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="DepotRecognitionTip">This function is still in testing. If you encounter any unexpected results, please zip the 「debug/depot」 folder in the installation path and submit an issue on GitHub</system:String>
     <system:String x:Key="StartToDepotRecognition">Start to Identify</system:String>
     <system:String x:Key="ExportToArkplanner">Export to Arkplanner</system:String>
-    <system:String x:Key="ExportToLolicon">Export to Lolicon</system:String>
+    <system:String x:Key="ExportToLolicon">Export to Arkntools</system:String>
     <system:String x:Key="CopiedToClipboard">Copied to Clipboard</system:String>
     <!--  !Depot Recognition  -->
     <!--  Operator Recognition  -->

@@ -983,6 +983,14 @@
         "sortId": 10020,
         "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
     },
+    "LMTGS_COIN_4101": {
+        "classifyType": "NORMAL",
+        "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
+        "icon": "LMTGS_COIN_4101.png",
+        "name": "尋訪數據契約",
+        "sortId": 10021,
+        "usage": "新型招聘合約所約定的一種時限貨幣，累積一定數量後可在指定時期內招聘指定幹員。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "與獵頭公司長久且穩定的合作關係帶來的回報，可有效控制支出。不過，但願不是每次都需要用到這個手段。",
@@ -1487,6 +1495,14 @@
         "sortId": -10000,
         "usage": "持銃聖徒像曾經被裝飾在修道院各處，現在大部分都已不在原處。修道院虔誠的信徒們願意用他們僅有的一些物資來交換這些碎片。"
     },
+    "act27side_token_fur": {
+        "classifyType": "NONE",
+        "description": "柔軟、防寒且吸水性良好，雖然看上去非常可口，但請不要把它當成棉花糖吃掉。",
+        "icon": "act27side_token_fur.png",
+        "name": "毛絨絨生物的毛",
+        "sortId": -10000,
+        "usage": "看上去可以放進戶外保暖裝備之中，只不過在這個季節好像沒有什麼作用。“純白火山”家的小女兒不知為何很喜歡這種奇怪絨毛，她願意悄悄拿店裡的商品和你交換。注意：千萬不要告訴她的哥哥！"
+    },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
         "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
@@ -1510,6 +1526,22 @@
         "name": "晶化源石",
         "sortId": -10000,
         "usage": "完成尖滅測試作戰後得到的報酬。可用於兌換補給品。"
+    },
+    "act3bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "模擬中的對錯並不重要，它們只是種輔助，幫助你在實戰中做出正確的選擇。",
+        "icon": "act3bossrush_milestone_point.png",
+        "name": "試煉經驗",
+        "sortId": -10000,
+        "usage": "試煉結束後獲得的經驗，可以提升試煉等級。"
+    },
+    "act3bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "未解碼的數據方塊。永遠記住，資訊轉換往往伴隨著不可避免的損耗。善用資訊儲存工具，但別依賴它們。",
+        "icon": "act3bossrush_token_relic.png",
+        "name": "數據黑盒",
+        "sortId": -10000,
+        "usage": "用於對遏制單元進行數據迭代。"
     },
     "act4d0_intelligencepoint": {
         "classifyType": "NONE",
@@ -1606,6 +1638,14 @@
         "name": "紅松葉彩券",
         "sortId": -10000,
         "usage": "印有紅松樹葉標籤的騎士競技彩券。憑券可在騎士競技博彩兌獎處兌換相應獎金，押下你的籌碼，然後大賺一筆吧！"
+    },
+    "advanced_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "為應對加工時部分材料緊缺的問題，採購部發行了提貨券供幹員們自行取用所需的材料。",
+        "icon": "advanced_material_issue_voucher.png",
+        "name": "高級材料提貨券",
+        "sortId": 30201,
+        "usage": "羅德島採購部特別發行的提貨券，憑此券可限時領取一份高級品質的精英材料。"
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -1823,6 +1863,14 @@
         "sortId": -10000,
         "usage": "一次性自助晶片印刻器械，存儲了大量訓練記錄與材料，根據重裝幹員們的需求，可以輕鬆印刻出晶片組合。"
     },
+    "mcardVoucher": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "mcardVoucher.png",
+        "name": "月卡",
+        "sortId": -10000,
+        "usage": null
+    },
     "mod_unlock_token": {
         "classifyType": "MATERIAL",
         "description": "數據塊中記錄了工程部幹員們為製作模組而奮鬥的每個日夜。",
@@ -1846,6 +1894,14 @@
         "name": "數據增補儀",
         "sortId": 90002,
         "usage": "用於升級幹員的模組。"
+    },
+    "premium_material_issue_voucher": {
+        "classifyType": "CONSUME",
+        "description": "為應對加工時部分材料緊缺的問題，採購部發行了提貨券供幹員們自行取用所需的材料。",
+        "icon": "premium_material_issue_voucher.png",
+        "name": "特級材料提貨券",
+        "sortId": 30200,
+        "usage": "羅德島採購部特別發行的提貨券，憑此券可限時領取一份特級品質的精英材料。"
     },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",
@@ -2039,10 +2095,26 @@
         "sortId": 60110,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
+    "randomMaterial_siesta2": {
+        "classifyType": "CONSUME",
+        "description": "來自峯聯貿易的材料補給箱。供應商很高興能與大客戶合作，協同物流公司為您送來這些贈品。",
+        "icon": "randomMaterial_siesta2.png",
+        "name": "峯聯貿易物流補給",
+        "sortId": 60112,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
     "return_credit_token": {
         "classifyType": "NONE",
         "description": "為回到重要崗位的人特別準備的徽記，會在其熟悉工作的過程中逐步發放。",
         "icon": "return_credit_token.png",
+        "name": "二次認證徽記",
+        "sortId": -10000,
+        "usage": "羅德島內部流通的特殊認證用徽記。收集一定數量可以獲得部分羅德島物資的使用權限。"
+    },
+    "return_credit_token2": {
+        "classifyType": "NONE",
+        "description": "為回到重要崗位的人特別準備的徽記，會在其熟悉工作的過程中逐步發放。",
+        "icon": "return_credit_token2.png",
         "name": "二次認證徽記",
         "sortId": -10000,
         "usage": "羅德島內部流通的特殊認證用徽記。收集一定數量可以獲得部分羅德島物資的使用權限。"

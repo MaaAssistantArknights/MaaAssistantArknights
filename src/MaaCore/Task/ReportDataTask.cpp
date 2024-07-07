@@ -85,7 +85,7 @@ void asst::ReportDataTask::report_to_penguin()
     std::string key = key_ss.str();
     Log.info("X-Penguin-Idempotency-Key:", key);
 
-    constexpr int DefaultBackoff = 10 * 1000; // 10s
+    constexpr int DefaultBackoff = 3 * 1000; // 3s
     int backoff = DefaultBackoff;
 
     auto penguin_success_cond = [](const cpr::Response& response) -> bool { return response.status_code == 200; };
