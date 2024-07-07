@@ -137,6 +137,23 @@ class Asst:
         return Asst.__lib.AsstConnect(self.__ptr,
                                       adb_path.encode('utf-8'), address.encode('utf-8'), config.encode('utf-8'))
 
+    def get_image(self, size: int) -> bytes | None:
+        """
+        获取上次截图
+        :params:
+            ``size``:  图像字节数, 如 1280*720*3
+
+        : return: 成功时图像的字节; 失败时 None
+        """
+        buffer_type = ctypes.c_byte * size
+        buffer = buffer_type()
+        buffer.value = b'\000' * size
+        if (got := Asst.__lib.AsstGetImage(self.__ptr, buffer, size)) \
+                and got > 0:
+            return bytes(buffer)
+        else:
+            return None
+
     def set_connection_extras(name: str, extras: JSON):
         """
         连接模拟器端的Extras
@@ -235,6 +252,10 @@ class Asst:
         Asst.__lib.AsstSetConnectionExtras.restype = ctypes.c_void_p
         Asst.__lib.AsstSetConnectionExtras.argtypes = (
             ctypes.c_char_p, ctypes.c_char_p,)
+
+        Asst.__lib.AsstGetImage.restype = ctypes.c_uint64
+        Asst.__lib.AsstGetImage.argtypes = (
+            ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint64)
 
         Asst.__lib.AsstCreate.restype = ctypes.c_void_p
         Asst.__lib.AsstCreate.argtypes = ()
