@@ -186,3 +186,5 @@ ID信息更新卡|ID Info Update Card|ID情報更新カード|ID 정보 갱신 �
 声望|EXP|名声|경험치
 演习券|Drill Plan|演習券|연습권
 无人机|Drone|ドローン|드론
+
+<!-- markdownlint-disable-file MD041 MD055 MD056 -->

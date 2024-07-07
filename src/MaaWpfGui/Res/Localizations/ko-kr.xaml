@@ -476,41 +476,41 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <!--  !로그  -->
     <!--  !메인 화면  -->
     <system:String x:Key="Toolbox">툴박스</system:String>
-    <!--  공개모집 인식  -->
+    <!--  공개모집 태그 인식  -->
     <system:String x:Key="RecruitmentRecognition">공개모집 태그 인식</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">팁: 메인 화면의 자동 모집과는 별도로 독립된 기능입니다\n게임 내 공개모집 태그 화면에 진입한 뒤 인식 시작 버튼을 누르세요~</system:String>
     <system:String x:Key="AutoSettingTime">자동 시간 설정</system:String>
     <system:String x:Key="RecruitmentShowPotential">잠재능력 확인(★4 이상)</system:String>
-    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 “오퍼레이터 식별” 기능을 사용하세요.</system:String>
+    <system:String x:Key="RecruitmentShowPotentialTips">오퍼레이터 정보를 불러오려면 “오퍼레이터 인식” 기능을 사용하세요.</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">★3 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">★4 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel5Tags">★5 태그를 자동 선택</system:String>
     <system:String x:Key="AutoSelectLevel6Tags">★6 태그를 자동 선택</system:String>
     <system:String x:Key="StartToRecruit">인식 시작</system:String>
-    <!--  !공개모집 인식  -->
-    <!--  창고 정리  -->
-    <system:String x:Key="DepotRecognition">창고 정리</system:String>
+    <!--  !공개모집 태그 인식  -->
+    <!--  창고 인식  -->
+    <system:String x:Key="DepotRecognition">창고 인식</system:String>
     <system:String x:Key="DepotRecognitionTip">이 기능은 현재 테스트 중입니다. 내보내기 전 인식 결과가 맞는지 확인 후 사용하세요\n만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 depot 폴더 전체를 압축해서 Github의 issue로 올려주세요</system:String>
-    <system:String x:Key="StartToDepotRecognition">식별 시작</system:String>
+    <system:String x:Key="StartToDepotRecognition">인식 시작</system:String>
     <system:String x:Key="ExportToArkplanner">Arkplanner로 내보내기</system:String>
     <system:String x:Key="ExportToLolicon">Arkntools으로 내보내기</system:String>
     <system:String x:Key="CopiedToClipboard">클립보드에 복사됨</system:String>
-    <!--  !창고 정리  -->
-    <!--  오퍼레이터 식별  -->
-    <system:String x:Key="OperBoxRecognition">오퍼레이터 식별</system:String>
+    <!--  !창고 인식  -->
+    <!--  오퍼레이터 인식  -->
+    <system:String x:Key="OperBoxRecognition">오퍼레이터 인식</system:String>
     <system:String x:Key="OperBoxRecognitionTip">시작하기 전 등록된「선호」오퍼레이터들을 등록 해제하세요.\n이 기능은 현재 테스트 중입니다. 만약 오류가 있다면 MAA 경로 내 debug 폴더 안의 oper 폴더 전체를 압축해서 Github의 issue로 올려주세요~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">미소유: {0}\n목록:\n\n{1}\n소유: {2}\n목록:\n\n{3}</system:String>
-    <system:String x:Key="StartToOperBoxRecognition">식별 시작</system:String>
+    <system:String x:Key="StartToOperBoxRecognition">인식 시작</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">클립보드에 복사</system:String>
-    <!--  !오퍼레이터 식별  -->
+    <!--  !오퍼레이터 인식  -->
     <!--  영상 인식  -->
     <system:String x:Key="VideoRecognition">영상 인식</system:String>
-    <system:String x:Key="StartToVideoRecognition">식별 시작</system:String>
+    <system:String x:Key="StartToVideoRecognition">인식 시작</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">폴더 열기</system:String>
     <system:String x:Key="VideoRecognitionTips" xml:space="preserve">「자동 지휘」페이지에서 영상 파일을 드래그하여 시작하세요.
 동영상의 해상도 비율은 16:9에 게임화면만 나와야 하며, 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
     <!--  영상 인식  -->
-    <!--  Gacha Recognition  -->
+    <!--  헤드헌팅  -->
     <system:String x:Key="Gacha">헤드헌팅</system:String>
     <system:String x:Key="GachaOnce">1회 진행</system:String>
     <system:String x:Key="GachaTenTimes">10회 진행</system:String>
@@ -536,10 +536,10 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">실제 뽑기입니다</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">확인</system:String>
     <system:String x:Key="ShowDisclaimerNoMore">다시 보지 않기</system:String>
-    <!--  !Gacha Recognition  -->
+    <!--  !헤드헌팅  -->
     <!--  로그  -->
-    <system:String x:Key="Identifying">식별 중……</system:String>
-    <system:String x:Key="IdentificationCompleted">식별 완료</system:String>
+    <system:String x:Key="Identifying">인식 중……</system:String>
+    <system:String x:Key="IdentificationCompleted">인식 완료</system:String>
     <!--  !로그  -->
     <!--  Copilot  -->
     <system:String x:Key="Copilot">자동 지휘</system:String>
@@ -692,7 +692,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">오퍼레이터 그룹, 그룹 목록을 일치시키지 못했습니다: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">선호하는 오퍼레이터: </system:String>
     <system:String x:Key="ProductIncorrect">생산품이 구성과 맞지 않습니다.</system:String>
-    <system:String x:Key="ProductUnknown">식별할 수 없는 생산품</system:String>
+    <system:String x:Key="ProductUnknown">인식할 수 없는 생산품</system:String>
     <system:String x:Key="ProductChanged">생산품이 변경됨</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">공개모집 인식 결과: </system:String>
     <system:String x:Key="RecruitingTips">공개모집 팁</system:String>
