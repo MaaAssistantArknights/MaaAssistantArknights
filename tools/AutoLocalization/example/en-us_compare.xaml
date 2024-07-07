@@ -163,9 +163,9 @@
             <s:String x:Key="NotSelected">Not selected</s:String>
             <s:String x:Key="Official">Official (CN)</s:String>
             <s:String x:Key="Bilibili">Bilibili</s:String>
-            <s:String x:Key="YoStarEN">YoStarEN</s:String>
-            <s:String x:Key="YoStarJP">YoStarJP</s:String>
-            <s:String x:Key="YoStarKR">YoStarKR</s:String>
+            <s:String x:Key="YoStarEN">YostarEN</s:String>
+            <s:String x:Key="YoStarJP">YostarJP</s:String>
+            <s:String x:Key="YoStarKR">YostarKR</s:String>
             <s:String x:Key="txwy">txwy</s:String>
         </ResourceDictionary>
 

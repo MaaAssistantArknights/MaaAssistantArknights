@@ -56,11 +56,11 @@ jobs:
             /gamedata/excel/activity_table.json
           sparse-checkout-cone-mode: false
 
-      - name: Clone ArknightsGameResource_YoStar for Overseas
+      - name: Clone ArknightsGameResource_Yostar for Overseas
         uses: actions/checkout@v4
         with:
           show-progress: false
-          repository: Kengxxiao/ArknightsGameData_YoStar
+          repository: Kengxxiao/ArknightsGameData_Yostar
           ref: main
           path: .\tools\ResourceUpdater\x64\Release\Overseas
           sparse-checkout: |
