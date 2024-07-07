@@ -110,7 +110,6 @@
 * use factory function instead of class @horror-proton
 * bump zzyyyl/issue-checker from 1.7 to 1.8 @zzyyyl
 * 修正生息演算相关打标签逻辑 @zzyyyl
-
 * changelog生成器repo独立设置 @SherkeyXD
 * move functions to TileCalc2 and TileDef @horror-proton
 * Amiya new promotion in RoguelikeBattleTaskPlugin (#9377) @Manicsteiner
