@@ -11,25 +11,25 @@ export default defineUserConfig({
   port: 3001,
 
   locales: {
-    "/": {
+    "/zh-cn/": {
       lang: "zh-CN",
-      description: "开发者文档",
+      description: "文档",
     },
     "/zh-tw/": {
       lang: "zh-TW",
-      description: "開發者文件",
+      description: "文件",
     },
     "/en-us/": {
       lang: "en-US",
-      title: "Documents",
+      description: "Documentation",
     },
     "/ja-jp/": {
       lang: "ja-JP",
-      description: "ドキュメント",
+      description: "ドキュメンテーション",
     },
     "/ko-kr/": {
       lang: "ko-KR",
-      description: "문서",
+      description: "선적 서류 비치",
     },
   },
 

@@ -1,0 +1,49 @@
+name: Lint Markdown files
+
+on:
+  push:
+    paths:
+      - "**/*.md"
+      - ".github/workflows/lint-markdown.yml"
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".github/workflows/lint-markdown.yml"
+  schedule:
+    - cron: "44 7 * * 2"
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          config: docs/.markdownlint.yaml
+          globs: |
+            README.md
+            docs/**/*.md
+
+#  check-links:
+#    name: Check Dead Links
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Check out code
+#        uses: actions/checkout@v4
+#        with:
+#          show-progress: false
+#
+#      - name: Check Dead Link
+#        uses: umbrelladocs/action-linkspector@v1
+#        with:
+#          # Use github-pr-review when triggered by a pull request; otherwise, use github-check
+#          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+#          filter_mode: nofilter
+#          fail_on_error: true
