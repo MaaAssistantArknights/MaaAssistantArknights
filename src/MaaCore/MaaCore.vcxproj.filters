@@ -705,6 +705,9 @@
     <ClInclude Include="Utils\LibraryHolder.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Utils\LogControl.hpp">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -1174,6 +1177,9 @@
     </ClCompile>
     <ClCompile Include="Controller\MumuExtras.cpp">
       <Filter>Source\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils\LogControl.cpp">
+      <Filter>Source\Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

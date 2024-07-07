@@ -386,11 +386,17 @@ public:
             return *this;
         }
 
-        static const level debug;
-        static const level trace;
-        static const level info;
-        static const level warn;
-        static const level error;
+        bool enabled = true;
+
+        bool is_enabled() const { return enabled; }
+
+        void set_enabled(bool enable) { enabled = enable; }
+
+        static level debug;
+        static level trace;
+        static level info;
+        static level warn;
+        static level error;
 
         std::string_view str;
     };
@@ -642,12 +648,17 @@ public:
     template <typename... Args>
     inline void log(level lv, Args&&... args)
     {
-        ((*this << lv) << ... << std::forward<Args>(args));
+        if (lv.is_enabled()) {
+            ((*this << lv) << ... << std::forward<Args>(args));
+        }
     }
 
     template <typename... Args>
     inline void log(std::unique_lock<std::mutex>&& lock, level lv, Args&&... args)
     {
+        if (!lv.is_enabled()) {
+            return;
+        }
         if (!m_ofs || !m_ofs.is_open()) {
             m_ofs = std::ofstream(m_log_path, std::ios::out | std::ios::app);
         }
@@ -729,11 +740,11 @@ inline constexpr Logger::separator Logger::separator::tab("\t");
 inline constexpr Logger::separator Logger::separator::newline("\n");
 inline constexpr Logger::separator Logger::separator::comma(",");
 
-inline constexpr Logger::level Logger::level::debug("DBG");
-inline constexpr Logger::level Logger::level::trace("TRC");
-inline constexpr Logger::level Logger::level::info("INF");
-inline constexpr Logger::level Logger::level::warn("WRN");
-inline constexpr Logger::level Logger::level::error("ERR");
+inline Logger::level Logger::level::debug("DBG");
+inline Logger::level Logger::level::trace("TRC");
+inline Logger::level Logger::level::info("INF");
+inline Logger::level Logger::level::warn("WRN");
+inline Logger::level Logger::level::error("ERR");
 
 class LoggerAux
 {

@@ -5890,7 +5890,7 @@
         "algorithm": "JustReturn",
         "action": "DoNothing",
         "next": [
-            "SpecialAccessActivities@ReturnButtons#next",
+            "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
             "SpecialAccessActivities"
         ]
@@ -9113,7 +9113,7 @@
             244
         ],
         "maskRange": [
-            100,
+            35,
             255
         ]
     },

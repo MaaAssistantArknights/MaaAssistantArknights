@@ -611,10 +611,12 @@ bool update_stages_data(
     {
         std::string item_id;
         std::string drop_type;
+
         bool operator<(const DropInfo& rhs) const
         {
             return item_id + drop_type < rhs.item_id + drop_type;
         }
+
         bool operator==(const DropInfo& rhs) const
         {
             return item_id == rhs.item_id && drop_type == rhs.drop_type;
@@ -1101,14 +1103,22 @@ bool update_recruitment_data(
     for (const std::string& name : chars_list) {
         auto id_iter = chars_id_list.find(name);
         if (id_iter == chars_id_list.cend()) {
-            std::cerr << "Failed to find char: " << name << std::endl;
+            std::cerr << "Failed to find char: " << std::endl;
+            std::cerr << "char: " << name << std::endl;
             return false;
         }
 
         const std::string& id = id_iter->second;
+        if (id == "trap_138_winstone") {
+            std::cout << "TEMP FIX. trap_138_winstone has the same name as the operator Flint"
+                      << std::endl;
+            continue;
+        }
         auto info_iter = base_chars_info.find(id);
         if (info_iter == base_chars_info.cend()) {
-            std::cerr << "Failed to find char's info: " << id << name << std::endl;
+            std::cerr << "Failed to find char's info:" << std::endl;
+            std::cerr << "id: " << id << std::endl;
+            std::cerr << "char: " << name << std::endl;
             return false;
         }
 
@@ -1325,7 +1335,7 @@ bool check_roguelike_replace_for_overseas(
         task_json["Sami@Roguelike@FoldartalGainOcr"]["ocrReplace"].as_array(),
         base_totem_names,
         totem_names);
-    proc (
+    proc(
         task_json["Sami@Roguelike@FoldartalUseOcr"]["ocrReplace"].as_array(),
         base_totem_names,
         totem_names);
