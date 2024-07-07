@@ -107,7 +107,7 @@ export default hopeTheme({
         content: "MAA 的文檔以簡體中文為主，其他語言的文檔可能品質低或尚未翻譯，請諒解。",
         fullscreen: true,
         confirm: true,
-        showOnce: false,
+        showOnce: true,
         actions: [
           {
             text: "我知道了",
@@ -124,7 +124,7 @@ export default hopeTheme({
         content: "MAA's documents are mainly in Simplified Chinese. Documents in other languages may be of low quality or not yet translated. Please understand.",
         fullscreen: true,
         confirm: true,
-        showOnce: false,
+        showOnce: true,
         actions: [
           {
             text: "Okay",
@@ -141,7 +141,7 @@ export default hopeTheme({
         content: "MAA のドキュメントは主に簡体字中国語で書かれており、他の言語のドキュメントは低品質であるか、翻訳されていない可能性がありますので、ご了承ください。",
         fullscreen: true,
         confirm: true,
-        showOnce: false,
+        showOnce: true,
         actions: [
           {
             text: "OK",
@@ -158,7 +158,7 @@ export default hopeTheme({
         content: "MAA의 문서는 주로 중국어 간체로 되어 있습니다. 다른 언어로 된 문서는 번역이 이상하거나, 번역이 되어있지 않을 수 있습니다.",
         fullscreen: true,
         confirm: true,
-        showOnce: false,
+        showOnce: true,
         actions: [
           {
             text: "OK",
