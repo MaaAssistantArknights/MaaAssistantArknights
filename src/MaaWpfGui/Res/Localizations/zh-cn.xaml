@@ -165,9 +165,9 @@
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
     <system:String x:Key="Bilibili">Bilibili服</system:String>
-    <system:String x:Key="YoStarEN">国际服 (YoStarEN)</system:String>
-    <system:String x:Key="YoStarJP">日服 (YoStarJP)</system:String>
-    <system:String x:Key="YoStarKR">韩服 (YoStarKR)</system:String>
+    <system:String x:Key="YoStarEN">国际服 (YostarEN)</system:String>
+    <system:String x:Key="YoStarJP">日服 (YostarJP)</system:String>
+    <system:String x:Key="YoStarKR">韩服 (YostarKR)</system:String>
     <system:String x:Key="Txwy">繁中服 (txwy)</system:String>
     <system:String x:Key="Switchable">可切换</system:String>
     <system:String x:Key="Executable">可执行文件</system:String>

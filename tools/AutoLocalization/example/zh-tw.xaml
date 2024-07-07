@@ -139,9 +139,9 @@
             <s:String x:Key="NotSelected">不選擇</s:String>
             <s:String x:Key="Official">官服</s:String>
             <s:String x:Key="Bilibili">Bilibili服</s:String>
-            <s:String x:Key="YoStarEN">國際服 (YoStarEN)</s:String>
-            <s:String x:Key="YoStarJP">日服 (YoStarJP)</s:String>
-            <s:String x:Key="YoStarKR">韓服 (YoStarKR)</s:String>
+            <s:String x:Key="YoStarEN">國際服 (YostarEN)</s:String>
+            <s:String x:Key="YoStarJP">日服 (YostarJP)</s:String>
+            <s:String x:Key="YoStarKR">韓服 (YostarKR)</s:String>
             <s:String x:Key="txwy">繁中服 (txwy)</s:String>
         </ResourceDictionary>
 
