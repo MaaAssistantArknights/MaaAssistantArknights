@@ -76,7 +76,6 @@
 * 战斗列表禁用包含非法字符的关卡名添加 (#9363) @status102
 * add AsstSetConnectionExtras to wine bridge @dantmnf
 * check before destroy callback @dantmnf
-* depot analyzer to detect multipliers for KR (#9343) @178619
 * 修复时间比较报错的问题 @SherkeyXD
 * 刷理智结束时有概率报错 @ChingCdesu
 * fix endless loop in InfrastProductionTask @horror-proton
@@ -106,13 +105,12 @@
 * 增加「实例已销毁」 (#9201) @aleck099
 * add CITATION @Cryolitia
 * add LICENSE.SPDX @Cryolitia
-* YoStarJP roguelike ocr fix (#9203) @Manicsteiner
 * update cn-mumu-report.yaml @Rbqwow
 * fix missing includes @horror-proton
 * use factory function instead of class @horror-proton
 * bump zzyyyl/issue-checker from 1.7 to 1.8 @zzyyyl
 * 修正生息演算相关打标签逻辑 @zzyyyl
-* YoStar add translations for new feat @HX3N
+
 * changelog生成器repo独立设置 @SherkeyXD
 * move functions to TileCalc2 and TileDef @horror-proton
 * Amiya new promotion in RoguelikeBattleTaskPlugin (#9377) @Manicsteiner
@@ -142,8 +140,11 @@
 * YoStarJP ocr fix 锏 (#9447) @Manicsteiner
 * YoStarJP RS navigation (#9427) @Manicsteiner
 * YoStarJP roguelike ocr fix (#9426) @Manicsteiner
+* YoStarJP roguelike ocr fix (#9203) @Manicsteiner
 
 #### YostarKR
 
 * YostarKR RS stage navigation @HX3N
 * YoStarKR modified CharsNameOcrReplace @HX3N
+* YoStar add translations for new feat @HX3N
+* depot analyzer to detect multipliers for KR (#9343) @178619
