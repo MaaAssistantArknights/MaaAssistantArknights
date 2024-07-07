@@ -116,8 +116,8 @@ class Asst:
         参见${MaaAssistantArknights}/src/MaaCore/Assistant.cpp#set_static_option
 
         :params:
-            ``externa_config``: 进程级参数类型
-            ``config_value``:   进程级参数的值
+            ``option_type``:    进程级参数类型
+            ``option_value``:   进程级参数的值
 
         :return: 是否设置成功
         """
