@@ -117,7 +117,7 @@
     <system:String x:Key="InfrastThresholdTip">사용자 지정 교대 근무 변경이 활성화된 경우 이 필드는 자동 채우기 및 오퍼레이터 교체를 사용하는 회의실에만 유효합니다</system:String>
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 우선, 2번째 구역 도달 시 탐험 중도 포기</system:String>
-    <system:String x:Key="RoguelikeLastReward">전기주전자 획득까지 반복, 3번째 구역 도달 시 탐험 중도 포기</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">전기주전자 획득까지 반복, 3번째 구역 도달 시 탐험 중도 포기</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
