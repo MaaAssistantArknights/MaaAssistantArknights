@@ -77,3 +77,5 @@
 ---|---|---|---
 干员附带单位|Operator attached unit|召喚ユニット|오퍼레이터 추가 유닛
 无职业陷阱|No class trap|罠|무직업 함정
+
+<!-- markdownlint-disable-file MD041 MD055 MD056 -->

@@ -1,27 +1,22 @@
-<div align="center">
+---
+icon: ic:round-home
+index: true
+dir:
+  order: 0
+---
 
-<img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
+::: center
+
+![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
 
 # MaaAssistantArknights
 
-<br>
-<div>
-    <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
-</div>
-<div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
-</div>
-<div>
-    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
-</div>
-<div>
-    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
-    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
-</div>
-<br>
+![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
+![platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet)
+![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
+![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)
 
-[简体中文](../readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
+[简体中文](../zh-cn/readme.md) | 繁體中文 | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -29,9 +24,9 @@ MAA 的意思是 MAA Assistant Arknights
 
 基於圖像辨識技術，一鍵完成全部日常任務！
 
-絕讚更新中  ✿✿ヽ(°▽°)ノ✿<br>
+絕讚更新中  ✿✿ヽ(°▽°)ノ✿
 
-</div>
+:::
 
 ## 亮點功能
 
@@ -49,10 +44,28 @@ MAA 的意思是 MAA Assistant Arknights
 
 話不多說，看圖！
 
-![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
-![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
-![zh3](https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png)
-![zh4](https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png)
+```component ImageGrid
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/readme/1-light.png",
+      "dark": "image/zh-cn/readme/1-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/2-light.png",
+      "dark": "image/zh-cn/readme/2-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/3-light.png",
+      "dark": "image/zh-cn/readme/3-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/4-light.png",
+      "dark": "image/zh-cn/readme/4-dark.png"
+    }
+  ]
+}
+```
 
 ## 下載地址
 
@@ -114,7 +127,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~C++ base64 編解碼：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解壓壓縮庫：[zlib](https://github.com/madler/zlib)
 - C++ Gzip 封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- 安卓觸控事件器：[minitouch](https://github.com/openstf/minitouch)
+- 安卓觸控事件器：[Minitouch](https://github.com/DeviceFarmer/minitouch)
 - 安卓觸控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM 框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF 控件庫：[HandyControl](https://github.com/HandyOrg/HandyControl)
@@ -197,3 +210,5 @@ Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
+
+<!-- markdownlint-disable-file MD034 MD041 -->

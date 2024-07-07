@@ -9,17 +9,17 @@ export const enusNavbar = navbar([
   {
     text: "User Manual",
     icon: "mdi:user",
-    link: "/en-us/1.1-USER_MANUAL",
+    link: "/en-us/manual/",
   },
   {
     text: "Development Docs",
     icon: "ph:code-bold",
-    link: "/en-us/2.1-LINUX_TUTORIAL",
+    link: "/en-us/develop/",
   },
   {
     text: "Protocol Docs",
     icon: "basil:document-solid",
-    link: "/en-us/3.1-INTEGRATION",
+    link: "/en-us/protocol/",
   },
   {
     text: "MAA Website",
