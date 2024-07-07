@@ -3982,7 +3982,7 @@
         ]
     },
     "RoguelikeRecruitLevel": {
-        "Doc": "YoStarKR의 폰트는 CN서버보다 더 크기에, ROI를 수정해야 합니다.",
+        "Doc": "YostarKR의 폰트는 CN서버보다 더 크기에, ROI를 수정해야 합니다.",
         "rectMove": [
             -172,
             -1,
@@ -6799,7 +6799,7 @@
         ]
     },
     "Mizuki@Roguelike@DataTraceback": {
-        "Doc": "이 작업은 YoStarKR에서 DataTraceback 에서 정산 화면으로 넘어가지 않는 문제를 수정하기 위해 있습니다.",
+        "Doc": "이 작업은 YostarKR에서 DataTraceback 에서 정산 화면으로 넘어가지 않는 문제를 수정하기 위해 있습니다.",
         "algorithm": "MatchTemplate",
         "specificRect": [
             1160,

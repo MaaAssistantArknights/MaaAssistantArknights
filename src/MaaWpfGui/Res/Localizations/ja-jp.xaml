@@ -164,9 +164,9 @@
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
-    <system:String x:Key="YoStarEN">YoStarEN</system:String>
-    <system:String x:Key="YoStarJP">YoStarJP</system:String>
-    <system:String x:Key="YoStarKR">YoStarKR</system:String>
+    <system:String x:Key="YoStarEN">YostarEN</system:String>
+    <system:String x:Key="YoStarJP">YostarJP</system:String>
+    <system:String x:Key="YoStarKR">YostarKR</system:String>
     <system:String x:Key="Txwy">txwy</system:String>
     <system:String x:Key="Switchable">切り替え可能</system:String>
     <system:String x:Key="Executable">実行ファイル</system:String>

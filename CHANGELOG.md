@@ -136,14 +136,14 @@
 
 #### YostarJP
 
-* YoStarJP ocr fix 锏 (#9447) @Manicsteiner
-* YoStarJP RS navigation (#9427) @Manicsteiner
-* YoStarJP roguelike ocr fix (#9426) @Manicsteiner
-* YoStarJP roguelike ocr fix (#9203) @Manicsteiner
+* YostarJP ocr fix 锏 (#9447) @Manicsteiner
+* YostarJP RS navigation (#9427) @Manicsteiner
+* YostarJP roguelike ocr fix (#9426) @Manicsteiner
+* YostarJP roguelike ocr fix (#9203) @Manicsteiner
 
 #### YostarKR
 
 * YostarKR RS stage navigation @HX3N
-* YoStarKR modified CharsNameOcrReplace @HX3N
-* YoStar add translations for new feat @HX3N
+* YostarKR modified CharsNameOcrReplace @HX3N
+* Yostar add translations for new feat @HX3N
 * depot analyzer to detect multipliers for KR (#9343) @178619
