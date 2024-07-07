@@ -228,6 +228,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
                             // 2 - 【即将弃用】两者兼顾，投资过后再退出，没有投资就继续往后打
                             // 3 - 开发中...
                             // 4 - 刷开局，到达第三层后直接退出
+                            // 5 - 刷坍缩范式，mode为5时有效，通过漏怪、在不期而遇节点选择特定选项等方式加快坍缩值积累，
+                            //     若第一个检测到的坍缩范式在expected_collapsal_paradigms列表中则停止任务，否则重开
     "starts_count": int,    // 开始探索 次数，可选，默认 INT_MAX。达到后自动停止任务
     "investment_enabled": bool, // 是否投资源石锭，默认开
     "investments_count": int,
@@ -241,9 +243,19 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
     "only_start_with_elite_two": bool,  // 是否只凹开局干员精二直升且不进行作战，可选，默认 false，start_with_elite_two为true时有效
     "use_support": bool,  // 开局干员是否为助战干员，可选，默认 false
     "use_nonfriend_support": bool,  // 是否可以是非好友助战干员，可选，默认 false，use_support为true时有效
-    "refresh_trader_with_dice": bool  // 是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞，可选，默认 false
+    "refresh_trader_with_dice": bool,  // 是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞，可选，默认 false
+    "use_foldartal": bool,                    // 是否使用密文板，mode为5时默认 false，否则默认 true
+    "check_collapsal_paradigms": bool,        // 是否检测获取的坍缩范式，mode为5时默认 true，否则默认 false
+    "double_check_collapsal_paradigms": bool, // 是否执行坍缩范式检测防漏措施，check_collapsal_paradigms为true时有效，
+                                              // mode为5时默认 true，否则默认 false
+    "expected_collapsal_paradigms": [         // 需要刷的坍缩范式，mode为5时有效
+        string,                               // 默认 ["目空一些, "睁眼瞎", "图像损坏", "一抹黑"]
+        ...
+    ]
 }
 ```
+
+刷坍缩范式功能具体请参考 [肉鸽辅助协议](./integrated-strategy-schema.md#萨米肉鸽——坍缩范式)
 
 - `Copilot`  
     自动抄作业
