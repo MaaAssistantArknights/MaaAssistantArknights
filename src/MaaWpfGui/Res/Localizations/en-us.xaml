@@ -164,9 +164,9 @@
     <system:String x:Key="NotSelected">Not selected</system:String>
     <system:String x:Key="Official">Official (CN)</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
-    <system:String x:Key="YoStarEN">YoStarEN</system:String>
-    <system:String x:Key="YoStarJP">YoStarJP</system:String>
-    <system:String x:Key="YoStarKR">YoStarKR</system:String>
+    <system:String x:Key="YoStarEN">YostarEN</system:String>
+    <system:String x:Key="YoStarJP">YostarJP</system:String>
+    <system:String x:Key="YoStarKR">YostarKR</system:String>
     <system:String x:Key="Txwy">txwy</system:String>
     <system:String x:Key="Switchable">Switchable</system:String>
     <system:String x:Key="Executable">Executable</system:String>
