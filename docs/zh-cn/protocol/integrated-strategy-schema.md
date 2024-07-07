@@ -15,8 +15,10 @@ icon: ri:game-fill
   - 主题文件夹：`Phantom/` 为傀影肉鸽资源，`Mizuki/` 为水月肉鸽资源,`Sami/` 为萨米肉鸽资源
     - `autopilot/`内是各个关卡的作战 json
       - `关卡名.json` 关卡的作战逻辑
+      - `关卡名_collapse.json` 关卡的作战逻辑（刷坍缩范式模式）
     - `encounter.json` 不期而遇类事件逻辑（刷等级模式）
     - `encounter_for_deposit.json` 不期而遇类事件逻辑（刷源石锭模式）
+    - `encounter_for_collapse.json` 不期而遇类事件逻辑（刷坍缩范式模式）
     - `recruitment.json` 干员招募逻辑
     - `shopping.json` 商店购买藏品逻辑
 
@@ -530,9 +532,17 @@ OCR 识别不期而遇事件，但是选项是操作固定的位置
             "effect": "立即进阶两个干员（不消耗希望）",
             "no": 15
         },
+        ...
+
+        {
+            "name": "警戒篱木",
+            "effect": "坍缩值-2，目标生命上限+2",
+            "No": 198,
+            "decrease_collapse": true                          // true表示获得该藏品会降低坍缩值。在mode为5时将不会购买
+        },
 ```
 
-## 单独肉鸽定制逻辑
+## 肉鸽特殊机制
 
 ### 萨米肉鸽——密文板
 
@@ -584,6 +594,57 @@ OCR 识别不期而遇事件，但是选项是操作固定的位置
                 },
 
 ```
+
+### 萨米肉鸽——坍缩范式
+
+当`check_collapsal_paradigms`为`true`时，MAA 将以两种不同的手段检查坍缩范式：
+
+- 在选关界面点击屏幕中上方展开坍缩状态栏，以下称 Panel Check ；
+- 观察屏幕右侧是否有坍缩范式通知 以下称 Banner Check 。
+
+获取坍缩值的方法多种多样，我们考虑到了以下情况：
+
+1. 战斗后因非完美战斗而使坍缩值增加，进行 Banner Check 。
+2. 战斗后因获得收藏品而使坍缩值变动，进行 Banner Check 。
+3. 在不期而遇等节点中因选择选项而使坍缩值变动，进行 Banner Check 。
+4. 再诡异行商节点中因购买收藏品而使坍缩值变动，进行 Banner Check 。
+5. 因使用密文版而使坍缩值减少，进行 Banner Check 。
+6. 因进入新的一层而使坍缩值增加，进行 Panel Check 。
+7. 若进行 Banner Check 时发现坍缩范式消退，因不知道会不会一次性消退两层（即便会也概率极低），会在下一次回到选关洁面的时候额外触发一次 Panel Check 。
+8. 在`double_check_collapsal_paradigms`为`true`的情况下，每次回到选关界面的时候都会额外触发一次 Panel Check 以验证是否之前有漏、多记录坍缩范式。
+
+以下为刷隐藏坍缩范式的任务配置示例：
+
+```json
+{
+    "theme": "Sami",
+    "mode": 5,
+    "investment_enabled": false,
+    "squad": "远程战术分队",
+    "roles": "稳扎稳打",
+    "core_char": "维什戴尔",
+    "expected_collapsal_paradigms": [
+        "目空一些",
+        "睁眼瞎",
+        "图像损坏",
+        "一抹黑"
+    ]
+}
+```
+
+当`mode`为`5`时：
+
+- 优先使用`stage_name`为`关卡名_collapse`的作战策略，例如`resource/roguelike/Sami/autopilot/事不过四_collapse.json`；
+- 使用`resource/roguelike/Sami/encounter_for_collapse.json`中描述的不期而遇事件选择的策略，
+- 不会购买`decrease_collapse`为`true`的藏品。
+
+当`mode`不为`5`但`check_collapsal_paradigms`为`true`时，仍会检测坍缩范式并在遇到`expected_collapsal_paradigms`列表中的坍缩范式时停止任务，但在遇到其他坍缩范式时将不会重开。
+
+刷隐藏坍缩范式时，推荐N10难度，建议使用以下队伍：
+
+- 维什戴尔 + 斑点 + 史都华德；
+- 焰影苇草 + 梓兰 + 泡普卡；
+- 提丰 + 斑点 + 史都华德。
 
 ## 希望实现的逻辑（todo）
 
