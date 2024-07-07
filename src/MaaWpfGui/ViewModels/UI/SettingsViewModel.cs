@@ -1301,7 +1301,14 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
-                AskRestartToApplySettings();
+                if (_clientType is "YoStarEN")
+                {
+                    AskRestartToApplySettingsYoStarEN();
+                }
+                else
+                {
+                    AskRestartToApplySettings();
+                }
             }
         }
 
@@ -4751,6 +4758,23 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("PromptRestartForSettingsChange"),
+                LocalizationHelper.GetString("Tip"),
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+            if (result == MessageBoxResult.OK)
+            {
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
+            }
+        }
+
+        /// <summary>
+        /// Remembers the user to set 1920x1080 for YoStarEN.
+        /// </summary>
+        private void AskRestartToApplySettingsYoStarEN()
+        {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("PromptRestartForSettingsChange") + "\n" +
+                LocalizationHelper.GetString("SwitchResolutionTip"),
                 LocalizationHelper.GetString("Tip"),
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
