@@ -14,8 +14,9 @@ icon: ri:game-fill
   - 主題資料夾：`Phantom/` 為傀影肉鴿資源，`Mizuki/` 為水月肉鴿資源，`Sami/` 為薩米肉鴿資源
     - `autopilot/` 內是各個關卡的作戰 json
       - `關卡名.json` 關卡的作戰邏輯
-    - `encounter.json` 不期而遇事件邏輯（刷等級模式）
-    - `encounter_for_deposit.json` 不期而遇事件邏輯（刷源石錠模式）
+    - `encounter/` 不期而遇事件邏輯
+      - `default.json` 刷等級模式
+      - `deposit.json` 邏輯刷源石錠模式
     - `recruitment.json` 幹員招募邏輯
     - `shopping.json` 商店購買藏品邏輯
 
@@ -418,9 +419,9 @@ icon: ri:game-fill
 
 ## 肉鴿第三步--不期而遇類節點邏輯
 
-`resource/roguelike/主題名/encounter.json` 描述了刷等級模式下不期而遇事件選擇的策略
+`resource/roguelike/主題名/encounter/default.json` 描述了刷等級模式下不期而遇事件選擇的策略
 
-`resource/roguelike/主題名/encounter_for_deposit.json` 描述了刷源石錠模式下不期而遇事件選擇的策略
+`resource/roguelike/主題名/encounter/deposit.json` 描述了刷源石錠模式下不期而遇事件選擇的策略
 
 ### MAA現有對不期而遇的判斷方法
 

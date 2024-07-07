@@ -18,8 +18,9 @@ Please note that JSON files do not support comments. Comments are for demonstrat
     `Sami/` for Sami's I.S.
     - `autopilot/`combat json for each level
       - `level_name_in_chinese.json` combat logic of the level
-    - `encounter.json` encounter nodes logic(levelling mode)
-    - `encounter_for_deposit.json` encounter nodes logic (investing mode)
+    - `encounter/` encounter nodes logic
+      - `default.json` levelling mode
+      - `deposit.json` investing mode
     - `recruitment.json` operators recruitment logic
     - `shopping.json` trade store purchasing logic
 
@@ -449,9 +450,9 @@ Reference examples: 1. Thorns in Phantom I.S. 2. Texas the Omertosa in Mizuki I.
 
 ## Integrated Strategy Step 3: Encounters Node logic
 
-`resource/roguelike/theme_name/encounter.json` Strategy for the selection of Encounter events in the leveling mode
+`resource/roguelike/theme_name/encounter/default.json` Strategy for the selection of Encounter events in the leveling mode
 
-`resource/roguelike/theme_name/encounter_for_deposit.json` Strategy for the selection of Encounter events in the investment mode
+`resource/roguelike/theme_name/encounter/deposit.json` Strategy for the selection of Encounter events in the investment mode
 
 ### MAA currently has a method for judging Encounters
 
