@@ -553,7 +553,7 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
                 };
 
                 bool use_nonfriend_support = m_config->get_use_nonfriend_support();
-                auto check_satisfy_isfriend = [&use_nonfriend_support, &use_support_min_level](
+                auto check_satisfy_isfriend = [&use_nonfriend_support](
                                                   const RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
