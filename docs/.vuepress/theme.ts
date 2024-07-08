@@ -61,7 +61,7 @@ export default hopeTheme({
       repo: "MaaAssistantArknights/maa-website",
       repoId: "R_kgDOHY7Gyg",
       category: "Comments",
-      categoryId: "DIC_kwDOHY7Gys4CYefd",
+      categoryId: "DIC_kwDOHY7Gys4CgoVH",
       mapping: "pathname",
       strict: true,
     },
