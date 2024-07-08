@@ -981,7 +981,7 @@ namespace MaaWpfGui.Main
                 case "ProcessTask":
                     {
                         string taskName = details["details"]?["task"]?.ToString();
-                        int execTimes = (int)details["details"]["exec_times"];
+                        string execTimes = details["details"]?["exec_times"]?.ToString();
 
                         switch (taskName)
                         {
