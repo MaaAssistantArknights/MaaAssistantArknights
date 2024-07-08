@@ -164,10 +164,11 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     list.erase(ranges::find(list, up_board));
                     list.erase(ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
-                    callback(AsstMsg::SubTaskStart, json::object {
-                        { "subtask", "ProcessTask" },
-                        { "details", json::object { { "task", "NeedCheckCollapsalParadigmBanner" }, { "pre_task", "RoguelikeFoldartalUseTask"} } }
-                    });
+                    auto info = basic_info_with_what("RoguelikeCollapsalParadigms");
+                    info["subtask"] = "ProcessTask";
+                    info["details"]["task"] = "NeedCheckCollapsalParadigmBanner";
+                    info["details"]["pre_task"] = "RoguelikeFoldartalUseTask";
+                    callback(AsstMsg::SubTaskStart, info);
                     break;
                 }
             }

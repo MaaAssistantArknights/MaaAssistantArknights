@@ -292,14 +292,11 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_restart()
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::clp_pd_callback(std::string cur, int deepen_or_weaken, std::string prev)
 {
-    callback(AsstMsg::SubTaskExtraInfo, json::object { 
-        { "what", "RoguelikeCollapsalParadigms" },
-        { "details", json::object {
-            { "cur", cur },
-            { "deepen_or_weaken", deepen_or_weaken },
-            { "prev", prev }
-        } }
-    });
+    auto info = basic_info_with_what("RoguelikeCollapsalParadigms");
+    info["details"]["cur"] = cur;
+    info["details"]["deepen_or_weaken"] = deepen_or_weaken;
+    info["details"]["prev"] = prev;
+    callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_collapsal_status_panel()
