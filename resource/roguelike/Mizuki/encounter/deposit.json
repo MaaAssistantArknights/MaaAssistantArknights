@@ -1,5 +1,9 @@
 {
     "theme": "Mizuki_deposit",
+    "mode": [
+        1,
+        4
+    ],
     "stage": [
         {
             "name": "悬高之葬",
