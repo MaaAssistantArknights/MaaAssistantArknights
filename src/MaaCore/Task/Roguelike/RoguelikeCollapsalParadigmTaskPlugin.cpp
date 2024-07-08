@@ -41,20 +41,20 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
 
     if(msg == AsstMsg::SubTaskStart && m_panel_triggers.find(task_name) != m_panel_triggers.end()) {
         if (new_zone()) {
-            m_need_check_panel = true;
+            m_config->set_need_check_panel(true);
             m_verification_check = false;
         }
         
-        if (m_need_check_panel) {
-            m_need_check_panel = false;
+        if (m_config->get_need_check_panel()) {
+            m_config->set_need_check_panel(false);
             m_check_panel = true;
             return true;
         }
     }
     
-    if (!m_need_check_panel && m_config->get_double_check_clp_pds() && msg == AsstMsg::SubTaskCompleted
+    if (!m_config->get_need_check_panel() && m_config->get_double_check_clp_pds() && msg == AsstMsg::SubTaskCompleted
         && m_panel_triggers.find(task_name) == m_panel_triggers.end()) {
-        m_need_check_panel = true;
+        m_config->set_need_check_panel(true);
         m_verification_check = true;
     };
 
@@ -167,7 +167,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
                             clp_pd_callback(cur_class.level_1, -1, cur_clp_pd);
                             *it = cur_class.level_1;
                             // 如果2级直接消退到0级的话会有几次提示？这里可能会出问题，谨慎一些，再检查一次。
-                            m_need_check_panel = true;
+                            m_config->set_need_check_panel(true);
                         }
                         else {
                             clp_pd_callback("", -1, cur_clp_pd);
@@ -292,14 +292,14 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_restart()
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::clp_pd_callback(std::string cur, int deepen_or_weaken, std::string prev)
 {
-    callback(AsstMsg::SubTaskExtraInfo, json::object { 
-        { "what", "RoguelikeCollapsalParadigms" },
-        { "details", json::object {
-            { "cur", cur },
-            { "deepen_or_weaken", deepen_or_weaken },
-            { "prev", prev }
-        } }
-    });
+    LogTraceFunction;
+    Log.info(cur + ", " + std::to_string(deepen_or_weaken) + ", " + prev);
+    // 未来需要GUI日志适配可以使用以下代码callback
+    // auto info = basic_info_with_what("RoguelikeCollapsalParadigms");
+    // info["details"]["cur"] = cur;
+    // info["details"]["deepen_or_weaken"] = deepen_or_weaken;
+    // info["details"]["prev"] = prev;
+    // callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_collapsal_status_panel()

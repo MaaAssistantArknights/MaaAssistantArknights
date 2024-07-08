@@ -38,41 +38,6 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     LogTraceFunction;
 
     m_roguelike_task_ptr->set_ignore_error(true);
-    m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
-    m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeSettlementTaskPlugin>(m_roguelike_config_ptr);
-    m_debug_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_roguelike_config_ptr)->set_retry_times(0);
-    m_roguelike_task_ptr->register_plugin<RoguelikeInvestTaskPlugin>(m_roguelike_config_ptr);
-
-    m_custom_start_plugin_ptr =
-        m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>(m_roguelike_config_ptr)
-        ->set_retry_times(0)
-        .set_ignore_error(true);
-    m_roguelike_task_ptr->register_plugin<RoguelikeRecruitTaskPlugin>(m_roguelike_config_ptr)
-        ->set_retry_times(2)
-        .set_ignore_error(true);
-
-    m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>(m_roguelike_config_ptr)
-        ->set_retry_times(2)
-        .set_ignore_error(true);
-
-    m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>(m_roguelike_config_ptr)
-        ->set_retry_times(0);
-
-    m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_roguelike_config_ptr);
-
-    m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_roguelike_config_ptr);
-
-    m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
-
-    m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_roguelike_config_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
@@ -105,36 +70,44 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // 是否凹指定干员开局直升
     m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
     m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
-    // 是否凹开局远见密文板
-    m_roguelike_config_ptr->set_first_floor_foldartal(params.contains("first_floor_foldartal"));
-    m_roguelike_config_ptr->set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
 
-    // 是否生活队凹开局板子
-    m_roguelike_config_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
+    // –––– 萨米肉鸽专用设置 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    if (theme == RoguelikeTheme::Sami) {
+        // 是否凹开局远见密文板
+        m_roguelike_config_ptr->set_first_floor_foldartal(params.contains("first_floor_foldartal"));
+        m_roguelike_config_ptr->set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
 
-    if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
-        std::vector<std::string> list;
-        for (const auto& name : *opt) {
-            if (std::string name_str = name.as_string(); !name_str.empty()) {
-                list.emplace_back(name_str);
+        // 是否生活队凹开局板子
+        m_roguelike_config_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
+
+        if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
+            std::vector<std::string> list;
+            for (const auto& name : *opt) {
+                if (std::string name_str = name.as_string(); !name_str.empty()) {
+                    list.emplace_back(name_str);
+                }
             }
+            if (list.empty()) {
+                Log.error(__FUNCTION__, "| Empty start_foldartal_list");
+                return false;
+            }
+            m_roguelike_config_ptr->set_start_foldartal_list(std::move(list));
         }
-        if (list.empty()) {
-            Log.error(__FUNCTION__, "| Empty start_foldartal_list");
-            return false;
-        }
-        m_roguelike_config_ptr->set_start_foldartal_list(std::move(list));
+
+        // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
+        m_roguelike_config_ptr->set_use_foldartal(params.get("use_foldartal", !(mode == RoguelikeMode::CLP_PDS)));
+        Log.info(123);
+        // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
+        m_roguelike_config_ptr->set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
+        m_roguelike_config_ptr->set_double_check_clp_pds(params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
+        Log.info(123);
+        const std::unordered_set<std::string>& rare_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
+        m_roguelike_config_ptr->set_expected_clp_pds(params.get("expected_collapsal_paradigms", rare_clp_pds));
+        Log.info(123);
     }
+    // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
-    m_roguelike_config_ptr->set_use_foldartal(params.get("use_foldartal", !(mode == RoguelikeMode::CLP_PDS)));
-
-    // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
-    m_roguelike_config_ptr->set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-    m_roguelike_config_ptr->set_double_check_clp_pds(params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-
-    const std::unordered_set<std::string>& rare_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
-    m_roguelike_config_ptr->set_expected_clp_pds(params.get("expected_collapsal_paradigms", rare_clp_pds));
+    m_roguelike_register_plugins(theme);
 
     m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
     m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));
@@ -206,3 +179,45 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
                                                                                      : "0"); // 是否可以是非好友助战干员
     return true;
 }
+
+void asst::RoguelikeTask::m_roguelike_register_plugins(std::string theme) {
+    // 通用插件
+    m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
+    m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeSettlementTaskPlugin>(m_roguelike_config_ptr);
+    m_debug_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_roguelike_config_ptr)->set_retry_times(0);
+    m_roguelike_task_ptr->register_plugin<RoguelikeInvestTaskPlugin>(m_roguelike_config_ptr);
+
+    m_custom_start_plugin_ptr =
+        m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>(m_roguelike_config_ptr)
+        ->set_retry_times(0)
+        .set_ignore_error(true);
+    m_roguelike_task_ptr->register_plugin<RoguelikeRecruitTaskPlugin>(m_roguelike_config_ptr)
+        ->set_retry_times(2)
+        .set_ignore_error(true);
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeSkillSelectionTaskPlugin>(m_roguelike_config_ptr)
+        ->set_retry_times(2)
+        .set_ignore_error(true);
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>(m_roguelike_config_ptr)
+        ->set_retry_times(0);
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_roguelike_config_ptr);
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_roguelike_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_roguelike_config_ptr);
+
+    // 萨米肉鸽专用插件
+    if (theme == RoguelikeTheme::Sami) {
+        m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_roguelike_config_ptr);
+        m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
+        m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
+
+        m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_roguelike_config_ptr);
+    }
+};

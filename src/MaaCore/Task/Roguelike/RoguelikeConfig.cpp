@@ -15,4 +15,5 @@ void asst::RoguelikeConfig::clear()
     m_foldartal = std::vector<std::string>();
 
     m_clp_pds = std::vector<std::string>();
+    m_need_check_panel = false;
 }

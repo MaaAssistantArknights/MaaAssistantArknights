@@ -125,6 +125,8 @@ namespace asst
         const std::vector<std::string>& get_foldartal() const { return m_foldartal; }
         void set_clp_pds(std::vector<std::string> clp_pds) { m_clp_pds = std::move(clp_pds); }
         const std::vector<std::string>& get_clp_pds() const { return m_clp_pds; }
+        void set_need_check_panel(bool need_check_panel) { m_need_check_panel = need_check_panel; }
+        bool get_need_check_panel() const { return m_need_check_panel; }
 
     private:
         int m_recruitment_count = 0;                           // 招募次数
@@ -139,5 +141,6 @@ namespace asst
         std::optional<std::string> m_foldartal_floor;          // 当前层的预见密文板，在下一层获得
         std::vector<std::string> m_foldartal;                  // 所有已获得密文板
         std::vector<std::string> m_clp_pds;                    // 已受到的坍缩范式
+        bool m_need_check_panel = false;
     };
 } // namespace asst

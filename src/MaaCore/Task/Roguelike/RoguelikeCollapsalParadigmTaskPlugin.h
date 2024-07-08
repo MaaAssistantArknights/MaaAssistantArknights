@@ -13,6 +13,8 @@ namespace asst
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
+        bool check_collapsal_paradigm_banner();
+
     protected:
         virtual bool _run() override;
 
@@ -23,12 +25,10 @@ namespace asst
 
         mutable bool m_check_banner = false;
         mutable bool m_check_panel = false;
-        mutable bool m_need_check_panel = false;
         mutable bool m_verification_check = false;
         mutable std::string m_zone;
 
         const std::unordered_set<std::string_view> m_banner_triggers_start = {
-            "NeedCheckCollapsalParadigmBanner",
             "Sami@Roguelike@MissionCompletedFlag"
             // "Sami@Roguelike@DropsFlag"
         };
@@ -121,7 +121,6 @@ namespace asst
 
         bool new_zone() const;
 
-        bool check_collapsal_paradigm_banner();
         bool check_collapsal_paradigm_panel();
 
         void toggle_collapsal_status_panel();
