@@ -14,7 +14,21 @@ namespace asst
     public:
         virtual ~RoguelikeStageEncounterConfig() override = default;
 
-        const auto& get_events(const std::string& theme) const noexcept { return m_events.at(theme); }
+        const auto& get_events(const std::string& theme) const noexcept {
+            if (m_events.find(theme) == m_events.end()) {
+                if (auto pos = theme.find('_'); pos != std::string::npos) {
+                    return m_events.at(theme.substr(0, pos));
+                }
+            }
+            return m_events.at(theme);
+        }
+        
+        const auto& get_event_names(const std::string& theme) const noexcept {
+            if (auto pos = theme.find('_'); pos != std::string::npos) {
+                return m_event_names.at(theme.substr(0, pos));
+            }
+            return m_event_names.at(theme);
+        }
 
         enum class ComparisonType
         {
@@ -49,7 +63,8 @@ namespace asst
 
         static ComparisonType parse_comparison_type(const std::string& type_str);
 
-        std::unordered_map<std::string, std::vector<RoguelikeEvent>> m_events;
+        std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeEvent>> m_events;
+        std::unordered_map<std::string, std::vector<std::string>> m_event_names;
     };
 
     inline static auto& RoguelikeStageEncounter = RoguelikeStageEncounterConfig::get_instance();
