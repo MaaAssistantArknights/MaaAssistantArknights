@@ -97,14 +97,12 @@
                         Content="{DynamicResource AutoSquad}"
                         IsChecked="{Binding Form}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource AutoSquadTip}" />
                     <CheckBox
                         HorizontalAlignment="Center"
                         Content="{DynamicResource UseCopilotList}"
                         IsChecked="{Binding UseCopilotList}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource UseCopilotListTip}" />
                 </StackPanel>
                 <StackPanel
@@ -117,7 +115,6 @@
                         Content="{DynamicResource AddUserAdditional}"
                         IsChecked="{Binding AddUserAdditional}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource AddUserAdditionalTip}" />
                     <TextBox
                         MinWidth="140"
@@ -143,7 +140,6 @@
                         Content="{DynamicResource AddTrust}"
                         IsChecked="{Binding AddTrust}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         Visibility="{c:Binding Form}" />
                     <CheckBox
                         Height="30"
@@ -152,7 +148,6 @@
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseSanityPotion}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         Visibility="{c:Binding UseCopilotList}" />
                 </StackPanel>
                 <StackPanel
