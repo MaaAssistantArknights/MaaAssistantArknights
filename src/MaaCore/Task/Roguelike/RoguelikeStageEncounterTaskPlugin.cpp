@@ -37,21 +37,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
-    const RoguelikeMode& mode = m_config->get_mode();
-    std::vector events = RoguelikeStageEncounter.get_events(theme);
-    // 刷源石锭模式和烧水模式
-    if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
-        events = RoguelikeStageEncounter.get_events(theme + "_deposit");
-    }
-    if (mode == RoguelikeMode::CLP_PDS) { 
-        events = RoguelikeStageEncounter.get_events(theme + "_collapse");
-    }
-    std::vector<std::string> event_names;
-    std::unordered_map<std::string, Config::RoguelikeEvent> event_map;
-    for (const auto& event : events) {
-        event_names.emplace_back(event.name);
-        event_map.emplace(event.name, event);
-    }
+    std::unordered_map<std::string, Config::RoguelikeEvent> event_map =
+        RoguelikeStageEncounter.get_events(theme + m_mode_tag[m_config->get_mode()]);
+    std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);;
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
     sleep(event_name_task_ptr->pre_delay);
 
