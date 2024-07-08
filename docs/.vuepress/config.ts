@@ -56,21 +56,21 @@ export default defineUserConfig({
     [
       "link",
       {
-        href: "https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,500,700,900&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap",
         rel: "stylesheet",
       },
     ],
     [
       "link",
       {
-        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:400;500;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap",
         rel: "stylesheet",
       },
     ],
     [
       "link",
       {
-        href: "https://fonts.googleapis.com/css2?family=Jetbrains+Mono:wght@300,400,500,700;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
         rel: "stylesheet",
       },
     ],
