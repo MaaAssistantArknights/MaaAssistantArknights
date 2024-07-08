@@ -44,11 +44,48 @@ namespace asst
         }
     };
 
+    // 选择额外 Tags 的模式
+    enum class ExtraTagsMode
+    {
+        NoExtra,              // 0 - 默认行为
+        Extra,                // 1 - 选 3 个 Tags, 即使可能冲突
+        ExtraOnlyRare,        // 2 - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突
+    };
+
+    class RecruitConfig final : public SingletonHolder<RecruitConfig>, public AbstractConfig
+    {
+    public:
+        using TagId = std::string;
+
+    public:
+        static constexpr bool is_valid_extra_tags_mode(ExtraTagsMode mode)
+        {
+            return mode == ExtraTagsMode::NoExtra || mode == ExtraTagsMode::Extra || mode == ExtraTagsMode::ExtraOnlyRare;
+        }
+
+    public:
+        virtual ~RecruitConfig() override = default;
+        static constexpr int CorrectNumberOfTags = 5;
+
+        const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
+        const std::vector<Recruitment>& get_all_opers() const noexcept { return m_all_opers; }
+        std::string get_tag_name(const TagId& id) const noexcept;
+
+    protected:
+        virtual bool parse(const json::value& json) override;
+
+        void clear();
+
+        std::unordered_set<std::string> m_all_tags;
+        std::vector<Recruitment> m_all_opers;
+        std::unordered_map<TagId, std::string> m_all_tags_name;
+    };
+
     // 公开招募的干员组合
     struct RecruitCombs
     {
         // TODO: using vector here can be expensive
-        std::vector<std::string> tags;
+        std::vector<RecruitConfig::TagId> tags;
         std::vector<Recruitment> opers;
         int max_level = 0;
         int min_level = 0;
@@ -89,41 +126,5 @@ namespace asst
         }
     };
 
-    // 选择额外 Tags 的模式
-    enum class ExtraTagsMode
-    {
-        NoExtra,              // 0 - 默认行为
-        Extra,                // 1 - 选 3 个 Tags, 即使可能冲突
-        ExtraOnlyRare,        // 2 - 如果可能, 同时选择更多的高星 Tag 组合, 即使可能冲突
-    };
-
-    class RecruitConfig final : public SingletonHolder<RecruitConfig>, public AbstractConfig
-    {
-    public:
-        using TagId = std::string;
-    
-    public:
-        static constexpr bool is_valid_extra_tags_mode(ExtraTagsMode mode)
-        {
-            return mode == ExtraTagsMode::NoExtra || mode == ExtraTagsMode::Extra || mode == ExtraTagsMode::ExtraOnlyRare;
-        }
-
-    public:
-        virtual ~RecruitConfig() override = default;
-        static constexpr int CorrectNumberOfTags = 5;
-
-        const std::unordered_set<std::string>& get_all_tags() const noexcept { return m_all_tags; }
-        const std::vector<Recruitment>& get_all_opers() const noexcept { return m_all_opers; }
-        std::string get_tag_name(const TagId& id) const noexcept;
-
-    protected:
-        virtual bool parse(const json::value& json) override;
-
-        void clear();
-
-        std::unordered_set<std::string> m_all_tags;
-        std::vector<Recruitment> m_all_opers;
-        std::unordered_map<TagId, std::string> m_all_tags_name;
-    };
     inline static auto& RecruitData = RecruitConfig::get_instance();
 } // namespace asst

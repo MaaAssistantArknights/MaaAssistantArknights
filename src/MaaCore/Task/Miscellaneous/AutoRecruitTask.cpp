@@ -838,13 +838,13 @@ std::vector<std::string>
     return names;
 }
 
-std::vector<std::string> asst::AutoRecruitTask::get_select_tags(
+std::vector<asst::RecruitConfig::TagId> asst::AutoRecruitTask::get_select_tags(
     const std::vector<RecruitCombs>& combinations,
     std::vector<RecruitConfig::TagId> tag_ids)
 {
     LogTraceFunction;
-    std::unordered_set<std::string> unique_tags;
-    std::vector<std::string> select;
+    std::unordered_set<RecruitConfig::TagId> unique_tags;
+    std::vector<RecruitConfig::TagId> select;
 
     if (combinations.front().min_level == 3) {
         // only run if we have certain preferred tags for level-3 tags
@@ -857,7 +857,7 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(
                     }
                     // the preferred tag is the tag's substring
                     if (tag_name.find(preferred_tag) != std::string::npos) {
-                        select.emplace_back(tag_name);
+                        select.emplace_back(tag_id);
                         continue;
                     }
                 }
@@ -874,7 +874,7 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(
     else if (m_select_extra_tags_mode == ExtraTagsMode::Extra) {
         while (select.size() < 3) {
             for (const asst::RecruitCombs& comb : combinations) {
-                for (const std::string& tag : comb.tags) {
+                for (const RecruitConfig::TagId& tag : comb.tags) {
                     if (unique_tags.find(tag) == unique_tags.cend()) {
                         unique_tags.insert(tag);
                         select.emplace_back(tag);
@@ -901,7 +901,7 @@ std::vector<std::string> asst::AutoRecruitTask::get_select_tags(
                 return select;
             }
             emplace_back_count = 0;
-            for (const std::string& tag : comb.tags) {
+            for (const RecruitConfig::TagId& tag : comb.tags) {
                 if (unique_tags.find(tag) == unique_tags.cend()) {
                     unique_tags.insert(tag);
                     select.emplace_back(tag);
