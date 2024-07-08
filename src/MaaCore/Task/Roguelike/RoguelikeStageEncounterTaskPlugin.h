@@ -24,6 +24,11 @@ namespace asst
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+        std::unordered_map<RoguelikeMode, std::string> m_mode_tag = {
+            {RoguelikeMode::Investment,  "_deposit"},
+            {RoguelikeMode::Collectible, "_deposit"},
+            {RoguelikeMode::CLP_PDS,     "_collapse"}
+        };
 
     protected:
         virtual bool _run() override;
