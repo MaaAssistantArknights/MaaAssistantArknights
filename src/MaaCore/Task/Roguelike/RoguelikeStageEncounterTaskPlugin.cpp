@@ -110,6 +110,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     }
     info = basic_info_with_what("RoguelikeCollapsalParadigms");
     info["subtask"] = "ProcessTask";
+    info["details"]["exec_times"] = 0;
     info["details"]["task"] = "NeedCheckCollapsalParadigmBanner";
     info["details"]["pre_task"] = "RoguelikeStageEncounterTask";
     callback(AsstMsg::SubTaskStart, info);
@@ -131,6 +132,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
             }
             info = basic_info_with_what("RoguelikeCollapsalParadigms");
             info["subtask"] = "ProcessTask";
+            info["details"]["exec_times"] = 0;
             info["details"]["task"] = "NeedCheckCollapsalParadigmBanner";
             info["details"]["pre_task"] = "RoguelikeStageEncounterTask";
             callback(AsstMsg::SubTaskStart, info);
