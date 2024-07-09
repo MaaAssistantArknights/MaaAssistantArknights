@@ -31,7 +31,7 @@ namespace asst
             m_swipe_end.x = panelCheckConfig->rect_move.x;
             m_swipe_end.y = panelCheckConfig->rect_move.y;
             m_panel_triggers.insert(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
-            std::for_each(panelCheckConfig->replace_map.begin(), panelCheckConfig->replace_map.end(),
+            std::ranges::for_each(panelCheckConfig->replace_map,
                 [&](const std::pair<std::string, std::string>& p) { m_zone_dict.emplace(p.first, p.second); });
         }
         // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;

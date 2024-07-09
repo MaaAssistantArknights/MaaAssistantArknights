@@ -15277,14 +15277,38 @@
             "Sami@Roguelike@StageFerociousPresage"
         ],
         "ocrReplace": [
-            ["Sami@Roguelike@OnStage_0", "深埋迷境"],
-            ["Sami@Roguelike@OnStage_1", "初霜湖泽"],
-            ["Sami@Roguelike@OnStage_2", "密静林地"],
-            ["Sami@Roguelike@OnStage_3", "昧明冻土"],
-            ["Sami@Roguelike@OnStage_4", "积冰岩骸"],
-            ["Sami@Roguelike@OnStage_5", "无瑕花园"],
-            ["Sami@Roguelike@OnStage_6", "远见之构"],
-            ["Sami@Roguelike@OnStage_7", "永恒之尘"]
+            [
+                "Sami@Roguelike@OnStage_0",
+                "深埋迷境"
+            ],
+            [
+                "Sami@Roguelike@OnStage_1",
+                "初霜湖泽"
+            ],
+            [
+                "Sami@Roguelike@OnStage_2",
+                "密静林地"
+            ],
+            [
+                "Sami@Roguelike@OnStage_3",
+                "昧明冻土"
+            ],
+            [
+                "Sami@Roguelike@OnStage_4",
+                "积冰岩骸"
+            ],
+            [
+                "Sami@Roguelike@OnStage_5",
+                "无瑕花园"
+            ],
+            [
+                "Sami@Roguelike@OnStage_6",
+                "远见之构"
+            ],
+            [
+                "Sami@Roguelike@OnStage_7",
+                "永恒之尘"
+            ]
         ],
         "text": []
     },
