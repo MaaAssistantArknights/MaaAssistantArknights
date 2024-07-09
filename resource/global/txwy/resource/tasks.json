@@ -2853,6 +2853,10 @@
                 "低空机动"
             ],
             [
+                "低室機動",
+                "低空机动"
+            ],
+            [
                 "幽影與鬼魅",
                 "幽影与鬼魅"
             ],
@@ -6379,6 +6383,9 @@
                 "空无"
             ]
         ]
+    },
+    "Sami@Roguelike@GetDropSelectReward": {
+        "templThreshold": 0.9
     },
     "Sami@Roguelike@NextLevel": {
         "text": [
