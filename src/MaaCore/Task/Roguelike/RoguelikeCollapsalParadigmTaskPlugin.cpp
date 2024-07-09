@@ -124,6 +124,10 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
             if ((*result_it2).rect.y >= (*result_it1).rect.y + (*result_it1).rect.height + 25) {
                 clp_pd_callback("Erroneous Recognition in Banner Check" , 0, "CollapsalParadigmError");
                 ++result_it1;
+                continue;
+            }
+            else if ((*result_it2).rect.y <= (*result_it1).rect.y) {
+                clp_pd_callback("Erroneous Recognition in Banner Check" , 0, "CollapsalParadigmError");
                 ++result_it2;
                 continue;
             }
