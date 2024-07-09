@@ -10,9 +10,8 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 
 1. MAA 现在需要 .NET 8 运行库，在启动时会自动提示用户安装。若安装失败，请阅读下文并手动安装。
 2. MAA 不会再被 Windows Defender 误报了。~~为了这碟醋包的饺子~~
-3. .NET 8 不支持 Windows 7/8/8.1 系统<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同样不再支持，~~即使它现在依旧能正常运行~~。
-4. ~~在 Windows 7 上运行 MAA 时，会出现内存占用异常的问题，请参阅[下文](#net-8-应用在-windows-7-上运行异常的缓解措施-8238)实施缓解措施。Windows 8/8.1 未经测试，若存在相同问题，请顺手发个 Issue 提醒我们补充文档。~~
-5. 经确认，MAA 自 `v5.4.0-beta.1.d037.g98ecb301b` 版本开始不再支持在 Windows 7 系统上运行<sup>[源](https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9413)</sup>，原因未知。若发现了问题原因或解决方案，也请发个 Issue 给我们补补知识。
+3. .NET 8 不支持 Windows 7/8/8.1 系统<sup>[源](https://github.com/dotnet/core/issues/7556)</sup>，所以 MAA 也同样不再支持。最后一个可用的 .NET 8 版本为 [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7)；最后一个可用的 .NET 6 版本为 [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8)。尚未确定自行编译的可行性。
+4. 在 Windows 7 上运行 .NET 8 应用时，会出现内存占用异常的问题，请参阅[下文](#net-8-应用在-windows-7-上运行异常的缓解措施-8238)实施缓解措施。Windows 8/8.1 未经测试，若存在相同问题，请顺手发个 Issue 提醒我们补充文档。
    :::
 
 ## 软件无法运行/闪退/报错
@@ -27,7 +26,7 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 
 此处仅列出官方安装方法，我们无法保证第三方整合包的可靠性。
 
-- 请安装 [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=x86-,.NET%20Desktop%20Runtime,-8.0.6) 并重新启动计算机后再次运行 MAA。  
+- 请安装 [Visual C++ 可再发行程序包](https://aka.ms/vs/17/release/vc_redist.x64.exe) 和 [.NET 桌面运行时 8](https://dotnet.microsoft.com/zh-cn/download/dotnet/8.0#:~:text=%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6-,Windows,-Arm64) 并重新启动计算机后再次运行 MAA。  
   推荐使用 Windows 10 或 11 的用户使用 winget 工具进行安装，只需在终端中运行以下命令。
 
   ```sh
@@ -62,7 +61,7 @@ MAA 在 5.0 版本更新到了 .NET 8，对于最终用户来说，影响如下�
 2. 新建一个系统变量，变量名 `DOTNET_EnableWriteXorExecute`，变量值 `0`。
 3. 重启电脑。
 
-我们无法保证将来的版本对 Windows 7 的兼容性，~~都是微软的错~~。+
+我们无法保证将来的版本对 Windows 7 的兼容性，~~都是微软的错~~。
 
 ## 连接错误
 
