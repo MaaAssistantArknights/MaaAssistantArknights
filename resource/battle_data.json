@@ -4302,6 +4302,36 @@
                 "从不混淆的方向"
             ]
         },
+        "char_4146_nymph": {
+            "name": "妮芙",
+            "name_en": "妮芙",
+            "name_jp": "妮芙",
+            "name_kr": "妮芙",
+            "name_tw": "妮芙",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ],
+            "rarity": 6
+        },
+        "char_4147_mitm": {
+            "name": "渡桥",
+            "name_en": "渡桥",
+            "name_jp": "渡桥",
+            "name_kr": "渡桥",
+            "name_tw": "渡桥",
+            "position": "RANGED",
+            "profession": "PIONEER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 5
+        },
         "char_415_flint": {
             "name": "燧石",
             "name_en": "Flint",
@@ -5846,6 +5876,21 @@
                 "0-1"
             ],
             "rarity": 6
+        },
+        "token_10037_mitm_trshrb": {
+            "name": "樱桃三号",
+            "name_en": "樱桃三号",
+            "name_jp": "樱桃三号",
+            "name_kr": "樱桃三号",
+            "name_tw": "樱桃三号",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 5
         },
         "token_10039_ulpia_block": {
             "name": "从不混淆的方向",

@@ -4076,6 +4076,168 @@
         "stageId": "act17d7_01",
         "width": 13
     },
+    "act17mini_01#f#-activities/act17mini/level_act17mini_01": {
+        "code": "KR-1",
+        "filename": "act17mini_01#f#-activities-act17mini-level_act17mini_01.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_01",
+        "name": "玉门：沙丘狂欢",
+        "stageId": "act17mini_01#f#",
+        "width": 9
+    },
+    "act17mini_01-activities/act17mini/level_act17mini_01": {
+        "code": "KR-1",
+        "filename": "act17mini_01-activities-act17mini-level_act17mini_01.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_01",
+        "name": "玉门：沙丘狂欢",
+        "stageId": "act17mini_01",
+        "width": 9
+    },
+    "act17mini_02#f#-activities/act17mini/level_act17mini_02": {
+        "code": "KR-2",
+        "filename": "act17mini_02#f#-activities-act17mini-level_act17mini_02.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_02",
+        "name": "天际城：地下奇旅",
+        "stageId": "act17mini_02#f#",
+        "width": 11
+    },
+    "act17mini_02-activities/act17mini/level_act17mini_02": {
+        "code": "KR-2",
+        "filename": "act17mini_02-activities-act17mini-level_act17mini_02.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_02",
+        "name": "天际城：地下奇旅",
+        "stageId": "act17mini_02",
+        "width": 11
+    },
+    "act17mini_03#f#-activities/act17mini/level_act17mini_03": {
+        "code": "KR-3",
+        "filename": "act17mini_03#f#-activities-act17mini-level_act17mini_03.json",
+        "height": 8,
+        "levelId": "activities/act17mini/level_act17mini_03",
+        "name": "索伦托：家族聚会",
+        "stageId": "act17mini_03#f#",
+        "width": 11
+    },
+    "act17mini_03-activities/act17mini/level_act17mini_03": {
+        "code": "KR-3",
+        "filename": "act17mini_03-activities-act17mini-level_act17mini_03.json",
+        "height": 8,
+        "levelId": "activities/act17mini/level_act17mini_03",
+        "name": "索伦托：家族聚会",
+        "stageId": "act17mini_03",
+        "width": 11
+    },
+    "act17mini_04#f#-activities/act17mini/level_act17mini_04": {
+        "code": "KR-4",
+        "filename": "act17mini_04#f#-activities-act17mini-level_act17mini_04.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_04",
+        "name": "多索雷斯：沙滩寻宝",
+        "stageId": "act17mini_04#f#",
+        "width": 10
+    },
+    "act17mini_04-activities/act17mini/level_act17mini_04": {
+        "code": "KR-4",
+        "filename": "act17mini_04-activities-act17mini-level_act17mini_04.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_04",
+        "name": "多索雷斯：沙滩寻宝",
+        "stageId": "act17mini_04",
+        "width": 10
+    },
+    "act17mini_05#f#-activities/act17mini/level_act17mini_05": {
+        "code": "KR-5",
+        "filename": "act17mini_05#f#-activities-act17mini-level_act17mini_05.json",
+        "height": 8,
+        "levelId": "activities/act17mini/level_act17mini_05",
+        "name": "海布里：民兵演习",
+        "stageId": "act17mini_05#f#",
+        "width": 11
+    },
+    "act17mini_05-activities/act17mini/level_act17mini_05": {
+        "code": "KR-5",
+        "filename": "act17mini_05-activities-act17mini-level_act17mini_05.json",
+        "height": 8,
+        "levelId": "activities/act17mini/level_act17mini_05",
+        "name": "海布里：民兵演习",
+        "stageId": "act17mini_05",
+        "width": 11
+    },
+    "act17mini_06#f#-activities/act17mini/level_act17mini_06": {
+        "code": "KR-6",
+        "filename": "act17mini_06#f#-activities-act17mini-level_act17mini_06.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_06",
+        "name": "汐斯塔：云顶派对",
+        "stageId": "act17mini_06#f#",
+        "width": 11
+    },
+    "act17mini_06-activities/act17mini/level_act17mini_06": {
+        "code": "KR-6",
+        "filename": "act17mini_06-activities-act17mini-level_act17mini_06.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_06",
+        "name": "汐斯塔：云顶派对",
+        "stageId": "act17mini_06",
+        "width": 11
+    },
+    "act17mini_07#f#-activities/act17mini/level_act17mini_07": {
+        "code": "KR-7",
+        "filename": "act17mini_07#f#-activities-act17mini-level_act17mini_07.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_07",
+        "name": "诺伯特：清淤重建",
+        "stageId": "act17mini_07#f#",
+        "width": 11
+    },
+    "act17mini_07-activities/act17mini/level_act17mini_07": {
+        "code": "KR-7",
+        "filename": "act17mini_07-activities-act17mini-level_act17mini_07.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_07",
+        "name": "诺伯特：清淤重建",
+        "stageId": "act17mini_07",
+        "width": 11
+    },
+    "act17mini_08#f#-activities/act17mini/level_act17mini_08": {
+        "code": "KR-8",
+        "filename": "act17mini_08#f#-activities-act17mini-level_act17mini_08.json",
+        "height": 8,
+        "levelId": "activities/act17mini/level_act17mini_08",
+        "name": "“双日城脱险”",
+        "stageId": "act17mini_08#f#",
+        "width": 12
+    },
+    "act17mini_08-activities/act17mini/level_act17mini_08": {
+        "code": "KR-8",
+        "filename": "act17mini_08-activities-act17mini-level_act17mini_08.json",
+        "height": 8,
+        "levelId": "activities/act17mini/level_act17mini_08",
+        "name": "“双日城脱险”",
+        "stageId": "act17mini_08",
+        "width": 12
+    },
+    "act17mini_s01-activities/act17mini/level_act17mini_sub-1-1": {
+        "code": "KR-S-1",
+        "filename": "act17mini_s01-activities-act17mini-level_act17mini_sub-1-1.json",
+        "height": 6,
+        "levelId": "activities/act17mini/level_act17mini_sub-1-1",
+        "name": "卡兹戴尔：温饱之后",
+        "stageId": "act17mini_s01",
+        "width": 9
+    },
+    "act17mini_s02-activities/act17mini/level_act17mini_sub-2-1": {
+        "code": "KR-S-2",
+        "filename": "act17mini_s02-activities-act17mini-level_act17mini_sub-2-1.json",
+        "height": 7,
+        "levelId": "activities/act17mini/level_act17mini_sub-2-1",
+        "name": "卡兹戴尔：精神建设",
+        "stageId": "act17mini_s02",
+        "width": 10
+    },
     "act17side_01-activities/act17side/level_act17side_01": {
         "code": "SN-1",
         "filename": "act17side_01-activities-act17side-level_act17side_01.json",
@@ -16604,6 +16766,15 @@
         "stageId": "mem_cammou_1",
         "width": 9
     },
+    "mem_caper_1-obt/memory/level_memory_caper_1": {
+        "code": "mem_caper_1",
+        "filename": "mem_caper_1-obt-memory-level_memory_caper_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_caper_1",
+        "name": "街头转转转",
+        "stageId": "mem_caper_1",
+        "width": 10
+    },
     "mem_catap_1-obt/memory/level_memory_catap_1": {
         "code": "mem_catap_1",
         "filename": "mem_catap_1-obt-memory-level_memory_catap_1.json",
@@ -17018,6 +17189,15 @@
         "stageId": "mem_glassb_1",
         "width": 10
     },
+    "mem_glaze_1-obt/memory/level_memory_glaze_1": {
+        "code": "mem_glaze_1",
+        "filename": "mem_glaze_1-obt-memory-level_memory_glaze_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_glaze_1",
+        "name": "全域静默",
+        "stageId": "mem_glaze_1",
+        "width": 11
+    },
     "mem_glider_1-obt/memory/level_memory_glider_1": {
         "code": "mem_glider_1",
         "filename": "mem_glider_1-obt-memory-level_memory_glider_1.json",
@@ -17107,6 +17287,15 @@
         "name": "沉重舞步",
         "stageId": "mem_hamoni_1",
         "width": 11
+    },
+    "mem_harold_1-obt/memory/level_memory_harold_1": {
+        "code": "mem_harold_1",
+        "filename": "mem_harold_1-obt-memory-level_memory_harold_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_harold_1",
+        "name": "久病成医",
+        "stageId": "mem_harold_1",
+        "width": 10
     },
     "mem_hbisc2_1-obt/memory/level_memory_hbisc2_1": {
         "code": "mem_hbisc2_1",
@@ -18231,6 +18420,15 @@
         "levelId": "obt/memory/level_memory_waaifu_1",
         "name": "诛邪义举",
         "stageId": "mem_waaifu_1",
+        "width": 11
+    },
+    "mem_warmy_1-obt/memory/level_memory_warmy_1": {
+        "code": "mem_warmy_1",
+        "filename": "mem_warmy_1-obt-memory-level_memory_warmy_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_warmy_1",
+        "name": "炉火光明",
+        "stageId": "mem_warmy_1",
         "width": 11
     },
     "mem_weedy_1-obt/memory/level_memory_weedy_1": {
