@@ -3773,7 +3773,7 @@
         },
         "char_4081_warmy": {
             "name": "温米",
-            "name_en": "温米",
+            "name_en": "Warmy",
             "name_jp": "ウォーミー",
             "name_kr": "워미",
             "name_tw": "温米",
@@ -4043,7 +4043,7 @@
         },
         "char_4117_ray": {
             "name": "莱伊",
-            "name_en": "莱伊",
+            "name_en": "Ray",
             "name_jp": "レイ",
             "name_kr": "레이",
             "name_tw": "莱伊",
@@ -5849,7 +5849,7 @@
         },
         "token_10034_ray_sndbst": {
             "name": "沙地兽",
-            "name_en": "沙地兽",
+            "name_en": "Sandbeast",
             "name_jp": "サンドビースト",
             "name_kr": "샌드비스트",
             "name_tw": "沙地兽",
@@ -10154,7 +10154,7 @@
         },
         "trap_736_mercha": {
             "name": "可充能督战音响",
-            "name_en": "可充能督战音响",
+            "name_en": "Chargeable Supervisory Speaker",
             "name_jp": "充電式前線用スピーカー",
             "name_kr": "충전식 독전용 스피커",
             "name_tw": "可充能督战音响",
@@ -10169,7 +10169,7 @@
         },
         "trap_737_merchaa": {
             "name": "可充能督战音响",
-            "name_en": "可充能督战音响",
+            "name_en": "Chargeable Supervisory Speaker",
             "name_jp": "充電式前線用スピーカー",
             "name_kr": "충전식 독전용 스피커",
             "name_tw": "可充能督战音响",
@@ -10184,7 +10184,7 @@
         },
         "trap_738_merchab": {
             "name": "可充能督战音响",
-            "name_en": "可充能督战音响",
+            "name_en": "Chargeable Supervisory Speaker",
             "name_jp": "充電式前線用スピーカー",
             "name_kr": "충전식 독전용 스피커",
             "name_tw": "可充能督战音响",
@@ -10199,7 +10199,7 @@
         },
         "trap_739_sniper": {
             "name": "智能空域控制机",
-            "name_en": "智能空域控制机",
+            "name_en": "Smart Airspace Controller",
             "name_jp": "高性能空域制御器",
             "name_kr": "스마트 영공 제어기",
             "name_tw": "智能空域控制机",
@@ -10214,7 +10214,7 @@
         },
         "trap_740_snipera": {
             "name": "智能空域控制机",
-            "name_en": "智能空域控制机",
+            "name_en": "Smart Airspace Controller",
             "name_jp": "高性能空域制御器",
             "name_kr": "스마트 영공 제어기",
             "name_tw": "智能空域控制机",
@@ -10229,7 +10229,7 @@
         },
         "trap_741_sniperb": {
             "name": "智能空域控制机",
-            "name_en": "智能空域控制机",
+            "name_en": "Smart Airspace Controller",
             "name_jp": "高性能空域制御器",
             "name_kr": "스마트 영공 제어기",
             "name_tw": "智能空域控制机",
@@ -10244,7 +10244,7 @@
         },
         "trap_742_gasbot": {
             "name": "速冷喷雾发射台",
-            "name_en": "速冷喷雾发射台",
+            "name_en": "Quick-freezing Sprayer Platform",
             "name_jp": "急速冷却噴射台",
             "name_kr": "급랭 스프레이 발사대",
             "name_tw": "速冷喷雾发射台",
@@ -10259,7 +10259,7 @@
         },
         "trap_743_gasbota": {
             "name": "速冷喷雾发射台",
-            "name_en": "速冷喷雾发射台",
+            "name_en": "Quick-freezing Sprayer Platform",
             "name_jp": "急速冷却噴射台",
             "name_kr": "급랭 스프레이 발사대",
             "name_tw": "速冷喷雾发射台",
@@ -10274,7 +10274,7 @@
         },
         "trap_744_gasbotb": {
             "name": "速冷喷雾发射台",
-            "name_en": "速冷喷雾发射台",
+            "name_en": "Quick-freezing Sprayer Platform",
             "name_jp": "急速冷却噴射台",
             "name_kr": "급랭 스프레이 발사대",
             "name_tw": "速冷喷雾发射台",
@@ -10289,7 +10289,7 @@
         },
         "trap_745_beer": {
             "name": "“蜜酿万岁！”",
-            "name_en": "“蜜酿万岁！”",
+            "name_en": "'Long Live Mead!'",
             "name_jp": "「ミード万歳！」",
             "name_kr": "“벌꿀주 만세!”",
             "name_tw": "“蜜酿万岁！”",
