@@ -10,8 +10,8 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 
 1. MAA now requires the .NET 8 runtime library, which will automatically prompt the user to install it when starting. If the installation fails, please read the following and download the installation package to install manually.
 2. MAA will no longer be falsely reported by Windows Defender.
-3. [.NET 8 does not support Windows 7/8/8.1](https://github.com/dotnet/core/issues/7556), so MAA is also no longer supported, even though it can still run normally.
-4. When running MAA on Windows 7, an abnormal memory usage problem occurs. Please refer to the Windows 7 section below to implement mitigation measures. Windows 8/8.1 has not been tested. If you have the same problem, please send an Issue to remind us to supplement the documentation.
+3. .NET 8 does not support Windows 7/8/8.1<sup>[Src](https://github.com/dotnet/core/issues/7556)</sup>, so MAA is also no longer supported. The last available .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last available .NET 6 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). The feasibility of self-compilation has not yet been determined.
+4. When running .NET 8 applications on Windows 7, an abnormal memory usage problem will occur. Please refer to the Windows 7 section below to implement mitigation measures. Windows 8/8.1 has not been tested. If you have the same problem, please send an Issue to remind us to supplement the documentation.
 :::
 
 ## The program crashes immediately when I try to run it
@@ -26,7 +26,7 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 
 Only official sources are listed here. We can't gurantee whether some random third-party all-in-one pack can work.
 
-- Please try installing [VCRedist x64](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET 8.0.6](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=x86-,.NET%20Desktop%20Runtime,-8.0.6), then restart computer.
+- Please try installing [Visual C++ Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe) and [.NET Desktop Runtime 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0#:~:text=Binaries-,Windows,-Arm64), then restart computer.
   Windows 10 or 11 users can also install using Winget by running the following command in the terminal.
 
   ```sh
