@@ -15185,6 +15185,109 @@
             "mask": []
         }
     },
+    "Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig": {
+        "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
+        "algorithm": "OcrDetect",
+        "sub": [
+            "Sami@Roguelike@MissionCompletedFlag"
+        ],
+        "text": [
+            "坍缩范式加深"
+        ],
+        "next": [
+            "Sami@Roguelike@GetDrop1",
+            "Sami@Roguelike@GetDrop2",
+            "Sami@Roguelike@GetDrop3",
+            "Sami@Roguelike@GetDrop4",
+            "Sami@Roguelike@GetDropSelectReward",
+            "Sami@Roguelike@GetDropSelectReward2",
+            "Sami@Roguelike@TraderRandomShoppingConfirm"
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_panelCheckConfig": {
+        "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
+        "algorithm": "OcrDetect",
+        "action": "Swipe",
+        "roi": [
+            655,
+            20,
+            10,
+            10
+        ],
+        "specificRect": [
+            640,
+            300,
+            0,
+            0 
+        ],
+        "rectMove": [
+            640,
+            0,
+            0,
+            0
+        ],
+        "sub": [
+            "Sami@Roguelike@StageCombatDps",
+            "Sami@Roguelike@StageCombatDpsAI6",
+            "Sami@Roguelike@StageVerticalCombatDps",
+            "Sami@Roguelike@StageVerticalCombatDpsAI6",
+            "Sami@Roguelike@StageEmergencyDps",
+            "Sami@Roguelike@StageEmergencyDpsAI6",
+            "Sami@Roguelike@StageVerticalEmergencyDps",
+            "Sami@Roguelike@StageVerticalEmergencyDpsAI6",
+            "Sami@Roguelike@StageDreadfulFoe",
+            "Sami@Roguelike@StageDreadfulFoe-5",
+            "Sami@Roguelike@StageEncounter",
+            "Sami@Roguelike@StageEncounterAI6",
+            "Sami@Roguelike@StageVerticalEncounter",
+            "Sami@Roguelike@StageVerticalEncounterAI6",
+            "Sami@Roguelike@StageSafeHouse",
+            "Sami@Roguelike@StageSafeHouseAI6",
+            "Sami@Roguelike@StageVerticalSafeHouse",
+            "Sami@Roguelike@StageVerticalSafeHouseAI6",
+            "Sami@Roguelike@StageGambling",
+            "Sami@Roguelike@StageGamblingAI6",
+            "Sami@Roguelike@StageVerticalGambling",
+            "Sami@Roguelike@StageVerticalGamblingAI6",
+            "Sami@Roguelike@StageProphecy",
+            "Sami@Roguelike@StageProphecyAI6",
+            "Sami@Roguelike@StageVerticalProphecy",
+            "Sami@Roguelike@StageVerticalProphecyAI6",
+            "Sami@Roguelike@StageBoons",
+            "Sami@Roguelike@StageBoonsAI6",
+            "Sami@Roguelike@StageVerticalBoons",
+            "Sami@Roguelike@StageVerticalBoonsAI6",
+            "Sami@Roguelike@StageTrader",
+            "Sami@Roguelike@StageTraderAI6",
+            "Sami@Roguelike@StageVerticalTrader",
+            "Sami@Roguelike@StageVerticalTraderAI6",
+            "Sami@Roguelike@StageWindAndRain",
+            "Sami@Roguelike@StageWindAndRainAI6",
+            "Sami@Roguelike@StageVerticalWindAndRain",
+            "Sami@Roguelike@StageVerticalWindAndRainAI6",
+            "Sami@Roguelike@StageEmergencyTransportation",
+            "Sami@Roguelike@StageEmergencyTransportationAI6",
+            "Sami@Roguelike@StageVerticalEmergencyTransportation",
+            "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
+            "Sami@Roguelike@StageBoskyPassage",
+            "Sami@Roguelike@StageBoskyPassageAI6",
+            "Sami@Roguelike@StageVerticalBoskyPassage",
+            "Sami@Roguelike@StageVerticalBoskyPassageAI6",
+            "Sami@Roguelike@StageMysteriousPresage",
+            "Sami@Roguelike@StageFerociousPresage"
+        ],
+        "ocrReplace": [
+            ["Sami@Roguelike@OnStage_0", "深埋迷境"],
+            ["Sami@Roguelike@OnStage_1", "初霜湖泽"],
+            ["Sami@Roguelike@OnStage_2", "密静林地"],
+            ["Sami@Roguelike@OnStage_3", "昧明冻土"],
+            ["Sami@Roguelike@OnStage_4", "积冰岩骸"],
+            ["Sami@Roguelike@OnStage_5", "无瑕花园"],
+            ["Sami@Roguelike@OnStage_6", "远见之构"],
+            ["Sami@Roguelike@OnStage_7", "永恒之尘"]
+        ],
+        "text": []
+    },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",

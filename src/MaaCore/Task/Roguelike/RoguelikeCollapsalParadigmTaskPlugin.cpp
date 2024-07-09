@@ -109,12 +109,10 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
         }
 
         OCRer::ResultsVec ocr_results1 = analyzer1.get_result();
-        std::sort(ocr_results1.begin(), ocr_results1.end(),
-            [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; });
+        std::sort(ocr_results1.begin(), ocr_results1.end(), m_compare);
         
         OCRer::ResultsVec ocr_results2 = analyzer2.get_result();
-        std::sort(ocr_results2.begin(), ocr_results2.end(),
-            [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; });
+        std::sort(ocr_results2.begin(), ocr_results2.end(), m_compare);
         
         OCRer::ResultsVec::iterator result_it1 = ocr_results1.begin();
         OCRer::ResultsVec::iterator result_it2 = ocr_results2.begin();
@@ -133,7 +131,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
             }
             std::string cur_clp_pd = (*result_it2).text;
             const CollapsalParadigmClass& cur_class = clp_pd_classes.at(clp_pd_dict.at(cur_clp_pd));
-            if ((*result_it1).text == "坍缩范式加深") {
+            if ((*result_it1).text == m_deepen_text) {
                 if (it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_clp_pd); it == prev_clp_pds.end()) {
                     if (cur_clp_pd == cur_class.level_2) {
                         if (it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_class.level_1); it != prev_clp_pds.end()) {
@@ -218,8 +216,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
                 ocr_results = analyzer.get_result();
             }
         }
-        std::sort(ocr_results.begin(), ocr_results.end(),
-            [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; });
+        std::sort(ocr_results.begin(), ocr_results.end(), m_compare);
         
         std::transform(ocr_results.begin(), ocr_results.end(),
             std::back_inserter(cur_clp_pds),
