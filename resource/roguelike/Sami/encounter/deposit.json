@@ -124,62 +124,6 @@
             ]
         },
         {
-            "name": "不冻河",
-            "option_num": 2,
-            "choose": 2,
-            "note": "拥有【安玛的爱】时出现第三选项",
-            "choices": [
-                {
-                    "name": "寻找工具",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "Relic",
-                            "type": "have",
-                            "value": "安玛的爱"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "野外生存专家",
-            "option_num": 3,
-            "choose": 3,
-            "choices": [
-                {
-                    "name": "意思意思",
-                    "option_num": 3,
-                    "choose": 1,
-                    "requirements": [
-                        {
-                            "name": "OriginiumIngot",
-                            "type": ">",
-                            "value": "2"
-                        }
-                    ]
-                },
-                {
-                    "name": "重金酬谢",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "OriginiumIngot",
-                            "type": ">",
-                            "value": "4"
-                        },
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "2"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "在地公共信号放大站756号",
             "option_num": 3,
             "choose": 3,
@@ -197,11 +141,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "name": "特里蒙旅行社特派团",
-            "option_num": 3,
-            "choose": 1
         },
         {
             "name": "在地公共移动站N6号",
@@ -227,16 +166,6 @@
                     "requirements": []
                 }
             ]
-        },
-        {
-            "name": "度假胜地",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "负伤的主树",
-            "option_num": 2,
-            "choose": 1
         },
         {
             "name": "不见群山",
@@ -275,11 +204,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "name": "萨米之语",
-            "option_num": 1,
-            "choose": 1
         },
         {
             "name": "乌萨斯",
@@ -329,25 +253,6 @@
             ]
         },
         {
-            "name": "邪恶计划鸭",
-            "option_num": 2,
-            "choose": 2,
-            "choices": [
-                {
-                    "name": "你在做什么?",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "LivePoint",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "百里连营",
             "option_num": 3,
             "choose": 3,
@@ -393,11 +298,6 @@
             ]
         },
         {
-            "name": "时刻警惕",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
             "name": "猜疑链",
             "option_num": 3,
             "choose": 3,
@@ -411,114 +311,6 @@
                             "name": "Vision",
                             "type": ">",
                             "value": "3"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "走过萨米的臂膀",
-            "option_num": 2,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "戴上头盔",
-                    "option_num": 2,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Relic",
-                            "type": "have",
-                            "value": "树痕之盔"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "木裂前兆",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "悲观者囚笼",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "重构",
-            "option_num": 2,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "过载使用探测仪器",
-                    "option_num": 2,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "依靠安玛的遗赠",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "Relic",
-                            "type": "have",
-                            "value": "树痕之盔"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "探索者的一小步",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "鲍勃杂货店",
-            "option_num": 3,
-            "choose": 1,
-            "choices": [
-                {
-                    "name": "选择他脚边的货品",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "1"
-                        }
-                    ]
-                },
-                {
-                    "name": "选择仓库深处的货品",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "选择仓库深处的货品",
-                    "option_num": 4,
-                    "choose": 4,
-                    "requirements": [
-                        {
-                            "name": "Relic",
-                            "type": "have",
-                            "value": "四叶草化石"
                         }
                     ]
                 }
@@ -600,260 +392,6 @@
                     }
                 }
             ]
-        },
-        {
-            "name": "低地市集",
-            "option_num": 3,
-            "choose": 3,
-            "choices": [
-                {
-                    "name": "选择碎草药",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "选择好看的织物",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "选择湿膏药",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "选择好看的木刻",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "选择纯霜露",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "选择琥珀核",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "帮助拿着密文版的萨米人",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Foldartal",
-                            "type": "not have",
-                            "value": "伤痕 && 空无"
-                        }
-                    ]
-                },
-                {
-                    "name": "循着嚎叫声走去",
-                    "option_num": 4,
-                    "choose": 4,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": "=",
-                            "value": "5 || 6"
-                        }
-                    ]
-                },
-                {
-                    "name": "循着号角声走去",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "6"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "雪与木的笆篱",
-            "option_num": 3,
-            "choose": 3,
-            "choices": [
-                {
-                    "name": "“活力”",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "“金钱”",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "“树痕”",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Foldartal",
-                            "type": "not have",
-                            "value": "伤痕 && 空无"
-                        }
-                    ]
-                },
-                {
-                    "name": "“战斗”",
-                    "option_num": 4,
-                    "choose": 4,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": "=",
-                            "value": "5 || 6"
-                        }
-                    ]
-                },
-                {
-                    "name": "“护卫”",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "6"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "安玛塔卢",
-            "option_num": 3,
-            "choose": 3,
-            "choices": [
-                {
-                    "name": "寻求希望",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "寻求护佑",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "ChaosLevel",
-                            "type": ">",
-                            "value": "3"
-                        }
-                    ]
-                },
-                {
-                    "name": "寻求“树痕”的踪迹",
-                    "option_num": 3,
-                    "choose": 2,
-                    "requirements": [
-                        {
-                            "name": "Foldartal",
-                            "type": "not have",
-                            "value": "伤痕 && 空无"
-                        }
-                    ]
-                },
-                {
-                    "name": "护卫林地",
-                    "option_num": 4,
-                    "choose": 4,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": "=",
-                            "value": "5 || 6"
-                        }
-                    ]
-                },
-                {
-                    "name": "坚守林地",
-                    "option_num": 3,
-                    "choose": 3,
-                    "requirements": [
-                        {
-                            "name": "Vision",
-                            "type": ">",
-                            "value": "6"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "探寻前路",
-            "option_num": 3,
-            "choose": 2
         },
         {
             "name": "前行的林地",

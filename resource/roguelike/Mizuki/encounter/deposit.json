@@ -6,39 +6,9 @@
     ],
     "stage": [
         {
-            "name": "悬高之葬",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "继承",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
             "name": "重返家园",
             "option_num": 3,
             "choose": 3
-        },
-        {
-            "name": "引火之木",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "先遣小队",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "灯塔看守人",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "海嗣学者",
-            "option_num": 2,
-            "choose": 1
         },
         {
             "name": "海边的歌者",
@@ -51,16 +21,6 @@
             "choose": 2
         },
         {
-            "name": "传统技术",
-            "option_num": 3,
-            "choose": 3
-        },
-        {
-            "name": "最后的观潮者",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
             "name": "变卖身家",
             "option_num": 3,
             "choose": 3
@@ -71,63 +31,10 @@
             "choose": 2
         },
         {
-            "name": "点滴星火",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "残存微光",
-            "option_num": 3,
-            "choose": 3
-        },
-        {
-            "name": "相逢",
-            "option_num": 3,
-            "choose": 3
-        },
-        {
-            "name": "扎营",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
             "name": "梦中之会",
             "note": "存在多次选择",
             "option_num": 4,
             "choose": 4
-        },
-        {
-            "name": "噬尘扩散",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "天灾信使",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "阴云如聚",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "孤行的老者",
-            "note": "存在多次选择",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "为了生存",
-            "note": "存在多次选择",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "苦路",
-            "note": "存在多次选择",
-            "option_num": 2,
-            "choose": 2
         },
         {
             "name": "设身处地",
@@ -142,44 +49,7 @@
             "choose": 2
         },
         {
-            "name": "是非黑白",
-            "note": "存在多次选择",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "大海的遗产",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "诸王不再",
-            "note": "存在多次选择",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "医者之志",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "愚者之心",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "敬奉火焰",
-            "option_num": 3,
-            "choose": 3
-        },
-        {
             "name": "藏宝港湾",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "宝箱之舞",
             "option_num": 2,
             "choose": 2
         },
@@ -189,94 +59,14 @@
             "choose": 2
         },
         {
-            "name": "鸭力测试",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "打发时间",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "工作热情",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "商业帝国?",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
             "name": "狂徒妄念",
             "option_num": 3,
             "choose": 3
         },
         {
-            "name": "骑士仍在",
-            "option_num": 3,
-            "choose": 2
-        },
-        {
-            "name": "开端",
-            "option_num": 3,
-            "choose": 2
-        },
-        {
-            "name": "深蓝之心",
-            "option_num": 4,
-            "choose": 4
-        },
-        {
-            "name": "赞歌",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "深蓝仪式",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "升华",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "安全屋",
-            "option_num": 4,
-            "choose": 2
-        },
-        {
             "name": "现买现印",
             "option_num": 2,
             "choose": 2
-        },
-        {
-            "name": "消失的习俗",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "守望相助",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "紧急调遣",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "瞥视",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "郁金香的委托",
-            "option_num": 4,
-            "choose": 3
         }
     ]
 }
