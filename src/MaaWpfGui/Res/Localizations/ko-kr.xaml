@@ -118,6 +118,7 @@
     <system:String x:Key="RoguelikeStrategyExp">레벨 우선, 최대한 많은 구역 클리어</system:String>
     <system:String x:Key="RoguelikeStrategyGold">오리지늄각뿔 우선, 2번째 구역 도달 시 탐험 중도 포기</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">전기주전자 획득까지 반복, 3번째 구역 도달 시 탐험 중도 포기</system:String>
+    <system:String x:Key="RoguelikeCollapse">희귀한 붕괴 패러다임을 유도해 보세요</system:String>
     <system:String x:Key="StartingSquad">시작 분대</system:String>
     <system:String x:Key="StartingRoles">모집 조합</system:String>
     <system:String x:Key="StartingCoreChar">시작 오퍼레이터 (1명)</system:String>
@@ -682,6 +683,10 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">예견 밀문판:</system:String>
     <system:String x:Key="RoguelikeInvestment">각뿔 투자함: {1}(+{0}), 예금: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">로그라이크 종착점: {0}\n클리어 : {1} 구역 {2} 노드\n전투 횟수: {3} 일반 / {4} 정예 / {5} 리더\n모집 횟수 : {6} 회\n수집: {7}\n난이도: {8}\n점수: {9}\n경험치: {10}, 스킬: {11}</system:String>
+    <system:String x:Key="GainParadigm">붕괴 패러다임 심화: {0}</system:String>
+    <system:String x:Key="DeepenParadigm">붕괴 패러다임 {0}가 {1}로 심화되었다</system:String>
+    <system:String x:Key="LoseParadigm">붕괴 패러다임 소멸: {1}</system:String>
+    <system:String x:Key="WeakenParadigm">붕괴 패러다임 {1}이(가) {0}으로 퇴화되었습니다</system:String>
     <system:String x:Key="CurTimes">현재 횟수</system:String>
     <system:String x:Key="NoDrop">없음</system:String>
     <system:String x:Key="Drop" xml:space="preserve">드롭: </system:String>
