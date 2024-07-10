@@ -6819,7 +6819,7 @@
             "InfrastNotification",
             "Stop"
         ],
-        "postDelay": 5000,
+        "postDelay": 5000
     },
     "InfrastNotification": {
         "roi": [
