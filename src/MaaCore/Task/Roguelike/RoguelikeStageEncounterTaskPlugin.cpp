@@ -37,8 +37,11 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
     LogTraceFunction;
 
     const std::string& theme = m_config->get_theme();
+    const RoguelikeMode& mode = m_config->get_mode();
+    const std::string& mode_tag = m_mode_tag.contains(mode) ? std::string(m_mode_tag.at(mode)) 
+                                                            : std::string(RoguelikeModeTag::Default);
     std::unordered_map<std::string, Config::RoguelikeEvent> event_map =
-        RoguelikeStageEncounter.get_events(theme + m_mode_tag[m_config->get_mode()]);
+        RoguelikeStageEncounter.get_events(theme + mode_tag);
     std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);;
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
     sleep(event_name_task_ptr->pre_delay);
