@@ -8482,14 +8482,13 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
-        "doc": "The translations are not verified.",
         "ocrReplace": [
             [
-                "パラダイムロストの進行により",
+                "パラダイムロスト進行",
                 "坍缩范式加深"
             ],
             [
-                "パラダイムロストの減退により",
+                "パラダイムロスト減退",
                 "坍缩范式消退"
             ]
         ],
@@ -8508,7 +8507,6 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
-        "doc": "The translation is not verified.",
         "ocrReplace": [
             [
                 "現在の崩壊値",
