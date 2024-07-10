@@ -108,7 +108,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
-    if (m_config->get_theme() == RoguelikeTheme::Sami && m_config->get_check_clp_pds()) {
+    if (m_clp_pd_plugin) {
         m_clp_pd_plugin->check_collapsal_paradigm_banner();
     }
 
@@ -127,7 +127,7 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
             }
-            if (m_config->get_theme() == RoguelikeTheme::Sami && m_config->get_check_clp_pds()) {
+            if (m_clp_pd_plugin) {
                 m_clp_pd_plugin->check_collapsal_paradigm_banner();
             }
 

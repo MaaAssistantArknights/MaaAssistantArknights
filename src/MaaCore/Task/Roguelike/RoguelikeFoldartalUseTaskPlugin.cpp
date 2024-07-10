@@ -165,7 +165,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     list.erase(ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
                     
-                    if (m_config->get_theme() == RoguelikeTheme::Sami && m_config->get_check_clp_pds()) {
+                    if (m_clp_pd_plugin) {
                         m_clp_pd_plugin->check_collapsal_paradigm_banner();
                     }
                     
