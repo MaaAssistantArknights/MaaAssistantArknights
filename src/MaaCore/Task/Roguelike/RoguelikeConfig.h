@@ -141,6 +141,6 @@ namespace asst
         std::optional<std::string> m_foldartal_floor;          // 当前层的预见密文板，在下一层获得
         std::vector<std::string> m_foldartal;                  // 所有已获得密文板
         std::vector<std::string> m_clp_pds;                    // 已受到的坍缩范式
-        bool m_need_check_panel = false;
+        bool m_need_check_panel = false;                       // 是否在下次回到关卡选择界面时检查坍缩范式
     };
 } // namespace asst
