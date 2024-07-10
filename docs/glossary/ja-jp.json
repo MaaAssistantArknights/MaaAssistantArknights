@@ -479,7 +479,7 @@
             "char_4071_peper": "パプリカ",
             "char_4078_bdhkgt": "ジエユン",
             "char_4079_haini": "",
-            "char_4081_warmy": "",
+            "char_4081_warmy": "ウォーミー",
             "char_4083_chimes": "ウィンドチャイム",
             "char_4102_threye": "ヴァラルクビン",
             "char_4104_coldst": "コールドショット",
@@ -578,6 +578,7 @@
             "char_4088_hodrer": "へドリー",
             "char_4098_vvana": "ヴィヴィアナ",
             "char_4116_blkkgt": "デーゲンブレヒャー"
+            "char_4117_ray": "レイ"
         }
     }
 }
