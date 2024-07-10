@@ -10,7 +10,7 @@ MAA has been updated to .NET 8 in version 5.0. For end users, the impact is as f
 
 1. MAA now requires the .NET 8 runtime library, which will automatically prompt the user to install it when starting. If the installation fails, please read the following and download the installation package to install manually.
 2. MAA will no longer be falsely reported by Windows Defender.
-3. .NET 8 does not support Windows 7/8/8.1<sup>[Src](https://github.com/dotnet/core/issues/7556)</sup>, so MAA is also no longer supported. The last available .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last available .NET 6 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). The feasibility of self-compilation has not yet been determined.
+3. .NET 8 does not support Windows 7/8/8.1<sup>[Src](https://github.com/dotnet/core/issues/7556)</sup>, so MAA is also no longer supported. The last available .NET 8 version is [`v5.4.0-beta.1.d035.gd2e5001e7`](https://github.com/MaaAssistantArknights/MaaRelease/releases/tag/v5.4.0-beta.1.d035.gd2e5001e7); the last available .NET 4.8 version is [`v4.28.8`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/tag/v4.28.8). The feasibility of self-compilation has not yet been determined.
 4. When running .NET 8 applications on Windows 7, an abnormal memory usage problem will occur. Please refer to the Windows 7 section below to implement mitigation measures. Windows 8/8.1 has not been tested. If you have the same problem, please send an Issue to remind us to supplement the documentation.
 :::
 

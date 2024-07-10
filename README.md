@@ -128,7 +128,7 @@ MAA 支持多国语言，并使用 Weblate 进行本地化管理。如果您通�
 
 MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）为准。
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### 参与开发
 
