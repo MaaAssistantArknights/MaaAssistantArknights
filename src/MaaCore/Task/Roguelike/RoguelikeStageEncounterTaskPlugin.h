@@ -17,7 +17,7 @@ namespace asst
                                              std::shared_ptr<RoguelikeConfig> config)
                                              : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
         {
-            if (m_config->get_theme() == RoguelikeTheme::Sami && m_config->get_check_clp_pds()) {
+            if (RoguelikeCollapsalParadigmTaskPlugin::enabled(config)) {
                 m_clp_pd_plugin = std::make_shared<RoguelikeCollapsalParadigmTaskPlugin>(callback, inst, task_chain, config);
             }
         }

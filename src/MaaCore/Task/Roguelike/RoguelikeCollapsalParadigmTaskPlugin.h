@@ -37,6 +37,10 @@ namespace asst
         // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
 
+        static bool enabled(std::shared_ptr<RoguelikeConfig> config) {
+            return config->get_theme() == RoguelikeTheme::Sami && config->get_check_clp_pds();
+        }
+
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
