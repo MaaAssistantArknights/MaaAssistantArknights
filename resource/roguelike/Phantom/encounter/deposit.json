@@ -2,44 +2,9 @@
     "theme": "Phantom_deposit",
     "stage": [
         {
-            "name": "扎营",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "善良的木偶",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "讲故事的人",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
             "name": "委托冒险者",
             "option_num": 3,
             "choose": 3
-        },
-        {
-            "name": "皇家争执",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "先遣小队",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "高卢老兵",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "迷幻烛火",
-            "option_num": 2,
-            "choose": 1
         },
         {
             "name": "哥伦比亚酒商",
@@ -47,19 +12,9 @@
             "choose": 2
         },
         {
-            "name": "锡人",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
             "name": "猩红舞会",
             "option_num": 4,
             "choose": 4
-        },
-        {
-            "name": "剧目需求",
-            "option_num": 2,
-            "choose": 1
         },
         {
             "name": "狂舞之人",
@@ -75,11 +30,6 @@
             "name": "石中剑",
             "option_num": 3,
             "choose": 3
-        },
-        {
-            "name": "被困的人",
-            "option_num": 2,
-            "choose": 2
         },
         {
             "name": "佝偻怪客",
@@ -112,37 +62,7 @@
             "choose": 2
         },
         {
-            "name": "鸭爵的宴会",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "即兴鸭子演出",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "有关那位乌萨斯人",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
             "name": "邪恶之棺",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "以血还血",
-            "option_num": 3,
-            "choose": 3
-        },
-        {
-            "name": "暗门",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "密室",
             "option_num": 2,
             "choose": 2
         },
@@ -157,31 +77,6 @@
             "choose": 3
         },
         {
-            "name": "解脱?",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "疯狂玩偶",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
-            "name": "解脱",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "赴宴",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "追随者集会",
-            "option_num": 2,
-            "choose": 1
-        },
-        {
             "name": "别打扰他们",
             "option_num": 2,
             "choose": 2
@@ -192,38 +87,8 @@
             "choose": 2
         },
         {
-            "name": "安全的角落",
-            "option_num": 3,
-            "choose": 2
-        },
-        {
-            "name": "微型舞台",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
-            "name": "珍品处理者",
-            "option_num": 2,
-            "choose": 2
-        },
-        {
             "name": "暴殄天物",
             "option_num": 4,
-            "choose": 1
-        },
-        {
-            "name": "鼠胆神偷",
-            "option_num": 3,
-            "choose": 1
-        },
-        {
-            "name": "历史馈赠",
-            "option_num": 1,
-            "choose": 1
-        },
-        {
-            "name": "命运馈赠",
-            "option_num": 2,
             "choose": 1
         }
     ]
