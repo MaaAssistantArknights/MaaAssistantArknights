@@ -33,7 +33,7 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding Idle}"
+            IsEnabled="{Binding Idle}"
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
