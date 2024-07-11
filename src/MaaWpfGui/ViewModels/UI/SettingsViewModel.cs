@@ -1782,7 +1782,7 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
             }
 
-            _roguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : string.Empty;
+            RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : string.Empty;
         }
 
         private void UpdateRoguelikeSquadList()
@@ -1856,7 +1856,7 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeSquadList.Add(item);
             }
 
-            _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
+            RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
 
         private void UpdateRoguelikeCoreCharList()
