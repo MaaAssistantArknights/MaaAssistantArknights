@@ -1,6 +1,9 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 # for clang-format 17.0.1
 Language: Json
+BinPackArguments: false
+BreakArrays: false
+ColumnLimit: 120
 IndentWidth: 4
 ---
 Language: Cpp
