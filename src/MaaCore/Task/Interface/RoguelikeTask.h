@@ -23,6 +23,7 @@ namespace asst
         std::shared_ptr<RoguelikeConfig> m_roguelike_config_ptr = nullptr;
         std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_start_plugin_ptr = nullptr;
         std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_plugin_ptr = nullptr;
+        void m_roguelike_register_plugins(std::string theme);
 
     };
 }

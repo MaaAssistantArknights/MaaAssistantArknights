@@ -1,0 +1,72 @@
+{
+    "theme": "Mizuki",
+    "mode": [
+        1,
+        4
+    ],
+    "stage": [
+        {
+            "name": "重返家园",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "海边的歌者",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "远销海外",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "变卖身家",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "无知是福",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "梦中之会",
+            "note": "存在多次选择",
+            "option_num": 4,
+            "choose": 4
+        },
+        {
+            "name": "设身处地",
+            "note": "存在多次选择",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "信念",
+            "option_num": 2,
+            "note": "存在多次选择",
+            "choose": 2
+        },
+        {
+            "name": "藏宝港湾",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "狗眼婆娑",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "狂徒妄念",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "现买现印",
+            "option_num": 2,
+            "choose": 2
+        }
+    ]
+}
