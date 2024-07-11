@@ -88,7 +88,7 @@
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out screencap -p",
             "release": "[Adb] kill-server",
-            "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
+            "start": "[Adb] -s [AdbSerial] shell am start --windowingMode 4 -n [Intent]",
             "stop": "[Adb] -s [AdbSerial] shell \"PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -i -o -E '(packageName|Activities)=.+arknights' 2>/dev/null | grep -i -o -E '[^= ]*arknights[^ /]*' | head -n 1); if [ -n \\\"$PACKAGE_NAME\\\" ]; then echo \\\"Closing $PACKAGE_NAME\\\"; am force-stop $PACKAGE_NAME; else echo \\\"app not running or arknights package name not found\\\"; fi\"",
             "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
             "version": "[Adb] -s [AdbSerial] shell getprop ro.build.version.release",
