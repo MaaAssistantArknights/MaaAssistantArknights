@@ -9,17 +9,18 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
     LogTraceFunction;
 
     const std::string theme = json.at("theme").as_string();
-    m_events.erase(theme);
-
-    // m_event["肉鸽主题_模式标签"] 默认继承 m_event["肉鸽主题"]
-    std::string roguelike_theme = theme;
-    std::string roguelike_mode = "";
-    if (auto pos = theme.find('_'); pos != std::string::npos) {
-        roguelike_theme = theme.substr(0, pos);
-        roguelike_mode = theme.substr(pos + 1, theme.length() - pos - 1);
-        m_events[theme] = m_events[roguelike_theme];
+    
+    // m_event[(肉鸽主题,模式)] 默认继承 m_event["(肉鸽主题,std::nullopt)"]
+    std::pair<std::string, int> key = std::make_pair(theme, -1);
+    std::vector<int> modes = json.get("mode", std::vector<int>{});
+    std::unordered_map<std::string, RoguelikeEvent> events;
+    if (!modes.empty()) {
+        events = m_events.at(key);
+    } else {
+        modes.emplace_back(-1);
     }
-    std::vector<std::string>& event_names = m_event_names[roguelike_theme];
+    
+    std::vector<std::string>& event_names = m_event_names[theme];
 
     for (const auto& event_json : json.at("stage").as_array()) {
         RoguelikeEvent event;
@@ -52,8 +53,14 @@ bool asst::RoguelikeStageEncounterConfig::parse(const json::value& json)
                 event.choice_require.emplace_back(std::move(choice));
             }
         }
-        m_events[theme][event.name] = std::move(event);
+        events[event.name] = std::move(event);
     }
+
+    for (int mode : modes) {
+        key = std::make_pair(theme, mode);
+        m_events[key] = events;
+    }
+
     return true;
 }
 

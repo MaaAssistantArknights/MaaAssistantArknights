@@ -1,5 +1,8 @@
 {
     "theme": "Sami_collapse",
+    "mode": [
+        5
+    ],
     "stage": [
         {
             "name": "昏黑之室",

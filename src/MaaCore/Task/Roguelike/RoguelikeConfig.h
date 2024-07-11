@@ -17,14 +17,6 @@ namespace asst
         CLP_PDS = 5      // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
     };
 
-    class RoguelikeModeTag
-    {
-    public:
-        static constexpr std::string_view Default = "";
-        static constexpr std::string_view Deposit = "_deposit";
-        static constexpr std::string_view Collapse = "_collapse";
-    };
-
     class RoguelikeTheme
     {
     public:

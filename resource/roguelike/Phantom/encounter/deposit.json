@@ -1,5 +1,9 @@
 {
     "theme": "Phantom_deposit",
+    "mode": [
+        1,
+        4
+    ],
     "stage": [
         {
             "name": "委托冒险者",

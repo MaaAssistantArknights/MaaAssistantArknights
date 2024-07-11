@@ -5,28 +5,44 @@
 #include <vector>
 
 #include "Common/AsstBattleDef.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 
 namespace asst
 {
+    // steal from https://www.boost.org/doc/libs/1_85_0/libs/container_hash/doc/html/hash.html#notes_hash_combine
+    // use boost if you prefer
+    template <typename T1, typename T2>
+    struct PairHash {
+        std::size_t operator()(const std::pair<T1, T2>& p) const {
+            std::size_t hash1 = std::hash<T1>{}(p.first);
+            std::size_t hash2 = std::hash<T2>{}(p.second);
+            hash1 ^= hash2 + 0x9e3779b9 + (hash1 << 6) + (hash1 >> 2);
+
+            hash1 ^= hash1 >> 32;
+            hash1 *= 0xe9846af9b1a615d;
+            hash1 ^= hash1 >> 32;
+            hash1 *= 0xe9846af9b1a615d;
+            hash1 ^= hash1 >> 28;
+
+            return hash1;
+        }
+    };
+
     class RoguelikeStageEncounterConfig final : public SingletonHolder<RoguelikeStageEncounterConfig>,
                                                 public AbstractConfig
     {
     public:
         virtual ~RoguelikeStageEncounterConfig() override = default;
 
-        const auto& get_events(const std::string& theme) const noexcept {
-            if (m_events.find(theme) == m_events.end()) {
-                if (auto pos = theme.find('_'); pos != std::string::npos) {
-                    return m_events.at(theme.substr(0, pos));
-                }
+        const auto& get_events(const std::string& theme, const RoguelikeMode& mode) const noexcept {
+            std::pair<std::string, int> key = std::make_pair(theme, static_cast<int>(mode));
+            if (!m_events.contains(key)) {
+                key.second = -1;
             }
-            return m_events.at(theme);
+            return m_events.at(key);
         }
         
         const auto& get_event_names(const std::string& theme) const noexcept {
-            if (auto pos = theme.find('_'); pos != std::string::npos) {
-                return m_event_names.at(theme.substr(0, pos));
-            }
             return m_event_names.at(theme);
         }
 
@@ -63,7 +79,9 @@ namespace asst
 
         static ComparisonType parse_comparison_type(const std::string& type_str);
 
-        std::unordered_map<std::string, std::unordered_map<std::string, RoguelikeEvent>> m_events;
+        std::unordered_map<std::pair<std::string, int>,
+                           std::unordered_map<std::string, RoguelikeEvent>,
+                           PairHash<std::string, int>> m_events;
         std::unordered_map<std::string, std::vector<std::string>> m_event_names;
     };
 
