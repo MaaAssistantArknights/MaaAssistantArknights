@@ -8432,132 +8432,6 @@
             ]
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_banner": {
-        "doc": "The translations パラダイムロストの進行により and パラダイムロストの減退により are not verified.",
-        "ocrReplace": [
-            [
-                "パラダイムロストの進行により",
-                "坍缩范式加深"
-            ],
-            [
-                "パラダイムロストの減退により",
-                "坍缩范式消退"
-            ],
-            [
-                "数的崩壊",
-                "去量化"
-            ],
-            [
-                "完全なる数的崩壊",
-                "去量深化"
-            ],
-            [
-                "具現する崩壊",
-                "实质性坍缩"
-            ],
-            [
-                "蔓延する崩壊",
-                "蔓延性坍缩"
-            ],
-            [
-                "非直線移動",
-                "非线性移动"
-            ],
-            [
-                "非直線行動",
-                "非线性行动"
-            ],
-            [
-                "実体化する感情",
-                "情绪实体"
-            ],
-            [
-                "実体化する恐怖",
-                "恐怖实体"
-            ],
-            [
-                "広義的社会パラドクス",
-                "泛社会悖论"
-            ],
-            [
-                "広義的文化パラドクス",
-                "泛文明悖论"
-            ],
-            [
-                "気圧異常",
-                "气压异常"
-            ],
-            [
-                "気圧暴走",
-                "气压失序"
-            ],
-            [
-                "接触性損傷",
-                "触发性损伤"
-            ],
-            [
-                "接触性危機",
-                "触发性危殆"
-            ],
-            [
-                "同期性消耗",
-                "趋同性消耗"
-            ],
-            [
-                "同期性喪失",
-                "趋同性缺失"
-            ],
-            [
-                "局部的認識不可",
-                "目空一些"
-            ],
-            [
-                "広域的認識不可",
-                "睁眼瞎"
-            ],
-            [
-                "画像破損",
-                "图像损坏"
-            ],
-            [
-                "ブラックアウト",
-                "一抹黑"
-            ]
-        ],
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "text": [
-            "坍缩范式加深",
-            "坍缩范式消退",
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
-        ],
-        "roi": [
-            945,
-            60,
-            335,
-            660
-        ]
-    },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "algorithm": "OcrDetect",
         "action": "DoNothing",
@@ -8586,13 +8460,8 @@
             45
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_panel": {
-        "doc": "The translation 現在の崩壊値 is not verified.",
+    "Sami@Roguelike@CheckCollapsalParadigms": {
         "ocrReplace": [
-            [
-                "現在の崩壊値",
-                "当前坍缩值"
-            ],
             [
                 "数的崩壊",
                 "去量化"
@@ -8678,7 +8547,6 @@
         "action": "DoNothing",
         "cache": false,
         "text": [
-            "当前坍缩值",
             "去量化",
             "去量深化",
             "实质性坍缩",
@@ -8699,6 +8567,45 @@
             "睁眼瞎",
             "图像损坏",
             "一抹黑"
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+        "ocrReplace": [
+            [
+                "パラダイムロスト進行",
+                "坍缩范式加深"
+            ],
+            [
+                "パラダイムロスト減退",
+                "坍缩范式消退"
+            ]
+        ],
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "坍缩范式加深",
+            "坍缩范式消退"
+        ],
+        "roi": [
+            945,
+            60,
+            335,
+            660
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+        "ocrReplace": [
+            [
+                "現在の崩壊値",
+                "当前坍缩值"
+            ]
+        ],
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "当前坍缩值"
         ],
         "roi": [
             350,

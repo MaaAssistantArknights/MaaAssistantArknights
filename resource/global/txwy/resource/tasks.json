@@ -5899,17 +5899,29 @@
             ]
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_banner": {
-        "doc": "The translations are not verified.",
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "正在提交反馈至神经"
+        ],
         "ocrReplace": [
             [
-                "坍縮範式加深",
-                "坍缩范式加深"
-            ],
-            [
-                "坍縮範式消退",
-                "坍缩范式消退"
-            ],
+                "正在提交反饋至神經",
+                "正在提交反馈至神经"
+            ]
+        ],
+        "roi": [
+            720,
+            645,
+            355,
+            45
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms": {
+        "doc": "The translations are not verified.",
+        "ocrReplace": [
             [
                 "去量化",
                 "去量化"
@@ -5995,8 +6007,6 @@
         "action": "DoNothing",
         "cache": false,
         "text": [
-            "坍缩范式加深",
-            "坍缩范式消退",
             "去量化",
             "去量深化",
             "实质性坍缩",
@@ -6025,139 +6035,45 @@
             660
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+        "doc": "The translations are not verified.",
+        "ocrReplace": [
+            [
+                "坍縮範式加深",
+                "坍缩范式加深"
+            ],
+            [
+                "坍縮範式消退",
+                "坍缩范式消退"
+            ]
+        ],
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
         "text": [
-            "正在提交反馈至神经"
-        ],
-        "ocrReplace": [
-            [
-                "正在提交反饋至神經",
-                "正在提交反馈至神经"
-            ]
+            "坍缩范式加深",
+            "坍缩范式消退"
         ],
         "roi": [
-            720,
-            645,
-            355,
-            45
+            945,
+            60,
+            335,
+            660
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_panel": {
+    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
         "doc": "The translations are not verified.",
         "ocrReplace": [
             [
                 "目前坍縮值",
                 "当前坍缩值"
-            ],
-            [
-                "去量化",
-                "去量化"
-            ],
-            [
-                "去量深化",
-                "去量深化"
-            ],
-            [
-                "實質坍縮",
-                "实质性坍缩"
-            ],
-            [
-                "蔓延性坍縮",
-                "蔓延性坍缩"
-            ],
-            [
-                "非線性移動",
-                "非线性移动"
-            ],
-            [
-                "非線性行動",
-                "非线性行动"
-            ],
-            [
-                "情緒實體",
-                "情绪实体"
-            ],
-            [
-                "恐怖實體",
-                "恐怖实体"
-            ],
-            [
-                "泛社會悖論",
-                "泛社会悖论"
-            ],
-            [
-                "泛文明悖論",
-                "泛文明悖论"
-            ],
-            [
-                "氣壓異常",
-                "气压异常"
-            ],
-            [
-                "氣壓失序",
-                "气压失序"
-            ],
-            [
-                "觸發性損傷",
-                "触发性损伤"
-            ],
-            [
-                "觸發性危殆",
-                "触发性危殆"
-            ],
-            [
-                "趨同性消耗",
-                "趋同性消耗"
-            ],
-            [
-                "趨同性缺失",
-                "趋同性缺失"
-            ],
-            [
-                "目空一些",
-                "目空一些"
-            ],
-            [
-                "睜眼瞎",
-                "睁眼瞎"
-            ],
-            [
-                "影像損壞",
-                "图像损坏"
-            ],
-            [
-                "一抹黑",
-                "一抹黑"
             ]
         ],
         "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
         "text": [
-            "当前坍缩值",
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
+            "当前坍缩值"
         ],
         "roi": [
             350,

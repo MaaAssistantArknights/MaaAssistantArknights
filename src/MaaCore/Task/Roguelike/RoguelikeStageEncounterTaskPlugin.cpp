@@ -97,10 +97,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
-    callback(AsstMsg::SubTaskStart, json::object {
-        { "subtask", "ProcessTask" },
-        { "details", json::object { { "task", "NeedCheckCollapsalParadigmBanner" }, { "pre_task", "RoguelikeStageEncounterTask"} } }
-    });
+    if (m_clp_pd_plugin) {
+        m_clp_pd_plugin->check_collapsal_paradigm_banner();
+    }
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     sleep(500);
@@ -117,10 +116,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
             }
-            callback(AsstMsg::SubTaskStart, json::object {
-                { "subtask", "ProcessTask" },
-                { "details", json::object { { "task", "NeedCheckCollapsalParadigmBanner" }, { "pre_task", "RoguelikeStageEncounterTask"} } }
-            });
+            if (m_clp_pd_plugin) {
+                m_clp_pd_plugin->check_collapsal_paradigm_banner();
+            }
 
             if (need_exit()) {
                 return false;
