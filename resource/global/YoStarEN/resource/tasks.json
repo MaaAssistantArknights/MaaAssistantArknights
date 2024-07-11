@@ -7126,26 +7126,6 @@
             ]
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "text": [
-            "正在提交反馈至神经"
-        ],
-        "ocrReplace": [
-            [
-                "Submitting feedback to the neural network",
-                "正在提交反馈至神经"
-            ]
-        ],
-        "roi": [
-            720,
-            645,
-            355,
-            45
-        ]
-    },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "ocrReplace": [
             [
@@ -7255,6 +7235,26 @@
             "一抹黑"
         ]
     },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "正在提交反馈至神经"
+        ],
+        "ocrReplace": [
+            [
+                "Submitting feedback to the neural network",
+                "正在提交反馈至神经"
+            ]
+        ],
+        "roi": [
+            720,
+            645,
+            355,
+            45
+        ]
+    },
     "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
         "ocrReplace": [
             [
@@ -7281,15 +7281,15 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_panel": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "cache": false,
         "ocrReplace": [
             [
                 "Current Collapse Value",
                 "当前坍缩值"
             ]
         ],
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "当前坍缩值"
         ],
