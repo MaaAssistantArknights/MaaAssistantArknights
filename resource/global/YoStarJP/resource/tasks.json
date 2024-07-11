@@ -8432,34 +8432,6 @@
             ]
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
-        "text": [
-            "正在提交反馈至神经"
-        ],
-        "ocrReplace": [
-            [
-                "ニューラル",
-                "正在提交反馈至神经"
-            ],
-            [
-                "コネクタ",
-                "正在提交反馈至神经"
-            ],
-            [
-                "接続中",
-                "正在提交反馈至神经"
-            ]
-        ],
-        "roi": [
-            720,
-            645,
-            355,
-            45
-        ]
-    },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "ocrReplace": [
             [
@@ -8567,6 +8539,34 @@
             "睁眼瞎",
             "图像损坏",
             "一抹黑"
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "algorithm": "OcrDetect",
+        "action": "DoNothing",
+        "cache": false,
+        "text": [
+            "正在提交反馈至神经"
+        ],
+        "ocrReplace": [
+            [
+                "ニューラル",
+                "正在提交反馈至神经"
+            ],
+            [
+                "コネクタ",
+                "正在提交反馈至神经"
+            ],
+            [
+                "接続中",
+                "正在提交反馈至神经"
+            ]
+        ],
+        "roi": [
+            720,
+            645,
+            355,
+            45
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
