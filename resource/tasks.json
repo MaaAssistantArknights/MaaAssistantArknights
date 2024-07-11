@@ -6818,7 +6818,8 @@
         "next": [
             "InfrastNotification",
             "Stop"
-        ]
+        ],
+        "postDelay": 5000
     },
     "InfrastNotification": {
         "roi": [
