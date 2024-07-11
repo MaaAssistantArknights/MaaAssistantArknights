@@ -15,8 +15,9 @@ icon: ri:game-fill
   - 테마 폴더: `Phantom/` 팬텀 로그라이크, `Mizuki/` 미즈키 로그라이크,`Sami/` 사미 로그라이크.
     - `autopilot/` 내에는 각 레벨의 작전 json이 있습니다.
       - `关卡名.json` 레벨의 작전 로직
-    - `encounter.json` 우연한 만남의 로직
-    - `encounter_for_deposit.json` 우연한 만남의 사건 로직
+    - `encounter/` 우연한 만남의 로직
+      - `default.json` 기본 로직
+      - `deposit.json` 예금 로직
     - `recruitment.json` 오퍼레이터 모집 로직
     - `shopping.json` 상점 구매 로직
 
@@ -447,9 +448,9 @@ icon: ri:game-fill
 
 ## 통합 전략 단계 3: 조우 노드 로직
 
-`resource/roguelike/theme_name/encounter.json` 레벨링 모드에서 조우 이벤트 선택에 대한 전략
+`resource/roguelike/theme_name/encounter/default.json` 레벨링 모드에서 조우 이벤트 선택에 대한 전략
 
-`resource/roguelike/theme_name/encounter_for_deposit.json` 투자 모드에서 조우 이벤트 선택에 대한 전략
+`resource/roguelike/theme_name/encounter/deposit.json` 투자 모드에서 조우 이벤트 선택에 대한 전략
 
 ### MAA가 조우를 판단하는 방법
 

@@ -15,8 +15,9 @@ JSONファイルはコメントをサポートしていません。テキスト�
   - テーマフォルダ： `Phantom/` はファントム、 `Mizuki/` はミヅキ `Sami/` はサーミ
     - `autopilot/` には、各ステージの戦闘jsonが含まれます
       - `ステージ名.json` ステージの戦闘ロジック
-    - `encounter.json` 思わぬ遭遇イベントロジック（経験値モード）
-    - `encounter_for_deposit.json` 思わぬ遭遇イベントロジック（源石錐モード）
+    - `encounter.json/` 思わぬ遭遇イベントロジック
+      - `default.json` 経験値モード
+      - `deposit.json` 源石錐モード
     - `recruitment.json` オペレーター招集ロジック
     - `shopping.json` ストア購入ロジック
 
@@ -432,9 +433,9 @@ JSONファイルはコメントをサポートしていません。テキスト�
 
 ## ローグ第3ステップ--思わぬ遭遇イベントのノードロジック
 
-`resource/roguelike/テーマ名/encounter.json` は、経験値モードの思わぬ遭遇イベントの選択戦略を記述しています
+`resource/roguelike/テーマ名/encounter/default.json` は、経験値モードの思わぬ遭遇イベントの選択戦略を記述しています
 
-`resource/roguelike/テーマ名/encounter_for_deposit.json` は、源石錐モードの思わぬ遭遇イベントの選択戦略を記述しています
+`resource/roguelike/テーマ名/encounter/deposit.json` は、源石錐モードの思わぬ遭遇イベントの選択戦略を記述しています
 
 ### MAAの現在の思わぬ遭遇判定方法
 
