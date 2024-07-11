@@ -15,7 +15,9 @@ namespace asst
                                              std::shared_ptr<RoguelikeConfig> config)
                                              : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
         {
-            register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(config);
+            if (RoguelikeCollapsalParadigmTaskPlugin::enabled(config)) {
+                m_clp_pd_plugin = std::make_shared<RoguelikeCollapsalParadigmTaskPlugin>(callback, inst, task_chain, config);
+            }
         }
         virtual ~RoguelikeFoldartalUseTaskPlugin() override = default;
 
@@ -51,5 +53,7 @@ namespace asst
         void slowly_swipe(bool direction, int swipe_dist = 200) const;
         // 节点类型
         mutable std::string m_stage;
+        
+        std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_clp_pd_plugin;
     };
 }

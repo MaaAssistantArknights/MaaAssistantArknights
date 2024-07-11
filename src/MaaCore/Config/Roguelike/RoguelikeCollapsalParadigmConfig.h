@@ -23,7 +23,16 @@ namespace asst
 
         const auto& get_clp_pd_classes(const std::string& theme) const noexcept { return m_clp_pd_classes.at(theme); }
         const auto& get_clp_pd_dict(const std::string& theme) const noexcept { return m_clp_pd_dict.at(theme); }
-        const auto& get_rare_clp_pds(const std::string& theme) const noexcept { return m_rare_clp_pds.at(theme); }
+        const auto& get_rare_clp_pds(const std::string& theme) const noexcept {
+            auto it = m_rare_clp_pds.find(theme); 
+            if (it == m_rare_clp_pds.end()) {
+                static const std::unordered_set<std::string> empty_set;
+                return empty_set;
+            }
+            else {
+                return it->second;
+            }
+        }
         
     private:
         virtual bool parse(const json::value& json) override;

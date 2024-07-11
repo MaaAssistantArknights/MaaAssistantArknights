@@ -1,127 +1,80 @@
 #pragma once
 #include "AbstractRoguelikeTaskPlugin.h"
 #include "Common/AsstTypes.h"
+#include "Vision/OCRer.h"
+#include "Config/TaskData.h"
 
 namespace asst
 {
     class RoguelikeCollapsalParadigmTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+        RoguelikeCollapsalParadigmTaskPlugin(const AsstCallback& callback,
+                                             Assistant* inst,
+                                             std::string_view task_chain,
+                                             std::shared_ptr<RoguelikeConfig> config)
+                                             : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
+        {
+            const std::string& theme = config->get_theme();
+            
+            std::shared_ptr<OcrTaskInfo> bannerCheckConfig =
+                Task.get<OcrTaskInfo>(theme + "@Roguelike@CheckCollapsalParadigms_bannerCheckConfig");
+            m_deepen_text = bannerCheckConfig->text.front();
+            m_banner_triggers_start.insert(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
+            m_banner_triggers_completed.insert(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
+
+            std::shared_ptr<OcrTaskInfo> panelCheckConfig =
+                Task.get<OcrTaskInfo>(theme + "@Roguelike@CheckCollapsalParadigms_panelCheckConfig");
+            m_roi = panelCheckConfig->roi;
+            m_swipe_begin.x = panelCheckConfig->specific_rect.x;
+            m_swipe_begin.y = panelCheckConfig->specific_rect.y;
+            m_swipe_end.x = panelCheckConfig->rect_move.x;
+            m_swipe_end.y = panelCheckConfig->rect_move.y;
+            m_panel_triggers.insert(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
+            std::ranges::for_each(panelCheckConfig->replace_map,
+                [&](const std::pair<std::string, std::string>& p) { m_zone_dict.emplace(p.first, p.second); });
+        }
+        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
+
+        static bool enabled(std::shared_ptr<RoguelikeConfig> config) {
+            return config->get_theme() == RoguelikeTheme::Sami && config->get_check_clp_pds();
+        }
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+
+        bool check_collapsal_paradigm_banner();
 
     protected:
         virtual bool _run() override;
 
     private:
-        const Rect m_roi = { 655, 20, 10, 10 };  // 屏幕上方居中区域，点击以检查坍缩状态
-        const Point m_swipe_begin = {640, 300}; // 滑动起点
-        const Point m_swipe_end = {640, 0};     // 滑动终点
-
         mutable bool m_check_banner = false;
         mutable bool m_check_panel = false;
-        mutable bool m_need_check_panel = false;
         mutable bool m_verification_check = false;
+
+        std::string m_deepen_text;
+
+        std::unordered_set<std::string> m_banner_triggers_start;
+
+        std::unordered_set<std::string> m_banner_triggers_completed;
+
         mutable std::string m_zone;
 
-        const std::unordered_set<std::string_view> m_banner_triggers_start = {
-            "NeedCheckCollapsalParadigmBanner",
-            "Sami@Roguelike@MissionCompletedFlag"
-            // "Sami@Roguelike@DropsFlag"
-        };
+        Rect m_roi;          // 屏幕上方居中区域，点击以检查坍缩状态
+        Point m_swipe_begin; // 滑动起点
+        Point m_swipe_end;   // 滑动终点
 
-        const std::unordered_set<std::string_view> m_banner_triggers_completed = {
-            "Sami@Roguelike@GetDrop1",
-            "Sami@Roguelike@GetDrop2",
-            "Sami@Roguelike@GetDrop3",
-            "Sami@Roguelike@GetDrop4",
-            "Sami@Roguelike@GetDropSelectReward",
-            "Sami@Roguelike@GetDropSelectReward2",
-            // "Sami@Roguelike@ClickToDrops",
-            "Sami@Roguelike@TraderRandomShoppingConfirm"
-        };
+        std::unordered_set<std::string> m_panel_triggers;
 
-        const std::unordered_set<std::string_view> m_panel_triggers = {
-            // 作战
-            "Sami@Roguelike@StageCombatDps",
-            "Sami@Roguelike@StageCombatDpsAI6",
-            "Sami@Roguelike@StageVerticalCombatDps",
-            "Sami@Roguelike@StageVerticalCombatDpsAI6",
-            // 紧急作战
-            "Sami@Roguelike@StageEmergencyDps",
-            "Sami@Roguelike@StageEmergencyDpsAI6",
-            "Sami@Roguelike@StageVerticalEmergencyDps",
-            "Sami@Roguelike@StageVerticalEmergencyDpsAI6",
-            // 险路恶敌
-            "Sami@Roguelike@StageDreadfulFoe",
-            "Sami@Roguelike@StageDreadfulFoe-5",
-            // 不期而遇
-            "Sami@Roguelike@StageEncounter",
-            "Sami@Roguelike@StageEncounterAI6",
-            "Sami@Roguelike@StageVerticalEncounter",
-            "Sami@Roguelike@StageVerticalEncounterAI6",
-            // 安全的角落
-            "Sami@Roguelike@StageSafeHouse",
-            "Sami@Roguelike@StageSafeHouseAI6",
-            "Sami@Roguelike@StageVerticalSafeHouse",
-            "Sami@Roguelike@StageVerticalSafeHouseAI6",
-            // 兴致盎然
-            "Sami@Roguelike@StageGambling",
-            "Sami@Roguelike@StageGamblingAI6",
-            "Sami@Roguelike@StageVerticalGambling",
-            "Sami@Roguelike@StageVerticalGamblingAI6",
-            // 命运所指
-            "Sami@Roguelike@StageProphecy",
-            "Sami@Roguelike@StageProphecyAI6",
-            "Sami@Roguelike@StageVerticalProphecy",
-            "Sami@Roguelike@StageVerticalProphecyAI6",
-            // 得偿所愿
-            "Sami@Roguelike@StageBoons",
-            "Sami@Roguelike@StageBoonsAI6",
-            "Sami@Roguelike@StageVerticalBoons",
-            "Sami@Roguelike@StageVerticalBoonsAI6",
-            // 诡意行商
-            "Sami@Roguelike@StageTrader",
-            "Sami@Roguelike@StageTraderAI6",
-            "Sami@Roguelike@StageVerticalTrader",
-            "Sami@Roguelike@StageVerticalTraderAI6",
-            // 失与得
-            "Sami@Roguelike@StageWindAndRain",
-            "Sami@Roguelike@StageWindAndRainAI6",
-            "Sami@Roguelike@StageVerticalWindAndRain",
-            "Sami@Roguelike@StageVerticalWindAndRainAI6",
-            // 先行一步
-            "Sami@Roguelike@StageEmergencyTransportation",
-            "Sami@Roguelike@StageEmergencyTransportationAI6",
-            "Sami@Roguelike@StageVerticalEmergencyTransportation",
-            "Sami@Roguelike@StageVerticalEmergencyTransportationAI6",
-            // 树篱之途
-            "Sami@Roguelike@StageBoskyPassage",
-            "Sami@Roguelike@StageBoskyPassageAI6",
-            "Sami@Roguelike@StageVerticalBoskyPassage",
-            "Sami@Roguelike@StageVerticalBoskyPassageAI6",
-            // 模糊的预感
-            "Sami@Roguelike@StageMysteriousPresage",
-            "Sami@Roguelike@StageFerociousPresage"
-        };
+        std::unordered_map<std::string, std::string> m_zone_dict;
 
-        const std::unordered_map<std::string_view, std::string> m_zone_dict = {
-            {"Sami@Roguelike@OnStage_0", "深埋迷境"},
-            {"Sami@Roguelike@OnStage_1", "初霜湖泽"},
-            {"Sami@Roguelike@OnStage_2", "密静林地"},
-            {"Sami@Roguelike@OnStage_3", "昧明冻土"},
-            {"Sami@Roguelike@OnStage_4", "积冰岩骸"},
-            {"Sami@Roguelike@OnStage_5", "无瑕花园"},
-            {"Sami@Roguelike@OnStage_6", "远见之构"},
-            {"Sami@Roguelike@OnStage_7", "永恒之尘"}
-        };
+        std::function<bool(const OCRer::Result&, const OCRer::Result&)> m_compare =
+            [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; };
 
         bool new_zone() const;
 
-        bool check_collapsal_paradigm_banner();
         bool check_collapsal_paradigm_panel();
 
         void toggle_collapsal_status_panel();
