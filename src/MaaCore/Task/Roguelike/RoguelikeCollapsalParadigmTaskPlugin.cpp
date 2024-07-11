@@ -1,8 +1,3 @@
-#ifdef ASST_DEBUG
-#define CLP_PD_DEBUG
-#undef ASST_DEBUG
-#endif
-
 #include "RoguelikeCollapsalParadigmTaskPlugin.h"
 #include "Config/Roguelike/RoguelikeCollapsalParadigmConfig.h"
 
@@ -87,7 +82,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
 
     cv::Mat image = ctrler()->get_image();
     OCRer analyzer1(image); // 检测 "坍缩范式加深" 或 "坍缩范式消退"
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
     analyzer1.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
     analyzer1.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_onBanner");
@@ -96,7 +91,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
         wait_for_loading(200);
         image = ctrler()->get_image();
         analyzer1.set_image(image);
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
         analyzer1.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
         detected = analyzer1.analyze();
@@ -191,7 +186,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
 {   
     LogTraceFunction;
 
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
     if (m_verification_check) {
         Log.info("Roguelike Collapsal Paradigm Task Plugin: Verification");
     }
@@ -214,7 +209,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
         image = ctrler()->get_image();
         analyzer.set_image(image);
     } while (!analyzer.analyze());
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
     analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
 
@@ -229,7 +224,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
             ctrler()->swipe(m_swipe_begin, m_swipe_end, 500);
             sleep(500);
             analyzer.set_image(ctrler()->get_image());
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
             analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
             if (analyzer.analyze()) {
@@ -246,7 +241,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
     if (m_verification_check) {
         if (prev_clp_pds != cur_clp_pds) {
             Log.info("Roguelike Collapsal Paradigm Task Plugin: Verification Failed");
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
             Log.info("–––––––– Previous ––––––––––––––");
             for (const std::string& clp_pd: prev_clp_pds) {
                 Log.info(clp_pd);
@@ -340,14 +335,14 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_collapsal_status_panel()
 void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading(unsigned int millisecond)
 {
     OCRer analyzer(ctrler()->get_image());
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
     analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_loading");
     while (analyzer.analyze()) {
         sleep(100);
         analyzer.set_image(ctrler()->get_image());
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
         analyzer.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
     }
@@ -357,14 +352,14 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading(unsigned int m
 void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage(unsigned int millisecond)
 {
     Matcher matcher(ctrler()->get_image());
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
     matcher.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
     matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
     while (!matcher.analyze()) {
         sleep(100);
         matcher.set_image(ctrler()->get_image());
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
         matcher.save_img(utils::path("debug") / utils::path("collapsalParadigms"));
 #endif
     }
@@ -379,7 +374,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
         std::string zone = m_zone_dict.at(matcher.get_result().templ_name);
         if (zone != m_zone) {
             m_zone = zone;
-#ifdef CLP_PD_DEBUG
+#ifdef ASST_DEBUG
             Log.info("Roguelike Collapsal Paradigm Task Plugin: Current Zone is " + m_zone);
 #endif
             return true;
@@ -387,5 +382,3 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
     }
     return false;
 }
-
-#undef CLP_PD_DEBUG
