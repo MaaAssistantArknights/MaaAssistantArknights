@@ -111,7 +111,7 @@
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
     <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二幹員開局</system:String>
-    <system:String x:Key="RoguelikeCollapse">嚐試觸髮稀有的坍縮範式</system:String>
+    <system:String x:Key="RoguelikeCollapse">嘗試觸發稀有的坍縮範式</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
@@ -672,9 +672,9 @@
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鴿結算: {0}\n探索: {1} 层 {2} 步\n戰鬥: {3}/{4} 緊急/{5} BOSS\n招募: {6}   收藏品: {7}\n難度: {8}   得分: {9}\nExp: {10}  Skill: {11}</system:String>
     <system:String x:Key="GainParadigm">坍縮範式加深: {0}</system:String>
-    <system:String x:Key="DeepenParadigm">坍縮範式 {0} 加深爲 {1}</system:String>
+    <system:String x:Key="DeepenParadigm">坍縮範式 {0} 加深為 {1}</system:String>
     <system:String x:Key="LoseParadigm">坍縮範式消退: {1}</system:String>
-    <system:String x:Key="WeakenParadigm">坍縮範式 {1} 消退爲 {0}</system:String>
+    <system:String x:Key="WeakenParadigm">坍縮範式 {1} 消退為 {0}</system:String>
     <system:String x:Key="CurTimes">目前次數</system:String>
     <system:String x:Key="NoDrop">無</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
