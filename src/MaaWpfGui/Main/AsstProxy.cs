@@ -1571,16 +1571,16 @@ namespace MaaWpfGui.Main
                     string cur = subTaskDetails["cur"].ToString();
                     string prev = subTaskDetails["prev"].ToString();
                     if (deepen_or_weaken == 1 && prev == "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GainParadigm"), cur, prev), UiLogColor.Info);
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur, prev), UiLogColor.Info);
                     }
                     else if (deepen_or_weaken == 1 && prev != "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("DeepenParadigm"), cur, prev), UiLogColor.Info);
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
                     }
                     else if (deepen_or_weaken == -1 && cur == "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("LoseParadigm"), cur, prev), UiLogColor.Info);
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), cur, prev), UiLogColor.Info);
                     }
                     else if (deepen_or_weaken == -1 && cur != "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("WeakenParadigm"), cur, prev), UiLogColor.Info);
+                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
                     }
                     break;
             }
