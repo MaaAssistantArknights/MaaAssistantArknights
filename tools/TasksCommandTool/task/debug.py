@@ -3,6 +3,7 @@ import inspect
 import re
 
 _PREFIX = ""
+_ENABLE_TRACING = False
 
 
 def trace(fn):
@@ -16,6 +17,8 @@ def trace(fn):
 
     @functools.wraps(fn)
     def wrapped(*args, **kwargs):
+        if not _ENABLE_TRACING:
+            return fn(*args, **kwargs)
         global _PREFIX
         reprs = [repr(e) for e in args]
         reprs += [repr(k) + '=' + repr(v) for k, v in kwargs.items()]

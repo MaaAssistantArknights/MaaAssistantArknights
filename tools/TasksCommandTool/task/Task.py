@@ -124,6 +124,26 @@ class Task:
     def __repr__(self):
         return str(self.__dict__)
 
+    def to_task_dict(self):
+        pass
+
+    def interpret(self):
+        for field in _TASK_PIPELINE_INFO_FIELDS:
+            for task_name in self.__getattribute__(field):
+                pass
+
+    def show(self):
+        for field in _TASK_PIPELINE_INFO_FIELDS:
+            if self.__dict__.__contains__(field):
+                print(field)
+                print(' -> '.join(['   |', *self.__getattribute__(field)]))
+
+    def print(self):
+        for key, value in self.__dict__.items():
+            if key == "task_dict":
+                continue
+            print(f"{key}: {value}")
+
     @staticmethod
     def load_tasks(tasks: dict):
         for name, task_dict in tasks.items():
@@ -131,7 +151,7 @@ class Task:
 
     @staticmethod
     @trace
-    def get(name, parent=None):
+    def get(name) -> Task:
         task = _ALL_TASKS.get(name, None)
         if task is not None:
             if _is_base_task(task):
@@ -150,7 +170,7 @@ class Task:
         base_dict = Task.get(task.base_task).task_dict.copy()
         base_dict.update(task.task_dict)
         base_dict.pop("baseTask")
-        return BaseTask(task.name, base_dict)
+        return BaseTask(task.name, base_dict, task)
 
     @staticmethod
     def _build_template_task(name: str) -> Task:
@@ -159,23 +179,26 @@ class Task:
         base_task = Task.get(rest)
         if _ALL_TASKS.__contains__(name):
             task_dict = _extend_task_dict(base_task.task_dict, _ALL_TASKS[name].task_dict, first)
+            return TemplateTask(name, task_dict, _ALL_TASKS[name])
         else:
             task_dict = _extend_task_dict(base_task.task_dict, None, first)
-        return TemplateTask(name, task_dict)
+            return TemplateTask(name, task_dict, None)
 
 
 class TemplateTask(Task):
 
-    def __init__(self, name: str, task_dict: dict):
+    def __init__(self, name: str, task_dict: dict, raw_task: Task | None):
         super().__init__(name, task_dict)
         self.derived_type = TaskDerivedType.Template
+        self.raw_task = raw_task
 
 
 class BaseTask(Task):
 
-    def __init__(self, name: str, task_dict: dict):
+    def __init__(self, name: str, task_dict: dict, raw_task: Task):
         super().__init__(name, task_dict)
         self.derived_type = TaskDerivedType.Base
+        self.raw_task = raw_task
 
 
 class VirtualTask(Task):
