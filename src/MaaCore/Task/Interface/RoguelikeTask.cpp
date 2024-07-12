@@ -95,7 +95,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         }
 
         // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
-        m_roguelike_config_ptr->set_use_foldartal(params.get("use_foldartal", !(mode == RoguelikeMode::CLP_PDS)));
+        m_roguelike_config_ptr->set_use_foldartal(params.get("use_foldartal", mode != RoguelikeMode::CLP_PDS));
 
         // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
         m_roguelike_config_ptr->set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
