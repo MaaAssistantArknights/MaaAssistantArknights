@@ -493,7 +493,7 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(std::string_view name, cons
     auto array_opt = task_json.find<json::array>("text");
     ocr_task_info_ptr->text = array_opt ? to_string_list(array_opt.value()) : default_ptr->text;
 #ifdef ASST_DEBUG
-    if (!array_opt && default_ptr->text.empty()) {
+    if (!array_opt && default_ptr == default_ocr_task_info_ptr) {
         Log.warn("Ocr task", name, "has implicit empty text.");
     }
 #endif
