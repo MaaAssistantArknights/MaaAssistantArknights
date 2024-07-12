@@ -26,6 +26,7 @@ def _is_base_task(task: Task) -> bool:
     return task.base_task is not None
 
 
+@trace
 def _extend_task_dict(base: dict, override: dict | None, prefix: str) -> dict:
     def add_prefix(s: list[str]) -> list[str]:
         return [f"{prefix}@" + x if not x.startswith('#') else f"{prefix}" + x for x in s]
@@ -92,7 +93,7 @@ class Task:
         # =============== Begin MatchTemplate ================
         if self.algorithm == AlgorithmType.MatchTemplate:
             # 可选项，要匹配的图片文件名
-            self.template = task_dict.get("template", None)
+            self.template = task_dict.get("template", f"{name}.png")
             # 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了。
             self.templ_threshold = task_dict.get("templThreshold", 0.8)
             # 可选项，灰度掩码范围。例如将图片不需要识别的部分涂成黑色（灰度值为 0）
@@ -118,12 +119,13 @@ class Task:
         _ALL_TASKS[name] = self
 
     def __str__(self):
-        return f"{self.derived_type}Task({self.name})"
+        return f"{self.derived_type.value}Task({self.name})"
 
     def __repr__(self):
-        return self.__dict__
+        return str(self.__dict__)
 
     @staticmethod
+    @trace
     def get(name, parent=None):
         task = _ALL_TASKS.get(name, None)
         if task is not None:
@@ -136,8 +138,14 @@ class Task:
             raise ValueError(f"Task {name} not found.")
 
     @staticmethod
+    @trace
     def _build_base_task(task: Task) -> Task:
-        return BaseTask(task.name, _extend_task_dict(task.base_task.task_dict, task.task_dict, ""))
+        if type(task) is BaseTask:
+            return task
+        base_dict = Task.get(task.base_task).task_dict.copy()
+        base_dict.update(task.task_dict)
+        base_dict.pop("baseTask")
+        return BaseTask(task.name, base_dict)
 
     @staticmethod
     def _build_template_task(name: str) -> Task:

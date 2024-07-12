@@ -1,7 +1,7 @@
 import unittest
 
 from ..Task import Task, _ALL_TASKS
-from .utils import test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
+from .utils import test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
 
 
 class TaskTest(unittest.TestCase):
@@ -9,7 +9,7 @@ class TaskTest(unittest.TestCase):
     def tearDown(self):
         _ALL_TASKS.clear()
 
-    def test_1(self):
+    def test_template_task_inheritance(self):
         Task("A", test_pipeline_a)
         task = Task._build_template_task("B@A")
         self.assertEqual(task.task_dict, {
@@ -20,7 +20,7 @@ class TaskTest(unittest.TestCase):
             "reduceOtherTimes": ["B@A_reduceOtherTimes"],
         })
 
-    def test_2(self):
+    def test_nested_template_task_inheritance(self):
         Task("A", test_pipeline_a)
         Task("B", test_pipeline_b)
         task = Task._build_template_task("C@B@A")
@@ -39,7 +39,7 @@ class TaskTest(unittest.TestCase):
             "reduceOtherTimes": ["C@B@A_reduceOtherTimes"],
         })
 
-    def test_3(self):
+    def test_template_task_with_override(self):
         Task("A", test_pipeline_a)
         Task("B", test_pipeline_b)
         Task("B@A", {
@@ -58,7 +58,7 @@ class TaskTest(unittest.TestCase):
             "reduceOtherTimes": ["C@no_new_reduceOtherTimes"],
         })
 
-    def test_4(self):
+    def test_virtual_task(self):
         Task("virtual", test_virtual_task)
         task = Task._build_template_task("B@virtual")
         self.assertEqual(task.task_dict, {
@@ -68,7 +68,7 @@ class TaskTest(unittest.TestCase):
             "exceededNext": ["B#virtual_exceededNext"],
         })
 
-    def test_5(self):
+    def test_algorithm_override(self):
         Task("A", {**test_pipeline_a, **test_match_template_a})
         Task("B@A", {
             "algorithm": "OcrDetect",
