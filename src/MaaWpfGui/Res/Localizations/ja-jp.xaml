@@ -216,6 +216,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">ファイル名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">消去しました！</system:String>
     <system:String x:Key="AlreadyLatest">最新版をインストール済みです~</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">現在はデバッグバージョンであり、更新は必要ありません</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">アップデートパッケージを見つけるのに失敗しました</system:String>
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
