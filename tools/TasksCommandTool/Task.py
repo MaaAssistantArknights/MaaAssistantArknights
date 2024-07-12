@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import math
 
-from debug import trace
-from TaskType import AlgorithmType, ActionType, TaskDerivedType
+from .debug import trace
+from .TaskType import AlgorithmType, ActionType, TaskDerivedType
 
 # 存储所有任务
 _ALL_TASKS = {}
