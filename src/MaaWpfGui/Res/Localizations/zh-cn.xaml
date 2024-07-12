@@ -217,6 +217,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">文件名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已将其删除！</system:String>
     <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">当前为调试版本，无需更新</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">检查更新失败</system:String>
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
