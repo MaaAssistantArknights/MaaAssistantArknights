@@ -56,8 +56,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         return false;
     }
 
-    m_roguelike_register_plugins(theme);
-
     auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
     if (!RoguelikeConfig::is_valid_mode(mode, theme)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
@@ -108,7 +106,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     }
     // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-    m_roguelike_register_plugins(theme);
+    m_roguelike_register_plugins();
 
     m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
     m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));
@@ -181,7 +179,10 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     return true;
 }
 
-void asst::RoguelikeTask::m_roguelike_register_plugins(std::string theme) {
+void asst::RoguelikeTask::m_roguelike_register_plugins() {
+
+    LogTraceFunction;
+
     // 通用插件
     m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>(m_roguelike_config_ptr);
@@ -214,7 +215,7 @@ void asst::RoguelikeTask::m_roguelike_register_plugins(std::string theme) {
     m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_roguelike_config_ptr);
 
     // 萨米肉鸽专用插件
-    if (theme == RoguelikeTheme::Sami) {
+    if (m_roguelike_config_ptr->get_theme() == RoguelikeTheme::Sami) {
         m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_roguelike_config_ptr);
         m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_roguelike_config_ptr);
         m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
