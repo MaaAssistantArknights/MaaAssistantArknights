@@ -8,14 +8,13 @@ from .TaskType import AlgorithmType, ActionType, TaskDerivedType
 # 存储所有任务
 _ALL_TASKS = {}
 
-# TaskPipelineInfo
+# TaskPipelineInfo 中的字段
 # see src/MaaCore/Common/AsstTypes.h
 _TASK_PIPELINE_INFO_FIELDS = ["sub", "next", "onErrorNext", "exceededNext", "reduceOtherTimes"]
-# TaskInfo 中的字段
-_TASK_INFO_FIELDS = ["algorithm", "action", "subErrorIgnored", "maxTimes", "specificRect", "preDelay",
-                     "postDelay", "retryTimes", "roi", "rectMove", "cache", "specialParams"]
-# 继承时需要处理的字段
-_TASK_EXTEND_FIELDS = _TASK_PIPELINE_INFO_FIELDS + _TASK_INFO_FIELDS
+# TaskInfo 中的字段 继承TaskPipelineInfo
+_TASK_INFO_FIELDS = _TASK_PIPELINE_INFO_FIELDS + ["algorithm", "action", "subErrorIgnored", "maxTimes", "specificRect",
+                                                  "preDelay", "postDelay", "retryTimes", "roi", "rectMove", "cache",
+                                                  "specialParams"]
 
 
 def _is_template_task_name(name: str) -> bool:
@@ -38,7 +37,7 @@ def _extend_task_dict(base: dict, override: dict | None, prefix: str) -> dict:
     elif algorithm := override.get("algorithm", None):
         assert base.__contains__("algorithm")
         if algorithm != base["algorithm"]:
-            task_dict = {field: base[field] for field in _TASK_EXTEND_FIELDS if field in base}
+            task_dict = {field: base[field] for field in _TASK_INFO_FIELDS if field in base}
             # 覆盖任务名
             task_dict["algorithm"] = algorithm
 
