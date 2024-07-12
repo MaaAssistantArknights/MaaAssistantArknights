@@ -702,7 +702,7 @@ asst::TaskConstPtr asst::TaskData::_default_task_info()
     auto task_info_ptr = std::make_shared<TaskInfo>();
     task_info_ptr->algorithm = AlgorithmType::MatchTemplate;
     task_info_ptr->action = ProcessTaskAction::DoNothing;
-    task_info_ptr->cache = true;
+    task_info_ptr->cache = false;
     task_info_ptr->max_times = INT_MAX;
     task_info_ptr->pre_delay = 0;
     task_info_ptr->post_delay = 0;
