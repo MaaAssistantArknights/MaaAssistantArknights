@@ -28,6 +28,9 @@ bool asst::MedicineCounterTaskPlugin::_run()
     LogTraceFunction;
 
     if (m_used_count >= m_max_count && !m_use_expiring) {
+        LogTrace << __FUNCTION__ << "Needn't to use medicines"
+                 << ",used:" << m_used_count << ",max:" << m_max_count
+                 << "use_expiring:" << m_use_expiring;
         return true;
     }
 
