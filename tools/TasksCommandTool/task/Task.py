@@ -125,6 +125,11 @@ class Task:
         return str(self.__dict__)
 
     @staticmethod
+    def load_tasks(tasks: dict):
+        for name, task_dict in tasks.items():
+            Task(name, task_dict)
+
+    @staticmethod
     @trace
     def get(name, parent=None):
         task = _ALL_TASKS.get(name, None)

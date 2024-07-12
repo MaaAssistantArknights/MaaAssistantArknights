@@ -1,6 +1,6 @@
 import unittest
 
-from ..Task import Task, _ALL_TASKS
+from tools.TasksCommandTool.task import Task, _ALL_TASKS
 from .utils import test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
 
 
