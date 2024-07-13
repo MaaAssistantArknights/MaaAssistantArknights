@@ -1,12 +1,8 @@
-import unittest
-
-from tools.TasksCommandTool.task import Task, _ALL_TASKS
-from .utils import test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
+from ..Task import Task
+from .utils import test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a, TaskTest
 
 
-class BaseTaskTest(unittest.TestCase):
-    def tearDown(self):
-        _ALL_TASKS.clear()
+class BaseTaskTest(TaskTest):
 
     def test_base_task_override(self):
         Task("A", {**test_pipeline_a, **test_match_template_a})
@@ -16,7 +12,7 @@ class BaseTaskTest(unittest.TestCase):
         })
         Task("C", test_info_a)
         task = Task._build_base_task(Task.get("B@A"))
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             'action': 'ClickSelf',
             'algorithm': 'OcrDetect',
             'cache': False,

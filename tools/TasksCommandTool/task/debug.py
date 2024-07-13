@@ -6,6 +6,12 @@ _PREFIX = ""
 _ENABLE_TRACING = False
 
 
+def enable_tracing():
+    """Enables tracing for all decorated functions."""
+    global _ENABLE_TRACING
+    _ENABLE_TRACING = True
+
+
 def trace(fn):
     """A decorator that prints a function's name, its arguments, and its return
     values each time the function is called. For example,
@@ -32,7 +38,7 @@ def trace(fn):
             _PREFIX = _PREFIX[:-4]
             raise
         # Here, print out the return value.
-        log('{0}({1}) -> {2}'.format(fn.__name__, ', '.join(reprs), result))
+        log('{0}({1}) -> {2}'.format(fn.__name__, ', '.join(reprs), repr(result)))
         return result
 
     return wrapped

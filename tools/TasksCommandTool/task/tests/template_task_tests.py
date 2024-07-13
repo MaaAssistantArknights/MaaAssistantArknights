@@ -1,13 +1,10 @@
 import unittest
 
-from tools.TasksCommandTool.task import Task, _ALL_TASKS
-from .utils import test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
+from ..Task import Task, _ALL_TASKS
+from .utils import TaskTest, test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
 
 
-class TaskTest(unittest.TestCase):
-
-    def tearDown(self):
-        _ALL_TASKS.clear()
+class TemplateTaskTest(TaskTest):
 
     def test_template_task_inheritance(self):
         Task("A", test_pipeline_a)

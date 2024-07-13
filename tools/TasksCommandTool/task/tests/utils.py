@@ -1,3 +1,20 @@
+import unittest
+from ..Task import _ALL_TASKS
+from ..debug import enable_tracing
+
+
+class TaskTest(unittest.TestCase):
+    enable_tracing()
+
+    def tearDown(self):
+        _ALL_TASKS.clear()
+
+    def assertTaskEqual(self, actual, expected):
+        actual = actual.to_task_dict()
+        for key in expected:
+            self.assertEqual(actual[key], expected[key])
+
+
 test_pipeline_a = {
     "sub": ["A_sub", "A_sub2"],
     "next": ["A_next"],
