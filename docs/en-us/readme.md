@@ -79,6 +79,7 @@ Check [Beginner's Guide](./manual/newbie.md) and [User Manual](./manual/introduc
 ::: tip
 For YostarEN, due to interface layout issues, the only supported resolution is `1920x1080`
 :::
+
 ## FAQ
 
 - The program crashes immediately when I try to run it.
