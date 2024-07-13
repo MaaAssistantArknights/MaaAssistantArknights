@@ -62,7 +62,7 @@ Usage of `resource/tasks.json` and description of each field
         "postDelay": 1000,                  // Optional, indicates how long the action is delayed after execution before it is recognized next, in milliseconds; default 0 if not filled in
 
         "roi": [ 0, 0, 1280, 720 ],         // Optional, indicating the range of recognition, in the format [ x, y, width, height ]
-                                            // Auto-scaling to 1280 * 720; default when not filled [ 0, 0, 1280, 720 ]
+                                            // Auto-scaling to 1280x720; default when not filled [ 0, 0, 1280, 720 ]
                                             // Fill in as much as possible, reducing the recognition range can reduce performance consumption and speed up recognition
 
         "cache": true,                      // Optional, indicates whether the task uses caching or not, default is true;

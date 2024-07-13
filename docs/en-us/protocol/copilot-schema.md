@@ -21,7 +21,7 @@ Usage of `resource/copilot/*.json` and field description.
             "skill_usage": 0,       // Skill usage, optional, 0 by default
                                     // 0 - Used on `actions`
                                     // 1 - Used when ready (e.g. Thorns: Destreza, Myrtle: Support Beta)
-                                    // 2 - Used when ready, only once（e.g. Mountain: Sweeping Stance）
+                                    // 2 - Used when ready, only once (e.g. Mountain: Sweeping Stance)
                                     // 3 - Auto-decision (not implemented)
                                     // 0 for auto skills
 

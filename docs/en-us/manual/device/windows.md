@@ -50,7 +50,7 @@ const fullySupport = shuffleArray([
         note: 'Fully compatible, but less tested.',
     },
     {
-        name: 'Google Play Games（Developer）',
+        name: 'Google Play Games (Developer)',
         link: 'https://developer.android.com/games/playgames/emulator?hl=zh-cn',
         note: 'Fully compatible, but less tested. Hyper-V must be turned on and you must be logged into a Google account.',
     },
