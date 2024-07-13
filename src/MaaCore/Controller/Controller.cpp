@@ -155,10 +155,10 @@ bool asst::Controller::start_game(const std::string& client_type)
     return m_controller->start_game(client_type);
 }
 
-bool asst::Controller::stop_game()
+bool asst::Controller::stop_game(const std::string& client_type)
 {
     CHECK_EXIST(m_controller, false);
-    return m_controller->stop_game();
+    return m_controller->stop_game(client_type);
 }
 
 bool asst::Controller::click(const Point& p)

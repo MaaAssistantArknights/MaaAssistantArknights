@@ -1983,14 +1983,18 @@ namespace MaaWpfGui.Main
             return id != 0;
         }
 
-        public bool AsstAppendCloseDown()
+        public bool AsstAppendCloseDown(string clientType)
         {
+            var taskParams = new JObject
+            {
+                ["client_type"] = clientType,
+            };
             if (!AsstStop())
             {
                 _logger.Warning("Failed to stop Asst");
             }
 
-            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown");
+            AsstTaskId id = AsstAppendTaskWithEncoding("CloseDown", taskParams);
             _latestTaskId[TaskType.CloseDown] = id;
             return id != 0;
         }
@@ -1998,10 +2002,11 @@ namespace MaaWpfGui.Main
         /// <summary>
         /// <c>CloseDown</c> 任务。
         /// </summary>
+        /// <param name="clientType">客户端版本。</param>
         /// <returns>是否成功。</returns>
-        public bool AsstStartCloseDown()
+        public bool AsstStartCloseDown(string clientType)
         {
-            return AsstAppendCloseDown() && AsstStart();
+            return AsstAppendCloseDown(clientType) && AsstStart();
         }
 
         public bool AsstBackToHome()
