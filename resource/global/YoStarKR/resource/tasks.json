@@ -6103,6 +6103,7 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
+        "action": "ClickSelf",
         "roi": [
             1006,
             445,
@@ -6113,7 +6114,6 @@
             "테마진입"
         ],
         "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "next": [
             "Roguelike@FromIntegratedStrategies",
             "Roguelike@Begin"
@@ -6933,6 +6933,8 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
+        "action": "DoNothing",
+        "cache": false,
         "ocrReplace": [
             [
                 "수적붕괴",
@@ -7016,8 +7018,6 @@
             ]
         ],
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "去量化",
             "去量深化",
@@ -7042,9 +7042,9 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "algorithm": "OcrDetect",
         "action": "DoNothing",
         "cache": false,
+        "algorithm": "OcrDetect",
         "text": [
             "正在提交反馈至神经"
         ],
@@ -7066,6 +7066,8 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+        "action": "DoNothing",
+        "cache": false,
         "doc": "The translations are not verified.",
         "ocrReplace": [
             [
@@ -7078,8 +7080,6 @@
             ]
         ],
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "坍缩范式加深",
             "坍缩范式消退"
@@ -7092,6 +7092,8 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+        "action": "DoNothing",
+        "cache": false,
         "doc": "The translation is not verified.",
         "ocrReplace": [
             [
@@ -7100,8 +7102,6 @@
             ]
         ],
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "当前坍缩值"
         ],
