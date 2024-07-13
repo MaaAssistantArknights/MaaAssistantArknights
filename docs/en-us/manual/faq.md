@@ -37,7 +37,7 @@ Only official sources are listed here. We can't gurantee whether some random thi
 
 #### Notes on Windows N/KN
 
-- If you are using Windows 8/8.1/10/11 N/KN（Europe/Korea）editions, you also need [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
+- If you are using Windows 8/8.1/10/11 N/KN (Europe/Korea)editions, you also need [Media Feature Pack](https://support.microsoft.com/en-us/topic/c1c6fffa-d052-8338-7a79-a4bb980a700a)。
 
 #### Notes on Windows 7
 

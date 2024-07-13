@@ -16,7 +16,7 @@ icon: mingcute:android-fill
 :::
 
 ::: tip
-Typical `16:9` ratio resolutions are `3840*2160` (4K), `2560*1440` (2K), `1920*1080` (1080P), `1280*720` (720P).
+Typical `16:9` ratio resolutions are `3840x2160` (4K), `2560x1440` (2K), `1920x1080` (1080P), `1280x720` (720P).
 :::
 
 ## Download, run adb debugging tool and connect the device
@@ -88,7 +88,7 @@ Mobile phone screen resolution is `short side*long side`, not `long side*short s
 
 - Some applications with irregular design may still have wrong layout after restoring the resolution, usually restarting the corresponding application or device can solve the problem.
 
-::: danger Note
+::: danger Warning
 It is strongly recommended to restore the resolution **before** restarting the device next time, otherwise it may lead to unpredictable consequences depending on the device, ~~including but not limited to chaotic layout, touch misalignment, application flashback, unlocking, etc~~.
 :::
 

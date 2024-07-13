@@ -33,12 +33,12 @@ Content you want to write
 
 Accepted container types and their default titles are as follows:
 
-- `tip` Tip
-- `note` note
-- `info` info
-- `warning` warning
-- `danger` danger
-- `details` details
+- `tip` Tips
+- `note` Note
+- `info` Info
+- `warning` Warning
+- `danger` Caution
+- `details` Details
 
 ### Container Examples
 

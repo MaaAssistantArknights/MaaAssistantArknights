@@ -85,7 +85,7 @@ Talk is cheap. Show me the pictures!
 
 Check [Beginner's Guide](./manual/newbie.md) and [User Manual](./manual/introduction/).
 ::: tip
-For YostarEN, due to interface layout issues, the only supported resolution is '1920 * 1080'.
+For YostarEN, due to interface layout issues, the only supported resolution is `1920x1080`
 :::
 ## FAQ
 

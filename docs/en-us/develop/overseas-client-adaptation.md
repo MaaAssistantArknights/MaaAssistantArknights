@@ -27,7 +27,7 @@ Before making changes, there are several preparations that need to be noted:
 To get high-quality screenshots, please follow these guidelines:
 
 1. Use the screenshot tool provided with the emulator to take and save screenshots.
-2. Ensure that the size of the screenshot is at least `1280*720` and the aspect ratio is `16:9`.
+2. Ensure that the size of the screenshot is at least `1280x720` and the aspect ratio is `16:9`.
 3. Make sure the screenshot does not contain any extraneous content, such as the taskbar, status bar, or notification bar.
 4. Make sure the screenshot includes all the content that needs to be recognized.
 
