@@ -53,7 +53,7 @@ TODO: replace these Chinese emulators links with English ones
 - [Memu](https://bbs.xyaz.cn/forum.php?mod=viewthread&tid=365537) `21503`
 - [Nox](https://support.yeshen.com/zh-CN/qt/ml) `62001`
 
-For other simulators, please check [Zhao Qingqing’s blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html).
+For other simulators, please check [Zhao Qingqing's blog](https://www.cnblogs.com/zhaoqingqing/p/15238464.html).
 
 #### Multiple Emulators
 

@@ -436,7 +436,7 @@ There is no need to set up too many customised plans when there is a problem. It
         ],
     ```
 
-### Have a special understanding of an operator’s playing style? -- Refined operation of specific operators
+### Have a special understanding of an operator's playing style? -- Refined operation of specific operators
 
 Please group this officer separately
 
@@ -444,7 +444,7 @@ When writing assignments, please consider the sequential priority of this office
 
 Or you could just forget about it, and write a combat logic for this agent alone
 
-It’s also possible to use just one operator! Use MAA to clear the level (due to other imperfections in logic, the possibility is very low)
+It's also possible to use just one operator! Use MAA to clear the level (due to other imperfections in logic, the possibility is very low)
 
 Reference examples: 1. Thorns in Phantom I.S. 2. Texas the Omertosa in Mizuki I.S. 3. Reed the Flame Shadow in Sami I.S.
 
@@ -476,7 +476,7 @@ The Encounter options can be modified to guide MAA towards special endings
             "name": "低地市集",                    // Name of the Encounter
             "option_num": 3,                      // There are several options in total (In this case: 3)
             "choose": 3,                          // Which option should you choose first (the third one is preferred here)
-                                                  // If you can’t choose it, choose the escape option (basically the last one)
+                                                  // If you can't choose it, choose the escape option (basically the last one)
 
             "choice_require": [                   // Requirements for selecting options
                                                   // (it does not affect program operation for the time being

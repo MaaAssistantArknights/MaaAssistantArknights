@@ -40,10 +40,10 @@ This endpoint must be able to accept a `Content-Type=application/json` POST requ
         },
         {
             "id": "15be4725-5bd3-443d-8ae3-0a5ae789254c",   // A unique uuid, used in the same way as above.
-            "type": "LinkStart-Recruiting",                 // Immediately executes the corresponding sub-function of ‘LinkStart’ individually according to the current configuration, ignoring the tick box of this function on the GUI. The optional values for this type of Type are detailed below.
+            "type": "LinkStart-Recruiting",                 // Immediately executes the corresponding sub-function of "LinkStart" individually according to the current configuration, ignoring the tick box of this function on the GUI. The optional values for this type of Type are detailed below.
         },
         {
-            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Same as ‘id’ above
+            "id": "b353c469-b902-4357-bd8f-d133199eea31",   // Same as "id" above
             "type": "Toolbox-GachaOnce",                    //The Gacha function in the toolbox, with optional values for this class Type:Toolbox-GachaOnce, Toolbox-GachaTenTimes
         },
         {
@@ -62,7 +62,7 @@ This endpoint must be able to accept a `Content-Type=application/json` POST requ
         },
         {
             "id": "b353c469-b902-4357-bd8f-d133199eea31",   // A unique uuid, used in the same way as above.
-            "type": "HeartBeat",                            // "Heartbeat" task, the task will immediately return the current ‘sequential task’ queue in the task is executing as the Payload, if there is currently no task execution, return the empty string.
+            "type": "HeartBeat",                            // "Heartbeat" task, the task will immediately return the current "sequential task" queue in the task is executing as the Payload, if there is currently no task execution, return the empty string.
         },
     ],
     ...     // If you have other uses for this endpoint, you can add other return values of your own, but MAA will only read tasks.

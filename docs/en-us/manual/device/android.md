@@ -116,7 +116,7 @@ It is strongly recommended to restore the resolution **before** restarting the d
 
 2. Rename the first file to `startup.bat` and the second file to `finish.bat`.
 
-   - If you don't see the double confirmation dialogue box for changing extension after renaming, and the file icon doesn't change, please search for ‘How to display file extension in Windows’. 3.
+   - If you don't see the double confirmation dialogue box for changing extension after renaming, and the file icon doesn't change, please search for "How to display file extensions in Windows".
 
 3. In `Settings` - `Connection` - `Starts with Script` and `Ends with Script` of MAA, fill in `startup.bat` and `finish.bat` respectively.
 

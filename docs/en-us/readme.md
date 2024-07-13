@@ -83,8 +83,10 @@ Talk is cheap. Show me the pictures!
 
 ### Basic Settings
 
-Check [Beginner’s Guide](./manual/newbie.md) and [User Manual](./manual/introduction/).
-
+Check [Beginner's Guide](./manual/newbie.md) and [User Manual](./manual/introduction/).
+::: tip
+For YostarEN, due to interface layout issues, the only supported resolution is '1920 * 1080'.
+:::
 ## FAQ
 
 - The program crashes immediately when I try to run it.
