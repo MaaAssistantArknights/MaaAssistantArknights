@@ -6001,7 +6001,7 @@
             700,
             530,
             230,
-            200
+            190
         ],
         "next": [
             "ReceiveAward",
@@ -8553,7 +8553,7 @@
         "template": "InfrastTrainingContinue.png",
         "roi": [
             310,
-            570,
+            535,
             195,
             185
         ]
