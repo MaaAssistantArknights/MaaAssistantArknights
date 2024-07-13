@@ -181,6 +181,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitRoguelike()
         {
+            UpdateRoguelikeModeList();
             UpdateRoguelikeSquadList();
             UpdateRoguelikeCoreCharList();
         }
@@ -1758,6 +1759,32 @@ namespace MaaWpfGui.ViewModels.UI
 
         #region 肉鸽设置
 
+        private void UpdateRoguelikeModeList()
+        {
+            var roguelikeMode = RoguelikeMode;
+
+            RoguelikeModeList =
+            [
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
+
+                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
+                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
+                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = "4" },
+            ];
+
+            switch (RoguelikeTheme)
+            {
+                case "Sami":
+
+                    RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = "5" });
+                    
+                    break;
+            }
+
+            RoguelikeMode = RoguelikeModeList.Any(x => x.Value == roguelikeMode) ? roguelikeMode : "0";
+        }
+
         private void UpdateRoguelikeSquadList()
         {
             var roguelikeSquad = RoguelikeSquad;
@@ -1829,7 +1856,7 @@ namespace MaaWpfGui.ViewModels.UI
                 RoguelikeSquadList.Add(item);
             }
 
-            _roguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
+            RoguelikeSquad = RoguelikeSquadList.Any(x => x.Value == roguelikeSquad) ? roguelikeSquad : string.Empty;
         }
 
         private void UpdateRoguelikeCoreCharList()
@@ -1891,18 +1918,16 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
             ];
 
+        private ObservableCollection<CombinedData> _roguelikeModeList = new();
+
         /// <summary>
         /// Gets the list of roguelike modes.
         /// </summary>
-        public List<CombinedData> RoguelikeModeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyExp"), Value = "0" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyGold"), Value = "1" },
-
-                // new CombData { Display = "两者兼顾，投资过后退出", Value = "2" } // 弃用
-                // new CombData { Display = Localization.GetString("3"), Value = "3" },  // 开发中
-                new() { Display = LocalizationHelper.GetString("RoguelikeStrategyLastReward"), Value = "4" },
-            ];
+        public ObservableCollection<CombinedData> RoguelikeModeList
+        {
+            get => _roguelikeModeList;
+            set => SetAndNotify(ref _roguelikeModeList, value);
+        }
 
         private ObservableCollection<CombinedData> _roguelikeSquadList = new();
 
@@ -1940,6 +1965,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _roguelikeTheme, value);
+                UpdateRoguelikeModeList();
                 UpdateRoguelikeSquadList();
                 UpdateRoguelikeCoreCharList();
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeTheme, value);
