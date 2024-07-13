@@ -43,8 +43,6 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!
 
-<!-- markdownlint-disable -->
-
 ```component ImageGrid
 {
   "imageList": [
@@ -67,37 +65,6 @@ Talk is cheap. Show me the pictures!
   ]
 }
 ```
-
-<!-- <div class="image-en-us">
-  <img src="/image/en-us/readme/1-dark.png" />
-  <img src="/image/en-us/readme/2-dark.png" />
-  <img src="/image/en-us/readme/3-dark.png" />
-  <img src="/image/en-us/readme/4-dark.png" />
-</div> -->
-
-<style>
-  .image-en-us {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .image-en-us > img {
-     box-sizing: border-box;
-     width: 50% !important;
-     padding: 9px;
-     border-radius: 16px;
-  }
-
-  @media (max-width: 419px){
-    .image-en-us > img {
-      width: 100% !important;
-    }
-  }
-</style>
-
-<!-- markdownlint-restore -->
 
 ## Download
 
