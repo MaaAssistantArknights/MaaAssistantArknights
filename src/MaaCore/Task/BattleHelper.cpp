@@ -99,6 +99,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     LogTraceFunction;
 
     if (init) {
+        AvatarCache.remove_avatars(Role::Drone);
         wait_until_start(false);
     }
 
@@ -153,7 +154,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
-            static const double cooling_threshold =
+            static const auto cooling_threshold =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
             static const auto cooling_mask_range =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
@@ -162,9 +163,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 .set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
-            static const double threshold =
+            static const auto threshold =
                 Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
-            static const double drone_threshold =
+            static const auto drone_threshold =
                 Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }
