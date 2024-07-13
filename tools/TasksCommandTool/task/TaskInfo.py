@@ -1,11 +1,6 @@
 from TaskType import TaskDerivedType, AlgorithmType, ActionType
 
 
-class Rect:
-    x: int
-    y: int
-    width: int
-    height: int
 
 
 class TaskPipelineInfo:
@@ -18,7 +13,7 @@ class TaskPipelineInfo:
 
 
 class TaskDerivedInfo(TaskPipelineInfo):
-    type: TaskDerivedType = TaskDerivedType.RawTask
+    type: TaskDerivedType = TaskDerivedType.Raw
     base: str = None
     prefix: str = None
 
