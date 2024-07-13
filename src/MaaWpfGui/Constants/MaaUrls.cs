@@ -62,6 +62,9 @@ namespace MaaWpfGui.Constants
         // 常见问题
         public static string HelpUri => $"{MaaDocs}/{Language}/manual/faq.html";
 
+        // YostarEN resolution info
+        public static string YostarENResolution => $"{MaaDocs}/{Language}/";
+
         // 外服适配教程
         public static string OverseasAdaptation => $"{MaaDocs}/{Language}/develop/overseas-client-adaptation.html";
 
