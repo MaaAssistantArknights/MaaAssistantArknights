@@ -12,7 +12,7 @@ class TaskTest(unittest.TestCase):
     def assertTaskEqual(self, actual, expected):
         actual = actual.to_task_dict()
         for key in expected:
-            self.assertEqual(actual[key], expected[key])
+            self.assertEqual(actual[key], expected[key], f"Key: {key}")
 
 
 test_pipeline_a = {
@@ -39,8 +39,8 @@ test_info_a = {
     "preDelay": 0,
     "postDelay": 0,
     "retryTimes": 0,
-    "roi": [],
-    "rectMove": [],
+    "roi": [0, 0, 1280, 720],
+    "rectMove": [0, 0, 0, 0],
     "cache": False,
     "specificRect": [100, 100, 50, 50],
     "specialParams": [],

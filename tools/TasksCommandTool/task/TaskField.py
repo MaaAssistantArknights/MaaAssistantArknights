@@ -4,7 +4,6 @@ from types import UnionType
 from typing import Any, Callable, Type, Union, List, get_origin, get_args
 
 from .TaskType import AlgorithmType, ActionType
-from .debug import trace
 
 
 class TaskField:
@@ -26,7 +25,6 @@ class TaskField:
         self.valid_for_algorithm = valid_for_algorithm
         assert self.is_valid_with(field_default)
 
-    @trace
     def _check_type(self, x: Any) -> bool:
         expected_type = self.field_type
         origin = get_origin(expected_type)
@@ -142,7 +140,7 @@ class TaskFieldEnum(Enum):
         "cache",
         bool,
         "可选项，表示该任务是否使用缓存，默认为 true",
-        True,
+        False,
     )
     SPECIAL_PARAMS = TaskField(
         "specialParams",

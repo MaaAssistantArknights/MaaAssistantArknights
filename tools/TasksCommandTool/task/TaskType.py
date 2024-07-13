@@ -1,4 +1,4 @@
-from enum import Enum, auto
+from enum import Enum
 
 
 class AlgorithmType(Enum):
@@ -7,6 +7,9 @@ class AlgorithmType(Enum):
     MatchTemplate = "MatchTemplate"
     OcrDetect = "OcrDetect"
     Hash = "Hash"
+
+    def __eq__(self, other):
+        return self.value == other
 
 
 class ActionType(Enum):
@@ -17,6 +20,9 @@ class ActionType(Enum):
     DoNothing = "DoNothing"
     Stop = "Stop"
     Swipe = "Swipe"
+
+    def __eq__(self, other):
+        return self.value == other
 
 
 class TaskDerivedType(Enum):

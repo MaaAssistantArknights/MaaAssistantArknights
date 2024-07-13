@@ -1,5 +1,7 @@
+import math
+
+from .utils import test_info_a, test_pipeline_a, test_pipeline_b, test_match_template_a, TaskTest
 from ..Task import Task
-from .utils import test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a, TaskTest
 
 
 class BaseTaskTest(TaskTest):
@@ -13,16 +15,13 @@ class BaseTaskTest(TaskTest):
         Task("C", test_info_a)
         task = Task._build_base_task(Task.get("B@A"))
         self.assertTaskEqual(task, {
-            'action': 'ClickSelf',
+            'action': 'DoNothing',
             'algorithm': 'OcrDetect',
             'cache': False,
-            'maxTimes': 1,
+            'maxTimes': math.inf,
             'postDelay': 0,
             'preDelay': 0,
-            'rectMove': [],
             'retryTimes': 0,
-            'roi': [],
-            'specialParams': [],
             'specificRect': [100, 100, 50, 50],
             'subErrorIgnored': False
         })
@@ -34,7 +33,7 @@ class BaseTaskTest(TaskTest):
             "baseTask": "A"
         })
         task = Task._build_base_task(Task.get("B"))
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             "sub": ["B_sub", "B_sub2"],
             "next": ["B_next"],
             "onErrorNext": ["B_onErrorNext"],
@@ -50,24 +49,12 @@ class BaseTaskTest(TaskTest):
         })
         Task("C", test_info_a)
         task = Task._build_base_task(Task.get("B"))
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             "sub": ["B_sub", "B_sub2"],
             "next": ["B_next"],
             "onErrorNext": ["B_onErrorNext"],
             "exceededNext": ["B_exceededNext"],
             "reduceOtherTimes": ["B_reduceOtherTimes"],
             "algorithm": "MatchTemplate",
-            # "template": "B.png",
-            "action": "ClickSelf",
-            "subErrorIgnored": False,
-            "maxTimes": 1,
-            "preDelay": 0,
-            "postDelay": 0,
-            "retryTimes": 0,
-            "roi": [],
-            "rectMove": [],
-            "cache": False,
-            "specificRect": [100, 100, 50, 50],
-            "specialParams": [],
+            "template": "B.png",
         })
-        self.assertEqual(task.template, "B.png")

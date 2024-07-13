@@ -1,7 +1,5 @@
-import unittest
-
+from .utils import TaskTest, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
 from ..Task import Task, _ALL_TASKS
-from .utils import TaskTest, test_info_a, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
 
 
 class TemplateTaskTest(TaskTest):
