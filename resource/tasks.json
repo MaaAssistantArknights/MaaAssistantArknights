@@ -485,7 +485,6 @@
             129,
             49
         ],
-        "cache": false,
         "specificRect": [
             790,
             310,
@@ -638,7 +637,6 @@
         "action": "ClickSelf",
         "fullMatch": true,
         "isAscii": true,
-        "cache": false,
         "text": [],
         "next": [
             "ClickedCorrectStageOrSwipe",
@@ -672,10 +670,8 @@
     },
     "ClickedCorrectStage": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
         "fullMatch": true,
         "isAscii": true,
-        "cache": false,
         "text": [],
         "ocrReplace": [
             [
@@ -844,7 +840,6 @@
     },
     "1-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "Episode1"
         ],
@@ -917,9 +912,6 @@
         "specialParams": [
             150,
             1
-        ],
-        "next": [
-            "#next"
         ]
     },
     "SwipeLeftToStage1-7": {
@@ -935,7 +927,6 @@
             "1-11",
             "1-12"
         ],
-        "cache": false,
         "roi": [
             0,
             120,
@@ -963,7 +954,6 @@
             "1-6",
             "TR-9"
         ],
-        "cache": false,
         "roi": [
             0,
             120,
@@ -983,7 +973,6 @@
             "1-7"
         ],
         "isAscii": true,
-        "cache": false,
         "roi": [
             0,
             190,
@@ -1016,7 +1005,6 @@
     },
     "StageQueue@CheckPrts": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "maxTimes": 3,
         "next": [
             "StageQueue@UsePrtsSuccess",
@@ -1026,12 +1014,6 @@
     "StageQueue@UsePrts": {
         "Doc": "执行Prts激活",
         "template": "UsePrts.png",
-        "roi": [
-            1000,
-            550,
-            280,
-            90
-        ],
         "next": [
             "StageQueue@CheckPrts"
         ]
@@ -1039,7 +1021,6 @@
     "StageQueue@UsePrtsSuccess": {
         "Doc": "检查代理激活没有，roi引用UnableToAgent2",
         "template": "UsePrtsSuccess.png",
-        "action": "DoNothing",
         "roi": [
             985,
             523,
@@ -1056,7 +1037,6 @@
             "TerminalMistCity.png",
             "TerminalSiege.png"
         ],
-        "cache": false,
         "maxTimes": 3,
         "exceededNext": [
             "Stop"
@@ -1064,8 +1044,7 @@
         "next": [
             "StageQueue@GoLastBattle",
             "StageQueue"
-        ],
-        "postDelay": 3000
+        ]
     },
     "StageQueue@GoLastBattle": {
         "next": [
@@ -1696,7 +1675,6 @@
     "ZTChapterToZT": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "朝见",
             "双塔"
@@ -1778,7 +1756,6 @@
     "CVChapterToCV": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "苍白",
             "平台"
@@ -1861,7 +1838,6 @@
     "SLChapterToSL": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "温泉假日",
             "温泉",
@@ -1945,7 +1921,6 @@
     "HEChapterToHE": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "安布罗修修道院",
             "安布罗修",
@@ -2028,7 +2003,6 @@
     "CWChapterToCW": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "未来将至"
         ],
@@ -2078,7 +2052,6 @@
     },
     "CF-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "CF-Open"
         ],
@@ -2133,7 +2106,6 @@
     },
     "GA-6": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "GA-Open"
         ],
@@ -2144,7 +2116,6 @@
     },
     "GA-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "GA-Open"
         ],
@@ -2155,7 +2126,6 @@
     },
     "GA-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "GA-Open"
         ],
@@ -2217,7 +2187,6 @@
     },
     "WB-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "WB-Open"
         ],
@@ -2228,7 +2197,6 @@
     },
     "WB-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "WB-Open"
         ],
@@ -2239,7 +2207,6 @@
     },
     "WB-9": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "WB-Open"
         ],
@@ -2297,7 +2264,6 @@
     },
     "IW-6": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "IW-Open",
             "IWChapterToIW"
@@ -2309,7 +2275,6 @@
     },
     "IW-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "IW-Open",
             "IWChapterToIW"
@@ -2321,7 +2286,6 @@
     },
     "IW-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "IW-Open",
             "IWChapterToIW"
@@ -2380,7 +2344,6 @@
     },
     "FC-5": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "FC-OpenOpt"
         ],
@@ -2391,7 +2354,6 @@
     },
     "FC-6": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "FC-OpenOpt"
         ],
@@ -2402,7 +2364,6 @@
     },
     "FC-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "FC-OpenOpt"
         ],
@@ -2469,7 +2430,6 @@
     },
     "IS-10": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "IS-10@IS-Open",
             "IS-10@IS-OpenOcr"
@@ -2477,7 +2437,6 @@
     },
     "IS-9": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "IS-9@IS-Open",
             "IS-9@IS-OpenOcr"
@@ -2485,7 +2444,6 @@
     },
     "IS-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "IS-8@IS-Open",
             "IS-8@IS-OpenOcr"
@@ -2518,7 +2476,6 @@
     "EnterChapterIS": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "沃尔西尼"
         ],
@@ -2594,7 +2551,6 @@
     },
     "NL-10": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "NL-Open"
         ],
@@ -2605,7 +2561,6 @@
     },
     "NL-9": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "NL-Open"
         ],
@@ -2616,7 +2571,6 @@
     },
     "NL-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "NL-Open"
         ],
@@ -2640,7 +2594,6 @@
     "NLChapterToNL": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "大骑士领"
         ],
@@ -2673,7 +2626,6 @@
     },
     "GT-5": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "StageEpisode",
             "StageEpisodeToGT",
@@ -2684,7 +2636,6 @@
     "StageEpisodeToGT": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "骑兵与猎人"
         ],
@@ -2698,7 +2649,6 @@
     "GTToGT-5": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "进入",
             "活动"
@@ -2717,7 +2667,6 @@
     },
     "OF-1": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "StageEpisode",
             "StageEpisodeToOF",
@@ -2728,7 +2677,6 @@
     },
     "OF-F3": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "StageEpisode",
             "StageEpisodeToOF",
@@ -2740,7 +2688,6 @@
     "StageEpisodeToOF": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "火蓝之心"
         ],
@@ -2754,7 +2701,6 @@
     "OFToOF-Chapter": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "进入",
             "活动"
@@ -2773,7 +2719,6 @@
     },
     "OF-Chapter2": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1042,
             565,
@@ -2784,7 +2729,6 @@
     "StageOF-F3": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "isAscii": true,
         "text": [
             "OF-F3",
@@ -2799,7 +2743,6 @@
     },
     "IC-9": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "IC-Open"
         ],
@@ -2810,7 +2753,6 @@
     },
     "IC-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "IC-Open"
         ],
@@ -2821,7 +2763,6 @@
     },
     "IC-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "IC-Open"
         ],
@@ -2850,7 +2791,6 @@
     },
     "ICChapterToIC": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1028,
             402,
@@ -2883,7 +2823,6 @@
     },
     "DV-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "DV-Open"
         ],
@@ -2894,7 +2833,6 @@
     },
     "DV-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "DV-Open"
         ],
@@ -2905,7 +2843,6 @@
     },
     "DV-6": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "DV-Open"
         ],
@@ -2935,7 +2872,6 @@
     "DVChapterToDV": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "实验基地"
         ],
@@ -2968,7 +2904,6 @@
     },
     "LE-5": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "LE-Open",
             "LEChapterToLE"
@@ -2980,7 +2915,6 @@
     },
     "LE-6": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "LE-Open",
             "LEChapterToLE"
@@ -2992,7 +2926,6 @@
     },
     "LE-7": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "LE-Open",
             "LEChapterToLE"
@@ -3051,7 +2984,6 @@
     },
     "SN-8": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "SN-Open",
             "SN-Chapter2",
@@ -3060,7 +2992,6 @@
     },
     "SN-9": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "SN-Open",
             "SN-Chapter3",
@@ -3069,7 +3000,6 @@
     },
     "SN-10": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "SN-Open",
             "SN-Chapter3",
@@ -3131,9 +3061,7 @@
     },
     "SN-8@SideStoryStage": {
         "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
         "template": "SN-8.png",
-        "cache": false,
         "roi": [
             296,
             93,
@@ -3143,9 +3071,7 @@
     },
     "SN-9@SideStoryStage": {
         "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
         "template": "SN-9.png",
-        "cache": false,
         "roi": [
             610,
             328,
@@ -3155,9 +3081,7 @@
     },
     "SN-10@SideStoryStage": {
         "algorithm": "MatchTemplate",
-        "action": "ClickSelf",
         "template": "SN-10.png",
-        "cache": false,
         "roi": [
             678,
             220,
@@ -3167,7 +3091,6 @@
     },
     "DH-9": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "DH-Open"
         ],
@@ -3347,8 +3270,7 @@
     "Stage": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false
+        "action": "ClickSelf"
     },
     "StageEntries": {
         "Doc": "base_task",
@@ -3775,8 +3697,6 @@
         ]
     },
     "SwitchAccount@StartUpBegin": {
-        "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "LoginOther#next",
             "SwitchAccount@StartUpThemes#next",
@@ -3793,7 +3713,6 @@
             "TerminalMistCity.png",
             "TerminalSiege.png"
         ],
-        "cache": false,
         "baseTask": "StartUp",
         "next": [
             "Settings"
@@ -3914,7 +3833,6 @@
     },
     "LoginOther": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "preDelay": 3000,
         "next": [
             "AccountManagerOfficial",
@@ -3922,7 +3840,6 @@
         ]
     },
     "AccountManagerOfficial": {
-        "action": "DoNothing",
         "roi": [
             570,
             165,
@@ -3931,7 +3848,6 @@
         ]
     },
     "AccountManagerBili": {
-        "action": "DoNothing",
         "roi": [
             565,
             160,
@@ -3971,7 +3887,6 @@
     },
     "AccountManagerLoginButtonBili": {
         "baseTask": "AccountManagerLoginButton",
-        "template": "AccountManagerLoginButtonBili.png",
         "roi": [
             440,
             360,
@@ -3990,7 +3905,6 @@
     },
     "AccountManagerListAccountBili": {
         "baseTask": "AccountManagerListAccount",
-        "template": "AccountManagerListAccountBili.png",
         "roi": [
             770,
             270,
@@ -4072,7 +3986,6 @@
     },
     "StartUpBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "StartUp@StartUpThemes#next",
             "StartUpBegin@LoadingIcon",
@@ -4088,7 +4001,6 @@
             200,
             120
         ],
-        "cache": false,
         "templThreshold": 0.7,
         "postDelay": 3000,
         "maskRange": [
@@ -4212,8 +4124,6 @@
             "TerminalMistCity.png",
             "TerminalSiege.png"
         ],
-        "cache": false,
-        "action": "DoNothing",
         "roi": [
             844,
             58,
@@ -4250,7 +4160,6 @@
     "CloseAnnoBase": {
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "next": [
             "MainThemes#next",
             "CloseAnnos#next"
@@ -4317,7 +4226,6 @@
     },
     "LoadingText": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
         "text": [
             "正在提交",
             "反馈至神经"
@@ -4366,7 +4274,6 @@
             0.8
         ],
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             0,
@@ -4385,7 +4292,6 @@
     "FromStageSN": {
         "template": "StageSNReturnFlag.png",
         "action": "ClickRect",
-        "cache": false,
         "roi": [
             284,
             509,
@@ -4439,7 +4345,6 @@
         ]
     },
     "OfflineConfirm": {
-        "action": "DoNothing",
         "roi": [
             310,
             409,
@@ -4482,7 +4387,6 @@
         "Doc": "剿灭作战，一般本周的满了也不会有人再刷的，所以只识别右上角ToDoList里的剿灭就可以了",
         "template": "StageAnnihilation.png",
         "templThreshold": 0.9,
-        "cache": false,
         "action": "ClickSelf",
         "roi": [
             900,
@@ -4497,7 +4401,6 @@
     },
     "StageBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Fight@ReturnButtons#next",
             "Fight",
@@ -4507,7 +4410,6 @@
     "FightBegin": {
         "Docs": "Fight@前缀保证各种任务的Main可以自动寻到Fight",
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Fight@UsePrts-Annihilation",
             "Fight@UsePrts",
@@ -4518,7 +4420,6 @@
     },
     "LastOrCurBattleBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Fight@GoLastBattle",
             "Fight@StartButton1",
@@ -4538,7 +4439,6 @@
             280,
             90
         ],
-        "cache": false,
         "next": [
             "UsePrts-Annihilation",
             "StartButton1"
@@ -4551,8 +4451,7 @@
             550,
             280,
             90
-        ],
-        "cache": false
+        ]
     },
     "UsePrts-Annihilation": {
         "Doc": "剿灭的“全权委托”按钮",
@@ -4576,7 +4475,6 @@
             270,
             143
         ],
-        "cache": false,
         "next": [
             "StartButton1"
         ]
@@ -4596,7 +4494,6 @@
             80,
             380
         ],
-        "cache": false,
         "templThreshold": 0.9,
         "maskRange": [
             1,
@@ -4679,7 +4576,6 @@
         "text": [
             "开始行动"
         ],
-        "cache": false,
         "preDelay": 500,
         "postDelay": 1000,
         "roi": [
@@ -4735,19 +4631,16 @@
     },
     "StageSNFlag": {
         "template": "StageSNReturnFlag.png",
-        "cache": false,
         "roi": [
             284,
             509,
             242,
             141
-        ],
-        "action": "DoNothing"
+        ]
     },
     "StageSNReturnFlag": {
         "Doc": "三周年活动关卡“愚人号”的“开始行动”界面，没有返回按钮，点一下返回后面任务出错",
         "action": "ClickRect",
-        "cache": false,
         "roi": [
             284,
             509,
@@ -4813,7 +4706,6 @@
         ]
     },
     "PRTS1": {
-        "action": "DoNothing",
         "template": "BattleOfficiallyBegin.png",
         "roi": [
             1165,
@@ -4860,7 +4752,6 @@
     },
     "WaitAfterPRTS": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "reduceOtherTimes": [
             "ClickCornerAfterPRTS*5"
         ],
@@ -4936,7 +4827,6 @@
             409,
             194
         ],
-        "action": "DoNothing",
         "next": [
             "ClickCorner"
         ]
@@ -4984,7 +4874,6 @@
     },
     "UseMedicine": {
         "doc": "绑定MedicineCounter来使用理智药",
-        "action": "DoNothing",
         "templThreshold": 0.7,
         "roi": [
             580,
@@ -5009,7 +4898,6 @@
             200,
             150
         ],
-        "cache": false,
         "postDelay": 500,
         "reduceOtherTimes": [
             "MedicineNotConfirmed*5"
@@ -5153,7 +5041,6 @@
         "postDelay_Doc": "大于多少毫秒才碎石，否则等待，单位毫秒"
     },
     "UseStone": {
-        "action": "DoNothing",
         "roi": [
             600,
             130,
@@ -5196,7 +5083,6 @@
         "reduceOtherTimes": []
     },
     "NoStone": {
-        "action": "DoNothing",
         "roi": [
             800,
             250,
@@ -5228,7 +5114,6 @@
             1280,
             480
         ],
-        "action": "DoNothing",
         "next": [
             "AbandonAction",
             "OfflineConfirmAfterBattle",
@@ -5314,7 +5199,6 @@
     "RestartGameAndContinue": {
         "Doc": "base_task",
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 5000,
         "next": [
             "StartUpThemes#next",
@@ -5330,7 +5214,6 @@
             "TerminalMistCity.png",
             "TerminalSiege.png"
         ],
-        "cache": false,
         "action": "ClickSelf",
         "roi": [
             844,
@@ -5373,7 +5256,6 @@
     },
     "RecruitBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "RecruitFlag",
             "Recruit",
@@ -5390,7 +5272,6 @@
             "RecruitMistCity.png",
             "RecruitSiege.png"
         ],
-        "cache": false,
         "action": "ClickSelf",
         "roi": [
             900,
@@ -5424,7 +5305,6 @@
     "RecruitFinish": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             0,
             300,
@@ -5500,7 +5380,6 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "postDelay": 500,
-        "cache": false,
         "text": [
             "立即招"
         ],
@@ -5544,7 +5423,6 @@
     },
     "MiningActivitiesBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "MiningActivitiesReturnHome@ReturnButtons#next",
             "MiningActivitiesReturnHome",
@@ -5619,7 +5497,6 @@
     },
     "OrundumActivitiesBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "OrundumActivitiesReturnHome@ReturnButtons#next",
             "OrundumActivitiesReturnHome",
@@ -5681,7 +5558,6 @@
     },
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             150,
             150,
@@ -5745,7 +5621,6 @@
     },
     "RecruitingActivitiesBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "RecruitingActivitiesReturnHome@ReturnButtons#next",
             "RecruitingActivitiesReturnHome",
@@ -5789,7 +5664,6 @@
         ]
     },
     "RecruitingActivitiesConfirm": {
-        "action": "DoNothing",
         "algorithm": "OcrDetect",
         "text": [
             "赠送",
@@ -5870,7 +5744,6 @@
     },
     "RecruitingActivitiesRecruitEnd": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
         "text": [
             "寻访一次",
             "寻访"
@@ -5888,7 +5761,6 @@
     },
     "SpecialAccessActivitiesBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "SpecialAccessActivitiesReturnHome@ReturnButtons#next",
             "SpecialAccessActivitiesReturnHome",
@@ -5972,7 +5844,6 @@
     },
     "AwardBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Award@ReturnButtons#next",
             "Award",
@@ -5990,7 +5861,6 @@
             "TaskMistCity.png",
             "TaskSiege.png"
         ],
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -6079,7 +5949,6 @@
     },
     "DailyTask": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             400,
             0,
@@ -6093,7 +5962,6 @@
     },
     "WeeklyTask": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             400,
             0,
@@ -6107,7 +5975,6 @@
     },
     "MailBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "MailReturnToHome@ReturnButtons#next",
             "MailReturnToHome",
@@ -6131,7 +5998,6 @@
     },
     "Mail": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             120,
             0,
@@ -6146,7 +6012,6 @@
         "postDelay": 2000
     },
     "MailWithoutAward": {
-        "cache": false,
         "roi": [
             120,
             0,
@@ -6183,7 +6048,6 @@
     },
     "VisitBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Visit",
             "FriendsList",
@@ -6202,7 +6066,6 @@
             "FriendsMistCity.png",
             "FriendsSiege.png"
         ],
-        "cache": false,
         "templThreshold": 0.7,
         "maskRange": [
             1,
@@ -6255,7 +6118,6 @@
             350,
             150
         ],
-        "action": "DoNothing",
         "next": [
             "Home@ReturnButtons#next"
         ]
@@ -6272,7 +6134,6 @@
             0.9,
             0.9
         ],
-        "cache": false,
         "roi": [
             990,
             90,
@@ -6323,7 +6184,6 @@
     },
     "MallBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Mall@ReturnButtons#next",
             "Mall",
@@ -6369,7 +6229,6 @@
         ]
     },
     "CreditStoreFailed": {
-        "action": "DoNothing",
         "roi": [
             0,
             45,
@@ -6429,7 +6288,6 @@
             "今日参与",
             "已达上限"
         ],
-        "action": "DoNothing",
         "roi": [
             900,
             50,
@@ -6441,7 +6299,6 @@
         ]
     },
     "VisitNextBlack": {
-        "action": "DoNothing",
         "roi": [
             1080,
             570,
@@ -6460,7 +6317,6 @@
             "TerminalMistCity.png",
             "TerminalSiege.png"
         ],
-        "cache": false,
         "action": "Stop",
         "roi": [
             844,
@@ -6526,7 +6382,6 @@
     },
     "CreditShop-NoMoney": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "text": [
             "信用不足",
             "无法购买"
@@ -6589,7 +6444,6 @@
     "CreditShop-ProductName": {
         "algorithm": "OcrDetect",
         "text": [],
-        "ocrReplace": [],
         "roi": [
             0,
             -30,
@@ -6644,7 +6498,6 @@
         ]
     },
     "RecruitNoPermit": {
-        "action": "DoNothing",
         "roi": [
             300,
             600,
@@ -6653,7 +6506,6 @@
         ]
     },
     "RecruitNoRefresh": {
-        "action": "DoNothing",
         "roi": [
             850,
             340,
@@ -6680,7 +6532,6 @@
     },
     "SleepThenStop": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 2000
     },
     "RecruitTimerH": {
@@ -6742,7 +6593,6 @@
     },
     "InfrastBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Infrast",
             "InfrastNotification",
@@ -6761,7 +6611,6 @@
         "action": "ClickSelf",
         "templThreshold": 0.7,
         "postDelay": 2000,
-        "cache": false,
         "roi": [
             0,
             0,
@@ -6777,7 +6626,6 @@
             "EnterInfrastMistCity.png",
             "EnterInfrastSiege.png"
         ],
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -6808,7 +6656,6 @@
     },
     "InfrastEnteredFlag": {
         "template": "InfrastOverview.png",
-        "action": "DoNothing",
         "roi": [
             0,
             100,
@@ -6828,7 +6675,6 @@
             180,
             300
         ],
-        "cache": false,
         "action": "ClickSelf",
         "next": [
             "InfrastReward",
@@ -6849,7 +6695,6 @@
             800,
             118
         ],
-        "cache": false,
         "next": [
             "InfrastReward",
             "InfrastExitReward"
@@ -6887,7 +6732,6 @@
     },
     "DroneAssistTrade": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             250,
             430,
@@ -6916,7 +6760,6 @@
     "DroneConfirm": {
         "action": "ClickSelf",
         "postDelay": 3500,
-        "cache": false,
         "roi": [
             778,
             501,
@@ -6932,7 +6775,6 @@
     },
     "DroneCancel": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             85,
             498,
@@ -6989,7 +6831,6 @@
     },
     "ShamareThumbnail": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "ShamareThumbnail1",
             "ShamareThumbnail2",
@@ -6997,9 +6838,7 @@
         ]
     },
     "ShamareThumbnail1": {
-        "action": "DoNothing",
         "templThreshold": 0.9,
-        "cache": false,
         "roi": [
             240,
             550,
@@ -7008,9 +6847,7 @@
         ]
     },
     "ShamareThumbnail2": {
-        "action": "DoNothing",
         "templThreshold": 0.9,
-        "cache": false,
         "roi": [
             240,
             550,
@@ -7019,9 +6856,7 @@
         ]
     },
     "ShamareThumbnail3": {
-        "action": "DoNothing",
         "templThreshold": 0.9,
-        "cache": false,
         "roi": [
             240,
             550,
@@ -7285,7 +7120,6 @@
         "templThreshold": 0.95
     },
     "InfrastProcessing": {
-        "template": "InfrastProcessing.png",
         "maskRange": [
             1,
             255
@@ -7299,7 +7133,6 @@
         "templThreshold": 0.95
     },
     "InfrastProcessingMini": {
-        "template": "InfrastProcessingMini.png",
         "maskRange": [
             1,
             255
@@ -7411,7 +7244,6 @@
     "InfrastStationedInfo": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "进驻信息"
         ],
@@ -7428,7 +7260,6 @@
     },
     "InfrastEnterOperList": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "action": "ClickSelf",
         "text": [
             "心情",
@@ -7446,7 +7277,6 @@
     },
     "InfrastClearButton": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             370,
             592,
@@ -7457,7 +7287,6 @@
     },
     "InfrastSortByTrustButton": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1000,
             0,
@@ -7471,7 +7300,6 @@
     "InfrastSortByTrustButtonClickAgain": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             1000,
             0,
@@ -7483,7 +7311,6 @@
     "InfrastFilterMenuNotStationed": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenu.png",
-        "cache": false,
         "roi": [
             1050,
             0,
@@ -7499,7 +7326,6 @@
     "InfrastFilterMenuNotStationedButton": {
         "action": "ClickSelf",
         "templThreshold": 0.85,
-        "cache": false,
         "roi": [
             300,
             300,
@@ -7512,8 +7338,6 @@
         ]
     },
     "InfrastFilterMenuNotStationedButtonAlreadyClicked": {
-        "action": "DoNothing",
-        "cache": false,
         "roi": [
             300,
             300,
@@ -7527,7 +7351,6 @@
     "InfrastFilterMenuCancelNotStationed": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenu.png",
-        "cache": false,
         "roi": [
             1050,
             0,
@@ -7541,10 +7364,8 @@
         "postDelay": 1000
     },
     "InfrastFilterMenuCancelNotStationedButton": {
-        "action": "DoNothing",
         "template": "InfrastFilterMenuNotStationedButton.png",
         "templThreshold": 0.85,
-        "cache": false,
         "roi": [
             300,
             300,
@@ -7559,7 +7380,6 @@
     "InfrastFilterMenuCancelNotStationedButtonAlreadyClicked": {
         "action": "ClickSelf",
         "template": "InfrastFilterMenuNotStationedButtonAlreadyClicked.png",
-        "cache": false,
         "roi": [
             300,
             300,
@@ -7572,7 +7392,6 @@
     },
     "InfrastFilterMenuConfirmButton": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             870,
             528,
@@ -7888,7 +7707,6 @@
     },
     "InfrastClueVacancyNo1": {
         "template": "ClueVacancyNo1.png",
-        "cache": false,
         "templThreshold": 0.75,
         "roi": [
             0,
@@ -7900,7 +7718,6 @@
     },
     "InfrastClueVacancyNo2": {
         "template": "ClueVacancyNo2.png",
-        "cache": false,
         "templThreshold": 0.75,
         "roi": [
             200,
@@ -7912,7 +7729,6 @@
     },
     "InfrastClueVacancyNo3": {
         "template": "ClueVacancyNo3.png",
-        "cache": false,
         "templThreshold": 0.75,
         "roi": [
             400,
@@ -7924,7 +7740,6 @@
     },
     "InfrastClueVacancyNo4": {
         "template": "ClueVacancyNo4.png",
-        "cache": false,
         "templThreshold": 0.75,
         "roi": [
             650,
@@ -7936,7 +7751,6 @@
     },
     "InfrastClueVacancyNo5": {
         "template": "ClueVacancyNo5.png",
-        "cache": false,
         "templThreshold": 0.75,
         "roi": [
             300,
@@ -7948,7 +7762,6 @@
     },
     "InfrastClueVacancyNo6": {
         "template": "ClueVacancyNo6.png",
-        "cache": false,
         "templThreshold": 0.75,
         "roi": [
             500,
@@ -7960,7 +7773,6 @@
     },
     "InfrastClueVacancyNo7": {
         "template": "ClueVacancyNo7.png",
-        "cache": false,
         "templThreshold": 0.75,
         "roi": [
             50,
@@ -8109,7 +7921,6 @@
         ]
     },
     "CloseCluePage": {
-        "template": "CloseCluePage.png",
         "action": "ClickSelf",
         "roi": [
             930,
@@ -8125,7 +7936,6 @@
         ]
     },
     "SendClueFlag": {
-        "action": "DoNothing",
         "Doc": "这里识别的是自己的线索的new：如果获取完自己的线索、再获取完好友送的线索，自己的线索new还亮着，则说明自己的线索没获取成功，即线索满了",
         "next": [
             "SendClues"
@@ -8139,9 +7949,7 @@
         "template": "ClueNew.png"
     },
     "UnlockClues": {
-        "template": "UnlockClues.png",
         "action": "ClickSelf",
-        "cache": false,
         "templThreshold": 0.9,
         "roi": [
             200,
@@ -8157,7 +7965,6 @@
     },
     "UnlockCluesIsFake": {
         "Doc": "点了一次解锁了还在这个界面，说明是识别错了",
-        "cache": false,
         "template": "UnlockClues.png",
         "action": "ClickSelf",
         "templThreshold": 0.9,
@@ -8169,7 +7976,6 @@
         ]
     },
     "ReceptionFlag": {
-        "action": "DoNothing",
         "roi": [
             350,
             0,
@@ -8179,7 +7985,6 @@
     },
     "EndOfClueExchangeBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 1000,
         "next": [
             "EndOfClueExchange",
@@ -8187,7 +7992,6 @@
         ]
     },
     "EndOfClueExchange": {
-        "cache": false,
         "templThreshold": 0.7,
         "roi": [
             0,
@@ -8259,8 +8063,6 @@
     },
     "ClueGiveTo1st": {
         "template": "ClusCanBeSent.png",
-        "action": "DoNothing",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -8292,8 +8094,6 @@
     },
     "ClueGiveTo2nd": {
         "template": "ClusCanBeSent.png",
-        "action": "DoNothing",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -8325,8 +8125,6 @@
     },
     "ClueGiveTo3rd": {
         "template": "ClusCanBeSent.png",
-        "action": "DoNothing",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -8358,8 +8156,6 @@
     },
     "ClueGiveTo4th": {
         "template": "ClusCanBeSent.png",
-        "action": "DoNothing",
-        "cache": false,
         "maskRange": [
             1,
             255
@@ -8432,7 +8228,6 @@
         "text": [
             "空闲中"
         ],
-        "action": "DoNothing",
         "roi": [
             350,
             600,
@@ -8516,7 +8311,6 @@
     },
     "InfrastTrainingChooseSkillRec": {
         "algorithm": "OcrDetect",
-        "isAscii": false,
         "text": [],
         "roi": [
             470,
@@ -8572,7 +8366,6 @@
         ]
     },
     "InfrastTrainingLocked": {
-        "action": "DoNothing",
         "roi": [
             890,
             10,
@@ -8642,7 +8435,6 @@
     },
     "BattleStageName": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "text": [],
         "roi": [
             250,
@@ -9046,7 +8838,6 @@
             "开始试炼",
             "开始测试"
         ],
-        "cache": false,
         "roi": [
             1000,
             600,
@@ -9106,7 +8897,6 @@
     },
     "SkipThePreBattlePlotConfirm": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             721,
             290,
@@ -9153,7 +8943,6 @@
         ]
     },
     "BattleStartAll": {
-        "action": "DoNothing",
         "algorithm": "JustReturn",
         "next": [
             "BattleStartNormal",
@@ -9244,7 +9033,6 @@
         ]
     },
     "BattleOfficiallyBegin": {
-        "action": "DoNothing",
         "roi": [
             1165,
             20,
@@ -9316,8 +9104,7 @@
         "maskRange": [
             100,
             255
-        ],
-        "action": "DoNothing"
+        ]
     },
     "BattleCancelSelection": {
         "algorithm": "JustReturn",
@@ -9437,7 +9224,6 @@
         ]
     },
     "BattleSkillReady": {
-        "cache": false,
         "rectMove": [
             -28,
             -140,
@@ -9453,7 +9239,6 @@
             118
         ],
         "templThreshold": 0.7,
-        "cache": false,
         "action": "ClickSelf",
         "rectMove": [
             0,
@@ -9667,7 +9452,6 @@
             118
         ],
         "templThreshold": 0.7,
-        "cache": false,
         "action": "ClickSelf",
         "maskRange": [
             100,
@@ -9689,7 +9473,6 @@
     },
     "StageDrops-StageName": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
         "isAscii": true,
         "text": [],
         "ocrReplace": [
@@ -9879,7 +9662,6 @@
     },
     "StageDrops-StageCF-FoodBonusFlag": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "text": [
             "用",
             "餐",
@@ -9895,7 +9677,6 @@
     },
     "StageDrops-Stage12-TripleFlag": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "text": [
             "后勤",
             "急派"
@@ -10062,7 +9843,6 @@
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "DepotEnter",
             "DepotMaterialTab",
@@ -10119,7 +9899,6 @@
         ]
     },
     "DepotMaterialTabClicked": {
-        "action": "DoNothing",
         "roi": [
             1026,
             0,
@@ -10201,8 +9980,7 @@
     "ScreenshotTaskPlugin-Config-Debug": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
         "Doc_2": "存在 DEBUG 或 DEBUG.txt 时的额外截图",
-        "algorithm": "JustReturn",
-        "next": []
+        "algorithm": "JustReturn"
     },
     "NormalBattleAbandon": {
         "action": "ClickSelf",
@@ -10234,7 +10012,6 @@
     },
     "OperBoxBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "OperBoxEnter",
             "OperBoxRoleTabSelect",
@@ -10250,7 +10027,6 @@
             "OperBoxEnterMistCity.png",
             "OperBoxEnterSiege.png"
         ],
-        "cache": false,
         "action": "ClickSelf",
         "maskRange": [
             1,
@@ -10635,7 +10411,6 @@
     },
     "SSSConfirmBattleComplete": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "SSSStartFighting",
             "SSSBegin",
@@ -10644,8 +10419,6 @@
     },
     "SSSDropRecruitmentFlag": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "请选择",
             "请进行",
@@ -10682,9 +10455,7 @@
     },
     "SSSDropRecruitmentOCR": {
         "baseTask": "CharsNameOcrReplace",
-        "action": "DoNothing",
         "text": [],
-        "cache": false,
         "roi": [
             0,
             352,
@@ -10711,9 +10482,7 @@
     },
     "SSSHalfTimeDropsBegin": {
         "template": "SSSHalfTimeDropsCancel.png",
-        "action": "DoNothing",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             148,
             332,
@@ -10728,7 +10497,6 @@
     "SSSHalfTimeDrops": {
         "baseTask": "CharsNameOcrReplace",
         "action": "ClickSelf",
-        "cache": false,
         "text": [],
         "roi": [
             206,
@@ -10743,7 +10511,6 @@
     "SSSHalfTimeDropsConfirm": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             1035,
             284,
@@ -10754,7 +10521,6 @@
     "SSSHalfTimeDropsCancel": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             100,
             284,
@@ -10797,7 +10563,6 @@
     },
     "Copilot@ClickCornerUntilEndOfAction": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "maxTimes": 30,
         "exceededNext": [
             "Copilot@EndOfAction"
@@ -10816,7 +10581,6 @@
     },
     "Copilot@EndOfAction": {
         "template": "EndOfAction.png",
-        "action": "DoNothing",
         "reduceOtherTimes": [],
         "next": [
             "Copilot@StageDrops-Stars-3",
@@ -10826,7 +10590,6 @@
     "Copilot@StageDrops-Stars-3": {
         "Doc": "如果没有三星就终止",
         "template": "StageDrops-Stars-3.png",
-        "action": "DoNothing",
         "next": [
             "Copilot@ClickCornerUntilStartButton"
         ]
@@ -10834,7 +10597,6 @@
     "Copilot@StageDrops-Stars-Adverse": {
         "Doc": "如果没有三星就终止",
         "template": "StageDrops-Stars-Adverse.png",
-        "action": "DoNothing",
         "next": [
             "Copilot@ClickCornerUntilStartButton"
         ]
@@ -10847,22 +10609,16 @@
         ]
     },
     "Copilot@ClickCornerUntilStartButton": {
-        "Doc": "三星之后",
-        "next": [
-            "Copilot@BattleStartPreFlag",
-            "Copilot@ClickCornerUntilStartButton"
-        ]
+        "Doc": "三星之后"
     },
     "Copilot@BattleStartPreFlag": {
         "baseTask": "BattleStartPreFlag",
-        "action": "DoNothing",
         "roi": [
             0,
             0,
             1280,
             720
-        ],
-        "next": []
+        ]
     },
     "ClickCornerUntilStartButton": {
         "algorithm": "JustReturn",
@@ -10949,7 +10705,6 @@
         ]
     },
     "ChangeToMoneyOrder": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "InfrastTradeSyntheticJadeFlag.png",
         "cache": true,
@@ -10964,9 +10719,7 @@
         ]
     },
     "ChooseMoneyOrder": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseMoneyOrder.png",
         "cache": true,
         "roi": [
             395,
@@ -10993,7 +10746,6 @@
         ]
     },
     "ChangeToSyntheticJadeFlagOrder": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "InfrastTradeMoneyFlag.png",
         "cache": true,
@@ -11008,9 +10760,7 @@
         ]
     },
     "ChooseSyntheticJadeOrder": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseSyntheticJadeOrder.png",
         "cache": true,
         "roi": [
             635,
@@ -11023,9 +10773,7 @@
         ]
     },
     "ChooseProductList": {
-        "algorithm": "MatchTemplate",
         "action": "ClickRect",
-        "template": "ChooseProductList.png",
         "cache": true,
         "roi": [
             1000,
@@ -11041,7 +10789,6 @@
         ]
     },
     "ConfirmProductChange": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "ReplenishToMaxConfirm.png",
         "cache": true,
@@ -11056,9 +10803,7 @@
         ]
     },
     "ClickProductMax": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ClickProductMax.png",
         "cache": true,
         "roi": [
             920,
@@ -11071,9 +10816,7 @@
         ]
     },
     "ChooseBattleRecord": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseBattleRecord.png",
         "cache": true,
         "roi": [
             240,
@@ -11086,7 +10829,6 @@
         ]
     },
     "ProductFinalConfirm": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
         "template": "SSSSettlementConfirm.png",
         "cache": true,
@@ -11102,9 +10844,7 @@
         ]
     },
     "ChoosePureGoldTab": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChoosePureGoldTab.png",
         "cache": true,
         "roi": [
             10,
@@ -11117,9 +10857,7 @@
         ]
     },
     "ChoosePureGold": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChoosePureGold.png",
         "cache": true,
         "roi": [
             240,
@@ -11132,9 +10870,7 @@
         ]
     },
     "ChooseOriginiumShardTab": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseOriginiumShardTab.png",
         "cache": true,
         "roi": [
             10,
@@ -11147,9 +10883,7 @@
         ]
     },
     "ChooseOriginiumShard": {
-        "algorithm": "MatchTemplate",
         "action": "ClickSelf",
-        "template": "ChooseOriginiumShard.png",
         "cache": true,
         "roi": [
             240,
@@ -11162,7 +10896,6 @@
         ]
     },
     "ChangeProductToMiddleBattleRecord": {
-        "algorithm": "MatchTemplate",
         "action": "ClickRect",
         "template": "ChooseProductList.png",
         "cache": true,
@@ -11183,7 +10916,6 @@
         ]
     },
     "ChangeProductToPureGold": {
-        "algorithm": "MatchTemplate",
         "action": "ClickRect",
         "template": "ChooseProductList.png",
         "cache": true,
@@ -11204,7 +10936,6 @@
         ]
     },
     "ChangeProductToOriginiumShard": {
-        "algorithm": "MatchTemplate",
         "action": "ClickRect",
         "template": "ChooseProductList.png",
         "cache": true,
@@ -11226,21 +10957,18 @@
     },
     "GachaOnce": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "GachaOncePrefix@GachaBegin"
         ]
     },
     "GachaTenTimes": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "GachaTenTimesPrefix@GachaBegin"
         ]
     },
     "GachaBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "DoGacha",
             "GachaEnter",
@@ -11259,7 +10987,6 @@
             "GachaEnterMistCity.png",
             "GachaEnterSiege.png"
         ],
-        "cache": false,
         "roi": [
             1052,
             443,
@@ -11284,7 +11011,6 @@
     "GachaLastOnceResult": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "凭证",
             "信物",
@@ -11303,7 +11029,6 @@
     "GachaLastTenTimesResult1": {
         "action": "ClickSelf",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             0,
             145,
@@ -11317,7 +11042,6 @@
     "GachaLastTenTimesResult2": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "获得物资"
         ],
@@ -11332,7 +11056,6 @@
         ]
     },
     "DoGacha": {
-        "action": "DoNothing",
         "template": "empty.png"
     },
     "GachaOncePrefix@DoGacha": {
@@ -11398,7 +11121,6 @@
         ]
     },
     "GachaWaitingForBag": {
-        "action": "DoNothing",
         "template": "GachaSkip.png",
         "roi": [
             1144,
@@ -11427,7 +11149,6 @@
         "postDelay": 3000
     },
     "GachaSkip": {
-        "template": "GachaSkip.png",
         "action": "ClickSelf",
         "roi": [
             1144,
@@ -11449,7 +11170,6 @@
             "TerminalMistCity.png",
             "TerminalSiege.png"
         ],
-        "cache": false,
         "action": "ClickSelf",
         "roi": [
             844,
@@ -11549,7 +11269,6 @@
             913,
             200
         ],
-        "ocrReplace": [],
         "preDelay": 1000
     },
     "RoguelikeCustom-HijackRoles": {
@@ -11560,8 +11279,7 @@
             356,
             1172,
             183
-        ],
-        "ocrReplace": []
+        ]
     },
     "RoguelikeCustom-HijackSquad": {
         "algorithm": "OcrDetect",
@@ -11571,8 +11289,7 @@
             383,
             1280,
             142
-        ],
-        "ocrReplace": []
+        ]
     },
     "RoguelikeFoldartalSlowlySwipeToTheUp": {
         "baseTask": "SlowlySwipeToTheUp",
@@ -11587,12 +11304,6 @@
             110,
             20,
             20
-        ],
-        "specialParams": [
-            200,
-            1,
-            2,
-            0
         ],
         "postDelay": 500
     },
@@ -11626,7 +11337,6 @@
         ]
     },
     "RoguelikeFormationOper": {
-        "cache": false,
         "roi": [
             363,
             11,
@@ -11682,19 +11392,16 @@
     },
     "RoguelikeQuickFormationClearAndReselect-Stop": {
         "template": "Roguelike@FormationConfirm.png",
-        "action": "DoNothing",
         "roi": [
             1015,
             601,
             265,
             119
         ],
-        "next": [],
         "postDelay": 500
     },
     "RoguelikeQuickFormationDelay": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 100
     },
     "RoguelikeRecruitElite": {
@@ -11822,8 +11529,7 @@
     },
     "RoguelikeRecruitSupportEnterFlag": {
         "baseTask": "RoguelikeRefreshSupportBtnOcr",
-        "postDelay": 0,
-        "action": "DoNothing"
+        "postDelay": 0
     },
     "RoguelikeRecruitSupportLevelOff": {
         "template": "empty.png",
@@ -12031,8 +11737,7 @@
             -40,
             40,
             30
-        ],
-        "postDelay": 0
+        ]
     },
     "RoguelikeSkillSelectionMove2": {
         "algorithm": "JustReturn",
@@ -12073,7 +11778,6 @@
         ]
     },
     "RoguelikeSkillSelectionTeamFull": {
-        "cache": false,
         "roi": [
             135,
             22,
@@ -12126,7 +11830,6 @@
     "RoguelikeTraderShoppingOver": {
         "template": "Roguelike@StageTraderLeave.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1046,
             443,
@@ -12210,12 +11913,10 @@
     },
     "Roguelike@ChooseOper": {
         "Doc": "本任务注册了插件 RoguelikeRecruitTaskPlugin",
-        "algorithm": "JustReturn",
-        "action": "DoNothing"
+        "algorithm": "JustReturn"
     },
     "Roguelike@ChooseOperConfirm": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1016,
             602,
@@ -12232,7 +11933,6 @@
     },
     "Roguelike@ChooseOperFlag": {
         "template": "Roguelike@ChooseOperConfirm.png",
-        "action": "DoNothing",
         "roi": [
             1016,
             602,
@@ -12301,7 +12001,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             569,
             400,
@@ -12313,7 +12012,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             567,
             584,
@@ -12333,7 +12031,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1032,
             487,
@@ -12395,7 +12092,6 @@
     "Roguelike@Exit": {
         "template": "Roguelike@ExitThenAbandon.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             0,
@@ -12408,7 +12104,6 @@
     },
     "Roguelike@ExitThenAbandon": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             0,
@@ -12419,7 +12114,6 @@
     "Roguelike@ExitThenAbandon_ToHardest": {
         "template": "Roguelike@ExitThenAbandon.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             0,
@@ -12441,7 +12135,6 @@
     },
     "Roguelike@FromIntegratedStrategies": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Roguelike@Begin"
         ]
@@ -12449,7 +12142,6 @@
     "Roguelike@GamePass": {
         "Doc": "base_task, 注册了RoguelikeSettlement插件用于存储结算图",
         "template": "empty.png",
-        "cache": false,
         "roi": [
             400,
             0,
@@ -12517,7 +12209,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             471,
@@ -12586,7 +12277,6 @@
         "Doc2": "不要了，走了（",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             218,
@@ -12601,7 +12291,6 @@
     },
     "Roguelike@GetDropLeaveConfirm": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             484,
@@ -12617,7 +12306,6 @@
         "Doc2": "招募券，白色的“招募”按钮",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             471,
@@ -12637,7 +12325,6 @@
         "Doc2": "“选择”按钮，有可能是招募二选一，也有收藏品二选一",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             471,
@@ -12657,7 +12344,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             420,
@@ -12674,7 +12360,6 @@
     "Roguelike@GetDropSelectReward": {
         "Doc": "base_task",
         "template": "empty.png",
-        "cache": false,
         "action": "ClickSelf",
         "roi": [
             0,
@@ -12716,7 +12401,6 @@
             100,
             255
         ],
-        "action": "DoNothing",
         "postDelay": 5000,
         "next": [
             "Roguelike@InBattleFlag",
@@ -12796,7 +12480,6 @@
     "Roguelike@LastReward_default": {
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             225,
             199,
@@ -12808,27 +12491,13 @@
         ]
     },
     "Roguelike@LastReward_restart": {
+        "baseTask": "Roguelike@LastReward_default",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            225,
-            199,
-            829,
-            241
-        ],
         "next": []
     },
     "Roguelike@LastReward_stop": {
+        "baseTask": "Roguelike@LastReward_default",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
-        "roi": [
-            225,
-            199,
-            829,
-            241
-        ],
         "next": [
             "RoguelikeControlTaskPlugin-Stop"
         ]
@@ -12870,7 +12539,6 @@
     "Roguelike@MissionFailedFlag2": {
         "Doc": "base_task, 注册了RoguelikeSettlement插件用于存储结算图",
         "template": "empty.png",
-        "cache": false,
         "roi": [
             473,
             0,
@@ -12884,7 +12552,6 @@
     "Roguelike@NextLevel": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [],
         "roi": [
             522,
@@ -13070,7 +12737,6 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "templThreshold": 0.6,
-        "cache": false,
         "roi": [
             80,
             470,
@@ -13096,13 +12762,6 @@
     },
     "Roguelike@RecruitSkip": {
         "template": "RecruitSkip.png",
-        "action": "ClickSelf",
-        "roi": [
-            1100,
-            0,
-            180,
-            150
-        ],
         "next": [
             "Roguelike@RecruitSkip",
             "Roguelike@RecruitOther",
@@ -13142,7 +12801,6 @@
         "template": "Return.png",
         "templThreshold": 0.7,
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             0,
@@ -13157,7 +12815,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             153,
@@ -13172,7 +12829,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             601,
             153,
@@ -13197,7 +12853,6 @@
     },
     "Roguelike@SpecialValRecognition": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
         "text": [],
         "roi": [
@@ -13211,7 +12866,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             483,
@@ -13223,7 +12877,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             153,
@@ -13237,8 +12890,6 @@
     "Roguelike@Stage": {
         "Doc": "base_task",
         "template": "empty.png",
-        "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             53,
@@ -13373,7 +13024,6 @@
     },
     "Roguelike@StageEncounterJudgeOption": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "Doc": "本任务注册了插件RoguelikeStageEncounterTaskPlugin",
         "next": [
             "Roguelike@StageEncounterOptions#next",
@@ -13384,7 +13034,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1069,
             0,
@@ -13403,7 +13052,6 @@
     "Roguelike@StageEncounterOcr": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [],
         "preDelay": 600,
         "roi": [
@@ -13417,7 +13065,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1100,
             0,
@@ -13491,7 +13138,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1035,
             370,
@@ -13681,7 +13327,6 @@
         ]
     },
     "Roguelike@StageTraderInvestSystemError": {
-        "cache": false,
         "roi": [
             508,
             204,
@@ -13694,7 +13339,6 @@
     },
     "Roguelike@StageTraderInvestSystemFull": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "reduceOtherTimes": [
             "Roguelike@StageTraderInvestConfirm"
         ],
@@ -13731,7 +13375,6 @@
     },
     "Roguelike@StageTraderLeave": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1046,
             443,
@@ -13745,7 +13388,6 @@
     },
     "Roguelike@StageTraderLeaveConfirm": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             985,
             447,
@@ -13815,8 +13457,6 @@
             "刷新次数",
             "已用完"
         ],
-        "cache": false,
-        "action": "DoNothing",
         "roi": [
             988,
             47,
@@ -13832,7 +13472,6 @@
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             308,
             25,
@@ -13852,7 +13491,6 @@
         "template": "empty.png",
         "templThreshold": 0.9,
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             53,
@@ -13864,7 +13502,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             701,
             416,
@@ -13905,8 +13542,7 @@
     },
     "Roguelike@Stages": {
         "Doc": "base_task",
-        "algorithm": "JustReturn",
-        "next": []
+        "algorithm": "JustReturn"
     },
     "Roguelike@Stages_exit": {
         "Doc": "烧水和直升，在进入第三层之后直接退出",
@@ -13941,7 +13577,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1026,
             470,
@@ -13967,7 +13602,6 @@
     },
     "Roguelike@StrategyChange_default": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "text": [
             "_SKIP_"
         ],
@@ -13991,7 +13625,6 @@
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@TempRecruitFlag": {
-        "action": "DoNothing",
         "roi": [
             587,
             76,
@@ -14004,7 +13637,6 @@
         "Doc": "base_task",
         "template": "empty.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             908,
             54,
@@ -14023,7 +13655,6 @@
     "Roguelike@TraderRandomShopping": {
         "Doc": "该任务注册了 RoguelikeShoppingTaskPlugin，若是点完了仍在当前界面，说明没啥要买的，直接离开商店（next 里的 PhantomStageTraderLeave）",
         "templThreshold": 0.7,
-        "cache": false,
         "roi": [
             480,
             240,
@@ -14051,7 +13682,6 @@
     "Roguelike@TraderRandomShoppingCancel": {
         "template": "Roguelike@StageTraderInvestCancel.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             350,
             350,
@@ -14064,7 +13694,6 @@
     },
     "Roguelike@TraderRandomShoppingConfirm": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             872,
             425,
@@ -14080,7 +13709,6 @@
     "Roguelike@WaitForStartButtonClicked": {
         "Doc": "点了开始行动之后，可能会网络不好一直loading，用这个任务等一会",
         "template": "Roguelike@QuickFormation.png",
-        "action": "DoNothing",
         "roi": [
             817,
             0,
@@ -14521,7 +14149,6 @@
     },
     "Mizuki@Roguelike@CloseCollectionClose": {
         "action": "ClickSelf",
-        "cache": false,
         "templThreshold": 0.9,
         "roi": [
             572,
@@ -14540,7 +14167,6 @@
     "Mizuki@Roguelike@CloseCollectionContinue": {
         "action": "ClickSelf",
         "templThreshold": 0.9,
-        "cache": false,
         "roi": [
             549,
             440,
@@ -14566,8 +14192,7 @@
             615,
             41,
             17
-        ],
-        "postDelay": 1000
+        ]
     },
     "Mizuki@Roguelike@CommissionedMissionCompleted": {
         "action": "ClickRect",
@@ -14578,7 +14203,6 @@
             50
         ],
         "postDelay": 1000,
-        "cache": false,
         "roi": [
             519,
             202,
@@ -14593,7 +14217,6 @@
     "Mizuki@Roguelike@Continue": {},
     "Mizuki@Roguelike@DataTraceback": {
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             1114,
             0,
@@ -14615,7 +14238,6 @@
     "Mizuki@Roguelike@DiceConfirm": {
         "Doc": "骰子的确认按钮",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             551,
             577,
@@ -14726,7 +14348,6 @@
     "Mizuki@Roguelike@GetDropBoxOpen": {
         "Doc": "漂流密匣-打开的“选择”按钮",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             0,
             471,
@@ -14745,7 +14366,6 @@
     "Mizuki@Roguelike@GetDropBoxSelect": {
         "Doc": "漂流密匣-锤子砸开“选择”按钮",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             830,
             438,
@@ -14787,19 +14407,15 @@
     "Mizuki@Roguelike@LastReward4": {},
     "Mizuki@Roguelike@LastReward5": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 钥匙",
-        "baseTask": "Mizuki@Roguelike@LastReward_default",
-        "template": "Mizuki@Roguelike@LastReward5.png"
+        "baseTask": "Mizuki@Roguelike@LastReward_default"
     },
     "Mizuki@Roguelike@LastReward6": {
         "Doc": "你的上一次探索突破了至少两层困难，这一次可以获得更多支援—— 1 骰子",
-        "baseTask": "Mizuki@Roguelike@LastReward_default",
-        "template": "Mizuki@Roguelike@LastReward6.png"
+        "baseTask": "Mizuki@Roguelike@LastReward_default"
     },
     "Mizuki@Roguelike@LastRewardConfirm": {},
     "Mizuki@Roguelike@LastRewardRand": {},
     "Mizuki@Roguelike@MapObject": {
-        "action": "DoNothing",
-        "cache": false,
         "roi": [
             257,
             488,
@@ -14822,7 +14438,6 @@
             "幽海丛林",
             "绀碧摇篮"
         ],
-        "sub": [],
         "next": [
             "Mizuki@Roguelike@DiceConfirmAfterNextLevel",
             "Mizuki@Roguelike@StrategyChange"
@@ -14976,7 +14591,6 @@
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "withoutDet": true,
         "roi": [
             880,
@@ -15188,8 +14802,6 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "去量化",
             "去量深化",
@@ -15243,8 +14855,6 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "正在提交反馈至神经"
         ],
@@ -15263,8 +14873,6 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "坍缩范式加深",
             "坍缩范式消退"
@@ -15278,8 +14886,6 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "当前坍缩值"
         ],
@@ -15291,7 +14897,6 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onStage": {
-        "algorithm": "MatchTemplate",
         "template": [
             "Sami@Roguelike@OnStage_1",
             "Sami@Roguelike@OnStage_2",
@@ -15303,8 +14908,6 @@
             "Sami@Roguelike@OnStage_0"
         ],
         "templThreshold": 0.96,
-        "action": "DoNothing",
-        "cache": false,
         "roi": [
             590,
             45,
@@ -15510,7 +15113,6 @@
     },
     "Sami@Roguelike@CloseCollectionClose": {
         "action": "ClickSelf",
-        "cache": false,
         "templThreshold": 0.9,
         "roi": [
             572,
@@ -15529,8 +15131,6 @@
     "Sami@Roguelike@CloseEvent": {},
     "Sami@Roguelike@Collapsal": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "目空",
             "目空一些",
@@ -15570,7 +15170,6 @@
     "Sami@Roguelike@ContinueClick": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "初霜湖泽",
             "密静林地",
@@ -15653,7 +15252,6 @@
         ]
     },
     "Sami@Roguelike@Foldartal": {
-        "cache": false,
         "action": "ClickSelf",
         "roi": [
             639,
@@ -15702,8 +15300,6 @@
     },
     "Sami@Roguelike@FoldartalGainOcr": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "roi": [
             584,
             261,
@@ -15816,8 +15412,6 @@
     },
     "Sami@Roguelike@FoldartalUseOcr": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
-        "cache": false,
         "text": [
             "布局"
         ],
@@ -15856,7 +15450,6 @@
         ]
     },
     "Sami@Roguelike@FoldartalUseOnStage": {
-        "cache": false,
         "action": "ClickSelf",
         "template": "empty.png",
         "maxTimes": 10,
@@ -15950,7 +15543,6 @@
     "Sami@Roguelike@GetDrop2": {},
     "Sami@Roguelike@GetDrop3": {},
     "Sami@Roguelike@GetDrop4": {
-        "template": "Sami@Roguelike@GetDrop4.png",
         "baseTask": "Roguelike@GetDrop",
         "next": [
             "Sami@Roguelike@DropsFlag",
@@ -15977,9 +15569,6 @@
     "Sami@Roguelike@GetDropSelectReward": {},
     "Sami@Roguelike@GetDropSelectReward2": {
         "Doc": "密文板三选一",
-        "template": "Sami@Roguelike@GetDropSelectReward2.png",
-        "cache": false,
-        "action": "DoNothing",
         "roi": [
             0,
             420,
@@ -16010,9 +15599,6 @@
     "Sami@Roguelike@LastReward3": {},
     "Sami@Roguelike@LastReward4": {},
     "Sami@Roguelike@LastRewardChoose": {
-        "action": "DoNothing",
-        "template": "Sami@Roguelike@LastRewardChoose.png",
-        "cache": false,
         "roi": [
             485,
             4,
@@ -16026,8 +15612,6 @@
     "Sami@Roguelike@LastRewardConfirm": {},
     "Sami@Roguelike@LastRewardRand": {},
     "Sami@Roguelike@MapObject": {
-        "action": "DoNothing",
-        "cache": false,
         "roi": [
             257,
             488,
@@ -16335,7 +15919,6 @@
     "Sami@Roguelike@StageSafeHouseReuse": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "withoutDet": true,
         "roi": [
             880,
@@ -16372,9 +15955,7 @@
         ]
     },
     "Sami@Roguelike@StageTraderRefresh": {
-        "template": "Sami@Roguelike@StageTraderRefresh.png",
         "action": "ClickSelf",
-        "cache": false,
         "roi": [
             230,
             73,
@@ -16386,17 +15967,14 @@
         ]
     },
     "Sami@Roguelike@StageTraderRefreshConfirm": {
-        "template": "Sami@Roguelike@StageTraderRefreshConfirm.png",
         "action": "ClickSelf",
-        "cache": false,
         "postDelay": 500,
         "roi": [
             640,
             414,
             504,
             154
-        ],
-        "next": []
+        ]
     },
     "Sami@Roguelike@StageVerticalBoons": {
         "baseTask": "Roguelike@StageVertical",
@@ -16449,7 +16027,6 @@
         ]
     },
     "Sami@Roguelike@StageVerticalConfirm": {
-        "action": "ClickSelf",
         "next": [
             "#back"
         ],
@@ -16646,7 +16223,6 @@
     },
     "Sami@Roguelike@StagesChaosZero": {
         "algorithm": "OcrDetect",
-        "action": "DoNothing",
         "Doc": "特殊值识别，当抗干扰为0时不进行纵向移动",
         "text": [
             "0"
@@ -17030,8 +16606,6 @@
     },
     "Sami@Roguelike@TodoEnter": {},
     "Sami@Roguelike@TraderCheck": {
-        "algorithm": "MatchTemplate",
-        "template": "Sami@Roguelike@TraderCheck.png",
         "roi": [
             96,
             210,
@@ -17057,7 +16631,6 @@
             "TerminalMistCity.png",
             "TerminalSiege.png"
         ],
-        "cache": false,
         "action": "ClickSelf",
         "roi": [
             844,
@@ -17074,7 +16647,6 @@
     },
     "Reclamation2": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "Reclamation2BeginPlotEnterLoading@Reclamation2Begin",
             "Reclamation2CopiousCoppice",
@@ -17115,7 +16687,6 @@
             100,
             100
         ],
-        "cache": false,
         "sub": [
             "Reclamation2ClickBeginPlotTalk*10"
         ],
@@ -17145,7 +16716,6 @@
     },
     "Reclamation2BeginPlotEnterLoading": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 8000,
         "next": [
             "Reclamation2BeginPlotEnter",
@@ -17154,7 +16724,6 @@
     },
     "Reclamation2BeginPlotLoading": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 8000,
         "next": [
             "Reclamation2BeginPlot"
@@ -17183,7 +16752,6 @@
     },
     "Reclamation2BirdlandBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "Reclamation2Fight@Reclamation2EnterStage",
             "Reclamation2LeaveStage",
@@ -17249,7 +16817,6 @@
     },
     "Reclamation2CopiousCoppiceBegin": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "Reclamation2Fight@Reclamation2EnterStage",
             "Reclamation2LeaveStage",
@@ -17304,7 +16871,6 @@
     "Reclamation2Enter": {
         "Doc": "导航先不做了，跑起来再说",
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "next": [
             "Reclamation2Begin"
         ],
@@ -17329,7 +16895,6 @@
     },
     "Reclamation2Ex": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "sub": [
             "Reclamation2ExAssemblyStation",
             "Reclamation2ExManufacture",
@@ -17410,8 +16975,7 @@
         "action": "ClickSelf",
         "text": [
             "荧光棒"
-        ],
-        "cache": false
+        ]
     },
     "Reclamation2ExManufacture": {
         "algorithm": "JustReturn",
@@ -17647,7 +17211,6 @@
     },
     "Reclamation2SkipDays": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 1000,
         "next": [
             "Reclamation2SkipDays1",
@@ -17725,7 +17288,6 @@
     },
     "Reclamation2SkipDaysAward": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "postDelay": 5000,
         "next": [
             "Reclamation2SkipDaysAward2",
@@ -17734,7 +17296,6 @@
     },
     "Reclamation2SkipDaysAward1": {
         "algorithm": "JustReturn",
-        "action": "DoNothing",
         "Doc": "会自己消失",
         "preDelay": 3000
     },
@@ -17749,7 +17310,6 @@
         ],
         "preDelay": 1000,
         "postDelay": 4000,
-        "cache": false,
         "text": [
             "点击",
             "任意处",
@@ -17762,7 +17322,6 @@
     "Reclamation2SkipDaysBeginNewDay": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "cache": false,
         "text": [
             "开",
             "启",
@@ -17785,7 +17344,6 @@
             326,
             137
         ],
-        "cache": false,
         "text": [
             "COM",
             "MAND",
@@ -17797,7 +17355,6 @@
     },
     "Reclamation@AtHomePageFlag": {
         "Doc": "base_task",
-        "template": "Reclamation@AtHomePageFlag.png",
         "roi": [
             801,
             98,
@@ -17895,7 +17452,6 @@
     },
     "Reclamation@ClickAnyZoneOcr": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             308,
             73,
@@ -17922,7 +17478,6 @@
             146,
             126
         ],
-        "cache": false,
         "action": "ClickSelf"
     },
     "Reclamation@ClickBlackMarketCorner": {
@@ -17986,7 +17541,6 @@
     "Reclamation@ClickExitLevel": {
         "action": "ClickRect",
         "baseTask": "Reclamation@BattlePackIconTemplate",
-        "template": "Reclamation@ClickExitLevel.png",
         "specificRect": [
             49,
             30,
@@ -18012,7 +17566,6 @@
         ]
     },
     "Reclamation@ConfirmStart": {
-        "cache": false,
         "algorithm": "OcrDetect",
         "text": [
             "演算",
@@ -18047,7 +17600,6 @@
         "postDelay": 1000
     },
     "Reclamation@Emergency": {
-        "action": "DoNothing",
         "templThreshold": 0.7,
         "roi": [
             1055,
@@ -18095,7 +17647,6 @@
     },
     "Reclamation@EnterSmeltGoldPage": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             0,
             31,
@@ -18232,7 +17783,6 @@
     },
     "Reclamation@GiveupCrossdomainPageFlag": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             1016,
             49,
@@ -18352,7 +17902,6 @@
     },
     "Reclamation@LevelComplete": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             0,
             197,
@@ -18485,7 +18034,6 @@
     },
     "Reclamation@PrepareAction": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             996,
             590,
@@ -18624,7 +18172,6 @@
     },
     "Reclamation@SkipDailyReport": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             539,
             39,
@@ -18677,7 +18224,6 @@
     },
     "Reclamation@StartActionEnter": {
         "algorithm": "OcrDetect",
-        "cache": false,
         "roi": [
             995,
             550,
@@ -18746,7 +18292,6 @@
         ]
     },
     "BattleDefaultFormationStart@Reclamation@Begin": {
-        "algorithm": "JustReturn",
         "next": [
             "BattleDefaultFormationStart@Reclamation@PrepareAction"
         ]
@@ -18759,7 +18304,6 @@
     },
     "CheckNextDay@Reclamation@NextDay": {
         "template": "Reclamation@NextDay.png",
-        "postDelay": 0,
         "next": [
             "Stop"
         ]
@@ -18793,7 +18337,6 @@
         ]
     },
     "GiveupAlgorithm@Reclamation@Begin": {
-        "algorithm": "JustReturn",
         "next": [
             "GiveupAlgorithm@Reclamation@AtHomePageFlag",
             "GiveupAlgorithm@Reclamation@GiveupAlgorithmConfirm",
@@ -18825,7 +18368,6 @@
         ]
     },
     "NavigateHome@Reclamation@Begin": {
-        "algorithm": "JustReturn",
         "next": [
             "NavigateHome@Reclamation@AtHomePageFlag",
             "NavigateHome@Reclamation@ReturnButton#next",
@@ -18859,7 +18401,6 @@
         ]
     },
     "SkipAnnounceReport@Reclamation@Begin": {
-        "algorithm": "JustReturn",
         "next": [
             "SkipAnnounceReport@Reclamation@SkipAnnounce",
             "SkipAnnounceReport@Reclamation@SkipDailyReport",
@@ -18872,18 +18413,7 @@
         ]
     },
     "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "next": [],
-        "next_Old_Doc": "这里原先有个stop，但是会导致StartWithDefaultFormation@Reclamation@Begin中间多出一个Stop，姑且当成是不小心加的删了。",
-        "next_Old": [
-            "Stop"
-        ]
-    },
-    "StartWithDefaultFormation@Reclamation@StartAlgorithm": {
-        "template": "Reclamation@StartAlgorithm.png",
-        "next": [
-            "StartWithDefaultFormation@Reclamation@ClickChooseInitUnits",
-            "StartWithDefaultFormation@Reclamation@StartAlgorithm"
-        ]
+        "next": []
     },
     "WaitNextDayFlag@Reclamation@BetweenDayFlag": {
         "template": "Reclamation@BetweenDayFlag.png",
