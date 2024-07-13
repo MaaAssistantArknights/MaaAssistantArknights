@@ -9300,6 +9300,7 @@
             60
         ],
         "postDelay": 50,
+        "maxTimes": 10,
         "next": [
             "BattlePauseCancelCheck",
             "BattlePauseCancel"
