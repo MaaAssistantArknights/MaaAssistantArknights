@@ -25,6 +25,7 @@ namespace asst
         virtual bool load(const std::filesystem::path& path) override;
 
         const AvatarsMap& get_avatars(battle::Role role);
+        void remove_avatars(battle::Role role);
         void set_avatar(const std::string& name, battle::Role role, const cv::Mat& avatar, bool overlay = true);
 
     private:
