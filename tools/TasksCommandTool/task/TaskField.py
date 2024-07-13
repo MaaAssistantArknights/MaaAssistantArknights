@@ -1,15 +1,17 @@
 import math
 from enum import Enum
-from typing import Any, Callable
+from types import UnionType
+from typing import Any, Callable, Type, Union, List, get_origin, get_args
 
-from task.TaskType import AlgorithmType, ActionType
+from .TaskType import AlgorithmType, ActionType
+from .debug import trace
 
 
 class TaskField:
     def __init__(self,
                  field_name: str,
                  python_field_name: str,
-                 field_type: Any,
+                 field_type: Union[type, UnionType, List[Type]],
                  field_doc: str,
                  field_default: any = None,
                  is_valid_with: Callable[[Any], bool] = lambda x: True,
@@ -19,10 +21,26 @@ class TaskField:
         self.python_field_name = python_field_name
         self.field_type = field_type
         self.field_doc = field_doc.strip(" ")
-        assert field_default is None or isinstance(field_default, field_type)
         self.field_default = field_default
-        self.is_valid_with = is_valid_with
+        self.is_valid_with = lambda x: x is None or self._check_type(x) and is_valid_with(x)
         self.valid_for_algorithm = valid_for_algorithm
+        assert self.is_valid_with(field_default)
+
+    @trace
+    def _check_type(self, x: Any) -> bool:
+        expected_type = self.field_type
+        origin = get_origin(expected_type)
+        args = get_args(expected_type)
+
+        if origin is list and args:
+            if not isinstance(x, list):
+                return False
+            return all(isinstance(v, args[0]) for v in x)
+
+        if hasattr(expected_type, '__origin__') and expected_type.__origin__ is Union:
+            expected_type = tuple(expected_type.__args__)
+
+        return isinstance(x, expected_type)
 
 
 class TaskFieldEnum(Enum):
@@ -37,16 +55,16 @@ class TaskFieldEnum(Enum):
         "algorithm",
         str | AlgorithmType,
         "可选项，表示识别算法的类型",
-        None,
-        lambda x: isinstance(x, AlgorithmType) or isinstance(x, str) and x in AlgorithmType.__members__,
+        "MatchTemplate",
+        lambda x: x in AlgorithmType,
     )
     ACTION = TaskField(
         "action",
         "action",
         str | ActionType,
         "可选项，表示识别到后的动作",
-        None,
-        lambda x: isinstance(x, ActionType) or isinstance(x, str) and x in ActionType.__members__,
+        "DoNothing",
+        lambda x: x in ActionType,
     )
     SUB_TASKS = TaskField(
         "sub",
@@ -109,7 +127,7 @@ class TaskFieldEnum(Enum):
         list[int],
         "可选项，表示识别的区域",
         [0, 0, 1280, 720],
-        lambda x: len(x) == 4 and all(isinstance(i, int) for i in x),
+        lambda x: len(x) == 4,
     )
     RECT_MOVE = TaskField(
         "rectMove",
@@ -117,7 +135,7 @@ class TaskFieldEnum(Enum):
         list[int],
         "可选项，表示识别到后移动的区域",
         None,
-        lambda x: len(x) == 4 and all(isinstance(i, int) for i in x),
+        lambda x: len(x) == 4,
     )
     CACHE = TaskField(
         "cache",
@@ -210,7 +228,9 @@ class TaskFieldEnum(Enum):
     REPLACE_MAP = TaskField(
         "replaceMap",
         "replace_map",
-        dict[str, str],
+        list[list[str, str]],
         "可选项，表示替换的字典",
+        None,
+        lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
