@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractRoguelikeTaskPlugin.h"
+#include "../AbstractRoguelikeTaskPlugin.h"
 
 namespace asst
 {

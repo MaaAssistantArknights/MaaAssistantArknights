@@ -1,5 +1,5 @@
 #pragma once
-#include "AbstractRoguelikeTaskPlugin.h"
+#include "../AbstractRoguelikeTaskPlugin.h"
 #include "Common/AsstTypes.h"
 #include "Vision/OCRer.h"
 #include "Config/TaskData.h"

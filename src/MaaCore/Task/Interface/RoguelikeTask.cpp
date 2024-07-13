@@ -11,9 +11,6 @@
 #include "Task/Roguelike/RoguelikeCustomStartTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDebugTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeDifficultySelectionTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeFoldartalGainTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeFoldartalStartTaskPlugin.h"
-#include "Task/Roguelike/RoguelikeFoldartalUseTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeFormationTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeInvestTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeLastRewardTaskPlugin.h"
@@ -25,8 +22,11 @@
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 
-#include "Task/Roguelike/RoguelikeCollapsalParadigmTaskPlugin.h"
-#include "Config/Roguelike/RoguelikeCollapsalParadigmConfig.h"
+#include "Task/Roguelike/Sami/RoguelikeFoldartalGainTaskPlugin.h"
+#include "Task/Roguelike/Sami/RoguelikeFoldartalStartTaskPlugin.h"
+#include "Task/Roguelike/Sami/RoguelikeFoldartalUseTaskPlugin.h"
+#include "Task/Roguelike/Sami/RoguelikeCollapsalParadigmTaskPlugin.h"
+#include "Config/Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 
 #include "Utils/Logger.hpp"
 
