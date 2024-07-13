@@ -45,10 +45,35 @@ Talk is cheap. Show me the pictures!
 
 <!-- markdownlint-disable -->
 
-<div class="image-en-us">
-  <img src="/image/en-us/readme/1-light.png" />
-  <img src="/image/en-us/readme/2-light.png" />
-</div>
+```component ImageGrid
+{
+  "imageList": [
+    {
+      "light": "image/en-us/readme/1-light.png",
+      "dark": "image/en-us/readme/1-dark.png"
+    },
+    {
+      "light": "image/en-us/readme/2-light.png",
+      "dark": "image/en-us/readme/2-dark.png"
+    },
+    {
+      "light": "image/en-us/readme/3-light.png",
+      "dark": "image/en-us/readme/3-dark.png"
+    },
+    {
+      "light": "image/en-us/readme/4-light.png",
+      "dark": "image/en-us/readme/4-dark.png"
+    }
+  ]
+}
+```
+
+<!-- <div class="image-en-us">
+  <img src="/image/en-us/readme/1-dark.png" />
+  <img src="/image/en-us/readme/2-dark.png" />
+  <img src="/image/en-us/readme/3-dark.png" />
+  <img src="/image/en-us/readme/4-dark.png" />
+</div> -->
 
 <style>
   .image-en-us {
