@@ -112,15 +112,19 @@ void asst::Controller::callback(AsstMsg msg, const json::value& details)
     }
 }
 
-#define CHECK_EXIST(object, return_type)      \
-    if (!object) {                            \
-        Log.error(#object, " is not inited"); \
-        return return_type;                   \
+#define CHECK_EXIST(object, return_value)                       \
+    if (!object) {                                              \
+        Log.error(__FUNCTION__, "|", #object, "is not inited"); \
+        return return_value;                                    \
     }
 
 void asst::Controller::sync_params()
 {
-    CHECK_EXIST(m_controller, );
+    if (!m_controller) {
+        // 参数没有实时同步，但是在连接时会被同步
+        Log.info("skip sync_params, retry when connect");
+        return;
+    }
     m_controller->set_swipe_with_pause(m_swipe_with_pause);
     m_controller->set_kill_adb_on_exit(m_kill_adb_on_exit);
 }
