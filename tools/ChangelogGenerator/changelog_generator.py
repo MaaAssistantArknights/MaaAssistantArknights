@@ -26,6 +26,7 @@ class Translation(Enum):
     FIX = "fix"
     FEAT = "feat"
     PERF = "perf"
+    DOCS = "docs"
     OTHER = "other"
 
 
@@ -36,6 +37,7 @@ translations = {
     "改进": Translation.PERF,
     "优化": Translation.PERF,
     "重构": Translation.PERF,
+    "文档": Translation.DOCS,
     "其他": Translation.OTHER,
 }
 
@@ -43,6 +45,7 @@ translations_resort = {
     "新增 | New": Translation.FEAT,
     "改进 | Improved": Translation.PERF,
     "修复 | Fix": Translation.FIX,
+    "文档 | Docs": Translation.DOCS,
     "其他 | Other": Translation.OTHER,
 }
 
@@ -97,7 +100,7 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
 def update_commits(commit_message, sorted_commits, update_dict):
     oper = "other"
     for key, trans in translations.items():
-        if key in commit_message or commit_message.startswith(trans.value):
+        if commit_message.startswith(trans.value) or key in commit_message:
             oper = trans.value
             break
     sorted_commits[oper].update(update_dict)
@@ -120,6 +123,7 @@ def print_commits(commits: dict):
         "perf": {},
         "feat": {},
         "fix": {},
+        "docs": {},
         "other": {},
     }
     for commit_hash, commit_info in commits.items():
@@ -260,7 +264,7 @@ def main(tag_name=None, latest=None):
     print("From:", latest, ", To:", tag_name, "\n")
 
     # 输出一张好看的 git log 图到控制台
-    git_pretty_command = rf'git log {latest}..HEAD --pretty=format:"%C(yellow)%d%Creset %s %C(bold blue)@%an%Creset (%Cgreen%h%Creset)" --graph'
+    # git_pretty_command = rf'git log {latest}..HEAD --pretty=format:"%C(yellow)%d%Creset %s %C(bold blue)@%an%Creset (%Cgreen%h%Creset)" --graph'
     # os.system(git_pretty_command)
 
     # 获取详细的 git log 信息
