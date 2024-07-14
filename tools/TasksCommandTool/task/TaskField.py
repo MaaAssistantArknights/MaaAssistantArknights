@@ -127,6 +127,13 @@ class TaskFieldEnum(Enum):
         [0, 0, 1280, 720],
         lambda x: len(x) == 4,
     )
+    CACHE = TaskField(
+        "cache",
+        "cache",
+        bool,
+        "可选项，表示该任务是否使用缓存，默认为 true",
+        False,
+    )
     RECT_MOVE = TaskField(
         "rectMove",
         "rect_move",
@@ -135,12 +142,19 @@ class TaskFieldEnum(Enum):
         None,
         lambda x: len(x) == 4,
     )
-    CACHE = TaskField(
-        "cache",
-        "cache",
-        bool,
-        "可选项，表示该任务是否使用缓存，默认为 true",
-        False,
+    REDUCE_OTHER_TIMES = TaskField(
+        "reduceOtherTimes",
+        "reduce_other_times",
+        list[str],
+        "可选项，表示减少其他任务的执行次数",
+    )
+    SPECIFIC_RECT = TaskField(
+        "specificRect",
+        "specific_rect",
+        list[int],
+        "可选项，表示特殊区域",
+        None,
+        lambda x: len(x) == 4,
     )
     SPECIAL_PARAMS = TaskField(
         "specialParams",

@@ -22,7 +22,6 @@ class BaseTaskTest(TaskTest):
             'postDelay': 0,
             'preDelay': 0,
             'retryTimes': 0,
-            'specificRect': [100, 100, 50, 50],
             'subErrorIgnored': False
         })
 

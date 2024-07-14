@@ -12,7 +12,7 @@ class TaskTest(unittest.TestCase):
     def assertTaskEqual(self, actual, expected):
         actual = actual.to_task_dict()
         for key in expected:
-            self.assertEqual(actual[key], expected[key], f"Key: {key}")
+            self.assertEqual(expected[key], actual[key], f"Key: {key}")
 
 
 test_pipeline_a = {

@@ -9,11 +9,15 @@ _ALL_TASKS = {}
 
 # TaskPipelineInfo 中的字段
 # see src/MaaCore/Common/AsstTypes.h
-_TASK_PIPELINE_INFO_FIELDS = ["sub", "next", "onErrorNext", "exceededNext", "reduceOtherTimes"]
+_TASK_PIPELINE_INFO_FIELDS = [TaskFieldEnum.SUB_TASKS, TaskFieldEnum.NEXT, TaskFieldEnum.ON_ERROR_NEXT,
+                              TaskFieldEnum.EXCEEDED_NEXT, TaskFieldEnum.REDUCE_OTHER_TIMES]
 # TaskInfo 中的字段 继承TaskPipelineInfo
-_TASK_INFO_FIELDS = _TASK_PIPELINE_INFO_FIELDS + ["algorithm", "action", "subErrorIgnored", "maxTimes", "specificRect",
-                                                  "preDelay", "postDelay", "retryTimes", "roi", "rectMove", "cache",
-                                                  "specialParams"]
+_TASK_INFO_FIELDS = _TASK_PIPELINE_INFO_FIELDS + [TaskFieldEnum.ALGORITHM, TaskFieldEnum.ACTION,
+                                                  TaskFieldEnum.SUB_ERROR_IGNORED, TaskFieldEnum.MAX_TIMES,
+                                                  TaskFieldEnum.SPECIFIC_RECT, TaskFieldEnum.PRE_DELAY,
+                                                  TaskFieldEnum.POST_DELAY, TaskFieldEnum.ROI,
+                                                  TaskFieldEnum.RECT_MOVE, TaskFieldEnum.CACHE,
+                                                  TaskFieldEnum.SPECIAL_PARAMS]
 
 
 def _is_template_task_name(name: str) -> bool:
@@ -36,13 +40,17 @@ def _extend_task_dict(base: dict, override: dict | None, prefix: str) -> dict:
     elif algorithm := override.get("algorithm", None):
         assert base.__contains__("algorithm")
         if algorithm != base["algorithm"]:
-            task_dict = {field: base[field] for field in _TASK_INFO_FIELDS if field in base}
+            for field in _TASK_INFO_FIELDS:
+                field = field.value
+                if field.field_name in base:
+                    task_dict[field.field_name] = base[field.field_name]
             # 覆盖任务名
             task_dict["algorithm"] = algorithm
 
     for field in _TASK_PIPELINE_INFO_FIELDS:
-        if field in task_dict:
-            task_dict[field] = add_prefix(task_dict[field])
+        field = field.value
+        if field.field_name in task_dict:
+            task_dict[field.field_name] = add_prefix(task_dict[field.field_name])
     return task_dict
 
 

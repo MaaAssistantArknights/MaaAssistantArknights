@@ -7,7 +7,7 @@ class TemplateTaskTest(TaskTest):
     def test_template_task_inheritance(self):
         Task("A", test_pipeline_a)
         task = Task._build_template_task("B@A")
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             "sub": ["B@A_sub", "B@A_sub2"],
             "next": ["B@A_next"],
             "onErrorNext": ["B@A_onErrorNext"],
@@ -19,14 +19,14 @@ class TemplateTaskTest(TaskTest):
         Task("A", test_pipeline_a)
         Task("B", test_pipeline_b)
         task = Task._build_template_task("C@B@A")
-        self.assertEqual(_ALL_TASKS["B@A"].task_dict, {
+        self.assertTaskEqual(_ALL_TASKS["B@A"], {
             "sub": ["B@A_sub", "B@A_sub2"],
             "next": ["B@A_next"],
             "onErrorNext": ["B@A_onErrorNext"],
             "exceededNext": ["B@A_exceededNext"],
             "reduceOtherTimes": ["B@A_reduceOtherTimes"],
         })
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             "sub": ["C@B@A_sub", "C@B@A_sub2"],
             "next": ["C@B@A_next"],
             "onErrorNext": ["C@B@A_onErrorNext"],
@@ -45,7 +45,7 @@ class TemplateTaskTest(TaskTest):
             "reduceOtherTimes": ["no_new_reduceOtherTimes"],
         })
         task = Task._build_template_task("C@B@A")
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             "sub": ["C@no_new_sub", "C@no_new_sub2"],
             "next": ["C@no_new_next"],
             "onErrorNext": ["C@no_new_onErrorNext"],
@@ -56,7 +56,7 @@ class TemplateTaskTest(TaskTest):
     def test_virtual_task(self):
         Task("virtual", test_virtual_task)
         task = Task._build_template_task("B@virtual")
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             "sub": ["B#virtual_sub", "B#virtual_sub2"],
             "next": ["B#virtual_next"],
             "onErrorNext": ["B#virtual_onErrorNext"],
@@ -69,7 +69,7 @@ class TemplateTaskTest(TaskTest):
             "algorithm": "OcrDetect",
         })
         task = Task._build_template_task("B@A")
-        self.assertEqual(task.task_dict, {
+        self.assertTaskEqual(task, {
             "sub": ["B@A_sub", "B@A_sub2"],
             "next": ["B@A_next"],
             "onErrorNext": ["B@A_onErrorNext"],
