@@ -108,6 +108,11 @@ namespace MaaWpfGui.Models
                 return mirror;
             }
 
+            var preferredMirrorList = new List<string>
+            {
+                MaaUrls.GitHubRawApi,
+            };
+
             var mirrorList = new List<string>
             {
                 MaaUrls.S3ResourceApi,
@@ -115,11 +120,13 @@ namespace MaaWpfGui.Models
                 MaaUrls.AnnMirrorResourceApi,
             };
 
-            while (mirrorList.Count != 0)
+            while (mirrorList.Count != 0 || preferredMirrorList.Count != 0)
             {
+                var currentMirrorList = preferredMirrorList.Count != 0 ? ref preferredMirrorList : ref mirrorList;
+
                 // random select a mirror
-                var index = new Random().Next(0, mirrorList.Count);
-                var mirrorUrl = mirrorList[index];
+                var index = new Random().Next(0, currentMirrorList.Count);
+                var mirrorUrl = currentMirrorList[index];
 
                 if (await IsMirrorAccessibleAsync(mirrorUrl))
                 {
@@ -127,7 +134,7 @@ namespace MaaWpfGui.Models
                     break;
                 }
 
-                mirrorList.RemoveAt(index);
+                currentMirrorList.RemoveAt(index);
             }
 
             if (mirror != MaaUrls.MaaResourceApi)
@@ -283,7 +290,7 @@ namespace MaaWpfGui.Models
         // 这些文件数量不固定，需要先获取索引文件，再根据索引文件下载
         private static async Task<UpdateResult> UpdateFilesWithIndexAsync(string baseUrl, int maxRetryTime = 2)
         {
-            var indexSRet = await UpdateFileWithETagAsync(baseUrl, MaaDynamicFilesIndex, MaaDynamicFilesIndex, maxRetryTime);
+            var indexSRet = await UpdateFileWithETagAsync(MaaUrls.MaaResourceApi, MaaDynamicFilesIndex, MaaDynamicFilesIndex, maxRetryTime);
             if (indexSRet == UpdateResult.Failed)
             {
                 return UpdateResult.Failed;
