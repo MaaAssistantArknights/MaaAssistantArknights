@@ -116,9 +116,9 @@ public:
         }
     }
 
-    std::optional<std::string> get_intent_name(const std::string& client_type) const
+    std::optional<std::string> get_package_name(const std::string& client_type) const
     {
-        if (auto iter = m_intent_name.find(client_type); iter != m_intent_name.cend()) {
+        if (auto iter = m_package_name.find(client_type); iter != m_package_name.cend()) {
             return iter->second;
         }
         return std::nullopt;
@@ -132,7 +132,7 @@ protected:
     std::string m_version;
     Options m_options;
     std::unordered_map<std::string, AdbCfg> m_adb_cfg;
-    std::unordered_map<std::string, std::string> m_intent_name;
+    std::unordered_map<std::string, std::string> m_package_name;
 };
 
 inline static auto& Config = GeneralConfig::get_instance();
