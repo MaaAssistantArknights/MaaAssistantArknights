@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 from .debug import trace
-from .TaskType import AlgorithmType, ActionType, TaskDerivedType
+from .TaskType import AlgorithmType, TaskDerivedType
 from .TaskField import TaskFieldEnum
+from .TaskExpression import _tokenize, _shunting_yard
 
 # 存储所有任务
 _ALL_TASKS = {}
@@ -94,11 +95,12 @@ class Task:
 
     def interpret(self):
         for field in _TASK_PIPELINE_INFO_FIELDS:
-            for task_name in self.__getattribute__(field):
-                pass
+            field = field.value
+            setattr(self, field.field_name, Task.evaluate(getattr(self, field.field_name), self))
 
     def show(self):
         for field in _TASK_PIPELINE_INFO_FIELDS:
+            field = field.value
             if self.__dict__.__contains__(field):
                 print(field)
                 print(' -> '.join(['   |', *self.__getattribute__(field)]))
@@ -117,6 +119,8 @@ class Task:
     @staticmethod
     @trace
     def get(name) -> Task:
+        if isinstance(name, Task):
+            return name
         task = _ALL_TASKS.get(name, None)
         if task is not None:
             if _is_base_task(task):
@@ -148,6 +152,58 @@ class Task:
         else:
             task_dict = _extend_task_dict(base_task.task_dict, None, first)
             return TemplateTask(name, task_dict, None)
+
+    @staticmethod
+    def _eval_virtual_task(task_name_context: str | None, virtual_task_type: str, parent_task: Task) -> Task:
+        if virtual_task_type != "self" and task_name_context is None:
+            raise ValueError(f"Invalid virtual task context: {task_name_context}")
+        if virtual_task_type == "self":
+            return parent_task
+        elif virtual_task_type == "back":
+            return Task.get(task_name_context)
+        elif virtual_task_type == "next":
+            return Task.get(task_name_context).next
+        elif virtual_task_type == "sub":
+            return Task.get(task_name_context).sub_tasks
+        elif virtual_task_type == "on_error_next":
+            return Task.get(task_name_context).on_error_next
+        elif virtual_task_type == "exceeded_next":
+            return Task.get(task_name_context).exceeded_next
+        elif virtual_task_type == "reduce_other_times":
+            return Task.get(task_name_context).reduce_other_times
+        else:
+            raise ValueError(f"Invalid virtual task type: {virtual_task_type}")
+
+    @staticmethod
+    def evaluate(expression: str, parent_task: Task = None):
+        tokens = _tokenize(expression)
+        postfix = _shunting_yard(tokens)
+        stack = []
+        for token in postfix:
+            if token == '#u':
+                right = stack.pop()
+                stack.append(Task._eval_virtual_task(None, right, parent_task))
+            elif token == '#':
+                right = stack.pop()
+                left = stack.pop()
+                stack.append(Task._eval_virtual_task(left, right, parent_task))
+            elif token == '*':
+                right = stack.pop()
+                left = stack.pop()
+                stack.append([left] * right)
+            elif token == '+':
+                right = stack.pop()
+                left = stack.pop()
+                stack.append([left, right])
+            elif token == '^':
+                # 任务列表差（在前者但不在后者，顺序不变）
+                right = stack.pop()
+                left = stack.pop()
+                assert isinstance(left, list) and isinstance(right, list), f"Invalid expression: {expression}"
+                stack.append([x for x in left if x not in right])
+            else:
+                stack.append(Task.get(token))
+        return stack.pop()
 
 
 class TemplateTask(Task):

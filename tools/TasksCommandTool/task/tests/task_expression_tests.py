@@ -5,11 +5,7 @@ from ..TaskExpression import _shunting_yard, _tokenize
 
 class TestTaskExpression(unittest.TestCase):
     def test_task_expression(self):
-        # Fight@ReturnTo
-        self.assertListEqual(_tokenize("Fight@ReturnTo"),
-                             ['Fight', '@', 'ReturnTo'])
-        self.assertListEqual(_shunting_yard(_tokenize("Fight@ReturnTo")),
-                             ['Fight', 'ReturnTo', '@'])
+        print(_shunting_yard(_tokenize("A")))
 
         # #self
         self.assertListEqual(_tokenize("#self"),

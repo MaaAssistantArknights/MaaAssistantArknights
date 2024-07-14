@@ -1,6 +1,5 @@
 _PRECEDENCE = {
     '#u': 4,  # 单目运算符 #
-    '@': 3,
     '#': 3,  # 双目运算符 #
     '*': 2,
     '+': 1,
@@ -9,7 +8,6 @@ _PRECEDENCE = {
 
 _ASSOCIATIVITY = {
     '#u': 'R',
-    '@': 'L',
     '#': 'L',
     '*': 'L',
     '+': 'L',
@@ -23,6 +21,10 @@ def _is_operator(token):
     return token in _PRECEDENCE
 
 
+def _is_task_name_token(token):
+    return token.isalpha() or token == '@'
+
+
 def _tokenize(expression):
     tokens = []
     i = 0
@@ -33,9 +35,9 @@ def _tokenize(expression):
             else:
                 tokens.append(expression[i])
             i += 1
-        elif expression[i].isalpha():
+        elif _is_task_name_token(expression[i]):
             j = i
-            while j < len(expression) and expression[j].isalpha():
+            while j < len(expression) and _is_task_name_token(expression[j]):
                 j += 1
             tokens.append(expression[i:j])
             i = j
