@@ -149,13 +149,11 @@
             "configName": "CompatMac",
             "baseConfig": "Compatible",
             "ncAddress": "[Adb] -s [AdbSerial] shell \"cat /proc/net/arp | grep : | sort\"",
-            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+rknights\" 2>/dev/null | grep -i -o -E \"[^= ]*rknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'",
             "screencapRawWithGzip": ""
         },
         {
             "configName": "CompatPOSIXShell",
-            "baseConfig": "General",
-            "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+rknights\" 2>/dev/null | grep -i -o -E \"[^= ]*rknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'"
+            "baseConfig": "General"
         },
         {
             "configName": "GeneralWithoutScreencapErr",
