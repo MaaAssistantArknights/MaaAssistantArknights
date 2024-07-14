@@ -3552,7 +3552,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<CombinedData> ClientTypeList { get; } =
             [
-                new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
                 new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
                 new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
                 new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
