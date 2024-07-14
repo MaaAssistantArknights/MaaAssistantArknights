@@ -65,7 +65,7 @@ Usage of `resource/tasks.json` and description of each field
                                             // Auto-scaling to 1280x720; default when not filled [ 0, 0, 1280, 720 ]
                                             // Fill in as much as possible, reducing the recognition range can reduce performance consumption and speed up recognition
 
-        "cache": true,                      // Optional, indicates whether the task uses caching or not, default is true;
+        "cache": false,                      // Optional, indicates whether the task uses caching or not, default is false;
                                             // After the first recognition, only the first recognized position will be recognized forever, enable to save performance significantly
                                             // but only for tasks where the location of the target to be recognized will not change at all, set to false if the location of the target to be recognized will change
 
