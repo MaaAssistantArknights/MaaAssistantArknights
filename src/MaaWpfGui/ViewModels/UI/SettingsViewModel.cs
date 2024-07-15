@@ -4800,7 +4800,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Remembers the user to set 1920x1080 for YoStarEN.
         /// </summary>
-        private void AskRestartToApplySettingsYoStarEN()
+        private static void AskRestartToApplySettingsYoStarEN()
         {
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("PromptRestartForSettingsChange") + "\n" +
