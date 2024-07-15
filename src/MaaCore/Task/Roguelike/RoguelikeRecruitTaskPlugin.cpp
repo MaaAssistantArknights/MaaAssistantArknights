@@ -545,12 +545,24 @@ bool asst::RoguelikeRecruitTaskPlugin::recruit_support_char(const std::string& n
             if (analyzer_char.analyze()) {
                 auto& chars_page = analyzer_char.get_result_char();
 
+                int use_support_min_level = m_config->get_use_support_min_level();
+                auto check_satisfy_level =
+                    [&use_support_min_level](const RecruitSupportCharInfo& chara)
+                {
+                    return chara.max_level >= use_support_min_level;
+                };
+
                 bool use_nonfriend_support = m_config->get_use_nonfriend_support();
-                auto check_satisfy = [&use_nonfriend_support](const RecruitSupportCharInfo& chara) {
+                auto check_satisfy_isfriend = [&use_nonfriend_support](
+                                                  const RecruitSupportCharInfo& chara) {
                     return chara.is_friend || use_nonfriend_support;
                 };
+                 auto check_satisfy = [&](const RecruitSupportCharInfo& chara) {
+                    return check_satisfy_isfriend(chara) && check_satisfy_level(chara);
+                };
                 std::copy_if(chars_page.begin(), chars_page.end(),
-                             std::inserter(satisfied_chars, std::begin(satisfied_chars)), check_satisfy);
+                    std::inserter(satisfied_chars, std::begin(satisfied_chars)),
+                    check_satisfy);
 
                 if (satisfied_chars.size()) break;
             }

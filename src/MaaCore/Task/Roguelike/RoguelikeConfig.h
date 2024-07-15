@@ -115,6 +115,8 @@ namespace asst
         bool get_team_full_without_rookie() const { return m_team_full_without_rookie; }
         void set_use_support(bool use_support) { m_use_support = use_support; }
         bool get_use_support() const { return m_use_support; }
+        void set_use_support_min_level(int use_support_min_level) { m_use_support_min_level = use_support_min_level; }
+        int get_use_support_min_level() const { return m_use_support_min_level; }
         void set_use_nonfriend_support(bool use_nonfriend_support) { m_use_nonfriend_support = use_nonfriend_support; }
         bool get_use_nonfriend_support() const { return m_use_nonfriend_support; }
         void set_oper(std::unordered_map<std::string, RoguelikeOper> oper) { m_oper = std::move(oper); }
@@ -136,6 +138,7 @@ namespace asst
         std::string m_core_char;                               // 开局干员名
         bool m_team_full_without_rookie = false;               // 编队内没有预干员
         bool m_use_support = false;                            // 开局干员是否为助战干员
+        int m_use_support_min_level = 0;                       // 助战干员最低等级限制
         bool m_use_nonfriend_support = false;                  // 是否可以是非好友助战干员
         std::unordered_map<std::string, RoguelikeOper> m_oper; // 干员精英&等级
         std::optional<std::string> m_foldartal_floor;          // 当前层的预见密文板，在下一层获得

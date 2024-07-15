@@ -127,6 +127,7 @@
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号「;」隔开</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
+    <system:String x:Key="RoguelikeUseSupportMinLevel">助战干员最低等级限制</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>

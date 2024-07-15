@@ -173,6 +173,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseSupport,
                                           params.get("use_support", false) ? "1" : "0"); // 开局干员是否为助战干员
+    m_custom_start_plugin_ptr->set_custom(
+        RoguelikeCustomType::UseSupportMinLevel,
+        params.get("use_support_min_level", "0")); //助战干员最低等级限制
     m_custom_start_plugin_ptr->set_custom(RoguelikeCustomType::UseNonfriendSupport,
                                           params.get("use_nonfriend_support", false) ? "1"
                                                                                      : "0"); // 是否可以是非好友助战干员

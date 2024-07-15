@@ -2218,6 +2218,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private string _roguelikeUseSupportMinLevel = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeUseSupportMinLevel, "0");
+
+        /// <summary>
+        /// Gets or sets a value to limit roguelike support unit minimun level
+        /// </summary>
+        public int RoguelikeUseSupportMinLevel
+        {
+            get => int.Parse(_roguelikeUseSupportMinLevel);
+            set
+            {
+                SetAndNotify(ref _roguelikeUseSupportMinLevel, value.ToString());
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeUseSupportMinLevel, value.ToString());
+            }
+        }
+
         private bool _roguelikeEnableNonfriendSupport = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeEnableNonfriendSupport, bool.FalseString));
 
         /// <summary>
