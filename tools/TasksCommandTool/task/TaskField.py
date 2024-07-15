@@ -26,19 +26,23 @@ class TaskField:
         assert self.is_valid_with(field_default)
 
     def _check_type(self, x: Any) -> bool:
-        expected_type = self.field_type
-        origin = get_origin(expected_type)
-        args = get_args(expected_type)
+        def _check_type(expected_type, value) -> bool:
+            origin = get_origin(expected_type)
+            args = get_args(expected_type)
 
-        if origin is list and args:
-            if not isinstance(x, list):
-                return False
-            return all(isinstance(v, args[0]) for v in x)
+            if origin is list and args:
+                if not isinstance(x, list):
+                    return False
+                return all(isinstance(v, args[0]) for v in x)
+            if origin is UnionType:
+                return any(_check_type(t, value) for t in args)
 
-        if hasattr(expected_type, '__origin__') and expected_type.__origin__ is Union:
-            expected_type = tuple(expected_type.__args__)
+            if hasattr(expected_type, '__origin__') and expected_type.__origin__ is Union:
+                expected_type = tuple(expected_type.__args__)
 
-        return isinstance(x, expected_type)
+            return isinstance(x, expected_type)
+
+        return _check_type(self.field_type, x)
 
 
 class TaskFieldEnum(Enum):
@@ -159,23 +163,23 @@ class TaskFieldEnum(Enum):
     SPECIAL_PARAMS = TaskField(
         "specialParams",
         "special_params",
-        list[int],
+        list,
         "可选项，表示特殊参数",
     )
     TEMPLATE = TaskField(
         "template",
         "template",
-        str,
+        str | list[str],
         "可选项，表示模板路径",
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
     TEMPL_THRESHOLD = TaskField(
         "templThreshold",
         "templ_threshold",
-        float,
+        float | list[float],
         "可选项，表示模板匹配的阈值",
         0.8,
-        lambda x: 0 <= x <= 1,
+        lambda x: 0 <= x <= 1 if isinstance(x, float) else all(0 <= i <= 1 for i in x),
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
     MASK_RANGE = TaskField(
@@ -222,7 +226,7 @@ class TaskFieldEnum(Enum):
     OCR_REPLACE = TaskField(
         "ocrReplace",
         "ocr_replace",
-        list[list[str, str]],
+        list,
         "可选项，表示是否替换识别错误的文字",
         None,
         lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
@@ -240,7 +244,7 @@ class TaskFieldEnum(Enum):
     REPLACE_MAP = TaskField(
         "replaceMap",
         "replace_map",
-        list[list[str, str]],
+        list,
         "可选项，表示替换的字典",
         None,
         lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),

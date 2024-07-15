@@ -73,7 +73,11 @@ class Task:
             field = field.value
             if field.valid_for_algorithm is None or field.valid_for_algorithm == self.algorithm:
                 field_value = task_dict.get(field.field_name, field.field_default)
-                if field.is_valid_with(field_value):
+                try:
+                    field_valid = field.is_valid_with(field_value)
+                except Exception as e:
+                    raise ValueError(f"Error checking field {field.field_name}: {e}")
+                if field_valid:
                     setattr(self, field.python_field_name, field_value)
                 else:
                     raise ValueError(f"Field {field.field_name} is invalid with value {field_value}")
@@ -132,11 +136,6 @@ class Task:
     def print(self):
         for key, value in self.to_task_dict():
             print(f"{key}: {value}")
-
-    @staticmethod
-    def load_tasks(tasks: dict):
-        for name, task_dict in tasks.items():
-            Task(name, task_dict)
 
     @staticmethod
     def get(name) -> Task:

@@ -18,22 +18,29 @@ class TasksCommandTool(cmd.Cmd):
         if arg:
             json_path = os.path.abspath(arg)
         print(f"Loading tasks from {json_path}")
+        success_count = 0
+        fail_count = 0
         with open(json_path, 'r', encoding='utf-8') as f:
-            Task.load_tasks(json.load(f))
-        print("Tasks loaded.")
+            tasks = json.load(f)
+            for name, task_dict in tasks.items():
+                try:
+                    Task(name, task_dict)
+                    success_count += 1
+                except Exception as e:
+                    print(f"Error loading task {name}: {e}")
+                    fail_count += 1
+        print(f"Loaded {success_count} tasks, {fail_count} failed.")
 
     def do_find(self, arg):
         """Find a task by name."""
-        task = Task.get(arg)
-        task.print()
+        Task.get(arg).print()
 
     def complete_find(self, text, line, begidx, endidx):
         return [name for name in _ALL_TASKS if name.startswith(text)]
 
     def do_exec(self, arg):
         """Execute a task by name."""
-        task = Task.get(arg)
-        task.interpret()
+        Task.get(arg).interpret().print()
 
     def do_show(self, arg):
         """Show all tasks."""

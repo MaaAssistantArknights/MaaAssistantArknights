@@ -1,8 +1,20 @@
 from .utils import TaskTest
-from ..TaskField import TaskFieldEnum
+from ..TaskField import TaskFieldEnum, TaskField
 
 
 class TaskFieldTests(TaskTest):
+    def test_check_type(self):
+        field = TaskField("test", "test", str, "test")
+        self.assertTrue(field._check_type("test"))
+        self.assertFalse(field._check_type(1))
+        self.assertFalse(field._check_type([]))
+
+    def test_check_type_2(self):
+        field = TaskField("test", "test", str | list[str], "test")
+        self.assertTrue(field._check_type(["test"]))
+        self.assertFalse(field._check_type(1))
+        self.assertTrue(field._check_type("test"))
+
     def test_base_task_field(self):
         field = TaskFieldEnum.BASE_TASK.value
         self.assertEqual(field.field_name, "baseTask")
