@@ -110,7 +110,7 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("UiSettings"),
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
-            LocalizationHelper.GetString("UpdateSettings"),
+            LocalizationHelper.GetString("UpdateSettings")+LocalizationHelper.GetString("UpdateSettings"),
             LocalizationHelper.GetString("AboutUs"),
         ];
 
@@ -3319,7 +3319,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
             typeof(UpdateVersionType),
-            ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+            ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -3331,7 +3331,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (_versionType == UpdateVersionType.Nightly && !_allowNightlyUpdates)
                 {
                     SetAndNotify(ref _versionType, UpdateVersionType.Beta);
-                    ConfigurationHelper.SetValue(ConfigurationKeys.VersionType, UpdateVersionType.Beta.ToString());
+                    ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Beta.ToString());
                 }
 
                 return _versionType;
@@ -3339,7 +3339,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _versionType, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.VersionType, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, value.ToString());
             }
         }
 
@@ -3358,7 +3358,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => AllVersionTypeList.Where(v => _allowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
         }
 
-        private readonly bool _allowNightlyUpdates = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
+        private readonly bool _allowNightlyUpdates = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
 
         /// <summary>
         /// Gets a value indicating whether to update nightly.
@@ -3376,7 +3376,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _versionType == UpdateVersionType.Beta;
         }
 
-        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
+        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -3387,11 +3387,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateCheck, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateCheck, value.ToString());
             }
         }
 
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
+        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -3402,11 +3402,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateAutoCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
             }
         }
 
-        private string _proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+        private string _proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
 
         /// <summary>
         /// Gets or sets the proxy settings.
@@ -3417,7 +3417,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _proxy, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateProxy, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateProxy, value);
             }
         }
 
@@ -3435,7 +3435,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
+        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto download update package.
@@ -3446,11 +3446,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
             }
         }
 
-        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
+        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto install update package.
@@ -3461,7 +3461,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoInstallUpdatePackage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
             }
         }
 

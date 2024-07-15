@@ -232,7 +232,7 @@
     <system:String x:Key="TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TimerCustomConfigTip">2分前に再起動して設定を切り替えます</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
-    <system:String x:Key="TimerTip">このオプション ページはグローバル設定用です</system:String>
+    <system:String x:Key="GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="SwitchConfiguration">構成を切り替える</system:String>
     <system:String x:Key="ConfigurationName">構成名</system:String>
     <system:String x:Key="AddConfiguration">追加</system:String>

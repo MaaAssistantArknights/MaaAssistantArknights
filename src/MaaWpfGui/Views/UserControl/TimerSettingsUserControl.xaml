@@ -27,7 +27,7 @@
             Grid.Row="0"
             HorizontalAlignment="Center"
             FontWeight="Bold"
-            Text="{DynamicResource TimerTip}"
+            Text="{DynamicResource GlobalConfigTip}"
             TextAlignment="Center" />
         <StackPanel
             Grid.Row="1"

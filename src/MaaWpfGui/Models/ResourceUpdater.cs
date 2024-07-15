@@ -102,7 +102,7 @@ namespace MaaWpfGui.Models
 
         private static async Task<string> GetResourceApiAsync()
         {
-            string mirror = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
+            string mirror = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
             if (mirror != MaaUrls.MaaResourceApi && await IsMirrorAccessibleAsync(mirror))
             {
                 return mirror;
@@ -132,7 +132,7 @@ namespace MaaWpfGui.Models
 
             if (mirror != MaaUrls.MaaResourceApi)
             {
-                ConfigurationHelper.SetValue(ConfigurationKeys.ResourceApi, mirror);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ResourceApi, mirror);
             }
 
             return mirror;
