@@ -2,15 +2,21 @@ name: Lint Markdown files
 
 on:
   push:
+    branches:
+      - dev
     paths:
       - "**/*.md"
-      - ".github/workflows/lint-markdown.yml"
+      - "docs/**"
+      - ".github/workflows/markdown-checker.yml"
   pull_request:
+    branches:
+      - dev
     paths:
       - "**/*.md"
-      - ".github/workflows/lint-markdown.yml"
+      - "docs/**"
+      - ".github/workflows/markdown-checker.yml"
   schedule:
-    - cron: "44 7 * * 2"
+    - cron: "44 7 * * 2" # Every Tuesday at 7:44 AM UTC
   workflow_dispatch:
 
 jobs:
@@ -31,19 +37,27 @@ jobs:
             README.md
             docs/**/*.md
 
-#  check-links:
-#    name: Check Dead Links
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Check out code
-#        uses: actions/checkout@v4
-#        with:
-#          show-progress: false
-#
-#      - name: Check Dead Link
-#        uses: umbrelladocs/action-linkspector@v1
-#        with:
-#          # Use github-pr-review when triggered by a pull request; otherwise, use github-check
-#          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
-#          filter_mode: nofilter
-#          fail_on_error: true
+  check-links:
+    name: Check Dead Links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Restore lychee cache
+        uses: actions/cache@v3
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Check Links
+        id: lychee
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: >
+            --verbose --no-progress --cache --max-cache-age 1d
+            -- './docs/**/*.md' './README.md'
+          fail: true # Fail the build if there are dead links
