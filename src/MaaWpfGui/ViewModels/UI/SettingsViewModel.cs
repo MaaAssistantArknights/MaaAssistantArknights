@@ -110,7 +110,7 @@ namespace MaaWpfGui.ViewModels.UI
             LocalizationHelper.GetString("UiSettings"),
             LocalizationHelper.GetString("ExternalNotificationSettings"),
             LocalizationHelper.GetString("HotKeySettings"),
-            LocalizationHelper.GetString("UpdateSettings")+LocalizationHelper.GetString("UpdateSettings"),
+            LocalizationHelper.GetString("UpdateSettings"),
             LocalizationHelper.GetString("AboutUs"),
         ];
 
