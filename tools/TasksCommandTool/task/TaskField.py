@@ -26,7 +26,7 @@ class TaskField:
         assert self.is_valid_with(field_default)
 
     def _check_type(self, x: Any) -> bool:
-        def _check_type(expected_type, value) -> bool:
+        def _check_type(expected_type: Union[type, UnionType, List[Type]], value) -> bool:
             origin = get_origin(expected_type)
             args = get_args(expected_type)
 
@@ -37,8 +37,8 @@ class TaskField:
             if origin is UnionType:
                 return any(_check_type(t, value) for t in args)
 
-            if hasattr(expected_type, '__origin__') and expected_type.__origin__ is Union:
-                expected_type = tuple(expected_type.__args__)
+            # if hasattr(expected_type, '__origin__') and expected_type.__origin__ is Union:
+            #     expected_type = tuple(expected_type.__args__)
 
             return isinstance(x, expected_type)
 

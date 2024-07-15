@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from .debug import trace
 from .TaskType import AlgorithmType, TaskDerivedType
-from .TaskField import TaskFieldEnum
+from .TaskField import TaskFieldEnum, TaskField
 from .TaskExpression import _tokenize, _shunting_yard
 
 # 存储所有任务
@@ -69,18 +69,15 @@ class Task:
         self.algorithm = task_dict.get("algorithm", AlgorithmType.MatchTemplate)
         self.base_task = task_dict.get("baseTask", None)
 
-        for field in TaskFieldEnum:
-            field = field.value
-            if field.valid_for_algorithm is None or field.valid_for_algorithm == self.algorithm:
-                field_value = task_dict.get(field.field_name, field.field_default)
-                try:
-                    field_valid = field.is_valid_with(field_value)
-                except Exception as e:
-                    raise ValueError(f"Error checking field {field.field_name}: {e}")
-                if field_valid:
-                    setattr(self, field.python_field_name, field_value)
-                else:
-                    raise ValueError(f"Field {field.field_name} is invalid with value {field_value}")
+        for field in self._get_valid_fields():
+            field_value = task_dict.get(field.field_name, field.field_default)
+            try:
+                field_valid = field.is_valid_with(field_value)
+            except Exception as e:
+                raise ValueError(f"Error checking field {field.field_name}: {e}")
+            setattr(self, field.python_field_name, field_value)
+            if not field_valid:
+                raise ValueError(f"Invalid value for field {field.field_name}: {field_value}")
 
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
             self.template = f"{self.name}.png"
@@ -93,13 +90,26 @@ class Task:
     def __repr__(self):
         return str(self)
 
-    def to_task_dict(self):
-        task_dict = self._task_dict.copy()
-        task_dict["name"] = self.name
+    def _get_valid_fields(self) -> list[TaskField]:
+        valid_fields = []
         for field in TaskFieldEnum:
             field = field.value
             if field.valid_for_algorithm is None or field.valid_for_algorithm == self.algorithm:
-                task_dict[field.field_name] = getattr(self, field.python_field_name)
+                valid_fields.append(field)
+        return valid_fields
+
+    def to_task_dict(self) -> dict:
+        task_dict = self._task_dict.copy()
+        task_dict["name"] = self.name
+        for field in self._get_valid_fields():
+            task_dict[field.field_name] = getattr(self, field.python_field_name)
+        return task_dict
+
+    def to_simplified_dict(self):
+        task_dict = self.to_task_dict().copy()
+        for field in self._get_valid_fields():
+            if task_dict[field.field_name] == field.field_default:
+                task_dict.pop(field.field_name)
         return task_dict
 
     def interpret(self) -> InterpretedTask:
