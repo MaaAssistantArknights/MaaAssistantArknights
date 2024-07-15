@@ -416,6 +416,16 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
 #undef ASST_TASKDATA_GET_VALUE_OR_LAZY
 
 #ifdef ASST_DEBUG
+    if (!json.contains("roi") && base == default_task_info_ptr // 无 base 任务
+        && algorithm != asst::AlgorithmType::JustReturn        // 非 JustReturn
+        && !task->next.empty()                                 // 有 next
+        && (algorithm != asst::AlgorithmType::MatchTemplate    // template 不是 empty
+            || std::dynamic_pointer_cast<const MatchTaskInfo>(task)->templ_names
+                   != std::vector<std::string> { "empty.png" })) {
+        // 符合上述条件时，我们认为此时的隐式全屏 roi 不是期望行为，给个警告
+        Log.warn("Task", name, "has implicit fullscreen roi.");
+    }
+
     // Debug 模式下检查 roi 是否超出边界
     if (auto [x, y, w, h] = task->roi; x + w > WindowWidthDefault || y + h > WindowHeightDefault) {
         Log.warn(name, "roi is out of bounds");
