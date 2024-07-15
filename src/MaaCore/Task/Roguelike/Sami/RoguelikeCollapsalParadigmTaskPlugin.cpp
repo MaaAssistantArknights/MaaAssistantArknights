@@ -1,5 +1,5 @@
 #include "RoguelikeCollapsalParadigmTaskPlugin.h"
-#include "Config/Roguelike/RoguelikeCollapsalParadigmConfig.h"
+#include "Config/Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"

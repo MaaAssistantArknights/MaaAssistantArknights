@@ -219,9 +219,6 @@
     <ClInclude Include="Config\TemplResource.h">
       <Filter>Source\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h">
-      <Filter>Source\Resource\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
@@ -234,7 +231,10 @@
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.h">
+    <ClInclude Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Config\Miscellaneous\BattleDataConfig.h">
@@ -453,10 +453,16 @@
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h">
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h">
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.h">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
@@ -496,9 +502,6 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
     <ClInclude Include="InstHelper.h">
@@ -702,9 +705,6 @@
     <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Controller\MumuExtras.h">
       <Filter>Source\Controller</Filter>
     </ClInclude>
@@ -785,9 +785,6 @@
     <ClCompile Include="Config\TemplResource.cpp">
       <Filter>Source\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp">
-      <Filter>Source\Resource\Roguelike</Filter>
-    </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
@@ -800,7 +797,10 @@
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Config\Roguelike\RoguelikeCollapsalParadigmConfig.cpp">
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Miscellaneous\BattleDataConfig.cpp">
@@ -965,10 +965,16 @@
     <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp">
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp">
+    <ClCompile Include="Task\Sami\Roguelike\RoguelikeFoldartalStartTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
@@ -1008,9 +1014,6 @@
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeCollapsalParadigmTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="InstHelper.cpp">
@@ -1182,9 +1185,6 @@
       <Filter>Source\Task\Infrast</Filter>
     </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeInvestTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalStartTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Controller\MumuExtras.cpp">

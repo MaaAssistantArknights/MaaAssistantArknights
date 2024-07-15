@@ -21,9 +21,7 @@ namespace asst
     private:
         std::shared_ptr<ProcessTask> m_roguelike_task_ptr = nullptr;
         std::shared_ptr<RoguelikeConfig> m_roguelike_config_ptr = nullptr;
-        std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_start_plugin_ptr = nullptr;
-        std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_plugin_ptr = nullptr;
-        void m_roguelike_register_plugins();
 
+        void register_roguelike_plugins(const json::value& params);
     };
 }
