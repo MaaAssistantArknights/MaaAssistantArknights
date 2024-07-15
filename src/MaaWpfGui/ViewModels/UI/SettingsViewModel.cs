@@ -141,6 +141,7 @@ namespace MaaWpfGui.ViewModels.UI
             InitConfiguration();
             InitUiSettings();
             InitConnectConfig();
+            InitVersionUpdate();
         }
 
         private void InitInfrast()
@@ -215,6 +216,14 @@ namespace MaaWpfGui.ViewModels.UI
             if (!string.IsNullOrEmpty(addressListJson))
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
+            }
+        }
+
+        private void InitVersionUpdate()
+        {
+            if (VersionType == UpdateVersionType.Nightly && !_allowNightlyUpdates)
+            {
+                VersionType = UpdateVersionType.Beta;
             }
         }
 
@@ -1778,7 +1787,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case "Sami":
 
                     RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = "5" });
-                    
+
                     break;
             }
 
@@ -3326,16 +3335,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public UpdateVersionType VersionType
         {
-            get
-            {
-                if (_versionType == UpdateVersionType.Nightly && !_allowNightlyUpdates)
-                {
-                    SetAndNotify(ref _versionType, UpdateVersionType.Beta);
-                    ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Beta.ToString());
-                }
-
-                return _versionType;
-            }
+            get => _versionType;
             set
             {
                 SetAndNotify(ref _versionType, value);
