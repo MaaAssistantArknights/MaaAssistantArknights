@@ -1,23 +1,32 @@
 from __future__ import annotations
 
 from .debug import trace
-from .TaskType import AlgorithmType, TaskDerivedType
+from .TaskType import AlgorithmType, TaskStatus
 from .TaskField import TaskFieldEnum, TaskField
 from .TaskExpression import _tokenize, _shunting_yard
 
 # 存储所有任务
-_ALL_TASKS = {}
+_ALL_TASKS: dict[str, Task] = {}
+_ORIGINAL_TASKS: dict[str, Task] = {}
 
 # TaskPipelineInfo 中的字段
 # see src/MaaCore/Common/AsstTypes.h
-_TASK_PIPELINE_INFO_FIELDS = [TaskFieldEnum.SUB_TASKS, TaskFieldEnum.NEXT, TaskFieldEnum.ON_ERROR_NEXT,
-                              TaskFieldEnum.EXCEEDED_NEXT, TaskFieldEnum.REDUCE_OTHER_TIMES]
+_TASK_PIPELINE_INFO_FIELDS = [TaskFieldEnum.SUB_TASKS,
+                              TaskFieldEnum.NEXT,
+                              TaskFieldEnum.ON_ERROR_NEXT,
+                              TaskFieldEnum.EXCEEDED_NEXT,
+                              TaskFieldEnum.REDUCE_OTHER_TIMES]
 # TaskInfo 中的字段 继承TaskPipelineInfo
-_TASK_INFO_FIELDS = _TASK_PIPELINE_INFO_FIELDS + [TaskFieldEnum.ALGORITHM, TaskFieldEnum.ACTION,
-                                                  TaskFieldEnum.SUB_ERROR_IGNORED, TaskFieldEnum.MAX_TIMES,
-                                                  TaskFieldEnum.SPECIFIC_RECT, TaskFieldEnum.PRE_DELAY,
-                                                  TaskFieldEnum.POST_DELAY, TaskFieldEnum.ROI,
-                                                  TaskFieldEnum.RECT_MOVE, TaskFieldEnum.CACHE,
+_TASK_INFO_FIELDS = _TASK_PIPELINE_INFO_FIELDS + [TaskFieldEnum.ALGORITHM,
+                                                  TaskFieldEnum.ACTION,
+                                                  TaskFieldEnum.SUB_ERROR_IGNORED,
+                                                  TaskFieldEnum.MAX_TIMES,
+                                                  TaskFieldEnum.SPECIFIC_RECT,
+                                                  TaskFieldEnum.PRE_DELAY,
+                                                  TaskFieldEnum.POST_DELAY,
+                                                  TaskFieldEnum.ROI,
+                                                  TaskFieldEnum.RECT_MOVE,
+                                                  TaskFieldEnum.CACHE,
                                                   TaskFieldEnum.SPECIAL_PARAMS]
 
 _VIRTUAL_TASK_TYPES = ["self", "back", "next", "sub", "on_error_next", "exceeded_next", "reduce_other_times"]
@@ -28,32 +37,7 @@ def _is_template_task_name(name: str) -> bool:
 
 
 def _is_base_task(task: Task) -> bool:
-    return task.base_task is not None
-
-
-def _extend_task_dict(base: dict, override: dict | None, prefix: str) -> dict:
-    def add_prefix(s: list[str]) -> list[str]:
-        return [f"{prefix}@" + x if not x.startswith('#') else f"{prefix}" + x for x in s]
-
-    task_dict = {}
-    assert base is not None
-    if override is None:
-        task_dict = base.copy()
-    elif algorithm := override.get("algorithm", None):
-        assert base.__contains__("algorithm")
-        if algorithm != base["algorithm"]:
-            for field in _TASK_INFO_FIELDS:
-                field = field.value
-                if field.field_name in base:
-                    task_dict[field.field_name] = base[field.field_name]
-            # 覆盖任务名
-            task_dict["algorithm"] = algorithm
-
-    for field in _TASK_PIPELINE_INFO_FIELDS:
-        field = field.value
-        if field.field_name in task_dict:
-            task_dict[field.field_name] = add_prefix(task_dict[field.field_name])
-    return task_dict
+    return hasattr(task, "base_task") and task.base_task is not None
 
 
 class Task:
@@ -63,11 +47,10 @@ class Task:
         # 任务名
         self.name = name
 
-        self.derived_type = TaskDerivedType.Raw
+        self.task_status = TaskStatus.Raw
         self._task_dict = task_dict
 
         self.algorithm = task_dict.get("algorithm", AlgorithmType.MatchTemplate)
-        self.base_task = task_dict.get("baseTask", None)
 
         for field in self._get_valid_fields():
             field_value = task_dict.get(field.field_name, field.field_default)
@@ -82,10 +65,8 @@ class Task:
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
             self.template = f"{self.name}.png"
 
-        _ALL_TASKS[name] = self
-
     def __str__(self):
-        return f"{self.derived_type.value}Task({self.name})"
+        return f"{self.task_status.value}Task({self.name})"
 
     def __repr__(self):
         return str(self)
@@ -99,8 +80,7 @@ class Task:
         return valid_fields
 
     def to_task_dict(self) -> dict:
-        task_dict = self._task_dict.copy()
-        task_dict["name"] = self.name
+        task_dict = {"name": self.name}
         for field in self._get_valid_fields():
             task_dict[field.field_name] = getattr(self, field.python_field_name)
         return task_dict
@@ -112,9 +92,15 @@ class Task:
                 task_dict.pop(field.field_name)
         return task_dict
 
+    def define(self):
+        self.task_status = TaskStatus.Initialized
+        _ORIGINAL_TASKS[self.name] = self
+
     def interpret(self) -> InterpretedTask:
-        if isinstance(self, InterpretedTask):
+        if isinstance(self, InterpretedTask) or self.task_status == TaskStatus.Interpreted:
             return self
+        if self.task_status != TaskStatus.Initialized:
+            raise ValueError(f"Task {self.name} is not initialized.")
         interpreted_task = InterpretedTask(self.name, self)
         for field in _TASK_PIPELINE_INFO_FIELDS:
             field = field.value
@@ -144,18 +130,22 @@ class Task:
                 print(' -> '.join(['   |', *self.__getattribute__(field)]))
 
     def print(self):
-        for key, value in self.to_task_dict():
+        for key, value in self.to_task_dict().items():
             print(f"{key}: {value}")
 
     @staticmethod
     def get(name) -> Task:
         if isinstance(name, Task):
             return name
-        task = _ALL_TASKS.get(name, None)
-        if task is not None:
-            if _is_base_task(task):
-                return Task._build_base_task(task)
-            return task
+        if name in _ALL_TASKS:
+            return _ALL_TASKS[name]
+        elif name in _ORIGINAL_TASKS:
+            if _is_base_task(_ORIGINAL_TASKS[name]):
+                return Task._build_base_task(_ORIGINAL_TASKS[name])
+            elif _is_template_task_name(name):
+                return Task._build_template_task(name)
+            else:
+                return _ORIGINAL_TASKS[name]
         elif _is_template_task_name(name):
             return Task._build_template_task(name)
         else:
@@ -163,8 +153,8 @@ class Task:
 
     @staticmethod
     @trace
-    def _build_base_task(task: Task) -> Task:
-        if type(task) is BaseTask:
+    def _build_base_task(task: Task) -> BaseTask:
+        if isinstance(task, BaseTask):
             return task
         base_dict = Task.get(task.base_task).to_task_dict().copy()
         base_dict.update(task.to_task_dict())
@@ -172,16 +162,37 @@ class Task:
         return BaseTask(task.name, base_dict, task)
 
     @staticmethod
-    def _build_template_task(name: str) -> Task:
+    @trace
+    def _build_template_task(name: str) -> TemplateTask:
         first, *rest = name.split('@')
         rest = '@'.join(rest)
         base_task = Task.get(rest)
-        if _ALL_TASKS.__contains__(name):
-            task_dict = _extend_task_dict(base_task._task_dict, _ALL_TASKS[name]._task_dict, first)
-            return TemplateTask(name, task_dict, _ALL_TASKS[name])
-        else:
-            task_dict = _extend_task_dict(base_task._task_dict, None, first)
-            return TemplateTask(name, task_dict, None)
+        override_task = _ORIGINAL_TASKS.get(name, None)
+
+        def add_prefix(s: list[str]) -> list[str]:
+            return [f"{first}@" + x if not x.startswith('#') else f"{first}" + x for x in s]
+
+        assert base_task is not None, "Base task cannot be None."
+        new_task_dict = base_task.to_task_dict().copy()
+        override_fields = []
+        if override_task is not None:
+            override_task_dict = override_task._task_dict
+            for field in _TASK_INFO_FIELDS:
+                field = field.value
+                if field.field_name in override_task_dict:
+                    override_fields.append(field)
+            if override_task.algorithm != base_task.algorithm:
+                for field in _TASK_INFO_FIELDS:
+                    field = field.value
+                    if field.field_name in override_task_dict:
+                        new_task_dict[field.field_name] = override_task_dict[field.field_name]
+            else:
+                new_task_dict.update(override_task_dict)
+        for field in _TASK_PIPELINE_INFO_FIELDS:
+            field = field.value
+            if new_task_dict[field.field_name] is not None and field not in override_fields:
+                new_task_dict[field.field_name] = add_prefix(new_task_dict[field.field_name])
+        return TemplateTask(name, new_task_dict, base_task)
 
     @staticmethod
     @trace
@@ -261,7 +272,7 @@ class TemplateTask(Task):
 
     def __init__(self, name: str, task_dict: dict, raw_task: Task | None):
         super().__init__(name, task_dict)
-        self.derived_type = TaskDerivedType.Template
+        self.task_status = TaskStatus.Initialized
         self.raw_task = raw_task
 
 
@@ -269,7 +280,7 @@ class BaseTask(Task):
 
     def __init__(self, name: str, task_dict: dict, raw_task: Task):
         super().__init__(name, task_dict)
-        self.derived_type = TaskDerivedType.Base
+        self.task_status = TaskStatus.Initialized
         self.raw_task = raw_task
 
 
@@ -277,5 +288,5 @@ class InterpretedTask(Task):
 
     def __init__(self, name: str, raw_task: Task):
         super().__init__(name, raw_task.to_task_dict())
-        self.derived_type = TaskDerivedType.Interpreted
+        self.task_status = TaskStatus.Interpreted
         self.raw_task = raw_task

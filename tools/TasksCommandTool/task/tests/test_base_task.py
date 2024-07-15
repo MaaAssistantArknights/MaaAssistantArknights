@@ -7,12 +7,12 @@ from ..Task import Task
 class BaseTaskTest(TaskTest):
 
     def test_base_task_override(self):
-        Task("A", {**test_pipeline_a, **test_match_template_a})
+        Task("A", {**test_pipeline_a, **test_match_template_a}).define()
         Task("B@A", {
             "baseTask": "C",
             "algorithm": "OcrDetect",
-        })
-        Task("C", test_info_a)
+        }).define()
+        Task("C", test_info_a).define()
         task = Task._build_base_task(Task.get("B@A"))
         self.assertTaskEqual(task, {
             'action': 'DoNothing',
@@ -21,17 +21,16 @@ class BaseTaskTest(TaskTest):
             'maxTimes': math.inf,
             'postDelay': 0,
             'preDelay': 0,
-            'retryTimes': 0,
             'subErrorIgnored': False
         })
 
     def test_base_task_1(self):
-        Task("A", test_pipeline_a)
+        Task("A", test_pipeline_a).define()
         Task("B", {
             **test_pipeline_b,
             "baseTask": "A"
-        })
-        task = Task._build_base_task(Task.get("B"))
+        }).define()
+        task = Task.get("B")
         self.assertTaskEqual(task, {
             "sub": ["B_sub", "B_sub2"],
             "next": ["B_next"],
@@ -41,12 +40,12 @@ class BaseTaskTest(TaskTest):
         })
 
     def test_base_task_2(self):
-        Task("A", test_pipeline_a)
+        Task("A", test_pipeline_a).define()
         Task("B", {
             **test_pipeline_b,
             "baseTask": "C"
-        })
-        Task("C", test_info_a)
+        }).define()
+        Task("C", test_info_a).define()
         task = Task._build_base_task(Task.get("B"))
         self.assertTaskEqual(task, {
             "sub": ["B_sub", "B_sub2"],

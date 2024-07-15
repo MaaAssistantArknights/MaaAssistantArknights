@@ -11,20 +11,20 @@ class EvaluateTest(TaskTest):
                 for i, value in enumerate(actual[key]):
                     if isinstance(value, Task):
                         value = value.name
-                    self.assertEqual(value, expected[key][i], f"Key: {key}")
+                    self.assertEqual(expected[key][i], value, f"Key: {key}")
             else:
                 self.assertEqual(expected[key], actual[key], f"Key: {key}")
 
     def test_evaluate(self):
-        Task("A", {**test_info_a, **test_pipeline_a})
-        Task("B", {**test_info_a, **test_pipeline_b})
+        Task("A", {**test_info_a, **test_pipeline_a}).define()
+        Task("B", {**test_info_a, **test_pipeline_b}).define()
         print(Task.evaluate("C@B@A"))
 
     def define_tasks(self):
-        Task("A", {"next": ["N1", "N2"]})
-        Task("C", {"next": ["B@A#next"]})
-        Task("Loading", {"next": ["#self", "#next", "#back"]})
-        Task("B", {"next": ["Other", "B@Loading"]})
+        Task("A", {"next": ["N1", "N2"]}).define()
+        Task("C", {"next": ["B@A#next"]}).define()
+        Task("Loading", {"next": ["#self", "#next", "#back"]}).define()
+        Task("B", {"next": ["Other", "B@Loading"]}).define()
 
     def test_2(self):
         self.define_tasks()
@@ -55,9 +55,9 @@ class EvaluateTest(TaskTest):
         })
 
     def test_6(self):
-        Task("A", {"next": ["N0"], })
-        Task("B", {"next": ["A#next"]})
-        Task("C@A", {"next": ["N1"]})
+        Task("A", {"next": ["N0"], }).define()
+        Task("B", {"next": ["A#next"]}).define()
+        Task("C@A", {"next": ["N1"]}).define()
         self.assertInterpretEqual(Task.get("C@B").interpret(), {
             "name": "C@B",
             "next": ["N1"],
@@ -65,9 +65,9 @@ class EvaluateTest(TaskTest):
 
     def test_7(self):
         # (ClickCornerAfterPRTS+ClickCorner)*5
-        Task("ClickCornerAfterPRTS", test_info_a)
-        Task("ClickCorner", test_info_a)
-        Task("Test", {"next": ["(ClickCornerAfterPRTS+ClickCorner)*5"]})
+        Task("ClickCornerAfterPRTS", test_info_a).define()
+        Task("ClickCorner", test_info_a).define()
+        Task("Test", {"next": ["(ClickCornerAfterPRTS+ClickCorner)*5"]}).define()
         self.assertInterpretEqual(Task.get("Test").interpret(), {
             "name": "Test",
             "next": ["ClickCornerAfterPRTS", "ClickCorner"] * 5,
@@ -75,11 +75,11 @@ class EvaluateTest(TaskTest):
 
     def test_8(self):
         # (A+A+B+C)^(A+B+D)
-        Task("A", {"next": ["N1"]})
-        Task("B", {"next": ["N2"]})
-        Task("C", {"next": ["N3"]})
-        Task("D", {"next": ["N4"]})
-        Task("Test", {"next": ["(A+A+B+C)^(A+B+D)"]})
+        Task("A", {"next": ["N1"]}).define()
+        Task("B", {"next": ["N2"]}).define()
+        Task("C", {"next": ["N3"]}).define()
+        Task("D", {"next": ["N4"]}).define()
+        Task("Test", {"next": ["(A+A+B+C)^(A+B+D)"]}).define()
         self.assertInterpretEqual(Task.get("Test").interpret(), {
             "name": "Test",
             "next": ["C"],

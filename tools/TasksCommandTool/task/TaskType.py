@@ -25,10 +25,9 @@ class ActionType(Enum):
         return self.value == other
 
 
-class TaskDerivedType(Enum):
+class TaskStatus(Enum):
     # Enum for task derived types
+    Uninitialized = "Uninitialized"
     Raw = "Raw"
-    Base = "Base"
-    Template = "Template"
-    Virtual = "Virtual"
+    Initialized = "Initialized"
     Interpreted = "Interpreted"
