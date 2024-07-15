@@ -3326,7 +3326,16 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public UpdateVersionType VersionType
         {
-            get => _versionType;
+            get
+            {
+                if (_versionType == UpdateVersionType.Nightly && !_allowNightlyUpdates)
+                {
+                    SetAndNotify(ref _versionType, UpdateVersionType.Beta);
+                    ConfigurationHelper.SetValue(ConfigurationKeys.VersionType, UpdateVersionType.Beta.ToString());
+                }
+
+                return _versionType;
+            }
             set
             {
                 SetAndNotify(ref _versionType, value);
@@ -3337,12 +3346,19 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the list of the version type.
         /// </summary>
-        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList { get; } =
+        public List<GenericCombinedData<UpdateVersionType>> AllVersionTypeList { get; } =
             [
                 new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
                 new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
                 new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             ];
+
+        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
+        {
+            get => AllVersionTypeList.Where(v => _allowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
+        }
+
+        private readonly bool _allowNightlyUpdates = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
 
         /// <summary>
         /// Gets a value indicating whether to update nightly.
