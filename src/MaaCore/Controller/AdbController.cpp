@@ -249,7 +249,7 @@ bool asst::AdbController::start_game(const std::string& client_type)
         return false;
     }
     std::string cur_cmd =
-        utils::string_replace_all(m_adb.start, "[packageName]", package_name.value());
+        utils::string_replace_all(m_adb.start, "[PackageName]", package_name.value());
     return call_command(cur_cmd).has_value();
 }
 
@@ -263,7 +263,7 @@ bool asst::AdbController::stop_game(const std::string& client_type)
         return false;
     }
     std::string cur_cmd =
-        utils::string_replace_all(m_adb.stop, "[packageName]", package_name.value());
+        utils::string_replace_all(m_adb.stop, "[PackageName]", package_name.value());
     return call_command(cur_cmd).has_value();
 }
 
