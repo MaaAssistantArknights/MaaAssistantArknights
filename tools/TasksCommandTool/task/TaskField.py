@@ -93,7 +93,7 @@ class TaskFieldEnum(Enum):
         int | float,
         "可选项，表示该任务最大执行次数",
         math.inf,
-        lambda x: x == math.inf or (isinstance(x, int) and x > 0),
+        lambda x: x == math.inf or (isinstance(x, int) and x >= 0),
     )
     EXCEEDED_NEXT = TaskField(
         "exceededNext",

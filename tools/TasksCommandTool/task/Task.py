@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+import logging
+
 from .debug import trace
 from .TaskType import AlgorithmType, TaskStatus
 from .TaskField import TaskFieldEnum, TaskField
 from .TaskExpression import _tokenize, _shunting_yard
+
+logger = logging.getLogger(__name__)
 
 # 存储所有任务
 _ALL_TASKS: dict[str, Task] = {}
@@ -60,8 +64,7 @@ class Task:
                 raise ValueError(f"Error checking field {field.field_name}: {e}")
             setattr(self, field.python_field_name, field_value)
             if not field_valid:
-                pass
-                # raise ValueError(f"Invalid value for field {field.field_name}: {field_value}")
+                logger.warning(f"Invalid value for field {field.field_name}: {field_value}")
 
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
             self.template = f"{self.name}.png"
