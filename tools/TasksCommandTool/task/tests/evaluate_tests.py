@@ -53,3 +53,34 @@ class EvaluateTest(TaskTest):
             "name": "B@Loading",
             "next": ["B#self", "B#next", "B#back"],
         })
+
+    def test_6(self):
+        Task("A", {"next": ["N0"], })
+        Task("B", {"next": ["A#next"]})
+        Task("C@A", {"next": ["N1"]})
+        self.assertInterpretEqual(Task.get("C@B").interpret(), {
+            "name": "C@B",
+            "next": ["N1"],
+        })
+
+    def test_7(self):
+        # (ClickCornerAfterPRTS+ClickCorner)*5
+        Task("ClickCornerAfterPRTS", test_info_a)
+        Task("ClickCorner", test_info_a)
+        Task("Test", {"next": ["(ClickCornerAfterPRTS+ClickCorner)*5"]})
+        self.assertInterpretEqual(Task.get("Test").interpret(), {
+            "name": "Test",
+            "next": ["ClickCornerAfterPRTS", "ClickCorner"] * 5,
+        })
+
+    def test_8(self):
+        # (A+A+B+C)^(A+B+D)
+        Task("A", {"next": ["N1"]})
+        Task("B", {"next": ["N2"]})
+        Task("C", {"next": ["N3"]})
+        Task("D", {"next": ["N4"]})
+        Task("Test", {"next": ["(A+A+B+C)^(A+B+D)"]})
+        self.assertInterpretEqual(Task.get("Test").interpret(), {
+            "name": "Test",
+            "next": ["C"],
+        })

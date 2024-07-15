@@ -222,7 +222,7 @@ class Task:
             elif token == '*':
                 right = stack.pop()
                 left = stack.pop()
-                stack.append([left] * right)
+                stack.append(left * right)
             elif token == '+':
                 right = _to_list(stack.pop())
                 left = _to_list(stack.pop())
@@ -233,7 +233,13 @@ class Task:
                 left = _to_list(stack.pop())
                 stack.append([x for x in left if x not in right])
             else:
-                stack.append(Task.get(token) if token not in _VIRTUAL_TASK_TYPES else token)
+                if isinstance(token, int):
+                    stack.append(token)
+                elif token in _VIRTUAL_TASK_TYPES:
+                    stack.append(token)
+                else:
+                    task = Task.get(token)
+                    stack.append(task)
         if len(stack) == 0:
             return []
         elif len(stack) == 1:
