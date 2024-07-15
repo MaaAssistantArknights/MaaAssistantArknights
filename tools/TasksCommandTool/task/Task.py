@@ -20,6 +20,8 @@ _TASK_INFO_FIELDS = _TASK_PIPELINE_INFO_FIELDS + [TaskFieldEnum.ALGORITHM, TaskF
                                                   TaskFieldEnum.RECT_MOVE, TaskFieldEnum.CACHE,
                                                   TaskFieldEnum.SPECIAL_PARAMS]
 
+_VIRTUAL_TASK_TYPES = ["self", "back", "next", "sub", "on_error_next", "exceeded_next", "reduce_other_times"]
+
 
 def _is_template_task_name(name: str) -> bool:
     return name.__contains__('@')
@@ -29,7 +31,6 @@ def _is_base_task(task: Task) -> bool:
     return task.base_task is not None
 
 
-@trace
 def _extend_task_dict(base: dict, override: dict | None, prefix: str) -> dict:
     def add_prefix(s: list[str]) -> list[str]:
         return [f"{prefix}@" + x if not x.startswith('#') else f"{prefix}" + x for x in s]
@@ -56,11 +57,14 @@ def _extend_task_dict(base: dict, override: dict | None, prefix: str) -> dict:
 
 
 class Task:
+    """@DynamicAttrs"""
+
     def __init__(self, name: str, task_dict: dict):
         # 任务名
         self.name = name
+
         self.derived_type = TaskDerivedType.Raw
-        self.task_dict = task_dict
+        self._task_dict = task_dict
 
         self.algorithm = task_dict.get("algorithm", AlgorithmType.MatchTemplate)
         self.base_task = task_dict.get("baseTask", None)
@@ -83,32 +87,50 @@ class Task:
         return f"{self.derived_type.value}Task({self.name})"
 
     def __repr__(self):
-        return str(self.__dict__)
+        return str(self)
 
     def to_task_dict(self):
-        task_dict = self.task_dict.copy()
+        task_dict = self._task_dict.copy()
+        task_dict["name"] = self.name
         for field in TaskFieldEnum:
             field = field.value
             if field.valid_for_algorithm is None or field.valid_for_algorithm == self.algorithm:
-                task_dict[field.field_name] = self.__getattribute__(field.python_field_name)
+                task_dict[field.field_name] = getattr(self, field.python_field_name)
         return task_dict
 
-    def interpret(self):
+    def interpret(self) -> InterpretedTask:
+        if isinstance(self, InterpretedTask):
+            return self
+        interpreted_task = InterpretedTask(self.name, self)
         for field in _TASK_PIPELINE_INFO_FIELDS:
             field = field.value
-            setattr(self, field.field_name, Task.evaluate(getattr(self, field.field_name), self))
+            task_list = getattr(interpreted_task, field.python_field_name)
+            if task_list is not None:
+                interpreted_task_list = []
+                for task in task_list:
+                    interpreted_task_list.extend(Task.evaluate(task, interpreted_task))
+                for i, task in enumerate(interpreted_task_list):
+                    if isinstance(task, Task):
+                        interpreted_task_list[i] = task.name
+                # 去重
+                interpreted_task_set = set()
+                interpreted_task_without_duplicate = []
+                for task in interpreted_task_list:
+                    if task not in interpreted_task_set:
+                        interpreted_task_set.add(task)
+                        interpreted_task_without_duplicate.append(task)
+                setattr(interpreted_task, field.python_field_name, interpreted_task_without_duplicate)
+        return interpreted_task
 
     def show(self):
         for field in _TASK_PIPELINE_INFO_FIELDS:
             field = field.value
-            if self.__dict__.__contains__(field):
+            if self.to_task_dict():
                 print(field)
                 print(' -> '.join(['   |', *self.__getattribute__(field)]))
 
     def print(self):
-        for key, value in self.__dict__.items():
-            if key == "task_dict":
-                continue
+        for key, value in self.to_task_dict():
             print(f"{key}: {value}")
 
     @staticmethod
@@ -117,7 +139,6 @@ class Task:
             Task(name, task_dict)
 
     @staticmethod
-    @trace
     def get(name) -> Task:
         if isinstance(name, Task):
             return name
@@ -147,16 +168,17 @@ class Task:
         rest = '@'.join(rest)
         base_task = Task.get(rest)
         if _ALL_TASKS.__contains__(name):
-            task_dict = _extend_task_dict(base_task.task_dict, _ALL_TASKS[name].task_dict, first)
+            task_dict = _extend_task_dict(base_task._task_dict, _ALL_TASKS[name]._task_dict, first)
             return TemplateTask(name, task_dict, _ALL_TASKS[name])
         else:
-            task_dict = _extend_task_dict(base_task.task_dict, None, first)
+            task_dict = _extend_task_dict(base_task._task_dict, None, first)
             return TemplateTask(name, task_dict, None)
 
     @staticmethod
-    def _eval_virtual_task(task_name_context: str | None, virtual_task_type: str, parent_task: Task) -> Task:
+    @trace
+    def _eval_virtual_task(task_name_context: str | None, virtual_task_type: str, parent_task: Task):
         if virtual_task_type != "self" and task_name_context is None:
-            raise ValueError(f"Invalid virtual task context: {task_name_context}")
+            return None
         if virtual_task_type == "self":
             return parent_task
         elif virtual_task_type == "back":
@@ -175,35 +197,49 @@ class Task:
             raise ValueError(f"Invalid virtual task type: {virtual_task_type}")
 
     @staticmethod
+    @trace
     def evaluate(expression: str, parent_task: Task = None):
+        assert expression is not None, "Expression cannot be None."
+
+        def _to_list(x):
+            return [x] if not isinstance(x, list) else x
+
         tokens = _tokenize(expression)
         postfix = _shunting_yard(tokens)
         stack = []
         for token in postfix:
             if token == '#u':
                 right = stack.pop()
-                stack.append(Task._eval_virtual_task(None, right, parent_task))
+                task = Task._eval_virtual_task(None, right, parent_task)
+                if task is not None:
+                    stack.append(task)
             elif token == '#':
                 right = stack.pop()
                 left = stack.pop()
-                stack.append(Task._eval_virtual_task(left, right, parent_task))
+                task = Task._eval_virtual_task(left, right, parent_task)
+                if task is not None:
+                    stack.append(task)
             elif token == '*':
                 right = stack.pop()
                 left = stack.pop()
                 stack.append([left] * right)
             elif token == '+':
-                right = stack.pop()
-                left = stack.pop()
-                stack.append([left, right])
+                right = _to_list(stack.pop())
+                left = _to_list(stack.pop())
+                stack.append(left + right)
             elif token == '^':
                 # 任务列表差（在前者但不在后者，顺序不变）
-                right = stack.pop()
-                left = stack.pop()
-                assert isinstance(left, list) and isinstance(right, list), f"Invalid expression: {expression}"
+                right = _to_list(stack.pop())
+                left = _to_list(stack.pop())
                 stack.append([x for x in left if x not in right])
             else:
-                stack.append(Task.get(token))
-        return stack.pop()
+                stack.append(Task.get(token) if token not in _VIRTUAL_TASK_TYPES else token)
+        if len(stack) == 0:
+            return []
+        elif len(stack) == 1:
+            return _to_list(stack.pop())
+        else:
+            raise ValueError(f"Invalid expression: {expression}")
 
 
 class TemplateTask(Task):
@@ -222,5 +258,9 @@ class BaseTask(Task):
         self.raw_task = raw_task
 
 
-class VirtualTask(Task):
-    pass
+class InterpretedTask(Task):
+
+    def __init__(self, name: str, raw_task: Task):
+        super().__init__(name, raw_task.to_task_dict())
+        self.derived_type = TaskDerivedType.Interpreted
+        self.raw_task = raw_task

@@ -31,3 +31,4 @@ class TaskDerivedType(Enum):
     Base = "Base"
     Template = "Template"
     Virtual = "Virtual"
+    Interpreted = "Interpreted"

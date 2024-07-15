@@ -5,7 +5,8 @@ from ..TaskExpression import _shunting_yard, _tokenize
 
 class TestTaskExpression(unittest.TestCase):
     def test_task_expression(self):
-        print(_shunting_yard(_tokenize("A")))
+        self.assertEqual(_tokenize("ABC"), ["ABC"])
+        self.assertEqual(_shunting_yard(_tokenize("ABC")), ["ABC"])
 
         # #self
         self.assertListEqual(_tokenize("#self"),
