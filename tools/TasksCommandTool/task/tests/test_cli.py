@@ -8,7 +8,7 @@ from ..debug import disable_tracing, enable_tracing
 
 class CliTest(TaskTest):
 
-    @unittest.skip("Skip cli test")
+    # @unittest.skip("Skip cli test")
     def test_cli(self):
         disable_tracing()
         cli = TasksCommandTool()

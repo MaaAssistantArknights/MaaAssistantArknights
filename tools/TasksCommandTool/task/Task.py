@@ -44,6 +44,10 @@ def _is_base_task(task: Task) -> bool:
     return hasattr(task, "base_task") and task.base_task is not None
 
 
+def _is_valid_task_name(name: str) -> bool:
+    return all(x.isalnum() or x in ['-', '_', '@'] for x in name)
+
+
 class Task:
     """@DynamicAttrs"""
 
@@ -73,7 +77,7 @@ class Task:
         return f"{self.task_status.value}Task({self.name})"
 
     def __repr__(self):
-        return str(self.to_task_dict())
+        return str(self)
 
     def _get_valid_fields(self):
         return get_fields(
@@ -107,9 +111,6 @@ class Task:
                 interpreted_task_list = []
                 for task in task_list:
                     interpreted_task_list.extend(Task.evaluate(task, interpreted_task))
-                for i, task in enumerate(interpreted_task_list):
-                    if isinstance(task, Task):
-                        interpreted_task_list[i] = task.name
                 # 去重
                 interpreted_task_set = set()
                 interpreted_task_without_duplicate = []
@@ -144,6 +145,7 @@ class Task:
                 return Task._build_template_task(name)
             else:
                 _ORIGINAL_TASKS[name].task_status = TaskStatus.Initialized
+                _ALL_TASKS[name] = _ORIGINAL_TASKS[name]
                 return _ORIGINAL_TASKS[name]
         elif _is_template_task_name(name):
             return Task._build_template_task(name)
@@ -194,7 +196,7 @@ class Task:
 
     @staticmethod
     @trace
-    def _eval_virtual_task(task_name_context: str | list | Task | None, virtual_task_type: str, parent_task: Task):
+    def _eval_virtual_task(task_name_context: str | list[str] | None, virtual_task_type: str, parent_task: Task):
         if virtual_task_type != "self" and task_name_context is None:
             return None
         if isinstance(task_name_context, list):
@@ -203,9 +205,9 @@ class Task:
                 result.extend(Task._eval_virtual_task(task_name, virtual_task_type, parent_task))
             return result
         if virtual_task_type == "self":
-            return parent_task
+            return parent_task.name
         elif virtual_task_type == "back":
-            return Task.get(task_name_context)
+            return Task.get(task_name_context).name
         elif virtual_task_type == "next":
             return Task.get(task_name_context).next
         elif virtual_task_type == "sub":
@@ -221,34 +223,49 @@ class Task:
 
     @staticmethod
     @trace
-    def evaluate(expression: str, parent_task: Task = None):
+    def evaluate(expression: str, parent_task: Task = None) -> list[str]:
         assert expression is not None, "Expression cannot be None."
 
         def _to_list(x):
             return [x] if not isinstance(x, list) else x
 
-        def _to_str(x):
-            return x if not isinstance(x, Task) else x.name
+        @trace
+        def _eval_virtual_task_result(virtual_task):
+            if isinstance(virtual_task, str) and _is_valid_task_name(virtual_task):
+                return virtual_task
+            elif isinstance(virtual_task, list):
+                result = []
+                for t in virtual_task:
+                    if _is_valid_task_name(t):
+                        result.append(t)
+                    else:
+                        result.extend(Task.evaluate(t, parent_task))
+                return result
+            else:
+                return Task.evaluate(virtual_task, parent_task)
 
+        expression = expression.replace(' ', '')
         tokens = _tokenize(expression)
         postfix = _shunting_yard(tokens)
+        if len(postfix) == 1:
+            return [postfix[0]]
         stack = []
         for token in postfix:
             if token == '@':
-                right = _to_str(stack.pop())
-                left = _to_str(stack.pop())
+                right = stack.pop()
+                left = stack.pop()
                 stack.append(f'{left}@{right}')
             elif token == '#u':
                 right = stack.pop()
                 task = Task._eval_virtual_task(None, right, parent_task)
                 if task is not None:
-                    stack.append(task)
+                    stack.append(_eval_virtual_task_result(task))
             elif token == '#':
                 right = stack.pop()
                 left = stack.pop()
                 task = Task._eval_virtual_task(left, right, parent_task)
                 if task is not None:
-                    stack.append(task)
+                    stack.append(_eval_virtual_task_result(task))
             elif token == '*':
                 right = stack.pop()
                 left = stack.pop()
@@ -268,11 +285,7 @@ class Task:
             elif token in _VIRTUAL_TASK_TYPES:
                 stack.append(token)
             else:
-                task = Task.get(token)
-                if task is not None:
-                    stack.append(task)
-                else:
-                    stack.append(token)
+                stack.append(token)
         if len(stack) == 0:
             return []
         elif len(stack) == 1:
