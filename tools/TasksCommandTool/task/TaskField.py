@@ -250,3 +250,7 @@ class TaskFieldEnum(Enum):
         lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
+
+
+def get_fields(condition: Callable[[TaskFieldEnum], bool] = lambda x: True) -> List[TaskField]:
+    return [field.value for field in TaskFieldEnum if condition(field)]

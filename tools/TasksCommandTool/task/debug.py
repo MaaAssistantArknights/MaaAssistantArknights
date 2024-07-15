@@ -12,6 +12,12 @@ def enable_tracing():
     _ENABLE_TRACING = True
 
 
+def disable_tracing():
+    """Disables tracing for all decorated functions."""
+    global _ENABLE_TRACING
+    _ENABLE_TRACING = False
+
+
 def trace(fn):
     """A decorator that prints a function's name, its arguments, and its return
     values each time the function is called. For example,

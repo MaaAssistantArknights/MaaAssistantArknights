@@ -4,7 +4,7 @@ import logging
 
 from .debug import trace
 from .TaskType import AlgorithmType, TaskStatus
-from .TaskField import TaskFieldEnum, TaskField
+from .TaskField import TaskFieldEnum, get_fields
 from .TaskExpression import _tokenize, _shunting_yard
 
 logger = logging.getLogger(__name__)
@@ -64,7 +64,7 @@ class Task:
                 raise ValueError(f"Error checking field {field.field_name}: {e}")
             setattr(self, field.python_field_name, field_value)
             if not field_valid:
-                logger.warning(f"Invalid value for field {field.field_name}: {field_value}")
+                logger.warning(f"Invalid value for field {field.field_name}: {field_value} in task {self.name}")
 
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
             self.template = f"{self.name}.png"
@@ -73,15 +73,11 @@ class Task:
         return f"{self.task_status.value}Task({self.name})"
 
     def __repr__(self):
-        return str(self)
+        return str(self.to_task_dict())
 
-    def _get_valid_fields(self) -> list[TaskField]:
-        valid_fields = []
-        for field in TaskFieldEnum:
-            field = field.value
-            if field.valid_for_algorithm is None or field.valid_for_algorithm == self.algorithm:
-                valid_fields.append(field)
-        return valid_fields
+    def _get_valid_fields(self):
+        return get_fields(
+            lambda x: x.value.valid_for_algorithm is None or x.value.valid_for_algorithm == self.algorithm)
 
     def to_task_dict(self) -> dict:
         task_dict = {"name": self.name}
@@ -105,8 +101,7 @@ class Task:
         if self.task_status != TaskStatus.Initialized:
             raise ValueError(f"Task {self.name} is not initialized.")
         interpreted_task = InterpretedTask(self.name, self)
-        for field in _TASK_PIPELINE_INFO_FIELDS:
-            field = field.value
+        for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
             task_list = getattr(interpreted_task, field.python_field_name)
             if task_list is not None:
                 interpreted_task_list = []
@@ -126,11 +121,10 @@ class Task:
         return interpreted_task
 
     def show(self):
-        for field in _TASK_PIPELINE_INFO_FIELDS:
-            field = field.value
+        for field in get_fields(lambda x: x in _TASK_INFO_FIELDS):
             if self.to_task_dict():
                 print(field)
-                print(' -> '.join(['   |', *self.__getattribute__(field)]))
+                print(' -> '.join(['   |', *self.__getattribute__(field.python_field_name)]))
 
     def print(self):
         for key, value in self.to_task_dict().items():
@@ -184,19 +178,16 @@ class Task:
         override_fields = []
         if override_task is not None:
             override_task_dict = override_task._task_dict
-            for field in _TASK_INFO_FIELDS:
-                field = field.value
+            for field in get_fields(lambda x: x in _TASK_INFO_FIELDS):
                 if field.field_name in override_task_dict:
                     override_fields.append(field)
             if override_task.algorithm != base_task.algorithm:
-                for field in _TASK_INFO_FIELDS:
-                    field = field.value
+                for field in get_fields(lambda x: x in _TASK_INFO_FIELDS):
                     if field.field_name in override_task_dict:
                         new_task_dict[field.field_name] = override_task_dict[field.field_name]
             else:
                 new_task_dict.update(override_task_dict)
-        for field in _TASK_PIPELINE_INFO_FIELDS:
-            field = field.value
+        for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
             if new_task_dict[field.field_name] is not None and field not in override_fields:
                 new_task_dict[field.field_name] = add_prefix(new_task_dict[field.field_name])
         return TemplateTask(name, new_task_dict, base_task)
@@ -236,13 +227,16 @@ class Task:
         def _to_list(x):
             return [x] if not isinstance(x, list) else x
 
+        def _to_str(x):
+            return x if not isinstance(x, Task) else x.name
+
         tokens = _tokenize(expression)
         postfix = _shunting_yard(tokens)
         stack = []
         for token in postfix:
             if token == '@':
-                right = stack.pop()
-                left = stack.pop()
+                right = _to_str(stack.pop())
+                left = _to_str(stack.pop())
                 stack.append(f'{left}@{right}')
             elif token == '#u':
                 right = stack.pop()
@@ -269,14 +263,16 @@ class Task:
                 right = _to_list(stack.pop())
                 left = _to_list(stack.pop())
                 stack.append([x for x in left if x not in right])
+            elif isinstance(token, int):
+                stack.append(token)
+            elif token in _VIRTUAL_TASK_TYPES:
+                stack.append(token)
             else:
-                if isinstance(token, int):
-                    stack.append(token)
-                elif token in _VIRTUAL_TASK_TYPES:
-                    stack.append(token)
-                else:
-                    task = Task.get(token)
+                task = Task.get(token)
+                if task is not None:
                     stack.append(task)
+                else:
+                    stack.append(token)
         if len(stack) == 0:
             return []
         elif len(stack) == 1:
