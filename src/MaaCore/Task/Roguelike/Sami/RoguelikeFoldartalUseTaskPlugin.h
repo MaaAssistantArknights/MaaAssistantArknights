@@ -1,6 +1,6 @@
 #pragma once
-#include "AbstractRoguelikeTaskPlugin.h"
-#include "Config/Roguelike/RoguelikeFoldartalConfig.h"
+#include "../AbstractRoguelikeTaskPlugin.h"
+#include "Config/Roguelike/Sami/RoguelikeFoldartalConfig.h"
 #include "RoguelikeCollapsalParadigmTaskPlugin.h"
 
 namespace asst

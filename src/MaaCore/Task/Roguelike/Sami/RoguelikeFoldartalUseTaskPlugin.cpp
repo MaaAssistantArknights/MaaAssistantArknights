@@ -1,6 +1,6 @@
 #include "RoguelikeFoldartalUseTaskPlugin.h"
 
-#include "Config/Roguelike/RoguelikeFoldartalConfig.h"
+#include "Config/Roguelike/Sami/RoguelikeFoldartalConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"

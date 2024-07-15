@@ -16,11 +16,11 @@
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
-#include "Roguelike/RoguelikeFoldartalConfig.h"
-#include "Roguelike/RoguelikeCollapsalParadigmConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
 #include "Roguelike/RoguelikeStageEncounterConfig.h"
+#include "Roguelike/Sami/RoguelikeFoldartalConfig.h"
+#include "Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 #include "TaskData.h"
 #include "TemplResource.h"
 #include "Utils/Logger.hpp"
@@ -167,10 +167,12 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     // 原来这后面是用 AsyncLoadConfig 的，以下是原来的注释：
     //// 不太重要又加载的慢的资源，但不怎么占内存的，实时异步加载
     //// DEBUG 模式下这里还是检查返回值的，方便排查问题
+    // –––––––– Roguelike Copilot Config ––––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Phantom"_p / "autopilot"_p);
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Mizuki"_p / "autopilot"_p);
     LoadResourceAndCheckRet(RoguelikeCopilotConfig, "roguelike"_p / "Sami"_p / "autopilot"_p);
 
+    // –––––––– Roguelike Recruitment Config ––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
         RoguelikeRecruitConfig,
         "roguelike"_p / "Phantom"_p / "recruitment.json"_p);
@@ -181,14 +183,18 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         RoguelikeRecruitConfig,
         "roguelike"_p / "Sami"_p / "recruitment.json"_p);
 
+    // –––––––– Roguelike Shopping Config –––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
         RoguelikeShoppingConfig,
         "roguelike"_p / "Phantom"_p / "shopping.json"_p);
     LoadResourceAndCheckRet(
         RoguelikeShoppingConfig,
         "roguelike"_p / "Mizuki"_p / "shopping.json"_p);
-    LoadResourceAndCheckRet(RoguelikeShoppingConfig, "roguelike"_p / "Sami"_p / "shopping.json"_p);
+    LoadResourceAndCheckRet(
+        RoguelikeShoppingConfig,
+        "roguelike"_p / "Sami"_p / "shopping.json"_p);
 
+    // –––––––– Roguelike Encounter Config ––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
         "roguelike"_p / "Phantom"_p / "encounter"_p / "default.json"_p);
@@ -211,10 +217,10 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
         RoguelikeStageEncounterConfig,
         "roguelike"_p / "Sami"_p / "encounter"_p / "collapse.json"_p);
 
+    // –––––––– Sami Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(
         RoguelikeFoldartalConfig,
         "roguelike"_p / "Sami"_p / "foldartal.json"_p);
-
     LoadResourceAndCheckRet(
         RoguelikeCollapsalParadigmConfig,
         "roguelike"_p / "Sami"_p / "collapsal_paradigms.json"_p);
