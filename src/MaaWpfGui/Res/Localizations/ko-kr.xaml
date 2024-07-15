@@ -232,7 +232,7 @@
     <system:String x:Key="TimerCustomConfig">사용자 지정 구성 옵션</system:String>
     <system:String x:Key="TimerCustomConfigTip">2분 전에 재시작하여 설정을 전환합니다</system:String>
     <system:String x:Key="Timer">타이머</system:String>
-    <system:String x:Key="TimerTip">이 옵션 페이지는 전역 구성용입니다</system:String>
+    <system:String x:Key="GlobalConfigTip">이 옵션 페이지는 전역 구성용입니다</system:String>
     <system:String x:Key="SwitchConfiguration">구성 전환</system:String>
     <system:String x:Key="ConfigurationName">구성 이름</system:String>
     <system:String x:Key="AddConfiguration">추가</system:String>

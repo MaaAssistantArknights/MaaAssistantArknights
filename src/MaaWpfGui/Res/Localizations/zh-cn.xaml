@@ -232,7 +232,7 @@
     <system:String x:Key="TimerCustomConfig">自定义配置选择</system:String>
     <system:String x:Key="TimerCustomConfigTip">将提前两分钟重启并切换配置</system:String>
     <system:String x:Key="Timer">定时</system:String>
-    <system:String x:Key="TimerTip">此选项页为全局配置</system:String>
+    <system:String x:Key="GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="SwitchConfiguration">切换配置</system:String>
     <system:String x:Key="ConfigurationName">配置名称</system:String>
     <system:String x:Key="AddConfiguration">添加</system:String>

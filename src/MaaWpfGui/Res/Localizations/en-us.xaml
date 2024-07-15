@@ -232,7 +232,7 @@
     <system:String x:Key="TimerCustomConfig">Custom config</system:String>
     <system:String x:Key="TimerCustomConfigTip">Restart and switch configuration two minutes in advance</system:String>
     <system:String x:Key="Timer">Timer</system:String>
-    <system:String x:Key="TimerTip">This option page is for global config</system:String>
+    <system:String x:Key="GlobalConfigTip">This option page is for global config</system:String>
     <system:String x:Key="SwitchConfiguration">Configuration</system:String>
     <system:String x:Key="ConfigurationName">Config</system:String>
     <system:String x:Key="AddConfiguration">Add</system:String>
