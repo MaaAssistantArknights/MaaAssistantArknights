@@ -8,6 +8,18 @@ class TestTaskExpression(unittest.TestCase):
         self.assertEqual(_tokenize("ABC"), ["ABC"])
         self.assertEqual(_shunting_yard(_tokenize("ABC")), ["ABC"])
 
+        # (ClickCorner + WaitAfterPRTS + StartUpThemes)#next ^ #self'
+        self.assertListEqual(_tokenize("(A + B + C)#next ^ #self"),
+                             ['(', 'A', '+', 'B', '+', 'C', ')', '#', 'next', '^', '#u', 'self'])
+        self.assertListEqual(_shunting_yard(_tokenize("(A + B + C)#next ^ #self")),
+                             ['A', 'B', '+', 'C', '+', 'next', '#', 'self', '#u', '^'])
+
+        # StageQueue@(ClickCornerAfterPRTS+ClickCorner)*5
+        self.assertListEqual(_tokenize("StageQueue@(ClickCornerAfterPRTS+ClickCorner)*5"),
+                             ['StageQueue', '@', '(', 'ClickCornerAfterPRTS', '+', 'ClickCorner', ')', '*', 5])
+        self.assertListEqual(_shunting_yard(_tokenize("StageQueue@(ClickCornerAfterPRTS+ClickCorner)*5")),
+                             ['StageQueue', 'ClickCornerAfterPRTS', 'ClickCorner', '+', '@', 5, '*'])
+
         # #self
         self.assertListEqual(_tokenize("#self"),
                              ['#u', 'self'])

@@ -2,7 +2,7 @@ import cmd
 import json
 import os
 
-from .Task import Task, _ALL_TASKS
+from .Task import Task, _ALL_TASKS, _ORIGINAL_TASKS
 
 project_root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, os.pardir))
 json_path = os.path.join(project_root_path, 'resource', 'tasks.json')
@@ -24,7 +24,7 @@ class TasksCommandTool(cmd.Cmd):
             tasks = json.load(f)
             for name, task_dict in tasks.items():
                 try:
-                    Task(name, task_dict)
+                    Task(name, task_dict).define()
                     success_count += 1
                 except Exception as e:
                     print(f"Error loading task {name}: {e}")
@@ -36,7 +36,8 @@ class TasksCommandTool(cmd.Cmd):
         Task.get(arg).print()
 
     def complete_find(self, text, line, begidx, endidx):
-        return [name for name in _ALL_TASKS if name.startswith(text)]
+        return ([name for name in _ALL_TASKS if name.startswith(text)]
+                + [name for name in _ORIGINAL_TASKS if name.startswith(text)])
 
     def do_exec(self, arg):
         """Execute a task by name."""

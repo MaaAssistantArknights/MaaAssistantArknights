@@ -60,7 +60,8 @@ class Task:
                 raise ValueError(f"Error checking field {field.field_name}: {e}")
             setattr(self, field.python_field_name, field_value)
             if not field_valid:
-                raise ValueError(f"Invalid value for field {field.field_name}: {field_value}")
+                pass
+                # raise ValueError(f"Invalid value for field {field.field_name}: {field_value}")
 
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
             self.template = f"{self.name}.png"
@@ -93,7 +94,6 @@ class Task:
         return task_dict
 
     def define(self):
-        self.task_status = TaskStatus.Initialized
         _ORIGINAL_TASKS[self.name] = self
 
     def interpret(self) -> InterpretedTask:
@@ -134,7 +134,8 @@ class Task:
             print(f"{key}: {value}")
 
     @staticmethod
-    def get(name) -> Task:
+    @trace
+    def get(name) -> Task | None:
         if isinstance(name, Task):
             return name
         if name in _ALL_TASKS:
@@ -145,11 +146,12 @@ class Task:
             elif _is_template_task_name(name):
                 return Task._build_template_task(name)
             else:
+                _ORIGINAL_TASKS[name].task_status = TaskStatus.Initialized
                 return _ORIGINAL_TASKS[name]
         elif _is_template_task_name(name):
             return Task._build_template_task(name)
         else:
-            raise ValueError(f"Task {name} not found.")
+            return None
 
     @staticmethod
     @trace
@@ -157,17 +159,19 @@ class Task:
         if isinstance(task, BaseTask):
             return task
         base_dict = Task.get(task.base_task).to_task_dict().copy()
-        base_dict.update(task.to_task_dict())
+        base_dict.update(task._task_dict)
         base_dict.pop(TaskFieldEnum.BASE_TASK.value.field_name)
         return BaseTask(task.name, base_dict, task)
 
     @staticmethod
     @trace
-    def _build_template_task(name: str) -> TemplateTask:
+    def _build_template_task(name: str) -> Task:
         first, *rest = name.split('@')
         rest = '@'.join(rest)
-        base_task = Task.get(rest)
         override_task = _ORIGINAL_TASKS.get(name, None)
+        base_task = Task.get(rest)
+        if base_task is None:
+            base_task = Task("", {})
 
         def add_prefix(s: list[str]) -> list[str]:
             return [f"{first}@" + x if not x.startswith('#') else f"{first}" + x for x in s]
@@ -196,9 +200,14 @@ class Task:
 
     @staticmethod
     @trace
-    def _eval_virtual_task(task_name_context: str | None, virtual_task_type: str, parent_task: Task):
+    def _eval_virtual_task(task_name_context: str | list | Task | None, virtual_task_type: str, parent_task: Task):
         if virtual_task_type != "self" and task_name_context is None:
             return None
+        if isinstance(task_name_context, list):
+            result = []
+            for task_name in task_name_context:
+                result.extend(Task._eval_virtual_task(task_name, virtual_task_type, parent_task))
+            return result
         if virtual_task_type == "self":
             return parent_task
         elif virtual_task_type == "back":
@@ -228,7 +237,11 @@ class Task:
         postfix = _shunting_yard(tokens)
         stack = []
         for token in postfix:
-            if token == '#u':
+            if token == '@':
+                right = stack.pop()
+                left = stack.pop()
+                stack.append(f'{left}@{right}')
+            elif token == '#u':
                 right = stack.pop()
                 task = Task._eval_virtual_task(None, right, parent_task)
                 if task is not None:
@@ -242,6 +255,7 @@ class Task:
             elif token == '*':
                 right = stack.pop()
                 left = stack.pop()
+                left = _to_list(left)
                 stack.append(left * right)
             elif token == '+':
                 right = _to_list(stack.pop())

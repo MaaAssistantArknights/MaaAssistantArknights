@@ -1,5 +1,6 @@
 _PRECEDENCE = {
     '#u': 4,  # 单目运算符 #
+    '@': 3,
     '#': 3,  # 双目运算符 #
     '*': 2,
     '+': 1,
@@ -8,6 +9,7 @@ _PRECEDENCE = {
 
 _ASSOCIATIVITY = {
     '#u': 'R',
+    '@': 'L',
     '#': 'L',
     '*': 'L',
     '+': 'L',
@@ -22,10 +24,11 @@ def _is_operator(token):
 
 
 def _is_task_name_token(token):
-    return token.isalpha() or token == '@'
+    return token.isalpha() or token.isdigit() or token in ['-', '_']
 
 
 def _tokenize(expression):
+    expression = expression.replace(' ', '')
     tokens = []
     i = 0
     while i < len(expression):
@@ -35,17 +38,17 @@ def _tokenize(expression):
             else:
                 tokens.append(expression[i])
             i += 1
-        elif _is_task_name_token(expression[i]):
-            j = i
-            while j < len(expression) and _is_task_name_token(expression[j]):
-                j += 1
-            tokens.append(expression[i:j])
-            i = j
         elif expression[i].isdigit():
             j = i
             while j < len(expression) and expression[j].isdigit():
                 j += 1
             tokens.append(int(expression[i:j]))
+            i = j
+        elif _is_task_name_token(expression[i]):
+            j = i
+            while j < len(expression) and _is_task_name_token(expression[j]):
+                j += 1
+            tokens.append(expression[i:j])
             i = j
         else:
             raise ValueError(f'Invalid token: {expression[i]}')

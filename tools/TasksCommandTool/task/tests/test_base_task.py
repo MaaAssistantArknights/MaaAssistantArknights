@@ -15,10 +15,10 @@ class BaseTaskTest(TaskTest):
         Task("C", test_info_a).define()
         task = Task._build_base_task(Task.get("B@A"))
         self.assertTaskEqual(task, {
-            'action': 'DoNothing',
+            'action': 'ClickSelf',
             'algorithm': 'OcrDetect',
             'cache': False,
-            'maxTimes': math.inf,
+            'maxTimes': 1,
             'postDelay': 0,
             'preDelay': 0,
             'subErrorIgnored': False
@@ -46,7 +46,7 @@ class BaseTaskTest(TaskTest):
             "baseTask": "C"
         }).define()
         Task("C", test_info_a).define()
-        task = Task._build_base_task(Task.get("B"))
+        task = Task.get("B")
         self.assertTaskEqual(task, {
             "sub": ["B_sub", "B_sub2"],
             "next": ["B_next"],
