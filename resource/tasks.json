@@ -16691,18 +16691,7 @@
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sarkaz@Roguelike@ClickToDrops": {
-        "next": [
-            "Sarkaz@Roguelike@Stages#next",
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@StageEncounterSpecialClose",
-            "Sarkaz@Roguelike@TraderRandomShopping",
-            "Sarkaz@Roguelike@StageTraderLeave",
-            "Sarkaz@Roguelike@DropsFlag",
-            "Sarkaz@Roguelike@StartUpThemes#next",
-            "Sarkaz@Roguelike@ClickToDrops"
-        ]
-    },
+    "Sarkaz@Roguelike@ClickToDrops": {},
     "Sarkaz@Roguelike@CloseCollection": {
         "next": [
             "Sarkaz@Roguelike@LastReward",
