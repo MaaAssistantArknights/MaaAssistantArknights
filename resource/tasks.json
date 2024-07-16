@@ -17050,6 +17050,24 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
+    "Sarkaz@Roguelike@StageFilterTruthCR": {
+        "Doc": "可重建",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthHD": {
+        "Doc": "已深化",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "next": [
@@ -17105,6 +17123,24 @@
     "Sarkaz@Roguelike@StageSafeHouse": {
         "templThreshold": 0.95
     },
+    "Sarkaz@Roguelike@StageSafeHouseCR": {
+        "Doc": "可重建",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageSafeHouseHD": {
+        "Doc": "已深化",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
     "Sarkaz@Roguelike@StageSafeHouseEnter": {
         "next": [
             "Sarkaz@Roguelike@StageSafeHouseEnter",
@@ -17131,6 +17167,24 @@
     },
     "Sarkaz@Roguelike@StageTrader": {
         "templThreshold": 0.95
+    },
+    "Sarkaz@Roguelike@StageTraderCR": {
+        "Doc": "可重建",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageTraderHD": {
+        "Doc": "已深化",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
     },
     "Sarkaz@Roguelike@StageTraderEnter": {},
     "Sarkaz@Roguelike@StageTraderLeaveConfirm": {
@@ -17181,10 +17235,16 @@
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
             "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
             "Sarkaz@Roguelike@StageBoons",
+            "Sarkaz@Roguelike@StageTraderHD",
             "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
             "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
             "Sarkaz@Roguelike@StageEncounter",
             "Sarkaz@Roguelike@StageConfrontation",
             "Sarkaz@Roguelike@StageWindAndRain",
@@ -17202,13 +17262,19 @@
         "next": [
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
+            "Sarkaz@Roguelike@StageTraderHD",
             "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
             "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
             "Sarkaz@Roguelike@StageBoons",
             "Sarkaz@Roguelike@StageEmergencyTransportation",
             "Sarkaz@Roguelike@StageGambling",
             "Sarkaz@Roguelike@StageProphecy",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
             "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
             "Sarkaz@Roguelike@StageEncounter",
             "Sarkaz@Roguelike@StageWindAndRain",
             "Sarkaz@Roguelike@StageConfrontation",
@@ -17226,12 +17292,18 @@
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
             "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
             "Sarkaz@Roguelike@StageBoons",
             "Sarkaz@Roguelike@StageEncounter",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
             "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
             "Sarkaz@Roguelike@StageConfrontation",
+            "Sarkaz@Roguelike@StageTraderHD",
             "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
             "Sarkaz@Roguelike@StageProphecy",
             "Sarkaz@Roguelike@StageWindAndRain",
             "Sarkaz@Roguelike@StageEmergencyTransportation",
