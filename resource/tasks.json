@@ -16713,6 +16713,7 @@
             "Sarkaz@Roguelike@LastReward2",
             "Sarkaz@Roguelike@LastReward3",
             "Sarkaz@Roguelike@LastRewardRand",
+            "Sarkaz@Roguelike@LastReward5",
             "Sarkaz@Roguelike@RolesDefault"
         ]
     },
@@ -16866,6 +16867,10 @@
     "Sarkaz@Roguelike@LastReward2": {},
     "Sarkaz@Roguelike@LastReward3": {},
     "Sarkaz@Roguelike@LastReward4": {},
+    "Sarkaz@Roguelike@LastReward5": {
+        "baseTask": "Roguelike@LastReward_default",
+        "template": "Sarkaz@Roguelike@LastReward5.png"
+    },
     "Sarkaz@Roguelike@LastRewardConfirm": {},
     "Sarkaz@Roguelike@LastRewardRand": {},
     "Sarkaz@Roguelike@MapObject": {
@@ -16933,6 +16938,7 @@
             "Sarkaz@Roguelike@LastReward2",
             "Sarkaz@Roguelike@LastReward3",
             "Sarkaz@Roguelike@LastRewardRand",
+            "Sarkaz@Roguelike@LastReward5",
             "Sarkaz@Roguelike@RolesDefault",
             "Sarkaz@Roguelike@CloseCollection",
             "Sarkaz@Roguelike@DialogSkip",
