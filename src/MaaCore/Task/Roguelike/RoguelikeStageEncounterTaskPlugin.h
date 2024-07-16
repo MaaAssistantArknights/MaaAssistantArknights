@@ -10,17 +10,7 @@ namespace asst
     class RoguelikeStageEncounterTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        RoguelikeStageEncounterTaskPlugin(const AsstCallback& callback,
-                                             Assistant* inst,
-                                             std::string_view task_chain,
-                                             std::shared_ptr<RoguelikeConfig> config)
-                                             : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
-        {
-            if (RoguelikeCollapsalParadigmTaskPlugin::enabled(config)) {
-                m_clp_pd_plugin = std::make_shared<RoguelikeCollapsalParadigmTaskPlugin>(callback, inst, task_chain, config);
-            }
-        }
+        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         using Config = RoguelikeStageEncounterConfig;
         virtual ~RoguelikeStageEncounterTaskPlugin() override = default;
 
@@ -34,5 +24,7 @@ namespace asst
         static int hp(const cv::Mat& image);
     private:
         std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_clp_pd_plugin;
+
+        bool plugin_gained = false;
     };
 }
