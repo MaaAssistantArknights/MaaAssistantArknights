@@ -272,12 +272,16 @@ public:
     requires has_stream_insertion_operator<std::ostream, T>
     toansi_ostream& operator<<(T&& v)
     {
+#ifdef _WIN32
         if constexpr (std::convertible_to<T, std::string_view>) {
             m_ofs.get() << utils::utf8_to_ansi(std::forward<T>(v));
         }
         else {
             m_ofs.get() << std::forward<T>(v);
         }
+#else
+        m_ofs.get() << std::forward<T>(v);
+#endif
         return *this;
     }
 
