@@ -1,11 +1,11 @@
 {
     "type": "SSS",
-    "stage_name": "自走机械搏斗场",
-    "minimum_required": "v4.28.2",
+    "stage_name": "Automatom Arena",
+    "minimum_required": "v5.4.1",
     "doc": {
-        "title": "自走机械搏斗场——浊心斯卡蒂重岳星熊塞雷娅棘刺",
+        "title": "Automatom Arena - Skalter, Chongyue, Hoshiguma, Saria, Thorns",
         "title_color": "dark",
-        "details": "作者：DL_君逸寒\n演示视频：BV1VG411Y7Hb\n这可能是我最后一次守护你们的肝了\n\n该脚本可完成可充能督战音响任务（包括10先锋术士）\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n\n关卡中的注意事项：\n3关要拿到至少一个战备激活阀，没有就重开（高练也不可无视）\n6关星熊要在红车冲过来之前叠好，浊蒂和重岳要在10杀后叠好（音响过牌超级快，只要不沉底就行）\nmaa现在还不认识蜜酿会一直点来点去，有时会影响操作，图稳可以往boss身上扔，往别处扔也行，不扔也行，反正都能一命应急，可酌情自行决定\n我的作业已经尽可能平民且少核了，这点要求不过分吧~\n\n工具人（不包括核心）：\n先锋：6  推荐尖兵分支+执旗手分支（不要带风笛）\n重装：3  选择防御力高的，但是不要选决战者分支和不屈者分支\n术士：6  扩散术士分支要上减费用模组\n\n所有工具人的练度都建议精二起步，选能打的！\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能！\n详情可以打开视频链接观看并更改必要的设置\n\n导能原件：可充能督战音响\n战术装备：术士B狙击B特种B，其余A\n开局策略：优选策略\n\n请手动编队，阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 骚乱肇始\n\n脚本参考：\n自己打的\n（你看我这6关阵型...）\n\n特别鸣谢：筱竹聽雨（写常规图作业的作者之一） \n最初我写的版本是斥罪主t星熊副t，但是竹说没有斥罪，就优化成了星熊主t塞雷娅副t，遂有此平民版本\n\n连接模式请使用minitouch或者maatouch，不建议使用ADB Input模式\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、不重开通过普通难度、通过应急难度\n\n刷材料不建议在应急模式刷，也不建议使用专门用来完成任务的脚本刷\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
+        "details": "Author: DL_君逸寒\nAdaptation: Constrat\nDemo Video: BV1VG411Y7Hb\n\nThis Copilot clears the \"Chargeable Supervisory Speaker\" mission (including 10 vanguards)\n\nNotes: \nLevel 3: at least one Equipment Activation Valve drop\nLevel 6: Hoshiguma deployed before red enemy arrives, Skalter and Chongyue deployed after 10 kills\n\nOperators (Non-core): \nVanguard: 6  Pioneers and Flagbearers (No Bagpipe)\nDefender: 3  High DEF, but no Duelists or Juggernauts\nCaster: 6  Splash casters with cost reduction module\n\nUse E2 operators!\nDon't bring more operators than necessary!\nDon't bring Robots\n\nDirectional EC: Chargeable Supervisory Speaker\nTactical Equipment: Caster B, Sniper B, Specialist B, others A\n\nPlease form a team manually, after confirming the line-up, click start when LT-1 is displayed\n\nPlease use Minitouch or Maatouch for connection mode, ADB Input is deprecated\n\nThe author supports the modification according to personal needs, but does not support the modification of the upload to the workstation and other platforms, the use of this script is deemed to agree with and will fulfil the agreement",
         "details_color": "dark"
     },
     "buff": "可充能督战音响",
