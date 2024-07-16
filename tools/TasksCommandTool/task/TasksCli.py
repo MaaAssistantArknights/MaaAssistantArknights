@@ -12,6 +12,12 @@ json_path = os.path.join(project_root_path, 'resource', 'tasks.json')
 class TasksCommandTool(cmd.Cmd):
     prompt = 'tasks> '
 
+    def get_task(self, arg):
+        task = Task.get(arg)
+        if task is None:
+            raise ValueError(f"Task {arg} not found.")
+        return task
+
     def do_load(self, arg):
         """Load tasks from a json file."""
         global json_path
@@ -33,7 +39,7 @@ class TasksCommandTool(cmd.Cmd):
 
     def do_find(self, arg):
         """Find a task by name."""
-        Task.get(arg).print()
+        self.get_task(arg).print()
 
     def complete_find(self, text, line, begidx, endidx):
         return ([name for name in _ALL_TASKS if name.startswith(text)]
@@ -41,9 +47,14 @@ class TasksCommandTool(cmd.Cmd):
 
     def do_exec(self, arg):
         """Execute a task by name."""
-        Task.get(arg).interpret().print()
+        self.get_task(arg).interpret().print()
 
     def do_show(self, arg):
         """Show all tasks."""
-        task = Task.get(arg)
-        task.show()
+        self.get_task(arg).interpret().show()
+
+    def onecmd(self, line):
+        try:
+            return super().onecmd(line)
+        except Exception as e:
+            print(e)

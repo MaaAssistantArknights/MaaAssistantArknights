@@ -52,9 +52,10 @@ class Task:
     """@DynamicAttrs"""
 
     def __init__(self, name: str, task_dict: dict):
+        assert _is_valid_task_name(name), f"Invalid task name: {name}"
         # 任务名
         self.name = name
-
+        
         self.task_status = TaskStatus.Raw
         self._task_dict = task_dict
 
@@ -122,10 +123,11 @@ class Task:
         return interpreted_task
 
     def show(self):
-        for field in get_fields(lambda x: x in _TASK_INFO_FIELDS):
+        for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
             if self.to_task_dict():
-                print(field)
-                print(' -> '.join(['   |', *self.__getattribute__(field.python_field_name)]))
+                print(field.field_name)
+                if getattr(self, field.python_field_name) is not None:
+                    print(' -> '.join(['   |', *getattr(self, field.python_field_name)]))
 
     def print(self):
         for key, value in self.to_task_dict().items():
