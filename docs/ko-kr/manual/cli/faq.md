@@ -1,5 +1,5 @@
 ---
-order: 5
+order: 4
 icon: ph:question-fill
 ---
 
@@ -27,5 +27,3 @@ MaaCore의 종속성인 `fastdeploy`가 일부 로그를 출력합니다. 따라
 ## 3. macOS에서 maa-cli로 실행한 PlayCover 게임 클라이언트가 전투를 대리할 수 없고 로그라이크 모드를 완료할 수 없습니다
 
 알 수 없는 이유로, 터미널을 통해 실행한 PlayCover 게임 클라이언트는 전투를 대리할 수 없고 로그라이크 모드를 완료할 수 없습니다. 하지만 이 문제는 터미널에서 실행한 maa-cli에만 해당됩니다. 터미널에서 상호작용할 때는 게임을 수동으로 실행해야 할 수도 있습니다. cron 등의 방법으로 maa-cli를 실행하는 경우, 이 문제는 영향을 미치지 않습니다.
-
-<!-- markdownlint-disable-file MD013 -->

@@ -99,7 +99,7 @@ If you encounter a bug, or have a strong demand for a certain function, welcome 
 
 ### CLI Support
 
-MAA supports command line interface (CLI) operation, supports Linux, macOS and Windows, and can be used for automated scripts or on servers without graphical interfaces. Check [CLI Guide](./manual/cli/intro.md)
+MAA supports command line interface (CLI) operation, supports Linux, macOS and Windows, and can be used for automated scripts or on servers without graphical interfaces. Check [CLI Guide](./manual/cli/)
 
 ## Join us
 

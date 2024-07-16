@@ -1,5 +1,5 @@
 ---
-order: 5
+order: 4
 icon: ph:question-fill
 ---
 
@@ -27,5 +27,3 @@ MaaCore 的依赖 `fastdeploy` 会输出一些日志，因此你在运行 maa-cl
 ## 3. 在 macOS 下使用 maa-cli 启动的 PlayCover 游戏客户端，无法代理作战且肉鸽无法结算
 
 由于未知原因，通过终端启动的 PlayCover 游戏客户端无法代理作战，且肉鸽无法结算。但是该状况仅限于通过终端运行的 maa-cli。因此如果你是在终端交互使用，那么你可能需要手动启动游戏。如果你是通过 cron 等方式运行 maa-cli，那么该问题不会影响你的使用。
-
-<!-- markdownlint-disable-file MD013 -->
