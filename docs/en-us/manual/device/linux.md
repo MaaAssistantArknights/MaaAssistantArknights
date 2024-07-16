@@ -11,7 +11,7 @@ You can choose one of the following installation methods:
 
 ### Use maa-cli
 
-[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) is a simple CLI for MAA made with Rust. Please read installation and usage tutorials in [User Guide for CLI](../cli/intro.md).
+[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) is a simple CLI for MAA made with Rust. Please read installation and usage tutorials in [User Guide for CLI](../cli/).
 
 ### Use Wine
 

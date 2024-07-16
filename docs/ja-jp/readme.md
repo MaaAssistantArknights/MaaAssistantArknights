@@ -154,7 +154,7 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 - [Java HTTPインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
 - [Rustインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys)：[HTTPインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScriptインターフェース](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [Woolangインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Woolang/maa.wo)：[統合例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Woolang/main.wo)
+- [Woolangインターフェース](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Woolang/maa.wo)：[統合例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Woolang/demo.wo)
 - [統合ドキュメント](./protocol/integration.md)
 - [コールバックAPI](./protocol/callback-schema.md)
 - [タスクAPI](./protocol/task-schema.md)
