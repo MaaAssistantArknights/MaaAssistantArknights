@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 2
 icon: material-symbols:summarize
 ---
 
