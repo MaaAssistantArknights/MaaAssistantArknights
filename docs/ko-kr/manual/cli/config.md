@@ -435,14 +435,12 @@ url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 - MaaCore 설정의 JSON Schema 파일은 [`asst.schema.json`][asst-schema]입니다.
 - CLI 설정의 JSON Schema 파일은 [`cli.schema.json`][cli-schema]입니다.
 
-[task-types]: ../../protocol/integration.md#任务类型一览
-[emulator-ports]: ../../manual/faq.md#模拟器调试端口
-[playcover-doc]: ../../manual/device/macos.md#-playcover原生运行最流畅-
+[task-types]: ../../protocol/integration.md#작업-유형-목록
+[emulator-ports]: ../../manual/connection.md#포트-번호-입력
+[playcover-doc]: ../../manual/device/macos.md#✅-playcover-제일-부드럽습니다-🚀
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/
 [task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/task.schema.json
 [asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/asst.schema.json
 [cli-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/cli.schema.json
-
-<!-- markdownlint-disable-file MD013 -->

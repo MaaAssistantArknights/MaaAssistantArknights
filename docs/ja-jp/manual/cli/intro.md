@@ -3,7 +3,7 @@ order: 1
 icon: material-symbols:toc
 ---
 
-# maa-cli 介绍
+# 介绍
 
 ::: important Translation Required
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.

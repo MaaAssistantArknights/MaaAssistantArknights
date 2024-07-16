@@ -55,10 +55,10 @@ Homebrew users can install maa-cli via the unofficial [tap](https://github.com/M
 
 If package managers are not available on your system or you prefer not to use them, you can download the precompiled binaries for your platform from the following links. After decompressing, place the executable file in your `PATH` to use.
 
-- [macOS](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-universal-apple-darwin.zip)
-- [Linux x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-x86_64-unknown-linux-gnu.tar.gz)
-- [Linux aarch64 (arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-aarch64-unknown-linux-gnu.tar.gz)
-- [Windows x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-x86_64-pc-windows-msvc.zip)
+- [macOS](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-universal-apple-darwin.zip)
+- [Linux x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-unknown-linux-gnu.tar.gz)
+- [Linux aarch64 (arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-aarch64-unknown-linux-gnu.tar.gz)
+- [Windows x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-pc-windows-msvc.zip)
 
 If your platform is not listed above, you can try to compile and install it yourself (see below).
 
@@ -116,5 +116,3 @@ For users who installed via package managers, MaaCore can be installed via packa
   ```
 
 **NOTE**: Only users who installed maa-cli via package managers can install MaaCore via package managers. Otherwise, please use the `maa install` command to install. In addition, the `maa install` downloads the official precompiled MaaCore, while the MaaCore installed by package managers has different compilation options and dependency versions from the official precompiled version. This does not affect the use of maa-cli but may cause differences in the functionality and performance of MaaCore. For example, the MaaCore installed by package managers uses a newer version of `fastdeploy`, while the official precompiled MaaCore uses an older version of `fastdeploy`. In the new version of `fastdeploy`, logs can be hidden, which can eliminate some unnecessary log output.
-
-<!-- markdownlint-disable-file MD013 -->

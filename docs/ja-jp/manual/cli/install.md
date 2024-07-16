@@ -3,7 +3,7 @@ order: 2
 icon: material-symbols:download
 ---
 
-# 安装及编译 maa-cli
+# 安装及编译
 
 ::: important Translation Required
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.
@@ -59,10 +59,10 @@ Homebrew 用户可以通过非官方的 [tap](https://github.com/MaaAssistantArk
 
 如果你的系统不受支持或者不想使用包管理器，你可以点击以下链接下载对应平台的预编译二进制文件，解压后将可执行文件放入 `PATH` 中即可使用。
 
-- [macOS](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-universal-apple-darwin.zip)
-- [Linux x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-x86_64-unknown-linux-gnu.tar.gz)
-- [Linux aarch64 (arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-aarch64-unknown-linux-gnu.tar.gz)
-- [Windows x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-v0.4.5-x86_64-pc-windows-msvc.zip)
+- [macOS](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-universal-apple-darwin.zip)
+- [Linux x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-unknown-linux-gnu.tar.gz)
+- [Linux aarch64 (arm64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-aarch64-unknown-linux-gnu.tar.gz)
+- [Windows x86_64 (x64, amd64)](https://github.com/MaaAssistantArknights/maa-cli/releases/latest/download/maa_cli-x86_64-pc-windows-msvc.zip)
 
 如果你的平台不在上述列表中，可以尝试自行编译安装（参见下文）。
 
@@ -120,5 +120,3 @@ maa install
   ```
 
 **注意**：只有使用包管理器安装 maa-cli 的用户才能使用包管理器安装 MaaCore，否则请使用 `maa install` 命令安装。此外，`maa install` 通过下载官方预编译的 MaaCore，而包管理器安装的 MaaCore 的编译选项和依赖版本与官方预编译的版本不同。这不会影响 maa-cli 的使用，但可能会导致 MaaCore 的功能和性能有所不同。比如，包管理器安装的 MaaCore 使用较新版本的 `fastdeploy`，而官方预编译的 MaaCore 使用较旧版本的 `fastdeploy`。而在新版本的 `fastdeploy` 中，日志可以被隐藏，这可以消除了一些不必要的日志输出。
-
-<!-- markdownlint-disable-file MD013 -->

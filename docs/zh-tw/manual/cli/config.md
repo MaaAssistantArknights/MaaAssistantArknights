@@ -268,10 +268,13 @@ params = { stage = "CE-6" }
 [tasks.variants.params.stage]
 default = "1-7" # 默认的关卡，可选（如果没有默认值，输入空值将会重新提示输入）
 description = "a stage to fight" # 描述，可选
+
+# 当输入的关卡是 1-7 时，需要输入使用理智药的数量
 [tasks.variants.params.medicine]
-# 依赖的参数，键为参数名，值为依赖的参数的预期值
-# 当设置时，只有所有的依赖参数都满足预期值时，这个参数才会被要求输入
-deps = { stage = "1-7" }
+# 参数可以设置为条件参数，这样只有满足条件时才需要输入
+# conditions 字段是一个表，其中键是同一层级下其他参数名，值是期望的值
+# 这里的条件是 stage 是 1-7， 如果存在多个条件，那么所有条件都必须满足
+conditions = { stage = "1-7" }
 default = 1000
 description = "medicine to use"
 ```
@@ -440,13 +443,11 @@ url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 - CLI 配置的 JSON Schema 文件为 [`cli.schema.json`][cli-schema]。
 
 [task-types]: ../../protocol/integration.md#任务类型一览
-[emulator-ports]: ../../manual/faq.md#模拟器调试端口
-[playcover-doc]: ../../manual/device/macos.md#-playcover原生运行最流畅-
+[emulator-ports]: ../../manual/connection.md#获取端口号
+[playcover-doc]: ../../manual/device/macos.md#✅-playcover-原生运行最流畅-🚀
 [example-config]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/config_examples
 [wangl-cc-dotfiles]: https://github.com/wangl-cc/dotfiles/tree/master/.config/maa
 [schema-dir]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/
 [task-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/task.schema.json
 [asst-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/asst.schema.json
 [cli-schema]: https://github.com/MaaAssistantArknights/maa-cli/blob/main/maa-cli/schemas/cli.schema.json
-
-<!-- markdownlint-disable-file MD013 -->

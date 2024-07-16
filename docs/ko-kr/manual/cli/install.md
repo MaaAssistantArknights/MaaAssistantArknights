@@ -116,5 +116,3 @@ maa install
   ```
 
 **주의**: 패키지 관리자를 통해 maa-cli를 설치한 경우에만 패키지 관리자를 통해 MaaCore를 설치할 수 있습니다. 그렇지 않으면 `maa install` 명령어를 사용해야 합니다. 또한, `maa install` 명령어는 공식적으로 사전 컴파일된 MaaCore를 다운로드합니다. 패키지 관리자를 통해 설치된 MaaCore는 컴파일 옵션과 종속성 버전이 공식 사전 컴파일 버전과 다를 수 있습니다. 이는 maa-cli의 사용에 영향을 미치지 않지만, MaaCore의 기능과 성능에 차이가 있을 수 있습니다. 예를 들어, 패키지 관리자를 통해 설치된 MaaCore는 최신 버전의 `fastdeploy`를 사용하고, 공식 사전 컴파일된 MaaCore는 구버전의 `fastdeploy`를 사용합니다. 최신 버전의 `fastdeploy`에서는 로그를 숨길 수 있어 불필요한 로그 출력을 줄일 수 있습니다.
-
-<!-- markdownlint-disable-file MD013 -->
