@@ -16630,20 +16630,20 @@
         ],
         "crop_doc": {
             "roi": [
-                1112,
-                268,
-                53,
-                52
+                1067,
+                255,
+                159,
+                154
             ],
             "mask": []
         }
     },
     "Sarkaz@Roguelike@ChooseDifficulty": {
         "roi": [
-            1064,
-            294,
-            216,
-            170
+            1086,
+            309,
+            194,
+            140
         ]
     },
     "Sarkaz@Roguelike@ChooseDifficulty_Easiest": {
