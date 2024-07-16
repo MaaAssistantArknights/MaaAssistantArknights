@@ -46,18 +46,27 @@ jobs:
         with:
           show-progress: false
 
-      - name: Restore lychee cache
-        uses: actions/cache@v3
+      - name: Cache lychee
+        uses: actions/cache@v4
         with:
           path: .lycheecache
           key: cache-lychee-${{ github.sha }}
           restore-keys: cache-lychee-
 
-      - name: Check Links
-        id: lychee
+      - name: Check dead links
         uses: lycheeverse/lychee-action@v1
         with:
           args: >
             --verbose --no-progress --cache --max-cache-age 1d
             -- './docs/**/*.md' './README.md'
-          fail: true # Fail the build if there are dead links
+
+      - name: Comment (only for PR)
+        if: github.event_name == 'pull_request' && env.lychee_exit_code != 0
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            Dead links found in the documentation. Please fix them.
+            Details: https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/${{ github.run_id }}
+
+      - name: Exit with lychee exit code
+        run: exit ${{ env.lychee_exit_code }}
