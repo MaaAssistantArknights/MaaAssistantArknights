@@ -117,7 +117,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ### CLI지원
 
-MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에서 사용할 수 있으며, 자동화 스크립트 작성 및 그래픽 인터페이스가 없는 서버에서 사용할 수 있습니다. [CLI 가이드](./manual/cli/intro.md)
+MAA는 명령줄 인터페이스(CLI)를 지원하며, Linux,macOS 및 Window에서 사용할 수 있으며, 자동화 스크립트 작성 및 그래픽 인터페이스가 없는 서버에서 사용할 수 있습니다. [CLI 가이드](./manual/cli/)
 
 ## 관련 프로젝트
 
