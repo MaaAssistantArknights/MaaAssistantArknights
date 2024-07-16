@@ -1,0 +1,87 @@
+{
+    "stage_name": "坏邻居",
+    "deploy_plan": [
+        {
+            "groups": [
+                "情报官",
+                "重装",
+                "地面远程",
+                "地面阻挡"
+            ],
+            "location": [
+                2,
+                7
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
+                "益达",
+                "高台输出"
+            ],
+            "location": [
+                3,
+                6
+            ],
+            "direction": "up"
+        },
+        {
+            "groups": [
+                "炮灰"
+            ],
+            "location": [
+                1,
+                4
+            ],
+            "condition": [
+                0,
+                5
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "高台输出"
+            ],
+            "location": [
+                2,
+                8
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "提丰"
+            ],
+            "location": [
+                1,
+                6
+            ],
+            "direction": "right"
+        },
+        {
+            "groups": [
+                "重装",
+                "地面远程",
+                "地面阻挡"
+            ],
+            "location": [
+                1,
+                7
+            ],
+            "direction": "left"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                1,
+                4
+            ],
+            "condition": [
+                1,
+                21
+            ]
+        }
+    ]
+}
