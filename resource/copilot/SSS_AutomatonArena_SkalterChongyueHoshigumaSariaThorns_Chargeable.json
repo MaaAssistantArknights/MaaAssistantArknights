@@ -1,14 +1,14 @@
 {
     "type": "SSS",
-    "stage_name": "Automatom Arena",
+    "stage_name": "Automaton Arena",
     "minimum_required": "v5.4.1",
     "doc": {
-        "title": "Automatom Arena - Skalter, Chongyue, Saria, Mudrock",
+        "title": "Automaton Arena - Skalter S2, Chongyue S3, Hoshiguma S2, Saria S1, Thorns S3",
         "title_color": "dark",
-        "details": "Author: DL_君逸寒\nAdaptation: Constrat\nDemo Video: BV1Ge411z761\n\nThis Copilot clears the \"Quick-freezing Sprayer Platform\" mission and 15 Supporter recruitments\n\nNotes: \nLevel 3: at least one Equipment Activation Valve drop\nLevel 6: Skalter and Chongyue deployed after 10 kills\n\nOperators (Non-core): \nVanguard: 6  Pioneers and Flagbearers (No Bagpipe)\nDefender: 2  High DEF, but no Duelists or Juggernauts\nCaster: 6  Splash casters with cost reduction module\nSupporter: 2  Recommended Virtuosa S3 and Suzuran S3\n\nUse E2 operators!\nDon't bring more operators than necessary!\nDon't bring Robots!\n\nDirectional EC: Quick-freezing Sprayer Platform\nTactical Equipment: Caster B, Sniper B, Specialist B, others A\n\nPlease form a team manually, after confirming the line-up, click start when LT-1 is displayed\n\nPlease use Minitouch or Maatouch for connection mode, ADB Input is deprecated\n\nThe author supports the modification according to personal needs, but does not support the modification of the upload to the workstation and other platforms, the use of this script is deemed to agree with and will fulfil the agreement",
+        "details": "Author: DL_君逸寒\nAdaptation: Constrat\nDemo Video: BV1VG411Y7Hb\n\nThis Copilot clears the \"Chargeable Supervisory Speaker\" mission (including 10 vanguards)\n\nNotes: \nLevel 3: at least one Equipment Activation Valve drop\nLevel 6: Hoshiguma deployed before red enemy arrives, Skalter and Chongyue deployed after 10 kills\n\nOperators (Non-core): \nVanguard: 6  Pioneers and Flagbearers (No Bagpipe)\nDefender: 3  High DEF, but no Duelists or Juggernauts\nCaster: 6  Splash casters with cost reduction module\n\nUse E2 operators!\nDon't bring more operators than necessary!\nDon't bring Robots\n\nDirectional EC: Chargeable Supervisory Speaker\nTactical Equipment: Caster B, Sniper B, Specialist B, others A\n\nPlease form a team manually, after confirming the line-up, click start when LT-1 is displayed\n\nPlease use Minitouch or Maatouch for connection mode, ADB Input is deprecated\n\nThe author supports the modification according to personal needs, but does not support the modification of the upload to the workstation and other platforms, the use of this script is deemed to agree with and will fulfil the agreement",
         "details_color": "dark"
     },
-    "buff": "速冷喷雾发射台",
+    "buff": "可充能督战音响",
     "equipment": [
         "A",
         "A",
@@ -25,10 +25,15 @@
             "name": "重岳",
             "skill": 3,
             "skill_usage": 2,
-            "skill_times": 7
+            "skill_times": 5
         },
         {
-            "name": "泥岩",
+            "name": "棘刺",
+            "skill": 3,
+            "skill_usage": 1
+        },
+        {
+            "name": "星熊",
             "skill": 2,
             "skill_usage": 1
         },
@@ -40,35 +45,34 @@
         {
             "name": "浊心斯卡蒂",
             "skill": 2,
-            "skill_usage": 1
+            "skill_usage": 0
         }
     ],
     "tool_men": {
         "先锋": 6,
-        "重装": 2,
-        "术士": 6,
-        "辅助": 2
+        "重装": 3,
+        "术士": 6
     },
     "drops": [
         "辅助",
         "术士",
         "无需增调干员",
-        "先锋",
         "重装",
         "狙击",
+        "先锋",
         "医疗",
         "近卫",
         "特种",
         "战备激活阀",
-        "复苏精油"
+        "超频转化模块"
     ],
     "blacklist": [
         "缪尔赛思",
         "伺夜",
         "夜半",
         "豆苗",
-        "风笛",
         "伊内丝",
+        "风笛",
         "晓歌",
         "谜图",
         "野鬃",
@@ -169,10 +173,20 @@
                 },
                 {
                     "tool_men": {
-                        "pioneer": 1
+                        "pioneer": 2
                     },
                     "location": [
                         7,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        6,
                         5
                     ],
                     "direction": "Left"
@@ -201,7 +215,7 @@
                 {
                     "core": "重岳",
                     "tool_men": {
-                        "pioneer": 2
+                        "pioneer": 3
                     },
                     "location": [
                         7,
@@ -210,7 +224,7 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "星熊",
                     "tool_men": {
                         "tank": 1
                     },
@@ -222,14 +236,25 @@
                 },
                 {
                     "tool_men": {
-                        "caster": 4,
-                        "support": 2
+                        "caster": 4
                     },
                     "location": [
                         5,
                         3
                     ],
                     "direction": "Down"
+                },
+                {
+                    "core": "可充能督战音响",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        7,
+                        4
+                    ],
+                    "direction": "Down",
+                    "kills": 20
                 }
             ],
             "draw_as_possible": true,
@@ -278,7 +303,7 @@
                         "pioneer": 1
                     },
                     "location": [
-                        5,
+                        6,
                         5
                     ],
                     "direction": "Left"
@@ -288,21 +313,10 @@
                         "pioneer": 1
                     },
                     "location": [
-                        4,
+                        5,
                         5
                     ],
                     "direction": "Left"
-                },
-                {
-                    "core": "速冷喷雾发射台",
-                    "tool_men": {
-                        "pioneer": 0
-                    },
-                    "location": [
-                        6,
-                        5
-                    ],
-                    "direction": "None"
                 },
                 {
                     "tool_men": {
@@ -315,12 +329,31 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "塞雷娅",
                     "tool_men": {
                         "tank": 1
                     },
                     "location": [
                         4,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 3
+                    },
+                    "location": [
+                        5,
                         5
                     ],
                     "direction": "Left"
@@ -337,9 +370,20 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "星熊",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        4,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
                     "core": "重岳",
                     "tool_men": {
-                        "pioneer": 2
+                        "pioneer": 1
                     },
                     "location": [
                         5,
@@ -349,14 +393,36 @@
                 },
                 {
                     "tool_men": {
-                        "caster": 4,
-                        "support": 4
+                        "caster": 5,
+                        "support": 2
                     },
                     "location": [
                         4,
                         3
                     ],
                     "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 5
+                    },
+                    "location": [
+                        6,
+                        5
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "core": "可充能督战音响",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Left",
+                    "kills": 20
                 }
             ],
             "draw_as_possible": true,
@@ -411,10 +477,19 @@
                     "direction": "Left"
                 },
                 {
+                    "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [
+                        9,
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
                     "core": "塞雷娅",
                     "tool_men": {
-                        "pioneer": 1,
-                        "tank": 2
+                        "tank": 1
                     },
                     "location": [
                         9,
@@ -435,7 +510,7 @@
                 {
                     "core": "重岳",
                     "tool_men": {
-                        "pioneer": 2
+                        "pioneer": 4
                     },
                     "location": [
                         9,
@@ -450,6 +525,16 @@
                     "location": [
                         8,
                         3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        8,
+                        2
                     ],
                     "direction": "Left"
                 },
@@ -465,48 +550,26 @@
                     "direction": "Left"
                 },
                 {
+                    "core": "星熊",
                     "tool_men": {
-                        "caster": 2
+                        "tank": 1
+                    },
+                    "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 9,
+                        "support": 4
                     },
                     "location": [
                         7,
                         3
                     ],
                     "direction": "Right"
-                },
-                {
-                    "tool_men": {
-                        "caster": 2,
-                        "sniper": 2,
-                        "support": 3
-                    },
-                    "location": [
-                        8,
-                        1
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "tool_men": {
-                        "caster": 2
-                    },
-                    "location": [
-                        7,
-                        3
-                    ],
-                    "direction": "Right"
-                },
-                {
-                    "tool_men": {
-                        "caster": 3,
-                        "sniper": 2,
-                        "support": 5
-                    },
-                    "location": [
-                        8,
-                        1
-                    ],
-                    "direction": "Down"
                 },
                 {
                     "core": "战备激活阀",
@@ -515,21 +578,22 @@
                     },
                     "location": [
                         9,
-                        1
+                        4
                     ],
-                    "direction": "Down",
+                    "direction": "Up",
                     "kills": 10
                 },
                 {
-                    "core": "速冷喷雾发射台",
+                    "core": "可充能督战音响",
                     "tool_men": {
-                        "pioneer": 0
+                        "caster": 0
                     },
                     "location": [
                         8,
-                        2
+                        4
                     ],
-                    "direction": "None"
+                    "direction": "Up",
+                    "kills": 20
                 },
                 {
                     "core": "超重绝缘水泥",
@@ -550,21 +614,12 @@
                 },
                 {
                     "type": "Deploy",
-                    "name": "速冷喷雾发射台",
-                    "location": [
-                        8,
-                        2
-                    ],
-                    "direction": "None"
-                },
-                {
-                    "type": "Deploy",
                     "name": "战备激活阀",
                     "location": [
-                        9,
-                        4
+                        7,
+                        2
                     ],
-                    "direction": "Up",
+                    "direction": "Right",
                     "kills": 20
                 },
                 {
@@ -605,7 +660,17 @@
                 },
                 {
                     "tool_men": {
-                        "pioneer": 1
+                        "pioneer": 4
+                    },
+                    "location": [
+                        3,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
                     },
                     "location": [
                         2,
@@ -614,12 +679,13 @@
                     "direction": "Up"
                 },
                 {
+                    "core": "塞雷娅",
                     "tool_men": {
-                        "pioneer": 1
+                        "tank": 1
                     },
                     "location": [
                         3,
-                        4
+                        2
                     ],
                     "direction": "Right"
                 },
@@ -644,13 +710,13 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "塞雷娅",
+                    "core": "重岳",
                     "tool_men": {
-                        "tank": 2
+                        "pioneer": 1
                     },
                     "location": [
                         3,
-                        2
+                        4
                     ],
                     "direction": "Right"
                 },
@@ -661,17 +727,6 @@
                     },
                     "location": [
                         1,
-                        4
-                    ],
-                    "direction": "Right"
-                },
-                {
-                    "core": "重岳",
-                    "tool_men": {
-                        "pioneer": 2
-                    },
-                    "location": [
-                        3,
                         4
                     ],
                     "direction": "Right"
@@ -688,13 +743,23 @@
                 },
                 {
                     "tool_men": {
-                        "pioneer": 1
+                        "tank": 2
                     },
                     "location": [
                         2,
                         4
                     ],
                     "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        1,
+                        3
+                    ],
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
@@ -731,15 +796,16 @@
                     "direction": "Left"
                 },
                 {
-                    "core": "泥岩",
+                    "core": "战备激活阀",
                     "tool_men": {
-                        "pioneer": 1
+                        "caster": 0
                     },
                     "location": [
                         2,
-                        4
+                        2
                     ],
-                    "direction": "Up"
+                    "direction": "Right",
+                    "kills": 25
                 },
                 {
                     "core": "斯卡蒂的海嗣",
@@ -753,26 +819,16 @@
                     "direction": "None"
                 },
                 {
-                    "core": "战备激活阀",
+                    "core": "可充能督战音响",
                     "tool_men": {
                         "caster": 0
-                    },
-                    "location": [
-                        2,
-                        2
-                    ],
-                    "direction": "Right"
-                },
-                {
-                    "core": "速冷喷雾发射台",
-                    "tool_men": {
-                        "pioneer": 0
                     },
                     "location": [
                         3,
                         3
                     ],
-                    "direction": "None"
+                    "direction": "Down",
+                    "kills": 30
                 },
                 {
                     "core": "超重绝缘水泥",
@@ -793,21 +849,12 @@
                 },
                 {
                     "type": "Deploy",
-                    "name": "速冷喷雾发射台",
+                    "name": "战备激活阀",
                     "location": [
                         3,
                         3
                     ],
-                    "direction": "None"
-                },
-                {
-                    "type": "Deploy",
-                    "name": "战备激活阀",
-                    "location": [
-                        1,
-                        2
-                    ],
-                    "direction": "Down",
+                    "direction": "Up",
                     "kills": 25
                 },
                 {
@@ -820,6 +867,7 @@
                     "direction": "None",
                     "costs": 55
                 },
+
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
@@ -848,7 +896,7 @@
                 },
                 {
                     "tool_men": {
-                        "pioneer": 1
+                        "pioneer": 4
                     },
                     "location": [
                         2,
@@ -877,48 +925,6 @@
                     "direction": "Down"
                 },
                 {
-                    "tool_men": {
-                        "tank": 1
-                    },
-                    "location": [
-                        2,
-                        2
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "tool_men": {
-                        "pioneer": 1
-                    },
-                    "location": [
-                        2,
-                        1
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "core": "浊心斯卡蒂",
-                    "tool_men": {
-                        "caster": 2
-                    },
-                    "location": [
-                        3,
-                        2
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [
-                        3,
-                        4
-                    ],
-                    "direction": "Up"
-                },
-                {
-                    "core": "塞雷娅",
                     "tool_men": {
                         "tank": 1
                     },
@@ -936,6 +942,38 @@
                     "location": [
                         2,
                         1
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        2,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "浊心斯卡蒂",
+                    "tool_men": {
+                        "caster": 2
+                    },
+                    "location": [
+                        3,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "core": "星熊",
+                    "tool_men": {
+                        "tank": 2
+                    },
+                    "location": [
+                        2,
+                        2
                     ],
                     "direction": "Down"
                 },
@@ -986,15 +1024,16 @@
                     "kills": 30
                 },
                 {
-                    "core": "速冷喷雾发射台",
+                    "core": "可充能督战音响",
                     "tool_men": {
-                        "pioneer": 0
+                        "caster": 0
                     },
                     "location": [
-                        3,
-                        3
+                        4,
+                        2
                     ],
-                    "direction": "None"
+                    "direction": "Left",
+                    "kills": 35
                 },
                 {
                     "core": "超重绝缘水泥",
@@ -1012,15 +1051,6 @@
             "actions": [
                 {
                     "type": "二倍速"
-                },
-                {
-                    "type": "Deploy",
-                    "name": "速冷喷雾发射台",
-                    "location": [
-                        3,
-                        3
-                    ],
-                    "direction": "None"
                 },
                 {
                     "type": "Deploy",
@@ -1063,18 +1093,38 @@
                         "pioneer": 1
                     },
                     "location": [
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 2
+                    },
+                    "location": [
                         7,
-                        5
+                        2
                     ],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
-                        "pioneer": 1
+                        "pioneer": 2
                     },
                     "location": [
-                        4,
-                        1
+                        8,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [
+                        8,
+                        3
                     ],
                     "direction": "Up"
                 },
@@ -1089,25 +1139,24 @@
                     "direction": "Down"
                 },
                 {
-                    "core": "塞雷娅",
                     "tool_men": {
-                        "tank": 1
+                        "support": 1
                     },
                     "location": [
-                        8,
-                        3
+                        6,
+                        4
                     ],
-                    "direction": "Down"
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
-                        "pioneer": 1
+                        "support": 1
                     },
                     "location": [
-                        7,
-                        5
+                       10,
+                        3
                     ],
-                    "direction": "Right"
+                    "direction": "Left"
                 },
                 {
                     "core": "战备激活阀",
@@ -1115,49 +1164,8 @@
                         "caster": 0
                     },
                     "location": [
-                        8,
-                        5
-                    ],
-                    "direction": "Left"
-                },
-                {
-                    "tool_men": {
-                        "caster": 2
-                    },
-                    "location": [
-                        6,
-                        4
-                    ],
-                    "direction": "Right"
-                },
-                {
-                    "core": "浊心斯卡蒂",
-                    "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [
-                        6,
-                        4
-                    ],
-                    "direction": "Right"
-                },
-                {
-                    "tool_men": {
-                        "support": 2
-                    },
-                    "location": [
-                       10,
-                        4
-                    ],
-                    "direction": "Left"
-                },
-                {
-                    "tool_men": {
-                        "support": 2
-                    },
-                    "location": [
-                       10,
-                        5
+                        9,
+                        2
                     ],
                     "direction": "Left"
                 },
@@ -1167,63 +1175,43 @@
                         "pioneer": 1
                     },
                     "location": [
+                        8,
+                        2
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [
                         7,
-                        5
+                        3
+                    ],
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
                     ],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [
-                        7,
-                        3
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "core": "泥岩",
-                    "tool_men": {
-                        "pioneer": 0
-                    },
-                    "location": [
-                        4,
-                        1
-                    ],
-                    "direction": "Up"
-                },
-                {
-                    "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [
-                        7,
-                        3
-                    ],
-                    "direction": "Down"
-                },
-                {
-                    "tool_men": {
                         "support": 1
                     },
                     "location": [
                        10,
-                        4
+                        3
                     ],
                     "direction": "Left"
                 },
                 {
-                    "tool_men": {
-                        "support": 1
-                    },
-                    "location": [
-                       10,
-                        5
-                    ],
-                    "direction": "Left"
-                },
-                {
+                    "core": "浊心斯卡蒂",
                     "tool_men": {
                         "caster": 2
                     },
@@ -1234,108 +1222,242 @@
                     "direction": "Down"
                 },
                 {
+                    "core": "星熊",
                     "tool_men": {
-                        "support": 1,
-                        "caster": 1,
-                        "sniper": 1,
-                        "medic": 1
+                        "tank": 1
                     },
                     "location": [
-                       10,
+                        8,
+                        3
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "core": "棘刺",
+                    "tool_men": {
+                        "pioneer": 0
+                    },
+                    "location": [
+                        7,
+                        2
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "support": 2
+                    },
+                    "location": [
+                        6,
                         4
                     ],
-                    "direction": "Left"
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
-                        "support": 1,
-                        "caster": 1,
-                        "sniper": 1,
-                        "medic": 1
+                        "support": 2
                     },
                     "location": [
                        10,
-                        5
+                        3
                     ],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
-                        "support": 1,
-                        "caster": 1,
-                        "sniper": 1,
-                        "medic": 1
+                        "tank": 1
                     },
                     "location": [
-                       10,
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
                         4
                     ],
-                    "direction": "Left"
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
-                        "support": 1,
-                        "caster": 1,
-                        "sniper": 1,
-                        "medic": 1
+                        "tank": 1
                     },
                     "location": [
-                       10,
-                        5
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
                     ],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
-                        "support": 1,
                         "caster": 1,
-                        "sniper": 1,
-                        "medic": 1
+                        "support": 1
                     },
                     "location": [
-                       10,
+                        6,
                         4
                     ],
-                    "direction": "Left"
+                    "direction": "Right"
                 },
                 {
                     "tool_men": {
-                        "support": 1,
-                        "caster": 1,
-                        "sniper": 1,
-                        "medic": 1
+                        "tank": 1
                     },
                     "location": [
-                       10,
-                        5
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
                     ],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
-                        "support": 9,
-                        "caster": 3,
-                        "sniper": 1,
-                        "medic": 1
+                        "caster": 1,
+                        "support": 1
                     },
                     "location": [
-                       10,
+                        6,
                         4
                     ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
-                        "support": 9,
-                        "caster": 3,
-                        "sniper": 1,
-                        "medic": 1
+                        "caster": 1,
+                        "support": 1
                     },
                     "location": [
-                       10,
-                        5
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
                     ],
                     "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "caster": 1,
+                        "support": 1
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 5,
+                        "medic": 3,
+                        "caster": 5
+                    },
+                    "location": [
+                        6,
+                        4
+                    ],
+                    "direction": "Right"
+                },
+                {
+                    "tool_men": {
+                        "support": 5,
+                        "sniper": 3,
+                        "caster": 5
+                    },
+                    "location": [
+                        10,
+                        3
+                    ],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
+                        "tank": 9
+                    },
+                    "location": [
+                        4,
+                        1
+                    ],
+                    "direction": "Up"
                 },
                 {
                     "core": "斯卡蒂的海嗣",
@@ -1343,19 +1465,8 @@
                         "pioneer": 0
                     },
                     "location": [
-                        9,
-                        3
-                    ],
-                    "direction": "None"
-                },
-                {
-                    "core": "速冷喷雾发射台",
-                    "tool_men": {
-                        "pioneer": 0
-                    },
-                    "location": [
-                        8,
-                        4
+                        5,
+                        2
                     ],
                     "direction": "None"
                 },
@@ -1370,32 +1481,32 @@
                     ],
                     "direction": "None",
                     "kills": 15,
-                    "costs": 60
+                    "costs": 70
                 }
             ],
             "draw_as_possible": true,
             "actions": [
                 {
-                    "type": "Deploy",
-                    "name": "速冷喷雾发射台",
-                    "location": [
-                        8,
-                        4
-                    ],
-                    "direction": "None"
-                },
-                {
                     "type": "二倍速",
                     "kills": 5
                 },
                 {
+                    "type": "二倍速",
+                    "kills": 10
+                },
+                {
+                    "type": "二倍速",
+                    "pre_delay": 20000,
+                    "kills": 10
+                },
+                {
                     "type": "Deploy",
-                    "name": "速冷喷雾发射台",
+                    "name": "可充能督战音响",
                     "location": [
-                        8,
+                        7,
                         4
                     ],
-                    "direction": "None"
+                    "direction": "Up"
                 },
                 {
                     "type": "Deploy",
@@ -1412,7 +1523,7 @@
                     "name": "“蜜酿万岁!“",
                     "location": [
                         9,
-                        4
+                        3
                     ],
                     "direction": "Down",
                     "kills": 12
@@ -1421,8 +1532,8 @@
                     "type": "Deploy",
                     "name": "战备激活阀",
                     "location": [
-                        5,
-                        1
+                        9,
+                        3
                     ],
                     "direction": "Left",
                     "kills": 15
