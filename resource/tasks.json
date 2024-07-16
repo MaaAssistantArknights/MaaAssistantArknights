@@ -16625,9 +16625,6 @@
         ]
     },
     "Sarkaz@Roguelike@Abandon": {
-        "template": [
-            "Sarkaz@Roguelike@Abandon.png"
-        ],
         "crop_doc": {
             "roi": [
                 1067,
@@ -16868,8 +16865,7 @@
     "Sarkaz@Roguelike@LastReward3": {},
     "Sarkaz@Roguelike@LastReward4": {},
     "Sarkaz@Roguelike@LastReward5": {
-        "baseTask": "Roguelike@LastReward_default",
-        "template": "Sarkaz@Roguelike@LastReward5.png"
+        "baseTask": "Roguelike@LastReward_default"
     },
     "Sarkaz@Roguelike@LastRewardConfirm": {},
     "Sarkaz@Roguelike@LastRewardRand": {},
@@ -16901,8 +16897,7 @@
         "template": "Sarkaz@Roguelike@Recruit.png"
     },
     "Sarkaz@Roguelike@RecruitOther": {
-        "template": "Sarkaz@Roguelike@Recruit.png",
-        "templThreshold": 0.8
+        "template": "Sarkaz@Roguelike@Recruit.png"
     },
     "Sarkaz@Roguelike@RecruitWithoutButton": {
         "next": [
@@ -17082,7 +17077,6 @@
         ]
     },
     "Sarkaz@Roguelike@StageFilterTruthLeave": {
-        "template": "Sarkaz@Roguelike@StageFilterTruthLeave.png",
         "action": "ClickSelf",
         "roi": [
             1046,
@@ -17096,7 +17090,6 @@
         ]
     },
     "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm": {
-        "template": "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm.png",
         "action": "ClickSelf",
         "roi": [
             985,
@@ -17407,10 +17400,7 @@
     },
     "Sarkaz@Roguelike@TodoEnter": {},
     "Sarkaz@Roguelike@WaitForStartButtonClicked": {
-        "template": "Roguelike@QuickFormation.png",
-        "next": [
-            "Sarkaz@Roguelike@WaitForStartButtonClicked"
-        ]
+        "template": "Roguelike@QuickFormation.png"
     },
     "Reclamation": {
         "template": [
