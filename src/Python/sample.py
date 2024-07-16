@@ -65,7 +65,7 @@ if __name__ == "__main__":
         print('连接失败')
         exit()
 
-    # 任务及参数请参考 docs/集成文档.md
+    # 任务及参数请参考 docs/zh-cn/protocol/integration.md
 
     asst.append_task('StartUp')
     asst.append_task('Fight', {
