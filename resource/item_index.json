@@ -2399,6 +2399,14 @@
         "sortId": -10000,
         "usage": null
     },
+    "rogue_4_token_bp": {
+        "classifyType": "NONE",
+        "description": null,
+        "icon": "rogue_4_token_bp.png",
+        "name": "魂灵书签",
+        "sortId": -10000,
+        "usage": null
+    },
     "sandbox_1_tokencoin": {
         "classifyType": "NONE",
         "description": "在荒地上挥洒下的每一滴汗水，都会成为泰拉文明繁荣的见证。",
