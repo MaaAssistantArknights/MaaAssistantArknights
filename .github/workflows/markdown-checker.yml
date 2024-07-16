@@ -58,16 +58,16 @@ jobs:
       - name: Check dead links
         uses: lycheeverse/lychee-action@v1
         with:
-          args: |
-            --verbose --no-progress --cache --max-cache-age 1d \
-            --exclude 'https://map\.ark-nights\.com/areas' \
-            --exclude 'https://.*\.maa-org\.net/.*' \
-            --exclude 'https://support\.bluestacks\.com/.*' \
-            --exclude 'https://www\.bigfun\.cn/.*' \
-            --exclude 'https://myqqbot\.com/.*' \
-            --exclude 'http://xn--2qqv08bx5e\.com/' \
-            --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md' \
-            --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md' \
+          args: >
+            --verbose --no-progress --cache --max-cache-age 1d 
+            --exclude 'https://map\.ark-nights\.com/areas' 
+            --exclude 'https://.*\.maa-org\.net/.*' 
+            --exclude 'https://support\.bluestacks\.com/.*' 
+            --exclude 'https://www\.bigfun\.cn/.*' 
+            --exclude 'https://myqqbot\.com/.*' 
+            --exclude 'http://xn--2qqv08bx5e\.com/' 
+            --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md' 
+            --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md' 
             -- './docs/**/*.md' './README.md'
 
       - name: Comment (only for PR)
