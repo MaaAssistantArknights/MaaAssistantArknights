@@ -244,7 +244,6 @@ class Task:
             else:
                 return Task.evaluate(virtual_task, parent_task)
 
-        expression = expression.replace(' ', '')
         tokens = _tokenize(expression)
         postfix = _shunting_yard(tokens)
         if len(postfix) == 1:
@@ -252,6 +251,7 @@ class Task:
         stack = []
         for token in postfix:
             if token == '@':
+                # TODO (A+B)@(C+D) -> [A@C, A@D, B@C, B@D]
                 right = stack.pop()
                 left = stack.pop()
                 stack.append(f'{left}@{right}')
