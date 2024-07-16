@@ -245,7 +245,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-作業 JSON 請參考 [3.3-戰鬥流程協議](./3.3-戰鬥流程協議.md)
+作業 JSON 請參考 [3.3-戰鬥流程協議](./copilot-schema.md)
 
 - `SSSCopilot`  
     自動抄保全作業
@@ -258,7 +258,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-保全作業 JSON 請參考 [3.7-保全派駐協議](./3.7-保全派駐協議.md)
+保全作業 JSON 請參考 [3.7-保全派駐協議](./sss-schema.md)
 
 - `Depot`  
     倉庫辨識

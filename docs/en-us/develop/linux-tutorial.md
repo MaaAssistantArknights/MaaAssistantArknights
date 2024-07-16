@@ -77,8 +77,8 @@ Refer to the implementation of `__main__` in [Python demo](https://github.com/Ma
 
 ### C
 
-Refer to the implementation of [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/CppSample/main.cpp)
+Refer to the implementation of [CppSample](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Cpp/main.cpp)
 
 ### C Sharp
 
-Refer to the implementation of [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Helper/AsstProxy.cs)
+Refer to the implementation of [MaaWpfGui](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/MaaWpfGui/Main/AsstProxy.cs)

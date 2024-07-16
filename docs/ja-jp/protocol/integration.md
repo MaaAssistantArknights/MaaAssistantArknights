@@ -101,7 +101,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-いくつかの特別ステージ名もサポートしています、[組み込み例](..\..\tools\AutoLocalization\example\ja-jp.xaml#L230)をご参照ください
+いくつかの特別ステージ名もサポートしています、[組み込み例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/dev/tools/AutoLocalization/example/ja-jp.xaml#L230)をご参照ください
 
 - `Recruit`  
     公開求人
@@ -248,7 +248,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-自動操縦JSONの詳細については、[自動戦闘API](./自動戦闘API.md)を参照してください
+自動操縦JSONの詳細については、[自動戦闘API](./copilot-schema.md)を参照してください
 
 - `SSSCopilot`  
   保全駐在の自動戦闘  
@@ -261,7 +261,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-保全駐在の自動操縦JSONの詳細については、[保全駐在API](./保全駐在API.md)
+保全駐在の自動操縦JSONの詳細については、[保全駐在API](./sss-schema.md)
 
 - `Depot`
     倉庫アイテム認識
