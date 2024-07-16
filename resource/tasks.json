@@ -12410,7 +12410,7 @@
             "Roguelike@MissionFailedFlag2"
         ]
     },
-    "Roguelike@InitalDrop": {
+    "Roguelike@InitialDrop": {
         "Doc": "base_task",
         "Doc2": "古堡观光（简单模式）初始会有一个免费道具，点确认。月度小队也有，再多几次",
         "template": "empty.png",
@@ -12423,7 +12423,7 @@
         ],
         "next": [
             "Roguelike@SquadDefault",
-            "Roguelike@InitalDrop"
+            "Roguelike@InitialDrop"
         ]
     },
     "Roguelike@IntegratedStrategies": {
@@ -13590,7 +13590,7 @@
         ],
         "next": [
             "Roguelike@SquadDefault",
-            "Roguelike@InitalDrop",
+            "Roguelike@InitialDrop",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore"
         ]
@@ -13828,7 +13828,7 @@
             "Phantom@Roguelike@GetDropRecruit"
         ]
     },
-    "Phantom@Roguelike@InitalDrop": {},
+    "Phantom@Roguelike@InitialDrop": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
@@ -14401,7 +14401,7 @@
             "Mizuki@Roguelike@GetDropBox"
         ]
     },
-    "Mizuki@Roguelike@InitalDrop": {},
+    "Mizuki@Roguelike@InitialDrop": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
@@ -15594,7 +15594,7 @@
             "Sami@Roguelike@GetDropRecruit"
         ]
     },
-    "Sami@Roguelike@InitalDrop": {},
+    "Sami@Roguelike@InitialDrop": {},
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
@@ -16861,7 +16861,7 @@
             "Sarkaz@Roguelike@GetDropRecruit"
         ]
     },
-    "Sarkaz@Roguelike@InitalDrop": {},
+    "Sarkaz@Roguelike@InitialDrop": {},
     "Sarkaz@Roguelike@LastReward": {},
     "Sarkaz@Roguelike@LastReward2": {},
     "Sarkaz@Roguelike@LastReward3": {},
