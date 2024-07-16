@@ -2414,6 +2414,24 @@
                 ],
                 "template": "Bskill_hire_spd&cost6.png"
             },
+            "bskill_hire_spd&dorm1": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+5%，每间宿舍每级额外+1%人脉资源的联络速度"
+                ],
+                "name": [
+                    "梅兰德侦探·α"
+                ],
+                "template": "Bskill_hire_spd&dorm1.png"
+            },
+            "bskill_hire_spd&dorm2": {
+                "desc": [
+                    "进驻人力办公室时，人脉资源的联络速度+5%，每间宿舍每级额外+2%人脉资源的联络速度"
+                ],
+                "name": [
+                    "梅兰德侦探·β"
+                ],
+                "template": "Bskill_hire_spd&dorm2.png"
+            },
             "bskill_hire_spd&extra1": {
                 "desc": [
                     "进驻人力办公室时，每个招募位（不包含初始招募位）+10%人脉资源的联络速度"

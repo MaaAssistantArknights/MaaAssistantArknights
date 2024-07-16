@@ -4332,6 +4332,21 @@
             ],
             "rarity": 5
         },
+        "char_4151_tinman": {
+            "name": "锡人",
+            "name_en": "锡人",
+            "name_jp": "锡人",
+            "name_kr": "锡人",
+            "name_tw": "锡人",
+            "position": "RANGED",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "2-1",
+                "2-1",
+                "3-5"
+            ],
+            "rarity": 5
+        },
         "char_415_flint": {
             "name": "燧石",
             "name_en": "Flint",
@@ -10458,6 +10473,156 @@
             "name_jp": "“黏黏的赠品”",
             "name_kr": "“黏黏的赠品”",
             "name_tw": "“黏黏的赠品”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_757_skzbox": {
+            "name": "宝箱",
+            "name_en": "宝箱",
+            "name_jp": "宝箱",
+            "name_kr": "宝箱",
+            "name_tw": "宝箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_758_skzmbx": {
+            "name": "停滞巧械",
+            "name_en": "停滞巧械",
+            "name_jp": "停滞巧械",
+            "name_kr": "停滞巧械",
+            "name_tw": "停滞巧械",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_759_skzwyx": {
+            "name": "垂死羽兽",
+            "name_en": "垂死羽兽",
+            "name_jp": "垂死羽兽",
+            "name_kr": "垂死羽兽",
+            "name_tw": "垂死羽兽",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_760_skztzs": {
+            "name": "年代之刺",
+            "name_en": "年代之刺",
+            "name_jp": "年代之刺",
+            "name_kr": "年代之刺",
+            "name_tw": "年代之刺",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_761_skzthx": {
+            "name": "尊主的残影",
+            "name_en": "尊主的残影",
+            "name_jp": "尊主的残影",
+            "name_kr": "尊主的残影",
+            "name_tw": "尊主的残影",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_762_skztxy": {
+            "name": "特蕾西娅，黑冠圣贤",
+            "name_en": "特蕾西娅，黑冠圣贤",
+            "name_jp": "特蕾西娅，黑冠圣贤",
+            "name_kr": "特蕾西娅，黑冠圣贤",
+            "name_tw": "特蕾西娅，黑冠圣贤",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_763_skzddd": {
+            "name": "圣卫坚盾",
+            "name_en": "圣卫坚盾",
+            "name_jp": "圣卫坚盾",
+            "name_kr": "圣卫坚盾",
+            "name_tw": "圣卫坚盾",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_764_skzshp": {
+            "name": "驮兽旅行家",
+            "name_en": "驮兽旅行家",
+            "name_jp": "驮兽旅行家",
+            "name_kr": "驮兽旅行家",
+            "name_tw": "驮兽旅行家",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_766_duelwal": {
+            "name": "狭路相逢",
+            "name_en": "狭路相逢",
+            "name_jp": "狭路相逢",
+            "name_kr": "狭路相逢",
+            "name_tw": "狭路相逢",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_767_duelcdt": {
+            "name": "狭路相逢",
+            "name_en": "狭路相逢",
+            "name_jp": "狭路相逢",
+            "name_kr": "狭路相逢",
+            "name_tw": "狭路相逢",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [
