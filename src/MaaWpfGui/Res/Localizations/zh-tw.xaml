@@ -135,6 +135,10 @@
     <system:String x:Key="IS3NewSquad1">永恆狩獵分隊</system:String>
     <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科學主義分隊</system:String>
+    <system:String x:Key="IS4NewSquad1">魂靈護送分隊</system:String>
+    <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
+    <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -261,6 +265,7 @@
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
+    <system:String x:Key="RoguelikeThemeSarkaz">薩卡茲</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>

@@ -140,6 +140,10 @@
     <system:String x:Key="IS3NewSquad2">Life Prioritizing Squad</system:String>
     <system:String x:Key="IS3NewSquad3">Scientific Thinking</system:String>
     <system:String x:Key="IS3NewSquad4">Special Training Squad</system:String>
+    <system:String x:Key="IS4NewSquad1">魂灵护送分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad2">博闻广记分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad3">蓝图测绘分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">Leader Squad</system:String>
     <system:String x:Key="GatheringSquad">Gathering Squad</system:String>
     <system:String x:Key="SupportSquad">Support Squad</system:String>
@@ -267,6 +271,7 @@
     <system:String x:Key="RoguelikeThemePhantom">Phantom</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">Mizuki</system:String>
     <system:String x:Key="RoguelikeThemeSami">Sami BETA! WORK IN PROGRESS!</system:String>
+    <system:String x:Key="RoguelikeSarkaz">Sarkaz</system:String>
     <system:String x:Key="Strategy">Strategy</system:String>
     <system:String x:Key="StartTimesLimit">Stops after starting N times</system:String>
     <system:String x:Key="GoldTimesLimit">Stops after investing N times</system:String>

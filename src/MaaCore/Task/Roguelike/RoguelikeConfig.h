@@ -15,6 +15,7 @@ namespace asst
         static constexpr std::string_view Phantom = "Phantom";
         static constexpr std::string_view Mizuki = "Mizuki";
         static constexpr std::string_view Sami = "Sami";
+        static constexpr std::string_view Sarkaz = "Sarkaz";
     };
 
     enum class RoguelikeMode
@@ -43,7 +44,8 @@ namespace asst
         {
             return theme == RoguelikeTheme::Phantom ||
                    theme == RoguelikeTheme::Mizuki ||
-                   theme == RoguelikeTheme::Sami;
+                   theme == RoguelikeTheme::Sami ||
+                   theme == RoguelikeTheme::Sarkaz;
         }
         static constexpr bool is_valid_mode(RoguelikeMode mode, std::string_view theme = RoguelikeTheme::Sami)
         {

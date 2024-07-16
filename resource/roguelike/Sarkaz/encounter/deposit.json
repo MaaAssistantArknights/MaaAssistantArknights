@@ -1,0 +1,416 @@
+{
+    "theme": "Sarkaz",
+    "mode": [
+        1,
+        4
+    ],
+    "stage": [
+        {
+            "name": "吉兆",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "雨！",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "随到随取",
+            "option_num": 2,
+            "choose": 1,
+            "choices": [
+                {
+                    "name": "使用热像仪",
+                    "option_num": 2,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "定期维护",
+            "option_num": 2,
+            "choose": 2,
+            "note": "拥有【安玛的爱】时出现第三选项",
+            "choices": [
+                {
+                    "name": "检查多色测光望远镜的目镜",
+                    "option_num": 2,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "4"
+                        }
+                    ]
+                },
+                {
+                    "name": "不紧不慢地打开一听罐头汤",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "Relic",
+                            "type": "have",
+                            "value": "安玛的爱"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "昏黑之室",
+            "option_num": 3,
+            "choose": 1,
+            "choice_require": [
+                {
+                    "name": "用仪器探测",
+                    "Vision": {
+                        "value": "5",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "疗愈仪式",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "黑色足迹",
+            "option_num": 2,
+            "choose": 2,
+            "note": "抗干扰指数为0或遭遇过【负伤的主树】事件时出现第三选项",
+            "choices": [
+                {
+                    "name": "逃离",
+                    "option_num": 2,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "LivePoint",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "解释情况",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": "=",
+                            "value": "0"
+                        }
+                    ]
+                },
+                {
+                    "name": "解释情况",
+                    "option_num": 4,
+                    "choose": 4,
+                    "requirements": []
+                }
+            ]
+        },
+        {
+            "name": "在地公共信号放大站756号",
+            "option_num": 3,
+            "choose": 3,
+            "choices": [
+                {
+                    "name": "提供位置，呼叫增援",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "在地公共移动站N6号",
+            "option_num": 2,
+            "note": "拥有【安玛的爱】时出现第二选项，遭遇过【特里蒙旅行社特派团】事件且选择【拿走广告】时出现第三选项",
+            "choices": [
+                {
+                    "name": "“敲一敲”都能解决",
+                    "option_num": 2,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Relic",
+                            "type": "have",
+                            "value": "安玛的爱"
+                        }
+                    ]
+                },
+                {
+                    "name": "寻找工具",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": []
+                }
+            ]
+        },
+        {
+            "name": "不见群山",
+            "option_num": 4,
+            "choose": 4,
+            "choices": [
+                {
+                    "name": "选择她弃在手边的塔罗牌",
+                    "option_num": 4,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "远见所向",
+            "option_num": 4,
+            "choose": 4,
+            "choices": [
+                {
+                    "name": "我们或许能协作互助",
+                    "option_num": 4,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "4"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "乌萨斯",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "无用之物",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "沼泽里的抽泣声",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "有利可图",
+            "option_num": 3,
+            "choose": 3,
+            "choice_require": [
+                {
+                    "name": "分我一点",
+                    "Vision": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "随行人员",
+            "option_num": 3,
+            "choose": 3,
+            "choice_require": [
+                {
+                    "name": "偷听他们聊天",
+                    "LivePoint": {
+                        "value": "3",
+                        "type": ">"
+                    },
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "百里连营",
+            "option_num": 3,
+            "choose": 3,
+            "choice_require": [
+                {
+                    "name": "一边警戒一边前进",
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "走近一些",
+                    "LivePoint": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "请君入戏",
+            "option_num": 3,
+            "choose": 3
+        },
+        {
+            "name": "北风女巫",
+            "option_num": 3,
+            "choose": 3,
+            "choices": [
+                {
+                    "name": "乖乖照做",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "5"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "猜疑链",
+            "option_num": 3,
+            "choose": 3,
+            "choices": [
+                {
+                    "name": "勘察情况并维持秩序",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "科考站",
+            "option_num": 3,
+            "choose": 1,
+            "choice_require": [
+                {
+                    "name": "无人机好像有新发现",
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "北地巫师竞技",
+            "option_num": 2,
+            "choose": 2,
+            "choice_require": [
+                {
+                    "name": "接过名册木板，是该选择了！",
+                    "OriginiumIngot": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "没来过萨米的人一定没见过！",
+                    "OriginiumIngot": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "最好的朋友",
+            "option_num": 2,
+            "choose": 2,
+            "choice_require": [
+                {
+                    "name": "仓皇离开",
+                    "Shield": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "留下",
+                    "LivePointCap": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                },
+                {
+                    "name": "再喝一口",
+                    "LivePoint": {
+                        "value": "3",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "深渊入口",
+            "option_num": 2,
+            "choose": 2,
+            "choice_require": [
+                {
+                    "name": "再试试看吧",
+                    "Vision": {
+                        "value": "1",
+                        "type": ">"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "前行的林地",
+            "option_num": 2,
+            "choose": 1,
+            "choices": [
+                {
+                    "name": "树上就不能走吗？",
+                    "option_num": 2,
+                    "choose": 1,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "0"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
