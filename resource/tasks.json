@@ -16937,8 +16937,7 @@
             "Sarkaz@Roguelike@CloseCollection",
             "Sarkaz@Roguelike@DialogSkip",
             "Sarkaz@Roguelike@Stages#next",
-            "Sarkaz@Roguelike@MapObject",
-            "Sarkaz@Roguelike@FoldartalGain"
+            "Sarkaz@Roguelike@MapObject"
         ]
     },
     "Sarkaz@Roguelike@SquadDefault": {},
