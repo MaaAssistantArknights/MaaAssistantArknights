@@ -80,6 +80,10 @@ for filename in src_path.glob("*.png"):
         right = refPt[1][0]
         top = refPt[0][1]
         bottom = refPt[1][1]
+        if left > right:
+            left, right = right, left
+        if top > bottom:
+            top, bottom = bottom, top
 
         roi = image[top:bottom, left:right]
 
