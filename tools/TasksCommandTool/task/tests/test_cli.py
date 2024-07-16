@@ -35,6 +35,11 @@ class CliTest(TaskTest):
         cli.do_find("ClickCornerAfterPRTS")
         cli.do_exec("ClickCornerAfterPRTS")
 
+    def test_2(self):
+        cli = TasksCommandTool()
+        cli.do_load("")
+        cli.do_exec("Roguelike@ClickToStartPoint")
+
     def test_ClickCornerAfterPRTS(self):
         cli = TasksCommandTool()
         cli.do_load("")

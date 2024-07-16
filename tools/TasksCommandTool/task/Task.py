@@ -174,6 +174,7 @@ class Task:
         if base_task is None:
             logger.warning(f"Base task {rest} not found for template task {name}.")
             base_task = Task("", {})
+            base_task.template = None
 
         def add_prefix(s: list[str]) -> list[str]:
             return [f"{first}@" + x if not x.startswith('#') else f"{first}" + x for x in s]
