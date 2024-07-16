@@ -58,7 +58,7 @@ class TaskFieldEnum(Enum):
         str | AlgorithmType,
         "可选项，表示识别算法的类型",
         "MatchTemplate",
-        lambda x: x in AlgorithmType,
+        lambda x: AlgorithmType(x) in AlgorithmType,
     )
     ACTION = TaskField(
         "action",
@@ -66,7 +66,7 @@ class TaskFieldEnum(Enum):
         str | ActionType,
         "可选项，表示识别到后的动作",
         "DoNothing",
-        lambda x: x in ActionType,
+        lambda x: ActionType(x) in ActionType,
     )
     SUB_TASKS = TaskField(
         "sub",
@@ -254,3 +254,7 @@ class TaskFieldEnum(Enum):
 
 def get_fields(condition: Callable[[TaskFieldEnum], bool] = lambda x: True) -> List[TaskField]:
     return [field.value for field in TaskFieldEnum if condition(field)]
+
+
+def get_fields_with_algorithm(algorithm: AlgorithmType) -> List[TaskField]:
+    return get_fields(lambda x: x.value.valid_for_algorithm is None or x.value.valid_for_algorithm == algorithm)

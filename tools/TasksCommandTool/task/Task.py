@@ -4,7 +4,7 @@ import logging
 
 from .debug import trace
 from .TaskType import AlgorithmType, TaskStatus
-from .TaskField import TaskFieldEnum, get_fields
+from .TaskField import TaskFieldEnum, get_fields, get_fields_with_algorithm
 from .TaskExpression import _tokenize, _shunting_yard
 
 logger = logging.getLogger(__name__)
@@ -55,7 +55,7 @@ class Task:
         assert _is_valid_task_name(name), f"Invalid task name: {name}"
         # 任务名
         self.name = name
-        
+
         self.task_status = TaskStatus.Raw
         self._task_dict = task_dict
 
@@ -81,8 +81,7 @@ class Task:
         return str(self)
 
     def _get_valid_fields(self):
-        return get_fields(
-            lambda x: x.value.valid_for_algorithm is None or x.value.valid_for_algorithm == self.algorithm)
+        return get_fields_with_algorithm(self.algorithm)
 
     def to_task_dict(self) -> dict:
         task_dict = {"name": self.name}
@@ -108,18 +107,19 @@ class Task:
         interpreted_task = InterpretedTask(self.name, self)
         for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
             task_list = getattr(interpreted_task, field.python_field_name)
-            if task_list is not None:
-                interpreted_task_list = []
-                for task in task_list:
-                    interpreted_task_list.extend(Task.evaluate(task, interpreted_task))
-                # 去重
-                interpreted_task_set = set()
-                interpreted_task_without_duplicate = []
-                for task in interpreted_task_list:
-                    if task not in interpreted_task_set:
-                        interpreted_task_set.add(task)
-                        interpreted_task_without_duplicate.append(task)
-                setattr(interpreted_task, field.python_field_name, interpreted_task_without_duplicate)
+            if task_list is None:
+                continue
+            interpreted_task_list = []
+            for task in task_list:
+                interpreted_task_list.extend(Task.evaluate(task, interpreted_task))
+            # 去重
+            interpreted_task_set = set()
+            interpreted_task_without_duplicate = []
+            for task in interpreted_task_list:
+                if task not in interpreted_task_set:
+                    interpreted_task_set.add(task)
+                    interpreted_task_without_duplicate.append(task)
+            setattr(interpreted_task, field.python_field_name, interpreted_task_without_duplicate)
         return interpreted_task
 
     def show(self):
@@ -172,6 +172,7 @@ class Task:
         override_task = _ORIGINAL_TASKS.get(name, None)
         base_task = Task.get(rest)
         if base_task is None:
+            logger.warning(f"Base task {rest} not found for template task {name}.")
             base_task = Task("", {})
 
         def add_prefix(s: list[str]) -> list[str]:
@@ -271,6 +272,7 @@ class Task:
             elif token == '*':
                 right = stack.pop()
                 left = stack.pop()
+                assert isinstance(right, int) and isinstance(left, list), f"Invalid expression: {expression}"
                 left = _to_list(left)
                 stack.append(left * right)
             elif token == '+':

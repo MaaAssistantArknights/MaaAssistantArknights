@@ -3,6 +3,8 @@ import json
 import os
 
 from .Task import Task, _ALL_TASKS, _ORIGINAL_TASKS
+from .TaskField import TaskFieldEnum, get_fields_with_algorithm
+from .TaskType import AlgorithmType, ActionType
 
 project_root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, os.pardir))
 json_path = os.path.join(project_root_path, 'resource', 'tasks.json')
@@ -44,6 +46,39 @@ class TasksCommandTool(cmd.Cmd):
     def complete_find(self, text, line, begidx, endidx):
         return ([name for name in _ALL_TASKS if name.startswith(text)]
                 + [name for name in _ORIGINAL_TASKS if name.startswith(text)])
+
+    def choices(self, text, choices):
+        for i, choice in enumerate(choices):
+            print(f"({i}) {choice}")
+        input_choice = -1
+        while input_choice < 0 or input_choice >= len(choices):
+            try:
+                input_choice = int(input(text))
+            except KeyboardInterrupt:
+                return None
+            except ValueError:
+                pass
+        return choices[input_choice]
+
+    def do_create(self, arg):
+        """Create a task."""
+        task_name = input("Task name:")
+        task_algorithm = self.choices("Please choose an algorithm:\n", [a.value for a in AlgorithmType])
+        task_dict = {TaskFieldEnum.ALGORITHM.value.field_name: task_algorithm}
+        for field in get_fields_with_algorithm(task_algorithm):
+            if field == TaskFieldEnum.ALGORITHM.value:
+                continue
+            if field == TaskFieldEnum.ACTION.value:
+                value = self.choices("Please choose an action:\n", [a.value for a in ActionType])
+            else:
+                value = input(f"{field.field_name} ({field.field_doc}):")
+            if ',' in value:
+                value = value.split()
+            if not value:
+                value = field.field_default
+            if value:
+                task_dict[field.field_name] = value
+        print(task_dict)
 
     def do_exec(self, arg):
         """Execute a task by name."""
