@@ -44,8 +44,9 @@ std_ratio = std_width / std_height
 cv2.namedWindow("image")
 cv2.setMouseCallback("image", click_and_crop)
 
-src_path = Path("./src")
-dst_path = Path("./dst")
+path = Path(__file__).parent.resolve()
+src_path = Path(f"{path}/src")
+dst_path = Path(f"{path}/dst")
 
 for filename in src_path.glob("*.png"):
     print("src:", filename)
