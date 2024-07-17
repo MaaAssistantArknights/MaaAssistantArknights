@@ -1,12 +1,11 @@
 {
     "type": "SSS",
-    "stage_name": "塔山农业实验平台",
-    "minimum_required": "v4.28.2",
+    "stage_name": "Tower Mountains Agricultural Experimental Platform",
+    "minimum_required": "v5.4.1",
     "doc": {
-        "title": "塔山农业实验平台-兼容应急-澄闪提丰核",
+        "title": "Tower Mountains Agricultural Experimental Platform - Compatible w/Emergency",
         "title_color": "dark",
-        "details": "应急一命通关视频已上传，求三连！！！链接在下面\n目前只能手动编队，所有工具人请尽量选择费用低的干员，练度最好精二，最低精一满级\n可做卡西米尔任务，自行在工具人添加四名卡西米尔干员，然后选择【竞技记录分析仪】（仅限普通难度）\n请在确认导能原件选择【智能空域控制机】、战术装备除了术士选B，其他全选A、手动编队并阵容确认后，再点击开始\n12.21更新优化版，后面应该不会再改了，只会改简介\n作业作者：萨拉托加\n作业视频：【【MAA保全派驻】塔山农业实验平台】 https://www.bilibili.com/video/BV14e411C77h/?share_source=copy_web\nJSON作者：萨拉托加\n不包括核心选择的额外干员：\n先锋：2（要求能站场，建议选防御比较高的尖兵，做卡西米尔任务可选焰尾，野鬃）\n重装：2（建议选费20左右的高练盾，比如塞雷娅，做卡西米尔任务可选瑕光）\n术士：3（建议选费20左右的术士，比如小羊刻俄柏）\n辅助：2（建议选铃兰3、塑心3。别选召唤就行）\n狙击：6（建议选速狙，做卡西米尔任务可选远牙，流星，白金）\n有问题反馈进群545928846，评论区反馈不一定能及时回复\n部分核心可根据自己需求修改作业文件替换，例如提丰可换肥鸭，奶羊可换流明，但不可发上作业站，用此作业默认同意",
-        "details_color": "dark"
+        "details": "Manual team formation, choose low DP-cost, preferably E2, otherwise E1 max level\nYou can complete the Kazimierz mission by adding 4 Kazimierz operators and selecting the \"Competition Records Analyzer\" EC\nChoose the \"Smart Airspace Controller\" as EC. Tactical Equipment: Caster B, others A\nAuthor: 萨拉托加\nAdaptation: Constrat\nDemo Video: https://www.bilibili.com/video/BV14e411C77h/\nJSON: 萨拉托加\nCore operators:\nGoldenglow S2\nSkadi the Corrupting Heart S2\nSilverash S2\nTyphon S2\nEyjafjalla the Hvít Aska S1\nOperators (Non-core): \nVangaurd: 2 (Need to tank, Kazimierz: Flametail, Wild Mane)\nDefender: 2 (DP-cost of 20, e.g. Saria, Kazimierz: Blemishine)\nCaster: 3 (DP-cost of 20, e.g. Eyjafjalla, Ceobe)\nSupporter: 2 (Virtuosa S3, SuzuranS3, don't bring summoners)\nSniper: 6 (Marksman, Kazimierz: Fartooth, Meteor, Platinym)\nSome core operators can be replaced: Typhon with Fiammetta, Eyjalter with Lumen",        "details_color": "dark"
     },
     "buff": "智能空域控制机",
     "equipment": [

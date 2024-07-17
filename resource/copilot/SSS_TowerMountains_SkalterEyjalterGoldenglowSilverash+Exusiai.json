@@ -1,11 +1,11 @@
 {
     "type": "SSS",
-    "stage_name": "塔山农业实验平台",
-    "minimum_required": "v4.28.2",
+    "stage_name": "Tower Mountains Agricultural Experimental Platform",
+    "minimum_required": "v5.4.1",
     "doc": {
-        "title": "塔山农业实验平台——浊心斯卡蒂纯烬艾雅法拉澄闪能天使银灰",
+        "title": "Tower Mountains Agricultural Experimental Platform - Skalter, Eyjalter, Goldenglow, Exusiai, Silverash",
         "title_color": "dark",
-        "details": "作者：DL_君逸寒\n演示视频：BV1ep4y1o7qH\n这可能是我最后一次守护你们的肝了\n\n该脚本可完成智能空域控制机任务、竞技分析记录仪任务、招募15辅助任务、招募15狙击任务\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n\n关卡中的注意事项：\n3关要拿到至少一个战备激活阀，没有就重开（高练可无视）\n6关纯艾和浊蒂要早点叠出来\n我的作业已经尽可能平民且少核了，这点要求不过分吧~\n\n工具人（不包括核心）：\n先锋：2  仅推荐尖兵分支（卡西米尔：焰尾3）\n重装：1  推荐守护者分支，如塞雷娅2（卡西米尔：瑕光3）\n狙击：6  不要选投掷手分支（卡西米尔：白金2、远牙1、流星）\n术士：6  扩散术士分支要上减费用模组\n（如果卡西米尔任务实在凑不齐可以把一个狙击换成但书1，但道中一定要保证抓到1个狙击）\n\n所有工具人的练度都建议精二起步，选能打的！\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能！\n详情可以打开视频链接观看并更改必要的设置\n\n导能原件：智能空域控制机/竞技分析记录仪\n（更推荐前者打一命章应急章和日常的刷图，后者只是为了完成任务拿奖励）\n战术装备：术士B，其余A\n开局策略：优选策略\n\n请手动编队，阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 巡检作业\n\n脚本参考：\n自己打的（这图简单到过于离谱）\n\n特别鸣谢：E Deamo（maa萨米肉鸽的核心作者）\n最初我写的版本是提丰或菲亚梅塔担任副c，但是e哥提丰早露菲亚梅塔都没有，我想着他总该有能天使吧，就简单替换了一下，结果boss刚来就直接蒸发，仿佛回到了血怒过载的时代，震惊之余对脚本进行优化，遂有此平民版本（但是能天使在真空期的时候还是弱于提丰的，这是必然的局限性）\n\n连接模式请使用minitouch或者maatouch，不建议使用ADB Input模式\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、不重开通过普通难度、通过应急难度\n\n刷材料不建议在应急模式刷，也不建议使用专门用来完成任务的脚本刷\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
+        "details": "Author：DL_君逸寒\nAdaptation: Constrat\nDemo Video：BV1ep4y1o7qH\n\nThis Copilot can clear the \"Smart Airspace Controller\" and \"Competition Records Analyzer\"missions, 15 Sniper recruitments and 15 Supporter recruitments\n\nNotes\nLevel 3: at least one Equipment Activation Valve drop\nLevel 6: Eyjalter and Skalter stacked quickly\n\nOperators (Non-core)：\nVanguard：2  Pioneers only (Kazimierz: Flametail S3)\nDefender：1  Recommended Guardians, e.g. Saria S2 (Kazimierz: Blemishine S3)\nSniper：6  Don't bring Flingers (Kazimierz: Platinum S2, Fartooth S1, Meteor)\nCaster：6  Splash casters with cost reduction module\n(Kazimierz Proviso can be swapped for one sniper, make sure to get a sniper drop in the run)\n\nUse E2 operators!\nDon't bring more operators than necessary!\nDon't bring Robots\n\nDirectional EC：Smart Airspace Controller / Competition Records Analyzer\n(The Former is recommended for Trimmed Medal, Emergency and farming. The latter for missions completion)\nTactical Equipment: Caster B, others A\n\nPlease form a team manually, after confirming the line-up, click start when LT-1 is displayed\n\nSpecial thanks: E Deamo (Co-author of MAA IS4)\n\nPlease use Minitouch or Maatouch for connection mode, ADB Input is deprecated\n\nThe author supports self-modification according to personal needs, but does not support uploading to platforms such as prts after modification. Using this script is considered as agreeing to and fulfilling this agreement",
         "details_color": "dark"
     },
     "buff": "智能空域控制机",
@@ -885,7 +885,6 @@
                     ],
                     "direction": "Down"
                 },
-
                 {
                     "tool_men": {
                         "caster": 1
