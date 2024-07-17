@@ -74,6 +74,10 @@ class Task:
                 field_valid = field.is_valid_with(field_value)
             except Exception as e:
                 raise ValueError(f"Error checking field {field.field_name}: {e}")
+            if field == TaskFieldEnum.SPECIAL_PARAMS.value and field_value is not None:
+                # 特殊参数为int数组，历史遗留问题tasks.json里有小数
+                # 但 MaaCore但实现是vector<int>, 所以转化成小数
+                field_value = [int(x) for x in field_value]
             setattr(self, field.python_field_name, field_value)
             if not field_valid:
                 logger.warning(f"Invalid value for field {field.field_name}: {field_value} in task {self.name}")
