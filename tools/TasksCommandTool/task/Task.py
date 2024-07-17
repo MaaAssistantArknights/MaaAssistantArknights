@@ -269,10 +269,15 @@ class Task:
         stack = []
         for token in postfix:
             if token == '@':
-                # TODO (A+B)@(C+D) -> [A@C, A@D, B@C, B@D]
                 right = stack.pop()
                 left = stack.pop()
-                stack.append(f'{left}@{right}')
+                if not isinstance(right, list) and not isinstance(left, list):
+                    stack.append(f"{left}@{right}")
+                else:
+                    # (A+B)@(C+D) -> [A@C, A@D, B@C, B@D]
+                    right = _to_list(right)
+                    left = _to_list(left)
+                    stack.append([f"{left_name}@{right_name}" for left_name in left for right_name in right])
             elif token == '#u':
                 right = stack.pop()
                 task = Task._eval_virtual_task(None, right, parent_task)
