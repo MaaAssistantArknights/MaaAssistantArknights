@@ -2,24 +2,14 @@
     "stage_name": "夺路而跳",
     "replacement_home": [
         {
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "up"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "重装",
-                "地面阻挡",
-                "地面远程"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["重装", "地面阻挡", "地面远程"],
+            "location": [5, 3],
             "direction": "down"
         },
         {
