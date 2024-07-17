@@ -1,0 +1,33 @@
+{
+    "action": "DoNothing",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "BattleStartAll",
+    "next": [
+        "BattleStartNormal",
+        "BattleStartRaid",
+        "BattleStartExercise",
+        "BattleStartAdverse",
+        "BattleStartSimulation",
+        "BattleStartTrials",
+        "BattleStartTrialsRaid",
+        "BattleStartOCR"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

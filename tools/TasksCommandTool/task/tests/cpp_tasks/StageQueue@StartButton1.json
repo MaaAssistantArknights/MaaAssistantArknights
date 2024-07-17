@@ -1,0 +1,41 @@
+{
+    "action": "DoNothing",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 1,
+    "name": "StageQueue@StartButton1",
+    "next": [
+        "StageQueue@StartButton2",
+        "StageQueue@UseMedicine",
+        "StageQueue@UseStone",
+        "StageQueue@NoStone",
+        "StageQueue@OfflineConfirm",
+        "StageQueue@StartButton1TryAgain"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 1000,
+    "preDelay": 500,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+        "StageQueue@ClickCornerAfterPRTS",
+        "StageQueue@ClickCorner",
+        "StageQueue@ClickCornerAfterPRTS",
+        "StageQueue@ClickCorner",
+        "StageQueue@ClickCornerAfterPRTS",
+        "StageQueue@ClickCorner",
+        "StageQueue@ClickCornerAfterPRTS",
+        "StageQueue@ClickCorner",
+        "StageQueue@ClickCornerAfterPRTS",
+        "StageQueue@ClickCorner"
+    ],
+    "roi": "[ 1038, 625, 206, 61 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

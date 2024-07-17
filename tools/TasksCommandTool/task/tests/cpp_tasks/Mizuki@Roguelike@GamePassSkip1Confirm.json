@@ -1,0 +1,29 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Mizuki@Roguelike@GamePassSkip1Confirm",
+    "next": [
+        "Mizuki@Roguelike@DataTraceback",
+        "Mizuki@Roguelike@GamePassSkip2",
+        "Mizuki@Roguelike@GamePassTheEndConfirm",
+        "Mizuki@Roguelike@GamePass"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 715, 282, 171, 155 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,29 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@GiveupReportSkip",
+    "next": [
+        "Reclamation@GiveupReportSkip",
+        "Reclamation@GiveupSkipConfirm",
+        "Reclamation@GainReward",
+        "Reclamation@AtHomePageFlag"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1074, 537, 183, 180 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

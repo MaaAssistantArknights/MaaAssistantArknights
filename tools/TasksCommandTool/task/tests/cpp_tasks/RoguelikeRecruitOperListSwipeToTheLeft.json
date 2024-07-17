@@ -1,0 +1,28 @@
+{
+    "action": "Swipe",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 50,
+    "name": "RoguelikeRecruitOperListSwipeToTheLeft",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 200,
+    "preDelay": 0,
+    "rectMove": "[ 980, 340, 20, 20 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+        150,
+        0,
+        0
+    ],
+    "specificRect": "[ 500, 340, 20, 20 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

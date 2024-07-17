@@ -1,0 +1,33 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+        "Roguelike@StageTraderInvestSystem",
+        "Roguelike@TraderRandomShopping",
+        "Roguelike@StageTraderLeave"
+    ],
+    "maxTimes": 2147483647,
+    "name": "Roguelike@StageTraderRefreshWithDice",
+    "next": [
+        "Roguelike@StageTraderRefreshWithDiceConfirm",
+        "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
+        "Roguelike@StageTraderInvestSystem",
+        "Roguelike@TraderRandomShopping",
+        "Roguelike@StageTraderLeave"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 230, 47, 211, 139 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

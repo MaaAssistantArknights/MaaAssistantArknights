@@ -1,0 +1,30 @@
+{
+    "action": "ClickRect",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "TodaysSupplies",
+    "next": [
+        "CloseAnno",
+        "CloseAnnoTexas",
+        "CloseAnnoSpecialAccess",
+        "TodaysSupplies",
+        "NotDownloadVoice"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 500, 50, 300, 150 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 1000, 1, 270, 340 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

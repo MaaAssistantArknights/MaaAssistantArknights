@@ -1,0 +1,27 @@
+{
+    "action": "DoNothing",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@EmptyInitUnits",
+    "next": [
+        "Reclamation@QuickFormation",
+        "Reclamation@QuickFormationSelectOneUnit"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 592, 595, 336, 125 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

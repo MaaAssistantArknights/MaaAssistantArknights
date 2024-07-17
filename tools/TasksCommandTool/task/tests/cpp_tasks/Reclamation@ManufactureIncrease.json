@@ -1,0 +1,25 @@
+{
+    "action": "ClickRect",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@ManufactureIncrease",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1080, 320, 200, 146 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 1120, 86, 111, 26 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

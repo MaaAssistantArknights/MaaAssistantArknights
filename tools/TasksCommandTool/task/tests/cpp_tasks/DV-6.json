@@ -1,0 +1,28 @@
+{
+    "action": "DoNothing",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "DV-6",
+    "next": [
+        "DV-6@SideStoryStage",
+        "DV-6@SwipeToStage"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+        "DV-Open"
+    ],
+    "subErrorIgnored": false
+}

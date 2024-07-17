@@ -1,0 +1,30 @@
+{
+    "action": "DoNothing",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "SpecialAccessActivitiesBegin",
+    "next": [
+        "SpecialAccessActivitiesReturnHome@ReturnButton",
+        "SpecialAccessActivitiesReturnHome@FromStageSN",
+        "SpecialAccessActivitiesReturnHome@FromAnnihilation",
+        "SpecialAccessActivitiesReturnHome",
+        "SpecialAccessActivities"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

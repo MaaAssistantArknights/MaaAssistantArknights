@@ -1,0 +1,41 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Phantom@Roguelike@SquadConfirm",
+    "next": [
+        "Phantom@Roguelike@LastReward",
+        "Phantom@Roguelike@LastReward4",
+        "Phantom@Roguelike@LastReward2",
+        "Phantom@Roguelike@LastReward3",
+        "Phantom@Roguelike@LastRewardRand",
+        "Phantom@Roguelike@RolesDefault",
+        "Phantom@Roguelike@CloseCollection",
+        "Phantom@Roguelike@DialogSkip",
+        "Phantom@Roguelike@NextLevel",
+        "Phantom@Roguelike@StageTrader",
+        "Phantom@Roguelike@StageSafeHouse",
+        "Phantom@Roguelike@StageEncounter",
+        "Phantom@Roguelike@StageBoons",
+        "Phantom@Roguelike@StageCombatDps",
+        "Phantom@Roguelike@StageEmergencyDps",
+        "Phantom@Roguelike@StageDreadfulFoe"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 483, 1280, 200 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

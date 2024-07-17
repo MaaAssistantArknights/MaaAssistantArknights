@@ -1,0 +1,27 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation2SkipDays2",
+    "next": [
+        "Reclamation2SkipDays2SkipTime",
+        "Reclamation2SkipDays2"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 2000,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1051, 0, 229, 184 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

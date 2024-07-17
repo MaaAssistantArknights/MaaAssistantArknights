@@ -1,0 +1,27 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation2DeleteArchiveEnter",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1063, 550, 182, 123 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+        "Reclamation2DeleteArchiveConfirm",
+        "Reclamation2DeleteArchiveConfirm"
+    ],
+    "subErrorIgnored": false
+}

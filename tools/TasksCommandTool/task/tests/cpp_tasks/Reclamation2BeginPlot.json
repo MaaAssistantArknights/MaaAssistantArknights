@@ -1,0 +1,37 @@
+{
+    "action": "DoNothing",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation2BeginPlot",
+    "next": [
+        "Reclamation2LeaveStage",
+        "Reclamation2BeginPlot"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 100, 100 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk",
+        "Reclamation2ClickBeginPlotTalk"
+    ],
+    "subErrorIgnored": false
+}

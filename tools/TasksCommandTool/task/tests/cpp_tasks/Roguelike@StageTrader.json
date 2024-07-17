@@ -1,0 +1,26 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Roguelike@StageTrader",
+    "next": [
+        "Roguelike@StageTraderEnter"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 53, 1280, 554 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

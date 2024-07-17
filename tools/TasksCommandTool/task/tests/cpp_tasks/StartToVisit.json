@@ -1,0 +1,29 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "StartToVisit",
+    "next": [
+        "VisitNext",
+        "VisitNext@LoadingText",
+        "VisitNextBlack",
+        "VisitNextOcr"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 2000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 990, 90, 195, 165 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

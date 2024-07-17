@@ -1,0 +1,28 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "BattleStartOCR",
+    "next": [
+        "BattleOfficiallyBegin",
+        "SkipThePreBattlePlot",
+        "Stop"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 4000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 999, 398, 222, 237 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

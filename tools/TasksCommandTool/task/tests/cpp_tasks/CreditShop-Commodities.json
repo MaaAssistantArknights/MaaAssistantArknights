@@ -1,0 +1,25 @@
+{
+    "action": "DoNothing",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "CreditShop-Commodities",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ -60, -180, 220, 220 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

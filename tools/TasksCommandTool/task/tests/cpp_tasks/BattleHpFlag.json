@@ -1,0 +1,25 @@
+{
+    "action": "DoNothing",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "BattleHpFlag",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 40, 0, 100, 35 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 400, 0, 650, 60 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

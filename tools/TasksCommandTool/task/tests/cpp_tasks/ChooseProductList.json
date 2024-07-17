@@ -1,0 +1,25 @@
+{
+    "action": "ClickRect",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "ChooseProductList",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1000, 117, 115, 60 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 1026, 180, 1219, 487 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

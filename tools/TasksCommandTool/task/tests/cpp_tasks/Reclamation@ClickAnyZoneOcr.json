@@ -1,0 +1,27 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+        "Reclamation@ResetScope"
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@ClickAnyZoneOcr",
+    "next": [
+        "Reclamation@StartActionEnter"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 500,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 308, 73, 739, 567 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

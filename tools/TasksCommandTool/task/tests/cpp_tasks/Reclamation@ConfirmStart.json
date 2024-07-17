@@ -1,0 +1,30 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@ConfirmStart",
+    "next": [
+        "Reclamation@SkipAnnounce",
+        "Reclamation@SkipDailyReport",
+        "Reclamation@Emergency",
+        "Reclamation@ClickCenterBase",
+        "Reclamation@ResetScope"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 790, 497, 465, 223 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

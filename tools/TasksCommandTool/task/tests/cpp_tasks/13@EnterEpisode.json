@@ -1,0 +1,27 @@
+{
+    "action": "ClickRect",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "13@EnterEpisode",
+    "next": [
+        "13@EnterEpisode",
+        "13@Stop"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 244, 270, 129, 49 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 787, 281, 154, 154 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

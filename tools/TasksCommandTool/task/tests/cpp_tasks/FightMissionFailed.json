@@ -1,0 +1,40 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+        "FightMissionFailedAndStop"
+    ],
+    "maxTimes": 3,
+    "name": "FightMissionFailed",
+    "next": [
+        "EndOfAction",
+        "OfflineConfirm",
+        "GameStart",
+        "StartToWakeUp",
+        "StartToWakeUpOCR",
+        "StartLoginBServer",
+        "StartUpConnectingFlag",
+        "CloseAnno",
+        "CloseAnnoTexas",
+        "CloseAnnoSpecialAccess",
+        "TodaysSupplies",
+        "NotDownloadVoice",
+        "StartButton1"
+    ],
+    "onErrorNext": [
+        "ClickCornerAfterPRTS"
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 36, 226, 482, 269 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

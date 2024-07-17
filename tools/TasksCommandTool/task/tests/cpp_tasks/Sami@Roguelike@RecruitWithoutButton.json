@@ -1,0 +1,33 @@
+{
+    "action": "ClickRect",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Sami@Roguelike@RecruitWithoutButton",
+    "next": [
+        "Sami@Roguelike@RecruitOther",
+        "Sami@Roguelike@EnterAfterRecruit",
+        "Sami@Roguelike@TraderRandomShopping",
+        "Sami@Roguelike@StageTraderLeave",
+        "Sami@Roguelike@DropsFlag",
+        "Sami@Roguelike@ChooseOperFlag",
+        "Sami@Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "Sami@Roguelike@RecruitWithoutButton"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 1180, 15, 85, 60 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

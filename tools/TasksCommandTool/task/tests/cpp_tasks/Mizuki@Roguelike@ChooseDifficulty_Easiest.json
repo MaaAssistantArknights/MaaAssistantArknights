@@ -1,0 +1,27 @@
+{
+    "action": "ClickRect",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Mizuki@Roguelike@ChooseDifficulty_Easiest",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 800,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1026, 470, 254, 248 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 1144, 472, 78, 24 ]",
+    "sub": [
+        "SwipeToTheUp",
+        "SwipeToTheUp"
+    ],
+    "subErrorIgnored": false
+}

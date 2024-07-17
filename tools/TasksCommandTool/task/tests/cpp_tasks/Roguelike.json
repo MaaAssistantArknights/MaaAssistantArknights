@@ -1,0 +1,33 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Roguelike",
+    "next": [
+        "Roguelike",
+        "Roguelike@CloseAnno",
+        "Roguelike@CloseAnnoTexas",
+        "Roguelike@CloseAnnoSpecialAccess",
+        "Roguelike@TodaysSupplies",
+        "Roguelike@NotDownloadVoice",
+        "Roguelike@TodoEnter",
+        "Roguelike@IntegratedStrategies"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 1000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 844, 58, 268, 272 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

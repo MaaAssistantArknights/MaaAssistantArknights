@@ -1,0 +1,28 @@
+{
+    "action": "DoNothing",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "FC-7",
+    "next": [
+        "FC-7@SideStoryStage",
+        "FC-7@SwipeToStage"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+        "FC-OpenOpt"
+    ],
+    "subErrorIgnored": false
+}

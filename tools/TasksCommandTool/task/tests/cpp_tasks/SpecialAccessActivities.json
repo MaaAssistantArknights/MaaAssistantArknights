@@ -1,0 +1,28 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "SpecialAccessActivities",
+    "next": [
+        "SpecialAccessActivitiesConfirm",
+        "SpecialAccessActivitiesReturn"
+    ],
+    "onErrorNext": [
+        "Stop"
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 74, 79, 79, 41 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

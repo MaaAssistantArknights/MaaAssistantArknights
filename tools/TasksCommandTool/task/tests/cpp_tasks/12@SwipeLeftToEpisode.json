@@ -1,0 +1,31 @@
+{
+    "action": "Swipe",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 20,
+    "name": "12@SwipeLeftToEpisode",
+    "next": [
+        "12@EnterEpisode",
+        "12@SwipeLeftToEpisode"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 500,
+    "preDelay": 0,
+    "rectMove": "[ 1200, 310, 10, 10 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 244, 270, 129, 49 ]",
+    "specialParams": [
+        200,
+        0,
+        2,
+        0
+    ],
+    "specificRect": "[ 790, 310, 10, 10 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

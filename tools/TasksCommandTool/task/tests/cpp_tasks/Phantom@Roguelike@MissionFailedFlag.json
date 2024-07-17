@@ -1,0 +1,35 @@
+{
+    "action": "DoNothing",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Phantom@Roguelike@MissionFailedFlag",
+    "next": [
+        "Phantom@Roguelike@NextLevel",
+        "Phantom@Roguelike@StageTrader",
+        "Phantom@Roguelike@StageSafeHouse",
+        "Phantom@Roguelike@StageEncounter",
+        "Phantom@Roguelike@StageBoons",
+        "Phantom@Roguelike@StageCombatDps",
+        "Phantom@Roguelike@StageEmergencyDps",
+        "Phantom@Roguelike@StageDreadfulFoe",
+        "Phantom@Roguelike@MissionFailedFlag2",
+        "Phantom@Roguelike@ClickToStartPoint"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 450, 163, 540, 267 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

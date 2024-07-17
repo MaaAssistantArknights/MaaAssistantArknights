@@ -1,0 +1,30 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+        "Roguelike@TraderRandomShopping",
+        "Roguelike@StageTraderLeave"
+    ],
+    "maxTimes": 2147483647,
+    "name": "Roguelike@StageTraderInvestSystem",
+    "next": [
+        "Roguelike@StageTraderInvestSystemEnter",
+        "Roguelike@TraderRandomShopping",
+        "Roguelike@StageTraderLeave"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 365, 51, 276, 331 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

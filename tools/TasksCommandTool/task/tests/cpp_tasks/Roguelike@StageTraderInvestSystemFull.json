@@ -1,0 +1,28 @@
+{
+    "action": "DoNothing",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+        "RoguelikeControlTaskPlugin-ExitThenStop"
+    ],
+    "maxTimes": 2147483647,
+    "name": "Roguelike@StageTraderInvestSystemFull",
+    "next": [
+        "Roguelike@StageTraderInvestCancel"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+        "Roguelike@StageTraderInvestConfirm"
+    ],
+    "roi": "[ 982, 28, 298, 289 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,36 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Mizuki@Roguelike@StageEncounterLeaveConfirm",
+    "next": [
+        "Mizuki@Roguelike@StageEncounterOptionFree",
+        "Mizuki@Roguelike@StageSafeHouseReuse",
+        "Mizuki@Roguelike@StageEncounterOptionLeave",
+        "Mizuki@Roguelike@StageEncounterOptionWonderland",
+        "Mizuki@Roguelike@ChooseOperFlag",
+        "Mizuki@Roguelike@StageEmergencyDpsEnter",
+        "Mizuki@Roguelike@StageCombatDpsEnter",
+        "Mizuki@Roguelike@CloseEvent",
+        "Mizuki@Roguelike@StageEncounterOptionUnknown",
+        "Mizuki@Roguelike@StageEncounterSpecialClose",
+        "Mizuki@Roguelike@ClickToDrops"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 1000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1069, 0, 211, 700 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

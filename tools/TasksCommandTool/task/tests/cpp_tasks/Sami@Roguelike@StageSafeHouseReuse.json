@@ -1,0 +1,35 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Sami@Roguelike@StageSafeHouseReuse",
+    "next": [
+        "Sami@Roguelike@StageEncounterLeaveConfirm",
+        "Sami@Roguelike@StageEncounterOptionFree",
+        "Sami@Roguelike@StageSafeHouseReuse",
+        "Sami@Roguelike@StageEncounterOptionLeave",
+        "Sami@Roguelike@StageEncounterOptionWonderland",
+        "Sami@Roguelike@ChooseOperFlag",
+        "Sami@Roguelike@StageEmergencyDpsEnter",
+        "Sami@Roguelike@StageCombatDpsEnter",
+        "Sami@Roguelike@CloseEvent",
+        "Sami@Roguelike@StageEncounterOptionUnknown"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 500,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 880, 210, 140, 36 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

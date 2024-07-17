@@ -1,0 +1,30 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Phantom@Roguelike@GetDropSelect",
+    "next": [
+        "Phantom@Roguelike@GetDropSelectRecruit",
+        "Phantom@Roguelike@GetDropSelectReward",
+        "Phantom@Roguelike@ChooseOperFlag",
+        "Phantom@Roguelike@GetDropCompleted",
+        "Phantom@Roguelike@GetDropSelect"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 2000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 471, 1280, 157 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

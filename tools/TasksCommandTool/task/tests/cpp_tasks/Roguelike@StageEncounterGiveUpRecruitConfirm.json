@@ -1,0 +1,29 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Roguelike@StageEncounterGiveUpRecruitConfirm",
+    "next": [
+        "Roguelike@TraderRandomShopping",
+        "Roguelike@StageTraderLeave",
+        "Roguelike@DropsFlag",
+        "Roguelike@ClickToDrops"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 613, 410, 424, 171 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,26 @@
+{
+    "action": "ClickRect",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@QuickFormationSelectOneUnit",
+    "next": [
+        "Reclamation@QuickFormationConfirm"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 862, 604, 358, 116 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 506, 116, 186, 57 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

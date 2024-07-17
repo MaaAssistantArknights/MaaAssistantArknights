@@ -1,0 +1,31 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@NextDay",
+    "next": [
+        "Reclamation@Emergency",
+        "Reclamation@NextDay",
+        "Reclamation@SkipAnnounce",
+        "Reclamation@SkipDailyReport",
+        "Reclamation@ClickCenterBase",
+        "Reclamation@ResetScope"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1055, 0, 225, 177 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

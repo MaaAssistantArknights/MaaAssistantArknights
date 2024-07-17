@@ -1,0 +1,26 @@
+{
+    "action": "DoNothing",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 3,
+    "name": "SwitchAccount",
+    "next": [
+        "Settings"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 1000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 844, 58, 268, 272 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

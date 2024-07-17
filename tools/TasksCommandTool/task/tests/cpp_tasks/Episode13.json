@@ -1,0 +1,28 @@
+{
+    "action": "DoNothing",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Episode13",
+    "next": [
+        "13@SwipeLeftToEpisode",
+        "13@EnterEpisode"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+        "ToChapter3@StageTheme"
+    ],
+    "subErrorIgnored": false
+}

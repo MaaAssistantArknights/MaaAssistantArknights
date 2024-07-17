@@ -1,0 +1,26 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation2SkipDaysAward2",
+    "next": [
+        "Reclamation2SkipDaysBeginNewDay"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 4000,
+    "preDelay": 1000,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 506, 609, 272, 111 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,46 @@
+{
+    "action": "ClickRect",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Roguelike@ClickToDrops",
+    "next": [
+        "Roguelike@ChooseOperFlag",
+        "Roguelike@StageEncounterSpecialClose",
+        "Roguelike@TraderRandomShopping",
+        "Roguelike@StageTraderLeave",
+        "Roguelike@DropsFlag",
+        "Roguelike@GameStart",
+        "Roguelike@StartToWakeUp",
+        "Roguelike@StartToWakeUpOCR",
+        "Roguelike@StartLoginBServer",
+        "Roguelike@StartUpConnectingFlag",
+        "Roguelike",
+        "Roguelike@ChooseDifficulty",
+        "Roguelike@StartExplore",
+        "Roguelike@Abandon",
+        "Roguelike@CloseAnno",
+        "Roguelike@CloseAnnoTexas",
+        "Roguelike@CloseAnnoSpecialAccess",
+        "Roguelike@TodaysSupplies",
+        "Roguelike@NotDownloadVoice",
+        "Roguelike@OfflineConfirm",
+        "Roguelike@ClickToDrops"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 500,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 600, 600, 50, 50 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

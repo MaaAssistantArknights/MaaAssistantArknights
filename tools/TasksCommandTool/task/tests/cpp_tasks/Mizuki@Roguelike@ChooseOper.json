@@ -1,0 +1,33 @@
+{
+    "action": "DoNothing",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Mizuki@Roguelike@ChooseOper",
+    "next": [
+        "Mizuki@Roguelike@CloseCollectionContinue",
+        "Mizuki@Roguelike@CloseCollectionClose",
+        "Mizuki@Roguelike@ChooseOperConfirm",
+        "Mizuki@Roguelike@Abandon",
+        "Mizuki@Roguelike@RecruitSkip",
+        "Mizuki@Roguelike@TraderRandomShopping",
+        "Mizuki@Roguelike@StageEncounterGiveUpRecruitConfirm",
+        "Mizuki@Roguelike@RecruitWithoutButton"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

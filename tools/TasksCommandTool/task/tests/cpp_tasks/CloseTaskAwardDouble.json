@@ -1,0 +1,28 @@
+{
+    "action": "ClickRect",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 10,
+    "name": "CloseTaskAwardDouble",
+    "next": [
+        "WeeklyTask",
+        "AwardFinished",
+        "CloseTaskAwardDouble"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 600, 630, 60, 60 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

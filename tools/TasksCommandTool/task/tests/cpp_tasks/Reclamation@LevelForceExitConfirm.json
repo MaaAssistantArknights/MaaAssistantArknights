@@ -1,0 +1,44 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@LevelForceExitConfirm",
+    "next": [
+        "Reclamation",
+        "Reclamation@AtHomePageFlag",
+        "Reclamation@LevelForceExitConfirm",
+        "Reclamation@LevelForceExit",
+        "Reclamation@LevelComplete",
+        "Reclamation@ExitAlgorithm",
+        "Reclamation@SmallReturn",
+        "Reclamation@ReturnInFocus",
+        "Reclamation@ReturnButton",
+        "Reclamation@FromStageSN",
+        "Reclamation@FromAnnihilation",
+        "Reclamation@ReturnConfirm",
+        "Reclamation@ReturnButton@LoadingIcon",
+        "Reclamation@ReturnButton@LoadingText",
+        "Reclamation@CloseAnno",
+        "Reclamation@CloseAnnoTexas",
+        "Reclamation@CloseAnnoSpecialAccess",
+        "Reclamation@TodaysSupplies",
+        "Reclamation@NotDownloadVoice"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 856, 336, 371, 177 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,32 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "StartButton1TryAgain",
+    "next": [
+        "StartButton2",
+        "UseMedicine",
+        "UseStone",
+        "NoStone",
+        "OfflineConfirm",
+        "AnnihilationConfirm",
+        "StartButton1TryAgain"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 3000,
+    "preDelay": 0,
+    "rectMove": "[ 38, 0, 35, 17 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1038, 625, 206, 61 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

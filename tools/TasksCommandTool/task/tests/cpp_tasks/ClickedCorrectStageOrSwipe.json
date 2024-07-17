@@ -1,0 +1,29 @@
+{
+    "action": "DoNothing",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+        "StageSNReturnFlag",
+        "Stop"
+    ],
+    "maxTimes": 2147483647,
+    "name": "ClickedCorrectStageOrSwipe",
+    "next": [
+        "ClickedCorrectStage",
+        "FullStageNavigation"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 1000,
+    "preDelay": 500,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1038, 625, 206, 61 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,36 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Sami@Roguelike@StageEncounterLeaveConfirm",
+    "next": [
+        "Sami@Roguelike@StageEncounterOptionFree",
+        "Sami@Roguelike@StageSafeHouseReuse",
+        "Sami@Roguelike@StageEncounterOptionLeave",
+        "Sami@Roguelike@StageEncounterOptionWonderland",
+        "Sami@Roguelike@ChooseOperFlag",
+        "Sami@Roguelike@StageEmergencyDpsEnter",
+        "Sami@Roguelike@StageCombatDpsEnter",
+        "Sami@Roguelike@CloseEvent",
+        "Sami@Roguelike@StageEncounterOptionUnknown",
+        "Sami@Roguelike@StageEncounterSpecialClose",
+        "Sami@Roguelike@ClickToDrops"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 1000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1069, 0, 211, 700 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

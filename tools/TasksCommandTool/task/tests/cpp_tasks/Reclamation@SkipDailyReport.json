@@ -1,0 +1,28 @@
+{
+    "action": "ClickRect",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@SkipDailyReport",
+    "next": [
+        "Reclamation@SkipAnnounce",
+        "Reclamation@SkipDailyReport",
+        "Reclamation@AtMapFlag"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 539, 39, 207, 134 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 1190, 651, 52, 48 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

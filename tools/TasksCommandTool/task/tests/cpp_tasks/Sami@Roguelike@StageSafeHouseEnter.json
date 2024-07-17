@@ -1,0 +1,28 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Sami@Roguelike@StageSafeHouseEnter",
+    "next": [
+        "Sami@Roguelike@StageVerticalConfirmSafeHouse",
+        "Sami@Roguelike@StageSafeHouseEnter",
+        "Sami@Roguelike@StageEncounterJudgeClick"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1035, 370, 226, 300 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

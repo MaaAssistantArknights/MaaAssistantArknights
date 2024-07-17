@@ -1,0 +1,41 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "AbandonAction",
+    "next": [
+        "FightMissionFailed",
+        "EndOfAction",
+        "OfflineConfirm",
+        "GameStart",
+        "StartToWakeUp",
+        "StartToWakeUpOCR",
+        "StartLoginBServer",
+        "StartUpConnectingFlag",
+        "CloseAnno",
+        "CloseAnnoTexas",
+        "CloseAnnoSpecialAccess",
+        "TodaysSupplies",
+        "NotDownloadVoice",
+        "StartButton1"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+        "StartButton1",
+        "StartButton2"
+    ],
+    "roi": "[ 0, 400, 650, 230 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,32 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Visit",
+    "next": [
+        "FriendsList",
+        "Visit",
+        "Visit@CloseAnno",
+        "Visit@CloseAnnoTexas",
+        "Visit@CloseAnnoSpecialAccess",
+        "Visit@TodaysSupplies",
+        "Visit@NotDownloadVoice"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 250, 500, 200, 200 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

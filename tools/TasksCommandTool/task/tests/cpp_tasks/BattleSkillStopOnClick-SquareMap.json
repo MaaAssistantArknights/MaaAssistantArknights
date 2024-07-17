@@ -1,0 +1,27 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "BattleSkillStopOnClick-SquareMap",
+    "next": [
+        "BattleSkillStopOnClick-SquareMap",
+        "Stop"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 300,
+    "preDelay": 0,
+    "rectMove": "[ 0, -110, 90, 90 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 748, 414, 210, 118 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

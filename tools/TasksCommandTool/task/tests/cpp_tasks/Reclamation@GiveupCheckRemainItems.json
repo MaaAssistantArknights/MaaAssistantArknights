@@ -1,0 +1,29 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@GiveupCheckRemainItems",
+    "next": [
+        "Reclamation@GiveupTakeNothing",
+        "Reclamation@GiveupCheckRemainItems",
+        "Reclamation@GiveupTakeNothingConfirm",
+        "Reclamation@GiveupReportSkip"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 729, 539, 337, 134 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

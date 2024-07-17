@@ -1,0 +1,26 @@
+{
+    "action": "ClickRect",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "OrundumActivitiesEarnRewards",
+    "next": [
+        "OrundumActivitiesReturn"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 590, 40, 130, 100 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 600, 600, 70, 70 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

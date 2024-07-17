@@ -1,0 +1,26 @@
+{
+    "action": "Swipe",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "AccountListSwipe",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 700, 330, 20, 20 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+        150
+    ],
+    "specificRect": "[ 700, 380, 20, 20 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,28 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "EnterChapterIS",
+    "next": [
+        "EnterChapterIS",
+        "EnterChapterIS2",
+        "EnterStageIS"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 4000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1033, 412, 208, 134 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

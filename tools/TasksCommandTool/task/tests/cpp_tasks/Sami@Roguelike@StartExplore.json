@@ -1,0 +1,30 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+        "Sami@RoguelikeControlTaskPlugin-Stop"
+    ],
+    "maxTimes": 2147483647,
+    "name": "Sami@Roguelike@StartExplore",
+    "next": [
+        "Sami@Roguelike@SquadDefault",
+        "Sami@Roguelike@InitalDrop",
+        "Sami@Roguelike@ChooseDifficulty",
+        "Sami@Roguelike@StartExplore"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 2000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 958, 530, 322, 189 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

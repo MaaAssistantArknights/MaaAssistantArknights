@@ -1,0 +1,28 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "RecruitingActivitiesRecruitNowConfirm",
+    "next": [
+        "RecruitingActivitiesRecruitSkip",
+        "RecruitingActivitiesRecruitNowConfirm",
+        "RecruitingActivitiesRecruitSkipWithoutButton"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 586, 399, 694, 192 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

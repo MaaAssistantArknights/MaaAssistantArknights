@@ -1,0 +1,33 @@
+{
+    "action": "DoNothing",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "PRTS3",
+    "next": [
+        "PRTS1",
+        "PRTS2",
+        "PRTS3",
+        "EndOfAction",
+        "PrtsErrorConfirm",
+        "FightMissionFailed",
+        "OfflineConfirm",
+        "WaitAfterPRTS"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 5000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 900, 500, 380, 150 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

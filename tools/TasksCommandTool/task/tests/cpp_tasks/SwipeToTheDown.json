@@ -1,0 +1,29 @@
+{
+    "action": "Swipe",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 20,
+    "name": "SwipeToTheDown",
+    "next": [
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 350,
+    "preDelay": 0,
+    "rectMove": "[ 600, 610, 100, 100 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+        150,
+        0,
+        1,
+        1
+    ],
+    "specificRect": "[ 600, 145, 100, 100 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

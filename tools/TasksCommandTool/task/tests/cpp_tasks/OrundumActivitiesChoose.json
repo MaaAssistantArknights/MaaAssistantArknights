@@ -1,0 +1,31 @@
+{
+    "action": "DoNothing",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "OrundumActivitiesChoose",
+    "next": [
+        "OrundumActivitiesConfirm",
+        "OrundumActivitiesEarnRewards",
+        "OrundumActivitiesReturn"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 10, 10, 50, 50 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 150, 150, 1000, 400 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+        "OrundumActivitiesClick",
+        "OrundumActivitiesClick",
+        "OrundumActivitiesClick"
+    ],
+    "subErrorIgnored": true
+}

@@ -1,0 +1,32 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "OcrDetect",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Mall",
+    "next": [
+        "CreditStoreOcr",
+        "Mall",
+        "Mall@CloseAnno",
+        "Mall@CloseAnnoTexas",
+        "Mall@CloseAnnoSpecialAccess",
+        "Mall@TodaysSupplies",
+        "Mall@NotDownloadVoice"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 740, 440, 200, 100 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

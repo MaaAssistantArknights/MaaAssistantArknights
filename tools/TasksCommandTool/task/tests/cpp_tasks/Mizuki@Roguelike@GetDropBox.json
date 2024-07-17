@@ -1,0 +1,29 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Mizuki@Roguelike@GetDropBox",
+    "next": [
+        "Mizuki@Roguelike@DropsFlag",
+        "Mizuki@Roguelike@GetDropBoxOpen",
+        "Mizuki@Roguelike@GetDropBoxSelect",
+        "Mizuki@Roguelike@ChooseOperFlag"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 1000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 471, 1280, 157 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

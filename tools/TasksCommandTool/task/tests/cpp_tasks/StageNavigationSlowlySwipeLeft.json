@@ -1,0 +1,33 @@
+{
+    "action": "Swipe",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+        "Home@ReturnButton",
+        "Home@FromStageSN",
+        "Home@FromAnnihilation"
+    ],
+    "maxTimes": 20,
+    "name": "StageNavigationSlowlySwipeLeft",
+    "next": [
+        "FullStageNavigation"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 200,
+    "preDelay": 0,
+    "rectMove": "[ 900, 100, 20, 20 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+        200,
+        1,
+        2,
+        0
+    ],
+    "specificRect": "[ 300, 100, 20, 20 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

@@ -1,0 +1,31 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Reclamation@ClickChooseInitUnits",
+    "next": [
+        "Reclamation@EmptyInitUnits",
+        "Reclamation@InitSupplyAll",
+        "Reclamation@ClickChooseInitUnits",
+        "Reclamation@ReturnButton",
+        "Reclamation@FromStageSN",
+        "Reclamation@FromAnnihilation"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 500,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 1055, 0, 225, 178 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

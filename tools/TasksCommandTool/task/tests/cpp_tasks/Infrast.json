@@ -1,0 +1,33 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Infrast",
+    "next": [
+        "InfrastEnteredFlag",
+        "Infrast",
+        "Infrast@CloseAnno",
+        "Infrast@CloseAnnoTexas",
+        "Infrast@CloseAnnoSpecialAccess",
+        "Infrast@TodaysSupplies",
+        "Infrast@NotDownloadVoice",
+        "Infrast@OfflineConfirm"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 5000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 930, 540, 230, 180 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

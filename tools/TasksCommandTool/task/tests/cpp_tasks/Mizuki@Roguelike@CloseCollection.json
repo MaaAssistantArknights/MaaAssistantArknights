@@ -1,0 +1,33 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Mizuki@Roguelike@CloseCollection",
+    "next": [
+        "Mizuki@Roguelike@LastReward",
+        "Mizuki@Roguelike@LastReward4",
+        "Mizuki@Roguelike@LastReward2",
+        "Mizuki@Roguelike@LastReward3",
+        "Mizuki@Roguelike@LastReward5",
+        "Mizuki@Roguelike@LastReward6",
+        "Mizuki@Roguelike@LastRewardRand",
+        "Mizuki@Roguelike@RolesDefault"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 569, 400, 140, 139 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

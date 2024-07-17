@@ -1,0 +1,32 @@
+{
+    "action": "Swipe",
+    "algorithm": "OcrDetect",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 50,
+    "name": "SwipeRightToStage1-7",
+    "next": [
+        "Stage1-7",
+        "SwipeRightToStage1-7",
+        "SwipeLeftToStage1-7"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 200,
+    "preDelay": 0,
+    "rectMove": "[ 300, 100, 20, 20 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 120, 1080, 480 ]",
+    "specialParams": [
+        200,
+        1,
+        2,
+        0
+    ],
+    "specificRect": "[ 900, 100, 20, 20 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

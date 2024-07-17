@@ -1,0 +1,44 @@
+{
+    "action": "DoNothing",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "LastOrCurBattleBegin",
+    "next": [
+        "Fight@GoLastBattle",
+        "Fight@StartButton1",
+        "Fight@UsePrts",
+        "Fight@UsePrts-StageSN",
+        "Fight@ReturnButton",
+        "Fight@FromStageSN",
+        "Fight@FromAnnihilation",
+        "Fight",
+        "Fight@CloseAnno",
+        "Fight@CloseAnnoTexas",
+        "Fight@CloseAnnoSpecialAccess",
+        "Fight@TodaysSupplies",
+        "Fight@NotDownloadVoice",
+        "Fight@PRTS1",
+        "Fight@PRTS2",
+        "Fight@PRTS3",
+        "Fight@EndOfAction",
+        "Fight@PrtsErrorConfirm",
+        "Fight@FightMissionFailed"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

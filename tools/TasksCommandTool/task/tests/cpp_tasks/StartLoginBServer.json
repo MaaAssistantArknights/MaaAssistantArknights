@@ -1,0 +1,37 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "StartLoginBServer",
+    "next": [
+        "GameStart",
+        "StartToWakeUp",
+        "StartToWakeUpOCR",
+        "StartLoginBServer",
+        "StartUpConnectingFlag",
+        "CloseAnno",
+        "CloseAnnoTexas",
+        "CloseAnnoSpecialAccess",
+        "TodaysSupplies",
+        "NotDownloadVoice",
+        "OfflineConfirm",
+        "StartLoginBServer@LoadingIcon"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 400, 350, 500, 150 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

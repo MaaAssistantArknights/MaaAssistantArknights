@@ -1,0 +1,30 @@
+{
+    "action": "Swipe",
+    "algorithm": "JustReturn",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 20,
+    "name": "Roguelike@PreSelectThemeSwipe",
+    "next": [
+        "Roguelike@SelectTheme"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 100,
+    "preDelay": 0,
+    "rectMove": "[ 500, 560, 100, 100 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 0, 0, 0, 0 ]",
+    "specialParams": [
+        1000,
+        0,
+        1,
+        1
+    ],
+    "specificRect": "[ 100, 560, 100, 100 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

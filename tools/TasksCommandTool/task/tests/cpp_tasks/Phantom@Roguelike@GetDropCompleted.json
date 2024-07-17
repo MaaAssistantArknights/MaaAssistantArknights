@@ -1,0 +1,32 @@
+{
+    "action": "ClickRect",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Phantom@Roguelike@GetDropCompleted",
+    "next": [
+        "Phantom@Roguelike@GetDrop1",
+        "Phantom@Roguelike@GetDrop2",
+        "Phantom@Roguelike@GetDrop3",
+        "Phantom@Roguelike@GetDropSelect",
+        "Phantom@Roguelike@GetDropRecruit",
+        "Phantom@Roguelike@ChooseOperFlag",
+        "Phantom@Roguelike@ClickToDrops"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 3000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 488, 206, 302, 289 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 600, 600, 50, 50 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

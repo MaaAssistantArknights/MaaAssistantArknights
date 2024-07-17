@@ -1,0 +1,28 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": true,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "BattleStartNormal",
+    "next": [
+        "BattleOfficiallyBegin",
+        "SkipThePreBattlePlot",
+        "Stop"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 4000,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 989, 318, 232, 374 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}

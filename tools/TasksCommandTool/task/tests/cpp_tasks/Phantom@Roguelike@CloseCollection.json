@@ -1,0 +1,31 @@
+{
+    "action": "ClickSelf",
+    "algorithm": "MatchTemplate",
+    "cache": false,
+    "exceededNext": [
+    ],
+    "maxTimes": 2147483647,
+    "name": "Phantom@Roguelike@CloseCollection",
+    "next": [
+        "Phantom@Roguelike@LastReward",
+        "Phantom@Roguelike@LastReward4",
+        "Phantom@Roguelike@LastReward2",
+        "Phantom@Roguelike@LastReward3",
+        "Phantom@Roguelike@LastRewardRand",
+        "Phantom@Roguelike@RolesDefault"
+    ],
+    "onErrorNext": [
+    ],
+    "postDelay": 0,
+    "preDelay": 0,
+    "rectMove": "[ 0, 0, 0, 0 ]",
+    "reduceOtherTimes": [
+    ],
+    "roi": "[ 569, 400, 140, 139 ]",
+    "specialParams": [
+    ],
+    "specificRect": "[ 0, 0, 0, 0 ]",
+    "sub": [
+    ],
+    "subErrorIgnored": false
+}
