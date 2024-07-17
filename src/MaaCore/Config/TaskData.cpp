@@ -64,6 +64,50 @@ asst::TaskPtr asst::TaskData::get(std::string_view name)
     }
 }
 
+#ifdef ASST_TASK_DEBUG
+
+struct TaskInfoSerializer
+{
+    json::value operator()(const asst::TaskPtr& task) const
+    {
+        return serialize(*task);
+    }
+
+    json::value serialize(const asst::TaskInfo& task) const
+    {
+        json::value json;
+        json["name"] = task.name;
+        json["algorithm"] = enum_to_string(task.algorithm);
+        json["action"] = enum_to_string(task.action);
+        json["cache"] = task.cache;
+        json["maxTimes"] = task.max_times;
+        json["preDelay"] = task.pre_delay;
+        json["postDelay"] = task.post_delay;
+        json["roi"] = task.roi.to_string();
+        json["subErrorIgnored"] = task.sub_error_ignored;
+        json["rectMove"] = task.rect_move.to_string();
+        json["specificRect"] = task.specific_rect.to_string();
+        json["specialParams"] = task.special_params;
+        json["next"] = serialize(task.next);
+        json["sub"] = serialize(task.sub);
+        json["exceededNext"] = serialize(task.exceeded_next);
+        json["onErrorNext"] = serialize(task.on_error_next);
+        json["reduceOtherTimes"] = serialize(task.reduce_other_times);
+        return json;
+    }
+
+    json::array serialize(const asst::TaskList& task_list) const
+    {
+        json::array json;
+        for (const auto& task : task_list) {
+            json.push_back(task);
+        }
+        return json;
+    }
+};
+
+#endif
+
 bool asst::TaskData::lazy_parse(const json::value& json)
 {
     LogTraceFunction;
@@ -184,6 +228,17 @@ bool asst::TaskData::lazy_parse(const json::value& json)
     }
 #endif
 
+#ifdef ASST_TASK_DEBUG
+    for (std::string_view name : m_json_all_tasks_info | views::keys) {
+        auto task_json = json::serialize(Task.get(name), TaskInfoSerializer{});
+        // save to file
+        std::fstream fs;
+        fs.open(std::string(name) + ".json", std::ios::out);
+        fs << task_json;
+        fs.close();
+    }
+    std::cout << "TaskData done" << std::endl;
+#endif
     return true;
 }
 
