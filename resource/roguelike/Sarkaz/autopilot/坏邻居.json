@@ -1,5 +1,14 @@
 {
     "stage_name": "坏邻居",
+    "replacement_home": [
+        {
+            "location": [
+                2,
+                7
+            ],
+            "direction": "left"
+        }
+    ],
     "deploy_plan": [
         {
             "groups": [
