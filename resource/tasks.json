@@ -17213,6 +17213,7 @@
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@LoadOperator_Start",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyDps",
@@ -17243,6 +17244,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@LoadOperator_Start",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageTraderHD",
@@ -17297,6 +17299,112 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Sarkaz@Roguelike@LoadOperator_Start": {
+        "template": "Sarkaz@Roguelike@LoadOperator_Start.png",
+        "roi": [
+            589,
+            584,
+            231,
+            121
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickRect",
+        "specificRect": [
+            710,
+            680,
+            0,
+            0
+        ],
+        "postDelay": 1000,
+        "next": [
+            "Sarkaz@Roguelike@LoadOperator_Add"
+        ]
+    },
+    "Sarkaz@Roguelike@LoadOperator_Add": {
+        "template": "Sarkaz@Roguelike@LoadOperator_Add.png",
+        "roi": [
+            11,
+            493,
+            140,
+            143
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": [
+            "Sarkaz@Roguelike@LoadOperator_Select_1"
+        ]
+    },
+    "Sarkaz@Roguelike@LoadOperator_Select_1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            330,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@LoadOperator_Select_2"
+        ]
+    },
+    "Sarkaz@Roguelike@LoadOperator_Select_2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            450,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@LoadOperator_Select_3"
+        ]
+    },
+    "Sarkaz@Roguelike@LoadOperator_Select_3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            570,
+            240,
+            0,
+            0
+        ],
+        "postDelay": 1000,
+        "next": [
+            "Sarkaz@Roguelike@LoadOperator_Confirm"
+        ]
+    },
+    "Sarkaz@Roguelike@LoadOperator_Confirm": {
+        "template": "Sarkaz@Roguelike@LoadOperator_Confirm.png",
+        "roi": [
+            542,
+            551,
+            135,
+            134
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": [
+            "Sarkaz@Roguelike@LoadOperator_Quit"
+        ]
+    },
+    "Sarkaz@Roguelike@LoadOperator_Quit": {
+        "template": "Sarkaz@Roguelike@LoadOperator_Quit.png",
+        "roi": [
+            0,
+            0,
+            150,
+            148
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "next": [
+            "Sarkaz@Roguelike@Stages#next"
         ]
     },
     "Sarkaz@Roguelike@StartExplore": {
