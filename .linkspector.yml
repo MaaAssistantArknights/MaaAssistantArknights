@@ -1,5 +1,0 @@
-dirs:
-  - .
-useGitIgnore: true
-ignorePatterns:
-  - pattern: "^https?://127.0.0.1(:\\d+)?/"

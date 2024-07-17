@@ -66,7 +66,7 @@ icon: game-icons:prisoner
 
 
             "strategies": [                // 필수
-                                         // 순서대로 각 객체의 tool_men에 따라 배치될 것입니다. 
+                                         // 순서대로 각 객체의 tool_men에 따라 배치될 것입니다.
                                          // 현재 핸드에 tool_men이 없는 경우 다음 객체를 배치합니다.
                 {
                     "core": "棘刺",
@@ -108,7 +108,7 @@ icon: game-icons:prisoner
             ],
             "draw_as_possible": true,   // "오퍼레이터 배치" 버튼. 가능할 때 사용할지 여부. 선택 사항, 기본값은 true입니다.
             "actions": [                // 선택 사항
-                                        // 숙제 복사의 논리를 재사용합니다. 
+                                        // 숙제 복사의 논리를 재사용합니다.
                                         // 조건이 해당 액션을 충족하면 액션을 실행합니다. 그렇지 않으면 위의 전략들이 실행됩니다.
                 {
                     "type": "调配干员"   // 새로운 타입. "오퍼레이터 배치" 버튼을 클릭합니다. "draw_as_possible"가 true일 때는 무효화됩니다.
@@ -144,6 +144,4 @@ icon: game-icons:prisoner
 
 ## 예시
 
-[SSS_阿卡胡拉丛林.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_阿卡胡拉丛林.json) 아카후알라 정글
-
-[SSS_多索雷斯在建地块.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_多索雷斯在建地块.json) 도솔레스 건설부지
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>

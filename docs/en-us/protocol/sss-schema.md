@@ -67,7 +67,7 @@ As JSON format does not support comments, please remove the comments when using 
 
 
             "strategies": [                // Required
-                                         // It will deploy the tool_men in each object according to the order. 
+                                         // It will deploy the tool_men in each object according to the order.
                                          // If the current hand does not have any tool_men, it will deploy the next object.
                 {
                     "core": "Thorns",
@@ -109,7 +109,7 @@ As JSON format does not support comments, please remove the comments when using 
             ],
             "draw_as_possible": true,   // "Deploy Operator" button. Whether to use it when available. Optional, default is true.
             "actions": [                // Optional
-                                        // It reuses the logic of copying homework. 
+                                        // It reuses the logic of copying homework.
                                         // If the condition of the action is met, the action is executed. Otherwise, the strategies above are executed.
                 {
                     "type": "Deploy Operator" // New type. Click the "Deploy Operator" button. It is invalid when "draw_as_possible" is true.
@@ -145,6 +145,4 @@ As JSON format does not support comments, please remove the comments when using 
 
 ## Example
 
-[SSS_阿卡胡拉丛林.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_阿卡胡拉丛林.json)
-
-[SSS_多索雷斯在建地块.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_多索雷斯在建地块.json)
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>

@@ -15,7 +15,7 @@ icon: teenyicons:linux-alt-solid
 
 ::: tip
 プリコンパイル済みバージョンには、比較的新しいLinuxディストリビューション(Ubuntu 22.04)でコンパイルされた動的ライブラリが含まれており、システムに古いバージョンのlibstdc++がある場合、ABIの非互換性に遭遇する可能性があります
-[Linuxコンパイル・チュートリアル](../../開発関連/Linuxチュートリアル.md) を参照して再コンパイルまたはコンテナを使用して実行できます
+[Linuxコンパイル・チュートリアル](../../develop/linux-tutorial.md) を参照して再コンパイルまたはコンテナを使用して実行できます
 :::
 
 - Arch Linuxシリーズのリリース版は、aur パッケージ [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)を選択する使用し、インストール後のプロンプトに従ってファイルを編集することができる
@@ -54,7 +54,7 @@ icon: teenyicons:linux-alt-solid
 
 ### 3. タスク構成
 
-カストムタスク： 必要に応じて [統合ドキュメント](../../プロトコルドキュメント/統合ドキュメント.md) を参照し、 `sample.py` の [`# タスクとパラメーターについては 統合ドキュメント`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 欄を変更する
+カストムタスク： 必要に応じて [統合ドキュメント](../../protocol/integration.md) を参照し、 `sample.py` の [`# タスクとパラメーターについては 統合ドキュメント`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 欄を変更する
 
 ## エミュレータのサポート
 

@@ -140,6 +140,4 @@ icon: game-icons:prisoner
 
 ## 範例檔案
 
-[SSS_阿卡胡拉叢林.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_阿卡胡拉丛林.json)
-
-[SSS_多索雷斯在建地塊.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_多索雷斯在建地块.json)
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>

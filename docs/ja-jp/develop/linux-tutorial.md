@@ -63,11 +63,11 @@ MAAの構築方法はまだ議論されていますが、このチュートリ�
 ## その他のインストール方法
 
 - AUR: [maa-assistant-arknights](https://aur.archlinux.org/packages/maa-assistant-arknights)
-- NUR: [nur.repos.cryolitia.MaaAssistantArknights](https://github.com/nix-community/nur-combined/tree/master/repos/cryolitia/pkgs/MaaAssistantArknights/default.nix#L138)
+- NUR: [nur.repos.cryolitia.MaaAssistantArknights](https://github.com/nix-community/nur-combined/tree/master/repos/cryolitia/pkgs/maa-assistant-arknights/default.nix#L138)
 
 ## 統合ドキュメント
 
-[~~ドキュメントとは言えないかもしれません~~](../プロトコルドキュメント/統合ドキュメント.md)
+[~~ドキュメントとは言えないかもしれません~~](../protocol/integration.md)
 
 ### Python
 

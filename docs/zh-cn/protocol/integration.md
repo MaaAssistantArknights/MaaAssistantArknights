@@ -97,7 +97,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-另支持少部分资源关卡名请参考[集成示例](..\..\..\tools\AutoLocalization\example\zh-cn.xaml#L260)
+另支持少部分资源关卡名请参考[集成示例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-cn.xaml#L260)
 
 - `Recruit`  
   公开招募
