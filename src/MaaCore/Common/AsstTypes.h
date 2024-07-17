@@ -209,13 +209,13 @@ namespace asst
     {
         std::string to_string() const
         {
-            return "{ rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
+            return "{ template: " + templ_name + ", rect: " + rect.to_string() + ", score: " + std::to_string(score) + " }";
         }
         explicit operator std::string() const { return to_string(); }
 
+        std::string templ_name;
         Rect rect;
         double score = 0.0;
-        std::string templ_name;
     };
 } // namespace asst
 

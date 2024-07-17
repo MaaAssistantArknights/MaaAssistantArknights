@@ -20,15 +20,18 @@ namespace asst
 
     enum class RoguelikeMode
     {
-        // ------------------ 通用模式 ------------------
+        // –––––––– 通用模式 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
         Exp = 0,         // 0 - 刷经验，尽可能稳定地打更多层数，不期而遇采用激进策略
         Investment = 1,  // 1 - 刷源石锭，第一层投资完就退出，不期而遇采用保守策略
                          // 2 - 【已移除】两者兼顾，投资过后再退出，没有投资就继续往后打
         Ending = 3,      // 3 - 尝试通关，激进策略（TODO）
         Collectible = 4, // 4 - 刷开局，以获得热水壶或者演讲稿开局或只凹直升，不期而遇采用保守策略
 
-        // ------------------ 萨米主题专用模式 ------------------
-        CLP_PDS = 5      // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
+        // –––––––– 萨米主题专用模式 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        CLP_PDS = 5,     // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
+
+        // –––––––– 萨卡兹主题专用模式 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+        FastPass = 6     // 6 - 快速通过第一层
     };
 
     struct RoguelikeOper
@@ -52,7 +55,8 @@ namespace asst
             return mode == RoguelikeMode::Exp || 
                    mode == RoguelikeMode::Investment ||
                    mode == RoguelikeMode::Collectible ||
-                   (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami);
+                  (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
+                  (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz);
         }
 
         void clear();// 重置肉鸽局内数据

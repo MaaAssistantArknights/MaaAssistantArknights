@@ -49,6 +49,7 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
                 if (iter.score < value) {
                     iter.rect = rect;
                     iter.score = value;
+                    iter.templ_name = templ_name;
                 } // else 这个点就放弃了
                 need_push = false;
                 break;
@@ -57,6 +58,7 @@ MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
                 Result tmp;
                 tmp.rect = rect;
                 tmp.score = value;
+                tmp.templ_name = templ_name;
                 results.emplace_back(std::move(tmp));
             }
         }

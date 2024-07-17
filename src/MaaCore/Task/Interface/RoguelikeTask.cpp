@@ -31,6 +31,9 @@
 #include "Config/Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 #include "Task/Roguelike/Sami/RoguelikeCollapsalParadigmTaskPlugin.h"
 
+// –––––––– 萨卡兹主题专用配置及插件 –––––––––––––––––––
+#include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
+
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
@@ -236,5 +239,11 @@ void asst::RoguelikeTask::register_roguelike_plugins(const json::value& params) 
         m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_roguelike_config_ptr);
 
         m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_roguelike_config_ptr);
+    }
+
+    // –––––––– 萨卡兹主题专用插件 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+    if (m_roguelike_config_ptr->get_theme() == RoguelikeTheme::Sarkaz) {
+        m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_roguelike_config_ptr);
     }
 }
