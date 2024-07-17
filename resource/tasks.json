@@ -17135,6 +17135,14 @@
         ]
     },
     "Sarkaz@Roguelike@StageEncounterSpecialClose": {},
+    "Sarkaz@Roguelike@StageEnterBattleAgain": {
+        "specificRect": [
+            1100,
+            558,
+            111, 
+            50
+        ]
+    },
     "Sarkaz@Roguelike@StageFilterTruth": {
         "Doc": "去伪存真",
         "baseTask": "Sarkaz@Roguelike@Stage",
