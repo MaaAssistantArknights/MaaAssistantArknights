@@ -1,5 +1,14 @@
 {
     "stage_name": "公害",
+    "replacement_home": [
+        {
+            "location": [
+                3,
+                4
+            ],
+            "direction": "up"
+        }
+    ],
     "deploy_plan": [
         {
             "groups": [
