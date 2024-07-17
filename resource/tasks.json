@@ -17317,7 +17317,7 @@
             0,
             0
         ],
-        "postDelay": 1000,
+        "postDelay": 500,
         "next": [
             "Sarkaz@Roguelike@LoadOperator_Add"
         ]
@@ -17332,7 +17332,6 @@
         ],
         "templThreshold": 0.9,
         "action": "ClickSelf",
-        "postDelay": 500,
         "next": [
             "Sarkaz@Roguelike@LoadOperator_Select_1"
         ]
@@ -17372,7 +17371,6 @@
             0,
             0
         ],
-        "postDelay": 1000,
         "next": [
             "Sarkaz@Roguelike@LoadOperator_Confirm"
         ]
@@ -17387,7 +17385,6 @@
         ],
         "templThreshold": 0.9,
         "action": "ClickSelf",
-        "postDelay": 500,
         "next": [
             "Sarkaz@Roguelike@LoadOperator_Quit"
         ]
@@ -17402,7 +17399,6 @@
         ],
         "templThreshold": 0.9,
         "action": "ClickSelf",
-        "postDelay": 500,
         "next": [
             "Sarkaz@Roguelike@Stages#next"
         ]
