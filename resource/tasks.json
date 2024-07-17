@@ -16765,11 +16765,7 @@
             "Sarkaz@Roguelike@RecruitOther"
         ]
     },
-    "Sarkaz@Roguelike@EnterAfterRecruit": {
-        "next": [
-            "Sarkaz@Roguelike@NextLevel"
-        ]
-    },
+    "Sarkaz@Roguelike@EnterAfterRecruit": {},
     "Sarkaz@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
         "next": [
@@ -16964,7 +16960,7 @@
         ]
     },
     "Sarkaz@Roguelike@StageCombatDps": {
-        "templThreshold": 0.95
+        "templThreshold": 0.975
     },
     "Sarkaz@Roguelike@StageCombatDpsEnter": {},
     "Sarkaz@Roguelike@StageConfrontation": {
