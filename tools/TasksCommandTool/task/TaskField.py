@@ -73,6 +73,7 @@ class TaskFieldEnum(Enum):
         "sub_tasks",
         list[str],
         "可选项，子任务。会在执行完当前任务后，依次执行每一个子任务",
+        []
     )
     SUB_ERROR_IGNORED = TaskField(
         "subErrorIgnored",
@@ -86,6 +87,7 @@ class TaskFieldEnum(Enum):
         "next",
         list[str],
         "可选项，表示执行完当前任务和 sub 任务后，下一个要 execute 的任务",
+        []
     )
     MAX_TIMES = TaskField(
         "maxTimes",
@@ -100,12 +102,14 @@ class TaskFieldEnum(Enum):
         "exceeded_next",
         list[str],
         "可选项，表示达到了最大执行次数后要执行的任务",
+        []
     )
     ON_ERROR_NEXT = TaskField(
         "onErrorNext",
         "on_error_next",
         list[str],
         "可选项，表示执行出错时，后续要执行的任务",
+        []
     )
     PRE_DELAY = TaskField(
         "preDelay",
@@ -151,6 +155,7 @@ class TaskFieldEnum(Enum):
         "reduce_other_times",
         list[str],
         "可选项，表示减少其他任务的执行次数",
+        []
     )
     SPECIFIC_RECT = TaskField(
         "specificRect",
@@ -165,6 +170,7 @@ class TaskFieldEnum(Enum):
         "special_params",
         list,
         "可选项，表示特殊参数",
+        []
     )
     TEMPLATE = TaskField(
         "template",
