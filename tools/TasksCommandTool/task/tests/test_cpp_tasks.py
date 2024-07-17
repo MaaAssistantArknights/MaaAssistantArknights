@@ -34,12 +34,11 @@ class CPPTaskTests(TaskTest):
     def assertTaskEqual(self, actual, expected):
         actual = actual.to_task_dict()
         for key in expected:
+            # 目前分支上的cache默认值和主分支不一样，所以这里不比较
             if key == "cache":
                 continue
+            # 将2147483647视作math.inf
             if key == "maxTimes" and (expected[key] == 2147483647 and actual[key] == math.inf):
-                continue
-            if isinstance(expected[key], str) and isinstance(actual[key], list):
-                self.assertEqual(ast.literal_eval(expected[key]), actual[key], f"Key: {key}")
                 continue
 
             self.assertEqual(expected[key], actual[key], f"Key: {key}")
