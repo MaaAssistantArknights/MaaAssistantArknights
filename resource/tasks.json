@@ -17400,6 +17400,7 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
