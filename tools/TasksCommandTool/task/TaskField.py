@@ -128,7 +128,7 @@ class TaskFieldEnum(Enum):
         "roi",
         list[int],
         "可选项，表示识别的区域",
-        [0, 0, 1280, 720],
+        [0, 0, 0, 0],
         lambda x: len(x) == 4,
     )
     CACHE = TaskField(
@@ -143,7 +143,7 @@ class TaskFieldEnum(Enum):
         "rect_move",
         list[int],
         "可选项，表示识别到后移动的区域",
-        None,
+        [0, 0, 0, 0],
         lambda x: len(x) == 4,
     )
     REDUCE_OTHER_TIMES = TaskField(
@@ -157,7 +157,7 @@ class TaskFieldEnum(Enum):
         "specific_rect",
         list[int],
         "可选项，表示特殊区域",
-        None,
+        [0, 0, 0, 0],
         lambda x: len(x) == 4,
     )
     SPECIAL_PARAMS = TaskField(
