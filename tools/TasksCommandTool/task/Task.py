@@ -9,6 +9,8 @@ from .TaskExpression import _tokenize, _shunting_yard
 
 logger = logging.getLogger(__name__)
 
+_SHOW_BASE_TASK_WARNING = True
+
 # 存储所有任务
 _ALL_TASKS: dict[str, Task] = {}
 _ORIGINAL_TASKS: dict[str, Task] = {}
@@ -46,6 +48,11 @@ def _is_base_task(task: Task) -> bool:
 
 def _is_valid_task_name(name: str) -> bool:
     return all(x.isalnum() or x in ['-', '_', '@'] for x in name)
+
+
+def set_base_task_warning(check: bool):
+    global _SHOW_BASE_TASK_WARNING
+    _SHOW_BASE_TASK_WARNING = check
 
 
 class Task:
@@ -172,7 +179,8 @@ class Task:
         override_task = _ORIGINAL_TASKS.get(name, None)
         base_task = Task.get(rest)
         if base_task is None:
-            logger.warning(f"Base task {rest} not found for template task {name}.")
+            if _SHOW_BASE_TASK_WARNING:
+                logger.warning(f"Base task {rest} not found for template task {name}.")
             base_task = Task("", {})
             base_task.template = None
 
