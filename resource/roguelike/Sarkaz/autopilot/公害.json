@@ -1,5 +1,14 @@
 {
     "stage_name": "公害",
+    "replacement_home": [
+        {
+            "location": [
+                3,
+                4
+            ],
+            "direction": "up"
+        }
+    ],
     "deploy_plan": [
         {
             "groups": ["重装", "地面阻挡", "地面远程"],
