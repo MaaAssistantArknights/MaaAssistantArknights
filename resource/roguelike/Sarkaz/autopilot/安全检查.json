@@ -2,10 +2,7 @@
     "stage_name": "安全检查",
     "replacement_home": [
         {
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "left"
         }
     ],
@@ -31,26 +28,18 @@
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地面远程",
-                "重装",
-                "地面阻挡"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": [ "处决者" ],
+            "location": [ 4, 3 ],
+            "direction": "up"
+        }
+        {
+            "groups": [ "处决者" ],
+            "location": [ 4, 5 ],
             "direction": "up"
         }
     ]
