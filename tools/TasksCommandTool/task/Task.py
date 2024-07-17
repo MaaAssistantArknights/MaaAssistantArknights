@@ -273,7 +273,8 @@ class Task:
             elif token == '*':
                 right = stack.pop()
                 left = stack.pop()
-                assert isinstance(right, int) and isinstance(left, list), f"Invalid expression: {expression}"
+                assert right.isdigit(), f"Invalid expression: {expression}"
+                right = int(right)
                 left = _to_list(left)
                 stack.append(left * right)
             elif token == '+':

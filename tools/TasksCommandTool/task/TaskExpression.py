@@ -38,12 +38,6 @@ def _tokenize(expression):
             else:
                 tokens.append(expression[i])
             i += 1
-        elif expression[i].isdigit():
-            j = i
-            while j < len(expression) and expression[j].isdigit():
-                j += 1
-            tokens.append(int(expression[i:j]))
-            i = j
         elif _is_task_name_token(expression[i]):
             j = i
             while j < len(expression) and _is_task_name_token(expression[j]):
