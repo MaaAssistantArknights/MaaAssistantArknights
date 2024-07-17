@@ -17213,7 +17213,7 @@
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Start",
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyDps",
@@ -17244,7 +17244,7 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Start",
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageTraderHD",
@@ -17301,8 +17301,8 @@
             "Sarkaz@Roguelike@CloseCollectionClose"
         ]
     },
-    "Sarkaz@Roguelike@LoadOperator_Start": {
-        "template": "Sarkaz@Roguelike@LoadOperator_Start.png",
+    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart.png",
         "roi": [
             589,
             584,
@@ -17319,11 +17319,11 @@
         ],
         "postDelay": 500,
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Add"
+            "Sarkaz@Roguelike@ChooseBurdenOperator"
         ]
     },
-    "Sarkaz@Roguelike@LoadOperator_Add": {
-        "template": "Sarkaz@Roguelike@LoadOperator_Add.png",
+    "Sarkaz@Roguelike@ChooseBurdenOperator": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperator.png",
         "roi": [
             11,
             493,
@@ -17333,10 +17333,10 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Select_1"
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"
         ]
     },
-    "Sarkaz@Roguelike@LoadOperator_Select_1": {
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -17346,10 +17346,10 @@
             0
         ],
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Select_2"
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2"
         ]
     },
-    "Sarkaz@Roguelike@LoadOperator_Select_2": {
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -17359,10 +17359,10 @@
             0
         ],
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Select_3"
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3"
         ]
     },
-    "Sarkaz@Roguelike@LoadOperator_Select_3": {
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [
@@ -17372,11 +17372,11 @@
             0
         ],
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Confirm"
+            "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm"
         ]
     },
-    "Sarkaz@Roguelike@LoadOperator_Confirm": {
-        "template": "Sarkaz@Roguelike@LoadOperator_Confirm.png",
+    "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm.png",
         "roi": [
             542,
             551,
@@ -17386,11 +17386,11 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@LoadOperator_Quit"
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
         ]
     },
-    "Sarkaz@Roguelike@LoadOperator_Quit": {
-        "template": "Sarkaz@Roguelike@LoadOperator_Quit.png",
+    "Sarkaz@Roguelike@ChooseBurdenOperatorQuit": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorQuit.png",
         "roi": [
             0,
             0,
