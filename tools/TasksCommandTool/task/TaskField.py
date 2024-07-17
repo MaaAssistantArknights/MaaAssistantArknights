@@ -193,7 +193,7 @@ class TaskFieldEnum(Enum):
         "mask_range",
         list[int],
         "可选项，表示模板匹配的掩码范围",
-        [1, 255],
+        [0, 0],
         lambda x: 0 <= x[0] <= x[1] <= 255,
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
@@ -244,7 +244,6 @@ class TaskFieldEnum(Enum):
         bool,
         "可选项，表示是否替换全字",
         False,
-        lambda x: isinstance(x, bool),
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
     REPLACE_MAP = TaskField(
