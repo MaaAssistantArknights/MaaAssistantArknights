@@ -16966,7 +16966,14 @@
             "Sarkaz@Roguelike@RecruitOther"
         ]
     },
-    "Sarkaz@Roguelike@MissionFailedFlag": {},
+    "Sarkaz@Roguelike@MissionFailedFlag": {
+        "roi":[
+            505,
+            342,
+            265,
+            154
+        ]
+    },
     "Sarkaz@Roguelike@MissionFailedFlag2": {},
     "Sarkaz@Roguelike@NextLevel": {
         "text": [
