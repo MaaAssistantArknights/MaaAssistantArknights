@@ -12410,7 +12410,7 @@
             "Roguelike@MissionFailedFlag2"
         ]
     },
-    "Roguelike@InitalDrop": {
+    "Roguelike@InitialDrop": {
         "Doc": "base_task",
         "Doc2": "古堡观光（简单模式）初始会有一个免费道具，点确认。月度小队也有，再多几次",
         "template": "empty.png",
@@ -12423,7 +12423,7 @@
         ],
         "next": [
             "Roguelike@SquadDefault",
-            "Roguelike@InitalDrop"
+            "Roguelike@InitialDrop"
         ]
     },
     "Roguelike@IntegratedStrategies": {
@@ -13590,7 +13590,7 @@
         ],
         "next": [
             "Roguelike@SquadDefault",
-            "Roguelike@InitalDrop",
+            "Roguelike@InitialDrop",
             "Roguelike@ChooseDifficulty",
             "Roguelike@StartExplore"
         ]
@@ -13828,7 +13828,7 @@
             "Phantom@Roguelike@GetDropRecruit"
         ]
     },
-    "Phantom@Roguelike@InitalDrop": {},
+    "Phantom@Roguelike@InitialDrop": {},
     "Phantom@Roguelike@LastReward": {},
     "Phantom@Roguelike@LastReward2": {},
     "Phantom@Roguelike@LastReward3": {},
@@ -14401,7 +14401,7 @@
             "Mizuki@Roguelike@GetDropBox"
         ]
     },
-    "Mizuki@Roguelike@InitalDrop": {},
+    "Mizuki@Roguelike@InitialDrop": {},
     "Mizuki@Roguelike@LastReward": {},
     "Mizuki@Roguelike@LastReward2": {},
     "Mizuki@Roguelike@LastReward3": {},
@@ -15594,7 +15594,7 @@
             "Sami@Roguelike@GetDropRecruit"
         ]
     },
-    "Sami@Roguelike@InitalDrop": {},
+    "Sami@Roguelike@InitialDrop": {},
     "Sami@Roguelike@LastReward": {},
     "Sami@Roguelike@LastReward2": {},
     "Sami@Roguelike@LastReward3": {},
@@ -16623,6 +16623,875 @@
             "Sami@Roguelike@StageVerticalConfirmStartButtonClicked",
             "Sami@Roguelike@WaitForStartButtonClicked"
         ]
+    },
+    "Sarkaz@Roguelike@Abandon": {
+        "crop_doc": {
+            "roi": [
+                1067,
+                255,
+                159,
+                154
+            ],
+            "mask": []
+        }
+    },
+    "Sarkaz@Roguelike@ChooseDifficulty": {
+        "roi": [
+            1086,
+            309,
+            194,
+            140
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseDifficulty_Easiest": {
+        "action": "ClickRect",
+        "specificRect": [
+            1119,
+            479,
+            80,
+            22
+        ],
+        "postDelay": 800,
+        "template": "Sarkaz@Roguelike@StartExplore.png",
+        "roi": [
+            958,
+            530,
+            322,
+            189
+        ],
+        "sub": [
+            "SwipeToTheUp*2"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseDifficulty_Hardest": {
+        "action": "ClickRect",
+        "specificRect": [
+            1119,
+            479,
+            80,
+            22
+        ],
+        "postDelay": 800,
+        "template": "Sarkaz@Roguelike@StartExplore.png",
+        "roi": [
+            958,
+            530,
+            322,
+            189
+        ],
+        "sub": [
+            "SwipeToTheDown*2"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseOper": {
+        "next": [
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@ChooseOperConfirm",
+            "Sarkaz@Roguelike@Abandon",
+            "Sarkaz@Roguelike@ChooseOperConfirm#next"
+        ]
+    },
+    "Sarkaz@Roguelike@ClickToDrops": {},
+    "Sarkaz@Roguelike@CloseCollection": {
+        "next": [
+            "Sarkaz@Roguelike@LastReward",
+            "Sarkaz@Roguelike@LastReward4",
+            "Sarkaz@Roguelike@LastReward2",
+            "Sarkaz@Roguelike@LastReward3",
+            "Sarkaz@Roguelike@LastRewardRand",
+            "Sarkaz@Roguelike@LastReward5",
+            "Sarkaz@Roguelike@RolesDefault"
+        ]
+    },
+    "Sarkaz@Roguelike@CloseCollectionClose": {
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [
+            572,
+            434,
+            144,
+            141
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@DropsFlag",
+            "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Sarkaz@Roguelike@CloseCollectionContinue": {
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [
+            549,
+            440,
+            123,
+            130
+        ],
+        "maskRange": [
+            100,
+            255
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@DropsFlag",
+            "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Sarkaz@Roguelike@CloseEvent": {},
+    "Sarkaz@Roguelike@Continue": {},
+    "Sarkaz@Roguelike@DialogSkipConfirm": {
+        "template": "Roguelike@DialogSkipConfirm.png",
+        "next": [
+            "Sarkaz@Roguelike@DialogSkip",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@DropsFlag": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "Sarkaz@Roguelike@DropsFlag_default"
+    },
+    "Sarkaz@Roguelike@DropsFlag_default": {
+        "template": "Roguelike@DropsFlag.png",
+        "next": [
+            "Sarkaz@Roguelike@GetDrops#next",
+            "Sarkaz@Roguelike@GetDropCompleted",
+            "Sarkaz@Roguelike@GetDropLeave",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@StageEncounterOptions#next",
+            "Sarkaz@Roguelike@StageEncounterSpecialClose",
+            "Sarkaz@Roguelike@EnterAfterRecruit",
+            "Sarkaz@Roguelike@StageTraderLeave",
+            "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@DialogSkip",
+            "Sarkaz@Roguelike@RecruitOther"
+        ]
+    },
+    "Sarkaz@Roguelike@DropsFlag_mode1": {
+        "template": "Roguelike@DropsFlag.png",
+        "next": [
+            "Sarkaz@Roguelike@GetDropLeave",
+            "Sarkaz@Roguelike@GetDrops#next",
+            "Sarkaz@Roguelike@GetDropCompleted",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@StageEncounterOptions#next",
+            "Sarkaz@Roguelike@StageEncounterSpecialClose",
+            "Sarkaz@Roguelike@EnterAfterRecruit",
+            "Sarkaz@Roguelike@StageTraderLeave",
+            "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@DialogSkip",
+            "Sarkaz@Roguelike@RecruitOther"
+        ]
+    },
+    "Sarkaz@Roguelike@EnterAfterRecruit": {},
+    "Sarkaz@Roguelike@ExitThenAbandon": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "Sarkaz@Roguelike@ExitThenAbandon",
+            "Sarkaz@Roguelike@Abandon"
+        ]
+    },
+    "Sarkaz@Roguelike@ExitThenAbandon_ToHardest": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "next": [
+            "Sarkaz@Roguelike@ExitThenAbandon_ToHardest",
+            "Sarkaz@Roguelike@Abandon"
+        ]
+    },
+    "Sarkaz@Roguelike@GamePass": {},
+    "Sarkaz@Roguelike@GamePassSkip1": {},
+    "Sarkaz@Roguelike@GamePassSkip1Confirm": {
+        "next": [
+            "Sarkaz@Roguelike@GamePassSkip2",
+            "Sarkaz@Roguelike@GamePassTheEndConfirm",
+            "Sarkaz@Roguelike@GamePass"
+        ]
+    },
+    "Sarkaz@Roguelike@GamePassSkip2": {},
+    "Sarkaz@Roguelike@GamePassTheEndConfirm": {},
+    "Sarkaz@Roguelike@GetDrop1": {},
+    "Sarkaz@Roguelike@GetDrop2": {},
+    "Sarkaz@Roguelike@GetDrop3": {},
+    "Sarkaz@Roguelike@GetDropCompleted": {},
+    "Sarkaz@Roguelike@GetDropLeave": {},
+    "Sarkaz@Roguelike@GetDropRecruit": {},
+    "Sarkaz@Roguelike@GetDropSelect": {
+        "next": [
+            "Sarkaz@Roguelike@GetDropSelectRecruit",
+            "Sarkaz@Roguelike@GetDropSelectReward",
+            "Sarkaz@Roguelike@ChooseOperFlag",
+            "Sarkaz@Roguelike@GetDropCompleted",
+            "Sarkaz@Roguelike@GetDropSelect"
+        ]
+    },
+    "Sarkaz@Roguelike@GetDropSelectRecruit": {
+        "template": "Sarkaz@Roguelike@Recruit.png"
+    },
+    "Sarkaz@Roguelike@GetDropSelectReward": {},
+    "Sarkaz@Roguelike@GetDrops": {
+        "next": [
+            "Sarkaz@Roguelike@GetDrop1",
+            "Sarkaz@Roguelike@GetDrop2",
+            "Sarkaz@Roguelike@GetDrop3",
+            "Sarkaz@Roguelike@GetDropSelectReward",
+            "Sarkaz@Roguelike@GetDropSelect",
+            "Sarkaz@Roguelike@GetDropRecruit"
+        ]
+    },
+    "Sarkaz@Roguelike@InitialDrop": {},
+    "Sarkaz@Roguelike@LastReward": {},
+    "Sarkaz@Roguelike@LastReward2": {},
+    "Sarkaz@Roguelike@LastReward3": {},
+    "Sarkaz@Roguelike@LastReward4": {},
+    "Sarkaz@Roguelike@LastReward5": {
+        "baseTask": "Roguelike@LastReward_default"
+    },
+    "Sarkaz@Roguelike@LastRewardConfirm": {},
+    "Sarkaz@Roguelike@LastRewardRand": {},
+    "Sarkaz@Roguelike@MapObject": {
+        "roi": [
+            257,
+            488,
+            189,
+            123
+        ],
+        "next": [
+            "Sarkaz@Roguelike@RecruitOther"
+        ]
+    },
+    "Sarkaz@Roguelike@MissionFailedFlag": {},
+    "Sarkaz@Roguelike@MissionFailedFlag2": {},
+    "Sarkaz@Roguelike@NextLevel": {
+        "text": [
+            "熔魂之始",
+            "锻铁根须",
+            "灰铸迷城",
+            "或然歧域",
+            "虚实疆界",
+            "辉光天顶",
+            "诡谲断章"
+        ]
+    },
+    "Sarkaz@Roguelike@RecruitMain": {
+        "template": "Sarkaz@Roguelike@Recruit.png"
+    },
+    "Sarkaz@Roguelike@RecruitOther": {
+        "template": "Sarkaz@Roguelike@Recruit.png"
+    },
+    "Sarkaz@Roguelike@RecruitWithoutButton": {
+        "next": [
+            "Sarkaz@Roguelike@RecruitOther",
+            "Sarkaz@Roguelike@EnterAfterRecruit",
+            "Sarkaz@Roguelike@TraderRandomShopping",
+            "Sarkaz@Roguelike@StageTraderLeave",
+            "Sarkaz@Roguelike@DropsFlag",
+            "Sarkaz@Roguelike@ChooseOperFlag",
+            "Sarkaz@Roguelike@StageEncounterGiveUpRecruitConfirm",
+            "Sarkaz@Roguelike@RecruitWithoutButton"
+        ]
+    },
+    "Sarkaz@Roguelike@RolesConfirm": {
+        "template": "Sarkaz@Roguelike@LastRewardConfirm"
+    },
+    "Sarkaz@Roguelike@RolesDefault": {},
+    "Sarkaz@Roguelike@SelectTheme": {
+        "baseTask": "Roguelike@SelectTheme",
+        "text": [
+            "假说辑录"
+        ],
+        "next": [
+            "#self",
+            "Sarkaz@Roguelike@FromIntegratedStrategies"
+        ]
+    },
+    "Sarkaz@Roguelike@SquadConfirm": {
+        "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
+        "next": [
+            "Sarkaz@Roguelike@LastReward",
+            "Sarkaz@Roguelike@LastReward4",
+            "Sarkaz@Roguelike@LastReward2",
+            "Sarkaz@Roguelike@LastReward3",
+            "Sarkaz@Roguelike@LastRewardRand",
+            "Sarkaz@Roguelike@LastReward5",
+            "Sarkaz@Roguelike@RolesDefault",
+            "Sarkaz@Roguelike@CloseCollection",
+            "Sarkaz@Roguelike@DialogSkip",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@MapObject"
+        ]
+    },
+    "Sarkaz@Roguelike@SquadDefault": {},
+    "Sarkaz@Roguelike@StageBoons": {
+        "Doc": "得偿所愿",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageBoonsEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageBoonsEnter": {
+        "template": "Sarkaz@Roguelike@StageTraderEnter.png",
+        "baseTask": "Sarkaz@Roguelike@StageEnter",
+        "next": [
+            "Sarkaz@Roguelike@StageBoonsEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sarkaz@Roguelike@StageBoskyPassage": {
+        "Doc": "诡谲断章",
+        "templThreshold": 0.9,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageBoskyPassageEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageBoskyPassageEnter": {
+        "baseTask": "Sarkaz@Roguelike@StageEnter",
+        "next": [
+            "Sarkaz@Roguelike@StageBoskyPassageEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sarkaz@Roguelike@StageCombatDps": {
+        "templThreshold": 0.975
+    },
+    "Sarkaz@Roguelike@StageCombatDpsEnter": {},
+    "Sarkaz@Roguelike@StageConfrontation": {
+        "Doc": "狭路相逢",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageDreadfulFoe": {},
+    "Sarkaz@Roguelike@StageDreadfulFoe-5": {
+        "Doc": "第五层的boss关卡",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.85,
+        "next": [
+            "Sarkaz@Roguelike@StageDreadfulFoe-5Enter",
+            "Sarkaz@Roguelike@StageDreadfulFoeEnter",
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageDreadfulFoe-5Enter": {
+        "baseTask": "Sarkaz@Roguelike@StageEnterBattle"
+    },
+    "Sarkaz@Roguelike@StageDreadfulFoeEnter": {},
+    "Sarkaz@Roguelike@StageEmergencyDps": {
+        "templThreshold": 0.95
+    },
+    "Sarkaz@Roguelike@StageEmergencyDpsEnter": {},
+    "Sarkaz@Roguelike@StageEmergencyTransportation": {
+        "Doc": "先行一步，拒绝可以获取2希望",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageEncounter": {
+        "templThreshold": 0.96
+    },
+    "Sarkaz@Roguelike@StageEncounterEnter": {},
+    "Sarkaz@Roguelike@StageEncounterLeaveConfirm": {},
+    "Sarkaz@Roguelike@StageEncounterOptionFree": {},
+    "Sarkaz@Roguelike@StageEncounterOptionLeave": {},
+    "Sarkaz@Roguelike@StageEncounterOptionUnknown": {
+        "templThreshold": 0.85
+    },
+    "Sarkaz@Roguelike@StageEncounterOptionWonderland": {},
+    "Sarkaz@Roguelike@StageEncounterOptions": {
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterOptionFree",
+            "Sarkaz@Roguelike@StageSafeHouseReuse",
+            "Sarkaz@Roguelike@StageEncounterOptionLeave",
+            "Sarkaz@Roguelike@StageEncounterOptionWonderland",
+            "Sarkaz@Roguelike@ChooseOperFlag",
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@StageEncounterOptionUnknown"
+        ]
+    },
+    "Sarkaz@Roguelike@StageEncounterSpecialClose": {},
+    "Sarkaz@Roguelike@StageFilterTruth": {
+        "Doc": "去伪存真",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCR": {
+        "Doc": "可重建",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthHD": {
+        "Doc": "已深化",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthEnter": {
+        "baseTask": "Sarkaz@Roguelike@StageEnter",
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthLeave": {
+        "action": "ClickSelf",
+        "roi": [
+            1046,
+            443,
+            234,
+            204
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm": {
+        "action": "ClickSelf",
+        "roi": [
+            985,
+            447,
+            295,
+            203
+        ],
+        "next": [
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageGambling": {
+        "Doc": "兴致盎然",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageProphecy": {
+        "Doc": "命运所指",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageSafeHouse": {
+        "templThreshold": 0.95
+    },
+    "Sarkaz@Roguelike@StageSafeHouseCR": {
+        "Doc": "可重建",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageSafeHouseHD": {
+        "Doc": "已深化",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageSafeHouseEnter": {
+        "next": [
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
+    "Sarkaz@Roguelike@StageSafeHouseReuse": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "withoutDet": true,
+        "roi": [
+            880,
+            210,
+            140,
+            36
+        ],
+        "text": [
+            "活用安全屋"
+        ],
+        "preDelay": 500,
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterOption#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageTrader": {
+        "templThreshold": 0.95
+    },
+    "Sarkaz@Roguelike@StageTraderCR": {
+        "Doc": "可重建",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageTraderHD": {
+        "Doc": "已深化",
+        "templThreshold": 0.95,
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageTraderEnter": {},
+    "Sarkaz@Roguelike@StageTraderLeaveConfirm": {
+        "template": "Roguelike@StageTraderLeaveConfirm.png",
+        "exceededNext": [
+            "Sarkaz@Roguelike@ExitThenAbandon"
+        ]
+    },
+    "Sarkaz@Roguelike@StageTraderRefresh": {
+        "action": "ClickSelf",
+        "roi": [
+            230,
+            73,
+            212,
+            141
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageTraderRefreshConfirm"
+        ]
+    },
+    "Sarkaz@Roguelike@StageTraderRefreshConfirm": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [
+            640,
+            414,
+            504,
+            154
+        ]
+    },
+    "Sarkaz@Roguelike@StageWindAndRain": {
+        "Doc": "失与得",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@Stages": {
+        "baseTask": "Sarkaz@Roguelike@Stages_default"
+    },
+    "Sarkaz@Roguelike@Stages_aggressive": {
+        "Doc": "优先紧急作战,1-2层",
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@StageBoskyPassage",
+            "Sarkaz@Roguelike@StageEmergencyDps",
+            "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
+            "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
+            "Sarkaz@Roguelike@StageBoons",
+            "Sarkaz@Roguelike@StageTraderHD",
+            "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
+            "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
+            "Sarkaz@Roguelike@StageEncounter",
+            "Sarkaz@Roguelike@StageConfrontation",
+            "Sarkaz@Roguelike@StageWindAndRain",
+            "Sarkaz@Roguelike@StageProphecy",
+            "Sarkaz@Roguelike@StageEmergencyTransportation",
+            "Sarkaz@Roguelike@StageGambling",
+            "Sarkaz@Roguelike@StageDreadfulFoe",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Sarkaz@Roguelike@Stages_default": {
+        "Doc": "avoid battle,其他模式和5-6层策略",
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@StageBoskyPassage",
+            "Sarkaz@Roguelike@StageTraderHD",
+            "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
+            "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
+            "Sarkaz@Roguelike@StageBoons",
+            "Sarkaz@Roguelike@StageEmergencyTransportation",
+            "Sarkaz@Roguelike@StageGambling",
+            "Sarkaz@Roguelike@StageProphecy",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
+            "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
+            "Sarkaz@Roguelike@StageEncounter",
+            "Sarkaz@Roguelike@StageWindAndRain",
+            "Sarkaz@Roguelike@StageConfrontation",
+            "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageEmergencyDps",
+            "Sarkaz@Roguelike@StageDreadfulFoe",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Sarkaz@Roguelike@Stages_pragmatic": {
+        "Doc": "避紧急作战,3-4层策略",
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@StageBoskyPassage",
+            "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
+            "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
+            "Sarkaz@Roguelike@StageBoons",
+            "Sarkaz@Roguelike@StageEncounter",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
+            "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
+            "Sarkaz@Roguelike@StageConfrontation",
+            "Sarkaz@Roguelike@StageTraderHD",
+            "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
+            "Sarkaz@Roguelike@StageProphecy",
+            "Sarkaz@Roguelike@StageWindAndRain",
+            "Sarkaz@Roguelike@StageEmergencyTransportation",
+            "Sarkaz@Roguelike@StageGambling",
+            "Sarkaz@Roguelike@StageEmergencyDps",
+            "Sarkaz@Roguelike@StageDreadfulFoe",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart.png",
+        "roi": [
+            589,
+            584,
+            231,
+            121
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickRect",
+        "specificRect": [
+            710,
+            680,
+            0,
+            0
+        ],
+        "postDelay": 500,
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperator"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperator": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperator.png",
+        "roi": [
+            11,
+            493,
+            140,
+            143
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            330,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            450,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            570,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm.png",
+        "roi": [
+            542,
+            551,
+            135,
+            134
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorQuit": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorQuit.png",
+        "roi": [
+            0,
+            0,
+            150,
+            148
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StartExplore": {
+        "roi": [
+            1014,
+            481,
+            266,
+            219
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "text": [
+            "_aggressive",
+            "_pragmatic",
+            "_default"
+        ],
+        "ocrReplace": [
+            [
+                "熔魂之始",
+                "_aggressive"
+            ],
+            [
+                "锻铁根须",
+                "_aggressive"
+            ],
+            [
+                "灰铸迷城",
+                "_pragmatic"
+            ],
+            [
+                "或然歧域",
+                "_pragmatic"
+            ],
+            [
+                "虚实疆界",
+                "_default"
+            ],
+            [
+                "辉光天顶",
+                "_default"
+            ],
+            [
+                "诡谲断章",
+                "_SKIP_"
+            ]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode1": {
+        "baseTask": "Sarkaz@Roguelike@StrategyChange_mode4",
+        "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode4": {
+        "text": [
+            "_default",
+            "_exit"
+        ],
+        "ocrReplace": [
+            [
+                "熔魂之始",
+                "_default"
+            ],
+            [
+                "锻铁根须",
+                "_default"
+            ],
+            [
+                "灰铸迷城",
+                "_exit"
+            ],
+            [
+                "或然歧域",
+                "_exit"
+            ],
+            [
+                "虚实疆界",
+                "_exit"
+            ],
+            [
+                "辉光天顶",
+                "_exit"
+            ],
+            [
+                "诡谲断章",
+                "_exit"
+            ]
+        ]
+    },
+    "Sarkaz@Roguelike@TodoEnter": {},
+    "Sarkaz@Roguelike@WaitForStartButtonClicked": {
+        "template": "Roguelike@QuickFormation.png"
     },
     "Reclamation": {
         "template": [

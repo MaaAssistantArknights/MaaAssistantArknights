@@ -1,0 +1,18 @@
+{
+    "theme": "Sarkaz",
+    "mode": [
+        1
+    ],
+    "stage": [
+        {
+            "name": "解惑",
+            "option_num": 2,
+            "choose": 1
+        },
+        {
+            "name": "阴魂不散",
+            "option_num": 2,
+            "choose": 2
+        }
+    ]
+}

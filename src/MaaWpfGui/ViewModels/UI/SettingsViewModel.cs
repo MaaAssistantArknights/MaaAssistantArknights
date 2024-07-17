@@ -1846,6 +1846,21 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     break;
+
+                case "Sarkaz":
+
+                    foreach (var item in new ObservableCollection<CombinedData>
+                    {
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad1"), Value = "魂灵护送分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
+                    break;
             }
 
             // 通用分队
@@ -1925,6 +1940,7 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
             ];
 
         private ObservableCollection<CombinedData> _roguelikeModeList = new();
@@ -1963,7 +1979,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
 
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sami");
+        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sarkaz");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.

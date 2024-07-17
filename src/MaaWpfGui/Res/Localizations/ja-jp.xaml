@@ -140,6 +140,10 @@
     <system:String x:Key="IS3NewSquad2">生活重視分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科学主義分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
+    <system:String x:Key="IS4NewSquad1">魂灵护送分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad2">博闻广记分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad3">蓝图测绘分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -267,6 +271,7 @@
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
+    <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
