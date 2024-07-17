@@ -16685,6 +16685,7 @@
     },
     "Sarkaz@Roguelike@ChooseOper": {
         "next": [
+            "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@ChooseOperConfirm",
             "Sarkaz@Roguelike@Abandon",
@@ -16711,6 +16712,27 @@
             434,
             144,
             141
+        ],
+        "next": [
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@DropsFlag",
+            "Sarkaz@Roguelike@CloseEvent",
+            "Sarkaz@Roguelike@ChooseOperFlag"
+        ]
+    },
+    "Sarkaz@Roguelike@CloseCollectionContinue": {
+        "action": "ClickSelf",
+        "templThreshold": 0.9,
+        "roi": [
+            549,
+            440,
+            123,
+            130
+        ],
+        "maskRange": [
+            100,
+            255
         ],
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
@@ -17213,6 +17235,7 @@
             "Sarkaz@Roguelike@StageGambling",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose"
         ]
     },
@@ -17242,6 +17265,7 @@
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose"
         ]
     },
@@ -17271,6 +17295,7 @@
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
             "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose"
         ]
     },
