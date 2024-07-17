@@ -16,9 +16,9 @@ class TestTaskExpression(unittest.TestCase):
 
         # StageQueue@(ClickCornerAfterPRTS+ClickCorner)*5
         self.assertListEqual(_tokenize("StageQueue@(ClickCornerAfterPRTS+ClickCorner)*5"),
-                             ['StageQueue', '@', '(', 'ClickCornerAfterPRTS', '+', 'ClickCorner', ')', '*', 5])
+                             ['StageQueue', '@', '(', 'ClickCornerAfterPRTS', '+', 'ClickCorner', ')', '*', '5'])
         self.assertListEqual(_shunting_yard(_tokenize("StageQueue@(ClickCornerAfterPRTS+ClickCorner)*5")),
-                             ['StageQueue', 'ClickCornerAfterPRTS', 'ClickCorner', '+', '@', 5, '*'])
+                             ['StageQueue', 'ClickCornerAfterPRTS', 'ClickCorner', '+', '@', '5', '*'])
 
         # #self
         self.assertListEqual(_tokenize("#self"),
@@ -32,9 +32,9 @@ class TestTaskExpression(unittest.TestCase):
 
         # (ClickCornerAfterPRTS+ClickCorner)*5
         self.assertListEqual(_tokenize("(ClickCornerAfterPRTS+ClickCorner)*5"),
-                             ['(', 'ClickCornerAfterPRTS', '+', 'ClickCorner', ')', '*', 5])
+                             ['(', 'ClickCornerAfterPRTS', '+', 'ClickCorner', ')', '*', '5'])
         self.assertListEqual(_shunting_yard(_tokenize("(ClickCornerAfterPRTS+ClickCorner)*5")),
-                             ['ClickCornerAfterPRTS', 'ClickCorner', '+', 5, '*'])
+                             ['ClickCornerAfterPRTS', 'ClickCorner', '+', '5', '*'])
 
         # A+B
         self.assertListEqual(_tokenize("A+B"),
