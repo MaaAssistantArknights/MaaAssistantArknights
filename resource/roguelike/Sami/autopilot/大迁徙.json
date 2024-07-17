@@ -2,191 +2,87 @@
     "stage_name": "大迁徙",
     "replacement_home": [
         {
-            "location": [
-                9,
-                3
-            ],
+            "location": [9, 3],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "情报官",
-                "地面远程",
-                "回费"
-            ],
-            "location": [
-                9,
-                3
-            ],
+            "groups": ["情报官", "地面远程", "回费"],
+            "location": [9, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                10,
-                1
-            ],
+            "groups": ["回费"],
+            "location": [10, 1],
             "direction": "left",
-            "condition": [
-                0,
-                5
-            ]
+            "condition": [0, 5]
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["玛恩纳"],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "史尔特尔",
-                "地面阻挡",
-                "地面远程",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["史尔特尔", "地面阻挡", "地面远程", "其他地面"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                10,
-                4
-            ],
+            "groups": ["益达"],
+            "location": [10, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["浊心斯卡蒂"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["焰苇", "凯尔希", "奶"],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "提丰",
-                "单奶"
-            ],
-            "location": [
-                10,
-                4
-            ],
+            "groups": ["提丰", "单奶"],
+            "location": [10, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台输出",
-                "狙击",
-                "盾法",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["高台输出", "狙击", "盾法", "辅助", "其他高台"],
+            "location": [5, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台输出",
-                "狙击",
-                "盾法",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["高台输出", "狙击", "盾法", "辅助", "其他高台"],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "处决者",
-                "地面远程",
-                "地刺",
-                "其他地面"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["处决者", "地面远程", "地刺", "其他地面"],
+            "location": [8, 4],
             "direction": "down"
         },
         {
-            "groups": [
-                "处决者",
-                "地刺",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["处决者", "地刺", "其他地面"],
+            "location": [6, 4],
             "direction": "down"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["补给站"],
+            "location": [5, 3],
             "direction": "down"
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                10,
-                1
-            ],
-            "condition": [
-                8,
-                11
-            ]
+            "location": [10, 1],
+            "condition": [8, 11]
         }
     ]
 }

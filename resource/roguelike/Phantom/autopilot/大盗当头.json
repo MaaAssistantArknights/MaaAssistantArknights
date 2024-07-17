@@ -2,61 +2,29 @@
     "stage_name": "大盗当头",
     "replacement_home": [
         {
-            "location": [
-                4,
-                2
-            ],
+            "location": [4, 2],
             "direction": "left"
         },
         {
-            "location": [
-                4,
-                5
-            ],
+            "location": [4, 5],
             "direction": "left"
         }
     ],
-    "blacklist_location": [
-        [
-            1,
-            4
-        ]
-    ],
+    "blacklist_location": [[1, 4]],
     "deploy_plan": [
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                3,
-                5
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [3, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "回费",
-                "情报官"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["回费", "情报官"],
+            "location": [4, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "梓兰"
-            ],
-            "location": [
-                5,
-                1
-            ],
+            "groups": ["梓兰"],
+            "location": [5, 1],
             "direction": "left"
         },
         {
@@ -69,61 +37,27 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                2,
-                3
-            ],
+            "location": [2, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "浊心斯卡蒂",
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["浊心斯卡蒂", "凯尔希", "奶"],
+            "location": [3, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [5, 3],
             "direction": "left"
         },
         {
@@ -136,34 +70,17 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                4,
-                2
-            ],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
@@ -176,23 +93,14 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                8,
-                2
-            ],
+            "location": [8, 2],
             "direction": "down"
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                5,
-                1
-            ],
-            "condition": [
-                7,
-                9
-            ]
+            "location": [5, 1],
+            "condition": [7, 9]
         }
     ]
 }

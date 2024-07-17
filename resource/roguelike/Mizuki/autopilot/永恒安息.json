@@ -2,68 +2,34 @@
     "stage_name": "永恒安息",
     "replacement_home": [
         {
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "none"
         },
         {
-            "location": [
-                2,
-                3
-            ],
+            "location": [2, 3],
             "direction": "none"
         }
     ],
     "blacklist_location": [
-        [
-            6,
-            4
-        ],
-        [
-            7,
-            4
-        ],
-        [
-            8,
-            4
-        ],
-        [
-            8,
-            5
-        ],
-        [
-            7,
-            5
-        ]
+        [6, 4],
+        [7, 4],
+        [8, 4],
+        [8, 5],
+        [7, 5]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "挡人先锋"
-            ],
-            "location": [
-                3,
-                5
-            ],
+            "groups": ["挡人先锋"],
+            "location": [3, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "投锋"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["投锋"],
+            "location": [4, 4],
             "direction": "right"
         },
         {
@@ -76,41 +42,20 @@
                 "地刺",
                 "其他地面"
             ],
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [5, 3],
             "direction": "up",
-            "condition": [
-                0,
-                2
-            ]
+            "condition": [0, 2]
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                8,
-                1
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [8, 1],
             "direction": "right",
-            "condition": [
-                15,
-                18
-            ]
+            "condition": [15, 18]
         },
         {
             "groups": [
@@ -122,71 +67,32 @@
                 "地刺",
                 "其他地面"
             ],
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["玛恩纳"],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "群奶",
-                "单奶"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["群奶", "单奶"],
+            "location": [3, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "号角"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["号角"],
+            "location": [4, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助"
-            ],
-            "location": [
-                3,
-                2
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助"],
+            "location": [3, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助"
-            ],
-            "location": [
-                3,
-                1
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助"],
+            "location": [3, 1],
             "direction": "right"
         },
         {
@@ -199,53 +105,26 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                2,
-                4
-            ],
+            "location": [2, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [5, 5],
             "direction": "right",
-            "condition": [
-                23,
-                24
-            ]
+            "condition": [23, 24]
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [4, 5],
             "direction": "right",
-            "condition": [
-                24,
-                26
-            ]
+            "condition": [24, 26]
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                5,
-                3
-            ],
-            "condition": [
-                4,
-                20
-            ]
+            "location": [5, 3],
+            "condition": [4, 20]
         }
     ]
 }

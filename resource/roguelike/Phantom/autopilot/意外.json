@@ -2,122 +2,56 @@
     "stage_name": "意外",
     "replacement_home": [
         {
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "left"
         },
         {
-            "location": [
-                3,
-                2
-            ],
+            "location": [3, 2],
             "direction": "left"
         },
         {
-            "location": [
-                5,
-                2
-            ],
+            "location": [5, 2],
             "direction": "left"
         },
         {
-            "location": [
-                3,
-                3
-            ],
+            "location": [3, 3],
             "direction": "left"
         },
         {
-            "location": [
-                4,
-                2
-            ],
+            "location": [4, 2],
             "direction": "down"
         },
         {
-            "location": [
-                7,
-                2
-            ],
+            "location": [7, 2],
             "direction": "left"
         }
     ],
     "blacklist_location": [
-        [
-            2,
-            4
-        ],
-        [
-            3,
-            4
-        ],
-        [
-            3,
-            5
-        ],
-        [
-            6,
-            5
-        ],
-        [
-            2,
-            3
-        ]
+        [2, 4],
+        [3, 4],
+        [3, 5],
+        [6, 5],
+        [2, 3]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                3,
-                2
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [3, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "奶",
-                "凯尔希",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [5, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [4, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 2],
             "direction": "down"
         },
         {
@@ -130,10 +64,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                3,
-                3
-            ],
+            "location": [3, 3],
             "direction": "left"
         },
         {
@@ -146,10 +77,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "left"
         }
     ]

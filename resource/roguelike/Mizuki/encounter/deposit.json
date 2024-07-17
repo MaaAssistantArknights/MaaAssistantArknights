@@ -1,9 +1,6 @@
 {
     "theme": "Mizuki",
-    "mode": [
-        1,
-        4
-    ],
+    "mode": [1, 4],
     "stage": [
         {
             "name": "重返家园",

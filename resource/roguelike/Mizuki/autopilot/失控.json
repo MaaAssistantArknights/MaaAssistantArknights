@@ -2,155 +2,53 @@
     "stage_name": "失控",
     "replacement_home": [
         {
-            "location": [
-                9,
-                4
-            ],
+            "location": [9, 4],
             "direction": "left"
         },
         {
-            "location": [
-                5,
-                1
-            ],
+            "location": [5, 1],
             "direction": "right"
         },
         {
-            "location": [
-                10,
-                5
-            ],
+            "location": [10, 5],
             "direction": "none"
         },
         {
-            "location": [
-                9,
-                6
-            ],
+            "location": [9, 6],
             "direction": "none"
         }
     ],
     "blacklist_location": [
-        [
-            6,
-            1
-        ],
-        [
-            9,
-            2
-        ],
-        [
-            7,
-            3
-        ],
-        [
-            5,
-            3
-        ],
-        [
-            3,
-            5
-        ],
-        [
-            1,
-            2
-        ],
-        [
-            1,
-            3
-        ],
-        [
-            1,
-            4
-        ],
-        [
-            2,
-            4
-        ],
-        [
-            3,
-            3
-        ],
-        [
-            3,
-            4
-        ],
-        [
-            4,
-            2
-        ],
-        [
-            4,
-            3
-        ],
-        [
-            4,
-            4
-        ],
-        [
-            4,
-            5
-        ],
-        [
-            4,
-            6
-        ],
-        [
-            5,
-            2
-        ],
-        [
-            6,
-            2
-        ],
-        [
-            7,
-            1
-        ],
-        [
-            7,
-            2
-        ],
-        [
-            8,
-            2
-        ],
-        [
-            5,
-            6
-        ],
-        [
-            6,
-            6
-        ],
-        [
-            5,
-            6
-        ],
-        [
-            7,
-            6
-        ],
-        [
-            8,
-            3
-        ],
-        [
-            8,
-            4
-        ],
-        [
-            8,
-            5
-        ],
-        [
-            8,
-            6
-        ],
-        [
-            9,
-            3
-        ]
+        [6, 1],
+        [9, 2],
+        [7, 3],
+        [5, 3],
+        [3, 5],
+        [1, 2],
+        [1, 3],
+        [1, 4],
+        [2, 4],
+        [3, 3],
+        [3, 4],
+        [4, 2],
+        [4, 3],
+        [4, 4],
+        [4, 5],
+        [4, 6],
+        [5, 2],
+        [6, 2],
+        [7, 1],
+        [7, 2],
+        [8, 2],
+        [5, 6],
+        [6, 6],
+        [5, 6],
+        [7, 6],
+        [8, 3],
+        [8, 4],
+        [8, 5],
+        [8, 6],
+        [9, 3]
     ],
     "role_order": [
         "warrior",
@@ -170,74 +68,35 @@
     },
     "force_deploy_direction": [
         {
-            "location": [
-                5,
-                1
-            ],
-            "role": [
-                "sniper",
-                "caster"
-            ],
+            "location": [5, 1],
+            "role": ["sniper", "caster"],
             "direction": "right"
         },
         {
-            "location": [
-                9,
-                4
-            ],
-            "role": [
-                "sniper",
-                "caster"
-            ],
+            "location": [9, 4],
+            "role": ["sniper", "caster"],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                10,
-                5
-            ],
+            "groups": ["玛恩纳"],
+            "location": [10, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "地面阻挡",
-                "挡人先锋",
-                "重装"
-            ],
-            "location": [
-                9,
-                6
-            ],
+            "groups": ["百嘉", "基石", "地面C", "地面阻挡", "挡人先锋", "重装"],
+            "location": [9, 6],
             "direction": "left"
         },
         {
-            "groups": [
-                "号角",
-                "重装"
-            ],
-            "location": [
-                10,
-                4
-            ],
+            "groups": ["号角", "重装"],
+            "location": [10, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "群奶",
-                "单奶"
-            ],
-            "location": [
-                9,
-                4
-            ],
+            "groups": ["群奶", "单奶"],
+            "location": [9, 4],
             "direction": "down"
         },
         {
@@ -250,10 +109,7 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                5,
-                1
-            ],
+            "location": [5, 1],
             "direction": "right"
         },
         {
@@ -267,10 +123,7 @@
                 "刺客",
                 "投锋"
             ],
-            "location": [
-                10,
-                4
-            ],
+            "location": [10, 4],
             "direction": "up"
         },
         {
@@ -284,10 +137,7 @@
                 "刺客",
                 "投锋"
             ],
-            "location": [
-                10,
-                5
-            ],
+            "location": [10, 5],
             "direction": "up"
         },
         {
@@ -301,21 +151,12 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                6,
-                1
-            ],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [3, 3],
             "direction": "left"
         },
         {
@@ -329,10 +170,7 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                9,
-                6
-            ],
+            "location": [9, 6],
             "direction": "left"
         }
     ]

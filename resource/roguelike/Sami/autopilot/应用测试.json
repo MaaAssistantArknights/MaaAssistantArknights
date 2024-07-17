@@ -2,27 +2,16 @@
     "stage_name": "应用测试",
     "replacement_home": [
         {
-            "location": [
-                10,
-                3
-            ],
+            "location": [10, 3],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "伊内丝"
-            ],
-            "location": [
-                10,
-                3
-            ],
+            "groups": ["伊内丝"],
+            "location": [10, 3],
             "direction": "left",
-            "condition": [
-                0,
-                21
-            ]
+            "condition": [0, 21]
         },
         {
             "groups": [
@@ -33,180 +22,84 @@
                 "其他地面",
                 "障碍物"
             ],
-            "location": [
-                10,
-                3
-            ],
+            "location": [10, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "提丰"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["焰苇", "提丰"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["益达"],
+            "location": [6, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "挡人先锋",
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                10,
-                2
-            ],
+            "groups": ["挡人先锋", "地面阻挡", "处决者", "其他地面"],
+            "location": [10, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希"
-            ],
-            "location": [
-                9,
-                3
-            ],
+            "groups": ["凯尔希"],
+            "location": [9, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面",
-                "障碍物"
-            ],
-            "location": [
-                9,
-                4
-            ],
+            "groups": ["地面阻挡", "其他地面", "障碍物"],
+            "location": [9, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [8, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台输出",
-                "盾法",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["高台输出", "盾法", "辅助", "其他高台"],
+            "location": [6, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "狙击",
-                "盾法"
-            ],
-            "location": [
-                7,
-                5
-            ],
+            "groups": ["狙击", "盾法"],
+            "location": [7, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "史尔特尔"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["玛恩纳", "史尔特尔"],
+            "location": [5, 6],
             "direction": "left"
         },
         {
-            "groups": [
-                "伊内丝"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["伊内丝"],
+            "location": [5, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["高台输出", "辅助", "其他高台"],
+            "location": [8, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "地刺",
-                "处决者"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["地刺", "处决者"],
+            "location": [5, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["补给站"],
+            "location": [7, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "支援陷阱",
-                "无人机",
-                "障碍物"
-            ],
-            "location": [
-                10,
-                4
-            ],
+            "groups": ["支援陷阱", "无人机", "障碍物"],
+            "location": [10, 4],
             "direction": "left"
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                10,
-                3
-            ],
-            "condition": [
-                22,
-                26
-            ]
+            "location": [10, 3],
+            "condition": [22, 26]
         }
     ]
 }

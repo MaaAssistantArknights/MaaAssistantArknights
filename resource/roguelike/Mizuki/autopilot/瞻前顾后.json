@@ -2,10 +2,7 @@
     "stage_name": "瞻前顾后",
     "replacement_home": [
         {
-            "location": [
-                2,
-                5
-            ],
+            "location": [2, 5],
             "direction": "up"
         }
     ],
@@ -22,36 +19,17 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                2,
-                5
-            ],
+            "location": [2, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                1,
-                4
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [1, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "召唤",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["高台C", "控制", "召唤", "术师", "狙击", "辅助"],
+            "location": [4, 4],
             "direction": "up"
         },
         {
@@ -66,10 +44,7 @@
                 "重装",
                 "挡人先锋"
             ],
-            "location": [
-                3,
-                5
-            ],
+            "location": [3, 5],
             "direction": "up"
         },
         {
@@ -82,40 +57,17 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                7,
-                2
-            ],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面C",
-                "异德",
-                "地刺",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["地面C", "异德", "地刺", "刺客", "挡人先锋", "其他地面"],
+            "location": [4, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面C",
-                "异德",
-                "地刺",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                2,
-                5
-            ],
+            "groups": ["地面C", "异德", "地刺", "刺客", "挡人先锋", "其他地面"],
+            "location": [2, 5],
             "direction": "up"
         }
     ]

@@ -2,101 +2,49 @@
     "stage_name": "无中生钱",
     "replacement_home": [
         {
-            "location": [
-                9,
-                6
-            ],
+            "location": [9, 6],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "伊内丝",
-                "地面远程"
-            ],
-            "location": [
-                8,
-                6
-            ],
+            "groups": ["伊内丝", "地面远程"],
+            "location": [8, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                9,
-                6
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [9, 6],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "奶",
-                "高台输出"
-            ],
-            "location": [
-                9,
-                5
-            ],
+            "groups": ["焰苇", "奶", "高台输出"],
+            "location": [9, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["玛恩纳"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "锏",
-                "地面阻挡",
-                "处决者"
-            ],
-            "location": [
-                8,
-                5
-            ],
+            "groups": ["锏", "地面阻挡", "处决者"],
+            "location": [8, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台输出",
-                "狙击",
-                "盾法"
-            ],
-            "location": [
-                7,
-                6
-            ],
+            "groups": ["高台输出", "狙击", "盾法"],
+            "location": [7, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [6, 6],
             "direction": "right"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                7,
-                5
-            ],
+            "groups": ["补给站"],
+            "location": [7, 5],
             "direction": "right"
         }
     ]

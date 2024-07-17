@@ -2,157 +2,74 @@
     "stage_name": "思维折断",
     "replacement_home": [
         {
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "情报官",
-                "回费"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["情报官", "回费"],
+            "location": [6, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["回费"],
+            "location": [6, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["益达"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤"
-            ],
-            "location": [
-                6,
-                1
-            ],
+            "groups": ["召唤"],
+            "location": [6, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "大龙"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["大龙"],
+            "location": [5, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "提丰",
-                "凯尔希"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["提丰", "凯尔希"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "速狙",
-                "单奶",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["焰苇", "速狙", "单奶", "辅助", "其他高台"],
+            "location": [4, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台输出",
-                "盾法",
-                "辅助",
-                "奶",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["高台输出", "盾法", "辅助", "奶", "其他高台"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "水陈",
-                "盾法",
-                "辅助",
-                "奶"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["水陈", "盾法", "辅助", "奶"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["玛恩纳"],
+            "location": [5, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                4,
-                1
-            ],
+            "groups": ["补给站"],
+            "location": [4, 1],
             "direction": "down"
         }
     ]

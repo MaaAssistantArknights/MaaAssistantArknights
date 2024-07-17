@@ -2,51 +2,24 @@
     "stage_name": "互助",
     "replacement_home": [
         {
-            "location": [
-                6,
-                3
-            ],
+            "location": [6, 3],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "辅助"
-            ],
-            "location": [
-                5,
-                1
-            ],
+            "groups": ["辅助"],
+            "location": [5, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "控制",
-                "召唤",
-                "高台C",
-                "术师",
-                "狙击"
-            ],
-            "location": [
-                5,
-                1
-            ],
+            "groups": ["控制", "召唤", "高台C", "术师", "狙击"],
+            "location": [5, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "控制",
-                "召唤",
-                "高台C",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["控制", "召唤", "高台C", "术师", "狙击", "辅助"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
@@ -61,10 +34,7 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                6,
-                3
-            ],
+            "location": [6, 3],
             "direction": "left"
         },
         {
@@ -79,10 +49,7 @@
                 "重装",
                 "挡人先锋"
             ],
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "up"
         },
         {
@@ -97,25 +64,12 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                6,
-                1
-            ],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面C",
-                "异德",
-                "地刺",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["地面C", "异德", "地刺", "刺客", "挡人先锋", "其他地面"],
+            "location": [5, 4],
             "direction": "down"
         },
         {
@@ -130,10 +84,7 @@
                 "重装",
                 "挡人先锋"
             ],
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "left"
         }
     ]
