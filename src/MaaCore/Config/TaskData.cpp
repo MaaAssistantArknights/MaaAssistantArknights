@@ -83,16 +83,26 @@ struct TaskInfoSerializer
         json["maxTimes"] = task.max_times;
         json["preDelay"] = task.pre_delay;
         json["postDelay"] = task.post_delay;
-        json["roi"] = task.roi.to_string();
+        json["roi"] = serialize(task.roi);
         json["subErrorIgnored"] = task.sub_error_ignored;
-        json["rectMove"] = task.rect_move.to_string();
-        json["specificRect"] = task.specific_rect.to_string();
+        json["rectMove"] = serialize(task.rect_move);
+        json["specificRect"] = serialize(task.specific_rect);
         json["specialParams"] = task.special_params;
         json["next"] = serialize(task.next);
         json["sub"] = serialize(task.sub);
         json["exceededNext"] = serialize(task.exceeded_next);
         json["onErrorNext"] = serialize(task.on_error_next);
         json["reduceOtherTimes"] = serialize(task.reduce_other_times);
+        return json;
+    }
+
+    json::array serialize(const asst::Rect& rect) const
+    {
+        json::array json;
+        json.push_back(rect.x);
+        json.push_back(rect.y);
+        json.push_back(rect.width);
+        json.push_back(rect.height);
         return json;
     }
 
