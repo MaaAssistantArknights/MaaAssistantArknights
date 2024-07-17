@@ -1285,7 +1285,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official");
+        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
         /// <summary>
         /// Gets or sets the client type.
@@ -3261,7 +3261,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
-        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official"));
+        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
 
         /// <summary>
         /// Gets or sets the resource version.
@@ -3552,6 +3552,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public List<CombinedData> ClientTypeList { get; } =
             [
+                new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
                 new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
                 new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
                 new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },

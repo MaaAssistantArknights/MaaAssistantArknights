@@ -64,6 +64,8 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 // 対応するタスクのパラメータ
 {
     "enable": bool,              // このタスクを有効にするかどうか、オプション、デフォルトは true
+    "client_type": string,       // クライアントバージョン、オプション、デフォルトは空白
+                                 // オプション："Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 

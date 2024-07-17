@@ -59,6 +59,8 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 // 對應的任務參數
 {
     "enable": bool,              // 是否啟用本任務，可選，預設為 true
+    "client_type": string,       // 用戶端版本，可選，預設為空
+                                 // 選項："Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 

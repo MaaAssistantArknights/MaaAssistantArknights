@@ -56,6 +56,8 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 // 해당 작업 매개변수
 {
     "enable": bool,              // 이 작업을 활성화할지 여부, 선택 사항, 기본값은 true
+    "client_type": string,       // 클라이언트 버전, 선택 사항, 기본값은 빈 문자열
+                                 // 옵션: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 
