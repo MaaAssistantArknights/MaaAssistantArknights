@@ -92,7 +92,7 @@ TaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const char* p
 }
 ```
 
-특수 스테이지의 일부를 지원합니다. 자세한 내용은 [자동 현지화 예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/ko-kr.xaml)를 참고하세요.
+특수 스테이지의 일부를 지원합니다. 자세한 내용은 [자동 현지화 예제](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/ko-kr.xaml#L233)를 참고하세요.
 
 - `Recruit`  
   공개모집
