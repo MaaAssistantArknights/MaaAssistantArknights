@@ -2,73 +2,40 @@
     "stage_name": "从众效应",
     "replacement_home": [
         {
-            "location": [
-                2,
-                3
-            ],
+            "location": [2, 3],
             "direction": "none"
         },
         {
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "none"
         },
         {
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "none"
         },
         {
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "none"
         },
         {
-            "location": [
-                6,
-                3
-            ],
+            "location": [6, 3],
             "direction": "none"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官"
-            ],
-            "location": [
-                2,
-                3
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官"],
+            "location": [2, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "回费",
-                "情报官"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["回费", "情报官"],
+            "location": [6, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "凯尔希"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["凯尔希"],
+            "location": [6, 6],
             "direction": "up"
         },
         {
@@ -81,10 +48,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                6,
-                4
-            ],
+            "location": [6, 4],
             "direction": "up"
         },
         {
@@ -97,10 +61,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "up"
         },
         {
@@ -113,10 +74,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "up"
         },
         {
@@ -129,61 +87,27 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "奶",
-                "凯尔希",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [6, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [5, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [7, 3],
             "direction": "left"
         }
     ]

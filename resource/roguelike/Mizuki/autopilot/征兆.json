@@ -2,40 +2,19 @@
     "stage_name": "征兆",
     "replacement_home": [
         {
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "up"
         }
     ],
     "blacklist_location": [
-        [
-            4,
-            1
-        ],
-        [
-            2,
-            2
-        ],
-        [
-            2,
-            1
-        ]
+        [4, 1],
+        [2, 2],
+        [2, 1]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "辅助"
-            ],
-            "location": [
-                2,
-                4
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "辅助"],
+            "location": [2, 4],
             "direction": "up"
         },
         {
@@ -51,32 +30,17 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [4, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "号角",
-                "玛恩纳"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["号角", "玛恩纳"],
+            "location": [3, 3],
             "direction": "right"
         },
         {
@@ -91,10 +55,7 @@
                 "投锋",
                 "挡人先锋"
             ],
-            "location": [
-                3,
-                3
-            ],
+            "location": [3, 3],
             "direction": "right"
         },
         {
@@ -109,10 +70,7 @@
                 "投锋",
                 "挡人先锋"
             ],
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "right"
         },
         {
@@ -126,10 +84,7 @@
                 "群奶",
                 "其他高台"
             ],
-            "location": [
-                4,
-                2
-            ],
+            "location": [4, 2],
             "direction": "right"
         },
         {
@@ -143,10 +98,7 @@
                 "群奶",
                 "其他高台"
             ],
-            "location": [
-                5,
-                2
-            ],
+            "location": [5, 2],
             "direction": "right"
         },
         {
@@ -160,10 +112,7 @@
                 "群奶",
                 "其他高台"
             ],
-            "location": [
-                3,
-                2
-            ],
+            "location": [3, 2],
             "direction": "right"
         }
     ]

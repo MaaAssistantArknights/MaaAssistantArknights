@@ -2,47 +2,26 @@
     "stage_name": "地下天途",
     "replacement_home": [
         {
-            "location": [
-                8,
-                3
-            ],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "location": [
-                8,
-                2
-            ],
+            "location": [8, 2],
             "direction": "left"
         },
         {
-            "location": [
-                7,
-                4
-            ],
+            "location": [7, 4],
             "direction": "left"
         }
     ],
     "blacklist_location": [
-        [
-            2,
-            3
-        ],
-        [
-            3,
-            4
-        ],
-        [
-            4,
-            2
-        ]
+        [2, 3],
+        [3, 4],
+        [4, 2]
     ],
     "force_air_defense_when_deploy_blocking_num": {
         "melee_num": 2,
@@ -51,71 +30,35 @@
     },
     "force_deploy_direction": [
         {
-            "location": [
-                7,
-                4
-            ],
-            "role": [
-                "sniper",
-                "caster"
-            ],
+            "location": [7, 4],
+            "role": ["sniper", "caster"],
             "direction": "left"
         },
         {
-            "location": [
-                8,
-                2
-            ],
-            "role": [
-                "sniper",
-                "caster"
-            ],
+            "location": [8, 2],
+            "role": ["sniper", "caster"],
             "direction": "left"
         },
         {
-            "location": [
-                9,
-                2
-            ],
-            "role": [
-                "sniper",
-                "caster"
-            ],
+            "location": [9, 2],
+            "role": ["sniper", "caster"],
             "direction": "left"
         },
         {
-            "location": [
-                9,
-                3
-            ],
-            "role": [
-                "sniper",
-                "caster"
-            ],
+            "location": [9, 3],
+            "role": ["sniper", "caster"],
             "direction": "left"
         },
         {
-            "location": [
-                6,
-                4
-            ],
-            "role": [
-                "sniper",
-                "caster"
-            ],
+            "location": [6, 4],
+            "role": ["sniper", "caster"],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "投锋",
-                "挡人先锋"
-            ],
-            "location": [
-                10,
-                4
-            ],
+            "groups": ["投锋", "挡人先锋"],
+            "location": [10, 4],
             "direction": "left"
         },
         {
@@ -130,101 +73,47 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                8,
-                3
-            ],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤"
-            ],
-            "location": [
-                9,
-                2
-            ],
+            "groups": ["召唤"],
+            "location": [9, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "控制"
-            ],
-            "location": [
-                9,
-                3
-            ],
+            "groups": ["控制"],
+            "location": [9, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "号角"
-            ],
-            "location": [
-                10,
-                3
-            ],
+            "groups": ["号角"],
+            "location": [10, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["玛恩纳"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [8, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "辅助", "其他高台"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "重装",
-                "地面C",
-                "挡人先锋",
-                "地刺"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["重装", "地面C", "挡人先锋", "地刺"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "异德",
-                "刺客",
-                "其他地面"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["异德", "刺客", "其他地面"],
+            "location": [3, 3],
             "direction": "up"
         }
     ]

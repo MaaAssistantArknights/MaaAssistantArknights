@@ -2,80 +2,31 @@
     "stage_name": "观察",
     "replacement_home": [
         {
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "none"
         }
     ],
     "blacklist_location": [
-        [
-            2,
-            2
-        ],
-        [
-            3,
-            2
-        ],
-        [
-            4,
-            2
-        ],
-        [
-            5,
-            2
-        ],
-        [
-            6,
-            2
-        ],
-        [
-            5,
-            1
-        ],
-        [
-            6,
-            3
-        ],
-        [
-            7,
-            3
-        ],
-        [
-            7,
-            4
-        ],
-        [
-            7,
-            2
-        ]
+        [2, 2],
+        [3, 2],
+        [4, 2],
+        [5, 2],
+        [6, 2],
+        [5, 1],
+        [6, 3],
+        [7, 3],
+        [7, 4],
+        [7, 2]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [5, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "回费",
-                "情报官"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["回费", "情报官"],
+            "location": [5, 6],
             "direction": "up"
         },
         {
@@ -88,10 +39,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "left"
         },
         {
@@ -104,45 +52,22 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "奶",
-                "凯尔希",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [3, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["处决者"],
+            "location": [5, 3],
             "direction": "up"
         }
     ]
