@@ -2,44 +2,23 @@
     "stage_name": "安全检查",
     "deploy_plan": [
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                6,
-                1
-            ],
+            "groups": ["益达"],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台输出"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["高台输出"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "提丰",
-                "高台输出"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["提丰", "高台输出"],
+            "location": [6, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "单奶"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["单奶"],
+            "location": [8, 3],
             "direction": "left"
         }
     ]

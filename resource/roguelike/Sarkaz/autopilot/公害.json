@@ -2,58 +2,28 @@
     "stage_name": "公害",
     "deploy_plan": [
         {
-            "groups": [
-                "重装",
-                "地面阻挡",
-                "地面远程"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["重装", "地面阻挡", "地面远程"],
+            "location": [3, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "益达",
-                "焰苇",
-                "高台输出"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["益达", "焰苇", "高台输出"],
+            "location": [4, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台输出"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["高台输出"],
+            "location": [6, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "处决者",
-                "炮灰"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["处决者", "炮灰"],
+            "location": [7, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面远程"
-            ],
-            "location": [
-                3,
-                5
-            ],
+            "groups": ["地面远程"],
+            "location": [3, 5],
             "direction": "up"
         }
     ]
