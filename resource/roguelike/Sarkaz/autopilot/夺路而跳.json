@@ -28,9 +28,33 @@
             ],
             "location": [
                 4,
+                2
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "处决者",
+                "史尔特尔",
+                "锏",
+                "近卫",
+                "重装"
+            ],
+            "location": [
+                3,
+                5
+            ],
+            "direction": "down"
+        },
+        {
+            "groups": [
+                "高台输出"
+            ],
+            "location": [
+                4,
                 4
             ],
-            "direction": "up"
+            "direction": "down"
         },
         {
             "groups": [
