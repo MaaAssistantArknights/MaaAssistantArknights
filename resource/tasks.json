@@ -16967,7 +16967,7 @@
         ]
     },
     "Sarkaz@Roguelike@MissionFailedFlag": {
-        "roi":[
+        "roi": [
             505,
             342,
             265,
@@ -17139,7 +17139,7 @@
         "specificRect": [
             1100,
             558,
-            111, 
+            111,
             50
         ]
     },
