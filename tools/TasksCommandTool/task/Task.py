@@ -51,18 +51,18 @@ def _is_valid_task_name(name: str) -> bool:
 class Task:
     """@DynamicAttrs"""
 
-    def __init__(self, name: str, task_dict: dict):
+    def __init__(self, name: str, construct_task_dict: dict):
         assert _is_valid_task_name(name), f"Invalid task name: {name}"
         # 任务名
         self.name = name
 
         self.task_status = TaskStatus.Raw
-        self._task_dict = task_dict
+        self._construct_task_dict = construct_task_dict
 
-        self.algorithm = task_dict.get("algorithm", AlgorithmType.MatchTemplate)
+        self.algorithm = construct_task_dict.get("algorithm", AlgorithmType.MatchTemplate)
 
         for field in self._get_valid_fields():
-            field_value = task_dict.get(field.field_name, field.field_default)
+            field_value = construct_task_dict.get(field.field_name, field.field_default)
             try:
                 field_valid = field.is_valid_with(field_value)
             except Exception as e:
@@ -160,7 +160,7 @@ class Task:
         if isinstance(task, BaseTask):
             return task
         base_dict = Task.get(task.base_task).to_task_dict().copy()
-        base_dict.update(task._task_dict)
+        base_dict.update(task._construct_task_dict)
         base_dict.pop(TaskFieldEnum.BASE_TASK.value.field_name)
         return BaseTask(task.name, base_dict, task)
 
@@ -183,7 +183,7 @@ class Task:
         new_task_dict = base_task.to_task_dict().copy()
         override_fields = []
         if override_task is not None:
-            override_task_dict = override_task._task_dict
+            override_task_dict = override_task._construct_task_dict
             for field in get_fields(lambda x: x in _TASK_INFO_FIELDS):
                 if field.field_name in override_task_dict:
                     override_fields.append(field)
@@ -301,16 +301,16 @@ class Task:
 
 class TemplateTask(Task):
 
-    def __init__(self, name: str, task_dict: dict, raw_task: Task | None):
-        super().__init__(name, task_dict)
+    def __init__(self, name: str, construct_task_dict: dict, raw_task: Task | None):
+        super().__init__(name, construct_task_dict)
         self.task_status = TaskStatus.Initialized
         self.raw_task = raw_task
 
 
 class BaseTask(Task):
 
-    def __init__(self, name: str, task_dict: dict, raw_task: Task):
-        super().__init__(name, task_dict)
+    def __init__(self, name: str, construct_task_dict: dict, raw_task: Task):
+        super().__init__(name, construct_task_dict)
         self.task_status = TaskStatus.Initialized
         self.raw_task = raw_task
 
