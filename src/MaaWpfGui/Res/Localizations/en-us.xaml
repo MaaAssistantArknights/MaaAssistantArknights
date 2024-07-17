@@ -780,7 +780,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !RootViewModel  -->
     <!--  Api  -->
     <system:String x:Key="ApiUpdateSuccess">Stage data retrieval successful</system:String>
-    <system:String x:Key="GameResourceUpdating">Game resources are getting updating.</system:String>
+    <system:String x:Key="GameResourceUpdating">Game resources are being updated.</system:String>
     <system:String x:Key="GameResourceUpdatePreparing">Indexing in progress</system:String>
     <system:String x:Key="GameResourceNotModified">Game resources updated.</system:String>
     <system:String x:Key="GameResourceUpdated">Game resource updated, please restart MAA.</system:String>
