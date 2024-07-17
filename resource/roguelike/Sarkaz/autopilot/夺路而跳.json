@@ -2,7 +2,7 @@
     "stage_name": "夺路而跳",
     "replacement_home": [
         {
-            "location": [5, 3],
+            "location": [ 5, 3 ],
             "direction": "up"
         }
     ],
@@ -62,12 +62,12 @@
     ],
     "retreat_plan": [
         {
-            "location": [3, 5],
-            "condition": [9, 19]
+            "location": [ 3, 5 ],
+            "condition": [ 9, 19 ]
         },
         {
-            "location": [5, 1],
-            "condition": [9, 19]
+            "location": [ 5, 1 ],
+            "condition": [ 9, 19 ]
         }
     ]
 }
