@@ -4,11 +4,15 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "SSSDropRecruitmentFlag",
     "next": [
         "SSSStartFighting2",
         "SSSDropRecruitmentFlag"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         163,
         78,
@@ -38,5 +43,15 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "请选择",
+        "请进行",
+        "增调",
+        "异能",
+        "获得",
+        "甄选",
+        "导能"
+    ],
+    "withoutDet": false
 }

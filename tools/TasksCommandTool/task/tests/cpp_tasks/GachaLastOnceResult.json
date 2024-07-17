@@ -4,6 +4,8 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "GachaLastOnceResult",
     "next": [
@@ -15,6 +17,8 @@
         "GachaLastOnceResult",
         "GachaLastTenTimesResult1",
         "GachaLastTenTimesResult2"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -28,6 +32,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         1002,
         241,
@@ -44,5 +49,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "凭证",
+        "信物",
+        "获得"
+    ],
+    "withoutDet": false
 }

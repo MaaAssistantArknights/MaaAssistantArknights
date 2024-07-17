@@ -4,10 +4,14 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "CWChapterToCW",
     "next": [
         "ChapterSwipeToTheRight"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         971,
         126,
@@ -37,5 +42,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "未来将至"
+    ],
+    "withoutDet": false
 }

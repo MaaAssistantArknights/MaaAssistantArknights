@@ -4,9 +4,13 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@CheckCollapsalParadigms_onBanner",
     "next": [
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -20,6 +24,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         945,
         60,
@@ -36,5 +41,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "坍缩范式加深",
+        "坍缩范式消退"
+    ],
+    "withoutDet": false
 }

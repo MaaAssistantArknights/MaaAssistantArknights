@@ -5,6 +5,10 @@
     "exceededNext": [
         "Reclamation@ResetScope"
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "ClickCenterBase@Reclamation@Begin",
     "next": [
@@ -38,5 +42,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.800000
+    ],
+    "template": [
+        "Reclamation@ClickCenterBase.png"
+    ]
 }

@@ -4,6 +4,8 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@StagesChaosZero",
     "next": [
@@ -65,6 +67,12 @@
         "Sami@Roguelike@OfflineConfirm",
         "Sami@Roguelike@ClickToDrops"
     ],
+    "ocrReplace": [
+        [
+            "O",
+            "0"
+        ]
+    ],
     "onErrorNext": [
     ],
     "postDelay": 0,
@@ -77,6 +85,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         615,
         0,
@@ -93,5 +102,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "0"
+    ],
+    "withoutDet": false
 }

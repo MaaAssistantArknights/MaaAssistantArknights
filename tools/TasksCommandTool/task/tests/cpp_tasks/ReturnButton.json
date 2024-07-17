@@ -4,6 +4,10 @@
     "cache": false,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "ReturnButton",
     "next": [
@@ -47,5 +51,13 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.700000,
+        0.800000
+    ],
+    "template": [
+        "Return.png",
+        "Return-White.png"
+    ]
 }

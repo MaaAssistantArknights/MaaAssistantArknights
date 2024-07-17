@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "BPChapterToBP",
     "next": [
         "BPChapterToBP",
         "ChapterSwipeToTheRight"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         1025,
         509,
@@ -38,5 +43,12 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "信标投放",
+        "信标",
+        "标投",
+        "投放"
+    ],
+    "withoutDet": false
 }

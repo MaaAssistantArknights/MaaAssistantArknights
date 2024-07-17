@@ -4,9 +4,17 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@CheckCollapsalParadigms_loading",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "正在提交反馈神经",
+            "正在提交反馈至神经"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +28,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         720,
         645,
@@ -36,5 +45,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "正在提交反馈至神经"
+    ],
+    "withoutDet": false
 }

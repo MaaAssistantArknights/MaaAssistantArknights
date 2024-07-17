@@ -4,10 +4,14 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "FightMissionFailedThenStop",
     "next": [
         "EndOfActionThenStop"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         36,
         226,
@@ -37,5 +42,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "任务失败"
+    ],
+    "withoutDet": false
 }

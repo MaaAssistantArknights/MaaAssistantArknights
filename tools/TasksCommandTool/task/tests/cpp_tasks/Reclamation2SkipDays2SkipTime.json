@@ -4,9 +4,13 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation2SkipDays2SkipTime",
     "next": [
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -20,6 +24,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         1071,
         104,
@@ -38,5 +43,10 @@
         "Reclamation2SkipDays2SkipTimeConfig",
         "Reclamation2SkipDays1"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "消磨",
+        "时间"
+    ],
+    "withoutDet": false
 }

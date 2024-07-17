@@ -4,6 +4,10 @@
     "cache": false,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "Phantom@Roguelike@StageBoons",
     "next": [
@@ -45,5 +49,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.850000
+    ],
+    "template": [
+        "Phantom@Roguelike@StageBoons.png"
+    ]
 }

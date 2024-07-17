@@ -4,12 +4,16 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "CreditStoreOcr",
     "next": [
         "CollectCredit",
         "CreditStoreFailed",
         "Stop"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         1000,
         0,
@@ -39,5 +44,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "信用交易所"
+    ],
+    "withoutDet": false
 }

@@ -4,10 +4,14 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "IC-Open",
     "next": [
         "ICChapterToIC"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         500,
@@ -37,5 +42,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "理想城",
+        "活动",
+        "开放"
+    ],
+    "withoutDet": false
 }

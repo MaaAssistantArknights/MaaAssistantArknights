@@ -4,9 +4,13 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "SSSEquipmentConfirm",
     "next": [
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -20,6 +24,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         992,
         576,
@@ -36,5 +41,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "装备确认"
+    ],
+    "withoutDet": false
 }

@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "OrundumActivities",
     "next": [
         "OrundumActivitiesChoose",
         "OrundumActivitiesReturn"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
         "Stop"
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         23,
         81,
@@ -39,5 +44,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "幸运墙",
+        "幸运"
+    ],
+    "withoutDet": false
 }

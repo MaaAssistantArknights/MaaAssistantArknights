@@ -4,9 +4,21 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@FoldartalUseConfirm",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "开始告",
+            "开始宣告"
+        ],
+        [
+            "^开始宣.*",
+            "开始宣告"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +32,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         953,
         597,
@@ -36,5 +49,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "开始宣告"
+    ],
+    "withoutDet": false
 }

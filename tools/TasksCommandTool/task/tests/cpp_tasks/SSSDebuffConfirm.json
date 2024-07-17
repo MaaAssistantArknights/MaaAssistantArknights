@@ -4,10 +4,14 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "SSSDebuffConfirm",
     "next": [
         "SSSBuffChoose"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         992,
         576,
@@ -37,5 +42,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "确认完毕"
+    ],
+    "withoutDet": false
 }

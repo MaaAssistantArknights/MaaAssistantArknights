@@ -4,9 +4,25 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@FoldartalUseOcr",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "黜",
+            "黜人"
+        ],
+        [
+            "满",
+            "萨满"
+        ],
+        [
+            "\"",
+            ""
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +36,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         38,
         64,
@@ -36,5 +53,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "布局"
+    ],
+    "withoutDet": false
 }

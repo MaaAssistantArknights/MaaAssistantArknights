@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "ChapterDifficultyHard",
     "next": [
         "EnterChapterDifficultyHard",
         "Return"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         26,
         565,
@@ -39,5 +44,10 @@
     "sub": [
         "EnterChooseLevelOfDifficulty"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "环境",
+        "PRTS"
+    ],
+    "withoutDet": false
 }

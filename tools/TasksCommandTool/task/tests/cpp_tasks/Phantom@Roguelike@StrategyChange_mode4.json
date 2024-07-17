@@ -4,9 +4,37 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Phantom@Roguelike@StrategyChange_mode4",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "迷雾歧途",
+            "_default"
+        ],
+        [
+            "落阳庭院",
+            "_default"
+        ],
+        [
+            "故土残躯",
+            "_exit"
+        ],
+        [
+            "噩梦之始",
+            "_exit"
+        ],
+        [
+            "血月长廊",
+            "_exit"
+        ],
+        [
+            "渴欲大厅",
+            "_exit"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +48,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         593,
         0,
@@ -36,5 +65,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "_default",
+        "_exit"
+    ],
+    "withoutDet": false
 }

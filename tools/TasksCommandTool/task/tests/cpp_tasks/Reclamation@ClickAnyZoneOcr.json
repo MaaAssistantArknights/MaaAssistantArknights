@@ -5,10 +5,14 @@
     "exceededNext": [
         "Reclamation@ResetScope"
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation@ClickAnyZoneOcr",
     "next": [
         "Reclamation@StartActionEnter"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         308,
         73,
@@ -38,5 +43,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "区",
+        "Zone"
+    ],
+    "withoutDet": false
 }

@@ -4,9 +4,13 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "ResourceStageLevel5",
     "next": [
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -20,6 +24,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         850,
         140,
@@ -36,5 +41,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

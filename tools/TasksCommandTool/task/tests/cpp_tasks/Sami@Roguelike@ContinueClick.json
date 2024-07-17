@@ -4,10 +4,14 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@ContinueClick",
     "next": [
         "Sami@Roguelike@Continue"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         522,
         431,
@@ -37,5 +42,15 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "初霜湖泽",
+        "密静林地",
+        "昧明冻土",
+        "积冰岩骸",
+        "无瑕花园",
+        "远见之构",
+        "深埋迷境"
+    ],
+    "withoutDet": false
 }

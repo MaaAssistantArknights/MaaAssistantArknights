@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "RecruitingActivitiesConfirm",
     "next": [
         "RecruitingActivitiesRecruit",
         "RecruitingActivitiesConfirm"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         729,
         515,
@@ -38,5 +43,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "赠送",
+        "次",
+        "小时"
+    ],
+    "withoutDet": false
 }

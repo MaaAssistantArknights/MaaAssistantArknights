@@ -4,10 +4,14 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation@GiveupCrossdomainPageFlag",
     "next": [
         "Reclamation@GiveupCrossdoaimSwipeRight"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         1016,
         49,
@@ -37,5 +42,12 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "确认",
+        "带走",
+        "紧急",
+        "撤退"
+    ],
+    "withoutDet": false
 }

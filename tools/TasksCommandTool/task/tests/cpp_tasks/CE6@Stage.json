@@ -4,12 +4,16 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "CE6@Stage",
     "next": [
         "CE5@UnableToAgent",
         "CE5@UnableToAgent2",
         "CE5@Stop"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         936,
         101,
@@ -39,5 +44,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "CE-6"
+    ],
+    "withoutDet": false
 }

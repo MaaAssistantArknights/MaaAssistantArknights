@@ -4,9 +4,13 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "PR-D-2@Stage",
     "next": [
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -20,6 +24,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         472,
         0,
@@ -36,5 +41,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "PR-D-2"
+    ],
+    "withoutDet": false
 }

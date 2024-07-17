@@ -4,9 +4,21 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "IC-8@SideStoryStage",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            " (\\d)",
+            "-$1"
+        ],
+        [
+            "-1O$",
+            "-10$"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +32,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         60,
@@ -36,5 +49,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "IC-8",
+        "1C-8"
+    ],
+    "withoutDet": false
 }

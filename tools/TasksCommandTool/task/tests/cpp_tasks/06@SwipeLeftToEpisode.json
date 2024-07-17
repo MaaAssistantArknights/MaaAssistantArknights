@@ -4,11 +4,31 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 20,
     "name": "06@SwipeLeftToEpisode",
     "next": [
         "06@EnterEpisode",
         "06@SwipeLeftToEpisode"
+    ],
+    "ocrReplace": [
+        [
+            "[EF]PIS[O0]DE",
+            "EPISODE"
+        ],
+        [
+            "[Oo]$",
+            "0"
+        ],
+        [
+            "[Oo](\\d)",
+            "0$1"
+        ],
+        [
+            " ",
+            ""
+        ]
     ],
     "onErrorNext": [
     ],
@@ -22,6 +42,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         244,
         270,
@@ -42,5 +63,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "EPISODE07",
+        "EPISODE08"
+    ],
+    "withoutDet": false
 }

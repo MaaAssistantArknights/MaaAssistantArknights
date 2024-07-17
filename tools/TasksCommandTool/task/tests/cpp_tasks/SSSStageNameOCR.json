@@ -4,9 +4,25 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "SSSStageNameOCR",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "LT(?=\\d)",
+            "LT-"
+        ],
+        [
+            "Lt",
+            "LT"
+        ],
+        [
+            "LT\\+",
+            "LT-"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +36,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         33,
         272,
@@ -36,5 +53,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

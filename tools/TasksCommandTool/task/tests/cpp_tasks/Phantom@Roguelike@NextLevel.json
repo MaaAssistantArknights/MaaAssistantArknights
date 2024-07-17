@@ -4,10 +4,14 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Phantom@Roguelike@NextLevel",
     "next": [
         "Phantom@Roguelike@StrategyChange"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         522,
         431,
@@ -37,5 +42,14 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "迷雾歧途",
+        "落阳庭院",
+        "故土残躯",
+        "噩梦之始",
+        "血月长廊",
+        "渴欲大厅"
+    ],
+    "withoutDet": false
 }

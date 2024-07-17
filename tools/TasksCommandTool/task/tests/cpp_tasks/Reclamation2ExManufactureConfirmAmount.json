@@ -4,10 +4,14 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation2ExManufactureConfirmAmount",
     "next": [
         "Reclamation2ExManufacture"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         720,
         442,
@@ -38,5 +43,9 @@
     "sub": [
         "Reclamation2ExManufactureConfirm"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "99"
+    ],
+    "withoutDet": false
 }

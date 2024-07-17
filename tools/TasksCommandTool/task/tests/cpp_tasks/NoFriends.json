@@ -4,12 +4,16 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "NoFriends",
     "next": [
         "Home@ReturnButton",
         "Home@FromStageSN",
         "Home@FromAnnihilation"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         600,
         100,
@@ -39,5 +44,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "暂无好友"
+    ],
+    "withoutDet": false
 }

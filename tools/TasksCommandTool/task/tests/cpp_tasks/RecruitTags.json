@@ -4,9 +4,21 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": true,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "RecruitTags",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            ".*高级.+",
+            "高级资深干员"
+        ],
+        [
+            "^资深.+",
+            "资深干员"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +32,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         375,
         360,
@@ -36,5 +49,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

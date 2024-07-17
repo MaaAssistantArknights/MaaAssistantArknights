@@ -4,12 +4,16 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "VisitLimited",
     "next": [
         "Home@ReturnButton",
         "Home@FromStageSN",
         "Home@FromAnnihilation"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         900,
         50,
@@ -39,5 +44,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "今日参与",
+        "已达上限"
+    ],
+    "withoutDet": false
 }

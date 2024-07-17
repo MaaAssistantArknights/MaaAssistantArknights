@@ -4,12 +4,16 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": true,
+    "isAscii": true,
     "maxTimes": 50,
     "name": "SwipeRightToStage1-7",
     "next": [
         "Stage1-7",
         "SwipeRightToStage1-7",
         "SwipeLeftToStage1-7"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         120,
@@ -43,5 +48,16 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "1-1",
+        "1-2",
+        "1-3",
+        "1-4",
+        "1-5",
+        "TR-8",
+        "1-6",
+        "TR-9"
+    ],
+    "withoutDet": false
 }

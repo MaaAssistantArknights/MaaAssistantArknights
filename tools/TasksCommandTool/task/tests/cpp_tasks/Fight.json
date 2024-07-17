@@ -10,6 +10,10 @@
         "Fight@NotDownloadVoice",
         "Stop"
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "Fight",
     "next": [
@@ -50,5 +54,19 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.800000,
+        0.800000,
+        0.800000,
+        0.800000,
+        0.800000
+    ],
+    "template": [
+        "Terminal.png",
+        "TerminalDark.png",
+        "TerminalSami.png",
+        "TerminalMistCity.png",
+        "TerminalSiege.png"
+    ]
 }

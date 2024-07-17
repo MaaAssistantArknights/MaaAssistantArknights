@@ -4,11 +4,19 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation2CopiousCoppice",
     "next": [
         "Reclamation2CopiousCoppice",
         "Reclamation2CopiousCoppiceBegin"
+    ],
+    "ocrReplace": [
+        [
+            ".*源区",
+            "资源区"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -22,6 +30,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         171,
@@ -38,5 +47,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "木",
+        "林",
+        "资源区"
+    ],
+    "withoutDet": false
 }

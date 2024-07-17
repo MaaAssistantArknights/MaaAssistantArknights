@@ -4,9 +4,37 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "CreditShop-DiscountOcr",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "o",
+            "0"
+        ],
+        [
+            "O",
+            "0"
+        ],
+        [
+            "I",
+            "1"
+        ],
+        [
+            "l",
+            "1"
+        ],
+        [
+            "%",
+            ""
+        ],
+        [
+            "-",
+            ""
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +48,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         -5,
         23,
@@ -36,5 +65,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

@@ -4,6 +4,8 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "PRTS3",
     "next": [
@@ -15,6 +17,8 @@
         "FightMissionFailed",
         "OfflineConfirm",
         "WaitAfterPRTS"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -28,6 +32,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         900,
         500,
@@ -44,5 +49,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "角色"
+    ],
+    "withoutDet": false
 }

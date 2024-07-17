@@ -4,9 +4,53 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "RoguelikeSettlementOcr-Collection",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "[Oo]",
+            "0"
+        ],
+        [
+            "[Ii]",
+            "1"
+        ],
+        [
+            "[Ll]",
+            "1"
+        ],
+        [
+            "B",
+            "8"
+        ],
+        [
+            "十",
+            "+"
+        ],
+        [
+            "萬",
+            "万"
+        ],
+        [
+            "만",
+            "万"
+        ],
+        [
+            "億",
+            "亿"
+        ],
+        [
+            "억",
+            "亿"
+        ],
+        [
+            "^\\.",
+            ""
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +64,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         680,
         170,
@@ -36,5 +81,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "IS-OpenOcr",
     "next": [
         "SideStoryStage",
         "SwipeToStageIS"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         500,
@@ -39,5 +44,10 @@
     "sub": [
         "EnterChapterIS"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "叙拉古人",
+        "复刻"
+    ],
+    "withoutDet": false
 }

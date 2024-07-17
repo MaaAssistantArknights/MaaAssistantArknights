@@ -4,9 +4,13 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": true,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "RoguelikeSkillSelectionName",
     "next": [
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -20,6 +24,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         210,
         8,
@@ -36,5 +41,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

@@ -4,6 +4,10 @@
     "cache": true,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "StartButton2",
     "next": [
@@ -38,5 +42,13 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.800000,
+        0.800000
+    ],
+    "template": [
+        "StartButton2.png",
+        "StartButton2Adverse.png"
+    ]
 }

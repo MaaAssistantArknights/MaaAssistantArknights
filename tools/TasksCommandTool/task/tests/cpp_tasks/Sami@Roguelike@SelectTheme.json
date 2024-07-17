@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 20,
     "name": "Sami@Roguelike@SelectTheme",
     "next": [
         "Sami@Roguelike@SelectTheme",
         "Sami@Roguelike@FromIntegratedStrategies"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         400,
@@ -38,5 +43,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "科考记录"
+    ],
+    "withoutDet": false
 }

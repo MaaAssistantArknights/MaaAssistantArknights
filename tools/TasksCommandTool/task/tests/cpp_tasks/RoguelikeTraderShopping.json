@@ -4,6 +4,10 @@
     "cache": true,
     "exceededNext": [
     ],
+    "maskRange": [
+        1,
+        255
+    ],
     "maxTimes": 2147483647,
     "name": "RoguelikeTraderShopping",
     "next": [
@@ -36,5 +40,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.700000
+    ],
+    "template": [
+        "Roguelike@TraderRandomShopping.png"
+    ]
 }

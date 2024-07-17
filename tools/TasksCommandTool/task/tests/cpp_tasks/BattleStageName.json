@@ -4,9 +4,29 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "BattleStageName",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            ".*前顾后",
+            "瞻前顾后"
+        ],
+        [
+            ".*命运的宠儿.*",
+            "“命运的宠儿”"
+        ],
+        [
+            ".*骑士对决.*",
+            "“骑士对决”"
+        ],
+        [
+            "巍峨银.*",
+            "巍峨银凇"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +40,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         250,
         435,
@@ -36,5 +57,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

@@ -1,8 +1,15 @@
 {
     "action": "DoNothing",
     "algorithm": "Hash",
+    "bound": true,
     "cache": true,
     "exceededNext": [
+    ],
+    "hash": [
+    ],
+    "maskRange": [
+        0,
+        0
     ],
     "maxTimes": 2147483647,
     "name": "InfrastOperFaceHash",
@@ -36,5 +43,6 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "threshold": 40
 }

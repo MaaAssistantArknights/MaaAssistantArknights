@@ -4,6 +4,10 @@
     "cache": false,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 10,
     "name": "Sami@Roguelike@FoldartalUseOnStageGambling",
     "next": [
@@ -36,5 +40,17 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.700000,
+        0.700000,
+        0.700000,
+        0.700000
+    ],
+    "template": [
+        "Sami@Roguelike@FoldartalUseOnGambling.png",
+        "Sami@Roguelike@FoldartalUseOnWindAndRain.png",
+        "Sami@Roguelike@FoldartalUseOnEmergencyTransportation.png",
+        "Sami@Roguelike@FoldartalUseOnMysteriousPresage.png"
+    ]
 }

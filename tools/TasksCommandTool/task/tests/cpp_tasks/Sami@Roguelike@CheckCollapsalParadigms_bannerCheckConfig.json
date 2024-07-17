@@ -4,6 +4,8 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig",
     "next": [
@@ -14,6 +16,8 @@
         "Sami@Roguelike@GetDropSelectReward",
         "Sami@Roguelike@GetDropSelectReward2",
         "Sami@Roguelike@TraderRandomShoppingConfirm"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -27,6 +31,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         0,
@@ -44,5 +49,9 @@
     "sub": [
         "Sami@Roguelike@MissionCompletedFlag"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "坍缩范式加深"
+    ],
+    "withoutDet": false
 }

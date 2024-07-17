@@ -4,9 +4,41 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "StageDrops-StageName",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "^.+-EX-?\\d+.*$",
+            "_INVALID_"
+        ],
+        [
+            "^.+-S-?\\d+.*$",
+            "_INVALID_"
+        ],
+        [
+            "^.+-MO-?\\d+.*$",
+            "_INVALID_"
+        ],
+        [
+            "^OF-1$",
+            "_INVALID_"
+        ],
+        [
+            "Ap-",
+            "AP-"
+        ],
+        [
+            "Bl-",
+            "BI-"
+        ],
+        [
+            "-1O",
+            "-10"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +52,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         140,
         60,
@@ -36,5 +69,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

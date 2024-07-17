@@ -4,9 +4,41 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@StrategyChange_mode4",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "初霜湖泽",
+            "_default"
+        ],
+        [
+            "密静林地",
+            "_default"
+        ],
+        [
+            "昧明冻土",
+            "_exit"
+        ],
+        [
+            "积冰岩骸",
+            "_exit"
+        ],
+        [
+            "无瑕花园",
+            "_exit"
+        ],
+        [
+            "远见之构",
+            "_exit"
+        ],
+        [
+            "深埋迷境",
+            "_exit"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +52,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         593,
         0,
@@ -36,5 +69,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "_default",
+        "_exit"
+    ],
+    "withoutDet": false
 }

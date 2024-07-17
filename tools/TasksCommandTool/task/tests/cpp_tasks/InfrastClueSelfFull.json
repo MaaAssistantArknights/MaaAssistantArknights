@@ -4,10 +4,14 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "InfrastClueSelfFull",
     "next": [
         "CloseCluePageThenSendClue"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -21,6 +25,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         286,
         550,
@@ -37,5 +42,12 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "已达线索上限",
+        "无法获取新的线索",
+        "上限",
+        "无法"
+    ],
+    "withoutDet": false
 }

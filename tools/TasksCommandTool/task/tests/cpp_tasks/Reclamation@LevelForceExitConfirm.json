@@ -4,6 +4,8 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation@LevelForceExitConfirm",
     "next": [
@@ -27,6 +29,8 @@
         "Reclamation@TodaysSupplies",
         "Reclamation@NotDownloadVoice"
     ],
+    "ocrReplace": [
+    ],
     "onErrorNext": [
     ],
     "postDelay": 0,
@@ -39,6 +43,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         856,
         336,
@@ -55,5 +60,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "确认",
+        "离开"
+    ],
+    "withoutDet": false
 }

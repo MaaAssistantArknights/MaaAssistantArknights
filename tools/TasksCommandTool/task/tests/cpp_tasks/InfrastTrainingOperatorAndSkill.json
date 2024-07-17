@@ -4,9 +4,21 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "InfrastTrainingOperatorAndSkill",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "^\\[",
+            ""
+        ],
+        [
+            "\\]",
+            "\n"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +32,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         150,
         620,
@@ -36,5 +49,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

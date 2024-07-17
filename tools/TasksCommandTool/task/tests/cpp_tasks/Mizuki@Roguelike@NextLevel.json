@@ -4,11 +4,15 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Mizuki@Roguelike@NextLevel",
     "next": [
         "Mizuki@Roguelike@DiceConfirmAfterNextLevel",
         "Mizuki@Roguelike@StrategyChange"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         522,
         431,
@@ -38,5 +43,15 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "天光海岸",
+        "离岸孤岛",
+        "波涛略地",
+        "隐秘温床",
+        "失尘岩洞",
+        "幽海丛林",
+        "绀碧摇篮"
+    ],
+    "withoutDet": false
 }

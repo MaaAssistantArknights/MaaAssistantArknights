@@ -4,6 +4,8 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Mizuki@Roguelike@StageSafeHouseReuse",
     "next": [
@@ -18,6 +20,8 @@
         "Mizuki@Roguelike@CloseEvent",
         "Mizuki@Roguelike@StageEncounterOptionUnknown"
     ],
+    "ocrReplace": [
+    ],
     "onErrorNext": [
     ],
     "postDelay": 0,
@@ -30,6 +34,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         880,
         210,
@@ -46,5 +51,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "活用安全屋"
+    ],
+    "withoutDet": true
 }

@@ -4,9 +4,49 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": true,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "ClickedCorrectStage",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "OPERATION",
+            ""
+        ],
+        [
+            " ",
+            ""
+        ],
+        [
+            "s",
+            "S"
+        ],
+        [
+            "c",
+            "C"
+        ],
+        [
+            ":",
+            ""
+        ],
+        [
+            "'",
+            ""
+        ],
+        [
+            "-2O",
+            "-20"
+        ],
+        [
+            "-1O",
+            "-10"
+        ],
+        [
+            "O-",
+            "0-"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +60,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         845,
         72,
@@ -36,5 +77,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

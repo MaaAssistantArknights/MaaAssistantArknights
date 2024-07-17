@@ -4,6 +4,10 @@
     "cache": false,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 10,
     "name": "Sami@Roguelike@FoldartalUseOnStageBattle",
     "next": [
@@ -36,5 +40,15 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.700000,
+        0.700000,
+        0.700000
+    ],
+    "template": [
+        "Sami@Roguelike@FoldartalUseOnCombatDps.png",
+        "Sami@Roguelike@FoldartalUseOnEmergencyDps.png",
+        "Sami@Roguelike@FoldartalUseOnFerociousPresage.png"
+    ]
 }

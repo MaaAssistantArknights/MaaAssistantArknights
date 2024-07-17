@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Roguelike@PreSelectTheme",
     "next": [
         "Roguelike@PreSelectTheme",
         "Roguelike@PreSelectThemeSwipe"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         450,
         480,
@@ -38,5 +43,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "查看",
+        "TODO: image of //INTEGRATED STRATEGIES"
+    ],
+    "withoutDet": false
 }

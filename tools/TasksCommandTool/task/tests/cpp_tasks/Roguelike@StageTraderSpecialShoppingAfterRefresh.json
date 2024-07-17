@@ -4,6 +4,8 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Roguelike@StageTraderSpecialShoppingAfterRefresh",
     "next": [
@@ -12,6 +14,8 @@
         "Roguelike@ChooseOperFlag",
         "Roguelike@StageTraderLeave",
         "Roguelike@StageTraderLeaveConfirm"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -25,6 +29,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         308,
         25,
@@ -41,5 +46,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "指路",
+        "指路鳞"
+    ],
+    "withoutDet": false
 }

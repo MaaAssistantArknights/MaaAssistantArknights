@@ -4,6 +4,8 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "StartButton1TryAgain",
     "next": [
@@ -14,6 +16,8 @@
         "OfflineConfirm",
         "AnnihilationConfirm",
         "StartButton1TryAgain"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -27,6 +31,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         1038,
         625,
@@ -43,5 +48,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "开始行动"
+    ],
+    "withoutDet": false
 }

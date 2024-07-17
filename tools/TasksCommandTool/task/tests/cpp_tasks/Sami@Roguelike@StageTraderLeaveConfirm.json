@@ -6,6 +6,10 @@
         "Sami@Roguelike@ExitThenAbandon",
         "Sami@Roguelike@NextLevelThenExit"
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "Sami@Roguelike@StageTraderLeaveConfirm",
     "next": [
@@ -85,5 +89,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.800000
+    ],
+    "template": [
+        "Roguelike@StageTraderLeaveConfirm.png"
+    ]
 }

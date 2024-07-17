@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation@GiveupAlgorithm",
     "next": [
         "Reclamation@GiveupAlgorithmConfirm",
         "Reclamation@GiveupAlgorithm"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         684,
         569,
@@ -38,5 +43,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "放",
+        "弃"
+    ],
+    "withoutDet": false
 }

@@ -4,6 +4,8 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": true,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "StartToWakeUpOCR",
     "next": [
@@ -20,6 +22,8 @@
         "OfflineConfirm",
         "StartToWakeUp@LoadingIcon"
     ],
+    "ocrReplace": [
+    ],
     "onErrorNext": [
     ],
     "postDelay": 0,
@@ -32,6 +36,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         373,
         145,
@@ -48,5 +53,12 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "开始唤醒",
+        "登录",
+        "登",
+        "录"
+    ],
+    "withoutDet": false
 }

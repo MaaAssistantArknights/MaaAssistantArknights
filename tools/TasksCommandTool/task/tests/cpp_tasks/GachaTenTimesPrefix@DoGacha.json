@@ -4,12 +4,16 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "GachaTenTimesPrefix@DoGacha",
     "next": [
         "GachaTenTimesPrefix@DoGacha@LoadingText",
         "GachaTenTimesPrefix@DoGacha",
         "GachaConfirm"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         975,
         571,
@@ -39,5 +44,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "寻访十次",
+        "访十次"
+    ],
+    "withoutDet": false
 }

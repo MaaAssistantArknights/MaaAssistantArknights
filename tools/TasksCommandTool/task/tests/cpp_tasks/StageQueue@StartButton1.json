@@ -4,6 +4,8 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 1,
     "name": "StageQueue@StartButton1",
     "next": [
@@ -13,6 +15,8 @@
         "StageQueue@NoStone",
         "StageQueue@OfflineConfirm",
         "StageQueue@StartButton1TryAgain"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -36,6 +40,7 @@
         "StageQueue@ClickCornerAfterPRTS",
         "StageQueue@ClickCorner"
     ],
+    "replaceFull": false,
     "roi": [
         1038,
         625,
@@ -52,5 +57,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "开始行动"
+    ],
+    "withoutDet": false
 }

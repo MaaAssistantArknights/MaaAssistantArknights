@@ -4,9 +4,13 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation2ExReadArchiveEnter",
     "next": [
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -20,6 +24,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         1030,
         548,
@@ -38,5 +43,9 @@
         "Reclamation2ExReadArchiveSelectDay",
         "Reclamation2ExReadArchiveSelectDayConfirm"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "读取"
+    ],
+    "withoutDet": false
 }

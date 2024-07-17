@@ -4,6 +4,8 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation@ConfirmStart",
     "next": [
@@ -12,6 +14,8 @@
         "Reclamation@Emergency",
         "Reclamation@ClickCenterBase",
         "Reclamation@ResetScope"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -25,6 +29,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         790,
         497,
@@ -41,5 +46,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "演算",
+        "开始"
+    ],
+    "withoutDet": false
 }

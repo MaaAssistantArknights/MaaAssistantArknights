@@ -4,6 +4,10 @@
     "cache": false,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 10,
     "name": "Sami@Roguelike@FoldartalUseOnStageBoss",
     "next": [
@@ -36,5 +40,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.700000
+    ],
+    "template": [
+        "Sami@Roguelike@FoldartalUseOnDreadfulFoe-5.png"
+    ]
 }

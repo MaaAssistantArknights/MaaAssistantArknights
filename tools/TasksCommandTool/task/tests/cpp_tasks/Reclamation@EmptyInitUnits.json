@@ -4,11 +4,15 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation@EmptyInitUnits",
     "next": [
         "Reclamation@QuickFormation",
         "Reclamation@QuickFormationSelectOneUnit"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -22,6 +26,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         592,
         595,
@@ -38,5 +43,11 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "请选择",
+        "参加",
+        "演算"
+    ],
+    "withoutDet": false
 }

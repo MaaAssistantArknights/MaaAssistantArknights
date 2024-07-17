@@ -6,6 +6,8 @@
         "StageSNReturnFlag",
         "Stop"
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "StartButton1",
     "next": [
@@ -16,6 +18,8 @@
         "OfflineConfirm",
         "AnnihilationConfirm",
         "StartButton1TryAgain"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -39,6 +43,7 @@
         "ClickCornerAfterPRTS",
         "ClickCorner"
     ],
+    "replaceFull": false,
     "roi": [
         1038,
         625,
@@ -55,5 +60,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "开始行动"
+    ],
+    "withoutDet": false
 }

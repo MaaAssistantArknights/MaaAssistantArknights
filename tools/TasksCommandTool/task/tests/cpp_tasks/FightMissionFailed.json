@@ -5,6 +5,8 @@
     "exceededNext": [
         "FightMissionFailedAndStop"
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 3,
     "name": "FightMissionFailed",
     "next": [
@@ -22,6 +24,8 @@
         "NotDownloadVoice",
         "StartButton1"
     ],
+    "ocrReplace": [
+    ],
     "onErrorNext": [
         "ClickCornerAfterPRTS"
     ],
@@ -35,6 +39,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         36,
         226,
@@ -51,5 +56,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "任务失败"
+    ],
+    "withoutDet": false
 }

@@ -4,11 +4,31 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": true,
     "maxTimes": 2147483647,
     "name": "10@EnterEpisode",
     "next": [
         "10@EnterEpisode",
         "10@Stop"
+    ],
+    "ocrReplace": [
+        [
+            "[EF]PIS[O0]DE",
+            "EPISODE"
+        ],
+        [
+            "[Oo]$",
+            "0"
+        ],
+        [
+            "[Oo](\\d)",
+            "0$1"
+        ],
+        [
+            " ",
+            ""
+        ]
     ],
     "onErrorNext": [
     ],
@@ -22,6 +42,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         244,
         270,
@@ -38,5 +59,9 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "EPISODE10"
+    ],
+    "withoutDet": false
 }

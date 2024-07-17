@@ -4,6 +4,10 @@
     "cache": true,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "FightSeries-Open",
     "next": [
@@ -37,5 +41,11 @@
     "sub": [
         "FightSeries-Indicator"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.800000
+    ],
+    "template": [
+        "FightSeries-Icon.png"
+    ]
 }

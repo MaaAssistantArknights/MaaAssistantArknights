@@ -4,12 +4,16 @@
     "cache": false,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "Reclamation@StartActionEnter",
     "next": [
         "Reclamation@PrepareAction",
         "Reclamation@StartActionEnter",
         "Reclamation@StartActionConfirm"
+    ],
+    "ocrReplace": [
     ],
     "onErrorNext": [
     ],
@@ -23,6 +27,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         995,
         550,
@@ -39,5 +44,10 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+        "开始行动",
+        "决断"
+    ],
+    "withoutDet": false
 }

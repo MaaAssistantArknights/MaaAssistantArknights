@@ -4,6 +4,10 @@
     "cache": false,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "Reclamation2BeginPlot",
     "next": [
@@ -48,5 +52,11 @@
         "Reclamation2ClickBeginPlotTalk",
         "Reclamation2ClickBeginPlotTalk"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.800000
+    ],
+    "template": [
+        "Reclamation2BeginPlot.png"
+    ]
 }

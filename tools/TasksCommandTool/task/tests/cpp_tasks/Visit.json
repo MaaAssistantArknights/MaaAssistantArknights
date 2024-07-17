@@ -4,6 +4,10 @@
     "cache": false,
     "exceededNext": [
     ],
+    "maskRange": [
+        1,
+        255
+    ],
     "maxTimes": 2147483647,
     "name": "Visit",
     "next": [
@@ -43,5 +47,19 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.700000,
+        0.700000,
+        0.700000,
+        0.700000,
+        0.700000
+    ],
+    "template": [
+        "Friends.png",
+        "FriendsDark.png",
+        "FriendsSami.png",
+        "FriendsMistCity.png",
+        "FriendsSiege.png"
+    ]
 }

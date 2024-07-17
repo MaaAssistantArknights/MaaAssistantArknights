@@ -4,9 +4,29 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "EpisodeOcrReplace",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "[EF]PIS[O0]DE",
+            "EPISODE"
+        ],
+        [
+            "[Oo]$",
+            "0"
+        ],
+        [
+            "[Oo](\\d)",
+            "0$1"
+        ],
+        [
+            " ",
+            ""
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +40,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         0,
         0,
@@ -36,5 +57,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }

@@ -4,6 +4,10 @@
     "cache": true,
     "exceededNext": [
     ],
+    "maskRange": [
+        0,
+        0
+    ],
     "maxTimes": 2147483647,
     "name": "Mizuki@Roguelike@ChooseDifficulty_Hardest",
     "next": [
@@ -38,5 +42,11 @@
         "SwipeToTheDown",
         "SwipeToTheDown"
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "templThreshold": [
+        0.800000
+    ],
+    "template": [
+        "Mizuki@Roguelike@StartExplore.png"
+    ]
 }

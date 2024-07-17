@@ -4,9 +4,17 @@
     "cache": true,
     "exceededNext": [
     ],
+    "fullMatch": false,
+    "isAscii": false,
     "maxTimes": 2147483647,
     "name": "RoguelikeTraderShoppingOcr",
     "next": [
+    ],
+    "ocrReplace": [
+        [
+            "指路.*",
+            "指路鳞"
+        ]
     ],
     "onErrorNext": [
     ],
@@ -20,6 +28,7 @@
     ],
     "reduceOtherTimes": [
     ],
+    "replaceFull": false,
     "roi": [
         406,
         90,
@@ -36,5 +45,8 @@
     ],
     "sub": [
     ],
-    "subErrorIgnored": false
+    "subErrorIgnored": false,
+    "text": [
+    ],
+    "withoutDet": false
 }
