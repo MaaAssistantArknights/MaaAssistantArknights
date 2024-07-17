@@ -2,109 +2,49 @@
     "stage_name": "坍缩体的午后",
     "replacement_home": [
         {
-            "location": [
-                5,
-                5
-            ],
+            "location": [5, 5],
             "direction": "right"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "情报官",
-                "投锋",
-                "挡人先锋",
-                "地面远程",
-                "地面阻挡"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["情报官", "投锋", "挡人先锋", "地面远程", "地面阻挡"],
+            "location": [5, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "焰苇",
-                "狙击",
-                "凯尔希",
-                "群奶"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["焰苇", "狙击", "凯尔希", "群奶"],
+            "location": [3, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "location": [5, 4],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["高台输出", "辅助", "其他高台"],
+            "location": [4, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "凯尔希",
-                "单奶"
-            ],
-            "location": [
-                2,
-                3
-            ],
+            "groups": ["凯尔希", "单奶"],
+            "location": [2, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["玛恩纳"],
+            "location": [4, 4],
             "direction": "down"
         },
         {
-            "groups": [
-                "盾法",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["盾法", "高台输出", "辅助", "其他高台"],
+            "location": [6, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                1,
-                5
-            ],
+            "groups": ["高台输出", "辅助", "其他高台"],
+            "location": [1, 5],
             "direction": "right"
         },
         {
@@ -117,54 +57,27 @@
                 "支援陷阱",
                 "障碍物"
             ],
-            "location": [
-                5,
-                5
-            ],
+            "location": [5, 5],
             "direction": "down"
         },
         {
-            "groups": [
-                "奶"
-            ],
-            "location": [
-                1,
-                6
-            ],
+            "groups": ["奶"],
+            "location": [1, 6],
             "direction": "right"
         },
         {
-            "groups": [
-                "领主",
-                "地面远程",
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["领主", "地面远程", "地面阻挡", "处决者", "其他地面"],
+            "location": [5, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["补给站"],
+            "location": [3, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "无人机"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["无人机"],
+            "location": [4, 3],
             "direction": "right"
         }
     ]

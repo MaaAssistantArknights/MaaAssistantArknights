@@ -2,38 +2,19 @@
     "stage_name": "无序盛宴",
     "replacement_home": [
         {
-            "location": [
-                10,
-                5
-            ],
+            "location": [10, 5],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                10,
-                5
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [10, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "回费",
-                "情报官"
-            ],
-            "location": [
-                10,
-                6
-            ],
+            "groups": ["回费", "情报官"],
+            "location": [10, 6],
             "direction": "left"
         },
         {
@@ -46,30 +27,17 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                10,
-                4
-            ],
+            "location": [10, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "银灰"
-            ],
-            "location": [
-                4,
-                6
-            ],
+            "groups": ["银灰"],
+            "location": [4, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "史尔特尔"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["史尔特尔"],
+            "location": [4, 5],
             "direction": "left"
         },
         {
@@ -82,48 +50,22 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                9,
-                6
-            ],
+            "location": [9, 6],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                8,
-                1
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [8, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "浊心斯卡蒂",
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                9,
-                1
-            ],
+            "groups": ["浊心斯卡蒂", "凯尔希", "奶"],
+            "location": [9, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [8, 4],
             "direction": "right"
         },
         {
@@ -136,10 +78,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                9,
-                5
-            ],
+            "location": [9, 5],
             "direction": "left"
         },
         {
@@ -152,10 +91,7 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                8,
-                5
-            ],
+            "location": [8, 5],
             "direction": "left"
         }
     ]

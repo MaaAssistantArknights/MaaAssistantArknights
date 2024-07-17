@@ -2,110 +2,43 @@
     "stage_name": "覆水难收",
     "replacement_home": [
         {
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "up"
         },
         {
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "up"
         }
     ],
     "blacklist_location": [
-        [
-            6,
-            2
-        ],
-        [
-            6,
-            5
-        ],
-        [
-            7,
-            1
-        ],
-        [
-            7,
-            2
-        ],
-        [
-            7,
-            3
-        ],
-        [
-            8,
-            2
-        ],
-        [
-            8,
-            3
-        ],
-        [
-            8,
-            4
-        ],
-        [
-            8,
-            6
-        ],
-        [
-            9,
-            3
-        ],
-        [
-            9,
-            4
-        ],
-        [
-            10,
-            2
-        ],
-        [
-            10,
-            3
-        ],
-        [
-            10,
-            4
-        ],
-        [
-            10,
-            5
-        ]
+        [6, 2],
+        [6, 5],
+        [7, 1],
+        [7, 2],
+        [7, 3],
+        [8, 2],
+        [8, 3],
+        [8, 4],
+        [8, 6],
+        [9, 3],
+        [9, 4],
+        [10, 2],
+        [10, 3],
+        [10, 4],
+        [10, 5]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["回费"],
+            "location": [3, 4],
             "direction": "up",
-            "condition": [
-                0,
-                19
-            ]
+            "condition": [0, 19]
         },
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["回费"],
+            "location": [4, 4],
             "direction": "up",
-            "condition": [
-                0,
-                20
-            ]
+            "condition": [0, 20]
         },
         {
             "groups": [
@@ -116,74 +49,34 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "棘刺",
-                "地面远程"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["棘刺", "地面远程"],
+            "location": [5, 3],
             "direction": "right",
-            "condition": [
-                0,
-                60
-            ]
+            "condition": [0, 60]
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "盾法",
-                "高台预备"
-            ],
-            "location": [
-                3,
-                2
-            ],
+            "groups": ["高台C", "高台输出", "盾法", "高台预备"],
+            "location": [3, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [4, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "速狙",
-                "狙击"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["速狙", "狙击"],
+            "location": [5, 4],
             "direction": "right",
-            "condition": [
-                0,
-                42
-            ]
+            "condition": [0, 42]
         },
         {
-            "groups": [
-                "银灰"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["银灰"],
+            "location": [3, 3],
             "direction": "up"
         },
         {
@@ -196,38 +89,18 @@
                 "梓兰",
                 "高台预备"
             ],
-            "location": [
-                2,
-                2
-            ],
+            "location": [2, 2],
             "direction": "right",
-            "condition": [
-                0,
-                42
-            ]
+            "condition": [0, 42]
         },
         {
-            "groups": [
-                "浊心斯卡蒂",
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                2,
-                3
-            ],
+            "groups": ["浊心斯卡蒂", "凯尔希", "奶"],
+            "location": [2, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "补给站",
-                "斯卡蒂的海嗣",
-                "支援陷阱"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["补给站", "斯卡蒂的海嗣", "支援陷阱"],
+            "location": [4, 2],
             "direction": "left"
         },
         {
@@ -241,43 +114,21 @@
                 "炮灰",
                 "斯卡蒂的海嗣"
             ],
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "up",
-            "condition": [
-                30,
-                80
-            ]
+            "condition": [30, 80]
         },
         {
-            "groups": [
-                "地面单切"
-            ],
-            "location": [
-                8,
-                5
-            ],
+            "groups": ["地面单切"],
+            "location": [8, 5],
             "direction": "right",
-            "condition": [
-                31,
-                34
-            ]
+            "condition": [31, 34]
         },
         {
-            "groups": [
-                "地面单切"
-            ],
-            "location": [
-                8,
-                1
-            ],
+            "groups": ["地面单切"],
+            "location": [8, 1],
             "direction": "right",
-            "condition": [
-                34,
-                37
-            ]
+            "condition": [34, 37]
         },
         {
             "groups": [
@@ -289,15 +140,9 @@
                 "炮灰",
                 "其他地面"
             ],
-            "location": [
-                3,
-                1
-            ],
+            "location": [3, 1],
             "direction": "left",
-            "condition": [
-                43,
-                60
-            ]
+            "condition": [43, 60]
         },
         {
             "groups": [
@@ -309,15 +154,9 @@
                 "炮灰",
                 "其他地面"
             ],
-            "location": [
-                4,
-                1
-            ],
+            "location": [4, 1],
             "direction": "left",
-            "condition": [
-                43,
-                60
-            ]
+            "condition": [43, 60]
         },
         {
             "groups": [
@@ -329,15 +168,9 @@
                 "梓兰",
                 "高台预备"
             ],
-            "location": [
-                2,
-                2
-            ],
+            "location": [2, 2],
             "direction": "right",
-            "condition": [
-                46,
-                80
-            ]
+            "condition": [46, 80]
         },
         {
             "groups": [
@@ -349,63 +182,29 @@
                 "炮灰",
                 "斯卡蒂的海嗣"
             ],
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "up",
-            "condition": [
-                45,
-                80
-            ]
+            "condition": [45, 80]
         },
         {
-            "groups": [
-                "高台输出",
-                "奶",
-                "高台预备"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["高台输出", "奶", "高台预备"],
+            "location": [5, 4],
             "direction": "up",
-            "condition": [
-                56,
-                80
-            ]
+            "condition": [56, 80]
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                3,
-                4
-            ],
-            "condition": [
-                20,
-                25
-            ]
+            "location": [3, 4],
+            "condition": [20, 25]
         },
         {
-            "location": [
-                5,
-                4
-            ],
-            "condition": [
-                43,
-                55
-            ]
+            "location": [5, 4],
+            "condition": [43, 55]
         },
         {
-            "location": [
-                2,
-                2
-            ],
-            "condition": [
-                43,
-                45
-            ]
+            "location": [2, 2],
+            "condition": [43, 45]
         }
     ]
 }

@@ -2,40 +2,20 @@
     "stage_name": "大君遗脉",
     "replacement_home": [
         {
-            "location": [
-                4,
-                5
-            ],
+            "location": [4, 5],
             "direction": "up"
         }
     ],
     "blacklist_location": [
-        [
-            9,
-            1
-        ],
-        [
-            8,
-            3
-        ],
-        [
-            8,
-            4
-        ],
-        [
-            9,
-            4
-        ]
+        [9, 1],
+        [8, 3],
+        [8, 4],
+        [9, 4]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "投锋"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["投锋"],
+            "location": [3, 3],
             "direction": "up"
         },
         {
@@ -48,10 +28,7 @@
                 "其他地面",
                 "地面阻挡"
             ],
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "up"
         },
         {
@@ -64,10 +41,7 @@
                 "其他地面",
                 "地面阻挡"
             ],
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "up"
         },
         {
@@ -80,10 +54,7 @@
                 "号角",
                 "重装"
             ],
-            "location": [
-                4,
-                5
-            ],
+            "location": [4, 5],
             "direction": "up"
         },
         {
@@ -96,88 +67,38 @@
                 "号角",
                 "重装"
             ],
-            "location": [
-                3,
-                5
-            ],
+            "location": [3, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["召唤", "高台C", "控制", "狙击", "术师", "辅助"],
+            "location": [5, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                2,
-                5
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [2, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["召唤", "高台C", "控制", "狙击", "术师", "辅助"],
+            "location": [6, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "地刺"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["地刺"],
+            "location": [3, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [8, 4],
             "direction": "right",
-            "condition": [
-                12,
-                20
-            ]
+            "condition": [12, 20]
         },
         {
-            "groups": [
-                "挡人先锋",
-                "地面C",
-                "重装"
-            ],
-            "location": [
-                2,
-                4
-            ],
+            "groups": ["挡人先锋", "地面C", "重装"],
+            "location": [2, 4],
             "direction": "right"
         },
         {
@@ -192,10 +113,7 @@
                 "单奶",
                 "群奶"
             ],
-            "location": [
-                6,
-                5
-            ],
+            "location": [6, 5],
             "direction": "left"
         },
         {
@@ -210,10 +128,7 @@
                 "单奶",
                 "群奶"
             ],
-            "location": [
-                6,
-                3
-            ],
+            "location": [6, 3],
             "direction": "left"
         }
     ]

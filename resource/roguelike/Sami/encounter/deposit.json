@@ -1,9 +1,6 @@
 {
     "theme": "Sami",
-    "mode": [
-        1,
-        4
-    ],
+    "mode": [1, 4],
     "stage": [
         {
             "name": "吉兆",

@@ -2,97 +2,44 @@
     "stage_name": "豪华车队",
     "replacement_home": [
         {
-            "location": [
-                6,
-                5
-            ],
+            "location": [6, 5],
             "direction": "right"
         },
         {
-            "location": [
-                6,
-                6
-            ],
+            "location": [6, 6],
             "direction": "right"
         }
     ],
     "blacklist_location": [
-        [
-            3,
-            5
-        ],
-        [
-            3,
-            6
-        ],
-        [
-            8,
-            5
-        ],
-        [
-            8,
-            6
-        ]
+        [3, 5],
+        [3, 6],
+        [8, 5],
+        [8, 6]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "焰苇",
-                "水陈",
-                "高台输出"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["焰苇", "水陈", "高台输出"],
+            "location": [6, 4],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 6],
             "direction": "right"
         },
         {
-            "groups": [
-                "凯尔希",
-                "水陈",
-                "狙击",
-                "单奶"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["凯尔希", "水陈", "狙击", "单奶"],
+            "location": [7, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "凯尔希",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["凯尔希", "高台输出", "辅助", "其他高台"],
+            "location": [7, 1],
             "direction": "left"
         },
         {
@@ -105,96 +52,46 @@
                 "狙击",
                 "辅助"
             ],
-            "location": [
-                8,
-                1
-            ],
+            "location": [8, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面阻挡"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["地面阻挡"],
+            "location": [6, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地刺",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["玛恩纳", "地刺", "地面阻挡", "其他地面"],
+            "location": [6, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["处决者"],
+            "location": [6, 6],
             "direction": "up",
-            "condition": [
-                0,
-                10
-            ]
+            "condition": [0, 10]
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["处决者"],
+            "location": [6, 6],
             "direction": "up",
-            "condition": [
-                15,
-                30
-            ]
+            "condition": [15, 30]
         },
         {
-            "groups": [
-                "近卫"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["近卫"],
+            "location": [6, 6],
             "direction": "right"
         },
         {
-            "groups": [
-                "辅助",
-                "狙击",
-                "术师"
-            ],
-            "location": [
-                8,
-                1
-            ],
+            "groups": ["辅助", "狙击", "术师"],
+            "location": [8, 1],
             "direction": "left"
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                7,
-                2
-            ],
-            "condition": [
-                10,
-                15
-            ]
+            "location": [7, 2],
+            "condition": [10, 15]
         }
     ]
 }

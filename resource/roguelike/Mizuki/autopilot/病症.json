@@ -2,77 +2,38 @@
     "stage_name": "病症",
     "replacement_home": [
         {
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "location": [
-                7,
-                2
-            ],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "location": [
-                7,
-                4
-            ],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "location": [
-                5,
-                2
-            ],
+            "location": [5, 2],
             "direction": "right"
         },
         {
-            "location": [
-                6,
-                3
-            ],
+            "location": [6, 3],
             "direction": "right"
         }
     ],
     "blacklist_location": [
-        [
-            3,
-            1
-        ],
-        [
-            3,
-            3
-        ],
-        [
-            3,
-            5
-        ],
-        [
-            4,
-            2
-        ],
-        [
-            4,
-            4
-        ],
-        [
-            5,
-            1
-        ],
-        [
-            5,
-            5
-        ]
+        [3, 1],
+        [3, 3],
+        [3, 5],
+        [4, 2],
+        [4, 4],
+        [5, 1],
+        [5, 5]
     ],
     "deploy_plan": [
         {
@@ -87,40 +48,22 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "召唤"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["召唤"],
+            "location": [6, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "群奶"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["群奶"],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "单奶"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["单奶"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
@@ -136,10 +79,7 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                7,
-                2
-            ],
+            "location": [7, 2],
             "direction": "down"
         },
         {
@@ -155,24 +95,12 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                7,
-                4
-            ],
+            "location": [7, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["高台C", "控制", "术师", "狙击", "辅助"],
+            "location": [6, 3],
             "direction": "right"
         },
         {
@@ -187,10 +115,7 @@
                 "挡人先锋",
                 "其他地面"
             ],
-            "location": [
-                6,
-                2
-            ],
+            "location": [6, 2],
             "direction": "left"
         },
         {
@@ -205,40 +130,17 @@
                 "挡人先锋",
                 "其他地面"
             ],
-            "location": [
-                6,
-                4
-            ],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
+            "location": [5, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
+            "location": [4, 3],
             "direction": "left"
         }
     ]

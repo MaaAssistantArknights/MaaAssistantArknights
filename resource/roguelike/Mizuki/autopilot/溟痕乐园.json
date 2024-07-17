@@ -2,31 +2,19 @@
     "stage_name": "溟痕乐园",
     "replacement_home": [
         {
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "left"
         },
         {
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "right"
         },
         {
-            "location": [
-                1,
-                4
-            ],
+            "location": [1, 4],
             "direction": "right"
         },
         {
-            "location": [
-                1,
-                2
-            ],
+            "location": [1, 2],
             "direction": "right"
         }
     ],
@@ -41,70 +29,33 @@
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "投锋",
-                "挡人先锋"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["投锋", "挡人先锋"],
+            "location": [6, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                4,
-                6
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [4, 6],
             "direction": "left"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "异德",
-                "地面C"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["百嘉", "基石", "异德", "地面C"],
+            "location": [3, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [4, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "号角"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["号角"],
+            "location": [5, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地刺"
-            ],
-            "location": [
-                2,
-                3
-            ],
+            "groups": ["玛恩纳", "地刺"],
+            "location": [2, 3],
             "direction": "left"
         },
         {
@@ -118,10 +69,7 @@
                 "单奶",
                 "群奶"
             ],
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "left"
         },
         {
@@ -135,26 +83,14 @@
                 "单奶",
                 "群奶"
             ],
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                2,
-                3
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [2, 3],
             "direction": "down",
-            "condition": [
-                17,
-                23
-            ]
+            "condition": [17, 23]
         },
         {
             "groups": [
@@ -167,25 +103,12 @@
                 "刺客",
                 "其他地面"
             ],
-            "location": [
-                2,
-                4
-            ],
+            "location": [2, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "召唤",
-                "狙击",
-                "术师",
-                "辅助"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["高台C", "控制", "召唤", "狙击", "术师", "辅助"],
+            "location": [5, 5],
             "direction": "right"
         }
     ]
