@@ -179,7 +179,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 
 ### 개발에 기여를 원하지만, GitHub 사용이 어려운 경우?
 
-[GitHub Pull Request 가이드](./develop/pr-tutorial.md)
+[GitHub Pull Request 가이드](./develop/development.md#introduction-to-github-pull-request-flow)
 
 ### Issue bot
 

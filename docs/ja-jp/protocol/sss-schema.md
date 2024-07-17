@@ -134,6 +134,4 @@ JSONファイルはコメントをサポートしていません。テキスト�
 
 ## サンプルファイル
 
-[SSS_阿卡胡拉丛林.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_阿卡胡拉丛林.json)
-
-[SSS_多索雷斯在建地块.json](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/SSS_多索雷斯在建地块.json)
+<https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/resource/copilot/>
