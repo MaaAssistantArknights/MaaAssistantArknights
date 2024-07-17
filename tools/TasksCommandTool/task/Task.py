@@ -123,14 +123,16 @@ class Task:
             interpreted_task_list = []
             for task in task_list:
                 interpreted_task_list.extend(Task.evaluate(task, interpreted_task))
-            # 去重
-            interpreted_task_set = set()
-            interpreted_task_without_duplicate = []
-            for task in interpreted_task_list:
-                if task not in interpreted_task_set:
-                    interpreted_task_set.add(task)
-                    interpreted_task_without_duplicate.append(task)
-            setattr(interpreted_task, field.python_field_name, interpreted_task_without_duplicate)
+            # 除了sub_tasks和reduce_other_times，其他字段去重
+            if field not in [TaskFieldEnum.SUB_TASKS.value, TaskFieldEnum.REDUCE_OTHER_TIMES.value]:
+                interpreted_task_set = set()
+                interpreted_task_without_duplicate = []
+                for task in interpreted_task_list:
+                    if task not in interpreted_task_set:
+                        interpreted_task_set.add(task)
+                        interpreted_task_without_duplicate.append(task)
+                interpreted_task_list = interpreted_task_without_duplicate
+            setattr(interpreted_task, field.python_field_name, interpreted_task_list)
         return interpreted_task
 
     def show(self):
