@@ -12,13 +12,28 @@
     ],
     "postDelay": 0,
     "preDelay": 0,
-    "rectMove": "[ 640, 0, 0, 0 ]",
+    "rectMove": [
+        640,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
     ],
-    "roi": "[ 655, 20, 10, 10 ]",
+    "roi": [
+        655,
+        20,
+        10,
+        10
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 640, 300, 0, 0 ]",
+    "specificRect": [
+        640,
+        300,
+        0,
+        0
+    ],
     "sub": [
         "Sami@Roguelike@StageCombatDps",
         "Sami@Roguelike@StageCombatDpsAI6",

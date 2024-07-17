@@ -12,13 +12,28 @@
     ],
     "postDelay": 0,
     "preDelay": 0,
-    "rectMove": "[ 0, 0, 0, 0 ]",
+    "rectMove": [
+        0,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
     ],
-    "roi": "[ 1071, 104, 208, 124 ]",
+    "roi": [
+        1071,
+        104,
+        208,
+        124
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 0, 0, 0, 0 ]",
+    "specificRect": [
+        0,
+        0,
+        0,
+        0
+    ],
     "sub": [
         "Reclamation2SkipDays2SkipTimeConfig",
         "Reclamation2SkipDays1"

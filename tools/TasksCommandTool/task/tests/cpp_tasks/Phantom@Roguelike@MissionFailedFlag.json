@@ -22,13 +22,28 @@
     ],
     "postDelay": 0,
     "preDelay": 0,
-    "rectMove": "[ 0, 0, 0, 0 ]",
+    "rectMove": [
+        0,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
     ],
-    "roi": "[ 450, 163, 540, 267 ]",
+    "roi": [
+        450,
+        163,
+        540,
+        267
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 0, 0, 0, 0 ]",
+    "specificRect": [
+        0,
+        0,
+        0,
+        0
+    ],
     "sub": [
     ],
     "subErrorIgnored": false

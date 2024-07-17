@@ -14,13 +14,28 @@
     ],
     "postDelay": 0,
     "preDelay": 500,
-    "rectMove": "[ 0, 0, 0, 0 ]",
+    "rectMove": [
+        0,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
     ],
-    "roi": "[ 26, 565, 302, 155 ]",
+    "roi": [
+        26,
+        565,
+        302,
+        155
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 0, 0, 0, 0 ]",
+    "specificRect": [
+        0,
+        0,
+        0,
+        0
+    ],
     "sub": [
         "EnterChooseLevelOfDifficulty"
     ],

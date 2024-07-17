@@ -14,13 +14,28 @@
     ],
     "postDelay": 0,
     "preDelay": 1000,
-    "rectMove": "[ 0, 0, 0, 0 ]",
+    "rectMove": [
+        0,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
     ],
-    "roi": "[ 1027, 443, 158, 137 ]",
+    "roi": [
+        1027,
+        443,
+        158,
+        137
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 0, 0, 0, 0 ]",
+    "specificRect": [
+        0,
+        0,
+        0,
+        0
+    ],
     "sub": [
     ],
     "subErrorIgnored": false

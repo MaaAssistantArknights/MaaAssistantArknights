@@ -24,15 +24,30 @@
     ],
     "postDelay": 3000,
     "preDelay": 0,
-    "rectMove": "[ 0, 0, 0, 0 ]",
+    "rectMove": [
+        0,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
         "StartButton1",
         "StartButton2"
     ],
-    "roi": "[ 550, 600, 200, 120 ]",
+    "roi": [
+        550,
+        600,
+        200,
+        120
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 0, 0, 0, 0 ]",
+    "specificRect": [
+        0,
+        0,
+        0,
+        0
+    ],
     "sub": [
     ],
     "subErrorIgnored": false

@@ -12,13 +12,28 @@
     ],
     "postDelay": 800,
     "preDelay": 0,
-    "rectMove": "[ 0, 0, 0, 0 ]",
+    "rectMove": [
+        0,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
     ],
-    "roi": "[ 1026, 470, 254, 248 ]",
+    "roi": [
+        1026,
+        470,
+        254,
+        248
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 1144, 472, 78, 24 ]",
+    "specificRect": [
+        1144,
+        472,
+        78,
+        24
+    ],
     "sub": [
         "SwipeToTheDown",
         "SwipeToTheDown"

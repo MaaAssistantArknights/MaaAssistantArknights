@@ -12,17 +12,32 @@
     ],
     "postDelay": 200,
     "preDelay": 0,
-    "rectMove": "[ 670, 340, 20, 20 ]",
+    "rectMove": [
+        670,
+        340,
+        20,
+        20
+    ],
     "reduceOtherTimes": [
     ],
-    "roi": "[ 0, 0, 0, 0 ]",
+    "roi": [
+        0,
+        0,
+        0,
+        0
+    ],
     "specialParams": [
         200,
         1,
         2,
         0
     ],
-    "specificRect": "[ 1150, 340, 20, 20 ]",
+    "specificRect": [
+        1150,
+        340,
+        20,
+        20
+    ],
     "sub": [
     ],
     "subErrorIgnored": false

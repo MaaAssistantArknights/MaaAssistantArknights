@@ -18,7 +18,12 @@
     ],
     "postDelay": 1000,
     "preDelay": 500,
-    "rectMove": "[ 0, 0, 0, 0 ]",
+    "rectMove": [
+        0,
+        0,
+        0,
+        0
+    ],
     "reduceOtherTimes": [
         "StageQueue@ClickCornerAfterPRTS",
         "StageQueue@ClickCorner",
@@ -31,10 +36,20 @@
         "StageQueue@ClickCornerAfterPRTS",
         "StageQueue@ClickCorner"
     ],
-    "roi": "[ 1038, 625, 206, 61 ]",
+    "roi": [
+        1038,
+        625,
+        206,
+        61
+    ],
     "specialParams": [
     ],
-    "specificRect": "[ 0, 0, 0, 0 ]",
+    "specificRect": [
+        0,
+        0,
+        0,
+        0
+    ],
     "sub": [
     ],
     "subErrorIgnored": false
