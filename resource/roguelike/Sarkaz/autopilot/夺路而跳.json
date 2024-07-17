@@ -24,6 +24,7 @@
         },
         {
             "groups": [
+                "益达",
                 "高台输出"
             ],
             "location": [
@@ -43,6 +44,10 @@
             "location": [
                 3,
                 5
+            ],
+            "condition": [
+                0,
+                8
             ],
             "direction": "up"
         },
@@ -68,14 +73,23 @@
         },
         {
             "groups": [
-                "单奶",
+                "单奶"
+            ],
+            "location": [
+                6,
+                2
+            ],
+            "direction": "left"
+        },
+        {
+            "groups": [
                 "群奶"
             ],
             "location": [
                 4,
-                2
+                4
             ],
-            "direction": "down"
+            "direction": "up"
         },
         {
             "groups": [
@@ -88,6 +102,18 @@
                 3
             ],
             "direction": "down"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [
+                3,
+                5
+            ],
+            "condition": [
+                9,
+                19
+            ]
         }
     ]
 }
