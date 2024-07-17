@@ -64,6 +64,7 @@ asst::TaskPtr asst::TaskData::get(std::string_view name)
     }
 }
 
+#define ASST_TASK_DEBUG
 #ifdef ASST_TASK_DEBUG
 
 struct TaskInfoSerializer
@@ -93,6 +94,47 @@ struct TaskInfoSerializer
         json["exceededNext"] = serialize(task.exceeded_next);
         json["onErrorNext"] = serialize(task.on_error_next);
         json["reduceOtherTimes"] = serialize(task.reduce_other_times);
+
+        if (task.algorithm == asst::AlgorithmType::MatchTemplate) {
+            auto match_task = dynamic_cast<const asst::MatchTaskInfo*>(&task);
+            json["maskRange"] = serialize(match_task->mask_range);
+            json["templThreshold"] = match_task->templ_thresholds;
+            json["template"] = match_task->templ_names;
+        }
+        else if (task.algorithm == asst::AlgorithmType::OcrDetect) {
+            auto ocr_task = dynamic_cast<const asst::OcrTaskInfo*>(&task);
+            json["fullMatch"] = ocr_task->full_match;
+            json["isAscii"] = ocr_task->is_ascii;
+            json["withoutDet"] = ocr_task->without_det;
+            json["replaceFull"] = ocr_task->replace_full;
+            json["ocrReplace"] = serialize(ocr_task->replace_map);
+            json["text"] = ocr_task->text;
+        }
+        else if (task.algorithm == asst::AlgorithmType::Hash) {
+            auto hash_task = dynamic_cast<const asst::HashTaskInfo*>(&task);
+            json["hash"] = hash_task->hashes;
+            json["threshold"] = hash_task->dist_threshold;
+            json["maskRange"] = serialize(hash_task->mask_range);
+            json["bound"] = hash_task->bound;
+        }
+
+        return json;
+    }
+
+    json::array serialize(const std::vector<std::pair<std::string, std::string>>& vec) const
+    {
+        json::array json;
+        for (const auto& [first, second] : vec) {
+            json.push_back(json::array { first, second });
+        }
+        return json;
+    }
+
+    json::array serialize(const std::pair<int, int>& pair) const
+    {
+        json::array json;
+        json.push_back(pair.first);
+        json.push_back(pair.second);
         return json;
     }
 
