@@ -16794,14 +16794,6 @@
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
     "Sarkaz@Roguelike@GetDrop3": {},
-    "Sarkaz@Roguelike@GetDrop4": {
-        "baseTask": "Roguelike@GetDrop",
-        "next": [
-            "Sarkaz@Roguelike@DropsFlag",
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@ClickToDrops"
-        ]
-    },
     "Sarkaz@Roguelike@GetDropCompleted": {},
     "Sarkaz@Roguelike@GetDropLeave": {},
     "Sarkaz@Roguelike@GetDropRecruit": {},
@@ -16809,7 +16801,6 @@
         "next": [
             "Sarkaz@Roguelike@GetDropSelectRecruit",
             "Sarkaz@Roguelike@GetDropSelectReward",
-            "Sarkaz@Roguelike@GetDropSelectReward2",
             "Sarkaz@Roguelike@ChooseOperFlag",
             "Sarkaz@Roguelike@GetDropCompleted",
             "Sarkaz@Roguelike@GetDropSelect"
@@ -16819,26 +16810,11 @@
         "template": "Sarkaz@Roguelike@Recruit.png"
     },
     "Sarkaz@Roguelike@GetDropSelectReward": {},
-    "Sarkaz@Roguelike@GetDropSelectReward2": {
-        "roi": [
-            0,
-            420,
-            1280,
-            175
-        ],
-        "postDelay": 800,
-        "next": [
-            "Sarkaz@Roguelike@GetDropSelectReward2",
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@ClickToDrops"
-        ]
-    },
     "Sarkaz@Roguelike@GetDrops": {
         "next": [
             "Sarkaz@Roguelike@GetDrop1",
             "Sarkaz@Roguelike@GetDrop2",
             "Sarkaz@Roguelike@GetDrop3",
-            "Sarkaz@Roguelike@GetDrop4",
             "Sarkaz@Roguelike@GetDropSelectReward",
             "Sarkaz@Roguelike@GetDropSelect",
             "Sarkaz@Roguelike@GetDropRecruit"
