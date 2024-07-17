@@ -737,7 +737,8 @@
                 {
                     "name": "古米",
                     "skill": 1,
-                    "recruit_priority": 614,
+                    "recruit_priority": 626,
+                    "is_key": true,
                     "promote_priority": 300,
                     "recruit_priority_offsets": [
                         {
@@ -2312,6 +2313,12 @@
                 },
                 {
                     "name": "温米"
+                },
+                {
+                    "name": "卡达",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 563
                 },
                 {
                     "name": "史都华德",
