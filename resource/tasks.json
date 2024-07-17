@@ -16635,6 +16635,109 @@
             "mask": []
         }
     },
+    "Sarkaz@Roguelike@ChooseBurdenOperator": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperator.png",
+        "roi": [
+            11,
+            493,
+            140,
+            143
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart.png",
+        "roi": [
+            589,
+            584,
+            231,
+            121
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickRect",
+        "specificRect": [
+            710,
+            680,
+            0,
+            0
+        ],
+        "postDelay": 500,
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperator"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm.png",
+        "roi": [
+            542,
+            551,
+            135,
+            134
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorQuit": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorQuit.png",
+        "roi": [
+            0,
+            0,
+            150,
+            148
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            330,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            450,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            570,
+            240,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm"
+        ]
+    },
     "Sarkaz@Roguelike@ChooseDifficulty": {
         "roi": [
             1086,
@@ -17043,6 +17146,13 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
+    "Sarkaz@Roguelike@StageFilterTruthEnter": {
+        "baseTask": "Sarkaz@Roguelike@StageEnter",
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
     "Sarkaz@Roguelike@StageFilterTruthHD": {
         "Doc": "已深化",
         "baseTask": "Sarkaz@Roguelike@Stage",
@@ -17050,13 +17160,6 @@
         "next": [
             "Sarkaz@Roguelike@StageFilterTruthEnter",
             "Sarkaz@Roguelike@Stages#next"
-        ]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthEnter": {
-        "baseTask": "Sarkaz@Roguelike@StageEnter",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthEnter",
-            "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
     },
     "Sarkaz@Roguelike@StageFilterTruthLeave": {
@@ -17114,6 +17217,12 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
+    "Sarkaz@Roguelike@StageSafeHouseEnter": {
+        "next": [
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@StageEncounterJudgeClick"
+        ]
+    },
     "Sarkaz@Roguelike@StageSafeHouseHD": {
         "Doc": "已深化",
         "templThreshold": 0.95,
@@ -17121,12 +17230,6 @@
         "next": [
             "Sarkaz@Roguelike@StageSafeHouseEnter",
             "Sarkaz@Roguelike@Stages#next"
-        ]
-    },
-    "Sarkaz@Roguelike@StageSafeHouseEnter": {
-        "next": [
-            "Sarkaz@Roguelike@StageSafeHouseEnter",
-            "Sarkaz@Roguelike@StageEncounterJudgeClick"
         ]
     },
     "Sarkaz@Roguelike@StageSafeHouseReuse": {
@@ -17159,6 +17262,7 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
+    "Sarkaz@Roguelike@StageTraderEnter": {},
     "Sarkaz@Roguelike@StageTraderHD": {
         "Doc": "已深化",
         "templThreshold": 0.95,
@@ -17168,7 +17272,6 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
-    "Sarkaz@Roguelike@StageTraderEnter": {},
     "Sarkaz@Roguelike@StageTraderLeaveConfirm": {
         "template": "Roguelike@StageTraderLeaveConfirm.png",
         "exceededNext": [
@@ -17299,109 +17402,6 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart.png",
-        "roi": [
-            589,
-            584,
-            231,
-            121
-        ],
-        "templThreshold": 0.9,
-        "action": "ClickRect",
-        "specificRect": [
-            710,
-            680,
-            0,
-            0
-        ],
-        "postDelay": 500,
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperator"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperator": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperator.png",
-        "roi": [
-            11,
-            493,
-            140,
-            143
-        ],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            330,
-            240,
-            0,
-            0
-        ],
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect2": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            450,
-            240,
-            0,
-            0
-        ],
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorSelect3": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            570,
-            240,
-            0,
-            0
-        ],
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm.png",
-        "roi": [
-            542,
-            551,
-            135,
-            134
-        ],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorQuit": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorQuit.png",
-        "roi": [
-            0,
-            0,
-            150,
-            148
-        ],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
-            "Sarkaz@Roguelike@Stages#next"
         ]
     },
     "Sarkaz@Roguelike@StartExplore": {
