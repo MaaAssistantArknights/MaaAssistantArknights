@@ -1,34 +1,34 @@
 import json
 import math
-from pathlib import Path
 import os
-import ast
 
 from .utils import TaskTest
-from ..TasksCli import json_path
 from ..Task import Task, set_base_task_warning
+from ..TasksCli import json_path
 from ..debug import disable_tracing, enable_tracing
 
 _CPP_TASKS_PATH = os.path.dirname(__file__) + "/cpp_task.json"
 _CPP_TASKS: dict[str, dict] = {}
 
 
+def load_cpp_tasks():
+    with open(_CPP_TASKS_PATH, 'r', encoding='utf-8') as f:
+        tasks = json.load(f)
+        for name, task_dict in tasks.items():
+            _CPP_TASKS[name] = task_dict
+
+
+def load_tasks():
+    with open(json_path, 'r', encoding='utf-8') as f:
+        tasks = json.load(f)
+        for name, task_dict in tasks.items():
+            try:
+                Task(name, task_dict).define()
+            except Exception as e:
+                print(f"Error loading task {name}: {e}")
+
+
 class CPPTaskTests(TaskTest):
-
-    def load_cpp_tasks(self):
-        with open(_CPP_TASKS_PATH, 'r', encoding='utf-8') as f:
-            tasks = json.load(f)
-            for name, task_dict in tasks.items():
-                _CPP_TASKS[name] = task_dict
-
-    def load_tasks(self):
-        with open(json_path, 'r', encoding='utf-8') as f:
-            tasks = json.load(f)
-            for name, task_dict in tasks.items():
-                try:
-                    Task(name, task_dict).define()
-                except Exception as e:
-                    print(f"Error loading task {name}: {e}")
 
     def assertTaskEqual(self, actual, expected, task_name=""):
         actual = actual.to_task_dict()
@@ -48,8 +48,8 @@ class CPPTaskTests(TaskTest):
     def test_cpp_tasks(self):
         disable_tracing()
         set_base_task_warning(False)
-        self.load_tasks()
-        self.load_cpp_tasks()
+        load_tasks()
+        load_cpp_tasks()
         for task_name, task_dict in _CPP_TASKS.items():
             if task_name == "InfrastOperFaceHash":
                 continue
