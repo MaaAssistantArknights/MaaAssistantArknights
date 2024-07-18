@@ -563,6 +563,19 @@
                     ]
                 },
                 {
+                    "name": "深巡",
+                    "skill": 2,
+                    "recruit_priority": 613,
+                    "promote_priority": 350,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "重装"],
+                            "threshold": 2,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
                     "name": "瑕光",
                     "skill": 1,
                     "recruit_priority": 607,
@@ -1856,6 +1869,19 @@
                     ]
                 },
                 {
+                    "name": "妮芙",
+                    "skill": 2,
+                    "recruit_priority": 540,
+                    "promote_priority": 801,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["术师"],
+                            "threshold": 1,
+                            "offset": -120
+                        }
+                    ]
+                },
+                {
                     "name": "刻俄柏",
                     "skill": 2,
                     "recruit_priority": 439,
@@ -2133,6 +2159,11 @@
                     "promote_priority": 400
                 },
                 {
+                    "name": "海霓",
+                    "recruit_priority": 256,
+                    "promote_priority": 400
+                },
+                {
                     "name": "但书",
                     "skill": 2,
                     "recruit_priority": 256,
@@ -2332,6 +2363,10 @@
                 },
                 {
                     "name": "白铁",
+                    "skill": 2
+                },
+                {
+                    "name": "乌尔比安",
                     "skill": 2
                 },
                 {
@@ -2882,6 +2917,9 @@
                 },
                 {
                     "name": "异客"
+                },
+                {
+                    "name": "妮芙"
                 },
                 {
                     "name": "令"
@@ -3595,6 +3633,9 @@
                     "name": "眠兽"
                 },
                 {
+                    "name": "樱桃三号"
+                },
+                {
                     "name": "磐蟹护卫队"
                 }
             ]
@@ -3631,9 +3672,6 @@
                 {
                     "name": "夜半",
                     "skill": 2,
-                    "is_start": true,
-                    "recruit_priority": 235,
-                    "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["回费"],
@@ -3641,6 +3679,18 @@
                             "is_less": true,
                             "offset": 150,
                             "Doc": "回费干员≤0时，优先级+150"
+                        }
+                    ]
+                },
+                {
+                    "name": "渡桥",
+                    "skill": 2,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["回费"],
+                            "threshold": 0,
+                            "is_less": true,
+                            "offset": 150
                         }
                     ]
                 },
