@@ -39,6 +39,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             InitViewModels();
             InitProxy();
+            if (Instances.SettingsViewModel.AllowNightlyUpdates && Instances.SettingsViewModel.UpdateNightly && !Instances.SettingsViewModel.HasAcknowledgedNightlyWarning)
+            {
+                MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
+            }
+
             Task.Run(async () =>
             {
                 await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
@@ -54,6 +59,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
             });
+
             Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
         }
 

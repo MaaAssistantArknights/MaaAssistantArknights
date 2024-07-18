@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -203,6 +206,16 @@
     <system:String x:Key="UpdateCheckStable">안정 버전</system:String>
     <system:String x:Key="UpdateCheckBeta">베타 버전</system:String>
     <system:String x:Key="UpdateCheckNightly">개발 버전</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">개발 버전 업데이트를 활성화했습니다. MAA에 대한 지원과 테스트에 감사드립니다.
+
+주의사항:
+
+1. 이것은 개발 버전이며, 불안정한 기능이 포함될 수 있습니다.
+2. 문제가 발생하면 GitHub에서 관련 이슈가 이미 존재하는지 확인하세요. 존재하지 않는 경우, 새로운 이슈를 제출하고 로그 파일을 첨부하십시오. 이렇게 하면 문제를 보다 효율적으로 처리할 수 있습니다.
+3. 사용자 그룹이나 댓글 섹션 등 다른 곳에서 개발 버전 문제를 논의하지 마십시오. 이는 공공 자원을 차지하고 신속한 피드백과 해결을 방해합니다.
+4. 비개발자 사용자에게 개발 버전 업데이트 방법을 공유하지 마십시오. 불필요한 혼란과 위험을 피하기 위해서입니다.
+
+설정 - 정보 - 이슈 제보 링크를 클릭하여 이 팝업을 취소할 수 있습니다. 이해와 협조에 감사드립니다!</system:String>
     <system:String x:Key="UpdateCheck">업데이트할 버전</system:String>
     <system:String x:Key="DownloadWithAria2">aria2로 다운로드</system:String>
     <system:String x:Key="UpdateCheckNow">지금 업데이트</system:String>

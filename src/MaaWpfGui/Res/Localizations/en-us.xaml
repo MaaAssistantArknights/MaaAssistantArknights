@@ -203,6 +203,16 @@
     <system:String x:Key="UpdateCheckStable">Stable Release</system:String>
     <system:String x:Key="UpdateCheckBeta">Beta Release</system:String>
     <system:String x:Key="UpdateCheckNightly">Nightly Release</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">You have enabled nightly updates. Thank you for supporting and testing MAA.
+
+Please note:
+
+1. This is a nightly build and may contain unstable features.
+2. If you encounter any issues, please check GitHub to see if a related issue already exists. If not, submit a new issue and attach the log file. This will help us address the problem more efficiently.
+3. Please do not discuss nightly build issues in other places, such as user groups or comment sections. This occupies public resources and prevents timely feedback and resolution.
+4. Do not share the method to enable nightly updates with non-developer users to avoid unnecessary confusion and risk.
+
+You can cancel this popup by clicking the Settings - About Us - Issue Reporting link. Thank you for your understanding and cooperation!</system:String>
     <system:String x:Key="UpdateCheck">Update Version</system:String>
     <system:String x:Key="DownloadWithAria2">Download via aria2</system:String>
     <system:String x:Key="UpdateCheckNow">Check update</system:String>

@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">常規設定</system:String>
@@ -199,6 +202,16 @@
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公測版</system:String>
     <system:String x:Key="UpdateCheckNightly">內測版</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">您已啟用內測版更新。感謝您對 MAA 的支持與測試。
+
+請注意：
+
+1. 這是內測版，可能包含不穩定的功能。
+2. 如果遇到問題，請務必在 GitHub 上檢查是否已有相關 issue，若無則提交 issue，並附上日誌文件。這樣我們可以更高效地處理問題。
+3. 請不要在其他地方討論內測版問題，例如用戶群、評論區等。這會佔用公共資源且無法及時反饋和解決問題。
+4. 請勿將更新內測版的方法告知其他非開發用戶，以避免對他們造成不必要的困擾和風險。
+
+您可通過點擊 設置-關於我們-問題反饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>

@@ -115,7 +115,8 @@
                 <Hyperlink
                     Cursor="Hand"
                     NavigateUri="{Binding Source={x:Static constants:MaaUrls.GitHubIssues}}"
-                    TextDecorations="None">
+                    TextDecorations="None"
+                    Command="{s:Action SetAcknowledgedNightlyWarning}">
                     <TextBlock Text="{DynamicResource Issue}" />
                 </Hyperlink>
             </controls:TextBlock>

@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -17,7 +20,7 @@
     <system:String x:Key="UiTheme">UI主題</system:String>
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
-    <system:String x:Key="AboutUs">About</system:String>
+    <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="CoreVersion">Core バージョン</system:String>
     <system:String x:Key="UiVersion">UI バージョン</system:String>
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
@@ -203,6 +206,16 @@
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
     <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
     <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">内部テスト版の更新を有効にしました。MAA のサポートとテストに感謝します。
+
+ご注意ください：
+
+1. これは内部テスト版であり、不安定な機能が含まれている可能性があります。
+2. 問題が発生した場合は、GitHub で関連する issue が既に存在するかどうかを確認してください。存在しない場合は、新しい issue を提出し、ログファイルを添付してください。これにより、問題をより効率的に対処できます。
+3. 内部テスト版の問題をユーザーグループやコメントセクションなどの他の場所で議論しないでください。これにより公共のリソースが占有され、迅速なフィードバックと解決が妨げられます。
+4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
+
+設定 - About us - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
     <system:String x:Key="UpdateCheck">Update version</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
@@ -726,7 +739,7 @@
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
-    <system:String x:Key="TryToReconnectByAdb">再接続を試みています </system:String>
+    <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>
