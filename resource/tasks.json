@@ -11956,12 +11956,12 @@
         ],
         "postDelay": 500,
         "next": [
+            "Roguelike@DropsFlag",
             "Roguelike@Stages#next",
             "Roguelike@ChooseOperFlag",
             "Roguelike@StageEncounterSpecialClose",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave",
-            "Roguelike@DropsFlag",
             "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToDrops"
         ]
