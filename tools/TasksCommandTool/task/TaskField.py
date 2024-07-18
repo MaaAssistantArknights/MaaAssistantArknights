@@ -256,6 +256,9 @@ class TaskFieldEnum(Enum):
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
 
+    def __eq__(self, other):
+        return self.value == other
+
 
 def get_fields(condition: Callable[[TaskFieldEnum], bool] = lambda x: True) -> List[TaskField]:
     return [field.value for field in TaskFieldEnum if condition(field)]
