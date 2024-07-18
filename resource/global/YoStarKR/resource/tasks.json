@@ -6767,12 +6767,12 @@
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
+        "next": [
+            "Phantom@Roguelike@FromIntegratedStrategies"
+        ],
         "text": [
             "팬텀",
             "팬럼"
-        ],
-        "next": [
-            "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -6862,11 +6862,11 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "미즈키"
-        ],
         "next": [
             "Mizuki@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "미즈키"
         ]
     },
     "Mizuki@Roguelike@StageEncounterOptionUnknown": {
@@ -7545,11 +7545,11 @@
         ]
     },
     "Sami@Roguelike@SelectTheme": {
-        "text": [
-            "탐험가"
-        ],
         "next": [
             "Sami@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "탐험가"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {

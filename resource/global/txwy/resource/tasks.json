@@ -5848,11 +5848,11 @@
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "傀影"
-        ],
         "next": [
             "Phantom@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "傀影"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -5926,11 +5926,11 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "水月"
-        ],
         "next": [
             "Mizuki@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "水月"
         ]
     },
     "Mizuki@Roguelike@StrategyChange_mode0": {
@@ -6409,11 +6409,11 @@
         ]
     },
     "Sami@Roguelike@SelectTheme": {
-        "text": [
-            "探索"
-        ],
         "next": [
             "Sami@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "探索"
         ]
     },
     "Sami@Roguelike@StrategyChange_mode0": {
