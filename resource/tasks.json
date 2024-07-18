@@ -11594,10 +11594,10 @@
         "preDelayDoc": "结算界面Part2检测是否加载完成的延迟，减少截图消耗",
         "preDelay": 6000,
         "roi": [
-            600,
-            610,
-            80,
-            80
+            580,
+            590,
+            130,
+            130
         ],
         "postDelay": 3000,
         "specialParamsDoc": [
@@ -11607,6 +11607,16 @@
             2000
         ]
     },
+    "Phantom@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
+    },
+    "Mizuki@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
+    },
+    "Sami@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
+    },
+    "Sarkaz@RoguelikeSettlementConfirm": {},
     "RoguelikeSettlementOcr-BOSS": {
         "baseTask": "NumberOcrReplace",
         "roi": [
