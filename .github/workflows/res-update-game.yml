@@ -99,7 +99,7 @@ jobs:
         show-progress: false
         repository: arkntools/arknights-toolbox-update
         ref: data-tw
-        path: ./txwy
+        path: ./excel
         fetch-depth: 1
         token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
 
