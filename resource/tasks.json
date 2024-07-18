@@ -11607,16 +11607,6 @@
             2000
         ]
     },
-    "Phantom@RoguelikeSettlementConfirm": {
-        "template": "RoguelikeSettlementConfirm.png"
-    },
-    "Mizuki@RoguelikeSettlementConfirm": {
-        "template": "RoguelikeSettlementConfirm.png"
-    },
-    "Sami@RoguelikeSettlementConfirm": {
-        "template": "RoguelikeSettlementConfirm.png"
-    },
-    "Sarkaz@RoguelikeSettlementConfirm": {},
     "RoguelikeSettlementOcr-BOSS": {
         "baseTask": "NumberOcrReplace",
         "roi": [
@@ -14079,6 +14069,9 @@
     "Phantom@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
+    "Phantom@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
+    },
     "Phantom@RoguelikeSettlementOcr-Exp": {
         "roi": [
             760,
@@ -14795,6 +14788,9 @@
     "Mizuki@Roguelike@TodoEnter": {},
     "Mizuki@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
+    },
+    "Mizuki@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
     },
     "Sami@Roguelike@Abandon": {
         "template": [
@@ -16634,6 +16630,9 @@
             "Sami@Roguelike@WaitForStartButtonClicked"
         ]
     },
+    "Sami@RoguelikeSettlementConfirm": {
+        "template": "RoguelikeSettlementConfirm.png"
+    },
     "Sarkaz@Roguelike@Abandon": {
         "crop_doc": {
             "roi": [
@@ -17613,6 +17612,7 @@
     "Sarkaz@Roguelike@WaitForStartButtonClicked": {
         "template": "Roguelike@QuickFormation.png"
     },
+    "Sarkaz@RoguelikeSettlementConfirm": {},
     "Reclamation": {
         "template": [
             "Terminal.png",
