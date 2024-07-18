@@ -1,12 +1,19 @@
-from .utils import TaskTest, test_pipeline_a, test_pipeline_b, test_virtual_task, test_match_template_a
-from ..Task import Task, _ALL_TASKS
+from .utils import TaskTest
+from ..Task import Task
 
 
+# noinspection Duplicates
 class TemplateTaskTest(TaskTest):
 
     def test_template_task_inheritance(self):
-        Task("A", test_pipeline_a).define()
-        task = Task._build_template_task("B@A")
+        Task("A", {
+            "sub": ["A_sub", "A_sub2"],
+            "next": ["A_next"],
+            "onErrorNext": ["A_onErrorNext"],
+            "exceededNext": ["A_exceededNext"],
+            "reduceOtherTimes": ["A_reduceOtherTimes"],
+        }).define()
+        task = Task.get("B@A")
         self.assertTaskEqual(task, {
             "sub": ["B@A_sub", "B@A_sub2"],
             "next": ["B@A_next"],
@@ -16,9 +23,21 @@ class TemplateTaskTest(TaskTest):
         })
 
     def test_nested_template_task_inheritance(self):
-        Task("A", test_pipeline_a).define()
-        Task("B", test_pipeline_b).define()
-        task = Task._build_template_task("C@B@A")
+        Task("A", {
+            "sub": ["A_sub", "A_sub2"],
+            "next": ["A_next"],
+            "onErrorNext": ["A_onErrorNext"],
+            "exceededNext": ["A_exceededNext"],
+            "reduceOtherTimes": ["A_reduceOtherTimes"],
+        }).define()
+        Task("B", {
+            "sub": ["B_sub", "B_sub2"],
+            "next": ["B_next"],
+            "onErrorNext": ["B_onErrorNext"],
+            "exceededNext": ["B_exceededNext"],
+            "reduceOtherTimes": ["B_reduceOtherTimes"],
+        }).define()
+        task = Task.get("C@B@A")
         self.assertTaskEqual(task, {
             "sub": ["C@B@A_sub", "C@B@A_sub2"],
             "next": ["C@B@A_next"],
@@ -28,8 +47,20 @@ class TemplateTaskTest(TaskTest):
         })
 
     def test_template_task_with_override(self):
-        Task("A", test_pipeline_a).define()
-        Task("B", test_pipeline_b).define()
+        Task("A", {
+            "sub": ["A_sub", "A_sub2"],
+            "next": ["A_next"],
+            "onErrorNext": ["A_onErrorNext"],
+            "exceededNext": ["A_exceededNext"],
+            "reduceOtherTimes": ["A_reduceOtherTimes"],
+        }).define()
+        Task("B", {
+            "sub": ["B_sub", "B_sub2"],
+            "next": ["B_next"],
+            "onErrorNext": ["B_onErrorNext"],
+            "exceededNext": ["B_exceededNext"],
+            "reduceOtherTimes": ["B_reduceOtherTimes"],
+        }).define()
         Task("B@A", {
             "sub": ["no_new_sub", "no_new_sub2"],
             "next": ["no_new_next"],
@@ -38,6 +69,7 @@ class TemplateTaskTest(TaskTest):
             "reduceOtherTimes": ["no_new_reduceOtherTimes"],
         }).define()
         task = Task.get("C@B@A")
+        # 若定义了B@A，则会直接使用B@A的定义，而不会继承A的定义
         self.assertTaskEqual(task, {
             "sub": ["C@no_new_sub", "C@no_new_sub2"],
             "next": ["C@no_new_next"],
@@ -47,8 +79,13 @@ class TemplateTaskTest(TaskTest):
         })
 
     def test_virtual_task(self):
-        Task("virtual", test_virtual_task).define()
-        task = Task._build_template_task("B@virtual")
+        Task("virtual", {
+            "sub": ["#virtual_sub", "#virtual_sub2"],
+            "next": ["#virtual_next"],
+            "onErrorNext": ["#virtual_onErrorNext"],
+            "exceededNext": ["#virtual_exceededNext"],
+        }).define()
+        task = Task.get("B@virtual")
         self.assertTaskEqual(task, {
             "sub": ["B#virtual_sub", "B#virtual_sub2"],
             "next": ["B#virtual_next"],
@@ -57,11 +94,23 @@ class TemplateTaskTest(TaskTest):
         })
 
     def test_algorithm_override(self):
-        Task("A", {**test_pipeline_a, **test_match_template_a}).define()
+        Task("A", {
+            "sub": ["A_sub", "A_sub2"],
+            "next": ["A_next"],
+            "onErrorNext": ["A_onErrorNext"],
+            "exceededNext": ["A_exceededNext"],
+            "reduceOtherTimes": ["A_reduceOtherTimes"],
+
+            "algorithm": "MatchTemplate",
+            "template": "A.png",
+            "templThreshold": 0.8,
+            "maskRange": [1, 255],
+        }).define()
         Task("B@A", {
             "algorithm": "OcrDetect",
         }).define()
         task = Task.get("B@A")
+        # 如果算法不同，则仅继承基础任务的定义
         self.assertTaskEqual(task, {
             "sub": ["B@A_sub", "B@A_sub2"],
             "next": ["B@A_next"],

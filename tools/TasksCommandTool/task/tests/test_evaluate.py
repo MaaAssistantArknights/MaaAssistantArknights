@@ -1,5 +1,5 @@
 from ..Task import Task, InterpretedTask
-from .utils import TaskTest, test_info_a, test_pipeline_a, test_match_template_a, test_pipeline_b
+from .utils import TaskTest
 
 
 class EvaluateTest(TaskTest):
@@ -16,8 +16,45 @@ class EvaluateTest(TaskTest):
                 self.assertEqual(expected[key], actual[key], f"Key: {key}")
 
     def test_evaluate(self):
-        Task("A", {**test_info_a, **test_pipeline_a}).define()
-        Task("B", {**test_info_a, **test_pipeline_b}).define()
+        Task("A", {
+            "algorithm": "MatchTemplate",
+            "action": "ClickSelf",
+            "subErrorIgnored": False,
+            "maxTimes": 1,
+            "preDelay": 0,
+            "postDelay": 0,
+            "retryTimes": 0,
+            "roi": [0, 0, 1280, 720],
+            "rectMove": [0, 0, 0, 0],
+            "cache": False,
+            "specificRect": [100, 100, 50, 50],
+            "specialParams": [], "sub": ["A_sub", "A_sub2"],
+
+            "next": ["A_next"],
+            "onErrorNext": ["A_onErrorNext"],
+            "exceededNext": ["A_exceededNext"],
+            "reduceOtherTimes": ["A_reduceOtherTimes"],
+        }).define()
+        Task("B", {
+            "algorithm": "MatchTemplate",
+            "action": "ClickSelf",
+            "subErrorIgnored": False,
+            "maxTimes": 1,
+            "preDelay": 0,
+            "postDelay": 0,
+            "retryTimes": 0,
+            "roi": [0, 0, 1280, 720],
+            "rectMove": [0, 0, 0, 0],
+            "cache": False,
+            "specificRect": [100, 100, 50, 50],
+            "specialParams": [],
+
+            "sub": ["B_sub", "B_sub2"],
+            "next": ["B_next"],
+            "onErrorNext": ["B_onErrorNext"],
+            "exceededNext": ["B_exceededNext"],
+            "reduceOtherTimes": ["B_reduceOtherTimes"],
+        }).define()
         print(Task.evaluate("C@B@A"))
 
     def define_tasks(self):
@@ -65,8 +102,34 @@ class EvaluateTest(TaskTest):
 
     def test_7(self):
         # (ClickCornerAfterPRTS+ClickCorner)*5
-        Task("ClickCornerAfterPRTS", test_info_a).define()
-        Task("ClickCorner", test_info_a).define()
+        Task("ClickCornerAfterPRTS", {
+            "algorithm": "MatchTemplate",
+            "action": "ClickSelf",
+            "subErrorIgnored": False,
+            "maxTimes": 1,
+            "preDelay": 0,
+            "postDelay": 0,
+            "retryTimes": 0,
+            "roi": [0, 0, 1280, 720],
+            "rectMove": [0, 0, 0, 0],
+            "cache": False,
+            "specificRect": [100, 100, 50, 50],
+            "specialParams": [],
+        }).define()
+        Task("ClickCorner", {
+            "algorithm": "MatchTemplate",
+            "action": "ClickSelf",
+            "subErrorIgnored": False,
+            "maxTimes": 1,
+            "preDelay": 0,
+            "postDelay": 0,
+            "retryTimes": 0,
+            "roi": [0, 0, 1280, 720],
+            "rectMove": [0, 0, 0, 0],
+            "cache": False,
+            "specificRect": [100, 100, 50, 50],
+            "specialParams": [],
+        }).define()
         Task("Test", {"next": ["(ClickCornerAfterPRTS+ClickCorner)*5"]}).define()
         self.assertInterpretEqual(Task.get("Test").interpret(), {
             "name": "Test",
