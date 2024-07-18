@@ -17108,7 +17108,7 @@
     "Sarkaz@Roguelike@LastReward3": {},
     "Sarkaz@Roguelike@LastReward4": {},
     "Sarkaz@Roguelike@LastReward5": {
-        "baseTask": "Roguelike@LastReward_default"
+        "baseTask": "Sarkaz@Roguelike@LastReward_default"
     },
     "Sarkaz@Roguelike@LastRewardConfirm": {},
     "Sarkaz@Roguelike@LastRewardRand": {},
