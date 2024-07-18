@@ -16880,8 +16880,8 @@
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenAbandon",
-            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought",
-            "Sarkaz@Roguelike@DecreaseBurdenUse"
+            "Sarkaz@Roguelike@DecreaseBurdenUse",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst": {
