@@ -248,7 +248,8 @@
             "char_4000_jnight": "저스티스 나이트",
             "char_4077_palico": "테라 대륙 조사단",
             "char_4091_ulika": "U-Official",
-            "char_4093_frston": "Friston-3"
+            "char_4093_frston": "Friston-3",
+            "char_4136_phonor": ""
         },
         "2": {
             "char_009_12fce": "12F",
@@ -337,7 +338,8 @@
             "char_4063_quartz": "쿼츠",
             "char_4067_lolxh": "나소흑",
             "char_4100_caper": "케이퍼",
-            "char_4107_vrdant": "버던트"
+            "char_4107_vrdant": "버던트",
+            "char_4130_luton": ""
         },
         "5": {
             "char_002_amiya": "아미야",
@@ -479,7 +481,7 @@
             "char_4071_peper": "파프리카",
             "char_4078_bdhkgt": "지에윈",
             "char_4079_haini": "",
-            "char_4081_warmy": "",
+            "char_4081_warmy": "워미",
             "char_4083_chimes": "윈드차임스",
             "char_4102_threye": "발라크빈",
             "char_4104_coldst": "콜드샷",
@@ -487,7 +489,15 @@
             "char_4106_bryota": "브라이오피타",
             "char_4109_baslin": "베이스라인",
             "char_4110_delphn": "델핀",
-            "char_4114_harold": "해럴드"
+            "char_4114_harold": "해럴드",
+            "char_4119_wanqin": "",
+            "char_4122_grabds": "",
+            "char_4124_iana": "",
+            "char_4125_rdoc": "",
+            "char_4126_fuze": "",
+            "char_4131_odda": "",
+            "char_4137_udflow": "",
+            "char_4147_mitm": ""
         },
         "6": {
             "char_003_kalts": "켈시",
@@ -577,7 +587,15 @@
             "char_4087_ines": "이네스",
             "char_4088_hodrer": "외드레르",
             "char_4098_vvana": "비비아나",
-            "char_4116_blkkgt": "데겐블레허"
+            "char_4116_blkkgt": "데겐블레허",
+            "char_4117_ray": "레이",
+            "char_4121_zuole": "",
+            "char_4123_ela": "",
+            "char_4132_ascln": "",
+            "char_4133_logos": "",
+            "char_4134_cetsyr": "",
+            "char_4145_ulpia": "",
+            "char_4146_nymph": ""
         }
     }
 }

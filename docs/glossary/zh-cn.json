@@ -496,7 +496,8 @@
             "char_4125_rdoc": "医生",
             "char_4126_fuze": "导火索",
             "char_4131_odda": "奥达",
-            "char_4137_udflow": "深巡"
+            "char_4137_udflow": "深巡",
+            "char_4147_mitm": "渡桥"
         },
         "6": {
             "char_003_kalts": "凯尔希",
@@ -593,7 +594,8 @@
             "char_4132_ascln": "阿斯卡纶",
             "char_4133_logos": "逻各斯",
             "char_4134_cetsyr": "魔王",
-            "char_4145_ulpia": "乌尔比安"
+            "char_4145_ulpia": "乌尔比安",
+            "char_4146_nymph": "妮芙"
         }
     }
 }
