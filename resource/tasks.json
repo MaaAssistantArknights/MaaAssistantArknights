@@ -16653,7 +16653,8 @@
         ],
         "postDelay": 500,
         "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperator"
+            "Sarkaz@Roguelike@ChooseBurdenOperator",
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
         ]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperator": {
