@@ -38,11 +38,11 @@ namespace MaaWpfGui.Helper
             }
 
             string jsonText = File.ReadAllText(FilePath);
-            var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? new();
+            var characterData = JsonConvert.DeserializeObject<Dictionary<string, CharacterInfo>>(JObject.Parse(jsonText)["chars"]?.ToString() ?? string.Empty) ?? new Dictionary<string, CharacterInfo>();
 
-            var characterNames_Lang_Add = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
-            var characterNames_client_Add = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
-            foreach ((var key, var value) in characterData)
+            var characterNamesLangAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage));
+            var characterNamesClientAdd = GetCharacterNamesAddAction(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
+            foreach (var (key, value) in characterData)
             {
                 Characters.Add(key, value);
                 if (!key.StartsWith("char_"))
@@ -50,39 +50,28 @@ namespace MaaWpfGui.Helper
                     continue;
                 }
 
-                characterNames_Lang_Add.Invoke(value);
-                characterNames_client_Add.Invoke(value);
+                characterNamesLangAdd.Invoke(value);
+                characterNamesClientAdd.Invoke(value);
             }
         }
 
         private static Action<CharacterInfo> GetCharacterNamesAddAction(string str)
         {
-            if (str == "zh-cn" || str == "Official" || str == "Bilibili")
+            return str switch
             {
-                return v => CharacterNames.Add(v.Name ?? string.Empty);
-            }
-
-            if (str == "zh-tw" || str == "txwy")
-            {
-                return v => CharacterNames.Add(v.NameTw ?? string.Empty);
-            }
-
-            if (str == "en-us" || str == "YoStarEN")
-            {
-                return v => CharacterNames.Add(v.NameEn ?? string.Empty);
-            }
-
-            if (str == "ja-jp" || str == "YoStarJP")
-            {
-                return v => CharacterNames.Add(v.NameJp ?? string.Empty);
-            }
-
-            if (str == "ko-kr" || str == "YoStarKR")
-            {
-                return v => CharacterNames.Add(v.NameKr ?? string.Empty);
-            }
-
-            return v => CharacterNames.Add(v.Name ?? string.Empty);
+                "zh-cn" or "Official" or "Bilibili" =>
+                    v => CharacterNames.Add(v.Name ?? string.Empty),
+                "zh-tw" or "txwy" =>
+                    v => CharacterNames.Add(v.NameTw ?? string.Empty),
+                "en-us" or "YoStarEN" =>
+                    v => CharacterNames.Add(v.NameEn ?? string.Empty),
+                "ja-jp" or "YoStarJP" =>
+                    v => CharacterNames.Add(v.NameJp ?? string.Empty),
+                "ko-kr" or "YoStarKR" =>
+                    v => CharacterNames.Add(v.NameKr ?? string.Empty),
+                _ =>
+                    v => CharacterNames.Add(v.Name ?? string.Empty)
+            };
         }
 
         public static CharacterInfo? GetCharacterByNameOrAlias(string characterName)

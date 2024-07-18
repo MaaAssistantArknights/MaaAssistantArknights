@@ -2,86 +2,44 @@
     "stage_name": "大群所向",
     "replacement_home": [
         {
-            "location": [
-                10,
-                3
-            ],
+            "location": [10, 3],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "投锋"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["投锋"],
+            "location": [7, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "挡人先锋"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["挡人先锋"],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["玛恩纳"],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "异德"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["异德"],
+            "location": [6, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "群奶"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["群奶"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "重装",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["百嘉", "基石", "地面C", "重装", "其他地面"],
+            "location": [5, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "号角"
-            ],
-            "location": [
-                2,
-                2
-            ],
+            "groups": ["号角"],
+            "location": [2, 2],
             "direction": "right"
         },
         {
@@ -94,46 +52,22 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                6,
-                1
-            ],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "单奶"
-            ],
-            "location": [
-                2,
-                1
-            ],
+            "groups": ["单奶"],
+            "location": [2, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "地面C",
-                "重装",
-                "其他地面"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["基石", "地面C", "重装", "其他地面"],
+            "location": [8, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "地刺",
-                "刺客",
-                "异德",
-                "其他地面"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["地刺", "刺客", "异德", "其他地面"],
+            "location": [8, 2],
             "direction": "right"
         }
     ]

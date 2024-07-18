@@ -1,27 +1,22 @@
-<div align="center">
+---
+icon: ic:round-home
+index: true
+dir:
+  order: 0
+---
 
-<img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
+::: center
+
+![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
 
 # MaaAssistantArknights
 
-<br>
-<div>
-    <img alt="C++" src="https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus">
-</div>
-<div>
-    <img alt="platform" src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet">
-</div>
-<div>
-    <img alt="license" src="https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights">
-    <img alt="commit" src="https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4">
-</div>
-<div>
-    <img alt="stars" src="https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social">
-    <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social">
-</div>
-<br>
+![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
+![platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-blueviolet)
+![license](https://img.shields.io/github/license/MaaAssistantArknights/MaaAssistantArknights) ![commit](https://img.shields.io/github/commit-activity/m/MaaAssistantArknights/MaaAssistantArknights?color=%23ff69b4)
+![stars](https://img.shields.io/github/stars/MaaAssistantArknights/MaaAssistantArknights?style=social) ![GitHub all releases](https://img.shields.io/github/downloads/MaaAssistantArknights/MaaAssistantArknights/total?style=social)
 
-[简体中文](../readme.md) | [繁體中文](../zh-tw/readme.md) | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
+[简体中文](../zh-cn/readme.md) | 繁體中文 | [English](../en-us/readme.md) | [日本語](../ja-jp/readme.md) | [한국어](../ko-kr/readme.md)
 
 MAA 的意思是 MAA Assistant Arknights
 
@@ -29,14 +24,14 @@ MAA 的意思是 MAA Assistant Arknights
 
 基於圖像辨識技術，一鍵完成全部日常任務！
 
-絕讚更新中  ✿✿ヽ(°▽°)ノ✿<br>
+絕讚更新中  ✿✿ヽ(°▽°)ノ✿
 
-</div>
+:::
 
 ## 亮點功能
 
 - 刷理智，掉落辨識及上傳 [企鵝物流數據統計](https://penguin-stats.io/)；
-- 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./3.6-基建排班協議.md)；
+- 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./protocol/base-scheduling-schema.md)；
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流數據統計](https://penguin-stats.io/result/stage/recruit/recruit) ， [一圖流](https://ark.yituliu.cn/survey/maarecruitdata) ；
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推王呢還是推王呢）~~
 - 支援辨識幹員列表，統計已有和未有幹員（還能為手動辨識公招介面提供已有潛能數據提示）；
@@ -49,10 +44,28 @@ MAA 的意思是 MAA Assistant Arknights
 
 話不多說，看圖！
 
-![zh1](https://user-images.githubusercontent.com/9762652/259595058-1529207a-ef3d-4eca-a016-4759eb534c6e.png)
-![zh2](https://user-images.githubusercontent.com/9762652/259594965-882b61e6-bf31-40c1-8c03-3f51f82a0d42.png)
-![zh3](https://user-images.githubusercontent.com/9762652/259594874-07abdd9f-33f0-4446-8da3-799849bf7328.png)
-![zh4](https://user-images.githubusercontent.com/9762652/259594649-c08b6558-7d17-45a8-9ba0-3ebc9a6f5589.png)
+```component ImageGrid
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/readme/1-light.png",
+      "dark": "image/zh-cn/readme/1-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/2-light.png",
+      "dark": "image/zh-cn/readme/2-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/3-light.png",
+      "dark": "image/zh-cn/readme/3-dark.png"
+    },
+    {
+      "light": "image/zh-cn/readme/4-light.png",
+      "dark": "image/zh-cn/readme/4-dark.png"
+    }
+  ]
+}
+```
 
 ## 下載地址
 
@@ -63,12 +76,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本說明
 
-1. 請根據 [模擬器支援情況](./1.3-模擬器支援.md)，進行對應的操作。
+1. 請根據 [模擬器支援情況](./manual/device/)，進行對應的操作。
 2. 修改模擬器解析度為 `16:9` 比例，最低 `1280 * 720`，最高 `2K`。  
    對於國際服（美服）玩家，由於介面佈局問題，我們則建議您將解析度修改為 `1920 * 1080`。
 3. 開始使用吧！
 
-更多使用說明請參考 [詳細介紹](./1.1-詳細介紹.md)
+更多使用說明請參考 [詳細介紹](./manual/introduction/).
 
 ## 常見問題
 
@@ -80,7 +93,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 下載到一半提示 “登錄” / “鑒權”
 - 連接正常，任務開始了，但是沒反應
 
-請參考 [常見問題](./1.2-常見問題.md)
+請參考 [常見問題](./manual/faq.md)
 
 ## 外服支援
 
@@ -114,7 +127,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~C++ base64 編解碼：[cpp-base64](https://github.com/ReneNyffenegger/cpp-base64)~~
 - C++ 解壓壓縮庫：[zlib](https://github.com/madler/zlib)
 - C++ Gzip 封裝：[gzip-hpp](https://github.com/mapbox/gzip-hpp)
-- 安卓觸控事件器：[minitouch](https://github.com/openstf/minitouch)
+- 安卓觸控事件器：[Minitouch](https://github.com/DeviceFarmer/minitouch)
 - 安卓觸控事件器：[MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch)
 - WPF MVVM 框架：[Stylet](https://github.com/canton7/Stylet)
 - WPF 控件庫：[HandyControl](https://github.com/HandyOrg/HandyControl)
@@ -148,11 +161,11 @@ MAA 的意思是 MAA Assistant Arknights
 2. 使用 Visual Studio 2022 打開 `MAA.sln`，右鍵 `MaaWpfGui`，設為啟動項目
 3. VS 上方配置選擇 `RelWithDebInfo`, `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
 4. 右鍵 `MaaWpfGui` - 屬性 - 偵錯 - 啟用本地偵錯（這樣就能把斷點掛到 C++ Core 那邊了）
-5. （可選）若準備提交 PR，建議啟用 [clang-format 支援](./2.2-開發相關.md#在-visual-studio-中啟用-clang-format)
+5. （可選）若準備提交 PR，建議啟用 [clang-format 支援](./develop/development.md#在-visual-studio-中啟用-clang-format)
 
 ### Linux | macOS
 
-請參考 [Linux 編譯教學](./2.1-Linux編譯教學.md)
+請參考 [Linux 編譯教學](./develop/linux-tutorial.md)
 
 ### API
 
@@ -164,22 +177,22 @@ MAA 的意思是 MAA Assistant Arknights
 - [Java HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
 - [Rust 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys) ： [HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [集成文件](./3.1-集成文件.md)
-- [回呼訊息協議](./3.2-回呼訊息協議.md)
-- [任務流程協議](./3.4-任務流程協議.md)
-- [自動抄作業協議](./3.3-戰鬥流程協議.md)
+- [集成文件](./protocol/integration.md)
+- [回呼訊息協議](./protocol/callback-schema.md)
+- [任務流程協議](./protocol/task-schema.md)
+- [自動抄作業協議](./protocol/copilot-schema.md)
 
 ### 外服適配
 
-請參考 [外服適配教學](./2.5-外服適配教學.md)，對於陸服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
+請參考 [外服適配教學](./develop/overseas-client-adaptation.md)，對於陸服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
 
 ### 想參與開發，但不太會用 Github?
 
-[Github Pull Request 流程簡述](./2.2-開發相關.md#github-pull-request-流程簡述)
+[Github Pull Request 流程簡述](./develop/development.md#introduction-to-github-pull-request-flow)
 
 ### Issue bot
 
-請參考 [Issue bot 使用方法](./2.3-IssueBot使用方法.md)
+請參考 [Issue bot 使用方法](./develop/issue-bot-usage.md)
 
 ## 聲明
 
@@ -197,3 +210,5 @@ Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
+
+<!-- markdownlint-disable-file MD034 MD041 -->

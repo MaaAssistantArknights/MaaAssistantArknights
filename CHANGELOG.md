@@ -1,149 +1,135 @@
-## v5.4.0
+## v5.5.0-beta.1
 
 ### 新增 | New
 
-* 减少上报企鹅物流的重试次数和等待时间 (#9527) @soundofautumn
-* 更新 243 极限效率一天四换排班表（20240608 修订） (#9496) @bodayw
-* 更新模板图片优化工具并优化模板图片 (#9459) @zzyyyl
-* 在理智恢复满时推送信息 (#9285) @ABA2396
-* 增加设置开机自启失败提示 @ABA2396
-* MacGui 自定义填写招募次数 (#6182) @hguandl
-* 增加保全、肉鸽、抄作业可配置截图最小间隔 @ABA2396
-* 生息演算支持制造物品刷点数 (#9268) @ABA2396
-* Mac Gui 支持连战次数、指定掉落 @hguandl
-* 在特定环节执行启动前/后脚本 (#9153) @Linisdjxm
-* 无法连接设备时尝试断开连接然后重新连接 (#9433) @lingting
-* GPU 推理加速 @dantmnf @SherkeyXD
-* SideStory「生路」活动导航 @ABA2396
-* 增加暂停放技能和暂停撤退 (#9348) @Lancarus
+* 适配萨卡兹肉鸽 (#9677) @DavidWang19 @Daydreamer114 @Alan-Charred @SherkeyXD @Lemon-miaow
+* Mac GUI 添加萨米肉鸽策略 @hguandl
+* WPF Gui support for roguelike collapsal paradigm task plugin (#9648) @DavidWang19
+* 由ci生成的非正式/公测/内测版判断为调试版本并且不再检查更新 (#9632) @SherkeyXD @zzyyyl
+* 隐式空 text 检测仅对无基任务生效 @zzyyyl
+* change glossary from markdown to JSON @AlisaAkiron
+* update turbo to v2 @AlisaAkiron
+* 添加萨米肉鸽天途半道关卡战斗策略 (#9337) @Daydreamer114
+* 增加识别坍缩范式的插件，增加萨米肉鸽刷隐藏坍缩范式模式 (#9172) @Alan-Charred
 
 ### 改进 | Improved
 
-* 适配PlayCover更新 @hguandl
-* 优化日志输出控制 @ABA2396
-* 在掉落不超出一页时，不额外滑动掉落列表及截图拼接 (#9260) @status102
-* 优化萨米肉鸽自然之怒ew部署 (#9280) @Daydreamer114
-* 更新macOS SDK版本 @hguandl
-* 垂直滑动优化 @ABA2396
-* 优化萨米ew部署策略 (#9249) @Daydreamer114
-* 优化萨米肉鸽策略 (#9234)(#9232) @Lancarus
-* 优化萨米肉鸽部分关卡策略 (#9224) @Lancarus
-* 优化仓库识别结果展示，支持多语言显示 (#9434) @ABA2396
-* 继续7904的重构 (#9409) @IzakyL
-* 优化代码 @ABA2396
-* 优化数据绑定逻辑，减少 AsstProxy 逻辑处理 @ABA2396
-* 优化肉鸽选项显示逻辑 @ABA2396
-* 增加更新时解压更新包失败日志，增加解压失败解决方案 @ABA2396
-* 优化萨米肉鸽棘刺技能携带 (#9400) @Daydreamer114
-* 优化热更新 @ABA2396
-* 允许使用“feat!”表示重大更新 @zzyyyl
-* 更新 py 回调 @ABA2396
-* 优化关卡选择为剿灭时的逻辑判断 @ABA2396
-* 优化肉鸽shopping策略 (#9332) @ntgmc
-* 优化萨米肉鸽夺树者高台对boss输出策略 (#9294) @Daydreamer114
-* 更新关卡列表与提示延迟至空闲时间，避免动态修改关卡列表 @ABA2396
+* 增加 BattlePauseCancel 重试上限 @zzyyyl
+* cache 统一默认为 false (#9642) @zzyyyl
+* 重新加入 tasks.json 的默认值检查 (#9583) @zzyyyl
+* Caching for ResourceUpdater @Constrat
+* 优化夺路而跳部署策略 (#9726) @Daydreamer114
+* update Sarkaz shopping.json (#9721) @CASUUU @SherkeyXD
+* 自动战斗-战斗列表 批量导入关卡名正则优化 (#9723) @status102
+* 优化第一层作战策略黑名单 (#9710) @Daydreamer114
+* 适配新干员用法&调整萨卡兹肉鸽4星优先度 (#9713) @Lancarus
+* 优化所有肉鸽文件的json排版 @SherkeyXD
+* 优化战斗策略应对天灾年代之刺 (#9702) @Daydreamer114
+* 优化格式 @ABA2396
+* 复用RoguelikeCollapsalParadigmTaskPlugin插件 (#9682) @status102
+* 优化更新策略 @ABA2396
+* 更新部分配置修改为全局配置 @ABA2396
+* 优化版本更新 @ABA2396
+* 更新checkout至v4 这怎么还有个漏网之鱼） @SherkeyXD
+* 删除 tasks.json 冗余行 (#9645) @zzyyyl
+* add log output (#9636) @status102
+* 肉鸽资源加载逻辑及目录结构重构 (#9555) @Alan-Charred @SherkeyXD
+* 修改win7相关问题描述&更新运行库 @Rbqwow
 
 ### 修复 | Fix
 
-* 五周年活动结束后单选领取月卡功能时报错 fix #9452 @ABA2396
-* increase mask range for SkipThePreBattlePlotConfirm (#9446) @Constrat
-* arkntools localization (#9438) @Tsuk1ko
-* 公招没有使用足量的加急许可 @Toby-Shi-cloud
-* “dorm_notstationed_enabled”参数默认值错误 @ABA2396
-* 基建换班重试时只找缺少干员，已选干员无法入驻 @ABA2396
-* 生息演算更新后无法选择日期 @ABA2396
-* 选择休眠动作则结束后脚本没时间运行 @ABA2396
-* constexpr 构造错误 @ABA2396
-* 尝试修复水月肉鸽卡数据回溯 (#9276) @Lancarus
-* 肉鸽部分选项在未显示时仍然生效 @ABA2396
-* 尝试修复肉鸽编队错误,max page误判时仍然重置回最左边 (#9262) @Lancarus
-* 公招 `m_first_tag` 匹配个数少于 3 个时的非预期情况 (#9258) @70CentsApple
-* 尝试修复生息演算不进入下一天 (#9273) @HoshinoAyako
-* 部分界面显示不全 @ABA2396
-* 自然之怒.json格式错误 @Lancarus
-* Mac Gui使用Swift 5.9以下的语法 @hguandl
-* 修复Mac Gui在CI的编译错误 @hguandl
-* unable to get rewards because ReceiveAward is too fast @Constrat
-* 尝试修复萨米卡0干扰并优化密文板使用策略 (#9223) @Lancarus
-* 肉鸽特殊情况下第三层boss门口退出 (#9222) @Lancarus
-* call_command timeout时提前返回 std::nullopt @ABA2396
-* type cast @status102
-* intentionally leak onnxruntime objects to avoid crash @dantmnf
-* 弹药类技能不能二次关闭的问题 (#9379) @HoshinoAyako
-* 自动战斗跳过对话模板更新 (#9380) @HoshinoAyako
-* 无法跳过关卡开始的剧情 @ABA2396
-* add `/D_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR` @horror-proton
-* 战斗列表禁用包含非法字符的关卡名添加 (#9363) @status102
-* add AsstSetConnectionExtras to wine bridge @dantmnf
-* check before destroy callback @dantmnf
-* 修复时间比较报错的问题 @SherkeyXD
-* 刷理智结束时有概率报错 @ChingCdesu
-* fix endless loop in InfrastProductionTask @horror-proton
-* fix coredump caused by screencap failure @horror-proton
-* 保全文件命名错误 (#9322) @ntgmc
+* 尝试修复肉鸽第四层开头卡死的问题 @DavidWang19
+* 修复 萨卡兹肉鸽 LastReward5 少前缀的问题 @zzyyyl
+* 萨卡兹肉鸽战斗结束领奖励时因思绪异常而卡死 (#9731) @Daydreamer114 @DavidWang19
+* 增加猩红甬道的OcrReplace @DavidWang19
+* 修复肉鸽每层识别 @DavidWang19
+* 调整失与得阈值 @DavidWang19
+* 修复萨卡兹肉鸽卡死在结算界面的问题 @DavidWang19
+* 修复萨卡兹肉鸽商店不能刷新的问题 @DavidWang19
+* 修复肉鸽关卡通用策略无法识别费用的问题 @DavidWang19
+* 删除萨卡兹肉鸽开局负荷干员与舍弃思绪功能模板匹配文件名重复描述 (#9722) @Daydreamer114
+* 调整树洞阈值 @DavidWang19
+* 萨卡兹肉鸽舍弃思绪识别位置修改 (#9717) @Daydreamer114
+* 调整节点阈值 @DavidWang19
+* 修复卡死在紧急安全检查的问题 @DavidWang19
+* 修复萨卡兹肉鸽卡死在战斗失败的问题 @DavidWang19
+* 修改材料名称注释 @ABA2396
+* 修复被随机排序破坏的超链接 @Rbqwow
+* tweak Reed Alter, Noir Corne alter regex @Constrat
+* 自动战斗开始时移除召唤物类头像缓存，以避免跨局错误识别相似技能的召唤物 (#9649) @status102
+* 修复连接前同步参数时日志报错的问题 (#9644) @zzyyyl
+* roi out of bounds @zzyyyl
+* 修复萨米肉鸽因插件注册顺序导致的无法运行问题 (#9633) @Alan-Charred
+* 修复坍缩范式插件导致的Gui和傀影/水月肉鸽初始化Bug (#9573) @Alan-Charred
+* 为InfrastEnteredFlag添加延迟以避免信用通知对右上角基建提醒的遮挡 (#9597) @Viel0320
+* allow CMake build MaaCore with ASST_DEBUG under macOS @Alan-Charred
+* leak fastdeploy objects to avoid crash @dantmnf
+* Roguelike Invest System offset (#9590) @Alan-Charred
+* add zh-tw glossary for weblate @AlisaAkiron
+* merge glossary json into one for better webalte compatibility @AlisaAkiron
+* fix typings in Recruit task @horror-proton
+* 修复字体和评论区分类 @Rbqwow
+* wrong proxy detection @Rbqwow
+* switch account failed when MuMuEmulator12Extras is enabled @EvATive7
+
+### 文档 | Docs
+
+* update glossary @HX3N
+* 修改Task协议文档，以符合cache默认值 @status102
+* CHANGELOG中文档修改独立分类 @SherkeyXD
+* fix Weblate status preview in README (#9616) @Lemon-miaow
+* fix a bad link @Rbqwow
+* make i18n warnings show only once @Rbqwow
+* 增加关于肉鸽任务刷探索范式功能的说明 (#9552) @Alan-Charred
+* website docs **translation needed** (#9287) @ABA2396 @HX3N @Constrat @wallsman @Rbqwow @wangl-cc @SherkeyXD
 
 ### 其他 | Other
 
-* 简化Release日志输出 @ABA2396
-* unlocks update options when UpdateCheck = false @Constrat
-* update operator.md @HX3N @wallsman
-* Improve error output in recruitment ResourceUpdater @Constrat
-* 删除多余 style @ABA2396
-* issue模板添加mumu反馈 (#8993) @Rbqwow @ABA2396
-* fix wrong link maa_cli (#9264) @wlwxj @ntgmc
-* 增加开技能最小间隔时间 @ABA2396
-* 界面添加支援道具名称提示，传入内容为空白时自动切换为 荧光棒 @ABA2396
-* Update 肉鸽辅助协议.md @Lancarus
-* reduced filename check description for more info @Constrat
-* Add trace log for scaled coordinates in ControlScaleProxy click & swipe @ABA2396
-* no need to checkout sumodule after https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/9168 @Cryolitia
-* 忽略括号周围resharper格式检查 @ABA2396
-* 统一使用OnUIThread，AddLog默认在ui线程执行 @ABA2396
-* Revert "fix: adding delay between swipe and click" (#9170) @Constrat
-* format @status102
-* fix license typo @Cryolitia
-* 增加「实例已销毁」 (#9201) @aleck099
-* add CITATION @Cryolitia
-* add LICENSE.SPDX @Cryolitia
-* update cn-mumu-report.yaml @Rbqwow
-* fix missing includes @horror-proton
-* use factory function instead of class @horror-proton
-* bump zzyyyl/issue-checker from 1.7 to 1.8 @zzyyyl
-* 修正生息演算相关打标签逻辑 @zzyyyl
-* changelog生成器repo独立设置 @SherkeyXD
-* move functions to TileCalc2 and TileDef @horror-proton
-* Amiya new promotion in RoguelikeBattleTaskPlugin (#9377) @Manicsteiner
-* use NativeLibrary for wine check @dantmnf
-* Amiya new promotion (#9347) @178619
-* 修正临时招募优先度描述错误 (#9344) @IzakyL
-* StyleCop链接使用cdn @SherkeyXD
+* OD navigation (#9729) @Manicsteiner
+* 添加弹窗提示 @ABA2396
+* ignore more site (#9698) @wangl-cc
+* use lychee to check dead links (#9675) @wangl-cc
+* bump `maa-cli` to 0.4.8 and update documents (#9683) @wangl-cc
+* update ja-jp.xaml @Manicsteiner
+* 萨米肉鸽配置文件/插件单独文件夹 (#9651) @Alan-Charred
+* make AskRestartToApplySettingsYoStarEN static @ABA2396
+* 统一肉鸽模式介绍文字 (#9669) @Alan-Charred
+* link for yostaren resolution [skip changelo] @Constrat
+* Translations update from MAA Weblate (#9640) @AlisaAkiron @Rbqwow
+* Style/gui consistency (#9567) @Constrat
+* 删除 Qodana 静态检查 (#9553) @SherkeyXD
+* 增加 ResourceUpdater 日志 @ABA2396
+* pref: 将Head和ETag请求设置为`Connection: close` @ChingCdesu
+* Translations update from MAA Weblate (#9598) @AlisaAkiron
+* update python API (#9538) @EvATive7
 
 ### For Overseas
 
+* YoStar -> Yostar only for interfaces (#9548) @Constrat
+* SSS#4 Automaton Arena @Constrat
+* Global SSS#4 copilot (Translation work in progress) @Constrat
+
 #### txwy
 
-* 修正繁中服薩米肉鴿無法開始探索、密文板無法宣告的問題 (#9484) @momomochi987
-* 繁中服「火山旅夢」活動導航 (#9497) @momomochi987
-* 補充繁中服薩米肉鴿相關內容 (#9450) @momomochi987
-* 初步適配繁中服薩米肉鴿 (#9429) @momomochi987
+* 繁中服部分角色無法正確辨識 (#9647) @momomochi987
+* 補充繁中服保全派駐#3 相關內容 (#9701) @momomochi987
+* 修正繁中服薩米肉鴿獎勵無法多選一的問題 (#9584) @momomochi987
 
 #### YostarEN
 
-* YostarEN RS navigation @Constrat
-* priority to Flint 点火石 trap instead of operator @Constrat
-* ResourceUpdater temporary fix for trap_138_winstone having same as Flint @Constrat
-* en 服在没有源石和理智药的情况下无法退出刷理智任务 @ABA2396
+* Global SSS#4 copilot adaptation @Constrat
+* YoStarEN resolution warning on client switch (#9539) @Constrat @ABA2396
+* YostarEN SSS#4 buffs and branches @Constrat
 
 #### YostarJP
 
-* YoStarJP ocr fix 锏 (#9447) @Manicsteiner
-* YoStarJP RS navigation (#9427) @Manicsteiner
-* YoStarJP roguelike ocr fix (#9426) @Manicsteiner
-* YoStarJP roguelike ocr fix (#9203) @Manicsteiner
+* YostarJP WB navigation (#9715) @Manicsteiner
+* YostarJP add SSSBuffChoose (#9629) @Manicsteiner
+* Update ja-jp.json @wallsman
+* YostarJP cor fix and roguelike shop text (#9591) @Manicsteiner
 
 #### YostarKR
 
-* YostarKR RS stage navigation @HX3N
-* YoStarKR modified CharsNameOcrReplace @HX3N
-* YoStar add translations for new feat @HX3N
-* depot analyzer to detect multipliers for KR (#9343) @178619
+* YostarKR add SSSBuffChoose @HX3N
+* YostarKR WB navigation @HX3N
+* YostarKR ocr fix and remove SkipThePreBattlePlot @HX3N

@@ -11,6 +11,10 @@ const maaProjectLocationMapping = [
     from: '../docs/.vuepress/dist',
     to: `${bundleBasePath}/docs`,
   },
+  {
+    from: '../docs/staticwebapp.config.json',
+    to: `${bundleBasePath}/docs/staticwebapp.config.json`,
+  },
 ];
 
 console.log(`remove ${bundleBasePath}`);

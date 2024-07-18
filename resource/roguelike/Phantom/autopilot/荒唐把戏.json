@@ -2,104 +2,46 @@
     "stage_name": "荒唐把戏",
     "replacement_home": [
         {
-            "location": [
-                9,
-                2
-            ],
+            "location": [9, 2],
             "direction": "left"
         },
         {
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "up"
         }
     ],
     "blacklist_location": [
-        [
-            4,
-            5
-        ],
-        [
-            5,
-            5
-        ],
-        [
-            4,
-            4
-        ],
-        [
-            5,
-            4
-        ],
-        [
-            9,
-            4
-        ],
-        [
-            10,
-            4
-        ]
+        [4, 5],
+        [5, 5],
+        [4, 4],
+        [5, 4],
+        [9, 4],
+        [10, 4]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "回费",
-                "情报官"
-            ],
-            "location": [
-                9,
-                2
-            ],
+            "groups": ["回费", "情报官"],
+            "location": [9, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [8, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "炮灰",
-                "地面单切",
-                "情报官"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["炮灰", "地面单切", "情报官"],
+            "location": [7, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["浊心斯卡蒂"],
+            "location": [8, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                10,
-                2
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [10, 2],
             "direction": "left"
         },
         {
@@ -112,61 +54,27 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                8,
-                1
-            ],
+            "location": [8, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["高台C", "高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [7, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                8,
-                5
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [8, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                9,
-                1
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [9, 1],
             "direction": "left"
         },
         {
@@ -179,65 +87,26 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                9,
-                2
-            ],
+            "location": [9, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "史尔特尔",
-                "地面单切",
-                "情报官",
-                "炮灰",
-                "地面阻挡"
-            ],
-            "location": [
-                2,
-                5
-            ],
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰", "地面阻挡"],
+            "location": [2, 5],
             "direction": "up",
-            "condition": [
-                8,
-                10
-            ]
+            "condition": [8, 10]
         },
         {
-            "groups": [
-                "史尔特尔",
-                "地面单切",
-                "情报官",
-                "炮灰",
-                "地面阻挡"
-            ],
-            "location": [
-                2,
-                5
-            ],
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰", "地面阻挡"],
+            "location": [2, 5],
             "direction": "up",
-            "condition": [
-                32,
-                35
-            ]
+            "condition": [32, 35]
         },
         {
-            "groups": [
-                "史尔特尔",
-                "地面单切",
-                "情报官",
-                "炮灰",
-                "地面阻挡"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰", "地面阻挡"],
+            "location": [7, 1],
             "direction": "left",
-            "condition": [
-                42,
-                45
-            ]
+            "condition": [42, 45]
         },
         {
             "groups": [
@@ -249,27 +118,15 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                6,
-                1
-            ],
+            "location": [6, 1],
             "direction": "left",
-            "condition": [
-                42,
-                45
-            ]
+            "condition": [42, 45]
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                9,
-                2
-            ],
-            "condition": [
-                7,
-                8
-            ]
+            "location": [9, 2],
+            "condition": [7, 8]
         }
     ]
 }

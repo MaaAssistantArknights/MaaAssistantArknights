@@ -20308,6 +20308,10 @@
             },
             {
                 "dropType": "NORMAL_DROP",
+                "itemId": "recruit_tag_element"
+            },
+            {
+                "dropType": "NORMAL_DROP",
                 "itemId": "recruit_tag_fast_redeploy"
             },
             {

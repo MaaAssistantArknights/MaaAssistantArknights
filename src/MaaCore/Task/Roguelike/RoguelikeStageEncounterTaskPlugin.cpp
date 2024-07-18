@@ -35,19 +35,22 @@ bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::va
 bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
+    if (!plugin_gained) {
+        plugin_gained = true;
+        typedef RoguelikeCollapsalParadigmTaskPlugin CPPlugin;
+        for (const auto& plugin : m_task_ptr->get_plugins()) {
+            if (auto ptr = std::dynamic_pointer_cast<CPPlugin>(plugin)) {
+                m_clp_pd_plugin = ptr;
+                break;
+            }
+        }
+    }
 
-    auto mode = m_config->get_mode();
-    std::vector events = RoguelikeStageEncounter.get_events(m_config->get_theme());
-    // 刷源石锭模式和烧水模式
-    if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
-        events = RoguelikeStageEncounter.get_events(m_config->get_theme() + "_deposit");
-    }
-    std::vector<std::string> event_names;
-    std::unordered_map<std::string, Config::RoguelikeEvent> event_map;
-    for (const auto& event : events) {
-        event_names.emplace_back(event.name);
-        event_map.emplace(event.name, event);
-    }
+    const std::string& theme = m_config->get_theme();
+    const RoguelikeMode& mode = m_config->get_mode();
+    std::unordered_map<std::string, Config::RoguelikeEvent> event_map = RoguelikeStageEncounter.get_events(theme, mode);
+    std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
+    
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
     sleep(event_name_task_ptr->pre_delay);
 
@@ -104,6 +107,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
+    if (m_clp_pd_plugin) {
+        m_clp_pd_plugin->check_collapsal_paradigm_banner();
+    }
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     sleep(500);
@@ -119,6 +125,9 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
             for (int j = 0; j < 2; ++j) {
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
+            }
+            if (m_clp_pd_plugin) {
+                m_clp_pd_plugin->check_collapsal_paradigm_banner();
             }
 
             if (need_exit()) {

@@ -2,52 +2,24 @@
     "stage_name": "正义",
     "replacement_home": [
         {
-            "location": [
-                6,
-                2
-            ],
+            "location": [6, 2],
             "direction": "right"
         }
     ],
     "blacklist_location": [
-        [
-            8,
-            1
-        ],
-        [
-            8,
-            2
-        ],
-        [
-            8,
-            3
-        ]
+        [8, 1],
+        [8, 2],
+        [8, 3]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [7, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "回费",
-                "情报官"
-            ],
-            "location": [
-                1,
-                1
-            ],
+            "groups": ["回费", "情报官"],
+            "location": [1, 1],
             "direction": "down"
         },
         {
@@ -60,72 +32,32 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                6,
-                3
-            ],
+            "location": [6, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["浊心斯卡蒂"],
+            "location": [5, 2],
             "direction": "up"
         },
         {
-            "groups": [
-                "奶",
-                "凯尔希",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "奶",
-                "凯尔希",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [6, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [7, 2],
             "direction": "right"
         },
         {
@@ -138,60 +70,27 @@
                 "回费",
                 "史尔特尔"
             ],
-            "location": [
-                6,
-                3
-            ],
+            "location": [6, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "炮灰",
-                "地面单切",
-                "情报官"
-            ],
-            "location": [
-                1,
-                2
-            ],
+            "groups": ["炮灰", "地面单切", "情报官"],
+            "location": [1, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "奶",
-                "凯尔希",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["奶", "凯尔希", "浊心斯卡蒂"],
+            "location": [3, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [5, 3],
             "direction": "right"
         }
     ]

@@ -54,17 +54,17 @@ jobs:
         run: |
           .\x64\Debug\Sample.exe
 
-      - name: Run tests - YoStarJP
+      - name: Run tests - YostarJP
         run: |
-          .\x64\Debug\Sample.exe YoStarJP
+          .\x64\Debug\Sample.exe YostarJP
           
-      - name: Run tests - YoStarEN
+      - name: Run tests - YostarEN
         run: |
-          .\x64\Debug\Sample.exe YoStarEN
+          .\x64\Debug\Sample.exe YostarEN
         
-      - name: Run tests - YoStarKR
+      - name: Run tests - YostarKR
         run: |
-          .\x64\Debug\Sample.exe YoStarKR
+          .\x64\Debug\Sample.exe YostarKR
         
       - name: Run tests - txwy
         run: |

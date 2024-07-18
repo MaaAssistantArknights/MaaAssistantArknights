@@ -3773,9 +3773,9 @@
         },
         "char_4081_warmy": {
             "name": "温米",
-            "name_en": "温米",
-            "name_jp": "温米",
-            "name_kr": "温米",
+            "name_en": "Warmy",
+            "name_jp": "ウォーミー",
+            "name_kr": "워미",
             "name_tw": "温米",
             "position": "RANGED",
             "profession": "CASTER",
@@ -4043,9 +4043,9 @@
         },
         "char_4117_ray": {
             "name": "莱伊",
-            "name_en": "莱伊",
-            "name_jp": "莱伊",
-            "name_kr": "莱伊",
+            "name_en": "Ray",
+            "name_jp": "レイ",
+            "name_kr": "레이",
             "name_tw": "莱伊",
             "position": "RANGED",
             "profession": "SNIPER",
@@ -4301,6 +4301,51 @@
             "tokens": [
                 "从不混淆的方向"
             ]
+        },
+        "char_4146_nymph": {
+            "name": "妮芙",
+            "name_en": "妮芙",
+            "name_jp": "妮芙",
+            "name_kr": "妮芙",
+            "name_tw": "妮芙",
+            "position": "RANGED",
+            "profession": "CASTER",
+            "rangeId": [
+                "3-6",
+                "3-1",
+                "3-1"
+            ],
+            "rarity": 6
+        },
+        "char_4147_mitm": {
+            "name": "渡桥",
+            "name_en": "渡桥",
+            "name_jp": "渡桥",
+            "name_kr": "渡桥",
+            "name_tw": "渡桥",
+            "position": "RANGED",
+            "profession": "PIONEER",
+            "rangeId": [
+                "3-1",
+                "3-3",
+                "3-3"
+            ],
+            "rarity": 5
+        },
+        "char_4151_tinman": {
+            "name": "锡人",
+            "name_en": "锡人",
+            "name_jp": "锡人",
+            "name_kr": "锡人",
+            "name_tw": "锡人",
+            "position": "RANGED",
+            "profession": "SPECIAL",
+            "rangeId": [
+                "2-1",
+                "2-1",
+                "3-5"
+            ],
+            "rarity": 5
         },
         "char_415_flint": {
             "name": "燧石",
@@ -5819,9 +5864,9 @@
         },
         "token_10034_ray_sndbst": {
             "name": "沙地兽",
-            "name_en": "沙地兽",
-            "name_jp": "沙地兽",
-            "name_kr": "沙地兽",
+            "name_en": "Sandbeast",
+            "name_jp": "サンドビースト",
+            "name_kr": "샌드비스트",
             "name_tw": "沙地兽",
             "position": "ALL",
             "profession": "TOKEN",
@@ -5846,6 +5891,21 @@
                 "0-1"
             ],
             "rarity": 6
+        },
+        "token_10037_mitm_trshrb": {
+            "name": "樱桃三号",
+            "name_en": "樱桃三号",
+            "name_jp": "樱桃三号",
+            "name_kr": "樱桃三号",
+            "name_tw": "樱桃三号",
+            "position": "MELEE",
+            "profession": "TOKEN",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 5
         },
         "token_10039_ulpia_block": {
             "name": "从不混淆的方向",
@@ -10109,9 +10169,9 @@
         },
         "trap_736_mercha": {
             "name": "可充能督战音响",
-            "name_en": "可充能督战音响",
-            "name_jp": "可充能督战音响",
-            "name_kr": "可充能督战音响",
+            "name_en": "Chargeable Supervisory Speaker",
+            "name_jp": "充電式前線用スピーカー",
+            "name_kr": "충전식 독전용 스피커",
             "name_tw": "可充能督战音响",
             "position": "NONE",
             "profession": "TRAP",
@@ -10124,9 +10184,9 @@
         },
         "trap_737_merchaa": {
             "name": "可充能督战音响",
-            "name_en": "可充能督战音响",
-            "name_jp": "可充能督战音响",
-            "name_kr": "可充能督战音响",
+            "name_en": "Chargeable Supervisory Speaker",
+            "name_jp": "充電式前線用スピーカー",
+            "name_kr": "충전식 독전용 스피커",
             "name_tw": "可充能督战音响",
             "position": "NONE",
             "profession": "TRAP",
@@ -10139,9 +10199,9 @@
         },
         "trap_738_merchab": {
             "name": "可充能督战音响",
-            "name_en": "可充能督战音响",
-            "name_jp": "可充能督战音响",
-            "name_kr": "可充能督战音响",
+            "name_en": "Chargeable Supervisory Speaker",
+            "name_jp": "充電式前線用スピーカー",
+            "name_kr": "충전식 독전용 스피커",
             "name_tw": "可充能督战音响",
             "position": "NONE",
             "profession": "TRAP",
@@ -10154,9 +10214,9 @@
         },
         "trap_739_sniper": {
             "name": "智能空域控制机",
-            "name_en": "智能空域控制机",
-            "name_jp": "智能空域控制机",
-            "name_kr": "智能空域控制机",
+            "name_en": "Smart Airspace Controller",
+            "name_jp": "高性能空域制御器",
+            "name_kr": "스마트 영공 제어기",
             "name_tw": "智能空域控制机",
             "position": "NONE",
             "profession": "TRAP",
@@ -10169,9 +10229,9 @@
         },
         "trap_740_snipera": {
             "name": "智能空域控制机",
-            "name_en": "智能空域控制机",
-            "name_jp": "智能空域控制机",
-            "name_kr": "智能空域控制机",
+            "name_en": "Smart Airspace Controller",
+            "name_jp": "高性能空域制御器",
+            "name_kr": "스마트 영공 제어기",
             "name_tw": "智能空域控制机",
             "position": "NONE",
             "profession": "TRAP",
@@ -10184,9 +10244,9 @@
         },
         "trap_741_sniperb": {
             "name": "智能空域控制机",
-            "name_en": "智能空域控制机",
-            "name_jp": "智能空域控制机",
-            "name_kr": "智能空域控制机",
+            "name_en": "Smart Airspace Controller",
+            "name_jp": "高性能空域制御器",
+            "name_kr": "스마트 영공 제어기",
             "name_tw": "智能空域控制机",
             "position": "NONE",
             "profession": "TRAP",
@@ -10199,9 +10259,9 @@
         },
         "trap_742_gasbot": {
             "name": "速冷喷雾发射台",
-            "name_en": "速冷喷雾发射台",
-            "name_jp": "速冷喷雾发射台",
-            "name_kr": "速冷喷雾发射台",
+            "name_en": "Quick-freezing Sprayer Platform",
+            "name_jp": "急速冷却噴射台",
+            "name_kr": "급랭 스프레이 발사대",
             "name_tw": "速冷喷雾发射台",
             "position": "NONE",
             "profession": "TRAP",
@@ -10214,9 +10274,9 @@
         },
         "trap_743_gasbota": {
             "name": "速冷喷雾发射台",
-            "name_en": "速冷喷雾发射台",
-            "name_jp": "速冷喷雾发射台",
-            "name_kr": "速冷喷雾发射台",
+            "name_en": "Quick-freezing Sprayer Platform",
+            "name_jp": "急速冷却噴射台",
+            "name_kr": "급랭 스프레이 발사대",
             "name_tw": "速冷喷雾发射台",
             "position": "NONE",
             "profession": "TRAP",
@@ -10229,9 +10289,9 @@
         },
         "trap_744_gasbotb": {
             "name": "速冷喷雾发射台",
-            "name_en": "速冷喷雾发射台",
-            "name_jp": "速冷喷雾发射台",
-            "name_kr": "速冷喷雾发射台",
+            "name_en": "Quick-freezing Sprayer Platform",
+            "name_jp": "急速冷却噴射台",
+            "name_kr": "급랭 스프레이 발사대",
             "name_tw": "速冷喷雾发射台",
             "position": "NONE",
             "profession": "TRAP",
@@ -10244,9 +10304,9 @@
         },
         "trap_745_beer": {
             "name": "“蜜酿万岁！”",
-            "name_en": "“蜜酿万岁！”",
-            "name_jp": "“蜜酿万岁！”",
-            "name_kr": "“蜜酿万岁！”",
+            "name_en": "'Long Live Mead!'",
+            "name_jp": "「ミード万歳！」",
+            "name_kr": "“벌꿀주 만세!”",
             "name_tw": "“蜜酿万岁！”",
             "position": "NONE",
             "profession": "TRAP",
@@ -10413,6 +10473,156 @@
             "name_jp": "“黏黏的赠品”",
             "name_kr": "“黏黏的赠品”",
             "name_tw": "“黏黏的赠品”",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_757_skzbox": {
+            "name": "宝箱",
+            "name_en": "宝箱",
+            "name_jp": "宝箱",
+            "name_kr": "宝箱",
+            "name_tw": "宝箱",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_758_skzmbx": {
+            "name": "停滞巧械",
+            "name_en": "停滞巧械",
+            "name_jp": "停滞巧械",
+            "name_kr": "停滞巧械",
+            "name_tw": "停滞巧械",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_759_skzwyx": {
+            "name": "垂死羽兽",
+            "name_en": "垂死羽兽",
+            "name_jp": "垂死羽兽",
+            "name_kr": "垂死羽兽",
+            "name_tw": "垂死羽兽",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_760_skztzs": {
+            "name": "年代之刺",
+            "name_en": "年代之刺",
+            "name_jp": "年代之刺",
+            "name_kr": "年代之刺",
+            "name_tw": "年代之刺",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_761_skzthx": {
+            "name": "尊主的残影",
+            "name_en": "尊主的残影",
+            "name_jp": "尊主的残影",
+            "name_kr": "尊主的残影",
+            "name_tw": "尊主的残影",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_762_skztxy": {
+            "name": "特蕾西娅，黑冠圣贤",
+            "name_en": "特蕾西娅，黑冠圣贤",
+            "name_jp": "特蕾西娅，黑冠圣贤",
+            "name_kr": "特蕾西娅，黑冠圣贤",
+            "name_tw": "特蕾西娅，黑冠圣贤",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_763_skzddd": {
+            "name": "圣卫坚盾",
+            "name_en": "圣卫坚盾",
+            "name_jp": "圣卫坚盾",
+            "name_kr": "圣卫坚盾",
+            "name_tw": "圣卫坚盾",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_764_skzshp": {
+            "name": "驮兽旅行家",
+            "name_en": "驮兽旅行家",
+            "name_jp": "驮兽旅行家",
+            "name_kr": "驮兽旅行家",
+            "name_tw": "驮兽旅行家",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_766_duelwal": {
+            "name": "狭路相逢",
+            "name_en": "狭路相逢",
+            "name_jp": "狭路相逢",
+            "name_kr": "狭路相逢",
+            "name_tw": "狭路相逢",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": [
+                "0-1",
+                "0-1",
+                "0-1"
+            ],
+            "rarity": 1
+        },
+        "trap_767_duelcdt": {
+            "name": "狭路相逢",
+            "name_en": "狭路相逢",
+            "name_jp": "狭路相逢",
+            "name_kr": "狭路相逢",
+            "name_tw": "狭路相逢",
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": [

@@ -283,7 +283,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string TempCopilotFile = "cache/_temp_copilot.json";
         private string _taskType = "General";
-        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-)?(?:\d{1,2})(\(Raid\))?";
+        private const string StageNameRegex = @"(?:[a-z]{0,3})(?:\d{0,2})-(?:(?:A|B|C|D|EX|S|TR|MO)-)?(?:\d{1,2})(\(Raid\)(?=\.json))?";
 
         /// <summary>
         /// 为自动战斗列表匹配名字
@@ -299,7 +299,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             // 一旦有由小写字母、数字、'-'组成的name则视为关卡名直接使用
-            var directName = names.FirstOrDefault(name => name.ToLower().All(c => (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-'));
+            var directName = names.FirstOrDefault(name => Regex.IsMatch(name.ToLower(), @"^[0-9a-z\-]+$"));
             if (!string.IsNullOrEmpty(directName))
             {
                 return directName;
@@ -589,7 +589,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     var fileName = fileInfo.Name[..^fileInfo.Extension.Length];
-                    var stageName = FindStageName(fileName);
+                    var stageName = FindStageName(fileInfo.Name, fileName);
 
                     if (string.IsNullOrEmpty(stageName))
                     {

@@ -304,7 +304,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
                 catch (Exception e)
                 {
-                    _logger.Error($"move file error, file name: {file}");
+                    _logger.Error($"move file error, file name: {file}, error: {e.Message}");
                     throw;
                 }
             }
@@ -367,6 +367,11 @@ namespace MaaWpfGui.ViewModels.UI
             /// 无需更新
             /// </summary>
             NoNeedToUpdate,
+
+            /// <summary>
+            /// 调试版本无需更新
+            /// </summary>
+            NoNeedToUpdateDebugVersion,
 
             /// <summary>
             /// 已经是最新版
@@ -434,16 +439,19 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else
             {
-#if RELEASE
-                var ret = await CheckAndDownloadUpdate();
-                if (ret == CheckUpdateRetT.OK)
+                if (!IsDebugVersion())
                 {
-                    AskToRestart();
+                    var ret = await CheckAndDownloadUpdate();
+                    if (ret == CheckUpdateRetT.OK)
+                    {
+                        AskToRestart();
+                    }
                 }
-#else
-                // 跑个空任务避免 async warning
-                await Task.Run(() => { });
-#endif
+                else
+                {
+                    // 跑个空任务避免 async warning
+                    await Task.Run(() => { });
+                }
             }
         }
 
@@ -587,7 +595,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var latencies = await Task.WhenAll(tasks);
 
                 var proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
-                var hasProxy = string.IsNullOrEmpty(proxy);
+                var hasProxy = !string.IsNullOrEmpty(proxy);
 
                 // select the fastest mirror
                 _logger.Information("Selecting the fastest mirror:");
@@ -698,7 +706,7 @@ namespace MaaWpfGui.ViewModels.UI
             // 调试版不检查更新
             if (IsDebugVersion())
             {
-                return CheckUpdateRetT.FailedToGetInfo;
+                return CheckUpdateRetT.NoNeedToUpdateDebugVersion;
             }
 
             try
@@ -714,7 +722,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
         {
-            string response;
+            string? response;
             try
             {
                 response = await Instances.HttpService.GetStringAsync(new Uri(MaaUpdateApi)).ConfigureAwait(false);
@@ -730,7 +738,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            if (!(JsonConvert.DeserializeObject(response) is JObject json))
+            if (JsonConvert.DeserializeObject(response) is not JObject json)
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
@@ -766,7 +774,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string url)
         {
-            string response;
+            string? response;
             try
             {
                 response = await Instances.HttpService.GetStringAsync(new Uri(url)).ConfigureAwait(false);
@@ -782,7 +790,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            if (!(JsonConvert.DeserializeObject(response) is JObject json))
+            if (JsonConvert.DeserializeObject(response) is not JObject json)
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
@@ -933,7 +941,11 @@ namespace MaaWpfGui.ViewModels.UI
         public bool IsDebugVersion(string? version = null)
         {
             version ??= _curVersion;
-            return version.Contains("DEBUG");
+
+            // match case 1: DEBUG VERSION
+            // match case 2: v{Major}.{Minor}.{Patch}-{CommitDistance}-g{CommitHash}
+            // match case 3: {CommitHash}
+            return Regex.IsMatch(version, @"^(.*DEBUG.*|v\d+(\.\d+){1,3}-\d+-g[0-9a-f]{7,}|[^v][0-9a-f]{7,})$");
         }
 
         public bool IsStdVersion(string? version = null)

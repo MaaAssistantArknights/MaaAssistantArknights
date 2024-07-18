@@ -19,6 +19,7 @@ option(USE_MAADEPS "use third-party libraries built by MaaDeps" ON)
 option(USE_RANGE_V3 "use range-v3" OFF)
 option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
 option(WITH_THRIFT "build with thrift" OFF)
+option(WITH_ASST_DEBUG "build with ASST_DEBUG defined" OFF)
 
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/thrift-gen.cmake)
@@ -123,6 +124,10 @@ if(WITH_THRIFT)
     add_subdirectory(src/MaaThriftController)
     target_link_libraries(MaaCore MaaThriftController)
 endif(WITH_THRIFT)
+
+if (WITH_ASST_DEBUG)
+    target_compile_definitions(MaaCore PRIVATE ASST_DEBUG)
+endif ()
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)

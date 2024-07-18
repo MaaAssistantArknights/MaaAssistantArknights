@@ -94,11 +94,12 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
-bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
+bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, bool need_oper_cost)
 {
     LogTraceFunction;
 
     if (init) {
+        AvatarCache.remove_avatars(Role::Drone);// 移除小龙等不同技能很像的召唤物，防止错误识别
         wait_until_start(false);
     }
 
@@ -111,7 +112,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     BattlefieldMatcher oper_analyzer(image);
 
     // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
-    if (init) {
+    if (init || need_oper_cost) {
         oper_analyzer.set_object_of_interest({ .deployment = true, .oper_cost = true });
     }
     else {
@@ -153,7 +154,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
         BestMatcher avatar_analyzer(oper.avatar);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
-            static const double cooling_threshold =
+            static const auto cooling_threshold =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
             static const auto cooling_mask_range =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
@@ -162,9 +163,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
                 .set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
         }
         else {
-            static const double threshold =
+            static const auto threshold =
                 Task.get<MatchTaskInfo>("BattleAvatarData")->templ_thresholds.front();
-            static const double drone_threshold =
+            static const auto drone_threshold =
                 Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_thresholds.front();
             avatar_analyzer.set_threshold(oper.role == Role::Drone ? drone_threshold : threshold);
         }

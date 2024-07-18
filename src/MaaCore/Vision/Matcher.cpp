@@ -39,6 +39,7 @@ Matcher::ResultOpt Matcher::analyze() const
         // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
         m_result.rect = rect;
         m_result.score = max_val;
+        m_result.templ_name = templ_name;
         return m_result;
     }
 

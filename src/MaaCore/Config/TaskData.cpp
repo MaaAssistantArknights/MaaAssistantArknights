@@ -232,14 +232,16 @@ bool asst::TaskData::generate_raw_task_info(std::string_view name, std::string_v
     task->type = type;
     task->base = base;
     task->prefix = prefix;
-    utils::get_value_or(name, json, "next", task->next, [&]() { return append_prefix(base_task->next, prefix); });
-    utils::get_value_or(name, json, "sub", task->sub, [&]() { return append_prefix(base_task->sub, prefix); });
-    utils::get_value_or(name, json, "exceededNext", task->exceeded_next,
-                        [&]() { return append_prefix(base_task->exceeded_next, prefix); });
-    utils::get_value_or(name, json, "onErrorNext", task->on_error_next,
-                        [&]() { return append_prefix(base_task->on_error_next, prefix); });
-    utils::get_value_or(name, json, "reduceOtherTimes", task->reduce_other_times,
-                        [&]() { return append_prefix(base_task->reduce_other_times, prefix); });
+    utils::get_and_check_value_or(name, json, "next", task->next, 
+                                  [&]() { return append_prefix(base_task->next, prefix); });
+    utils::get_and_check_value_or(name, json, "sub", task->sub,
+                                  [&]() { return append_prefix(base_task->sub, prefix); });
+    utils::get_and_check_value_or(name, json, "exceededNext", task->exceeded_next,
+                                  [&]() { return append_prefix(base_task->exceeded_next, prefix); });
+    utils::get_and_check_value_or(name, json, "onErrorNext", task->on_error_next,
+                                  [&]() { return append_prefix(base_task->on_error_next, prefix); });
+    utils::get_and_check_value_or(name, json, "reduceOtherTimes", task->reduce_other_times,
+                                  [&]() { return append_prefix(base_task->reduce_other_times, prefix); });
     m_task_status[task_name_view(name)] = NotToBeGenerate;
 
     // 保存虚任务未展开的任务
@@ -360,7 +362,7 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
 
     // 获取 algorithm 并按照 algorithm 生成 TaskInfo
     AlgorithmType algorithm;
-    utils::get_value_or(name, json, "algorithm", algorithm, base->algorithm);
+    utils::get_and_check_value_or(name, json, "algorithm", algorithm, base->algorithm);
     TaskPtr task = nullptr;
     switch (algorithm) {
     case AlgorithmType::MatchTemplate:
@@ -384,7 +386,7 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
         return nullptr;
     }
 
-#define ASST_TASKDATA_GET_VALUE_OR(key, value) utils::get_value_or(name, json, key, task->value, base->value)
+#define ASST_TASKDATA_GET_VALUE_OR(key, value) utils::get_and_check_value_or(name, json, key, task->value, base->value)
 #define ASST_TASKDATA_GET_VALUE_OR_LAZY(key, value, m)                                         \
     utils::get_value_or(name, json, key, task->value, raw->value);                             \
     if (auto opt = compile_tasklist(task->value, name, m); !opt) [[unlikely]] {                \
@@ -435,7 +437,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
         default_ptr = default_match_task_info_ptr;
     }
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
-    if (!utils::get_value_or(name, task_json, "template", match_task_info_ptr->templ_names, [&]() {
+    if (!utils::get_and_check_value_or(name, task_json, "template", match_task_info_ptr->templ_names, [&]() {
             return derived_type == TaskDerivedType::Implicit // 隐式 Template Task 时继承，其它时默认值使用任务名
                        ? default_ptr->templ_names
                        : std::vector { std::string(name) + ".png" };
@@ -477,7 +479,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
         return nullptr;
     }
 
-    utils::get_value_or(name, task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
+    utils::get_and_check_value_or(name, task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
     return match_task_info_ptr;
 }
 
@@ -493,15 +495,15 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(std::string_view name, cons
     auto array_opt = task_json.find<json::array>("text");
     ocr_task_info_ptr->text = array_opt ? to_string_list(array_opt.value()) : default_ptr->text;
 #ifdef ASST_DEBUG
-    if (!array_opt && default_ptr->text.empty()) {
+    if (!array_opt && default_ptr == default_ocr_task_info_ptr) {
         Log.warn("Ocr task", name, "has implicit empty text.");
     }
 #endif
-    utils::get_value_or(name, task_json, "fullMatch", ocr_task_info_ptr->full_match, default_ptr->full_match);
-    utils::get_value_or(name, task_json, "isAscii", ocr_task_info_ptr->is_ascii, default_ptr->is_ascii);
-    utils::get_value_or(name, task_json, "withoutDet", ocr_task_info_ptr->without_det, default_ptr->without_det);
-    utils::get_value_or(name, task_json, "replaceFull", ocr_task_info_ptr->replace_full, default_ptr->replace_full);
-    utils::get_value_or(name, task_json, "ocrReplace", ocr_task_info_ptr->replace_map, default_ptr->replace_map);
+    utils::get_and_check_value_or(name, task_json, "fullMatch", ocr_task_info_ptr->full_match, default_ptr->full_match);
+    utils::get_and_check_value_or(name, task_json, "isAscii", ocr_task_info_ptr->is_ascii, default_ptr->is_ascii);
+    utils::get_and_check_value_or(name, task_json, "withoutDet", ocr_task_info_ptr->without_det, default_ptr->without_det);
+    utils::get_and_check_value_or(name, task_json, "replaceFull", ocr_task_info_ptr->replace_full, default_ptr->replace_full);
+    utils::get_and_check_value_or(name, task_json, "ocrReplace", ocr_task_info_ptr->replace_map, default_ptr->replace_map);
     return ocr_task_info_ptr;
 }
 
@@ -520,9 +522,9 @@ asst::TaskPtr asst::TaskData::generate_hash_task_info(std::string_view name, con
         Log.warn("Hash task", name, "has implicit empty hashes.");
     }
 #endif
-    utils::get_value_or(name, task_json, "threshold", hash_task_info_ptr->dist_threshold, default_ptr->dist_threshold);
-    utils::get_value_or(name, task_json, "maskRange", hash_task_info_ptr->mask_range, default_ptr->mask_range);
-    utils::get_value_or(name, task_json, "bound", hash_task_info_ptr->bound, default_ptr->bound);
+    utils::get_and_check_value_or(name, task_json, "threshold", hash_task_info_ptr->dist_threshold, default_ptr->dist_threshold);
+    utils::get_and_check_value_or(name, task_json, "maskRange", hash_task_info_ptr->mask_range, default_ptr->mask_range);
+    utils::get_and_check_value_or(name, task_json, "bound", hash_task_info_ptr->bound, default_ptr->bound);
     return hash_task_info_ptr;
 }
 
@@ -702,7 +704,7 @@ asst::TaskConstPtr asst::TaskData::_default_task_info()
     auto task_info_ptr = std::make_shared<TaskInfo>();
     task_info_ptr->algorithm = AlgorithmType::MatchTemplate;
     task_info_ptr->action = ProcessTaskAction::DoNothing;
-    task_info_ptr->cache = true;
+    task_info_ptr->cache = false;
     task_info_ptr->max_times = INT_MAX;
     task_info_ptr->pre_delay = 0;
     task_info_ptr->post_delay = 0;

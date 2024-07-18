@@ -36,9 +36,11 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
 
     buy_once();
 
-    if (m_config->get_theme() == RoguelikeTheme::Sami && m_config->get_mode() == RoguelikeMode::Exp ) {
+    if (auto theme = m_config->get_theme(); 
+        (theme == RoguelikeTheme::Sami || theme == RoguelikeTheme::Sarkaz) 
+        && m_config->get_mode() == RoguelikeMode::Exp ) {
         //点击刷新
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@StageTraderRefresh" }).run();
+        ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run();
         buy_once();
     }
 
@@ -117,11 +119,15 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         m_config->get_theme() == RoguelikeTheme::Sami
             ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
             : std::vector<std::string>();
+    const RoguelikeMode& mode = m_config->get_mode();
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
         }
         if (no_longer_buy && !goods.ignore_no_longer_buy) {
+            continue;
+        }
+        if (mode == RoguelikeMode::CLP_PDS && goods.decrease_collapse) {
             continue;
         }
 

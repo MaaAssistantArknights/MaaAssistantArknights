@@ -2,66 +2,33 @@
     "stage_name": "低空机动",
     "replacement_home": [
         {
-            "location": [
-                7,
-                2
-            ],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "right"
         }
     ],
     "blacklist_location": [
-        [
-            9,
-            1
-        ],
-        [
-            9,
-            2
-        ],
-        [
-            8,
-            1
-        ]
+        [9, 1],
+        [9, 2],
+        [8, 1]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希",
-                "焰苇"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["凯尔希", "焰苇"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "召唤"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["召唤"],
+            "location": [8, 2],
             "direction": "left"
         },
         {
@@ -73,172 +40,77 @@
                 "回费",
                 "其他地面"
             ],
-            "location": [
-                7,
-                2
-            ],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "单奶"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["焰苇", "单奶"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "盾法"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["盾法"],
+            "location": [4, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "location": [6, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["回费"],
+            "location": [7, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "处决者",
-                "地刺",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["玛恩纳", "处决者", "地刺", "其他地面"],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "单奶",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["单奶", "高台输出", "辅助", "其他高台"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "狙击",
-                "奶"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["狙击", "奶"],
+            "location": [8, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "群奶",
-                "高台输出",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                1
-            ],
+            "groups": ["群奶", "高台输出", "狙击", "辅助", "其他高台"],
+            "location": [6, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "领主"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["领主"],
+            "location": [3, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "location": [5, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "炮灰",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                9,
-                4
-            ],
+            "groups": ["炮灰", "处决者", "其他地面"],
+            "location": [9, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "辅助",
-                "高台输出",
-                "奶"
-            ],
-            "location": [
-                5,
-                1
-            ],
+            "groups": ["辅助", "高台输出", "奶"],
+            "location": [5, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "辅助",
-                "高台输出",
-                "奶"
-            ],
-            "location": [
-                4,
-                1
-            ],
+            "groups": ["辅助", "高台输出", "奶"],
+            "location": [4, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["补给站"],
+            "location": [4, 4],
             "direction": "up"
         }
     ]

@@ -1343,6 +1343,14 @@
         "sortId": -10000,
         "usage": "Dusk's handmade inkstick. Nobody knows how they're made. Perhaps you can make use of them to ask her about a few things."
     },
+    "act16mini_token_sap": {
+        "classifyType": "NONE",
+        "description": "Bottletree sap naturally fermented in the abdomens of tree-hanging Originium slugs, celebrated by man and adored by sandbeasts. Still, how the beasts get the sap when they can't climb trees is one of Rim Billiton's great mysteries. Are there feral barreners helping them? Can't be...",
+        "icon": "act16mini_token_sap.png",
+        "name": "Spicy Bottletree Sap",
+        "sortId": -10000,
+        "usage": "Extremely spicy and fantastically invigorating, with a deep velvet flavor fresh bottletree sap can't hope to match. And the upside of not chronically ruining your body like hard liquor would. Give it to wild sandbeasts, and you might end up trading for their stashed curios."
+    },
     "act16side_token_bolt": {
         "classifyType": "NONE",
         "description": "The collectability of a bullet depends on its caliber size. As to why an empty shell can be traded for goods in a dessert shop—You must understand that, as the most popular destination among locals, Lateranian Desserts has always been more than just a dessert shop.",
