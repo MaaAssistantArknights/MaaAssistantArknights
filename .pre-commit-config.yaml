@@ -1,0 +1,57 @@
+default_install_hook_types: [pre-commit, prepare-commit-msg]
+ci:
+  autofix_commit_msg: "chore: Auto update by pre-commit hooks [skip changelog]"
+  autofix_prs: true
+repos:
+  - repo: https://github.com/shssoichiro/oxipng
+    rev: v9.1.2
+    hooks:
+      - id: oxipng
+        args: ["-q", "-o", "2", "-s", "--ng", "--alpha"]
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        types_or:
+          - yaml
+          - json
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.13.0
+    hooks:
+      - id: markdownlint-cli2
+        files: ^docs/.*|^README\.md$
+        types:
+          - markdown
+        args:
+          ["--fix", "--config", "docs/.markdownlint.yaml", "#**/node_modules"]
+  #- repo: https://github.com/lycheeverse/lychee
+  #  rev: v0.15.1
+  #  hooks:
+  #    - id: lychee
+  #      files: ^docs/.*|^README\.md$
+  #      types:
+  #        - markdown
+  #      args:
+  #        #- --verbose
+  #        - --quiet
+  #        - --no-progress
+  #        - --exclude
+  #        - 'https://map\.ark-nights\.com/areas'
+  #        - --exclude
+  #        - 'https://.*\.maa-org\.net/.*'
+  #        - --exclude
+  #        - 'https://support\.bluestacks\.com/.*'
+  #        - --exclude
+  #        - 'https://www\.bigfun\.cn/.*'
+  #        - --exclude
+  #        - 'https://myqqbot\.com/.*'
+  #        - --exclude
+  #        - 'http://xn--\w+\.com/'
+  #        - --exclude
+  #        - 'https://mywebsite\.com/.*'
+  #        - --exclude
+  #        - '/image/*'
+  #        - --exclude-path
+  #        - "docs/zh-tw/manual/introduction/introduction_old.md"
+  #        - --exclude-path
+  #        - "docs/ja-jp/manual/introduction/introduction_old.md"

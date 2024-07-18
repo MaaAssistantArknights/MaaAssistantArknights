@@ -1,8 +1,5 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 # for clang-format 17.0.1
-Language: Json
-IndentWidth: 4
----
 Language: Cpp
 BasedOnStyle: 'WebKit'
 # AccessModifierOffset: 2
