@@ -281,15 +281,16 @@ bool asst::TaskData::lazy_parse(const json::value& json)
 #endif
 
 #ifdef ASST_TASK_DEBUG
+    auto cpp_task_json = json::value {};
     for (std::string_view name : m_json_all_tasks_info | views::keys) {
         auto task_json = json::serialize(Task.get(name), TaskInfoSerializer{});
-        // save to file
-        std::fstream fs;
-        fs.open(std::string(name) + ".json", std::ios::out);
-        fs << task_json;
-        fs.close();
+        cpp_task_json[std::string(name)] = task_json;
     }
     std::cout << "TaskData done" << std::endl;
+    // save to file
+    std::ofstream ofs("cpp_task.json");
+    ofs << cpp_task_json;
+    ofs.close();
 #endif
     return true;
 }
