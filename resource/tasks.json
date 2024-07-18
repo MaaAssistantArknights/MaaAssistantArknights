@@ -12241,6 +12241,7 @@
         "next": [
             "Roguelike@DropsFlag",
             "Roguelike@ChooseOperFlag",
+            "Roguelike@DropsFlag",
             "Roguelike@ClickToDrops"
         ]
     },
@@ -12251,6 +12252,7 @@
         "Doc2": "未知的剧目，黄色的“翻开”按钮",
         "next": [
             "Roguelike@ChooseOperFlag",
+            "Roguelike@DropsFlag",
             "Roguelike@ClickToDrops"
         ]
     },
@@ -12376,6 +12378,7 @@
         "next": [
             "Roguelike@GetDropSelectReward",
             "Roguelike@ChooseOperFlag",
+            "Roguelike@DropsFlag",
             "Roguelike@ClickToDrops"
         ]
     },
@@ -16865,7 +16868,14 @@
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenAbandonThought": {
-        "algorithm": "JustReturn",
+        "template": "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1.png",
+        "roi": [
+            1101,
+            51,
+            179,
+            137
+        ],
+        "templThreshold": 0.95,
         "action": "ClickRect",
         "specificRect": [
             430,
@@ -16888,6 +16898,7 @@
         "templThreshold": 0.95,
         "action": "ClickSelf",
         "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
@@ -16938,6 +16949,7 @@
         "templThreshold": 0.95,
         "action": "ClickSelf",
         "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
@@ -16958,11 +16970,18 @@
             0
         ],
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2": {
-        "algorithm": "JustReturn",
+        "roi": [
+            1101,
+            51,
+            179,
+            137
+        ],
+        "templThreshold": 0.95,
         "action": "ClickRect",
         "specificRect": [
             1210,
@@ -16971,6 +16990,7 @@
             0
         ],
         "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
             "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
         ]
     },
@@ -17489,10 +17509,10 @@
         "Doc": "优先紧急作战,1-2层",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
-            "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageCombatDps",
@@ -17522,10 +17542,10 @@
         "Doc": "avoid battle,其他模式和5-6层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
-            "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageTraderHD",
             "Sarkaz@Roguelike@StageTrader",
@@ -17555,9 +17575,9 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
-            "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageCombatDps",
             "Sarkaz@Roguelike@StageSafeHouseHD",
