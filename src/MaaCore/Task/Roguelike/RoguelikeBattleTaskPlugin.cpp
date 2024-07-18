@@ -572,6 +572,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 
         Log.info("To path", m_cur_home_index);
 
+        if (!update_deployment(false, image, true)) {
+            return false;
+        }
+
         if (!best_oper_is_dice) {
             if (auto best_oper_opt = calc_best_oper()) {
                 best_oper = *best_oper_opt;
@@ -836,7 +840,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         Log.info("No best oper");
         return std::nullopt;
     }
-    Log.info("best oper is", best_oper.name);
+    Log.info("best oper is", best_oper.name, "with cost being", best_oper.cost);
     return best_oper;
 }
 
