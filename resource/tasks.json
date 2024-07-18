@@ -16897,10 +16897,10 @@
         "template": "Sarkaz@Roguelike@DecreaseBurdenCheckChaos.png",
         "templThreshold": 0.95,
         "roi": [
-            97,
-            235,
-            159,
-            128
+            83,
+            66,
+            190,
+            135
         ],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
@@ -16910,10 +16910,10 @@
         "template": "Sarkaz@Roguelike@DecreaseBurdenCheckClear.png",
         "templThreshold": 0.95,
         "roi": [
-            99,
-            239,
-            157,
-            124
+            83,
+            63,
+            194,
+            136
         ],
         "next": [
             "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
@@ -16923,10 +16923,10 @@
         "template": "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation.png",
         "templThreshold": 0.95,
         "roi": [
-            98,
-            234,
-            158,
-            126
+            85,
+            64,
+            188,
+            137
         ],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
