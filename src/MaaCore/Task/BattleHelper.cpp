@@ -94,7 +94,7 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
-bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
+bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, bool need_oper_cost)
 {
     LogTraceFunction;
 
@@ -112,7 +112,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     BattlefieldMatcher oper_analyzer(image);
 
     // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
-    if (init) {
+    if (init || need_oper_cost) {
         oper_analyzer.set_object_of_interest({ .deployment = true, .oper_cost = true });
     }
     else {
