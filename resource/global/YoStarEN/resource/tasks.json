@@ -190,16 +190,16 @@
         ]
     },
     "WBChapterToWB": {
-        "algorithm": "OcrDetect",
-        "text": [
-            "CASE INVESTIGATION",
-            "ONSITE"
-        ],
+        "action": "ClickSelf",
         "roi": [
-            1034,
-            595,
-            246,
-            125
+            1071,
+            589,
+            209,
+            131
+        ],
+        "postDelay": 2000,
+        "next": [
+            "ChapterSwipeToTheRight"
         ]
     },
     "IW-Open": {
