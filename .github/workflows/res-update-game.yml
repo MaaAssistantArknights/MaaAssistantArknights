@@ -140,7 +140,7 @@ jobs:
 
       - name: Add msbuild to PATH
         if: steps.cache-restore.outputs.cache-hit != 'true'
-        uses: microsoft/setup-msbuild@v1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Build Resource Updater
         if: steps.cache-restore.outputs.cache-hit != 'true'
