@@ -12854,6 +12854,10 @@
             400,
             1000,
             30
+        ],
+        "next": [
+            "#self",
+            "Roguelike@FromIntegratedStrategies"
         ]
     },
     "Roguelike@SpecialValRecognition": {
@@ -13881,13 +13885,8 @@
     },
     "Phantom@Roguelike@RolesDefault": {},
     "Phantom@Roguelike@SelectTheme": {
-        "baseTask": "Roguelike@SelectTheme",
         "text": [
             "古堡笔记"
-        ],
-        "next": [
-            "#self",
-            "Phantom@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Phantom@Roguelike@SquadConfirm": {
@@ -14475,13 +14474,8 @@
     },
     "Mizuki@Roguelike@RolesDefault": {},
     "Mizuki@Roguelike@SelectTheme": {
-        "baseTask": "Roguelike@SelectTheme",
         "text": [
             "生态谱系"
-        ],
-        "next": [
-            "#self",
-            "Mizuki@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Mizuki@Roguelike@SquadConfirm": {
@@ -15679,13 +15673,8 @@
     },
     "Sami@Roguelike@RolesDefault": {},
     "Sami@Roguelike@SelectTheme": {
-        "baseTask": "Roguelike@SelectTheme",
         "text": [
             "科考记录"
-        ],
-        "next": [
-            "#self",
-            "Sami@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Sami@Roguelike@SquadConfirm": {
@@ -17183,13 +17172,8 @@
     },
     "Sarkaz@Roguelike@RolesDefault": {},
     "Sarkaz@Roguelike@SelectTheme": {
-        "baseTask": "Roguelike@SelectTheme",
         "text": [
             "假说辑录"
-        ],
-        "next": [
-            "#self",
-            "Sarkaz@Roguelike@FromIntegratedStrategies"
         ]
     },
     "Sarkaz@Roguelike@SquadConfirm": {
