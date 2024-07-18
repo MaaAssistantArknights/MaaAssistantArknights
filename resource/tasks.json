@@ -16702,7 +16702,7 @@
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
-            "Roguelike@ClickToDrops",
+            "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@ExitThenAbandon"
         ]
