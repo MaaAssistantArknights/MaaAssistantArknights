@@ -66,6 +66,8 @@ jobs:
           repository: yuanyan3060/ArknightsGameResource
           ref: main
           path: .\tools\ResourceUpdater\x64\Release\Official
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
           sparse-checkout: |
             /levels.json
             /item
@@ -77,7 +79,6 @@ jobs:
             /gamedata/excel/gacha_table.json
             /gamedata/excel/roguelike_topic_table.json
             /gamedata/excel/activity_table.json
-          sparse-checkout-cone-mode: false
 
       - name: Clone ArknightsGameResource_Yostar for Overseas
         uses: actions/checkout@v4
@@ -86,6 +87,8 @@ jobs:
           repository: Kengxxiao/ArknightsGameData_Yostar
           ref: main
           path: .\tools\ResourceUpdater\x64\Release\Overseas
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
           sparse-checkout: |
             /en_US/gamedata/excel/item_table.json
             /en_US/gamedata/excel/building_data.json
@@ -108,7 +111,6 @@ jobs:
             /ko_KR/gamedata/excel/gacha_table.json
             /ko_KR/gamedata/excel/roguelike_topic_table.json
             /ko_KR/gamedata/excel/activity_table.json
-          sparse-checkout-cone-mode: false
 
       - name: Clone arknights-toolbox-update for Taiwan
         uses: actions/checkout@v4
@@ -117,6 +119,7 @@ jobs:
           repository: arkntools/arknights-toolbox-update
           ref: data-tw
           path: .\tools\ResourceUpdater\x64\Release\Overseas\zh_TW\gamedata\excel
+          fetch-depth: 1
           token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
 
       - name: Run Resource Updater
