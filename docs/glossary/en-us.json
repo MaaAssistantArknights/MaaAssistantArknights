@@ -496,7 +496,8 @@
             "char_4125_rdoc": "Doc",
             "char_4126_fuze": "Fuze",
             "char_4131_odda": "Odda",
-            "char_4137_udflow": "Underflow"
+            "char_4137_udflow": "Underflow",
+            "char_4147_mitm": "Mitm"
         },
         "6": {
             "char_003_kalts": "Kal'tsit",
@@ -593,7 +594,8 @@
             "char_4132_ascln": "Ascalon",
             "char_4133_logos": "Logos",
             "char_4134_cetsyr": "Civilight Eterna",
-            "char_4145_ulpia": "Ulpianus"
+            "char_4145_ulpia": "Ulpianus",
+            "char_4146_nymph": "Nymph"
         }
     }
 }
