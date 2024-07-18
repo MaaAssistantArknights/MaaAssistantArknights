@@ -17104,7 +17104,7 @@
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.95,
+        "templThreshold": 0.97,
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next"
@@ -17214,7 +17214,7 @@
     "Sarkaz@Roguelike@StageProphecy": {
         "Doc": "命运所指",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.95,
+        "templThreshold": 0.97,
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next"
