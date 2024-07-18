@@ -9,11 +9,6 @@ on:
         description: "Commit Message"
         type: string
         required: false
-      overwrite_cache:
-        description: "Force cache overwrite"
-        type: boolean
-        required: false
-        default: false
 
 jobs:
   clone-resources-official:
@@ -129,8 +124,6 @@ jobs:
 
       - name: Restore ResourceUpdater.exe from cache
         id: cache-restore
-        # If overwrite = true, skip this step (to allow a new save to the cache)
-        if: github.event.inputs.overwrite_cache != 'true'
         uses: actions/cache/restore@v4
         with:
           key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
