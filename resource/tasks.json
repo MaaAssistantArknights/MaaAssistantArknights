@@ -16635,20 +16635,6 @@
             "mask": []
         }
     },
-    "Sarkaz@Roguelike@ChooseBurdenOperator": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperator.png",
-        "roi": [
-            11,
-            493,
-            140,
-            143
-        ],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"
-        ]
-    },
     "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
         "template": "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart.png",
         "roi": [
@@ -16670,33 +16656,18 @@
             "Sarkaz@Roguelike@ChooseBurdenOperator"
         ]
     },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm.png",
+    "Sarkaz@Roguelike@ChooseBurdenOperator": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperator.png",
         "roi": [
-            542,
-            551,
-            135,
-            134
+            11,
+            493,
+            140,
+            143
         ],
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
-        ]
-    },
-    "Sarkaz@Roguelike@ChooseBurdenOperatorQuit": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorQuit.png",
-        "roi": [
-            0,
-            0,
-            150,
-            148
-        ],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
-            "Sarkaz@Roguelike@Stages#next"
+            "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1"
         ]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1": {
@@ -16736,6 +16707,133 @@
         ],
         "next": [
             "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm.png",
+        "roi": [
+            542,
+            551,
+            135,
+            134
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
+        ]
+    },
+    "Sarkaz@Roguelike@ChooseBurdenOperatorQuit": {
+        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorQuit.png",
+        "roi": [
+            0,
+            0,
+            150,
+            148
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenChaos": {
+        "template": "Sarkaz@Roguelike@DecreaseBurdenChaos",
+        "roi": [
+            559,
+            608,
+            157,
+            112
+        ],
+        "templThreshold": 0.95,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenRetardation": {
+        "template": "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+        "roi": [
+            561,
+            607,
+            153,
+            113
+        ],
+        "templThreshold": 0.95,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenAbandonThought": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            430,
+            215,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenAbandon": {
+        "template": "Sarkaz@Roguelike@DecreaseBurdenAbandon.png",
+        "templThreshold": 0.95,
+        "roi": [
+            499,
+            471,
+            167,
+            151
+        ],
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation",
+            "Sarkaz@Roguelike@DecreaseBurdenCheckChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenCheckClear",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandon"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation": {
+        "template": "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation.png",
+        "templThreshold": 0.95,
+        "roi": [
+            98,
+            234,
+            158,
+            126
+        ],
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
+        "template": "Sarkaz@Roguelike@DecreaseBurdenCheckChaos.png",
+        "templThreshold": 0.95,
+        "roi": [
+            97,
+            235,
+            159,
+            128
+        ],
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenCheckClear": {
+        "template": "Sarkaz@Roguelike@DecreaseBurdenCheckClear.png",
+        "templThreshold": 0.95,
+        "roi": [
+            99,
+            239,
+            157,
+            124
+        ],
+        "next": [
+            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
         ]
     },
     "Sarkaz@Roguelike@ChooseDifficulty": {
@@ -17332,6 +17430,8 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageEmergencyDps",
@@ -17363,6 +17463,8 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageTraderHD",
@@ -17393,6 +17495,8 @@
         "Doc": "避紧急作战,3-4层策略",
         "algorithm": "JustReturn",
         "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@NextLevel",
             "Sarkaz@Roguelike@StageBoskyPassage",
             "Sarkaz@Roguelike@StageCombatDps",
