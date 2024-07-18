@@ -161,19 +161,19 @@ jobs:
         uses: actions/download-artifact@v4.1.8
         with:
           name: official
-          path: ./tools/ResourceUpdater/x64/Release
+          path: ./tools/ResourceUpdater/x64/Release/Official
 
       - name: Download Overseas
         uses: actions/download-artifact@v4.1.8
         with:
           name: overseas
-          path: ./tools/ResourceUpdater/x64/Release
+          path: ./tools/ResourceUpdater/x64/Release/Overseas
 
       - name: Download txwy
         uses: actions/download-artifact@v4.1.8
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
 
       - name: Run Resource Updater
         run: |
