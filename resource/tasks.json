@@ -9259,19 +9259,19 @@
     },
     "BattleSkillReadyOnClick-SquareMap": {
         "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick-SquareMap"
+        "template": "BattleSkillReadyOnClick-SquareMap.png"
     },
     "BattleSkillStopOnClick": {
         "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick"
+        "template": "BattleSkillStopOnClick.png"
     },
     "BattleSkillStopOnClick-MiddleMap": {
         "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-MiddleMap"
+        "template": "BattleSkillStopOnClick-MiddleMap.png"
     },
     "BattleSkillStopOnClick-SquareMap": {
         "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-SquareMap"
+        "template": "BattleSkillStopOnClick-SquareMap.png"
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -13877,7 +13877,7 @@
         ]
     },
     "Phantom@Roguelike@RolesConfirm": {
-        "template": "Phantom@Roguelike@LastRewardConfirm"
+        "template": "Phantom@Roguelike@LastRewardConfirm.png"
     },
     "Phantom@Roguelike@RolesDefault": {},
     "Phantom@Roguelike@SelectTheme": {
@@ -14471,7 +14471,7 @@
         ]
     },
     "Mizuki@Roguelike@RolesConfirm": {
-        "template": "Mizuki@Roguelike@LastRewardConfirm"
+        "template": "Mizuki@Roguelike@LastRewardConfirm.png"
     },
     "Mizuki@Roguelike@RolesDefault": {},
     "Mizuki@Roguelike@SelectTheme": {
@@ -15284,7 +15284,7 @@
     },
     "Sami@Roguelike@FoldartalGain": {
         "doc": "本任务注册插件RoguelikeFoldartalGain",
-        "template": "Sami@Roguelike@FoldartalGain",
+        "template": "Sami@Roguelike@FoldartalGain.png",
         "action": "ClickRect",
         "specificRect": [
             611,
@@ -15675,7 +15675,7 @@
         ]
     },
     "Sami@Roguelike@RolesConfirm": {
-        "template": "Sami@Roguelike@LastRewardConfirm"
+        "template": "Sami@Roguelike@LastRewardConfirm.png"
     },
     "Sami@Roguelike@RolesDefault": {},
     "Sami@Roguelike@SelectTheme": {
@@ -17179,7 +17179,7 @@
         ]
     },
     "Sarkaz@Roguelike@RolesConfirm": {
-        "template": "Sarkaz@Roguelike@LastRewardConfirm"
+        "template": "Sarkaz@Roguelike@LastRewardConfirm.png"
     },
     "Sarkaz@Roguelike@RolesDefault": {},
     "Sarkaz@Roguelike@SelectTheme": {
