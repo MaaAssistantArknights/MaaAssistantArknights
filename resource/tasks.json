@@ -16869,36 +16869,6 @@
             "Sarkaz@Roguelike@DecreaseBurdenAbandon"
         ]
     },
-    "Sarkaz@Roguelike@DecreaseBurdenUse": {
-        "roi": [
-            734,
-            469,
-            168,
-            155
-        ],
-        "templThreshold": 0.9,
-        "action": "ClickSelf",
-        "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
-            "Sarkaz@Roguelike@DecreaseBurdenUse",
-            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
-        ]
-    },
-    "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst": {
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [
-            430,
-            215,
-            0,
-            0
-        ],
-        "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenUse",
-            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
-            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
-        ]
-    },
     "Sarkaz@Roguelike@DecreaseBurdenAbandonThought": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -16973,6 +16943,36 @@
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenUse": {
+        "roi": [
+            734,
+            469,
+            168,
+            155
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
+            "Sarkaz@Roguelike@DecreaseBurdenUse",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            430,
+            215,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenUse",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
         ]
     },
     "Sarkaz@Roguelike@DialogSkipConfirm": {
