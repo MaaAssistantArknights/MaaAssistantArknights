@@ -2,25 +2,21 @@
 
 ### 新增 | New
 
-* 萨卡兹肉鸽混乱或阻滞时先使用一个再舍弃 (#9727) @Daydreamer114
-* 萨卡兹肉鸽添加混乱与阻滞时舍弃思维功能 (#9711) @Daydreamer114
-* Global SSS#4 copilot adaptation @Constrat
 * 适配萨卡兹肉鸽 (#9677) @DavidWang19 @Daydreamer114 @Alan-Charred @SherkeyXD @Lemon-miaow
 * Mac GUI 添加萨米肉鸽策略 @hguandl
 * WPF Gui support for roguelike collapsal paradigm task plugin (#9648) @DavidWang19
-* 增加 BattlePauseCancel 重试上限 @zzyyyl
-* cache 统一默认为 false (#9642) @zzyyyl
-* 重新加入 tasks.json 的默认值检查 (#9583) @zzyyyl
 * 由ci生成的非正式/公测/内测版判断为调试版本并且不再检查更新 (#9632) @SherkeyXD @zzyyyl
 * 隐式空 text 检测仅对无基任务生效 @zzyyyl
 * change glossary from markdown to JSON @AlisaAkiron
 * update turbo to v2 @AlisaAkiron
 * 添加萨米肉鸽天途半道关卡战斗策略 (#9337) @Daydreamer114
 * 增加识别坍缩范式的插件，增加萨米肉鸽刷隐藏坍缩范式模式 (#9172) @Alan-Charred
-* YoStarEN resolution warning on client switch (#9539) @Constrat @ABA2396
 
 ### 改进 | Improved
 
+* 增加 BattlePauseCancel 重试上限 @zzyyyl
+* cache 统一默认为 false (#9642) @zzyyyl
+* 重新加入 tasks.json 的默认值检查 (#9583) @zzyyyl
 * Caching for ResourceUpdater @Constrat
 * 优化夺路而跳部署策略 (#9726) @Daydreamer114
 * update Sarkaz shopping.json (#9721) @CASUUU @SherkeyXD
@@ -59,11 +55,8 @@
 * 修复萨卡兹肉鸽卡死在战斗失败的问题 @DavidWang19
 * 修改材料名称注释 @ABA2396
 * 修复被随机排序破坏的超链接 @Rbqwow
-* YostarEN SSS#4 buffs and branches @Constrat
-* test data @ABA2396
 * tweak Reed Alter, Noir Corne alter regex @Constrat
 * 自动战斗开始时移除召唤物类头像缓存，以避免跨局错误识别相似技能的召唤物 (#9649) @status102
-* 繁中服部分角色無法正確辨識 (#9647) @momomochi987
 * 修复连接前同步参数时日志报错的问题 (#9644) @zzyyyl
 * roi out of bounds @zzyyyl
 * 修复萨米肉鸽因插件注册顺序导致的无法运行问题 (#9633) @Alan-Charred
@@ -72,7 +65,6 @@
 * allow CMake build MaaCore with ASST_DEBUG under macOS @Alan-Charred
 * leak fastdeploy objects to avoid crash @dantmnf
 * Roguelike Invest System offset (#9590) @Alan-Charred
-* 修正繁中服薩米肉鴿獎勵無法多選一的問題 (#9584) @momomochi987
 * add zh-tw glossary for weblate @AlisaAkiron
 * merge glossary json into one for better webalte compatibility @AlisaAkiron
 * fix typings in Recruit task @horror-proton
@@ -89,20 +81,15 @@
 * fix a bad link @Rbqwow
 * make i18n warnings show only once @Rbqwow
 * 增加关于肉鸽任务刷探索范式功能的说明 (#9552) @Alan-Charred
+* website docs **translation needed** (#9287) @ABA2396 @HX3N @Constrat @wallsman @Rbqwow @wangl-cc @SherkeyXD
 
 ### 其他 | Other
 
 * OD navigation (#9729) @Manicsteiner
-* YostarKR WB navigation @HX3N
-* YostarJP WB navigation (#9715) @Manicsteiner
 * 添加弹窗提示 @ABA2396
-* 補充繁中服保全派駐#3 相關內容 (#9701) @momomochi987
 * ignore more site (#9698) @wangl-cc
 * use lychee to check dead links (#9675) @wangl-cc
-* YostarKR add SSSBuffChoose @HX3N
-* SSS#4 Automaton Arena @Constrat
 * bump `maa-cli` to 0.4.8 and update documents (#9683) @wangl-cc
-* Global SSS#4 copilot (Translation work in progress) @Constrat
 * update ja-jp.xaml @Manicsteiner
 * 萨米肉鸽配置文件/插件单独文件夹 (#9651) @Alan-Charred
 * make AskRestartToApplySettingsYoStarEN static @ABA2396
@@ -110,14 +97,39 @@
 * link for yostaren resolution [skip changelo] @Constrat
 * Translations update from MAA Weblate (#9640) @AlisaAkiron @Rbqwow
 * Style/gui consistency (#9567) @Constrat
-* YostarJP add SSSBuffChoose (#9629) @Manicsteiner
-* Update ja-jp.json @wallsman
 * 删除 Qodana 静态检查 (#9553) @SherkeyXD
 * 增加 ResourceUpdater 日志 @ABA2396
 * pref: 将Head和ETag请求设置为`Connection: close` @ChingCdesu
 * Translations update from MAA Weblate (#9598) @AlisaAkiron
-* YostarKR ocr fix and remove SkipThePreBattlePlot @HX3N
-* YostarJP cor fix and roguelike shop text (#9591) @Manicsteiner
 * update python API (#9538) @EvATive7
+
+### For Overseas
+
 * YoStar -> Yostar only for interfaces (#9548) @Constrat
-* website docs **translation needed** (#9287) @ABA2396 @HX3N @Constrat @wallsman @Rbqwow @wangl-cc @SherkeyXD
+* SSS#4 Automaton Arena @Constrat
+* Global SSS#4 copilot (Translation work in progress) @Constrat
+
+#### txwy
+
+* 繁中服部分角色無法正確辨識 (#9647) @momomochi987
+* 補充繁中服保全派駐#3 相關內容 (#9701) @momomochi987
+* 修正繁中服薩米肉鴿獎勵無法多選一的問題 (#9584) @momomochi987
+
+#### YostarEN
+
+* Global SSS#4 copilot adaptation @Constrat
+* YoStarEN resolution warning on client switch (#9539) @Constrat @ABA2396
+* YostarEN SSS#4 buffs and branches @Constrat
+
+#### YostarJP
+
+* YostarJP WB navigation (#9715) @Manicsteiner
+* YostarJP add SSSBuffChoose (#9629) @Manicsteiner
+* Update ja-jp.json @wallsman
+* YostarJP cor fix and roguelike shop text (#9591) @Manicsteiner
+
+#### YostarKR
+
+* YostarKR add SSSBuffChoose @HX3N
+* YostarKR WB navigation @HX3N
+* YostarKR ocr fix and remove SkipThePreBattlePlot @HX3N
