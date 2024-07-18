@@ -16895,7 +16895,8 @@
         "templThreshold": 0.95,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
@@ -16943,6 +16944,39 @@
         ],
         "templThreshold": 0.95,
         "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1": {
+        "roi": [
+            1099,
+            52,
+            181,
+            134
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickRect",
+        "specificRect": [
+            1210,
+            120,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1210,
+            120,
+            0,
+            0
+        ],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
         ]
