@@ -16854,7 +16854,7 @@
     "Sarkaz@Roguelike@CloseEvent": {},
     "Sarkaz@Roguelike@Continue": {},
     "Sarkaz@Roguelike@DecreaseBurdenAbandon": {
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "roi": [
             499,
             471,
@@ -16867,6 +16867,36 @@
             "Sarkaz@Roguelike@DecreaseBurdenCheckChaos",
             "Sarkaz@Roguelike@DecreaseBurdenCheckClear",
             "Sarkaz@Roguelike@DecreaseBurdenAbandon"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenUse": {
+        "roi": [
+            734,
+            469,
+            168,
+            155
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
+            "Sarkaz@Roguelike@DecreaseBurdenUse",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            430,
+            215,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenUse",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenAbandonThought": {
@@ -16893,7 +16923,7 @@
         "templThreshold": 0.95,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+            "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
@@ -16942,7 +16972,7 @@
         "templThreshold": 0.95,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+            "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
         ]
     },
     "Sarkaz@Roguelike@DialogSkipConfirm": {
