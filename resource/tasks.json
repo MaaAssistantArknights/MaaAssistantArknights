@@ -11960,12 +11960,12 @@
         ],
         "postDelay": 500,
         "next": [
-            "Roguelike@Stages#next",
+            "Roguelike@DropsFlag",
             "Roguelike@ChooseOperFlag",
             "Roguelike@StageEncounterSpecialClose",
             "Roguelike@TraderRandomShopping",
             "Roguelike@StageTraderLeave",
-            "Roguelike@DropsFlag",
+            "Roguelike@Stages#next",
             "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToDrops"
         ]
@@ -16706,7 +16706,9 @@
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
-            "Sarkaz@Roguelike@Stages#next"
+            "Sarkaz@Roguelike@DropsFlag",
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@ExitThenAbandon"
         ]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1": {
@@ -16897,7 +16899,8 @@
         "templThreshold": 0.95,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
@@ -16945,6 +16948,39 @@
         ],
         "templThreshold": 0.95,
         "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1": {
+        "roi": [
+            1101,
+            51,
+            179,
+            137
+        ],
+        "templThreshold": 0.95,
+        "action": "ClickRect",
+        "specificRect": [
+            1210,
+            120,
+            0,
+            0
+        ],
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [
+            1210,
+            120,
+            0,
+            0
+        ],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
         ]
