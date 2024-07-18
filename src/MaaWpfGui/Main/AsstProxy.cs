@@ -345,7 +345,7 @@ namespace MaaWpfGui.Main
 
         private void CallbackFunction(int msg, AsstHandle jsonBuffer, AsstHandle customArg)
         {
-            string jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
+            var jsonStr = PtrToStringCustom(jsonBuffer, Encoding.UTF8);
 
             // Console.WriteLine(json_str);
             var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
