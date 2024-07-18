@@ -13298,10 +13298,10 @@
         "templThreshold": 0.75,
         "action": "ClickSelf",
         "roi": [
-            365,
+            360,
             51,
-            276,
-            331
+            450,
+            450
         ],
         "exceededNext": [
             "Roguelike@TraderRandomShopping",
