@@ -62,7 +62,7 @@ class Task:
         assert _is_valid_task_name(name), f"Invalid task name: {name}"
         # 任务名
         self.name = name
-
+        self.is_original = False
         self.task_status = TaskStatus.Raw
         self._construct_task_dict = construct_task_dict
 
@@ -84,6 +84,9 @@ class Task:
 
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
             self.template = f"{self.name}.png"
+        if self.algorithm == AlgorithmType.MatchTemplate:
+            if isinstance(self.template, list) and not isinstance(self.templ_threshold, list):
+                self.templ_threshold = [self.templ_threshold] * len(self.template)
 
     def __str__(self):
         return f"{self.task_status.value}Task({self.name})"
@@ -108,6 +111,7 @@ class Task:
         return task_dict
 
     def define(self):
+        self.is_original = True
         _ORIGINAL_TASKS[self.name] = self
 
     def interpret(self) -> InterpretedTask:
@@ -148,7 +152,7 @@ class Task:
 
     @staticmethod
     @trace
-    def get(name) -> Task | None:
+    def get(name, maybe_template=True) -> Task | None:
         if isinstance(name, Task):
             return name
         if name in _ALL_TASKS:
@@ -156,13 +160,13 @@ class Task:
         elif name in _ORIGINAL_TASKS:
             if _is_base_task(_ORIGINAL_TASKS[name]):
                 return Task._build_base_task(_ORIGINAL_TASKS[name])
-            elif _is_template_task_name(name):
+            elif _is_template_task_name(name) and maybe_template:
                 return Task._build_template_task(name)
             else:
                 _ORIGINAL_TASKS[name].task_status = TaskStatus.Initialized
                 _ALL_TASKS[name] = _ORIGINAL_TASKS[name]
                 return _ORIGINAL_TASKS[name]
-        elif _is_template_task_name(name):
+        elif _is_template_task_name(name) and maybe_template:
             return Task._build_template_task(name)
         else:
             return None
@@ -173,13 +177,19 @@ class Task:
         if isinstance(task, BaseTask):
             return task
         base_dict = Task.get(task.base_task).to_task_dict().copy()
-        base_dict.update(task._construct_task_dict)
+        construct_task_dict = task._construct_task_dict.copy()
+        if "template" not in construct_task_dict:
+            construct_task_dict["template"] = f"{task.name}.png"
+        base_dict.update(construct_task_dict)
         base_dict.pop(TaskFieldEnum.BASE_TASK.value.field_name)
         return BaseTask(task.name, base_dict, task)
 
     @staticmethod
     @trace
     def _build_template_task(name: str) -> Task:
+        def add_prefix(s: list[str]) -> list[str]:
+            return [f"{first}@" + x if not x.startswith('#') else f"{first}" + x for x in s]
+
         first, *rest = name.split('@')
         rest = '@'.join(rest)
         override_task = _ORIGINAL_TASKS.get(name, None)
@@ -187,16 +197,15 @@ class Task:
         if base_task is None:
             if _SHOW_BASE_TASK_WARNING:
                 logger.warning(f"Base task {rest} not found for template task {name}.")
-            base_task = Task("", {})
-            base_task.template = None
+            return Task.get(name, False)
 
-        def add_prefix(s: list[str]) -> list[str]:
-            return [f"{first}@" + x if not x.startswith('#') else f"{first}" + x for x in s]
-
-        assert base_task is not None, "Base task cannot be None."
         new_task_dict = base_task.to_task_dict().copy()
         override_fields = []
         if override_task is not None:
+            if override_task.is_original and hasattr(override_task, "template"):
+                override_task._construct_task_dict.setdefault("template", f"{name}.png")
+                # override_task._construct_task_dict["template"] = f"{name}.png"
+            new_task_dict.update(override_task._construct_task_dict)
             override_task_dict = override_task._construct_task_dict
             for field in get_fields(lambda x: x in _TASK_INFO_FIELDS):
                 if field.field_name in override_task_dict:

@@ -234,7 +234,7 @@ class TaskFieldEnum(Enum):
         "ocr_replace",
         list,
         "可选项，表示是否替换识别错误的文字",
-        None,
+        [],
         lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
