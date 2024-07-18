@@ -91,6 +91,8 @@ namespace MaaWpfGui.Services.Web
                     }
                 }
 
+                request.Headers.ConnectionClose = true;
+
                 var stopwatch = Stopwatch.StartNew();
                 var response = await _client.SendAsync(request).ConfigureAwait(false);
                 stopwatch.Stop();

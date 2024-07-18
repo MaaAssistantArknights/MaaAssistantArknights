@@ -21,20 +21,43 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
+          fetch-depth: 1
           token: ${{ secrets.MISTEOWORKFLOW }}
 
+      - name: Restore ResourceUpdater.exe from cache
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('.\tools\ResourceUpdater\main.cpp') }}
+          path: |
+            .\tools\ResourceUpdater\x64\Release\opencv_world4_maa.dll
+            .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+            
       - name: Bootstrap MaaDeps
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           python3 maadeps-download.py x64-windows
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add msbuild to PATH
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         uses: microsoft/setup-msbuild@v1
 
       - name: Build Resource Updater
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
+    
+      - name: Save ResourceUpdater.exe to cache
+        id: cache-save
+        if: always() && steps.cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('.\tools\ResourceUpdater\main.cpp') }}
+          path: |
+            .\tools\ResourceUpdater\x64\Release\opencv_world4_maa.dll
+            .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
 
       - name: Clone ArknightsGameResource for Official
         uses: actions/checkout@v4
@@ -60,7 +83,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-          repository: Kengxxiao/ArknightsGameData_YoStar
+          repository: Kengxxiao/ArknightsGameData_Yostar
           ref: main
           path: .\tools\ResourceUpdater\x64\Release\Overseas
           sparse-checkout: |

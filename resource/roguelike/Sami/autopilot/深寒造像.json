@@ -2,403 +2,168 @@
     "stage_name": "深寒造像",
     "replacement_home": [
         {
-            "location": [
-                10,
-                6
-            ],
+            "location": [10, 6],
             "direction": "up"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "投锋",
-                "回费"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["投锋", "回费"],
+            "location": [4, 5],
             "direction": "left",
-            "condition": [
-                0,
-                10
-            ]
+            "condition": [0, 10]
         },
         {
-            "groups": [
-                "伊内丝"
-            ],
-            "location": [
-                4,
-                6
-            ],
+            "groups": ["伊内丝"],
+            "location": [4, 6],
             "direction": "left",
-            "condition": [
-                0,
-                10
-            ]
+            "condition": [0, 10]
         },
         {
-            "groups": [
-                "焰苇",
-                "单奶"
-            ],
-            "location": [
-                4,
-                7
-            ],
+            "groups": ["焰苇", "单奶"],
+            "location": [4, 7],
             "direction": "up",
-            "condition": [
-                0,
-                18
-            ]
+            "condition": [0, 18]
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["玛恩纳"],
+            "location": [3, 4],
             "direction": "left",
-            "condition": [
-                0,
-                18
-            ]
+            "condition": [0, 18]
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                9,
-                5
-            ],
+            "groups": ["益达"],
+            "location": [9, 5],
             "direction": "up",
-            "condition": [
-                0,
-                15
-            ]
+            "condition": [0, 15]
         },
         {
-            "groups": [
-                "处决者",
-                "障碍物",
-                "炮灰",
-                "地面阻挡"
-            ],
-            "location": [
-                11,
-                6
-            ],
+            "groups": ["处决者", "障碍物", "炮灰", "地面阻挡"],
+            "location": [11, 6],
             "direction": "left",
-            "condition": [
-                11,
-                13
-            ]
+            "condition": [11, 13]
         },
         {
-            "groups": [
-                "盾法",
-                "高台输出",
-                "辅助",
-                "狙击",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["盾法", "高台输出", "辅助", "狙击", "其他高台"],
+            "location": [6, 6],
             "direction": "up",
-            "condition": [
-                0,
-                18
-            ]
+            "condition": [0, 18]
         },
         {
-            "groups": [
-                "处决者"
-            ],
-            "location": [
-                3,
-                6
-            ],
+            "groups": ["处决者"],
+            "location": [3, 6],
             "direction": "left",
-            "condition": [
-                0,
-                18
-            ]
+            "condition": [0, 18]
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                7,
-                5
-            ],
+            "groups": ["益达"],
+            "location": [7, 5],
             "direction": "right",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                8,
-                5
-            ],
+            "groups": ["益达"],
+            "location": [8, 5],
             "direction": "left",
-            "condition": [
-                20,
-                30
-            ]
+            "condition": [20, 30]
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["益达"],
+            "location": [6, 6],
             "direction": "up",
-            "condition": [
-                20,
-                30
-            ]
+            "condition": [20, 30]
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["补给站"],
+            "location": [6, 5],
             "direction": "right",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "狙击",
-                "高台输出"
-            ],
-            "location": [
-                7,
-                5
-            ],
+            "groups": ["狙击", "高台输出"],
+            "location": [7, 5],
             "direction": "right",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["玛恩纳"],
+            "location": [3, 4],
             "direction": "up",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "单奶"
-            ],
-            "location": [
-                4,
-                7
-            ],
+            "groups": ["单奶"],
+            "location": [4, 7],
             "direction": "up",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "伊内丝"
-            ],
-            "location": [
-                4,
-                6
-            ],
+            "groups": ["伊内丝"],
+            "location": [4, 6],
             "direction": "left",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "重装",
-                "地面阻挡",
-                "炮灰"
-            ],
-            "location": [
-                11,
-                6
-            ],
+            "groups": ["重装", "地面阻挡", "炮灰"],
+            "location": [11, 6],
             "direction": "up",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "无人机",
-                "处决者",
-                "地面阻挡",
-                "炮灰"
-            ],
-            "location": [
-                2,
-                6
-            ],
+            "groups": ["无人机", "处决者", "地面阻挡", "炮灰"],
+            "location": [2, 6],
             "direction": "left",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "高台输出",
-                "盾法",
-                "辅助"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["高台输出", "盾法", "辅助"],
+            "location": [4, 3],
             "direction": "left",
-            "condition": [
-                24,
-                105
-            ]
+            "condition": [24, 105]
         },
         {
-            "groups": [
-                "高台输出",
-                "盾法",
-                "辅助"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["高台输出", "盾法", "辅助"],
+            "location": [5, 6],
             "direction": "left",
-            "condition": [
-                24,
-                105
-            ]
+            "condition": [24, 105]
         },
         {
-            "groups": [
-                "浊心斯卡蒂",
-                "群奶"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["浊心斯卡蒂", "群奶"],
+            "location": [6, 6],
             "direction": "left",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         },
         {
-            "groups": [
-                "无人机"
-            ],
-            "location": [
-                10,
-                5
-            ],
+            "groups": ["无人机"],
+            "location": [10, 5],
             "direction": "up",
-            "condition": [
-                20,
-                105
-            ]
+            "condition": [20, 105]
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                9,
-                5
-            ],
-            "condition": [
-                16,
-                19
-            ]
+            "location": [9, 5],
+            "condition": [16, 19]
         },
         {
-            "location": [
-                6,
-                6
-            ],
-            "condition": [
-                19,
-                19
-            ]
+            "location": [6, 6],
+            "condition": [19, 19]
         },
         {
-            "location": [
-                4,
-                6
-            ],
-            "condition": [
-                19,
-                19
-            ]
+            "location": [4, 6],
+            "condition": [19, 19]
         },
         {
-            "location": [
-                4,
-                5
-            ],
-            "condition": [
-                19,
-                19
-            ]
+            "location": [4, 5],
+            "condition": [19, 19]
         },
         {
-            "location": [
-                4,
-                7
-            ],
-            "condition": [
-                19,
-                19
-            ]
+            "location": [4, 7],
+            "condition": [19, 19]
         },
         {
-            "location": [
-                3,
-                4
-            ],
-            "condition": [
-                19,
-                19
-            ]
+            "location": [3, 4],
+            "condition": [19, 19]
         }
     ]
 }

@@ -1,0 +1,84 @@
+name: Lint Markdown files
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/workflows/markdown-checker.yml"
+  pull_request:
+    branches:
+      - dev
+    paths:
+      - "**/*.md"
+      - "docs/**"
+      - ".github/workflows/markdown-checker.yml"
+  schedule:
+    - cron: "44 7 * * 2" # Every Tuesday at 7:44 AM UTC
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Lint Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Lint Markdown
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          config: docs/.markdownlint.yaml
+          globs: |
+            README.md
+            docs/**/*.md
+
+  check-links:
+    name: Check Dead Links
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Cache lychee
+        uses: actions/cache@v4
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Check dead links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          # 主要用于检查相对链接，对于 Github Actions 无法访问的网站，或者失效的外部网站，可以通过 --exclude 参数排除
+          args: >
+            --verbose --no-progress --cache --max-cache-age 1d 
+            --exclude 'https://map\.ark-nights\.com/areas' 
+            --exclude 'https://.*\.maa-org\.net/.*' 
+            --exclude 'https://support\.bluestacks\.com/.*' 
+            --exclude 'https://www\.bigfun\.cn/.*' 
+            --exclude 'https://myqqbot\.com/.*' 
+            --exclude 'http://xn--\w+\.com/' 
+            --exclude 'https://mywebsite\.com/.*'
+            --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md' 
+            --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md' 
+            -- './docs/**/*.md' './README.md'
+
+      - name: Comment (only for PR)
+        if: github.event_name == 'pull_request' && env.lychee_exit_code != 0
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            Dead links found in the documentation. Please fix them.
+            Details: https://github.com/MaaAssistantArknights/MaaAssistantArknights/actions/runs/${{ github.run_id }}
+
+      - name: Exit with lychee exit code
+        run: exit ${{ env.lychee_exit_code }}

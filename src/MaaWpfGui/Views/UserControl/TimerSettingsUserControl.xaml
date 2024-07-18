@@ -27,7 +27,7 @@
             Grid.Row="0"
             HorizontalAlignment="Center"
             FontWeight="Bold"
-            Text="{DynamicResource TimerTip}"
+            Text="{DynamicResource GlobalConfigTip}"
             TextAlignment="Center" />
         <StackPanel
             Grid.Row="1"
@@ -91,7 +91,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
                             Text="{Binding TimerModels.Timers[0].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -99,7 +99,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
                             Text="{Binding TimerModels.Timers[0].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -109,9 +109,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[0].TimerConfig}"
                     SelectedValuePath="Value"
@@ -133,7 +131,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
                             Text="{Binding TimerModels.Timers[1].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -141,7 +139,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
                             Text="{Binding TimerModels.Timers[1].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -151,9 +149,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[1].TimerConfig}"
                     SelectedValuePath="Value"
@@ -175,7 +171,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
                             Text="{Binding TimerModels.Timers[2].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -183,7 +179,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
                             Text="{Binding TimerModels.Timers[2].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -193,9 +189,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[2].TimerConfig}"
                     SelectedValuePath="Value"
@@ -217,7 +211,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
                             Text="{Binding TimerModels.Timers[3].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -225,7 +219,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
                             Text="{Binding TimerModels.Timers[3].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -235,9 +229,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[3].TimerConfig}"
                     SelectedValuePath="Value"
@@ -259,7 +251,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
                             Text="{Binding TimerModels.Timers[4].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -267,7 +259,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
                             Text="{Binding TimerModels.Timers[4].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -277,9 +269,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[4].TimerConfig}"
                     SelectedValuePath="Value"
@@ -301,7 +291,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
                             Text="{Binding TimerModels.Timers[5].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -309,7 +299,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
                             Text="{Binding TimerModels.Timers[5].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -319,9 +309,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[5].TimerConfig}"
                     SelectedValuePath="Value"
@@ -343,7 +331,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
                             Text="{Binding TimerModels.Timers[6].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -351,7 +339,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
                             Text="{Binding TimerModels.Timers[6].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -361,9 +349,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[6].TimerConfig}"
                     SelectedValuePath="Value"
@@ -385,7 +371,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
                             Text="{Binding TimerModels.Timers[7].Hour, StringFormat=D2}"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
@@ -393,7 +379,7 @@
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
                             Text="{Binding TimerModels.Timers[7].Min, StringFormat=D2}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -403,9 +389,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[7].TimerConfig}"
                     SelectedValuePath="Value"

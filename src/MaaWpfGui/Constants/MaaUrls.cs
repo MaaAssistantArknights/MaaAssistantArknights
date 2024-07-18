@@ -57,51 +57,28 @@ namespace MaaWpfGui.Constants
 
         private static string Language => ConfigurationHelper.GetValue(ConfigurationKeys.Localization, LocalizationHelper.DefaultLanguage);
 
-        public static string HelpUri => $"{MaaDocs}/{_helpUrl[Language]}";
+        private const string MaaDocs = "https://maa.plus/docs";
 
-        public static string OverseasAdaptation => $"{MaaDocs}/{_overseasAdaptation[Language]}";
+        // 常见问题
+        public static string HelpUri => $"{MaaDocs}/{Language}/manual/faq.html";
 
-        public static string CustomInfrastGenerator => $"{MaaDocs}/{_customInfrastGenerator[Language]}";
+        // YostarEN resolution info
+        public static string YostarENResolution => $"{MaaDocs}/{Language}/";
 
-        // TODO: Add more languages
-        public static readonly string RemoteControlDocument = $"{MaaDocs}/协议文档/远程控制协议.html";
+        // 外服适配教程
+        public static string OverseasAdaptation => $"{MaaDocs}/{Language}/develop/overseas-client-adaptation.html";
+
+        // 基建排班协议文档
+        public static string CustomInfrastGenerator => $"{MaaDocs}/{Language}/protocol/base-scheduling-schema.html";
+
+        // 远程控制协议文档
+        public static readonly string RemoteControlDocument = $"{MaaDocs}/{Language}/protocol/remote-control-schema.html";
 
         public static string NewIssueUri => Language switch
         {
-            "zh-cn" => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=cn-bug-report.yaml",
-            _ => "https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/new?assignees=&labels=bug&template=en-bug-report.yaml",
-        };
-
-        private const string MaaDocs = "https://maa.plus/docs";
-
-        private static readonly Dictionary<string, string> _overseasAdaptation = new Dictionary<string, string>
-        {
-            { "zh-cn", "开发文档/外服适配教程.html" },
-            { "en-us", "en-us/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
-            { "ja-jp", "ja-jp/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
-            { "ko-kr", "ko-kr/2.5-OVERSEAS_CLIENTS_ADAPTATION.html" },
-            { "zh-tw", "zh-tw/2.5-外服適配教程.html" },
-            { "pallas", "KeepDrinking.html" },
-        };
-
-        private static readonly Dictionary<string, string> _helpUrl = new Dictionary<string, string>
-        {
-            { "zh-cn", "用户手册/常见问题.html" },
-            { "en-us", "en-us/1.2-FAQ.html" },
-            { "ja-jp", "ja-jp/1.2-よくある質問.html" },
-            { "ko-kr", "ko-kr/1.2-FAQ.html" },
-            { "zh-tw", "zh-tw/1.2-常見問題.html" },
-            { "pallas", "KeepDrinking.html" },
-        };
-
-        private static readonly Dictionary<string, string> _customInfrastGenerator = new Dictionary<string, string>
-        {
-            { "zh-cn", "协议文档/基建排班协议.html" },
-            { "en-us", "en-us/3.6-INFRASTRUCTURE_SCHEDULING_SCHEMA.html" },
-            { "ja-jp", "ja-jp/3.6-インフラスケジュール設定.html" },
-            { "ko-kr", "ko-kr/3.6-기반시설_예약_스키마.html" },
-            { "zh-tw", "zh-tw/3.6-基建排班協議.html" },
-            { "pallas", "KeepDrinking.html" },
+            "zh-cn" => $"{GitHubIssues}/new?assignees=&labels=bug&template=cn-bug-report.yaml",
+            "zh-tw" => $"{GitHubIssues}/new?assignees=&labels=bug&template=cn-bug-report.yaml",
+            _ => $"{GitHubIssues}/new?assignees=&labels=bug&template=en-bug-report.yaml",
         };
     }
 }

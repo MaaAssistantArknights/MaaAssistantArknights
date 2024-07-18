@@ -41,8 +41,8 @@
     <system:String x:Key="ExternalNotificationSmtpAuth">需要登錄</system:String>
     <system:String x:Key="ExternalNotificationSmtpUser">使用者名</system:String>
     <system:String x:Key="ExternalNotificationSmtpPassword">密碼</system:String>
-    <system:String x:Key="ExternalNotificationSmtpFrom">發件者</system:String>
-    <system:String x:Key="ExternalNotificationSmtpTo">收件者</system:String>
+    <system:String x:Key="ExternalNotificationSmtpFrom">寄件人</system:String>
+    <system:String x:Key="ExternalNotificationSmtpTo">收件人</system:String>
     <system:String x:Key="ExternalNotificationDiscordBotToken">機器人 Token</system:String>
     <system:String x:Key="ExternalNotificationDiscordUserId">用戶 ID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">機器人 Token</system:String>
@@ -80,10 +80,10 @@
     <system:String x:Key="DormFilterNotStationedTips">勾選則不會將艾麗妮等幹員從訓練室移除，但也會導致加工站幹員不能進入宿舍。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石碎片自動補貨</system:String>
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精當前技能</system:String>
-    <system:String x:Key="TrainingIdle">訓練室空閑中</system:String>
+    <system:String x:Key="TrainingIdle">訓練室空閒中</system:String>
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>
-    <system:String x:Key="TrainingTimeLeft">剩余時間</system:String>
+    <system:String x:Key="TrainingTimeLeft">剩餘時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">啟用自定義基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">內建配置</system:String>
     <system:String x:Key="UserDefined">自定義</system:String>
@@ -107,13 +107,14 @@
     <system:String x:Key="WSA">WSA 舊版本</system:String>
     <system:String x:Key="MaaTouch">MaaTouch</system:String>
     <system:String x:Key="Compatible">相容模式</system:String>
-    <system:String x:Key="SecondResolution">第二分辨率</system:String>
+    <system:String x:Key="SecondResolution">第二解析度</system:String>
     <system:String x:Key="GeneralWithoutScreencapErr">通用模式（阻擋異常輸出）</system:String>
     <system:String x:Key="DormThreshold">基建工作心情閾值</system:String>
     <system:String x:Key="InfrastThresholdTip">若啟用自定義換班，該欄位僅針對 autofill 和 幹員編組 的房間有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等級，盡可能穩定地打更多層數</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石錠，到達第二層後直接退出</system:String>
-    <system:String x:Key="RoguelikeLastReward">刷開局，刷取熱水壺或精二幹員開局</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">刷開局，刷取熱水壺或精二幹員開局</system:String>
+    <system:String x:Key="RoguelikeStrategyCollapse">刷坍縮範式，遇到非稀有坍縮範式後直接重開</system:String>
     <system:String x:Key="StartingSquad">開局分隊</system:String>
     <system:String x:Key="StartingRoles">開局職業組</system:String>
     <system:String x:Key="StartingCoreChar">開局幹員（單個）</system:String>
@@ -126,17 +127,21 @@
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多寫三個，並用英文分號;隔開</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「開局幹員」使用助戰</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助戰</system:String>
-    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在戰斗結束前延遲「停止」動作</system:String>
+    <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在戰鬥結束前延遲「停止」動作</system:String>
     <system:String x:Key="DeploymentWithPause">暫停下幹員（同時影響肉鴿、自動戰鬥、保全）（不穩定，暫不推薦開啟）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（實驗性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出時釋放 ADB</system:String>
     <system:String x:Key="DefaultSquad">默認分隊</system:String>
     <system:String x:Key="IS2NewSquad1">心勝於物分隊</system:String>
     <system:String x:Key="IS2NewSquad2">物盡其用分隊</system:String>
-    <system:String x:Key="IS2NewSquad3">以人爲本分隊</system:String>
+    <system:String x:Key="IS2NewSquad3">以人為本分隊</system:String>
     <system:String x:Key="IS3NewSquad1">永恆狩獵分隊</system:String>
     <system:String x:Key="IS3NewSquad2">生活至上分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科學主義分隊</system:String>
+    <system:String x:Key="IS4NewSquad1">魂靈護送分隊</system:String>
+    <system:String x:Key="IS4NewSquad2">博聞廣記分隊</system:String>
+    <system:String x:Key="IS4NewSquad3">藍圖測繪分隊</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集群分隊</system:String>
@@ -160,9 +165,9 @@
     <system:String x:Key="NotSelected">不選擇</system:String>
     <system:String x:Key="Official">官服</system:String>
     <system:String x:Key="Bilibili">Bilibili 服</system:String>
-    <system:String x:Key="YoStarEN">國際服 (YoStarEN)</system:String>
-    <system:String x:Key="YoStarJP">日服 (YoStarJP)</system:String>
-    <system:String x:Key="YoStarKR">韓服 (YoStarKR)</system:String>
+    <system:String x:Key="YoStarEN">國際服 (YostarEN)</system:String>
+    <system:String x:Key="YoStarJP">日服 (YostarJP)</system:String>
+    <system:String x:Key="YoStarKR">韓服 (YostarKR)</system:String>
     <system:String x:Key="Txwy">繁中服 (txwy)</system:String>
     <system:String x:Key="Switchable">可切換</system:String>
     <system:String x:Key="Executable">可執行檔</system:String>
@@ -197,6 +202,16 @@
     <system:String x:Key="UpdateCheckStable">穩定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公測版</system:String>
     <system:String x:Key="UpdateCheckNightly">內測版</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">您已啟用內測版更新。感謝您對 MAA 的支持與測試。
+
+請注意：
+
+1. 這是內測版，可能包含不穩定的功能。
+2. 如果遇到問題，請務必在 GitHub 上檢查是否已有相關 issue，若無則提交 issue，並附上日誌文件。這樣我們可以更高效地處理問題。
+3. 請不要在其他地方討論內測版問題，例如用戶群、評論區等。這會佔用公共資源且無法及時反饋和解決問題。
+4. 請勿將更新內測版的方法告知其他非開發用戶，以避免對他們造成不必要的困擾和風險。
+
+您可通過點擊 設置-關於我們-問題反饋 鏈接來取消該彈窗，感謝您的理解與配合！</system:String>
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 進行下載</system:String>
     <system:String x:Key="UpdateCheckNow">檢查更新</system:String>
@@ -212,6 +227,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">文件名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已將其刪除！</system:String>
     <system:String x:Key="AlreadyLatest">已是最新版本 ~</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">當前爲調試版本，無需更新</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">檢查更新失敗</system:String>
     <system:String x:Key="CheckNetworking">請檢查網絡連接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">獲取更新資訊失敗。</system:String>
@@ -229,19 +245,19 @@
     <system:String x:Key="TimerCustomConfig">自定義配置選擇</system:String>
     <system:String x:Key="TimerCustomConfigTip">將提前兩分鐘重開並切換配置</system:String>
     <system:String x:Key="Timer">定時</system:String>
-    <system:String x:Key="TimerTip">此選項頁為全局配置</system:String>
+    <system:String x:Key="GlobalConfigTip">此選項頁為全局配置</system:String>
     <system:String x:Key="SwitchConfiguration">切換配置</system:String>
     <system:String x:Key="ConfigurationName">配置名稱</system:String>
     <system:String x:Key="AddConfiguration">新增</system:String>
     <system:String x:Key="AddConfigSuccess">配置 &lt;{0}&gt; 新增成功</system:String>
     <system:String x:Key="ConfigExists">配置 &lt;{0}&gt; 已存在</system:String>
-    <system:String x:Key="LaunchOnSystemStartup">開機自動啟動</system:String>
-    <system:String x:Key="RunTaskAfterLaunch">啟動後直接執行</system:String>
-    <system:String x:Key="MinimizeAfterLaunch">啟動後直接最小化</system:String>
+    <system:String x:Key="LaunchOnSystemStartup">開機自動啟動 MAA</system:String>
+    <system:String x:Key="RunTaskAfterLaunch">啟動 MAA 後直接執行</system:String>
+    <system:String x:Key="MinimizeAfterLaunch">啟動 MAA 後直接最小化</system:String>
     <system:String x:Key="ClientType">用戶端類型</system:String>
     <system:String x:Key="AutoRestartOption">遊戲斷線時自動重連</system:String>
     <system:String x:Key="HelpUsWithOverseasServersTip">外服適配滯銷，幫幫我們！不會程式也可以。</system:String>
-    <system:String x:Key="OpenEmulatorAfterLaunch">啟動後自動開啟模擬器</system:String>
+    <system:String x:Key="OpenEmulatorAfterLaunch">啟動 MAA 後自動開啟模擬器</system:String>
     <system:String x:Key="MinimizingStartup">最小化啟動模擬器</system:String>
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
@@ -262,10 +278,11 @@
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">薩米</system:String>
+    <system:String x:Key="RoguelikeThemeSarkaz">薩卡茲</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">開始探索 N 次後停止任務</system:String>
     <system:String x:Key="GoldTimesLimit">投資 N 個源石錠後停止任務</system:String>
-    <system:String x:Key="StopOnGoldLimit">源石錠達到上限停止</system:String>
+    <system:String x:Key="StopOnGoldLimit">儲備源石錠達到上限時停止</system:String>
     <system:String x:Key="InvestmentEnabled">投資源石錠</system:String>
     <system:String x:Key="InvestmentWithMoreScore">投資模式啟用購物、招募</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鱗）</system:String>
@@ -273,9 +290,9 @@
     <system:String x:Key="EnablePenguin">上報企鵝物流</system:String>
     <system:String x:Key="EnableYituliu">上報一圖流</system:String>
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
-    <system:String x:Key="DrGrandetTip">在恢復理智確認界面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
+    <system:String x:Key="DrGrandetTip">在恢復理智確認介面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="SocialPtShop">信用購物</system:String>
-    <system:String x:Key="CreditFight">借助戰賺信用</system:String>
+    <system:String x:Key="CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 一日只執行一次。
 關卡選擇爲「當前/上次」時此功能無效。
@@ -288,16 +305,16 @@
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出時無視黑名單</system:String>
     <system:String x:Key="OnlyBuyDiscount">只購買打折的信用商品</system:String>
     <system:String x:Key="ReserveMaxCredit">300以下信用點停止購買商品</system:String>
-    <system:String x:Key="OnlyBuyDiscountTips">⚠可能會導致信用點溢出！仍然會購買未打折的商品！</system:String>
-    <system:String x:Key="ReserveMaxCreditTips">低於300信用點也仍然會購買白名單物品！</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只購買折扣商品讓信用點溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
-    <system:String x:Key="ReceiveDailyAndWeeklyAward">收集每日/每週任務獎勵</system:String>
-    <system:String x:Key="ReceiveMail">收集所有郵件獎勵</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠可能會導致信用點數溢出！仍然會購買未打折的商品！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">低於 300 信用點數也仍然會購買白名單物品！</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">博士! \n只購買折扣商品讓信用點數溢出了！\n小心信用點數浪費哦！\n剩餘信用點數：</system:String>
+    <system:String x:Key="ReceiveDailyAndWeeklyAward">領取每日 / 每週任務獎勵</system:String>
+    <system:String x:Key="ReceiveMail">領取所有郵件獎勵</system:String>
     <system:String x:Key="ReceiveFreeRecruit">進行限定池贈送的每日免費單抽</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免費單抽，則不會抽取</system:String>
     <system:String x:Key="GachaWarning">該功能屬於危險功能，可能會造成誤抽\n按下「確認」鍵即視為你了解並願意承擔可能出現的風險</system:String>
-    <system:String x:Key="ReceiveOrundum">收集幸運墻的每日合成玉獎勵</system:String>
-    <system:String x:Key="ReceiveMining">領取限時開采許可的每日合成玉獎勵</system:String>
+    <system:String x:Key="ReceiveOrundum">收集幸運牆的每日合成玉獎勵</system:String>
+    <system:String x:Key="ReceiveMining">領取限時開採許可的每日合成玉獎勵</system:String>
     <system:String x:Key="ReceiveSpecialAccess">領取特殊贈送月卡獎勵</system:String>
     <system:String x:Key="DroneUsage">無人機用途</system:String>
     <system:String x:Key="MinimizeToTray">最小化時隱藏至工作列</system:String>
@@ -308,27 +325,29 @@
     <system:String x:Key="UseLogItemDateFormat">自訂日誌日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重啟應用更改？</system:String>
+    <system:String x:Key="SwitchResolutionTip">將模擬器解析度更改為 1920x1080！</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">請確保模擬器設定為 1920x1080</system:String>
     <system:String x:Key="UseAlternateStage">使用備選關卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩餘理智</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥/碎石</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">在完成主任務後刷取指定關卡，不使用理智藥 / 碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">無限吃 48 小時內過期的理智藥</system:String>
     <system:String x:Key="HideUnavailableStage">隱藏當日不開放關卡</system:String>
     <system:String x:Key="HideSeries">隱藏連戰次數</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">顯示基建計劃</system:String>
     <system:String x:Key="MainViewButtonFeature">主介面可選擇按鈕功能</system:String>
-    <system:String x:Key="CustomStageCode">手動輸入關卡代名</system:String>
-    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支援大部分主線關卡名與原清單的關卡名（如4-10、AP-5、H10-1-Hard）
+    <system:String x:Key="CustomStageCode">手動輸入關卡名</system:String>
+    <system:String x:Key="CustomStageCodeTip" xml:space="preserve">支援大部分主線關卡名與原清單的關卡名（如 4-10、AP-5、H10-1-Hard）
 可在關卡結尾輸入「Normal/Hard」表示需要切換標準與磨難難度
-可輸入「SSReopen-XX」一次性代理SS複刻的普通關</system:String>
+可輸入「SSReopen-XX」一次性代理 SS 複刻的普通關</system:String>
     <system:String x:Key="AutoDetectConnection">自動檢測連接</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">該連接配置不支援自動檢測連接，請嘗試手動填寫端口號</system:String>
     <system:String x:Key="AutoDetectConnectionTip">每次檢測完成後會自動取消勾選，若需要重新檢測可再次勾選</system:String>
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新檢測</system:String>
-    <system:String x:Key="AccountSwitch">賬號切換</system:String>
+    <system:String x:Key="AccountSwitch">帳號切換</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
     <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切換到的帳號，留空以停用。
-輸入登入界面顯示的內容，如“123****4567”，可輸入“123****4567”或“4567”或“23****45”
-僅支持官服、B服，不支持登入帳號。</system:String>
+輸入登入介面顯示的內容，如“123****4567”，可輸入“123****4567”或“4567”或“23****45”
+僅支援官服、B服，不支援登入帳號。</system:String>
     <system:String x:Key="AdbPath">ADB 路徑（相對/絕對）</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所選檔案名稱不包含 ADB，請檢查是否選擇了錯誤的檔案或誤選成了模擬器本體。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
@@ -337,24 +356,24 @@
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
         需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 遊戲專版、Global 不支援。\n\n
-        請填寫以下信息：\n\n
+        請填寫以下資訊：\n\n
         1. 模擬器路徑：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
-        模擬器路徑應填寫模擬器應用的上一層文件夾路徑，例如應用路徑為\n
+        模擬器路徑應填寫模擬器應用的上一層資料夾路徑，例如應用路徑為\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
         應填寫\n
         「C:\\Program Files\\Netease\\MuMuPlayer-12.0」。\n\n
         2. 實例編號：（例如：0）\n
-        實例編號可在 MuMu 多開器中查看，默認為 0，若有多開實例，編號見實例前的數字。\n\n
+        實例編號可在 MuMu 多開器中查看，預設為 0，若有多開實例，編號見實例前的數字。\n\n
         3. 窗口編號：（例如：0）\n
         注意：關閉MuMu的後台保活後填寫0，如需打開後台保活，請自行探索方法。
     </system:String>
     <system:String x:Key="MuMu12EmulatorPath">MuMu12 模擬器路徑</system:String>
     <system:String x:Key="MuMu12Index">實例號碼</system:String>
     <system:String x:Key="MuMu12Display">螢幕號碼</system:String>
-    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras 未生效，请檢查相關設置</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras 未生效，请檢查相關設定</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 連線失敗時嘗試啟動模擬器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重連失敗 20 次後嘗試重開模擬器，使用後台定時任務且設定任務完成關閉模擬器時必須勾選</system:String>
-    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫「啟動設置-模擬器路徑」後重新勾選。</system:String>
+    <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模擬器路徑為空！請填寫「啟動設定-模擬器路徑」後重新勾選。</system:String>
     <system:String x:Key="AllowAdbRestart">連接失敗後嘗試重開 ADB 伺服器</system:String>
     <system:String x:Key="AllowAdbHardRestart">連接失敗後嘗試重開 ADB 程式</system:String>
     <!--  !設定  -->
@@ -671,6 +690,10 @@
     <system:String x:Key="FoldartalGainOcrNextLevel">預見:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投資 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鴿結算: {0}\n探索: {1} 层 {2} 步\n戰鬥: {3}/{4} 緊急/{5} BOSS\n招募: {6}   收藏品: {7}\n難度: {8}   得分: {9}\nExp: {10}  Skill: {11}</system:String>
+    <system:String x:Key="RoguelikeGainParadigm">坍縮範式加深: {0}</system:String>
+    <system:String x:Key="RoguelikeDeepenParadigm">坍縮範式 {0} 加深為 {1}</system:String>
+    <system:String x:Key="RoguelikeLoseParadigm">坍縮範式消退: {1}</system:String>
+    <system:String x:Key="RoguelikeWeakenParadigm">坍縮範式 {1} 消退為 {0}</system:String>
     <system:String x:Key="CurTimes">目前次數</system:String>
     <system:String x:Key="NoDrop">無</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
@@ -801,4 +824,28 @@
     <!--  !Announcement  -->
     <system:String x:Key="ConnectionAddressTip">若遇到問題可嘗試手動修改</system:String>
     <system:String x:Key="ConnectionAddress">連接地址</system:String>
+    <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
+    <system:String x:Key="PerformanceSettings">性能設定</system:String>
+    <system:String x:Key="CopilotWithScript">自動戰鬥時啟用上述腳本</system:String>
+    <system:String x:Key="GpuOptionDisable">不使用</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">系統預設 GPU</system:String>
+    <system:String x:Key="ManualStopWithScript">手動暫停時啟用上述腳本</system:String>
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">可通過高級設定中的選項切換模式
+
+目前生息演算的支援仍處於早期階段，使用時請注意以下幾點：
+
+ 在普通模式下：
+  1. 不能在已經有存檔的情況下使用（刪除現有存檔即可）
+  2. 不能在生息演算的編隊中有幹員的情況下使用（把生息演算中的當前編隊清空即可，特別是打完浪潮之後）
+  3. 必須在生息演算主介面開始任務（導航還沒寫）
+
+ 通過製造刷點數：
+  1. 要求是結算後的第一天，且後續三天沒有敵襲進入駐紮地
+  2. 必須在進入生息演算中開始（能看到駐紮地的頁面）
+  3. 如果能製造的數量剛好是 99 的倍數會卡住，在存檔前可以先用掉一點，這個之後再修
+    </system:String>
+    <system:String x:Key="ReclamationBePatient">牛牛，我太想進步了！你看，又急</system:String>
+    <system:String x:Key="Reclamation2ExEnable">透過製造刷點數</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">支援道具名稱</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">螢光棒</system:String>
 </ResourceDictionary>

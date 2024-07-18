@@ -11,25 +11,25 @@ export default defineUserConfig({
   port: 3001,
 
   locales: {
-    "/": {
+    "/zh-cn/": {
       lang: "zh-CN",
-      description: "开发者文档",
+      description: "文档",
     },
     "/zh-tw/": {
       lang: "zh-TW",
-      description: "開發者文件",
+      description: "文件",
     },
     "/en-us/": {
       lang: "en-US",
-      title: "Documents",
+      description: "Documentation",
     },
     "/ja-jp/": {
       lang: "ja-JP",
-      description: "ドキュメント",
+      description: "ドキュメンテーション",
     },
     "/ko-kr/": {
       lang: "ko-KR",
-      description: "문서",
+      description: "선적 서류 비치",
     },
   },
 
@@ -56,21 +56,21 @@ export default defineUserConfig({
     [
       "link",
       {
-        href: "https://fonts.googleapis.com/css?family=Noto+Sans+SC:300,400,500,700,900&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@100..900&display=swap",
         rel: "stylesheet",
       },
     ],
     [
       "link",
       {
-        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:400;500;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200..900&display=swap",
         rel: "stylesheet",
       },
     ],
     [
       "link",
       {
-        href: "https://fonts.googleapis.com/css2?family=Jetbrains+Mono:wght@300,400,500,700;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap",
         rel: "stylesheet",
       },
     ],

@@ -2,79 +2,39 @@
     "stage_name": "“正义使者”",
     "replacement_home": [
         {
-            "location": [
-                9,
-                3
-            ],
+            "location": [9, 3],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                9,
-                4
-            ],
+            "groups": ["回费"],
+            "location": [9, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇"
-            ],
-            "location": [
-                9,
-                2
-            ],
+            "groups": ["焰苇"],
+            "location": [9, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "水陈",
-                "狙击",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["焰苇", "水陈", "狙击", "高台输出", "辅助", "其他高台"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡"
-            ],
-            "location": [
-                8,
-                5
-            ],
+            "groups": ["地面阻挡"],
+            "location": [8, 5],
             "direction": "left"
         }
     ]

@@ -2,45 +2,21 @@
     "stage_name": "纠错",
     "replacement_home": [
         {
-            "location": [
-                3,
-                5
-            ],
+            "location": [3, 5],
             "direction": "right"
         }
     ],
     "blacklist_location": [
-        [
-            6,
-            5
-        ],
-        [
-            2,
-            3
-        ],
-        [
-            3,
-            3
-        ],
-        [
-            4,
-            3
-        ],
-        [
-            5,
-            3
-        ]
+        [6, 5],
+        [2, 3],
+        [3, 3],
+        [4, 3],
+        [5, 3]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "投锋",
-                "挡人先锋"
-            ],
-            "location": [
-                2,
-                5
-            ],
+            "groups": ["投锋", "挡人先锋"],
+            "location": [2, 5],
             "direction": "right"
         },
         {
@@ -53,97 +29,42 @@
                 "重装",
                 "其他地面"
             ],
-            "location": [
-                3,
-                5
-            ],
+            "location": [3, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "号角"
-            ],
-            "location": [
-                1,
-                5
-            ],
+            "groups": ["号角"],
+            "location": [1, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "群奶",
-                "单奶"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["群奶", "单奶"],
+            "location": [3, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["玛恩纳"],
+            "location": [5, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "召唤",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["高台C", "召唤", "控制", "狙击", "术师", "辅助"],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "地面C",
-                "地刺",
-                "挡人先锋",
-                "投锋",
-                "重装"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["基石", "地面C", "地刺", "挡人先锋", "投锋", "重装"],
+            "location": [4, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [6, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "基石",
-                "重装",
-                "地刺",
-                "挡人先锋",
-                "地面C",
-                "其他地面"
-            ],
-            "location": [
-                1,
-                5
-            ],
+            "groups": ["基石", "重装", "地刺", "挡人先锋", "地面C", "其他地面"],
+            "location": [1, 5],
             "direction": "right"
         },
         {
@@ -156,10 +77,7 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                3,
-                2
-            ],
+            "location": [3, 2],
             "direction": "right"
         }
     ]

@@ -33,19 +33,30 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             DisplayMemberPath="Display"
-            IsHitTestVisible="{Binding Idle}"
+            IsEnabled="{Binding Idle}"
             ItemsSource="{Binding ClientTypeList}"
             SelectedValue="{Binding ClientType}"
             SelectedValuePath="Value" />
         <controls:TextBlock
-            Margin="10"
+            HorizontalAlignment="Center"
+            Visibility="{c:Binding 'ClientType == &quot;YoStarEN&quot;'}">
+            <Hyperlink
+                Cursor="Hand"
+                TextDecorations="None"
+                NavigateUri="{Binding Source={x:Static constants:MaaUrls.YostarENResolution}}">
+                <TextBlock Text="{DynamicResource ResolutionInfoYoStarEN}"/>
+            </Hyperlink>
+        </controls:TextBlock>
+        <controls:TextBlock
+            Margin="0,20,0,0"
+            FontSize="10"
             HorizontalAlignment="Center"
             Visibility="{c:Binding 'ClientType != &quot;Official&quot; and ClientType != &quot;Bilibili&quot; and ClientType != &quot;&quot;'}">
             <Hyperlink
                 Cursor="Hand"
-                NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}"
-                TextDecorations="None">
-                <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}" />
+                TextDecorations="None"
+                NavigateUri="{Binding Source={x:Static constants:MaaUrls.OverseasAdaptation}}">
+                <TextBlock Text="{DynamicResource HelpUsWithOverseasServersTip}"/>
             </Hyperlink>
         </controls:TextBlock>
     </StackPanel>

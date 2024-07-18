@@ -185,7 +185,16 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         return false;
     }
 
-    auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+    std::optional<CombatData> opt;
+    if (m_config->get_mode() == RoguelikeMode::CLP_PDS) {
+        opt = RoguelikeCopilot.get_stage_data(m_stage_name + "_collapse");
+        if (opt == std::nullopt) {
+            opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+        }
+    } else {
+        opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+    }
+
     if (opt) {
         m_homes = opt->replacement_home;
         m_allow_to_use_dice = opt->use_dice_stage;
@@ -563,6 +572,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 
         Log.info("To path", m_cur_home_index);
 
+        if (!update_deployment(false, image, true)) {
+            return false;
+        }
+
         if (!best_oper_is_dice) {
             if (auto best_oper_opt = calc_best_oper()) {
                 best_oper = *best_oper_opt;
@@ -827,7 +840,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         Log.info("No best oper");
         return std::nullopt;
     }
-    Log.info("best oper is", best_oper.name);
+    Log.info("best oper is", best_oper.name, "with cost being", best_oper.cost);
     return best_oper;
 }
 

@@ -1,0 +1,75 @@
+{
+    "stage_name": "苔手_collapse",
+    "replacement_home": [
+        {
+            "location": [8, 2],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [6, 4],
+        [5, 4]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["地面阻挡"],
+            "location": [8, 2],
+            "direction": "left",
+            "condition": [1, 22]
+        },
+        {
+            "groups": ["提丰"],
+            "location": [4, 4],
+            "direction": "right",
+            "condition": [2, 22]
+        },
+        {
+            "groups": ["狙击"],
+            "location": [4, 2],
+            "direction": "right",
+            "condition": [3, 22]
+        },
+        {
+            "groups": ["焰苇", "凯尔希"],
+            "location": [6, 2],
+            "direction": "right",
+            "condition": [2, 22]
+        },
+        {
+            "groups": ["水陈"],
+            "location": [4, 2],
+            "direction": "right",
+            "condition": [2, 22]
+        },
+        {
+            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "location": [6, 3],
+            "direction": "left",
+            "condition": [3, 22]
+        },
+        {
+            "groups": ["高台输出", "盾法"],
+            "location": [6, 2],
+            "direction": "down",
+            "condition": [3, 22]
+        },
+        {
+            "groups": ["奶"],
+            "location": [6, 2],
+            "direction": "right",
+            "condition": [3, 22]
+        },
+        {
+            "groups": ["辅助"],
+            "location": [4, 2],
+            "direction": "left",
+            "condition": [3, 22]
+        },
+        {
+            "groups": ["地面远程", "玛恩纳", "地面阻挡", "其他地面"],
+            "location": [7, 2],
+            "direction": "down",
+            "condition": [3, 22]
+        }
+    ]
+}

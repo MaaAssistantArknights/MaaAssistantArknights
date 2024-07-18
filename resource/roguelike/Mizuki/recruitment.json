@@ -15,24 +15,14 @@
                     "Doc2": "开局用干员",
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "is_less": true,
                             "offset": 100,
                             "Doc": "地面阻挡输出位≤1时，百炼嘉维尔的招募优先级+100"
                         },
                         {
-                            "groups": [
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["基石", "召唤", "号角", "地面C"],
                             "threshold": 3,
                             "offset": -600,
                             "Doc": "地面阻挡输出位≥3时，百炼嘉维尔的招募优先级-600"
@@ -52,13 +42,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -73,13 +57,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -93,13 +71,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -500
                         }
@@ -114,13 +86,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -135,13 +101,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -400
                         }
@@ -155,13 +115,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -400
                         }
@@ -175,13 +129,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -400
                         }
@@ -195,13 +143,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -400
                         }
@@ -224,13 +166,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -400
                         }
@@ -244,13 +180,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -263,13 +193,7 @@
                     "promote_priority": 150,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -282,13 +206,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -334,10 +252,7 @@
                     "promote_priority": 999,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "控制",
-                                "刺客"
-                            ],
+                            "groups": ["控制", "刺客"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -366,11 +281,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
+                            "groups": ["高台C", "玛恩纳", "号角"],
                             "threshold": 3,
                             "offset": -200
                         }
@@ -385,11 +296,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
+                            "groups": ["高台C", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -403,11 +310,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
+                            "groups": ["高台C", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -422,11 +325,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
+                            "groups": ["高台C", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -441,11 +340,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
+                            "groups": ["高台C", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -460,11 +355,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
+                            "groups": ["高台C", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -478,19 +369,12 @@
                     "promote_priority": 850,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "高台C",
-                                "玛恩纳",
-                                "号角"
-                            ],
+                            "groups": ["高台C", "玛恩纳", "号角"],
                             "threshold": 2,
                             "offset": -300
                         },
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": -700
@@ -635,11 +519,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "凯尔希",
-                                "近卫",
-                                "召唤"
-                            ],
+                            "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 3,
                             "offset": -150
                         }
@@ -778,13 +658,7 @@
                             "offset": -150
                         },
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "号角",
-                                "地面C",
-                                "重装"
-                            ],
+                            "groups": ["百嘉", "基石", "号角", "地面C", "重装"],
                             "threshold": 1,
                             "is_less": true,
                             "offset": -600
@@ -798,13 +672,7 @@
                     "promote_priority": 440,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "号角",
-                                "地面C",
-                                "重装"
-                            ],
+                            "groups": ["百嘉", "基石", "号角", "地面C", "重装"],
                             "threshold": 1,
                             "is_less": true,
                             "offset": -600
@@ -818,13 +686,7 @@
                     "promote_priority": 465,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "号角",
-                                "地面C",
-                                "重装"
-                            ],
+                            "groups": ["百嘉", "基石", "号角", "地面C", "重装"],
                             "threshold": 1,
                             "is_less": true,
                             "offset": -600
@@ -838,13 +700,7 @@
                     "promote_priority": 460,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "号角",
-                                "地面C",
-                                "重装"
-                            ],
+                            "groups": ["百嘉", "基石", "号角", "地面C", "重装"],
                             "threshold": 1,
                             "is_less": true,
                             "offset": -600
@@ -864,10 +720,7 @@
                     "promote_priority": 790,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "控制",
-                                "异德"
-                            ],
+                            "groups": ["控制", "异德"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -882,10 +735,7 @@
                     "promote_priority": 591,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "控制",
-                                "异德"
-                            ],
+                            "groups": ["控制", "异德"],
                             "threshold": 2,
                             "offset": -500
                         }
@@ -899,9 +749,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "控制"
-                            ],
+                            "groups": ["控制"],
                             "threshold": 1,
                             "offset": -800
                         }
@@ -915,9 +763,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "控制"
-                            ],
+                            "groups": ["控制"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -931,9 +777,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "控制"
-                            ],
+                            "groups": ["控制"],
                             "threshold": 1,
                             "offset": -800
                         }
@@ -947,9 +791,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "控制"
-                            ],
+                            "groups": ["控制"],
                             "threshold": 1,
                             "offset": -400
                         }
@@ -968,10 +810,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -985,10 +824,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1024,10 +860,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1041,10 +874,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1057,10 +887,7 @@
                     "promote_priority": 290,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1074,10 +901,7 @@
                     "promote_priority": 725,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1091,10 +915,7 @@
                     "promote_priority": 410,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1107,10 +928,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1123,10 +941,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1139,10 +954,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1155,10 +967,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1171,10 +980,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1189,10 +995,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1206,10 +1009,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1222,20 +1022,13 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶",
-                                "焰苇"
-                            ],
+                            "groups": ["单奶", "群奶", "焰苇"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 500
                         },
                         {
-                            "groups": [
-                                "高台C",
-                                "控制"
-                            ],
+                            "groups": ["高台C", "控制"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": -600
@@ -1249,11 +1042,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶",
-                                "焰苇"
-                            ],
+                            "groups": ["单奶", "群奶", "焰苇"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 600
@@ -1298,10 +1087,7 @@
                     "promote_priority": 675,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 3,
                             "offset": -300
                         }
@@ -1315,10 +1101,7 @@
                     "promote_priority": 777,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 3,
                             "offset": -200
                         }
@@ -1331,10 +1114,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1347,10 +1127,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1381,10 +1158,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 3,
                             "offset": -400
                         }
@@ -1397,10 +1171,7 @@
                     "promote_priority": 100,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 2,
                             "offset": -400
                         }
@@ -1413,10 +1184,7 @@
                     "promote_priority": 100,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 2,
                             "offset": -400
                         }
@@ -1426,10 +1194,7 @@
                     "name": "万顷",
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 2,
                             "offset": -400
                         }
@@ -1455,10 +1220,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1471,10 +1233,7 @@
                     "promote_priority": 50,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1487,10 +1246,7 @@
                     "promote_priority": 50,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 1,
                             "offset": -100
                         }
@@ -1505,10 +1261,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1521,10 +1274,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1537,10 +1287,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "投锋",
-                                "挡人先锋"
-                            ],
+                            "groups": ["投锋", "挡人先锋"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -1590,10 +1337,7 @@
                     "promote_priority": 955,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 3,
                             "offset": -100
                         }
@@ -1606,10 +1350,7 @@
                     "promote_priority": 960,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 2,
                             "offset": -100
                         }
@@ -1622,10 +1363,7 @@
                     "promote_priority": 770,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1638,10 +1376,7 @@
                     "promote_priority": 300,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1655,10 +1390,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1673,10 +1405,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1689,10 +1418,7 @@
                     "promote_priority": 280,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1712,10 +1438,7 @@
                     "promote_priority": 180,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1734,10 +1457,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "异德",
-                                "刺客"
-                            ],
+                            "groups": ["异德", "刺客"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1755,17 +1475,12 @@
                     "promote_priority": 590,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -150
                         },
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 120
@@ -1779,17 +1494,12 @@
                     "promote_priority": 490,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -150
                         },
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 120
@@ -1803,17 +1513,12 @@
                     "promote_priority": 190,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -150
                         },
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 120
@@ -1827,20 +1532,13 @@
                     "promote_priority": 490,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 120
                         },
                         {
-                            "groups": [
-                                "凯尔希",
-                                "重装",
-                                "近卫"
-                            ],
+                            "groups": ["凯尔希", "重装", "近卫"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -1853,17 +1551,12 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -150
                         },
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 120
@@ -1879,10 +1572,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "单奶",
-                                "群奶"
-                            ],
+                            "groups": ["单奶", "群奶"],
                             "threshold": 0,
                             "is_less": true,
                             "offset": 120
@@ -1904,9 +1594,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1959,9 +1647,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -200
                         }
@@ -1975,9 +1661,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -2011,9 +1695,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -2026,9 +1708,7 @@
                     "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -2041,9 +1721,7 @@
                     "promote_priority": 70,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -2056,9 +1734,7 @@
                     "promote_priority": 70,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -2071,9 +1747,7 @@
                     "promote_priority": 70,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -2086,9 +1760,7 @@
                     "promote_priority": 70,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -2166,13 +1838,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -3532,9 +3198,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "重装"
-                            ],
+                            "groups": ["重装"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -3578,9 +3242,7 @@
                     "promote_priority": 350,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "回费"
-                            ],
+                            "groups": ["回费"],
                             "threshold": 1,
                             "is_less": true,
                             "offset": -300
@@ -3689,45 +3351,27 @@
     ],
     "team_complete_condition": [
         {
-            "groups": [
-                "百嘉",
-                "号角",
-                "玛恩纳",
-                "地面C"
-            ],
+            "groups": ["百嘉", "号角", "玛恩纳", "地面C"],
             "threshold": 2
         },
         {
-            "groups": [
-                "高台C"
-            ],
+            "groups": ["高台C"],
             "threshold": 1
         },
         {
-            "groups": [
-                "控制"
-            ],
+            "groups": ["控制"],
             "threshold": 1
         },
         {
-            "groups": [
-                "群奶",
-                "单奶"
-            ],
+            "groups": ["群奶", "单奶"],
             "threshold": 1
         },
         {
-            "groups": [
-                "刺客",
-                "重装"
-            ],
+            "groups": ["刺客", "重装"],
             "threshold": 1
         },
         {
-            "groups": [
-                "挡人先锋",
-                "投锋"
-            ],
+            "groups": ["挡人先锋", "投锋"],
             "threshold": 1
         }
     ]

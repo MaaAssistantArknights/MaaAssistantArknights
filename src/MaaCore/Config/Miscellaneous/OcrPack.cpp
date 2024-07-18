@@ -24,6 +24,12 @@ asst::OcrPack::OcrPack() : m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
 asst::OcrPack::~OcrPack()
 {
     LogTraceFunction;
+    if (m_gpu_id) {
+        // FIXME: leak fastdeploy objects to avoid crash (double free?)
+        (void)m_det.release();
+        (void)m_rec.release();
+        (void)m_ocr.release();
+    }
 }
 
 bool asst::OcrPack::load(const std::filesystem::path& path)

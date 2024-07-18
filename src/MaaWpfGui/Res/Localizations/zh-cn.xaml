@@ -51,7 +51,6 @@
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
-
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
@@ -118,7 +117,8 @@
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用干员编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
-    <system:String x:Key="RoguelikeLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
+    <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
@@ -132,7 +132,7 @@
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
-    <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
+    <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
     <system:String x:Key="DefaultSquad">默认分队</system:String>
@@ -143,6 +143,10 @@
     <system:String x:Key="IS3NewSquad2">生活至上分队</system:String>
     <system:String x:Key="IS3NewSquad3">科学主义分队</system:String>
     <system:String x:Key="IS3NewSquad4">特训分队</system:String>
+    <system:String x:Key="IS4NewSquad1">魂灵护送分队</system:String>
+    <system:String x:Key="IS4NewSquad2">博闻广记分队</system:String>
+    <system:String x:Key="IS4NewSquad3">蓝图测绘分队</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
     <system:String x:Key="SupportSquad">后勤分队</system:String>
@@ -165,9 +169,9 @@
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
     <system:String x:Key="Bilibili">Bilibili服</system:String>
-    <system:String x:Key="YoStarEN">国际服 (YoStarEN)</system:String>
-    <system:String x:Key="YoStarJP">日服 (YoStarJP)</system:String>
-    <system:String x:Key="YoStarKR">韩服 (YoStarKR)</system:String>
+    <system:String x:Key="YoStarEN">国际服 (YostarEN)</system:String>
+    <system:String x:Key="YoStarJP">日服 (YostarJP)</system:String>
+    <system:String x:Key="YoStarKR">韩服 (YostarKR)</system:String>
     <system:String x:Key="Txwy">繁中服 (txwy)</system:String>
     <system:String x:Key="Switchable">可切换</system:String>
     <system:String x:Key="Executable">可执行文件</system:String>
@@ -202,6 +206,16 @@
     <system:String x:Key="UpdateCheckStable">稳定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公测版</system:String>
     <system:String x:Key="UpdateCheckNightly">内测版</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">您已启用内测版更新。感谢您对 MAA 的支持与测试。
+
+请注意：
+
+1. 这是内测版，可能包含不稳定的功能。
+2. 如果遇到问题，请务必在 GitHub 上检查是否已有相关 issue，若无则提交 issue，并附上日志文件。这样我们可以更高效地处理问题。
+3. 请不要在其他地方讨论内测版问题，例如用户群、评论区等。这会占用公共资源且无法及时反馈和解决问题。
+4. 请勿将更新内测版的方法告知其他非开发用户，以避免对他们造成不必要的困扰和风险。
+
+您可通过点击 设置-关于我们-问题反馈 链接来取消该弹窗，感谢您的理解与配合！</system:String>
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
@@ -217,6 +231,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">文件名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已将其删除！</system:String>
     <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">当前为调试版本，无需更新</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">检查更新失败</system:String>
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
@@ -234,7 +249,7 @@
     <system:String x:Key="TimerCustomConfig">自定义配置选择</system:String>
     <system:String x:Key="TimerCustomConfigTip">将提前两分钟重启并切换配置</system:String>
     <system:String x:Key="Timer">定时</system:String>
-    <system:String x:Key="TimerTip">此选项页为全局配置</system:String>
+    <system:String x:Key="GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="SwitchConfiguration">切换配置</system:String>
     <system:String x:Key="ConfigurationName">配置名称</system:String>
     <system:String x:Key="AddConfiguration">添加</system:String>
@@ -269,6 +284,7 @@
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
+    <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
@@ -315,6 +331,8 @@
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
+    <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为1920x1080！</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为1920x1080</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
@@ -680,6 +698,10 @@
     <system:String x:Key="FoldartalGainOcrNextLevel">预见:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投资 {1}(+{0}), 存款: {2}</system:String>
     <system:String x:Key="RoguelikeSettlement">肉鸽结算: {0}\n探索: {1} 层 {2} 步\n战斗: {3}/{4} 紧急/{5} BOSS\n招募: {6}   收藏品: {7}\n难度: {8}   得分: {9}\nExp: {10}   Skill: {11}</system:String>
+    <system:String x:Key="RoguelikeGainParadigm">坍缩范式加深: {0}</system:String>
+    <system:String x:Key="RoguelikeDeepenParadigm">坍缩范式 {0} 加深为 {1}</system:String>
+    <system:String x:Key="RoguelikeLoseParadigm">坍缩范式消退: {1}</system:String>
+    <system:String x:Key="RoguelikeWeakenParadigm">坍缩范式 {1} 消退为 {0}</system:String>
     <system:String x:Key="CurTimes">当前次数</system:String>
     <system:String x:Key="NoDrop">无</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>

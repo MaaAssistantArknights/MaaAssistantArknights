@@ -10,7 +10,7 @@
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,7 +46,7 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.IdleChanged += RunningState_IdleChanged;
         }
 
-        private void RunningState_IdleChanged(object sender, bool e)
+        private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
         }
@@ -293,7 +293,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         JArray tags = (JArray)subTaskDetails["tags"];
                         string infoContent = LocalizationHelper.GetString("RecruitTagsDetected");
-                        tags ??= new JArray();
+                        tags ??= [];
                         infoContent = tags.Select(tagName => tagName.ToString()).Aggregate(infoContent, (current, tagStr) => current + (tagStr + "    "));
 
                         RecruitInfo = infoContent;
@@ -306,14 +306,14 @@ namespace MaaWpfGui.ViewModels.UI
                         string resultContent = string.Empty;
                         JArray resultArray = (JArray)subTaskDetails["result"];
                         /* int level = (int)subTaskDetails["level"]; */
-                        foreach (var combs in resultArray ?? new JArray())
+                        foreach (var combs in resultArray ?? [])
                         {
                             int tagLevel = (int)combs["level"];
                             resultContent += tagLevel + "★ Tags:    ";
-                            resultContent = (((JArray)combs["tags"]) ?? new JArray()).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
+                            resultContent = (((JArray?)combs["tags"]) ?? []).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
 
                             resultContent += "\n\t";
-                            foreach (var oper in (JArray)combs["opers"] ?? new JArray())
+                            foreach (var oper in (JArray?)combs["opers"] ?? [])
                             {
                                 int operLevel = (int)oper["level"];
                                 string operId = oper["id"]?.ToString();
@@ -579,9 +579,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private Dictionary<string, int> _operBoxPotential;
+        private Dictionary<string, int>? _operBoxPotential;
 
-        public Dictionary<string, int> OperBoxPotential
+        public Dictionary<string, int>? OperBoxPotential
         {
             get
             {
@@ -612,10 +612,10 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject details)
         {
-            JArray operBoxes = (JArray)details["all_opers"];
+            var operBoxes = (JArray)details["all_opers"];
 
-            List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
-            List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
+            List<Tuple<string, int>> operHave = [];
+            List<Tuple<string, int>> operNotHave = [];
 
             string localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty) switch
             {
@@ -818,7 +818,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly object _lock = new object();
 
-        private BitmapImage _gachaImage;
+        private BitmapImage? _gachaImage;
 
         public BitmapImage GachaImage
         {
@@ -826,7 +826,7 @@ namespace MaaWpfGui.ViewModels.UI
             set => SetAndNotify(ref _gachaImage, value);
         }
 
-        private void RefreshGachaImage(object sender, EventArgs e)
+        private void RefreshGachaImage(object? sender, EventArgs? e)
         {
             lock (_lock)
             {

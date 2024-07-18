@@ -2,209 +2,91 @@
     "stage_name": "利刃所指",
     "replacement_home": [
         {
-            "location": [
-                2,
-                4
-            ],
+            "location": [2, 4],
             "direction": "down"
         }
     ],
     "blacklist_location": [
-        [
-            1,
-            2
-        ],
-        [
-            1,
-            3
-        ],
-        [
-            1,
-            4
-        ],
-        [
-            4,
-            5
-        ]
+        [1, 2],
+        [1, 3],
+        [1, 4],
+        [4, 5]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "回费"
-            ],
-            "location": [
-                2,
-                1
-            ],
+            "groups": ["回费"],
+            "location": [2, 1],
             "direction": "down",
-            "condition": [
-                0,
-                1
-            ]
+            "condition": [0, 1]
         },
         {
-            "groups": [
-                "伊内丝",
-                "地面阻挡",
-                "地面远程"
-            ],
-            "location": [
-                2,
-                2
-            ],
+            "groups": ["伊内丝", "地面阻挡", "地面远程"],
+            "location": [2, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "凯尔希",
-                "召唤",
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                1,
-                1
-            ],
+            "groups": ["凯尔希", "召唤", "浊心斯卡蒂"],
+            "location": [1, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                2,
-                3
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [2, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "大龙"
-            ],
-            "location": [
-                2,
-                4
-            ],
+            "groups": ["大龙"],
+            "location": [2, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "焰苇",
-                "狙击",
-                "高台输出",
-                "辅助",
-                "其他高台",
-                "奶"
-            ],
-            "location": [
-                3,
-                2
-            ],
+            "groups": ["焰苇", "狙击", "高台输出", "辅助", "其他高台", "奶"],
+            "location": [3, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面远程",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                3,
-                1
-            ],
+            "groups": ["地面远程", "地面阻挡", "其他地面"],
+            "location": [3, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["益达"],
+            "location": [3, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["玛恩纳"],
+            "location": [3, 4],
             "direction": "down"
         },
         {
-            "groups": [
-                "水陈",
-                "狙击",
-                "高台输出",
-                "盾法",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["水陈", "狙击", "高台输出", "盾法", "辅助", "其他高台"],
+            "location": [3, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "奶"
-            ],
-            "location": [
-                1,
-                1
-            ],
+            "groups": ["奶"],
+            "location": [1, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "奶"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["奶"],
+            "location": [3, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                2,
-                4
-            ],
+            "groups": ["玛恩纳", "地面阻挡", "处决者", "其他地面"],
+            "location": [2, 4],
             "direction": "down"
         },
         {
-            "groups": [
-                "领主",
-                "地面阻挡",
-                "地面远程",
-                "处决者",
-                "地刺"
-            ],
-            "location": [
-                2,
-                1
-            ],
+            "groups": ["领主", "地面阻挡", "地面远程", "处决者", "地刺"],
+            "location": [2, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "补给站",
-                "无人机"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["补给站", "无人机"],
+            "location": [4, 4],
             "direction": "left"
         }
     ]

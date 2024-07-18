@@ -175,6 +175,8 @@ namespace MaaWpfGui.Constants
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string ResourceApi = "VersionUpdate.ResourceApi";
+        public const string AllowNightlyUpdates = "VersionUpdate.AllowNightlyUpdates";
+        public const string HasAcknowledgedNightlyWarning = "VersionUpdate.HasAcknowledgedNightlyWarning";
 
         // 这个已经废弃了，还要留着吗？
         // ReSharper disable once UnusedMember.Global

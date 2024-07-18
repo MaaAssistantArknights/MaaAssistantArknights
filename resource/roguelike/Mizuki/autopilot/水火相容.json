@@ -2,23 +2,14 @@
     "stage_name": "水火相容",
     "replacement_home": [
         {
-            "location": [
-                1,
-                4
-            ],
+            "location": [1, 4],
             "direction": "down"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "投锋",
-                "挡人先锋"
-            ],
-            "location": [
-                1,
-                4
-            ],
+            "groups": ["投锋", "挡人先锋"],
+            "location": [1, 4],
             "direction": "down"
         },
         {
@@ -31,45 +22,22 @@
                 "重装",
                 "其他地面"
             ],
-            "location": [
-                1,
-                5
-            ],
+            "location": [1, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                3,
-                5
-            ],
+            "groups": ["玛恩纳"],
+            "location": [3, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "群奶",
-                "单奶"
-            ],
-            "location": [
-                2,
-                5
-            ],
+            "groups": ["群奶", "单奶"],
+            "location": [2, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "重装",
-                "其他地面"
-            ],
-            "location": [
-                3,
-                6
-            ],
+            "groups": ["百嘉", "基石", "地面C", "重装", "其他地面"],
+            "location": [3, 6],
             "direction": "right"
         },
         {
@@ -82,10 +50,7 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                4,
-                5
-            ],
+            "location": [4, 5],
             "direction": "right"
         },
         {
@@ -98,34 +63,17 @@
                 "辅助",
                 "其他高台"
             ],
-            "location": [
-                5,
-                5
-            ],
+            "location": [5, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "刺客",
-                "异德",
-                "其他地面"
-            ],
-            "location": [
-                1,
-                1
-            ],
+            "groups": ["刺客", "异德", "其他地面"],
+            "location": [1, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "刺客",
-                "异德",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["刺客", "异德", "其他地面"],
+            "location": [5, 2],
             "direction": "right"
         }
     ]

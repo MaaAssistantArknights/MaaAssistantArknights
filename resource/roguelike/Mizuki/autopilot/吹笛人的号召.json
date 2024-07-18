@@ -2,208 +2,83 @@
     "stage_name": "吹笛人的号召",
     "replacement_home": [
         {
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "location": [
-                4,
-                4
-            ],
+            "location": [4, 4],
             "direction": "right"
         },
         {
-            "location": [
-                4,
-                2
-            ],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "location": [
-                3,
-                3
-            ],
+            "location": [3, 3],
             "direction": "right"
         },
         {
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "right"
         }
     ],
     "blacklist_location": [
-        [
-            2,
-            1
-        ],
-        [
-            3,
-            1
-        ],
-        [
-            4,
-            1
-        ],
-        [
-            5,
-            1
-        ],
-        [
-            6,
-            1
-        ],
-        [
-            7,
-            1
-        ],
-        [
-            2,
-            5
-        ],
-        [
-            3,
-            5
-        ],
-        [
-            4,
-            5
-        ],
-        [
-            5,
-            5
-        ],
-        [
-            6,
-            5
-        ],
-        [
-            7,
-            5
-        ]
+        [2, 1],
+        [3, 1],
+        [4, 1],
+        [5, 1],
+        [6, 1],
+        [7, 1],
+        [2, 5],
+        [3, 5],
+        [4, 5],
+        [5, 5],
+        [6, 5],
+        [7, 5]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助"],
+            "location": [6, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "群奶",
-                "单奶",
-                "术师",
-                "召唤",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["群奶", "单奶", "术师", "召唤", "辅助", "其他高台"],
+            "location": [4, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["玛恩纳"],
+            "location": [6, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助"],
+            "location": [6, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "群奶",
-                "单奶",
-                "术师",
-                "召唤",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["群奶", "单奶", "术师", "召唤", "辅助", "其他高台"],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "号角",
-                "重装"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["号角", "重装"],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "刺客",
-                "挡人先锋",
-                "投锋"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["百嘉", "基石", "地面C", "刺客", "挡人先锋", "投锋"],
+            "location": [7, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "刺客",
-                "挡人先锋",
-                "投锋"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["百嘉", "基石", "地面C", "刺客", "挡人先锋", "投锋"],
+            "location": [7, 4],
             "direction": "up"
         },
         {
@@ -216,10 +91,7 @@
                 "地面C",
                 "其他地面"
             ],
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "right"
         }
     ]

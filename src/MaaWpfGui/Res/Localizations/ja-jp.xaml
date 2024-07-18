@@ -20,7 +20,7 @@
     <system:String x:Key="UiTheme">UI主題</system:String>
     <system:String x:Key="HotKeySettings">ホットキー設定</system:String>
     <system:String x:Key="UpdateSettings">アップデート設定</system:String>
-    <system:String x:Key="AboutUs">About</system:String>
+    <system:String x:Key="AboutUs">About us</system:String>
     <system:String x:Key="CoreVersion">Core バージョン</system:String>
     <system:String x:Key="UiVersion">UI バージョン</system:String>
     <system:String x:Key="ResourceVersion">リソースバーション</system:String>
@@ -65,12 +65,12 @@
     <!--  !設定ガイド  -->
     <system:String x:Key="Dorm">宿舎</system:String>
     <system:String x:Key="Mfg">製造所</system:String>
-    <system:String x:Key="Processing">処理ステーション</system:String>
+    <system:String x:Key="Processing">加工所</system:String>
     <system:String x:Key="Training">訓練室</system:String>
     <system:String x:Key="Trade">貿易所</system:String>
     <system:String x:Key="Power">発電所</system:String>
     <system:String x:Key="Reception">応接室</system:String>
-    <system:String x:Key="Office">事務所</system:String>
+    <system:String x:Key="Office">事務室</system:String>
     <system:String x:Key="Control">制御中枢</system:String>
     <system:String x:Key="DronesNotUse">ドローンを使わない</system:String>
     <system:String x:Key="Money">貿易所-龍門幣</system:String>
@@ -81,9 +81,9 @@
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
     <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">作業中の人員を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのようなオペレーターを訓練所から外さなくなり、加工所のオペレーターが宿舎に送られるのを防止します。</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのようなオペレーターを訓練室から外さなくなり、でも、加工所のオペレーターが宿舎に送られることも防止します。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
-    <system:String x:Key="ContinueTraining">訓練完了後、現在のスキルを専門にする試みを続けます</system:String>
+    <system:String x:Key="ContinueTraining">訓練完了後、現在のスキルを特化する試みを続けます</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
@@ -117,19 +117,20 @@
     <system:String x:Key="InfrastThresholdTip">カスタム シフトが有効な場合、このフィールドは自動入力とオペレーター グループのあるルームに対してのみ有効です</system:String>
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
     <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2階到着後終了</system:String>
-    <system:String x:Key="RoguelikeLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String>
+    <system:String x:Key="RoguelikeStrategyCollapse">パラダイムロストをファーミングして、非レアパラダイムロストに遭遇したらすぐに再起動します</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
     <system:String x:Key="StartingCoreChar">最初のオペレーター（一人だけ）</system:String>
     <system:String x:Key="StartingCoreCharTip">記入がない場合はデフォルトの方針を使用します。</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">スタッフがbattle_dataにありません。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">このオペレーターがbattle_dataにありません。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">「最初のオペレーター」直接昇進</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">指定オペレーターの昇進招集までリセマラし、戦闘を行わない</system:String>
-    <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一層遠見暗号文板、戦闘を行わない</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">第一層遠見で指定された啓示板を取得し、戦闘を行わない</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活重視分隊で開始、指定された啓示板を取得する</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最大3つ書き込み、半角セミコロン;で区切る</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「最初のオペレーター」をサポートから選択</system:String>
-    <system:String x:Key="RoguelikeUseNonFriendSupport">フレンド以外のサポートの使用を許可</system:String>
+    <system:String x:Key="RoguelikeUseNonFriendSupport">戦友以外のサポートの使用を許可</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">戦闘終了まえに「停止」を遅らせる</system:String>
     <system:String x:Key="DeploymentWithPause">統合戦略/保全駐在でポーズトリックを使用します（ベータ機能のため非推奨です）</system:String>
     <system:String x:Key="AdbLiteEnabled">軽量ADBを使用(実験機能)</system:String>
@@ -142,6 +143,10 @@
     <system:String x:Key="IS3NewSquad2">生活重視分隊</system:String>
     <system:String x:Key="IS3NewSquad3">科学主義分隊</system:String>
     <system:String x:Key="IS3NewSquad4">特訓分隊</system:String>
+    <system:String x:Key="IS4NewSquad1">魂灵护送分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad2">博闻广记分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad3">蓝图测绘分队（占位）</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分队（占位）</system:String>
     <system:String x:Key="LeaderSquad">指揮分隊</system:String>
     <system:String x:Key="GatheringSquad">集団分隊</system:String>
     <system:String x:Key="SupportSquad">支援分隊</system:String>
@@ -164,9 +169,9 @@
     <system:String x:Key="NotSelected">選ばない</system:String>
     <system:String x:Key="Official">CN-公式</system:String>
     <system:String x:Key="Bilibili">Bilibili</system:String>
-    <system:String x:Key="YoStarEN">YoStarEN</system:String>
-    <system:String x:Key="YoStarJP">YoStarJP</system:String>
-    <system:String x:Key="YoStarKR">YoStarKR</system:String>
+    <system:String x:Key="YoStarEN">YostarEN</system:String>
+    <system:String x:Key="YoStarJP">YostarJP</system:String>
+    <system:String x:Key="YoStarKR">YostarKR</system:String>
     <system:String x:Key="Txwy">txwy</system:String>
     <system:String x:Key="Switchable">切り替え可能</system:String>
     <system:String x:Key="Executable">実行ファイル</system:String>
@@ -201,6 +206,16 @@
     <system:String x:Key="UpdateCheckStable">安定版</system:String>
     <system:String x:Key="UpdateCheckBeta">ベータ版</system:String>
     <system:String x:Key="UpdateCheckNightly">内部テスト版</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">内部テスト版の更新を有効にしました。MAA のサポートとテストに感謝します。
+
+ご注意ください：
+
+1. これは内部テスト版であり、不安定な機能が含まれている可能性があります。
+2. 問題が発生した場合は、GitHub で関連する issue が既に存在するかどうかを確認してください。存在しない場合は、新しい issue を提出し、ログファイルを添付してください。これにより、問題をより効率的に対処できます。
+3. 内部テスト版の問題をユーザーグループやコメントセクションなどの他の場所で議論しないでください。これにより公共のリソースが占有され、迅速なフィードバックと解決が妨げられます。
+4. 内部テスト版の更新方法を非開発ユーザーに共有しないでください。不要な混乱とリスクを避けるためです。
+
+設定 - About us - フィードバックのリンクをクリックして、このポップアップをキャンセルできます。ご理解とご協力をお願いいたします！</system:String>
     <system:String x:Key="UpdateCheck">Update version</system:String>
     <system:String x:Key="DownloadWithAria2">aria2を使う</system:String>
     <system:String x:Key="UpdateCheckNow">アップデートを確認する</system:String>
@@ -216,6 +231,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">ファイル名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">消去しました！</system:String>
     <system:String x:Key="AlreadyLatest">最新版をインストール済みです~</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">現在はデバッグバージョンであり、更新は必要ありません</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">アップデートパッケージを見つけるのに失敗しました</system:String>
     <system:String x:Key="CheckNetworking">ネットワークの接続状況とプロクシの設定を確認してください。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">リリースノートの取得に失敗しました。</system:String>
@@ -233,7 +249,7 @@
     <system:String x:Key="TimerCustomConfig">カスタム構成オプション</system:String>
     <system:String x:Key="TimerCustomConfigTip">2分前に再起動して設定を切り替えます</system:String>
     <system:String x:Key="Timer">タイマー</system:String>
-    <system:String x:Key="TimerTip">このオプション ページはグローバル設定用です</system:String>
+    <system:String x:Key="GlobalConfigTip">このオプション ページはグローバル設定用です</system:String>
     <system:String x:Key="SwitchConfiguration">構成を切り替える</system:String>
     <system:String x:Key="ConfigurationName">構成名</system:String>
     <system:String x:Key="AddConfiguration">追加</system:String>
@@ -268,6 +284,7 @@
     <system:String x:Key="RoguelikeThemePhantom">ファントム</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">ミヅキ</system:String>
     <system:String x:Key="RoguelikeThemeSami">サーミ</system:String>
+    <system:String x:Key="RoguelikeThemeSarkaz">サルカズ</system:String>
     <system:String x:Key="Strategy">ストラテジー</system:String>
     <system:String x:Key="StartTimesLimit">冒険をN回始めた後に停止する</system:String>
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
@@ -282,28 +299,28 @@
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
-    <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30クレジット獲得できます。
+    <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 一日一回だけ。
 この機能は、ステージを現在/前回に選択している場合は無効です。
-ステージOF-1がアンロックされていない場合は、確認しないでください。</system:String>
+ステージOF-1がアンロックされていない場合は、チェックしないでください。</system:String>
     <system:String x:Key="HighPriority">優先購入（セミコロンで区切）</system:String>
     <system:String x:Key="Blacklist">ブラックリスト（セミコロンで区切）</system:String>
     <system:String x:Key="HighPriorityDefault">求人票</system:String>
     <system:String x:Key="BlacklistDefault">炭素材;家具;緊急招集票</system:String>
     <system:String x:Key="Drink">飲み物はいかがですか🍷？ドクター</system:String>
-    <system:String x:Key="ForceShoppingIfCreditFull">クレジットがあふれた際はブラックリストを無視する</system:String>
-    <system:String x:Key="OnlyBuyDiscount">割引されたクレジットアイテムのみ購入します</system:String>
-    <system:String x:Key="ReserveMaxCredit">クレジットポイントが300未満になった場合、アイテムの購入を停止します</system:String>
-    <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意: クレジットポイントのオーバーフローのリスクがあります！ホワイトリストに登録されたアイテムは通常価格で購入される可能性があります！</system:String>
-    <system:String x:Key="ReserveMaxCreditTips">クレジットポイントが300未満でも、ホワイトリストに登録されたアイテムは引き続き購入されます！</system:String>
-    <system:String x:Key="CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がクレジットポイントのオーバーフローを引き起こしました！ \nクレジットポイントの浪費に注意してください！ \n残りのクレジットポイント：</system:String>
+    <system:String x:Key="ForceShoppingIfCreditFull">FPがあふれた際はブラックリストを無視する</system:String>
+    <system:String x:Key="OnlyBuyDiscount">割引されたFPアイテムのみ購入します</system:String>
+    <system:String x:Key="ReserveMaxCredit">FPが300未満になった場合、アイテムの購入を停止します</system:String>
+    <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意: FPのオーバーフローのリスクがあります！ホワイトリストに登録されたアイテムは通常価格で購入される可能性があります！</system:String>
+    <system:String x:Key="ReserveMaxCreditTips">FPが300未満でも、ホワイトリストに登録されたアイテムは引き続き購入されます！</system:String>
+    <system:String x:Key="CreditFullOnlyBuyDiscount">ドクター！ \n割引アイテムのみの購入がFPのオーバーフローを引き起こしました！ \nFPの浪費に注意してください！ \n残りのFP：</system:String>
     <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
-    <system:String x:Key="ReceiveFreeRecruit">リミテッドプールから毎日フリーシングルの抽選を行う</system:String>
-    <system:String x:Key="ReceiveFreeRecruitTip">無料シングル抽選がない場合は抽選されない</system:String>
+    <system:String x:Key="ReceiveFreeRecruit">リミテッドスカウトから毎日無料スカウトを行う</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">無料スカウトがない場合はスカウトされない</system:String>
     <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
-    <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成翡翠の報酬を受け取る</system:String>
+    <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveSpecialAccess">スペシャルアクセス特典を集める</system:String>
     <system:String x:Key="DroneUsage">ドローンの使用</system:String>
     <system:String x:Key="MinimizeToTray">最小化した際にトレイに表示</system:String>
@@ -314,9 +331,11 @@
     <system:String x:Key="UseLogItemDateFormat">カスタムログ日付形式</system:String>
     <system:String x:Key="LogItemDateFormatString">日付書式文字列</system:String>
     <system:String x:Key="PromptRestartForSettingsChange">変更を適用するためにすぐに再起動しますか？</system:String>
+    <system:String x:Key="SwitchResolutionTip">エミュレータの解像度を1920x1080に変更!</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">エミュレータが1920x1080に設定されていることを確認してください</system:String>
     <system:String x:Key="UseAlternateStage">代替ステージを選択可能にする</system:String>
     <system:String x:Key="UseRemainingSanityStage">余剰理性の使用</system:String>
-    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたレベルを選択しても、理性剤も源石も使わない</system:String>
+    <system:String x:Key="UseRemainingSanityStageTip">メインタスク終了後に指定されたステージを選択しても、理性剤も源石も使わない</system:String>
     <system:String x:Key="UseExpiringMedicine">48時間以内に期限が切れる回復剤を無制限に使用</system:String>
     <system:String x:Key="HideUnavailableStage">当日開放されないステージを隠す</system:String>
     <system:String x:Key="HideSeries">連戦回数を隠します</system:String>
@@ -324,7 +343,7 @@
     <system:String x:Key="MainViewButtonFeature">スタート画面に表示する便利ボタン</system:String>
     <system:String x:Key="CustomStageCode">ステージ名を入力する</system:String>
     <system:String x:Key="CustomStageCodeTip" xml:space="preserve">(テスト機能)ステージ名と番号（例: 4-10、AP-5、H10-1-Hardなど）
-の両方がサポートされています。レベルの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
+の両方がサポートされています。ステージの最後に「Normal/Hard」を入力することで、標準から強襲/厄難に難易度を切り替えることができます</system:String>
     <!--ワンタイム代理SS一般パスとして「SSReopen-XX」を入力できます</system:String>-->
     <system:String x:Key="AutoDetectConnection">接続自動認識</system:String>
     <system:String x:Key="AutoDetectConnectionNotSupported">この接続構成では自動接続検出はサポートされていません。手動でポート番号を入力してみてください</system:String>
@@ -379,8 +398,8 @@
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
     <system:String x:Key="ReclamationAlgorithm2">生息演算「沙洲遺聞」</system:String>
-    <system:String x:Key="Light">光</system:String>
-    <system:String x:Key="Dark">ダーク</system:String>
+    <system:String x:Key="Light">ライトモード</system:String>
+    <system:String x:Key="Dark">ダークモード</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
     <system:String x:Key="SelectAll">全て選択</system:String>
     <system:String x:Key="Inverse">逆選択</system:String>
@@ -478,7 +497,7 @@
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">ヒント: スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
-    <system:String x:Key="RecruitmentShowPotential">潜在性を示す</system:String>
+    <system:String x:Key="RecruitmentShowPotential">潜在能力を示す</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">情報を取得するために「オペレーター」を使用してください。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
@@ -557,8 +576,8 @@
     <system:String x:Key="AddUserAdditional">カスタムで指定したオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditionalTip">";" はセパレータ、"," でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
-    <system:String x:Key="UseCopilotListTip">開始前にレベル選択ページに切り替えてください</system:String>
-    <system:String x:Key="CopilotTaskRaidStage">(Raid)</system:String>
+    <system:String x:Key="UseCopilotListTip">開始前にステージ選択ページに切り替えてください</system:String>
+    <system:String x:Key="CopilotTaskRaidStage">(強襲)</system:String>
     <system:String x:Key="CopilotAddTask">右クリックしてレイドの難易度を追加します</system:String>
     <system:String x:Key="CopilotClearTask">右クリックして非アクティブなタスクをクリアします</system:String>
     <system:String x:Key="LoopTimes">ループ回数</system:String>
@@ -575,12 +594,12 @@
         5. ビデオ認識もサポートされており、ガイドビデオをドラッグして使用できます。\n
         ビデオ解像度は16:9必須。黒枠、エミュレーター枠、特殊な形状、画面効果などが無いことを確認してください。\n\n
         6. バトルリスト:\n
-        ジョブを選択した後、リストの下のレベル名が正しいことを確認してください (例: CV-EX-1)。 \n
-        追加: 左クリックしてノーマル難易度を追加し、右クリックしてレイド難易度を追加します。\n
+        ジョブを選択した後、リストの下のステージ名が正しいことを確認してください (例: CV-EX-1)。 \n
+        追加: 左クリックして通常難易度を追加し、右クリックして強襲難易度を追加します。\n
         クリア: 左クリックするとリストがクリアされ、右クリックすると非アクティブなタスクのみが削除されます。\n
-        開始する前に、レベル選択インターフェースに切り替える必要があります。章間のナビゲーションはサポートされていません。\n
-        正気度が不十分な場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。 \n
-        一括インポートを使用して逆レベルを追加する場合は、ファイル名を変更する必要があります (例: '1-7(Raid).json')。\n\n
+        開始する前に、ステージ選択画面に切り替える必要があります。章間のナビゲーションはサポートされていません。\n
+        理性不足の場合、戦闘が失敗した場合、または 3 つ星を解決できない場合、アクションは終了します。 \n
+        一括インポートを使用して強襲ステージを追加する場合は、ファイル名を変更する必要があります (例: '1-7(Raid).json')。\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">ファイルの読み取りに失敗しました！</system:String>
     <system:String x:Key="CopilotNoFound">対応する攻略ファイルが見つかりません！</system:String>
@@ -645,7 +664,7 @@
     <system:String x:Key="GiveUpUploadingPenguins">Penguin-Statsへのアップロードをあきらめました</system:String>
     <system:String x:Key="TheEx">ステージ報酬がないため停止します</system:String>
     <system:String x:Key="MissingOperators">次のオペレーターがオペレーターグループにありません：</system:String>
-    <system:String x:Key="StageQueue">レベルキュー:</system:String>
+    <system:String x:Key="StageQueue">ステージキュー:</system:String>
     <system:String x:Key="UnableToAgent">自動指揮利用不可</system:String>
     <system:String x:Key="MissionStart">行動開始しました</system:String>
     <system:String x:Key="UnitTime">回</system:String>
@@ -677,9 +696,13 @@
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
-    <system:String x:Key="FoldartalGainOcrNextLevel">予見暗号文板:</system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
     <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、デポジット: {2}</system:String>
-    <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}\n探検する: {1} 床 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\nリクルート: {6}\nコレクション: {7}\n困難: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
+    <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}\n探検する: {1} 階層 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\n人材招集数: {6}\nアイテム入手数: {7}\n困難: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
+    <system:String x:Key="RoguelikeGainParadigm">パラダイムロストの深化: {0}</system:String>
+    <system:String x:Key="RoguelikeDeepenParadigm">パラダイムロスト {0} が {1} に深化した</system:String>
+    <system:String x:Key="RoguelikeLoseParadigm">パラダイムロストの消退: {1}</system:String>
+    <system:String x:Key="RoguelikeWeakenParadigm">パラダイムロスト {1} が {0} に退行した</system:String>
     <system:String x:Key="CurTimes">現在の回数</system:String>
     <system:String x:Key="NoDrop">ドロップなし</system:String>
     <system:String x:Key="Drop" xml:space="preserve">ドロップ: </system:String>
@@ -690,8 +713,8 @@
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">オペレータ グループ、グループ リストの一致に失敗しました: </system:String>
     <system:String x:Key="RoomOperators" xml:space="preserve">優先しています: </system:String>
     <system:String x:Key="ProductIncorrect">製品が構成と一致しません。</system:String>
-    <system:String x:Key="ProductUnknown">Unknown Product</system:String>
-    <system:String x:Key="ProductChanged">Product has changed</system:String>
+    <system:String x:Key="ProductUnknown">認識不能な製品</system:String>
+    <system:String x:Key="ProductChanged">製品が切り替わった</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">公開求人の認識結果: </system:String>
     <system:String x:Key="RecruitingTips">公開求人ヒント</system:String>
     <system:String x:Key="RecruitmentOfStar">公開求人で星{0}が出ました！</system:String>
@@ -713,10 +736,10 @@
     <system:String x:Key="BattleFormation">編成開始</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">サポートされていないレベルです。レベル名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
-    <system:String x:Key="TryToReconnectByAdb">再接続を試みています </system:String>
+    <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
     <system:String x:Key="TryToStartEmulator">エミュレータを起動しようとしています</system:String>
     <system:String x:Key="RestartAdb">ADBサーバーの再起動を試みています</system:String>
     <system:String x:Key="HardRestartAdb">ADBプロセスの再起動を試みています</system:String>

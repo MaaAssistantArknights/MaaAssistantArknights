@@ -1,0 +1,222 @@
+{
+    "theme": "Sami",
+    "mode": [5],
+    "stage": [
+        {
+            "name": "昏黑之室",
+            "option_num": 3,
+            "choose": 1
+        },
+        {
+            "name": "负伤的主树",
+            "option_num": 2,
+            "choose": 2
+        },
+        {
+            "name": "无用之物",
+            "option_num": 3,
+            "choose": 2
+        },
+        {
+            "name": "猜疑链",
+            "option_num": 3,
+            "choose": 3,
+            "choices": [
+                {
+                    "name": "勘察情况并维持秩序",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "低地市集",
+            "option_num": 3,
+            "choose": 3,
+            "choices": [
+                {
+                    "name": "选择碎草药",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "选择好看的织物",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "选择湿膏药",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "选择好看的木刻",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "选择纯霜露",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "选择琥珀核",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "帮助拿着密文版的萨米人",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Foldartal",
+                            "type": "not have",
+                            "value": "伤痕 && 空无"
+                        }
+                    ]
+                },
+                {
+                    "name": "循着嚎叫声走去",
+                    "option_num": 4,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": "=",
+                            "value": "5 || 6"
+                        }
+                    ]
+                },
+                {
+                    "name": "循着号角声走去",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "6"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "雪与木的笆篱",
+            "option_num": 3,
+            "choose": 3,
+            "choices": [
+                {
+                    "name": "“活力”",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "“金钱”",
+                    "option_num": 3,
+                    "choose": 3,
+                    "requirements": [
+                        {
+                            "name": "ChaosLevel",
+                            "type": ">",
+                            "value": "3"
+                        }
+                    ]
+                },
+                {
+                    "name": "“树痕”",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Foldartal",
+                            "type": "not have",
+                            "value": "伤痕 && 空无"
+                        }
+                    ]
+                },
+                {
+                    "name": "“战斗”",
+                    "option_num": 4,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": "=",
+                            "value": "5 || 6"
+                        }
+                    ]
+                },
+                {
+                    "name": "“护卫”",
+                    "option_num": 3,
+                    "choose": 2,
+                    "requirements": [
+                        {
+                            "name": "Vision",
+                            "type": ">",
+                            "value": "6"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

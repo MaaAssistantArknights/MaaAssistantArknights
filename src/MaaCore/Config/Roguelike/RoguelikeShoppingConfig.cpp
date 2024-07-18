@@ -41,6 +41,7 @@ bool asst::RoguelikeShoppingConfig::parse(const json::value& json)
         goods.promotion = goods_json.get("promotion", 0);
         goods.no_longer_buy = goods_json.get("no_longer_buy", false);
         goods.ignore_no_longer_buy = goods_json.get("ignore_no_longer_buy", false);
+        goods.decrease_collapse = goods_json.get("decrease_collapse", false);
 
         m_goods[theme].emplace_back(std::move(goods));
     }

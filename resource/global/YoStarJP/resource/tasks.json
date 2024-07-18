@@ -120,6 +120,12 @@
             "来たる未来"
         ]
     },
+    "WB-Open": {
+        "text": [
+            "登臨意",
+            "イベント復刻開催中"
+        ]
+    },
     "IW-Open": {
         "text": [
             "<将進酒>イベント復刻開催中"
@@ -660,6 +666,10 @@
                 "调香师"
             ],
             [
+                "パフュ(ニ|ー)マ",
+                "调香师"
+            ],
+            [
                 "フィリオプシス",
                 "白面鸮"
             ],
@@ -980,7 +990,7 @@
                 "灰喉"
             ],
             [
-                ".*レースロート",
+                ".?レ.*スロート",
                 "灰喉"
             ],
             [
@@ -1404,6 +1414,10 @@
                 "艾雅法拉"
             ],
             [
+                "^エイヤフ.*ヤ",
+                "艾雅法拉"
+            ],
+            [
                 "^イヤフィヤトラ",
                 "艾雅法拉"
             ],
@@ -1673,6 +1687,10 @@
             ],
             [
                 "チェストナット",
+                "褐果"
+            ],
+            [
+                "Fェストナット",
                 "褐果"
             ],
             [
@@ -2372,6 +2390,10 @@
                 "和弦"
             ],
             [
+                "ハニモニー",
+                "和弦"
+            ],
+            [
                 "改良型植物ホルモン",
                 "改性植物激素"
             ],
@@ -2820,7 +2842,7 @@
                 "纯烬艾雅法拉"
             ],
             [
-                "燼エイヤフィ",
+                "[燼植場増]エイヤフィ",
                 "纯烬艾雅法拉"
             ],
             [
@@ -3106,6 +3128,62 @@
             [
                 "火打ち石",
                 "点火石"
+            ],
+            [
+                "ウォーミー",
+                "温米"
+            ],
+            [
+                "^レイ$",
+                "莱伊"
+            ],
+            [
+                "^レイ(ミ|ニ)",
+                "莱伊"
+            ],
+            [
+                "サンドビースト",
+                "沙地兽"
+            ],
+            [
+                "充電式前線用スピーカー",
+                "可充能督战音响"
+            ],
+            [
+                "コスト調整.?テープ",
+                "“经济调控”磁带"
+            ],
+            [
+                "装備協調.?テープ",
+                "“装配协同”磁带"
+            ],
+            [
+                "高性能空域制御器",
+                "智能空域控制机"
+            ],
+            [
+                "進行阻害算法",
+                "拦截算法"
+            ],
+            [
+                "再検証算法",
+                "复验算法"
+            ],
+            [
+                "急速冷却噴射台",
+                "速冷喷雾发射台"
+            ],
+            [
+                "エネルギーオイル",
+                "焕能精油"
+            ],
+            [
+                "リバイバルオイル",
+                "复苏精油"
+            ],
+            [
+                "ミード万歳",
+                "“蜜酿万岁！”"
             ]
         ]
     },
@@ -4170,6 +4248,18 @@
             [
                 "戦場サポートドローン",
                 "战地援护无人机"
+            ],
+            [
+                "充電式前線用スピーカー",
+                "可充能督战音响"
+            ],
+            [
+                "高性能空域制御器",
+                "智能空域控制机"
+            ],
+            [
+                "急速冷却噴射台",
+                "速冷喷雾发射台"
             ]
         ],
         "roi": [
@@ -7422,6 +7512,7 @@
         ]
     },
     "Roguelike@FromIntegratedStrategies": {
+        "action": "ClickSelf",
         "roi": [
             1006,
             445,
@@ -7432,7 +7523,6 @@
             "テーマへ"
         ],
         "algorithm": "OcrDetect",
-        "action": "ClickSelf",
         "next": [
             "Roguelike@FromIntegratedStrategies",
             "Roguelike@Begin"
@@ -8137,6 +8227,26 @@
             310
         ]
     },
+    "Roguelike@StageTraderInvestSystemFull": {
+        "text": [
+            "貯蓄残高が上限に達しています",
+            "貯蓄残高",
+            "上限に達し"
+        ]
+    },
+    "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
+        "text": [
+            "ショップの更新回数がなくなりました",
+            "ショップの更新",
+            "更新回数",
+            "なくなりました"
+        ]
+    },
+    "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
+        "text": [
+            "ミチビキリンジュウ"
+        ]
+    },
     "Phantom@Roguelike@NextLevel": {
         "text": [
             "迷霧の岐路",
@@ -8148,11 +8258,11 @@
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "ファントム"
-        ],
         "next": [
             "Phantom@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "ファントム"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -8250,11 +8360,11 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "ミヅキ"
-        ],
         "next": [
             "Mizuki@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "ミヅキ"
         ]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
@@ -8342,6 +8452,188 @@
                 "紺碧の揺籃",
                 "_exit"
             ]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms": {
+        "action": "DoNothing",
+        "cache": false,
+        "ocrReplace": [
+            [
+                "^数的崩壊",
+                "去量化"
+            ],
+            [
+                "完全なる数的崩壊",
+                "去量深化"
+            ],
+            [
+                "具現する崩壊",
+                "实质性坍缩"
+            ],
+            [
+                "蔓延する崩壊",
+                "蔓延性坍缩"
+            ],
+            [
+                "非直線移動",
+                "非线性移动"
+            ],
+            [
+                "非直線行動",
+                "非线性行动"
+            ],
+            [
+                "実体化する感情",
+                "情绪实体"
+            ],
+            [
+                "実体化する恐怖",
+                "恐怖实体"
+            ],
+            [
+                "広義的社会パラドクス",
+                "泛社会悖论"
+            ],
+            [
+                "広義的文化パラドクス",
+                "泛文明悖论"
+            ],
+            [
+                "気圧異常",
+                "气压异常"
+            ],
+            [
+                "気圧暴走",
+                "气压失序"
+            ],
+            [
+                "接触性損傷",
+                "触发性损伤"
+            ],
+            [
+                "接触性危機",
+                "触发性危殆"
+            ],
+            [
+                "同期性消耗",
+                "趋同性消耗"
+            ],
+            [
+                "同期性喪失",
+                "趋同性缺失"
+            ],
+            [
+                "局部的認識不可",
+                "目空一些"
+            ],
+            [
+                "広域的認識不可",
+                "睁眼瞎"
+            ],
+            [
+                "画像破損",
+                "图像损坏"
+            ],
+            [
+                "ブラックアウト",
+                "一抹黑"
+            ]
+        ],
+        "algorithm": "OcrDetect",
+        "text": [
+            "去量化",
+            "去量深化",
+            "实质性坍缩",
+            "蔓延性坍缩",
+            "非线性移动",
+            "非线性行动",
+            "情绪实体",
+            "恐怖实体",
+            "泛社会悖论",
+            "泛文明悖论",
+            "气压异常",
+            "气压失序",
+            "触发性损伤",
+            "触发性危殆",
+            "趋同性消耗",
+            "趋同性缺失",
+            "目空一些",
+            "睁眼瞎",
+            "图像损坏",
+            "一抹黑"
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "action": "DoNothing",
+        "cache": false,
+        "algorithm": "OcrDetect",
+        "text": [
+            "正在提交反馈至神经"
+        ],
+        "ocrReplace": [
+            [
+                "ニューラル",
+                "正在提交反馈至神经"
+            ],
+            [
+                "コネクタ",
+                "正在提交反馈至神经"
+            ],
+            [
+                "接続中",
+                "正在提交反馈至神经"
+            ]
+        ],
+        "roi": [
+            720,
+            645,
+            355,
+            45
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+        "action": "DoNothing",
+        "cache": false,
+        "ocrReplace": [
+            [
+                "パラダイムロスト進行",
+                "坍缩范式加深"
+            ],
+            [
+                "パラダイムロスト減退",
+                "坍缩范式消退"
+            ]
+        ],
+        "algorithm": "OcrDetect",
+        "text": [
+            "坍缩范式加深",
+            "坍缩范式消退"
+        ],
+        "roi": [
+            945,
+            60,
+            335,
+            660
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+        "action": "DoNothing",
+        "cache": false,
+        "ocrReplace": [
+            [
+                "現在の崩壊値",
+                "当前坍缩值"
+            ]
+        ],
+        "algorithm": "OcrDetect",
+        "text": [
+            "当前坍缩值"
+        ],
+        "roi": [
+            350,
+            120,
+            310,
+            520
         ]
     },
     "Sami@Roguelike@ContinueClick": {
@@ -8662,11 +8954,11 @@
         ]
     },
     "Sami@Roguelike@SelectTheme": {
-        "text": [
-            "探索"
-        ],
         "next": [
             "Sami@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "探索"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
@@ -8744,6 +9036,41 @@
             [
                 "深埋の迷境",
                 "_exit"
+            ]
+        ]
+    },
+    "Sami@Roguelike@StrategyChange_mode5": {
+        "text": [
+            "_collapsal_paradigms"
+        ],
+        "ocrReplace": [
+            [
+                "初霜の湖沼",
+                "_collapsal_paradigms"
+            ],
+            [
+                "静謐な.*",
+                "_collapsal_paradigms"
+            ],
+            [
+                "夜明けの凍.*",
+                "_SKIP_"
+            ],
+            [
+                "凍てつく岩骸",
+                "_SKIP_"
+            ],
+            [
+                "汚れなき花園",
+                "_SKIP_"
+            ],
+            [
+                "遠見の巨構",
+                "_SKIP_"
+            ],
+            [
+                "深埋の迷境",
+                "_SKIP_"
             ]
         ]
     },

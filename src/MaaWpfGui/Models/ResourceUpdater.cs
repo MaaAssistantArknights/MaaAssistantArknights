@@ -24,12 +24,15 @@ using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels;
+using Serilog;
 using Stylet;
 
 namespace MaaWpfGui.Models
 {
     public static class ResourceUpdater
     {
+        private static readonly ILogger _logger = Log.ForContext("SourceContext", "ResourceUpdater");
+
         private const string MaaResourceVersion = "resource/version.json";
         private const string VersionChecksTemp = MaaResourceVersion + ".checks.tmp";
 
@@ -99,7 +102,7 @@ namespace MaaWpfGui.Models
 
         private static async Task<string> GetResourceApiAsync()
         {
-            string mirror = ConfigurationHelper.GetValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
+            string mirror = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ResourceApi, MaaUrls.MaaResourceApi);
             if (mirror != MaaUrls.MaaResourceApi && await IsMirrorAccessibleAsync(mirror))
             {
                 return mirror;
@@ -129,7 +132,7 @@ namespace MaaWpfGui.Models
 
             if (mirror != MaaUrls.MaaResourceApi)
             {
-                ConfigurationHelper.SetValue(ConfigurationKeys.ResourceApi, mirror);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ResourceApi, mirror);
             }
 
             return mirror;
@@ -370,6 +373,11 @@ namespace MaaWpfGui.Models
                 }
             }
             while (retryCount++ < maxRetryTime);
+
+            if (updateResult == UpdateResult.Failed)
+            {
+                _logger.Warning($"Failed to get file, url: {url}, saveTo: {saveTo}");
+            }
 
             return updateResult;
         }

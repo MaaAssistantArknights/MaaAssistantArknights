@@ -2,10 +2,7 @@
     "stage_name": "饥渴",
     "replacement_home": [
         {
-            "location": [
-                3,
-                3
-            ],
+            "location": [3, 3],
             "direction": "down"
         }
     ],
@@ -21,62 +18,26 @@
                 "挡人先锋",
                 "其他地面"
             ],
-            "location": [
-                3,
-                2
-            ],
+            "location": [3, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "异德",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["异德", "刺客", "挡人先锋", "其他地面"],
+            "location": [5, 3],
             "direction": "left",
-            "condition": [
-                0,
-                3
-            ]
+            "condition": [0, 3]
         },
         {
-            "groups": [
-                "异德",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["异德", "刺客", "挡人先锋", "其他地面"],
+            "location": [5, 3],
             "direction": "left",
-            "condition": [
-                6,
-                10
-            ]
+            "condition": [6, 10]
         },
         {
-            "groups": [
-                "异德",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["异德", "刺客", "挡人先锋", "其他地面"],
+            "location": [5, 3],
             "direction": "left",
-            "condition": [
-                15,
-                20
-            ]
+            "condition": [15, 20]
         },
         {
             "groups": [
@@ -90,25 +51,12 @@
                 "异德",
                 "刺客"
             ],
-            "location": [
-                3,
-                3
-            ],
+            "location": [3, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台C",
-                "召唤",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                2,
-                4
-            ],
+            "groups": ["高台C", "召唤", "控制", "术师", "狙击", "辅助"],
+            "location": [2, 4],
             "direction": "right"
         },
         {
@@ -122,10 +70,7 @@
                 "狙击",
                 "辅助"
             ],
-            "location": [
-                2,
-                3
-            ],
+            "location": [2, 3],
             "direction": "right"
         },
         {
@@ -140,25 +85,12 @@
                 "刺客",
                 "挡人先锋"
             ],
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "召唤",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                3,
-                6
-            ],
+            "groups": ["高台C", "召唤", "控制", "术师", "狙击", "辅助"],
+            "location": [3, 6],
             "direction": "up"
         }
     ]
