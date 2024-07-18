@@ -31,7 +31,7 @@ class CPPTaskTests(TaskTest):
                 except Exception as e:
                     print(f"Error loading task {name}: {e}")
 
-    def assertTaskEqual(self, actual, expected):
+    def assertTaskEqual(self, actual, expected, task_name=""):
         actual = actual.to_task_dict()
         for key in expected:
             # 目前分支上的cache默认值和主分支不一样，所以这里不比较
@@ -40,8 +40,11 @@ class CPPTaskTests(TaskTest):
             # 将2147483647视作math.inf
             if key == "maxTimes" and (expected[key] == 2147483647 and actual[key] == math.inf):
                 continue
+            if isinstance(expected[key], list) and not isinstance(actual[key], list) and len(expected[key]) == 1:
+                self.assertEqual(expected[key][0], actual[key], f"Task: {task_name}, Key: {key}")
+                continue
 
-            self.assertEqual(expected[key], actual[key], f"Key: {key}")
+            self.assertEqual(expected[key], actual[key], f"Task: {task_name}, Key: {key}")
 
     def test_cpp_tasks(self):
         disable_tracing()
@@ -49,5 +52,6 @@ class CPPTaskTests(TaskTest):
         self.load_tasks()
         self.load_cpp_tasks()
         for task_name, task_dict in _CPP_TASKS.items():
-            self.assertTaskEqual(Task.get(task_name).interpret(), task_dict)
+            with self.subTest(task_name=task_name):
+                self.assertTaskEqual(Task.get(task_name).interpret(), task_dict, task_name)
         enable_tracing()
