@@ -8258,11 +8258,11 @@
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "ファントム"
-        ],
         "next": [
             "Phantom@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "ファントム"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -8360,11 +8360,11 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "ミヅキ"
-        ],
         "next": [
             "Mizuki@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "ミヅキ"
         ]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
@@ -8954,11 +8954,11 @@
         ]
     },
     "Sami@Roguelike@SelectTheme": {
-        "text": [
-            "探索"
-        ],
         "next": [
             "Sami@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "探索"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {

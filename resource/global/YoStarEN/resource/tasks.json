@@ -6956,11 +6956,11 @@
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "text": [
-            "Phantom"
-        ],
         "next": [
             "Phantom@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "Phantom"
         ]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
@@ -7052,11 +7052,11 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "text": [
-            "Mizuki"
-        ],
         "next": [
             "Mizuki@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "Mizuki"
         ]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
@@ -7716,11 +7716,11 @@
         "templThreshold": 0.75
     },
     "Sami@Roguelike@SelectTheme": {
-        "text": [
-            "Expeditioner"
-        ],
         "next": [
             "Sami@Roguelike@FromIntegratedStrategies"
+        ],
+        "text": [
+            "Expeditioner"
         ]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
