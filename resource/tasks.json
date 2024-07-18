@@ -17152,7 +17152,7 @@
     },
     "Sarkaz@Roguelike@StageBoskyPassage": {
         "Doc": "诡谲断章",
-        "templThreshold": 0.9,
+        "templThreshold": 0.95,
         "baseTask": "Sarkaz@Roguelike@Stage",
         "next": [
             "Sarkaz@Roguelike@StageBoskyPassageEnter",
