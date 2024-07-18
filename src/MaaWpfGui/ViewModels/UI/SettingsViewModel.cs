@@ -221,7 +221,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitVersionUpdate()
         {
-            if (VersionType == UpdateVersionType.Nightly && !_allowNightlyUpdates)
+            if (VersionType == UpdateVersionType.Nightly && !AllowNightlyUpdates)
             {
                 VersionType = UpdateVersionType.Beta;
             }
@@ -3371,10 +3371,23 @@ namespace MaaWpfGui.ViewModels.UI
 
         public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
         {
-            get => AllVersionTypeList.Where(v => _allowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
+            get => AllVersionTypeList.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
         }
 
-        private readonly bool _allowNightlyUpdates = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
+
+        public bool AllowNightlyUpdates { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
+
+        private bool _hasAcknowledgedNightlyWarning = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, bool.FalseString));
+
+        public bool HasAcknowledgedNightlyWarning
+        {
+            get => _hasAcknowledgedNightlyWarning;
+            set
+            {
+                SetAndNotify(ref _hasAcknowledgedNightlyWarning, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether to update nightly.
@@ -4866,6 +4879,13 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void SetAcknowledgedNightlyWarning()
+        {
+            HasAcknowledgedNightlyWarning = true;
         }
 
         public void SetupSleepManagement()
