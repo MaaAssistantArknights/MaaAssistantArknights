@@ -1375,6 +1375,84 @@
             "BB-4"
         ]
     },
+    "OD-8": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "OD-OpenOcr"
+        ],
+        "next": [
+            "OD-8@SideStoryStage",
+            "OD-8@SwipeToStage"
+        ]
+    },
+    "OD-7": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "OD-OpenOcr"
+        ],
+        "next": [
+            "OD-7@SideStoryStage",
+            "OD-7@SwipeToStage"
+        ]
+    },
+    "OD-6": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "OD-OpenOcr"
+        ],
+        "next": [
+            "OD-6@SideStoryStage",
+            "OD-6@SwipeToStage"
+        ]
+    },
+    "OD-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "源石尘行动",
+            "源石",
+            "石尘",
+            "尘行"
+        ],
+        "next": [
+            "ODChapterToOD"
+        ]
+    },
+    "ODChapterToOD": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": [
+            "行动记录",
+            "行动",
+            "动记",
+            "记录"
+        ],
+        "preDelay": 1000,
+        "roi": [
+            129,
+            235,
+            204,
+            131
+        ],
+        "next": [
+            "#self",
+            "ChapterSwipeToTheRight"
+        ]
+    },
+    "OD-8@SideStoryStage": {
+        "text": [
+            "OD-8"
+        ]
+    },
+    "OD-7@SideStoryStage": {
+        "text": [
+            "OD-7"
+        ]
+    },
+    "OD-6@SideStoryStage": {
+        "text": [
+            "OD-6"
+        ]
+    },
     "CR-8": {
         "algorithm": "JustReturn",
         "sub": [
