@@ -13,6 +13,11 @@
             "direction": "down"
         },
         {
+            "groups": [ "益达" ],
+            "location": [ 4, 2 ],
+            "direction": "right"
+        },
+        {
             "groups": [ "高台输出" ],
             "location": [ 4, 2 ],
             "direction": "down"
