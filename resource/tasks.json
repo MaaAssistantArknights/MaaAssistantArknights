@@ -16951,10 +16951,10 @@
     },
     "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1": {
         "roi": [
-            1099,
-            52,
-            181,
-            134
+            1101,
+            51,
+            179,
+            137
         ],
         "templThreshold": 0.9,
         "action": "ClickRect",
