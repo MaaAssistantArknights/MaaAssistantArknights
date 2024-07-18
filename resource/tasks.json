@@ -16703,7 +16703,8 @@
         "next": [
             "Sarkaz@Roguelike@ChooseBurdenOperatorQuit",
             "Roguelike@ClickToDrops",
-            "Sarkaz@Roguelike@Stages#next"
+            "Sarkaz@Roguelike@Stages#next",
+            "Sarkaz@Roguelike@ExitThenAbandon"
         ]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorSelect1": {
