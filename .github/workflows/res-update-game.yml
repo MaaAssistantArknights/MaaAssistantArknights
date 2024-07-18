@@ -11,61 +11,19 @@ on:
         required: false
 
 jobs:
-  update-game-resources:
+  clone-resources-official:
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
     steps:
-      - name: Checkout MAA
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-          fetch-depth: 1
-          token: ${{ secrets.MISTEOWORKFLOW }}
-
-      - name: Restore ResourceUpdater.exe from cache
-        id: cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('.\tools\ResourceUpdater\main.cpp') }}
-          path: |
-            .\tools\ResourceUpdater\x64\Release\opencv_world4_maa.dll
-            .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
-            
-      - name: Bootstrap MaaDeps
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        run: |
-          python3 maadeps-download.py x64-windows
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add msbuild to PATH
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        uses: microsoft/setup-msbuild@v1
-
-      - name: Build Resource Updater
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        run: |
-          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
-    
-      - name: Save ResourceUpdater.exe to cache
-        id: cache-save
-        if: always() && steps.cache-restore.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('.\tools\ResourceUpdater\main.cpp') }}
-          path: |
-            .\tools\ResourceUpdater\x64\Release\opencv_world4_maa.dll
-            .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
-
       - name: Clone ArknightsGameResource for Official
         uses: actions/checkout@v4
         with:
           show-progress: false
           repository: yuanyan3060/ArknightsGameResource
           ref: main
-          path: .\tools\ResourceUpdater\x64\Release\Official
+          path: ./Official
           fetch-depth: 1
           sparse-checkout-cone-mode: false
           sparse-checkout: |
@@ -79,14 +37,26 @@ jobs:
             /gamedata/excel/gacha_table.json
             /gamedata/excel/roguelike_topic_table.json
             /gamedata/excel/activity_table.json
+      
+      - name: Upload Official
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: official
+          path: ./Official
 
+  clone-resources-overseas:
+    if: github.repository_owner == 'MaaAssistantArknights'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+    steps:
       - name: Clone ArknightsGameResource_Yostar for Overseas
         uses: actions/checkout@v4
         with:
           show-progress: false
           repository: Kengxxiao/ArknightsGameData_Yostar
           ref: main
-          path: .\tools\ResourceUpdater\x64\Release\Overseas
+          path: ./Overseas
           fetch-depth: 1
           sparse-checkout-cone-mode: false
           sparse-checkout: |
@@ -112,19 +82,102 @@ jobs:
             /ko_KR/gamedata/excel/roguelike_topic_table.json
             /ko_KR/gamedata/excel/activity_table.json
 
-      - name: Clone arknights-toolbox-update for Taiwan
+      - name: Upload Official
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: overseas
+          path: ./Overseas
+
+  clone-resources-txwy:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+    steps:
+    - name: Clone arknights-toolbox-update for Taiwan
+      uses: actions/checkout@v4
+      with:
+        show-progress: false
+        repository: arkntools/arknights-toolbox-update
+        ref: data-tw
+        path: ./excel
+        fetch-depth: 1
+        token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
+
+    - name: Upload Official
+      uses: actions/upload-artifact@v4.3.4
+      with:
+        name: txwy
+        path: ./excel
+
+  update-game-resources:
+    if: github.repository_owner == 'MaaAssistantArknights'
+    runs-on: windows-latest
+    env:
+      GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+    steps:
+      - name: Checkout MAA
         uses: actions/checkout@v4
         with:
           show-progress: false
-          repository: arkntools/arknights-toolbox-update
-          ref: data-tw
-          path: .\tools\ResourceUpdater\x64\Release\Overseas\zh_TW\gamedata\excel
           fetch-depth: 1
-          token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
+          token: ${{ secrets.MISTEOWORKFLOW }}
+
+      - name: Restore ResourceUpdater.exe from cache
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          path: |
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+            
+      - name: Bootstrap MaaDeps
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        run: |
+          python3 maadeps-download.py x64-windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add msbuild to PATH
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Build Resource Updater
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        run: |
+          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
+    
+      - name: Save ResourceUpdater.exe to cache
+        id: cache-save
+        if: always() && steps.cache-restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          path: |
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+
+      - name: Download Official
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: official
+          path: ./tools/ResourceUpdater/x64/Release/Official
+
+      - name: Download Overseas
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: overseas
+          path: ./tools/ResourceUpdater/x64/Release/Overseas
+
+      - name: Download txwy
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: txwy
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
 
       - name: Run Resource Updater
         run: |
-          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+          ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Overseas Tasks Ordering
         run: |
@@ -142,8 +195,8 @@ jobs:
           }
 
           echo "diff: "$diff
-          $sp = $($diff -split "\s+")
-          $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
+          $sp = $($diff -split "/s+")
+          $numbers = $($sp | Where-Object { $_ -match "^/d+$" })
           echo "numbers: "$numbers
 
           $length = $numbers.Length
