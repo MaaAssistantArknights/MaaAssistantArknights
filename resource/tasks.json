@@ -16636,7 +16636,6 @@
         }
     },
     "Sarkaz@Roguelike@ChooseBurdenOperator": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperator.png",
         "roi": [
             11,
             493,
@@ -16650,7 +16649,6 @@
         ]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart.png",
         "roi": [
             589,
             584,
@@ -16672,7 +16670,6 @@
         ]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorConfirm.png",
         "roi": [
             542,
             551,
@@ -16686,7 +16683,6 @@
         ]
     },
     "Sarkaz@Roguelike@ChooseBurdenOperatorQuit": {
-        "template": "Sarkaz@Roguelike@ChooseBurdenOperatorQuit.png",
         "roi": [
             0,
             0,
@@ -16849,7 +16845,6 @@
     "Sarkaz@Roguelike@CloseEvent": {},
     "Sarkaz@Roguelike@Continue": {},
     "Sarkaz@Roguelike@DecreaseBurdenAbandon": {
-        "template": "Sarkaz@Roguelike@DecreaseBurdenAbandon.png",
         "templThreshold": 0.95,
         "roi": [
             499,
@@ -16880,7 +16875,6 @@
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenChaos": {
-        "template": "Sarkaz@Roguelike@DecreaseBurdenChaos",
         "roi": [
             559,
             608,
@@ -16894,7 +16888,6 @@
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
-        "template": "Sarkaz@Roguelike@DecreaseBurdenCheckChaos.png",
         "templThreshold": 0.95,
         "roi": [
             83,
@@ -16907,7 +16900,6 @@
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckClear": {
-        "template": "Sarkaz@Roguelike@DecreaseBurdenCheckClear.png",
         "templThreshold": 0.95,
         "roi": [
             83,
@@ -16920,7 +16912,6 @@
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation": {
-        "template": "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation.png",
         "templThreshold": 0.95,
         "roi": [
             85,
@@ -16933,7 +16924,6 @@
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenRetardation": {
-        "template": "Sarkaz@Roguelike@DecreaseBurdenRetardation",
         "roi": [
             561,
             607,
