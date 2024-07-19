@@ -195,17 +195,16 @@ jobs:
           npm i prettier --no-save
 
       - name: Run Prettier on modified Jsons
+        shell: bash
         run: |
-          git diff --name-only --diff-filter=ACM 2>$null |
-          Where-Object { $_ -match '\.json$' } |
-          ForEach-Object { npx prettier --write $_ }
+          npx prettier -w $(git diff --name-only --diff-filter=ACM 2>$null | grep '\.json$'  | xargs)
 
       - name: Check if only sorted
         id: check_only_sorted
         run: |
           git status
 
-          $diff = $(git diff --numstat HEAD | findstr -i resource)
+          $diff = $(git diff --numstat HEAD 2>$null | findstr -i resource)
           if ($LASTEXITCODE -ne 0) {
             echo "no diff"
             exit 0
