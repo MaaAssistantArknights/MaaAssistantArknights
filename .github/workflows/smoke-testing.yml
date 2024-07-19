@@ -45,7 +45,8 @@ jobs:
           python3 maadeps-download.py x64-windows
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1
+        uses: microsoft/setup-msbuild@v2
+
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
