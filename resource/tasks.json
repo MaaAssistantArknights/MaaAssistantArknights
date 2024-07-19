@@ -9641,7 +9641,7 @@
     },
     "Sarkaz@Roguelike@DecreaseBurdenChaos": {
         "roi": [559, 608, 157, 112],
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
@@ -9666,7 +9666,7 @@
     },
     "Sarkaz@Roguelike@DecreaseBurdenRetardation": {
         "roi": [561, 607, 153, 113],
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
