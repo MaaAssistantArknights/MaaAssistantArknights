@@ -1,7 +1,10 @@
-resource/Arknights-Tile-Pos/
-website/
 **/node_modules/
+
 MaaDeps/
 3rdparty/
 src/maa-cli
 src/MaaMacGui
+
+website/
+resource/Arknights-Tile-Pos/
+tools/OptimizeTemplates/optimize_templates.json
