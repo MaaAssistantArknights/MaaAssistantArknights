@@ -46,12 +46,18 @@ void MatcherConfig::set_mask_range(int lower, int upper, bool mask_with_src, boo
     m_params.mask_with_close = mask_with_close;
 }
 
+void MatcherConfig::set_method(std::vector<int> methods) noexcept
+{
+    m_params.methods = std::move(methods);
+}
+
 void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
 {
     m_params.templs.clear();
     ranges::copy(task_info.templ_names, std::back_inserter(m_params.templs));
     m_params.templ_thres = std::move(task_info.templ_thresholds);
     m_params.mask_range = std::move(task_info.mask_range);
+    m_params.methods = std::move(task_info.methods);
 
     _set_roi(task_info.roi);
 }

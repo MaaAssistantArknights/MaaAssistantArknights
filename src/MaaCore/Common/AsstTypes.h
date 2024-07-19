@@ -23,6 +23,7 @@ namespace asst
     static constexpr int WindowHeightDefault = 720;
 
     static constexpr double TemplThresholdDefault = 0.8;
+    static constexpr int MatchMethodDefault = 5;
 
     enum class StaticOptionKey
     {
@@ -459,6 +460,9 @@ namespace asst
         std::vector<std::string> templ_names; // 匹配模板图片文件名
         std::vector<double> templ_thresholds; // 模板匹配阈值
         std::pair<int, int> mask_range;       // 掩码的二值化范围
+        std::vector<int> methods;             // 匹配方法
+                                              // 3: 效果一般颜色敏感 TM_CCORR_NORMED
+                                              // 5: 效果较好颜色不敏感 TM_CCOEFF_NORMED
     };
     using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
     using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;
