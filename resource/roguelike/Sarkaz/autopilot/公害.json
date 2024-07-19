@@ -9,7 +9,14 @@
     "blacklist_location": [[3, 3]],
     "deploy_plan": [
         {
-            "groups": ["重装", "地面阻挡", "地面远程"],
+            "groups": [
+                "锏",
+                "回费",
+                "地面远程",
+                "重装",
+                "地面阻挡",
+                "其他地面"
+            ],
             "location": [3, 5],
             "direction": "up"
         },
@@ -24,7 +31,7 @@
             "direction": "up"
         },
         {
-            "groups": ["高台输出"],
+            "groups": ["水陈", "高台输出", "盾法", "辅助"],
             "location": [4, 4],
             "direction": "up"
         },
@@ -32,6 +39,16 @@
             "groups": ["处决者", "炮灰"],
             "location": [7, 1],
             "direction": "left"
+        },
+        {
+            "groups": ["单奶", "高台输出"],
+            "location": [1, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["浊心斯卡蒂", "群奶"],
+            "location": [4, 4],
+            "direction": "right"
         }
     ]
 }
