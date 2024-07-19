@@ -6597,7 +6597,7 @@
     "Roguelike@PreSelectThemeSwipe": {
         "baseTask": "SwipeToTheLeft",
         "specificRect": [100, 560, 100, 100],
-        "rectMove": [500, 560, 100, 100],
+        "rectMove": [550, 560, 100, 100],
         "specialParams": [1000, 0, 1, 1],
         "next": ["Roguelike@SelectTheme"]
     },
@@ -6679,7 +6679,7 @@
         "action": "ClickSelf",
         "maxTimes": 20,
         "text": [],
-        "roi": [0, 400, 1000, 30],
+        "roi": [0, 400, 1280, 30],
         "next": ["#self", "Roguelike@FromIntegratedStrategies"]
     },
     "Roguelike@SpecialValRecognition": {
