@@ -123,7 +123,7 @@ jobs:
           token: ${{ secrets.MISTEOWORKFLOW }}
 
       - name: Restore ResourceUpdater.exe from cache
-        id: cache-restore
+        id: cache-resupd
         uses: actions/cache/restore@v4
         with:
           key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
@@ -132,24 +132,23 @@ jobs:
             ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Bootstrap MaaDeps
-        if: steps.cache-restore.outputs.cache-hit != 'true'
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
           python3 maadeps-download.py x64-windows
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add msbuild to PATH
-        if: steps.cache-restore.outputs.cache-hit != 'true'
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
         uses: microsoft/setup-msbuild@v2
 
       - name: Build Resource Updater
-        if: steps.cache-restore.outputs.cache-hit != 'true'
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
           MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
 
       - name: Save ResourceUpdater.exe to cache
-        id: cache-save
-        if: always() && steps.cache-restore.outputs.cache-hit != 'true'
+        if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
@@ -183,10 +182,21 @@ jobs:
         run: |
           python3 tools/TaskSorter/TaskSorter.py
 
-      - name: Prettier
+      - name: Cache Prettier
+        id: cache-prettier
+        uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-prettier
+          path: ./node_modules
+
+      - name: Install Prettier
+        if: steps.cache-prettier.outputs.cache-hit != 'true'
         run: |
-          npm install --global prettier
-          npx prettier -w **.json
+          npm i prettier --no-save
+
+      - name: Run Prettier on modified Jsons
+        run: |
+          Invoke-Expression "npx prettier -w $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })"
 
       - name: Check if only sorted
         id: check_only_sorted
