@@ -123,8 +123,10 @@ def update_png_with_oxipng(file_path: str, perfect_pngs: dict, quiet: bool):
 
     if quiet:
         os.system(f"oxipng -o max --fast -Z -s -q \"{file_path}\"")
+        os.system(f"oxipng -o 2 -s -q \"{file_path}\"")
     else:
         os.system(f"oxipng -o max --fast -Z -s \"{file_path}\"")
+        os.system(f"oxipng -o 2 -s \"{file_path}\"")
 
     sz_after = os.stat(file_path).st_size
 
