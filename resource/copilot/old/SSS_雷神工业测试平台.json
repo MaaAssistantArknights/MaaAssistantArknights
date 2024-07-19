@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "便携式医疗设备",
-    "equipment": [
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "B",
-        "A"
-    ],
+    "equipment": ["A", "A", "A", "A", "A", "A", "B", "A"],
     "strategy": "优选策略",
     "opers": [
         {
@@ -94,10 +85,7 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
@@ -105,10 +93,7 @@
                     "tool_men": {
                         "医疗": 1
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Down"
                 },
                 {
@@ -116,10 +101,7 @@
                     "tool_men": {
                         "医疗": 0
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Down"
                 },
                 {
@@ -127,10 +109,7 @@
                     "tool_men": {
                         "重装": 0
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
@@ -138,20 +117,14 @@
                     "tool_men": {
                         "狙击": 2
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Right"
                 }
             ],
@@ -163,10 +136,7 @@
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "None",
                     "kills": 10
                 }
@@ -180,10 +150,7 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Left"
                 },
                 {
@@ -191,10 +158,7 @@
                     "tool_men": {
                         "重装": 1
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Left"
                 },
                 {
@@ -202,10 +166,7 @@
                     "tool_men": {
                         "狙击": 0
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Up"
                 },
                 {
@@ -213,10 +174,7 @@
                     "tool_men": {
                         "狙击": 0
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Up"
                 },
                 {
@@ -224,20 +182,14 @@
                     "tool_men": {
                         "狙击": 2
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Left"
                 }
             ],
@@ -249,10 +201,7 @@
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "None",
                     "kills": 15
                 }
@@ -266,20 +215,14 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "医疗": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
@@ -287,10 +230,7 @@
                     "tool_men": {
                         "狙击": 0
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
@@ -298,10 +238,7 @@
                     "tool_men": {
                         "狙击": 0
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
@@ -309,10 +246,7 @@
                     "tool_men": {
                         "狙击": 3
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Right"
                 },
                 {
@@ -320,10 +254,7 @@
                     "tool_men": {
                         "狙击": 2
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Down"
                 },
                 {
@@ -332,10 +263,7 @@
                         "先锋": 1,
                         "重装": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Right"
                 },
                 {
@@ -343,10 +271,7 @@
                         "辅助": 100,
                         "狙击": 100
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 }
             ],
@@ -359,39 +284,27 @@
                     "type": "Deploy",
                     "name": "战备激活阀",
                     "kills": 20,
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Down"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 27,
-                    "location": [
-                        1,
-                        5
-                    ],
+                    "location": [1, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 27,
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
-                    "location": [
-                        2,
-                        6
-                    ],
+                    "location": [2, 6],
                     "direction": "None"
                 }
             ],
@@ -404,20 +317,14 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "医疗": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -425,10 +332,7 @@
                     "tool_men": {
                         "医疗": 0
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -436,10 +340,7 @@
                     "tool_men": {
                         "狙击": 0
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -447,20 +348,14 @@
                     "tool_men": {
                         "狙击": 3
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Down"
                 },
                 {
@@ -469,40 +364,28 @@
                         "重装": 1,
                         "先锋": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "先锋": 100
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "重装": 100
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "Left"
                 }
             ],
@@ -515,40 +398,28 @@
                     "type": "Deploy",
                     "name": "战备激活阀",
                     "kills": 12,
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Right"
                 },
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
                     "kills": 15,
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 27,
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 27,
-                    "location": [
-                        1,
-                        4
-                    ],
+                    "location": [1, 4],
                     "direction": "None"
                 }
             ],
@@ -561,10 +432,7 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Right"
                 },
                 {
@@ -572,10 +440,7 @@
                     "tool_men": {
                         "医疗": 1
                     },
-                    "location": [
-                        1,
-                        4
-                    ],
+                    "location": [1, 4],
                     "direction": "Up"
                 },
                 {
@@ -584,10 +449,7 @@
                         "重装": 1,
                         "先锋": 2
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
@@ -595,10 +457,7 @@
                     "tool_men": {
                         "狙击": 3
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 },
                 {
@@ -606,10 +465,7 @@
                     "tool_men": {
                         "狙击": 1
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Down"
                 },
                 {
@@ -617,10 +473,7 @@
                     "tool_men": {
                         "狙击": 3
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
@@ -628,10 +481,7 @@
                         "辅助": 100,
                         "狙击": 100
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 }
             ],
@@ -643,49 +493,34 @@
                 {
                     "type": "Retreat",
                     "costs": 60,
-                    "location": [
-                        1,
-                        3
-                    ]
+                    "location": [1, 3]
                 },
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
                     "kills": 10,
-                    "location": [
-                        2,
-                        1
-                    ],
+                    "location": [2, 1],
                     "direction": "Down"
                 },
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
                     "kills": 15,
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 30,
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 30,
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "None"
                 }
             ],
@@ -698,20 +533,14 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "医疗": 1
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Left"
                 },
                 {
@@ -719,10 +548,7 @@
                     "tool_men": {
                         "狙击": 1
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Left"
                 },
                 {
@@ -730,10 +556,7 @@
                     "tool_men": {
                         "重装": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Left"
                 },
                 {
@@ -741,10 +564,7 @@
                     "tool_men": {
                         "狙击": 3
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 },
                 {
@@ -752,10 +572,7 @@
                     "tool_men": {
                         "狙击": 3
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
@@ -763,20 +580,14 @@
                     "tool_men": {
                         "狙击": 3
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Down"
                 },
                 {
@@ -785,10 +596,7 @@
                         "先锋": 100,
                         "近卫": 100
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Right"
                 }
             ],
@@ -801,39 +609,27 @@
                     "type": "Deploy",
                     "name": "战备激活阀",
                     "kills": 10,
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
                     "type": "Deploy",
                     "name": "便携式医疗设备",
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 30,
-                    "location": [
-                        7,
-                        6
-                    ],
+                    "location": [7, 6],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 30,
-                    "location": [
-                        8,
-                        6
-                    ],
+                    "location": [8, 6],
                     "direction": "None"
                 }
             ],

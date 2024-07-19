@@ -16,117 +16,67 @@
             "rooms": {
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "重岳",
-                            "琴柳",
-                            "令",
-                            "夕"
-                        ]
+                        "operators": ["阿米娅", "重岳", "琴柳", "令", "夕"]
                     }
                 ],
                 "trading": [
                     {
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "柏喙"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "柏喙"],
                         "sort": true,
                         "product": "LMD"
                     },
                     {
-                        "operators": [
-                            "但书",
-                            "乌有",
-                            "黑键"
-                        ],
+                        "operators": ["但书", "乌有", "黑键"],
                         "product": "LMD"
                     }
                 ],
                 "manufacture": [
                     {
-                        "operators": [
-                            "红云",
-                            "稀音",
-                            "帕拉斯"
-                        ],
+                        "operators": ["红云", "稀音", "帕拉斯"],
                         "sort": true,
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "槐琥",
-                            "迷迭香",
-                            "至简"
-                        ],
+                        "operators": ["槐琥", "迷迭香", "至简"],
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "清流",
-                            "温蒂",
-                            "森蚺"
-                        ],
+                        "operators": ["清流", "温蒂", "森蚺"],
                         "product": "Pure Gold"
                     },
                     {
-                        "operators": [
-                            "砾",
-                            "苍苔",
-                            "夜烟"
-                        ],
+                        "operators": ["砾", "苍苔", "夜烟"],
                         "product": "Pure Gold"
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "承曦格雷伊"
-                        ]
+                        "operators": ["承曦格雷伊"]
                     },
                     {
-                        "operators": [
-                            "澄闪"
-                        ]
+                        "operators": ["澄闪"]
                     },
                     {
-                        "operators": [
-                            "缪尔赛思"
-                        ]
+                        "operators": ["缪尔赛思"]
                     }
                 ],
                 "hire": [
                     {
-                        "operators": [
-                            "絮雨"
-                        ]
+                        "operators": ["絮雨"]
                     }
                 ],
                 "meeting": [
                     {
-                        "operators": [
-                            "陈",
-                            "伊内丝"
-                        ]
+                        "operators": ["陈", "伊内丝"]
                     }
                 ],
                 "dormitory": [
                     {
-                        "operators": [
-                            "菲亚梅塔",
-                            "爱丽丝",
-                            "车尔尼"
-                        ],
+                        "operators": ["菲亚梅塔", "爱丽丝", "车尔尼"],
                         "autofill": true
                     },
                     {
-                        "operators": [
-                            "赫默",
-                            "伊芙利特",
-                            "白面鸮",
-                            "麦哲伦"
-                        ],
+                        "operators": ["赫默", "伊芙利特", "白面鸮", "麦哲伦"],
                         "autofill": true
                     },
                     {
@@ -138,9 +88,7 @@
                 ],
                 "processing": [
                     {
-                        "operators": [
-                            "年"
-                        ]
+                        "operators": ["年"]
                     }
                 ]
             }
@@ -159,117 +107,67 @@
             "rooms": {
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "重岳",
-                            "琴柳",
-                            "令",
-                            "夕"
-                        ]
+                        "operators": ["阿米娅", "重岳", "琴柳", "令", "夕"]
                     }
                 ],
                 "trading": [
                     {
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "柏喙"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "柏喙"],
                         "sort": true,
                         "product": "LMD"
                     },
                     {
-                        "operators": [
-                            "但书",
-                            "乌有",
-                            "黑键"
-                        ],
+                        "operators": ["但书", "乌有", "黑键"],
                         "product": "LMD"
                     }
                 ],
                 "manufacture": [
                     {
-                        "operators": [
-                            "红云",
-                            "稀音",
-                            "帕拉斯"
-                        ],
+                        "operators": ["红云", "稀音", "帕拉斯"],
                         "sort": true,
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "槐琥",
-                            "迷迭香",
-                            "至简"
-                        ],
+                        "operators": ["槐琥", "迷迭香", "至简"],
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "清流",
-                            "温蒂",
-                            "森蚺"
-                        ],
+                        "operators": ["清流", "温蒂", "森蚺"],
                         "product": "Pure Gold"
                     },
                     {
-                        "operators": [
-                            "砾",
-                            "苍苔",
-                            "夜烟"
-                        ],
+                        "operators": ["砾", "苍苔", "夜烟"],
                         "product": "Pure Gold"
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "承曦格雷伊"
-                        ]
+                        "operators": ["承曦格雷伊"]
                     },
                     {
-                        "operators": [
-                            "澄闪"
-                        ]
+                        "operators": ["澄闪"]
                     },
                     {
-                        "operators": [
-                            "缪尔赛思"
-                        ]
+                        "operators": ["缪尔赛思"]
                     }
                 ],
                 "hire": [
                     {
-                        "operators": [
-                            "絮雨"
-                        ]
+                        "operators": ["絮雨"]
                     }
                 ],
                 "meeting": [
                     {
-                        "operators": [
-                            "陈",
-                            "伊内丝"
-                        ]
+                        "operators": ["陈", "伊内丝"]
                     }
                 ],
                 "dormitory": [
                     {
-                        "operators": [
-                            "菲亚梅塔",
-                            "爱丽丝",
-                            "车尔尼"
-                        ],
+                        "operators": ["菲亚梅塔", "爱丽丝", "车尔尼"],
                         "autofill": true
                     },
                     {
-                        "operators": [
-                            "赫默",
-                            "伊芙利特",
-                            "白面鸮",
-                            "麦哲伦"
-                        ],
+                        "operators": ["赫默", "伊芙利特", "白面鸮", "麦哲伦"],
                         "autofill": true
                     },
                     {
@@ -281,9 +179,7 @@
                 ],
                 "processing": [
                     {
-                        "operators": [
-                            "年"
-                        ]
+                        "operators": ["年"]
                     }
                 ]
             }
@@ -313,96 +209,57 @@
                 ],
                 "trading": [
                     {
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "卡夫卡"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
                         "sort": true,
                         "product": "LMD"
                     },
                     {
-                        "operators": [
-                            "摩根",
-                            "推进之王",
-                            "但书"
-                        ],
+                        "operators": ["摩根", "推进之王", "但书"],
                         "product": "LMD"
                     }
                 ],
                 "manufacture": [
                     {
-                        "operators": [
-                            "食铁兽",
-                            "断罪者",
-                            "至简"
-                        ],
+                        "operators": ["食铁兽", "断罪者", "至简"],
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "水月",
-                            "香草",
-                            "杰西卡"
-                        ],
+                        "operators": ["水月", "香草", "杰西卡"],
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "清流",
-                            "温蒂",
-                            "森蚺"
-                        ],
+                        "operators": ["清流", "温蒂", "森蚺"],
                         "product": "Pure Gold"
                     },
                     {
-                        "operators": [
-                            "淬羽赫默",
-                            "多萝西",
-                            "杏仁"
-                        ],
+                        "operators": ["淬羽赫默", "多萝西", "杏仁"],
                         "product": "Pure Gold"
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "承曦格雷伊"
-                        ]
+                        "operators": ["承曦格雷伊"]
                     },
                     {
-                        "operators": [
-                            "雷蛇"
-                        ]
+                        "operators": ["雷蛇"]
                     },
                     {
-                        "operators": [
-                            "格雷伊"
-                        ]
+                        "operators": ["格雷伊"]
                     }
                 ],
                 "hire": [
                     {
-                        "operators": [
-                            "斥罪"
-                        ]
+                        "operators": ["斥罪"]
                     }
                 ],
                 "meeting": [
                     {
-                        "operators": [
-                            "伺夜",
-                            "伊内丝"
-                        ]
+                        "operators": ["伺夜", "伊内丝"]
                     }
                 ],
                 "dormitory": [
                     {
-                        "operators": [
-                            "菲亚梅塔",
-                            "爱丽丝",
-                            "车尔尼"
-                        ],
+                        "operators": ["菲亚梅塔", "爱丽丝", "车尔尼"],
                         "autofill": true
                     },
                     {
@@ -428,117 +285,68 @@
             "rooms": {
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "重岳",
-                            "琴柳",
-                            "令",
-                            "夕"
-                        ]
+                        "operators": ["阿米娅", "重岳", "琴柳", "令", "夕"]
                     }
                 ],
                 "trading": [
                     {
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "柏喙"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "柏喙"],
                         "sort": true,
                         "product": "LMD"
                     },
                     {
-                        "operators": [
-                            "但书",
-                            "乌有",
-                            "黑键"
-                        ],
+                        "operators": ["但书", "乌有", "黑键"],
                         "sort": false,
                         "product": "LMD"
                     }
                 ],
                 "manufacture": [
                     {
-                        "operators": [
-                            "红云",
-                            "稀音",
-                            "帕拉斯"
-                        ],
+                        "operators": ["红云", "稀音", "帕拉斯"],
                         "sort": true,
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "食铁兽",
-                            "断罪者",
-                            "槐琥"
-                        ],
+                        "operators": ["食铁兽", "断罪者", "槐琥"],
                         "product": "Battle Record"
                     },
                     {
-                        "operators": [
-                            "淬羽赫默",
-                            "多萝西",
-                            "迷迭香"
-                        ],
+                        "operators": ["淬羽赫默", "多萝西", "迷迭香"],
                         "product": "Pure Gold"
                     },
                     {
-                        "operators": [
-                            "砾",
-                            "夜烟",
-                            "苍苔"
-                        ],
+                        "operators": ["砾", "夜烟", "苍苔"],
                         "product": "Pure Gold"
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "缪尔赛思"
-                        ]
+                        "operators": ["缪尔赛思"]
                     },
                     {
-                        "operators": [
-                            "澄闪"
-                        ]
+                        "operators": ["澄闪"]
                     },
                     {
-                        "operators": [
-                            "格雷伊"
-                        ]
+                        "operators": ["格雷伊"]
                     }
                 ],
                 "hire": [
                     {
-                        "operators": [
-                            "絮雨"
-                        ]
+                        "operators": ["絮雨"]
                     }
                 ],
                 "meeting": [
                     {
-                        "operators": [
-                            "陈",
-                            "伺夜"
-                        ]
+                        "operators": ["陈", "伺夜"]
                     }
                 ],
                 "dormitory": [
                     {
-                        "operators": [
-                            "菲亚梅塔",
-                            "爱丽丝",
-                            "车尔尼"
-                        ],
+                        "operators": ["菲亚梅塔", "爱丽丝", "车尔尼"],
                         "autofill": true
                     },
                     {
-                        "operators": [
-                            "赫默",
-                            "伊芙利特",
-                            "白面鸮"
-                        ],
+                        "operators": ["赫默", "伊芙利特", "白面鸮"],
                         "autofill": true
                     },
                     {
@@ -550,9 +358,7 @@
                 ],
                 "processing": [
                     {
-                        "operators": [
-                            "年"
-                        ]
+                        "operators": ["年"]
                     }
                 ]
             }
