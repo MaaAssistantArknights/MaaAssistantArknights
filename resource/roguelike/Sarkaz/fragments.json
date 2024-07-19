@@ -1,0 +1,257 @@
+{
+    "theme": "Sarkaz",
+    "types": {
+        "INSPIRATION": {
+            "name": "灵感",
+            "description": "使用可以获得临时的战斗增益",
+            "fragments": [
+                {
+                    "name": "筑墙",
+                    "description": "使用后，下次战斗所有我方单位部署后立刻获得1层护盾",
+                    "weight": 3,
+                    "value": 3
+                },
+                {
+                    "name": "火海",
+                    "description": "使用后，下次战斗所有我方单位攻击速度+35",
+                    "weight": 3,
+                    "value": 3
+                },
+                {
+                    "name": "离迁",
+                    "description": "使用后，下次战斗所有远程干员获得迷彩",
+                    "weight": 5,
+                    "value": 4
+                },
+                {
+                    "name": "背誓",
+                    "description": "使用后，下次战斗所有近战干员受到伤害后，攻击速度+50，持续5秒",
+                    "weight": 4,
+                    "value": 3
+                },
+                {
+                    "name": "行军",
+                    "description": "使用后，下次战斗所有我方单位力度+2",
+                    "weight": 5,
+                    "value": 4
+                },
+                {
+                    "name": "亡佚",
+                    "description": "使用后，下次战斗结束时额外获得1缕灵感",
+                    "weight": 4,
+                    "value": 2
+                },
+                {
+                    "name": "发掘",
+                    "description": "使用后，下次战斗所有我方单位力度+1",
+                    "weight": 3,
+                    "value": 3
+                },
+                {
+                    "name": "巫术",
+                    "description": "使用后，下次战斗若为作战或紧急作战则召唤“门”，否则灵感失效",
+                    "weight": 2,
+                    "value": 3
+                },
+                {
+                    "name": "启蒙",
+                    "description": "使用后下次战斗可同时部署人数+1",
+                    "weight": 2,
+                    "value": 2
+                },
+                {
+                    "name": "取食",
+                    "description": "使用后下次战斗所有我方单位最大生命值+15%",
+                    "weight": 1,
+                    "value": 1
+                },
+                {
+                    "name": "垦荒",
+                    "description": "使用后下次战斗所有我方单位最大生命值+30%",
+                    "weight": 2,
+                    "value": 2
+                },
+                {
+                    "name": "抢夺",
+                    "description": "使用后下次战斗所有我方单位攻击力+10%",
+                    "weight": 1,
+                    "value": 1
+                },
+                {
+                    "name": "侵略",
+                    "description": "使用后下次战斗所有我方单位攻击力+20%",
+                    "weight": 2,
+                    "value": 2
+                },
+                {
+                    "name": "兴亡",
+                    "description": "使用后下次战斗所有我方单位攻击力+30%，最大生命值+50%",
+                    "weight": 3,
+                    "value": 3
+                },
+                {
+                    "name": "话语",
+                    "description": "使用后下一次战斗获得的指挥经验+25%",
+                    "weight": 3,
+                    "value": 2
+                },
+                {
+                    "name": "集会",
+                    "description": "使用后下一次战斗获得的指挥经验+50%",
+                    "weight": 3,
+                    "value": 3
+                },
+                {
+                    "name": "天灾",
+                    "description": "使用后下一次战斗掉落的源石锭+50%",
+                    "weight": 4,
+                    "value": 2
+                },
+                {
+                    "name": "熔炉",
+                    "description": "使用后下一次战斗掉落的源石锭+100%",
+                    "weight": 4,
+                    "value": 3
+                },
+                {
+                    "name": "异族",
+                    "description": "使用后下次战斗所有我方单位攻击速度+15",
+                    "weight": 2,
+                    "value": 1
+                },
+                {
+                    "name": "驱城",
+                    "description": "使用后下次战斗所有我方单位再部署时间-20%",
+                    "weight": 2,
+                    "value": 2
+                },
+                {
+                    "name": "佣兵",
+                    "description": "使用后下次战斗中所有我方单位费用-2",
+                    "weight": 3,
+                    "value": 1
+                },
+                {
+                    "name": "内战",
+                    "description": "使用后下次战斗中所有我方单位费用-3",
+                    "weight": 1,
+                    "value": 2
+                }
+            ]
+        },
+        "WISH": {
+            "name": "遗愿",
+            "description": "在经历某些事件时会触发特殊效果，在去伪存真节点中解读时提升获得收藏品的概率",
+            "fragments": [
+                {
+                    "name": "纯白花瓣",
+                    "description": "与无字地契解读后获得巴别塔誓言",
+                    "weight": 5,
+                    "value": 4
+                },
+                {
+                    "name": "无字地契",
+                    "description": "与纯白花瓣解读后获得巴别塔誓言",
+                    "weight": 5,
+                    "value": 4
+                },
+                {
+                    "name": "晨间朝阳",
+                    "description": "携带此遗愿进入新一层时，稀有度+1，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 2
+                },
+                {
+                    "name": "门前野草",
+                    "description": "携带此遗愿进入新一层时，稀有度随机刷新，解读时更容易获得收藏品",
+                    "weight": 4,
+                    "value": 1
+                },
+                {
+                    "name": "记功石柱",
+                    "description": "携带此遗愿进入新一层时，稀有度+2，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 1
+                },
+                {
+                    "name": "仇人腥血",
+                    "description": "携带此遗愿进入新一层时，负荷-1，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 3
+                },
+                {
+                    "name": "旧乡晶尘",
+                    "description": "失去后进入新一层会再次回到手上，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 3
+                },
+                {
+                    "name": "枯木新枝",
+                    "description": "携带此遗愿进入下一层时再次获得该遗愿，解读时更容易获得收藏品",
+                    "weight": 2,
+                    "value": 2
+                },
+                {
+                    "name": "灌铅胸牌",
+                    "description": "失去后源石锭+3，在安全的角落中会发挥特殊效果，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 3
+                },
+                {
+                    "name": "知交笑语",
+                    "description": "平凡的愿望，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 4
+                },
+                {
+                    "name": "土中锅盆",
+                    "description": "平凡的愿望，解读时更容易获得收藏品",
+                    "weight": 3,
+                    "value": 1
+                },
+                {
+                    "name": "墙中赤金",
+                    "description": "平凡的愿望，解读时更容易获得收藏品",
+                    "weight": 3,
+                    "value": 2
+                },
+                {
+                    "name": "箱底祭器",
+                    "description": "平凡的愿望，解读时更容易获得收藏品",
+                    "weight": 3,
+                    "value": 3
+                },
+                {
+                    "name": "空思白念",
+                    "description": "平凡的愿望，解读时更容易获得收藏品",
+                    "weight": 2,
+                    "value": 1
+                },
+                {
+                    "name": "妄语谵言",
+                    "description": "平凡的愿望，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 1
+                },
+                {
+                    "name": "无话可说",
+                    "description": "平凡的愿望，解读时更容易获得收藏品",
+                    "weight": 5,
+                    "value": 3
+                }
+            ]
+        },
+        "IDEA": {
+            "name": "构想",
+            "description": "可以用来打开纵向通路，刷新节点或是进行印象重建",
+            "fragments": [
+                {
+                    "name": "构想",
+                    "description": "可在印象重建中消耗并能用于开通新路线或改变节点",
+                    "weight": 3,
+                    "value": 3
+                }
+            ]
+        }
+    }
+}
