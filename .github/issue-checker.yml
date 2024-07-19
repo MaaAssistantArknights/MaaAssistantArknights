@@ -347,7 +347,7 @@ labels:
   # `WpfGui`
   - name: WpfGui
     content: "client: WpfGui"
-    regexes: '软件更新|自动下载|(?:自|自动)启动|图形化?界面|(?i)gui(?!\.)|[Aa]uto [Ss]tart'
+    regexes: '软件更新|自动下载|(?:自|自动)启动|图形化?界面|[Gg][Uu][Ii](?!\.)|[Aa]uto [Ss]tart'
     skip-if:
       - skip all
       - skip client
