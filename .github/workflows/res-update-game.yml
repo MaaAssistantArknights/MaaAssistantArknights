@@ -195,8 +195,8 @@ jobs:
           }
 
           echo "diff: "$diff
-          $sp = $($diff -split "/s+")
-          $numbers = $($sp | Where-Object { $_ -match "^/d+$" })
+          $sp = $($diff -split "\s+")
+          $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
           echo "numbers: "$numbers
 
           $length = $numbers.Length
