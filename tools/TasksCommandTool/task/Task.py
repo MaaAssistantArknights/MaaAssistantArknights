@@ -110,9 +110,10 @@ class Task:
                 task_dict.pop(field.field_name)
         return task_dict
 
-    def define(self):
+    def define(self) -> Task:
         self.is_original = True
         _ORIGINAL_TASKS[self.name] = self
+        return self
 
     def interpret(self) -> InterpretedTask:
         if isinstance(self, InterpretedTask) or self.task_status == TaskStatus.Interpreted:
