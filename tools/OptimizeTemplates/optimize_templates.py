@@ -182,7 +182,7 @@ if __name__ == '__main__':
         print("no path specified, use default paths:", paths)
 
     files = []
-    total_files_sz = 0
+    tqdm_total = 0
 
     for path in paths:
         if pathlib.Path(path).is_dir():
@@ -191,13 +191,13 @@ if __name__ == '__main__':
                     file = os.path.join(root, f)
                     if check_png_need_update(file, perfect_pngs, quiet):
                         files.append(file)
-                        total_files_sz += os.stat(file).st_size
+                        tqdm_total += os.stat(file).st_size ** 2 // 2 ** 20
         elif pathlib.Path(path).is_file():
             files.append(path)
-            total_files_sz += os.stat(path).st_size
+            tqdm_total += os.stat(path).st_size ** 2 // 2 ** 20
 
     total_diff_sz = 0
-    if quiet: t = tqdm(files, total=total_files_sz)
+    if quiet: t = tqdm(files, total=tqdm_total)
     for i, file in enumerate(files):
         cur_file_sz = os.stat(file).st_size
         diff_sz = update_png_with_oxipng(file, perfect_pngs, quiet)
@@ -216,7 +216,7 @@ if __name__ == '__main__':
             total_diff_sz_str = f"{(total_diff_sz / 1048576):.2f} MiB"
 
         if quiet:
-            t.update(cur_file_sz)
+            t.update(cur_file_sz ** 2 // 2 ** 20)
             t.set_postfix(file_counts=f"{i+1}/{len(files)}", reduced_size=total_diff_sz_str)
             t.refresh()
         else:
