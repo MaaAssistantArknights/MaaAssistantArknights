@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "溢能回收转化器",
-    "equipment": [
-        "A",
-        "A",
-        "B",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A"
-    ],
+    "equipment": ["A", "A", "B", "A", "A", "A", "A", "A"],
     "strategy": "Core",
     "opers": [
         {
@@ -165,20 +156,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Up"
                 },
                 {
@@ -187,10 +172,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Left"
                 },
                 {
@@ -198,10 +180,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up"
                 },
                 {
@@ -210,10 +189,7 @@
                         "caster": 1,
                         "support": 1
                     },
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Up"
                 },
                 {
@@ -222,10 +198,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -233,10 +206,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "None",
                     "kills": 20
                 }
@@ -249,30 +219,21 @@
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        1,
-                        1
-                    ],
+                    "location": [1, 1],
                     "direction": "None",
                     "costs": 70
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        1
-                    ],
+                    "location": [2, 1],
                     "direction": "None",
                     "costs": 75
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "None",
                     "costs": 80
                 }
@@ -286,20 +247,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
@@ -308,10 +263,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left"
                 },
                 {
@@ -319,10 +271,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Up"
                 },
                 {
@@ -330,10 +279,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
@@ -342,10 +288,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -355,10 +298,7 @@
                         "caster": 1,
                         "support": 2
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Left"
                 },
                 {
@@ -366,10 +306,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "None",
                     "kills": 20
                 }
@@ -382,30 +319,21 @@
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "None",
                     "costs": 70
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "None",
                     "costs": 75
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "None",
                     "costs": 80
                 }
@@ -419,20 +347,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -441,10 +363,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 },
                 {
@@ -452,10 +371,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -463,10 +379,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Up"
                 },
                 {
@@ -474,10 +387,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Right",
                     "kills": 10
                 },
@@ -488,10 +398,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
@@ -500,10 +407,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
@@ -511,10 +415,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None",
                     "kills": 10
                 }
@@ -527,40 +428,28 @@
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        9,
-                        1
-                    ],
+                    "location": [9, 1],
                     "direction": "None",
                     "costs": 70
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "None",
                     "costs": 75
                 },
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up",
                     "kills": 15
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None",
                     "costs": 80
                 }
@@ -574,10 +463,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Down"
                 },
                 {
@@ -586,10 +472,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Right"
                 },
                 {
@@ -598,10 +481,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Down"
                 },
                 {
@@ -609,10 +489,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Down"
                 },
                 {
@@ -620,10 +497,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Down"
                 },
                 {
@@ -631,10 +505,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Down",
                     "kills": 15
                 },
@@ -644,10 +515,7 @@
                         "caster": 2,
                         "sniper": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
@@ -656,10 +524,7 @@
                         "sniper": 2,
                         "support": 1
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
@@ -667,10 +532,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "None",
                     "kills": 10
                 }
@@ -683,40 +545,28 @@
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "None",
                     "costs": 70
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None",
                     "costs": 75
                 },
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Left",
                     "kills": 20
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "None",
                     "costs": 80
                 }
@@ -730,20 +580,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Down"
                 },
                 {
@@ -752,10 +596,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -763,10 +604,7 @@
                     "tool_men": {
                         "sniper": 2
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -774,10 +612,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Down"
                 },
                 {
@@ -786,10 +621,7 @@
                         "caster": 2,
                         "sniper": 1
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Right"
                 },
                 {
@@ -797,10 +629,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up",
                     "kills": 10
                 },
@@ -810,10 +639,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
@@ -822,10 +648,7 @@
                         "sniper": 2,
                         "support": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Left"
                 },
                 {
@@ -833,10 +656,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "None",
                     "kills": 15
                 }
@@ -849,40 +669,28 @@
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "None",
                     "costs": 70
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "costs": 75
                 },
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Right",
                     "kills": 25
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "None",
                     "costs": 80
                 }
@@ -896,30 +704,21 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
@@ -927,10 +726,7 @@
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
@@ -938,10 +734,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Left"
                 },
                 {
@@ -949,10 +742,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
@@ -961,10 +751,7 @@
                         "pioneer": 1,
                         "tank": 2
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -972,10 +759,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "Down",
                     "kills": 10
                 },
@@ -985,10 +769,7 @@
                         "sniper": 3,
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        4
-                    ],
+                    "location": [9, 4],
                     "direction": "Left"
                 },
                 {
@@ -996,10 +777,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Up"
                 },
                 {
@@ -1008,10 +786,7 @@
                         "sniper": 2,
                         "caster": 5
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Left"
                 },
                 {
@@ -1019,10 +794,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
@@ -1030,10 +802,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None",
                     "kills": 15
                 },
@@ -1042,10 +811,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        2,
-                        6
-                    ],
+                    "location": [2, 6],
                     "direction": "None",
                     "costs": 70
                 }
@@ -1058,40 +824,28 @@
                 {
                     "type": "Deploy",
                     "name": "“甜蜜狂搅”",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left",
                     "kills": 35
                 },
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Down",
                     "kills": 25
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "None",
                     "costs": 75
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
-                    "location": [
-                        4,
-                        6
-                    ],
+                    "location": [4, 6],
                     "direction": "None",
                     "costs": 80
                 }

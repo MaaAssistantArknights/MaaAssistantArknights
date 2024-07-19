@@ -2,51 +2,28 @@
     "SN-8": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "SN-Open",
-            "SN-Chapter2",
-            "StageSN-8"
-        ]
+        "sub": ["SN-Open", "SN-Chapter2", "StageSN-8"]
     },
     "SN-9": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "SN-Open",
-            "SN-Chapter3",
-            "StageSN-9"
-        ]
+        "sub": ["SN-Open", "SN-Chapter3", "StageSN-9"]
     },
     "SN-10": {
         "algorithm": "JustReturn",
         "action": "DoNothing",
-        "sub": [
-            "SN-Open",
-            "SN-Chapter3",
-            "StageSN-10"
-        ]
+        "sub": ["SN-Open", "SN-Chapter3", "StageSN-10"]
     },
     "StartButton1": {
-        "text": [
-            "行動開始"
-        ]
+        "text": ["行動開始"]
     },
     "PRTS3": {
-        "text": [
-            "残り配置可能数"
-        ]
+        "text": ["残り配置可能数"]
     },
     "VisitNextOcr": {
-        "text": [
-            "次を訪問"
-        ]
+        "text": ["次を訪問"]
     },
     "VisitLimited": {
-        "text": [
-            "上限",
-            "達しました",
-            "Fpは入手できません",
-            "再訪問の場合"
-        ]
+        "text": ["上限", "達しました", "Fpは入手できません", "再訪問の場合"]
     }
 }

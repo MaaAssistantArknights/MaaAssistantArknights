@@ -5,58 +5,34 @@
                 "trading": [
                     {
                         "product": "LMD",
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "卡夫卡"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
                         "sort": true
                     },
                     {
                         "product": "LMD",
-                        "operators": [
-                            "月见夜",
-                            "古米",
-                            "空爆"
-                        ],
+                        "operators": ["月见夜", "古米", "空爆"],
                         "sort": true
                     },
                     {
                         "product": "Orundum",
-                        "operators": [
-                            "能天使",
-                            "伺夜",
-                            "石英"
-                        ],
+                        "operators": ["能天使", "伺夜", "石英"],
                         "sort": true
                     }
                 ],
                 "manufacture": [
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "砾",
-                            "夜烟",
-                            "斑点"
-                        ],
+                        "operators": ["砾", "夜烟", "斑点"],
                         "sort": true
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "香草",
-                            "杰西卡",
-                            "水月"
-                        ],
+                        "operators": ["香草", "杰西卡", "水月"],
                         "sort": true
                     },
                     {
                         "product": "Originium Shard",
-                        "operators": [
-                            "艾雅法拉",
-                            "炎熔",
-                            "地灵"
-                        ],
+                        "operators": ["艾雅法拉", "炎熔", "地灵"],
                         "sort": true
                     }
                 ],
@@ -81,11 +57,7 @@
                 ],
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "凯尔希",
-                            "灵知"
-                        ],
+                        "operators": ["阿米娅", "凯尔希", "灵知"],
                         "autofill": true
                     }
                 ],
@@ -126,58 +98,34 @@
                 "trading": [
                     {
                         "product": "LMD",
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "卡夫卡"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
                         "sort": true
                     },
                     {
                         "product": "LMD",
-                        "operators": [
-                            "月见夜",
-                            "古米",
-                            "空爆"
-                        ],
+                        "operators": ["月见夜", "古米", "空爆"],
                         "sort": true
                     },
                     {
                         "product": "Orundum",
-                        "operators": [
-                            "能天使",
-                            "伺夜",
-                            "石英"
-                        ],
+                        "operators": ["能天使", "伺夜", "石英"],
                         "sort": true
                     }
                 ],
                 "manufacture": [
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "清流",
-                            "温蒂",
-                            "森蚺"
-                        ],
+                        "operators": ["清流", "温蒂", "森蚺"],
                         "sort": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "香草",
-                            "杰西卡",
-                            "水月"
-                        ],
+                        "operators": ["香草", "杰西卡", "水月"],
                         "sort": true
                     },
                     {
                         "product": "Originium Shard",
-                        "operators": [
-                            "泡泡",
-                            "火神",
-                            "褐果"
-                        ],
+                        "operators": ["泡泡", "火神", "褐果"],
                         "sort": true
                     }
                 ],
@@ -202,19 +150,13 @@
                 ],
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "灵知",
-                            "凯尔希"
-                        ],
+                        "operators": ["阿米娅", "灵知", "凯尔希"],
                         "autofill": true
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "承曦格雷伊"
-                        ]
+                        "operators": ["承曦格雷伊"]
                     },
                     {
                         "autofill": true
@@ -249,58 +191,34 @@
                 "trading": [
                     {
                         "product": "LMD",
-                        "operators": [
-                            "巫恋",
-                            "龙舌兰",
-                            "卡夫卡"
-                        ],
+                        "operators": ["巫恋", "龙舌兰", "卡夫卡"],
                         "sort": true
                     },
                     {
                         "product": "LMD",
-                        "operators": [
-                            "孑",
-                            "银灰",
-                            "但书"
-                        ],
+                        "operators": ["孑", "银灰", "但书"],
                         "sort": true
                     },
                     {
                         "product": "Orundum",
-                        "operators": [
-                            "夜刀",
-                            "德克萨斯",
-                            "拉普兰德"
-                        ],
+                        "operators": ["夜刀", "德克萨斯", "拉普兰德"],
                         "sort": true
                     }
                 ],
                 "manufacture": [
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "清流",
-                            "温蒂",
-                            "森蚺"
-                        ],
+                        "operators": ["清流", "温蒂", "森蚺"],
                         "sort": false
                     },
                     {
                         "product": "Pure Gold",
-                        "operators": [
-                            "砾",
-                            "夜烟",
-                            "斑点"
-                        ],
+                        "operators": ["砾", "夜烟", "斑点"],
                         "sort": true
                     },
                     {
                         "product": "Originium Shard",
-                        "operators": [
-                            "泡泡",
-                            "火神",
-                            "褐果"
-                        ],
+                        "operators": ["泡泡", "火神", "褐果"],
                         "sort": true
                     }
                 ],
@@ -325,19 +243,13 @@
                 ],
                 "control": [
                     {
-                        "operators": [
-                            "阿米娅",
-                            "灵知",
-                            "凯尔希"
-                        ],
+                        "operators": ["阿米娅", "灵知", "凯尔希"],
                         "autofill": true
                     }
                 ],
                 "power": [
                     {
-                        "operators": [
-                            "承曦格雷伊"
-                        ]
+                        "operators": ["承曦格雷伊"]
                     },
                     {
                         "autofill": true

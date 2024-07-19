@@ -9,16 +9,7 @@
         "details_color": "lightgreen"
     },
     "buff": "丛林用示踪信标",
-    "equipment": [
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A"
-    ],
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
     "strategy": "Main Strategy",
     "opers": [
         {
@@ -82,10 +73,7 @@
                         "近卫": 3,
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Down"
                 },
                 {
@@ -93,10 +81,7 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 },
                 {
@@ -104,20 +89,14 @@
                         "近卫": 2,
                         "重装": 1
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Left"
                 }
             ],
@@ -129,10 +108,7 @@
                 {
                     "type": "Deploy",
                     "name": "丛林用示踪信标",
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "None"
                 }
             ],
@@ -146,20 +122,14 @@
                         "近卫": 1,
                         "重装": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
@@ -168,10 +138,7 @@
                         "近卫": 3,
                         "先锋": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
@@ -179,40 +146,28 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "医疗": 100
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "重装": 100
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 }
             ],
@@ -224,10 +179,7 @@
                 {
                     "type": "Deploy",
                     "name": "丛林用示踪信标",
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "None"
                 }
             ],
@@ -241,10 +193,7 @@
                         "先锋": 1,
                         "重装": 1
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
@@ -252,10 +201,7 @@
                         "先锋": 1,
                         "重装": 1
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Up"
                 },
                 {
@@ -264,20 +210,14 @@
                         "近卫": 4,
                         "先锋": 1
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "重装": 2
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
@@ -286,10 +226,7 @@
                         "先锋": 1,
                         "近卫": 1
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Up"
                 },
                 {
@@ -297,30 +234,21 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "医疗": 100
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 }
             ],
@@ -332,10 +260,7 @@
                 {
                     "type": "Deploy",
                     "name": "丛林用示踪信标",
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "None"
                 },
                 {
@@ -358,30 +283,21 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "重装": 1
                     },
-                    "location": [
-                        4,
-                        6
-                    ],
+                    "location": [4, 6],
                     "direction": "Up"
                 },
                 {
@@ -389,10 +305,7 @@
                     "tool_men": {
                         "近卫": 3
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Right"
                 },
                 {
@@ -401,40 +314,28 @@
                         "先锋": 1,
                         "重装": 1
                     },
-                    "location": [
-                        6,
-                        6
-                    ],
+                    "location": [6, 6],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        7,
-                        6
-                    ],
+                    "location": [7, 6],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "医疗": 100
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "重装": 100
                     },
-                    "location": [
-                        4,
-                        6
-                    ],
+                    "location": [4, 6],
                     "direction": "Up"
                 }
             ],
@@ -446,50 +347,35 @@
                 {
                     "type": "Deploy",
                     "name": "丛林用示踪信标",
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "阻断波长",
                     "kills": 19,
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Down"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 30,
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 40,
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 50,
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "None"
                 }
             ],
@@ -502,10 +388,7 @@
                     "tool_men": {
                         "先锋": 2
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Left"
                 },
                 {
@@ -513,10 +396,7 @@
                     "tool_men": {
                         "近卫": 5
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Left"
                 },
                 {
@@ -525,10 +405,7 @@
                         "先锋": 1,
                         "重装": 1
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Left"
                 },
                 {
@@ -536,40 +413,28 @@
                         "近卫": 2,
                         "重装": 2
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "先锋": 2
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "医疗": 100
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 }
             ],
@@ -581,49 +446,34 @@
                 {
                     "type": "Deploy",
                     "name": "丛林用示踪信标",
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "阻断波长",
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Down"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 20,
-                    "location": [
-                        1,
-                        4
-                    ],
+                    "location": [1, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 30,
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "超重绝缘水泥",
                     "kills": 40,
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "None"
                 }
             ],
@@ -636,20 +486,14 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
@@ -657,10 +501,7 @@
                     "tool_men": {
                         "重装": 2
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Right"
                 },
                 {
@@ -668,20 +509,14 @@
                     "tool_men": {
                         "先锋": 1
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "重装": 2
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Right"
                 },
                 {
@@ -689,20 +524,14 @@
                     "tool_men": {
                         "近卫": 4
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "医疗": 100
                     },
-                    "location": [
-                        4,
-                        6
-                    ],
+                    "location": [4, 6],
                     "direction": "Up"
                 },
                 {
@@ -710,30 +539,21 @@
                         "近卫": 100,
                         "先锋": 100
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "重装": 100
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 }
             ],
@@ -746,334 +566,223 @@
                     "type": "Deploy",
                     "name": "丛林用示踪信标",
                     "kills": 15,
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "阻断波长",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        11,
-                        4
-                    ],
+                    "location": [11, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        11,
-                        4
-                    ],
+                    "location": [11, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        11,
-                        4
-                    ],
+                    "location": [11, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        11,
-                        4
-                    ],
+                    "location": [11, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        10,
-                        4
-                    ],
+                    "location": [10, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        10,
-                        4
-                    ],
+                    "location": [10, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        10,
-                        4
-                    ],
+                    "location": [10, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        10,
-                        4
-                    ],
+                    "location": [10, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        10,
-                        5
-                    ],
+                    "location": [10, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        9,
-                        5
-                    ],
+                    "location": [9, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        2,
-                        1
-                    ],
+                    "location": [2, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        9,
-                        5
-                    ],
+                    "location": [9, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "改性植物激素",
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "None"
                 }
             ],

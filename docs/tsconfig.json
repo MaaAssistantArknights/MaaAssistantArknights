@@ -3,7 +3,5 @@
         "module": "ESNext",
         "moduleResolution": "Node"
     },
-    "include": [
-        ".vuepress/**/*.ts"
-    ]
+    "include": [".vuepress/**/*.ts"]
 }

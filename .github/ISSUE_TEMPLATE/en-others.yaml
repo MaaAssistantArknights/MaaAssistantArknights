@@ -1,6 +1,6 @@
 name: Others (in English)
 description: Ask a question rather than a bug report or feature request.
-labels: ['question']
+labels: ["question"]
 body:
   - type: textarea
     id: describe

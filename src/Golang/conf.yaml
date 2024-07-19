@@ -1,8 +1,8 @@
-asst:                                                                   # 方舟助手所需配置
-  adbaddress: 127.0.0.1:8059                                            # 安卓调式桥ADB地址 例如 "127.0.0.1:8059"
-  adbpath: C:\Program Files\BlueStacks_nxt\HD-Adb.exe                   
+asst: # 方舟助手所需配置
+  adbaddress: 127.0.0.1:8059 # 安卓调式桥ADB地址 例如 "127.0.0.1:8059"
+  adbpath: C:\Program Files\BlueStacks_nxt\HD-Adb.exe
   adbtype: BlueStacks
   resourcespath: ""
 http:
-  host: ""                      # http 接口 地址
+  host: "" # http 接口 地址
   port: 8080

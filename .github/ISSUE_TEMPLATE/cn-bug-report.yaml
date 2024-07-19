@@ -1,20 +1,20 @@
 name: Bug 反馈（使用中文）
 description: 识别错误、操作异常、连接错误等
-labels: ['bug']
+labels: ["bug"]
 body:
   - type: checkboxes
     id: checks
     attributes:
       label: 在提问之前...
       options:
-      - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
-        required: true
-      - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
-        required: true
-      - label: 我已查看最新测试版本的更新内容，并未提及该 Bug 已被修复的情况
-        required: true
-      - label: 我已检查了置顶议题（pinned issue），确认我的问题未被提及
-        required: true
+        - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
+          required: true
+        - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
+          required: true
+        - label: 我已查看最新测试版本的更新内容，并未提及该 Bug 已被修复的情况
+          required: true
+        - label: 我已检查了置顶议题（pinned issue），确认我的问题未被提及
+          required: true
   - type: textarea
     id: describe
     attributes:

@@ -1,9 +1,9 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 # for clang-format 17.0.1
 Language: Cpp
-BasedOnStyle: 'WebKit'
+BasedOnStyle: "WebKit"
 # AccessModifierOffset: 2
-AlignAfterOpenBracket: 'AlwaysBreak'
+AlignAfterOpenBracket: "AlwaysBreak"
 AlignArrayOfStructures: None
 AlignConsecutiveAssignments: None
 AlignConsecutiveBitFields: None
@@ -84,12 +84,12 @@ FixNamespaceComments: true
 #   - foreach
 #   - Q_FOREACH
 #   - BOOST_FOREACH
-# IfMacros: 
+# IfMacros:
 #   - 'KJ_IF_MAYBE'
 IncludeBlocks: Preserve
 # IncludeCategories:
-# IncludeIsMainRegex: 
-# IncludeIsMainSourceRegex: 
+# IncludeIsMainRegex:
+# IncludeIsMainSourceRegex:
 IndentAccessModifiers: false
 IndentCaseBlocks: false
 IndentCaseLabels: false
@@ -127,7 +127,7 @@ NamespaceIndentation: None
 # ObjCSpaceAfterProperty:
 # ObjCSpaceBeforeProtocolList:
 PackConstructorInitializers: Never
-# PenaltyBreakAssignment: 
+# PenaltyBreakAssignment:
 # PenaltyBreakBeforeFirstCallParameter:
 # PenaltyBreakComment:
 # PenaltyBreakFirstLessLess:
@@ -180,7 +180,7 @@ SpacesInLineCommentPrefix:
 SpacesInParens: Never
 SpacesInSquareBrackets: false
 Standard: c++20
-# StatementAttributeLikeMacros: 
+# StatementAttributeLikeMacros:
 # StatementMacros:
 TabWidth: 4
 # TypeNames:
