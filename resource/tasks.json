@@ -16963,6 +16963,7 @@
         ],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenAbandon",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
             "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
         ]
     },
