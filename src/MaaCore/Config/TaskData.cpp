@@ -479,7 +479,42 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
         return nullptr;
     }
 
+    auto method_opt = task_json.find("method");
+    if (!method_opt) {
+        match_task_info_ptr->methods = default_ptr->methods;
+        match_task_info_ptr->methods.resize(match_task_info_ptr->templ_names.size(), default_ptr->methods.back());
+    }
+    else if (method_opt->is_number()) {
+        // 单个数值时，所有模板都使用这个方法
+        match_task_info_ptr->methods.resize(match_task_info_ptr->templ_names.size(), method_opt->as_integer());
+    }
+    else if (method_opt->is_array()) {
+        ranges::copy(method_opt->as_array() | views::transform(&json::value::as_integer),
+                     std::back_inserter(match_task_info_ptr->methods));
+    }
+    else {
+        Log.error("Invalid method type in task", name);
+        return nullptr;
+    }
+    
+    static auto AllowedMethods = std::unordered_set { 3, 5 };
+    if (!ranges::all_of(match_task_info_ptr->methods, [&](int method) { return AllowedMethods.contains(method); })) {
+        Log.error("Invalid method in task", name);
+        return nullptr;
+    }
+
+    if (match_task_info_ptr->templ_names.size() != match_task_info_ptr->methods.size()) {
+        Log.error("Template count and method count not match in task", name);
+        return nullptr;
+    }
+
+    if (match_task_info_ptr->templ_names.size() == 0 || match_task_info_ptr->methods.size() == 0) {
+        Log.error("Template or method is empty in task", name);
+        return nullptr;
+    }
+
     utils::get_and_check_value_or(name, task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
+
     return match_task_info_ptr;
 }
 
@@ -675,6 +710,7 @@ asst::MatchTaskConstPtr asst::TaskData::_default_match_task_info()
     auto match_task_info_ptr = std::make_shared<MatchTaskInfo>();
     match_task_info_ptr->templ_names = { "__INVALID__" };
     match_task_info_ptr->templ_thresholds = { TemplThresholdDefault };
+    match_task_info_ptr->methods = { MatchMethodDefault };
 
     return match_task_info_ptr;
 }
@@ -726,18 +762,18 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
     static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
         { AlgorithmType::Invalid,
           {
-              "action",      "algorithm",     "baseTask",   "cache",           "exceededNext",     "fullMatch",
-              "hash",        "isAscii",       "maskRange",  "maxTimes",        "next",             "ocrReplace",
-              "onErrorNext", "postDelay",     "preDelay",   "rectMove",        "reduceOtherTimes", "replaceFull",
-              "roi",         "specialParams", "sub",        "subErrorIgnored", "templThreshold",   "template",
-              "text",        "threshold",     "withoutDet",
+              "action",      "algorithm",   "baseTask",      "cache",      "exceededNext",    "fullMatch",
+              "hash",        "isAscii",     "maskRange",     "maxTimes",   "method",          "next",
+              "ocrReplace",  "onErrorNext", "postDelay",     "preDelay",   "rectMove",        "reduceOtherTimes",
+              "replaceFull", "roi",         "specialParams", "sub",        "subErrorIgnored", "templThreshold",
+              "template",    "text",        "threshold",     "withoutDet",
           } },
         { AlgorithmType::MatchTemplate,
           {
-              "action",           "algorithm", "baseTask",    "cache",           "exceededNext",   "maskRange",
-              "maxTimes",         "next",      "onErrorNext", "postDelay",       "preDelay",       "rectMove",
-              "reduceOtherTimes", "roi",       "sub",         "subErrorIgnored", "templThreshold", "template",
-              "specialParams",
+              "action",   "algorithm",        "baseTask", "cache",       "exceededNext",    "maskRange",
+              "maxTimes", "method",           "next",     "onErrorNext", "postDelay",       "preDelay",
+              "rectMove", "reduceOtherTimes", "roi",      "sub",         "subErrorIgnored", "templThreshold",
+              "template", "specialParams",
           } },
         { AlgorithmType::OcrDetect,
           {

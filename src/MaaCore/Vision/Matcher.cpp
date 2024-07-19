@@ -49,7 +49,15 @@ Matcher::ResultOpt Matcher::analyze() const
 std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params)
 {
     std::vector<Matcher::RawResult> results;
-    for (auto& ptempl : params.templs) {
+    for (size_t i = 0; i != params.templs.size(); ++i) {
+        const auto& ptempl = params.templs[i];
+        const auto& method = params.methods[i];
+
+        if (method != cv::TM_CCORR_NORMED && method != cv::TM_CCOEFF_NORMED) {
+            Log.error("unsupported method:", method);
+            return {};
+        }
+
         cv::Mat templ;
         std::string templ_name;
 
@@ -81,7 +89,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
 
         cv::Mat matched;
         if (params.mask_range.first == 0 && params.mask_range.second == 0) {
-            cv::matchTemplate(image, templ, matched, cv::TM_CCOEFF_NORMED);
+            cv::matchTemplate(image, templ, matched, method);
         }
         else {
             cv::Mat mask;
@@ -91,7 +99,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                 cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
                 cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
             }
-            cv::matchTemplate(image, templ, matched, cv::TM_CCOEFF_NORMED, mask);
+            cv::matchTemplate(image, templ, matched, method, mask);
         }
 
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
