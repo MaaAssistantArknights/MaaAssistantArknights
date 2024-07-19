@@ -9925,7 +9925,14 @@
         ]
     },
     "Sarkaz@Roguelike@StageCombatDps": {
-        "templThreshold": 0.975
+        "templThreshold": 0.975,
+        "postDelay": 600,
+        "next": [
+            "Sarkaz@Roguelike@StageRefresh",
+            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
     },
     "Sarkaz@Roguelike@StageCombatDpsEnter": {},
     "Sarkaz@Roguelike@StageConfrontation": {
@@ -9955,7 +9962,14 @@
     },
     "Sarkaz@Roguelike@StageDreadfulFoeEnter": {},
     "Sarkaz@Roguelike@StageEmergencyDps": {
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "postDelay": 600,
+        "next": [
+            "Sarkaz@Roguelike@StageRefresh",
+            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
     },
     "Sarkaz@Roguelike@StageEmergencyDpsEnter": {},
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
@@ -10240,6 +10254,30 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5",
             "Sarkaz@Roguelike@CloseCollectionContinue",
             "Sarkaz@Roguelike@CloseCollectionClose"
+        ]
+    },
+    "Sarkaz@Roguelike@StageRefresh": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [790, 130, 60, 144],
+        "next": ["Sarkaz@Roguelike@StageRefreshConfirm"]
+    },
+    "Sarkaz@Roguelike@StageRefreshConfirm": {
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "roi": [767, 409, 469, 155],
+        "next": [
+            "Sarkaz@Roguelike@StageBoskyPassageEnter",
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageBoonsEnter",
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@StageEncounterEnter",
+            "Sarkaz@Roguelike@StageRefresh",
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@StageDreadfulFoeEnter",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5Enter"
         ]
     },
     "Sarkaz@Roguelike@StartExplore": {
