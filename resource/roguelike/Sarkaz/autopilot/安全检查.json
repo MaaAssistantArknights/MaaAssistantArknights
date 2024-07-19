@@ -32,7 +32,7 @@
         {
             "groups": [ "提丰", "高台输出" ],
             "location": [ 6, 5 ],
-            "direction": "up"
+            "direction": "left"
         },
         {
             "groups": [ "单奶" ],
