@@ -183,6 +183,11 @@ jobs:
         run: |
           python3 tools/TaskSorter/TaskSorter.py
 
+      - name: Prettier
+        run: |
+          npm install --save-dev --save-exact prettier
+          prettier -w **.json
+
       - name: Check if only sorted
         id: check_only_sorted
         run: |
