@@ -1,4 +1,4 @@
-name: Lint Markdown files
+name: Check Markdown files
 
 on:
   push:
