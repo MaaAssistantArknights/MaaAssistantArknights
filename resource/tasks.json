@@ -17039,7 +17039,7 @@
             179,
             137
         ],
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [
             1210,
@@ -17059,7 +17059,7 @@
             179,
             137
         ],
-        "templThreshold": 0.95,
+        "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [
             1210,
