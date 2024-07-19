@@ -61,12 +61,6 @@ labels:
   - name: remove others
     content:
     regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)others(?:`|)"
-  - name: skip MuMu
-    content:
-    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
-  - name: remove MuMu
-    content:
-    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
   - name: skip recruit
     content:
     regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)recruit(?:`|)"
@@ -85,6 +79,13 @@ labels:
   - name: remove reclamation
     content:
     regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)reclamation(?:`|)"
+
+  - name: skip MuMu
+    content:
+    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
+  - name: remove MuMu
+    content:
+    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
 
   - name: skip client
     content:
@@ -324,11 +325,9 @@ labels:
     regexes: "[Mm]u[Mu]u 截图增强|[Mm]u[Mu]u's screenshot enhancement"
     skip-if:
       - skip all
-      - skip module
       - skip MuMu
     remove-if:
       - remove all
-      - remove module
       - remove MuMu
 
   # `MacGui`
