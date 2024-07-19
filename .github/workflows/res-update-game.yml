@@ -194,9 +194,11 @@ jobs:
         run: |
           npm i prettier --no-save
 
-      - name: Run Prettier
+      - name: Run Prettier on modified Jsons
         run: |
-          npx prettier -w **.json
+          git diff --name-only --diff-filter=ACM 2>$null |
+          Where-Object { $_ -match '\.json$' } |
+          ForEach-Object { npx prettier --write $_ }
 
       - name: Check if only sorted
         id: check_only_sorted
