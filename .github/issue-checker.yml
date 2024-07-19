@@ -282,7 +282,7 @@ labels:
   # `module: core`
   - name: core
     content: "module: core"
-    regexes: "(?:开始唤醒|触控模式|(?:自动检测)?连接(?:模拟器)?|[Ss]tartup|[Tt]ouch [Mm]ode|[Aa]uto [Dd]etect [Cc]onnection|MaaCore(?!.dll)|GPU(?:\\s*加速|(?: for [Ii]nference)? [Aa]cceleration)|显卡加速)"
+    regexes: "(?:开始唤醒|触控模式|连接模拟器|[Ss]tartup|[Tt]ouch [Mm]ode|[Aa]uto [Dd]etect [Cc]onnection|MaaCore(?!.dll)|GPU(?:\\s*加速|(?: for [Ii]nference)? [Aa]cceleration)|显卡加速)"
     skip-if:
       - skip all
       - skip module
@@ -346,7 +346,7 @@ labels:
   # `WpfGui`
   - name: WpfGui
     content: "client: WpfGui"
-    regexes: '远程控制|外部通知|(?:自|自动|定时|软件)(?:下载|更新|启动|执行)|图形化?界面|[Gg][Uu][Ii](?!\.)|[Aa]uto [Ss]tart|[Rr]emote [Cc]ontrol|[Ee]xternal [Nn]otifications|[Ss]chedule'
+    regexes: '远程控制|外部通知|(?:自|自动|定时|软件)(?:下载|更新|启动|执行|检测)|图形化?界面|[Gg][Uu][Ii](?!\.)|[Aa]uto [Ss]tart|[Rr]emote [Cc]ontrol|[Ee]xternal [Nn]otifications|[Ss]chedule'
     skip-if:
       - skip all
       - skip client
@@ -443,6 +443,7 @@ labels:
       - recruit
       - roguelike
       - reclamation
+      - MuMu API
 
   # `release`
   - name: release
