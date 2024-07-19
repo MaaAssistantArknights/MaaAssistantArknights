@@ -2,50 +2,48 @@
     "stage_name": "坏邻居",
     "replacement_home": [
         {
-            "location": [ 7, 2 ],
+            "location": [7, 2],
             "direction": "left"
         }
     ],
-    "blacklist_location": [
-        [ 8, 3 ]
-    ],
+    "blacklist_location": [[8, 3]],
     "deploy_plan": [
         {
-            "groups": [ "情报官", "重装", "地面远程", "地面阻挡" ],
-            "location": [ 7, 2 ],
+            "groups": ["情报官", "重装", "地面远程", "地面阻挡"],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [ "高台输出" ],
-            "location": [ 6, 3 ],
+            "groups": ["高台输出"],
+            "location": [6, 3],
             "direction": "up"
         },
         {
-            "groups": [ "炮灰" ],
-            "location": [ 4, 1 ],
-            "condition": [ 0, 5 ],
+            "groups": ["炮灰"],
+            "location": [4, 1],
+            "condition": [0, 5],
             "direction": "down"
         },
         {
-            "groups": [ "高台输出" ],
-            "location": [ 8, 2 ],
+            "groups": ["高台输出"],
+            "location": [8, 2],
             "direction": "right"
         },
         {
-            "groups": [ "提丰" ],
-            "location": [ 6, 1 ],
+            "groups": ["提丰"],
+            "location": [6, 1],
             "direction": "right"
         },
         {
-            "groups": [ "重装", "地面远程", "地面阻挡" ],
-            "location": [ 7, 1 ],
+            "groups": ["重装", "地面远程", "地面阻挡"],
+            "location": [7, 1],
             "direction": "left"
         }
     ],
     "retreat_plan": [
         {
-            "location": [ 4, 1 ],
-            "condition": [ 1, 21 ]
+            "location": [4, 1],
+            "condition": [1, 21]
         }
     ]
 }

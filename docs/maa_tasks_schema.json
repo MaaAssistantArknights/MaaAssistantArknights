@@ -131,9 +131,7 @@
                 }
             },
             "description": "不进行识别，直接执行 action",
-            "required": [
-                "algorithm"
-            ]
+            "required": ["algorithm"]
         },
         "MatchTemplateTask": {
             "allOf": [
@@ -147,10 +145,7 @@
                     "pattern": "MatchTemplate"
                 },
                 "template": {
-                    "type": [
-                        "array",
-                        "string"
-                    ],
+                    "type": ["array", "string"],
                     "items": {
                         "type": "string"
                     },
@@ -158,10 +153,7 @@
                     "description": "可选项，要匹配的图片文件名\n不填时写默认 \"任务名.png\""
                 },
                 "templThreshold": {
-                    "type": [
-                        "array",
-                        "number"
-                    ],
+                    "type": ["array", "number"],
                     "items": {
                         "type": "number"
                     },
@@ -175,10 +167,7 @@
                     "items": {
                         "type": "number"
                     },
-                    "default": [
-                        1,
-                        255
-                    ],
+                    "default": [1, 255],
                     "description": "可选项，灰度掩码范围。例如将图片不需要识别的部分涂成黑色（灰度值为 0），然后设置 [ 1, 255 ], 匹配的时候即刻忽略涂黑的部分"
                 }
             },
@@ -221,10 +210,7 @@
                 }
             },
             "description": "文字识别",
-            "required": [
-                "algorithm",
-                "text"
-            ]
+            "required": ["algorithm", "text"]
         },
         "HashTask": {
             "allOf": [
@@ -239,9 +225,7 @@
                 }
             },
             "description": "哈希计算",
-            "required": [
-                "algorithm"
-            ]
+            "required": ["algorithm"]
         }
     }
 }

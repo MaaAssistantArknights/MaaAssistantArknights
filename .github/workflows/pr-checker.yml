@@ -4,7 +4,6 @@ on:
   pull_request_target:
     types: [opened, edited, ready_for_review, reopened, synchronize]
 
-
 jobs:
   check_commit_name_in_pr:
     if: ${{ !github.event.pull_request.merged && github.base_ref != 'master' }}

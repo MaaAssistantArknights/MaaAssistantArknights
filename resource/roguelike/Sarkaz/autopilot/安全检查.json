@@ -2,71 +2,71 @@
     "stage_name": "安全检查",
     "replacement_home": [
         {
-            "location": [ 7, 0 ],
+            "location": [7, 0],
             "direction": "left"
         }
     ],
     "blacklist_location": [
-        [ 3, 1 ],
-        [ 4, 1 ],
-        [ 5, 1 ],
-        [ 3, 2 ],
-        [ 4, 2 ],
-        [ 5, 2 ],
-        [ 6, 2 ],
-        [ 3, 3 ],
-        [ 5, 3 ],
-        [ 6, 3 ],
-        [ 7, 3 ],
-        [ 3, 4 ],
-        [ 4, 4 ],
-        [ 5, 4 ],
-        [ 6, 4 ]
+        [3, 1],
+        [4, 1],
+        [5, 1],
+        [3, 2],
+        [4, 2],
+        [5, 2],
+        [6, 2],
+        [3, 3],
+        [5, 3],
+        [6, 3],
+        [7, 3],
+        [3, 4],
+        [4, 4],
+        [5, 4],
+        [6, 4]
     ],
     "deploy_plan": [
         {
-            "groups": [ "益达", "高台输出" ],
-            "location": [ 6, 1 ],
+            "groups": ["益达", "高台输出"],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [ "提丰", "高台输出" ],
-            "location": [ 6, 5 ],
+            "groups": ["提丰", "高台输出"],
+            "location": [6, 5],
             "direction": "left"
         },
         {
-            "groups": [ "单奶" ],
-            "location": [ 8, 3 ],
+            "groups": ["单奶"],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "groups": [ "高台输出" ],
-            "location": [ 7, 4 ],
+            "groups": ["高台输出"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [ "玛恩纳", "地面远程", "重装", "地面阻挡" ],
-            "location": [ 7, 3 ],
+            "groups": ["玛恩纳", "地面远程", "重装", "地面阻挡"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [ "群奶" ],
-            "location": [ 8, 4 ],
+            "groups": ["群奶"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
-            "groups": [ "处决者" ],
-            "location": [ 4, 3 ],
+            "groups": ["处决者"],
+            "location": [4, 3],
             "direction": "up"
         },
         {
-            "groups": [ "处决者" ],
-            "location": [ 4, 5 ],
+            "groups": ["处决者"],
+            "location": [4, 5],
             "direction": "up"
         },
         {
-            "groups": [ "处决者" ],
-            "location": [ 7, 2 ],
+            "groups": ["处决者"],
+            "location": [7, 2],
             "direction": "down"
         }
     ]

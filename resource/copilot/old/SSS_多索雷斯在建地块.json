@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "镀膜装置导能阀",
-    "equipment": [
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A"
-    ],
+    "equipment": ["A", "A", "A", "A", "A", "A", "A", "A"],
     "strategy": "优选策略",
     "opers": [
         {
@@ -102,20 +93,14 @@
                     "tool_men": {
                         "近卫": 1
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "先锋": 100
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Down"
                 },
                 {
@@ -123,20 +108,14 @@
                     "tool_men": {
                         "重装": 1
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 }
             ],
@@ -156,10 +135,7 @@
                     "tool_men": {
                         "近卫": 2
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Down"
                 },
                 {
@@ -167,20 +143,14 @@
                     "tool_men": {
                         "重装": 2
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 }
             ],
@@ -200,10 +170,7 @@
                     "tool_men": {
                         "近卫": 3
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -211,20 +178,14 @@
                     "tool_men": {
                         "重装": 3
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "先锋": 100
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -232,10 +193,7 @@
                         "辅助": 100,
                         "术士": 100
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Left"
                 }
             ],
@@ -247,10 +205,7 @@
                 {
                     "type": "部署",
                     "name": "镀膜装置导能阀",
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Down"
                 },
                 {
@@ -274,10 +229,7 @@
                     "tool_men": {
                         "近卫": 3
                     },
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "Left"
                 },
                 {
@@ -285,10 +237,7 @@
                     "tool_men": {
                         "重装": 4
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Left"
                 },
                 {
@@ -296,20 +245,14 @@
                     "tool_men": {
                         "近卫": 3
                     },
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "先锋": 100
                     },
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "Left"
                 },
                 {
@@ -317,10 +260,7 @@
                         "辅助": 100,
                         "术士": 100
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 }
             ],
@@ -332,19 +272,13 @@
                 {
                     "type": "部署",
                     "name": "镀膜装置导能阀",
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Up"
                 },
                 {
                     "type": "部署",
                     "name": "战备激活阀",
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Up"
                 }
             ],
@@ -358,10 +292,7 @@
                     "tool_men": {
                         "近卫": 5
                     },
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "Down"
                 },
                 {
@@ -369,40 +300,28 @@
                     "tool_men": {
                         "重装": 4
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "先锋": 100
                     },
-                    "location": [
-                        9,
-                        5
-                    ],
+                    "location": [9, 5],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "辅助": 100
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "术士": 100
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 }
             ],
@@ -414,28 +333,19 @@
                 {
                     "type": "部署",
                     "name": "镀膜装置导能阀",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Right"
                 },
                 {
                     "type": "部署",
                     "name": "塞雷娅",
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Down"
                 },
                 {
                     "type": "部署",
                     "name": "战备激活阀",
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up"
                 }
             ],
@@ -450,10 +360,7 @@
                         "近卫": 4,
                         "先锋": 1
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
@@ -461,10 +368,7 @@
                     "tool_men": {
                         "重装": 4
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Up"
                 },
                 {
@@ -472,10 +376,7 @@
                     "tool_men": {
                         "近卫": 3
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Up"
                 },
                 {
@@ -483,20 +384,14 @@
                         "辅助": 100,
                         "医疗": 100
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "术士": 100
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 }
             ],
@@ -508,37 +403,25 @@
                 {
                     "type": "部署",
                     "name": "镀膜装置导能阀",
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Right"
                 },
                 {
                     "type": "部署",
                     "name": "桃金娘",
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Left"
                 },
                 {
                     "type": "部署",
                     "name": "战备激活阀",
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Right"
                 },
                 {
                     "type": "部署",
                     "name": "战备激活阀",
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Down"
                 }
             ],

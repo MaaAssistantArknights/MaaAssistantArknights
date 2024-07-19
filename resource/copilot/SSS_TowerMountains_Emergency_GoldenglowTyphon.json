@@ -5,19 +5,11 @@
     "doc": {
         "title": "Tower Mountains Agricultural Experimental Platform - Compatible w/Emergency",
         "title_color": "dark",
-        "details": "Manual team formation, choose low DP-cost, preferably E2, otherwise E1 max level\nYou can complete the Kazimierz mission by adding 4 Kazimierz operators and selecting the \"Competition Records Analyzer\" EC\nChoose the \"Smart Airspace Controller\" as EC. Tactical Equipment: Caster B, others A\nAuthor: 萨拉托加\nAdaptation: Constrat\nDemo Video: https://www.bilibili.com/video/BV14e411C77h/\nJSON: 萨拉托加\nCore operators:\nGoldenglow S2\nSkadi the Corrupting Heart S2\nSilverash S2\nTyphon S2\nEyjafjalla the Hvít Aska S1\nOperators (Non-core): \nVangaurd: 2 (Need to tank, Kazimierz: Flametail, Wild Mane)\nDefender: 2 (DP-cost of 20, e.g. Saria, Kazimierz: Blemishine)\nCaster: 3 (DP-cost of 20, e.g. Eyjafjalla, Ceobe)\nSupporter: 2 (Virtuosa S3, SuzuranS3, don't bring summoners)\nSniper: 6 (Marksman, Kazimierz: Fartooth, Meteor, Platinym)\nSome core operators can be replaced: Typhon with Fiammetta, Eyjalter with Lumen",        "details_color": "dark"
+        "details": "Manual team formation, choose low DP-cost, preferably E2, otherwise E1 max level\nYou can complete the Kazimierz mission by adding 4 Kazimierz operators and selecting the \"Competition Records Analyzer\" EC\nChoose the \"Smart Airspace Controller\" as EC. Tactical Equipment: Caster B, others A\nAuthor: 萨拉托加\nAdaptation: Constrat\nDemo Video: https://www.bilibili.com/video/BV14e411C77h/\nJSON: 萨拉托加\nCore operators:\nGoldenglow S2\nSkadi the Corrupting Heart S2\nSilverash S2\nTyphon S2\nEyjafjalla the Hvít Aska S1\nOperators (Non-core): \nVangaurd: 2 (Need to tank, Kazimierz: Flametail, Wild Mane)\nDefender: 2 (DP-cost of 20, e.g. Saria, Kazimierz: Blemishine)\nCaster: 3 (DP-cost of 20, e.g. Eyjafjalla, Ceobe)\nSupporter: 2 (Virtuosa S3, SuzuranS3, don't bring summoners)\nSniper: 6 (Marksman, Kazimierz: Fartooth, Meteor, Platinym)\nSome core operators can be replaced: Typhon with Fiammetta, Eyjalter with Lumen",
+        "details_color": "dark"
     },
     "buff": "智能空域控制机",
-    "equipment": [
-        "A",
-        "A",
-        "B",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A"
-    ],
+    "equipment": ["A", "A", "B", "A", "A", "A", "A", "A"],
     "strategy": "优选策略",
     "opers": [
         {
@@ -170,10 +162,7 @@
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
@@ -182,10 +171,7 @@
                         "sniper": 3,
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Down"
                 },
                 {
@@ -194,20 +180,14 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "supporter": 100
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Up"
                 },
                 {
@@ -216,10 +196,7 @@
                         "vanguard": 1,
                         "defender": 1
                     },
-                    "location": [
-                        1,
-                        4
-                    ],
+                    "location": [1, 4],
                     "direction": "Right"
                 }
             ],
@@ -231,37 +208,25 @@
                 {
                     "type": "Deploy",
                     "name": "梅什科线圈",
-                    "location": [
-                        2,
-                        1
-                    ],
+                    "location": [2, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "梅什科线圈",
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "梅什科线圈",
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "梅什科线圈",
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "None"
                 }
             ],
@@ -275,10 +240,7 @@
                         "vanguard": 1,
                         "defender": 1
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
@@ -287,10 +249,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Right"
                 },
                 {
@@ -299,10 +258,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -311,20 +267,14 @@
                         "vanguard": 1,
                         "defender": 1
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "supporter": 100
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left"
                 }
             ],
@@ -345,10 +295,7 @@
                         "sniper": 3,
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
@@ -357,10 +304,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        4
-                    ],
+                    "location": [9, 4],
                     "direction": "Left"
                 },
                 {
@@ -368,10 +312,7 @@
                     "tool_men": {
                         "medic": 0
                     },
-                    "location": [
-                        9,
-                        5
-                    ],
+                    "location": [9, 5],
                     "direction": "Up"
                 },
                 {
@@ -380,20 +321,14 @@
                         "vanguard": 1,
                         "defender": 1
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "supporter": 100
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 }
             ],
@@ -406,30 +341,21 @@
                     "type": "Deploy",
                     "kills": 10,
                     "name": "便携式补给站",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Right"
                 },
                 {
                     "type": "Deploy",
                     "kills": 15,
                     "name": "战备激活阀",
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Right"
                 },
                 {
                     "type": "Deploy",
                     "kills": 20,
                     "name": "便携式补给站",
-                    "location": [
-                        9,
-                        1
-                    ],
+                    "location": [9, 1],
                     "direction": "Down"
                 }
             ],
@@ -444,10 +370,7 @@
                         "sniper": 3,
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Left"
                 },
                 {
@@ -456,10 +379,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
@@ -467,10 +387,7 @@
                     "tool_men": {
                         "supporter": 0
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Left"
                 },
                 {
@@ -479,10 +396,7 @@
                         "vanguard": 1,
                         "defender": 1
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "up"
                 },
                 {
@@ -490,20 +404,14 @@
                     "tool_men": {
                         "medic": 0
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "supporter": 100
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 }
             ],
@@ -516,10 +424,7 @@
                     "type": "Deploy",
                     "kills": 10,
                     "name": "战备激活阀",
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 }
             ],
@@ -532,20 +437,14 @@
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -554,10 +453,7 @@
                         "vanguard": 1,
                         "defender": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Left"
                 },
                 {
@@ -566,10 +462,7 @@
                         "sniper": 1,
                         "caster": 1
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left"
                 },
                 {
@@ -578,10 +471,7 @@
                         "sniper": 3,
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 },
                 {
@@ -589,10 +479,7 @@
                     "tool_men": {
                         "medic": 0
                     },
-                    "location": [
-                        6,
-                        1
-                    ],
+                    "location": [6, 1],
                     "direction": "Down"
                 },
                 {
@@ -600,20 +487,14 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "supporter": 100
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 }
             ],
@@ -626,10 +507,7 @@
                     "type": "Deploy",
                     "kills": 15,
                     "name": "战备激活阀",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Up"
                 }
             ],
@@ -642,20 +520,14 @@
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -663,10 +535,7 @@
                     "tool_men": {
                         "medic": 0
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Up"
                 },
                 {
@@ -674,10 +543,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
@@ -686,10 +552,7 @@
                         "vanguard": 1,
                         "defender": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "up"
                 },
                 {
@@ -697,10 +560,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "up"
                 },
                 {
@@ -709,10 +569,7 @@
                         "sniper": 3,
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -721,20 +578,14 @@
                         "sniper": 1,
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "supporter": 100
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
@@ -742,10 +593,7 @@
                         "sniper": 100,
                         "caster": 100
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 }
             ],
@@ -758,10 +606,7 @@
                     "type": "Deploy",
                     "kills": 25,
                     "name": "战备激活阀",
-                    "location": [
-                        2,
-                        6
-                    ],
+                    "location": [2, 6],
                     "direction": "Right"
                 }
             ],

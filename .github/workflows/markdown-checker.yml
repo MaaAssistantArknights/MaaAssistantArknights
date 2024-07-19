@@ -1,4 +1,4 @@
-name: Lint Markdown files
+name: Check Markdown files
 
 on:
   push:
@@ -20,23 +20,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    name: Lint Markdown
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-
-      - name: Lint Markdown
-        uses: DavidAnson/markdownlint-cli2-action@v16
-        with:
-          config: docs/.markdownlint.yaml
-          globs: |
-            README.md
-            docs/**/*.md
-
   check-links:
     name: Check Dead Links
     runs-on: ubuntu-latest
