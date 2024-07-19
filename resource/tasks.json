@@ -9643,7 +9643,6 @@
         "roi": [559, 608, 157, 112],
         "templThreshold": 0.95,
         "action": "ClickSelf",
-        "postDelay": 1500,
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
@@ -9669,7 +9668,6 @@
         "roi": [561, 607, 153, 113],
         "templThreshold": 0.95,
         "action": "ClickSelf",
-        "postDelay": 1500,
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
