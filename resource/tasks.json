@@ -17082,8 +17082,27 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
             "Sarkaz@Roguelike@DecreaseBurdenUse",
+            "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation",
+            "Sarkaz@Roguelike@DecreaseBurdenCheckChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenCheckClear",
+            "Sarkaz@Roguelike@DecreaseBurdenUseButDuplicate",
+            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+        ]
+    },
+    "Sarkaz@Roguelike@DecreaseBurdenUseButDuplicate": {
+        "roi": [
+            771,
+            424,
+            143,
+            141
+        ],
+        "templThreshold": 0.9,
+        "action": "ClickSelf",
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenCheckRetardation",
+            "Sarkaz@Roguelike@DecreaseBurdenCheckChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenCheckClear",
             "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
         ]
     },
