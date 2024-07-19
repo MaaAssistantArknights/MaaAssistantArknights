@@ -186,7 +186,7 @@ jobs:
       - name: Prettier
         run: |
           npm install --save-dev --save-exact prettier
-          prettier -w **.json
+          npx prettier -w **.json
 
       - name: Check if only sorted
         id: check_only_sorted
