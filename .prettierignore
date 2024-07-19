@@ -1,3 +1,7 @@
 resource/Arknights-Tile-Pos/
 website/
 **/node_modules/
+MaaDeps/
+3rdparty/
+src/maa-cli
+src/MaaMacGui
