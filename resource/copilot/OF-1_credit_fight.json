@@ -7,10 +7,7 @@
         {
             "type": "Deploy",
             "name": "先锋",
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "Right"
         },
         {

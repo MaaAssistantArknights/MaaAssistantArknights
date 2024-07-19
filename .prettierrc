@@ -1,0 +1,16 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "bracketSameLine": true,
+    "bracketSpacing": true,
+    "endOfLine": "auto",
+    "overrides": [
+        {
+            "files": [".clang-format", "**/*.yml", "**/*.yaml"],
+            "options": {
+                "parser": "yaml",
+                "tabWidth": 2
+            }
+        }
+    ]
+}
