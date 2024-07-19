@@ -178,7 +178,7 @@ jobs:
         run: |
           ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
-      - name: Overseas Tasks Ordering
+      - name: Task Sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
 
@@ -203,7 +203,7 @@ jobs:
         run: |
           git status
 
-          $diff = $(git diff --numstat HEAD | findstr -i resource)
+          $diff = $(git diff --numstat HEAD2 2>$null | findstr -i resource)
           if ($LASTEXITCODE -ne 0) {
             echo "no diff"
             exit 0
