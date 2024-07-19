@@ -140,17 +140,6 @@ class Task:
             setattr(interpreted_task, field.python_field_name, interpreted_task_list)
         return interpreted_task
 
-    def show(self):
-        for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
-            if self.to_task_dict():
-                print(field.field_name)
-                if getattr(self, field.python_field_name) is not None:
-                    print(' -> '.join(['   |', *getattr(self, field.python_field_name)]))
-
-    def print(self):
-        for key, value in self.to_task_dict().items():
-            print(f"{key}: {value}")
-
     @staticmethod
     @trace
     def get(name, maybe_template=True) -> Task | None:

@@ -2,17 +2,22 @@ import cmd
 import json
 import os
 
-from .Task import Task, _ALL_TASKS, _ORIGINAL_TASKS
-from .TaskField import TaskFieldEnum, get_fields_with_algorithm
+from .Task import Task, _ALL_TASKS, _ORIGINAL_TASKS, InterpretedTask, _TASK_PIPELINE_INFO_FIELDS
+from .TaskField import TaskFieldEnum, get_fields_with_algorithm, get_fields
 from .TaskType import AlgorithmType, ActionType
+from .TemplateGUI import show_template
+from .TaskUtils import project_root_path
 
-project_root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, os.pardir))
-json_path = os.path.join(project_root_path, 'resource', 'tasks.json')
+json_path = project_root_path / 'resource' / 'tasks.json'
 
 
 # noinspection PyMethodMayBeStatic
 class TasksCommandTool(cmd.Cmd):
     prompt = 'tasks> '
+    use_template_gui = True
+
+    def disable_gui(self):
+        self.use_template_gui = False
 
     def get_task(self, arg):
         task = Task.get(arg)
@@ -41,11 +46,10 @@ class TasksCommandTool(cmd.Cmd):
 
     def do_find(self, arg):
         """Find a task by name."""
-        self.get_task(arg).print()
+        self.print_task(self.get_task(arg))
 
     def complete_find(self, text, line, begidx, endidx):
-        return ([name for name in _ALL_TASKS if name.startswith(text)]
-                + [name for name in _ORIGINAL_TASKS if name.startswith(text)])
+        return [name for name in _ORIGINAL_TASKS if name.startswith(text)]
 
     def choices(self, text, choices):
         for i, choice in enumerate(choices):
@@ -80,13 +84,27 @@ class TasksCommandTool(cmd.Cmd):
                 task_dict[field.field_name] = value
         print(task_dict)
 
+    def print_task(self, task: Task):
+        print(f"Task {task.name}:")
+        for key, value in task.to_task_dict().items():
+            print(f"{key}: {value}")
+        if self.use_template_gui and task.algorithm == AlgorithmType.MatchTemplate:
+            show_template(task.template)
+
     def do_exec(self, arg):
         """Execute a task by name."""
-        self.get_task(arg).interpret().print()
+        self.print_task(self.get_task(arg).interpret())
+
+    def show_task(self, task: InterpretedTask):
+        for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
+            if task.to_task_dict():
+                print(field.field_name)
+                if getattr(task, field.python_field_name) is not None:
+                    print(' -> '.join(['   |', *getattr(task, field.python_field_name)]))
 
     def do_show(self, arg):
         """Show all tasks."""
-        self.get_task(arg).interpret().show()
+        self.show_task(self.get_task(arg).interpret())
 
     def onecmd(self, line):
         try:
