@@ -197,7 +197,7 @@ jobs:
       - name: Run Prettier on modified Jsons
         shell: bash
         run: |
-          npx prettier -w $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '.json$' | xargs)
+          npx prettier -w $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '\.json$' | xargs)
 
       - name: Check if only sorted
         id: check_only_sorted
