@@ -63,10 +63,10 @@ labels:
     regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)others(?:`|)"
   - name: skip MuMu
     content:
-    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)MuMu(?:`|)"
+    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
   - name: remove MuMu
     content:
-    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)MuMu(?:`|)"
+    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
   - name: skip recruit
     content:
     regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)recruit(?:`|)"
@@ -294,7 +294,7 @@ labels:
   # `module: others`
   - name: others
     content: "module: others"
-    regexes: "(?:信用|拜访|登录|账号切换|远程控制|外部通知|更新日志|(?:干员|仓库|视频)识别|定时(?:执行|启动)|[Vv]isit|[Ll]ogin||[Cc]redit|[Aa]ccount [Ss]witch|[Rr]emote [Cc]ontrol|[Ee]xternal [Nn]otifications|[Ss]chedule|[Cc]hangelog)"
+    regexes: "(?:信用|拜访|登录|账号切换|更新日志|(?:干员|仓库|视频)识别|[Vv]isit|[Ll]ogin||[Cc]redit|[Aa]ccount [Ss]witch|[Cc]hangelog)"
     skip-if:
       - skip all
       - skip module
@@ -347,7 +347,7 @@ labels:
   # `WpfGui`
   - name: WpfGui
     content: "client: WpfGui"
-    regexes: '软件更新|自动下载|(?:自|自动)启动|图形化?界面|[Gg][Uu][Ii](?!\.)|[Aa]uto [Ss]tart'
+    regexes: '远程控制|外部通知|(?:自|自动|定时|软件)(?:下载|更新|启动|执行)|图形化?界面|[Gg][Uu][Ii](?!\.)|[Aa]uto [Ss]tart|[Rr]emote [Cc]ontrol|[Ee]xternal [Nn]otifications|[Ss]chedule'
     skip-if:
       - skip all
       - skip client
