@@ -9636,14 +9636,14 @@
         "specificRect": [430, 215, 0, 0],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenAbandon",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenAbandonThought"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenChaos": {
         "roi": [559, 608, 157, 112],
         "templThreshold": 0.95,
         "action": "ClickSelf",
+        "postDelay" :1500,
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
@@ -9669,6 +9669,7 @@
         "roi": [561, 607, 153, 113],
         "templThreshold": 0.95,
         "action": "ClickSelf",
+        "postDelay" :1500,
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
