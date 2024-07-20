@@ -49,6 +49,12 @@ labels:
   - name: remove infrast
     content:
     regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)infrast(?:`|)"
+  - name: skip core
+    content:
+    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)core(?:`|)"
+  - name: remove core
+    content:
+    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)core(?:`|)"
   - name: skip others
     content:
     regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)others(?:`|)"
@@ -73,6 +79,13 @@ labels:
   - name: remove reclamation
     content:
     regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)(?:[Mm]odule: |)reclamation(?:`|)"
+
+  - name: skip MuMu
+    content:
+    regexes: "[Ss]kip (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
+  - name: remove MuMu
+    content:
+    regexes: "[Rr]emove (?:[Ll]abels? |)(?:`|)[Mm]u[Mm]u [Aa][Pp][Ii](?:`|)"
 
   - name: skip client
     content:
@@ -158,7 +171,7 @@ labels:
   # `module: infrast`
   - name: infrast
     content: "module: infrast"
-    regexes: "基建|换班|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|送线索|排班表|[Ii]nfrast|[Dd]orm"
+    regexes: "基建|排班|换班|贸易站|制造站|发电站|加工站|会客室|训练室|办公室|控制中枢|宿舍|基地|送线索|[Ii]nfrast|[Dd]orm|[Cc]ustom [Bb]ase"
     skip-if:
       - skip all
       - skip module
@@ -266,10 +279,23 @@ labels:
       - remove module
       - remove depot
 
+  # `module: core`
+  - name: core
+    content: "module: core"
+    regexes: "(?:开始唤醒|触控模式|连接模拟器|[Ss]tartup|[Tt]ouch [Mm]ode|[Aa]uto [Dd]etect [Cc]onnection|MaaCore(?!.dll)|GPU(?:\\s*加速|(?: for [Ii]nference)? [Aa]cceleration)|显卡加速)"
+    skip-if:
+      - skip all
+      - skip module
+      - skip core
+    remove-if:
+      - remove all
+      - remove module
+      - remove core
+
   # `module: others`
   - name: others
     content: "module: others"
-    regexes: "信用|拜访|登录|开始唤醒|连接模拟器|账号切换|远程控制|干员识别|[Vv]isit|[Ll]ogin|[Ss]tartup|MaaCore(?!.dll)"
+    regexes: "(?:信用|拜访|登录|账号切换|更新日志|(?:干员|仓库|视频)识别|[Vv]isit|[Ll]ogin||[Cc]redit|[Aa]ccount [Ss]witch|[Cc]hangelog)"
     skip-if:
       - skip all
       - skip module
@@ -293,6 +319,17 @@ labels:
       - remove module
       - remove recruit
 
+  # `MuMu API`
+  - name: MuMu API
+    content: "MuMu API"
+    regexes: "[Mm]u[Mu]u 截图增强|[Mm]u[Mu]u's screenshot enhancement"
+    skip-if:
+      - skip all
+      - skip MuMu
+    remove-if:
+      - remove all
+      - remove MuMu
+
   # `MacGui`
   - name: MacGui
     content: "client: MacGui"
@@ -309,7 +346,7 @@ labels:
   # `WpfGui`
   - name: WpfGui
     content: "client: WpfGui"
-    regexes: '软件更新|自动下载|图形化?界面|gui(?!\.)|GUI|Gui'
+    regexes: '远程控制|外部通知|(?:自|自动|定时|软件)(?:下载|更新|启动|执行|检测)|图形化?界面|[Gg][Uu][Ii](?!\.)|[Aa]uto [Ss]tart|[Rr]emote [Cc]ontrol|[Ee]xternal [Nn]otifications|[Ss]chedule'
     skip-if:
       - skip all
       - skip client
@@ -406,6 +443,7 @@ labels:
       - recruit
       - roguelike
       - reclamation
+      - MuMu API
 
   # `release`
   - name: release
