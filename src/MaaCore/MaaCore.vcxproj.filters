@@ -711,9 +711,6 @@
     <ClInclude Include="Utils\LibraryHolder.hpp">
       <Filter>Source\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="Utils\LogControl.hpp">
-      <Filter>Source\Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vision\VisionHelper.cpp">
@@ -968,9 +965,6 @@
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Sami\Roguelike\RoguelikeFoldartalStartTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
@@ -1190,8 +1184,8 @@
     <ClCompile Include="Controller\MumuExtras.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Utils\LogControl.cpp">
-      <Filter>Source\Utils</Filter>
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

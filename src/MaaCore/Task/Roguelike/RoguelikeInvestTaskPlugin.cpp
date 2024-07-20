@@ -12,9 +12,9 @@ bool asst::RoguelikeInvestTaskPlugin::verify(AsstMsg msg, const json::value& det
         return false;
     }
 
-    const auto task_name = details.get("details", "task", "");
+    const auto& task_name = details.get("details", "task", "");
     if (task_name.ends_with("Roguelike@StageTraderInvestConfirm")) {
-        return m_invest_count < m_config->get_invest_maximum();
+        return m_invest_count < m_invest_maximum;
     }
     else {
         return false;
@@ -30,7 +30,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     int count = 0;                                                                // 当次已投资的个数
     int retry = 0;                                                                // 重试次数
     auto deposit = ocr_current_count(image, "Roguelike@StageTraderInvest-Count"); // 当前的存款
-    int count_limit = m_config->get_invest_maximum() - m_invest_count;            // 可用投资次数
+    int count_limit = m_invest_maximum - m_invest_count; // 可用投资次数
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
     Log.info(__FUNCTION__, "开始投资, 存款", deposit.value_or(-1), ", 可投资次数", count_limit);
@@ -97,11 +97,11 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     m_invest_count = total;
 
     if (count_limit - count <= 0) {
-        Log.info(__FUNCTION__, "投资达到设置上限,", m_config->get_invest_maximum());
+        Log.info(__FUNCTION__, "投资达到设置上限,", m_invest_maximum);
         stop_roguelike();
         return true;
     }
-    if (deposit.value_or(0) == 999 && m_config->get_invest_stop_when_full()) {
+    if (deposit.value_or(0) == 999 && m_stop_when_full) {
         Log.info(__FUNCTION__, "存款已满");
         stop_roguelike();
         return true;

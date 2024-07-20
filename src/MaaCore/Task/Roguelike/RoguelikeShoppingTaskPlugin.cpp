@@ -35,10 +35,9 @@ bool asst::RoguelikeShoppingTaskPlugin::_run()
     LogTraceFunction;
 
     buy_once();
-
-    if (auto theme = m_config->get_theme(); 
-        (theme == RoguelikeTheme::Sami || theme == RoguelikeTheme::Sarkaz) 
-        && m_config->get_mode() == RoguelikeMode::Exp ) {
+    const auto& theme = m_config->get_theme();
+    if ((theme == RoguelikeTheme::Sami || theme == RoguelikeTheme::Sarkaz) 
+        && m_config->get_mode() == RoguelikeMode::Exp) {
         //点击刷新
         ProcessTask(*this, { theme + "@Roguelike@StageTraderRefresh" }).run();
         buy_once();
