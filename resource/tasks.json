@@ -9957,6 +9957,13 @@
     },
     "Sarkaz@Roguelike@StageBoskyPassageEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [137, 150, 40],
+                [138, 180, 180]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@StageBoskyPassageEnter",
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
@@ -10007,7 +10014,15 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
-    "Sarkaz@Roguelike@StageCombatDpsEnter": {},
+    "Sarkaz@Roguelike@StageCombatDpsEnter": {
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [130, 130, 40],
+                [131, 180, 180]
+            ]
+        ]
+    },
     "Sarkaz@Roguelike@StageConfrontation": {
         "Doc": "狭路相逢",
         "baseTask": "Sarkaz@Roguelike@Stage",
@@ -10255,6 +10270,13 @@
         ]
     },
     "Sarkaz@Roguelike@StageSafeHouseEnter": {
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [106, 100, 50],
+                [107, 160, 180]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@StageSafeHouseEnter",
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
