@@ -10093,8 +10093,16 @@
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "next": [
+            "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
     },
