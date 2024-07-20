@@ -80,7 +80,7 @@ void asst::DebugTask::test_match_template()
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
     Matcher match_analyzer(resized, Rect(0, 0, 1280, 720));
-    const auto& task_ptr = Task.get("Sarkaz@Roguelike@StageBoskyPassageEnter");
+    const auto& task_ptr = Task.get("Sarkaz@Roguelike@StageRefresh");
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
     match_analyzer.set_task_info(match_task_ptr);
     const auto& result_opt = match_analyzer.analyze();
