@@ -359,6 +359,38 @@ namespace asst
         }
         return "Invalid";
     }
+
+    enum class MatchMethod
+    {
+        Invalid = -1,
+        Ccoeff = 0,
+        CcoeffHSV,
+    };
+
+    inline MatchMethod get_match_method(std::string method_str)
+    {
+        utils::tolowers(method_str);
+        static const std::unordered_map<std::string, MatchMethod> method_map = {
+            { "ccoeff", MatchMethod::Ccoeff }, { "ccoeffhsv", MatchMethod::CcoeffHSV },
+        };
+        if (auto it = method_map.find(method_str); it != method_map.end()) {
+            return it->second;
+        }
+        return MatchMethod::Invalid;
+    }
+
+    inline std::string enum_to_string(MatchMethod method)
+    {
+        static const std::unordered_map<MatchMethod, std::string> method_map = {
+            { MatchMethod::Invalid, "Invalid" },
+            { MatchMethod::Ccoeff, "Ccoeff" },
+            { MatchMethod::CcoeffHSV, "CcoeffHSV" },
+        };
+        if (auto it = method_map.find(method); it != method_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
 } // namespace asst
 
 namespace asst
@@ -459,6 +491,7 @@ namespace asst
         std::vector<std::string> templ_names; // 匹配模板图片文件名
         std::vector<double> templ_thresholds; // 模板匹配阈值
         std::pair<int, int> mask_range;       // 掩码的二值化范围
+        std::vector<MatchMethod> methods;     // 匹配方法
     };
     using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
     using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;
