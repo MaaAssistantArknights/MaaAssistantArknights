@@ -295,7 +295,7 @@ labels:
   # `module: others`
   - name: others
     content: "module: others"
-    regexes: "(?:信用|拜访|登录|账号切换|更新日志|(?:干员|仓库|视频)识别|[Vv]isit|[Ll]ogin||[Cc]redit|[Aa]ccount [Ss]witch|[Cc]hangelog)"
+    regexes: "(?:信用|拜访|登录|账号切换|更新日志|(?:干员|仓库|视频)识别|[Vv]isit|[Ll]ogin|[Cc]redit|[Aa]ccount [Ss]witch|[Cc]hangelog)"
     skip-if:
       - skip all
       - skip module
@@ -321,7 +321,7 @@ labels:
 
   # `MuMu API`
   - name: MuMu API
-    regexes: "[Mm]u[Mu]u 截图增强|[Mm]u[Mu]u's screenshot enhancement"
+    regexes: "[Mm]u[Mm]u 截图增强|[Mm]u[Mm]u's screenshot enhancement"
     skip-if:
       - skip all
       - skip MuMu
