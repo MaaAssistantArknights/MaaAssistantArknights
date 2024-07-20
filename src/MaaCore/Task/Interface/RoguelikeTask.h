@@ -6,6 +6,7 @@ namespace asst
     class ProcessTask;
     class RoguelikeConfig;
     class RoguelikeInvestTaskPlugin;
+    class RoguelikeDebugTaskPlugin;
 
     class RoguelikeTask : public InterfaceTask
     {
@@ -21,7 +22,6 @@ namespace asst
         std::shared_ptr<ProcessTask> m_roguelike_task_ptr = nullptr;
         std::shared_ptr<RoguelikeConfig> m_roguelike_config_ptr = nullptr;
         std::shared_ptr<RoguelikeInvestTaskPlugin> m_invest_plugin_ptr = nullptr;
-
-        void register_roguelike_plugins(const json::value& params);
+        std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_plugin_ptr = nullptr;
     };
 }
