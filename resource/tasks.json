@@ -10017,9 +10017,54 @@
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
             "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthTryCombine1": {
+        "action": "ClickRect",
+        "roi": [777, 147, 12, 10],
+        "specificRect": [803, 186, 29, 23],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine2"]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthTryCombine2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [907, 188, 22, 20],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthCanCombine",
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine3"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthTryCombine3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [810, 330, 24, 13],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthCanCombine",
+            "Sarkaz@Roguelike@StageFilterTruthCannotCombine",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCanCombine": {
+        "action": "ClickSelf",
+        "roi": [750, 525, 188, 129],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthConfirm"]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthConfirm": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [346, 560, 684, 66],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
+            "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
+        "action": "DoNothing",
+        "roi": [750, 525, 188, 129],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
     },
     "Sarkaz@Roguelike@StageFilterTruthHD": {
         "Doc": "已深化",
