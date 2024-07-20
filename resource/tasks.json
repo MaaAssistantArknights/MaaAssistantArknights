@@ -13305,6 +13305,7 @@
         ]
     },
     "Roguelike@StageTraderInvest-Arrow": {
+        "templThreshold": 0.75,
         "doc": "商店投资界面的箭头，99 >> 100",
         "roi": [
             750,
