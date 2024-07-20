@@ -51,7 +51,13 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
     std::vector<Matcher::RawResult> results;
     for (size_t i = 0; i != params.templs.size(); ++i) {
         const auto& ptempl = params.templs[i];
-        const auto& method = params.methods[i];
+        auto method = MatchMethod::Ccoeff;
+        if (params.methods.size() <= i) {
+            Log.warn("methods is empty, use default method: Ccoeff");
+        }
+        else {
+            method = params.methods[i];
+        }
 
         if (method == MatchMethod::Invalid) {
             Log.error(__FUNCTION__, "| invalid method");
