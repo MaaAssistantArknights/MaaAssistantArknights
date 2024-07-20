@@ -3584,10 +3584,9 @@
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [14, -209, 40, 22]
     },
-    "InfrastOperFaceHash": {
-        "algorithm": "Hash",
-        "hash": [],
-        "threshold": 40,
+    "InfrastOperFace": {
+        "algorithm": "JustReturn",
+        "specialParams": [40],
         "rectMove_Doc": "基于笑脸的位置移动",
         "rectMove": [0, -185, 113, 90]
     },
