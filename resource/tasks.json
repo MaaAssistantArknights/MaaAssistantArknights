@@ -9910,6 +9910,7 @@
     },
     "Sarkaz@Roguelike@StageBoskyPassage": {
         "Doc": "诡谲断章",
+        "method":"CcoeffHSV",
         "templThreshold": 0.95,
         "baseTask": "Sarkaz@Roguelike@Stage",
         "next": [
@@ -10150,7 +10151,8 @@
     "Sarkaz@Roguelike@StageWindAndRain": {
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.97,
+        "method":"CcoeffHSV",
+        "templThreshold": 0.95,
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next"
