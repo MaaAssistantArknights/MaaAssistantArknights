@@ -10269,13 +10269,23 @@
         "postDelay": 700,
         "roi": [767, 409, 469, 155],
         "next": [
-            "Sarkaz@Roguelike@StageTraderEnter",
-            "Sarkaz@Roguelike@StageSafeHouseEnter",
-            "Sarkaz@Roguelike@StageEncounterEnter",
-            "Sarkaz@Roguelike@StageRefresh",
-            "Sarkaz@Roguelike@StageCombatDpsEnter",
-            "Sarkaz@Roguelike@StageEmergencyDpsEnter"
+            "Sarkaz@Roguelike@StageRefreshNoThought",
+            "Sarkaz@Roguelike@StageRefreshClickLeft"
         ]
+    },
+    "Sarkaz@Roguelike@StageRefreshClickLeft": {
+        "action": "ClickRect",
+        "template": "Sarkaz@Roguelike@StageTraderEnter.png",
+        "roi": [1035, 370, 226, 300],
+        "specificRect": [153, 79, 63, 29],
+        "next": ["Sarkaz@Roguelike@Stages#next"]
+    },
+    "Sarkaz@Roguelike@StageRefreshNoThought": {
+        "action": "ClickRect",
+        "templThreshold": 0.9,
+        "roi": [902, 24, 327, 179],
+        "specificRect": [1100, 558, 111, 50],
+        "next": ["Sarkaz@Roguelike@QuickFormation"]
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
