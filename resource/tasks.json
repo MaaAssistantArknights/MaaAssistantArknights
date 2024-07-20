@@ -6958,6 +6958,7 @@
         ]
     },
     "Roguelike@StageTraderInvest-Arrow": {
+        "templThreshold": 0.75,
         "doc": "商店投资界面的箭头，99 >> 100",
         "roi": [750, 320, 100, 100]
     },
@@ -9910,6 +9911,7 @@
     },
     "Sarkaz@Roguelike@StageBoskyPassage": {
         "Doc": "诡谲断章",
+        "method": "CcoeffHSV",
         "templThreshold": 0.95,
         "baseTask": "Sarkaz@Roguelike@Stage",
         "next": [
@@ -9960,7 +9962,14 @@
         "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
     },
     "Sarkaz@Roguelike@StageCombatDps": {
-        "templThreshold": 0.975
+        "templThreshold": 0.975,
+        "postDelay": 600,
+        "next": [
+            "Sarkaz@Roguelike@StageRefresh",
+            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
     },
     "Sarkaz@Roguelike@StageCombatDpsEnter": {},
     "Sarkaz@Roguelike@StageConfrontation": {
@@ -9990,13 +9999,21 @@
     },
     "Sarkaz@Roguelike@StageDreadfulFoeEnter": {},
     "Sarkaz@Roguelike@StageEmergencyDps": {
-        "templThreshold": 0.95
+        "templThreshold": 0.95,
+        "postDelay": 600,
+        "next": [
+            "Sarkaz@Roguelike@StageRefresh",
+            "Sarkaz@Roguelike@StageCombatDpsEnter",
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
     },
     "Sarkaz@Roguelike@StageEmergencyDpsEnter": {},
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.97,
+        "method": "CcoeffHSV",
+        "templThreshold": 0.95,
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next"
@@ -10053,9 +10070,58 @@
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
             "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthTryCombine1": {
+        "action": "ClickRect",
+        "roi": [777, 147, 12, 10],
+        "specificRect": [803, 186, 29, 23],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine2"]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthTryCombine2": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [907, 188, 22, 20],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthCanCombine",
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine3"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthTryCombine3": {
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [810, 330, 24, 13],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthCanCombine",
+            "Sarkaz@Roguelike@StageFilterTruthCannotCombine",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCanCombine": {
+        "action": "ClickSelf",
+        "method": "CcoeffHSV",
+        "templThreshold": 0.95,
+        "roi": [750, 525, 188, 129],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthConfirm"]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthConfirm": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [346, 560, 684, 66],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
+            "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
+        "action": "DoNothing",
+        "method": "CcoeffHSV",
+        "templThreshold": 0.95,
+        "roi": [750, 525, 188, 129],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
     },
     "Sarkaz@Roguelike@StageFilterTruthHD": {
         "Doc": "已深化",
@@ -10096,6 +10162,37 @@
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next"
         ]
+    },
+    "Sarkaz@Roguelike@StageRefresh": {
+        "action": "ClickSelf",
+        "method": "CcoeffHSV",
+        "templThreshold": 0.9,
+        "postDelay": 500,
+        "roi": [790, 130, 60, 144],
+        "next": ["Sarkaz@Roguelike@StageRefreshConfirm"]
+    },
+    "Sarkaz@Roguelike@StageRefreshClickLeft": {
+        "action": "ClickRect",
+        "template": "Sarkaz@Roguelike@StageTraderEnter.png",
+        "roi": [1035, 370, 226, 300],
+        "specificRect": [153, 79, 63, 29],
+        "next": ["Sarkaz@Roguelike@Stages#next"]
+    },
+    "Sarkaz@Roguelike@StageRefreshConfirm": {
+        "action": "ClickSelf",
+        "postDelay": 700,
+        "roi": [767, 409, 469, 155],
+        "next": [
+            "Sarkaz@Roguelike@StageRefreshNoThought",
+            "Sarkaz@Roguelike@StageRefreshClickLeft"
+        ]
+    },
+    "Sarkaz@Roguelike@StageRefreshNoThought": {
+        "action": "ClickRect",
+        "templThreshold": 0.9,
+        "roi": [902, 24, 327, 179],
+        "specificRect": [1100, 558, 111, 50],
+        "next": ["Sarkaz@Roguelike@QuickFormation"]
     },
     "Sarkaz@Roguelike@StageSafeHouse": {
         "templThreshold": 0.95
@@ -10176,7 +10273,8 @@
     "Sarkaz@Roguelike@StageWindAndRain": {
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.97,
+        "method": "CcoeffHSV",
+        "templThreshold": 0.95,
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next"
@@ -10287,7 +10385,20 @@
         "roi": [1014, 481, 266, 219]
     },
     "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "text": ["_default"],
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["锻铁根须", "_default"],
+            ["灰铸迷城", "_default"],
+            ["或然歧域", "_default"],
+            ["虚实疆界", "_default"],
+            ["辉光天顶", "_default"],
+            ["诡谲断章", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "text": ["_aggressive", "_pragmatic", "_default"],
+        "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["熔魂之始", "_aggressive"],
             ["锻铁根须", "_aggressive"],

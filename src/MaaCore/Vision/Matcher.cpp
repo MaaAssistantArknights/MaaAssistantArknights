@@ -51,7 +51,13 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
     std::vector<Matcher::RawResult> results;
     for (size_t i = 0; i != params.templs.size(); ++i) {
         const auto& ptempl = params.templs[i];
-        const auto& method = params.methods[i];
+        auto method = MatchMethod::Ccoeff;
+        if (params.methods.size() <= i) {
+            Log.warn("methods is empty, use default method: Ccoeff");
+        }
+        else {
+            method = params.methods[i];
+        }
 
         if (method == MatchMethod::Invalid) {
             Log.error(__FUNCTION__, "| invalid method");
@@ -88,9 +94,12 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         cv::Mat matched;
-        if (method == MatchMethod::CcoeffHSV) {
-            cv::cvtColor(image, image, cv::COLOR_BGR2HSV);
-            cv::cvtColor(templ, templ, cv::COLOR_BGR2HSV);
+        cv::Mat hsv_image;
+        cv::Mat hsv_templ;
+        bool use_hsv = (method == MatchMethod::CcoeffHSV);
+        if (use_hsv) {
+            cv::cvtColor(image, hsv_image, cv::COLOR_BGR2HSV);
+            cv::cvtColor(templ, hsv_templ, cv::COLOR_BGR2HSV);
         }
         int match_algorithm = cv::TM_CCOEFF_NORMED;
         if (method == MatchMethod::Ccoeff || method == MatchMethod::CcoeffHSV) {
@@ -98,7 +107,11 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         if (params.mask_range.first == 0 && params.mask_range.second == 0) {
-            cv::matchTemplate(image, templ, matched, match_algorithm);
+            cv::matchTemplate(
+                use_hsv ? hsv_image : image,
+                use_hsv ? hsv_templ : templ,
+                matched,
+                match_algorithm);
         }
         else {
             cv::Mat mask;
@@ -108,7 +121,12 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
                 cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
                 cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
             }
-            cv::matchTemplate(image, templ, matched, match_algorithm, mask);
+            cv::matchTemplate(
+                use_hsv ? hsv_image : image,
+                use_hsv ? hsv_templ : templ,
+                matched,
+                match_algorithm,
+                mask);
         }
 
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
