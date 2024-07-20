@@ -90,6 +90,34 @@ icon: iconoir:developer
 Visual Studio 2022를 열면 관련된 git 작업을 명령 줄 도구 대신 vs 자체 "Git 변경사항"을 사용하여 수행할 수 있습니다.
 :::
 
+## MAA 파일의 포매팅 요구 사항
+
+MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관적으로 유지하기 위해 일련의 포매팅 도구를 사용합니다.
+
+제출하기 전에 포맷을 지정했거나 [Pre-commit Hooks를 사용하여 자동 포매팅을 활성화](#pre-commit-hooks를-사용하여-자동-포매팅을-활성화)를 했는지 확인하세요.
+
+현재 활성화된 포매팅 도구는 다음과 같습니다:
+
+| 파일 유형 | 포매팅 도구 |
+| --- | --- |
+| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| Json/Yaml | [Prettier](https://prettier.io/) |
+| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+
+### Pre-commit Hooks를 사용하여 자동 포매팅을 활성화
+
+1. Python 및 Node 환경이 컴퓨터에 설치되어 있는지 확인하세요.
+
+2. 프로젝트 루트 디렉터리에서 다음 명령을 실행하세요.
+
+    ```bash
+    pip install pre-commit
+    pre-commit install
+    ```
+
+이제, 매번 커밋할 때마다 포매팅 도구가 자동으로 실행되어 코드 형식이 규칙에 맞는지 확인합니다.
+
+
 ## Visual Studio에서 clang-format 사용 설정
 
 1. clang-format 17 또는 그 이상 버전을 설치합니다.
