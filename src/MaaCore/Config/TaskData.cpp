@@ -371,9 +371,6 @@ asst::TaskPtr asst::TaskData::generate_task_info(std::string_view name)
     case AlgorithmType::OcrDetect:
         task = generate_ocr_task_info(name, json, std::dynamic_pointer_cast<const OcrTaskInfo>(base));
         break;
-    case AlgorithmType::Hash:
-        task = generate_hash_task_info(name, json, std::dynamic_pointer_cast<const HashTaskInfo>(base));
-        break;
     case AlgorithmType::JustReturn:
         task = std::make_shared<TaskInfo>();
         break;
@@ -545,27 +542,6 @@ asst::TaskPtr asst::TaskData::generate_ocr_task_info(std::string_view name, cons
     return ocr_task_info_ptr;
 }
 
-asst::TaskPtr asst::TaskData::generate_hash_task_info(std::string_view name, const json::value& task_json,
-                                                      HashTaskConstPtr default_ptr)
-{
-    if (default_ptr == nullptr) {
-        default_ptr = default_hash_task_info_ptr;
-    }
-    auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
-    // hash 不允许为字符串，必须是字符串数组，不能用 utils::get_value_or
-    auto array_opt = task_json.find<json::array>("hash");
-    hash_task_info_ptr->hashes = array_opt ? to_string_list(array_opt.value()) : default_ptr->hashes;
-#ifdef ASST_DEBUG
-    if (!array_opt && default_ptr->hashes.empty()) {
-        Log.warn("Hash task", name, "has implicit empty hashes.");
-    }
-#endif
-    utils::get_and_check_value_or(name, task_json, "threshold", hash_task_info_ptr->dist_threshold, default_ptr->dist_threshold);
-    utils::get_and_check_value_or(name, task_json, "maskRange", hash_task_info_ptr->mask_range, default_ptr->mask_range);
-    utils::get_and_check_value_or(name, task_json, "bound", hash_task_info_ptr->bound, default_ptr->bound);
-    return hash_task_info_ptr;
-}
-
 asst::ResultOrError<asst::TaskData::RawCompileResult> asst::TaskData::compile_raw_tasklist(
     const TaskList& raw_tasks, std::string_view self_name, std::function<TaskDerivedConstPtr(std::string_view)> get_raw,
     bool allow_duplicate)
@@ -729,15 +705,6 @@ asst::OcrTaskConstPtr asst::TaskData::_default_ocr_task_info()
     return ocr_task_info_ptr;
 }
 
-asst::HashTaskConstPtr asst::TaskData::_default_hash_task_info()
-{
-    auto hash_task_info_ptr = std::make_shared<HashTaskInfo>();
-    hash_task_info_ptr->dist_threshold = 0;
-    hash_task_info_ptr->bound = true;
-
-    return hash_task_info_ptr;
-}
-
 asst::TaskConstPtr asst::TaskData::_default_task_info()
 {
     auto task_info_ptr = std::make_shared<TaskInfo>();
@@ -765,11 +732,11 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
     static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
         { AlgorithmType::Invalid,
           {
-              "action",      "algorithm",   "baseTask",      "cache",      "exceededNext",    "fullMatch",
-              "hash",        "isAscii",     "maskRange",     "maxTimes",   "method",          "next",
-              "ocrReplace",  "onErrorNext", "postDelay",     "preDelay",   "rectMove",        "reduceOtherTimes",
-              "replaceFull", "roi",         "specialParams", "sub",        "subErrorIgnored", "templThreshold",
-              "template",    "text",        "threshold",     "withoutDet",
+              "action",      "algorithm",     "baseTask", "cache",           "exceededNext",     "fullMatch",
+              "isAscii",     "maskRange",     "maxTimes", "method",          "next",             "ocrReplace", 
+              "onErrorNext", "postDelay",     "preDelay", "rectMove",        "reduceOtherTimes", "replaceFull",
+              "roi",         "specialParams", "sub",      "subErrorIgnored", "templThreshold",   "template",
+              "text",        "withoutDet",
           } },
         { AlgorithmType::MatchTemplate,
           {
@@ -790,13 +757,6 @@ bool asst::TaskData::syntax_check(std::string_view task_name, const json::value&
               "action",          "algorithm", "baseTask", "exceededNext",     "maxTimes",      "next",
               "onErrorNext",     "postDelay", "preDelay", "reduceOtherTimes", "specialParams", "sub",
               "subErrorIgnored",
-          } },
-        { AlgorithmType::Hash,
-          {
-              "action",    "algorithm",        "baseTask", "cache",         "exceededNext", "hash",
-              "maskRange", "maxTimes",         "next",     "onErrorNext",   "postDelay",    "preDelay",
-              "rectMove",  "reduceOtherTimes", "roi",      "specialParams", "sub",          "subErrorIgnored",
-              "threshold",
           } },
     };
     // clang-format on

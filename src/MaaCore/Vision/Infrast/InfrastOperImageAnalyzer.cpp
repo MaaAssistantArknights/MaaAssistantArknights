@@ -207,7 +207,7 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
+    const Rect hash_rect_move = Task.get("InfrastOperFace")->rect_move;
 
     Hasher hash_analyzer(m_image);
 
