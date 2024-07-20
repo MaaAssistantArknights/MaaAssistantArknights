@@ -9926,21 +9926,21 @@
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
         ]
     },
+    "Sarkaz@Roguelike@StageCanDeepen": {
+        "baseTask": "Sarkaz@Roguelike@StageCanReconstruct",
+        "Doc": "印象加深",
+        "next": ["Sarkaz@Roguelike@StageCanDeepenConfirm"]
+    },
+    "Sarkaz@Roguelike@StageCanDeepenConfirm": {
+        "action": "ClickSelf",
+        "roi": [786, 594, 120, 114],
+        "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
+    },
     "Sarkaz@Roguelike@StageCanReconstruct": {
         "Doc": "印象固化",
         "action": "ClickSelf",
         "roi": [1092, 106, 178, 152],
         "next": ["Sarkaz@Roguelike@StageCanReconstructConfirm"]
-    },
-    "Sarkaz@Roguelike@StageCanReconstructConfirm": {
-        "action": "ClickSelf",
-        "template": [
-            "Sarkaz@Roguelike@StageCanReconstructConfirmTrader.png",
-            "Sarkaz@Roguelike@StageCanReconstructConfirmFilterTruth.png",
-            "Sarkaz@Roguelike@StageCanReconstructConfirmSafeHouse.png"
-        ],
-        "roi": [786, 594, 120, 114],
-        "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
     },
     "Sarkaz@Roguelike@StageCanReconstructClose": {
         "action": "ClickSelf",
@@ -9951,13 +9951,13 @@
             "Sarkaz@Roguelike@StageSafeHouseEnter"
         ]
     },
-    "Sarkaz@Roguelike@StageCanDeepen": {
-        "baseTask": "Sarkaz@Roguelike@StageCanReconstruct",
-        "Doc": "印象加深",
-        "next": ["Sarkaz@Roguelike@StageCanDeepenConfirm"]
-    },
-    "Sarkaz@Roguelike@StageCanDeepenConfirm": {
+    "Sarkaz@Roguelike@StageCanReconstructConfirm": {
         "action": "ClickSelf",
+        "template": [
+            "Sarkaz@Roguelike@StageCanReconstructConfirmTrader.png",
+            "Sarkaz@Roguelike@StageCanReconstructConfirmFilterTruth.png",
+            "Sarkaz@Roguelike@StageCanReconstructConfirmSafeHouse.png"
+        ],
         "roi": [786, 594, 120, 114],
         "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
     },
