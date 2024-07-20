@@ -92,14 +92,19 @@ icon: material-symbols:task
 
         /* 以下字段仅当 algorithm 为 MatchTemplate 时有效 */
 
-        "template": "xxx.png",              // 可选项，要匹配的图片文件名
+        "template": "xxx.png",              // 可选项，要匹配的图片文件名，可以是字符串或字符串列表
                                             // 默认 "任务名.png"
 
-        "templThreshold": 0.8,              // 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了。
+        "templThreshold": 0.8,              // 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了，可以是数字或数字列表
                                             // 默认 0.8, 可根据日志查看实际得分是多少
 
         "maskRange": [ 1, 255 ],            // 可选项，灰度掩码范围。例如将图片不需要识别的部分涂成黑色（灰度值为 0）
                                             // 然后设置"maskRange"的范围为 [ 1, 255 ], 匹配的时候即刻忽略涂黑的部分
+
+        "method": "Ccoeff",                 // 可选项，模板匹配算法，可以是列表
+                                            // 不填写时默认为 Ccoeff
+                                            //      - Ccoeff:       对应 cv::TM_CCOEFF_NORMED
+                                            //      - CcoeffHSV:    转换为 HSV 颜色空间后再进行 CCOEFF
 
         /* 以下字段仅当 algorithm 为 OcrDetect 时有效 */
 
