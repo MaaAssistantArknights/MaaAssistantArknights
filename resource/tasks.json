@@ -10267,17 +10267,12 @@
         "postDelay": 700,
         "roi": [767, 409, 469, 155],
         "next": [
-            "Sarkaz@Roguelike@StageBoskyPassageEnter",
             "Sarkaz@Roguelike@StageTraderEnter",
-            "Sarkaz@Roguelike@StageSafeHouse",
-            "Sarkaz@Roguelike@StageBoonsEnter",
-            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@StageRefresh",
-            "Sarkaz@Roguelike@StageEmergencyDpsEnter",
             "Sarkaz@Roguelike@StageCombatDpsEnter",
-            "Sarkaz@Roguelike@StageDreadfulFoeEnter",
-            "Sarkaz@Roguelike@StageDreadfulFoe-5Enter"
+            "Sarkaz@Roguelike@StageEmergencyDpsEnter"
         ]
     },
     "Sarkaz@Roguelike@StartExplore": {

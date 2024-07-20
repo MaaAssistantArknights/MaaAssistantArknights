@@ -39,6 +39,8 @@ int main([[maybe_unused]] int argc, char** argv)
         return -1;
     }
 
+#undef SMOKE_TESTING
+
 #ifdef SMOKE_TESTING
     std::cout << "Ended early for smoke testing." << std::endl;
     return 0;

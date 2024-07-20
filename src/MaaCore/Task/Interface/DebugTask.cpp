@@ -17,7 +17,7 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) : Inte
 
 bool asst::DebugTask::run()
 {
-    test_drops();
+    test_match_template();
     return true;
 }
 
@@ -76,14 +76,13 @@ void asst::DebugTask::test_battle_image()
 
 void asst::DebugTask::test_match_template()
 {
-    cv::Mat image = asst::imread(utils::path("../../test/match_template/1.png"));
+    cv::Mat image = asst::imread(utils::path("../../test/1.png"));
     cv::Mat resized;
     cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
     Matcher match_analyzer(resized, Rect(0, 0, 1280, 720));
-    const auto& task_ptr = Task.get("Sami@Roguelike@StageEncounterOptionLeave");
+    const auto& task_ptr = Task.get("Sarkaz@Roguelike@StageBoskyPassageEnter");
     const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
     match_analyzer.set_task_info(match_task_ptr);
-    match_analyzer.analyze();
     const auto& result_opt = match_analyzer.analyze();
     if (result_opt) {
         const auto& result = result_opt.value().to_string();
