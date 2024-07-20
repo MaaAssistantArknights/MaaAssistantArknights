@@ -125,7 +125,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 #### Windows
 
-请参阅 [开始开发](./develop/development.md)。
+请参阅 [开发前须知](./develop/development.md)。
 
 #### Linux | macOS
 
