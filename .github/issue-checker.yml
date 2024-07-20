@@ -321,7 +321,6 @@ labels:
 
   # `MuMu API`
   - name: MuMu API
-    content: "MuMu API"
     regexes: "[Mm]u[Mu]u 截图增强|[Mm]u[Mu]u's screenshot enhancement"
     skip-if:
       - skip all
@@ -433,17 +432,18 @@ labels:
       - remove ambiguous
       - copilot1
       - copilot2
+      - core
       - depot
       - drop
       - fight
       - WpfGui
       - MacGui
+      - MuMu API
       - infrast
       - others
+      - reclamation
       - recruit
       - roguelike
-      - reclamation
-      - MuMu API
 
   # `release`
   - name: release
