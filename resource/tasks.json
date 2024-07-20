@@ -9924,6 +9924,41 @@
             "Sarkaz@Roguelike@StageEncounterJudgeClick"
         ]
     },
+    "Sarkaz@Roguelike@StageCanReconstruct": {
+        "Doc": "印象固化",
+        "action": "ClickSelf",
+        "roi": [1092, 106, 178, 152],
+        "next": ["Sarkaz@Roguelike@StageCanReconstructConfirm"]
+    },
+    "Sarkaz@Roguelike@StageCanReconstructConfirm": {
+        "action": "ClickSelf",
+        "template": [
+            "Sarkaz@Roguelike@StageCanReconstructConfirmTrader.png",
+            "Sarkaz@Roguelike@StageCanReconstructConfirmFilterTruth.png",
+            "Sarkaz@Roguelike@StageCanReconstructConfirmSafeHouse.png"
+        ],
+        "roi": [786, 594, 120, 114],
+        "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
+    },
+    "Sarkaz@Roguelike@StageCanReconstructClose": {
+        "action": "ClickSelf",
+        "roi": [1144, 0, 136, 152],
+        "next": [
+            "Sarkaz@Roguelike@StageTraderEnter",
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@StageSafeHouseEnter"
+        ]
+    },
+    "Sarkaz@Roguelike@StageCanDeepen": {
+        "baseTask": "Sarkaz@Roguelike@StageCanReconstruct",
+        "Doc": "印象加深",
+        "next": ["Sarkaz@Roguelike@StageCanDeepenConfirm"]
+    },
+    "Sarkaz@Roguelike@StageCanDeepenConfirm": {
+        "action": "ClickSelf",
+        "roi": [786, 594, 120, 114],
+        "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
+    },
     "Sarkaz@Roguelike@StageCombatDps": {
         "templThreshold": 0.975
     },
@@ -10009,6 +10044,8 @@
         "baseTask": "Sarkaz@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": [
+            "Sarkaz@Roguelike@StageCanReconstruct",
+            "Sarkaz@Roguelike@StageCanDeepen",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
             "Sarkaz@Roguelike@Stages#next"
         ]
@@ -10068,6 +10105,8 @@
         "templThreshold": 0.95,
         "baseTask": "Sarkaz@Roguelike@Stage",
         "next": [
+            "Sarkaz@Roguelike@StageCanReconstruct",
+            "Sarkaz@Roguelike@StageCanDeepen",
             "Sarkaz@Roguelike@StageSafeHouseEnter",
             "Sarkaz@Roguelike@Stages#next"
         ]
@@ -10104,6 +10143,8 @@
         "templThreshold": 0.95,
         "baseTask": "Sarkaz@Roguelike@Stage",
         "next": [
+            "Sarkaz@Roguelike@StageCanReconstruct",
+            "Sarkaz@Roguelike@StageCanDeepen",
             "Sarkaz@Roguelike@StageTraderEnter",
             "Sarkaz@Roguelike@Stages#next"
         ]
