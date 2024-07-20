@@ -10030,6 +10030,29 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
+    "Sarkaz@Roguelike@StageFilterTruthCanCombine": {
+        "action": "ClickSelf",
+        "method": "CcoeffHSV",
+        "templThreshold": 0.95,
+        "roi": [750, 525, 188, 129],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthConfirm"]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
+        "action": "DoNothing",
+        "method": "CcoeffHSV",
+        "templThreshold": 0.95,
+        "roi": [750, 525, 188, 129],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthConfirm": {
+        "action": "ClickSelf",
+        "postDelay": 500,
+        "roi": [346, 560, 684, 66],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
+            "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
+        ]
+    },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "next": [
@@ -10037,6 +10060,28 @@
             "Sarkaz@Roguelike@StageFilterTruthEnter",
             "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthHD": {
+        "Doc": "已深化",
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "templThreshold": 0.95,
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthEnter",
+            "Sarkaz@Roguelike@Stages#next"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthLeave": {
+        "action": "ClickSelf",
+        "roi": [1046, 443, 234, 204],
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm": {
+        "action": "ClickSelf",
+        "roi": [985, 447, 295, 203],
+        "next": ["Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageFilterTruthTryCombine1": {
         "action": "ClickRect",
@@ -10062,51 +10107,6 @@
             "Sarkaz@Roguelike@StageFilterTruthCannotCombine",
             "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthCanCombine": {
-        "action": "ClickSelf",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
-        "roi": [750, 525, 188, 129],
-        "next": ["Sarkaz@Roguelike@StageFilterTruthConfirm"]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthConfirm": {
-        "action": "ClickSelf",
-        "postDelay": 500,
-        "roi": [346, 560, 684, 66],
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
-            "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
-        ]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
-        "action": "DoNothing",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
-        "roi": [750, 525, 188, 129],
-        "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthHD": {
-        "Doc": "已深化",
-        "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.95,
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthEnter",
-            "Sarkaz@Roguelike@Stages#next"
-        ]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthLeave": {
-        "action": "ClickSelf",
-        "roi": [1046, 443, 234, 204],
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm",
-            "Sarkaz@Roguelike@StageFilterTruthLeave"
-        ]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm": {
-        "action": "ClickSelf",
-        "roi": [985, 447, 295, 203],
-        "next": ["Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageGambling": {
         "Doc": "兴致盎然",
