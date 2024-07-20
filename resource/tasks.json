@@ -9975,7 +9975,8 @@
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.97,
+        "method": "CcoeffHSV",
+        "templThreshold": 0.95,
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next"
@@ -10290,13 +10291,26 @@
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
     },
-    "Sarkaz@Roguelike@StrategyChange_mode0": {
+    "Sarkaz@Roguelike@StrategyChange_mode0_NOT_IN_USE": {
         "text": ["_aggressive", "_pragmatic", "_default"],
+        "baseTask": "Roguelike@StrategyChange_default",
         "ocrReplace": [
             ["熔魂之始", "_aggressive"],
             ["锻铁根须", "_aggressive"],
             ["灰铸迷城", "_pragmatic"],
             ["或然歧域", "_pragmatic"],
+            ["虚实疆界", "_default"],
+            ["辉光天顶", "_default"],
+            ["诡谲断章", "_SKIP_"]
+        ]
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode0": {
+        "text": ["_default"],
+        "ocrReplace": [
+            ["熔魂之始", "_default"],
+            ["锻铁根须", "_default"],
+            ["灰铸迷城", "_default"],
+            ["或然歧域", "_default"],
             ["虚实疆界", "_default"],
             ["辉光天顶", "_default"],
             ["诡谲断章", "_SKIP_"]
