@@ -5,9 +5,9 @@
 #include "Status.h"
 #include "Task/ProcessTask.h"
 
-// –––––––– 通用配置及插件 –––––––––––––––––––––––
-#include "Task/Roguelike/RoguelikeConfig.h"
+// ------------------ 通用配置及插件 ------------------
 #include "Task/Miscellaneous/ScreenshotTaskPlugin.h"
+#include "Task/Roguelike/RoguelikeConfig.h"
 #include "Task/Roguelike/RoguelikeBattleTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeCustomStartTaskPlugin.h"
@@ -24,7 +24,7 @@
 #include "Task/Roguelike/RoguelikeStageEncounterTaskPlugin.h"
 #include "Task/Roguelike/RoguelikeStrategyChangeTaskPlugin.h"
 
-// –––––––– 萨米主题专用配置及插件 –––––––––––––––––––
+// ------------------ 萨米主题专用配置及插件 ------------------
 #include "Task/Roguelike/Sami/RoguelikeFoldartalGainTaskPlugin.h"
 #include "Task/Roguelike/Sami/RoguelikeFoldartalStartTaskPlugin.h"
 #include "Task/Roguelike/Sami/RoguelikeFoldartalUseTaskPlugin.h"
@@ -42,6 +42,9 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     m_roguelike_task_ptr->set_ignore_error(true);
 
+    m_invest_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeInvestTaskPlugin>(
+        m_roguelike_config_ptr);
+
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
         m_subtasks.emplace_back(m_roguelike_task_ptr);
@@ -52,7 +55,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    // –––––––– 肉鸽主题设置 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // ------------------ 肉鸽主题设置 ------------------
     std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
     if (!RoguelikeConfig::is_valid_theme(theme)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
@@ -75,8 +78,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
     m_roguelike_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
 
-    m_roguelike_config_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
-    m_roguelike_config_ptr->set_invest_stop_when_full(params.get("stop_when_investment_full", false));
+    m_invest_plugin_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
+    m_invest_plugin_ptr->set_stop_when_full(params.get("stop_when_investment_full", false));
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
         Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
@@ -133,7 +136,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_task_ptr->set_times_limit("StageTraderRefreshWithDice",
                                           params.get("refresh_trader_with_dice", false) ? INT_MAX : 0);
 
-    // ======== 萨米主题专用参数 ==============================================================
+    // =========================== 萨米主题专用参数 ===========================
     
     if (theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板
@@ -177,7 +180,7 @@ void asst::RoguelikeTask::register_roguelike_plugins(const json::value& params) 
 
     LogTraceFunction;
 
-    // –––––––– 通用插件 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // ------------------ 通用插件 ------------------
     m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_roguelike_config_ptr);
@@ -194,10 +197,9 @@ void asst::RoguelikeTask::register_roguelike_plugins(const json::value& params) 
     }
 
     m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_roguelike_config_ptr)->set_retry_times(0);
-    m_roguelike_task_ptr->register_plugin<RoguelikeInvestTaskPlugin>(m_roguelike_config_ptr);
+    
 
-    std::shared_ptr<RoguelikeCustomStartTaskPlugin> custom_start_plugin_ptr =
-        m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_roguelike_config_ptr);
+    const auto& custom_start_plugin_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_roguelike_config_ptr);
     custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", "")); // 开局分队
     custom_start_plugin_ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", "")); // 开局职业组
     custom_start_plugin_ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
@@ -226,7 +228,7 @@ void asst::RoguelikeTask::register_roguelike_plugins(const json::value& params) 
     m_roguelike_task_ptr->register_plugin<RoguelikeDifficultySelectionTaskPlugin>(m_roguelike_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeStrategyChangeTaskPlugin>(m_roguelike_config_ptr);
 
-    // –––––––– 萨米主题专用插件 ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+    // ------------------ 萨米主题专用插件 ------------------
 
     if (m_roguelike_config_ptr->get_theme() == RoguelikeTheme::Sami) {
         m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_roguelike_config_ptr);
