@@ -9840,6 +9840,8 @@
     "Sarkaz@Roguelike@GetDropSelectReward": {},
     "Sarkaz@Roguelike@GetDrops": {
         "next": [
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@GetDrop1",
             "Sarkaz@Roguelike@GetDrop2",
             "Sarkaz@Roguelike@GetDrop3",
