@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: gha
+      include: scope
+    assignees:
+      - constrat
+    groups:
+      gha:
+        patterns:
+          - "*"
