@@ -15,16 +15,15 @@ icon: material-symbols:task
 
 ```json
 {
-    "TaskName" : {                          // 任务名
+    "TaskName" : {                          // 任务名，带 @ 时可能为特殊任务，字段默认值会有不同，详见下方特殊任务类型
 
-        "baseTask": "xxx",                  // 以xxx任务为模板生成任务，详细见下方特殊任务类型中的Base Task
+        "baseTask": "xxx",                  // 以 xxx 任务为模板生成任务，详细见下方特殊任务类型中的 Base Task
 
         "algorithm": "MatchTemplate",       // 可选项，表示识别算法的类型
                                             // 不填写时默认为 MatchTemplate
                                             //      - JustReturn:       不进行识别，直接执行 action
                                             //      - MatchTemplate:    匹配图片
                                             //      - OcrDetect:        文字识别
-                                            //      - Hash:             哈希计算
 
         "action": "ClickSelf",              // 可选项，表示识别到后的动作
                                             // 不填写时默认为 DoNothing
@@ -36,7 +35,7 @@ icon: material-symbols:task
                                             //      - Swipe:            滑动，对应 specificRect 与 rectMove 字段
 
         "sub": [ "SubTaskName1", "SubTaskName2" ],
-                                            // 可选项，子任务。会在执行完当前任务后，依次执行每一个子任务
+                                            // 可选项，子任务，不推荐使用。会在执行完当前任务后，依次执行每一个子任务
                                             // 可以套娃，子任务再套子任务。但要注意不要写出了死循环
 
         "subErrorIgnored": true,            // 可选项，是否忽略子任务的错误。
@@ -69,7 +68,7 @@ icon: material-symbols:task
                                             // 以 1280 * 720 为基准自动缩放；不填写时默认 [ 0, 0, 1280, 720 ]
                                             // 尽量填写，减小识别范围可以减少性能消耗，加快识别速度
 
-        "cache": false,                      // 可选项，表示该任务是否使用缓存，默认为 false;
+        "cache": false,                     // 可选项，表示该任务是否使用缓存，默认为 false;
                                             // 第一次识别到后，以后永远只在第一次识别到的位置进行识别，开启可大幅节省性能
                                             // 但仅适用于待识别目标位置完全不会变的任务，若待识别目标位置会变请设为 false
 
@@ -125,9 +124,6 @@ icon: material-symbols:task
         "withoutDet": false                 // 可选项，是否不使用检测模型
                                             // 不填写默认 false
 
-        /* 以下字段仅当 algorithm 为 Hash 时有效 */
-        // 算法不成熟，仅部分特例情况中用到了，暂不推荐使用
-        // Todo
     }
 }
 ```
