@@ -10192,7 +10192,10 @@
         "templThreshold": 0.9,
         "postDelay": 500,
         "roi": [790, 130, 60, 144],
-        "next": ["Sarkaz@Roguelike@StageRefreshConfirm"]
+        "next": [
+            "Sarkaz@Roguelike@StageRefreshConfirm",
+            "Sarkaz@Roguelike@StageRefreshUpperLimit"
+        ]
     },
     "Sarkaz@Roguelike@StageRefreshClickLeft": {
         "action": "ClickRect",
@@ -10214,6 +10217,13 @@
         "action": "ClickRect",
         "templThreshold": 0.9,
         "roi": [902, 24, 327, 179],
+        "specificRect": [1100, 558, 111, 50],
+        "next": ["Sarkaz@Roguelike@QuickFormation"]
+    },
+    "Sarkaz@Roguelike@StageRefreshUpperLimit": {
+        "action": "ClickRect",
+        "templThreshold": 0.9,
+        "roi": [901, 24, 379, 186],
         "specificRect": [1100, 558, 111, 50],
         "next": ["Sarkaz@Roguelike@QuickFormation"]
     },
