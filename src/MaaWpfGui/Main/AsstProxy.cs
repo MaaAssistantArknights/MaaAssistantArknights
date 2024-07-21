@@ -2356,6 +2356,8 @@ namespace MaaWpfGui.Main
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
 
+            taskParams["stop_at_final_boss"] = mode == 0 && stopAtFinalBoss;
+
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;
             return id != 0;
