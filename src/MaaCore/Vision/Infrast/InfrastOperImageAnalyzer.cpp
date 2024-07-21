@@ -230,6 +230,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 
     skill_analyzer.set_mask_range(task_ptr->mask_range.first, task_ptr->mask_range.second);
     skill_analyzer.set_threshold(task_ptr->templ_thresholds.front());
+    skill_analyzer.set_method(task_ptr->methods.front());
 
     for (auto&& oper : m_result) {
         Rect roi = task_ptr->rect_move;

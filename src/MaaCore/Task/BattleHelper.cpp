@@ -152,6 +152,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
 
     for (auto& oper : cur_opers) {
         BestMatcher avatar_analyzer(oper.avatar);
+        avatar_analyzer.set_method(MatchMethod::Ccoeff);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const auto cooling_threshold =

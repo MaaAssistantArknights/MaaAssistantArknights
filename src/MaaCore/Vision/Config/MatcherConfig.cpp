@@ -46,9 +46,9 @@ void MatcherConfig::set_mask_range(int lower, int upper, bool mask_with_src, boo
     m_params.mask_with_close = mask_with_close;
 }
 
-void MatcherConfig::set_method(std::vector<MatchMethod> methods) noexcept
+void MatcherConfig::set_method(MatchMethod method) noexcept
 {
-    m_params.methods = std::move(methods);
+    m_params.methods = { method };
 }
 
 void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
