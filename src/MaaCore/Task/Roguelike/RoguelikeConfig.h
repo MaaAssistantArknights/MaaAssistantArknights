@@ -109,8 +109,6 @@ namespace asst
         bool get_check_clp_pds() const { return m_check_clp_pds; }
         void set_double_check_clp_pds(bool value) { m_double_check_clp_pds = value; }
         bool get_double_check_clp_pds() const { return m_double_check_clp_pds; }
-        void set_expected_clp_pds(std::unordered_set<std::string> value) { m_expected_clp_pds = value; }
-        std::unordered_set<std::string> get_expected_clp_pds() const { return m_expected_clp_pds; }
 
     private:
         // ------------------ 密文板 ------------------
@@ -123,8 +121,6 @@ namespace asst
         // ------------------ 坍缩范式 ------------------
         bool m_check_clp_pds = false;                       // 是否检查坍缩范式
         bool m_double_check_clp_pds = false;                // 是否反复检查坍缩范式
-        std::unordered_set<std::string> m_expected_clp_pds; // 期望获得坍缩范式
-
 
     /* 以下为局内数据，每次重置 */
     public:
