@@ -5807,9 +5807,7 @@
         "algorithm": "OcrDetect",
         "text": [],
         "roi": [0, 383, 1280, 142],
-        "ocrReplace": [
-            ["蓝图测绘分.*", "蓝图测绘分队"]
-        ]
+        "ocrReplace": [["蓝图测绘分.*", "蓝图测绘分队"]]
     },
     "RoguelikeFoldartalSlowlySwipeToTheUp": {
         "baseTask": "SlowlySwipeToTheUp",
