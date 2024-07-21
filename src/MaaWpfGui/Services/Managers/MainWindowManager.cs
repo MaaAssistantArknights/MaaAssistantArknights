@@ -47,6 +47,9 @@ namespace MaaWpfGui.Services.Managers
 
             bool minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
             SetMinimizeToTaskBar(minimizeToTray);
+
+            bool useTrayIcon = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
+            SetUseTrayIcon(useTrayIcon);
         }
 
         /// <inheritdoc/>
@@ -127,6 +130,8 @@ namespace MaaWpfGui.Services.Managers
                 MainWindow.ShowInTaskbar = false;
                 MainWindow.Visibility = Visibility.Hidden;
             }
+
+            ((RootView)MainWindow).NotifyIcon.useTrayMenu.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public Window GetWindowIfVisible()
