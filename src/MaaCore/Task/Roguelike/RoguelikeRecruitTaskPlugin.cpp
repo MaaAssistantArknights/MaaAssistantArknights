@@ -60,6 +60,12 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     int recruit_count = m_config->get_recruitment_count() + 1;
     m_config->set_recruitment_count(recruit_count);
 
+    if (m_config->get_mode() == RoguelikeMode::Investment && recruit_count > 1) {
+        // 如果是投资模式，直接招募第一个干员
+        lazy_recruit();
+        return true;
+    }
+
     // 是否有开局干员，阵容中必须有开局干员，没有前仅招募start干员或预备干员
     bool start_complete = m_config->get_recruitment_starts_complete();
     // 是否阵容完备，阵容完备前，仅招募key干员或预备干员
@@ -419,7 +425,15 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     return recruit_appointed_char(char_name, is_rtl);
 }
 
-bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string& char_name, bool is_rtl)
+bool asst::RoguelikeRecruitTaskPlugin::lazy_recruit()
+{
+    LogTraceFunction;
+
+    ProcessTask(*this, { "RoguelikeRecruitLazyClick1" }).run();
+    return true;
+}
+
+    bool asst::RoguelikeRecruitTaskPlugin::recruit_appointed_char(const std::string& char_name, bool is_rtl)
 {
     LogTraceFunction;
     // 最大滑动次数
