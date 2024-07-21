@@ -5878,11 +5878,6 @@
     "RoguelikeRecruitElite2": {
         "baseTask": "RoguelikeRecruitElite"
     },
-    "RoguelikeRecruitLevel": {
-        "template": "empty.png",
-        "rectMove_Doc": "肉鸽招募时检测等级用，相对flag的位移",
-        "rectMove": [-171, 0, 15, 11]
-    },
     "RoguelikeRecruitLazyClick1": {
         "Doc": "招募第一个干员时，快速由下往上依次点击，防止第一个干员无法招募",
         "algorithm": "JustReturn",
@@ -5905,6 +5900,11 @@
         "baseTask": "RoguelikeRecruitLazyClick1",
         "specificRect": [525, 123, 16, 25],
         "next": []
+    },
+    "RoguelikeRecruitLevel": {
+        "template": "empty.png",
+        "rectMove_Doc": "肉鸽招募时检测等级用，相对flag的位移",
+        "rectMove": [-171, 0, 15, 11]
     },
     "RoguelikeRecruitOcr": {
         "algorithm": "OcrDetect",
