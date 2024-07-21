@@ -171,6 +171,7 @@ namespace asst
     {
         None = 0,
         EncounterClickOption     = 1, // -> CollapsalParadigm
+        ShoppingConsiderGoods    = 2, // -> CollapsalParadigm
         SamiFoldartalDeclaration = 3  // -> CollapsalParadigm
     };
 } // namespace asst

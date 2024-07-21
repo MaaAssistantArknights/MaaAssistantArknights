@@ -118,7 +118,6 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         m_config->get_theme() == RoguelikeTheme::Sami
             ? Task.get<OcrTaskInfo>("Sami@Roguelike@FoldartalGainOcr")->text
             : std::vector<std::string>();
-    const RoguelikeMode& mode = m_config->get_mode();
     for (const auto& goods : all_goods) {
         if (need_exit()) {
             return false;
@@ -126,7 +125,10 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         if (no_longer_buy && !goods.ignore_no_longer_buy) {
             continue;
         }
-        if (mode == RoguelikeMode::CLP_PDS && goods.decrease_collapse) {
+        std::optional<json::value> opt = notify_sibling_plugins(
+            RoguelikeEvent::ShoppingConsiderGoods,
+            json::object { { "decrease_collapse", goods.decrease_collapse } });
+        if (opt && opt.value().get("reject_goods", false)) {
             continue;
         }
 

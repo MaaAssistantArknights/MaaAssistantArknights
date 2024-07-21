@@ -432,6 +432,13 @@ std::optional<json::value> asst::RoguelikeCollapsalParadigmTaskPlugin::response_
         case RoguelikeEvent::EncounterClickOption:
             check_collapsal_paradigm_banner();
             break;
+        case RoguelikeEvent::ShoppingConsiderGoods:
+            if (m_config->get_theme() == RoguelikeTheme::Sami &&
+                m_config->get_mode() == RoguelikeMode::CLP_PDS &&
+                detail.get("decrease_collapse", false)) {
+                return json::object { {"reject_goods", true} };
+            }
+            break;
         case RoguelikeEvent::SamiFoldartalDeclaration:
             check_collapsal_paradigm_banner();
             break;
