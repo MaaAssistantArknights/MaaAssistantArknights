@@ -107,8 +107,6 @@ namespace asst
         // ------------------ 坍缩范式 ------------------
         void set_check_clp_pds(bool value) { m_check_clp_pds = value; }
         bool get_check_clp_pds() const { return m_check_clp_pds; }
-        void set_double_check_clp_pds(bool value) { m_double_check_clp_pds = value; }
-        bool get_double_check_clp_pds() const { return m_double_check_clp_pds; }
 
     private:
         // ------------------ 密文板 ------------------
@@ -119,8 +117,8 @@ namespace asst
         bool m_use_foldartal = true;                     // 是否使用密文板
 
         // ------------------ 坍缩范式 ------------------
-        bool m_check_clp_pds = false;                       // 是否检查坍缩范式
-        bool m_double_check_clp_pds = false;                // 是否反复检查坍缩范式
+        bool m_check_clp_pds = false; // 是否检查坍缩范式
+
 
     /* 以下为局内数据，每次重置 */
     public:

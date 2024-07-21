@@ -8,6 +8,7 @@ namespace asst
     class RoguelikeInvestTaskPlugin;
     class RoguelikeDebugTaskPlugin;
     class RoguelikeCustomStartTaskPlugin;
+    class RoguelikeCollapsalParadigmTaskPlugin;
 
     class RoguelikeTask : public InterfaceTask
     {
@@ -25,6 +26,6 @@ namespace asst
         std::shared_ptr<RoguelikeInvestTaskPlugin> m_invest_ptr = nullptr;
         std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_ptr = nullptr;
         std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_ptr = nullptr;
-
+        std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_cp_ptr = nullptr;
     };
 }

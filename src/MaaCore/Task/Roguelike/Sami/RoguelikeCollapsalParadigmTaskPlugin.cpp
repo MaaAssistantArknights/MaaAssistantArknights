@@ -83,7 +83,8 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(
         }
     }
     
-    if (!m_config->get_need_check_panel() && m_config->get_double_check_clp_pds() && msg == AsstMsg::SubTaskCompleted
+    if (msg == AsstMsg::SubTaskCompleted && !m_config->get_need_check_panel()
+        && m_config->get_double_check_clp_pds()
         && m_panel_triggers.find(task_name) == m_panel_triggers.end()) {
         m_config->set_need_check_panel(true);
         m_verification_check = true;

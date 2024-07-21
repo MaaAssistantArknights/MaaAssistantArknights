@@ -80,7 +80,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr);
+    m_cp_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(
+        m_config_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
@@ -220,7 +221,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
         m_config_ptr->set_check_clp_pds(
             params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-        m_config_ptr->set_double_check_clp_pds(
+        m_cp_ptr->set_double_check_clp_pds(
             params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
 
     }
