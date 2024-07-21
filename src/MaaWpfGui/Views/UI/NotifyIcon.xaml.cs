@@ -14,6 +14,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
@@ -39,6 +40,7 @@ namespace MaaWpfGui.Views.UI
         private void InitIcon()
         {
             notifyIcon.Icon = AppIcon.GetIcon();
+            notifyIcon.Visibility = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString)) ? Visibility.Visible : Visibility.Collapsed;
 
             notifyIcon.Click += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
@@ -46,6 +48,7 @@ namespace MaaWpfGui.Views.UI
             startMenu.Click += StartTask;
             stopMenu.Click += StopTask;
             forceShowMenu.Click += ForceShow;
+            useTrayMenu.Click += UseTray;
             exitMenu.Click += App_exit;
 
             foreach (var lang in LocalizationHelper.SupportedLanguages)
@@ -102,6 +105,12 @@ namespace MaaWpfGui.Views.UI
         {
             Instances.MainWindowManager?.ForceShow();
             _logger.Information("WindowManager force show.");
+        }
+
+        private void UseTray(object sender, RoutedEventArgs e)
+        {
+            Instances.SettingsViewModel.UseTray = !Instances.SettingsViewModel.UseTray;
+            _logger.Information("Use tray icon: {0}", Instances.SettingsViewModel.UseTray);
         }
 
         private void App_exit(object sender, RoutedEventArgs e)
