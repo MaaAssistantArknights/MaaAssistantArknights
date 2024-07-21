@@ -93,6 +93,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
                             Text="{Binding TimerModels.Timers[0].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -101,6 +102,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
                             Text="{Binding TimerModels.Timers[0].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -133,6 +135,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
                             Text="{Binding TimerModels.Timers[1].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -141,6 +144,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
                             Text="{Binding TimerModels.Timers[1].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -173,6 +177,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
                             Text="{Binding TimerModels.Timers[2].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -181,6 +186,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
                             Text="{Binding TimerModels.Timers[2].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -213,6 +219,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
                             Text="{Binding TimerModels.Timers[3].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -221,6 +228,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
                             Text="{Binding TimerModels.Timers[3].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -253,6 +261,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
                             Text="{Binding TimerModels.Timers[4].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -261,6 +270,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
                             Text="{Binding TimerModels.Timers[4].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -293,6 +303,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
                             Text="{Binding TimerModels.Timers[5].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -301,6 +312,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
                             Text="{Binding TimerModels.Timers[5].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -333,6 +345,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
                             Text="{Binding TimerModels.Timers[6].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -341,6 +354,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
                             Text="{Binding TimerModels.Timers[6].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -373,6 +387,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
                             Text="{Binding TimerModels.Timers[7].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
@@ -381,6 +396,7 @@
                             InputMethod.IsInputMethodEnabled="False"
                             IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
                             Text="{Binding TimerModels.Timers[7].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
