@@ -143,10 +143,9 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
         }
 
         OCRer::ResultsVec ocr_results1 = analyzer1.get_result();
-        std::sort(ocr_results1.begin(), ocr_results1.end(), m_compare);
-        
-        OCRer::ResultsVec ocr_results2 = analyzer2.get_result();
-        std::sort(ocr_results2.begin(), ocr_results2.end(), m_compare);
+        OCRer::ResultsVec ocr_results2 = analyzer2.get_result();        
+        sort_by_vertical_(ocr_results1); // 按照水平方向排序(从左到右
+        sort_by_vertical_(ocr_results2); // 按照水平方向排序(从左到右
         
         OCRer::ResultsVec::iterator result_it1 = ocr_results1.begin();
         OCRer::ResultsVec::iterator result_it2 = ocr_results2.begin();
@@ -264,7 +263,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
                 ocr_results = analyzer.get_result();
             }
         }
-        std::sort(ocr_results.begin(), ocr_results.end(), m_compare);
+        sort_by_vertical_(ocr_results); // 按照水平方向排序(从左到右
         
         std::transform(ocr_results.begin(), ocr_results.end(),
             std::back_inserter(cur_clp_pds),
