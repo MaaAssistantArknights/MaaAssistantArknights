@@ -2552,5 +2552,21 @@
     "web/src/assets/links/ark-nights.com": "320769fc569e33313357d187f7983b2c9ececab530dc3430770ef66cbb2bd1f9",
     "web/src/assets/links/penguin-stats": "5d9484856b03ab8d109405e8f00c8aff2c3d7fe5a97dc8b391d2d562a3de50aa",
     "web/src/assets/links/prts.plus": "e54ac616f462cc884b9c8491a46cd3718fa018d4ae9e00df0c2e99120ee35631",
-    "web/src/assets/links/yituliu.site": "310f7777d1c6efbe116671d1cbfd386dfa3cc40c90d74e2fb1a0aec20c47b502"
+    "web/src/assets/links/yituliu.site": "310f7777d1c6efbe116671d1cbfd386dfa3cc40c90d74e2fb1a0aec20c47b502",
+    "official/Sarkaz@Roguelike@StageCanDeepen": "133fd5b686c75528e8ef537c9a5491d8e249134449f9431a2c593854105c1394",
+    "official/Sarkaz@Roguelike@StageCanDeepenConfirm": "fed2f6e5026ac43806a77147caa955988ab54b62bb7c69964e88f1c41c3b9d1b",
+    "official/Sarkaz@Roguelike@StageCanReconstruct": "1bffa7de0bf5f5477ce6c33ffe92ce6922456ed4bf37f98b5f97b271ec2e1afa",
+    "official/Sarkaz@Roguelike@StageCanReconstructClose": "586115dc263879e55c63e3de24e0c0162d49bb87bbfd5223a05a4cace3fe1593",
+    "official/Sarkaz@Roguelike@StageCanReconstructConfirmFilterTruth": "9c8e4c2240332eaa7992516a7cd7fd43e9933b168c405fb4d827876fac1c7e14",
+    "official/Sarkaz@Roguelike@StageCanReconstructConfirmSafeHouse": "ab1bd70aa17bbc89f330e09e2e52a0bf96f5c9ec0d83d26fabb378d544a8b8b1",
+    "official/Sarkaz@Roguelike@StageCanReconstructConfirmTrader": "cdd5d7ef58d1b656ea3b1ffe8e2b06642ea053a1a0473bce8373ecf7b1e7e768",
+    "official/Sarkaz@Roguelike@StageFilterTruthCancelCombine": "77242fcc79d5d65ba84d02da5096205c478ec3ac0ab10ed93f1efea4903a8ffb",
+    "official/Sarkaz@Roguelike@StageFilterTruthCanCombine": "d6650de64f3eb91027b2d3defeb3dff66add8857100c0332bcefd201e08a92de",
+    "official/Sarkaz@Roguelike@StageFilterTruthCannotCombine": "05cf5bd378477b4641c1faa70e64624635ac540515e82c47961de4adec12bf1f",
+    "official/Sarkaz@Roguelike@StageFilterTruthConfirm": "56644d90c47952452eb2c05f3eb354f00a87f020252a4ea7ddadfe422ba5cbb3",
+    "official/Sarkaz@Roguelike@StageFilterTruthTryCombine1": "dcfd5cb2a0c0dd615d296ad2e31253bcb04fb3bed54658f18b3c7d10563b338c",
+    "official/Sarkaz@Roguelike@StageRefresh": "332bb67afc54e63fcfafc4182e00b419de87b692d17d95de895c6e339cebdc07",
+    "official/Sarkaz@Roguelike@StageRefreshConfirm": "4a01239d427cbba5ec5b7f3df23c0af987f50620d3fda2143563e68c665e5133",
+    "official/Sarkaz@Roguelike@StageRefreshNoThought": "d63bc4ad27433c0cd12bf0c6a521694116f0b3806175b8b1c38ddb10d4cf336f",
+    "official/Sarkaz@Roguelike@StageRefreshUpperLimit": "c1fc9a8f2c6ccbced2266af63d21716f52778d5e483044e15542013646272eb1"
 }
