@@ -1,7 +1,12 @@
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <thread>
+
+#ifdef _WIN32
+#include <cstring>
+#else
+#include <cstdlib>
+#endif //  _WIN32
 
 #include <asio.hpp>
 
@@ -16,12 +21,27 @@ using adb::protocol::send_sync_request;
 
 namespace adb
 {
-    static inline const tcp_endpoints resolve_adb_server(asio::io_context& context) {
+    static inline const tcp_endpoints resolve_adb_server(asio::io_context& context)
+    {
+#ifdef _WIN32
+        char* port;
+        size_t len;
+        errno_t err = _dupenv_s(&port, &len, "ANDROID_ADB_SERVER_PORT");
+        if (err || len == 0) {
+            port = nullptr;
+        }
+#else
         const char* port = std::getenv("ANDROID_ADB_SERVER_PORT");
+#endif //  _WIN32
+
         tcp::resolver resolver(context);
 
         if (port) {
-            return resolver.resolve("127.0.0.1", port);
+            const auto endpoints = resolver.resolve("127.0.0.1", port);
+#ifdef _WIN32
+            free(port);
+#endif //  _WIN32
+            return endpoints;
         } else {
             return resolver.resolve("127.0.0.1", "5037");
         }
