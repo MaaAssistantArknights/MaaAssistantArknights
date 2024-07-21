@@ -76,6 +76,16 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
 bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
+    if (!m_plugin_gained) {
+        m_plugin_gained = true;
+        typedef RoguelikeCollapsalParadigmTaskPlugin Plugin;
+        for (const auto& plugin : m_task_ptr->get_plugins()) {
+            if (auto ptr = std::dynamic_pointer_cast<Plugin>(plugin)) {
+                m_clp_pd_plugin = ptr;
+                break;
+            }
+        }
+    }
 
     std::vector<RoguelikeFoldartalCombination> combination =
         RoguelikeFoldartal.get_combination(m_config->get_theme());

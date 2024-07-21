@@ -8,17 +8,7 @@ namespace asst
     class RoguelikeFoldartalUseTaskPlugin : public AbstractRoguelikeTaskPlugin
     {
     public:
-        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        RoguelikeFoldartalUseTaskPlugin(const AsstCallback& callback,
-                                             Assistant* inst,
-                                             std::string_view task_chain,
-                                             std::shared_ptr<RoguelikeConfig> config)
-                                             : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
-        {
-            if (RoguelikeCollapsalParadigmTaskPlugin::enabled(config)) {
-                m_clp_pd_plugin = std::make_shared<RoguelikeCollapsalParadigmTaskPlugin>(callback, inst, task_chain, config);
-            }
-        }
+        using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
         virtual ~RoguelikeFoldartalUseTaskPlugin() override = default;
 
     public:
@@ -54,6 +44,7 @@ namespace asst
         // 节点类型
         mutable std::string m_stage;
         
+        bool m_plugin_gained;
         std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_clp_pd_plugin;
     };
 }
