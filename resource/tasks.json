@@ -7872,7 +7872,17 @@
     "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
+        "baseTask": "Mizuki@Roguelike@StageDreadfulFoe-5_default"
+    },
+    "Mizuki@Roguelike@StageDreadfulFoe-5_stop": {
         "baseTask": "Mizuki@Roguelike@Stage",
+        "template": "Mizuki@Roguelike@StageDreadfulFoe-5.png",
+        "templThreshold": 0.85,
+        "next": ["RoguelikeControlTaskPlugin-Stop"]
+    },
+    "Mizuki@Roguelike@StageDreadfulFoe-5_default": {
+        "baseTask": "Mizuki@Roguelike@Stage",
+        "template": "Mizuki@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "next": [
             "Mizuki@Roguelike@StageDreadfulFoe-5Enter",
@@ -8715,7 +8725,17 @@
     "Sami@Roguelike@StageDreadfulFoe": {},
     "Sami@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
+        "baseTask": "Sami@Roguelike@StageDreadfulFoe-5_default"
+    },
+    "Sami@Roguelike@StageDreadfulFoe-5_stop": {
         "baseTask": "Sami@Roguelike@Stage",
+        "template": "Sami@Roguelike@StageDreadfulFoe-5.png",
+        "templThreshold": 0.85,
+        "next": ["RoguelikeControlTaskPlugin-Stop"]
+    },
+    "Sami@Roguelike@StageDreadfulFoe-5_default": {
+        "baseTask": "Sami@Roguelike@Stage",
+        "template": "Sami@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "next": [
             "Sami@Roguelike@StageDreadfulFoe-5Enter",
@@ -9950,7 +9970,17 @@
     "Sarkaz@Roguelike@StageDreadfulFoe": {},
     "Sarkaz@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
+        "baseTask": "Sarkaz@Roguelike@StageDreadfulFoe-5_default"
+    },
+    "Sarkaz@Roguelike@StageDreadfulFoe-5_stop": {
         "baseTask": "Sarkaz@Roguelike@Stage",
+        "template": "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
+        "templThreshold": 0.85,
+        "next": ["RoguelikeControlTaskPlugin-Stop"]
+    },
+    "Sarkaz@Roguelike@StageDreadfulFoe-5_default": {
+        "baseTask": "Sarkaz@Roguelike@Stage",
+        "template": "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "next": [
             "Sarkaz@Roguelike@StageDreadfulFoe-5Enter",
