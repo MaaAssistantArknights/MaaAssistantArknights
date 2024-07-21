@@ -19,5 +19,8 @@
     },
     "Mizuki@Roguelike@MissionFailedFlag": {
         "templThreshold": 0.75
+    },
+    "Sarkaz@Roguelike@StageRefresh": {
+        "templThreshold": 0.7
     }
 }
