@@ -25,6 +25,6 @@ namespace asst
     private:
         std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_clp_pd_plugin;
 
-        bool plugin_gained = false;
+        bool m_plugin_gained = false;
     };
 }

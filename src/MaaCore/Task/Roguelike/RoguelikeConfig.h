@@ -150,7 +150,7 @@ namespace asst
         void set_use_nonfriend_support(bool value) { m_use_nonfriend_support = value; }
         bool get_use_nonfriend_support() const { return m_use_nonfriend_support; }
         void set_oper(std::unordered_map<std::string, RoguelikeOper> oper) { m_oper = std::move(oper); }
-        const std::unordered_map<std::string, RoguelikeOper>& get_oper() const { return m_oper; }
+        const auto& get_oper() const { return m_oper; }
 
     private:
         // ------------------ 招募 ------------------
