@@ -9521,13 +9521,13 @@
         "algorithm": "OcrDetect",
         "text": [],
         "ocrReplace": [
-            ["Sarkaz@Roguelike@MapNode_CombatOps.png",         "1"],
-            ["Sarkaz@Roguelike@MapNode_CombatOps_grey.png",    "1"],
-            ["Sarkaz@Roguelike@MapNode_EmergencyOps.png",      "2"],
+            ["Sarkaz@Roguelike@MapNode_CombatOps.png", "1"],
+            ["Sarkaz@Roguelike@MapNode_CombatOps_grey.png", "1"],
+            ["Sarkaz@Roguelike@MapNode_EmergencyOps.png", "2"],
             ["Sarkaz@Roguelike@MapNode_EmergencyOps_grey.png", "2"],
-            ["Sarkaz@Roguelike@MapNode_Encounter.png",         "4"],
-            ["Sarkaz@Roguelike@MapNode_Encounter_grey.png",    "4"],
-            ["Sarkaz@Roguelike@MapNode_RogueTrader_grey.png",  "8"]
+            ["Sarkaz@Roguelike@MapNode_Encounter.png", "4"],
+            ["Sarkaz@Roguelike@MapNode_Encounter_grey.png", "4"],
+            ["Sarkaz@Roguelike@MapNode_RogueTrader_grey.png", "8"]
         ],
         "roi": [1000, 360, 580, 360],
         "specialParams": [321, 138, 47, 450, 32, 15, 10]
@@ -9546,7 +9546,7 @@
         "postDelay": 300
     },
     "Sami@RoguelikeSettlementConfirm": {
-            "template": "RoguelikeSettlementConfirm.png"    
+        "template": "RoguelikeSettlementConfirm.png"
     },
     "Sarkaz@Roguelike@Abandon": {
         "crop_doc": {
@@ -10480,9 +10480,7 @@
             "Sarkaz@Roguelike@StageFilterTruthHD",
             "Sarkaz@Roguelike@StageConfrontation"
         ],
-        "next": [
-            "Sarkaz@Roguelike@RoutingAction"
-        ]
+        "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
     "Sarkaz@Roguelike@RoutingAction": {
         "template": "empty.png"
@@ -10569,39 +10567,15 @@
         ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode6": {
-        "text": [
-            "_routing",
-            "_exit"
-        ],
+        "text": ["_routing", "_exit"],
         "ocrReplace": [
-            [
-                "熔魂之始",
-                "_routing"
-            ],
-            [
-                "锻铁根须",
-                "_exit"
-            ],
-            [
-                "灰铸迷城",
-                "_exit"
-            ],
-            [
-                "或然歧域",
-                "_exit"
-            ],
-            [
-                "虚实疆界",
-                "_exit"
-            ],
-            [
-                "辉光天顶",
-                "_exit"
-            ],
-            [
-                "诡谲断章",
-                "_exit"
-            ]
+            ["熔魂之始", "_routing"],
+            ["锻铁根须", "_exit"],
+            ["灰铸迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虚实疆界", "_exit"],
+            ["辉光天顶", "_exit"],
+            ["诡谲断章", "_exit"]
         ]
     },
     "Sarkaz@Roguelike@TodoEnter": {},
