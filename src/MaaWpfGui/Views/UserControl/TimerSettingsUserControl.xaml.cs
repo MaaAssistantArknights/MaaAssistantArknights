@@ -11,6 +11,9 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System.Text.RegularExpressions;
+using System.Windows.Input;
+
 namespace MaaWpfGui.Views.UserControl
 {
     /// <summary>
@@ -25,5 +28,23 @@ namespace MaaWpfGui.Views.UserControl
         {
             InitializeComponent();
         }
+
+        [GeneratedRegex("^[0-9]{0,2}$")]
+        private static partial Regex NumbersRegex();
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = sender as System.Windows.Controls.TextBox;
+            string currentText = textBox.Text;
+
+            // Combine the current text with the new input
+            string newText = currentText.Insert(textBox.SelectionStart, e.Text);
+
+            // Validate the combined text
+            Regex regex = NumbersRegex();
+            e.Handled = !regex.IsMatch(newText);
+        }
+
+
     }
 }
