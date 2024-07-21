@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <thread>
@@ -15,6 +16,17 @@ using adb::protocol::send_sync_request;
 
 namespace adb
 {
+    static inline const tcp_endpoints resolve_adb_server(asio::io_context& context) {
+        const char* port = std::getenv("ANDROID_ADB_SERVER_PORT");
+        tcp::resolver resolver(context);
+
+        if (port) {
+            return resolver.resolve("127.0.0.1", port);
+        } else {
+            return resolver.resolve("127.0.0.1", "5037");
+        }
+    }
+
     static inline std::string version(asio::io_context& context, const tcp_endpoints& endpoints)
     {
         tcp::socket socket(context);
@@ -40,24 +52,21 @@ namespace adb
     std::string version()
     {
         asio::io_context context;
-        tcp::resolver resolver(context);
-        const auto endpoints = resolver.resolve("127.0.0.1", "5037");
+        const auto endpoints = resolve_adb_server(context);
         return version(context, endpoints);
     }
 
     std::string devices()
     {
         asio::io_context context;
-        tcp::resolver resolver(context);
-        const auto endpoints = resolver.resolve("127.0.0.1", "5037");
+        const auto endpoints = resolve_adb_server(context);
         return devices(context, endpoints);
     }
 
     void kill_server()
     {
         asio::io_context context;
-        tcp::resolver resolver(context);
-        const auto endpoints = resolver.resolve("127.0.0.1", "5037");
+        const auto endpoints = resolve_adb_server(context);
 
         tcp::socket socket(context);
         asio::connect(socket, endpoints);
@@ -179,8 +188,7 @@ namespace adb
     {
         m_serial = serial;
 
-        tcp::resolver resolver(m_context);
-        m_endpoints = resolver.resolve("127.0.0.1", "5037");
+        m_endpoints = resolve_adb_server(m_context);
     }
 
     std::string client_impl::connect()
