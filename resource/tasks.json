@@ -9908,12 +9908,12 @@
     "Sarkaz@Roguelike@SquadConfirm": {
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
         "next": [
-            "Sarkaz@Roguelike@LastReward",
             "Sarkaz@Roguelike@LastReward4",
+            "Sarkaz@Roguelike@LastReward",
             "Sarkaz@Roguelike@LastReward2",
+            "Sarkaz@Roguelike@LastReward5",
             "Sarkaz@Roguelike@LastReward3",
             "Sarkaz@Roguelike@LastRewardRand",
-            "Sarkaz@Roguelike@LastReward5",
             "Sarkaz@Roguelike@RolesDefault",
             "Sarkaz@Roguelike@CloseCollection",
             "Sarkaz@Roguelike@DialogSkip",
