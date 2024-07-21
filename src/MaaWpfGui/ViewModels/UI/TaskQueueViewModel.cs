@@ -2643,9 +2643,24 @@ namespace MaaWpfGui.ViewModels.UI
 
         public int CustomInfrastPlanIndex
         {
-            get => _customInfrastPlanIndex;
+            get
+            {
+                if (_customInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || _customInfrastPlanIndex < 0)
+                {
+                    CustomInfrastPlanIndex = _customInfrastPlanIndex;
+                }
+
+                return _customInfrastPlanIndex;
+            }
             set
             {
+                if (value >= CustomInfrastPlanInfoList.Count || value < 0)
+                {
+                    var count = CustomInfrastPlanInfoList.Count;
+                    value = (value % count + count) % count;
+                    _logger.Warning($"CustomInfrastPlanIndex out of range, reset to Index % Count: {value}");
+                }
+
                 if (value != _customInfrastPlanIndex && NeedAddCustomInfrastPlanInfo)
                 {
                     var plan = CustomInfrastPlanInfoList[value];
@@ -2855,14 +2870,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(prePlanPostDesc);
             }
 
-            if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count - 1)
-            {
-                CustomInfrastPlanIndex = 0;
-            }
-            else
-            {
-                ++CustomInfrastPlanIndex;
-            }
+            ++CustomInfrastPlanIndex;
         }
 
         /// <summary>
