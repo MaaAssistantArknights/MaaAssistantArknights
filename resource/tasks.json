@@ -9640,7 +9640,10 @@
             "Sarkaz@Roguelike@ChooseOperFlag"
         ]
     },
-    "Sarkaz@Roguelike@CloseEvent": {},
+    "Sarkaz@Roguelike@CloseEvent": {
+        "action":"ClickRect",
+        "specificRect": [153, 79, 63, 29]
+    },
     "Sarkaz@Roguelike@Continue": {},
     "Sarkaz@Roguelike@DecreaseBurdenAbandon": {
         "templThreshold": 0.9,
