@@ -30,6 +30,7 @@ namespace MaaWpfGui.Constants
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization";
+        public const string UseTray = "GUI.UseTray";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
         public const string WindowTitleScrollable = "GUI.WindowTitleScrollable";
