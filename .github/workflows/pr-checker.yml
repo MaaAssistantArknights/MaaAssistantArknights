@@ -51,7 +51,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: context.payload.pull_request.number,
-                body: `## ⚠️ Found ${invalidCommits.length} invalid commit(s):\n\n${invalidCommitInfoList}\n\n---\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format.`
+                body: `## ⚠️ Found ${invalidCommits.length} invalid commit(s):\n\n${invalidCommitInfoList}\n\n---\nPlease follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format, and do not use merge commits.`
               });
 
               core.setFailed(`Found ${invalidCommits.length} invalid commit(s):\n${invalidCommitNames.join("\n-------------------\n")}`);
