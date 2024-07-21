@@ -371,6 +371,7 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
     Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
     offset_match.set_templ(m_image(ref_roi));
     offset_match.set_threshold(0.7);
+    offset_match.set_method(MatchMethod::Ccoeff);
     if (!offset_match.analyze()) {
         Log.error("Unable to merge images");
         return std::nullopt;
@@ -714,6 +715,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);
+    analyzer.set_method(MatchMethod::Ccoeff);
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
