@@ -516,7 +516,70 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
         return nullptr;
     }
 
-    utils::get_and_check_value_or(name, task_json, "maskRange", match_task_info_ptr->mask_range, default_ptr->mask_range);
+    auto mask_opt = task_json.find("maskRange");
+    if (!mask_opt) {
+        match_task_info_ptr->mask_range = default_ptr->mask_range;
+    }
+    else if (!mask_opt->is_array()) {
+        Log.error("Invalid mask type in task", name);
+        return nullptr;
+    }
+    else if (auto mask_opt_array = mask_opt->as_array(); mask_opt_array.size() == 2
+                                                         && mask_opt_array[0].is_number()
+                                                         && mask_opt_array[1].is_number()) {
+        match_task_info_ptr->mask_range.emplace_back(
+            std::vector { mask_opt_array[0].as_integer() },
+            std::vector { mask_opt_array[1].as_integer() });
+    }
+    else {
+        /*  [
+                [[0, 0, 0], [0, 0, 255]],
+                [[0, 0, 0], [0, 255, 0]],
+                [[0, 0, 0], [255, 0, 0]]
+            ]
+        */
+        match_task_info_ptr->mask_range.clear();
+        for (const auto& mask : mask_opt_array) {
+            if (!mask.is_array()) {
+                Log.error("Invalid mask in task", name);
+                return nullptr;
+            }
+            const auto& mask_range = mask.as_array();
+            if (mask_range.size() != 2) {
+                Log.error("Invalid mask in task", name);
+                return nullptr;
+            }
+            if (!mask_range[0].is_array() || !mask_range[1].is_array()) {
+                Log.error("Invalid mask in task", name);
+                return nullptr;
+            }
+            const auto& lower = mask_range[0].as_array();
+            const auto& upper = mask_range[1].as_array();
+            if (!ranges::all_of(lower, [](const json::value& v) { return v.is_number(); }) ||
+                !ranges::all_of(upper, [](const json::value& v) { return v.is_number(); })) {
+                Log.error("Invalid mask in task", name);
+                return nullptr;
+            }
+            if (lower.size() == 1 && upper.size() == 1) {
+                match_task_info_ptr->mask_range.emplace_back(
+                    std::vector { lower[0].as_integer() },
+                    std::vector { upper[0].as_integer() });
+                continue;
+            }
+            if (lower.size() == 3 && upper.size() == 3) {
+                match_task_info_ptr->mask_range.emplace_back(
+                    std::vector { lower[0].as_integer(),
+                                  lower[1].as_integer(),
+                                  lower[2].as_integer() },
+                    std::vector { upper[0].as_integer(),
+                                  upper[1].as_integer(),
+                                  upper[2].as_integer() });
+                continue;
+            }
+            Log.error("Invalid mask in task", name);
+            return nullptr;
+        }
+    }
 
     return match_task_info_ptr;
 }

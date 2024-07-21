@@ -488,9 +488,10 @@ namespace asst
         constexpr MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
         constexpr MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
         constexpr MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
+        using Range = std::pair<std::vector<int>, std::vector<int>>;
         std::vector<std::string> templ_names; // 匹配模板图片文件名
         std::vector<double> templ_thresholds; // 模板匹配阈值
-        std::pair<int, int> mask_range;       // 掩码的二值化范围
+        std::vector<Range> mask_range;        // 掩码的二值化范围
         std::vector<MatchMethod> methods;     // 匹配方法
     };
     using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;

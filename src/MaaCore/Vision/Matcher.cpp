@@ -94,41 +94,64 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         cv::Mat matched;
-        cv::Mat hsv_image;
-        cv::Mat hsv_templ;
-        bool use_hsv = (method == MatchMethod::CcoeffHSV);
-        if (use_hsv) {
-            cv::cvtColor(image, hsv_image, cv::COLOR_BGR2HSV);
-            cv::cvtColor(templ, hsv_templ, cv::COLOR_BGR2HSV);
+        cv::Mat image_for_match;
+        cv::Mat templ_for_match;
+        if (method == MatchMethod::CcoeffHSV) {
+            cv::cvtColor(image, image_for_match, cv::COLOR_BGR2HSV);
+            cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2HSV);
         }
+        else {
+            cv::cvtColor(image, image_for_match, cv::COLOR_BGR2RGB);
+            cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2RGB);
+        }
+
         int match_algorithm = cv::TM_CCOEFF_NORMED;
         if (method == MatchMethod::Ccoeff || method == MatchMethod::CcoeffHSV) {
             match_algorithm = cv::TM_CCOEFF_NORMED;
         }
 
-        if (params.mask_range.first == 0 && params.mask_range.second == 0) {
-            cv::matchTemplate(
-                use_hsv ? hsv_image : image,
-                use_hsv ? hsv_templ : templ,
-                matched,
-                match_algorithm);
-        }
-        else {
-            cv::Mat mask;
-            cv::cvtColor(params.mask_with_src ? image : templ, mask, cv::COLOR_BGR2GRAY);
-            cv::inRange(mask, params.mask_range.first, params.mask_range.second, mask);
-            if (params.mask_with_close) {
+        auto calc_mask = [&](const cv::Mat& templ_for_mask, bool with_close)->std::optional<cv::Mat> {
+            cv::Mat templ_for_gray_mask;
+            cv::cvtColor(templ_for_mask, templ_for_gray_mask, cv::COLOR_BGR2GRAY);
+
+            // Union all masks, not intersection
+            cv::Mat mask = cv::Mat::zeros(templ_for_gray_mask.size(), CV_8UC1);
+            for (const auto& range : params.mask_range) {
+                cv::Mat current_mask;
+                if (range.first.size() == 1 && range.second.size() == 1) {
+                    cv::inRange(templ_for_gray_mask, range.first[0], range.second[0], current_mask);
+                }
+                else if (range.first.size() == 3 && range.second.size() == 3) {
+                    cv::inRange(templ_for_mask, range.first, range.second, current_mask);
+                }
+                else {
+                    Log.error("Invalid mask range");
+                    return std::nullopt;
+                }
+                cv::bitwise_or(mask, current_mask, mask);
+            }
+
+            if (with_close) {
                 cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
                 cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
             }
-            cv::matchTemplate(
-                use_hsv ? hsv_image : image,
-                use_hsv ? hsv_templ : templ,
-                matched,
-                match_algorithm,
-                mask);
-        }
+            return mask;
+        };
 
+        if (method == MatchMethod::Ccoeff || method == MatchMethod::CcoeffHSV) {
+            if (params.mask_range.empty()) {
+                cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm);
+            }
+            else {
+                auto mask_opt = calc_mask(
+                    params.mask_with_src ? image_for_match : templ_for_match,
+                    params.mask_with_close);
+                if (!mask_opt) {
+                    return {};
+                }
+                cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm, mask_opt.value());
+            }
+        }
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
     }
     return results;
