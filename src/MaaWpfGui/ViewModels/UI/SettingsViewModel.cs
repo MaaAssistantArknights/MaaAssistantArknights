@@ -1615,14 +1615,11 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.RefreshCustomInfrastPlan();
 
                 // SetAndNotify 在值没有变化时不会触发 PropertyChanged 事件，所以这里手动触发一下
-                var index = Instances.TaskQueueViewModel.CustomInfrastPlanIndex;
-                var count = Instances.TaskQueueViewModel.CustomInfrastPlanList.Count;
                 Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = false;
                 {
-                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = (index + 1) % count;
-                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = index;
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex--;
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex++;
                 }
-
                 Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = true;
             }
         }
