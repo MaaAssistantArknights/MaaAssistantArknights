@@ -30,6 +30,17 @@ namespace asst
     protected:
         virtual bool _run() override;
 
+        bool new_zone() const;
+
+        bool check_collapsal_paradigm_panel();
+
+        void toggle_collapsal_status_panel();
+        void exit_then_restart();
+        void exit_then_stop();
+        void wait_for_loading(unsigned int millisecond = 0);
+        void wait_for_stage(unsigned int millisecond = 0);
+        void clp_pd_callback(std::string cur, int deepen_or_weaken = 0, std::string prev = "");
+
     private:
         mutable bool m_check_banner = false;
         mutable bool m_check_panel = false;
@@ -48,21 +59,6 @@ namespace asst
         Point m_swipe_end;   // 滑动终点
 
         std::unordered_set<std::string> m_panel_triggers;
-
         std::unordered_map<std::string, std::string> m_zone_dict;
-
-        std::function<bool(const OCRer::Result&, const OCRer::Result&)> m_compare =
-            [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; };
-
-        bool new_zone() const;
-
-        bool check_collapsal_paradigm_panel();
-
-        void toggle_collapsal_status_panel();
-        void exit_then_restart();
-        void exit_then_stop();
-        void wait_for_loading(unsigned int millisecond = 0);
-        void wait_for_stage(unsigned int millisecond = 0);
-        void clp_pd_callback(std::string cur, int deepen_or_weaken = 0, std::string prev = "");
     };
 }
