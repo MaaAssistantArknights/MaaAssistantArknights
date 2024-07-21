@@ -132,7 +132,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
     if (detected) {
         const std::vector<CollapsalParadigmClass>& clp_pd_classes = RoguelikeCollapsalParadigms.get_clp_pd_classes(theme);
         const std::unordered_map<std::string, unsigned int>& clp_pd_dict = RoguelikeCollapsalParadigms.get_clp_pd_dict(theme);
-        const std::unordered_set<std::string>& expected_clp_pds = m_config->get_expected_clp_pds();
+        const auto& expected_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
         std::vector<std::string> prev_clp_pds = m_config->get_clp_pds();
 
         OCRer analyzer2(image); // 检测坍缩范式
@@ -228,7 +228,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
 
     const std::vector<CollapsalParadigmClass>& clp_pd_classes = RoguelikeCollapsalParadigms.get_clp_pd_classes(theme);
     const std::unordered_map<std::string, unsigned int>& clp_pd_dict = RoguelikeCollapsalParadigms.get_clp_pd_dict(theme);
-    const std::unordered_set<std::string>& expected_clp_pds = m_config->get_expected_clp_pds();
+    const auto& expected_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
     std::vector<std::string> prev_clp_pds = m_config->get_clp_pds();
 
     wait_for_stage(200);

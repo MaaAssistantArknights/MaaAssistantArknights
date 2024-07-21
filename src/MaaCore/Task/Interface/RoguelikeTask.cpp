@@ -223,10 +223,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_config_ptr->set_double_check_clp_pds(
             params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
 
-        const std::unordered_set<std::string>& rare_clp_pds =
-            RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
-        m_config_ptr->set_expected_clp_pds(
-            params.get("expected_collapsal_paradigms", rare_clp_pds));
     }
 
     const auto& ptr = m_custom_ptr;
