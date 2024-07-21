@@ -169,6 +169,8 @@ namespace asst
 
     enum class RoguelikeEvent
     {
-        None = 0
+        None = 0,
+        EncounterClickOption     = 1, // -> CollapsalParadigm
+        SamiFoldartalDeclaration = 3  // -> CollapsalParadigm
     };
 } // namespace asst

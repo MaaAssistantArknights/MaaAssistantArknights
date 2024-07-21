@@ -73,18 +73,6 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
 bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
-    if (!m_plugin_gained) {
-        m_plugin_gained = true;
-        if (RoguelikeCollapsalParadigmTaskPlugin::enabled(m_config)) {
-            typedef RoguelikeCollapsalParadigmTaskPlugin Plugin;
-            for (const auto& plugin : m_task_ptr->get_plugins()) {
-                if (auto ptr = std::dynamic_pointer_cast<Plugin>(plugin)) {
-                    m_clp_pd_plugin = ptr;
-                    break;
-                }
-            }
-        }
-    }
 
     std::vector<RoguelikeFoldartalCombination> combination =
         RoguelikeFoldartal.get_combination(m_config->get_theme());
@@ -173,11 +161,7 @@ void asst::RoguelikeFoldartalUseTaskPlugin::use_enable_pair(
                     list.erase(ranges::find(list, up_board));
                     list.erase(ranges::find(list, down_board));
                     Log.trace("Board pair used, up:", up_board, ", down:", down_board);
-                    
-                    if (m_clp_pd_plugin) {
-                        m_clp_pd_plugin->check_collapsal_paradigm_banner();
-                    }
-                    
+                    notify_sibling_plugins(RoguelikeEvent::SamiFoldartalDeclaration);
                     break;
                 }
             }

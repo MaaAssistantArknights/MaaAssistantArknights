@@ -422,3 +422,21 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
     }
     return false;
 }
+
+std::optional<json::value> asst::RoguelikeCollapsalParadigmTaskPlugin::response_to_event
+    (RoguelikeEvent event, const json::value& detail)
+{
+    LogTraceFunction;
+
+    switch (event) {
+        case RoguelikeEvent::EncounterClickOption:
+            check_collapsal_paradigm_banner();
+            break;
+        case RoguelikeEvent::SamiFoldartalDeclaration:
+            check_collapsal_paradigm_banner();
+            break;
+        default:
+            break;
+    }
+    return std::nullopt;
+}

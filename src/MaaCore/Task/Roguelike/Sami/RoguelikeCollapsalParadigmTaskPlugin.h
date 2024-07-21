@@ -20,13 +20,13 @@ public:
 
 public:
     void set_double_check_clp_pds(bool value) { m_double_check_clp_pds = value; }
-    bool check_collapsal_paradigm_banner();
 
 protected:
     virtual bool _run() override;
 
     bool new_zone() const;
 
+    bool check_collapsal_paradigm_banner();
     bool check_collapsal_paradigm_panel();
 
     void toggle_collapsal_status_panel();
