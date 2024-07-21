@@ -9641,7 +9641,7 @@
         ]
     },
     "Sarkaz@Roguelike@CloseEvent": {
-        "action":"ClickRect",
+        "action": "ClickRect",
         "specificRect": [153, 79, 63, 29]
     },
     "Sarkaz@Roguelike@Continue": {},
@@ -10325,6 +10325,8 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
@@ -10348,9 +10350,7 @@
             "Sarkaz@Roguelike@StageEmergencyTransportation",
             "Sarkaz@Roguelike@StageGambling",
             "Sarkaz@Roguelike@StageDreadfulFoe",
-            "Sarkaz@Roguelike@StageDreadfulFoe-5",
-            "Sarkaz@Roguelike@CloseCollectionContinue",
-            "Sarkaz@Roguelike@CloseCollectionClose"
+            "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
     "Sarkaz@Roguelike@Stages_default": {
@@ -10358,6 +10358,8 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
@@ -10381,9 +10383,7 @@
             "Sarkaz@Roguelike@StageCombatDps",
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
-            "Sarkaz@Roguelike@StageDreadfulFoe-5",
-            "Sarkaz@Roguelike@CloseCollectionContinue",
-            "Sarkaz@Roguelike@CloseCollectionClose"
+            "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
     "Sarkaz@Roguelike@Stages_pragmatic": {
@@ -10391,6 +10391,8 @@
         "algorithm": "JustReturn",
         "next": [
             "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@StageBoskyPassage",
@@ -10413,9 +10415,7 @@
             "Sarkaz@Roguelike@StageGambling",
             "Sarkaz@Roguelike@StageEmergencyDps",
             "Sarkaz@Roguelike@StageDreadfulFoe",
-            "Sarkaz@Roguelike@StageDreadfulFoe-5",
-            "Sarkaz@Roguelike@CloseCollectionContinue",
-            "Sarkaz@Roguelike@CloseCollectionClose"
+            "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
     "Sarkaz@Roguelike@StartExplore": {
