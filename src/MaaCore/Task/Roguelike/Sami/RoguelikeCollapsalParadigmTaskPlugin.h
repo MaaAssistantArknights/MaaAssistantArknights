@@ -12,7 +12,7 @@ public:
     using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
     virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
-    void config(const json::value& params) override;
+    virtual void config(const json::value& params) override;
     static bool enabled(std::shared_ptr<RoguelikeConfig> config)
     {
         return config->get_theme() == RoguelikeTheme::Sami && config->get_check_clp_pds();
