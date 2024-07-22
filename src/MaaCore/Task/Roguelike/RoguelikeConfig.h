@@ -95,14 +95,6 @@ namespace asst
         // ------------------ 密文板 ------------------
         void set_first_floor_foldartal(bool value) { m_first_floor_foldartal = value; }
         bool get_first_floor_foldartal() const { return m_first_floor_foldartal; }
-        void set_start_floor_foldartal(std::string value) { m_start_floor_foldartal = value; }
-        const std::string& get_start_floor_foldartal() const { return m_start_floor_foldartal; }
-        void set_start_foldartal(bool value) { m_start_foldartal = value; }
-        bool get_start_foldartal() const { return m_start_foldartal; }
-        void set_start_foldartal_list(std::vector<std::string> value) { m_start_foldartal_list = value; }
-        const auto& get_start_foldartal_list() const { return m_start_foldartal_list; }
-        void set_use_foldartal(bool value) { m_use_foldartal = value; }
-        bool get_use_foldartal() const { return m_use_foldartal; }
 
         // ------------------ 坍缩范式 ------------------
         void set_check_clp_pds(bool value) { m_check_clp_pds = value; }
@@ -110,11 +102,7 @@ namespace asst
 
     private:
         // ------------------ 密文板 ------------------
-        bool m_first_floor_foldartal = false;            // 凹远见密文板
-        std::string m_start_floor_foldartal;             // 需要凹的远见
-        bool m_start_foldartal = false;                  // 生活队凹开局密文板
-        std::vector<std::string> m_start_foldartal_list; // 需要凹的板子
-        bool m_use_foldartal = true;                     // 是否使用密文板
+        bool m_first_floor_foldartal = false; // 凹远见密文板
 
         // ------------------ 坍缩范式 ------------------
         bool m_check_clp_pds = false; // 是否检查坍缩范式
@@ -157,20 +145,17 @@ namespace asst
 
     public:
         // ------------------ 密文板 ------------------
-        void set_foldartal_floor(std::optional<std::string> floor) { m_foldartal_floor = std::move(floor); }
-        const std::optional<std::string>& get_foldartal_floor() const { return m_foldartal_floor; }
-        void set_foldartal(std::vector<std::string> foldartal) { m_foldartal = std::move(foldartal); }
-        const std::vector<std::string>& get_foldartal() const { return m_foldartal; }
+        void set_foldartal(auto foldartal) { m_foldartal = std::move(foldartal); }
+        const auto& get_foldartal() const { return m_foldartal; }
 
         // ------------------ 坍缩范式 ------------------
         void set_clp_pds(std::vector<std::string> clp_pds) { m_clp_pds = std::move(clp_pds); }
-        const std::vector<std::string>& get_clp_pds() const { return m_clp_pds; }
+        const auto& get_clp_pds() const { return m_clp_pds; }
         void set_need_check_panel(bool need_check_panel) { m_need_check_panel = need_check_panel; }
         bool get_need_check_panel() const { return m_need_check_panel; }
 
     private:
         // ------------------ 密文板 ------------------
-        std::optional<std::string> m_foldartal_floor; // 当前层的预见密文板，在下一层获得
         std::vector<std::string> m_foldartal;         // 所有已获得密文板
 
         // ------------------ 坍缩范式 ------------------

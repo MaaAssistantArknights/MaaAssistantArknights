@@ -12,10 +12,6 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::val
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
-        return false;
-    }
     if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
@@ -66,29 +62,32 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
     }
 }
 
+void asst::RoguelikeFoldartalGainTaskPlugin::reset_variable()
+{
+    m_foldartal_floor.reset();
+}
+
 void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
 {
-    auto foldartal_floor = m_config->get_foldartal_floor();
-
     // 到达第二层后，获得上一层预见的密文板
-    if (foldartal_floor) {
-        gain_foldartal(*foldartal_floor);
+    if (m_foldartal_floor) {
+        gain_foldartal(*m_foldartal_floor);
     }
 
-    foldartal_floor.reset();
+    m_foldartal_floor.reset();
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@FoldartalGainOcrNextLevel");
     sleep(500);
     if (analyzer.analyze()) {
         std::string foldartar_will_get_next_floor = analyzer.get_result().front().text;
-        foldartal_floor = foldartar_will_get_next_floor;
+        m_foldartal_floor = foldartar_will_get_next_floor;
         auto info = basic_info_with_what("FoldartalGainOcrNextLevel");
         info["details"]["foldartal"] = foldartar_will_get_next_floor;
         callback(AsstMsg::SubTaskExtraInfo, info);
 
         if (m_config->get_first_floor_foldartal()) {
             Log.info("Foldartal will get next floor:", foldartar_will_get_next_floor);
-            if (foldartar_will_get_next_floor == m_config->get_start_floor_foldartal()) {
+            if (foldartar_will_get_next_floor == m_start_floor_foldartal) {
                 m_task_ptr->set_enable(false);
             }
             else {
@@ -101,7 +100,6 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
             }
         }
     }
-    m_config->set_foldartal_floor(std::move(foldartal_floor));
 }
 
 bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()

@@ -10,7 +10,6 @@ void asst::RoguelikeConfig::clear()
     m_oper = std::unordered_map<std::string, RoguelikeOper>();
 
     // ------------------ 萨米主题专用参数 ------------------
-    m_foldartal_floor.reset();
     m_foldartal = std::vector<std::string>();
     m_clp_pds = std::vector<std::string>();
     m_need_check_panel = false;
