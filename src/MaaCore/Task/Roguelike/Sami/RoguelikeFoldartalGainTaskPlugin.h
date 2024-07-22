@@ -11,6 +11,7 @@ namespace asst
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+        void set_start_floor_foldartal(std::string value) { m_start_floor_foldartal = value; }
 
     protected:
         virtual bool _run() override;
@@ -24,5 +25,7 @@ namespace asst
         mutable bool m_ocr_after_combat = false;
         // 进入新一层后识别密文板
         mutable bool m_ocr_next_level = false;
+
+        std::string m_start_floor_foldartal; // 需要凹的远见
     };
 }

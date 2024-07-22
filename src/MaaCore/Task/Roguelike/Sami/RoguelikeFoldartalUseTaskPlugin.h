@@ -13,6 +13,7 @@ namespace asst
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+        void set_use_foldartal(bool value) { m_use_foldartal = value; }
 
     protected:
         virtual bool _run() override;
@@ -46,5 +47,6 @@ namespace asst
         
         bool m_plugin_gained;
         std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_clp_pd_plugin;
+        bool m_use_foldartal = true; // 是否使用密文板
     };
 }
