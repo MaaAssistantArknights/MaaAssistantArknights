@@ -50,7 +50,7 @@ namespace asst
 
         template <typename PluginType>
         requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
-        void attach_plugin(const std::shared_ptr<PluginType>& plugin)
+        void append_plugin(const std::shared_ptr<PluginType>& plugin)
         {           
             m_plugins.emplace_back(plugin);
         }
