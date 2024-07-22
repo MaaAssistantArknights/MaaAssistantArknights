@@ -41,7 +41,17 @@ void asst::MatcherConfig::set_threshold(std::vector<double> templ_thres) noexcep
 
 void MatcherConfig::set_mask_range(int lower, int upper, bool mask_with_src, bool mask_with_close)
 {
-    m_params.mask_range = std::make_pair(lower, upper);
+    m_params.mask_range = { { { lower }, { upper } } };
+    m_params.mask_with_src = mask_with_src;
+    m_params.mask_with_close = mask_with_close;
+}
+
+void MatcherConfig::set_mask_range(
+    std::vector<MatchTaskInfo::Range> mask_range,
+    bool mask_with_src,
+    bool mask_with_close)
+{
+    m_params.mask_range = std::move(mask_range);
     m_params.mask_with_src = mask_with_src;
     m_params.mask_with_close = mask_with_close;
 }

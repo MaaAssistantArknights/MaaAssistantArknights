@@ -3966,7 +3966,12 @@
         "template": "empty.png",
         "templThreshold": 800,
         "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
-        "maskRange": [95, 105],
+        "maskRange": [
+            [
+                [95, 0, 0],
+                [105, 255, 255]
+            ]
+        ],
         "rectMove": [-18, -220, 10, 160]
     },
     "InfrastOperOnShift": {
@@ -4839,10 +4844,13 @@
         "specialParams": [300],
         "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [-68, 124, 114, 4],
-        "maskRange_Doc": "拿来做H通道的范围",
-        "maskRange": [0, 20],
-        "specificRect_Doc": "拿来做S、V通道的范围",
-        "specificRect": [100, 255, 0, 150]
+        "maskRange_Doc": "HSV的范围",
+        "maskRange": [
+            [
+                [0, 100, 0],
+                [20, 255, 150]
+            ]
+        ]
     },
     "BattleOperRoleRange": {
         "template": "empty.png",
@@ -5068,7 +5076,7 @@
     },
     "DepotQuantity": {
         "template": "empty.png",
-        "maskRange": [110, 255]
+        "specialParams": [110, 255]
     },
     "DepotBegin": {
         "algorithm": "JustReturn",
