@@ -2280,7 +2280,7 @@ namespace MaaWpfGui.Main
         /// <param name="invests">投资源石锭次数。</param>
         /// <param name="stopWhenFull">投资满了自动停止任务。</param>
         /// <param name="squad">开局分队</param>
-        /// <param name="roles"> 开局职业组</param>
+        /// <param name="roles">开局职业组</param>
         /// <param name="coreChar">开局干员名</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
         /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
