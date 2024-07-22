@@ -22,8 +22,8 @@ jobs:
           days-before-close: 3 # Number of days to wait after marking as stale before closing
           stale-issue-label: "stale"
           stale-issue-message: |
-            "This issue has been inactive for a prolonged period and will be closed automatically in 3 days."
-            "该问题已长时间处于闲置状态，3 天后将自动关闭。"
+            This issue has been inactive for a prolonged period and will be closed automatically in 3 days.
+            该问题已长时间处于闲置状态，3 天后将自动关闭。
           exempt-issue-labels: "keep-open, MAA Team"
           # Completely disable stalling for PRs
           days-before-pr-stale: -1
