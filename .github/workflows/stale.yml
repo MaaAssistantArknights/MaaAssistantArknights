@@ -29,5 +29,7 @@ jobs:
           days-before-pr-stale: -1
           days-before-pr-close: -1
 
-          operations-per-run: 80
+          # Debug / Testing / non-long-term options
+          ascending: true
+          operations-per-run: 200
           debug-only: true
