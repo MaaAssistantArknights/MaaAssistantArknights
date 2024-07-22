@@ -18,7 +18,11 @@
             "direction": "left"
         }
     ],
-    "blacklist_location": [[1, 1],[2, 1],[1, 2]],
+    "blacklist_location": [
+        [1, 1],
+        [2, 1],
+        [1, 2]
+    ],
     "deploy_plan": [
         {
             "groups": ["情报官", "投锋", "挡人先锋"],
@@ -31,7 +35,7 @@
             "direction": "up"
         },
         {
-            "groups": ["奶盾","重装", "地面阻挡", "地面远程"],
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
             "location": [4, 5],
             "direction": "down"
         },
@@ -41,17 +45,17 @@
             "direction": "right"
         },
         {
-            "groups": ["焰苇","单奶","群奶"],
+            "groups": ["焰苇", "单奶", "群奶"],
             "location": [7, 6],
             "direction": "left"
         },
         {
-            "groups": ["奶盾","重装", "地面阻挡", "地面远程","炮灰"],
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程", "炮灰"],
             "location": [7, 5],
             "direction": "up"
         },
         {
-            "groups": ["奶盾","重装", "地面阻挡", "地面远程","炮灰"],
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程", "炮灰"],
             "location": [4, 6],
             "direction": "left"
         }
