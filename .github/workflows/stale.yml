@@ -31,5 +31,5 @@ jobs:
           
           # Temporary to reduce the huge issues number
           ascending: true
-          operations-per-run: 500
+          operations-per-run: 800
           debug-only: false
