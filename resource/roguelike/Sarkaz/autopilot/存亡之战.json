@@ -1,0 +1,88 @@
+{
+    "stage_name": "存亡之战",
+    "replacement_home": [
+        {
+            "location": [4, 1],
+            "direction": "left"
+        },
+        {
+            "location": [4, 3],
+            "direction": "left"
+        },
+        {
+            "location": [3, 4],
+            "direction": "left"
+        },
+        {
+            "location": [3, 2],
+            "direction": "left"
+        },
+        {
+            "location": [9, 4],
+            "direction": "up"
+        },
+        {
+            "location": [8, 3],
+            "direction": "left"
+        },
+        {
+            "location": [9, 3],
+            "direction": "left"
+        },
+        {
+            "location": [10, 3],
+            "direction": "left"
+        }
+    ],
+    "blacklist_location": [
+        [5, 1],
+        [6, 1],
+        [7, 1],
+        [8, 1],
+        [9, 1],
+        [10, 1],
+        [5, 2],
+        [6, 2],
+        [7, 2],
+        [8, 2],
+        [9, 2]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["情报官", "投锋", "挡人先锋"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [6, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [5, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [4, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程", "炮灰"],
+            "location": [4, 1],
+            "direction": "left"
+        },
+        {
+            "groups": ["焰苇", "单奶", "群奶"],
+            "location": [4, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [8, 4],
+            "direction": "left"
+        }
+    ],
+    "retreat_plan": []
+}
