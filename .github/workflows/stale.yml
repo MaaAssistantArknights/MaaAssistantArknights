@@ -24,7 +24,7 @@ jobs:
           stale-issue-message: |
             "This issue has been inactive for a prolonged period and will be closed automatically in 3 days."
             "该问题已长时间处于闲置状态，3 天后将自动关闭。"
-          exempt-issue-labels: "keep-open"
+          exempt-issue-labels: 'keep-open, MAA Team'
           # Completely disable staling for PRs
           days-before-pr-stale: -1
           days-before-pr-close: -1
