@@ -240,5 +240,12 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         RoguelikeCustomType::UseNonfriendSupport,
         params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
 
+    // ————————  plugin configuration  ————————————————————————————————
+    for (const TaskPluginPtr& plugin : m_roguelike_task_ptr->get_plugins()) {
+        if (RoguelikeTaskPluginPtr roguelike_plugin = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin)) {
+            roguelike_plugin->config(params);
+        }
+    }
+
     return true;
 }
