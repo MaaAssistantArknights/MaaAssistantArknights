@@ -102,6 +102,10 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             << (deposit ? *deposit : -1);
     m_invest_count = total;
 
+    if (deposit && *deposit == 999) {
+        Log.info(__FUNCTION__, "存款已满，禁用投资模块");
+        m_enable = false;
+    }
     if (count_limit - count <= 0) {
         Log.info(__FUNCTION__, "投资达到设置上限,", m_maximum);
         stop_roguelike();
