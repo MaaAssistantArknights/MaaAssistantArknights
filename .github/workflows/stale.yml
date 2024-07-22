@@ -1,4 +1,4 @@
-name: "Mark stale issues and pull requests"
+name: "Inactive Issues auto close"
 
 on:
   schedule:
