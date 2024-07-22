@@ -10,13 +10,20 @@
 
 #include <algorithm>
 
-asst::RoguelikeCollapsalParadigmTaskPlugin::RoguelikeCollapsalParadigmTaskPlugin(
-    const AsstCallback& callback,
-    Assistant* inst,
-    std::string_view task_chain,
-    std::shared_ptr<RoguelikeConfig> config)
-    : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
+void asst::RoguelikeCollapsalParadigmTaskPlugin::config(const json::value& params)
 {
+    // ———————— 检查适用主题 ————————————————————————
+    const std::string& theme = m_config->get_theme();
+    if (theme != RoguelikeTheme::Sami) {
+        m_enable = false;
+        return;
+    }
+
+    // ———————— 根据 params 设置插件 ————————————————
+    const RoguelikeMode& mode = m_config->get_mode();
+    m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
+
+    // ———————— 从 tasks.json 获取插件设置 ———————————
     // 由于仅有萨米肉鸽使用，任务名暂定写死
     std::shared_ptr<OcrTaskInfo> bannerCheckConfig =
         Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig");
