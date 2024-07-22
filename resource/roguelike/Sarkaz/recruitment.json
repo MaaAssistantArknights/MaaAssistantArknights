@@ -621,7 +621,7 @@
                             "offset": -300
                         }
                     ]
-                },                
+                },
                 {
                     "name": "泥岩",
                     "skill": 2,
@@ -1961,7 +1961,7 @@
                 },
                 {
                     "name": "异客",
-                    "skill": 3,                    
+                    "skill": 3,
                     "is_key": true,
                     "alternate_skill": 2,
                     "recruit_priority": 359,
