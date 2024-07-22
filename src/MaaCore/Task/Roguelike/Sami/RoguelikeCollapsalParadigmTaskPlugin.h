@@ -1,68 +1,66 @@
 #pragma once
 #include "../AbstractRoguelikeTaskPlugin.h"
 #include "Common/AsstTypes.h"
-#include "Vision/OCRer.h"
 #include "Config/TaskData.h"
+#include "Vision/OCRer.h"
 
 namespace asst
 {
-    class RoguelikeCollapsalParadigmTaskPlugin : public AbstractRoguelikeTaskPlugin
+class RoguelikeCollapsalParadigmTaskPlugin : public AbstractRoguelikeTaskPlugin
+{
+public:
+    RoguelikeCollapsalParadigmTaskPlugin(
+        const AsstCallback& callback,
+        Assistant* inst,
+        std::string_view task_chain,
+        std::shared_ptr<RoguelikeConfig> config);
+    // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+    virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
+    virtual bool verify(AsstMsg msg, const json::value& details) const override;
+
+    static bool enabled(std::shared_ptr<RoguelikeConfig> config)
     {
-    public:
-        RoguelikeCollapsalParadigmTaskPlugin(
-            const AsstCallback& callback,
-            Assistant* inst,
-            std::string_view task_chain,
-            std::shared_ptr<RoguelikeConfig> config);
-                                             
-        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
+        return config->get_theme() == RoguelikeTheme::Sami && config->get_check_clp_pds();
+    }
 
-        static bool enabled(std::shared_ptr<RoguelikeConfig> config) {
-            return config->get_theme() == RoguelikeTheme::Sami && config->get_check_clp_pds();
-        }
+public:
+    void set_double_check_clp_pds(bool value) { m_double_check_clp_pds = value; }
+    bool check_collapsal_paradigm_banner();
 
-    public:
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+protected:
+    virtual bool _run() override;
 
-        bool check_collapsal_paradigm_banner();
+    bool new_zone() const;
 
-    protected:
-        virtual bool _run() override;
+    bool check_collapsal_paradigm_panel();
 
-    private:
-        mutable bool m_check_banner = false;
-        mutable bool m_check_panel = false;
-        mutable bool m_verification_check = false;
+    void toggle_collapsal_status_panel();
+    void exit_then_restart();
+    void exit_then_stop();
+    void wait_for_loading(unsigned int millisecond = 0);
+    void wait_for_stage(unsigned int millisecond = 0);
+    void clp_pd_callback(std::string cur, int deepen_or_weaken = 0, std::string prev = "");
 
-        std::string m_deepen_text;
+private:
+    mutable bool m_check_banner = false;
+    mutable bool m_check_panel = false;
+    mutable bool m_verification_check = false;
 
-        std::unordered_set<std::string> m_banner_triggers_start;
+    std::string m_deepen_text;
 
-        std::unordered_set<std::string> m_banner_triggers_completed;
+    std::unordered_set<std::string> m_banner_triggers_start;
 
-        mutable std::string m_zone;
+    std::unordered_set<std::string> m_banner_triggers_completed;
 
-        Rect m_roi;          // 屏幕上方居中区域，点击以检查坍缩状态
-        Point m_swipe_begin; // 滑动起点
-        Point m_swipe_end;   // 滑动终点
+    mutable std::string m_zone;
 
-        std::unordered_set<std::string> m_panel_triggers;
+    Rect m_roi;          // 屏幕上方居中区域，点击以检查坍缩状态
+    Point m_swipe_begin; // 滑动起点
+    Point m_swipe_end;   // 滑动终点
 
-        std::unordered_map<std::string, std::string> m_zone_dict;
+    std::unordered_set<std::string> m_panel_triggers;
+    std::unordered_map<std::string, std::string> m_zone_dict;
 
-        std::function<bool(const OCRer::Result&, const OCRer::Result&)> m_compare =
-            [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; };
-
-        bool new_zone() const;
-
-        bool check_collapsal_paradigm_panel();
-
-        void toggle_collapsal_status_panel();
-        void exit_then_restart();
-        void exit_then_stop();
-        void wait_for_loading(unsigned int millisecond = 0);
-        void wait_for_stage(unsigned int millisecond = 0);
-        void clp_pd_callback(std::string cur, int deepen_or_weaken = 0, std::string prev = "");
-    };
+    bool m_double_check_clp_pds = false; // 是否反复检查坍缩范式
+};
 }
