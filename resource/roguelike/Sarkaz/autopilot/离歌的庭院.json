@@ -14,12 +14,12 @@
             "direction": "left"
         },
         {
-            "groups": ["单奶","群奶"],
+            "groups": ["单奶", "群奶"],
             "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": ["奶盾","重装","地面阻挡", "地面远程"],
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
             "location": [5, 1],
             "direction": "down"
         },
