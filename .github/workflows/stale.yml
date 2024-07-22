@@ -9,6 +9,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     permissions:
+      actions: write # Workaround for https://github.com/actions/stale/issues/1090
       issues: write
       # Completely disable stalling for PRs
       pull-requests: none
@@ -25,11 +26,10 @@ jobs:
             This issue has been inactive for a prolonged period and will be closed automatically in 3 days.
             该问题已长时间处于闲置状态，3 天后将自动关闭。
           exempt-issue-labels: "keep-open, MAA Team"
-          # Completely disable stalling for PRs
-          days-before-pr-stale: -1
-          days-before-pr-close: -1
+          days-before-pr-stale: -1 # Completely disable stalling for PRs
+          days-before-pr-close: -1 # Completely disable closing for PRs
 
           # Debug / Testing / non-long-term options
           ascending: true
-          operations-per-run: 200
+          operations-per-run: 500
           debug-only: false
