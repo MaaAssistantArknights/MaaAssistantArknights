@@ -16,13 +16,10 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
+    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_use_foldartal) {
         return false;
     }
-    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_use_foldartal()) {
-        return false;
-    }
+
     auto mode = m_config->get_mode();
     std::string task_name_pre = m_config->get_theme() + "@Roguelike@Stage";
     const std::string& task = details.get("details", "task", "");

@@ -11,12 +11,7 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
-        return false;
-    }
-    if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX ||
-        !m_config->get_start_foldartal()) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX || !m_start_foldartal) {
         return false;
     }
     const std::string roguelike_name = m_config->get_theme() + "@";
@@ -52,12 +47,10 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::check_foldartals()
 {
-    // 用户输入的需要的板子字符串
-    const auto& extracted_foldartals = m_config->get_start_foldartal_list();
     const auto& all_foldartal = m_config->get_foldartal();
 
     // 查找板子
-    for (const auto& foldartal : extracted_foldartals) {
+    for (const auto& foldartal : m_start_foldartal_list) {
         if (std::find(all_foldartal.begin(), all_foldartal.end(), foldartal) == all_foldartal.end()) {
             // 如果板子没有找到，返回false
             return false;
