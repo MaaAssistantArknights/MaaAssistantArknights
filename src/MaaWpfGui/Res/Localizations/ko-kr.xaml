@@ -670,7 +670,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="UnitTime">회</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}</system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복제: {0}  </system:String>
-    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0}/{1}(만료 예정)  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
     <system:String x:Key="MedicineUsed">이성 회복제를 사용했습니다</system:String>
     <system:String x:Key="ExpiringMedicineUsed">만료가 임박한 이성 회복제를 사용했습니다</system:String>

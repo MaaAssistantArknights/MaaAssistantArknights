@@ -666,7 +666,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="UnitTime">times</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">Sanity: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">Medicine: {0}  </system:String>
-    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0}/{1}(Expiring)  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">Medicine: {0},{1}(Expiring)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">Stone: {0}  </system:String>
     <system:String x:Key="MedicineUsed">Medicine used</system:String>
     <system:String x:Key="ExpiringMedicineUsed">Expiring medicine used</system:String>
