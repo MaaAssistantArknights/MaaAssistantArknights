@@ -13,9 +13,6 @@
                 },
                 {
                     "$ref": "#/definitions/OcrDetectTask"
-                },
-                {
-                    "$ref": "#/definitions/HashTask"
                 }
             ]
         }
@@ -211,21 +208,6 @@
             },
             "description": "文字识别",
             "required": ["algorithm", "text"]
-        },
-        "HashTask": {
-            "allOf": [
-                {
-                    "$ref": "#/definitions/BaseTask"
-                }
-            ],
-            "properties": {
-                "algorithm": {
-                    "type": "string",
-                    "pattern": "Hash"
-                }
-            },
-            "description": "哈希计算",
-            "required": ["algorithm"]
         }
     }
 }

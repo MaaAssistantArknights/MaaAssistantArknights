@@ -263,7 +263,6 @@ namespace asst
         JustReturn,
         MatchTemplate,
         OcrDetect,
-        Hash
     };
 
     inline AlgorithmType get_algorithm_type(std::string algorithm_str)
@@ -273,7 +272,6 @@ namespace asst
             { "matchtemplate", AlgorithmType::MatchTemplate },
             { "justreturn", AlgorithmType::JustReturn },
             { "ocrdetect", AlgorithmType::OcrDetect },
-            { "hash", AlgorithmType::Hash },
         };
         if (algorithm_map.contains(algorithm_str)) {
             return algorithm_map.at(algorithm_str);
@@ -288,7 +286,6 @@ namespace asst
             { AlgorithmType::JustReturn, "JustReturn" },
             { AlgorithmType::MatchTemplate, "MatchTemplate" },
             { AlgorithmType::OcrDetect, "OcrDetect" },
-            { AlgorithmType::Hash, "Hash" },
         };
         if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
             return it->second;
@@ -495,23 +492,6 @@ namespace asst
     };
     using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
     using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;
-
-    // hash 计算任务的信息
-    struct HashTaskInfo : public TaskInfo
-    {
-        constexpr HashTaskInfo() = default;
-        constexpr virtual ~HashTaskInfo() override = default;
-        constexpr HashTaskInfo(const HashTaskInfo&) = default;
-        constexpr HashTaskInfo(HashTaskInfo&&) noexcept = default;
-        constexpr HashTaskInfo& operator=(const HashTaskInfo&) = default;
-        constexpr HashTaskInfo& operator=(HashTaskInfo&&) noexcept = default;
-        std::vector<std::string> hashes; // 需要多个哈希值
-        int dist_threshold = 0;          // 汉明距离阈值
-        std::pair<int, int> mask_range;  // 掩码的二值化范围
-        bool bound = false;              // 是否裁剪周围黑边
-    };
-    using HashTaskPtr = std::shared_ptr<HashTaskInfo>;
-    using HashTaskConstPtr = std::shared_ptr<const HashTaskInfo>;
 
     inline static const std::string UploadDataSource = "MeoAssistant";
 } // namespace asst
