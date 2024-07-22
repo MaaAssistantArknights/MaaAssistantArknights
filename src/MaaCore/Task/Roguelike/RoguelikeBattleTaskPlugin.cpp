@@ -448,6 +448,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 return true;
             }
             deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            // 防止滑动丢失(有些物体比如鸟笼没有方向),点一下右下角费用那里
+            asst::BattleHelper::cancel_oper_selection();
             // 开始计时
             auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
