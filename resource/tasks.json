@@ -10062,6 +10062,14 @@
         "roi": [750, 525, 188, 129],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
     },
+    "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
     "Sarkaz@Roguelike@StageFilterTruthConfirm": {
         "action": "ClickSelf",
         "postDelay": 500,
@@ -10069,14 +10077,6 @@
         "next": [
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
-        ]
-    },
-    "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
-        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
-        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
-            "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
     },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
