@@ -3,9 +3,6 @@
 void asst::RoguelikeConfig::clear()
 {
     // ------------------ 通用参数 ------------------
-    m_recruitment_count = 0;
-    m_recruitment_starts_complete = false;
-    m_recruitment_team_complete = false;
     m_trader_no_longer_buy = false;
     m_core_char = std::string();
     m_team_full_without_rookie = false;

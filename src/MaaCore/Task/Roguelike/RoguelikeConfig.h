@@ -100,7 +100,7 @@ namespace asst
         void set_start_foldartal(bool value) { m_start_foldartal = value; }
         bool get_start_foldartal() const { return m_start_foldartal; }
         void set_start_foldartal_list(std::vector<std::string> value) { m_start_foldartal_list = value; }
-        std::vector<std::string> get_start_foldartal_list() const { return m_start_foldartal_list; }
+        const auto& get_start_foldartal_list() const { return m_start_foldartal_list; }
         void set_use_foldartal(bool value) { m_use_foldartal = value; }
         bool get_use_foldartal() const { return m_use_foldartal; }
 
@@ -123,12 +123,6 @@ namespace asst
     /* 以下为局内数据，每次重置 */
     public:
         // ------------------ 招募 ------------------
-        void set_recruitment_count(int count) { m_recruitment_count = count; }
-        int get_recruitment_count() const { return m_recruitment_count; }
-        void set_recruitment_starts_complete(bool value) { m_recruitment_starts_complete = value; }
-        bool get_recruitment_starts_complete() const { return m_recruitment_starts_complete; }
-        void set_recruitment_team_complete(bool value) { m_recruitment_team_complete = value; }
-        bool get_recruitment_team_complete() const { return m_recruitment_team_complete; }
         void set_team_full_without_rookie(bool value) { m_team_full_without_rookie = value; }
         bool get_team_full_without_rookie() const { return m_team_full_without_rookie; }
 
@@ -138,7 +132,7 @@ namespace asst
 
         // ------------------ 开局 ------------------
         void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
-        const std::string& get_core_char() const { return m_core_char; }
+        const auto& get_core_char() const { return m_core_char; }
         void set_use_support(bool use_support) { m_use_support = use_support; }
         bool get_use_support() const { return m_use_support; }
         void set_use_nonfriend_support(bool value) { m_use_nonfriend_support = value; }
@@ -148,9 +142,6 @@ namespace asst
 
     private:
         // ------------------ 招募 ------------------
-        int m_recruitment_count = 0;                           // 招募次数
-        bool m_recruitment_starts_complete = false;            // 开局干员是否已经招募
-        bool m_recruitment_team_complete = false;              // 阵容是否完备
         bool m_team_full_without_rookie = false;               // 编队内没有预干员
 
         // ------------------ 商店 ------------------
