@@ -28,10 +28,10 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
 
     auto image = ctrler()->get_image();
 
-    int count = 0;                                                                // 当次已投资的个数
-    int retry = 0;                                                                // 重试次数
+    int count = 0; // 当次已投资的个数
+    int retry = 0; // 重试次数
     auto deposit = ocr_count(image, "Roguelike@StageTraderInvest-Count"); // 当前的存款
-    int count_limit = m_maximum - m_invest_count; // 可用投资次数
+    int count_limit = m_maximum - m_invest_count;                         // 可用投资次数
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
     LogInfo << __FUNCTION__ << "开始投资, 存款" << deposit.value_or(-1) << ", 可投资次数"
@@ -61,7 +61,8 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             }
             else {
                 Log.error(__FUNCTION__, "无法获取可投资状态下的存款");
-                save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
+                save_img(
+                    utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
                 retry++;
             }
         }
@@ -69,14 +70,16 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             Log.info(__FUNCTION__, "投资系统错误, 退出投资");
 
             sleep(300); // 此处UI有一个从左往右的移动，等待后重新截图，防止UI错位
-            if (auto ocr = ocr_count(ctrler()->get_image(), "Roguelike@StageTraderInvestError-Count"); ocr) {
+            auto ocr = ocr_count(ctrler()->get_image(), "Roguelike@StageTraderInvestError-Count");
+            if (ocr) {
                 // 可继续投资 / 到达投资上限999
                 count += *ocr - deposit.value_or(0);
                 deposit = *ocr;
             }
             else {
                 Log.error(__FUNCTION__, "无法获取错误状态下的存款");
-                save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
+                save_img(
+                    utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
             }
 
             break;
@@ -113,7 +116,8 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     return true;
 }
 
-std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, const auto& task_name)
+std::optional<int>
+    asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, const auto& task_name) const
 {
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     auto task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
@@ -130,7 +134,8 @@ std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, c
     };
     int count = 0;
     if (!utils::chars_to_number(ocr.get_result().text, count)) {
-        Log.error(__FUNCTION__, "unable to convert current investment count<", ocr.get_result().text, "> to number.");
+        LogError << __FUNCTION__ << "unable to convert current investment count<"
+                 << ocr.get_result().text << "> to number.";
         return std::nullopt;
     }
     return count;
@@ -150,7 +155,7 @@ bool asst::RoguelikeInvestTaskPlugin::is_investment_error(const cv::Mat& image) 
     return analyzer.analyze().has_value();
 }
 
-void asst::RoguelikeInvestTaskPlugin::stop_roguelike()
+void asst::RoguelikeInvestTaskPlugin::stop_roguelike() const
 {
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
         .set_times_limit("Roguelike@StartExplore", 0)

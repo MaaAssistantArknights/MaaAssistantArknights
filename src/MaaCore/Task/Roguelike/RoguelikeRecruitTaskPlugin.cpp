@@ -56,31 +56,23 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    // 这是第几次招募
-    int recruit_count = m_config->get_recruitment_count() + 1;
-    m_config->set_recruitment_count(recruit_count);
-
-    if (m_config->get_mode() == RoguelikeMode::Investment && recruit_count > 1) {
+    ++m_recruit_count;
+    if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1) {
         // 如果是投资模式，直接招募第一个干员
         lazy_recruit();
         return true;
     }
 
-    // 是否有开局干员，阵容中必须有开局干员，没有前仅招募start干员或预备干员
-    bool start_complete = m_config->get_recruitment_starts_complete();
-    // 是否阵容完备，阵容完备前，仅招募key干员或预备干员
-    bool team_complete = m_config->get_recruitment_team_complete();
-
     // 是否使用助战干员开局
     if (m_config->get_use_support()) {
         if (recruit_support_char()) {
-            start_complete = true;
+            m_starts_complete = true;
             return true;
         }
     }
     else {
         if (recruit_own_char()) {
-            start_complete = true;
+            m_starts_complete = true;
             return true;
         }
     }
@@ -111,14 +103,14 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         }
     }
 
-    if (!start_complete) {
+    if (!m_starts_complete) {
         for (const auto& oper : chars_map) {
             auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper.first);
-            if (recruit_info.is_start) start_complete = true;
+            if (recruit_info.is_start) m_starts_complete = true;
         }
     }
 
-    if (!team_complete) {
+    if (!m_team_complete) {
         bool complete = true;
         int complete_count = 0;
         int complete_require = 0;
@@ -134,21 +126,18 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                 complete = false;
             }
         }
-        team_complete = complete;
-        if (complete_count <= complete_require / 2 && recruit_count >= 10) {
+        m_team_complete = complete;
+        if (complete_count <= complete_require / 2 && m_recruit_count >= 10) {
             // 如果第10次招募还没拿到半队key干员，说明账号阵容不齐，放开招募限制，有啥用啥吧
-            team_complete = complete;
+            m_team_complete = complete;
         }
     }
 
-    if (recruit_count >= 3 && !start_complete) {
+    if (m_recruit_count >= 3 && !m_starts_complete) {
         // 如果第3次招募还没拿到start干员，说明账号练度低且阵容不齐，放开招募限制，有啥用啥吧
-        start_complete = true;
-        team_complete = true;
+        m_starts_complete = true;
+        m_team_complete = true;
     }
-
-    m_config->set_recruitment_starts_complete(start_complete); // 阵容中必须有开局干员，没有前仅招募start干员或预备干员
-    m_config->set_recruitment_team_complete(team_complete); // 阵容完备前，仅招募key干员或预备干员
 
     // 候选干员
     std::vector<RoguelikeRecruitInfo> recruit_list;
@@ -297,10 +286,10 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                             if (count >= priority_offset.threshold) priority += priority_offset.offset;
                         }
                     }
-                    if (!start_complete) {
+                    if (!m_starts_complete) {
                         if (!recruit_info.is_start) priority -= 1000;
                     }
-                    else if (!team_complete) {
+                    else if (!m_team_complete) {
                         if (!recruit_info.is_key) priority -= 1000;
                     }
                 }
@@ -423,6 +412,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     }
 
     return recruit_appointed_char(char_name, is_rtl);
+}
+
+void asst::RoguelikeRecruitTaskPlugin::reset_variable()
+{
+    m_recruit_count = 0;
+    m_starts_complete = false; 
+    m_team_complete = false;   
 }
 
 bool asst::RoguelikeRecruitTaskPlugin::lazy_recruit()
