@@ -1570,18 +1570,23 @@ namespace MaaWpfGui.Main
                     int deepen_or_weaken = (int)subTaskDetails["deepen_or_weaken"];
                     string cur = subTaskDetails["cur"].ToString();
                     string prev = subTaskDetails["prev"].ToString();
-                    if (deepen_or_weaken == 1 && prev == "") {
+                    if (deepen_or_weaken == 1 && prev == string.Empty)
+                    {
                         Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur, prev), UiLogColor.Info);
                     }
-                    else if (deepen_or_weaken == 1 && prev != "") {
+                    else if (deepen_or_weaken == 1 && prev != string.Empty)
+                    {
                         Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
                     }
-                    else if (deepen_or_weaken == -1 && cur == "") {
+                    else if (deepen_or_weaken == -1 && cur == string.Empty)
+                    {
                         Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), cur, prev), UiLogColor.Info);
                     }
-                    else if (deepen_or_weaken == -1 && cur != "") {
+                    else if (deepen_or_weaken == -1 && cur != string.Empty)
+                    {
                         Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
                     }
+
                     break;
             }
         }
