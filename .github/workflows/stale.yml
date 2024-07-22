@@ -20,7 +20,7 @@ jobs:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           days-before-stale: 30 # Number of days of inactivity before marking as stale
           days-before-close: 3 # Number of days to wait after marking as stale before closing
-          stale-issue-label: 'stale'
+          stale-issue-label: "stale"
           stale-issue-message: |
             "This issue has been inactive for a prolonged period and will be closed automatically in 3 days."
             "该问题已长时间处于闲置状态，3 天后将自动关闭。"
