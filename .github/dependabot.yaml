@@ -5,8 +5,7 @@ updates:
     schedule:
       interval: weekly
     commit-message:
-      prefix: gha
-      include: scope
+      prefix: ci
     assignees:
       - constrat
     groups:
