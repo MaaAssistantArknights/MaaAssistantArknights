@@ -2,7 +2,7 @@ name: "Inactive Issues auto close"
 
 on:
   schedule:
-    - cron: "0 0 * * *" # Runs daily at midnight
+    - cron: "0 */6 * * *" # Runs daily at midnight, temporarily runs every 6 hours for heavy workload
   workflow_dispatch: # Allows manual triggering
 
 jobs:
@@ -28,8 +28,8 @@ jobs:
           exempt-issue-labels: "keep-open, MAA Team"
           days-before-pr-stale: -1 # Completely disable stalling for PRs
           days-before-pr-close: -1 # Completely disable closing for PRs
-
-          # Debug / Testing / non-long-term options
+          
+          # Temporary to reduce the huge issues number
           ascending: true
           operations-per-run: 500
           debug-only: false
