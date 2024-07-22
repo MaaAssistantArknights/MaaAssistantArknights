@@ -768,9 +768,8 @@
                 {
                     "name": "莱伊",
                     "skill": 3,
-                    "is_key": true,
                     "alternate_skill": 2,
-                    "recruit_priority": 681,
+                    "recruit_priority": 582,
                     "promote_priority": 801,
                     "recruit_priority_offsets": [
                         {

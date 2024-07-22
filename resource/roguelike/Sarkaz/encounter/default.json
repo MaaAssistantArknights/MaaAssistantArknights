@@ -207,7 +207,33 @@
         {
             "name": "相遇",
             "option_num": 3,
-            "choose": 1
+            "choose": 1,
+            "choices": [
+                {
+                    "name": "它邀请对方共享猎物",
+                    "option_num": 3,
+                    "choose": 1,
+                    "reward": [
+                        {
+                            "name": "Relic",
+                            "type": "get",
+                            "value": "希望时代的涂鸦"
+                        }
+                    ]
+                },
+                {
+                    "name": "它向前扑去",
+                    "option_num": 3,
+                    "choose": 2,
+                    "reward": [
+                        {
+                            "name": "Relic",
+                            "type": "get",
+                            "value": "死仇时代的恨意"
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "虫卡兹！",
@@ -371,17 +397,17 @@
         {
             "name": "阴魂不散",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "不请自来",
             "option_num": 2,
-            "choose": 1
+            "choose": 2
         },
         {
             "name": "沉默拳王",
             "option_num": 2,
-            "choose": 1,
+            "choose": 2,
             "choices": [
                 {
                     "name": "举起矛头！",
@@ -400,7 +426,7 @@
         {
             "name": "气打鸭处来",
             "option_num": 2,
-            "choose": 1,
+            "choose": 2,
             "choices": [
                 {
                     "name": "举起矛头！",
