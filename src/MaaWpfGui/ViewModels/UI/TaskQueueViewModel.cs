@@ -1333,15 +1333,24 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool AppendInfrast()
         {
-            if (Instances.SettingsViewModel.CustomInfrastEnabled && !File.Exists(Instances.SettingsViewModel.CustomInfrastFile))
+            if (Instances.SettingsViewModel.CustomInfrastEnabled && (!File.Exists(Instances.SettingsViewModel.CustomInfrastFile) || CustomInfrastPlanInfoList.Count == 0))
             {
                 AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
                 return false;
             }
 
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
-            return Instances.AsstProxy.AsstAppendInfrast(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.ContinueTraining, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled,
-                Instances.SettingsViewModel.OriginiumShardAutoReplenishment, Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
+            return Instances.AsstProxy.AsstAppendInfrast(
+                order.ToArray(),
+                Instances.SettingsViewModel.UsesOfDrones,
+                Instances.SettingsViewModel.ContinueTraining,
+                Instances.SettingsViewModel.DormThreshold / 100.0,
+                Instances.SettingsViewModel.DormFilterNotStationedEnabled,
+                Instances.SettingsViewModel.DormTrustEnabled,
+                Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
+                Instances.SettingsViewModel.CustomInfrastEnabled,
+                Instances.SettingsViewModel.CustomInfrastFile,
+                CustomInfrastPlanIndex);
         }
 
         private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
@@ -2661,9 +2670,10 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 if (CustomInfrastPlanInfoList.Count == 0)
                 {
-                    value = 0;
+                    return;
                 }
-                else if (value >= CustomInfrastPlanInfoList.Count || value < 0)
+
+                if (value >= CustomInfrastPlanInfoList.Count || value < 0)
                 {
                     var count = CustomInfrastPlanInfoList.Count;
                     value = (value % count + count) % count;
@@ -2867,7 +2877,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void IncreaseCustomInfrastPlanIndex()
         {
-            if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod)
+            if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
             {
                 return;
             }
