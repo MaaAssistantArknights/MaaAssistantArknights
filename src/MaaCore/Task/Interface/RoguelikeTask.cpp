@@ -224,9 +224,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
         m_config_ptr->set_check_clp_pds(
             params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-        m_cp_ptr->set_double_check_clp_pds(
-            params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-
     }
 
     const auto& ptr = m_custom_ptr;
