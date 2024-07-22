@@ -4,47 +4,44 @@
         {
             "location": [3, 1],
             "direction": "right"
-        },
-        {
-            "location": [9, 2],
-            "direction": "left"
-        },
-        {
-            "location": [10, 4],
-            "direction": "up"
         }
     ],
     "blacklist_location": [],
     "deploy_plan": [
         {
-            "groups": ["情报官", "挡人先锋", "奶盾", "重装"],
-            "location": [3, 1],
-            "direction": "right"
-        },
-        {
-            "groups": ["高台输出"],
-            "location": [4, 3],
-            "direction": "right"
-        },
-        {
-            "groups": ["单奶", "群奶"],
-            "location": [2, 2],
-            "direction": "right"
-        },
-        {
-            "groups": ["地面远程"],
+            "groups": ["情报官","挡人先锋","奶盾"],
             "location": [2, 1],
             "direction": "right"
         },
         {
-            "groups": ["焰苇", "单奶", "群奶"],
+            "groups": ["高台输出"],
+            "location": [2, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["奶盾","领主","重装","地面阻挡"],
+            "location": [3, 1],
+            "direction": "right"
+        },
+        {
+            "groups": ["单奶","群奶"],
             "location": [3, 4],
             "direction": "up"
         },
         {
-            "groups": ["处决者", "炮灰"],
+            "groups": ["高台输出"],
+            "location": [4, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["处决者","炮灰"],
             "location": [9, 2],
-            "direction": "left"
+            "direction": "right"
+        },
+        {
+            "groups": ["补给站", "支援陷阱", "无人机"],
+            "location": [1, 2],
+            "direction": "right"
         }
     ],
     "retreat_plan": []

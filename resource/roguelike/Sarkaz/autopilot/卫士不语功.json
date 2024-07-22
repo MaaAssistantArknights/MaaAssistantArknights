@@ -2,26 +2,18 @@
     "stage_name": "卫士不语功",
     "replacement_home": [
         {
-            "location": [9, 3],
+            "location": [6, 2],
             "direction": "left"
         },
         {
-            "location": [3, 4],
-            "direction": "up"
-        },
-        {
-            "location": [2, 4],
-            "direction": "up"
-        },
-        {
-            "location": [4, 1],
+            "location": [8, 3],
             "direction": "down"
         }
     ],
     "blacklist_location": [],
     "deploy_plan": [
         {
-            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "groups": ["奶盾","重装", "地面阻挡", "地面远程"],
             "location": [6, 2],
             "direction": "left"
         },
@@ -31,22 +23,22 @@
             "direction": "up"
         },
         {
-            "groups": ["单奶", "群奶", "高台输出"],
+            "groups": ["单奶","群奶","高台输出"],
             "location": [9, 3],
             "direction": "left"
         },
         {
-            "groups": ["单奶", "群奶", "高台输出"],
+            "groups": ["单奶","群奶","高台输出"],
             "location": [3, 4],
             "direction": "up"
         },
         {
-            "groups": ["单奶", "群奶", "高台输出"],
+            "groups": ["单奶","群奶","高台输出"],
             "location": [2, 4],
             "direction": "up"
         },
         {
-            "groups": ["奶盾", "重装", "地面阻挡", "地面远程", "炮灰"],
+            "groups": ["奶盾","重装", "地面阻挡", "地面远程","炮灰"],
             "location": [8, 3],
             "direction": "down"
         },
@@ -56,8 +48,13 @@
             "direction": "down"
         },
         {
-            "groups": ["单奶", "群奶"],
+            "groups": ["单奶","群奶"],
             "location": [7, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["补给站", "支援陷阱", "无人机"],
+            "location": [8, 2],
             "direction": "down"
         }
     ],
