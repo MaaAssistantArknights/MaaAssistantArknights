@@ -250,7 +250,7 @@ jobs:
 
       - name: Cancelling
         if: steps.check_only_sorted.outputs.only_sorted == 'True'
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.5
 
       - name: Add files to git
         if: steps.check_only_sorted.outputs.only_sorted != 'True'
@@ -277,7 +277,7 @@ jobs:
 
       - name: Cancelling
         if: steps.add_files.outputs.have_commits != 'True'
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.5
 
       - name: Push changes # push the output folder to your repo
         if: steps.add_files.outputs.have_commits == 'True'
