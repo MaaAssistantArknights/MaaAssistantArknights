@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: github-actions
-    directory: /.github
+    directory: /.github/workflows
     schedule:
       interval: weekly
     commit-message:
@@ -9,6 +9,6 @@ updates:
     assignees:
       - constrat
     groups:
-      gha:
+      github-actions:
         patterns:
           - "*"
