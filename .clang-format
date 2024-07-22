@@ -60,15 +60,15 @@ BraceWrapping:
 BreakAfterAttributes: Never
 BreakAfterJavaFieldAnnotations: true
 BreakArrays: true
-BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Custom
 BreakBeforeConceptDeclarations: Always
 BreakBeforeInlineASMColon: OnlyMultiline
 BreakBeforeTernaryOperators: true
-BreakConstructorInitializers: BeforeComma
-BreakInheritanceList: BeforeComma
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
 BreakStringLiterals: true
-ColumnLimit: 100
+ColumnLimit: 120
 # CommentPragmas: '^ MEO pragma:'
 CompactNamespaces: false
 ConstructorInitializerIndentWidth: 4
