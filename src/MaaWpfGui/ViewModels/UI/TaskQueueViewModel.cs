@@ -2645,6 +2645,11 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
+                if (CustomInfrastPlanInfoList.Count == 0)
+                {
+                    return 0;
+                }
+
                 if (_customInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || _customInfrastPlanIndex < 0)
                 {
                     CustomInfrastPlanIndex = _customInfrastPlanIndex;
@@ -2654,7 +2659,11 @@ namespace MaaWpfGui.ViewModels.UI
             }
             set
             {
-                if (value >= CustomInfrastPlanInfoList.Count || value < 0)
+                if (CustomInfrastPlanInfoList.Count == 0)
+                {
+                    value = 0;
+                }
+                else if (value >= CustomInfrastPlanInfoList.Count || value < 0)
                 {
                     var count = CustomInfrastPlanInfoList.Count;
                     value = (value % count + count) % count;
