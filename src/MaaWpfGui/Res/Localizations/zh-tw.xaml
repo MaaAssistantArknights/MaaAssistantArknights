@@ -661,7 +661,7 @@
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">藥: {0}  </system:String>
-    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0}/{1}(臨期)  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">藥: {0},{1}(臨期)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智藥</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小時內過期的理智藥</system:String>
