@@ -290,7 +290,7 @@
     <system:String x:Key="GoldTimesLimit">N回投資した後に停止する</system:String>
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達した後に停止する</system:String>
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
-    <system:String x:Key="InvestmentWithMoreScore">投資モードではショッピングや人材募集が可能</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">投資モードでは買い物、採用、2階への入場が可能</system:String>
     <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
     <system:String x:Key="EnablePenguin">Penguin-Statsの報告</system:String>
