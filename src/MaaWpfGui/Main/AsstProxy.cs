@@ -1320,8 +1320,7 @@ namespace MaaWpfGui.Main
                     {// 肉鸽结算
                         var report = subTaskDetails;
                         var pass = (bool)report!["game_pass"]!;
-                        StringBuilder roguelikeInfo = new();
-                        roguelikeInfo.AppendFormat(
+                        var roguelikeInfo = string.Format(
                             LocalizationHelper.GetString("RoguelikeSettlement"),
                             pass ? "✓" : "✗",
                             report["floor"],
@@ -1336,7 +1335,7 @@ namespace MaaWpfGui.Main
                             report["exp"],
                             report["skill"]);
 
-                        Instances.TaskQueueViewModel.AddLog(roguelikeInfo.ToString(), UiLogColor.Message);
+                        Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message);
                         break;
                     }
 
