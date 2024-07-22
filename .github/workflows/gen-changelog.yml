@@ -79,7 +79,7 @@ jobs:
           git commit -m "$commit_msg"
 
       - name: Create PR
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
@@ -93,6 +93,6 @@ jobs:
             AnnAngela
 
       - name: Add reviewers to release PR
-        uses: kentaro-m/auto-assign-action@v1.2.5
+        uses: kentaro-m/auto-assign-action@v2.0.0
         with:
           configuration-path: ".github/release_reviewers.yaml"
