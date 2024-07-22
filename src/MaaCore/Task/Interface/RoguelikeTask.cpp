@@ -185,13 +185,11 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     bool stop_at_final_boss = params.get("stop_at_final_boss", mode == RoguelikeMode::Exp);
     // 傀影肉鸽3层和5层boss图标一样,禁用
     if (stop_at_final_boss && theme != "Phantom") {
-        Task.set_task_base(
-            theme + "@Roguelike@StageDreadfulFoe-5",
-            theme + "@Roguelike@StageDreadfulFoe-5_stop");
+        m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StageDreadfulFoe-5", 0);
     }
     else {
         // 重置boss进点
-        Task.set_task_base(theme + "@Roguelike@StageDreadfulFoe-5", theme + "@Roguelike@StageDreadfulFoe-5_default");
+        m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StageDreadfulFoe-5", INT_MAX);
     }
 
     m_roguelike_task_ptr->set_times_limit(
