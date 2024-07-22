@@ -15,19 +15,15 @@ using namespace asst;
 MultiMatcher::ResultsVecOpt MultiMatcher::analyze() const
 {
     auto match_results = Matcher::preproc_and_match(make_roi(m_image, m_roi), m_params);
-    if (match_results.empty()) {
-        return std::nullopt;
-    }
 
     std::vector<Result> results;
-    double threshold = m_params.templ_thres.front();
-
-    for (const auto& [matched, templ, templ_name] : match_results) {
-
+    for (size_t index = 0; index < match_results.size(); ++index) {
+        const auto& [matched, templ, templ_name] = match_results[index];
         if (matched.empty()) {
             continue;
         }
 
+        double threshold = m_params.templ_thres[index];
         int min_distance = (std::min)(templ.cols, templ.rows) / 2;
         for (int i = 0; i != matched.rows; ++i) {
             for (int j = 0; j != matched.cols; ++j) {
