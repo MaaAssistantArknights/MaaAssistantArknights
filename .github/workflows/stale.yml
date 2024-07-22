@@ -31,5 +31,5 @@ jobs:
 
           # Debug / Testing / non-long-term options
           ascending: true
-          operations-per-run: 200
+          operations-per-run: 1000
           debug-only: false
