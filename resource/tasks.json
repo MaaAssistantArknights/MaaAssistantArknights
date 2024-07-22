@@ -10071,9 +10071,20 @@
             "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
         ]
     },
+    "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
+        ]
+    },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
+        "method": "CcoeffHSV",
+        "templThreshold": 0.97,
         "next": [
+            "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
             "Sarkaz@Roguelike@StageFilterTruthLeave"
@@ -10244,7 +10255,10 @@
             "Sarkaz@Roguelike@Stages#next"
         ]
     },
-    "Sarkaz@Roguelike@StageTraderEnter": {},
+    "Sarkaz@Roguelike@StageTraderEnter": {
+        "method": "CcoeffHSV",
+        "templThreshold": 0.97
+    },
     "Sarkaz@Roguelike@StageTraderHD": {
         "Doc": "已深化",
         "templThreshold": 0.95,
