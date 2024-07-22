@@ -2648,13 +2648,6 @@
                     "name": "缠丸"
                 },
                 {
-                    "name": "锡人",
-                    "skill": 2,
-                    "recruit_priority": 367,
-                    "promote_priority": 240,
-                    "is_key": true
-                },
-                {
                     "name": "断罪者"
                 },
                 {
@@ -2790,6 +2783,29 @@
                 },
                 {
                     "name": "月见夜"
+                }
+            ]
+        },
+        {
+            "name": "奶盾",
+            "opers": [
+                {
+                    "name": "黍"
+                },
+                {
+                    "name": "塞雷娅"
+                },
+                {
+                    "name": "临光"
+                },
+                {
+                    "name": "深律"
+                },
+                {
+                    "name": "古米"
+                },
+                {
+                    "name": "斑点"
                 }
             ]
         },
@@ -3059,6 +3075,14 @@
                     "name": "白金",
                     "skill": 2,
                     "promote_priority": 550
+                },
+                {
+                    "name": "锡人",
+                    "skill": 2,
+                    "recruit_priority": 610,
+                    "promote_priority": 870,
+                    "is_key": true,
+                    "is_start": true
                 },
                 {
                     "name": "梅"
