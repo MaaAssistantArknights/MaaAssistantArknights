@@ -310,6 +310,7 @@
     "ClickStageName": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
+        "roi": [0, 0, 1280, 720],
         "fullMatch": true,
         "isAscii": true,
         "text": [],
@@ -5429,6 +5430,7 @@
     },
     "ClickPlotStage": {
         "action": "ClickSelf",
+        "roi": [0, 0, 1280, 720],
         "next": ["BattleStartPlot"],
         "maxTimes": 1
     },
@@ -6264,6 +6266,28 @@
     },
     "Roguelike@DropsFlag": {
         "roi": [875, 601, 152, 119]
+    },
+    "Roguelike@DropsFlag_default": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "Roguelike@DropsFlag",
+        "next": [
+            "Roguelike@GetDrops#next",
+            "Roguelike@GetDropCompleted",
+            "Roguelike@GetDropLeave",
+            "Roguelike@Stages#next",
+            "Roguelike@StageEncounterOptions#next",
+            "Roguelike@StageEncounterSpecialClose",
+            "Roguelike@EnterAfterRecruit",
+            "Roguelike@StageTraderLeave",
+            "Roguelike@CloseEvent",
+            "Roguelike@DialogSkip",
+            "Roguelike@RecruitOther"
+        ]
+    },
+    "Roguelike@DropsFlag_mode1": {
+        "template": "Roguelike@DropsFlag.png",
+        "baseTask": "Roguelike@DropsFlag",
+        "next": ["Roguelike@GetDropLeave", "Roguelike@DropsFlag_default#next"]
     },
     "Roguelike@EnterAfterRecruit": {
         "Doc": "base_task",
@@ -7318,38 +7342,6 @@
         "template": "Roguelike@DropsFlag.png",
         "baseTask": "Phantom@Roguelike@DropsFlag_default"
     },
-    "Phantom@Roguelike@DropsFlag_default": {
-        "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Phantom@Roguelike@GetDrops#next",
-            "Phantom@Roguelike@GetDropCompleted",
-            "Phantom@Roguelike@GetDropLeave",
-            "Phantom@Roguelike@Stages#next",
-            "Phantom@Roguelike@StageEncounterOptions#next",
-            "Phantom@Roguelike@StageEncounterSpecialClose",
-            "Phantom@Roguelike@EnterAfterRecruit",
-            "Phantom@Roguelike@StageTraderLeave",
-            "Phantom@Roguelike@CloseEvent",
-            "Phantom@Roguelike@DialogSkip",
-            "Phantom@Roguelike@RecruitOther"
-        ]
-    },
-    "Phantom@Roguelike@DropsFlag_mode1": {
-        "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Phantom@Roguelike@GetDropLeave",
-            "Phantom@Roguelike@GetDrops#next",
-            "Phantom@Roguelike@GetDropCompleted",
-            "Phantom@Roguelike@Stages#next",
-            "Phantom@Roguelike@StageEncounterOptions#next",
-            "Phantom@Roguelike@StageEncounterSpecialClose",
-            "Phantom@Roguelike@EnterAfterRecruit",
-            "Phantom@Roguelike@StageTraderLeave",
-            "Phantom@Roguelike@CloseEvent",
-            "Phantom@Roguelike@DialogSkip",
-            "Phantom@Roguelike@RecruitOther"
-        ]
-    },
     "Phantom@Roguelike@EnterAfterRecruit": {},
     "Phantom@Roguelike@ExitThenAbandon": {
         "template": "Roguelike@ExitThenAbandon.png",
@@ -7702,38 +7694,6 @@
     "Mizuki@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
         "baseTask": "Mizuki@Roguelike@DropsFlag_default"
-    },
-    "Mizuki@Roguelike@DropsFlag_default": {
-        "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Mizuki@Roguelike@GetDrops#next",
-            "Mizuki@Roguelike@GetDropCompleted",
-            "Mizuki@Roguelike@GetDropLeave",
-            "Mizuki@Roguelike@Stages#next",
-            "Mizuki@Roguelike@StageEncounterOptions#next",
-            "Mizuki@Roguelike@StageEncounterSpecialClose",
-            "Mizuki@Roguelike@EnterAfterRecruit",
-            "Mizuki@Roguelike@StageTraderLeave",
-            "Mizuki@Roguelike@CloseEvent",
-            "Mizuki@Roguelike@DialogSkip",
-            "Mizuki@Roguelike@RecruitOther"
-        ]
-    },
-    "Mizuki@Roguelike@DropsFlag_mode1": {
-        "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Mizuki@Roguelike@GetDropLeave",
-            "Mizuki@Roguelike@GetDrops#next",
-            "Mizuki@Roguelike@GetDropCompleted",
-            "Mizuki@Roguelike@Stages#next",
-            "Mizuki@Roguelike@StageEncounterOptions#next",
-            "Mizuki@Roguelike@StageEncounterSpecialClose",
-            "Mizuki@Roguelike@EnterAfterRecruit",
-            "Mizuki@Roguelike@StageTraderLeave",
-            "Mizuki@Roguelike@CloseEvent",
-            "Mizuki@Roguelike@DialogSkip",
-            "Mizuki@Roguelike@RecruitOther"
-        ]
     },
     "Mizuki@Roguelike@EnterAfterRecruit": {},
     "Mizuki@Roguelike@ExitThenAbandon": {
@@ -8172,6 +8132,7 @@
     "Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig": {
         "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
         "algorithm": "OcrDetect",
+        "roi": [0, 0, 1280, 720],
         "sub": ["Sami@Roguelike@MissionCompletedFlag"],
         "text": ["坍缩范式加深"],
         "next": [
@@ -8388,38 +8349,6 @@
     "Sami@Roguelike@DropsFlag": {
         "template": "Roguelike@DropsFlag.png",
         "baseTask": "Sami@Roguelike@DropsFlag_default"
-    },
-    "Sami@Roguelike@DropsFlag_default": {
-        "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Sami@Roguelike@GetDrops#next",
-            "Sami@Roguelike@GetDropCompleted",
-            "Sami@Roguelike@GetDropLeave",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@StageEncounterOptions#next",
-            "Sami@Roguelike@StageEncounterSpecialClose",
-            "Sami@Roguelike@EnterAfterRecruit",
-            "Sami@Roguelike@StageTraderLeave",
-            "Sami@Roguelike@CloseEvent",
-            "Sami@Roguelike@DialogSkip",
-            "Sami@Roguelike@RecruitOther"
-        ]
-    },
-    "Sami@Roguelike@DropsFlag_mode1": {
-        "template": "Roguelike@DropsFlag.png",
-        "next": [
-            "Sami@Roguelike@GetDropLeave",
-            "Sami@Roguelike@GetDrops#next",
-            "Sami@Roguelike@GetDropCompleted",
-            "Sami@Roguelike@Stages#next",
-            "Sami@Roguelike@StageEncounterOptions#next",
-            "Sami@Roguelike@StageEncounterSpecialClose",
-            "Sami@Roguelike@EnterAfterRecruit",
-            "Sami@Roguelike@StageTraderLeave",
-            "Sami@Roguelike@CloseEvent",
-            "Sami@Roguelike@DialogSkip",
-            "Sami@Roguelike@RecruitOther"
-        ]
     },
     "Sami@Roguelike@EnterAfterRecruit": {
         "next": ["Sami@Roguelike@NextLevel"]
@@ -8733,6 +8662,7 @@
         "next": ["Sami@Roguelike@StageBoonsEnter", "Sami@Roguelike@Stages#next"]
     },
     "Sami@Roguelike@StageBoonsAI6": {
+        "baseTask": "Sami@Roguelike@Stage",
         "templThreshold": 0.95,
         "next": ["Sami@Roguelike@StageBoonsEnter", "Sami@Roguelike@Stages#next"]
     },
@@ -8755,7 +8685,7 @@
     },
     "Sami@Roguelike@StageBoskyPassageAI6": {
         "templThreshold": 0.9,
-        "baseTask": "Roguelike@Stage",
+        "baseTask": "Sami@Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageBoskyPassageEnter",
             "Sami@Roguelike@Stages#next"
@@ -8774,7 +8704,7 @@
     },
     "Sami@Roguelike@StageCombatDpsAI6": {
         "templThreshold": 0.95,
-        "baseTask": "Roguelike@Stage",
+        "baseTask": "Sami@Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageCombatDpsEnter",
             "Sami@Roguelike@StageEmergencyDpsEnter",
@@ -8804,7 +8734,7 @@
     },
     "Sami@Roguelike@StageEmergencyDpsAI6": {
         "templThreshold": 0.95,
-        "baseTask": "Roguelike@Stage",
+        "baseTask": "Sami@Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageEmergencyDpsEnter",
             "Sami@Roguelike@StageCombatDpsEnter",
@@ -8834,7 +8764,7 @@
     },
     "Sami@Roguelike@StageEncounterAI6": {
         "templThreshold": 0.96,
-        "baseTask": "Roguelike@Stage",
+        "baseTask": "Sami@Roguelike@Stage",
         "next": [
             "Sami@Roguelike@StageEncounterEnter",
             "Sami@Roguelike@Stages#next"
