@@ -50,11 +50,6 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
-        return false;
-    }
-
     if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_check_clp_pds()) {
         return false;
     }

@@ -11,10 +11,6 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (!RoguelikeConfig::is_valid_theme(m_config->get_theme())) {
-        Log.error("Roguelike name doesn't exist!");
-        return false;
-    }
     if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX ||
         !m_config->get_start_foldartal()) {
         return false;
