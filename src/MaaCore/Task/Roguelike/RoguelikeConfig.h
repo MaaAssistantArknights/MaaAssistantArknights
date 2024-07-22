@@ -166,12 +166,4 @@ namespace asst
         std::vector<std::string> m_clp_pds;           // 已受到的坍缩范式
         bool m_need_check_panel = false;              // 是否在下次回到关卡选择界面时检查坍缩范式
     };
-
-    enum class RoguelikeEvent
-    {
-        None = 0,
-        EncounterClickOption     = 1, // -> CollapsalParadigm
-        ShoppingConsiderGoods    = 2, // -> CollapsalParadigm
-        SamiFoldartalDeclaration = 3  // -> CollapsalParadigm
-    };
 } // namespace asst

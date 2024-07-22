@@ -125,10 +125,9 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         if (no_longer_buy && !goods.ignore_no_longer_buy) {
             continue;
         }
-        std::optional<json::value> opt = notify_sibling_plugins(
-            RoguelikeEvent::ShoppingConsiderGoods,
-            json::object { { "decrease_collapse", goods.decrease_collapse } });
-        if (opt && opt.value().get("reject_goods", false)) {
+
+        // 在萨米肉鸽刷坍缩范式时不再购买会减少坍缩值的藏品
+        if (m_config->get_mode() == RoguelikeMode::CLP_PDS && goods.decrease_collapse) {
             continue;
         }
 

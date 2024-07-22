@@ -20,8 +20,6 @@ namespace asst
 
     protected:
         std::shared_ptr<RoguelikeConfig> m_config;
-        std::optional<json::value>
-            notify_sibling_plugins(RoguelikeEvent event, const json::value& detail = json::object());
     };
 
     using RoguelikeTaskPluginPtr = std::shared_ptr<AbstractRoguelikeTaskPlugin>;

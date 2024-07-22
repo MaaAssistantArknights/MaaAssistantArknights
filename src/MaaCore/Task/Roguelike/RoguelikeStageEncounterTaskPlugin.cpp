@@ -97,7 +97,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
-    notify_sibling_plugins(RoguelikeEvent::EncounterClickOption);
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     sleep(500);
@@ -114,7 +113,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
             }
-            notify_sibling_plugins(RoguelikeEvent::EncounterClickOption);
 
             if (need_exit()) {
                 return false;
