@@ -88,7 +88,7 @@ namespace asst
 
         json::value basic_info_with_what(std::string what) const;
 
-        bool m_enable = true;
+        mutable bool m_enable = true;
         bool m_ignore_error = false;
         AsstCallback m_callback = nullptr;
         std::string_view m_task_chain;
