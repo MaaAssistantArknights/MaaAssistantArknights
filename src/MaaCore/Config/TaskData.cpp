@@ -42,7 +42,7 @@ asst::TaskDerivedConstPtr asst::TaskData::get_raw(std::string_view name)
 
 asst::TaskPtr asst::TaskData::get(std::string_view name)
 {
-    // 普通任务 或 已经生成过的高级任务
+    // 生成过的任务
     if (auto it = m_all_tasks_info.find(name); it != m_all_tasks_info.cend()) {
         return it->second;
     }
