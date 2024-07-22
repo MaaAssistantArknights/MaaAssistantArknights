@@ -8,30 +8,6 @@
         {
             "location": [4, 3],
             "direction": "left"
-        },
-        {
-            "location": [3, 4],
-            "direction": "left"
-        },
-        {
-            "location": [3, 2],
-            "direction": "left"
-        },
-        {
-            "location": [9, 4],
-            "direction": "up"
-        },
-        {
-            "location": [8, 3],
-            "direction": "left"
-        },
-        {
-            "location": [9, 3],
-            "direction": "left"
-        },
-        {
-            "location": [10, 3],
-            "direction": "left"
         }
     ],
     "blacklist_location": [
@@ -82,6 +58,11 @@
             "groups": ["单奶", "群奶"],
             "location": [8, 4],
             "direction": "left"
+        },
+        {
+            "groups": ["补给站", "支援陷阱", "无人机"],
+            "location": [3, 2],
+            "direction": "right"
         }
     ],
     "retreat_plan": []

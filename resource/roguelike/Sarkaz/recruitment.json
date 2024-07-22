@@ -3079,8 +3079,8 @@
                 {
                     "name": "锡人",
                     "skill": 2,
-                    "recruit_priority": 610,
-                    "promote_priority": 870,
+                    "recruit_priority": 870,
+                    "promote_priority": 610,
                     "is_key": true,
                     "is_start": true
                 },
