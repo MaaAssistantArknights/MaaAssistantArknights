@@ -150,7 +150,7 @@ namespace asst
 
         // ------------------ 坍缩范式 ------------------
         void set_clp_pds(std::vector<std::string> clp_pds) { m_clp_pds = std::move(clp_pds); }
-        const std::vector<std::string>& get_clp_pds() const { return m_clp_pds; }
+        const auto& get_clp_pds() const { return m_clp_pds; }
         void set_need_check_panel(bool need_check_panel) { m_need_check_panel = need_check_panel; }
         bool get_need_check_panel() const { return m_need_check_panel; }
 
