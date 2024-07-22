@@ -122,7 +122,7 @@ void asst::AbstractTask::callback(AsstMsg msg, const json::value& detail)
         plugin->set_task_id(m_task_id);
         plugin->set_task_ptr(this);
 
-        if (!plugin->verify(msg, detail)) {
+        if (!plugin->get_enable() || !plugin->verify(msg, detail)) {
             continue;
         }
 
