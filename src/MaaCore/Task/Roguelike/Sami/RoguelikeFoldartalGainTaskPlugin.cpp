@@ -73,7 +73,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
     }
 }
 
-void asst::RoguelikeFoldartalGainTaskPlugin::reset_variable()
+void asst::RoguelikeFoldartalGainTaskPlugin::reset()
 {
     m_foldartal_floor.reset();
 }

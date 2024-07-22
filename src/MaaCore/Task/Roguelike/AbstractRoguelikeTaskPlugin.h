@@ -13,7 +13,7 @@ namespace asst
         AbstractRoguelikeTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain,
                                     const std::shared_ptr<RoguelikeConfig>& data);
 
-        virtual void reset_variable() {}
+        virtual void reset() {}
 
         // 根据 params 设置插件专用参数, 返回插件是否适用
         virtual bool set_params([[maybe_unused]] const json::value& params) { return true; }

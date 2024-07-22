@@ -31,7 +31,7 @@ bool asst::RoguelikeResetTaskPlugin::_run()
 {
     for (const auto& plugin : m_task_ptr->get_plugins()) {
         if (auto ptr = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin)) {
-            ptr->reset_variable();
+            ptr->reset();
         }
     }
     m_config->clear();
