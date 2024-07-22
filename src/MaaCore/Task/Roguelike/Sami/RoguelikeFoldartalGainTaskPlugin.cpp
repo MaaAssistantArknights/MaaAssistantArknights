@@ -62,22 +62,25 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
     }
 }
 
+void asst::RoguelikeFoldartalGainTaskPlugin::reset_variable()
+{
+    m_foldartal_floor.reset();
+}
+
 void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
 {
-    auto foldartal_floor = m_config->get_foldartal_floor();
-
     // 到达第二层后，获得上一层预见的密文板
-    if (foldartal_floor) {
-        gain_foldartal(*foldartal_floor);
+    if (m_foldartal_floor) {
+        gain_foldartal(*m_foldartal_floor);
     }
 
-    foldartal_floor.reset();
+    m_foldartal_floor.reset();
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@FoldartalGainOcrNextLevel");
     sleep(500);
     if (analyzer.analyze()) {
         std::string foldartar_will_get_next_floor = analyzer.get_result().front().text;
-        foldartal_floor = foldartar_will_get_next_floor;
+        m_foldartal_floor = foldartar_will_get_next_floor;
         auto info = basic_info_with_what("FoldartalGainOcrNextLevel");
         info["details"]["foldartal"] = foldartar_will_get_next_floor;
         callback(AsstMsg::SubTaskExtraInfo, info);
@@ -97,7 +100,6 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
             }
         }
     }
-    m_config->set_foldartal_floor(std::move(foldartal_floor));
 }
 
 bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()

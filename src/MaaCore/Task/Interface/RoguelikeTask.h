@@ -9,6 +9,7 @@ namespace asst
     class RoguelikeDebugTaskPlugin;
     class RoguelikeCustomStartTaskPlugin;
     class RoguelikeFoldartalGainTaskPlugin;
+    class RoguelikeFoldartalStartTaskPlugin;
     class RoguelikeFoldartalUseTaskPlugin;
     class RoguelikeCollapsalParadigmTaskPlugin;
 
@@ -28,7 +29,8 @@ namespace asst
         std::shared_ptr<RoguelikeInvestTaskPlugin> m_invest_ptr = nullptr;
         std::shared_ptr<RoguelikeDebugTaskPlugin> m_debug_ptr = nullptr;
         std::shared_ptr<RoguelikeCustomStartTaskPlugin> m_custom_ptr = nullptr;
-        std::shared_ptr<RoguelikeFoldartalGainTaskPlugin> m_foldartal_start_ptr = nullptr;
+        std::shared_ptr<RoguelikeFoldartalGainTaskPlugin> m_foldartal_gain_ptr = nullptr;
+        std::shared_ptr<RoguelikeFoldartalStartTaskPlugin> m_foldartal_start_ptr = nullptr;
         std::shared_ptr<RoguelikeFoldartalUseTaskPlugin> m_foldartal_use_ptr = nullptr;
         std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_cp_ptr = nullptr;
     };

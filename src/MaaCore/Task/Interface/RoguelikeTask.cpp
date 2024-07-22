@@ -77,11 +77,12 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 萨米主题专用插件 ------------------
 
-    m_foldartal_start_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(
+    m_foldartal_gain_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(
         m_config_ptr);
     m_foldartal_use_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(
         m_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_config_ptr);
+    m_foldartal_start_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(
+        m_config_ptr);
     m_cp_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(
         m_config_ptr);
 
@@ -197,10 +198,10 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     if (theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板
         m_config_ptr->set_first_floor_foldartal(params.contains("first_floor_foldartal"));
-        m_foldartal_start_ptr->set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
+        m_foldartal_gain_ptr->set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
 
         // 是否生活队凹开局板子
-        m_config_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
+        m_foldartal_start_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
 
         if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
             std::vector<std::string> list;
@@ -213,7 +214,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
                 Log.error(__FUNCTION__, "| Empty start_foldartal_list");
                 return false;
             }
-            m_config_ptr->set_start_foldartal_list(std::move(list));
+            m_foldartal_start_ptr->set_start_foldartal_list(std::move(list));
         }
 
         // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False

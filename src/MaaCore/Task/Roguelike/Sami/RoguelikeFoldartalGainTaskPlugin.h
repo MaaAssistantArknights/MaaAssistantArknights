@@ -15,6 +15,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+        virtual void reset_variable() override;
 
     private:
         void enter_next_floor();
@@ -27,5 +28,6 @@ namespace asst
         mutable bool m_ocr_next_level = false;
 
         std::string m_start_floor_foldartal; // 需要凹的远见
+        std::optional<std::string> m_foldartal_floor; // 当前层的预见密文板，在下一层获得
     };
 }
