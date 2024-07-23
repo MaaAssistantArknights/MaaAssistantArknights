@@ -22,9 +22,5 @@ namespace asst
         static bool satisfies_condition(const Config::ChoiceRequire& requirement, int special_val);
         static int process_task(const Config::RoguelikeEvent& event, const int special_val);
         static int hp(const cv::Mat& image);
-    private:
-        std::shared_ptr<RoguelikeCollapsalParadigmTaskPlugin> m_clp_pd_plugin;
-
-        bool m_plugin_gained = false;
     };
 }

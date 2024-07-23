@@ -35,18 +35,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::va
 bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
-    if (!m_plugin_gained) {
-        m_plugin_gained = true;
-        if (RoguelikeCollapsalParadigmTaskPlugin::enabled(m_config)) {
-            typedef RoguelikeCollapsalParadigmTaskPlugin Plugin;
-            for (const auto& plugin : m_task_ptr->get_plugins()) {
-                if (auto ptr = std::dynamic_pointer_cast<Plugin>(plugin)) {
-                    m_clp_pd_plugin = ptr;
-                    break;
-                }
-            }
-        }
-    }
 
     const std::string& theme = m_config->get_theme();
     const RoguelikeMode& mode = m_config->get_mode();
@@ -109,9 +97,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
-    if (m_clp_pd_plugin) {
-        m_clp_pd_plugin->check_collapsal_paradigm_banner();
-    }
 
     // 判断是否点击成功，成功进入对话后左上角的生命值会消失
     sleep(500);
@@ -127,9 +112,6 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
             for (int j = 0; j < 2; ++j) {
                 ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
                 sleep(300);
-            }
-            if (m_clp_pd_plugin) {
-                m_clp_pd_plugin->check_collapsal_paradigm_banner();
             }
 
             if (need_exit()) {

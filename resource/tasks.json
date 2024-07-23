@@ -8129,7 +8129,7 @@
         "baseTask": "Sami@Roguelike@CheckCollapsalParadigms",
         "roi": [945, 60, 335, 660]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig": {
+    "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
         "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
         "algorithm": "OcrDetect",
         "roi": [0, 0, 1280, 720],
@@ -8179,7 +8179,7 @@
         "baseTask": "Sami@Roguelike@CheckCollapsalParadigms",
         "roi": [350, 120, 310, 520]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_panelCheckConfig": {
+    "Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig": {
         "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
         "algorithm": "OcrDetect",
         "action": "Swipe",

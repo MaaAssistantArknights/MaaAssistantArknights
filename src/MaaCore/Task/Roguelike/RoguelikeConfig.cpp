@@ -63,6 +63,4 @@ void asst::RoguelikeConfig::clear()
 
     // ------------------ 萨米主题专用参数 ------------------
     m_foldartal = std::vector<std::string>();
-    m_clp_pds = std::vector<std::string>();
-    m_need_check_panel = false;
 }

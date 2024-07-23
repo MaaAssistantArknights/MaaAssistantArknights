@@ -415,7 +415,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     return recruit_appointed_char(char_name, is_rtl);
 }
 
-void asst::RoguelikeRecruitTaskPlugin::reset_variable()
+void asst::RoguelikeRecruitTaskPlugin::reset_in_run_variables()
 {
     m_recruit_count = 0;
     m_starts_complete = false; 
