@@ -119,7 +119,7 @@ jobs:
         id: user_info
         uses: actions/github-script@v7
         with:
-          github-token: ${{ secrets.MAA_RESOURCE_SYNC }}
+          github-token: ${{ secrets.MISTEOWORKFLOW }}
           script: |
             const { data: user } = await github.rest.users.getAuthenticated();
             const { data: public_email } = await github.rest.users.listPublicEmailsForAuthenticatedUser();
