@@ -10,7 +10,7 @@ namespace asst
         virtual ~RoguelikeFoldartalGainTaskPlugin() override = default;
 
     public:
-        virtual bool set_params(const json::value& params);
+        virtual bool set_params(const json::value& params) override;
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
         void set_start_floor_foldartal(std::string value) { m_start_floor_foldartal = value; }
 
