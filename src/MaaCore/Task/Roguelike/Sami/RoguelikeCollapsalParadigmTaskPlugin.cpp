@@ -1,6 +1,8 @@
 #include "RoguelikeCollapsalParadigmTaskPlugin.h"
-#include "Config/Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 
+#include <algorithm>
+
+#include "Config/Roguelike/Sami/RoguelikeCollapsalParadigmConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
@@ -8,33 +10,35 @@
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
-#include <algorithm>
-
-asst::RoguelikeCollapsalParadigmTaskPlugin::RoguelikeCollapsalParadigmTaskPlugin(
-    const AsstCallback& callback,
-    Assistant* inst,
-    std::string_view task_chain,
-    std::shared_ptr<RoguelikeConfig> config) :
-    AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
+bool asst::RoguelikeCollapsalParadigmTaskPlugin::set_params(const json::value& params)
 {
-    // 由于仅有萨米肉鸽使用，任务名暂定写死
-    std::shared_ptr<OcrTaskInfo> bannerCheckConfig =
-        Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig");
-    m_deepen_text = bannerCheckConfig->text.front();
-    m_banner_triggers_start.insert(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
-    m_banner_triggers_completed.insert(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
+    const std::string& theme = m_config->get_theme();
+    if (theme != RoguelikeTheme::Sami) {
+        return false;
+    }
 
-    std::shared_ptr<OcrTaskInfo> panelCheckConfig =
+    const RoguelikeMode& mode = m_config->get_mode();
+    m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
+
+    // 仅萨米肉鸽使用 TODO: 去掉名字里的下划线, _b -> B, _p -> P
+    const auto& bannerCheckConfig =
+        Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig");
+    const auto& panelCheckConfig =
         Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_panelCheckConfig");
+
+    m_deepen_text = bannerCheckConfig->text.front();
     m_roi = panelCheckConfig->roi;
     m_swipe_begin.x = panelCheckConfig->specific_rect.x;
     m_swipe_begin.y = panelCheckConfig->specific_rect.y;
     m_swipe_end.x = panelCheckConfig->rect_move.x;
     m_swipe_end.y = panelCheckConfig->rect_move.y;
-    m_panel_triggers.insert(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
-    ranges::for_each(panelCheckConfig->replace_map, [&](const std::pair<std::string, std::string>& p) {
-        m_zone_dict.emplace(p.first, p.second);
-    });
+
+    m_banner_triggers_start = std::unordered_set(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
+    m_banner_triggers_completed = std::unordered_set(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
+    m_panel_triggers = std::unordered_set(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
+    m_zone_dict = std::unordered_map(panelCheckConfig->replace_map.begin(), panelCheckConfig->replace_map.end());
+
+    return true;
 }
 
 bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
