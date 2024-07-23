@@ -10170,7 +10170,6 @@
     "Sarkaz@Roguelike@StageRefresh": {
         "action": "ClickSelf",
         "method": "CcoeffHSV",
-        "templThreshold": 0.9,
         "postDelay": 500,
         "roi": [790, 130, 60, 144],
         "next": [
