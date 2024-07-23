@@ -10066,7 +10066,7 @@
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
     },
     "Sarkaz@Roguelike@StageFilterTruthChooseCollection": {
-        "Doc":"合成出现藏品二选一",
+        "Doc": "合成出现藏品二选一",
         "baseTask": "Sarkaz@Roguelike@GetDrop3",
         "template": "Sarkaz@Roguelike@GetDrop3.png",
         "next": [
