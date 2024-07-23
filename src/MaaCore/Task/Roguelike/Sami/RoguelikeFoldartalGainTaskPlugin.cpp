@@ -13,7 +13,6 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::val
     }
 
     if (m_config->get_theme() != RoguelikeTheme::Sami) {
-        m_enable = false;
         return false;
     }
 
