@@ -12,11 +12,14 @@ public:
 public:
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    void set_start_foldartal(bool value) { m_start_foldartal = value; }
-    void set_start_foldartal_list(std::vector<std::string> value)
+    virtual bool set_params([[maybe_unused]] const json::value& params) override
     {
-        m_start_foldartal_list = std::move(value);
+        return m_config->get_theme() == RoguelikeTheme::Sami;
     }
+
+    void set_start_foldartal(bool value) { m_start_foldartal = value; }
+
+    void set_start_foldartal_list(std::vector<std::string> value) { m_start_foldartal_list = std::move(value); }
 
 protected:
     virtual bool _run() override;
