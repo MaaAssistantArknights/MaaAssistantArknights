@@ -283,7 +283,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
     // ================================================================================
     toggle_panel(); // 坍缩范式状态栏检查完毕，关闭状态栏，以下为处理识别到的结果
 
-    if (prev_clp_pds != cur_clp_pds) { // 如果坍缩范式没有变动
+    if (prev_clp_pds == cur_clp_pds) { // 如果坍缩范式没有变动
         return;
     }
     else if (m_verification_check) {
