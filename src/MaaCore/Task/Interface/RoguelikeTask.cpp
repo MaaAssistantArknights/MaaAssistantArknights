@@ -204,14 +204,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
         // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
         m_config_ptr->set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-        m_cp_ptr->set_double_check_clp_pds(
-            params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
     }
-
-    m_foldartal_gain_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_cp_ptr->set_enable(theme == RoguelikeTheme::Sami);
 
     m_invest_ptr->set_control_plugin_ptr(m_control_ptr);
 
@@ -225,6 +218,17 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     ptr->set_custom(
         RoguelikeCustomType::UseNonfriendSupport,
         params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
+
+    m_foldartal_gain_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_cp_ptr->set_enable(theme == RoguelikeTheme::Sami);
+
+    for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
+        if (const auto& roguelike_plugin = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin)) {
+            roguelike_plugin->set_enable(roguelike_plugin->set_params(params));
+        }
+    }
 
     return true;
 }

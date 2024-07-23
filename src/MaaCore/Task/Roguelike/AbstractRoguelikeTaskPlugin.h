@@ -15,7 +15,12 @@ namespace asst
 
         virtual void reset_variable() {}
 
+        // 根据 params 设置插件专用参数, 返回插件是否适用
+        virtual bool set_params([[maybe_unused]] const json::value& params) { return true; }
+
     protected:
         std::shared_ptr<RoguelikeConfig> m_config;
     };
+
+    using RoguelikeTaskPluginPtr = std::shared_ptr<AbstractRoguelikeTaskPlugin>;
 }
