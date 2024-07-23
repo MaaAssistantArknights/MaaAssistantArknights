@@ -227,7 +227,10 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_cp_ptr->set_double_check_clp_pds(
             params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
 
-    }
+    m_foldartal_gain_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_cp_ptr->set_enable(theme == RoguelikeTheme::Sami);
 
     const auto& ptr = m_custom_ptr;
     ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));        // 开局分队
