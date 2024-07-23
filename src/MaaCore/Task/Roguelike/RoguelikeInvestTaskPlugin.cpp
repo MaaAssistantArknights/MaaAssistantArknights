@@ -82,6 +82,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
                 // 可继续投资 / 到达投资上限999
                 count += *ocr - deposit.value_or(0);
                 deposit = *ocr;
+                my_disable_once = true;
             }
             else {
                 Log.error(__FUNCTION__, "无法获取错误状态下的存款");

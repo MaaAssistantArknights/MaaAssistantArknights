@@ -14,10 +14,13 @@ public:
 
     virtual bool verify(AsstMsg msg, const json::value& details) const final
     {
-        return my_enable && _verify(msg, details);
+        return my_enable && !my_disable_once && _verify(msg, details);
     };
 
     virtual bool _verify(AsstMsg msg, const json::value& details) const;
+
+    virtual void reset_in_run_variables() override { my_disable_once = false; }
+
     virtual bool set_params([[maybe_unused]] const json::value& params) override;
 
 public:
@@ -30,6 +33,8 @@ private:
     bool is_investment_error(const cv::Mat& image) const;
     void stop_roguelike() const;
 
+    bool my_enable = true;
+    bool my_disable_once = false;
     int m_invest_count = 0;
     int m_maximum = 0;
     bool m_stop_when_full = false; // 存款满了就停止
