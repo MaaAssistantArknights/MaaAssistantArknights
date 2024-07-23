@@ -88,7 +88,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
-    if (!m_config_ptr->set_params(params)) {
+    if (!m_config_ptr->verify_and_load_params(params)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
         return false;
     }
@@ -188,7 +188,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
         if (const auto& p_ptr = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin); p_ptr != nullptr) {
-            p_ptr->set_enable(p_ptr->set_params(params));
+            p_ptr->set_enable(p_ptr->load_params(params));
         }
     }
 

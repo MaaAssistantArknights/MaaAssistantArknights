@@ -6,7 +6,7 @@
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
-bool asst::RoguelikeFoldartalGainTaskPlugin::set_params(const json::value& params)
+bool asst::RoguelikeFoldartalGainTaskPlugin::load_params(const json::value& params)
 {
     const std::string& theme = m_config->get_theme();
     if (theme != RoguelikeTheme::Sami) {

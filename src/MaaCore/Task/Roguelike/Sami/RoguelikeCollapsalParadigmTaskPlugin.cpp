@@ -10,7 +10,7 @@
 #include "Vision/Matcher.h"
 #include "Vision/OCRer.h"
 
-bool asst::RoguelikeCollapsalParadigmTaskPlugin::set_params(const json::value& params)
+bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& params)
 {
     // ———————— 检查适用主题, 仅萨米肉鸽使用 ———————————————————————————————————————
     const std::string& theme = m_config->get_theme();

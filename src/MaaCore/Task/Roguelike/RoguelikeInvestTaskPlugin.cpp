@@ -23,7 +23,7 @@ bool asst::RoguelikeInvestTaskPlugin::verify(AsstMsg msg, const json::value& det
     }
 }
 
-bool asst::RoguelikeInvestTaskPlugin::set_params(const json::value& params)
+bool asst::RoguelikeInvestTaskPlugin::load_params(const json::value& params)
 {
     m_maximum = params.get("investments_count", INT_MAX);
     m_stop_when_full = params.get("stop_when_investment_full", false);
