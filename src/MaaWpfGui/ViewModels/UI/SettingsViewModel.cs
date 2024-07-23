@@ -4116,9 +4116,10 @@ namespace MaaWpfGui.ViewModels.UI
                 return;
             }
 
-            var image = Instances.AsstProxy.AsstGetImage();
-            TestLinkImage = image;
+            await Task.Delay(500);
+            TestLinkImage = Instances.AsstProxy.AsstGetImage();
             TestLinkInfo = "Finish";
+            Instances.AsstProxy.AsstStop();
         }
 
         private bool _showTestLinkImage = false;
