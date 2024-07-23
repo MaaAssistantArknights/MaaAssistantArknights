@@ -10,8 +10,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::set_params(const json::value& param
 {
     const std::string& theme = m_config->get_theme();
     if (theme != RoguelikeTheme::Sami) {
-        m_enable = false;
-        return true;
+        return false;
     }
     set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
     return true;
