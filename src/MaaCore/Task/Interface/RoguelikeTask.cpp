@@ -98,8 +98,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
-    m_invest_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
-    m_invest_ptr->set_stop_when_full(params.get("stop_when_investment_full", false));
+    
     // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
     {
         Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
@@ -194,9 +193,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
 
     for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
-        if (const auto& roguelike_plugin = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin);
-            roguelike_plugin != nullptr && !roguelike_plugin->set_params(params)) {
-            roguelike_plugin->set_enable(false);
+        if (const auto& p_ptr = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin); p_ptr != nullptr) {
+            p_ptr->set_enable(p_ptr->set_params(params));
         }
     }
 
