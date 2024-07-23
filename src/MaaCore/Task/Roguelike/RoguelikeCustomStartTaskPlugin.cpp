@@ -143,5 +143,6 @@ bool asst::RoguelikeCustomStartTaskPlugin::hijack_core_char()
     m_config->set_use_support(m_customs[RoguelikeCustomType::UseSupport] == "1");
     m_config->set_use_nonfriend_support(m_customs[RoguelikeCustomType::UseNonfriendSupport] == "1");
     m_config->set_core_char(char_name);
+    m_config->set_squad(m_customs[RoguelikeCustomType::Squad]);
     return true;
 }

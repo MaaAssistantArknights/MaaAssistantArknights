@@ -57,7 +57,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     LogTraceFunction;
 
     ++m_recruit_count;
-    if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1) {
+    if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1 &&
+        m_config->get_squad() == "蓝图测绘分队") {
         // 如果是投资模式，直接招募第一个干员
         lazy_recruit();
         return true;
