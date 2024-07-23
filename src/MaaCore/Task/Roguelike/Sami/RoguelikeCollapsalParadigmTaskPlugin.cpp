@@ -14,8 +14,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::set_params(const json::value& p
 {
     const std::string& theme = m_config->get_theme();
     if (theme != RoguelikeTheme::Sami) {
-        m_enable = false;
-        return true;
+        return false;
     }
 
     const RoguelikeMode& mode = m_config->get_mode();
