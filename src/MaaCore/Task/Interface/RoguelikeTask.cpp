@@ -45,7 +45,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     // ------------------ 通用插件 ------------------
     m_roguelike_task_ptr->register_plugin<ScreenshotTaskPlugin>();
     m_roguelike_task_ptr->register_plugin<RoguelikeFormationTaskPlugin>(m_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_config_ptr);
+    m_control_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeControlTaskPlugin>(m_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeResetTaskPlugin>(m_config_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeSettlementTaskPlugin>(m_config_ptr);
     m_invest_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeInvestTaskPlugin>(m_config_ptr);
@@ -212,6 +212,8 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
     m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
     m_cp_ptr->set_enable(theme == RoguelikeTheme::Sami);
+
+    m_invest_ptr->set_control_plugin_ptr(m_control_ptr);
 
     const auto& ptr = m_custom_ptr;
     ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));        // 开局分队
