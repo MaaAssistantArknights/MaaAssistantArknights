@@ -268,7 +268,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
         toggle_panel();
         image = ctrler()->get_image();
         analyzer.set_image(image);
-    } while (!analyzer.analyze()); // 检测 "当前坍缩值" 字样以确保坍缩范式列表已展开
+    } while (!need_exit() && !analyzer.analyze()); // 检测 "当前坍缩值" 字样以确保坍缩范式列表已展开
 
     // ================================================================================
     std::vector<std::string> cur_clp_pds;
@@ -363,7 +363,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading()
 {
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_loading");
-    while (analyzer.analyze()) {
+    while (!need_exit() && analyzer.analyze()) {
         sleep(100);
         analyzer.set_image(ctrler()->get_image());
     }
@@ -374,7 +374,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage()
 {
     Matcher matcher(ctrler()->get_image());
     matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
-    while (!matcher.analyze()) {
+    while (!need_exit() && !matcher.analyze()) {
         sleep(100);
         matcher.set_image(ctrler()->get_image());
     }
