@@ -35,23 +35,12 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::set_params(const json::value& p
     m_swipe_begin.y = panelCheckConfig->specific_rect.y;
     m_swipe_end.x = panelCheckConfig->rect_move.x;
     m_swipe_end.y = panelCheckConfig->rect_move.y;
-
     m_banner_triggers_start = std::unordered_set(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
     m_banner_triggers_completed = std::unordered_set(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
     m_panel_triggers = std::unordered_set(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
     m_zone_dict = std::unordered_map(panelCheckConfig->replace_map.begin(), panelCheckConfig->replace_map.end());
 
     return true;
-}
-
-void asst::RoguelikeCollapsalParadigmTaskPlugin::reset()
-{
-    m_clp_pds.clear();
-    m_check_banner = false;
-    m_check_panel = false;
-    m_need_check_panel = false;
-    m_verification_check = false;
-    m_zone.clear();
 }
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::reset_in_run_variables()
