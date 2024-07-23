@@ -78,10 +78,12 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
         if (name == "阿米娅") {
             map_roles_count[battle::Role::Caster] += 1;
             map_roles_count[battle::Role::Warrior] += 1;
+            map_roles_count[battle::Role::Medic] += 1;
             if (elite == 1 && level == 70) {
                 total_wait_promotion += 1;
                 map_wait_promotion[battle::Role::Caster] += 1;
                 map_wait_promotion[battle::Role::Warrior] += 1;
+                map_wait_promotion[battle::Role::Medic] += 1;
             }
         }
         else {
@@ -204,6 +206,10 @@ bool asst::RoguelikeShoppingTaskPlugin::buy_once()
                 m_config->set_foldartal(std::move(foldartal));
             }
         }
+        std::vector<std::string> owned_collection = m_config->get_collection();
+        // 把goods.name存到已获得藏品里
+        owned_collection.emplace_back(goods.name);
+        m_config->set_collection(std::move(owned_collection));
         if (goods.no_longer_buy) {
             m_config->set_trader_no_longer_buy(true);
         }

@@ -1920,7 +1920,7 @@
                     ],
                     "collection_priority_offsets": [
                         {
-                            "collection": ["波纹之手"],
+                            "collection": "波纹之手",
                             "offset": 300
                         }
                     ]
@@ -1968,7 +1968,7 @@
                     "promote_priority": 780,
                     "collection_priority_offsets": [
                         {
-                            "collection": ["波纹之手"],
+                            "collection": "波纹之手",
                             "offset": 638
                         }
                     ]
@@ -1988,7 +1988,7 @@
                     ],
                     "collection_priority_offsets": [
                         {
-                            "collection": ["波纹之手"],
+                            "collection": "波纹之手",
                             "offset": 200
                         }
                     ]
