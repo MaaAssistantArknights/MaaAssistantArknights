@@ -417,6 +417,7 @@
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、他のMAAがない場合はPCを休止状態になる</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">MAAを終了し、他のMAAがない場合はシャットダウン</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
+    <system:String x:Key="ExitSelfAndStopGame">アークナイツとMAAを終了する</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">止める</system:String>
     <system:String x:Key="WaitAndStop">待って &amp; 止める</system:String>

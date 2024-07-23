@@ -419,6 +419,8 @@
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，无其他 MAA 则休眠</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，无其他 MAA 则关机</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
+    <system:String x:Key="ExitSelfAndStopGame">退出 明日方舟 和 MAA</system:String>
+
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>

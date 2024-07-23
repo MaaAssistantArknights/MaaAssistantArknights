@@ -97,27 +97,28 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of the actions after completion.
         /// </summary>
         public List<GenericCombinedData<ActionType>> ActionAfterCompletedList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
-                new() { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
-                new() { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+        [
+            new() { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
+            new() { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
+            new() { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
+            new() { Display = LocalizationHelper.GetString("ExitSelfAndStopGame"), Value = ActionType.ExitSelfAndStopGame },
 
-                new() { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
-                new() { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
-                new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
+            new() { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
+            new() { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
+            new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
 
-                // new() { Display="待机",Value=ActionTypeAfterCompleted.Suspend },
-                new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
-                new() { Display = LocalizationHelper.GetString("Hibernate"), Value = ActionType.Hibernate },
-                new() { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
+            // new() { Display="待机",Value=ActionTypeAfterCompleted.Suspend },
+            new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
+            new() { Display = LocalizationHelper.GetString("Hibernate"), Value = ActionType.Hibernate },
+            new() { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
 
-                // new() { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
-                new() { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
-                new() { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
+            // new() { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
+            new() { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
+            new() { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
 
-                new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
-                new() { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
-            ];
+            new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
+            new() { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
+        ];
 
         /// <summary>
         /// Gets or sets the action after completion.
@@ -512,10 +513,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
 
-            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
-            {
-                [0] = new() { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
-            };
+            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList()) { [0] = new() { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty }, };
 
             // reset closed stages to "Last/Current"
             if (!CustomStageCode)
@@ -1570,12 +1568,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"api -v {emuIndex} shutdown_player",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"api -v {emuIndex} shutdown_player", CreateNoWindow = true, UseShellExecute = false, };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1646,12 +1639,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"quit --index {emuIndex}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"quit --index {emuIndex}", CreateNoWindow = true, UseShellExecute = false, };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1720,12 +1708,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"quit -index:{emuIndex}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"quit -index:{emuIndex}", CreateNoWindow = true, UseShellExecute = false, };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1786,12 +1769,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
-                {
-                    Arguments = $"stop -i {emuIndex}",
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"stop -i {emuIndex}", CreateNoWindow = true, UseShellExecute = false, };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1885,13 +1863,7 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool KillEmulatorByWindow()
         {
             int pid = 0;
-            var windowName = new[]
-            {
-                "明日方舟",
-                "明日方舟 - MuMu模拟器",
-                "BlueStacks App Player",
-                "BlueStacks",
-            };
+            var windowName = new[] { "明日方舟", "明日方舟 - MuMu模拟器", "BlueStacks App Player", "BlueStacks", };
             foreach (string i in windowName)
             {
                 var hwnd = FindWindow(null, i);
@@ -2064,6 +2036,11 @@ namespace MaaWpfGui.ViewModels.UI
             ExitEmulator,
 
             /// <summary>
+            /// Exits MAA and Stops Game.
+            /// </summary>
+            ExitSelfAndStopGame,
+
+            /// <summary>
             /// Exits MAA and emulator.
             /// </summary>
             ExitEmulatorAndSelf,
@@ -2145,7 +2122,15 @@ namespace MaaWpfGui.ViewModels.UI
 
                     // Environment.Exit(0);
                     break;
+                case ActionType.ExitSelfAndStopGame:
+                    if (!Instances.AsstProxy.AsstStartCloseDown())
+                    {
+                        AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                    }
 
+                    await Task.Delay(1000); // 等待关闭游戏 不然会导致游戏没关闭就把自己关了
+                    Bootstrapper.Shutdown();
+                    break;
                 case ActionType.ExitEmulator:
                     if (!KillEmulatorModeSwitcher())
                     {
@@ -2857,9 +2842,9 @@ namespace MaaWpfGui.ViewModels.UI
 
             var now = DateTime.Now;
             foreach (var plan in CustomInfrastPlanInfoList.Where(
-                plan => plan.PeriodList.Any(
-                    period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
-                        && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
+                         plan => plan.PeriodList.Any(
+                             period => TimeLess(period.BeginHour, period.BeginMinute, now.Hour, now.Minute)
+                                       && TimeLess(now.Hour, now.Minute, period.EndHour, period.EndMinute))))
             {
                 CustomInfrastPlanIndex = plan.Index;
                 return;
@@ -3146,16 +3131,16 @@ namespace MaaWpfGui.ViewModels.UI
             "3213", "3223", "3233", "3243", // 双芯片
             "3253", "3263", "3273", "3283", // 双芯片
             "7001", "7002", "7003", "7004", // 许可
-            "4004", "4005",                 // 凭证
+            "4004", "4005", // 凭证
             "3105", "3131", "3132", "3233", // 龙骨/加固建材
-            "6001",                         // 演习券
-            "3141", "4002",                 // 源石
-            "32001",                        // 芯片助剂
-            "30115",                        // 聚合剂
-            "30125",                        // 双极纳米片
-            "30135",                        // D32钢
-            "30145",                        // 晶体电子单元
-            "30155",                        // 烧结核凝晶
+            "6001", // 演习券
+            "3141", "4002", // 源石
+            "32001", // 芯片助剂
+            "30115", // 聚合剂
+            "30125", // 双极纳米片
+            "30135", // D32钢
+            "30145", // 晶体电子单元
+            "30155", // 烧结核凝晶
         ];
 
         private void InitDrops()
