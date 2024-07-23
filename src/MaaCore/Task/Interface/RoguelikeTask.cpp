@@ -74,10 +74,10 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 萨米主题专用插件 ------------------
 
-    m_foldartal_gain_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr);
     m_foldartal_use_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_config_ptr);
     m_foldartal_start_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_config_ptr);
-    m_cp_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
@@ -180,7 +180,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     if (theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板
         m_config_ptr->set_first_floor_foldartal(params.contains("first_floor_foldartal"));
-        m_foldartal_gain_ptr->set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
 
         // 是否生活队凹开局板子
         m_foldartal_start_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
@@ -219,14 +218,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         RoguelikeCustomType::UseNonfriendSupport,
         params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
 
-    m_foldartal_gain_ptr->set_enable(theme == RoguelikeTheme::Sami);
     m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
     m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_cp_ptr->set_enable(theme == RoguelikeTheme::Sami);
 
     for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
-        if (const auto& roguelike_plugin = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin)) {
-            roguelike_plugin->set_enable(roguelike_plugin->set_params(params));
+        if (const auto& roguelike_plugin = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin);
+            roguelike_plugin != nullptr && !roguelike_plugin->set_params(params)) {
+            roguelike_plugin->set_enable(false);
         }
     }
 
