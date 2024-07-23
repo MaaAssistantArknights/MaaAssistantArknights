@@ -2487,7 +2487,7 @@ namespace MaaWpfGui.Main
             {
                 ["task_names"] = new JArray
                 {
-                    "Stop",
+                    "Home",
                 },
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
