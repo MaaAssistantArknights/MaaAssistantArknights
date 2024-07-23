@@ -8,6 +8,7 @@ updates:
       prefix: ci
     assignees:
       - constrat
+      - AnnAngela
     groups:
       github-actions:
         patterns:
