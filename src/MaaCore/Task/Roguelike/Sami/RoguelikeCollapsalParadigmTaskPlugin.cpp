@@ -54,7 +54,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::reset()
     m_zone.clear();
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::reset()
+void asst::RoguelikeCollapsalParadigmTaskPlugin::reset_in_run_variables()
 {
     m_clp_pds.clear();
     m_check_banner = false;

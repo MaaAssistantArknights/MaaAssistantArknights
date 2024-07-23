@@ -12,8 +12,8 @@ public:
     using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
     virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
-    virtual void reset() override;
-    virtual bool set_params(const json::value& params) override;
+    virtual void reset_in_run_variables() override;
+    virtual void config(const json::value& params) override;
 
 protected:
     virtual bool _run() override;

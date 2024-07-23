@@ -16,7 +16,7 @@ namespace asst
 
     protected:
         virtual bool _run() override;
-        virtual void reset() override;
+        virtual void reset_in_run_variables() override;
 
     private:
         void enter_next_floor();
