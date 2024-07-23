@@ -44,12 +44,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
         return false;
     }
 
-    if (m_config->get_theme() != RoguelikeTheme::Sami) {
-        m_enable = false;
-        return false;
-    }
-
-    if (!m_config->get_check_clp_pds()) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_check_clp_pds()) {
         return false;
     }
 

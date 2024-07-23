@@ -33,10 +33,10 @@
 
 #include "Utils/Logger.hpp"
 
-asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
-    , m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType))
-    , m_config_ptr(std::make_shared<RoguelikeConfig>())
+asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_roguelike_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_config_ptr(std::make_shared<RoguelikeConfig>())
 {
     LogTraceFunction;
 
@@ -51,10 +51,8 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_invest_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeInvestTaskPlugin>(m_config_ptr);
 
     m_debug_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeDebugTaskPlugin>(m_config_ptr);
-    m_custom_ptr =
-        m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_config_ptr);
-    m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_config_ptr)
-        ->set_retry_times(0);
+    m_custom_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCustomStartTaskPlugin>(m_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeShoppingTaskPlugin>(m_config_ptr)->set_retry_times(0);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeBattleTaskPlugin>(m_config_ptr)
         ->set_retry_times(0)
@@ -67,8 +65,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
         ->set_retry_times(2)
         .set_ignore_error(true);
 
-    m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>(m_config_ptr)
-        ->set_retry_times(0);
+    m_roguelike_task_ptr->register_plugin<RoguelikeStageEncounterTaskPlugin>(m_config_ptr)->set_retry_times(0);
 
     m_roguelike_task_ptr->register_plugin<RoguelikeLastRewardTaskPlugin>(m_config_ptr);
 
@@ -77,14 +74,10 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 萨米主题专用插件 ------------------
 
-    m_foldartal_gain_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(
-        m_config_ptr);
-    m_foldartal_use_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(
-        m_config_ptr);
-    m_foldartal_start_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(
-        m_config_ptr);
-    m_cp_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(
-        m_config_ptr);
+    m_foldartal_gain_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr);
+    m_foldartal_use_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_config_ptr);
+    m_foldartal_start_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_config_ptr);
+    m_cp_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
@@ -125,8 +118,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     {
         Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
         std::string strategy_task = theme + "@Roguelike@StrategyChange";
-        std::string strategy_task_with_mode =
-            strategy_task + "_mode" + std::to_string(static_cast<int>(mode));
+        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(static_cast<int>(mode));
         if (Task.get(strategy_task_with_mode) == nullptr) {
             strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
             Log.warn(__FUNCTION__, "No strategy for mode", static_cast<int>(mode));
@@ -144,8 +136,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_debug_ptr->set_enable(mode != RoguelikeMode::Investment);
     if (mode == RoguelikeMode::Investment) {
         bool investment_with_more_score = params.get("investment_with_more_score", false);
-        if (!params.contains("investment_with_more_score")
-            && params.contains("investment_enter_second_floor")) {
+        if (!params.contains("investment_with_more_score") && params.contains("investment_enter_second_floor")) {
             investment_with_more_score = params.get("investment_enter_second_floor", true);
             Log.warn("================  DEPRECATED  ================");
             Log.warn(
@@ -157,20 +148,13 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         // 刷源石锭模式是否进入第二层
         if (investment_with_more_score) {
             // 战斗后奖励默认
-            Task.set_task_base(
-                theme + "@Roguelike@DropsFlag",
-                theme + "@Roguelike@DropsFlag_default");
+            Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
-            m_roguelike_task_ptr->set_times_limit(
-                "StageTraderLeaveConfirm",
-                0,
-                ProcessTask::TimesLimitType::Post);
+            m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", 0, ProcessTask::TimesLimitType::Post);
         }
         else {
             // 战斗后奖励只拿钱
-            Task.set_task_base(
-                theme + "@Roguelike@DropsFlag",
-                theme + "@Roguelike@DropsFlag_mode1");
+            Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_mode1");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", 0);
             m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
         }
@@ -182,9 +166,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
 
-    m_roguelike_task_ptr->set_times_limit(
-        theme + "@Roguelike@StartExplore",
-        params.get("starts_count", INT_MAX));
+    m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", params.get("starts_count", INT_MAX));
     // 通过 exceededNext 禁用投资系统，进入商店购买逻辑
     m_roguelike_task_ptr->set_times_limit(
         "StageTraderInvestSystem",
@@ -218,16 +200,18 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         }
 
         // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
-        m_foldartal_use_ptr->set_use_foldartal(
-            params.get("use_foldartal", mode != RoguelikeMode::CLP_PDS));
+        m_foldartal_use_ptr->set_use_foldartal(params.get("use_foldartal", mode != RoguelikeMode::CLP_PDS));
 
         // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
-        m_config_ptr->set_check_clp_pds(
-            params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
+        m_config_ptr->set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
         m_cp_ptr->set_double_check_clp_pds(
             params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-
     }
+
+    m_foldartal_gain_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_cp_ptr->set_enable(theme == RoguelikeTheme::Sami);
 
     const auto& ptr = m_custom_ptr;
     ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));        // 开局分队
