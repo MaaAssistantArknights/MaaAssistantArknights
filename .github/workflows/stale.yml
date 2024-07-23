@@ -1,5 +1,9 @@
 name: "Inactive Issues auto close"
 
+env: # config
+  daysBeforeStale: 180 # Number of days of inactivity before marking as stale
+  daysBeforeClose: 7 # Number of days to wait after marking as stale before closing
+
 on:
   schedule:
     - cron: "0 */6 * * *" # Runs daily at midnight, temporarily runs every 6 hours for heavy workload
@@ -19,12 +23,12 @@ jobs:
         uses: actions/stale@v9
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          days-before-stale: 30 # Number of days of inactivity before marking as stale
-          days-before-close: 3 # Number of days to wait after marking as stale before closing
+          days-before-stale: ${{ env.daysBeforeStale }}
+          days-before-close: ${{ env.daysBeforeClose }}
           stale-issue-label: "stale"
           stale-issue-message: |
-            This issue has been inactive for a prolonged period and will be closed automatically in 3 days.
-            该问题已长时间处于闲置状态，3 天后将自动关闭。
+            This issue has been inactive for a prolonged period and will be closed automatically in ${{ env.daysBeforeClose }} days.
+            该问题已长时间处于闲置状态，${{ env.daysBeforeClose }} 天后将自动关闭。
           exempt-issue-labels: "keep-open, MAA Team"
           days-before-pr-stale: -1 # Completely disable stalling for PRs
           days-before-pr-close: -1 # Completely disable closing for PRs
