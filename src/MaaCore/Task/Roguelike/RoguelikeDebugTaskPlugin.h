@@ -11,7 +11,7 @@ namespace asst
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
-        virtual bool set_params([[maybe_unused]] const json::value& params) override
+        virtual bool load_params([[maybe_unused]] const json::value& params) override
         {   
             // 投资模式下不开启调试任务
             return m_config->get_mode() != RoguelikeMode::Investment;

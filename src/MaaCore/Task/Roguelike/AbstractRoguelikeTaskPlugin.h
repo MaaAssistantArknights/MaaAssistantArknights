@@ -14,7 +14,7 @@ namespace asst
                                     const std::shared_ptr<RoguelikeConfig>& data);
 
         // 根据 params 设置插件专用参数, 返回插件是否适用
-        virtual bool set_params([[maybe_unused]] const json::value& params) { return true; }
+        virtual bool load_params([[maybe_unused]] const json::value& params) { return true; }
 
         // 进入新的一轮坍缩时重置局内变量
         virtual void reset_in_run_variables() {}
