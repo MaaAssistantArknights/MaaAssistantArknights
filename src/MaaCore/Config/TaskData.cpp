@@ -114,6 +114,24 @@ struct TaskInfoSerializer
         return json;
     }
 
+    json::array serialize(const std::vector<asst::MatchTaskInfo::Range>& vec) const
+    {
+        json::array json;
+        for (const auto& range : vec) {
+            json.push_back(json::array { serialize(range.first), serialize(range.second) });
+        }
+        return json;
+    }
+
+    json::array serialize(const std::vector<int>& vec) const
+    {
+        json::array json;
+        for (const auto& i : vec) {
+            json.push_back(i);
+        }
+        return json;
+    }
+
     json::array serialize(const std::vector<std::pair<std::string, std::string>>& vec) const
     {
         json::array json;
