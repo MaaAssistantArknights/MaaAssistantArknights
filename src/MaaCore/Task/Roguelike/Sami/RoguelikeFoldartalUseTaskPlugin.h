@@ -12,7 +12,12 @@ namespace asst
         virtual ~RoguelikeFoldartalUseTaskPlugin() override = default;
 
     public:
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+        virtual bool verify(AsstMsg msg, const json::value& details) const final
+        {
+            return !m_use_foldartal && _verify(msg, details);
+        };
+
+        virtual bool _verify(AsstMsg msg, const json::value& details) const;
         virtual bool set_params([[maybe_unused]] const json::value& params) override
         {
             // 投资模式下不开启调试任务

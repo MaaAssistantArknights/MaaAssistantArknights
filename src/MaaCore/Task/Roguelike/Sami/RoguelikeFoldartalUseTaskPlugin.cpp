@@ -9,14 +9,14 @@
 
 #include <set>
 
-bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json::value& details)
+bool asst::RoguelikeFoldartalUseTaskPlugin::_verify(const AsstMsg msg, const json::value& details)
     const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
-    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_use_foldartal) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
 

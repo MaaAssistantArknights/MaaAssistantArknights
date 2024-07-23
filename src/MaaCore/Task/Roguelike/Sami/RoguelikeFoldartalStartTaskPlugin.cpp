@@ -5,13 +5,13 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
-bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::RoguelikeFoldartalStartTaskPlugin::_verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
-    if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX || !m_start_foldartal) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX) {
         return false;
     }
 

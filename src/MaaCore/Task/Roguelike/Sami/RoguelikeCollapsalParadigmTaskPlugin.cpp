@@ -23,10 +23,8 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::set_params(const json::value& p
     m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
 
     // ———————— 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死 ———————————
-    const auto& bannerCheckConfig =
-        Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
-    const auto& panelCheckConfig =
-        Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig");
+    const auto& bannerCheckConfig = Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
+    const auto& panelCheckConfig = Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig");
 
     m_deepen_text = bannerCheckConfig->text.front();
     m_roi = panelCheckConfig->roi;
@@ -67,8 +65,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
     const auto task_name = details.get("details", "task", "");
 
     // banner check
-    if (msg == AsstMsg::SubTaskStart &&
-        m_banner_triggers_start.find(task_name) != m_banner_triggers_start.end()) {
+    if (msg == AsstMsg::SubTaskStart && m_banner_triggers_start.find(task_name) != m_banner_triggers_start.end()) {
         m_check_banner = true;
         return true;
     }
@@ -79,8 +76,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
     }
 
     // panel check
-    if (msg == AsstMsg::SubTaskStart &&
-        m_panel_triggers.find(task_name) != m_panel_triggers.end()) {
+    if (msg == AsstMsg::SubTaskStart && m_panel_triggers.find(task_name) != m_panel_triggers.end()) {
         if (new_zone()) {
             m_need_check_panel = true;
             m_verification_check = false;
@@ -93,8 +89,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
         }
     }
 
-    if (msg == AsstMsg::SubTaskCompleted &&
-        m_panel_triggers.find(task_name) == m_panel_triggers.end() &&
+    if (msg == AsstMsg::SubTaskCompleted && m_panel_triggers.find(task_name) == m_panel_triggers.end() &&
         !m_need_check_panel && m_double_check_clp_pds) {
         m_need_check_panel = true;
         m_verification_check = true;
@@ -159,7 +154,6 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
 
         std::vector<std::string>::iterator it;
         while (result_it1 != ocr_results1.end() && result_it2 != ocr_results2.end()) {
-
             // 如果坍缩范式名与坍缩范式变动之间的距离太远，则提示识别出错，跳到下一个坍缩范式变动
             if ((*result_it2).rect.y >= (*result_it1).rect.y + (*result_it1).rect.height + 25) {
                 Log.info(m_banner_check_error_message);
@@ -289,11 +283,11 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
     else if (m_verification_check) {
         Log.info("Roguelike Collapsal Paradigm Task Plugin: Verification Failed");
 #ifdef ASST_DEBUG
-        Log.info("–––––––– Previous ––––––––––––––");
+        Log.info("-------- Previous --------");
         for (const std::string& clp_pd : prev_clp_pds) {
             Log.info(clp_pd);
         }
-        Log.info("–––––––– Current –––––––––––––––");
+        Log.info("-------- Current --------");
         for (const std::string& clp_pd : cur_clp_pds) {
             Log.info(clp_pd);
         }
