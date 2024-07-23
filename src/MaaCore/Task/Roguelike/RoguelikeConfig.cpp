@@ -2,7 +2,7 @@
 
 #include "Utils/Logger.hpp"
 
-bool asst::RoguelikeConfig::set_params(const json::value& params)
+bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 {
     // ------------------ 肉鸽主题设置 ------------------
     std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
