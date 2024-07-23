@@ -110,13 +110,6 @@ struct TaskInfoSerializer
             json["ocrReplace"] = serialize(ocr_task->replace_map);
             json["text"] = ocr_task->text;
         }
-        else if (task.algorithm == asst::AlgorithmType::Hash) {
-            auto hash_task = dynamic_cast<const asst::HashTaskInfo*>(&task);
-            json["hash"] = hash_task->hashes;
-            json["threshold"] = hash_task->dist_threshold;
-            json["maskRange"] = serialize(hash_task->mask_range);
-            json["bound"] = hash_task->bound;
-        }
 
         return json;
     }
