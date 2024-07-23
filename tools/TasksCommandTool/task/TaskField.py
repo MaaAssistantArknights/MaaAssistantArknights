@@ -188,13 +188,35 @@ class TaskFieldEnum(Enum):
         lambda x: 0 <= x <= 1 if isinstance(x, float) else all(0 <= i <= 1 for i in x),
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
+
+    @staticmethod
+    def _check_mask_range(x) -> bool:
+        def _get_color_type(color):
+            if isinstance(color, int):
+                assert 1 <= color <= 255
+                return "int"
+            elif isinstance(color, list):
+                assert all(isinstance(i, int) for i in color)
+                assert len(color) == 3
+                return "list"
+
+        def _check_range(color_range):
+            assert len(color_range) == 2
+            assert _get_color_type(color_range[0]) == _get_color_type(color_range[1])
+            return True
+
+        if isinstance(x, list):
+            return (len(x) == 2 and all(isinstance(i, int) for i in x)) or all(_check_range(i) for i in x)
+        return False
+
     MASK_RANGE = TaskField(
         "maskRange",
         "mask_range",
-        list[int],
+        list,
         "可选项，表示模板匹配的掩码范围",
-        [0, 0],
-        lambda x: 0 <= x[0] <= x[1] <= 255,
+        [],
+        # [1, 255] 或者 [[[0,0,0],[255,255,255]],[[0,0,0],[255,255,255]]]
+        _check_mask_range,
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
     TEXT = TaskField(
