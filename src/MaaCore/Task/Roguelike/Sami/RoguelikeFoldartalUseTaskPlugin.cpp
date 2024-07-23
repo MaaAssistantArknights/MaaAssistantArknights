@@ -16,7 +16,12 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
         return false;
     }
 
-    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_use_foldartal) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
+        m_enable = false;
+        return false;
+    }
+
+    if (!m_use_foldartal) {
         return false;
     }
 

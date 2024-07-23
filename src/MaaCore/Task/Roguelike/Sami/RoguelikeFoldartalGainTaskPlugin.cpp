@@ -13,8 +13,10 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::val
     }
 
     if (m_config->get_theme() != RoguelikeTheme::Sami) {
+        m_enable = false;
         return false;
     }
+
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
@@ -105,8 +107,9 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
 bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()
 {
     OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(m_config->get_theme() + (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat"
-                                                                       : "@Roguelike@FoldartalGainOcr"));
+    analyzer.set_task_info(
+        m_config->get_theme() +
+        (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat" : "@Roguelike@FoldartalGainOcr"));
     if (!analyzer.analyze()) {
         return false;
     }
