@@ -15,7 +15,7 @@ namespace asst
 
         virtual void reset_variable() {}
 
-        // 传递 task->set_params 进行插件配置设置, 返回参数是否合法
+        // 根据 params 设置插件专用参数, 返回插件是否适用
         virtual bool set_params([[maybe_unused]] const json::value& params) { return true; }
 
     protected:
