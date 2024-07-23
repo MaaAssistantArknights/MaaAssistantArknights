@@ -50,7 +50,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(
         return false;
     }
 
-    if (m_config->get_theme() != RoguelikeTheme::Sami || !m_config->get_check_clp_pds()) {
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
 
