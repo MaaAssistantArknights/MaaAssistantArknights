@@ -1847,6 +1847,7 @@ namespace MaaWpfGui.Main
             Gacha,
             ReclamationAlgorithm,
             ReclamationAlgorithm2,
+            Custom,
         }
 
         private readonly Dictionary<TaskType, AsstTaskId> _latestTaskId = [];
@@ -2484,6 +2485,20 @@ namespace MaaWpfGui.Main
             };
             AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
             _latestTaskId[TaskType.Gacha] = id;
+            return id != 0 && AsstStart();
+        }
+
+        public bool AsstStartTestLink()
+        {
+            var taskParams = new JObject
+            {
+                ["task_names"] = new JArray
+                {
+                    "Stop",
+                },
+            };
+            AsstTaskId id = AsstAppendTaskWithEncoding("Custom", taskParams);
+            _latestTaskId[TaskType.Custom] = id;
             return id != 0 && AsstStart();
         }
 
