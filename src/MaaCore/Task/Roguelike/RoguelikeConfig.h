@@ -55,6 +55,7 @@ namespace asst
                    (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami);
         }
 
+        virtual bool set_params(const json::value& params);
         void clear();// 重置肉鸽局内数据
 
     // ================================= 通用参数 =================================
