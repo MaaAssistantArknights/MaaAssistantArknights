@@ -225,35 +225,30 @@ jobs:
           }
 
           echo "diff: "$diff
-          $sp = $($diff -split "\s+")
-          $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
+          $numbers = $diff -split "\s+" | Where-Object { $_ -match "^\d+$" }
           echo "numbers: "$numbers
 
-          $length = $numbers.Length
           $noDiff = $true
-          for ($i = 0; $i -lt $length; $i += 2) {
+          for ($i = 0; $i -lt $numbers.Length; $i += 2) {
             $firstNumber = $numbers[$i]
             $secondNumber = $numbers[$i+1]
 
-            if ($firstNumber -gt 1) {
+            if ($firstNumber -gt 1 -or $firstNumber -ne $secondNumber) {
               $noDiff = $false
               break
-            }
-            
-            if ($firstNumber -ne $secondNumber) {
-                $noDiff = $false
-                break
             }
           }
           echo "noDiff: "$noDiff
           echo "only_sorted=$noDiff" >> $env:GITHUB_OUTPUT
 
+      - name: Cancelling
+        if: steps.check_only_sorted.outputs.only_sorted == 'True'
+        uses: andymckay/cancel-action@0.5
+
       - name: Add files to git
         if: steps.check_only_sorted.outputs.only_sorted != 'True'
         id: add_files
         run: |
-          git status
-
           git config user.name "${{ steps.user_info.outputs.username }}"
           git config user.email "${{ steps.user_info.outputs.email }}"
           git add .
@@ -270,6 +265,10 @@ jobs:
           }
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+
+      - name: Cancelling
+        if: steps.add_files.outputs.have_commits != 'True'
+        uses: andymckay/cancel-action@0.5
 
       - name: Push changes # push the output folder to your repo
         if: steps.add_files.outputs.have_commits == 'True'
