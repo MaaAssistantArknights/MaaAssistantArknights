@@ -119,6 +119,8 @@ namespace asst
         bool get_trader_no_longer_buy() const { return m_trader_no_longer_buy; }
 
         // ------------------ 开局 ------------------
+        void set_squad(std::string squad) { m_squad = std::move(squad); }
+        const std::string& get_squad() const { return m_squad; }
         void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
         const auto& get_core_char() const { return m_core_char; }
         void set_use_support(bool use_support) { m_use_support = use_support; }
@@ -136,6 +138,7 @@ namespace asst
         bool m_trader_no_longer_buy = false;                   // 不再购买藏品
 
         // ------------------ 开局 ------------------
+        std::string m_squad;                                   // 分队，默认分队为空
         std::string m_core_char;                               // 开局干员名
         bool m_use_support = false;                            // 开局干员是否为助战干员
         bool m_use_nonfriend_support = false;                  // 是否可以是非好友助战干员
