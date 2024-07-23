@@ -57,7 +57,7 @@ namespace asst
 
         template <typename PluginType>
         requires std::derived_from<PluginType, AbstractTaskPlugin>
-        std::shared_ptr<PluginType> find_plugin()
+        std::shared_ptr<PluginType> find_plugin() const
         {
             for (const auto& plugin : m_plugins) {
                 if (auto ptr = std::dynamic_pointer_cast<PluginType>(plugin)) {
