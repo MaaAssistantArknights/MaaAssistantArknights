@@ -11,14 +11,10 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
         return false;
     }
 
-    if (m_config->get_theme() != RoguelikeTheme::Sami) {
-        m_enable = false;
+    if (m_config->get_theme() != RoguelikeTheme::Sami || m_config->get_difficulty() != INT_MAX || !m_start_foldartal) {
         return false;
     }
 
-    if (m_config->get_difficulty() != INT_MAX || !m_start_foldartal) {
-        return false;
-    }
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
