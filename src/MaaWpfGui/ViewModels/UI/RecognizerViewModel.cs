@@ -820,7 +820,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private BitmapImage? _gachaImage;
 
-        public BitmapImage GachaImage
+        public BitmapImage? GachaImage
         {
             get => _gachaImage;
             set => SetAndNotify(ref _gachaImage, value);
