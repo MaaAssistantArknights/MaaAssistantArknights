@@ -117,10 +117,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
     Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
     Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
-
-    // 投资模式下不开启调试任务
-    m_debug_ptr->set_enable(mode != RoguelikeMode::Investment);
-
+    
     if (mode == RoguelikeMode::Investment) {
         // 刷源石锭模式是否进入第二层
         if (m_config_ptr->get_invest_with_more_score()) {
@@ -188,9 +185,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     ptr->set_custom(
         RoguelikeCustomType::UseNonfriendSupport,
         params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
-
-    m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
 
     for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
         if (const auto& p_ptr = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin); p_ptr != nullptr) {
