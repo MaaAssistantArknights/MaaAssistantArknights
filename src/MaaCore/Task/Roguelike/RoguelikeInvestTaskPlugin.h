@@ -12,8 +12,9 @@ public:
     using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
     virtual ~RoguelikeInvestTaskPlugin() override = default;
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
-    void set_invest_maximum(int value) { m_maximum = value; }
-    void set_stop_when_full(bool value) { m_stop_when_full = value; }
+    virtual bool set_params([[maybe_unused]] const json::value& params) override;
+
+public:
     void set_control_plugin_ptr(const auto& ptr) { m_roguelike_task_ptr = ptr; }
 
 private:

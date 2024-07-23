@@ -17,13 +17,13 @@ bool asst::RoguelikeConfig::set_params(const json::value& params)
         return false;
     }
 
-    set_theme(theme);
-    set_mode(mode);
-    set_difficulty(0);
+    m_theme = theme;
+    m_mode = mode;
+    m_difficulty = 0;
 
     // 凹指定干员开局直升
-    set_start_with_elite_two(params.get("start_with_elite_two", false));
-    set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
+    m_start_with_elite_two = params.get("start_with_elite_two", false);
+    m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
 
     if (mode == RoguelikeMode::Investment) {
         bool investment_with_more_score = params.get("investment_with_more_score", false);
@@ -35,17 +35,17 @@ bool asst::RoguelikeConfig::set_params(const json::value& params)
                 "'investment_with_more_score'");
             Log.warn("================  DEPRECATED  ================");
         }
-        set_invest_with_more_score(investment_with_more_score);
+        m_invest_with_more_score = (investment_with_more_score);
     }
 
     // =========================== 萨米主题专用参数 ===========================
 
     if (theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板
-        set_first_floor_foldartal(params.contains("first_floor_foldartal"));
+        m_first_floor_foldartal = params.contains("first_floor_foldartal");
 
         // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
-        set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
+        m_check_clp_pds = params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
     }
 
     return true;
@@ -65,5 +65,4 @@ void asst::RoguelikeConfig::clear()
     m_foldartal = std::vector<std::string>();
     m_clp_pds = std::vector<std::string>();
     m_need_check_panel = false;
-
 }
