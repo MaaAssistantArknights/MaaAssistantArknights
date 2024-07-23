@@ -6,6 +6,16 @@
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
+bool asst::RoguelikeFoldartalGainTaskPlugin::set_params(const json::value& params)
+{
+    const std::string& theme = m_config->get_theme();
+    if (theme != RoguelikeTheme::Sami) {
+        return false;
+    }
+    set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
+    return true;
+}
+
 bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {

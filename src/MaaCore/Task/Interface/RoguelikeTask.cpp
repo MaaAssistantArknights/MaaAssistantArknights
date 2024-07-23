@@ -74,10 +74,10 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 萨米主题专用插件 ------------------
 
-    m_foldartal_gain_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalGainTaskPlugin>(m_config_ptr);
     m_foldartal_use_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalUseTaskPlugin>(m_config_ptr);
     m_foldartal_start_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_config_ptr);
-    m_cp_ptr = m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
@@ -88,29 +88,15 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 bool asst::RoguelikeTask::set_params(const json::value& params)
 {
     LogTraceFunction;
-
-    // ------------------ 肉鸽主题设置 ------------------
-    std::string theme = params.get("theme", std::string(RoguelikeTheme::Phantom));
-    if (!RoguelikeConfig::is_valid_theme(theme)) {
+    if (!m_config_ptr->set_params(params)) {
         m_roguelike_task_ptr->set_tasks({ "Stop" });
-        Log.error("Unknown roguelike theme", theme);
         return false;
     }
 
-    auto mode = static_cast<RoguelikeMode>(params.get("mode", 0));
-    if (!RoguelikeConfig::is_valid_mode(mode, theme)) {
-        m_roguelike_task_ptr->set_tasks({ "Stop" });
-        Log.error(__FUNCTION__, "| Unknown mode", static_cast<int>(mode));
-        return false;
-    }
+    const auto& theme = m_config_ptr->get_theme();
+    const auto& mode = m_config_ptr->get_mode();
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
-    m_config_ptr->set_theme(theme);
-    m_config_ptr->set_mode(mode);
-    m_config_ptr->set_difficulty(0);
-    // 是否凹指定干员开局直升
-    m_config_ptr->set_start_with_elite_two(params.get("start_with_elite_two", false));
-    m_config_ptr->set_only_start_with_elite_two(params.get("only_start_with_elite_two", false));
 
     m_invest_ptr->set_invest_maximum(params.get("investments_count", INT_MAX));
     m_invest_ptr->set_stop_when_full(params.get("stop_when_investment_full", false));
@@ -133,20 +119,12 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
     Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
 
+    // 投资模式下不开启调试任务
     m_debug_ptr->set_enable(mode != RoguelikeMode::Investment);
+
     if (mode == RoguelikeMode::Investment) {
-        bool investment_with_more_score = params.get("investment_with_more_score", false);
-        if (!params.contains("investment_with_more_score") && params.contains("investment_enter_second_floor")) {
-            investment_with_more_score = params.get("investment_enter_second_floor", true);
-            Log.warn("================  DEPRECATED  ================");
-            Log.warn(
-                "`investment_enter_second_floor` has been deprecated since v5.2.1; Please use "
-                "'investment_with_more_score'");
-            Log.warn("================  DEPRECATED  ================");
-        }
-        m_config_ptr->set_invest_with_more_score(investment_with_more_score);
         // 刷源石锭模式是否进入第二层
-        if (investment_with_more_score) {
+        if (m_config_ptr->get_invest_with_more_score()) {
             // 战斗后奖励默认
             Task.set_task_base(theme + "@Roguelike@DropsFlag", theme + "@Roguelike@DropsFlag_default");
             m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
@@ -178,10 +156,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     // =========================== 萨米主题专用参数 ===========================
 
     if (theme == RoguelikeTheme::Sami) {
-        // 是否凹开局远见密文板
-        m_config_ptr->set_first_floor_foldartal(params.contains("first_floor_foldartal"));
-        m_foldartal_gain_ptr->set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
-
         // 是否生活队凹开局板子
         m_foldartal_start_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
 
@@ -201,17 +175,7 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
         // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
         m_foldartal_use_ptr->set_use_foldartal(params.get("use_foldartal", mode != RoguelikeMode::CLP_PDS));
-
-        // 是否检查坍缩范式，非CLP_PDS模式下默认为False, CLP_PDS模式下默认为True
-        m_config_ptr->set_check_clp_pds(params.get("check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
-        m_cp_ptr->set_double_check_clp_pds(
-            params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS));
     }
-
-    m_foldartal_gain_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
-    m_cp_ptr->set_enable(theme == RoguelikeTheme::Sami);
 
     m_invest_ptr->set_control_plugin_ptr(m_control_ptr);
 
@@ -225,6 +189,16 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     ptr->set_custom(
         RoguelikeCustomType::UseNonfriendSupport,
         params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
+
+    m_foldartal_start_ptr->set_enable(theme == RoguelikeTheme::Sami);
+    m_foldartal_use_ptr->set_enable(theme == RoguelikeTheme::Sami);
+
+    for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
+        if (const auto& roguelike_plugin = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin);
+            roguelike_plugin != nullptr && !roguelike_plugin->set_params(params)) {
+            roguelike_plugin->set_enable(false);
+        }
+    }
 
     return true;
 }
