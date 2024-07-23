@@ -3,6 +3,7 @@
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Task/ProcessTask.h"
+#include "Task/Roguelike/RoguelikeControlTaskPlugin.h"
 #include "Utils/Logger.hpp"
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
@@ -28,14 +29,13 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
 
     auto image = ctrler()->get_image();
 
-    int count = 0; // 当次已投资的个数
-    int retry = 0; // 重试次数
+    int count = 0;                                                        // 当次已投资的个数
+    int retry = 0;                                                        // 重试次数
     auto deposit = ocr_count(image, "Roguelike@StageTraderInvest-Count"); // 当前的存款
     int count_limit = m_maximum - m_invest_count;                         // 可用投资次数
     // 投资确认按钮
     const auto& click_rect = Task.get("Roguelike@StageTraderInvest-Confirm")->specific_rect;
-    LogInfo << __FUNCTION__ << "开始投资, 存款" << deposit.value_or(-1) << ", 可投资次数"
-            << count_limit;
+    LogInfo << __FUNCTION__ << "开始投资, 存款" << deposit.value_or(-1) << ", 可投资次数" << count_limit;
     while (!need_exit() && deposit && *deposit < 999 && count_limit - count > 0 && retry < 3) {
         int times = std::min(15, count_limit - count);
         while (!need_exit() && times > 0) {
@@ -61,8 +61,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             }
             else {
                 Log.error(__FUNCTION__, "无法获取可投资状态下的存款");
-                save_img(
-                    utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
+                save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
                 retry++;
             }
         }
@@ -78,8 +77,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
             }
             else {
                 Log.error(__FUNCTION__, "无法获取错误状态下的存款");
-                save_img(
-                    utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
+                save_img(utils::path("debug") / utils::path("roguelike") / utils::path("invest_system"));
             }
 
             break;
@@ -120,8 +118,7 @@ bool asst::RoguelikeInvestTaskPlugin::_run()
     return true;
 }
 
-std::optional<int>
-    asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, const auto& task_name) const
+std::optional<int> asst::RoguelikeInvestTaskPlugin::ocr_count(const auto& img, const auto& task_name) const
 {
     const auto& number_replace = Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map;
     auto task_replace = Task.get<OcrTaskInfo>(task_name)->replace_map;
@@ -138,8 +135,8 @@ std::optional<int>
     };
     int count = 0;
     if (!utils::chars_to_number(ocr.get_result().text, count)) {
-        LogError << __FUNCTION__ << "unable to convert current investment count<"
-                 << ocr.get_result().text << "> to number.";
+        LogError << __FUNCTION__ << "unable to convert current investment count<" << ocr.get_result().text
+                 << "> to number.";
         return std::nullopt;
     }
     return count;
@@ -147,24 +144,26 @@ std::optional<int>
 
 bool asst::RoguelikeInvestTaskPlugin::is_investment_available(const cv::Mat& image) const
 {
-    Matcher analyzer(image);
-    analyzer.set_task_info("Roguelike@StageTraderInvest-Arrow");
-    return analyzer.analyze().has_value();
+    auto task = ProcessTask(*this, { "Roguelike@StageTraderInvest-Arrow" });
+    task.set_reusable_image(image).set_task_delay(0).set_retry_times(0);
+    return task.run();
 }
 
 bool asst::RoguelikeInvestTaskPlugin::is_investment_error(const cv::Mat& image) const
 {
-    Matcher analyzer(image);
-    analyzer.set_task_info("Roguelike@StageTraderInvestSystemError");
-    return analyzer.analyze().has_value();
+    auto task = ProcessTask(*this, { "Roguelike@StageTraderInvestSystemError" });
+    task.set_reusable_image(image)
+        .set_task_delay(0)
+        .set_times_limit("Roguelike@StageTraderInvestSystemError", 0)
+        .set_retry_times(0);
+    return task.run();
 }
 
 void asst::RoguelikeInvestTaskPlugin::stop_roguelike() const
 {
-    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-        .set_times_limit("Roguelike@StartExplore", 0)
-        //.set_times_limit("Roguelike@Abandon", 0)
-        .set_retry_times(5)
-        .run();
+    auto control_ptr = m_task_ptr->find_plugin<RoguelikeControlTaskPlugin>();
+    if (control_ptr) {
+        control_ptr->exit_then_stop(true);
+    }
     m_task_ptr->set_enable(false);
 }
