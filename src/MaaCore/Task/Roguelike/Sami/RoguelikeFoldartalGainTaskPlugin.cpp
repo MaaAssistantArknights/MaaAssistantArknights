@@ -107,8 +107,9 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
 bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()
 {
     OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(m_config->get_theme() + (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat"
-                                                                       : "@Roguelike@FoldartalGainOcr"));
+    analyzer.set_task_info(
+        m_config->get_theme() +
+        (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat" : "@Roguelike@FoldartalGainOcr"));
     if (!analyzer.analyze()) {
         return false;
     }

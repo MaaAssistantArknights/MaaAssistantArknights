@@ -14,17 +14,15 @@ asst::RoguelikeCollapsalParadigmTaskPlugin::RoguelikeCollapsalParadigmTaskPlugin
     const AsstCallback& callback,
     Assistant* inst,
     std::string_view task_chain,
-    std::shared_ptr<RoguelikeConfig> config)
-    : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
+    std::shared_ptr<RoguelikeConfig> config) :
+    AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
 {
     // 由于仅有萨米肉鸽使用，任务名暂定写死
     std::shared_ptr<OcrTaskInfo> bannerCheckConfig =
         Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig");
     m_deepen_text = bannerCheckConfig->text.front();
     m_banner_triggers_start.insert(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
-    m_banner_triggers_completed.insert(
-        bannerCheckConfig->next.begin(),
-        bannerCheckConfig->next.end());
+    m_banner_triggers_completed.insert(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
 
     std::shared_ptr<OcrTaskInfo> panelCheckConfig =
         Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_panelCheckConfig");
@@ -34,42 +32,41 @@ asst::RoguelikeCollapsalParadigmTaskPlugin::RoguelikeCollapsalParadigmTaskPlugin
     m_swipe_end.x = panelCheckConfig->rect_move.x;
     m_swipe_end.y = panelCheckConfig->rect_move.y;
     m_panel_triggers.insert(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
-    ranges::for_each(
-        panelCheckConfig->replace_map,
-        [&](const std::pair<std::string, std::string>& p) {
-            m_zone_dict.emplace(p.first, p.second);
-        });
+    ranges::for_each(panelCheckConfig->replace_map, [&](const std::pair<std::string, std::string>& p) {
+        m_zone_dict.emplace(p.first, p.second);
+    });
 }
 
-bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(
-    const AsstMsg msg,
-    const json::value& details) const
+bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const json::value& details) const
 {
-    if ((msg != AsstMsg::SubTaskStart && msg != AsstMsg::SubTaskCompleted)
-        || details.get("subtask", std::string()) != "ProcessTask") {
+    if ((msg != AsstMsg::SubTaskStart && msg != AsstMsg::SubTaskCompleted) ||
+        details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
     if (m_config->get_theme() != RoguelikeTheme::Sami) {
+        m_enable = false;
+        return false;
+    }
+
+    if (!m_config->get_check_clp_pds()) {
         return false;
     }
 
     const auto task_name = details.get("details", "task", "");
 
-    if (msg == AsstMsg::SubTaskStart
-        && m_banner_triggers_start.find(task_name) != m_banner_triggers_start.end()) {
+    if (msg == AsstMsg::SubTaskStart && m_banner_triggers_start.find(task_name) != m_banner_triggers_start.end()) {
         m_check_banner = true;
         return true;
     }
 
-    if (msg == AsstMsg::SubTaskCompleted
-        && m_banner_triggers_completed.find(task_name) != m_banner_triggers_completed.end()) {
+    if (msg == AsstMsg::SubTaskCompleted &&
+        m_banner_triggers_completed.find(task_name) != m_banner_triggers_completed.end()) {
         m_check_banner = true;
         return true;
     }
 
-    if (msg == AsstMsg::SubTaskStart
-        && m_panel_triggers.find(task_name) != m_panel_triggers.end()) {
+    if (msg == AsstMsg::SubTaskStart && m_panel_triggers.find(task_name) != m_panel_triggers.end()) {
         if (new_zone()) {
             m_config->set_need_check_panel(true);
             m_verification_check = false;
@@ -82,8 +79,8 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(
         }
     }
 
-    if (msg == AsstMsg::SubTaskCompleted && !m_config->get_need_check_panel()
-        && m_double_check_clp_pds && m_panel_triggers.find(task_name) == m_panel_triggers.end()) {
+    if (msg == AsstMsg::SubTaskCompleted && !m_config->get_need_check_panel() && m_double_check_clp_pds &&
+        m_panel_triggers.find(task_name) == m_panel_triggers.end()) {
         m_config->set_need_check_panel(true);
         m_verification_check = true;
     };
@@ -139,8 +136,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
         OCRer analyzer2(image); // 检测坍缩范式
         analyzer2.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_banner");
         if (!analyzer2.analyze()) {
-            Log.info(
-                "Roguelike Collapsal Paradigm Task Plugin: Erroneous Recognition in Banner Check");
+            Log.info("Roguelike Collapsal Paradigm Task Plugin: Erroneous Recognition in Banner Check");
             return false;
         }
 
@@ -171,13 +167,9 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
             std::string cur_clp_pd = (*result_it2).text;
             const CollapsalParadigmClass& cur_class = clp_pd_classes.at(clp_pd_dict.at(cur_clp_pd));
             if ((*result_it1).text == m_deepen_text) {
-                if (it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_clp_pd);
-                    it == prev_clp_pds.end()) {
+                if (it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_clp_pd); it == prev_clp_pds.end()) {
                     if (cur_clp_pd == cur_class.level_2) {
-                        if (it = std::find(
-                                prev_clp_pds.begin(),
-                                prev_clp_pds.end(),
-                                cur_class.level_1);
+                        if (it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_class.level_1);
                             it != prev_clp_pds.end()) {
                             clp_pd_callback(cur_clp_pd, 1, *it);
                             *it = cur_clp_pd;
@@ -198,16 +190,14 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_banner
                         return true;
                     }
                     else if (
-                        m_config->get_mode()
-                        == RoguelikeMode::CLP_PDS) { // 刷坍缩范式模式下，获得了不想要的坍缩范式
+                        m_config->get_mode() == RoguelikeMode::CLP_PDS) { // 刷坍缩范式模式下，获得了不想要的坍缩范式
                         exit_then_restart();
                         return true;
                     }
                 }
             }
             else {
-                if (it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_clp_pd);
-                    it != prev_clp_pds.end()) {
+                if (it = std::find(prev_clp_pds.begin(), prev_clp_pds.end(), cur_clp_pd); it != prev_clp_pds.end()) {
                     if (cur_clp_pd == cur_class.level_2) {
                         clp_pd_callback(cur_class.level_1, -1, cur_clp_pd);
                         *it = cur_class.level_1;
@@ -240,8 +230,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
 
     const std::string& theme = m_config->get_theme();
 
-    const std::vector<CollapsalParadigmClass>& clp_pd_classes =
-        RoguelikeCollapsalParadigms.get_clp_pd_classes(theme);
+    const std::vector<CollapsalParadigmClass>& clp_pd_classes = RoguelikeCollapsalParadigms.get_clp_pd_classes(theme);
     const std::unordered_map<std::string, unsigned int>& clp_pd_dict =
         RoguelikeCollapsalParadigms.get_clp_pd_dict(theme);
     const auto& expected_clp_pds = RoguelikeCollapsalParadigms.get_rare_clp_pds(theme);
@@ -251,8 +240,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
 
     cv::Mat image;
     OCRer analyzer;
-    analyzer.set_task_info(
-        theme + "@Roguelike@CheckCollapsalParadigms_onPanel"); // 检测 "当前坍缩值" 字样
+    analyzer.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_onPanel"); // 检测 "当前坍缩值" 字样
     do {
         toggle_collapsal_status_panel();
         image = ctrler()->get_image();
@@ -282,11 +270,9 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
         }
         sort_by_vertical_(ocr_results); // 按照水平方向排序(从左到右
 
-        std::transform(
-            ocr_results.begin(),
-            ocr_results.end(),
-            std::back_inserter(cur_clp_pds),
-            [](OCRer::Result x) { return x.text; });
+        std::transform(ocr_results.begin(), ocr_results.end(), std::back_inserter(cur_clp_pds), [](OCRer::Result x) {
+            return x.text;
+        });
     }
 
     if (m_verification_check) {
@@ -325,8 +311,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
             if (cur_clp_pd == cur_class.level_2 && *it == cur_class.level_1) { // 从1级加深到2级
                 clp_pd_callback(cur_clp_pd, 1, cur_class.level_1);
             }
-            else if (
-                cur_clp_pd == cur_class.level_1 && *it == cur_class.level_2) { // 从2级消退到1级
+            else if (cur_clp_pd == cur_class.level_1 && *it == cur_class.level_2) { // 从2级消退到1级
                 clp_pd_callback(cur_clp_pd, -1, cur_class.level_2);
             }
             ++it;
@@ -338,9 +323,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::check_collapsal_paradigm_panel(
             exit_then_stop();
             return true;
         }
-        else if (
-            m_config->get_mode()
-            == RoguelikeMode::CLP_PDS) { // 刷坍缩范式模式下，获得了不想要的坍缩范式
+        else if (m_config->get_mode() == RoguelikeMode::CLP_PDS) { // 刷坍缩范式模式下，获得了不想要的坍缩范式
             toggle_collapsal_status_panel();
             exit_then_restart();
             return true;
