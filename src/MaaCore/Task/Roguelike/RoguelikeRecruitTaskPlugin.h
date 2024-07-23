@@ -23,7 +23,7 @@ public:
 
 protected:
     virtual bool _run() override;
-    virtual void reset_variable() override;
+    virtual void reset_in_run_variables() override;
     // 滑动到干员列表的最左侧
     void swipe_to_the_left_of_operlist(int loop_times = 2);
     // 缓慢向干员列表的左侧/右侧滑动
