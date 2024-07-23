@@ -12,22 +12,21 @@
 
 bool asst::RoguelikeCollapsalParadigmTaskPlugin::set_params(const json::value& params)
 {
-    // ———————— 检查适用主题 ————————————————————————
+    // ———————— 检查适用主题, 仅萨米肉鸽使用 ———————————————————————————————————————
     const std::string& theme = m_config->get_theme();
     if (theme != RoguelikeTheme::Sami) {
         return false;
     }
 
-    // 仅萨米肉鸽使用 TODO: 去掉名字里的下划线, _b -> B, _p -> P
-    // ———————— 根据 params 设置插件 ————————————————
+    // ———————— 根据 params 设置插件, TODO: 去掉名字里的下划线, _b -> B, _p -> P —————
     const RoguelikeMode& mode = m_config->get_mode();
     m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
 
     // ———————— 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死 ———————————
     const auto& bannerCheckConfig =
-        Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_bannerCheckConfig");
+        Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
     const auto& panelCheckConfig =
-        Task.get<OcrTaskInfo>("Sami@Roguelike@CheckCollapsalParadigms_panelCheckConfig");
+        Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig");
 
     m_deepen_text = bannerCheckConfig->text.front();
     m_roi = panelCheckConfig->roi;
@@ -35,6 +34,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::set_params(const json::value& p
     m_swipe_begin.y = panelCheckConfig->specific_rect.y;
     m_swipe_end.x = panelCheckConfig->rect_move.x;
     m_swipe_end.y = panelCheckConfig->rect_move.y;
+
     m_banner_triggers_start = std::unordered_set(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
     m_banner_triggers_completed = std::unordered_set(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
     m_panel_triggers = std::unordered_set(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
