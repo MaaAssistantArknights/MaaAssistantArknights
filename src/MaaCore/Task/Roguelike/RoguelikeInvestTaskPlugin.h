@@ -3,6 +3,8 @@
 
 namespace asst
 {
+class RoguelikeControlTaskPlugin;
+
 // 肉鸽投资插件
 class RoguelikeInvestTaskPlugin : public AbstractRoguelikeTaskPlugin
 {
