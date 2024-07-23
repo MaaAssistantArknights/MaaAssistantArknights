@@ -8,7 +8,7 @@
 #include "Vision/Matcher.h"
 #include "Vision/RegionOCRer.h"
 
-bool asst::RoguelikeInvestTaskPlugin::verify(AsstMsg msg, const json::value& details) const
+bool asst::RoguelikeInvestTaskPlugin::_verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
