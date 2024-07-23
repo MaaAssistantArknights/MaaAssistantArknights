@@ -15,12 +15,7 @@ namespace asst
 
         virtual void reset_variable() {}
 
-        // 根据 params 设置插件专用参数, 当插件不适用时关闭 m_enable
-        virtual void config([[maybe_unused]] const json::value& params) {}
-
     protected:
         std::shared_ptr<RoguelikeConfig> m_config;
     };
-
-    using RoguelikeTaskPluginPtr = std::shared_ptr<AbstractRoguelikeTaskPlugin>;
 }
