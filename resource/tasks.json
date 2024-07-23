@@ -10053,7 +10053,10 @@
         "method": "CcoeffHSV",
         "templThreshold": 0.95,
         "roi": [750, 525, 188, 129],
-        "next": ["Sarkaz@Roguelike@StageFilterTruthConfirm"]
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthChooseCollection",
+            "Sarkaz@Roguelike@StageFilterTruthConfirm"
+        ]
     },
     "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
         "action": "DoNothing",
@@ -10061,6 +10064,15 @@
         "templThreshold": 0.95,
         "roi": [750, 525, 188, 129],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthChooseCollection": {
+        "Doc":"合成出现藏品二选一",
+        "baseTask": "Sarkaz@Roguelike@GetDrop3",
+        "template": "Sarkaz@Roguelike@GetDrop3.png",
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
+            "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
+        ]
     },
     "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
         "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
