@@ -1,6 +1,8 @@
 import cmd
 import json
 import os
+from enum import Enum
+from typing import Type
 
 from .Task import Task, _ORIGINAL_TASKS, InterpretedTask, _TASK_PIPELINE_INFO_FIELDS
 from .TaskField import TaskFieldEnum, get_fields_with_algorithm, get_fields
@@ -53,9 +55,10 @@ class TasksCommandTool(cmd.Cmd):
     def complete_find(self, text, line, begidx, endidx):
         return [name for name in _ORIGINAL_TASKS if name.startswith(text)]
 
-    def choices(self, text, choices):
+    def choices(self, text: str, choices: Type[Enum]):
+        choices = list(choices)
         for i, choice in enumerate(choices):
-            print(f"({i}) {choice}")
+            print(f"({i}) {choice.value}")
         input_choice = -1
         while input_choice < 0 or input_choice >= len(choices):
             try:
@@ -69,15 +72,15 @@ class TasksCommandTool(cmd.Cmd):
     def do_create(self, arg):
         """Create a task."""
         task_name = input("Task name:")
-        task_algorithm = self.choices("Please choose an algorithm:\n", [a.value for a in AlgorithmType])
-        task_dict = {TaskFieldEnum.ALGORITHM.value.field_name: task_algorithm}
+        task_algorithm = self.choices("Please choose an algorithm:\n", AlgorithmType)
+        task_dict = {"algorithm": task_algorithm}
         for field in get_fields_with_algorithm(task_algorithm):
             if field == TaskFieldEnum.ALGORITHM:
                 continue
             if field == TaskFieldEnum.ACTION:
-                value = self.choices("Please choose an action:\n", [a.value for a in ActionType])
+                value = self.choices("Please choose an action:\n", ActionType)
             elif field == TaskFieldEnum.METHOD:
-                value = self.choices("Please choose a method:\n", [m.value for m in MethodType])
+                value = self.choices("Please choose a method:\n", MethodType)
             else:
                 value = input(f"{field.field_name} ({field.field_doc}) [{field.field_default}]:")
             if ',' in value:
@@ -85,6 +88,16 @@ class TasksCommandTool(cmd.Cmd):
             if value:
                 task_dict[field.field_name] = value
         _MODIFIED_TASKS[task_name] = Task(task_name, task_dict)
+
+    def do_save(self, _):
+        """Save modified tasks to a json file."""
+        with open(json_path, 'r', encoding='utf-8') as f:
+            tasks = json.load(f)
+        for task_name, task in _MODIFIED_TASKS.items():
+            tasks[task_name] = task.to_task_dict()
+        with open(json_path, 'w', encoding='utf-8') as f:
+            json.dump(tasks, f, ensure_ascii=False, indent=4)
+        print(f"Saved {len(_MODIFIED_TASKS)} tasks to {json_path}.")
 
     def print_task(self, task: Task):
         print(f"Task {task.name}:")

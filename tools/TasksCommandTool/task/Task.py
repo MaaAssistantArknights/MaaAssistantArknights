@@ -60,6 +60,10 @@ def clear_cache():
     _TASKS_CACHE.clear()
 
 
+# 部分地方为了防止代码太长，会直接使用"algorithm"访问，所以要检查一下
+assert TaskFieldEnum.ALGORITHM.value.field_name == "algorithm"
+
+
 class Task:
     """@DynamicAttrs"""
 

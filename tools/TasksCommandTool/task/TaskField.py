@@ -14,7 +14,7 @@ class TaskField:
                  field_doc: str,
                  field_default: any = None,
                  is_valid_with: Callable[[Any], bool] = lambda x: True,
-                 valid_for_algorithm: AlgorithmType | None = None,
+                 valid_for_algorithm: AlgorithmType = None,
                  ):
         self.field_name = field_name
         self.python_field_name = python_field_name
