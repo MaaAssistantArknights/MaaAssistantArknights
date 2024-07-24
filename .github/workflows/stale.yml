@@ -1,7 +1,7 @@
 name: "Inactive Issues auto close"
 
 env: # config
-  daysBeforeStale: 180 # Number of days of inactivity before marking as stale
+  daysBeforeStale: 90 # Number of days of inactivity before marking as stale
   daysBeforeClose: 7 # Number of days to wait after marking as stale before closing
 
 on:
