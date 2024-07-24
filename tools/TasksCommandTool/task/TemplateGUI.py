@@ -74,7 +74,7 @@ def click_and_crop(template_name: str):
     _check_gui()
     global _begin_point, _end_point, _is_cropping
 
-    def _click_and_crop(event, x, y, flags, param):
+    def _click_and_crop(event, x, y, _, __):
         global _begin_point, _end_point, _is_cropping
         if event == cv2.EVENT_LBUTTONDOWN:
             _begin_point = (x, y)
