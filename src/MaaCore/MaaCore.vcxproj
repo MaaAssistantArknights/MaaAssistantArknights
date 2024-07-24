@@ -104,6 +104,7 @@
     <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\Map\RoguelikeMap.h" />
+    <ClInclude Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
@@ -285,6 +286,7 @@
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\Map\RoguelikeMap.cpp" />
+    <ClCompile Include="Task\Roguelike\Map\RoguelikeRoutingTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeInvestTaskPlugin.cpp" />
