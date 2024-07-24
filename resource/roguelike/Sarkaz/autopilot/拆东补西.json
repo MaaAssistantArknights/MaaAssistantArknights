@@ -31,7 +31,7 @@
         {
             "groups": ["单奶"],
             "location": [3, 3],
-            "direction": "righ"
+            "direction": "right"
         },
         {
             "groups": ["群奶"],
