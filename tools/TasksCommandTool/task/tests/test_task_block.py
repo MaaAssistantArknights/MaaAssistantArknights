@@ -1,4 +1,4 @@
-from ..Task import Task, _ALL_TASKS, _ORIGINAL_TASKS, set_base_task_warning
+from ..Task import Task, _TASKS_CACHE, _ORIGINAL_TASKS, set_base_task_warning
 from ..debug import enable_tracing, disable_tracing
 from .test_cpp_tasks import load_tasks
 from .utils import TaskTest
@@ -41,7 +41,7 @@ class BlockTest(TaskTest):
         for task in _ORIGINAL_TASKS:
             _TASK_INDEX[task] = len(_TASK_INDEX)
         for task in _ORIGINAL_TASKS:
-            _ALL_TASKS.clear()
+            _TASKS_CACHE.clear()
             interpretedTask = Task.get(task).interpret()
             dependent_task_set = set()
             for sub_task in interpretedTask.sub_tasks:
@@ -54,7 +54,7 @@ class BlockTest(TaskTest):
                 dependent_task_set.add(exceededNext_task)
             for reduceOtherTimes_task in interpretedTask.reduce_other_times:
                 dependent_task_set.add(reduceOtherTimes_task)
-            for other_task in _ALL_TASKS:
+            for other_task in _TASKS_CACHE:
                 dependent_task_set.add(other_task)
             for dependent_task in dependent_task_set:
                 task_index = get_task_index(task)

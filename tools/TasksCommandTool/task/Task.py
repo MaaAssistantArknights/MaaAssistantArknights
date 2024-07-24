@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 _SHOW_BASE_TASK_WARNING = True
 
 # 存储所有任务
-_ALL_TASKS: dict[str, Task] = {}
+_TASKS_CACHE: dict[str, Task] = {}
 _ORIGINAL_TASKS: dict[str, Task] = {}
 
 # TaskPipelineInfo 中的字段
@@ -54,6 +54,10 @@ def _is_valid_task_name(name: str) -> bool:
 def set_base_task_warning(check: bool):
     global _SHOW_BASE_TASK_WARNING
     _SHOW_BASE_TASK_WARNING = check
+
+
+def clear_cache():
+    _TASKS_CACHE.clear()
 
 
 class Task:
@@ -145,17 +149,17 @@ class Task:
     def get(name, maybe_template=True) -> Task | None:
         if isinstance(name, Task):
             return name
-        if name in _ALL_TASKS:
-            return _ALL_TASKS[name]
+        if name in _TASKS_CACHE:
+            return _TASKS_CACHE[name]
         elif name in _ORIGINAL_TASKS:
             if _is_base_task(_ORIGINAL_TASKS[name]):
                 return Task._build_base_task(_ORIGINAL_TASKS[name])
             elif _is_template_task_name(name) and maybe_template:
                 return Task._build_template_task(name)
             else:
-                _ALL_TASKS[name] = copy.deepcopy(_ORIGINAL_TASKS[name])
-                _ALL_TASKS[name].task_status = TaskStatus.Initialized
-                return _ALL_TASKS[name]
+                _TASKS_CACHE[name] = copy.deepcopy(_ORIGINAL_TASKS[name])
+                _TASKS_CACHE[name].task_status = TaskStatus.Initialized
+                return _TASKS_CACHE[name]
         elif _is_template_task_name(name) and maybe_template:
             return Task._build_template_task(name)
         else:

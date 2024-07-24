@@ -2,13 +2,15 @@ import cmd
 import json
 import os
 
-from .Task import Task, _ALL_TASKS, _ORIGINAL_TASKS, InterpretedTask, _TASK_PIPELINE_INFO_FIELDS
+from .Task import Task, _ORIGINAL_TASKS, InterpretedTask, _TASK_PIPELINE_INFO_FIELDS
 from .TaskField import TaskFieldEnum, get_fields_with_algorithm, get_fields
-from .TaskType import AlgorithmType, ActionType
+from .TaskType import AlgorithmType, ActionType, MethodType
 from .TemplateGUI import show_template
 from .TaskUtils import project_root_path
 
 json_path = project_root_path / 'resource' / 'tasks.json'
+
+_MODIFIED_TASKS = {}
 
 
 # noinspection PyMethodMayBeStatic
@@ -70,19 +72,19 @@ class TasksCommandTool(cmd.Cmd):
         task_algorithm = self.choices("Please choose an algorithm:\n", [a.value for a in AlgorithmType])
         task_dict = {TaskFieldEnum.ALGORITHM.value.field_name: task_algorithm}
         for field in get_fields_with_algorithm(task_algorithm):
-            if field == TaskFieldEnum.ALGORITHM.value:
+            if field == TaskFieldEnum.ALGORITHM:
                 continue
-            if field == TaskFieldEnum.ACTION.value:
+            if field == TaskFieldEnum.ACTION:
                 value = self.choices("Please choose an action:\n", [a.value for a in ActionType])
+            elif field == TaskFieldEnum.METHOD:
+                value = self.choices("Please choose a method:\n", [m.value for m in MethodType])
             else:
-                value = input(f"{field.field_name} ({field.field_doc}):")
+                value = input(f"{field.field_name} ({field.field_doc}) [{field.field_default}]:")
             if ',' in value:
                 value = value.split()
-            if not value:
-                value = field.field_default
             if value:
                 task_dict[field.field_name] = value
-        print(task_dict)
+        _MODIFIED_TASKS[task_name] = Task(task_name, task_dict)
 
     def print_task(self, task: Task):
         print(f"Task {task.name}:")
