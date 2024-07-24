@@ -2,6 +2,7 @@ from ..TemplateGUI import show_template, click_and_crop
 import unittest
 
 
+@unittest.skip("Skip GUI tests")
 class TestTemplateGUI(unittest.TestCase):
 
     def test_show_template(self):

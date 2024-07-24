@@ -27,7 +27,7 @@ class ActionType(Enum):
 
 class TaskStatus(Enum):
     # Enum for task derived types
-    Uninitialized = "Uninitialized"
     Raw = "Raw"
+    Original = "Original"
     Initialized = "Initialized"
     Interpreted = "Interpreted"

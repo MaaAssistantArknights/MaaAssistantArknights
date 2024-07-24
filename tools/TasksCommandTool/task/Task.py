@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import copy
 
 from .debug import trace
 from .TaskType import AlgorithmType, TaskStatus
@@ -62,7 +63,6 @@ class Task:
         assert _is_valid_task_name(name), f"Invalid task name: {name}"
         # 任务名
         self.name = name
-        self.is_original = False
         self.task_status = TaskStatus.Raw
         self._construct_task_dict = construct_task_dict
 
@@ -111,7 +111,7 @@ class Task:
         return task_dict
 
     def define(self) -> Task:
-        self.is_original = True
+        self.task_status = TaskStatus.Original
         _ORIGINAL_TASKS[self.name] = self
         return self
 
@@ -153,9 +153,9 @@ class Task:
             elif _is_template_task_name(name) and maybe_template:
                 return Task._build_template_task(name)
             else:
-                _ORIGINAL_TASKS[name].task_status = TaskStatus.Initialized
-                _ALL_TASKS[name] = _ORIGINAL_TASKS[name]
-                return _ORIGINAL_TASKS[name]
+                _ALL_TASKS[name] = copy.deepcopy(_ORIGINAL_TASKS[name])
+                _ALL_TASKS[name].task_status = TaskStatus.Initialized
+                return _ALL_TASKS[name]
         elif _is_template_task_name(name) and maybe_template:
             return Task._build_template_task(name)
         else:
@@ -192,7 +192,7 @@ class Task:
         new_task_dict = base_task.to_task_dict().copy()
         override_fields = []
         if override_task is not None:
-            if override_task.is_original and hasattr(override_task, "template"):
+            if override_task.task_status == TaskStatus.Original and hasattr(override_task, "template"):
                 override_task._construct_task_dict.setdefault("template", f"{name}.png")
                 # override_task._construct_task_dict["template"] = f"{name}.png"
             new_task_dict.update(override_task._construct_task_dict)
