@@ -25,6 +25,17 @@ class ActionType(Enum):
         return self.value == other
 
 
+class MethodType(Enum):
+    # Enum for method types
+    Ccoeff = "Ccoeff"
+    CcoeffHSV = "CcoeffHSV"
+    RGBCount = "RGBCount"
+    HSVCount = "HSVCount"
+
+    def __eq__(self, other):
+        return self.value == other
+
+
 class TaskStatus(Enum):
     # Enum for task derived types
     Raw = "Raw"

@@ -3,7 +3,7 @@ from enum import Enum
 from types import UnionType
 from typing import Any, Callable, Type, Union, List, get_origin, get_args
 
-from .TaskType import AlgorithmType, ActionType
+from .TaskType import AlgorithmType, ActionType, MethodType
 
 
 class TaskField:
@@ -217,6 +217,15 @@ class TaskFieldEnum(Enum):
         [],
         # [1, 255] 或者 [[[0,0,0],[255,255,255]],[[0,0,0],[255,255,255]]]
         _check_mask_range,
+        valid_for_algorithm=AlgorithmType.MatchTemplate,
+    )
+    METHOD = TaskField(
+        "method",
+        "method",
+        str | MethodType | list,
+        "可选项，模板匹配算法，可以是列表",
+        MethodType.Ccoeff,
+        lambda x: MethodType(x) in MethodType or all(MethodType(i) in MethodType for i in x),
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
     TEXT = TaskField(
