@@ -6,6 +6,16 @@
 #include "Utils/Logger.hpp"
 #include "Vision/OCRer.h"
 
+bool asst::RoguelikeFoldartalGainTaskPlugin::load_params(const json::value& params)
+{
+    const std::string& theme = m_config->get_theme();
+    if (theme != RoguelikeTheme::Sami) {
+        return false;
+    }
+    set_start_floor_foldartal(params.get("first_floor_foldartal", ""));
+    return true;
+}
+
 bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
     if (msg != AsstMsg::SubTaskStart || details.get("subtask", std::string()) != "ProcessTask") {
@@ -15,6 +25,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::verify(AsstMsg msg, const json::val
     if (m_config->get_theme() != RoguelikeTheme::Sami) {
         return false;
     }
+
     const std::string roguelike_name = m_config->get_theme() + "@";
     const std::string& task = details.get("details", "task", "");
     std::string_view task_view = task;
@@ -62,7 +73,7 @@ bool asst::RoguelikeFoldartalGainTaskPlugin::_run()
     }
 }
 
-void asst::RoguelikeFoldartalGainTaskPlugin::reset_variable()
+void asst::RoguelikeFoldartalGainTaskPlugin::reset_in_run_variables()
 {
     m_foldartal_floor.reset();
 }
@@ -105,8 +116,9 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
 bool asst::RoguelikeFoldartalGainTaskPlugin::gain_stage_award()
 {
     OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(m_config->get_theme() + (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat"
-                                                                       : "@Roguelike@FoldartalGainOcr"));
+    analyzer.set_task_info(
+        m_config->get_theme() +
+        (m_ocr_after_combat ? "@Roguelike@FoldartalGainOcrAfterCombat" : "@Roguelike@FoldartalGainOcr"));
     if (!analyzer.analyze()) {
         return false;
     }

@@ -8,9 +8,11 @@ maa_dir = cur_dir.parent.parent
 
 def generate_mask_ranges(image, base_mask, thresholds):
     mask_ranges = []
-    mask = cv2.inRange(hsv_image, (0, 0, 0), (0, 0, 0))
+    mask = cv2.inRange(image, (0, 0, 0), (0, 0, 0))
     for i, threshold in enumerate(thresholds):
-        current_mask = cv2.bitwise_and(base_mask, cv2.bitwise_not(mask))
+        current_mask = cv2.bitwise_not(mask)
+        if base_mask is not None:
+            current_mask = cv2.bitwise_and(base_mask, current_mask)
 
         hist_0 = cv2.calcHist([image], [0], current_mask, [256], [0, 256])
         hist_1 = cv2.calcHist([image], [1], current_mask, [256], [0, 256])
@@ -21,19 +23,19 @@ def generate_mask_ranges(image, base_mask, thresholds):
         val_threshold = threshold * hist_2.max()
 
         try:
-            lh = int(np.where(hist_0 > hue_threshold)[0][0])
-            uh = int(np.where(hist_0 > hue_threshold)[0][-1])
-            ls = int(np.where(hist_1 > sat_threshold)[0][0])
-            us = int(np.where(hist_1 > sat_threshold)[0][-1])
-            lv = int(np.where(hist_2 > val_threshold)[0][0])
-            uv = int(np.where(hist_2 > val_threshold)[0][-1])
+            l0 = int(np.where(hist_0 > hue_threshold)[0][0])
+            u0 = int(np.where(hist_0 > hue_threshold)[0][-1])
+            l1 = int(np.where(hist_1 > sat_threshold)[0][0])
+            u1 = int(np.where(hist_1 > sat_threshold)[0][-1])
+            l2 = int(np.where(hist_2 > val_threshold)[0][0])
+            u2 = int(np.where(hist_2 > val_threshold)[0][-1])
         except:
             print(f"Failed at #{i}")
             break
 
-        mask_ranges.append([[lh, ls, lv], [uh, us, uv]])
+        mask_ranges.append([[l0, l1, l2], [u0, u1, u2]])
 
-        mask = cv2.bitwise_or(mask, cv2.inRange(image, (lh, ls, lv), (uh, us, uv)))
+        mask = cv2.bitwise_or(mask, cv2.inRange(image, (l0, l1, l2), (u0, u1, u2)))
     return mask_ranges, mask
 
 def show_image_mask(image, mask, image_for_hist):
@@ -81,9 +83,13 @@ if __name__ == '__main__':
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     # 自定义参数
+    hsv_base_mask = None
+    # hsv_base_mask = cv2.inRange(hsv_image, (0, 0, 0), (180, 254, 230)) # 忽略亮色背景
     hsv_base_mask = cv2.inRange(hsv_image, (0, 1, 40), (180, 255, 255)) # 忽略暗色背景
     hsv_thresholds = [0.6] * 3
-    rgb_base_mask = cv2.inRange(rgb_image, (20, 20, 20), (180, 255, 255)) # 忽略暗色背景
+    rgb_base_mask = None
+    # rgb_base_mask = cv2.inRange(rgb_image, (0, 0, 0), (200, 200, 200)) # 忽略亮色背景
+    rgb_base_mask = cv2.inRange(rgb_image, (20, 20, 20), (255, 255, 255)) # 忽略暗色背景
     rgb_thresholds = [0.6] * 3
 
     hsv_mask_ranges, hsv_mask = generate_mask_ranges(hsv_image, hsv_base_mask, hsv_thresholds)

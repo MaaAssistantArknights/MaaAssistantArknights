@@ -55,6 +55,7 @@ namespace asst
                    (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami);
         }
 
+        bool verify_and_load_params(const json::value& params);
         void clear();// 重置肉鸽局内数据
 
     // ================================= 通用参数 =================================
@@ -119,6 +120,8 @@ namespace asst
         bool get_trader_no_longer_buy() const { return m_trader_no_longer_buy; }
 
         // ------------------ 开局 ------------------
+        void set_squad(std::string squad) { m_squad = std::move(squad); }
+        const std::string& get_squad() const { return m_squad; }
         void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
         const auto& get_core_char() const { return m_core_char; }
         void set_use_support(bool use_support) { m_use_support = use_support; }
@@ -136,30 +139,20 @@ namespace asst
         bool m_trader_no_longer_buy = false;                   // 不再购买藏品
 
         // ------------------ 开局 ------------------
+        std::string m_squad;                                   // 分队，默认分队为空
         std::string m_core_char;                               // 开局干员名
         bool m_use_support = false;                            // 开局干员是否为助战干员
         bool m_use_nonfriend_support = false;                  // 是否可以是非好友助战干员
 
         std::unordered_map<std::string, RoguelikeOper> m_oper; // 干员精英&等级
 
-
     public:
         // ------------------ 密文板 ------------------
         void set_foldartal(auto foldartal) { m_foldartal = std::move(foldartal); }
         const auto& get_foldartal() const { return m_foldartal; }
 
-        // ------------------ 坍缩范式 ------------------
-        void set_clp_pds(std::vector<std::string> clp_pds) { m_clp_pds = std::move(clp_pds); }
-        const auto& get_clp_pds() const { return m_clp_pds; }
-        void set_need_check_panel(bool need_check_panel) { m_need_check_panel = need_check_panel; }
-        bool get_need_check_panel() const { return m_need_check_panel; }
-
     private:
         // ------------------ 密文板 ------------------
         std::vector<std::string> m_foldartal;         // 所有已获得密文板
-
-        // ------------------ 坍缩范式 ------------------
-        std::vector<std::string> m_clp_pds;           // 已受到的坍缩范式
-        bool m_need_check_panel = false;              // 是否在下次回到关卡选择界面时检查坍缩范式
     };
 } // namespace asst

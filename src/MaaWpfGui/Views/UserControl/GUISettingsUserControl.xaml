@@ -30,6 +30,13 @@
                 Margin="10"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
+                Content="{DynamicResource UseTray}"
+                IsChecked="{Binding UseTray}" />
+            <CheckBox
+                Margin="10"
+                Visibility="{c:Binding UseTray,FalseToVisibility=Collapsed}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
                 Content="{DynamicResource MinimizeToTray}"
                 IsChecked="{Binding MinimizeToTray}" />
             <CheckBox

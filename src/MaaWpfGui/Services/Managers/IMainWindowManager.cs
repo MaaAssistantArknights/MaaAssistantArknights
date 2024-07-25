@@ -53,6 +53,12 @@ namespace MaaWpfGui.Services.Managers
         void SetMinimizeToTaskBar(bool shouldMinimizeToTaskBar);
 
         /// <summary>
+        /// Sets whether to use the tray icon.
+        /// </summary>
+        /// <param name="useTrayIcon">Whether to use the tray icon.</param>
+        void SetUseTrayIcon(bool useTrayIcon);
+
+        /// <summary>
         /// Get the main window if it is visible.
         /// </summary>
         /// <returns>The <see cref="Window"/> if it is visible, or null. </returns>

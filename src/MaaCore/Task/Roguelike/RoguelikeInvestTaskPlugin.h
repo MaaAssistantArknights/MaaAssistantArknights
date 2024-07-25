@@ -3,6 +3,8 @@
 
 namespace asst
 {
+class RoguelikeControlTaskPlugin;
+
 // 肉鸽投资插件
 class RoguelikeInvestTaskPlugin : public AbstractRoguelikeTaskPlugin
 {
@@ -10,8 +12,10 @@ public:
     using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
     virtual ~RoguelikeInvestTaskPlugin() override = default;
     virtual bool verify(AsstMsg msg, const json::value& details) const override;
-    void set_invest_maximum(int value) { m_maximum = value; }
-    void set_stop_when_full(bool value) { m_stop_when_full = value; }
+    virtual bool load_params([[maybe_unused]] const json::value& params) override;
+
+public:
+    void set_control_plugin_ptr(const auto& ptr) { m_roguelike_task_ptr = ptr; }
 
 private:
     virtual bool _run() override;
@@ -23,5 +27,6 @@ private:
     int m_invest_count = 0;
     int m_maximum = 0;
     bool m_stop_when_full = false; // 存款满了就停止
+    std::shared_ptr<RoguelikeControlTaskPlugin> m_roguelike_task_ptr = nullptr;
 };
 } // namespace asst

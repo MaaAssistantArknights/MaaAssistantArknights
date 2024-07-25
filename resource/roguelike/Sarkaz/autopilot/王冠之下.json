@@ -1,5 +1,5 @@
 {
-    "stage_name": "存亡之战",
+    "stage_name": "王冠之下",
     "replacement_home": [
         {
             "location": [4, 5],
@@ -8,14 +8,6 @@
         {
             "location": [6, 5],
             "direction": "right"
-        },
-        {
-            "location": [7, 5],
-            "direction": "right"
-        },
-        {
-            "location": [4, 6],
-            "direction": "left"
         }
     ],
     "blacklist_location": [
@@ -58,6 +50,11 @@
             "groups": ["奶盾", "重装", "地面阻挡", "地面远程", "炮灰"],
             "location": [4, 6],
             "direction": "left"
+        },
+        {
+            "groups": ["补给站", "支援陷阱", "无人机"],
+            "location": [2, 6],
+            "direction": "up"
         }
     ],
     "retreat_plan": []

@@ -57,7 +57,8 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     LogTraceFunction;
 
     ++m_recruit_count;
-    if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1) {
+    if (m_config->get_mode() == RoguelikeMode::Investment && m_recruit_count > 1 &&
+        m_config->get_squad() == "蓝图测绘分队") {
         // 如果是投资模式，直接招募第一个干员
         lazy_recruit();
         return true;
@@ -414,7 +415,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
     return recruit_appointed_char(char_name, is_rtl);
 }
 
-void asst::RoguelikeRecruitTaskPlugin::reset_variable()
+void asst::RoguelikeRecruitTaskPlugin::reset_in_run_variables()
 {
     m_recruit_count = 0;
     m_starts_complete = false; 

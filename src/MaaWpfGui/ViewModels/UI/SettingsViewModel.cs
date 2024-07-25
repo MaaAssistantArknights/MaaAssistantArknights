@@ -4370,12 +4370,22 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
             ];
 
-        /*
+        private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
+
         /// <summary>
-        /// Gets a value indicating whether to use tray icon.
+        /// Gets or sets a value indicating whether to use tray icon.
         /// </summary>
-        public bool UseTray => true;
-        */
+        public bool UseTray
+        {
+            get => _useTray;
+            set
+            {
+                SetAndNotify(ref _useTray, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseTray, value.ToString());
+                Instances.MainWindowManager.SetUseTrayIcon(value);
+            }
+        }
+
 
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
