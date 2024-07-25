@@ -156,7 +156,7 @@
         "next": ["ICChapterToIC", "ChapterSwipeToTheRight"]
     },
     "DV-Open": {
-        "text": ["綠野幻夢", "活動", "開放"]
+        "text": ["綠野幻夢", "復刻", "活動", "開放"]
     },
     "DVChapterToDV": {
         "text": ["實驗基地"]
