@@ -123,7 +123,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
-          persist-credentials: false # Needed to bypass protection rules in Push changes 
+          persist-credentials: false # Needed to bypass protection rules in Push changes
           show-progress: false
 
       - name: Restore ResourceUpdater.exe from cache
