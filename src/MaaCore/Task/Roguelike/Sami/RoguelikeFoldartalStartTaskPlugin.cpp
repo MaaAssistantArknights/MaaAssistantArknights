@@ -30,6 +30,33 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::verify(AsstMsg msg, const json::va
     }
 }
 
+bool asst::RoguelikeFoldartalStartTaskPlugin::load_params(const json::value& params)
+{
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
+        return false;
+    }
+
+    // 是否生活队凹开局板子
+    m_start_foldartal = (params.contains("start_foldartal_list"));
+
+    if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
+        std::vector<std::string> list;
+        for (const auto& name : *opt) {
+            if (std::string name_str = name.as_string(); !name_str.empty()) {
+                list.emplace_back(name_str);
+            }
+        }
+        /* 由于插件 load_param返回值仅决定自身是否启用，参数验证移动至他处 */
+        /*
+        if (list.empty()) {
+            Log.error(__FUNCTION__, "| Empty start_foldartal_list");
+            return false;
+        }
+        */
+        m_start_foldartal_list = (std::move(list));
+    }
+}
+
 bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
 {
     LogTraceFunction;
