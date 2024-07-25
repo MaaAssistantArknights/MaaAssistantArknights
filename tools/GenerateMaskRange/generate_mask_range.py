@@ -77,10 +77,23 @@ def show_image_mask(image, mask, image_for_hist):
     plt.tight_layout()
     plt.show()
 
+def calc_mask_from_ranges(image, mask_ranges):
+    mask = None
+    for mask_range in mask_ranges:
+        l0, l1, l2 = mask_range[0]
+        u0, u1, u2 = mask_range[1]
+        if mask is not None:
+            mask = cv2.bitwise_or(mask, cv2.inRange(image, (l0, l1, l2), (u0, u1, u2)))
+        else:
+            mask = cv2.inRange(image, (l0, l1, l2), (u0, u1, u2))
+    return mask
+
 if __name__ == '__main__':
-    image = cv2.imread(maa_dir / "resource" / "template" / "Sarkaz@Roguelike@StageCombatDpsEnter.png")
+    image = cv2.imread(maa_dir / "resource" / "template" / "Sarkaz@Roguelike@StageFilterTruthEnter.png")
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+    show_image_mask(image, calc_mask_from_ranges(hsv_image, [[[23, 150, 40], [23, 230, 150]]]), hsv_image)
 
     # 自定义参数
     hsv_base_mask = None
