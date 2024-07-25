@@ -14,6 +14,7 @@ class TaskField:
                  field_doc: str,
                  field_default: any = None,
                  is_valid_with: Callable[[Any], bool] = lambda x: True,
+                 field_construct: Callable[[Any], Any] = lambda x: x,
                  valid_for_algorithm: AlgorithmType = None,
                  ):
         self.field_name = field_name
@@ -22,6 +23,7 @@ class TaskField:
         self.field_doc = field_doc.strip(" ")
         self.field_default = field_default
         self.is_valid_with = lambda x: x is None or self._check_type(x) and is_valid_with(x)
+        self.field_construct = field_construct
         self.valid_for_algorithm = valid_for_algorithm
         assert self.is_valid_with(field_default)
 
@@ -170,7 +172,10 @@ class TaskFieldEnum(Enum):
         "special_params",
         list,
         "可选项，表示特殊参数",
-        []
+        [],
+        # 特殊参数为int数组，历史遗留问题tasks.json里有小数
+        # 但 MaaCore但实现是vector<int>, 所以转化成小数
+        field_construct=lambda x: [int(i) for i in x],
     )
     TEMPLATE = TaskField(
         "template",
@@ -197,7 +202,7 @@ class TaskFieldEnum(Enum):
                 return "int"
             elif isinstance(color, list):
                 assert all(isinstance(i, int) for i in color)
-                assert len(color) == 3
+                assert len(color) == 3 or len(color) == 1
                 return "list"
 
         def _check_range(color_range):
@@ -209,6 +214,12 @@ class TaskFieldEnum(Enum):
             return (len(x) == 2 and all(isinstance(i, int) for i in x)) or all(_check_range(i) for i in x)
         return False
 
+    @staticmethod
+    def _construct_mask_range(x):
+        if not (len(x) == 2 and all(isinstance(i, int) for i in x)):
+            return x
+        return [[[x[0]], [x[1]]]]
+
     MASK_RANGE = TaskField(
         "maskRange",
         "mask_range",
@@ -218,6 +229,7 @@ class TaskFieldEnum(Enum):
         # [1, 255] 或者 [[[0,0,0],[255,255,255]],[[0,0,0],[255,255,255]]]
         _check_mask_range,
         valid_for_algorithm=AlgorithmType.MatchTemplate,
+        field_construct=_construct_mask_range,
     )
     METHOD = TaskField(
         "method",

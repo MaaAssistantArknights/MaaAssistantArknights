@@ -37,9 +37,6 @@ class CPPTaskTests(TaskTest):
             # 将2147483647视作math.inf
             if key == "maxTimes" and (expected[key] == 2147483647 and actual[key] == math.inf):
                 continue
-            elif key == "maskRange":
-                # TODO 检查新的maskRange
-                continue
             if isinstance(expected[key], list) and not isinstance(actual[key], list) and len(expected[key]) == 1:
                 self.assertEqual(expected[key][0], actual[key], f"Task: {task_name}, Key: {key}")
                 continue
@@ -73,8 +70,6 @@ class CPPTaskTests(TaskTest):
         load_tasks()
         load_cpp_tasks()
         for task_name, task_dict in _CPP_TASKS.items():
-            if task_name == "InfrastOperFaceHash":
-                continue
             with self.subTest(task_name=task_name):
                 self.assertTaskEqual(Task.get(task_name).interpret(), task_dict, task_name)
         enable_tracing()
