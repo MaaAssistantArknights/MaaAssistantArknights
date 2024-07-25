@@ -645,6 +645,9 @@
     <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClInclude>
+    <ClInclude Include="Vision\Miscellaneous\BrightPointAnalyzer.h">
+      <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClInclude>
     <ClInclude Include="Vision\Config\MatcherConfig.h">
       <Filter>Source\Vision\Config</Filter>
     </ClInclude>
@@ -1137,6 +1140,9 @@
       <Filter>Source\Task\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp">
+      <Filter>Source\Vision\Miscellaneous</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Miscellaneous\BrightPointAnalyzer.cpp">
       <Filter>Source\Vision\Miscellaneous</Filter>
     </ClCompile>
     <ClCompile Include="Vision\Config\MatcherConfig.cpp">

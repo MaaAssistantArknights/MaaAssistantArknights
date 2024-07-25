@@ -131,6 +131,7 @@
     <ClInclude Include="Vision\Miscellaneous\RecruitImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\StageDropsImageAnalyzer.h" />
     <ClInclude Include="Vision\Miscellaneous\OperBoxImageAnalyzer.h" />
+    <ClInclude Include="Vision\Miscellaneous\BrightPointAnalyzer.h" />
     <ClInclude Include="Vision\MultiMatcher.h" />
     <ClInclude Include="Vision\OCRer.h" />
     <ClInclude Include="Vision\TemplDetOCRer.h" />
@@ -314,6 +315,7 @@
     <ClCompile Include="Vision\Miscellaneous\RecruitImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\StageDropsImageAnalyzer.cpp" />
     <ClCompile Include="Vision\Miscellaneous\OperBoxImageAnalyzer.cpp" />
+    <ClCompile Include="Vision\Miscellaneous\BrightPointAnalyzer.cpp" />
     <ClCompile Include="Vision\MultiMatcher.cpp" />
     <ClCompile Include="Vision\OCRer.cpp" />
     <ClCompile Include="Vision\TemplDetOCRer.cpp" />
