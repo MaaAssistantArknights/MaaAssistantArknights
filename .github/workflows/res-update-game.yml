@@ -22,7 +22,6 @@ jobs:
           repository: yuanyan3060/ArknightsGameResource
           ref: main
           path: ./Official
-          fetch-depth: 1
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /levels.json
@@ -53,7 +52,6 @@ jobs:
           repository: Kengxxiao/ArknightsGameData_Yostar
           ref: main
           path: ./Overseas
-          fetch-depth: 1
           sparse-checkout-cone-mode: false
           sparse-checkout: |
             /en_US/gamedata/excel/item_table.json
@@ -94,7 +92,6 @@ jobs:
           repository: arkntools/arknights-toolbox-update
           ref: data-tw
           path: ./excel
-          fetch-depth: 1
           token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
 
       - name: Upload Official
@@ -125,10 +122,9 @@ jobs:
       - name: Checkout MAA
         uses: actions/checkout@v4
         with:
-          show-progress: false
-          fetch-depth: 1
           # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
           persist-credentials: false # Needed to bypass protection rules in Push changes 
+          show-progress: false
 
       - name: Restore ResourceUpdater.exe from cache
         id: cache-resupd
