@@ -396,6 +396,7 @@
     <system:String x:Key="Inverse">反選</system:String>
     <system:String x:Key="Clear">清空</system:String>
     <system:String x:Key="Then">完成後</system:String>
+    <system:String x:Key="NoCustomOrder">指令將根據列表順序而不是選擇順序執行</system:String>
     <system:String x:Key="DoNothing">無動作</system:String>
     <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
@@ -404,6 +405,8 @@
     <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，並休眠</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">關機</system:String>
+    <system:String x:Key="Once">僅一次</system:String>
+    <system:String x:Key="IfNoOtherMaa">無其他 MAA 時</system:String>
     <system:String x:Key="HibernateWithoutPersist">休眠（僅一次）</system:String>
     <system:String x:Key="ShutdownWithoutPersist">關機（僅一次）</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，無其他 MAA 則休眠</system:String>

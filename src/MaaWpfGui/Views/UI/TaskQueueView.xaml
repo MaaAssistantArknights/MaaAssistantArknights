@@ -137,30 +137,31 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Grid
-                Grid.Row="1"
-                Margin="10"
-                HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical"
+                        Grid.Row="1"
+                        Margin="10"
+                        HorizontalAlignment="Center">
+                <hc:CheckComboBox
+                    Grid.Column="0" Width="200" Margin="5"
+                    ItemsSource="{Binding ActionsAfterCompletedList}"
+                    DisplayMemberPath="Display"
+                    SelectedValuePath="Value"
+                    MaxDropDownHeight="800"
+                    hc:ListBoxAttach.Height="50"
+                    hc:ListBoxAttach.SelectedItems="{Binding ActionsAfterCompleted}"
+                    hc:ListBoxAttach.IsNew="False"
+                    hc:TitleElement.Title="{DynamicResource Then}"
+                    ToolTip="{DynamicResource NoCustomOrder}"
+                    Style="{StaticResource CheckComboBoxExtend}">
+                </hc:CheckComboBox>
                 <controls:TextBlock
+                    Visibility="{c:Binding 'ActionsAfterCompleted.Length > 1',FalseToVisibility=Collapsed}"
                     Padding="5,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Text="{DynamicResource Then}"
+                    Text="{DynamicResource NoCustomOrder}"
                     TextWrapping="Wrap" />
-                <ComboBox
-                    Grid.Column="1"
-                    Width="160"
-                    Margin="5"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding ActionAfterCompletedList}"
-                    MaxDropDownHeight="800"
-                    SelectedValue="{Binding ActionAfterCompleted}"
-                    SelectedValuePath="Value" />
-            </Grid>
+            </StackPanel>
             <Grid Grid.Row="2" Height="60">
                 <Button
                     Width="100"
@@ -222,7 +223,7 @@
                 PanningMode="Both"
                 VerticalScrollBarVisibility="Auto">
                 <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
-                    <userControl:FightSettingsUserControl 
+                    <userControl:FightSettingsUserControl
                         Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
                     <userControl:AutoRecruitSettingsUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"

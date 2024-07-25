@@ -404,6 +404,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Inverse">Inverse</system:String>
     <system:String x:Key="Clear">Clear</system:String>
     <system:String x:Key="Then">Then</system:String>
+    <system:String x:Key="NoCustomOrder">Instructions will be executed in list order, not in selection order.</system:String>
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
@@ -412,6 +413,8 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
+    <system:String x:Key="Once">Only this Time</system:String>
+    <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="HibernateWithoutPersist">Hibernate (only once)</system:String>
     <system:String x:Key="ShutdownWithoutPersist">Shutdown (only once)</system:String>
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate if no other running MAA</system:String>
