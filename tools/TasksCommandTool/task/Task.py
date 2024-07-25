@@ -167,6 +167,14 @@ class Task:
         else:
             return None
 
+    def get_docs(self):
+        docs_dict = {}
+        for key, value in self._construct_task_dict.items():
+            key = key.lower()
+            if "doc" in key:
+                docs_dict[key] = value
+        return docs_dict
+
     @staticmethod
     @trace
     def _build_base_task(task: Task) -> BaseTask:

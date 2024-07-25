@@ -114,8 +114,13 @@ class TasksCommandTool(cmd.Cmd):
 
     def print_task(self, task: Task):
         print(f"Task {task.name}:")
-        for key, value in task.to_task_dict().items():
+        docs_dict = task.get_docs()
+        if docs_dict.get("doc"):
+            print(docs_dict["doc"])
+        for key, value in task.to_simplified_dict().items():
             print(f"{key}: {value}")
+            if docs_dict.get(f"{key}_doc"):
+                print(docs_dict[key])
         if self.use_template_gui and task.algorithm == AlgorithmType.MatchTemplate:
             show_template(task.template)
 
