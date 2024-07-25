@@ -6,10 +6,11 @@
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
 
-bool asst::RoguelikeParameterAnalyzer::analyze()
+/* bool asst::RoguelikeParameterAnalyzer::analyze()
 {
-    LogTraceFunction;    
-}
+    LogTraceFunction;
+    return true;
+}*/
 
 int asst::RoguelikeParameterAnalyzer::update_chaos(const cv::Mat& image)
 {
