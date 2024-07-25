@@ -119,6 +119,16 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderInvestCancel", INT_MAX);
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
+        
+    bool stop_at_final_boss = params.get("stop_at_final_boss", mode == RoguelikeMode::Exp);
+    // 傀影肉鸽3层和5层boss图标一样,禁用
+    if (stop_at_final_boss && theme != "Phantom") {
+        m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StageDreadfulFoe-5", 0);
+    }
+    else {
+        // 重置boss进点
+        m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StageDreadfulFoe-5", INT_MAX);
+    }
 
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", params.get("starts_count", INT_MAX));
     // 通过 exceededNext 禁用投资系统，进入商店购买逻辑
