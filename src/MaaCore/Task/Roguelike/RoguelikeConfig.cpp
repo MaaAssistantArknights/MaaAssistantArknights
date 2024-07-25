@@ -91,8 +91,6 @@ void asst::RoguelikeConfig::clear()
     // ------------------ 萨米主题专用参数 ------------------
     m_chaos = 0;
     m_foldartal = std::vector<std::string>();
-    m_clp_pds = std::vector<std::string>();
-    m_need_check_panel = false;
 
     // ------------------ 萨卡兹主题专用参数 ------------------
     m_idea_count = 0;         // 构想数量

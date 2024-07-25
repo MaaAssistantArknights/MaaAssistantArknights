@@ -123,8 +123,6 @@ namespace asst
         bool get_trader_no_longer_buy() const { return m_trader_no_longer_buy; }
 
         // ------------------ 开局 ------------------
-        void set_squad(std::string squad) { m_squad = std::move(squad); }
-        const std::string& get_squad() const { return m_squad; }
         void set_core_char(std::string core_char) { m_core_char = std::move(core_char); }
         const auto& get_core_char() const { return m_core_char; }
         void set_use_support(bool use_support) { m_use_support = use_support; }
@@ -146,22 +144,18 @@ namespace asst
         bool m_trader_no_longer_buy = false;                   // 不再购买藏品
 
         // ------------------ 开局 ------------------
-        std::string m_squad;                                   // 分队，默认分队为空
         std::string m_core_char;                               // 开局干员名
         bool m_use_support = false;                            // 开局干员是否为助战干员
         bool m_use_nonfriend_support = false;                  // 是否可以是非好友助战干员
 
         std::unordered_map<std::string, RoguelikeOper> m_oper; // 干员精英&等级
-
         std::vector<std::string> m_collection;                 // 已获得的藏品
         int m_hope = 0;                                        // 当前希望
         int m_hp = 0;                                          // 当前生命值
         int m_floor = 0;                                       // 当前到达层数
         int m_formation_upper_limit = 6;                       // 当前编队上限
 
-    public:
-        
-
+    public:       
         // ------------------ 密文板 ------------------        
         void set_foldartal(auto foldartal) { m_foldartal = std::move(foldartal); }
         const auto& get_foldartal() const { return m_foldartal; }
@@ -171,10 +165,7 @@ namespace asst
         // ------------------ 密文板 ------------------
         std::vector<std::string> m_foldartal;         // 所有已获得密文板
 
-        // ------------------ 坍缩范式 ------------------
-        std::vector<std::string> m_clp_pds;           // 已受到的坍缩范式
-        bool m_need_check_panel = false;              // 是否在下次回到关卡选择界面时检查坍缩范式
-    
+        // ------------------ 萨卡兹主题专用参数 ------------------
     public:
         void set_idea_count(int idea_count) { m_idea_count = idea_count; }
         int get_idea_count() const { return m_idea_count; }
@@ -184,7 +175,7 @@ namespace asst
         int get_burden_upper_limit() const { return m_burden_upper_limit; }
         
     private:
-        // ------------------ 萨卡兹主题专用参数 ------------------
+        
         int m_idea_count = 0;                         // 构想数量
         int m_burden_number = 0;                      // 负荷
         int m_burden_upper_limit = 3;                 // 负荷上限
