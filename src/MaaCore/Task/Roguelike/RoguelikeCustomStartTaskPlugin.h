@@ -22,6 +22,7 @@ namespace asst
 
     public:
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+        virtual bool load_params([[maybe_unused]] const json::value& params) override;
         void set_custom(RoguelikeCustomType type, std::string custom);
 
     protected:

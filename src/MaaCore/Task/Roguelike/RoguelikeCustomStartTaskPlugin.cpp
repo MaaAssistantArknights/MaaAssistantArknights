@@ -45,6 +45,19 @@ bool asst::RoguelikeCustomStartTaskPlugin::verify(AsstMsg msg, const json::value
     return true;
 }
 
+bool asst::RoguelikeCustomStartTaskPlugin::load_params(const json::value& params)
+{
+    set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));                           // 开局分队
+    set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));                           // 开局职业组
+    set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", ""));                    // 开局干员名
+    set_custom(RoguelikeCustomType::UseSupport, params.get("use_support", false) ? "1" : "0"); // 开局干员是否为助战干员
+    set_custom(
+        RoguelikeCustomType::UseNonfriendSupport,
+        params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
+
+    return true;
+}
+
 void asst::RoguelikeCustomStartTaskPlugin::set_custom(RoguelikeCustomType type, std::string custom)
 {
     m_customs.insert_or_assign(type, std::move(custom));
