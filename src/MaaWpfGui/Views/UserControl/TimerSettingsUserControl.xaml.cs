@@ -44,7 +44,5 @@ namespace MaaWpfGui.Views.UserControl
             Regex regex = NumbersRegex();
             e.Handled = !regex.IsMatch(newText);
         }
-
-
     }
 }
