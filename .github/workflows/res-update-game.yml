@@ -236,8 +236,8 @@ jobs:
         if: steps.check_only_sorted.outputs.only_sorted != 'True'
         id: add_files
         run: |
-          # git config user.name "${{ steps.user_info.outputs.username }}"
-          # git config user.email "${{ steps.user_info.outputs.email }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
 
           $commit_msg = "${{ github.event.inputs.commit_message }}"
