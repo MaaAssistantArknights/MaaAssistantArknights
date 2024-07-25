@@ -1,5 +1,6 @@
 #include "RoguelikeConfig.h"
 
+#include "Config/TaskData.h"
 #include "Utils/Logger.hpp"
 
 bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
@@ -25,7 +26,27 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
     m_start_with_elite_two = params.get("start_with_elite_two", false);
     m_only_start_with_elite_two = params.get("only_start_with_elite_two", false);
 
-    if (mode == RoguelikeMode::Investment) {
+    // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
+    {
+        Task.set_task_base(m_theme + "@Roguelike@Stages", m_theme + "@Roguelike@Stages_default");
+        std::string strategy_task = m_theme + "@Roguelike@StrategyChange";
+        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(static_cast<int>(mode));
+        if (Task.get(strategy_task_with_mode) == nullptr) {
+            strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
+            Log.warn(__FUNCTION__, "No strategy for mode", static_cast<int>(mode));
+        }
+        Task.set_task_base(strategy_task, strategy_task_with_mode);
+    }
+
+    // 重置开局奖励 next，获得任意奖励均继续；烧水相关逻辑在 RoguelikeLastRewardTaskPlugin
+    Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
+    Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
+    
+
+    if (m_mode == RoguelikeMode::Investment) {
         bool investment_with_more_score = params.get("investment_with_more_score", false);
         if (!params.contains("investment_with_more_score") && params.contains("investment_enter_second_floor")) {
             investment_with_more_score = params.get("investment_enter_second_floor", true);
@@ -40,7 +61,7 @@ bool asst::RoguelikeConfig::verify_and_load_params(const json::value& params)
 
     // =========================== 萨米主题专用参数 ===========================
 
-    if (theme == RoguelikeTheme::Sami) {
+    if (m_theme == RoguelikeTheme::Sami) {
         // 是否凹开局远见密文板
         m_first_floor_foldartal = params.contains("first_floor_foldartal");
 
