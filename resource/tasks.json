@@ -7871,9 +7871,10 @@
     "Mizuki@Roguelike@StageCombatDpsEnter": {},
     "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
-        "Doc": "第五层的boss关卡",
         "baseTask": "Mizuki@Roguelike@Stage",
+        "template": "Mizuki@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
+        "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
             "Mizuki@Roguelike@StageDreadfulFoe-5Enter",
             "Mizuki@Roguelike@StageDreadfulFoeEnter",
@@ -8716,7 +8717,9 @@
     "Sami@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
         "baseTask": "Sami@Roguelike@Stage",
+        "template": "Sami@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
+        "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
             "Sami@Roguelike@StageDreadfulFoe-5Enter",
             "Sami@Roguelike@StageDreadfulFoeEnter",
@@ -9963,9 +9966,10 @@
     },
     "Sarkaz@Roguelike@StageDreadfulFoe": {},
     "Sarkaz@Roguelike@StageDreadfulFoe-5": {
-        "Doc": "第五层的boss关卡",
         "baseTask": "Sarkaz@Roguelike@Stage",
+        "template": "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
+        "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
             "Sarkaz@Roguelike@StageDreadfulFoe-5Enter",
             "Sarkaz@Roguelike@StageDreadfulFoeEnter",
@@ -10088,6 +10092,14 @@
         "next": [
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
             "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
+        ]
+    },
+    "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
+        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
+        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
+        "next": [
+            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
+            "Sarkaz@Roguelike@StageFilterTruthLeave"
         ]
     },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {

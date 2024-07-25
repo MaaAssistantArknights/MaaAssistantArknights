@@ -2363,6 +2363,21 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        private bool _roguelikeStopAtFinalBoss = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to stop when investment is full.
+        /// </summary>
+        public bool RoguelikeStopAtFinalBoss
+        {
+            get => _roguelikeStopAtFinalBoss;
+            set
+            {
+                SetAndNotify(ref _roguelikeStopAtFinalBoss, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
+            }
+        }
+
         #endregion
 
         #region 生息演算设置
