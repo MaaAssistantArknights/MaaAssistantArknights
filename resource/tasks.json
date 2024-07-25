@@ -10094,14 +10094,6 @@
             "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
         ]
     },
-    "Sarkaz@Roguelike@StageFilterTruthCloseCollection": {
-        "baseTask": "Sarkaz@Roguelike@CloseCollectionClose",
-        "template": "Sarkaz@Roguelike@CloseCollectionClose.png",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
-            "Sarkaz@Roguelike@StageFilterTruthLeave"
-        ]
-    },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "method": "HSVCount",
