@@ -10180,8 +10180,9 @@
     },
     "Sarkaz@Roguelike@StageRefresh": {
         "action": "ClickSelf",
-        "method": "CcoeffHSV",
+        "method": "RGBCount",
         "postDelay": 500,
+        "maskRange": [80, 160],
         "roi": [790, 130, 60, 144],
         "next": [
             "Sarkaz@Roguelike@StageRefreshConfirm",
