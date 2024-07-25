@@ -6,6 +6,7 @@ from typing import Type
 
 from .Task import Task, _ORIGINAL_TASKS, InterpretedTask, _TASK_PIPELINE_INFO_FIELDS
 from .TaskField import TaskFieldEnum, get_fields_with_algorithm, get_fields
+from .TaskJsonEncoder import TaskJsonEncoder
 from .TaskType import AlgorithmType, ActionType, MethodType
 from .TemplateGUI import show_template
 from .TaskUtils import project_root_path
@@ -19,15 +20,19 @@ _MODIFIED_TASKS = {}
 class TasksCommandTool(cmd.Cmd):
     prompt = 'tasks> '
     use_template_gui = True
+    current_task = None
+    task_names = []
 
     def disable_gui(self):
         self.use_template_gui = False
 
     def get_task(self, arg):
-        task = Task.get(arg)
-        if task is None:
+        if arg:
+            self.current_task = Task.get(arg)
+            self.prompt = f"tasks: {arg}> "
+        if self.current_task is None:
             raise ValueError(f"Task {arg} not found.")
-        return task
+        return self.current_task
 
     def do_load(self, arg):
         """Load tasks from a json file."""
@@ -37,12 +42,14 @@ class TasksCommandTool(cmd.Cmd):
         print(f"Loading tasks from {json_path}")
         success_count = 0
         fail_count = 0
+        self.task_names.clear()
         with open(json_path, 'r', encoding='utf-8') as f:
             tasks = json.load(f)
             for name, task_dict in tasks.items():
                 try:
                     Task(name, task_dict).define()
                     success_count += 1
+                    self.task_names.append(name)
                 except Exception as e:
                     print(f"Error loading task {name}: {e}")
                     fail_count += 1
@@ -53,7 +60,13 @@ class TasksCommandTool(cmd.Cmd):
         self.print_task(self.get_task(arg))
 
     def complete_find(self, text, line, begidx, endidx):
-        return [name for name in _ORIGINAL_TASKS if name.startswith(text)]
+        if not text:
+            candidates = list(self.task_names)
+        else:
+            candidates = [name for name in self.task_names if name.lower().startswith(text.lower())]
+        if len(candidates) > 20:
+            return []
+        return candidates
 
     def choices(self, text: str, choices: Type[Enum]):
         choices = list(choices)
@@ -96,7 +109,7 @@ class TasksCommandTool(cmd.Cmd):
         for task_name, task in _MODIFIED_TASKS.items():
             tasks[task_name] = task.to_task_dict()
         with open(json_path, 'w', encoding='utf-8') as f:
-            json.dump(tasks, f, ensure_ascii=False, indent=4)
+            json.dump(tasks, f, cls=TaskJsonEncoder, ensure_ascii=False, indent=4)
         print(f"Saved {len(_MODIFIED_TASKS)} tasks to {json_path}.")
 
     def print_task(self, task: Task):
