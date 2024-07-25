@@ -205,13 +205,15 @@ jobs:
         run: |
           git status
 
-          $gd = $(git diff --numstat HEAD 2>$null | findstr -i resource)
+          $gd = git diff --numstat HEAD 2>$null | findstr -i resource
           if ($LASTEXITCODE -ne 0) {
             echo "no diff"
             exit 0
           }
 
-          echo "`n$gd`n"
+          echo ""
+          echo $gd
+          echo ""
 
           $diff = $false
           $hasPng = $false
