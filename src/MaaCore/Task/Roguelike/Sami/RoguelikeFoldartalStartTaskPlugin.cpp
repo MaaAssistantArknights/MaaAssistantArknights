@@ -55,6 +55,8 @@ bool asst::RoguelikeFoldartalStartTaskPlugin::load_params(const json::value& par
         */
         m_start_foldartal_list = (std::move(list));
     }
+
+    return true;
 }
 
 bool asst::RoguelikeFoldartalStartTaskPlugin::_run()
