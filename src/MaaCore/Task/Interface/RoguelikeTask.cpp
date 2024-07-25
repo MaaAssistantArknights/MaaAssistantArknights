@@ -155,17 +155,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     m_invest_ptr->set_control_plugin_ptr(m_control_ptr);
 
-    const auto& ptr = m_custom_ptr;
-    ptr->set_custom(RoguelikeCustomType::Squad, params.get("squad", ""));        // 开局分队
-    ptr->set_custom(RoguelikeCustomType::Roles, params.get("roles", ""));        // 开局职业组
-    ptr->set_custom(RoguelikeCustomType::CoreChar, params.get("core_char", "")); // 开局干员名
-    ptr->set_custom(
-        RoguelikeCustomType::UseSupport,
-        params.get("use_support", false) ? "1" : "0"); // 开局干员是否为助战干员
-    ptr->set_custom(
-        RoguelikeCustomType::UseNonfriendSupport,
-        params.get("use_nonfriend_support", false) ? "1" : "0"); // 是否可以是非好友助战干员
-
     for (const auto& plugin : m_roguelike_task_ptr->get_plugins()) {
         if (const auto& p_ptr = std::dynamic_pointer_cast<AbstractRoguelikeTaskPlugin>(plugin); p_ptr != nullptr) {
             p_ptr->set_enable(p_ptr->load_params(params));
