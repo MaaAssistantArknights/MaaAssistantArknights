@@ -67,7 +67,7 @@ namespace asst
         RoguelikeMode get_mode() const { return m_mode; }
         void set_difficulty(int difficulty) { m_difficulty = difficulty; }
         int get_difficulty() const { return m_difficulty; }
-        void set_squad(std::string squad) { m_squad = (squad); }
+        void set_squad(std::string squad) { m_squad = std::move(squad); }
         const std::string& get_squad() const { return m_squad; }
 
         // ------------------ 开局 ------------------
