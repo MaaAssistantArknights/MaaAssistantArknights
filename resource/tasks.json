@@ -10104,8 +10104,13 @@
     },
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.97,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [23, 150, 40],
+                [23, 230, 150]
+            ]
+        ],
         "next": [
             "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
             "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
@@ -10279,8 +10284,13 @@
         ]
     },
     "Sarkaz@Roguelike@StageTraderEnter": {
-        "method": "CcoeffHSV",
-        "templThreshold": 0.97
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [72, 150, 40],
+                [73, 180, 150]
+            ]
+        ]
     },
     "Sarkaz@Roguelike@StageTraderHD": {
         "Doc": "已深化",
