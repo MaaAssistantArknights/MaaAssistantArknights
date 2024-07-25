@@ -98,26 +98,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
 
     m_roguelike_task_ptr->set_tasks({ theme + "@Roguelike@Begin" });
 
-    
-    // 设置层数选点策略，相关逻辑在 RoguelikeStrategyChangeTaskPlugin
-    {
-        Task.set_task_base(theme + "@Roguelike@Stages", theme + "@Roguelike@Stages_default");
-        std::string strategy_task = theme + "@Roguelike@StrategyChange";
-        std::string strategy_task_with_mode = strategy_task + "_mode" + std::to_string(static_cast<int>(mode));
-        if (Task.get(strategy_task_with_mode) == nullptr) {
-            strategy_task_with_mode = "#none"; // 没有对应的层数选点策略，使用默认策略（避战）
-            Log.warn(__FUNCTION__, "No strategy for mode", static_cast<int>(mode));
-        }
-        Task.set_task_base(strategy_task, strategy_task_with_mode);
-    }
-
-    // 重置开局奖励 next，获得任意奖励均继续；烧水相关逻辑在 RoguelikeLastRewardTaskPlugin
-    Task.set_task_base("Roguelike@LastReward", "Roguelike@LastReward_default");
-    Task.set_task_base("Roguelike@LastReward2", "Roguelike@LastReward_default");
-    Task.set_task_base("Roguelike@LastReward3", "Roguelike@LastReward_default");
-    Task.set_task_base("Roguelike@LastReward4", "Roguelike@LastReward_default");
-    Task.set_task_base("Roguelike@LastRewardRand", "Roguelike@LastReward_default");
-    
     if (mode == RoguelikeMode::Investment) {
         // 刷源石锭模式是否进入第二层
         if (m_config_ptr->get_invest_with_more_score()) {
