@@ -200,40 +200,63 @@ jobs:
         run: |
           Invoke-Expression "npx prettier -w $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })"
 
-      - name: Check if only sorted
-        id: check_only_sorted
+      - name: Check if only sorted and Templates
+        id: check_sorted_templates
         run: |
           git status
 
-          $diff = $(git diff --numstat HEAD 2>$null | findstr -i resource)
+          $gd = $(git diff --numstat HEAD 2>$null | findstr -i resource)
           if ($LASTEXITCODE -ne 0) {
             echo "no diff"
             exit 0
           }
 
-          echo "diff: "$diff
-          $numbers = $diff -split "\s+" | Where-Object { $_ -match "^\d+$" }
-          echo "numbers: "$numbers
+          echo "`n$gd`n"
 
-          $noDiff = $true
-          for ($i = 0; $i -lt $numbers.Length; $i += 2) {
-            $firstNumber = $numbers[$i]
-            $secondNumber = $numbers[$i+1]
+          $diff = $false
+          $hasPng = $false
 
-            if ($firstNumber -gt 1 -or $firstNumber -ne $secondNumber) {
-              $noDiff = $false
-              break
-            }
+          $diffLines = $gd -split "`n"
+
+          foreach ($line in $diffLines) {
+              $parts = $line -split "\s+"
+              $filePath = $parts[2]
+              $firstNumber = $parts[0]
+              $secondNumber = $parts[1]
+
+              if ($filePath -match "\.png$") {
+                $hasPng = $true
+              }
+
+              if ($firstNumber -gt 1 -or $firstNumber -ne $secondNumber) {
+                $diff = $true
+              }
+
+              if ($hasPng -and $diff) {
+                break
+              }
           }
-          echo "noDiff: "$noDiff
-          echo "only_sorted=$noDiff" >> $env:GITHUB_OUTPUT
+
+          $changes = $hasPng -or $diff
+
+          echo "diff: $diff"
+          echo "hasPng: $hasPng"
+          echo "changes: $changes"
+
+          echo "contains_png=$hasPng" >> $env:GITHUB_OUTPUT
+          echo "changes=$changes" >> $env:GITHUB_OUTPUT
+
+      - name: Optimize Templates
+        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        run: |
+          python3 tools/OptimizeTemplates/optimize_templates.py resource/template/items/ resource/template/infrast/ 
 
       - name: Cancelling
-        if: steps.check_only_sorted.outputs.only_sorted == 'True'
+        if: steps.check_sorted_templates.outputs.changes != 'True'
         uses: andymckay/cancel-action@0.5
 
       - name: Add files to git
-        if: steps.check_only_sorted.outputs.only_sorted != 'True'
+        if: steps.check_sorted_templates.outputs.changes == 'True'
         id: add_files
         run: |
           git config user.name "github-actions[bot]"
