@@ -303,11 +303,11 @@ void asst::RoguelikeRoutingTaskPlugin::navigate_route()
     sleep(200);
 
     if (m_map.get_node_type(next_node) == RoguelikeNodeType::Encounter) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@StageEncounterEnter");
+        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingActionEncounter");
         m_map.set_curr_pos(next_node);
     }
     else if (m_map.get_node_type(next_node) == RoguelikeNodeType::RogueTrader) {
-        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@StageTraderEnter");
+        Task.set_task_base("Sarkaz@Roguelike@RoutingAction", "Sarkaz@Roguelike@RoutingActionRogueTrader");
         reset_in_run_variables();
     }
     else {

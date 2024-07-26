@@ -10009,7 +10009,15 @@
         "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
     "Sarkaz@Roguelike@RoutingAction": {
-        "template": "empty.png"
+        "algorithm": "JustReturn"
+    },
+    "Sarkaz@Roguelike@RoutingActionEncounter": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
+    },
+    "Sarkaz@Roguelike@RoutingActionRogueTrader": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter"]
     },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
