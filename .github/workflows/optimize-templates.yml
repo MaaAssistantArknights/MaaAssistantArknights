@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-optimize-templates
+          key: ${{ runner.os }}-pip-optimize-png-templates
 
       - name: Install dependencies
         if: steps.cache_python.outputs.cache-hit != 'true'
