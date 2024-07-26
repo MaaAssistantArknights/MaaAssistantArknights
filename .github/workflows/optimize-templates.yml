@@ -21,7 +21,7 @@ on:
         required: false
 
 jobs:
-  optimize-png:
+  check-and-optimize-png:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -30,27 +30,9 @@ jobs:
           show-progress: false
           persist-credentials: false
 
-      - name: Setup python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
-      - name: Cache Python packages
-        id: cache_python
-        if: always()
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
-          key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
-
-      - name: Install dependencies
-        if: steps.cache_python.outputs.cache-hit != 'true'
-        run: |
-          pip install -r tools/OptimizeTemplates/requirements.txt
-
       - name: Run optimization script
         run: |
-          python3 tools/OptimizeTemplates/optimize_templates.py
+          python3 optimize-templates.py
 
       - name: Commit changes
         id: commit_changes
@@ -60,21 +42,25 @@ jobs:
 
           git add .
 
-          if git diff-index --quiet HEAD --; then
-            echo "No changes to commit"
-          else
-            commit_msg="${{ github.event.inputs.commit_message }}"
-            if [ -z "$commit_msg" ]; then
-              commit_msg="chore: Auto Templates Optimization"
-            fi
-            git commit -m "$commit_msg" -m "[skip changelog]"
-            echo "have_commits=True" >> $GITHUB_ENV
-            git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
-          fi
+          $commit_msg = "${{ github.event.inputs.commit_message }}"
+          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
+            $commit_msg = $commit_msg.Trim()
+          } else {
+            $commit_msg = "chore: Auto Templates Optimization"
+          }
+          git commit -m "$commit_msg" -m "[skip changelog]"
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
+          }
+
+          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+
+      - name: Cancelling
+        if: steps.commit_changes.outputs.have_commits != 'True'
+        uses: andymckay/cancel-action@0.5
 
       - name: Push changes
         if: steps.commit_changes.outputs.have_commits == 'True'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
-          branch: ${{ github.ref }}
