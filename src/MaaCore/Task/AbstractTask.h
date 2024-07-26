@@ -47,6 +47,14 @@ namespace asst
             m_plugins.emplace_back(plugin);
             return plugin;
         }
+
+        template <typename PluginType>
+        requires std::derived_from<PluginType, AbstractTaskPlugin> // Plugin must inherit AbstractTaskPlugin
+        void append_plugin(const std::shared_ptr<PluginType>& plugin)
+        {           
+            m_plugins.emplace_back(plugin);
+        }
+
         void clear_plugin() noexcept;
 
         bool get_enable() const noexcept { return m_enable; }

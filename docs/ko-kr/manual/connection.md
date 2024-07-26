@@ -5,11 +5,7 @@ icon: mdi:plug
 
 # 연결 설정
 
-:::note
-에뮬레이터가 아닌 실제 디바이스의 경우 [Android 디바이스 지원](./device/android.md)을 참고하세요.
-:::
-
-## ADB  경로
+## ADB 경로
 
 :::info 기술적 정보
 자동 감지는 에뮬레이터의 ADB를 사용하지만, 자동 감지에 문제가 있을 경우 수동 설정이 필요합니다.
@@ -159,7 +155,7 @@ MAA는 이제 레지스트리에서 `bluestacks.conf`의 저장 위치를 읽어
 ## 터치 모드
 
 1. [Minitouch](https://github.com/DeviceFarmer/minitouch): C로 작성된 Android 터치 이벤트 핸들러로, 외부 프로그램이 터치 이벤트와 제스처를 트리거할 수 있는 소켓 인터페이스를 제공합니다. Android 10부터는 SELinux가 `Enforcing` 모드일 때 Minitouch가 더 이상 사용되지 않습니다.
-2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch):  MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. 높은 버전의 Android에서도 사용 가능성이 테스트 중입니다.
+2. [MaaTouch](https://github.com/MaaAssistantArknights/MaaTouch): MAA가 Java 기반으로 Minitouch를 재구현한 것입니다. 높은 버전의 Android에서도 사용 가능성이 테스트 중입니다.
 3. Adb Input: ADB 명령어를 직접 호출하여 터치 작업을 수행하며, 호환성이 가장 좋고 속도는 가장 느립니다.
 
 ## ADB Lite

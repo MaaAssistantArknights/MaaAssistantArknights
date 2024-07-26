@@ -9,12 +9,12 @@ on:
       limit:
         description: Number of releases to fetch from MaaAssistantArknights, 2 at least
         required: false
-        default: '31'
+        default: "31"
         type: number
       limit_2:
         description: Number of releases to fetch from MaaRelease
         required: false
-        default: '30'
+        default: "30"
         type: number
 
 env:

@@ -371,6 +371,7 @@ std::optional<int> asst::StageDropsImageAnalyzer::merge_image(const cv::Mat& new
     Matcher offset_match(new_img(cv::Rect { 0, ref_roi.y, new_img.cols, ref_roi.height }));
     offset_match.set_templ(m_image(ref_roi));
     offset_match.set_threshold(0.7);
+    offset_match.set_method(MatchMethod::Ccoeff);
     if (!offset_match.analyze()) {
         Log.error("Unable to merge images");
         return std::nullopt;
@@ -425,7 +426,11 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     cv::Mat preprocessed_bin;
-    cv::inRange(preprocessed_roi, task_ptr->mask_range.first, task_ptr->mask_range.second, preprocessed_bin);
+    cv::inRange(
+        preprocessed_roi,
+        task_ptr->mask_range[0].first[0],
+        task_ptr->mask_range[0].second[0],
+        preprocessed_bin);
 
     cv::Rect bounding_rect = cv::boundingRect(preprocessed_bin);
     cv::Mat bounding = preprocessed_bin(bounding_rect);
@@ -589,7 +594,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
         Matcher analyzer(m_image);
-        analyzer.set_mask_range(0, 0, false, true);
+        analyzer.set_mask_range(std::vector<MatchTaskInfo::Range> {}, false, true);
         analyzer.set_task_info("StageDrops-Item");
         analyzer.set_roi(roi);
 
@@ -640,7 +645,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     cv::Mat gray;
     cv::cvtColor(quantity_img, gray, cv::COLOR_BGR2GRAY);
     cv::Mat bin;
-    cv::inRange(gray, task_ptr->mask_range.first, task_ptr->mask_range.second, bin);
+    cv::inRange(gray, task_ptr->mask_range[0].first[0], task_ptr->mask_range[0].second[0], bin);
 
     // split
     const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
@@ -688,7 +693,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
-    analyzer.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    analyzer.set_bin_threshold(task_ptr->mask_range[0].first[0], task_ptr->mask_range[0].second[0]);
     analyzer.set_use_char_model(!use_word_model);
 
     if (!analyzer.analyze()) {
@@ -714,6 +719,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     analyzer.set_templ(templ);
     analyzer.set_mask_range(1, 255, false, true);
     analyzer.set_roi(roi);
+    analyzer.set_method(MatchMethod::Ccoeff);
     if (!analyzer.analyze()) {
         return std::nullopt;
     }
@@ -757,7 +763,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);
     ocr.set_use_char_model(!use_word_model);
-    ocr.set_bin_threshold(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    ocr.set_bin_threshold(task_ptr->mask_range[0].first[0], task_ptr->mask_range[0].second[0]);
 
     if (!ocr.analyze()) {
         return std::nullopt;

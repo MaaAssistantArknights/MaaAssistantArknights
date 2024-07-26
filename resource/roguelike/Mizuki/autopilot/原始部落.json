@@ -45,30 +45,10 @@
         [4, 3],
         [4, 4]
     ],
-    "role_order": [
-        "warrior",
-        "pioneer",
-        "sniper",
-        "caster",
-        "medic",
-        "tank",
-        "support",
-        "special",
-        "drone"
-    ],
+    "role_order": ["warrior", "pioneer", "sniper", "caster", "medic", "tank", "support", "special", "drone"],
     "deploy_plan": [
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
             "location": [7, 1],
             "direction": "down"
         },
@@ -93,15 +73,7 @@
             "direction": "left"
         },
         {
-            "groups": [
-                "基石",
-                "挡人先锋",
-                "地面C",
-                "异德",
-                "刺客",
-                "重装",
-                "其他地面"
-            ],
+            "groups": ["基石", "挡人先锋", "地面C", "异德", "刺客", "重装", "其他地面"],
             "location": [7, 5],
             "direction": "up"
         },
@@ -111,17 +83,7 @@
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台",
-                "单奶",
-                "群奶"
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台", "单奶", "群奶"],
             "location": [8, 4],
             "direction": "left"
         }

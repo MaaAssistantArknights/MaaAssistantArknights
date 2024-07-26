@@ -1,4 +1,4 @@
-name: Lint Markdown files
+name: Check Markdown files
 
 on:
   push:
@@ -20,23 +20,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    name: Lint Markdown
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-
-      - name: Lint Markdown
-        uses: DavidAnson/markdownlint-cli2-action@v16
-        with:
-          config: docs/.markdownlint.yaml
-          globs: |
-            README.md
-            docs/**/*.md
-
   check-links:
     name: Check Dead Links
     runs-on: ubuntu-latest
@@ -61,6 +44,7 @@ jobs:
           # 主要用于检查相对链接，对于 Github Actions 无法访问的网站，或者失效的外部网站，可以通过 --exclude 参数排除
           args: >
             --verbose --no-progress --cache --max-cache-age 1d 
+            --exclude 'https://ark.yituliu.cn/.*'
             --exclude 'https://map\.ark-nights\.com/areas' 
             --exclude 'https://.*\.maa-org\.net/.*' 
             --exclude 'https://support\.bluestacks\.com/.*' 

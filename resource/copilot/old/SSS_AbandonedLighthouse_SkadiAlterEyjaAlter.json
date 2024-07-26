@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "战地援护无人机",
-    "equipment": [
-        "A",
-        "A",
-        "B",
-        "A",
-        "A",
-        "A",
-        "A",
-        "A"
-    ],
+    "equipment": ["A", "A", "B", "A", "A", "A", "A", "A"],
     "strategy": "Core",
     "opers": [
         {
@@ -64,16 +55,7 @@
         "caster": 3,
         "support": 2
     },
-    "drops": [
-        "无需增调干员",
-        "狙击",
-        "术士",
-        "先锋",
-        "重装",
-        "辅助",
-        "战备激活阀",
-        "受体激动制剂"
-    ],
+    "drops": ["无需增调干员", "狙击", "术士", "先锋", "重装", "辅助", "战备激活阀", "受体激动制剂"],
     "blacklist": [
         "缪尔赛思",
         "伺夜",
@@ -172,20 +154,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Left"
                 },
                 {
@@ -194,10 +170,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -205,10 +178,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Right"
                 },
                 {
@@ -216,10 +186,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Left"
                 },
                 {
@@ -229,10 +196,7 @@
                         "caster": 1,
                         "support": 2
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Left"
                 },
                 {
@@ -240,10 +204,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "None",
                     "kills": 20
                 }
@@ -263,20 +224,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Up"
                 },
                 {
@@ -285,10 +240,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Up"
                 },
                 {
@@ -296,10 +248,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
@@ -307,10 +256,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Up"
                 },
                 {
@@ -320,10 +266,7 @@
                         "caster": 1,
                         "support": 2
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Left"
                 },
                 {
@@ -331,10 +274,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Up"
                 },
                 {
@@ -342,10 +282,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "None",
                     "kills": 20
                 }
@@ -365,20 +302,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        5,
-                        6
-                    ],
+                    "location": [5, 6],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Left"
                 },
                 {
@@ -386,10 +317,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Left"
                 },
                 {
@@ -397,10 +325,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        4,
-                        5
-                    ],
+                    "location": [4, 5],
                     "direction": "Right",
                     "kills": 11
                 },
@@ -409,10 +334,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Left"
                 },
                 {
@@ -421,10 +343,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        6
-                    ],
+                    "location": [5, 6],
                     "direction": "Up"
                 },
                 {
@@ -432,10 +351,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        4,
-                        6
-                    ],
+                    "location": [4, 6],
                     "direction": "Left"
                 },
                 {
@@ -445,10 +361,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
@@ -456,10 +369,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        6,
-                        6
-                    ],
+                    "location": [6, 6],
                     "direction": "None"
                 }
             ],
@@ -471,10 +381,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Down",
                     "kills": 28
                 }
@@ -488,20 +395,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Right"
                 },
                 {
@@ -509,10 +410,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 },
                 {
@@ -520,10 +418,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Left",
                     "kills": 20
                 },
@@ -533,10 +428,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -544,10 +436,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Right"
                 },
                 {
@@ -555,10 +444,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Right"
                 },
                 {
@@ -567,10 +453,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        1,
-                        4
-                    ],
+                    "location": [1, 4],
                     "direction": "Right"
                 },
                 {
@@ -580,10 +463,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
@@ -591,10 +471,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "None",
                     "kills": 30
                 }
@@ -607,10 +484,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Left",
                     "kills": 25
                 }
@@ -624,10 +498,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        5,
-                        6
-                    ],
+                    "location": [5, 6],
                     "direction": "Right"
                 },
                 {
@@ -636,10 +507,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Right"
                 },
                 {
@@ -647,10 +515,7 @@
                     "tool_men": {
                         "sniper": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Down"
                 },
                 {
@@ -659,10 +524,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
@@ -670,10 +532,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Up",
                     "kills": 12
                 },
@@ -683,10 +542,7 @@
                         "support": 3,
                         "caster": 2
                     },
-                    "location": [
-                        5,
-                        4
-                    ],
+                    "location": [5, 4],
                     "direction": "Down"
                 },
                 {
@@ -694,10 +550,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Down"
                 },
                 {
@@ -705,10 +558,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        5,
-                        6
-                    ],
+                    "location": [5, 6],
                     "direction": "Right"
                 },
                 {
@@ -716,10 +566,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "None",
                     "kills": 25
                 }
@@ -732,10 +579,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Up",
                     "kills": 35
                 }
@@ -749,10 +593,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        10,
-                        1
-                    ],
+                    "location": [10, 1],
                     "direction": "Left"
                 },
                 {
@@ -761,10 +602,7 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "Left"
                 },
                 {
@@ -772,10 +610,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Left"
                 },
                 {
@@ -783,10 +618,7 @@
                     "tool_men": {
                         "sniper": 3
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 },
                 {
@@ -794,10 +626,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Up",
                     "kills": 20
                 },
@@ -806,10 +635,7 @@
                     "tool_men": {
                         "sniper": 2
                     },
-                    "location": [
-                        10,
-                        2
-                    ],
+                    "location": [10, 2],
                     "direction": "Left"
                 },
                 {
@@ -817,10 +643,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        10,
-                        1
-                    ],
+                    "location": [10, 1],
                     "direction": "Left"
                 },
                 {
@@ -829,10 +652,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        7,
-                        2
-                    ],
+                    "location": [7, 2],
                     "direction": "Down"
                 },
                 {
@@ -842,10 +662,7 @@
                         "sniper": 2,
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Right"
                 },
                 {
@@ -853,10 +670,7 @@
                     "tool_men": {
                         "sniper": 0
                     },
-                    "location": [
-                        9,
-                        1
-                    ],
+                    "location": [9, 1],
                     "direction": "None",
                     "kills": 30
                 }
@@ -869,361 +683,241 @@
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "汲取体",
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "神经再生",
-                    "location": [
-                        7,
-                        1
-                    ],
+                    "location": [7, 1],
                     "direction": "None"
                 }
             ],

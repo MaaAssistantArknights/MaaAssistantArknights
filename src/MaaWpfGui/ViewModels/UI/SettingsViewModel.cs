@@ -1615,14 +1615,11 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.RefreshCustomInfrastPlan();
 
                 // SetAndNotify 在值没有变化时不会触发 PropertyChanged 事件，所以这里手动触发一下
-                var index = Instances.TaskQueueViewModel.CustomInfrastPlanIndex;
-                var count = Instances.TaskQueueViewModel.CustomInfrastPlanList.Count;
                 Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = false;
                 {
-                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = (index + 1) % count;
-                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = index;
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex--;
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex++;
                 }
-
                 Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = true;
             }
         }
@@ -2363,6 +2360,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, value.ToString());
+            }
+        }
+
+        private bool _roguelikeStopAtFinalBoss = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to stop when investment is full.
+        /// </summary>
+        public bool RoguelikeStopAtFinalBoss
+        {
+            get => _roguelikeStopAtFinalBoss;
+            set
+            {
+                SetAndNotify(ref _roguelikeStopAtFinalBoss, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
             }
         }
 
@@ -4358,12 +4370,22 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
             ];
 
-        /*
+        private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
+
         /// <summary>
-        /// Gets a value indicating whether to use tray icon.
+        /// Gets or sets a value indicating whether to use tray icon.
         /// </summary>
-        public bool UseTray => true;
-        */
+        public bool UseTray
+        {
+            get => _useTray;
+            set
+            {
+                SetAndNotify(ref _useTray, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseTray, value.ToString());
+                Instances.MainWindowManager.SetUseTrayIcon(value);
+            }
+        }
+
 
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 

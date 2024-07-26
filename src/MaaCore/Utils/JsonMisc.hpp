@@ -39,6 +39,15 @@ namespace asst::utils
         return false;
     }
 
+    bool parse_json_as(const json::value& input, MatchMethod& output)
+    {
+        if (input.is_string()) {
+            output = get_match_method(input.as_string());
+            return output != MatchMethod::Invalid;
+        }
+        return false;
+    }
+
     // std::pair<FirstT, SecondT> <- [first, second]
     template <typename FirstT, typename SecondT>
     requires(requires(const json::value& input, FirstT x, SecondT y) {

@@ -395,13 +395,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -416,13 +410,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -436,13 +424,7 @@
                     "promote_priority": 803,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -456,13 +438,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -477,13 +453,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -497,13 +467,7 @@
                     "promote_priority": 920,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -534,13 +498,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -622,13 +580,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -647,13 +599,7 @@
                     "promote_priority": 840,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C"],
                             "threshold": 2,
                             "offset": -150
                         },
@@ -839,14 +785,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "召唤",
-                                "号角",
-                                "地面C",
-                                "玛恩纳"
-                            ],
+                            "groups": ["百嘉", "基石", "召唤", "号角", "地面C", "玛恩纳"],
                             "threshold": 2,
                             "offset": -400
                         }
@@ -1607,14 +1546,7 @@
                     "promote_priority": 320,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C",
-                                "重装"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C", "重装"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1627,14 +1559,7 @@
                     "promote_priority": 321,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C",
-                                "重装"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C", "重装"],
                             "threshold": 2,
                             "offset": -300
                         }
@@ -1675,14 +1600,7 @@
                     "is_start": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": [
-                                "百嘉",
-                                "基石",
-                                "玛恩纳",
-                                "号角",
-                                "地面C",
-                                "重装"
-                            ],
+                            "groups": ["百嘉", "基石", "玛恩纳", "号角", "地面C", "重装"],
                             "threshold": 2,
                             "offset": -300
                         }

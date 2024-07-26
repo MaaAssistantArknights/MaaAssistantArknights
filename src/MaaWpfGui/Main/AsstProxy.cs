@@ -1320,8 +1320,7 @@ namespace MaaWpfGui.Main
                     {// 肉鸽结算
                         var report = subTaskDetails;
                         var pass = (bool)report!["game_pass"]!;
-                        StringBuilder roguelikeInfo = new();
-                        roguelikeInfo.AppendFormat(
+                        var roguelikeInfo = string.Format(
                             LocalizationHelper.GetString("RoguelikeSettlement"),
                             pass ? "✓" : "✗",
                             report["floor"],
@@ -1336,7 +1335,7 @@ namespace MaaWpfGui.Main
                             report["exp"],
                             report["skill"]);
 
-                        Instances.TaskQueueViewModel.AddLog(roguelikeInfo.ToString(), UiLogColor.Message);
+                        Instances.TaskQueueViewModel.AddLog(roguelikeInfo, UiLogColor.Message);
                         break;
                     }
 
@@ -1567,21 +1566,29 @@ namespace MaaWpfGui.Main
                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AccountSwitch") + $" {subTaskDetails!["current_account"]} -->> {subTaskDetails["account_name"]}", UiLogColor.Info);
                     break;
                 case "RoguelikeCollapsalParadigms":
-                    int deepen_or_weaken = (int)subTaskDetails["deepen_or_weaken"];
-                    string cur = subTaskDetails["cur"].ToString();
-                    string prev = subTaskDetails["prev"].ToString();
-                    if (deepen_or_weaken == 1 && prev == "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur, prev), UiLogColor.Info);
+                    string deepen_or_weaken_str = subTaskDetails["deepen_or_weaken"]?.ToString() ?? "Unknown";
+                    if (int.TryParse(deepen_or_weaken_str, out int deepen_or_weaken))
+                    {
+                        string cur = subTaskDetails["cur"]?.ToString() ?? "UnKnown";
+                        string prev = subTaskDetails["prev"]?.ToString() ?? "UnKnown";
+                        if (deepen_or_weaken == 1 && prev == string.Empty)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeGainParadigm"), cur, prev), UiLogColor.Info);
+                        }
+                        else if (deepen_or_weaken == 1 && prev != string.Empty)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
+                        }
+                        else if (deepen_or_weaken == -1 && cur == string.Empty)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), cur, prev), UiLogColor.Info);
+                        }
+                        else if (deepen_or_weaken == -1 && cur != string.Empty)
+                        {
+                            Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
+                        }
                     }
-                    else if (deepen_or_weaken == 1 && prev != "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeDeepenParadigm"), cur, prev), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == -1 && cur == "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeLoseParadigm"), cur, prev), UiLogColor.Info);
-                    }
-                    else if (deepen_or_weaken == -1 && cur != "") {
-                        Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("RoguelikeWeakenParadigm"), cur, prev), UiLogColor.Info);
-                    }
+
                     break;
             }
         }
@@ -2285,6 +2292,7 @@ namespace MaaWpfGui.Main
         /// <param name="enableNonFriendSupport">是否允许使用非好友助战</param>
         /// <param name="theme">肉鸽主题["Phantom", "Mizuki", "Sami", "Sarkaz"]</param>
         /// <param name="refreshTraderWithDice">是否用骰子刷新商店购买特殊商品，目前支持水月肉鸽的指路鳞</param>
+        /// <param name="stopAtFinalBoss">是否在五层BOSS前停下来</param>
         /// <returns>是否成功。</returns>
         public bool AsstAppendRoguelike(
             int mode,
@@ -2305,7 +2313,8 @@ namespace MaaWpfGui.Main
             bool useSupport,
             bool enableNonFriendSupport,
             string theme,
-            bool refreshTraderWithDice)
+            bool refreshTraderWithDice,
+            bool stopAtFinalBoss)
         {
             var taskParams = new JObject
             {
@@ -2353,6 +2362,8 @@ namespace MaaWpfGui.Main
             taskParams["use_support"] = useSupport;
             taskParams["use_nonfriend_support"] = enableNonFriendSupport;
             taskParams["refresh_trader_with_dice"] = theme == "Mizuki" && refreshTraderWithDice;
+
+            taskParams["stop_at_final_boss"] = mode == 0 && stopAtFinalBoss;
 
             AsstTaskId id = AsstAppendTaskWithEncoding("Roguelike", taskParams);
             _latestTaskId[TaskType.Roguelike] = id;

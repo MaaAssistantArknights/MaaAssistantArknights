@@ -15,13 +15,11 @@ namespace asst
     private:
         static MatchTaskConstPtr _default_match_task_info();
         static OcrTaskConstPtr _default_ocr_task_info();
-        static HashTaskConstPtr _default_hash_task_info();
         static TaskConstPtr _default_task_info();
 
         // 从模板任务生成
         static inline const MatchTaskConstPtr default_match_task_info_ptr = _default_match_task_info();
         static inline const OcrTaskConstPtr default_ocr_task_info_ptr = _default_ocr_task_info();
-        static inline const HashTaskConstPtr default_hash_task_info_ptr = _default_hash_task_info();
         static inline const TaskConstPtr default_task_info_ptr = _default_task_info();
 
         static std::string append_prefix(std::string_view task_name, std::string_view task_prefix);
@@ -56,7 +54,6 @@ namespace asst
         TaskPtr generate_match_task_info(std::string_view name, const json::value&, MatchTaskConstPtr default_ptr,
                                          TaskDerivedType derived_type);
         TaskPtr generate_ocr_task_info(std::string_view name, const json::value&, OcrTaskConstPtr default_ptr);
-        TaskPtr generate_hash_task_info(std::string_view name, const json::value&, HashTaskConstPtr default_ptr);
         decltype(auto) insert_or_assign_raw_task(std::string_view task_name, TaskDerivedPtr task_info_ptr)
         {
             return m_raw_all_tasks_info.insert_or_assign(task_name_view(task_name), task_info_ptr);

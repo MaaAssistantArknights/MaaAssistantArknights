@@ -1,4 +1,4 @@
 {
-  "$schema": "./build.schema.json",
-  "Solution": "tools/MaaBuilder.sln"
+    "$schema": "./build.schema.json",
+    "Solution": "tools/MaaBuilder.sln"
 }

@@ -10,10 +10,13 @@ namespace asst
         virtual ~RoguelikeFoldartalGainTaskPlugin() override = default;
 
     public:
+        virtual bool load_params(const json::value& params) override;
         virtual bool verify(AsstMsg msg, const json::value& details) const override;
+        void set_start_floor_foldartal(std::string value) { m_start_floor_foldartal = value; }
 
     protected:
         virtual bool _run() override;
+        virtual void reset_in_run_variables() override;
 
     private:
         void enter_next_floor();
@@ -24,5 +27,8 @@ namespace asst
         mutable bool m_ocr_after_combat = false;
         // 进入新一层后识别密文板
         mutable bool m_ocr_next_level = false;
+
+        std::string m_start_floor_foldartal; // 需要凹的远见
+        std::optional<std::string> m_foldartal_floor; // 当前层的预见密文板，在下一层获得
     };
 }

@@ -5,10 +5,6 @@ icon: mdi:plug
 
 # 接続設定
 
-:::note
-実機に関する問題については、[Android 実機](./device/android.md) を参照してください。
-:::
-
 ## ADB パス
 
 :::info 技術的詳細

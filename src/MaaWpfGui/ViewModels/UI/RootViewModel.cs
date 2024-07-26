@@ -39,7 +39,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             InitViewModels();
             InitProxy();
-            if (Instances.SettingsViewModel.AllowNightlyUpdates && Instances.SettingsViewModel.UpdateNightly && !Instances.SettingsViewModel.HasAcknowledgedNightlyWarning)
+            if (Instances.SettingsViewModel.UpdateNightly && !Instances.SettingsViewModel.HasAcknowledgedNightlyWarning)
             {
                 MessageBoxHelper.Show(LocalizationHelper.GetString("NightlyWarning"));
             }

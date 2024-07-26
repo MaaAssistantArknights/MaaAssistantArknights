@@ -31,15 +31,7 @@
         [7, 2],
         [7, 4]
     ],
-    "role_order": [
-        "sniper",
-        "caster",
-        "warrior",
-        "pioneer",
-        "medic",
-        "tank",
-        "support"
-    ],
+    "role_order": ["sniper", "caster", "warrior", "pioneer", "medic", "tank", "support"],
     "force_air_defense_when_deploy_blocking_num": {
         "melee_num": 0,
         "air_defense_num": 1,

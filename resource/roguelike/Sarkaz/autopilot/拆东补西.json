@@ -1,0 +1,43 @@
+{
+    "stage_name": "拆东补西",
+    "replacement_home": [
+        {
+            "location": [6, 3],
+            "direction": "down"
+        }
+    ],
+    "blacklist_location": [[6, 2]],
+    "deploy_plan": [
+        {
+            "groups": ["益达", "高台输出"],
+            "location": [5, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["炮灰"],
+            "location": [4, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["重装", "地面阻挡", "地面远程"],
+            "location": [4, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [3, 2],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶"],
+            "location": [3, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["群奶"],
+            "location": [3, 3],
+            "direction": "right"
+        }
+    ],
+    "retreat_plan": []
+}

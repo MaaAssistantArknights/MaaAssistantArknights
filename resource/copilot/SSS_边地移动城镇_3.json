@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "尖端研究成果共享终端",
-    "equipment": [
-        "A",
-        "A",
-        "B",
-        "A",
-        "A",
-        "B",
-        "B",
-        "B"
-    ],
+    "equipment": ["A", "A", "B", "A", "A", "B", "B", "B"],
     "strategy": "优选策略",
     "opers": [
         {
@@ -196,30 +187,21 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
@@ -227,10 +209,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
@@ -238,10 +217,7 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
@@ -249,10 +225,7 @@
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
@@ -260,10 +233,7 @@
                         "caster": 5,
                         "support": 2
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 }
             ],
@@ -282,40 +252,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        9,
-                        1
-                    ],
+                    "location": [9, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "Left"
                 },
                 {
@@ -323,10 +281,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 },
                 {
@@ -334,10 +289,7 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        9,
-                        1
-                    ],
+                    "location": [9, 1],
                     "direction": "Left"
                 },
                 {
@@ -345,20 +297,14 @@
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 4
                     },
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "Left"
                 },
                 {
@@ -366,10 +312,7 @@
                         "caster": 6,
                         "support": 4
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left"
                 }
             ],
@@ -388,40 +331,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -429,10 +360,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        6,
-                        3
-                    ],
+                    "location": [6, 3],
                     "direction": "Left"
                 },
                 {
@@ -440,10 +368,7 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "Left"
                 },
                 {
@@ -451,10 +376,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -462,10 +384,7 @@
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Down"
                 },
                 {
@@ -474,10 +393,7 @@
                         "sniper": 2,
                         "support": 6
                     },
-                    "location": [
-                        6,
-                        5
-                    ],
+                    "location": [6, 5],
                     "direction": "Up"
                 },
                 {
@@ -485,10 +401,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "Up",
                     "kills": 15
                 },
@@ -497,10 +410,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "None",
                     "kills": 15
                 }
@@ -513,10 +423,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Up",
                     "kills": 45
                 }
@@ -530,30 +437,21 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Left"
                 },
                 {
@@ -561,20 +459,14 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Left"
                 },
                 {
@@ -582,20 +474,14 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up"
                 },
                 {
@@ -603,10 +489,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 },
                 {
@@ -614,20 +497,14 @@
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        5,
-                        2
-                    ],
+                    "location": [5, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Left"
                 },
                 {
@@ -636,20 +513,14 @@
                         "sniper": 3,
                         "support": 9
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Left"
                 },
                 {
@@ -657,10 +528,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "Left"
                 },
                 {
@@ -668,10 +536,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        5,
-                        1
-                    ],
+                    "location": [5, 1],
                     "direction": "None"
                 }
             ],
@@ -683,10 +548,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Left",
                     "kills": 25
                 }
@@ -700,10 +562,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
@@ -711,20 +570,14 @@
                         "pioneer": 1,
                         "tank": 1
                     },
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Down"
                 },
                 {
@@ -732,10 +585,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Up"
                 },
                 {
@@ -743,40 +593,28 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "support": 3
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
@@ -784,10 +622,7 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Right"
                 },
                 {
@@ -795,20 +630,14 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 4
                     },
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "Right"
                 },
                 {
@@ -817,10 +646,7 @@
                         "sniper": 2,
                         "caster": 9
                     },
-                    "location": [
-                        4,
-                        2
-                    ],
+                    "location": [4, 2],
                     "direction": "Left"
                 },
                 {
@@ -828,10 +654,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "None"
                 },
                 {
@@ -839,10 +662,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right",
                     "kills": 20
                 },
@@ -851,10 +671,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "None",
                     "kills": 20
                 }
@@ -867,10 +684,7 @@
                 {
                     "type": "Deploy",
                     "name": "战备激活阀",
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Up",
                     "kills": 30
                 }
@@ -884,50 +698,35 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        4
-                    ],
+                    "location": [9, 4],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
@@ -935,10 +734,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        10,
-                        3
-                    ],
+                    "location": [10, 3],
                     "direction": "Left"
                 },
                 {
@@ -946,10 +742,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        10,
-                        4
-                    ],
+                    "location": [10, 4],
                     "direction": "Left"
                 },
                 {
@@ -957,10 +750,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        9,
-                        4
-                    ],
+                    "location": [9, 4],
                     "direction": "Left"
                 },
                 {
@@ -968,50 +758,35 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        9,
-                        3
-                    ],
+                    "location": [9, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        5
-                    ],
+                    "location": [9, 5],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        5
-                    ],
+                    "location": [9, 5],
                     "direction": "Left"
                 },
                 {
@@ -1019,10 +794,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        5
-                    ],
+                    "location": [9, 5],
                     "direction": "Left"
                 },
                 {
@@ -1030,20 +802,14 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        10,
-                        3
-                    ],
+                    "location": [10, 3],
                     "direction": "None"
                 },
                 {
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -1051,10 +817,7 @@
                         "support": 1,
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up"
                 },
                 {
@@ -1062,10 +825,7 @@
                         "support": 1,
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 },
                 {
@@ -1073,10 +833,7 @@
                         "support": 1,
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up"
                 },
                 {
@@ -1084,10 +841,7 @@
                         "support": 1,
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 },
                 {
@@ -1095,10 +849,7 @@
                         "support": 1,
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up"
                 },
                 {
@@ -1106,20 +857,14 @@
                         "support": 1,
                         "caster": 1
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        8,
-                        3
-                    ],
+                    "location": [8, 3],
                     "direction": "Left"
                 },
                 {
@@ -1128,10 +873,7 @@
                         "caster": 3,
                         "sniper": 1
                     },
-                    "location": [
-                        8,
-                        5
-                    ],
+                    "location": [8, 5],
                     "direction": "Up"
                 },
                 {
@@ -1140,10 +882,7 @@
                         "caster": 3,
                         "sniper": 1
                     },
-                    "location": [
-                        9,
-                        2
-                    ],
+                    "location": [9, 2],
                     "direction": "Left"
                 }
             ],
@@ -1155,412 +894,286 @@
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 8
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 10
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 13
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 15
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 18
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 20
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 23
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 25
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 28
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 30
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 33
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 35
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 38
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 40
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 43
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 45
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 48
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 50
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 53
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 55
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 58
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 60
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "kills": 63
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None",
                     "kills": 65
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "None",
                     "pre_delay": 20000
                 },
                 {
                     "type": "Deploy",
                     "name": "啸叫音响",
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 }
             ],

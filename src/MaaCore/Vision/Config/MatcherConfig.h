@@ -14,7 +14,8 @@ namespace asst
         {
             std::vector<std::variant<std::string, cv::Mat>> templs;
             std::vector<double> templ_thres;
-            std::pair<int, int> mask_range;
+            std::vector<MatchTaskInfo::Range> mask_range;
+            std::vector<MatchMethod> methods;
             bool mask_with_src = false;
             bool mask_with_close = false;
         };
@@ -33,6 +34,11 @@ namespace asst
         void set_threshold(double templ_thres) noexcept;
         void set_threshold(std::vector<double> templ_thres) noexcept;
         void set_mask_range(int lower, int upper, bool mask_with_src = false, bool mask_with_close = false);
+        void set_mask_range(
+            std::vector<MatchTaskInfo::Range> mask_range,
+            bool mask_with_src = false,
+            bool mask_with_close = false);
+        void set_method(MatchMethod method) noexcept;
 
     protected:
         virtual void _set_roi(const Rect& roi) = 0;
