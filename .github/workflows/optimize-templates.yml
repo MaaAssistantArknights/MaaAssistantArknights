@@ -54,23 +54,24 @@ jobs:
 
           git add .
 
-          commit_msg="${{ github.event.inputs.commit_message }}"
-          if [ -z "$commit_msg" ]; then
-            commit_msg="chore: Auto Templates Optimization"
-          fi
-          git commit -m "$commit_msg" -m "[skip changelog]"
-          if [ $? -eq 0 ]; then
-            echo "have_commits=true" >> $GITHUB_ENV
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit"
           else
-            echo "have_commits=false" >> $GITHUB_ENV
+            commit_msg="${{ github.event.inputs.commit_message }}"
+            if [ -z "$commit_msg" ]; then
+              commit_msg="chore: Auto Templates Optimization"
+            fi
+            git commit -m "$commit_msg" -m "[skip changelog]"
+            echo "have_commits=True" >> $GITHUB_ENV
+            git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
           fi
 
       - name: Cancelling
-        if: ${{ env.have_commits}} != 'True'
+        if: steps.commit_changes.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
 
       - name: Push changes
-        if: ${{ env.have_commits}} == 'True'
+        if: steps.commit_changes.outputs.have_commits == 'True'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
