@@ -35,12 +35,13 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: 'pip' 
+          cache: 'pip'
+          cache-dependency-path: tools/OptimizeTemplates/requirements.txt
 
       - name: Install dependencies
         if: steps.cache_python.outputs.cache-hit != 'true'
         run: |
-          pip install tqdm numpy pillow
+          pip install -r tools/OptimizeTemplates/requirements.txt
 
       - name: Run optimization script
         run: |
