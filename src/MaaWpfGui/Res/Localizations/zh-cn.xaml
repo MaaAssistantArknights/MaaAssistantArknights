@@ -132,6 +132,7 @@
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
+    <system:String x:Key="RoguelikeStopAtFinalBoss">在第五层 BOSS 前暂停</system:String>
     <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
@@ -290,7 +291,7 @@
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
-    <system:String x:Key="InvestmentWithMoreScore">投资模式启用购物、招募</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">投资模式启用购物、招募、进2层</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
     <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>
@@ -323,6 +324,8 @@
     <system:String x:Key="ReceiveMining">领取限时开采许可的每日合成玉奖励</system:String>
     <system:String x:Key="ReceiveSpecialAccess">领取五周年赠送月卡奖励</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
+    <system:String x:Key="UseTray">显示托盘图标</system:String>
+    <system:String x:Key="HideTray">隐藏托盘图标</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
     <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
@@ -669,7 +672,7 @@
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">药: {0}  </system:String>
-    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0}/{1}(临期)  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0},{1}(临期)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
@@ -697,7 +700,7 @@
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">预见:</system:String>
     <system:String x:Key="RoguelikeInvestment">已投资 {1}(+{0}), 存款: {2}</system:String>
-    <system:String x:Key="RoguelikeSettlement">肉鸽结算: {0}\n探索: {1} 层 {2} 步\n战斗: {3}/{4} 紧急/{5} BOSS\n招募: {6}   收藏品: {7}\n难度: {8}   得分: {9}\nExp: {10}   Skill: {11}</system:String>
+    <system:String x:Key="RoguelikeSettlement">肉鸽结算: {0} (n{8})\n探索: {1} 层 {2} 步\n战斗: {3}/ {4}紧急/ {5}BOSS\n招募: {6}   收藏品: {7}\n得分: {9}\nExp: {10}   Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">坍缩范式加深: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">坍缩范式 {0} 加深为 {1}</system:String>
     <system:String x:Key="RoguelikeLoseParadigm">坍缩范式消退: {1}</system:String>

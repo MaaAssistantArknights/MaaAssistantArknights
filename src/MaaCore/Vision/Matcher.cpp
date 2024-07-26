@@ -49,7 +49,21 @@ Matcher::ResultOpt Matcher::analyze() const
 std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image, const MatcherConfig::Params& params)
 {
     std::vector<Matcher::RawResult> results;
-    for (auto& ptempl : params.templs) {
+    for (size_t i = 0; i != params.templs.size(); ++i) {
+        const auto& ptempl = params.templs[i];
+        auto method = MatchMethod::Ccoeff;
+        if (params.methods.size() <= i) {
+            Log.warn("methods is empty, use default method: Ccoeff");
+        }
+        else {
+            method = params.methods[i];
+        }
+
+        if (method == MatchMethod::Invalid) {
+            Log.error(__FUNCTION__, "| invalid method");
+            return {};
+        }
+
         cv::Mat templ;
         std::string templ_name;
 
@@ -80,20 +94,86 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         cv::Mat matched;
-        if (params.mask_range.first == 0 && params.mask_range.second == 0) {
-            cv::matchTemplate(image, templ, matched, cv::TM_CCOEFF_NORMED);
+        cv::Mat image_for_match;
+        cv::Mat templ_for_match;
+        if (method == MatchMethod::CcoeffHSV || method == MatchMethod::HSVCount) {
+            cv::cvtColor(image, image_for_match, cv::COLOR_BGR2HSV);
+            cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2HSV);
         }
         else {
-            cv::Mat mask;
-            cv::cvtColor(params.mask_with_src ? image : templ, mask, cv::COLOR_BGR2GRAY);
-            cv::inRange(mask, params.mask_range.first, params.mask_range.second, mask);
-            if (params.mask_with_close) {
+            cv::cvtColor(image, image_for_match, cv::COLOR_BGR2RGB);
+            cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2RGB);
+        }
+
+        int match_algorithm = cv::TM_CCOEFF_NORMED;
+        if (method == MatchMethod::Ccoeff || method == MatchMethod::CcoeffHSV) {
+            match_algorithm = cv::TM_CCOEFF_NORMED;
+        }
+
+        auto calc_mask = [&](const cv::Mat& templ_for_mask, bool with_close)->std::optional<cv::Mat> {
+            cv::Mat templ_for_gray_mask;
+            cv::cvtColor(templ_for_mask, templ_for_gray_mask, cv::COLOR_BGR2GRAY);
+
+            // Union all masks, not intersection
+            cv::Mat mask = cv::Mat::zeros(templ_for_gray_mask.size(), CV_8UC1);
+            for (const auto& range : params.mask_range) {
+                cv::Mat current_mask;
+                if (range.first.size() == 1 && range.second.size() == 1) {
+                    cv::inRange(templ_for_gray_mask, range.first[0], range.second[0], current_mask);
+                }
+                else if (range.first.size() == 3 && range.second.size() == 3) {
+                    cv::inRange(templ_for_mask, range.first, range.second, current_mask);
+                }
+                else {
+                    Log.error("Invalid mask range");
+                    return std::nullopt;
+                }
+                cv::bitwise_or(mask, current_mask, mask);
+            }
+
+            if (with_close) {
                 cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
                 cv::morphologyEx(mask, mask, cv::MORPH_CLOSE, kernel);
             }
-            cv::matchTemplate(image, templ, matched, cv::TM_CCOEFF_NORMED, mask);
-        }
+            return mask;
+        };
 
+        if (method == MatchMethod::Ccoeff || method == MatchMethod::CcoeffHSV) {
+            if (params.mask_range.empty()) {
+                cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm);
+            }
+            else {
+                auto mask_opt = calc_mask(
+                    params.mask_with_src ? image_for_match : templ_for_match,
+                    params.mask_with_close);
+                if (!mask_opt) {
+                    return {};
+                }
+                cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm, mask_opt.value());
+            }
+        }
+        else if (method == MatchMethod::RGBCount || method == MatchMethod::HSVCount) {
+            // 待匹配图像与模板中指定颜色的像素数量比值，越接近1越相似
+            auto templ_active_opt = calc_mask(templ_for_match, false);
+            auto image_active_opt = calc_mask(image_for_match, false);
+            if (!image_active_opt || !templ_active_opt) [[unlikely]] {
+                return {};
+            }
+            const auto& templ_active = templ_active_opt.value();
+            const auto& image_active = image_active_opt.value();
+            cv::Mat zero = cv::Mat::zeros(templ_active.size(), CV_8U);
+            cv::threshold(image_active, image_active, 1, 1, cv::THRESH_BINARY);
+            // 把 SQDIFF 当 count 用，计算 image_active 在 templ_active 形状内的像素数量
+            cv::Mat tp, fp;
+            int tp_fn = cv::countNonZero(templ_active);
+            cv::matchTemplate(image_active, zero, tp, cv::TM_SQDIFF, templ_active);
+            tp.convertTo(tp, CV_32S);
+            cv::Mat templ_inactive;
+            cv::bitwise_not(templ_active, templ_inactive);
+            cv::matchTemplate(image_active, zero, fp, cv::TM_SQDIFF, templ_inactive);
+            fp.convertTo(fp, CV_32S);
+            cv::divide(2 * tp, tp + fp + tp_fn, matched, 1, CV_32F); // matched = f1 score
+        }
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
     }
     return results;

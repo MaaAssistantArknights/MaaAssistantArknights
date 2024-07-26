@@ -30,6 +30,7 @@ namespace MaaWpfGui.Constants
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization";
+        public const string UseTray = "GUI.UseTray";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
         public const string WindowTitleScrollable = "GUI.WindowTitleScrollable";
@@ -132,7 +133,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
-
+        public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
         public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
         public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
 

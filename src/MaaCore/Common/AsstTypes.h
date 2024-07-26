@@ -263,7 +263,6 @@ namespace asst
         JustReturn,
         MatchTemplate,
         OcrDetect,
-        Hash
     };
 
     inline AlgorithmType get_algorithm_type(std::string algorithm_str)
@@ -273,7 +272,6 @@ namespace asst
             { "matchtemplate", AlgorithmType::MatchTemplate },
             { "justreturn", AlgorithmType::JustReturn },
             { "ocrdetect", AlgorithmType::OcrDetect },
-            { "hash", AlgorithmType::Hash },
         };
         if (algorithm_map.contains(algorithm_str)) {
             return algorithm_map.at(algorithm_str);
@@ -288,7 +286,6 @@ namespace asst
             { AlgorithmType::JustReturn, "JustReturn" },
             { AlgorithmType::MatchTemplate, "MatchTemplate" },
             { AlgorithmType::OcrDetect, "OcrDetect" },
-            { AlgorithmType::Hash, "Hash" },
         };
         if (auto it = algorithm_map.find(algo); it != algorithm_map.end()) {
             return it->second;
@@ -355,6 +352,43 @@ namespace asst
             { TaskDerivedType::Template, "Template" },
         };
         if (auto it = task_derived_type_map.find(task_derived_type); it != task_derived_type_map.end()) {
+            return it->second;
+        }
+        return "Invalid";
+    }
+
+    enum class MatchMethod
+    {
+        Invalid = -1,
+        Ccoeff = 0,
+        CcoeffHSV,
+        RGBCount,
+        HSVCount,
+    };
+
+    inline MatchMethod get_match_method(std::string method_str)
+    {
+        utils::tolowers(method_str);
+        static const std::unordered_map<std::string, MatchMethod> method_map = {
+            { "ccoeff", MatchMethod::Ccoeff }, { "ccoeffhsv", MatchMethod::CcoeffHSV },
+            { "rgbcount", MatchMethod::RGBCount }, { "hsvcount", MatchMethod::HSVCount },
+        };
+        if (auto it = method_map.find(method_str); it != method_map.end()) {
+            return it->second;
+        }
+        return MatchMethod::Invalid;
+    }
+
+    inline std::string enum_to_string(MatchMethod method)
+    {
+        static const std::unordered_map<MatchMethod, std::string> method_map = {
+            { MatchMethod::Invalid, "Invalid" },
+            { MatchMethod::Ccoeff, "Ccoeff" },
+            { MatchMethod::CcoeffHSV, "CcoeffHSV" },
+            { MatchMethod::RGBCount, "RGBCount" },
+            { MatchMethod::HSVCount, "HSVCount" },
+        };
+        if (auto it = method_map.find(method); it != method_map.end()) {
             return it->second;
         }
         return "Invalid";
@@ -456,29 +490,14 @@ namespace asst
         constexpr MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
         constexpr MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
         constexpr MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
+        using Range = std::pair<std::vector<int>, std::vector<int>>;
         std::vector<std::string> templ_names; // 匹配模板图片文件名
         std::vector<double> templ_thresholds; // 模板匹配阈值
-        std::pair<int, int> mask_range;       // 掩码的二值化范围
+        std::vector<Range> mask_range;        // 掩码的二值化范围
+        std::vector<MatchMethod> methods;     // 匹配方法
     };
     using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
     using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;
-
-    // hash 计算任务的信息
-    struct HashTaskInfo : public TaskInfo
-    {
-        constexpr HashTaskInfo() = default;
-        constexpr virtual ~HashTaskInfo() override = default;
-        constexpr HashTaskInfo(const HashTaskInfo&) = default;
-        constexpr HashTaskInfo(HashTaskInfo&&) noexcept = default;
-        constexpr HashTaskInfo& operator=(const HashTaskInfo&) = default;
-        constexpr HashTaskInfo& operator=(HashTaskInfo&&) noexcept = default;
-        std::vector<std::string> hashes; // 需要多个哈希值
-        int dist_threshold = 0;          // 汉明距离阈值
-        std::pair<int, int> mask_range;  // 掩码的二值化范围
-        bool bound = false;              // 是否裁剪周围黑边
-    };
-    using HashTaskPtr = std::shared_ptr<HashTaskInfo>;
-    using HashTaskConstPtr = std::shared_ptr<const HashTaskInfo>;
 
     inline static const std::string UploadDataSource = "MeoAssistant";
 } // namespace asst

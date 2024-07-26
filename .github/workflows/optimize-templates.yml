@@ -1,0 +1,66 @@
+name: Auto Optimize PNG Templates
+
+on:
+  push:
+    branches:
+      - "dev"
+    paths:
+      - "resource/global/txwy/resource/template/**"
+      - "resource/global/YostarEN/resource/template/**"
+      - "resource/global/YostarJP/resource/template/**"
+      - "resource/global/YostarKR/resource/template/**"
+      - "resource/template/**"
+      - "docs/.vuepress/public/image/**"
+      - "website/apps/web/public/**"
+      - "website/apps/web/src/assets/links/**"
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: "Commit Message"
+        type: string
+        required: false
+
+jobs:
+  check-and-optimize-png:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          persist-credentials: false
+
+      - name: Run optimization script
+        run: |
+          python3 optimize-templates.py
+
+      - name: Commit changes
+        id: commit_changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add .
+
+          $commit_msg = "${{ github.event.inputs.commit_message }}"
+          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
+            $commit_msg = $commit_msg.Trim()
+          } else {
+            $commit_msg = "chore: Auto Templates Optimization"
+          }
+          git commit -m "$commit_msg" -m "[skip changelog]"
+          if ($LASTEXITCODE -eq 0) {
+            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
+          }
+
+          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+
+      - name: Cancelling
+        if: steps.commit_changes.outputs.have_commits != 'True'
+        uses: andymckay/cancel-action@0.5
+
+      - name: Push changes
+        if: steps.commit_changes.outputs.have_commits == 'True'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.MAA_RESOURCE_SYNC }}

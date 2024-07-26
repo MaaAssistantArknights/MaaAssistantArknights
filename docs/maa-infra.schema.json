@@ -19,9 +19,7 @@
             }
         }
     },
-    "required": [
-        "plans"
-    ],
+    "required": ["plans"],
     "definitions": {
         "operator": {
             "type": "string",
@@ -63,9 +61,7 @@
                     "$ref": "#/definitions/rooms"
                 }
             },
-            "required": [
-                "rooms"
-            ]
+            "required": ["rooms"]
         },
         "planPeriod": {
             "type": "array",
@@ -107,11 +103,7 @@
                     ]
                 }
             },
-            "required": [
-                "enable",
-                "target",
-                "order"
-            ]
+            "required": ["enable", "target", "order"]
         },
         "drones": {
             "type": "object",

@@ -1333,15 +1333,24 @@ namespace MaaWpfGui.ViewModels.UI
 
         private bool AppendInfrast()
         {
-            if (Instances.SettingsViewModel.CustomInfrastEnabled && !File.Exists(Instances.SettingsViewModel.CustomInfrastFile))
+            if (Instances.SettingsViewModel.CustomInfrastEnabled && (!File.Exists(Instances.SettingsViewModel.CustomInfrastFile) || CustomInfrastPlanInfoList.Count == 0))
             {
                 AddLog(LocalizationHelper.GetString("CustomizeInfrastSelectionEmpty"), UiLogColor.Error);
                 return false;
             }
 
             var order = Instances.SettingsViewModel.GetInfrastOrderList();
-            return Instances.AsstProxy.AsstAppendInfrast(order.ToArray(), Instances.SettingsViewModel.UsesOfDrones, Instances.SettingsViewModel.ContinueTraining, Instances.SettingsViewModel.DormThreshold / 100.0, Instances.SettingsViewModel.DormFilterNotStationedEnabled, Instances.SettingsViewModel.DormTrustEnabled,
-                Instances.SettingsViewModel.OriginiumShardAutoReplenishment, Instances.SettingsViewModel.CustomInfrastEnabled, Instances.SettingsViewModel.CustomInfrastFile, CustomInfrastPlanIndex);
+            return Instances.AsstProxy.AsstAppendInfrast(
+                order.ToArray(),
+                Instances.SettingsViewModel.UsesOfDrones,
+                Instances.SettingsViewModel.ContinueTraining,
+                Instances.SettingsViewModel.DormThreshold / 100.0,
+                Instances.SettingsViewModel.DormFilterNotStationedEnabled,
+                Instances.SettingsViewModel.DormTrustEnabled,
+                Instances.SettingsViewModel.OriginiumShardAutoReplenishment,
+                Instances.SettingsViewModel.CustomInfrastEnabled,
+                Instances.SettingsViewModel.CustomInfrastFile,
+                CustomInfrastPlanIndex);
         }
 
         private readonly Dictionary<string, IEnumerable<string>> _blackCharacterListMapping = new()
@@ -1460,7 +1469,8 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.SettingsViewModel.RoguelikeUseSupportUnit,
                 Instances.SettingsViewModel.RoguelikeEnableNonfriendSupport,
                 Instances.SettingsViewModel.RoguelikeTheme,
-                Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice);
+                Instances.SettingsViewModel.RoguelikeRefreshTraderWithDice,
+                Instances.SettingsViewModel.RoguelikeStopAtFinalBoss);
         }
 
         private static bool AppendReclamation()
@@ -2643,9 +2653,34 @@ namespace MaaWpfGui.ViewModels.UI
 
         public int CustomInfrastPlanIndex
         {
-            get => _customInfrastPlanIndex;
+            get
+            {
+                if (CustomInfrastPlanInfoList.Count == 0)
+                {
+                    return 0;
+                }
+
+                if (_customInfrastPlanIndex >= CustomInfrastPlanInfoList.Count || _customInfrastPlanIndex < 0)
+                {
+                    CustomInfrastPlanIndex = _customInfrastPlanIndex;
+                }
+
+                return _customInfrastPlanIndex;
+            }
             set
             {
+                if (CustomInfrastPlanInfoList.Count == 0)
+                {
+                    return;
+                }
+
+                if (value >= CustomInfrastPlanInfoList.Count || value < 0)
+                {
+                    var count = CustomInfrastPlanInfoList.Count;
+                    value = (value % count + count) % count;
+                    _logger.Warning($"CustomInfrastPlanIndex out of range, reset to Index % Count: {value}");
+                }
+
                 if (value != _customInfrastPlanIndex && NeedAddCustomInfrastPlanInfo)
                 {
                     var plan = CustomInfrastPlanInfoList[value];
@@ -2843,7 +2878,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         public void IncreaseCustomInfrastPlanIndex()
         {
-            if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod)
+            if (!CustomInfrastEnabled || _customInfrastPlanHasPeriod || CustomInfrastPlanInfoList.Count == 0)
             {
                 return;
             }
@@ -2855,14 +2890,7 @@ namespace MaaWpfGui.ViewModels.UI
                 AddLog(prePlanPostDesc);
             }
 
-            if (CustomInfrastPlanIndex >= CustomInfrastPlanList.Count - 1)
-            {
-                CustomInfrastPlanIndex = 0;
-            }
-            else
-            {
-                ++CustomInfrastPlanIndex;
-            }
+            ++CustomInfrastPlanIndex;
         }
 
         /// <summary>

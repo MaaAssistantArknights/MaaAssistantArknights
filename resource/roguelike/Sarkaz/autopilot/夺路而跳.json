@@ -2,77 +2,77 @@
     "stage_name": "夺路而跳",
     "replacement_home": [
         {
-            "location": [ 5, 3 ],
+            "location": [5, 3],
             "direction": "down"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [ "重装", "地面阻挡", "地面远程" ],
-            "location": [ 5, 3 ],
+            "groups": ["重装", "地面阻挡", "地面远程"],
+            "location": [5, 3],
             "direction": "down"
         },
         {
-            "groups": [ "益达" ],
-            "location": [ 4, 2 ],
+            "groups": ["益达"],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "groups": [ "高台输出" ],
-            "location": [ 4, 2 ],
+            "groups": ["高台输出"],
+            "location": [4, 2],
             "direction": "down"
         },
         {
-            "groups": [ "高台输出" ],
-            "location": [ 2, 4 ],
+            "groups": ["高台输出"],
+            "location": [2, 4],
             "direction": "right"
         },
         {
-            "groups": [ "高台输出" ],
-            "location": [ 6, 2 ],
+            "groups": ["高台输出"],
+            "location": [6, 2],
             "direction": "left"
         },
         {
-            "groups": [ "高台输出" ],
-            "location": [ 4, 4 ],
+            "groups": ["高台输出"],
+            "location": [4, 4],
             "direction": "up"
         },
         {
-            "groups": [ "单奶" ],
-            "location": [ 6, 2 ],
+            "groups": ["单奶"],
+            "location": [6, 2],
             "direction": "left"
         },
         {
-            "groups": [ "群奶" ],
-            "location": [ 4, 4 ],
+            "groups": ["群奶"],
+            "location": [4, 4],
             "direction": "up"
         },
         {
-            "groups": [ "重装", "地面阻挡", "地面远程" ],
-            "location": [ 6, 3 ],
+            "groups": ["重装", "地面阻挡", "地面远程"],
+            "location": [6, 3],
             "direction": "down"
         },
         {
-            "groups": [ "处决者", "史尔特尔", "锏", "近卫", "重装" ],
-            "location": [ 3, 5 ],
-            "condition": [ 0, 8 ],
+            "groups": ["处决者", "史尔特尔", "锏", "近卫", "重装"],
+            "location": [3, 5],
+            "condition": [0, 8],
             "direction": "up"
         },
         {
-            "groups": [ "处决者", "史尔特尔", "锏", "近卫", "重装" ],
-            "location": [ 5, 1 ],
-            "condition": [ 0, 8 ],
+            "groups": ["处决者", "史尔特尔", "锏", "近卫", "重装"],
+            "location": [5, 1],
+            "condition": [0, 8],
             "direction": "down"
         }
     ],
     "retreat_plan": [
         {
-            "location": [ 3, 5 ],
-            "condition": [ 9, 19 ]
+            "location": [3, 5],
+            "condition": [9, 19]
         },
         {
-            "location": [ 5, 1 ],
-            "condition": [ 9, 19 ]
+            "location": [5, 1],
+            "condition": [9, 19]
         }
     ]
 }

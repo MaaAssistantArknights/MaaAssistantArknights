@@ -152,6 +152,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
 
     for (auto& oper : cur_opers) {
         BestMatcher avatar_analyzer(oper.avatar);
+        avatar_analyzer.set_method(MatchMethod::Ccoeff);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const auto cooling_threshold =
@@ -159,8 +160,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             static const auto cooling_mask_range =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer
-                .set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
+            avatar_analyzer.set_mask_range(cooling_mask_range, true, true);
         }
         else {
             static const auto threshold =

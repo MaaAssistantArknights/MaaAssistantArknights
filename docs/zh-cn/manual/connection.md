@@ -182,7 +182,7 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ## ADB Lite
 
-由 MAA 独立实现的 ADB Client，相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能损耗，但部分截图方式不可用。
+由 MAA 独立实现的 ADB Client，使用 TCP 直接与 ADB Server 通信。相较原版 ADB 可以避免不停开启多个 ADB 进程，减少性能开销，但部分截图方式不可用。<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/3315)</sup>
 
 推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试 x2~~
 

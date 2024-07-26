@@ -1,87 +1,69 @@
 #pragma once
 #include "../AbstractRoguelikeTaskPlugin.h"
 #include "Common/AsstTypes.h"
-#include "Vision/OCRer.h"
 #include "Config/TaskData.h"
+#include "Vision/OCRer.h"
 
 namespace asst
 {
-    class RoguelikeCollapsalParadigmTaskPlugin : public AbstractRoguelikeTaskPlugin
-    {
-    public:
-        RoguelikeCollapsalParadigmTaskPlugin(const AsstCallback& callback,
-                                             Assistant* inst,
-                                             std::string_view task_chain,
-                                             std::shared_ptr<RoguelikeConfig> config)
-                                             : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, config)
-        {
-            const std::string& theme = config->get_theme();
-            
-            std::shared_ptr<OcrTaskInfo> bannerCheckConfig =
-                Task.get<OcrTaskInfo>(theme + "@Roguelike@CheckCollapsalParadigms_bannerCheckConfig");
-            m_deepen_text = bannerCheckConfig->text.front();
-            m_banner_triggers_start.insert(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
-            m_banner_triggers_completed.insert(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
+class RoguelikeCollapsalParadigmTaskPlugin : public AbstractRoguelikeTaskPlugin
+{
+public:
+    using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
+    virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
+    virtual bool verify(AsstMsg msg, const json::value& details) const override;
+    virtual bool load_params(const json::value& params) override;
+    virtual void reset_in_run_variables() override;
 
-            std::shared_ptr<OcrTaskInfo> panelCheckConfig =
-                Task.get<OcrTaskInfo>(theme + "@Roguelike@CheckCollapsalParadigms_panelCheckConfig");
-            m_roi = panelCheckConfig->roi;
-            m_swipe_begin.x = panelCheckConfig->specific_rect.x;
-            m_swipe_begin.y = panelCheckConfig->specific_rect.y;
-            m_swipe_end.x = panelCheckConfig->rect_move.x;
-            m_swipe_end.y = panelCheckConfig->rect_move.y;
-            m_panel_triggers.insert(panelCheckConfig->sub.begin(), panelCheckConfig->sub.end());
-            std::ranges::for_each(panelCheckConfig->replace_map,
-                [&](const std::pair<std::string, std::string>& p) { m_zone_dict.emplace(p.first, p.second); });
-        }
-        // using AbstractRoguelikeTaskPlugin::AbstractRoguelikeTaskPlugin;
-        virtual ~RoguelikeCollapsalParadigmTaskPlugin() override = default;
+protected:
+    virtual bool _run() override;
 
-        static bool enabled(std::shared_ptr<RoguelikeConfig> config) {
-            return config->get_theme() == RoguelikeTheme::Sami && config->get_check_clp_pds();
-        }
+private:
+    void check_banner();      // 检查坍缩范式变动通知
+    void check_panel();       // 检查坍缩范式状态栏
 
-    public:
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+    void toggle_panel();      // 开关坍缩范式状态栏
 
-        bool check_collapsal_paradigm_banner();
+    void wait_for_loading();  // 等待"正在反馈至神经"结束
+    void wait_for_stage();    // 等待回到地图
 
-    protected:
-        virtual bool _run() override;
+    void exit_then_restart(); // 退出当前肉鸽局并重开
+    void exit_then_stop();    // 退出当前肉鸽局并停止任务
 
-    private:
-        mutable bool m_check_banner = false;
-        mutable bool m_check_panel = false;
-        mutable bool m_verification_check = false;
+    bool new_zone() const;    // 判断是否进入了新的区域
 
-        std::string m_deepen_text;
+    // 向 Gui 回调坍缩范式变动情况，表示坍缩范式 prev 变动为 cur
+    // deepen_or_weaken = 1 表示加深
+    // deepen_or_weaken = -1 表示消退
+    // deepen_or_weaken = 0 表示其它信息
+    void clp_pd_callback(std::string cur, int deepen_or_weaken = 0, std::string prev = "");
 
-        std::unordered_set<std::string> m_banner_triggers_start;
+    // ————————  局内临时变量，在 reset 时 重制 ——————————————————————————————————
+    std::vector<std::string> m_clp_pds;        // 当前拥有的坍缩范式
+    mutable bool m_check_banner = false;       // 在下一次 run 时运行 check_banner()
+    mutable bool m_check_panel = false;        // 在下一次 run 时运行 check_panel()
+    mutable bool m_need_check_panel = false;   // 是否在下次回到关卡选择界面时检查坍缩范式
+    mutable bool m_verification_check = false; // 下一次 panel check 负责验证坍缩范式
+    mutable std::string m_zone;                // 当前所在区域
 
-        std::unordered_set<std::string> m_banner_triggers_completed;
+    // ———————— 插件配置信息，从 params 中读取  ——————————————————————————————————
+    bool m_double_check_clp_pds = false; // 是否在每次回到地图时验证坍缩范式
 
-        mutable std::string m_zone;
+    // ———————— 插件配置信息，从 tasks.json 中读取  ——————————————————————————————
+    std::string m_deepen_text; // 坍缩范式变动通知中"坍缩范式加深"的文字
 
-        Rect m_roi;          // 屏幕上方居中区域，点击以检查坍缩状态
-        Point m_swipe_begin; // 滑动起点
-        Point m_swipe_end;   // 滑动终点
+    std::unordered_set<std::string> m_banner_triggers_start;     // 通过 SubTaskStart 触发 banner check 的任务
+    std::unordered_set<std::string> m_banner_triggers_completed; // 通过 SubTaskCompleted 触发 banner check 的任务
+    std::unordered_set<std::string> m_panel_triggers;            // 通过 SubTaskStart 触发 panel check 的任务
 
-        std::unordered_set<std::string> m_panel_triggers;
+    Rect m_roi;          // 屏幕上方居中区域，点击以展开坍缩范式状态栏
+    Point m_swipe_begin; // 坍缩范式状态栏向上滑动的起点
+    Point m_swipe_end;   // 坍缩范式状态栏向上滑动的终点
 
-        std::unordered_map<std::string, std::string> m_zone_dict;
+    std::unordered_map<std::string, std::string> m_zone_dict; // template 名与区域名的映射关系
 
-        std::function<bool(const OCRer::Result&, const OCRer::Result&)> m_compare =
-            [](const OCRer::Result& x1, const OCRer::Result& x2){ return x1.rect.y < x2.rect.y; };
-
-        bool new_zone() const;
-
-        bool check_collapsal_paradigm_panel();
-
-        void toggle_collapsal_status_panel();
-        void exit_then_restart();
-        void exit_then_stop();
-        void wait_for_loading(unsigned int millisecond = 0);
-        void wait_for_stage(unsigned int millisecond = 0);
-        void clp_pd_callback(std::string cur, int deepen_or_weaken = 0, std::string prev = "");
-    };
+    // ———————— 插件内部常量  ———————————————————————————————————————————————
+    const std::string_view m_banner_check_error_message =
+        "CollapsalParadigm ｜ Task Plugin: Erroneous Recognition in Banner Check";
+};
 }
