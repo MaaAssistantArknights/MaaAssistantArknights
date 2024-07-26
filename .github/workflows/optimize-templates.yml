@@ -2,6 +2,8 @@ name: Optimize PNG Templates
 
 on:
   push:
+    branches:
+      - "dev"    
     paths:
       - "resource/global/txwy/resource/template/**"
       - "resource/global/YostarEN/resource/template/**"
