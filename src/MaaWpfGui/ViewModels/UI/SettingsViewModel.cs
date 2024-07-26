@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,6 +29,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -53,6 +55,7 @@ using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
+using Window = HandyControl.Controls.Window;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -4120,14 +4123,25 @@ namespace MaaWpfGui.ViewModels.UI
             TestLinkImage = Instances.AsstProxy.AsstGetImage();
             TestLinkInfo = "Finish";
             Instances.AsstProxy.AsstStop();
-        }
-
-        private bool _showTestLinkImage = false;
-
-        public bool ShowTestLinkImage
-        {
-            get => _showTestLinkImage;
-            set => SetAndNotify(ref _showTestLinkImage, value);
+            if (TestLinkImage is null)
+            {
+                TestLinkInfo = "Image is null";
+            }
+            else
+            {
+                Window popupWindow = new Window
+                {
+                    Width = TestLinkImage.PixelWidth,
+                    Height = TestLinkImage.PixelHeight,
+                    Content = new Image
+                    {
+                        Width = TestLinkImage.PixelWidth,
+                        Height = TestLinkImage.PixelHeight,
+                        Source = TestLinkImage
+                    }
+                };
+                popupWindow.ShowDialog();
+            }
         }
 
         private BitmapImage? _testLinkImage;

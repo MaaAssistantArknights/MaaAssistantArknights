@@ -170,12 +170,6 @@
                     Command="{s:Action TestLinkAndGetImage}"
                     Content="Test" />
             </StackPanel>
-            <Image
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Source="{Binding TestLinkImage}"
-                Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
             <controls:TextBlock
                 Margin="10"
                 HorizontalAlignment="Center"
