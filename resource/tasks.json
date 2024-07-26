@@ -9332,7 +9332,13 @@
         "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
     },
     "Sarkaz@Roguelike@StageCombatDps": {
-        "templThreshold": 0.975,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [127, 80, 50],
+                [136, 200, 180]
+            ]
+        ],
         "postDelay": 600,
         "next": [
             "Sarkaz@Roguelike@StageRefresh",
