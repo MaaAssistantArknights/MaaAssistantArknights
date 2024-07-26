@@ -44,7 +44,6 @@
 * 肉鸽高级设置-投资模式启用购物选项说明补充：进入2层 @status102
 * 未开启自定义基建可能遇到的除数为0 @ABA2396
 * 修复基建排版表数量为为0时引起的崩溃问题 @SherkeyXD
-* 修正文档网页右上角search组件本地化显示问题 (#9804) @sevmeowple
 * 修复更换不同班次数的基建排班表可能遇到的数组越界 @ABA2396
 * 调整iOS萨卡兹肉鸽节点刷新模板识别阈值 @hguandl
 * 错误获取到萨米塌缩插件 (#9827) @status102
@@ -55,12 +54,7 @@
 * 修复离开不期而遇后点进负荷界面的问题 @DavidWang19
 * 修复当蓝图队为第一个分队时无法识别的问题 @DavidWang19
 * 修复紧急作战刷新次数达到上限后卡死的问题 @DavidWang19
-* switch downloading artifact order @Constrat
-* 修复 methods 为空时直接崩溃的问题 @zzyyyl
 * 扩大肉鸽投资检测阈值，减少识别错误 (#9787) @status102
-* Revert "fix: 修复多次设置参数时肉鸽插件重复注册 (#9786)" @zzyyyl
-* hsv 匹配时不要修改原图 @zzyyyl
-* 修复多次设置参数时肉鸽插件重复注册 (#9786) @status102
 * 修复萨卡兹肉鸽无法识别思绪阻滞 (#9767) @Daydreamer114
 * 修复 pre-commit ci @zzyyyl
 * 修复肉鸽主题选择的导航问题 (#9756) @Lemon-miaow
@@ -75,6 +69,12 @@
 
 ### 其他 | Other
 
+* 修正文档网页右上角search组件本地化显示问题 (#9804) @sevmeowple
+* switch downloading artifact order @Constrat
+* 修复 methods 为空时直接崩溃的问题 @zzyyyl
+* Revert "fix: 修复多次设置参数时肉鸽插件重复注册 (#9786)" @zzyyyl
+* hsv 匹配时不要修改原图 @zzyyyl
+* 修复多次设置参数时肉鸽插件重复注册 (#9786) @status102
 * prettified res-update workflow @Constrat
 * res-updt bypasses branch protection @Constrat
 * 肉鸽插件set_params补充 (#9893) @status102
