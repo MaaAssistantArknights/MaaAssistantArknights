@@ -21,7 +21,7 @@ on:
         required: false
 
 jobs:
-  check-and-optimize-png:
+  optimize-png:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,7 +32,7 @@ jobs:
 
       - name: Run optimization script
         run: |
-          python3 optimize-templates.py
+          python3 tools/OptimizeTemplates/optimize-templates.py
 
       - name: Commit changes
         id: commit_changes
