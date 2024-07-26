@@ -50,17 +50,7 @@
         [8, 6],
         [9, 3]
     ],
-    "role_order": [
-        "warrior",
-        "pioneer",
-        "sniper",
-        "caster",
-        "medic",
-        "tank",
-        "support",
-        "special",
-        "drone"
-    ],
+    "role_order": ["warrior", "pioneer", "sniper", "caster", "medic", "tank", "support", "special", "drone"],
     "force_air_defense_when_deploy_blocking_num": {
         "melee_num": 2,
         "air_defense_num": 2,
@@ -100,57 +90,22 @@
             "direction": "down"
         },
         {
-            "groups": [
-                "高台C",
-                "召唤",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助",
-                "其他高台"
-            ],
+            "groups": ["高台C", "召唤", "控制", "狙击", "术师", "辅助", "其他高台"],
             "location": [5, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "重装",
-                "挡人先锋",
-                "地面C",
-                "其他地面",
-                "异德",
-                "刺客",
-                "投锋"
-            ],
+            "groups": ["基石", "重装", "挡人先锋", "地面C", "其他地面", "异德", "刺客", "投锋"],
             "location": [10, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "基石",
-                "重装",
-                "挡人先锋",
-                "地面C",
-                "其他地面",
-                "异德",
-                "刺客",
-                "投锋"
-            ],
+            "groups": ["基石", "重装", "挡人先锋", "地面C", "其他地面", "异德", "刺客", "投锋"],
             "location": [10, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "狙击",
-                "凯尔希",
-                "术师",
-                "辅助",
-                "其他高台"
-            ],
+            "groups": ["召唤", "高台C", "控制", "狙击", "凯尔希", "术师", "辅助", "其他高台"],
             "location": [6, 1],
             "direction": "down"
         },
@@ -160,16 +115,7 @@
             "direction": "left"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "地面阻挡",
-                "挡人先锋",
-                "重装",
-                "异德",
-                "刺客"
-            ],
+            "groups": ["百嘉", "基石", "地面C", "地面阻挡", "挡人先锋", "重装", "异德", "刺客"],
             "location": [9, 6],
             "direction": "left"
         }
