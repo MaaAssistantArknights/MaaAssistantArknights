@@ -596,14 +596,7 @@
         "specificRect": [790, 310, 10, 10],
         "sub": [],
         "subErrorIgnored": false,
-        "text": [
-            "EPISODE10",
-            "EPISODE11",
-            "EPISODE12",
-            "EPISODE13",
-            "EPISODE14",
-            "EPISODE15"
-        ],
+        "text": ["EPISODE10", "EPISODE11", "EPISODE12", "EPISODE13", "EPISODE14", "EPISODE15"],
         "withoutDet": false
     },
     "1-7": {
@@ -682,13 +675,7 @@
         "specificRect": [790, 310, 10, 10],
         "sub": [],
         "subErrorIgnored": false,
-        "text": [
-            "EPISODE11",
-            "EPISODE12",
-            "EPISODE13",
-            "EPISODE14",
-            "EPISODE15"
-        ],
+        "text": ["EPISODE11", "EPISODE12", "EPISODE13", "EPISODE14", "EPISODE15"],
         "withoutDet": false
     },
     "11@EnterEpisode": {
@@ -1367,13 +1354,7 @@
         "sub": [],
         "subErrorIgnored": false,
         "templThreshold": [0.7, 0.7, 0.7, 0.7, 0.7],
-        "template": [
-            "Task.png",
-            "TaskDark.png",
-            "TaskSami.png",
-            "TaskMistCity.png",
-            "TaskSiege.png"
-        ]
+        "template": ["Task.png", "TaskDark.png", "TaskSami.png", "TaskMistCity.png", "TaskSiege.png"]
     },
     "AwardBegin": {
         "action": "DoNothing",
@@ -4684,10 +4665,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "BattleSupportUnitFormation",
-        "next": [
-            "BattleSupportUnitFormationSelect",
-            "BattleSupportUnitFormation"
-        ],
+        "next": ["BattleSupportUnitFormationSelect", "BattleSupportUnitFormation"],
         "onErrorNext": [],
         "postDelay": 2000,
         "preDelay": 0,
@@ -6601,13 +6579,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "CloseAnno",
-        "next": [
-            "CloseAnno",
-            "CloseAnnoTexas",
-            "CloseAnnoSpecialAccess",
-            "TodaysSupplies",
-            "NotDownloadVoice"
-        ],
+        "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -6629,13 +6601,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "CloseAnnoBase",
-        "next": [
-            "CloseAnno",
-            "CloseAnnoTexas",
-            "CloseAnnoSpecialAccess",
-            "TodaysSupplies",
-            "NotDownloadVoice"
-        ],
+        "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -6657,13 +6623,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "CloseAnnoSpecialAccess",
-        "next": [
-            "CloseAnno",
-            "CloseAnnoTexas",
-            "CloseAnnoSpecialAccess",
-            "TodaysSupplies",
-            "NotDownloadVoice"
-        ],
+        "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -6685,13 +6645,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "CloseAnnoTexas",
-        "next": [
-            "CloseAnno",
-            "CloseAnnoTexas",
-            "CloseAnnoSpecialAccess",
-            "TodaysSupplies",
-            "NotDownloadVoice"
-        ],
+        "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -6712,13 +6666,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "CloseAnnos",
-        "next": [
-            "CloseAnno",
-            "CloseAnnoTexas",
-            "CloseAnnoSpecialAccess",
-            "TodaysSupplies",
-            "NotDownloadVoice"
-        ],
+        "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -6738,12 +6686,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "CloseCluePage",
-        "next": [
-            "CloseCluePage",
-            "SendClueFlag",
-            "InfrastClueFriendNew",
-            "ReceptionFlag"
-        ],
+        "next": ["CloseCluePage", "SendClueFlag", "InfrastClueFriendNew", "ReceptionFlag"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -6828,12 +6771,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "CloseSendClue",
-        "next": [
-            "InfrastClueSelfNew",
-            "InfrastClueFriendNew",
-            "ReceptionFlag",
-            "CloseSendClue"
-        ],
+        "next": ["InfrastClueSelfNew", "InfrastClueFriendNew", "ReceptionFlag", "CloseSendClue"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 2500,
@@ -6930,12 +6868,7 @@
         "exceededNext": [],
         "maxTimes": 10,
         "name": "CloseTaskMailDouble",
-        "next": [
-            "Home@ReturnButton",
-            "Home@FromStageSN",
-            "Home@FromAnnihilation",
-            "CloseTaskMailDouble"
-        ],
+        "next": ["Home@ReturnButton", "Home@FromStageSN", "Home@FromAnnihilation", "CloseTaskMailDouble"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -6977,11 +6910,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "ClueGiveTo1stConfirm",
-        "next": [
-            "ClueGiveTo1stConfirm@LoadingText",
-            "SelectClue",
-            "CloseSendClue"
-        ],
+        "next": ["ClueGiveTo1stConfirm@LoadingText", "SelectClue", "CloseSendClue"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -7025,11 +6954,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "ClueGiveTo2ndConfirm",
-        "next": [
-            "ClueGiveTo2ndConfirm@LoadingText",
-            "SelectClue",
-            "CloseSendClue"
-        ],
+        "next": ["ClueGiveTo2ndConfirm@LoadingText", "SelectClue", "CloseSendClue"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -7073,11 +6998,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "ClueGiveTo3rdConfirm",
-        "next": [
-            "ClueGiveTo3rdConfirm@LoadingText",
-            "SelectClue",
-            "CloseSendClue"
-        ],
+        "next": ["ClueGiveTo3rdConfirm@LoadingText", "SelectClue", "CloseSendClue"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -7121,11 +7042,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "ClueGiveTo4thConfirm",
-        "next": [
-            "ClueGiveTo4thConfirm@LoadingText",
-            "SelectClue",
-            "CloseSendClue"
-        ],
+        "next": ["ClueGiveTo4thConfirm@LoadingText", "SelectClue", "CloseSendClue"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -7282,11 +7199,7 @@
         "exceededNext": ["Copilot@EndOfAction"],
         "maxTimes": 30,
         "name": "Copilot@ClickCornerUntilEndOfAction",
-        "next": [
-            "Copilot@SkipThePreBattlePlot",
-            "Copilot@EndOfAction",
-            "Copilot@ClickCornerBeforeThreeStars"
-        ],
+        "next": ["Copilot@SkipThePreBattlePlot", "Copilot@EndOfAction", "Copilot@ClickCornerBeforeThreeStars"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -7305,10 +7218,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "Copilot@ClickCornerUntilStartButton",
-        "next": [
-            "Copilot@BattleStartPreFlag",
-            "Copilot@ClickCornerUntilStartButton"
-        ],
+        "next": ["Copilot@BattleStartPreFlag", "Copilot@ClickCornerUntilStartButton"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -7328,10 +7238,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Copilot@EndOfAction",
-        "next": [
-            "Copilot@StageDrops-Stars-3",
-            "Copilot@StageDrops-Stars-Adverse"
-        ],
+        "next": ["Copilot@StageDrops-Stars-3", "Copilot@StageDrops-Stars-Adverse"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -7460,11 +7367,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "CreditShop-BuyIt",
-        "next": [
-            "CreditShop-Bought",
-            "CreditShop-BuyIt@LoadingText",
-            "CreditShop-NoMoney"
-        ],
+        "next": ["CreditShop-Bought", "CreditShop-BuyIt@LoadingText", "CreditShop-NoMoney"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -8379,12 +8282,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "DroneConfirm",
-        "next": [
-            "DroneConfirm@LoadingText",
-            "DeliverableOrder",
-            "DroneAssist-Trade-Stop",
-            "DroneAssistMfg"
-        ],
+        "next": ["DroneConfirm@LoadingText", "DeliverableOrder", "DroneAssist-Trade-Stop", "DroneAssistMfg"],
         "onErrorNext": [],
         "postDelay": 3500,
         "preDelay": 0,
@@ -10012,12 +9910,7 @@
         "roi": [0, 0, 0, 0],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "StageEpisode",
-            "StageEpisodeToGT",
-            "GTToGT-5",
-            "GT-5@SideStoryStage"
-        ],
+        "sub": ["StageEpisode", "StageEpisodeToGT", "GTToGT-5", "GT-5@SideStoryStage"],
         "subErrorIgnored": false
     },
     "GT-5@SideStoryStage": {
@@ -10109,12 +10002,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "GachaConfirm",
-        "next": [
-            "GachaConfirm@LoadingText",
-            "GachaWaitingForBag",
-            "GachaNoMoney",
-            "GachaConfirm"
-        ],
+        "next": ["GachaConfirm@LoadingText", "GachaWaitingForBag", "GachaNoMoney", "GachaConfirm"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -10305,11 +10193,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "GachaOncePrefix@DoGacha",
-        "next": [
-            "GachaOncePrefix@DoGacha@LoadingText",
-            "GachaOncePrefix@DoGacha",
-            "GachaConfirm"
-        ],
+        "next": ["GachaOncePrefix@DoGacha@LoadingText", "GachaOncePrefix@DoGacha", "GachaConfirm"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -10397,11 +10281,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "GachaTenTimesPrefix@DoGacha",
-        "next": [
-            "GachaTenTimesPrefix@DoGacha@LoadingText",
-            "GachaTenTimesPrefix@DoGacha",
-            "GachaConfirm"
-        ],
+        "next": ["GachaTenTimesPrefix@DoGacha@LoadingText", "GachaTenTimesPrefix@DoGacha", "GachaConfirm"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -10504,12 +10384,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "GetSelfClue",
-        "next": [
-            "InfrastClueSelfFull",
-            "InfrastClueFriendNew",
-            "CloseCluePage",
-            "ReceptionFlag"
-        ],
+        "next": ["InfrastClueSelfFull", "InfrastClueFriendNew", "CloseCluePage", "ReceptionFlag"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -10581,12 +10456,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "GoLastBattle",
-        "next": [
-            "UsePrts-Annihilation",
-            "UsePrts",
-            "UsePrts-StageSN",
-            "StartButton1"
-        ],
+        "next": ["UsePrts-Annihilation", "UsePrts", "UsePrts-StageSN", "StartButton1"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -12281,11 +12151,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "InfrastDormConfirmButton",
-        "next": [
-            "InfrastDormConfirmButtonWait",
-            "InfrastDormDoubleConfirmButton",
-            "Stop"
-        ],
+        "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -12306,11 +12172,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "InfrastDormConfirmButtonWait",
-        "next": [
-            "InfrastDormConfirmButtonWait",
-            "InfrastDormDoubleConfirmButton",
-            "Stop"
-        ],
+        "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 500,
@@ -12334,11 +12196,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "InfrastDormDoubleConfirmButton",
-        "next": [
-            "InfrastDormConfirmButtonWait",
-            "InfrastDormDoubleConfirmButton",
-            "Stop"
-        ],
+        "next": ["InfrastDormConfirmButtonWait", "InfrastDormDoubleConfirmButton", "Stop"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -12602,10 +12460,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "InfrastFilterMenuNotStationed",
-        "next": [
-            "InfrastFilterMenuNotStationedButton",
-            "InfrastFilterMenuNotStationedButtonAlreadyClicked"
-        ],
+        "next": ["InfrastFilterMenuNotStationedButton", "InfrastFilterMenuNotStationedButtonAlreadyClicked"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -14460,10 +14315,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "LevelCompleteConfirm@Reclamation@LevelComplete",
-        "next": [
-            "LevelCompleteConfirm@Reclamation@AtMapFlag",
-            "LevelCompleteConfirm@Reclamation@LevelComplete"
-        ],
+        "next": ["LevelCompleteConfirm@Reclamation@AtMapFlag", "LevelCompleteConfirm@Reclamation@LevelComplete"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 1000,
@@ -14825,11 +14677,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "MedicineConfirm",
-        "next": [
-            "MedicineConfirm@LoadingText",
-            "MedicineConfirmed",
-            "MedicineNotConfirmed"
-        ],
+        "next": ["MedicineConfirm@LoadingText", "MedicineConfirmed", "MedicineNotConfirmed"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -14969,19 +14817,11 @@
         "action": "DoNothing",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "MedicineNotConfirmed@LoadingText",
-            "MedicineConfirmed",
-            "MedicineConfirm"
-        ],
+        "exceededNext": ["MedicineNotConfirmed@LoadingText", "MedicineConfirmed", "MedicineConfirm"],
         "maskRange": [],
         "maxTimes": 5,
         "name": "MedicineNotConfirmed",
-        "next": [
-            "MedicineConfirm@LoadingText",
-            "MedicineConfirmed",
-            "MedicineNotConfirmed"
-        ],
+        "next": ["MedicineConfirm@LoadingText", "MedicineConfirmed", "MedicineNotConfirmed"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -15493,10 +15333,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@Continue",
-        "next": [
-            "Mizuki@Roguelike@MissionFailedFlag2",
-            "Mizuki@Roguelike@ExitThenAbandon"
-        ],
+        "next": ["Mizuki@Roguelike@MissionFailedFlag2", "Mizuki@Roguelike@ExitThenAbandon"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -15847,10 +15684,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@GamePassSkip1",
-        "next": [
-            "Mizuki@Roguelike@GamePassSkip1Confirm",
-            "Mizuki@Roguelike@GamePassSkip1"
-        ],
+        "next": ["Mizuki@Roguelike@GamePassSkip1Confirm", "Mizuki@Roguelike@GamePassSkip1"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -15899,10 +15733,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@GetDrop1",
-        "next": [
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@ChooseOperFlag"
-        ],
+        "next": ["Mizuki@Roguelike@DropsFlag", "Mizuki@Roguelike@ChooseOperFlag"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -15924,11 +15755,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@GetDrop2",
-        "next": [
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@ClickToDrops"
-        ],
+        "next": ["Mizuki@Roguelike@DropsFlag", "Mizuki@Roguelike@ChooseOperFlag", "Mizuki@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -15950,11 +15777,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@GetDrop3",
-        "next": [
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@ClickToDrops"
-        ],
+        "next": ["Mizuki@Roguelike@ChooseOperFlag", "Mizuki@Roguelike@DropsFlag", "Mizuki@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -16030,11 +15853,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@GetDropBoxSelect",
-        "next": [
-            "Mizuki@Roguelike@DropsFlag",
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@ClickToDrops"
-        ],
+        "next": ["Mizuki@Roguelike@DropsFlag", "Mizuki@Roguelike@ChooseOperFlag", "Mizuki@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -16177,10 +15996,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@GetDropSelectRecruit",
-        "next": [
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@GetDropSelectRecruit"
-        ],
+        "next": ["Mizuki@Roguelike@ChooseOperFlag", "Mizuki@Roguelike@GetDropSelectRecruit"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -16257,10 +16073,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@InitialDrop",
-        "next": [
-            "Mizuki@Roguelike@SquadDefault",
-            "Mizuki@Roguelike@InitialDrop"
-        ],
+        "next": ["Mizuki@Roguelike@SquadDefault", "Mizuki@Roguelike@InitialDrop"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -16414,10 +16227,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@LastRewardConfirm",
-        "next": [
-            "Mizuki@Roguelike@RolesDefault",
-            "Mizuki@Roguelike@CloseCollection"
-        ],
+        "next": ["Mizuki@Roguelike@RolesDefault", "Mizuki@Roguelike@CloseCollection"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -16548,10 +16358,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@NextLevel",
-        "next": [
-            "Mizuki@Roguelike@DiceConfirmAfterNextLevel",
-            "Mizuki@Roguelike@StrategyChange"
-        ],
+        "next": ["Mizuki@Roguelike@DiceConfirmAfterNextLevel", "Mizuki@Roguelike@StrategyChange"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 1000,
@@ -16564,15 +16371,7 @@
         "specificRect": [0, 0, 0, 0],
         "sub": [],
         "subErrorIgnored": false,
-        "text": [
-            "天光海岸",
-            "离岸孤岛",
-            "波涛略地",
-            "隐秘温床",
-            "失尘岩洞",
-            "幽海丛林",
-            "绀碧摇篮"
-        ],
+        "text": ["天光海岸", "离岸孤岛", "波涛略地", "隐秘温床", "失尘岩洞", "幽海丛林", "绀碧摇篮"],
         "withoutDet": false
     },
     "Mizuki@Roguelike@RecruitMain": {
@@ -16583,10 +16382,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@RecruitMain",
-        "next": [
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Mizuki@Roguelike@ChooseOperFlag", "Mizuki@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -16608,10 +16404,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@RecruitOther",
-        "next": [
-            "Mizuki@Roguelike@ChooseOperFlag",
-            "Mizuki@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Mizuki@Roguelike@ChooseOperFlag", "Mizuki@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -16707,10 +16500,7 @@
         "isAscii": false,
         "maxTimes": 20,
         "name": "Mizuki@Roguelike@SelectTheme",
-        "next": [
-            "Mizuki@Roguelike@SelectTheme",
-            "Mizuki@Roguelike@FromIntegratedStrategies"
-        ],
+        "next": ["Mizuki@Roguelike@SelectTheme", "Mizuki@Roguelike@FromIntegratedStrategies"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -17461,10 +17251,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@StageEncounterSpecialClose",
-        "next": [
-            "Mizuki@Roguelike@StageEncounterSpecialClose",
-            "Mizuki@Roguelike@ClickToDrops"
-        ],
+        "next": ["Mizuki@Roguelike@StageEncounterSpecialClose", "Mizuki@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -17747,10 +17534,7 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Mizuki@Roguelike@DiceConfirmThenAbandon",
-            "Mizuki@Roguelike@ExitThenAbandon"
-        ],
+        "exceededNext": ["Mizuki@Roguelike@DiceConfirmThenAbandon", "Mizuki@Roguelike@ExitThenAbandon"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Mizuki@Roguelike@StageTraderLeaveConfirm",
@@ -18503,11 +18287,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "NoFriends",
-        "next": [
-            "Home@ReturnButton",
-            "Home@FromStageSN",
-            "Home@FromAnnihilation"
-        ],
+        "next": ["Home@ReturnButton", "Home@FromStageSN", "Home@FromAnnihilation"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -18575,13 +18355,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "NotDownloadVoice",
-        "next": [
-            "CloseAnno",
-            "CloseAnnoTexas",
-            "CloseAnnoSpecialAccess",
-            "TodaysSupplies",
-            "NotDownloadVoice"
-        ],
+        "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -18860,13 +18634,7 @@
         "roi": [0, 0, 0, 0],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "StageEpisode",
-            "StageEpisodeToOF",
-            "OFToOF-Chapter",
-            "ChapterSwipeToTheLeft",
-            "OF-1@SideStoryStage"
-        ],
+        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "ChapterSwipeToTheLeft", "OF-1@SideStoryStage"],
         "subErrorIgnored": false
     },
     "OF-1@SideStoryStage": {
@@ -18935,13 +18703,7 @@
         "roi": [0, 0, 0, 0],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "StageEpisode",
-            "StageEpisodeToOF",
-            "OFToOF-Chapter",
-            "OF-Chapter2",
-            "StageOF-F3"
-        ],
+        "sub": ["StageEpisode", "StageEpisodeToOF", "OFToOF-Chapter", "OF-Chapter2", "StageOF-F3"],
         "subErrorIgnored": false
     },
     "OFToOF-Chapter": {
@@ -19784,11 +19546,7 @@
         "maskRange": [[[1], [255]]],
         "maxTimes": 2147483647,
         "name": "OrundumActivitiesChoose",
-        "next": [
-            "OrundumActivitiesConfirm",
-            "OrundumActivitiesEarnRewards",
-            "OrundumActivitiesReturn"
-        ],
+        "next": ["OrundumActivitiesConfirm", "OrundumActivitiesEarnRewards", "OrundumActivitiesReturn"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -19797,11 +19555,7 @@
         "roi": [150, 150, 1000, 400],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "OrundumActivitiesClick",
-            "OrundumActivitiesClick",
-            "OrundumActivitiesClick"
-        ],
+        "sub": ["OrundumActivitiesClick", "OrundumActivitiesClick", "OrundumActivitiesClick"],
         "subErrorIgnored": true,
         "templThreshold": [0.9],
         "template": ["OrundumActivitiesClick.png"]
@@ -20281,14 +20035,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "PRTS",
-        "next": [
-            "PRTS1",
-            "PRTS2",
-            "PRTS3",
-            "EndOfAction",
-            "PrtsErrorConfirm",
-            "FightMissionFailed"
-        ],
+        "next": ["PRTS1", "PRTS2", "PRTS3", "EndOfAction", "PrtsErrorConfirm", "FightMissionFailed"],
         "onErrorNext": [],
         "postDelay": 5000,
         "preDelay": 0,
@@ -20407,10 +20154,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@Abandon",
-        "next": [
-            "Phantom@Roguelike@AbandonConfirm",
-            "Phantom@Roguelike@Abandon"
-        ],
+        "next": ["Phantom@Roguelike@AbandonConfirm", "Phantom@Roguelike@Abandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -20549,10 +20293,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@Continue",
-        "next": [
-            "Phantom@Roguelike@MissionFailedFlag2",
-            "Phantom@Roguelike@ExitThenAbandon"
-        ],
+        "next": ["Phantom@Roguelike@MissionFailedFlag2", "Phantom@Roguelike@ExitThenAbandon"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -20687,10 +20428,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@ExitThenAbandon",
-        "next": [
-            "Phantom@Roguelike@ExitThenAbandon",
-            "Phantom@Roguelike@Abandon"
-        ],
+        "next": ["Phantom@Roguelike@ExitThenAbandon", "Phantom@Roguelike@Abandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -20712,10 +20450,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@ExitThenAbandon_ToHardest",
-        "next": [
-            "Phantom@Roguelike@ExitThenAbandon_ToHardest",
-            "Phantom@Roguelike@Abandon"
-        ],
+        "next": ["Phantom@Roguelike@ExitThenAbandon_ToHardest", "Phantom@Roguelike@Abandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -20759,10 +20494,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@GamePassSkip1",
-        "next": [
-            "Phantom@Roguelike@GamePassSkip1Confirm",
-            "Phantom@Roguelike@GamePassSkip1"
-        ],
+        "next": ["Phantom@Roguelike@GamePassSkip1Confirm", "Phantom@Roguelike@GamePassSkip1"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -20810,10 +20542,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@GetDrop1",
-        "next": [
-            "Phantom@Roguelike@DropsFlag",
-            "Phantom@Roguelike@ChooseOperFlag"
-        ],
+        "next": ["Phantom@Roguelike@DropsFlag", "Phantom@Roguelike@ChooseOperFlag"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -20835,11 +20564,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@GetDrop2",
-        "next": [
-            "Phantom@Roguelike@DropsFlag",
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@ClickToDrops"
-        ],
+        "next": ["Phantom@Roguelike@DropsFlag", "Phantom@Roguelike@ChooseOperFlag", "Phantom@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -20861,11 +20586,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@GetDrop3",
-        "next": [
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@DropsFlag",
-            "Phantom@Roguelike@ClickToDrops"
-        ],
+        "next": ["Phantom@Roguelike@ChooseOperFlag", "Phantom@Roguelike@DropsFlag", "Phantom@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -21002,10 +20723,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@GetDropSelectRecruit",
-        "next": [
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@GetDropSelectRecruit"
-        ],
+        "next": ["Phantom@Roguelike@ChooseOperFlag", "Phantom@Roguelike@GetDropSelectRecruit"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -21079,10 +20797,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@InitialDrop",
-        "next": [
-            "Phantom@Roguelike@SquadDefault",
-            "Phantom@Roguelike@InitialDrop"
-        ],
+        "next": ["Phantom@Roguelike@SquadDefault", "Phantom@Roguelike@InitialDrop"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -21192,10 +20907,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@LastRewardConfirm",
-        "next": [
-            "Phantom@Roguelike@RolesDefault",
-            "Phantom@Roguelike@CloseCollection"
-        ],
+        "next": ["Phantom@Roguelike@RolesDefault", "Phantom@Roguelike@CloseCollection"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -21308,14 +21020,7 @@
         "specificRect": [0, 0, 0, 0],
         "sub": [],
         "subErrorIgnored": false,
-        "text": [
-            "迷雾歧途",
-            "落阳庭院",
-            "故土残躯",
-            "噩梦之始",
-            "血月长廊",
-            "渴欲大厅"
-        ],
+        "text": ["迷雾歧途", "落阳庭院", "故土残躯", "噩梦之始", "血月长廊", "渴欲大厅"],
         "withoutDet": false
     },
     "Phantom@Roguelike@RecruitMain": {
@@ -21326,10 +21031,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@RecruitMain",
-        "next": [
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Phantom@Roguelike@ChooseOperFlag", "Phantom@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -21351,10 +21053,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@RecruitOther",
-        "next": [
-            "Phantom@Roguelike@ChooseOperFlag",
-            "Phantom@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Phantom@Roguelike@ChooseOperFlag", "Phantom@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -21449,10 +21148,7 @@
         "isAscii": false,
         "maxTimes": 20,
         "name": "Phantom@Roguelike@SelectTheme",
-        "next": [
-            "Phantom@Roguelike@SelectTheme",
-            "Phantom@Roguelike@FromIntegratedStrategies"
-        ],
+        "next": ["Phantom@Roguelike@SelectTheme", "Phantom@Roguelike@FromIntegratedStrategies"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -21969,10 +21665,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Phantom@Roguelike@StageEncounterSpecialClose",
-        "next": [
-            "Phantom@Roguelike@StageEncounterSpecialClose",
-            "Phantom@Roguelike@ClickToDrops"
-        ],
+        "next": ["Phantom@Roguelike@StageEncounterSpecialClose", "Phantom@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -22948,10 +22641,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation2BeginPlotEnter",
-        "next": [
-            "Reclamation2BeginPlotEnter",
-            "Reclamation2BeginPlotLoading@Reclamation2EnterStage"
-        ],
+        "next": ["Reclamation2BeginPlotEnter", "Reclamation2BeginPlotLoading@Reclamation2EnterStage"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -23046,11 +22736,7 @@
         "roi": [0, 0, 0, 0],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "Reclamation2Fight@Reclamation2EnterStage",
-            "Reclamation2LeaveStage",
-            "Reclamation2ClickDrop"
-        ],
+        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"],
         "subErrorIgnored": false
     },
     "Reclamation2ClickBeginPlotTalk": {
@@ -23106,10 +22792,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation2CopiousCoppice",
-        "next": [
-            "Reclamation2CopiousCoppice",
-            "Reclamation2CopiousCoppiceBegin"
-        ],
+        "next": ["Reclamation2CopiousCoppice", "Reclamation2CopiousCoppiceBegin"],
         "ocrReplace": [[".*源区", "资源区"]],
         "onErrorNext": [],
         "postDelay": 0,
@@ -23141,11 +22824,7 @@
         "roi": [0, 0, 0, 0],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "Reclamation2Fight@Reclamation2EnterStage",
-            "Reclamation2LeaveStage",
-            "Reclamation2ClickDrop"
-        ],
+        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"],
         "subErrorIgnored": false
     },
     "Reclamation2DeleteArchive": {
@@ -23215,10 +22894,7 @@
         "roi": [1063, 550, 182, 123],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "Reclamation2DeleteArchiveConfirm",
-            "Reclamation2DeleteArchiveConfirm"
-        ],
+        "sub": ["Reclamation2DeleteArchiveConfirm", "Reclamation2DeleteArchiveConfirm"],
         "subErrorIgnored": false,
         "text": ["删除"],
         "withoutDet": false
@@ -23444,10 +23120,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation2ExAssemblyStation",
-        "next": [
-            "Reclamation2ExAssemblyStationOcr",
-            "Reclamation2ExAssemblyStation"
-        ],
+        "next": ["Reclamation2ExAssemblyStationOcr", "Reclamation2ExAssemblyStation"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -23568,10 +23241,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "Reclamation2ExManufacture",
-        "next": [
-            "Reclamation2ExManufactureConfirmAmount",
-            "Reclamation2ExManufactureConfirm"
-        ],
+        "next": ["Reclamation2ExManufactureConfirmAmount", "Reclamation2ExManufactureConfirm"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -23580,10 +23250,7 @@
         "roi": [0, 0, 0, 0],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "Reclamation2ExSwipeAndClickProduct",
-            "Reclamation2ExAddProduct"
-        ],
+        "sub": ["Reclamation2ExSwipeAndClickProduct", "Reclamation2ExAddProduct"],
         "subErrorIgnored": false
     },
     "Reclamation2ExManufactureConfirm": {
@@ -23728,10 +23395,7 @@
         "roi": [1030, 548, 170, 124],
         "specialParams": [],
         "specificRect": [0, 0, 0, 0],
-        "sub": [
-            "Reclamation2ExReadArchiveSelectDay",
-            "Reclamation2ExReadArchiveSelectDayConfirm"
-        ],
+        "sub": ["Reclamation2ExReadArchiveSelectDay", "Reclamation2ExReadArchiveSelectDayConfirm"],
         "subErrorIgnored": false,
         "text": ["读取"],
         "withoutDet": false
@@ -24727,10 +24391,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation@EmptyInitUnits",
-        "next": [
-            "Reclamation@QuickFormation",
-            "Reclamation@QuickFormationSelectOneUnit"
-        ],
+        "next": ["Reclamation@QuickFormation", "Reclamation@QuickFormationSelectOneUnit"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -24933,10 +24594,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation@GiveupAlgorithm",
-        "next": [
-            "Reclamation@GiveupAlgorithmConfirm",
-            "Reclamation@GiveupAlgorithm"
-        ],
+        "next": ["Reclamation@GiveupAlgorithmConfirm", "Reclamation@GiveupAlgorithm"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -25017,10 +24675,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation@GiveupClickEmergencyExit",
-        "next": [
-            "Reclamation@GiveupCheckRemainItems",
-            "Reclamation@GiveupClickEmergencyExit"
-        ],
+        "next": ["Reclamation@GiveupCheckRemainItems", "Reclamation@GiveupClickEmergencyExit"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -25043,10 +24698,7 @@
         "exceededNext": [],
         "maxTimes": 20,
         "name": "Reclamation@GiveupCrossdoaimSwipeRight",
-        "next": [
-            "Reclamation@GiveupClickEmergencyExit",
-            "Reclamation@GiveupCrossdoaimSwipeRight"
-        ],
+        "next": ["Reclamation@GiveupClickEmergencyExit", "Reclamation@GiveupCrossdoaimSwipeRight"],
         "onErrorNext": [],
         "postDelay": 1500,
         "preDelay": 0,
@@ -25118,11 +24770,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation@GiveupSkipConfirm",
-        "next": [
-            "Reclamation@GainReward",
-            "Reclamation@AtHomePageFlag",
-            "Reclamation@GiveupSkipConfirm"
-        ],
+        "next": ["Reclamation@GainReward", "Reclamation@AtHomePageFlag", "Reclamation@GiveupSkipConfirm"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -25173,10 +24821,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation@GiveupTakeNothingConfirm",
-        "next": [
-            "Reclamation@GiveupTakeNothingConfirm",
-            "Reclamation@GiveupReportSkip"
-        ],
+        "next": ["Reclamation@GiveupTakeNothingConfirm", "Reclamation@GiveupReportSkip"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -25271,11 +24916,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation@LevelComplete",
-        "next": [
-            "Reclamation@NextDay",
-            "Reclamation@ResetScope",
-            "Reclamation@LevelComplete"
-        ],
+        "next": ["Reclamation@NextDay", "Reclamation@ResetScope", "Reclamation@LevelComplete"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 1000,
@@ -25618,10 +25259,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation@QuickFormation",
-        "next": [
-            "Reclamation@QuickFormationSelectOneUnit",
-            "Reclamation@QuickFormation"
-        ],
+        "next": ["Reclamation@QuickFormationSelectOneUnit", "Reclamation@QuickFormation"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -25643,11 +25281,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation@QuickFormationConfirm",
-        "next": [
-            "Reclamation@EmptyInitUnits",
-            "Reclamation@InitSupplyAll",
-            "Reclamation@ConfirmStart"
-        ],
+        "next": ["Reclamation@EmptyInitUnits", "Reclamation@InitSupplyAll", "Reclamation@ConfirmStart"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -25857,11 +25491,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation@SkipAnnounce",
-        "next": [
-            "Reclamation@SkipAnnounce",
-            "Reclamation@SkipDailyReport",
-            "Reclamation@AtMapFlag"
-        ],
+        "next": ["Reclamation@SkipAnnounce", "Reclamation@SkipDailyReport", "Reclamation@AtMapFlag"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -25886,11 +25516,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation@SkipDailyReport",
-        "next": [
-            "Reclamation@SkipAnnounce",
-            "Reclamation@SkipDailyReport",
-            "Reclamation@AtMapFlag"
-        ],
+        "next": ["Reclamation@SkipAnnounce", "Reclamation@SkipDailyReport", "Reclamation@AtMapFlag"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -25956,11 +25582,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation@StartActionConfirm",
-        "next": [
-            "Reclamation@BattleStart",
-            "Reclamation@StartActionPopupConfirm",
-            "Reclamation@StartActionConfirm"
-        ],
+        "next": ["Reclamation@BattleStart", "Reclamation@StartActionPopupConfirm", "Reclamation@StartActionConfirm"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -25983,11 +25605,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Reclamation@StartActionEnter",
-        "next": [
-            "Reclamation@PrepareAction",
-            "Reclamation@StartActionEnter",
-            "Reclamation@StartActionConfirm"
-        ],
+        "next": ["Reclamation@PrepareAction", "Reclamation@StartActionEnter", "Reclamation@StartActionConfirm"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -26011,10 +25629,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation@StartActionPopupConfirm",
-        "next": [
-            "Reclamation@BattleStart",
-            "Reclamation@StartActionPopupConfirm"
-        ],
+        "next": ["Reclamation@BattleStart", "Reclamation@StartActionPopupConfirm"],
         "onErrorNext": [],
         "postDelay": 4000,
         "preDelay": 0,
@@ -26036,10 +25651,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Reclamation@StartAlgorithm",
-        "next": [
-            "Reclamation@ClickChooseInitUnits",
-            "Reclamation@StartAlgorithm"
-        ],
+        "next": ["Reclamation@ClickChooseInitUnits", "Reclamation@StartAlgorithm"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -26098,13 +25710,7 @@
         "sub": [],
         "subErrorIgnored": false,
         "templThreshold": [0.8, 0.8, 0.8, 0.8, 0.8],
-        "template": [
-            "Recruit.png",
-            "RecruitDark.png",
-            "RecruitSami.png",
-            "RecruitMistCity.png",
-            "RecruitSiege.png"
-        ]
+        "template": ["Recruit.png", "RecruitDark.png", "RecruitSami.png", "RecruitMistCity.png", "RecruitSiege.png"]
     },
     "RecruitBegin": {
         "action": "DoNothing",
@@ -26145,11 +25751,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "RecruitConfirm",
-        "next": [
-            "RecruitConfirm@LoadingText",
-            "Recruit@OfflineConfirm",
-            "RecruitFlag"
-        ],
+        "next": ["RecruitConfirm@LoadingText", "Recruit@OfflineConfirm", "RecruitFlag"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -26171,13 +25773,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "RecruitFinish",
-        "next": [
-            "RecruitFinish@LoadingText",
-            "RecruitFinish",
-            "Recruit",
-            "RecruitSkip",
-            "RecruitSkipWithoutButton"
-        ],
+        "next": ["RecruitFinish@LoadingText", "RecruitFinish", "Recruit", "RecruitSkip", "RecruitSkipWithoutButton"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -26337,11 +25933,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "RecruitRefreshConfirm",
-        "next": [
-            "RecruitRefreshConfirm@LoadingText",
-            "Recruit@OfflineConfirm",
-            "SleepThenStop"
-        ],
+        "next": ["RecruitRefreshConfirm@LoadingText", "Recruit@OfflineConfirm", "SleepThenStop"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 500,
@@ -26384,13 +25976,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "RecruitSkipWithoutButton",
-        "next": [
-            "RecruitFinish",
-            "RecruitFlag",
-            "RecruitSkip",
-            "Recruit",
-            "RecruitSkipWithoutButton"
-        ],
+        "next": ["RecruitFinish", "RecruitFlag", "RecruitSkip", "Recruit", "RecruitSkipWithoutButton"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -26611,12 +26197,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "RecruitingActivitiesRecruitEnd",
-        "next": [
-            "Home@ReturnButton",
-            "Home@FromStageSN",
-            "Home@FromAnnihilation",
-            "Stop"
-        ],
+        "next": ["Home@ReturnButton", "Home@FromStageSN", "Home@FromAnnihilation", "Stop"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -26666,10 +26247,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "RecruitingActivitiesRecruitSkip",
-        "next": [
-            "RecruitingActivitiesRecruitSkip",
-            "RecruitingActivitiesRecruitSkipWithoutButton"
-        ],
+        "next": ["RecruitingActivitiesRecruitSkip", "RecruitingActivitiesRecruitSkipWithoutButton"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -27424,11 +27002,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@CloseEvent",
-        "next": [
-            "Roguelike@StageEncounterEnter",
-            "Roguelike@DropsFlag",
-            "Roguelike@CloseEvent"
-        ],
+        "next": ["Roguelike@StageEncounterEnter", "Roguelike@DropsFlag", "Roguelike@CloseEvent"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -27795,11 +27369,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@GamePassSkip2",
-        "next": [
-            "Roguelike@GamePassTheEndConfirm",
-            "Roguelike@GamePass",
-            "Roguelike@ClickToStartPoint"
-        ],
+        "next": ["Roguelike@GamePassTheEndConfirm", "Roguelike@GamePass", "Roguelike@ClickToStartPoint"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -27887,11 +27457,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@GetDrop2",
-        "next": [
-            "Roguelike@DropsFlag",
-            "Roguelike@ChooseOperFlag",
-            "Roguelike@ClickToDrops"
-        ],
+        "next": ["Roguelike@DropsFlag", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -27913,11 +27479,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@GetDrop3",
-        "next": [
-            "Roguelike@ChooseOperFlag",
-            "Roguelike@DropsFlag",
-            "Roguelike@ClickToDrops"
-        ],
+        "next": ["Roguelike@ChooseOperFlag", "Roguelike@DropsFlag", "Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -27961,11 +27523,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@GetDropLeave",
-        "next": [
-            "Roguelike@GetDropLeaveConfirm",
-            "Roguelike@DropsFlag",
-            "Roguelike@ChooseOperFlag"
-        ],
+        "next": ["Roguelike@GetDropLeaveConfirm", "Roguelike@DropsFlag", "Roguelike@ChooseOperFlag"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -28009,11 +27567,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@GetDropRecruit",
-        "next": [
-            "Roguelike@ChooseOperFlag",
-            "Roguelike@GetDropCompleted",
-            "Roguelike@GetDropLeave"
-        ],
+        "next": ["Roguelike@ChooseOperFlag", "Roguelike@GetDropCompleted", "Roguelike@GetDropLeave"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -28435,12 +27989,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@MainThemes",
-        "next": [
-            "Roguelike",
-            "Roguelike@ChooseDifficulty",
-            "Roguelike@StartExplore",
-            "Roguelike@Abandon"
-        ],
+        "next": ["Roguelike", "Roguelike@ChooseDifficulty", "Roguelike@StartExplore", "Roguelike@Abandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -29151,10 +28700,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageCombatDps",
-        "next": [
-            "Roguelike@StageCombatDpsEnter",
-            "Roguelike@StageEmergencyDpsEnter"
-        ],
+        "next": ["Roguelike@StageCombatDpsEnter", "Roguelike@StageEmergencyDpsEnter"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -29246,10 +28792,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageEmergencyDps",
-        "next": [
-            "Roguelike@StageEmergencyDpsEnter",
-            "Roguelike@StageCombatDpsEnter"
-        ],
+        "next": ["Roguelike@StageEmergencyDpsEnter", "Roguelike@StageCombatDpsEnter"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -29499,10 +29042,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageEncounterOptionFree",
-        "next": [
-            "Roguelike@StageEncounterLeaveConfirm",
-            "Roguelike@StageEncounterOptionLeave"
-        ],
+        "next": ["Roguelike@StageEncounterLeaveConfirm", "Roguelike@StageEncounterOptionLeave"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 500,
@@ -29524,10 +29064,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageEncounterOptionLeave",
-        "next": [
-            "Roguelike@StageEncounterLeaveConfirm",
-            "Roguelike@StageEncounterOptionFree"
-        ],
+        "next": ["Roguelike@StageEncounterLeaveConfirm", "Roguelike@StageEncounterOptionFree"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 500,
@@ -29549,10 +29086,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageEncounterOptionUnknown",
-        "next": [
-            "Roguelike@StageEncounterLeaveConfirm",
-            "Roguelike@StageEncounterOptionFree"
-        ],
+        "next": ["Roguelike@StageEncounterLeaveConfirm", "Roguelike@StageEncounterOptionFree"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 500,
@@ -29615,10 +29149,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageEncounterSpecialClose",
-        "next": [
-            "Roguelike@StageEncounterSpecialClose",
-            "Roguelike@ClickToDrops"
-        ],
+        "next": ["Roguelike@StageEncounterSpecialClose", "Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -29725,11 +29256,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageSafeHouseEnter",
-        "next": [
-            "Roguelike@StageVerticalConfirmSafeHouse",
-            "Roguelike@StageSafeHouseEnter",
-            "Roguelike@NextLevel"
-        ],
+        "next": ["Roguelike@StageVerticalConfirmSafeHouse", "Roguelike@StageSafeHouseEnter", "Roguelike@NextLevel"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -29895,10 +29422,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageTraderInvestConfirm",
-        "next": [
-            "Roguelike@StageTraderInvestSystemError",
-            "Roguelike@StageTraderInvestCancel"
-        ],
+        "next": ["Roguelike@StageTraderInvestSystemError", "Roguelike@StageTraderInvestCancel"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -29952,10 +29476,7 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
-        ],
+        "exceededNext": ["Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageTraderInvestSystem",
@@ -30058,10 +29579,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageTraderInvestSystemLeave",
-        "next": [
-            "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
-        ],
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -30083,10 +29601,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageTraderLeave",
-        "next": [
-            "Roguelike@StageTraderLeaveConfirm",
-            "Roguelike@StageTraderLeave"
-        ],
+        "next": ["Roguelike@StageTraderLeaveConfirm", "Roguelike@StageTraderLeave"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -30162,10 +29677,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageTraderRefreshWithDiceConfirm",
-        "next": [
-            "Roguelike@StageTraderRefreshWithDiceConfirm",
-            "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"
-        ],
+        "next": ["Roguelike@StageTraderRefreshWithDiceConfirm", "Roguelike@StageTraderRefreshWithDiceDoubleConfirm"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -30214,11 +29726,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Roguelike@StageTraderRefreshWithDiceNotAvaiable",
-        "next": [
-            "Roguelike@StageTraderInvestSystem",
-            "Roguelike@TraderRandomShopping",
-            "Roguelike@StageTraderLeave"
-        ],
+        "next": ["Roguelike@StageTraderInvestSystem", "Roguelike@TraderRandomShopping", "Roguelike@StageTraderLeave"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -30317,10 +29825,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@StageVerticalConfirmEncounter",
-        "next": [
-            "Roguelike@StageEncounterEnter",
-            "Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Roguelike@StageEncounterEnter", "Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -30733,11 +30238,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Roguelike@TraderRandomShoppingConfirm",
-        "next": [
-            "Roguelike@TraderRandomShopping",
-            "Roguelike@ChooseOperFlag",
-            "Roguelike@StageTraderLeave"
-        ],
+        "next": ["Roguelike@TraderRandomShopping", "Roguelike@ChooseOperFlag", "Roguelike@StageTraderLeave"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -30825,11 +30326,7 @@
         "maskRange": [[[100], [255]]],
         "maxTimes": 2147483647,
         "name": "RoguelikeBattleExitBegin",
-        "next": [
-            "RoguelikeBattleAbandon",
-            "RoguelikeBattleExitBegin",
-            "NormalBattleAbandon"
-        ],
+        "next": ["RoguelikeBattleAbandon", "RoguelikeBattleExitBegin", "NormalBattleAbandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -31140,10 +30637,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "RoguelikeQuickFormationClearAndReselect-Formation",
-        "next": [
-            "RoguelikeQuickFormationClearAndReselect-Stop",
-            "RoguelikeQuickFormationClearAndReselect-Formation"
-        ],
+        "next": ["RoguelikeQuickFormationClearAndReselect-Stop", "RoguelikeQuickFormationClearAndReselect-Formation"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -33606,10 +33100,7 @@
         "sub": [],
         "subErrorIgnored": false,
         "templThreshold": [0.8, 0.8],
-        "template": [
-            "Sami@Roguelike@Abandon.png",
-            "Sami@Roguelike@AbandonPushDoor.png"
-        ]
+        "template": ["Sami@Roguelike@Abandon.png", "Sami@Roguelike@AbandonPushDoor.png"]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "action": "DoNothing",
@@ -34370,11 +33861,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@Continue",
-        "next": [
-            "Sami@Roguelike@MissionFailedFlag2",
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@ContinueClick"
-        ],
+        "next": ["Sami@Roguelike@MissionFailedFlag2", "Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@ContinueClick"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -34410,15 +33897,7 @@
         "specificRect": [0, 0, 0, 0],
         "sub": [],
         "subErrorIgnored": false,
-        "text": [
-            "初霜湖泽",
-            "密静林地",
-            "昧明冻土",
-            "积冰岩骸",
-            "无瑕花园",
-            "远见之构",
-            "深埋迷境"
-        ],
+        "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
         "withoutDet": false
     },
     "Sami@Roguelike@DialogSkipConfirm": {
@@ -34637,10 +34116,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@ExitThenAbandon_ToHardest",
-        "next": [
-            "Sami@Roguelike@ExitThenAbandon_ToHardest",
-            "Sami@Roguelike@Abandon"
-        ],
+        "next": ["Sami@Roguelike@ExitThenAbandon_ToHardest", "Sami@Roguelike@Abandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -35258,10 +34734,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GamePassSkip1",
-        "next": [
-            "Sami@Roguelike@GamePassSkip1Confirm",
-            "Sami@Roguelike@GamePassSkip1"
-        ],
+        "next": ["Sami@Roguelike@GamePassSkip1Confirm", "Sami@Roguelike@GamePassSkip1"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -35283,11 +34756,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GamePassSkip1Confirm",
-        "next": [
-            "Sami@Roguelike@GamePassSkip2",
-            "Sami@Roguelike@GamePassTheEndConfirm",
-            "Sami@Roguelike@GamePass"
-        ],
+        "next": ["Sami@Roguelike@GamePassSkip2", "Sami@Roguelike@GamePassTheEndConfirm", "Sami@Roguelike@GamePass"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -35309,11 +34778,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GamePassSkip2",
-        "next": [
-            "Sami@Roguelike@GamePassTheEndConfirm",
-            "Sami@Roguelike@GamePass",
-            "Sami@Roguelike@ClickToStartPoint"
-        ],
+        "next": ["Sami@Roguelike@GamePassTheEndConfirm", "Sami@Roguelike@GamePass", "Sami@Roguelike@ClickToStartPoint"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -35379,11 +34844,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GetDrop2",
-        "next": [
-            "Sami@Roguelike@DropsFlag",
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sami@Roguelike@DropsFlag", "Sami@Roguelike@ChooseOperFlag", "Sami@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -35405,11 +34866,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GetDrop3",
-        "next": [
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@DropsFlag",
-            "Sami@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sami@Roguelike@ChooseOperFlag", "Sami@Roguelike@DropsFlag", "Sami@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -35431,11 +34888,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GetDrop4",
-        "next": [
-            "Sami@Roguelike@DropsFlag",
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sami@Roguelike@DropsFlag", "Sami@Roguelike@ChooseOperFlag", "Sami@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -35489,11 +34942,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GetDropLeave",
-        "next": [
-            "Sami@Roguelike@GetDropLeaveConfirm",
-            "Sami@Roguelike@DropsFlag",
-            "Sami@Roguelike@ChooseOperFlag"
-        ],
+        "next": ["Sami@Roguelike@GetDropLeaveConfirm", "Sami@Roguelike@DropsFlag", "Sami@Roguelike@ChooseOperFlag"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -35577,10 +35026,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GetDropSelectRecruit",
-        "next": [
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@GetDropSelectRecruit"
-        ],
+        "next": ["Sami@Roguelike@ChooseOperFlag", "Sami@Roguelike@GetDropSelectRecruit"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -35629,11 +35075,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@GetDropSelectReward2",
-        "next": [
-            "Sami@Roguelike@GetDropSelectReward2",
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sami@Roguelike@GetDropSelectReward2", "Sami@Roguelike@ChooseOperFlag", "Sami@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 800,
         "preDelay": 0,
@@ -35872,10 +35314,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@LastRewardConfirm",
-        "next": [
-            "Sami@Roguelike@RolesDefault",
-            "Sami@Roguelike@CloseCollection"
-        ],
+        "next": ["Sami@Roguelike@RolesDefault", "Sami@Roguelike@CloseCollection"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -36061,10 +35500,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@NextLevelThenExit",
-        "next": [
-            "Sami@Roguelike@NextLevelThenExit",
-            "Sami@Roguelike@ExitThenAbandon"
-        ],
+        "next": ["Sami@Roguelike@NextLevelThenExit", "Sami@Roguelike@ExitThenAbandon"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 1000,
@@ -36088,10 +35524,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@RecruitMain",
-        "next": [
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Sami@Roguelike@ChooseOperFlag", "Sami@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -36113,10 +35546,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@RecruitOther",
-        "next": [
-            "Sami@Roguelike@ChooseOperFlag",
-            "Sami@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Sami@Roguelike@ChooseOperFlag", "Sami@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -36211,10 +35641,7 @@
         "isAscii": false,
         "maxTimes": 20,
         "name": "Sami@Roguelike@SelectTheme",
-        "next": [
-            "Sami@Roguelike@SelectTheme",
-            "Sami@Roguelike@FromIntegratedStrategies"
-        ],
+        "next": ["Sami@Roguelike@SelectTheme", "Sami@Roguelike@FromIntegratedStrategies"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -37845,10 +37272,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageEncounterSpecialClose",
-        "next": [
-            "Sami@Roguelike@StageEncounterSpecialClose",
-            "Sami@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sami@Roguelike@StageEncounterSpecialClose", "Sami@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -38176,10 +37600,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageMysteriousPresageEnter",
-        "next": [
-            "Sami@Roguelike@TraderCheck",
-            "Sami@Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Sami@Roguelike@TraderCheck", "Sami@Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -38715,10 +38136,7 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@NextLevelThenExit"
-        ],
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageTraderLeaveConfirm",
@@ -39260,10 +38678,7 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@NextLevelThenExit"
-        ],
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageVerticalConfirm",
@@ -39285,17 +38700,11 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@NextLevelThenExit"
-        ],
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageVerticalConfirmBoons",
-        "next": [
-            "Sami@Roguelike@StageBoonsEnter",
-            "Sami@Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Sami@Roguelike@StageBoonsEnter", "Sami@Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -39313,17 +38722,11 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@NextLevelThenExit"
-        ],
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageVerticalConfirmBoskyPassage",
-        "next": [
-            "Sami@Roguelike@StageBoskyPassageEnter",
-            "Sami@Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Sami@Roguelike@StageBoskyPassageEnter", "Sami@Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -39341,17 +38744,11 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@NextLevelThenExit"
-        ],
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageVerticalConfirmSafeHouse",
-        "next": [
-            "Sami@Roguelike@StageSafeHouseEnter",
-            "Sami@Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Sami@Roguelike@StageSafeHouseEnter", "Sami@Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -39369,10 +38766,7 @@
         "action": "ClickSelf",
         "algorithm": "MatchTemplate",
         "cache": false,
-        "exceededNext": [
-            "Sami@Roguelike@ExitThenAbandon",
-            "Sami@Roguelike@NextLevelThenExit"
-        ],
+        "exceededNext": ["Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@NextLevelThenExit"],
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@StageVerticalConfirmStartButtonClicked",
@@ -39674,9 +39068,7 @@
         "sub": [],
         "subErrorIgnored": false,
         "templThreshold": [0.9],
-        "template": [
-            "Sami@Roguelike@StageVerticalEmergencyTransportationAI6.png"
-        ]
+        "template": ["Sami@Roguelike@StageVerticalEmergencyTransportationAI6.png"]
     },
     "Sami@Roguelike@StageVerticalEncounter": {
         "action": "ClickSelf",
@@ -41300,10 +40692,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sami@Roguelike@WaitForStartButtonClicked",
-        "next": [
-            "Sami@Roguelike@StageVerticalConfirmStartButtonClicked",
-            "Sami@Roguelike@WaitForStartButtonClicked"
-        ],
+        "next": ["Sami@Roguelike@StageVerticalConfirmStartButtonClicked", "Sami@Roguelike@WaitForStartButtonClicked"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -41427,10 +40816,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
-        "next": [
-            "Sarkaz@Roguelike@ChooseBurdenOperator",
-            "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"
-        ],
+        "next": ["Sarkaz@Roguelike@ChooseBurdenOperator", "Sarkaz@Roguelike@ChooseBurdenOperatorQuit"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -41945,10 +41331,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@Continue",
-        "next": [
-            "Sarkaz@Roguelike@MissionFailedFlag2",
-            "Sarkaz@Roguelike@ExitThenAbandon"
-        ],
+        "next": ["Sarkaz@Roguelike@MissionFailedFlag2", "Sarkaz@Roguelike@ExitThenAbandon"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -41997,10 +41380,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@DecreaseBurdenAbandonThought",
-        "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenAbandon",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
-        ],
+        "next": ["Sarkaz@Roguelike@DecreaseBurdenAbandon", "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -42140,10 +41520,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-        "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
-        ],
+        "next": ["Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2", "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -42165,10 +41542,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
-        "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
-        ],
+        "next": ["Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2", "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -42586,10 +41960,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@ExitThenAbandon",
-        "next": [
-            "Sarkaz@Roguelike@ExitThenAbandon",
-            "Sarkaz@Roguelike@Abandon"
-        ],
+        "next": ["Sarkaz@Roguelike@ExitThenAbandon", "Sarkaz@Roguelike@Abandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -42611,10 +41982,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@ExitThenAbandon_ToHardest",
-        "next": [
-            "Sarkaz@Roguelike@ExitThenAbandon_ToHardest",
-            "Sarkaz@Roguelike@Abandon"
-        ],
+        "next": ["Sarkaz@Roguelike@ExitThenAbandon_ToHardest", "Sarkaz@Roguelike@Abandon"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -42658,10 +42026,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@GamePassSkip1",
-        "next": [
-            "Sarkaz@Roguelike@GamePassSkip1Confirm",
-            "Sarkaz@Roguelike@GamePassSkip1"
-        ],
+        "next": ["Sarkaz@Roguelike@GamePassSkip1Confirm", "Sarkaz@Roguelike@GamePassSkip1"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -42757,10 +42122,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@GetDrop1",
-        "next": [
-            "Sarkaz@Roguelike@DropsFlag",
-            "Sarkaz@Roguelike@ChooseOperFlag"
-        ],
+        "next": ["Sarkaz@Roguelike@DropsFlag", "Sarkaz@Roguelike@ChooseOperFlag"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -42782,11 +42144,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@GetDrop2",
-        "next": [
-            "Sarkaz@Roguelike@DropsFlag",
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sarkaz@Roguelike@DropsFlag", "Sarkaz@Roguelike@ChooseOperFlag", "Sarkaz@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -42808,11 +42166,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@GetDrop3",
-        "next": [
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@DropsFlag",
-            "Sarkaz@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sarkaz@Roguelike@ChooseOperFlag", "Sarkaz@Roguelike@DropsFlag", "Sarkaz@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -42955,10 +42309,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@GetDropSelectRecruit",
-        "next": [
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@GetDropSelectRecruit"
-        ],
+        "next": ["Sarkaz@Roguelike@ChooseOperFlag", "Sarkaz@Roguelike@GetDropSelectRecruit"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -43035,10 +42386,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@InitialDrop",
-        "next": [
-            "Sarkaz@Roguelike@SquadDefault",
-            "Sarkaz@Roguelike@InitialDrop"
-        ],
+        "next": ["Sarkaz@Roguelike@SquadDefault", "Sarkaz@Roguelike@InitialDrop"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -43170,10 +42518,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@LastRewardConfirm",
-        "next": [
-            "Sarkaz@Roguelike@RolesDefault",
-            "Sarkaz@Roguelike@CloseCollection"
-        ],
+        "next": ["Sarkaz@Roguelike@RolesDefault", "Sarkaz@Roguelike@CloseCollection"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -43327,15 +42672,7 @@
         "specificRect": [0, 0, 0, 0],
         "sub": [],
         "subErrorIgnored": false,
-        "text": [
-            "熔魂之始",
-            "锻铁根须",
-            "灰铸迷城",
-            "或然歧域",
-            "虚实疆界",
-            "辉光天顶",
-            "诡谲断章"
-        ],
+        "text": ["熔魂之始", "锻铁根须", "灰铸迷城", "或然歧域", "虚实疆界", "辉光天顶", "诡谲断章"],
         "withoutDet": false
     },
     "Sarkaz@Roguelike@RecruitMain": {
@@ -43346,10 +42683,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@RecruitMain",
-        "next": [
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Sarkaz@Roguelike@ChooseOperFlag", "Sarkaz@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -43371,10 +42705,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@RecruitOther",
-        "next": [
-            "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@RecruitCloseGuide"
-        ],
+        "next": ["Sarkaz@Roguelike@ChooseOperFlag", "Sarkaz@Roguelike@RecruitCloseGuide"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -43469,10 +42800,7 @@
         "isAscii": false,
         "maxTimes": 20,
         "name": "Sarkaz@Roguelike@SelectTheme",
-        "next": [
-            "Sarkaz@Roguelike@SelectTheme",
-            "Sarkaz@Roguelike@FromIntegratedStrategies"
-        ],
+        "next": ["Sarkaz@Roguelike@SelectTheme", "Sarkaz@Roguelike@FromIntegratedStrategies"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -43629,10 +42957,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageBoonsEnter",
-        "next": [
-            "Sarkaz@Roguelike@StageBoonsEnter",
-            "Sarkaz@Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Sarkaz@Roguelike@StageBoonsEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -43710,10 +43035,7 @@
         ],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageBoskyPassageEnter",
-        "next": [
-            "Sarkaz@Roguelike@StageBoskyPassageEnter",
-            "Sarkaz@Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Sarkaz@Roguelike@StageBoskyPassageEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -44614,10 +43936,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageEncounterSpecialClose",
-        "next": [
-            "Sarkaz@Roguelike@StageEncounterSpecialClose",
-            "Sarkaz@Roguelike@ClickToDrops"
-        ],
+        "next": ["Sarkaz@Roguelike@StageEncounterSpecialClose", "Sarkaz@Roguelike@ClickToDrops"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -44638,10 +43957,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageEnterBattleAgain",
-        "next": [
-            "Sarkaz@Roguelike@StartAction",
-            "Sarkaz@Roguelike@StageEnterBattleAgain"
-        ],
+        "next": ["Sarkaz@Roguelike@StartAction", "Sarkaz@Roguelike@StageEnterBattleAgain"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -44765,10 +44081,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageFilterTruthCanCombine",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthChooseCollection",
-            "Sarkaz@Roguelike@StageFilterTruthConfirm"
-        ],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthChooseCollection", "Sarkaz@Roguelike@StageFilterTruthConfirm"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -44812,10 +44125,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageFilterTruthChooseCollection",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
-            "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
-        ],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthCannotCombine"],
         "onErrorNext": [],
         "postDelay": 1000,
         "preDelay": 0,
@@ -44837,10 +44147,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageFilterTruthCloseCollection",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
-            "Sarkaz@Roguelike@StageFilterTruthLeave"
-        ],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthLeave"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -44862,10 +44169,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageFilterTruthConfirm",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthTryCombine1",
-            "Sarkaz@Roguelike@StageFilterTruthCannotCombine"
-        ],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthTryCombine1", "Sarkaz@Roguelike@StageFilterTruthCannotCombine"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -44965,10 +44269,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageFilterTruthLeave",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthLeaveConfirm",
-            "Sarkaz@Roguelike@StageFilterTruthLeave"
-        ],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthLeaveConfirm", "Sarkaz@Roguelike@StageFilterTruthLeave"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -45061,10 +44362,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageFilterTruthTryCombine2",
-        "next": [
-            "Sarkaz@Roguelike@StageFilterTruthCanCombine",
-            "Sarkaz@Roguelike@StageFilterTruthTryCombine3"
-        ],
+        "next": ["Sarkaz@Roguelike@StageFilterTruthCanCombine", "Sarkaz@Roguelike@StageFilterTruthTryCombine3"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -45209,10 +44507,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageRefresh",
-        "next": [
-            "Sarkaz@Roguelike@StageRefreshConfirm",
-            "Sarkaz@Roguelike@StageRefreshUpperLimit"
-        ],
+        "next": ["Sarkaz@Roguelike@StageRefreshConfirm", "Sarkaz@Roguelike@StageRefreshUpperLimit"],
         "onErrorNext": [],
         "postDelay": 500,
         "preDelay": 0,
@@ -45284,10 +44579,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageRefreshConfirm",
-        "next": [
-            "Sarkaz@Roguelike@StageRefreshNoThought",
-            "Sarkaz@Roguelike@StageRefreshClickLeft"
-        ],
+        "next": ["Sarkaz@Roguelike@StageRefreshNoThought", "Sarkaz@Roguelike@StageRefreshClickLeft"],
         "onErrorNext": [],
         "postDelay": 700,
         "preDelay": 0,
@@ -45462,10 +44754,7 @@
         ],
         "maxTimes": 2147483647,
         "name": "Sarkaz@Roguelike@StageSafeHouseEnter",
-        "next": [
-            "Sarkaz@Roguelike@StageSafeHouseEnter",
-            "Sarkaz@Roguelike@StageEncounterJudgeClick"
-        ],
+        "next": ["Sarkaz@Roguelike@StageSafeHouseEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -46857,10 +46146,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "SpecialAccessActivities",
-        "next": [
-            "SpecialAccessActivitiesConfirm",
-            "SpecialAccessActivitiesReturn"
-        ],
+        "next": ["SpecialAccessActivitiesConfirm", "SpecialAccessActivitiesReturn"],
         "ocrReplace": [],
         "onErrorNext": ["Stop"],
         "postDelay": 0,
@@ -47816,11 +47102,7 @@
         "action": "Swipe",
         "algorithm": "JustReturn",
         "cache": false,
-        "exceededNext": [
-            "Home@ReturnButton",
-            "Home@FromStageSN",
-            "Home@FromAnnihilation"
-        ],
+        "exceededNext": ["Home@ReturnButton", "Home@FromStageSN", "Home@FromAnnihilation"],
         "maxTimes": 20,
         "name": "StageNavigationSlowlySwipeLeft",
         "next": ["FullStageNavigation"],
@@ -48507,12 +47789,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "StartToVisit",
-        "next": [
-            "VisitNext",
-            "VisitNext@LoadingText",
-            "VisitNextBlack",
-            "VisitNextOcr"
-        ],
+        "next": ["VisitNext", "VisitNext@LoadingText", "VisitNextBlack", "VisitNextOcr"],
         "onErrorNext": [],
         "postDelay": 2000,
         "preDelay": 0,
@@ -48524,11 +47801,7 @@
         "sub": [],
         "subErrorIgnored": false,
         "templThreshold": [0.9, 0.9, 0.9],
-        "template": [
-            "StartToVisit.png",
-            "StartToVisitDetermine.png",
-            "StartToVisitSportsman"
-        ]
+        "template": ["StartToVisit.png", "StartToVisitDetermine.png", "StartToVisitSportsman"]
     },
     "StartToWakeUp": {
         "action": "ClickSelf",
@@ -48827,11 +48100,7 @@
         "maskRange": [],
         "maxTimes": 0,
         "name": "StoneConfirm",
-        "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "StoneConfirmAgain@LoadingText"
-        ],
+        "next": ["StartButton1", "OfflineConfirm", "StoneConfirmAgain@LoadingText"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -48853,11 +48122,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "StoneConfirmAgain",
-        "next": [
-            "StartButton1",
-            "OfflineConfirm",
-            "StoneConfirmAgain@LoadingText"
-        ],
+        "next": ["StartButton1", "OfflineConfirm", "StoneConfirmAgain@LoadingText"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -49180,11 +48445,7 @@
         "exceededNext": [],
         "maxTimes": 2147483647,
         "name": "ToChapter1",
-        "next": [
-            "ClickChapter1@ClickChapter2@ClickChapter3",
-            "ClickChapter1@ClickChapter2",
-            "ClickChapter1"
-        ],
+        "next": ["ClickChapter1@ClickChapter2@ClickChapter3", "ClickChapter1@ClickChapter2", "ClickChapter1"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
@@ -49243,13 +48504,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "TodaysSupplies",
-        "next": [
-            "CloseAnno",
-            "CloseAnnoTexas",
-            "CloseAnnoSpecialAccess",
-            "TodaysSupplies",
-            "NotDownloadVoice"
-        ],
+        "next": ["CloseAnno", "CloseAnnoTexas", "CloseAnnoSpecialAccess", "TodaysSupplies", "NotDownloadVoice"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -49621,13 +48876,7 @@
         "sub": [],
         "subErrorIgnored": false,
         "templThreshold": [0.7, 0.7, 0.7, 0.7, 0.7],
-        "template": [
-            "Friends.png",
-            "FriendsDark.png",
-            "FriendsSami.png",
-            "FriendsMistCity.png",
-            "FriendsSiege.png"
-        ]
+        "template": ["Friends.png", "FriendsDark.png", "FriendsSami.png", "FriendsMistCity.png", "FriendsSiege.png"]
     },
     "VisitBegin": {
         "action": "DoNothing",
@@ -49671,11 +48920,7 @@
         "isAscii": false,
         "maxTimes": 2147483647,
         "name": "VisitLimited",
-        "next": [
-            "Home@ReturnButton",
-            "Home@FromStageSN",
-            "Home@FromAnnihilation"
-        ],
+        "next": ["Home@ReturnButton", "Home@FromStageSN", "Home@FromAnnihilation"],
         "ocrReplace": [],
         "onErrorNext": [],
         "postDelay": 0,
@@ -49721,11 +48966,7 @@
         "maskRange": [],
         "maxTimes": 2147483647,
         "name": "VisitNextBlack",
-        "next": [
-            "Home@ReturnButton",
-            "Home@FromStageSN",
-            "Home@FromAnnihilation"
-        ],
+        "next": ["Home@ReturnButton", "Home@FromStageSN", "Home@FromAnnihilation"],
         "onErrorNext": [],
         "postDelay": 0,
         "preDelay": 0,
