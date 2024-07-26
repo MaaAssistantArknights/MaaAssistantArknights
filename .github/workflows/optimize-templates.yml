@@ -54,16 +54,14 @@ jobs:
 
           git add .
 
-          $commit_msg = "${{ github.event.inputs.commit_message }}"
-          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
-            $commit_msg = $commit_msg.Trim()
-          } else {
-            $commit_msg = "chore: Auto Templates Optimization"
-          }
+          commit_msg="${{ github.event.inputs.commit_message }}"
+          if [ -z "$commit_msg" ]; then
+            commit_msg="chore: Auto Templates Optimization"
+          fi
           git commit -m "$commit_msg" -m "[skip changelog]"
-          if ($LASTEXITCODE -eq 0) {
-            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
-          }
+          if [ $? -eq 0 ]; then
+            echo "have_commits=True" >> $GITHUB_ENV
+          fi
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
