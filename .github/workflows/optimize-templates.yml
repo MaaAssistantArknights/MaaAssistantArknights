@@ -65,8 +65,6 @@ jobs:
             echo "have_commits=false" >> $GITHUB_ENV
           fi
 
-          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
-
       - name: Cancelling
         if: steps.commit_changes.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
