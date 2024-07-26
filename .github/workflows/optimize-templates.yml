@@ -60,19 +60,16 @@ jobs:
           fi
           git commit -m "$commit_msg" -m "[skip changelog]"
           if [ $? -eq 0 ]; then
-            echo "have_commits=True" >> $GITHUB_ENV
+            echo "have_commits=true" >> $GITHUB_ENV
           else
-            echo "have_commits=False" >> $GITHUB_ENV
+            echo "have_commits=false" >> $GITHUB_ENV
           fi
+
+          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
       - name: Cancelling
         if: steps.commit_changes.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
-
-      - name: Pull and push changes
-        if: steps.commit_changes.outputs.have_commits == 'True'
-        run: |
-          git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
       - name: Push changes
         if: steps.commit_changes.outputs.have_commits == 'True'
