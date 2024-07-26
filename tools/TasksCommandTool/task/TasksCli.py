@@ -128,6 +128,9 @@ class TasksCommandTool(cmd.Cmd):
         """Execute a task by name."""
         self.print_task(self.get_task(arg).interpret())
 
+    def do_shell(self, arg):
+        print(Task.evaluate(arg))
+
     def show_task(self, task: InterpretedTask):
         for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
             if task.to_task_dict():
