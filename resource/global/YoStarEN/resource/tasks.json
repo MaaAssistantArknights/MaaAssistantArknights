@@ -84,11 +84,7 @@
         "text": ["SUMMIT", "OF", "NATIONS"]
     },
     "WB-Open": {
-        "text": [
-            "Event <Where Vernal Winds Will Never",
-            "Blow> is now open",
-            "Criminal Pursuit,Offsite'stages opened"
-        ]
+        "text": ["Event <Where Vernal Winds Will Never", "Blow> is now open", "Criminal Pursuit,Offsite'stages opened"]
     },
     "WBChapterToWB": {
         "action": "ClickSelf",
@@ -718,10 +714,7 @@
             ["Ornamental Giant Mushroom", "景观巨蕈"],
             ["Altar-type Radar", "祭坛式雷达"],
             ["R-45 Portable 'Gramophone'", "R-45便携式“留声机”"],
-            [
-                "Two-step Firecracker and Data-collector",
-                "“二踢脚”型数据收集装置"
-            ],
+            ["Two-step Firecracker and Data-collector", "“二踢脚”型数据收集装置"],
             ["Self-Driving Recon Cart", "勘察用自走车"],
             ["Leto", "烈夏"],
             ["Degenbrecher", "锏"],
@@ -1201,11 +1194,7 @@
         "text": ["Choose an Operator", "Select", "Conductive", "Unit"]
     },
     "SSSDropRecruitmentConfirm": {
-        "text": [
-            "Confirm assignment",
-            "Confirm Selection",
-            "Abandon Assignment"
-        ],
+        "text": ["Confirm assignment", "Confirm Selection", "Abandon Assignment"],
         "roi": [1105, 525, 175, 140]
     },
     "GachaLastOnceResult": {
@@ -1317,20 +1306,14 @@
             ["Elite Medic Rec. *Voucher", "高级医疗招募券"],
             ["Military Mirror Armor", "军团护心镜"],
             ["Frontline Corps Rec. *Voucher", "前线统合招募券"],
-            [
-                "Frontline Integration[ Senior Rec. Voucher]*",
-                "前线统合资深招募券"
-            ],
+            ["Frontline Integration[ Senior Rec. Voucher]*", "前线统合资深招募券"],
             ["Necklace of the Presence", "显圣吊坠"],
             ["Elite Specialist Rec. *Voucher", "高级特种招募券"],
             ["Glass Bird", "玻璃小鸟"],
             ["Specialist Rec. *Voucher", "特种招募券"],
             ["Backline Corps Rec. *Voucher", "后方协调招募券"],
             ["Old Steam Armor", "古旧的蒸汽甲胄"],
-            [
-                "Backline Coordination[ Senior Rec. Voucher]*",
-                "后方协调资深招募券"
-            ],
+            ["Backline Coordination[ Senior Rec. Voucher]*", "后方协调资深招募券"],
             ["Elite Supporter Rec. *Voucher", "高级辅助招募券"],
             ["Supporter Rec. *Voucher", "辅助招募券"],
             ["Fortification Co-op Expansion", "堡垒协议扩充"],
@@ -1562,10 +1545,7 @@
             ["Sea Terror Jerky", "恐鱼干"],
             ["Conch of Divine Whispers", "神音海螺"],
             ["Night-Whispers in the Forest", "林间夜话"],
-            [
-                "5-Star Random Promotion[ Temporary Recruitment Voucher*]",
-                "5星随机直升临时招募券"
-            ],
+            ["5-Star Random Promotion[ Temporary Recruitment Voucher*]", "5星随机直升临时招募券"],
             ["Caerula Arbor", "深蓝之树"],
             ["Advanced Sniper Rec.[ Voucher]*", "精锐狙击招募券"],
             ["Featured Canned Meat", "精选兽肉罐头"],
@@ -1580,10 +1560,7 @@
             ["Advanced Vanguard Rec.[ Voucher]*", "精锐先锋招募券"],
             ["Advanced Specialist Rec.[ Voucher]*", "精锐特种招募券"],
             ["Advanced Supporter Rec.[ Voucher]*", "精锐辅助招募券"],
-            [
-                "6-Star Random Promotion[ Temporary Recruitment Voucher*]",
-                "6星随机直升临时招募券"
-            ],
+            ["6-Star Random Promotion[ Temporary Recruitment Voucher*]", "6星随机直升临时招募券"],
             ["Portrait of Breogan", "布雷奥甘肖像"],
             ["Leviathan's Anabolism", "海神的代谢"],
             ["Failed Specimen", "失败的标本"],
@@ -1937,10 +1914,7 @@
             ["'?Tin ?Man'?", "“锡人”"],
             ["Missing ?Mountains", "不见群山"],
             ["Reprieve\\??", "解脱？"],
-            [
-                "On-site ?at ?Public ?Signal ?Amplification ?Station ?756",
-                "在地公共信号放大站756号"
-            ],
+            ["On-site ?at ?Public ?Signal ?Amplification ?Station ?756", "在地公共信号放大站756号"],
             ["'?Art ?Connoisseur'?", "“鉴赏家”"],
             ["'?Royal ?Rumble'?", "“皇家争执”"],
             ["Searching ?For ?A ?Path ?Forward", "探寻前路"],
@@ -1996,12 +1970,7 @@
         "text": ["Storage full"]
     },
     "Roguelike@StageTraderRefreshWithDiceNotAvaiable": {
-        "text": [
-            "Used up refreshes for this",
-            "Used up refreshes",
-            "for this",
-            "for this shop"
-        ]
+        "text": ["Used up refreshes for this", "Used up refreshes", "for this", "for this shop"]
     },
     "Roguelike@StageTraderSpecialShoppingAfterRefresh": {
         "text": ["Pathfinder Fins"]
@@ -2150,9 +2119,7 @@
         "cache": false,
         "algorithm": "OcrDetect",
         "text": ["正在提交反馈至神经"],
-        "ocrReplace": [
-            ["Submitting feedback to the neural network", "正在提交反馈至神经"]
-        ],
+        "ocrReplace": [["Submitting feedback to the neural network", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
@@ -2288,12 +2255,7 @@
         "template": "Sami@Roguelike@GetDropSelectRecruit.png"
     },
     "Sami@Roguelike@NextLevel": {
-        "text": [
-            "Obtain after",
-            "this floor",
-            "Collapse will trigger",
-            "no next floor"
-        ],
+        "text": ["Obtain after", "this floor", "Collapse will trigger", "no next floor"],
         "roi": [218, 600, 247, 78]
     },
     "Sami@Roguelike@RecruitOther": {
@@ -2364,11 +2326,7 @@
     },
     "Reclamation@EmptyInitUnits": {
         "roi": [349, 598, 563, 120],
-        "text": [
-            "Choose the Operators",
-            "you wish to begin",
-            "the Algorithm with"
-        ]
+        "text": ["Choose the Operators", "you wish to begin", "the Algorithm with"]
     },
     "Reclamation@EnterResearchLab": {
         "text": ["Research", "Development"]
@@ -2390,13 +2348,7 @@
         "text": ["Confirm", "Evacuation"]
     },
     "Reclamation@GiveupCrossdomainPageFlag": {
-        "text": [
-            "Select supplies",
-            "to keep",
-            "and manually tap",
-            "Emergency",
-            "Evacua"
-        ]
+        "text": ["Select supplies", "to keep", "and manually tap", "Emergency", "Evacua"]
     },
     "Reclamation@GiveupTakeNothing": {
         "text": ["Confirm", "Evacuation"]

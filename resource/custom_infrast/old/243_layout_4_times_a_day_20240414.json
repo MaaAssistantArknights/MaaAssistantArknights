@@ -116,13 +116,7 @@
                 "control": [
                     {
                         "skip": false,
-                        "operators": [
-                            "阿米娅",
-                            "琴柳",
-                            "令",
-                            "薇薇安娜",
-                            "焰尾"
-                        ],
+                        "operators": ["阿米娅", "琴柳", "令", "薇薇安娜", "焰尾"],
                         "sort": false,
                         "autofill": false
                     }
@@ -263,13 +257,7 @@
                 "control": [
                     {
                         "skip": true,
-                        "operators": [
-                            "阿米娅",
-                            "琴柳",
-                            "令",
-                            "薇薇安娜",
-                            "焰尾"
-                        ],
+                        "operators": ["阿米娅", "琴柳", "令", "薇薇安娜", "焰尾"],
                         "sort": false,
                         "autofill": false
                     }
@@ -384,13 +372,7 @@
                 "dormitory": [
                     {
                         "skip": false,
-                        "operators": [
-                            "菲亚梅塔",
-                            "阿米娅",
-                            "薇薇安娜",
-                            "焰尾",
-                            "砾"
-                        ],
+                        "operators": ["菲亚梅塔", "阿米娅", "薇薇安娜", "焰尾", "砾"],
                         "sort": false,
                         "autofill": false
                     },
@@ -402,25 +384,13 @@
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "爱丽丝",
-                            "车尔尼",
-                            "塑心",
-                            "承曦格雷伊",
-                            "伊内丝"
-                        ],
+                        "operators": ["爱丽丝", "车尔尼", "塑心", "承曦格雷伊", "伊内丝"],
                         "sort": false,
                         "autofill": false
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "赫默",
-                            "伊芙利特",
-                            "塞雷娅",
-                            "白面鸮",
-                            "清流"
-                        ],
+                        "operators": ["赫默", "伊芙利特", "塞雷娅", "白面鸮", "清流"],
                         "sort": false,
                         "autofill": false
                     }
@@ -428,13 +398,7 @@
                 "control": [
                     {
                         "skip": false,
-                        "operators": [
-                            "麒麟R夜刀",
-                            "火龙S黑角",
-                            "令",
-                            "夕",
-                            "琴柳"
-                        ],
+                        "operators": ["麒麟R夜刀", "火龙S黑角", "令", "夕", "琴柳"],
                         "sort": false,
                         "autofill": false
                     }
@@ -549,13 +513,7 @@
                 "dormitory": [
                     {
                         "skip": false,
-                        "operators": [
-                            "菲亚梅塔",
-                            "空弦",
-                            "琴柳",
-                            "卡夫卡",
-                            "黑键"
-                        ],
+                        "operators": ["菲亚梅塔", "空弦", "琴柳", "卡夫卡", "黑键"],
                         "sort": false,
                         "autofill": false
                     },
@@ -567,13 +525,7 @@
                     },
                     {
                         "skip": false,
-                        "operators": [
-                            "断罪者",
-                            "缪尔赛思",
-                            "炎狱炎熔",
-                            "陈",
-                            "絮雨"
-                        ],
+                        "operators": ["断罪者", "缪尔赛思", "炎狱炎熔", "陈", "絮雨"],
                         "sort": false,
                         "autofill": false
                     },
@@ -587,13 +539,7 @@
                 "control": [
                     {
                         "skip": false,
-                        "operators": [
-                            "阿米娅",
-                            "戴菲恩",
-                            "凯尔希",
-                            "薇薇安娜",
-                            "焰尾"
-                        ],
+                        "operators": ["阿米娅", "戴菲恩", "凯尔希", "薇薇安娜", "焰尾"],
                         "sort": false,
                         "autofill": false
                     }

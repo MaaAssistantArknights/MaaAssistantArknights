@@ -251,7 +251,7 @@ jobs:
       - name: Optimize Templates
         if: steps.check_sorted_templates.outputs.contains_png == 'True'
         run: |
-          python3 tools/OptimizeTemplates/optimize_templates.py resource/template/items/ resource/template/infrast/ 
+          python3 tools/OptimizeTemplates/optimize_templates.py resource/template/items/ resource/template/infrast/
 
       - name: Cancelling
         if: steps.check_sorted_templates.outputs.changes != 'True'

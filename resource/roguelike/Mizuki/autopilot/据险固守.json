@@ -25,17 +25,7 @@
         "air_defense_num": 1,
         "ban_medic": false
     },
-    "role_order": [
-        "warrior",
-        "pioneer",
-        "sniper",
-        "caster",
-        "medic",
-        "tank",
-        "support",
-        "special",
-        "drone"
-    ],
+    "role_order": ["warrior", "pioneer", "sniper", "caster", "medic", "tank", "support", "special", "drone"],
     "deploy_plan": [
         {
             "groups": ["百嘉"],
@@ -43,15 +33,7 @@
             "direction": "down"
         },
         {
-            "groups": [
-                "基石",
-                "地面C",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
+            "groups": ["基石", "地面C", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
             "location": [6, 4],
             "direction": "right"
         },
@@ -101,15 +83,7 @@
             "direction": "up"
         },
         {
-            "groups": [
-                "基石",
-                "地面C",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
+            "groups": ["基石", "地面C", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
             "location": [5, 4],
             "direction": "right"
         }

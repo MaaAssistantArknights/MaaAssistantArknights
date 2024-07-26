@@ -17,17 +17,7 @@
     "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子，不写默认false",
     "not_use_dice": false,
     "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术师，辅助，特种，召唤物的顺序补全，输入英文",
-    "role_order": [
-        "warrior",
-        "pioneer",
-        "medic",
-        "tank",
-        "sniper",
-        "caster",
-        "support",
-        "special",
-        "drone"
-    ],
+    "role_order": ["warrior", "pioneer", "medic", "tank", "sniper", "caster", "support", "special", "drone"],
     "force_air_defense_when_deploy_blocking_num_Doc": "场上有10000个阻挡单位时就开始强制部署总共1个对空单位（填不填写均不影响正常部署逻辑），在此期间不禁止部署医疗单位（不写默认false）",
     "force_air_defense_when_deploy_blocking_num": {
         "melee_num": 10000,
@@ -50,17 +40,7 @@
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
             "location": [6, 4],
             "direction": "left"
         },
@@ -70,18 +50,7 @@
             "direction": "left"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "玛恩纳",
-                "地刺",
-                "重装",
-                "投锋",
-                "挡人先锋",
-                "其他地面"
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "玛恩纳", "地刺", "重装", "投锋", "挡人先锋", "其他地面"],
             "location": [7, 4],
             "direction": "left"
         },
@@ -96,15 +65,7 @@
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
             "location": [6, 2],
             "direction": "up"
         },
@@ -114,15 +75,7 @@
             "direction": "right"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
             "location": [2, 3],
             "direction": "right"
         }

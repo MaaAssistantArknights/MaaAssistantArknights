@@ -22,8 +22,7 @@ repos:
         files: ^docs/.*|^README\.md$
         types:
           - markdown
-        args:
-          ["--fix", "--config", "docs/.markdownlint.yaml", "#**/node_modules"]
+        args: ["--fix", "--config", "docs/.markdownlint.yaml", "#**/node_modules"]
   #- repo: https://github.com/lycheeverse/lychee
   #  rev: v0.15.1
   #  hooks:
