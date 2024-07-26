@@ -1,0 +1,37 @@
+name: Optimize PNG Templates
+
+on:
+  push:
+    paths:
+      - "resource/global/txwy/resource/template/**"
+      - "resource/global/YostarEN/resource/template/**"
+      - "resource/global/YostarJP/resource/template/**"
+      - "resource/global/YostarKR/resource/template/**"
+      - "resource/template/**"
+      - "docs/.vuepress/public/image/**"
+      - "website/apps/web/public/**"
+      - "website/apps/web/src/assets/links/**"
+  workflow_dispatch:
+
+jobs:
+  check-and-optimize-png:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          persist-credentials: false  
+
+      - name: Check for PNG files
+        id: check_png
+        run: |
+          png_files=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '\.png$' || true)
+          echo "PNG files changed: $png_files"
+          echo "::set-output name=png_files::$png_files"
+
+      - name: Run optimization script
+        if: steps.check_png.outputs.png_files != ''
+        run: |
+          python3 optimize-templates.py
