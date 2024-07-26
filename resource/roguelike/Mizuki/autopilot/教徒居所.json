@@ -18,15 +18,7 @@
             "direction": "left"
         }
     ],
-    "role_order": [
-        "sniper",
-        "caster",
-        "warrior",
-        "pioneer",
-        "medic",
-        "tank",
-        "support"
-    ],
+    "role_order": ["sniper", "caster", "warrior", "pioneer", "medic", "tank", "support"],
     "force_air_defense_when_deploy_blocking_num": {
         "melee_num": 0,
         "air_defense_num": 2,
@@ -57,15 +49,7 @@
             "direction": "down"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面"
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面"],
             "location": [8, 4],
             "direction": "up"
         },
@@ -115,15 +99,7 @@
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "召唤",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助",
-                "其他高台"
-            ],
+            "groups": ["高台C", "召唤", "控制", "狙击", "术师", "辅助", "其他高台"],
             "location": [7, 4],
             "direction": "up"
         },

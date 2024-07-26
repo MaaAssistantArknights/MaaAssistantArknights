@@ -1668,14 +1668,7 @@
         "text": ["指路", "指路鱗"]
     },
     "Phantom@Roguelike@NextLevel": {
-        "text": [
-            "迷霧歧途",
-            "落陽庭院",
-            "故土殘軀",
-            "噩夢之始",
-            "血月長廊",
-            "渴欲大廳"
-        ]
+        "text": ["迷霧歧途", "落陽庭院", "故土殘軀", "噩夢之始", "血月長廊", "渴欲大廳"]
     },
     "Phantom@Roguelike@SelectTheme": {
         "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
@@ -1705,15 +1698,7 @@
         ]
     },
     "Mizuki@Roguelike@NextLevel": {
-        "text": [
-            "天光海岸",
-            "離岸孤島",
-            "波濤略地",
-            "隱秘溫床",
-            "失塵岩洞",
-            "幽海叢林",
-            "紺碧搖籃"
-        ]
+        "text": ["天光海岸", "離岸孤島", "波濤略地", "隱秘溫床", "失塵岩洞", "幽海叢林", "紺碧搖籃"]
     },
     "Mizuki@Roguelike@SelectTheme": {
         "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
@@ -1825,15 +1810,7 @@
         "text": ["目空", "目空一些", "圖像", "圖像損壞"]
     },
     "Sami@Roguelike@ContinueClick": {
-        "text": [
-            "初霜湖澤",
-            "密靜林地",
-            "昧明凍土",
-            "積冰巖骸",
-            "無瑕花園",
-            "遠見之構",
-            "深埋迷境"
-        ]
+        "text": ["初霜湖澤", "密靜林地", "昧明凍土", "積冰巖骸", "無瑕花園", "遠見之構", "深埋迷境"]
     },
     "Sami@Roguelike@FoldartalGainOcr": {
         "ocrReplace": [
