@@ -4888,7 +4888,7 @@
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
         "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@StageEncounterOptionUnknown"]
+        "next": ["Roguelike@StageEncounterOptionUnknown", "Screenshot@Stop"]
     },
     "ScreenshotTaskPlugin-Config-Debug": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
@@ -9313,6 +9313,9 @@
     "Sarkaz@Roguelike@StageCanReconstructClose": {
         "action": "ClickSelf",
         "roi": [1144, 0, 136, 152],
+        "onErrorNext": [
+            "Screenshot@Stop"
+        ],
         "next": [
             "Sarkaz@Roguelike@StageTraderEnter",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
