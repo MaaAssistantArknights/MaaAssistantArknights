@@ -67,9 +67,9 @@ jobs:
             git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
           fi
 
-      - name: Cancelling
-        if: steps.commit_changes.outputs.have_commits != 'True'
-        uses: andymckay/cancel-action@0.5
+      # - name: Cancelling
+      #   if: steps.commit_changes.outputs.have_commits != 'True'
+      #   uses: andymckay/cancel-action@0.5
 
       - name: Push changes
         if: steps.commit_changes.outputs.have_commits == 'True'
