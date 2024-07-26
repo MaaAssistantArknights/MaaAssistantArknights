@@ -154,6 +154,7 @@
     <ClInclude Include="Config\Miscellaneous\TilePack.h" />
     <ClInclude Include="Config\ResourceLoader.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h" />
+    <ClInclude Include="Config\Roguelike\RoguelikeMapConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h" />
@@ -334,6 +335,7 @@
     <ClCompile Include="Config\Miscellaneous\TilePack.cpp" />
     <ClCompile Include="Config\ResourceLoader.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\RoguelikeMapConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp" />

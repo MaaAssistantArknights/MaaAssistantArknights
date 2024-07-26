@@ -16,6 +16,7 @@
 #include "Miscellaneous/TilePack.h"
 #include "OnnxSessions.h"
 #include "Roguelike/RoguelikeCopilotConfig.h"
+#include "Roguelike/RoguelikeMapConfig.h"
 #include "Roguelike/RoguelikeRecruitConfig.h"
 #include "Roguelike/RoguelikeShoppingConfig.h"
 #include "Roguelike/RoguelikeStageEncounterConfig.h"
@@ -229,6 +230,11 @@ bool asst::ResourceLoader::load(const std::filesystem::path& path)
     LoadResourceAndCheckRet(
         RoguelikeStageEncounterConfig,
         "roguelike"_p / "Sami"_p / "encounter"_p / "collapse.json"_p);
+
+    // –––––––– Roguelike Map Config ––––––––––––––––––––––––––––––––––––––––––––------
+    LoadResourceAndCheckRet(
+        RoguelikeMapConfig,
+        "roguelike"_p / "Sarkaz"_p / "map.json"_p);
 
     // –––––––– Sami Plugin Config ––––––––––––––––––––––––––––––––––––––––––––––––––––
     LoadResourceAndCheckRet(

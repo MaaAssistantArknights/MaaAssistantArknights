@@ -225,6 +225,9 @@
     <ClInclude Include="Config\Roguelike\RoguelikeCopilotConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
+    <ClInclude Include="Config\Roguelike\RoguelikeMapConfig.h">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClInclude>
     <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClInclude>
@@ -792,6 +795,9 @@
       <Filter>Source\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeCopilotConfig.cpp">
+      <Filter>Source\Resource\Roguelike</Filter>
+    </ClCompile>
+    <ClCompile Include="Config\Roguelike\RoguelikeMapConfig.cpp">
       <Filter>Source\Resource\Roguelike</Filter>
     </ClCompile>
     <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp">

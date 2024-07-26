@@ -1,0 +1,32 @@
+{
+    "theme": "Sarkaz",
+    "node": [
+        {
+            "type": "CombatOps",
+            "template": [
+                "Sarkaz@Roguelike@MapNodeCombatOps.png",
+                "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png"
+            ]
+        },
+        {
+            "type": "EmergencyOps",
+            "template": [
+                "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
+                "Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png"
+            ]
+        },
+        {
+            "type": "Encounter",
+            "template": [
+                "Sarkaz@Roguelike@MapNodeEncounter.png",
+                "Sarkaz@Roguelike@MapNodeEncounterGrey.png"
+            ]
+        },
+        {
+            "type": "RogueTrader",
+            "template": [
+                "Sarkaz@Roguelike@MapNodeRogueTraderGrey.png"
+            ]
+        }
+    ]
+}
