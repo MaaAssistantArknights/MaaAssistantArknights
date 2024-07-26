@@ -9313,9 +9313,7 @@
     "Sarkaz@Roguelike@StageCanReconstructClose": {
         "action": "ClickSelf",
         "roi": [1144, 0, 136, 152],
-        "onErrorNext": [
-            "Screenshot@Stop"
-        ],
+        "onErrorNext": ["Screenshot@Stop"],
         "next": [
             "Sarkaz@Roguelike@StageTraderEnter",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
