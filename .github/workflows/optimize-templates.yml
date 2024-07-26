@@ -53,7 +53,7 @@ jobs:
         with:
           crate: oxipng
 
-      - name: Run optimization script
+      - name: Run optimize_templates
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py
 
