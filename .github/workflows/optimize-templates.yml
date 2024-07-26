@@ -48,6 +48,11 @@ jobs:
         run: |
           pip install -r tools/OptimizeTemplates/requirements.txt
 
+      - name: Setup oxipng
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: oxipng
+
       - name: Run optimization script
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py
@@ -68,8 +73,8 @@ jobs:
               commit_msg="chore: Auto Templates Optimization"
             fi
             git commit -m "$commit_msg" -m "[skip changelog]"
-            echo "have_commits=True" >> $GITHUB_ENV
             git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+            echo "have_commits=True" >> $GITHUB_ENV
           fi
 
       - name: Push changes
