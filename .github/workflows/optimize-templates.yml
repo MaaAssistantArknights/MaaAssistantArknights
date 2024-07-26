@@ -30,6 +30,9 @@ jobs:
           show-progress: false
           persist-credentials: false
 
+      - name: Setup python
+        uses: actions/setup-python@v5
+
       - name: Cache Python packages
         id: cache_python
         if: always()
