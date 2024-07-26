@@ -2568,5 +2568,6 @@
     "official/Sarkaz@Roguelike@StageRefresh": "332bb67afc54e63fcfafc4182e00b419de87b692d17d95de895c6e339cebdc07",
     "official/Sarkaz@Roguelike@StageRefreshConfirm": "4a01239d427cbba5ec5b7f3df23c0af987f50620d3fda2143563e68c665e5133",
     "official/Sarkaz@Roguelike@StageRefreshNoThought": "d63bc4ad27433c0cd12bf0c6a521694116f0b3806175b8b1c38ddb10d4cf336f",
-    "official/Sarkaz@Roguelike@StageRefreshUpperLimit": "c1fc9a8f2c6ccbced2266af63d21716f52778d5e483044e15542013646272eb1"
+    "official/Sarkaz@Roguelike@StageRefreshUpperLimit": "c1fc9a8f2c6ccbced2266af63d21716f52778d5e483044e15542013646272eb1",
+    "docs/en-us/readme/Captain_Falcon": "80bad0702f82a8d3af618321534f5ab42733e550153166c4f5cbeb9f896b744b"
 }
