@@ -66,11 +66,11 @@ jobs:
           fi
 
       - name: Cancelling
-        if: steps.commit_changes.outputs.have_commits != 'True'
+        if: ${{ env.have_commits}} != 'True'
         uses: andymckay/cancel-action@0.5
 
       - name: Push changes
-        if: steps.commit_changes.outputs.have_commits == 'True'
+        if: ${{ env.have_commits}} == 'True'
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
