@@ -104,25 +104,11 @@ jobs:
     if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: windows-latest
     steps:
-      # - name: Echo Authenticated User
-      #   id: user_info
-      #   uses: actions/github-script@v7
-      #   with:
-      #     github-token: ${{ secrets.MAA_RESOURCE_SYNC }}
-      #     script: |
-      #       const { data: user } = await github.rest.users.getAuthenticated();
-      #       const { data: public_email } = await github.rest.users.listPublicEmailsForAuthenticatedUser();
-      #       const username = user.name;
-      #       const email = (public_email && public_email[0].email) || `${user.id}+${user.login}@users.noreply.github.com`
-      #       console.log(`username: ${username}`);
-      #       console.log(`email: ${email}`);
-      #       core.setOutput('username', username)
-      #       core.setOutput('email', email)
-
       - name: Checkout MAA
         uses: actions/checkout@v4
         with:
           # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
+          # actions/checkout uses ${{ secrets.GITHUB_TOKEN }} by default, meaning all steps will inherit it
           persist-credentials: false # Needed to bypass protection rules in Push changes
           show-progress: false
 
@@ -207,13 +193,13 @@ jobs:
 
           $gd = git diff --numstat HEAD 2>$null | findstr -i resource
           if ($LASTEXITCODE -ne 0) {
-            echo "no diff"
+            Write-Output "no diff"
             exit 0
           }
 
-          echo ""
-          echo $gd
-          echo ""
+          Write-Output ""
+          Write-Output $gd
+          Write-Output ""
 
           $diff = $false
           $hasPng = $false
@@ -241,12 +227,12 @@ jobs:
 
           $changes = $hasPng -or $diff
 
-          echo "diff: $diff"
-          echo "hasPng: $hasPng"
-          echo "changes: $changes"
+          Write-Output "diff: $diff"
+          Write-Output "hasPng: $hasPng"
+          Write-Output "changes: $changes"
 
-          echo "contains_png=$hasPng" >> $env:GITHUB_OUTPUT
-          echo "changes=$changes" >> $env:GITHUB_OUTPUT
+          Write-Output "contains_png=$hasPng" >> $env:GITHUB_OUTPUT
+          Write-Output "changes=$changes" >> $env:GITHUB_OUTPUT
 
       - name: Optimize Templates
         if: steps.check_sorted_templates.outputs.contains_png == 'True'
@@ -273,7 +259,7 @@ jobs:
           }
           git commit -m "$commit_msg" -m "[skip changelog]"
           if ($LASTEXITCODE -eq 0) {
-            echo "have_commits=True" >> $env:GITHUB_OUTPUT
+            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
           }
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
