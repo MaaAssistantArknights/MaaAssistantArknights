@@ -9020,10 +9020,7 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [50, 360, 0, 0],
-        "next": [
-            "Sarkaz@Roguelike@RoutingNodeAnalyze",
-            "Sarkaz@Roguelike@RoutingContinueConfirm"
-        ]
+        "next": ["Sarkaz@Roguelike@RoutingNodeAnalyze", "Sarkaz@Roguelike@RoutingContinueConfirm"]
     },
     "Sarkaz@Roguelike@RoutingRefreshNode": {
         "roi": [796, 150, 50, 150],
@@ -9036,10 +9033,7 @@
         "text": ["确定"],
         "action": "ClickSelf",
         "postDelay": 300,
-        "next": [
-            "Sarkaz@Roguelike@RoutingRefreshNodeWaiting",
-            "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"
-        ]
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
     },
     "Sarkaz@Roguelike@RoutingRefreshNodeWaiting": {
         "algorithm": "OcrDetect",
@@ -9047,10 +9041,7 @@
         "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45],
         "postDelay": 300,
-        "next": [
-            "Sarkaz@Roguelike@RoutingRefreshNodeWaiting",
-            "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"
-        ]
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
     },
     "Sarkaz@Roguelike@RoutingRefreshNodeCompleted": {
         "algorithm": "JustReturn"
