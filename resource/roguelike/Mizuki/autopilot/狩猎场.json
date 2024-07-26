@@ -1,14 +1,6 @@
 {
     "stage_name": "狩猎场",
-    "role_order": [
-        "pioneer",
-        "sniper",
-        "warrior",
-        "tank",
-        "medic",
-        "caster",
-        "support"
-    ],
+    "role_order": ["pioneer", "sniper", "warrior", "tank", "medic", "caster", "support"],
     "replacement_home": [
         {
             "location": [5, 5],
@@ -46,29 +38,12 @@
             "direction": "right"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
+            "groups": ["百嘉", "基石", "地面C", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
             "location": [5, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "地面C",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
+            "groups": ["基石", "地面C", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
             "location": [5, 3],
             "direction": "right"
         },
@@ -93,56 +68,22 @@
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助",
-                "其他高台"
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助", "其他高台"],
             "location": [3, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助",
-                "其他高台"
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助", "其他高台"],
             "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "挡人先锋",
-                "地面C",
-                "重装",
-                "地刺",
-                "异德",
-                "刺客",
-                "其他地面"
-            ],
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "异德", "刺客", "其他地面"],
             "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "挡人先锋",
-                "地面C",
-                "重装",
-                "地刺",
-                "异德",
-                "刺客",
-                "其他地面"
-            ],
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "异德", "刺客", "其他地面"],
             "location": [5, 5],
             "direction": "right"
         }
