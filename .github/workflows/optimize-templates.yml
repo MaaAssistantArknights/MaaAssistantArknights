@@ -61,6 +61,8 @@ jobs:
           git commit -m "$commit_msg" -m "[skip changelog]"
           if [ $? -eq 0 ]; then
             echo "have_commits=True" >> $GITHUB_ENV
+          else
+            echo "have_commits=False" >> $GITHUB_ENV
           fi
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
