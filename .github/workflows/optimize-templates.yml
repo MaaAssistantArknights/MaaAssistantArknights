@@ -40,7 +40,7 @@ jobs:
       - name: Install dependencies
         if: steps.cache_python.outputs.cache-hit != 'true'
         run: |
-          python3 -m pip install tqdm
+          python3 -m pip install tqdm numpy
 
       - name: Run optimization script
         run: |
