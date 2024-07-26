@@ -32,6 +32,7 @@ jobs:
 
       - name: Cache Python packages
         id: cache_python
+        if: always()
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
