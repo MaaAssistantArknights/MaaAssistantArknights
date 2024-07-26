@@ -22,6 +22,8 @@ on:
 
 jobs:
   optimize-png:
+    # Skip workflow to prevent double consecutive runs
+    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
