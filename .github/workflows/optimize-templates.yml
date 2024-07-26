@@ -74,7 +74,7 @@ jobs:
             fi
             git commit -m "$commit_msg" -m "[skip changelog]"
             git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
-            echo "have_commits=True" >> $GITHUB_ENV
+            echo "have_commits=True" >> $GITHUB_OUTPUT
           fi
 
       - name: Push changes
