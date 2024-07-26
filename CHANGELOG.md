@@ -113,7 +113,6 @@
 * dependabot gh actions automation (#9836) @Constrat
 * update-game-resources 时再输出 user 信息 @zzyyyl
 * Translations update from MAA Weblate (#9845) @AlisaAkiron
-* clang-format 格式修改 (#9586) @zzyyyl
 * format @status102
 * tweaks @Constrat
 * 完善pr-checker的提示 @SherkeyXD
@@ -122,21 +121,23 @@
 * issue-bot 增加关键词 (#9771) @Rbqwow
 * avoid generate package.json & package-lock.json while res-update-game @zzyyyl
 * Add prettier in res-update-game @zzyyyl
-* Add prettier in res-update-game @zzyyyl
 * Update tools/OptimizeTemplates/optimize_templates.json @zzyyyl
 * 删去 pre-commit-ci 中 oxipng 的 --alpha 参数 @zzyyyl
 * Update .prettierignore @zzyyyl
 * Update .prettierignore @zzyyyl
 * OptimizeTemplates 脚本改为使用 oxipng @zzyyyl
 * bump maatouch to v1.1.0 (#9749) @Manicsteiner
-* 使用 pre-commit-ci 来格式化与压缩文件 (#9732) @SherkeyXD
 * Revert "feat(ci): allow cache overwriting" @Constrat
 * remove unused include + style @Constrat
+* 使用 oxipng 优化模板图片 @zzyyyl
+* optimize templates in resource updater @Constrat
+* 让我也康康今天又更新了啥 (#9879) @AnnAngela
 
 ### For Developers
 
+* clang-format 格式修改 (#9586) @zzyyyl
+* 使用 pre-commit-ci 来格式化与压缩文件 (#9732) @SherkeyXD
 * 简单处理 DEBUG 的时候 OCR 很卡的问题 @zzyyyl
-* 使用 oxipng 优化模板图片 @zzyyyl
 * 更新 mask_range 生成工具 @zzyyyl
 * 简化RoguelikeTask set_params @status102
 * 修改 set_params 以避免语义不一致 @status102
@@ -145,10 +146,7 @@
 * 复用RoguelikeControl停止流程 @status102
 * WpfGui添加对坍缩范式插件callback的nullable check (#9848) @Alan-Charred
 * 非萨米肉鸽时禁用仅萨米用插件 (#9880) @status102
-* 让我也康康今天又更新了啥 (#9879) @AnnAngela
-
 * 支持自定义 MatchTemplate 匹配方法 (#9785) @zzyyyl
-* optimize templates in resource updater @Constrat
 * 禁止插件修改自身 enable @zzyyyl
 * MultiTemplMatcher (#9850) @Alan-Charred
 * 使用 set_params + set_enable 管理插件而不是延迟注册插件 @zzyyyl
