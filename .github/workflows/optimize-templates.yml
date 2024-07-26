@@ -30,6 +30,18 @@ jobs:
           show-progress: false
           persist-credentials: false
 
+      - name: Cache Python packages
+        id: cache_python
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-optimize-templates-tqdm
+
+      - name: Install dependencies
+        if: steps.cache_python.outputs.cache-hit != 'true'
+        run: |
+          python3 -m pip install tqdm
+
       - name: Run optimization script
         run: |
           python3 tools/OptimizeTemplates/optimize_templates.py
