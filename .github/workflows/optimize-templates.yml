@@ -32,7 +32,7 @@ jobs:
 
       - name: Run optimization script
         run: |
-          python3 tools/OptimizeTemplates/optimize-templates.py
+          python3 tools/OptimizeTemplates/optimize_templates.py
 
       - name: Commit changes
         id: commit_changes
