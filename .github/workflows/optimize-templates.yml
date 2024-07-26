@@ -30,11 +30,19 @@ jobs:
           show-progress: false
           persist-credentials: false
 
-      - name: Setup and run script
+      - name: Setup python for cache
         uses: actions/setup-python@v5
         with:
+          python-version: "3.11"
           cache: 'pip' 
-      - run: python3 tools/OptimizeTemplates/optimize_templates.py
+
+      - name: Install dependencies
+        run: |
+          pip install tqdm numpy pillow
+
+      - name: Run optimization script
+        run: |
+          python3 tools/OptimizeTemplates/optimize_templates.py
 
       - name: Commit changes
         id: commit_changes
