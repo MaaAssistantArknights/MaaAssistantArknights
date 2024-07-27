@@ -27,7 +27,7 @@ def calc_mask_from_ranges(image, mask_ranges, color=None):
     return mask
 
 
-def show_image_mask(image, mask, color):
+def show_image_mask(image, mask, color, hist_mask=None):
     if color.lower() == 'hsv':
         image_for_hist = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     elif color.lower() == 'rgb':
@@ -39,9 +39,9 @@ def show_image_mask(image, mask, color):
 
     fig, axs = plt.subplots(2, 3, figsize=(15, 8))
 
-    hist_0 = cv2.calcHist([image_for_hist], [0], None, [256], [0, 256])
-    hist_1 = cv2.calcHist([image_for_hist], [1], None, [256], [0, 256])
-    hist_2 = cv2.calcHist([image_for_hist], [2], None, [256], [0, 256])
+    hist_0 = cv2.calcHist([image_for_hist], [0], hist_mask, [256], [0, 256])
+    hist_1 = cv2.calcHist([image_for_hist], [1], hist_mask, [256], [0, 256])
+    hist_2 = cv2.calcHist([image_for_hist], [2], hist_mask, [256], [0, 256])
 
     axs[0, 0].plot(hist_0, color='r')
     axs[0, 0].set_title('Channel 0 Histogram')
@@ -116,7 +116,7 @@ def generate_mask_ranges(image, color, base_mask_ranges=None, thresholds=None):
         mask = cv2.bitwise_or(mask, cv2.inRange(image_for_mask, (l0, l1, l2), (u0, u1, u2)))
 
     print(f'Recommand {color.upper()} Mask Range: {mask_ranges}')
-    show_image_mask(image, mask, color)
+    show_image_mask(image, calc_mask_from_ranges(image, mask_ranges, color), color, base_mask)
 
 
 def compare_2_image_with_mask_ranges(image1, image2, mask_ranges, color):
