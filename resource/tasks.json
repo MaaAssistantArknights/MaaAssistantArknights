@@ -9277,10 +9277,15 @@
         "next": ["Sarkaz@Roguelike@StageBoonsEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
     },
     "Sarkaz@Roguelike@StageBoskyPassage": {
-        "Doc": "诡谲断章",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
+        "Doc": "思维边界",
         "baseTask": "Sarkaz@Roguelike@Stage",
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [90, 2, 121],
+                [134, 142, 230]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageBoskyPassageEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageBoskyPassageEnter": {
