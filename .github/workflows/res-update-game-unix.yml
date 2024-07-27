@@ -1,8 +1,8 @@
 name: res-update-game-unix
 
 on:
-  schedule:
-    - cron: "*/20 * * * *"
+  # schedule:
+  #   - cron: "*/20 * * * *"
   workflow_dispatch:
     inputs:
       commit_message:
