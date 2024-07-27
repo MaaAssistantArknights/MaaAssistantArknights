@@ -9317,7 +9317,8 @@
         "next": [
             "Sarkaz@Roguelike@StageTraderEnter",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
-            "Sarkaz@Roguelike@StageSafeHouseEnter"
+            "Sarkaz@Roguelike@StageSafeHouseEnter",
+            "Sarkaz@Roguelike@StageCanReconstructClose"
         ]
     },
     "Sarkaz@Roguelike@StageCanReconstructConfirm": {
