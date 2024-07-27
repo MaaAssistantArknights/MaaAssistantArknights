@@ -9394,8 +9394,17 @@
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [78, 60, 80],
+                [93, 140, 120]
+            ],
+            [
+                [18, 90, 130],
+                [23, 130, 150]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageEncounter": {
