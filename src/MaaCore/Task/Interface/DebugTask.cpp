@@ -87,16 +87,12 @@ void asst::DebugTask::test_match_template()
         const auto& result_opt = match_analyzer.analyze();
         if (result_opt) {
             const auto& result = result_opt.value().to_string();
-            Log.info(path, task_name, result);
+            Log.info("active", path, task_name, result);
         }
         else {
-            Log.info(path, task_name, "inactive");
+            Log.info("inactive", path, task_name);
         }
     };
 
-    test_task("../../test/dist/1.png", "Sarkaz@Roguelike@StageCombatDps");
-    test_task("../../test/dist/2.png", "Sarkaz@Roguelike@StageCombatDps");
-    test_task("../../test/dist/3.png", "Sarkaz@Roguelike@StageCombatDps");
-
-    test_task("../../test/dist/2024-07-27_00-58-36-429_raw.png", "Sarkaz@Roguelike@StageCombatDps");
+    test_task("../../resource/template/Sarkaz@Roguelike@StageConfrontation.png", "Sarkaz@Roguelike@StageEmergencyTransportation");
 }
