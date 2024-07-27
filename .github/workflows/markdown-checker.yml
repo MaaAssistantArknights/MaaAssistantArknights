@@ -41,17 +41,12 @@ jobs:
       - name: Check dead links
         uses: lycheeverse/lychee-action@v1
         with:
-          # 主要用于检查相对链接，对于 Github Actions 无法访问的网站，或者失效的外部网站，可以通过 --exclude 参数排除
+          # 主要用于检查相对链接，外部链接只检查 github 及 github raw
           args: >
             --verbose --no-progress --cache --max-cache-age 1d 
-            --exclude 'https://ark.yituliu.cn/.*'
-            --exclude 'https://map\.ark-nights\.com/areas' 
-            --exclude 'https://.*\.maa-org\.net/.*' 
-            --exclude 'https://support\.bluestacks\.com/.*' 
-            --exclude 'https://www\.bigfun\.cn/.*' 
-            --exclude 'https://myqqbot\.com/.*' 
-            --exclude 'http://xn--\w+\.com/' 
-            --exclude 'https://mywebsite\.com/.*'
+            --exclude 'https?://.*'
+            --include 'https?://github\.com/.*'
+            --include 'https?://raw\.githubusercontent\.com/.*'
             --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md' 
             --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md' 
             -- './docs/**/*.md' './README.md'
