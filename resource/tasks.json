@@ -9402,12 +9402,8 @@
         "method": "HSVCount",
         "maskRange": [
             [
-                [78, 60, 80],
-                [93, 140, 120]
-            ],
-            [
-                [18, 90, 130],
-                [23, 130, 150]
+                [15, 1, 93],
+                [93, 129, 141]
             ]
         ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
@@ -9683,6 +9679,10 @@
             [
                 [15, 130, 160],
                 [16, 150, 220]
+            ],
+            [
+                [15, 40, 85],
+                [95, 120, 110]
             ]
         ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
