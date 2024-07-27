@@ -86,8 +86,7 @@ bool update_recruitment_data(
 bool check_roguelike_replace_for_overseas(
     const std::filesystem::path& input_dir,
     const std::filesystem::path& tasks_path,
-    const std::filesystem::path& base_dir,
-    const std::filesystem::path& output_dir);
+    const std::filesystem::path& base_dir);
 bool update_version_info(
     const std::filesystem::path& input_dir,
     const std::filesystem::path& output_dir);
@@ -96,8 +95,7 @@ int main([[maybe_unused]] int argc, char** argv)
 {
     // ---- PATH DECLARATION ----
 
-    const char* str_exec_path = argv[0];
-    const auto cur_path = std::filesystem::path(str_exec_path).parent_path();
+    const auto cur_path = std::filesystem::canonical(std::filesystem::path(argv[0])).parent_path();
 
     auto solution_dir = cur_path;
     for (int i = 0; i != 10; ++i) {
@@ -253,8 +251,7 @@ int main([[maybe_unused]] int argc, char** argv)
         if (!check_roguelike_replace_for_overseas(
                 overseas_data_dir / in / "gamedata" / "excel",
                 resource_dir / "global" / out / "resource" / "tasks.json",
-                official_data_dir / "gamedata" / "excel",
-                cur_path / in)) {
+                official_data_dir / "gamedata" / "excel")) {
             std::cerr << "Update roguelike replace for overseas failed" << std::endl;
             return -1;
         }
@@ -1155,8 +1152,7 @@ bool update_recruitment_data(
 bool check_roguelike_replace_for_overseas(
     const std::filesystem::path& input_dir,
     const std::filesystem::path& tasks_path,
-    const std::filesystem::path& base_dir,
-    const std::filesystem::path& output_dir)
+    const std::filesystem::path& base_dir)
 {
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_stage_names;
     static std::unordered_map</*id*/ std::string, /*base_name*/ std::string> base_item_names;
@@ -1297,7 +1293,7 @@ bool check_roguelike_replace_for_overseas(
     }
     auto& task_json = task_opt.value();
 
-    auto proc = [&output_dir](
+    auto proc = [](
                     json::array& replace_array,
                     const std::unordered_map<std::string, std::string>& base_map,
                     const std::unordered_map<std::string, std::string>& cur_map) {
