@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-import logging
 import copy
 
 from .debug import trace
 from .TaskType import AlgorithmType, TaskStatus
 from .TaskField import TaskFieldEnum, get_fields, get_fields_with_algorithm
 from .TaskExpression import _tokenize, _shunting_yard
+from .TaskLogging import get_logger
 
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 _SHOW_BASE_TASK_WARNING = True
 

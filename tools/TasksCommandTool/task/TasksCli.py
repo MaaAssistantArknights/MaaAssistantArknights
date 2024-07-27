@@ -4,16 +4,19 @@ import os
 from enum import Enum
 from typing import Type
 
-from .Task import Task, _ORIGINAL_TASKS, InterpretedTask, _TASK_PIPELINE_INFO_FIELDS
+from .Task import Task, InterpretedTask, _TASK_PIPELINE_INFO_FIELDS
 from .TaskField import TaskFieldEnum, get_fields_with_algorithm, get_fields
 from .TaskJsonEncoder import TaskJsonEncoder
 from .TaskType import AlgorithmType, ActionType, MethodType
 from .TemplateGUI import show_template
 from .TaskUtils import project_root_path
+from .TaskLogging import get_logger, set_logger_level
 
 json_path = project_root_path / 'resource' / 'tasks.json'
 
 _MODIFIED_TASKS = {}
+
+logger = get_logger(__name__)
 
 
 # noinspection PyMethodMayBeStatic
@@ -39,7 +42,7 @@ class TasksCommandTool(cmd.Cmd):
         global json_path
         if arg:
             json_path = os.path.abspath(arg)
-        print(f"Loading tasks from {json_path}")
+        logger.info(f"Loading tasks from {json_path}")
         success_count = 0
         fail_count = 0
         self.task_names.clear()
@@ -51,9 +54,9 @@ class TasksCommandTool(cmd.Cmd):
                     success_count += 1
                     self.task_names.append(name)
                 except Exception as e:
-                    print(f"Error loading task {name}: {e}")
+                    logger.warning(f"Error loading task {name}: {e}")
                     fail_count += 1
-        print(f"Loaded {success_count} tasks, {fail_count} failed.")
+        logger.info(f"Loaded {success_count} tasks, {fail_count} failed.")
 
     def do_find(self, arg):
         """Find a task by name."""
@@ -71,7 +74,7 @@ class TasksCommandTool(cmd.Cmd):
     def choices(self, text: str, choices: Type[Enum]):
         choices = list(choices)
         for i, choice in enumerate(choices):
-            print(f"({i}) {choice.value}")
+            logger.info(f"({i}) {choice.value}")
         input_choice = -1
         while input_choice < 0 or input_choice >= len(choices):
             try:
@@ -116,17 +119,17 @@ class TasksCommandTool(cmd.Cmd):
             tasks[task_name] = task.to_task_dict()
         with open(json_path, 'w', encoding='utf-8') as f:
             json.dump(tasks, f, cls=TaskJsonEncoder, ensure_ascii=False, indent=4)
-        print(f"Saved {len(_MODIFIED_TASKS)} tasks to {json_path}.")
+        logger.info(f"Saved {len(_MODIFIED_TASKS)} tasks to {json_path}.")
 
     def print_task(self, task: Task):
-        print(f"Task {task.name}:")
+        logger.info(f"Task {task.name}:")
         docs_dict = task.get_docs()
         if docs_dict.get("doc"):
-            print(docs_dict["doc"])
+            logger.info(docs_dict["doc"])
         for key, value in task.to_simplified_dict().items():
-            print(f"{key}: {value}")
+            logger.info(f"{key}: {value}")
             if docs_dict.get(f"{key}_doc"):
-                print(docs_dict[key])
+                logger.info(docs_dict[key])
         if self.use_template_gui and task.algorithm == AlgorithmType.MatchTemplate:
             show_template(task.template)
 
@@ -135,14 +138,14 @@ class TasksCommandTool(cmd.Cmd):
         self.print_task(self.get_task(arg).interpret())
 
     def do_shell(self, arg):
-        print(Task.evaluate(arg))
+        logger.info(Task.evaluate(arg))
 
     def show_task(self, task: InterpretedTask):
         for field in get_fields(lambda x: x in _TASK_PIPELINE_INFO_FIELDS):
             if task.to_task_dict():
-                print(field.field_name)
+                logger.info(field.field_name)
                 if getattr(task, field.python_field_name) is not None:
-                    print(' -> '.join(['   |', *getattr(task, field.python_field_name)]))
+                    logger.info(' -> '.join(['   |', *getattr(task, field.python_field_name)]))
 
     def do_show(self, arg):
         """Show all tasks."""
@@ -152,4 +155,13 @@ class TasksCommandTool(cmd.Cmd):
         try:
             return super().onecmd(line)
         except Exception as e:
-            print(e)
+            logger.error(e)
+
+    def do_debug(self, arg):
+        """Toggle debug mode."""
+        if arg == 'on':
+            set_logger_level('DEBUG')
+            logger.info("Debug mode on.")
+        else:
+            set_logger_level('INFO')
+            logger.info("Debug mode off.")
