@@ -158,26 +158,22 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             }
             const auto& templ_active = templ_active_opt.value();
             const auto& image_active = image_active_opt.value();
-            cv::Mat zero = cv::Mat::zeros(templ_active.size(), CV_8U);
+            cv::threshold(templ_active, templ_active, 1, 1, cv::THRESH_BINARY);
             cv::threshold(image_active, image_active, 1, 1, cv::THRESH_BINARY);
-            // 把 SQDIFF 当 count 用，计算 image_active 在 templ_active 形状内的像素数量
+            // 把 CCORR 当 count 用，计算 image_active 在 templ_active 形状内的像素数量
             cv::Mat tp, fp;
             int tp_fn = cv::countNonZero(templ_active);
-            cv::matchTemplate(image_active, zero, tp, cv::TM_SQDIFF, templ_active);
+            cv::matchTemplate(image_active, templ_active, tp, cv::TM_CCORR);
             tp.convertTo(tp, CV_32S);
-            cv::Mat templ_inactive;
-            cv::bitwise_not(templ_active, templ_inactive);
-            cv::matchTemplate(image_active, zero, fp, cv::TM_SQDIFF, templ_inactive);
+            cv::Mat templ_inactive = 1 - templ_active;
+            // TODO: 这里 TP+FP 是 image_active 的 count，可以消掉一个 matchtemplate
+            cv::matchTemplate(image_active, templ_inactive, fp, cv::TM_CCORR);
             fp.convertTo(fp, CV_32S);
-            // 数色结果为 f1_score
-            cv::Mat count_result;
-            cv::divide(tp, tp + fp + tp_fn, count_result, 1, CV_32F);
-            cv::add(matched / 2, count_result, matched);
-            // RGBCount 和 HSVCount 的结果是 数色 和 模板匹配 的综合结果
-            // FIXME:
-            // 1. 直接取算数平均值，之前考虑过点积，但 sqrt(0.8) > 0.89，默认阈值 0.8 可能偏高导致 FN
-            // 2. 这里计算速度比较慢，之后可以考虑给 count 糊一个实现，不要用 SQDIFF
-
+            cv::Mat count_result; // 数色结果为 f1_score
+            cv::divide(2 * tp, tp + fp + tp_fn, count_result, 1, CV_32F);
+            // 返回的是数色和模板匹配的几何平均
+            cv::multiply(matched, count_result, matched);
+            cv::sqrt(matched, matched);
         }
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
     }
