@@ -829,7 +829,7 @@
     "RecruitTags": {
         "ocrReplace": [
             ["Starter", "新手"],
-            ["Top Operator", "高级资深干员"],
+            ["Top Operato.?", "高级资深干员"],
             ["Senior Operato.?", "资深干员"],
             ["Melee", "近战位"],
             ["Ranged", "远程位"],

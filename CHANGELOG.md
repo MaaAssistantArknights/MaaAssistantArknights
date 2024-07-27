@@ -32,6 +32,8 @@
 
 ### 修复 | Fix
 
+* 修复萨卡兹肉鸽去伪存真印象重建后卡死 @zzyyyl
+* fix zip filename encoding issue @horror-proton
 * 完成制造通知弹出时，无法正确识别到所有宿舍 @ABA2396
 * 尝试修复萨卡兹肉鸽刷新节点次数耗尽卡死的问题 @zzyyyl
 * 修复印象加深后卡住的问题 @zzyyyl
@@ -67,9 +69,11 @@
 * 添加 adb-lite 说明 @Rbqwow
 * KR 添加 MAA 格式化要求说明 @HX3N
 * 添加 MAA 格式化要求说明 @SherkeyXD
+* fix docsearch base @SherkeyXD
 
 ### 其他 | Other
 
+* top operator unrecognized recruitment @Constrat
 * 修正文档网页右上角search组件本地化显示问题 (#9804) @sevmeowple
 * switch downloading artifact order @Constrat
 * 修复 methods 为空时直接崩溃的问题 @zzyyyl
@@ -136,6 +140,11 @@
 
 ### For Developers
 
+* macOS CI Xcode版本 @hguandl
+* 修复 StrategyChange 时 next 丢失的问题 @zzyyyl
+* 更新 DebugTask 方便模板匹配测试 @zzyyyl
+* add requirements.txt for optimize-templates.py @Constrat
+* optimize templates perf and fixes @Constrat
 * clang-format 格式修改 (#9586) @zzyyyl
 * 使用 pre-commit-ci 来格式化与压缩文件 (#9732) @SherkeyXD
 * 简单处理 DEBUG 的时候 OCR 很卡的问题 @zzyyyl
