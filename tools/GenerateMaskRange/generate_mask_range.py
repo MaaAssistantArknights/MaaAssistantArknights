@@ -88,12 +88,62 @@ def calc_mask_from_ranges(image, mask_ranges):
             mask = cv2.inRange(image, (l0, l1, l2), (u0, u1, u2))
     return mask
 
+def compare_2_image_with_mask_ranges(image1, image2, image1_for_mask, image2_for_mask, mask_ranges):
+    mask1 = calc_mask_from_ranges(image1_for_mask, mask_ranges)
+    mask2 = calc_mask_from_ranges(image2_for_mask, mask_ranges)
+    image1_with_mask = cv2.bitwise_and(image1, image1, mask=mask1)
+    image2_with_mask = cv2.bitwise_and(image2, image2, mask=mask2)
+
+    fig, axs = plt.subplots(2, 3, figsize=(15, 8))
+
+    # 原图
+    axs[0, 0].imshow(cv2.cvtColor(image1, cv2.COLOR_BGR2RGB))
+    axs[0, 0].set_title('Original Image')
+    axs[0, 0].axis('off')
+
+    # 掩码后的图像
+    axs[0, 1].imshow(image1_for_mask)
+    axs[0, 1].set_title('Image for Mask')
+    axs[0, 1].axis('off')
+
+    # 显示掩码
+    axs[0, 2].imshow(mask1, cmap='gray')
+    axs[0, 2].set_title('Recommand Impmortant Mask Range')
+    axs[0, 2].axis('off')
+
+    # 原图
+    axs[1, 0].imshow(cv2.cvtColor(image2, cv2.COLOR_BGR2RGB))
+    axs[1, 0].set_title('Original Image')
+    axs[1, 0].axis('off')
+
+    # 掩码后的图像
+    axs[1, 1].imshow(image2_for_mask)
+    axs[1, 1].set_title('Image for Mask')
+    axs[1, 1].axis('off')
+
+    # 显示掩码
+    axs[1, 2].imshow(mask2, cmap='gray')
+    axs[1, 2].set_title('Recommand Impmortant Mask Range')
+    axs[1, 2].axis('off')
+
+    plt.tight_layout()
+    plt.show()
+
 if __name__ == '__main__':
     image = cv2.imread(maa_dir / "resource" / "template" / "Sarkaz@Roguelike@StageFilterTruthEnter.png")
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
     show_image_mask(image, calc_mask_from_ranges(hsv_image, [[[23, 150, 40], [23, 230, 150]]]), hsv_image)
+    image1 = cv2.imread(maa_dir / "resource" / "template" / "Sarkaz@Roguelike@StageConfrontation.png")
+    image2 = cv2.imread(maa_dir / "resource" / "template" / "Sarkaz@Roguelike@StageEmergencyTransportation.png")
+    compare_2_image_with_mask_ranges(
+        image1,
+        image2,
+        cv2.cvtColor(image1, cv2.COLOR_BGR2HSV),
+        cv2.cvtColor(image2, cv2.COLOR_BGR2HSV),
+        [[[78, 60, 80], [93, 140, 120]], [[18, 90, 130], [23, 130, 150]]]
+    )
 
     # 自定义参数
     hsv_base_mask = None
