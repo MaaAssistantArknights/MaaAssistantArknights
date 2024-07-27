@@ -75,17 +75,23 @@ class TasksCommandTool(cmd.Cmd):
         input_choice = -1
         while input_choice < 0 or input_choice >= len(choices):
             try:
-                input_choice = int(input(text))
+                input_choice = input(text)
+                if input_choice:
+                    input_choice = int(input_choice)
+                else:
+                    return None
             except KeyboardInterrupt:
                 return None
-            except ValueError:
-                pass
         return choices[input_choice]
 
     def do_create(self, arg):
         """Create a task."""
-        task_name = input("Task name:")
-        task_algorithm = self.choices("Please choose an algorithm:\n", AlgorithmType)
+        if arg:
+            task_name = arg
+        else:
+            task_name = input("Task name:")
+        while task_algorithm := self.choices("Please choose an algorithm:\n", AlgorithmType):
+            break
         task_dict = {"algorithm": task_algorithm}
         for field in get_fields_with_algorithm(task_algorithm):
             if field == TaskFieldEnum.ALGORITHM:
@@ -95,12 +101,12 @@ class TasksCommandTool(cmd.Cmd):
             elif field == TaskFieldEnum.METHOD:
                 value = self.choices("Please choose a method:\n", MethodType)
             else:
-                value = input(f"{field.field_name} ({field.field_doc}) [{field.field_default}]:")
-            if ',' in value:
-                value = value.split()
+                value = input(f"{field.field_name} 【{field.field_doc}】 ({field.field_default}):")
             if value:
+                if ',' in value:
+                    value = value.split()
                 task_dict[field.field_name] = value
-        _MODIFIED_TASKS[task_name] = Task(task_name, task_dict)
+        _MODIFIED_TASKS[task_name] = Task(task_name, task_dict).define()
 
     def do_save(self, _):
         """Save modified tasks to a json file."""
