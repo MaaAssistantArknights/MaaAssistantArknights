@@ -169,9 +169,15 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             cv::bitwise_not(templ_active, templ_inactive);
             cv::matchTemplate(image_active, zero, fp, cv::TM_SQDIFF, templ_inactive);
             fp.convertTo(fp, CV_32S);
-            // 识别结果为 模板匹配 和 数色 的点积，matched *= f1_score
-            cv::multiply(matched, 2 * tp, matched, 1, CV_32F);
-            cv::divide(matched, tp + fp + tp_fn, matched, 1, CV_32F);
+            // 数色结果为 f1_score
+            cv::Mat count_result;
+            cv::divide(tp, tp + fp + tp_fn, count_result, 1, CV_32F);
+            cv::add(matched / 2, count_result, matched);
+            // RGBCount 和 HSVCount 的结果是 数色 和 模板匹配 的综合结果
+            // FIXME:
+            // 1. 直接取算数平均值，之前考虑过点积，但 sqrt(0.8) > 0.89，默认阈值 0.8 可能偏高导致 FN
+            // 2. 这里计算速度比较慢，之后可以考虑给 count 糊一个实现，不要用 SQDIFF
+
         }
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
     }
