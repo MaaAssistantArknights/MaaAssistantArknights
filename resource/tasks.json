@@ -9545,7 +9545,13 @@
     "Sarkaz@Roguelike@StageProphecy": {
         "Doc": "命运所指",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.97,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [18, 1, 94],
+                [93, 173, 109]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageRefresh": {
