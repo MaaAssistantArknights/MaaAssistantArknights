@@ -21,11 +21,9 @@ icon: ic:baseline-article
     - 當期 SideStory 後三關，在自動訪問 [API](https://ota.maa.plus/MaaAssistantArknights/api/gui/StageActivity.json) 下載更新後，會在主介面下方顯示相應提示。
  <!--對於復刻的 SideStory，可以輸入 `SSReopen-XX` ，來一次性刷完 XX-1 ~ XX-9 關。如 `SSReopen-IC`。-->
 
-<details><summary>範例畫面</summary>
-
-![範例畫面](https://user-images.githubusercontent.com/5153875/196309375-73a93b83-e59b-441c-913f-122d4a9fc46c.png)
-
-</details>
+::: details 範例畫面
+![範例畫面](/image/zh-cn/combat-start-interface-example.png)
+:::
 
 - 主介面上的 `吃理智+吃石頭`、`指定次數`、`指定材料` 三者為 **短路開關（或門）**，即 **三者中的任一條件** 達到，均會視為任務完成，停止刷理智。
   - 其中：
@@ -116,7 +114,7 @@ icon: ic:baseline-article
 - 若需要選擇助戰等，關閉 `自動編隊` 功能並手動編隊後再執行即可。
 - 記得在作業分享站上給好用的作業點讚哦！
 
-![image](https://user-images.githubusercontent.com/18511905/189662951-5f9d6d88-3c23-49b3-a58f-c35388b2d5d7.png)
+![image](/image/zh-cn/copilot-click-like.png)
 
 #### 寫作業
 
