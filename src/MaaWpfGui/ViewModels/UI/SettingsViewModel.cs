@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,6 +29,9 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
@@ -52,6 +56,7 @@ using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
+using Window = HandyControl.Controls.Window;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -1620,6 +1625,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Instances.TaskQueueViewModel.CustomInfrastPlanIndex--;
                     Instances.TaskQueueViewModel.CustomInfrastPlanIndex++;
                 }
+
                 Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = true;
             }
         }
@@ -1943,7 +1949,7 @@ namespace MaaWpfGui.ViewModels.UI
         private ObservableCollection<CombinedData> _roguelikeModeList = new();
 
         /// <summary>
-        /// Gets the list of roguelike modes.
+        /// Gets or sets the list of roguelike modes.
         /// </summary>
         public ObservableCollection<CombinedData> RoguelikeModeList
         {
@@ -1975,7 +1981,6 @@ namespace MaaWpfGui.ViewModels.UI
             ];
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
-
         private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sarkaz");
 
         /// <summary>
@@ -2145,7 +2150,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && RoguelikeStartWithEliteTwo;
 
-
         private bool _roguelike3FirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
 
         /// <summary>
@@ -2197,7 +2201,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets a value indicating whether core char need start with elite two.
         /// </summary>
         public bool Roguelike3NewSquad2StartingFoldartal => _roguelike3NewSquad2StartingFoldartal && RoguelikeSquadIsFoldartal;
-
 
         private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty);
 
@@ -3386,7 +3389,6 @@ namespace MaaWpfGui.ViewModels.UI
             get => AllVersionTypeList.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
         }
 
-
         public bool AllowNightlyUpdates { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
 
         private bool _hasAcknowledgedNightlyWarning = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, bool.FalseString));
@@ -4092,6 +4094,69 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 AdbPath = dialog.FileName;
             }
+        }
+
+        /// <summary>
+        /// Test Link And Get Image.
+        /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void TestLinkAndGetImage()
+        {
+            _runningState.SetIdle(false);
+
+            string errMsg = string.Empty;
+            TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                TestLinkInfo = errMsg;
+                _runningState.SetIdle(true);
+                return;
+            }
+
+            if (!Instances.AsstProxy.AsstStartTestLink())
+            {
+                return;
+            }
+
+            await Task.Delay(500);
+            TestLinkImage = Instances.AsstProxy.AsstGetImage();
+            TestLinkInfo = "Finish";
+            Instances.AsstProxy.AsstStop();
+            if (TestLinkImage is null)
+            {
+                TestLinkInfo = "Image is null";
+            }
+            else
+            {
+                Window popupWindow = new Window
+                {
+                    Width = 800,
+                    Height = 480,
+                    Content = new Image
+                    {
+                        Source = TestLinkImage,
+                    },
+                };
+                popupWindow.ShowDialog();
+            }
+        }
+
+        private BitmapImage? _testLinkImage;
+
+        public BitmapImage? TestLinkImage
+        {
+            get => _testLinkImage;
+            set => SetAndNotify(ref _testLinkImage, value);
+        }
+
+        private string _testLinkInfo = string.Empty;
+
+        public string TestLinkInfo
+        {
+            get => _testLinkInfo;
+            set => SetAndNotify(ref _testLinkInfo, value);
         }
 
         /// <summary>
