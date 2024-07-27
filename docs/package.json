@@ -10,14 +10,14 @@
     "private": true,
     "devDependencies": {
         "@vuepress/bundler-vite": "2.0.0-rc.14",
-        "@vuepress/plugin-docsearch": "2.0.0-rc.38",
+        "@vuepress/plugin-docsearch": "2.0.0-rc.40",
         "@vuepress/plugin-google-analytics": "2.0.0-rc.37",
-        "@vuepress/plugin-shiki": "^2.0.0-rc.39",
+        "@vuepress/plugin-shiki": "^2.0.0-rc.40",
         "markdown-it": "^14.1.0",
         "markdown-it-anchor": "^9.0.1",
         "vue": "^3.4.33",
         "vuepress": "2.0.0-rc.14",
-        "vuepress-theme-hope": "2.0.0-rc.51"
+        "vuepress-theme-hope": "2.0.0-rc.52"
     },
     "scripts": {
         "dev": "vuepress dev .",

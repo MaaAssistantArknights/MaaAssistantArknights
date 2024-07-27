@@ -25,6 +25,6 @@ tmpdir=$(mktemp -d /tmp/zipota-files.XXX)
 comm -23 <(echo "$from_fn") <(echo "$to_fn") > "$tmpdir"/removelist.txt
 echo "$to_fn" > "$tmpdir"/filelist.txt
 
-zip -r -j "$out_zip" "$tmpdir"/removelist.txt "$tmpdir"/filelist.txt
+zip -X -r -j "$out_zip" "$tmpdir"/removelist.txt "$tmpdir"/filelist.txt
 
 rm -rf $tmpdir

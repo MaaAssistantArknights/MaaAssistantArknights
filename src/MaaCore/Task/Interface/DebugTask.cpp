@@ -76,43 +76,27 @@ void asst::DebugTask::test_battle_image()
 
 void asst::DebugTask::test_match_template()
 {
-    cv::Mat image = asst::imread(utils::path("../../test/match_template/1.png"));
-    cv::Mat resized;
-    cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
-
-    {
+    auto test_task = [](const std::string& path, const std::string& task_name) {
+        cv::Mat image = imread(utils::path(path));
+        cv::Mat resized;
+        cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
         Matcher match_analyzer(resized, Rect(0, 0, 1280, 720));
-        const auto& task_ptr = Task.get("Sarkaz@Roguelike@StageSafeHouseEnter");
+        const auto& task_ptr = Task.get(task_name);
         const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
         match_analyzer.set_task_info(match_task_ptr);
         const auto& result_opt = match_analyzer.analyze();
         if (result_opt) {
             const auto& result = result_opt.value().to_string();
-            Log.info(__FUNCTION__, result);
+            Log.info(path, task_name, result);
         }
-    }
+        else {
+            Log.info(path, task_name, "inactive");
+        }
+    };
 
-    {
-        Matcher match_analyzer(resized, Rect(0, 0, 1280, 720));
-        const auto& task_ptr = Task.get("Sarkaz@Roguelike@StageBoskyPassageEnter");
-        const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
-        match_analyzer.set_task_info(match_task_ptr);
-        const auto& result_opt = match_analyzer.analyze();
-        if (result_opt) {
-            const auto& result = result_opt.value().to_string();
-            Log.info(__FUNCTION__, result);
-        }
-    }
+    test_task("../../test/dist/1.png", "Sarkaz@Roguelike@StageCombatDps");
+    test_task("../../test/dist/2.png", "Sarkaz@Roguelike@StageCombatDps");
+    test_task("../../test/dist/3.png", "Sarkaz@Roguelike@StageCombatDps");
 
-    {
-        Matcher match_analyzer(resized, Rect(0, 0, 1280, 720));
-        const auto& task_ptr = Task.get("Sarkaz@Roguelike@StageCombatDpsEnter");
-        const auto match_task_ptr = std::dynamic_pointer_cast<MatchTaskInfo>(task_ptr);
-        match_analyzer.set_task_info(match_task_ptr);
-        const auto& result_opt = match_analyzer.analyze();
-        if (result_opt) {
-            const auto& result = result_opt.value().to_string();
-            Log.info(__FUNCTION__, result);
-        }
-    }
+    test_task("../../test/dist/2024-07-27_00-58-36-429_raw.png", "Sarkaz@Roguelike@StageCombatDps");
 }
