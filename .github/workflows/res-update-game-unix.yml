@@ -128,6 +128,7 @@ jobs:
       - name: Build ResourceUpdater
         if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
+          cd ./tools/ResourceUpdaterUnix
           cmake -S . -B build
           cd build
           make -j$(nproc)
