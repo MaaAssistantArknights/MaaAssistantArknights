@@ -9669,8 +9669,17 @@
     "Sarkaz@Roguelike@StageWindAndRain": {
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [18, 130, 155],
+                [20, 180, 180]
+            ],
+            [
+                [15, 130, 160],
+                [16, 150, 220]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@Stages": {
