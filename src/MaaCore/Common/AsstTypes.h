@@ -361,7 +361,6 @@ namespace asst
     {
         Invalid = -1,
         Ccoeff = 0,
-        CcoeffHSV,
         RGBCount,
         HSVCount,
     };
@@ -370,8 +369,9 @@ namespace asst
     {
         utils::tolowers(method_str);
         static const std::unordered_map<std::string, MatchMethod> method_map = {
-            { "ccoeff", MatchMethod::Ccoeff }, { "ccoeffhsv", MatchMethod::CcoeffHSV },
-            { "rgbcount", MatchMethod::RGBCount }, { "hsvcount", MatchMethod::HSVCount },
+            { "ccoeff", MatchMethod::Ccoeff },
+            { "rgbcount", MatchMethod::RGBCount },
+            { "hsvcount", MatchMethod::HSVCount },
         };
         if (auto it = method_map.find(method_str); it != method_map.end()) {
             return it->second;
@@ -384,7 +384,6 @@ namespace asst
         static const std::unordered_map<MatchMethod, std::string> method_map = {
             { MatchMethod::Invalid, "Invalid" },
             { MatchMethod::Ccoeff, "Ccoeff" },
-            { MatchMethod::CcoeffHSV, "CcoeffHSV" },
             { MatchMethod::RGBCount, "RGBCount" },
             { MatchMethod::HSVCount, "HSVCount" },
         };

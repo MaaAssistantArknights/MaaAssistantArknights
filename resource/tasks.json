@@ -9455,14 +9455,12 @@
     },
     "Sarkaz@Roguelike@StageFilterTruthCanCombine": {
         "action": "ClickSelf",
-        "method": "CcoeffHSV",
         "templThreshold": 0.95,
         "roi": [750, 525, 188, 129],
         "next": ["Sarkaz@Roguelike@StageFilterTruthChooseCollection", "Sarkaz@Roguelike@StageFilterTruthConfirm"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
         "action": "DoNothing",
-        "method": "CcoeffHSV",
         "templThreshold": 0.95,
         "roi": [750, 525, 188, 129],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
