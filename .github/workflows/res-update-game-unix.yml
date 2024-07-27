@@ -116,55 +116,51 @@ jobs:
         id: cache-resupd
         uses: actions/cache/restore@v4
         with:
-          key: ${{ runner.os }}-resource-updater-unix-${{ hashFiles('./tools/ResourceUpdaterUnix/') }}
+          key: ${{ runner.os }}-resource-updater-unix-${{ hashFiles('./tools/ResourceUpdaterUnix/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
-            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+            ./tools/ResourceUpdaterUnix/build/ResourceUpdaterUnix
 
       - name: Bootstrap MaaDeps
         if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
-          python3 maadeps-download.py x64-windows
+          python3 maadeps-download.py x64-linux
 
-      - name: Add msbuild to PATH
-        if: steps.cache-resupd.outputs.cache-hit != 'true'
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Build Resource Updater
+      - name: Build ResourceUpdater
         if: steps.cache-resupd.outputs.cache-hit != 'true'
         run: |
-          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
+          cmake -S . -B build
+          cd build
+          make -j$(nproc)
 
       - name: Save ResourceUpdater.exe to cache
         if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
-          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          key: ${{ runner.os }}-resource-updater-unix-${{ hashFiles('./tools/ResourceUpdaterUnix/main.cpp') }}
           path: |
-            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
-            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+            ./tools/ResourceUpdaterUnix/build/ResourceUpdaterUnix
 
       - name: Download txwy
         uses: actions/download-artifact@v4.1.8
         with:
           name: txwy
-          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
+          path: ./tools/ResourceUpdaterUnix/build/Overseas/zh_TW/gamedata/excel
 
       - name: Download Overseas
         uses: actions/download-artifact@v4.1.8
         with:
           name: overseas
-          path: ./tools/ResourceUpdater/x64/Release/Overseas
+          path: ./tools/ResourceUpdaterUnix/build/Overseas
 
       - name: Download Official
         uses: actions/download-artifact@v4.1.8
         with:
           name: official
-          path: ./tools/ResourceUpdater/x64/Release/Official
+          path: ./tools/ResourceUpdaterUnix/build/Official
 
       - name: Run Resource Updater
         run: |
-          ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+          ./tools/ResourceUpdaterUnix/build/ResourceUpdaterUnix
 
       - name: Task Sorting
         run: |
@@ -184,55 +180,77 @@ jobs:
 
       - name: Run Prettier on modified Jsons
         run: |
-          Invoke-Expression "npx prettier -w $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })"
+          npx prettier -w $(git diff --name-only --diff-filter=ACM 2>/dev/null | grep '\.json$')
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
         run: |
           git status
 
-          $gd = git diff --numstat HEAD 2>$null | findstr -i resource
-          if ($LASTEXITCODE -ne 0) {
-            Write-Output "no diff"
+          gd=$(git diff --numstat HEAD 2>/dev/null | grep -i resource)
+          if [ $? -ne 0 ]; then
+            echo "no diff"
             exit 0
-          }
+          fi
 
-          Write-Output ""
-          Write-Output $gd
-          Write-Output ""
+          echo ""
+          echo "$gd"
+          echo ""
 
-          $diff = $false
-          $hasPng = $false
+          diff=false
+          hasPng=false
 
-          $diffLines = $gd -split "`n"
+          IFS=$'\n' read -rd '' -a diffLines <<<"$gd"
 
-          foreach ($line in $diffLines) {
-              $parts = $line -split "\s+"
-              $filePath = $parts[2]
-              $firstNumber = $parts[0]
-              $secondNumber = $parts[1]
+          for line in "${diffLines[@]}"; do
+            parts=($line)
+            filePath=${parts[2]}
+            firstNumber=${parts[0]}
+            secondNumber=${parts[1]}
 
-              if ($filePath -match "\.png$") {
-                $hasPng = $true
-              }
+            if [[ $filePath =~ \.png$ ]]; then
+              hasPng=true
+            fi
 
-              if ($firstNumber -gt 1 -or $firstNumber -ne $secondNumber) {
-                $diff = $true
-              }
+            if [[ $firstNumber -gt 1 || $firstNumber -ne $secondNumber ]]; then
+              diff=true
+            fi
 
-              if ($hasPng -and $diff) {
-                break
-              }
-          }
+            if $hasPng && $diff; then
+              break
+            fi
+          done
 
-          $changes = $hasPng -or $diff
+          changes=$($hasPng || $diff)
 
-          Write-Output "diff: $diff"
-          Write-Output "hasPng: $hasPng"
-          Write-Output "changes: $changes"
+          echo "diff: $diff"
+          echo "hasPng: $hasPng"
+          echo "changes: $changes"
 
-          Write-Output "contains_png=$hasPng" >> $env:GITHUB_OUTPUT
-          Write-Output "changes=$changes" >> $env:GITHUB_OUTPUT
+          echo "contains_png=$hasPng" >> $GITHUB_OUTPUT
+          echo "changes=$changes" >> $GITHUB_OUTPUT
+          - name: Setup python
+          uses: actions/setup-python@v5
+          with:
+            python-version: "3.11"
+
+      - name: Cache Python packages
+        id: cache_python
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
+          key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
+
+      - name: Install dependencies
+        if: steps.cache_python.outputs.cache-hit != 'true'
+        run: |
+          pip install -r tools/OptimizeTemplates/requirements.txt
+
+      - name: Setup oxipng
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: oxipng
 
       - name: Optimize Templates
         if: steps.check_sorted_templates.outputs.contains_png == 'True'
@@ -251,16 +269,17 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
 
-          $commit_msg = "${{ github.event.inputs.commit_message }}"
-          if (-not [string]::IsNullOrWhiteSpace($commit_msg)) {
-            $commit_msg = $commit_msg.Trim()
-          } else {
-            $commit_msg = "chore: Auto Update Game Resources - $(Get-Date -Format 'yyyy-MM-dd')"
-          }
+          commit_msg="${{ github.event.inputs.commit_message }}"
+          if [ -n "$commit_msg" ]; then
+            commit_msg=$(echo "$commit_msg" | xargs)  # Trim whitespace
+          else
+            commit_msg="chore: Auto Update Game Resources - $(date +'%Y-%m-%d')"
+          fi
+
           git commit -m "$commit_msg" -m "[skip changelog]"
-          if ($LASTEXITCODE -eq 0) {
-            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
-          }
+          if [ $? -eq 0 ]; then
+            echo "have_commits=True" >> $GITHUB_OUTPUT
+          fi
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
