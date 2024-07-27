@@ -130,7 +130,7 @@ MAA는 리포지토리의 코드 및 리소스 파일들을 아름답고 일관�
 3. Visual Studio에서 `도구`-`옵션`을 검색하여 `clang-format`을 클릭합니다.
 4. `ClangFormat 지원 활성화`를 클릭하고 아래의 `사용자 정의 clang-format.exe 파일 사용`을 선택한 다음 2단계에서 찾은 `clang-format.exe`를 선택합니다.
 
-![Visual Studio에서 clang-format 사용 설정](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
+![Visual Studio에서 clang-format 사용 설정](/image/zh-cn/development-enable-vs-clang-format.png)
 
 이제 Visual Studio에서 C++20 구문을 지원하는 clang-format을 사용할 수 있습니다!
 

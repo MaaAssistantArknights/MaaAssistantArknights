@@ -49,7 +49,7 @@ order: 3
   - 재개방된 사이드 스토리 이벤트. `SSReopen-<스테이지 접두사>`를 입력하면 XX-1~XX-9 스테이지를 한 번에 완료할 수 있습니다. 예: `SSReopen-IC`.
 
 ::: details 예시 화면
-![Image](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/128385247/c57fc9ed-42be-4df3-8056-64be2e2d4652)
+![Image](/image/ko-kr/combat-start-interface-example.png)
 :::
 
 ### 섬멸 작전

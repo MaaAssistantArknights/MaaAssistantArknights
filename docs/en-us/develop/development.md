@@ -97,7 +97,7 @@ Note: operations regarding Git can be done by VS2022 instead of command line too
 3. In Visual Studio, search for 'clang-format' in Tools-Options.
 4. Click `Enable ClangFormat support` and select `Use custom clang-format.exe file` and choose the `clang-format.exe` located in Step 2.
 
-![Enable clang-format in Visual Studio](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
+![Enable clang-format in Visual Studio](/image/zh-cn/development-enable-vs-clang-format.png)
 
 You are all set with the clang-format integrated in Visual Studio supporting c++20 features!
 

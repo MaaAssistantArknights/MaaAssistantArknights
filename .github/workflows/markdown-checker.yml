@@ -41,12 +41,13 @@ jobs:
       - name: Check dead links
         uses: lycheeverse/lychee-action@v1
         with:
-          # 主要用于检查相对链接，外部链接只检查 github 及 github raw
+          # 仅检查内部链接和 Github 相关链接
           args: >
             --verbose --no-progress --cache --max-cache-age 1d 
             --exclude 'https?://.*'
             --include 'https?://github\.com/.*'
             --include 'https?://raw\.githubusercontent\.com/.*'
+            --include 'https?://user-images\.githubusercontent\.com/.*'
             --exclude-path 'docs/zh-tw/manual/introduction/introduction_old.md' 
             --exclude-path 'docs/ja-jp/manual/introduction/introduction_old.md' 
             -- './docs/**/*.md' './README.md'

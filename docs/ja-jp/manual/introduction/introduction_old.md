@@ -22,7 +22,7 @@ icon: ic:baseline-article
     - 再刻印SSアクティビティは `SSReopen-XX` と入力するとXX-1～XX-9ステージを一度にクリアできます。 `SSReopen-IC` など。
 
 ::: details 画面例
-![画面例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/63437036/547ae8aa-39e3-4ca7-83be-e4a806be5649)
+![画面例](/image/ja-jp/combat-start-interface-example.png)
 :::
 
 - スタート画面の `理性剤使用数 + 割る源石の数`、`周回数指定`、`素材を限定` の3つのオプションはショートスイッチですので、**3つのオプションのいずれかを達成した場合**、それはタスクの完了と見なされます。
@@ -103,11 +103,9 @@ icon: ic:baseline-article
   - 対象外の条件がある場合（例：MAAでミヅキをプレイする予定だが、未達のファントムのセーブがある）、その場合は手動で終了させてください。
   - MAAがスタックしたり、難易度選択画面を何度も出たり入ったりする場合は、手動で難易度を選択してからこの機能を有効にしてください。
 
-<details><summary>固定方法「PIN UP」</summary>
-
-![固定方法](https://user-images.githubusercontent.com/63186641/203422504-22aa0ed9-0f64-4c9f-abca-665e247d13a0.png)
-
-</details>
+::: details 固定方法「PIN UP」
+![固定方法](/image/ja-jp/introduction-i.s.-pin-up.png)
+:::
 
 - 設定は分隊、最初の職業選択（最初に一つのオペレーターを指定する）等を設定できます。
 - オペレーターや昇進レベルを自動認識し、最適なオペレーターやスキルを自動選択。
@@ -147,7 +145,7 @@ icon: ic:baseline-article
   - リスト内のステージが同じエリアにあることを確認してください（マップ画面を左右にスワイプすることでのみナビゲートできます）。
 - **攻略ファイルの採点を高め、クリエイターを激励するために、必ず良質な攻略ファイルに「いいね！」を押してください。**
 
-![image](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/99072975/39e6dd67-2ff1-4023-a2b8-0018673c08aa)
+![image](/image/zh-cn/copilot-click-like.png)
 
 #### 攻略ファイルの作成
 
