@@ -30,6 +30,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -4131,14 +4132,12 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 Window popupWindow = new Window
                 {
-                    Width = TestLinkImage.PixelWidth,
-                    Height = TestLinkImage.PixelHeight,
+                    Width = 800,
+                    Height = 480,
                     Content = new Image
                     {
-                        Width = TestLinkImage.PixelWidth,
-                        Height = TestLinkImage.PixelHeight,
-                        Source = TestLinkImage
-                    }
+                        Source = TestLinkImage,
+                    },
                 };
                 popupWindow.ShowDialog();
             }
