@@ -224,6 +224,22 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
         { "until", ActionType::Until },
         { "UNTIL", ActionType::Until },
         { "直到", ActionType::Until },
+
+        { "SavePoint", ActionType::SavePoint },
+        { "savepoint", ActionType::SavePoint },
+        { "SAVEPOINT", ActionType::SavePoint },
+        { "锚点", ActionType::SavePoint },
+        { "保存锚点", ActionType::SavePoint },
+
+        { "SyncPoint", ActionType::SyncPoint },
+        { "syncpoint", ActionType::SyncPoint },
+        { "SYNCPOINT", ActionType::SyncPoint },
+        { "同步锚点", ActionType::SyncPoint },
+
+        { "CheckPoint", ActionType::CheckPoint },
+        { "checkpoint", ActionType::CheckPoint },
+        { "CHECKPOINT", ActionType::CheckPoint },
+        { "检查锚点", ActionType::CheckPoint },
     };
 
     auto& action = (*_Out);
@@ -361,13 +377,13 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
         auto& until = action.payload.emplace<UntilInfo>();
 
         // 必选字段
-        until.category = TriggerInfo::loadCategoryFrom(action_info.at("mode").as_string());
-        switch (until.category) {
+        until.mode = TriggerInfo::loadCategoryFrom(action_info.at("mode").as_string());
+        switch (until.mode) {
         case TriggerInfo::Category::Any:
         case TriggerInfo::Category::All:
             break;
         default:
-            until.category = TriggerInfo::Category::All;
+            until.mode = TriggerInfo::Category::All;
             break;
         }
 
@@ -379,13 +395,64 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
             until.candidate = parse_actions_ptr(t.value());
         }
     } break;
+    case ActionType::SyncPoint:
+    case ActionType::CheckPoint: {
+        auto& point = action.payload.emplace<PointInfo>();
+
+        point.target_code = action_info.at("target_code").as_string();
+
+        point.mode = TriggerInfo::loadCategoryFrom(action_info.at("mode").as_string());
+        switch (point.mode) {
+        case TriggerInfo::Category::Any:
+        case TriggerInfo::Category::All:
+        case TriggerInfo::Category::Not:
+        case TriggerInfo::Category::Succ:
+            break;
+        default:
+            point.mode = TriggerInfo::Category::All;
+            break;
+        }
+
+        if (auto t = action_info.find("kill_range")) {
+            auto range = t.value().as_array();
+            point.range.first.kills = range[0].as_integer();
+            point.range.second.kills = range[1].as_integer();
+        }
+
+        if (auto t = action_info.find("cost_range")) {
+            auto range = t.value().as_array();
+            point.range.first.cost = range[0].as_integer();
+            point.range.second.cost = range[1].as_integer();
+        }
+
+        if (auto t = action_info.find("cooling_range")) {
+            auto range = t.value().as_array();
+            point.range.first.cooling_count = range[0].as_integer();
+            point.range.second.cooling_count = range[1].as_integer();
+        }
+
+        if (auto t = action_info.find("time_range")) {
+            auto range = t.value().as_array();
+            point.range.first.interval = range[0].as_integer();
+            point.range.second.interval = range[1].as_integer();
+        }
+
+        if (auto t = action_info.find("then_actions")) {
+            point.then_actions = parse_actions_ptr(t.value());
+        }
+
+        if (action.type == ActionType::CheckPoint) {
+            if (auto t = action_info.find("else_actions")) {
+                point.else_actions = parse_actions_ptr(t.value());
+            }
+        }
+
+    } break;
     case ActionType::SwitchSpeed:
     case ActionType::Output:
     case ActionType::SkillDaemon:
     case ActionType::DrawCard:
     case ActionType::SavePoint:
-    case ActionType::SyncPoint:
-    case ActionType::CheckPoint:
         [[fallthrough]];
     default:
         break;

@@ -59,13 +59,23 @@ protected:
     bool check_condition_any(const battle::copilot::TriggerInfo& action); // 某个条件都满足
     bool check_condition(const battle::copilot::TriggerInfo& action);
 
+    bool check_point(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
+    bool check_point_not(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
+    bool check_point_all(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
+    bool check_point_any(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
+
     bool enter_bullet_time(const std::string& name, const Point& location);
     void sleep_and_do_strategy(unsigned millisecond);
+
+    void save_snap_shot(const std::string& code);
+
+    auto get_snap_shot(const std::string& code) const noexcept -> battle::copilot::PointInfo::SnapShot const&;
 
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true) override;
 
     battle::copilot::CombatData m_combat_data;
     std::unordered_map</*group*/ std::string, /*oper*/ std::string> m_oper_in_group;
+    std::map<std::string, battle::copilot::PointInfo::SnapShot> m_snap_shots; // 在运行过程中存储的快照信息
 
     bool m_in_bullet_time = false;
     bool m_need_to_wait_until_end = false;
