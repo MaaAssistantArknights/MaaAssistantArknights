@@ -189,9 +189,9 @@ jobs:
       #     npx prettier -w ${{ steps.task_sorting.outputs.gitdiff }}
 
       - name: Run prettier
-        uses: actionsx/prettier@v3
+        uses: creyD/prettier_action@v4.3
         with:
-          args: -w ${{ steps.task_sorting.outputs.gitdiff }}
+          prettier_options: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
