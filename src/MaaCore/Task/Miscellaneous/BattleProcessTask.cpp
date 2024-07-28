@@ -24,9 +24,11 @@
 using namespace asst::battle;
 using namespace asst::battle::copilot;
 
-asst::BattleProcessTask::BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain)
-    : AbstractTask(callback, inst, task_chain), BattleHelper(inst)
-{}
+asst::BattleProcessTask::BattleProcessTask(const AsstCallback& callback, Assistant* inst, std::string_view task_chain) :
+    AbstractTask(callback, inst, task_chain),
+    BattleHelper(inst)
+{
+}
 
 bool asst::BattleProcessTask::_run()
 {
@@ -44,7 +46,7 @@ bool asst::BattleProcessTask::_run()
     size_t action_size = get_combat_data().actions.size();
     for (size_t i = 0; i < action_size && !need_exit() && m_in_battle; ++i) {
         const auto& action = get_combat_data().actions.at(i);
-        do_action(action, i);
+        do_action_sync(action, i);
     }
 
     if (need_to_wait_until_end()) {
@@ -85,7 +87,8 @@ void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
     m_need_to_wait_until_end = wait_until_end;
 }
 
-void asst::BattleProcessTask::set_formation_task_ptr(std::shared_ptr<std::unordered_map<std::string, std::string>> value)
+void asst::BattleProcessTask::set_formation_task_ptr(
+    std::shared_ptr<std::unordered_map<std::string, std::string>> value)
 {
     m_formation_ptr = value;
 }
@@ -139,7 +142,12 @@ bool asst::BattleProcessTask::to_group()
     m_oper_in_group.merge(ungrouped);
 
     for (const auto& action : m_combat_data.actions) {
-        const std::string& action_name = action.name;
+        if (!action.hasAvatarInfo()) {
+            continue;
+        }
+
+        auto& avatar = action.getPayload<AvatarInfo>();
+        const std::string& action_name = avatar.name;
         if (action_name.empty() || m_oper_in_group.contains(action_name)) {
             continue;
         }
@@ -164,87 +172,337 @@ bool asst::BattleProcessTask::to_group()
 
 bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, size_t index)
 {
-    LogTraceFunction;
-
-    notify_action(action);
-
-    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
-    static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
-
-    // prevent our program from consuming too much CPU
-    if (const auto now = std::chrono::steady_clock::now();
-        prev_frame_time > now - min_frame_interval) [[unlikely]] {
-        Log.debug("Sleeping for framerate limit");
-        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
-    }
-
-    if (!wait_condition(action)) {
-        return false;
-    }
-
-     prev_frame_time = std::chrono::steady_clock::now();
-
-    if (action.pre_delay > 0) {
-        sleep_and_do_strategy(action.pre_delay);
+    if (action.delay.pre_delay > 0) {
+        sleep_and_do_strategy(action.delay.pre_delay);
         // 等待之后画面可能会变化，更新下干员信息
         update_deployment();
     }
 
     bool ret = false;
-    const std::string& name = get_name_from_group(action.name);
-    const auto& location = action.location;
 
     switch (action.type) {
-    case ActionType::Deploy:
-        ret = deploy_oper(name, location, action.direction);
-        if (ret) m_in_bullet_time = false;
-        break;
+    case ActionType::Deploy: {
+        auto& avatar = action.getPayload<AvatarInfo>();
 
-    case ActionType::Retreat:
+        const std::string& name = get_name_from_group(avatar.name);
+        const auto& location = avatar.location;
+
+        ret = deploy_oper(name, location, avatar.direction);
+        if (ret) {
+            m_in_bullet_time = false;
+        }
+    } break;
+    case ActionType::Retreat: {
+        auto& avatar = action.getPayload<AvatarInfo>();
+
+        const std::string& name = get_name_from_group(avatar.name);
+        const auto& location = avatar.location;
+
         ret = m_in_bullet_time ? click_retreat() : (location.empty() ? retreat_oper(name) : retreat_oper(location));
-        if (ret) m_in_bullet_time = false;
-        break;
+        if (ret) {
+            m_in_bullet_time = false;
+        }
+    } break;
+    case ActionType::UseSkill: {
+        auto& avatar = action.getPayload<AvatarInfo>();
 
-    case ActionType::UseSkill:
+        const std::string& name = get_name_from_group(avatar.name);
+        const auto& location = avatar.location;
+
         ret = m_in_bullet_time ? click_skill() : (location.empty() ? use_skill(name) : use_skill(location));
-        if (ret) m_in_bullet_time = false;
-        break;
-
+        if (ret) {
+            m_in_bullet_time = false;
+        }
+    } break;
     case ActionType::SwitchSpeed:
         ret = speed_up();
         break;
+    case ActionType::BulletTime: {
+        auto& avatar = action.getPayload<AvatarInfo>();
 
-    case ActionType::BulletTime:
+        const std::string& name = get_name_from_group(avatar.name);
+        const auto& location = avatar.location;
+
         ret = enter_bullet_time(name, location);
-        if (ret) m_in_bullet_time = true;
-        break;
+        if (ret) {
+            m_in_bullet_time = true;
+        }
+    } break;
+    case ActionType::SkillUsage: {
+        auto& avatar = action.getPayload<AvatarInfo>();
 
-    case ActionType::SkillUsage:
-        m_skill_usage[name] = action.modify_usage;
-        if (action.modify_usage == SkillUsage::Times) m_skill_times[name] = action.modify_times;
+        const std::string& name = get_name_from_group(avatar.name);
+
+        m_skill_usage[name] = avatar.modify_usage;
+        if (avatar.modify_usage == SkillUsage::Times) {
+            m_skill_times[name] = avatar.modify_times;
+        }
         ret = true;
-        break;
-
+    } break;
     case ActionType::Output:
         // DoNothing
         ret = true;
         break;
+    case ActionType::MoveCamera: {
+        auto& info = action.getPayload<MoveCameraInfo>();
 
-    case ActionType::MoveCamera:
-        ret = move_camera(action.distance);
-        break;
-
+        ret = move_camera(info.distance);
+    } break;
     case ActionType::SkillDaemon:
         ret = wait_until_end();
         break;
+    case ActionType::Loop: {
+        auto& info = action.getPayload<LoopInfo>();
+
+        // 假设被设置了自然数才赋值
+        info.end_info.resetCounter();
+
+        while (!check_condition(info.end_info)) {
+            // 需要维护counter
+            info.end_info.activeCounter();
+
+            // 执行循环体
+            for (int i = 0; i < info.loop_actions.size(); ++i) {
+                if (need_exit() || !m_in_battle) {
+                    goto END_LOOP;
+                }
+
+                if (info.continue_info.active() && !check_condition(info.continue_info)) {
+                    goto NEXT_LOOP;
+                }
+
+                if (info.break_info.active() && !check_condition(info.break_info)) {
+                    goto BREAK_LOOP;
+                }
+
+                ret &= do_action_sync(*info.loop_actions[i], i);
+            }
+
+NEXT_LOOP:
+            continue;
+
+BREAK_LOOP:
+            break;
+        }
+
+END_LOOP:;
+    } break;
+    case ActionType::Case: {
+        auto& info = action.getPayload<CaseInfo>();
+
+        if (auto it = m_oper_in_group.find(info.group_select); it != m_oper_in_group.cend()) {
+            // 没找到或者没在CaseInfo 中匹配就使用默认的
+            // 能够找到干员就使用对应的case
+            if (auto itFind = info.dispatch_actions.find(it->second); itFind != info.dispatch_actions.cend()) {
+                for (int i = 0; i < itFind->second.size(); ++i) {
+                    ret &= do_action_sync(*itFind->second[i], i);
+
+                    if (need_exit() || !m_in_battle) {
+                        ret = false;
+                        break;
+                    }
+                }
+            }
+        }
+        else {
+            Log.warn("failed to find select group");
+            ret = false;
+        }
+    } break;
+    case ActionType::Until: {
+        auto& info = action.getPayload<UntilInfo>();
+
+        // 循环遍历携带的所有子动作，只要成功一个才退出
+        // 防止死循环，添加loop_limit参数来限制循环
+        action.trigger.resetCounter();
+        switch (info.category) {
+        case TriggerInfo::Category::Any: {
+            int idx = 0;
+            while (ret == false) {
+                // 到达循环极限，退出
+                if (action.trigger.counter == action.trigger.count) {
+                    ret = false;
+                    break;
+                }
+
+                action.trigger.activeCounter();
+
+                // 只要其中一个命令执行成功就退出
+                size_t i = idx++ % info.candidate.size();
+                if (do_action_async(*info.candidate[i], i)) {
+                    ret = true;
+                    break;
+                }
+
+                if (need_exit() || !m_in_battle) {
+                    ret = false;
+                    break;
+                }
+            }
+        } break;
+        case TriggerInfo::Category::All:
+            [[fallthrough]];
+        default: {
+            std::set<ActionPtr> setSucc;
+            int idx = 0;
+
+            // 全部成功则完成循环
+            while (setSucc.size() != info.candidate.size()) {
+                // 到达循环极限，退出
+                if (action.trigger.counter == action.trigger.count) {
+                    ret = false;
+                    break;
+                }
+
+                action.trigger.activeCounter();
+
+                // 判断是否已经执行成功，如果已经成功就判断下一个
+                size_t i = idx++ % info.candidate.size();
+                if (setSucc.find(info.candidate[i]) != setSucc.end()) {
+                    continue;
+                }
+
+                // 记录成功完成的动作
+                if (do_action_async(*info.candidate[i], i)) {
+                    setSucc.emplace(info.candidate[i]);
+                }
+
+                if (need_exit() || !m_in_battle) {
+                    break;
+                }
+            }
+
+        } break;
+        }
+        ret = true;
+
+    } break;
+    case ActionType::Check: {
+        auto& info = action.getPayload<CheckInfo>();
+
+        if (check_condition(info.condition_info)) {
+            // 触发器满足条件
+            int i = 0;
+            for (; i < info.then_actions.size(); ++i) {
+                if (!do_action_sync(*info.then_actions[i], i)) {
+                    break;
+                }
+
+                if (need_exit() || !m_in_battle) {
+                    break;
+                }
+            }
+
+            ret = (i == info.then_actions.size());
+        }
+        else { // 触发器不满足条件
+            int i = 0;
+            for (; i < info.else_actions.size(); ++i) {
+                if (!do_action_sync(*info.else_actions[i], i)) {
+                    break;
+                }
+
+                if (need_exit() || !m_in_battle) {
+                    break;
+                }
+            }
+
+            ret = (i == info.else_actions.size());
+        }
+
+    } break;
     default:
         ret = do_derived_action(action, index);
         break;
     }
 
-    sleep_and_do_strategy(action.post_delay);
+    sleep_and_do_strategy(action.delay.post_delay);
 
     return ret;
+}
+
+bool asst::BattleProcessTask::do_action_sync(const battle::copilot::Action& action, size_t index)
+{
+    LogTraceFunction;
+
+    notify_action(action);
+
+    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static const auto min_frame_interval =
+        std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
+
+    // prevent our program from consuming too much CPU
+    if (const auto now = std::chrono::steady_clock::now(); prev_frame_time > now - min_frame_interval) [[unlikely]] {
+        Log.debug("Sleeping for framerate limit");
+        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
+    }
+
+    // 所有被设置的触发器都满足
+    switch (action.trigger.category) {
+    case TriggerInfo::Category::Succ: // 默认成功，跳过条件阶段，什么都不用做
+        break;
+    case TriggerInfo::Category::Any: {
+        if (!wait_condition_any(action)) {
+            return false;
+        }
+    } break;
+    case TriggerInfo::Category::Not: {
+        if (!wait_condition_not(action)) {
+            return false;
+        }
+    } break;
+    case TriggerInfo::Category::All:
+        [[fallthrough]];
+    default: {
+        if (!wait_condition_all(action)) {
+            return false;
+        }
+    } break;
+    }
+
+    // 部署干员还要额外等待费用够或 CD 转好
+    if (action.type == ActionType::Deploy) {
+        if (!wait_operator_ready(action)) {
+            return false;
+        }
+    }
+
+    prev_frame_time = std::chrono::steady_clock::now();
+
+    return do_action(action, index);
+}
+
+bool asst::BattleProcessTask::do_action_async(const battle::copilot::Action& action, size_t index)
+{
+    LogTraceFunction;
+
+    notify_action(action);
+
+    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static const auto min_frame_interval =
+        std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
+
+    // prevent our program from consuming too much CPU
+    if (const auto now = std::chrono::steady_clock::now(); prev_frame_time > now - min_frame_interval) [[unlikely]] {
+        Log.debug("Sleeping for framerate limit");
+        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
+    }
+
+    // 所有被设置的触发器都满足, 不等待
+    if (check_condition(action.trigger)) {
+        return false;
+    }
+
+    // 部署干员还要额外等待费用够或 CD 转好
+    if (action.type == ActionType::Deploy) {
+        if (!wait_operator_ready(action)) {
+            return false;
+        }
+    }
+
+    prev_frame_time = std::chrono::steady_clock::now();
+
+    return do_action(action, index);
 }
 
 const std::string& asst::BattleProcessTask::get_name_from_group(const std::string& action_name)
@@ -271,111 +529,484 @@ void asst::BattleProcessTask::notify_action(const battle::copilot::Action& actio
         { ActionType::MoveCamera, "MoveCamera" },
         { ActionType::DrawCard, "DrawCard" },
         { ActionType::CheckIfStartOver, "CheckIfStartOver" },
+        { ActionType::Loop, "Loop" },
+        { ActionType::Case, "Case" },
+        { ActionType::Check, "Check" },
+        { ActionType::Until, "Until" },
     };
 
     json::value info = basic_info_with_what("CopilotAction");
+    std::string strActionName;
+    if (action.hasAvatarInfo()) {
+        strActionName = action.getPayload<AvatarInfo>().name;
+    }
     info["details"] |= json::object {
         { "action", ActionNames.at(action.type) },
-        { "target", action.name },
-        { "doc", action.doc },
-        { "doc_color", action.doc_color },
+        { "target", strActionName },
+        { "doc", action.text.doc },
+        { "doc_color", action.text.doc_color },
     };
     callback(AsstMsg::SubTaskExtraInfo, info);
 }
 
-bool asst::BattleProcessTask::wait_condition(const Action& action)
+bool asst::BattleProcessTask::wait_operator_ready(const battle::copilot::Action& action)
 {
     cv::Mat image;
-    auto update_image_if_empty = [&]() {
-        if (image.empty()) {
-            image = ctrler()->get_image();
-            check_in_battle(image);
+    auto& avatarName = action.getPayload<AvatarInfo>().name;
+    const std::string& name = get_name_from_group(avatarName);
+    update_image_if_empty(&image);
+    while (!need_exit()) {
+        if (!update_deployment(false, image)) {
+            return false;
         }
-    };
-    auto do_strategy_and_update_image = [&]() {
-        do_strategic_action(image);
-        image = ctrler()->get_image();
-    };
+        if (auto iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
+            iter != m_cur_deployment_opers.end() && iter->available) {
+            break;
+        }
+        do_strategy_and_update_image(&image);
+    }
 
-    if (action.cost_changes != 0) {
-        update_image_if_empty();
+    return true;
+}
+
+void asst::BattleProcessTask::update_image_if_empty(cv::Mat* _Image)
+{
+    if (_Image->empty()) {
+        (*_Image) = ctrler()->get_image();
+        check_in_battle(*_Image);
+    }
+}
+
+void asst::BattleProcessTask::do_strategy_and_update_image(cv::Mat* _Image)
+{
+    do_strategic_action(*_Image);
+    (*_Image) = ctrler()->get_image();
+}
+
+// 等待至所有被设置的条件不被满足
+bool asst::BattleProcessTask::wait_condition_not(const Action& action)
+{
+    cv::Mat image;
+
+    // cost_changes 被指定才进入判断，且等待直至满足
+    if (action.trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+        update_image_if_empty(&image);
         update_cost(image);
         int pre_cost = m_cost;
 
         while (!need_exit()) {
             update_cost(image);
-            if (action.cost_changes != 0) {
-                if ((pre_cost + action.cost_changes < 0) ? (m_cost <= pre_cost + action.cost_changes)
-                                                         : (m_cost >= pre_cost + action.cost_changes)) {
+            if (action.trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+                if ((pre_cost + action.trigger.cost_changes < 0) ? (m_cost <= pre_cost + action.trigger.cost_changes)
+                                                                 : (m_cost >= pre_cost + action.trigger.cost_changes)) {
+                    ;
+                }
+                else {
                     break;
                 }
+
+                if (!check_in_battle(image)) {
+                    return false;
+                }
+                do_strategy_and_update_image(&image);
             }
-            if (!check_in_battle(image)) {
-                return false;
-            }
-            do_strategy_and_update_image();
         }
     }
 
-    if (m_kills < action.kills) {
-        update_image_if_empty();
-        while (!need_exit() && m_kills < action.kills) {
+    if (m_kills < action.trigger.kills) {
+        update_image_if_empty(&image);
+        while (!need_exit() && m_kills < action.trigger.kills) {
             update_kills(image);
-            if (m_kills >= action.kills) {
+            if (m_kills >= action.trigger.kills) {
+                ;
+            }
+            else {
                 break;
             }
+
             if (!check_in_battle(image)) {
                 return false;
             }
-            do_strategy_and_update_image();
+            do_strategy_and_update_image(&image);
         }
     }
 
-    if (action.costs) {
-        update_image_if_empty();
+    if (action.trigger.costs != TriggerInfo::DEACTIVE_COST) {
+        update_image_if_empty(&image);
         while (!need_exit()) {
             update_cost(image);
-            if (m_cost >= action.costs) {
+            if (m_cost >= action.trigger.costs) {
+                ;
+            }
+            else {
                 break;
             }
+
             if (!check_in_battle(image)) {
                 return false;
             }
-            do_strategy_and_update_image();
+            do_strategy_and_update_image(&image);
         }
     }
 
     // 计算有几个干员在cd
-    if (action.cooling >= 0) {
-        update_image_if_empty();
+    if (action.trigger.cooling > TriggerInfo::DEACTIVE_COOLING) {
+        update_image_if_empty(&image);
         while (!need_exit()) {
             if (!update_deployment(false, image)) {
                 return false;
             }
             size_t cooling_count =
                 ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
-            if (cooling_count == static_cast<size_t>(action.cooling)) {
+            if (cooling_count == static_cast<size_t>(action.trigger.cooling)) {
+                ;
+            }
+            else {
                 break;
             }
-            do_strategy_and_update_image();
+            do_strategy_and_update_image(&image);
         }
     }
 
-    // 部署干员还要额外等待费用够或 CD 转好
-    if (action.type == ActionType::Deploy) {
-        const std::string& name = get_name_from_group(action.name);
-        update_image_if_empty();
+    return true;
+}
+
+// 等待至所有被设置的条件被满足
+bool asst::BattleProcessTask::wait_condition_all(const Action& action)
+{
+    cv::Mat image;
+
+    // cost_changes 被指定才进入判断，且等待直至满足
+    if (action.trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+        update_image_if_empty(&image);
+        update_cost(image);
+        int pre_cost = m_cost;
+
+        while (!need_exit()) {
+            update_cost(image);
+            if (action.trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+                if ((pre_cost + action.trigger.cost_changes < 0) ? (m_cost <= pre_cost + action.trigger.cost_changes)
+                                                                 : (m_cost >= pre_cost + action.trigger.cost_changes)) {
+                    break;
+                }
+            }
+            if (!check_in_battle(image)) {
+                return false;
+            }
+            do_strategy_and_update_image(&image);
+        }
+    }
+
+    if (m_kills < action.trigger.kills) {
+        update_image_if_empty(&image);
+        while (!need_exit() && m_kills < action.trigger.kills) {
+            update_kills(image);
+            if (m_kills >= action.trigger.kills) {
+                break;
+            }
+            if (!check_in_battle(image)) {
+                return false;
+            }
+            do_strategy_and_update_image(&image);
+        }
+    }
+
+    if (action.trigger.costs != TriggerInfo::DEACTIVE_COST) {
+        update_image_if_empty(&image);
+        while (!need_exit()) {
+            update_cost(image);
+            if (m_cost >= action.trigger.costs) {
+                break;
+            }
+            if (!check_in_battle(image)) {
+                return false;
+            }
+            do_strategy_and_update_image(&image);
+        }
+    }
+
+    // 计算有几个干员在cd
+    if (action.trigger.cooling > TriggerInfo::DEACTIVE_COOLING) {
+        update_image_if_empty(&image);
         while (!need_exit()) {
             if (!update_deployment(false, image)) {
                 return false;
             }
-            if (auto iter =
-                    ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
-                iter != m_cur_deployment_opers.end() && iter->available) {
+            size_t cooling_count =
+                ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
+            if (cooling_count == static_cast<size_t>(action.trigger.cooling)) {
                 break;
             }
-            do_strategy_and_update_image();
+            do_strategy_and_update_image(&image);
         }
+    }
+
+    return true;
+}
+
+// 等待至被设定的任意一个条件被满足
+bool asst::BattleProcessTask::wait_condition_any(const Action& action)
+{
+    cv::Mat image;
+
+    // 提前准备好快照，便于后续设置判断费用差距
+    if (action.trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+        update_image_if_empty(&image);
+        update_cost(image);
+    }
+    int pre_cost = m_cost;
+
+    while (!need_exit()) {
+        update_image_if_empty(&image);
+
+        if (action.trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+            update_cost(image);
+            if ((pre_cost + action.trigger.cost_changes < 0) ? (m_cost <= pre_cost + action.trigger.cost_changes)
+                                                             : (m_cost >= pre_cost + action.trigger.cost_changes)) {
+                return true;
+            }
+        }
+
+        if (action.trigger.kills != TriggerInfo::DEACTIVE_KILLS) {
+            update_kills(image);
+            if (m_kills >= action.trigger.kills) {
+                return true;
+            }
+        }
+
+        if (action.trigger.costs != TriggerInfo::DEACTIVE_COST) {
+            update_cost(image);
+            if (m_cost >= action.trigger.costs) {
+                return true;
+            }
+        }
+
+        // 计算有几个干员在cd
+        if (action.trigger.cooling != TriggerInfo::DEACTIVE_COOLING) {
+            if (update_deployment(false, image)) {
+                size_t cooling_count =
+                    ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
+                if (cooling_count == static_cast<size_t>(action.trigger.cooling)) {
+                    return true;
+                }
+            }
+        }
+
+        if (!check_in_battle(image)) {
+            return false;
+        }
+
+        do_strategy_and_update_image(&image);
+    }
+
+    return false;
+}
+
+bool asst::BattleProcessTask::check_condition_not(const battle::copilot::TriggerInfo& _Trigger)
+{
+    using TriggerInfo = battle::copilot::TriggerInfo;
+
+    cv::Mat image;
+
+    update_image_if_empty(&image);
+
+    if (_Trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+        int pre_cost = m_cost;
+        update_cost(image);
+
+        if (_Trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+            if ((pre_cost + _Trigger.cost_changes < 0) ? (m_cost <= pre_cost + _Trigger.cost_changes)
+                                                       : (m_cost >= pre_cost + _Trigger.cost_changes)) {
+                return false;
+            }
+        }
+    }
+
+    if (_Trigger.kills != TriggerInfo::DEACTIVE_KILLS) {
+        update_kills(image);
+        if (m_kills >= _Trigger.kills) {
+            return false;
+        }
+    }
+
+    if (_Trigger.costs != TriggerInfo::DEACTIVE_COST) {
+        update_cost(image);
+        if (m_cost >= _Trigger.costs) {
+            return false;
+        }
+    }
+
+    // 计算有几个干员在cd
+    if (_Trigger.cooling != TriggerInfo::DEACTIVE_COOLING) {
+        if (update_deployment(false, image)) {
+            size_t cooling_count =
+                ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
+            if (cooling_count == static_cast<size_t>(_Trigger.cooling)) {
+                return false;
+            }
+        }
+    }
+
+    if (_Trigger.count != TriggerInfo::DEACTIVE_COUNT) {
+        if (_Trigger.counter == _Trigger.count) {
+            return false;
+        }
+    }
+
+    do_strategy_and_update_image(&image);
+
+    return true;
+}
+
+bool asst::BattleProcessTask::check_condition_all(const battle::copilot::TriggerInfo& _Trigger)
+{
+    using TriggerInfo = battle::copilot::TriggerInfo;
+
+    cv::Mat image;
+
+    update_image_if_empty(&image);
+
+    if (_Trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+        int pre_cost = m_cost;
+        update_cost(image);
+
+        if (_Trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+            if ((pre_cost + _Trigger.cost_changes < 0) ? (m_cost <= pre_cost + _Trigger.cost_changes)
+                                                       : (m_cost >= pre_cost + _Trigger.cost_changes)) {
+                ;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    if (_Trigger.kills != TriggerInfo::DEACTIVE_KILLS) {
+        update_kills(image);
+        if (m_kills >= _Trigger.kills) {
+            ;
+        }
+        else {
+            return false;
+        }
+    }
+
+    if (_Trigger.costs != TriggerInfo::DEACTIVE_COST) {
+        update_cost(image);
+        if (m_cost >= _Trigger.costs) {
+            ;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // 计算有几个干员在cd
+    if (_Trigger.cooling != TriggerInfo::DEACTIVE_COOLING) {
+        if (!update_deployment(false, image)) {
+            return false;
+        }
+        size_t cooling_count =
+            ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
+        if (cooling_count == static_cast<size_t>(_Trigger.cooling)) {
+            ;
+        }
+        else {
+            return false;
+        }
+    }
+
+    if (_Trigger.count != TriggerInfo::DEACTIVE_COUNT) {
+        if (_Trigger.counter == _Trigger.count) {
+            ;
+        }
+        else {
+            return false;
+        }
+    }
+
+    do_strategy_and_update_image(&image);
+
+    return true;
+}
+
+bool asst::BattleProcessTask::check_condition_any(const battle::copilot::TriggerInfo& _Trigger)
+{
+    using TriggerInfo = battle::copilot::TriggerInfo;
+
+    cv::Mat image;
+
+    update_image_if_empty(&image);
+    if (_Trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+        int pre_cost = m_cost;
+        update_cost(image);
+
+        if (_Trigger.cost_changes != TriggerInfo::DEACTIVE_COST_CHANGES) {
+            if ((pre_cost + _Trigger.cost_changes < 0) ? (m_cost <= pre_cost + _Trigger.cost_changes)
+                                                       : (m_cost >= pre_cost + _Trigger.cost_changes)) {
+                return true;
+            }
+        }
+    }
+
+    if (_Trigger.kills != TriggerInfo::DEACTIVE_KILLS) {
+        update_kills(image);
+        if (m_kills >= _Trigger.kills) {
+            return true;
+        }
+    }
+
+    if (_Trigger.costs != TriggerInfo::DEACTIVE_COST) {
+        update_cost(image);
+        if (m_cost >= _Trigger.costs) {
+            return true;
+        }
+    }
+
+    // 计算有几个干员在cd
+    if (_Trigger.cooling > TriggerInfo::DEACTIVE_COOLING) {
+        if (update_deployment(false, image)) {
+            size_t cooling_count =
+                ranges::count_if(m_cur_deployment_opers, [](const auto& oper) -> bool { return oper.cooling; });
+            if (cooling_count == static_cast<size_t>(_Trigger.cooling)) {
+                return true;
+            }
+        }
+    }
+
+    if (_Trigger.count != TriggerInfo::DEACTIVE_COUNT) {
+        if (_Trigger.counter == _Trigger.count) {
+            return true;
+        }
+    }
+
+    do_strategy_and_update_image(&image);
+
+    return false;
+}
+
+bool asst::BattleProcessTask::check_condition(const battle::copilot::TriggerInfo& _Trigger)
+{
+    switch (_Trigger.category) {
+    case TriggerInfo::Category::Succ: // 默认成功，跳过条件阶段，什么都不用做
+        break;
+    case TriggerInfo::Category::Any: {
+        if (check_condition_any(_Trigger)) {
+            return false;
+        }
+    } break;
+    case TriggerInfo::Category::Not: {
+        if (check_condition_not(_Trigger)) {
+            return false;
+        }
+    } break;
+    case TriggerInfo::Category::All:
+        [[fallthrough]];
+    default: {
+        if (check_condition_all(_Trigger)) {
+            return false;
+        }
+    } break;
     }
 
     return true;
