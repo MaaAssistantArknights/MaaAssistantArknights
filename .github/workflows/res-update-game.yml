@@ -170,48 +170,32 @@ jobs:
         id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
-          Write-Output "gitdiff=$(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })" >> $env:GITHUB_OUTPUT
-
-      # - name: Cache Prettier
-      #   id: cache-prettier
-      #   uses: actions/cache@v4
-      #   with:
-      #     key: ${{ runner.os }}-prettier
-      #     path: ./node_modules
-
-      # - name: Install Prettier
-      #   if: steps.cache-prettier.outputs.cache-hit != 'true'
-      #   run: |
-      #     npm i prettier --no-save
-
-      # - name: Run Prettier on modified Jsons
-      #   run: |
-      #     npx prettier -w ${{ steps.task_sorting.outputs.gitdiff }}
+          Write-Output "gitdiff=$(git diff --name-only --diff-filter=ACM 2>$null | Select-String -Pattern '\.json$' -List)" >> $env:GITHUB_OUTPUT
 
       - name: Run prettier
-        uses: creyD/prettier_action@v4.3
+        uses: actionsx/prettier@v3
         with:
-          prettier_options: -w ${{ steps.task_sorting.outputs.gitdiff }}
+          args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
         run: |
           git status
 
-          $gd = git diff --numstat HEAD 2>$null | findstr -i resource
+          $gitdiff = git diff --numstat HEAD 2>$null | findstr -i resource
           if ($LASTEXITCODE -ne 0) {
             Write-Output "no diff"
             exit 0
           }
 
           Write-Output "`n"
-          Write-Output $gd
+          Write-Output $gitdiff
           Write-Output "`n"
 
           $diff = $false
           $hasPng = $false
 
-          $diffLines = $gd -split "`n"
+          $diffLines = $gitdiff -split "`n"
 
           foreach ($line in $diffLines) {
               $parts = $line -split "\s+"
