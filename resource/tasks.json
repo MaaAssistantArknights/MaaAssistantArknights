@@ -9069,7 +9069,11 @@
         "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [1210, 120, 0, 0],
-        "next": ["Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2", "Sarkaz@Roguelike@CloseCollection", "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"]
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollection",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
+        ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2": {
         "roi": [1101, 51, 179, 137],
