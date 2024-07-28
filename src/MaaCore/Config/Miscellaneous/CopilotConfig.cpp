@@ -361,11 +361,10 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
         auto& until = action.payload.emplace<UntilInfo>();
 
         // 必选字段
-        until.category = TriggerInfo::loadCategoryFrom(action_info.at("category").as_string());
+        until.category = TriggerInfo::loadCategoryFrom(action_info.at("mode").as_string());
         switch (until.category) {
         case TriggerInfo::Category::Any:
         case TriggerInfo::Category::All:
-        case TriggerInfo::Category::Succ:
             break;
         default:
             until.category = TriggerInfo::Category::All;
