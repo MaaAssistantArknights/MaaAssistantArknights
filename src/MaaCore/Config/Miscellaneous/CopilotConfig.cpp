@@ -119,7 +119,7 @@ TriggerInfo asst::CopilotConfig::parse_trigger(const json::value& json)
 
     trigger.kills = json.get("kills", TriggerInfo::DEACTIVE_KILLS);
     trigger.costs = json.get("costs", TriggerInfo::DEACTIVE_COST);
-    trigger.cost_changes = json.get("cost_changes", TriggerInfo::DEACTIVE_COUNT);
+    trigger.cost_changes = json.get("cost_changes", TriggerInfo::DEACTIVE_COST_CHANGES);
     trigger.cooling = json.get("cooling", TriggerInfo::DEACTIVE_COOLING);
     trigger.count = json.get("count", TriggerInfo::DEACTIVE_COUNT);
 
