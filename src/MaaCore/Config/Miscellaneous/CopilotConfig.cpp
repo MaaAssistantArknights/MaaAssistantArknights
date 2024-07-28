@@ -113,6 +113,288 @@ asst::battle::copilot::OperUsageGroups asst::CopilotConfig::parse_groups(const j
     return groups;
 }
 
+TriggerInfo asst::CopilotConfig::parse_trigger(const json::value& json)
+{
+    TriggerInfo trigger;
+
+    trigger.kills = json.get("kills", TriggerInfo::DEACTIVE_KILLS);
+    trigger.costs = json.get("costs", TriggerInfo::DEACTIVE_COST);
+    trigger.cost_changes = json.get("cost_changes", TriggerInfo::DEACTIVE_COUNT);
+    trigger.cooling = json.get("cooling", TriggerInfo::DEACTIVE_COOLING);
+    trigger.count = json.get("count", TriggerInfo::DEACTIVE_COUNT);
+
+    if (auto category = json.find("category")) {
+        trigger.category = TriggerInfo::loadCategoryFrom(category.value().as_string());
+    }
+
+    return trigger;
+}
+
+bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::battle::copilot::Action* _Out)
+{
+    LogTraceFunction;
+
+    static const std::unordered_map<std::string, ActionType> ActionTypeMapping = {
+        { "Deploy", ActionType::Deploy },
+        { "DEPLOY", ActionType::Deploy },
+        { "deploy", ActionType::Deploy },
+        { "部署", ActionType::Deploy },
+
+        { "Skill", ActionType::UseSkill },
+        { "SKILL", ActionType::UseSkill },
+        { "skill", ActionType::UseSkill },
+        { "技能", ActionType::UseSkill },
+
+        { "Retreat", ActionType::Retreat },
+        { "RETREAT", ActionType::Retreat },
+        { "retreat", ActionType::Retreat },
+        { "撤退", ActionType::Retreat },
+
+        { "SkillUsage", ActionType::SkillUsage },
+        { "SKILLUSAGE", ActionType::SkillUsage },
+        { "Skillusage", ActionType::SkillUsage },
+        { "skillusage", ActionType::SkillUsage },
+        { "技能用法", ActionType::SkillUsage },
+
+        { "SpeedUp", ActionType::SwitchSpeed },
+        { "SPEEDUP", ActionType::SwitchSpeed },
+        { "Speedup", ActionType::SwitchSpeed },
+        { "speedup", ActionType::SwitchSpeed },
+        { "二倍速", ActionType::SwitchSpeed },
+
+        { "BulletTime", ActionType::BulletTime },
+        { "BULLETTIME", ActionType::BulletTime },
+        { "Bullettime", ActionType::BulletTime },
+        { "bullettime", ActionType::BulletTime },
+        { "子弹时间", ActionType::BulletTime },
+
+        { "Output", ActionType::Output },
+        { "OUTPUT", ActionType::Output },
+        { "output", ActionType::Output },
+        { "输出", ActionType::Output },
+        { "打印", ActionType::Output },
+
+        { "SkillDaemon", ActionType::SkillDaemon },
+        { "skilldaemon", ActionType::SkillDaemon },
+        { "SKILLDAEMON", ActionType::SkillDaemon },
+        { "Skilldaemon", ActionType::SkillDaemon },
+        { "DoNothing", ActionType::SkillDaemon },
+        { "摆完挂机", ActionType::SkillDaemon },
+        { "开摆", ActionType::SkillDaemon },
+
+        { "MoveCamera", ActionType::MoveCamera },
+        { "movecamera", ActionType::MoveCamera },
+        { "MOVECAMERA", ActionType::MoveCamera },
+        { "Movecamera", ActionType::MoveCamera },
+        { "移动镜头", ActionType::MoveCamera },
+
+        { "DrawCard", ActionType::DrawCard },
+        { "drawcard", ActionType::DrawCard },
+        { "DRAWCARD", ActionType::DrawCard },
+        { "Drawcard", ActionType::DrawCard },
+        { "抽卡", ActionType::DrawCard },
+        { "抽牌", ActionType::DrawCard },
+        { "调配", ActionType::DrawCard },
+        { "调配干员", ActionType::DrawCard },
+
+        { "CheckIfStartOver", ActionType::CheckIfStartOver },
+        { "Checkifstartover", ActionType::CheckIfStartOver },
+        { "CHECKIFSTARTOVER", ActionType::CheckIfStartOver },
+        { "checkifstartover", ActionType::CheckIfStartOver },
+        { "检查重开", ActionType::CheckIfStartOver },
+
+        { "Loop", ActionType::Loop },
+        { "loop", ActionType::Loop },
+        { "LOOP", ActionType::Loop },
+        { "循环", ActionType::Loop },
+
+        { "Case", ActionType::Case },
+        { "case", ActionType::Case },
+        { "CASE", ActionType::Case },
+        { "派发", ActionType::Case },
+        { "干员派发", ActionType::Case },
+
+        { "Check", ActionType::Check },
+        { "check", ActionType::Check },
+        { "CHECK", ActionType::Check },
+        { "检查", ActionType::Check },
+        { "分支", ActionType::Check },
+
+        { "Until", ActionType::Until },
+        { "until", ActionType::Until },
+        { "UNTIL", ActionType::Until },
+        { "直到", ActionType::Until },
+    };
+
+    auto& action = (*_Out);
+
+    std::string type_str = action_info.get("type", "Deploy");
+
+    if (auto iter = ActionTypeMapping.find(type_str); iter != ActionTypeMapping.end()) {
+        action.type = iter->second;
+    }
+    else {
+        Log.warn("Unknown action type:", type_str);
+        return false;
+    }
+    // 解析锚点编码，可选
+    action.point_code = action_info.get("point_code", std::string());
+
+    // 解析动作触发信息
+    action.trigger = parse_trigger(action_info);
+
+    // 解析前置条件满足之后的前后时延
+    action.delay.pre_delay = action_info.get("pre_delay", 0);
+    auto post_delay_opt = action_info.find<int>("post_delay");
+    action.delay.post_delay = post_delay_opt ? *post_delay_opt : action_info.get("rear_delay", 0);
+    // 历史遗留字段，兼容一下
+    action.delay.time_out = action_info.get("timeout", INT_MAX);
+
+    // 解析行动的相关附加文本
+    action.text.doc = action_info.get("doc", std::string());
+    action.text.doc_color = action_info.get("doc_color", std::string());
+
+    // 根据动作的类型解析载荷
+    switch (action.type) {
+    case ActionType::Deploy:
+    case ActionType::UseSkill:
+    case ActionType::Retreat:
+    case ActionType::BulletTime:
+    case ActionType::SkillUsage: {
+        auto& avatar = action.payload.emplace<AvatarInfo>();
+        avatar.name = action_info.get("name", std::string());
+        avatar.location.x = action_info.get("location", 0, 0);
+        avatar.location.y = action_info.get("location", 1, 0);
+        avatar.direction = string_to_direction(action_info.get("direction", "Right"));
+
+        avatar.modify_usage = static_cast<battle::SkillUsage>(action_info.get("skill_usage", 0));
+        avatar.modify_times = action_info.get("skill_times", 1);
+    } break;
+    case ActionType::CheckIfStartOver: {
+        auto& info = action.payload.emplace<CheckIfStartOverInfo>();
+
+        info.name = action_info.get("name", std::string());
+        if (auto tool_men = action_info.find("tool_men")) {
+            info.role_counts = parse_role_counts(*tool_men);
+        }
+    } break;
+    case ActionType::MoveCamera: {
+        auto dist_arr = action_info.at("distance").as_array();
+        action.payload.emplace<MoveCameraInfo>(std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double()));
+    } break;
+    case ActionType::Loop: {
+        auto& loop = action.payload.emplace<LoopInfo>();
+
+        // 必选字段
+        loop.end_info = parse_trigger(action_info.at("end"));
+        if (loop.end_info.category == TriggerInfo::Category::None) {
+            // 默认使用all策略，表示只有全部满足才算生效
+            loop.end_info.category = TriggerInfo::Category::All;
+        }
+
+        // 可选字段
+        if (auto t = action_info.find("continue")) {
+            loop.continue_info = parse_trigger(t.value());
+
+            if (loop.continue_info.category == TriggerInfo::Category::None) {
+                // 默认使用all策略，表示只有全部满足才算生效
+                loop.continue_info.category = TriggerInfo::Category::All;
+            }
+        }
+
+        // 可选字段
+        if (auto t = action_info.find("break")) {
+            loop.break_info = parse_trigger(t.value());
+
+            if (loop.break_info.category == TriggerInfo::Category::None) {
+                // 默认使用all策略，表示只有全部满足才算生效
+                loop.break_info.category = TriggerInfo::Category::All;
+            }
+        }
+
+        // 可选字段
+        if (auto t = action_info.find("loop_actions")) {
+            loop.loop_actions = parse_actions_ptr(t.value());
+        }
+
+    } break;
+    case ActionType::Case: {
+        auto& case_info = action.payload.emplace<CaseInfo>();
+
+        // 必选字段
+        case_info.group_select = action_info.at("select").as_string();
+
+        // 可选字段
+        if (auto t = action_info.find("dispatch_actions")) {
+            for (auto const& [name, batch] : t.value().as_object()) {
+                case_info.dispatch_actions.emplace(name, parse_actions_ptr(batch));
+            }
+        }
+
+        // 可选字段
+        if (auto t = action_info.find("default_action")) {
+            case_info.default_action = parse_actions_ptr(t.value());
+        }
+    } break;
+    case ActionType::Check: {
+        auto& check = action.payload.emplace<CheckInfo>();
+
+        // 必选字段
+        check.condition_info = parse_trigger(action_info.at("condition"));
+
+        if (check.condition_info.category == TriggerInfo::Category::None) {
+            // 默认使用all策略，表示只有全部满足才算生效
+            check.condition_info.category = TriggerInfo::Category::All;
+        }
+
+        // 可选字段
+        if (auto t = action_info.find("then_actions")) {
+            check.then_actions = parse_actions_ptr(t.value());
+        }
+
+        // 可选字段
+        if (auto t = action_info.find("else_actions")) {
+            check.else_actions = parse_actions_ptr(t.value());
+        }
+    } break;
+    case ActionType::Until: {
+        auto& until = action.payload.emplace<UntilInfo>();
+
+        // 必选字段
+        until.category = TriggerInfo::loadCategoryFrom(action_info.at("category").as_string());
+        switch (until.category) {
+        case TriggerInfo::Category::Any:
+        case TriggerInfo::Category::All:
+        case TriggerInfo::Category::Succ:
+            break;
+        default:
+            until.category = TriggerInfo::Category::All;
+            break;
+        }
+
+        // 必选字段，缺省值为0
+        action.trigger.count = action_info.get("limit", 0);
+
+        // 可选字段
+        if (auto t = action_info.find("candidate_actions")) {
+            until.candidate = parse_actions_ptr(t.value());
+        }
+    } break;
+    case ActionType::SwitchSpeed:
+    case ActionType::Output:
+    case ActionType::SkillDaemon:
+    case ActionType::DrawCard:
+    case ActionType::SavePoint:
+    case ActionType::SyncPoint:
+    case ActionType::CheckPoint:
+        [[fallthrough]];
+    default:
+        break;
+    }
+
+    return true;
+}
+
 std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(const json::value& json)
 {
     LogTraceFunction;
@@ -120,117 +402,30 @@ std::vector<asst::battle::copilot::Action> asst::CopilotConfig::parse_actions(co
     std::vector<battle::copilot::Action> actions_list;
 
     for (const auto& action_info : json.at("actions").as_array()) {
-        Action action;
-        static const std::unordered_map<std::string, ActionType> ActionTypeMapping = {
-            { "Deploy", ActionType::Deploy },
-            { "DEPLOY", ActionType::Deploy },
-            { "deploy", ActionType::Deploy },
-            { "部署", ActionType::Deploy },
-
-            { "Skill", ActionType::UseSkill },
-            { "SKILL", ActionType::UseSkill },
-            { "skill", ActionType::UseSkill },
-            { "技能", ActionType::UseSkill },
-
-            { "Retreat", ActionType::Retreat },
-            { "RETREAT", ActionType::Retreat },
-            { "retreat", ActionType::Retreat },
-            { "撤退", ActionType::Retreat },
-
-            { "SpeedUp", ActionType::SwitchSpeed },
-            { "SPEEDUP", ActionType::SwitchSpeed },
-            { "Speedup", ActionType::SwitchSpeed },
-            { "speedup", ActionType::SwitchSpeed },
-            { "二倍速", ActionType::SwitchSpeed },
-
-            { "BulletTime", ActionType::BulletTime },
-            { "BULLETTIME", ActionType::BulletTime },
-            { "Bullettime", ActionType::BulletTime },
-            { "bullettime", ActionType::BulletTime },
-            { "子弹时间", ActionType::BulletTime },
-
-            { "SkillUsage", ActionType::SkillUsage },
-            { "SKILLUSAGE", ActionType::SkillUsage },
-            { "Skillusage", ActionType::SkillUsage },
-            { "skillusage", ActionType::SkillUsage },
-            { "技能用法", ActionType::SkillUsage },
-
-            { "Output", ActionType::Output },
-            { "OUTPUT", ActionType::Output },
-            { "output", ActionType::Output },
-            { "输出", ActionType::Output },
-            { "打印", ActionType::Output },
-
-            { "SkillDaemon", ActionType::SkillDaemon },
-            { "skilldaemon", ActionType::SkillDaemon },
-            { "SKILLDAEMON", ActionType::SkillDaemon },
-            { "Skilldaemon", ActionType::SkillDaemon },
-            { "DoNothing", ActionType::SkillDaemon },
-            { "摆完挂机", ActionType::SkillDaemon },
-            { "开摆", ActionType::SkillDaemon },
-
-            { "MoveCamera", ActionType::MoveCamera },
-            { "movecamera", ActionType::MoveCamera },
-            { "MOVECAMERA", ActionType::MoveCamera },
-            { "Movecamera", ActionType::MoveCamera },
-            { "移动镜头", ActionType::MoveCamera },
-
-            { "DrawCard", ActionType::DrawCard },
-            { "drawcard", ActionType::DrawCard },
-            { "DRAWCARD", ActionType::DrawCard },
-            { "Drawcard", ActionType::DrawCard },
-            { "抽卡", ActionType::DrawCard },
-            { "抽牌", ActionType::DrawCard },
-            { "调配", ActionType::DrawCard },
-            { "调配干员", ActionType::DrawCard },
-
-            { "CheckIfStartOver", ActionType::CheckIfStartOver },
-            { "Checkifstartover", ActionType::CheckIfStartOver },
-            { "CHECKIFSTARTOVER", ActionType::CheckIfStartOver },
-            { "checkifstartover", ActionType::CheckIfStartOver },
-            { "检查重开", ActionType::CheckIfStartOver },
-        };
-
-        std::string type_str = action_info.get("type", "Deploy");
-
-        if (auto iter = ActionTypeMapping.find(type_str); iter != ActionTypeMapping.end()) {
-            action.type = iter->second;
-        }
-        else {
-            Log.warn("Unknown action type:", type_str);
+        battle::copilot::Action action;
+        if (!parse_action(action_info, &action)) {
             continue;
-        }
-        action.kills = action_info.get("kills", 0);
-        action.cost_changes = action_info.get("cost_changes", 0);
-        action.costs = action_info.get("costs", 0);
-        action.cooling = action_info.get("cooling", -1);
-        action.name = action_info.get("name", std::string());
-
-        action.location.x = action_info.get("location", 0, 0);
-        action.location.y = action_info.get("location", 1, 0);
-        action.direction = string_to_direction(action_info.get("direction", "Right"));
-
-        action.modify_usage = static_cast<battle::SkillUsage>(action_info.get("skill_usage", 0));
-        action.modify_times = action_info.get("skill_times", 1);
-        action.pre_delay = action_info.get("pre_delay", 0);
-        auto post_delay_opt = action_info.find<int>("post_delay");
-        // 历史遗留字段，兼容一下
-        action.post_delay = post_delay_opt ? *post_delay_opt : action_info.get("rear_delay", 0);
-        action.time_out = action_info.get("timeout", INT_MAX);
-        action.doc = action_info.get("doc", std::string());
-        action.doc_color = action_info.get("doc_color", std::string());
-
-        if (action.type == ActionType::CheckIfStartOver) {
-            if (auto tool_men = action_info.find("tool_men")) {
-                action.role_counts = parse_role_counts(*tool_men);
-            }
-        }
-        else if (action.type == ActionType::MoveCamera) {
-            auto dist_arr = action_info.at("distance").as_array();
-            action.distance = std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double());
         }
 
         actions_list.emplace_back(std::move(action));
+    }
+
+    return actions_list;
+}
+
+std::vector<asst::battle::copilot::ActionPtr> asst::CopilotConfig::parse_actions_ptr(const json::value& json)
+{
+    LogTraceFunction;
+
+    std::vector<battle::copilot::ActionPtr> actions_list;
+
+    for (const auto& action_info : json.as_array()) {
+        battle::copilot::ActionPtr action = std::make_shared<battle::copilot::Action>();
+        if (!parse_action(action_info, action.get())) {
+            continue;
+        }
+
+        actions_list.emplace_back(action);
     }
 
     return actions_list;
