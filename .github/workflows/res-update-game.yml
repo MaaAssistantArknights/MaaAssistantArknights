@@ -170,21 +170,26 @@ jobs:
         run: |
           python3 tools/TaskSorter/TaskSorter.py
 
-      - name: Cache Prettier
-        id: cache-prettier
-        uses: actions/cache@v4
+      # - name: Cache Prettier
+      #   id: cache-prettier
+      #   uses: actions/cache@v4
+      #   with:
+      #     key: ${{ runner.os }}-prettier
+      #     path: ./node_modules
+
+      # - name: Install Prettier
+      #   if: steps.cache-prettier.outputs.cache-hit != 'true'
+      #   run: |
+      #     npm i prettier --no-save
+
+      # - name: Run Prettier on modified Jsons
+      #   run: |
+      #     Invoke-Expression "npx prettier -w $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })"
+
+      - name: Run prettier
+        uses: actionsx/prettier@v3
         with:
-          key: ${{ runner.os }}-prettier
-          path: ./node_modules
-
-      - name: Install Prettier
-        if: steps.cache-prettier.outputs.cache-hit != 'true'
-        run: |
-          npm i prettier --no-save
-
-      - name: Run Prettier on modified Jsons
-        run: |
-          Invoke-Expression "npx prettier -w $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })"
+          args: -w $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
@@ -268,18 +273,18 @@ jobs:
         if: steps.add_files.outputs.have_commits != 'True'
         uses: andymckay/cancel-action@0.5
 
-      - name: Push changes
-        if: steps.add_files.outputs.have_commits == 'True'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
+      # - name: Push changes
+      #   if: steps.add_files.outputs.have_commits == 'True'
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
-      - name: Update OTA resource
-        if: steps.add_files.outputs.have_commits == 'True'
-        env:
-          GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
-        run: |
-          gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
+      # - name: Update OTA resource
+      #   if: steps.add_files.outputs.have_commits == 'True'
+      #   env:
+      #     GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
+      #   run: |
+      #     gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
     #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
     #     if: steps.add_files.outputs.have_commits == 'True'
