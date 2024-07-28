@@ -3,7 +3,8 @@
 #include <thread>
 
 #ifdef _WIN32
-#include <cstring>
+#include <processenv.h>
+#include <string>
 #else
 #include <cstdlib>
 #endif //  _WIN32
@@ -24,10 +25,10 @@ namespace adb
     static inline const tcp_endpoints resolve_adb_server(asio::io_context& context)
     {
 #ifdef _WIN32
-        char* port;
-        size_t len;
-        errno_t err = _dupenv_s(&port, &len, "ANDROID_ADB_SERVER_PORT");
-        if (err || len == 0) {
+        const auto size = GetEnvironmentVariableA("ANDROID_ADB_SERVER_PORT", nullptr, 0);
+        std::string port(size, '\0');
+        GetEnvironmentVariableA("ANDROID_ADB_SERVER_PORT", port.data(), size);
+        if (len == 0) {
             port = nullptr;
         }
 #else
@@ -37,11 +38,7 @@ namespace adb
         tcp::resolver resolver(context);
 
         if (port) {
-            const auto endpoints = resolver.resolve("127.0.0.1", port);
-#ifdef _WIN32
-            free(port);
-#endif //  _WIN32
-            return endpoints;
+            return resolver.resolve("127.0.0.1", port);
         } else {
             return resolver.resolve("127.0.0.1", "5037");
         }
