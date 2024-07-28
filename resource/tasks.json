@@ -5926,6 +5926,9 @@
             "Roguelike@ClickToStartPoint"
         ]
     },
+    "Sarkaz@Roguelike@ClickToStartPoint": {
+        "specificRect": [600, 600, 25, 25]
+    },
     "Roguelike@ClickToStartPointAfterFailed": {
         "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
         "baseTask": "Roguelike@ClickToStartPoint",
