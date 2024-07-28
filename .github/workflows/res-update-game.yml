@@ -167,8 +167,11 @@ jobs:
           ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
       - name: Task Sorting
+        id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
+          $gitdiff = $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })
+          Write-Output "gitdiff=$gitdiff" >> $env:GITHUB_OUTPUT
 
       # - name: Cache Prettier
       #   id: cache-prettier
@@ -189,7 +192,7 @@ jobs:
       - name: Run prettier
         uses: actionsx/prettier@v3
         with:
-          args: -w $(git diff --name-only --diff-filter=ACM 2>$null | Where-Object { $_ -match '\.json$' })
+          args: -w ${{ steps.task_sorting.outputs.gitdiff }}
 
       - name: Check if only sorted and Templates
         id: check_sorted_templates
