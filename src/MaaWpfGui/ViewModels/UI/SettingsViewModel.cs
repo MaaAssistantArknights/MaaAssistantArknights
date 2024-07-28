@@ -4133,7 +4133,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Window popupWindow = new Window
                 {
                     Width = 800,
-                    Height = 480,
+                    Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
                     Content = new Image
                     {
                         Source = TestLinkImage,
