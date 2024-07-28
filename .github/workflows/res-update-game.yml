@@ -188,9 +188,7 @@ jobs:
             exit 0
           }
 
-          Write-Output "`n"
           Write-Output $gitdiff
-          Write-Output "`n"
 
           $diff = $false
           $hasPng = $false
