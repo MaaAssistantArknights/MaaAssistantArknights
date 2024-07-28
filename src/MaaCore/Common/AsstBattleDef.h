@@ -241,19 +241,19 @@ struct TriggerInfo
 
     static auto loadCategoryFrom(std::string const& _Str) -> Category
     {
-        if (_Str == "Succ") {
+        if (_Str == "succ") {
             return Category::Succ;
         }
 
-        if (_Str == "All") {
+        if (_Str == "all") {
             return Category::All;
         }
 
-        if (_Str == "Any") {
+        if (_Str == "any") {
             return Category::Any;
         }
 
-        if (_Str == "Not") {
+        if (_Str == "not") {
             return Category::Not;
         }
 

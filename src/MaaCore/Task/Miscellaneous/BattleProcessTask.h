@@ -59,13 +59,15 @@ protected:
     bool check_condition_any(const battle::copilot::TriggerInfo& action); // 某个条件都满足
     bool check_condition(const battle::copilot::TriggerInfo& action);
 
-    bool check_point(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
-    bool check_point_not(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
-    bool check_point_all(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
-    bool check_point_any(const battle::copilot::PointInfo& _Current, std::chrono::steady_clock::time_point const& _Now);
+    bool check_point(const battle::copilot::PointInfo& _Current);
+    bool check_point_not(const battle::copilot::PointInfo& _Current);
+    bool check_point_all(const battle::copilot::PointInfo& _Current);
+    bool check_point_any(const battle::copilot::PointInfo& _Current);
 
     bool enter_bullet_time(const std::string& name, const Point& location);
     void sleep_and_do_strategy(unsigned millisecond);
+
+    auto gen_snap_shot() -> battle::copilot::PointInfo::SnapShot;
 
     void save_snap_shot(const std::string& code);
 

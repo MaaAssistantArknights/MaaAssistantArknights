@@ -270,11 +270,11 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
                     goto END_LOOP;
                 }
 
-                if (info.continue_info.active() && !check_condition(info.continue_info)) {
+                if (info.continue_info.active() && check_condition(info.continue_info)) {
                     goto NEXT_LOOP;
                 }
 
-                if (info.break_info.active() && !check_condition(info.break_info)) {
+                if (info.break_info.active() && check_condition(info.break_info)) {
                     goto BREAK_LOOP;
                 }
 
@@ -427,7 +427,7 @@ END_LOOP:;
         do {
             const auto now = std::chrono::steady_clock::now();
 
-            if (check_point(info, now)) {
+            if (check_point(info)) {
                 break;
             }
 
@@ -454,7 +454,7 @@ END_LOOP:;
     case ActionType::CheckPoint: {
         auto& info = action.getPayload<PointInfo>();
 
-        if (check_point(info, std::chrono::steady_clock::now())) {
+        if (check_point(info)) {
             int i = 0;
             for (; i < info.then_actions.size(); ++i) {
                 if (!do_action_sync(*info.then_actions[i], i)) {
@@ -1087,27 +1087,25 @@ bool asst::BattleProcessTask::check_condition(const battle::copilot::TriggerInfo
     return true;
 }
 
-bool asst::BattleProcessTask::check_point(
-    const battle::copilot::PointInfo& _Current,
-    std::chrono::steady_clock::time_point const& _Now)
+bool asst::BattleProcessTask::check_point(const battle::copilot::PointInfo& _Current)
 {
     switch (_Current.mode) {
     case TriggerInfo::Category::Succ: // 默认成功，跳过条件阶段，什么都不用做
         break;
     case TriggerInfo::Category::Any: {
-        if (!check_point_any(_Current, _Now)) {
+        if (!check_point_any(_Current)) {
             return false;
         }
     } break;
     case TriggerInfo::Category::Not: {
-        if (!check_point_not(_Current, _Now)) {
+        if (!check_point_not(_Current)) {
             return false;
         }
     } break;
     case TriggerInfo::Category::All:
         [[fallthrough]];
     default: {
-        if (!check_point_all(_Current, _Now)) {
+        if (!check_point_all(_Current)) {
             return false;
         }
     } break;
@@ -1116,35 +1114,36 @@ bool asst::BattleProcessTask::check_point(
     return true;
 }
 
-bool asst::BattleProcessTask::check_point_not(
-    const battle::copilot::PointInfo& _Current,
-    std::chrono::steady_clock::time_point const& _Now)
+bool asst::BattleProcessTask::check_point_not(const battle::copilot::PointInfo& _Current)
 {
     using TriggerInfo = battle::copilot::TriggerInfo;
 
     auto& target = get_snap_shot(_Current.target_code);
+    auto now = gen_snap_shot();
 
     if (_Current.range.first.kills != TriggerInfo::DEACTIVE_KILLS) {
-        if ((_Current.range.first.kills <= target.kills) && (target.kills <= _Current.range.second.kills)) {
+        auto diff = now.kills - target.kills;
+        if ((_Current.range.first.kills <= diff) && (diff <= _Current.range.second.kills)) {
             return false;
         }
     }
 
     if (_Current.range.first.cost != TriggerInfo::DEACTIVE_COST) {
-        if ((_Current.range.first.cost <= target.cost) && (target.cost <= _Current.range.second.cost)) {
+        auto diff = now.cost - target.cost;
+        if ((_Current.range.first.cost <= diff) && (diff <= _Current.range.second.cost)) {
             return false;
         }
     }
 
     if (_Current.range.first.cooling_count != TriggerInfo::DEACTIVE_COST) {
-        if ((_Current.range.first.cooling_count <= target.cooling_count) &&
-            (target.cooling_count <= _Current.range.second.cooling_count)) {
+        auto diff = now.cooling_count - target.cooling_count;
+        if ((_Current.range.first.cooling_count <= diff) && (diff <= _Current.range.second.cooling_count)) {
             return false;
         }
     }
 
     if (_Current.range.first.interval != 0 || _Current.range.second.interval != 0) {
-        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(_Now - target.tNow).count();
+        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(now.tNow - target.tNow).count();
         if ((_Current.range.first.interval <= diff) && (diff <= _Current.range.second.interval)) {
             return false;
         }
@@ -1153,16 +1152,16 @@ bool asst::BattleProcessTask::check_point_not(
     return true;
 }
 
-bool asst::BattleProcessTask::check_point_all(
-    const battle::copilot::PointInfo& _Current,
-    std::chrono::steady_clock::time_point const& _Now)
+bool asst::BattleProcessTask::check_point_all(const battle::copilot::PointInfo& _Current)
 {
     using TriggerInfo = battle::copilot::TriggerInfo;
 
     auto& target = get_snap_shot(_Current.target_code);
+    auto now = gen_snap_shot();
 
     if (_Current.range.first.kills != TriggerInfo::DEACTIVE_KILLS) {
-        if ((_Current.range.first.kills <= target.kills) && (target.kills <= _Current.range.second.kills)) {
+        auto diff = now.kills - target.kills;
+        if ((_Current.range.first.kills <= diff) && (diff <= _Current.range.second.kills)) {
             ;
         }
         else {
@@ -1171,7 +1170,8 @@ bool asst::BattleProcessTask::check_point_all(
     }
 
     if (_Current.range.first.cost != TriggerInfo::DEACTIVE_COST) {
-        if ((_Current.range.first.cost <= target.cost) && (target.cost <= _Current.range.second.cost)) {
+        auto diff = now.cost - target.cost;
+        if ((_Current.range.first.cost <= diff) && (diff <= _Current.range.second.cost)) {
             ;
         }
         else {
@@ -1180,8 +1180,8 @@ bool asst::BattleProcessTask::check_point_all(
     }
 
     if (_Current.range.first.cooling_count != TriggerInfo::DEACTIVE_COST) {
-        if ((_Current.range.first.cooling_count <= target.cooling_count) &&
-            (target.cooling_count <= _Current.range.second.cooling_count)) {
+        auto diff = now.cooling_count - target.cooling_count;
+        if ((_Current.range.first.cooling_count <= diff) && (diff <= _Current.range.second.cooling_count)) {
             ;
         }
         else {
@@ -1190,7 +1190,7 @@ bool asst::BattleProcessTask::check_point_all(
     }
 
     if (_Current.range.first.interval != 0 || _Current.range.second.interval != 0) {
-        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(_Now - target.tNow).count();
+        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(now.tNow - target.tNow).count();
         if ((_Current.range.first.interval <= diff) && (diff <= _Current.range.second.interval)) {
             ;
         }
@@ -1202,35 +1202,36 @@ bool asst::BattleProcessTask::check_point_all(
     return true;
 }
 
-bool asst::BattleProcessTask::check_point_any(
-    const battle::copilot::PointInfo& _Current,
-    std::chrono::steady_clock::time_point const& _Now)
+bool asst::BattleProcessTask::check_point_any(const battle::copilot::PointInfo& _Current)
 {
     using TriggerInfo = battle::copilot::TriggerInfo;
 
     auto& target = get_snap_shot(_Current.target_code);
+    auto now = gen_snap_shot();
 
     if (_Current.range.first.kills != TriggerInfo::DEACTIVE_KILLS) {
-        if ((_Current.range.first.kills <= target.kills) && (target.kills <= _Current.range.second.kills)) {
+        auto diff = now.kills - target.kills;
+        if ((_Current.range.first.kills <= diff) && (diff <= _Current.range.second.kills)) {
             return true;
         }
     }
 
     if (_Current.range.first.cost != TriggerInfo::DEACTIVE_COST) {
-        if ((_Current.range.first.cost <= target.cost) && (target.cost <= _Current.range.second.cost)) {
+        auto diff = now.cost - target.cost;
+        if ((_Current.range.first.cost <= diff) && (diff <= _Current.range.second.cost)) {
             return true;
         }
     }
 
     if (_Current.range.first.cooling_count != TriggerInfo::DEACTIVE_COST) {
-        if ((_Current.range.first.cooling_count <= target.cooling_count) &&
-            (target.cooling_count <= _Current.range.second.cooling_count)) {
+        auto diff = now.cooling_count - target.cooling_count;
+        if ((_Current.range.first.cooling_count <= diff) && (diff <= _Current.range.second.cooling_count)) {
             return true;
         }
     }
 
     if (_Current.range.first.interval != 0 || _Current.range.second.interval != 0) {
-        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(_Now - target.tNow).count();
+        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(now.tNow - target.tNow).count();
         if ((_Current.range.first.interval <= diff) && (diff <= _Current.range.second.interval)) {
             return true;
         }
@@ -1265,21 +1266,16 @@ void asst::BattleProcessTask::sleep_and_do_strategy(unsigned millisecond)
     }
 }
 
-void asst::BattleProcessTask::save_snap_shot(const std::string& code)
+auto asst::BattleProcessTask::gen_snap_shot() -> battle::copilot::PointInfo::SnapShot
 {
-    using TriggerInfo = battle::copilot::TriggerInfo;
-
-    if (code.empty()) {
-        return;
-    }
-
-    auto& shot = m_snap_shots[code];
-
     cv::Mat image;
 
     update_image_if_empty(&image);
 
     update_cost(image);
+
+    battle::copilot::PointInfo::SnapShot shot;
+
     shot.cost = m_cost;
 
     update_kills(image);
@@ -1293,6 +1289,19 @@ void asst::BattleProcessTask::save_snap_shot(const std::string& code)
     shot.tNow = std::chrono::steady_clock::now();
 
     do_strategy_and_update_image(&image);
+
+    return shot;
+}
+
+void asst::BattleProcessTask::save_snap_shot(const std::string& code)
+{
+    using TriggerInfo = battle::copilot::TriggerInfo;
+
+    if (code.empty()) {
+        return;
+    }
+
+    m_snap_shots[code] = gen_snap_shot();
 }
 
 auto asst::BattleProcessTask::get_snap_shot(const std::string& code) const noexcept
