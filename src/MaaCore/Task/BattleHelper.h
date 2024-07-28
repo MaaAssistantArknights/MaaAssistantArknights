@@ -96,6 +96,7 @@ protected:
     int m_total_kills = 0;
     int m_kills = 0;
     int m_cost = 0;
+    int m_cooling_count = 0;
 
     std::vector<battle::DeploymentOper> m_cur_deployment_opers;
 

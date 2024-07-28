@@ -1,5 +1,6 @@
 #pragma once
 
+#include <chrono>
 #include <map>
 #include <memory>
 #include <string>
@@ -220,11 +221,13 @@ struct TriggerInfo
     };
 
     Category category = Category::None;
+
     int kills = DEACTIVE_KILLS;               // 击杀数条件
     int costs = DEACTIVE_COST;                // 费用条件
     int cost_changes = DEACTIVE_COST_CHANGES; // 费用变化条件
     int cooling = DEACTIVE_COOLING;           // 冷却中的干员条件
     int count = DEACTIVE_COUNT;               // 计数条件，不做变化，记录初始值
+
     mutable int counter = 0;                  // 计数器
 
     // 触发器是否被激活
@@ -314,8 +317,29 @@ struct CheckInfo
 // 定义until操作需要的信息
 struct UntilInfo
 {
-    TriggerInfo::Category category;   // all 全部命令执行完毕后才结束， any 只要有一个执行就结束
+    TriggerInfo::Category mode;       // all 全部命令执行完毕后才结束， any 只要有一个执行就结束
     std::vector<ActionPtr> candidate; // 备用的命令序列
+};
+
+// 定义point操作需要的信息
+struct PointInfo
+{
+    struct SnapShot
+    {
+        int kills = TriggerInfo::DEACTIVE_KILLS;
+        int cost = TriggerInfo::DEACTIVE_COST;
+        int64_t cooling_count = TriggerInfo::DEACTIVE_COOLING;
+        int interval = 0;
+
+        std::chrono::steady_clock::time_point tNow;
+    };
+
+    std::string target_code;
+    TriggerInfo::Category mode;
+    std::pair<SnapShot, SnapShot> range;
+
+    std::vector<ActionPtr> then_actions; // 当条件满足时执行
+    std::vector<ActionPtr> else_actions; // 当条件不满足时执行
 };
 
 struct CheckIfStartOverInfo
@@ -363,7 +387,8 @@ struct Action
         CaseInfo,
         LoopInfo,
         CheckInfo,
-        UntilInfo>
+        UntilInfo,
+        PointInfo>
         payload; // 信息载荷
 
     // 是否携带干员信息
