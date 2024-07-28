@@ -8977,7 +8977,6 @@
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sarkaz@Roguelike@ClickToDrops": {},
     "Sarkaz@Roguelike@CloseCollection": {
         "next": [
             "Sarkaz@Roguelike@LastReward",
@@ -9183,7 +9182,6 @@
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
     "Sarkaz@Roguelike@GetDrop3": {},
-    "Sarkaz@Roguelike@GetDropCompleted": {},
     "Sarkaz@Roguelike@GetDropLeave": {},
     "Sarkaz@Roguelike@GetDropRecruit": {},
     "Sarkaz@Roguelike@GetDropSelect": {
