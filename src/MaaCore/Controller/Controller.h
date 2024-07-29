@@ -98,6 +98,7 @@ public:
     Controller& operator=(Controller&&) = delete;
 
     bool back_to_home();
+    std::optional<std::string> get_activities();
 
 private:
     cv::Mat get_resized_image_cache() const;

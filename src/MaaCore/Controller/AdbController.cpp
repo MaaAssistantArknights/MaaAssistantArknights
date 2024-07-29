@@ -1014,6 +1014,7 @@ bool asst::AdbController::connect(const std::string& adb_path, const std::string
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
+    m_adb.get_activities = cmd_replace(adb_cfg.get_activities);
     m_adb.back_to_home = cmd_replace(adb_cfg.back_to_home);
 
     if (m_support_socket && !m_server_started) {
@@ -1078,4 +1079,9 @@ void asst::AdbController::back_to_home() noexcept
 {
     call_command(m_adb.back_to_home);
     return;
+}
+
+std::optional<std::string> asst::AdbController::get_activities()
+{
+    return call_command(m_adb.get_activities);
 }
