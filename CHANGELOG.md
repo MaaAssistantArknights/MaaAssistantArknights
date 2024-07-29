@@ -3,13 +3,11 @@
 ### 新增 | New
 
 * change penguin CN mirror domain to alvorna.com (#9959) @GalvinGao
-* Global SSS#4 copilot adaptation @Constrat
 * 适配萨卡兹肉鸽 (#9677) @DavidWang19 @SherkeyXD @Daydreamer114 @Lemon-miaow @Alan-Charred
 * Mac GUI 添加萨米肉鸽策略 @hguandl
 * WPF Gui support for roguelike collapsal paradigm task plugin (#9648) @DavidWang19
 * 添加萨米肉鸽天途半道关卡战斗策略 (#9337) @Daydreamer114
 * 增加识别坍缩范式的插件，增加萨米肉鸽刷隐藏坍缩范式模式 (#9172) @Alan-Charred
-* YoStarEN resolution warning on client switch (#9539) @Constrat @ABA2396
 * 肉鸽五层 BOSS 前暂停功能 (#9801) @SherkeyXD @Lancarus @DavidWang19
 * MultiTemplMatcher (#9850) @Alan-Charred
 * 隐藏托盘图标选项 (#9819) @Icexbb
@@ -113,11 +111,8 @@
 * 修复萨卡兹肉鸽卡死在战斗失败的问题 @DavidWang19
 * 修改材料名称注释 @ABA2396
 * 修复被随机排序破坏的超链接 @Rbqwow
-* YostarEN SSS#4 buffs and branches @Constrat
 * test data @ABA2396
-* tweak Reed Alter, Noir Corne alter regex @Constrat
 * 自动战斗开始时移除召唤物类头像缓存，以避免跨局错误识别相似技能的召唤物 (#9649) @status102
-* 繁中服部分角色無法正確辨識 (#9647) @momomochi987
 * 修复连接前同步参数时日志报错的问题 (#9644) @zzyyyl
 * roi out of bounds @zzyyyl
 * 修复萨米肉鸽因插件注册顺序导致的无法运行问题 (#9633) @Alan-Charred
@@ -126,7 +121,6 @@
 * allow CMake build MaaCore with ASST_DEBUG under macOS @Alan-Charred
 * leak fastdeploy objects to avoid crash @dantmnf
 * Roguelike Invest System offset (#9590) @Alan-Charred
-* 修正繁中服薩米肉鴿獎勵無法多選一的問題 (#9584) @momomochi987
 * add zh-tw glossary for weblate @AlisaAkiron
 * merge glossary json into one for better webalte compatibility @AlisaAkiron
 * fix typings in Recruit task @horror-proton
@@ -185,7 +179,6 @@
 ### 文档 | Docs
 
 * 本地加载所有图片 @Rbqwow
-* Auto Update Changelogs of v5.5.0-beta.1 (#9735) @github-actions[bot] @ABA2396
 * update glossary @HX3N
 * 修改Task协议文档，以符合cache默认值 @status102
 * CHANGELOG中文档修改独立分类 @SherkeyXD
@@ -193,11 +186,9 @@
 * fix a bad link @Rbqwow
 * make i18n warnings show only once @Rbqwow
 * 增加关于肉鸽任务刷探索范式功能的说明 (#9552) @Alan-Charred
-* Auto Update Changelogs of v5.5.0-beta.2 (#9926) @github-actions[bot] @ABA2396 @status102
 * 添加 adb-lite 说明 @Rbqwow
 * KR 添加 MAA 格式化要求说明 @HX3N
 * 添加 MAA 格式化要求说明 @SherkeyXD
-* Auto Update Changelogs of v5.5.0-beta.2 (#9939) @github-actions[bot] @ABA2396
 
 ### 其他 | Other
 
@@ -229,7 +220,6 @@
 * 数色算法现在改为原来的结果与 ccoeff 结果的点积 @zzyyyl
 * 萨卡兹肉鸽混乱或阻滞时先使用一个再舍弃 (#9727) @Daydreamer114
 * 萨卡兹肉鸽添加混乱与阻滞时舍弃思维功能 (#9711) @Daydreamer114
-* YostarJP HS navigation (#9958) @Manicsteiner
 * 修改弹窗尺寸 @ABA2396
 * 肉鸽继续尝试探索但并不直接放弃 @ABA2396
 * add res-update-game-unix.yml @Constrat
@@ -240,44 +230,27 @@
 * remove testing image @zzyyyl
 * 调整 DebugTask 测试模板匹配时的输出信息 @zzyyyl
 * generate_mask_range 增加用于比较两图的函数 @zzyyyl
-* Release v5.5.0-beta.2 (#9938) @ABA2396
-* Release v5.5.0-beta.2 (#9922) @ABA2396
-* Release v5.5.0-beta.1 (#9707) @ABA2396
 * OD navigation (#9729) @Manicsteiner
-* YostarKR WB navigation @HX3N
-* YostarJP WB navigation (#9715) @Manicsteiner
 * 添加弹窗提示 @ABA2396
-* 補充繁中服保全派駐#3 相關內容 (#9701) @momomochi987
 * ignore more site (#9698) @wangl-cc
 * use lychee to check dead links (#9675) @wangl-cc
-* YostarKR add SSSBuffChoose @HX3N
-* SSS#4 Automaton Arena @Constrat
 * bump `maa-cli` to 0.4.8 and update documents (#9683) @wangl-cc
-* Global SSS#4 copilot (Translation work in progress) @Constrat
 * update ja-jp.xaml @Manicsteiner
 * 萨米肉鸽配置文件/插件单独文件夹 (#9651) @Alan-Charred
 * make AskRestartToApplySettingsYoStarEN static @ABA2396
 * 统一肉鸽模式介绍文字 (#9669) @Alan-Charred
-* link for yostaren resolution [skip changelo] @Constrat
-* Translations update from MAA Weblate (#9640) @AlisaAkiron @Rbqwow
 * Style/gui consistency (#9567) @Constrat
-* YostarJP add SSSBuffChoose (#9629) @Manicsteiner
 * Update ja-jp.json @wallsman
 * 删除 Qodana 静态检查 (#9553) @SherkeyXD
 * 增加 ResourceUpdater 日志 @ABA2396
 * pref: 将Head和ETag请求设置为`Connection: close` @ChingCdesu
-* Translations update from MAA Weblate (#9598) @AlisaAkiron
-* YostarKR ocr fix and remove SkipThePreBattlePlot @HX3N
-* YostarJP cor fix and roguelike shop text (#9591) @Manicsteiner
 * update python API (#9538) @EvATive7
-* YoStar -> Yostar only for interfaces (#9548) @Constrat
 * website docs **translation needed** (#9287) @ABA2396 @wallsman @SherkeyXD @HX3N @Rbqwow @Constrat @wangl-cc
-* rollback @vuepress/plugin-docsearch version close #9835 @SherkeyXD
+* rollback @vuepress/plugin-docsearch version @SherkeyXD
 * cleaned up comments + alias @Constrat
 * git diff output formatting @Constrat
 * use github-actions[bot] credentials @Constrat
 * GenerateMaskRange 可以直接展示 mask_range 掩码后的图片 @zzyyyl
-* 繁中服「綠野幻夢」復刻活動導航 (#9913) @momomochi987
 * do not close enhancement issue @Rbqwow
 * dont close stale issue too late (#9899) @AnnAngela
 * 肉鸽坍缩范式插件代码整理 (#9833) @Alan-Charred
@@ -285,7 +258,6 @@
 * Revert "feat!: 允许插件Verify期间自变更enable，以禁用非预期的启用 (#9876)" @zzyyyl
 * dont close issue too early (#9887) @AnnAngela
 * Manual Resource Update @Constrat
-* dependabot back to default [skip changelo] @Constrat
 * bump github actions versions (#9859) @dependabot[bot] @Constrat
 * dependabot gh actions automation (#9836) @Constrat
 * update-game-resources 时再输出 user 信息 @zzyyyl
@@ -294,7 +266,7 @@
 * format @status102
 * tweaks @Constrat
 * 完善pr-checker的提示 @SherkeyXD
-* markdown-checker exclude https://ark.yituliu.cn/ @zzyyyl
+* markdown-checker exclude <https://ark.yituliu.cn/> @zzyyyl
 * 有 core 标签不打 ambiguous @zzyyyl
 * issue-bot 增加关键词 (#9771) @Rbqwow
 * avoid generate package.json & package-lock.json while res-update-game @zzyyyl
@@ -321,3 +293,37 @@
 * optimize templates perf and fixes @Constrat
 * Revert "ci: optimize templates perf and fixes" (#9929) @Constrat
 * optimize templates perf and fixes (#9928) @Constrat
+
+### For Overseas
+
+* Global SSS#4 copilot adaptation @Constrat
+* tweak Reed Alter, Noir Corne alter regex @Constrat
+* SSS#4 Automaton Arena @Constrat
+* Global SSS#4 copilot (Translation work in progress) @Constrat
+* Translations update from MAA Weblate (#9640) @AlisaAkiron @Rbqwow
+* YoStar -> Yostar only for interfaces (#9548) @Constrat
+
+#### txwy
+
+* 補充繁中服保全派駐#3 相關內容 (#9701) @momomochi987
+* 繁中服「綠野幻夢」復刻活動導航 (#9913) @momomochi987
+* 修正繁中服薩米肉鴿獎勵無法多選一的問題 (#9584) @momomochi987
+* 繁中服部分角色無法正確辨識 (#9647) @momomochi987
+
+#### YoStarEN
+
+* YoStarEN resolution warning on client switch (#9539) @Constrat @ABA2396
+* YostarEN SSS#4 buffs and branches @Constrat
+
+#### YoStarJP
+
+* YostarJP HS navigation (#9958) @Manicsteiner
+* YostarJP WB navigation (#9715) @Manicsteiner
+* YostarJP add SSSBuffChoose (#9629) @Manicsteiner
+* YostarJP cor fix and roguelike shop text (#9591) @Manicsteiner
+
+#### YoStarKR
+
+* YostarKR WB navigation @HX3N
+* YostarKR add SSSBuffChoose @HX3N
+* YostarKR ocr fix and remove SkipThePreBattlePlot @HX3N
