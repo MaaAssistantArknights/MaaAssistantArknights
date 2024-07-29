@@ -70,6 +70,18 @@ bool asst::RoguelikeFoldartalUseTaskPlugin::verify(const AsstMsg msg, const json
     }
 }
 
+bool asst::RoguelikeFoldartalUseTaskPlugin::load_params(const json::value& params)
+{
+    if (m_config->get_theme() != RoguelikeTheme::Sami) {
+        return false;
+    }
+
+    // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
+    m_use_foldartal = (params.get("use_foldartal", m_config->get_mode() != RoguelikeMode::CLP_PDS));
+
+    return true;
+}
+
 bool asst::RoguelikeFoldartalUseTaskPlugin::_run()
 {
     LogTraceFunction;
