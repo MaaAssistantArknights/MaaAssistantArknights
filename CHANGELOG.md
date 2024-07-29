@@ -3,54 +3,23 @@
 ### 新增 | New
 
 * change penguin CN mirror domain to alvorna.com (#9959) @GalvinGao
-* 删去 CcoeffHSV, HSVCount 时的模板匹配采用 RGB 的 Ccoeff @zzyyyl
-* RGBCount 和 HSVCount 改为 数色 和 模板匹配 的算术平均 @zzyyyl
-* 数色算法现在改为原来的结果与 ccoeff 结果的点积 @zzyyyl
-* 萨卡兹肉鸽混乱或阻滞时先使用一个再舍弃 (#9727) @Daydreamer114
-* 萨卡兹肉鸽添加混乱与阻滞时舍弃思维功能 (#9711) @Daydreamer114
 * Global SSS#4 copilot adaptation @Constrat
 * 适配萨卡兹肉鸽 (#9677) @DavidWang19 @SherkeyXD @Daydreamer114 @Lemon-miaow @Alan-Charred
 * Mac GUI 添加萨米肉鸽策略 @hguandl
 * WPF Gui support for roguelike collapsal paradigm task plugin (#9648) @DavidWang19
-* 增加 BattlePauseCancel 重试上限 @zzyyyl
-* cache 统一默认为 false (#9642) @zzyyyl
-* 重新加入 tasks.json 的默认值检查 (#9583) @zzyyyl
-* 由ci生成的非正式/公测/内测版判断为调试版本并且不再检查更新 (#9632) @SherkeyXD @zzyyyl
-* 隐式空 text 检测仅对无基任务生效 @zzyyyl
-* change glossary from markdown to JSON @AlisaAkiron
-* update turbo to v2 @AlisaAkiron
 * 添加萨米肉鸽天途半道关卡战斗策略 (#9337) @Daydreamer114
 * 增加识别坍缩范式的插件，增加萨米肉鸽刷隐藏坍缩范式模式 (#9172) @Alan-Charred
 * YoStarEN resolution warning on client switch (#9539) @Constrat @ABA2396
-* first implementation (#9927) @Constrat
-* 印象加深后卡住时截图 @zzyyyl
-* optimize templates in resource updater @Constrat
 * 肉鸽五层 BOSS 前暂停功能 (#9801) @SherkeyXD @Lancarus @DavidWang19
-* 禁止插件修改自身 enable @zzyyyl
 * MultiTemplMatcher (#9850) @Alan-Charred
-* 使用 set_params + set_enable 管理插件而不是延迟注册插件 @zzyyyl
 * 隐藏托盘图标选项 (#9819) @Icexbb
-* feat!: 允许插件Verify期间自变更enable，以禁用非预期的启用 (#9876) @status102
-* close inactive issues (#9866) @Constrat @zzyyyl @pre-commit-ci[bot]
-* 添加并修改三层boss肉鸽作业 (#9868) @Saratoga-Official
-* 肉鸽插件添加设置参数功能，设置失败的插件会被自动disable (#9862) @Alan-Charred
-* 插件 verify 前先判断 enable @zzyyyl
-* feat!: 增加图像匹配算法 RGBCount, HSVCount (#9795) @zzyyyl
-* 增加特定情况下检查到 roi 为全屏的警告 (#9674) @pre-commit-ci[bot] @zzyyyl
-* 添加几个肉鸽作业 (#9854) @Saratoga-Official
-* AbstractTask新增附加已有插件、插件查找 (#9816) @status102
-* feat!: mask_range 支持彩色掩码 (#9818) @zzyyyl
-* 删除 HashTaskInfo 相关 (#9724) @zzyyyl
-* 肉鸽插件增加每局重置，以免全部堆积到Config (#9828) @status102
+* 添加几个肉鸽作业 (#9854, #9868) @Saratoga-Official
 * Mac GUI 关闭游戏任务 @hguandl
 * Mac GUI 肉鸽凹精二和生息演算设置 @hguandl
-* numbers only in TimerSettings @Constrat
 * 投资模式增加非开局干员直接招募第一位 (#9803) @Lancarus
 * 萨卡兹肉鸽自动印象重建 (#9789) @Lancarus
-* 支持自定义 MatchTemplate 匹配方法 (#9785) @zzyyyl
 * 添加思绪数据 @SherkeyXD
 * Mac GUI 支持萨卡兹肉鸽、开始/停止任务快捷键 @hguandl
-* allow cache overwriting @Constrat
 
 ### 改进 | Improved
 
@@ -122,6 +91,7 @@
 
 ### 修复 | Fix
 
+* 印象加深后卡住时截图 @zzyyyl
 * 肉鸽部分范围点击任务点进萨卡兹肉鸽思绪界面 (#9953) @Daydreamer114
 * 萨卡兹肉鸽命运所指关卡识别使用 HSVCount 避免达不到阈值 @zzyyyl
 * 更新 先行一步 & 失与得 的掩码范围以增加得分 @zzyyyl
@@ -231,6 +201,34 @@
 
 ### 其他 | Other
 
+* allow cache overwriting @Constrat
+* feat!: mask_range 支持彩色掩码 (#9818) @zzyyyl
+* 删除 HashTaskInfo 相关 (#9724) @zzyyyl
+* 肉鸽插件增加每局重置，以免全部堆积到Config (#9828) @status102
+* numbers only in TimerSettings @Constrat
+* 支持自定义 MatchTemplate 匹配方法 (#9785) @zzyyyl
+* 禁止插件修改自身 enable @zzyyyl
+* 使用 set_params + set_enable 管理插件而不是延迟注册插件 @zzyyyl
+* feat!: 允许插件Verify期间自变更enable，以禁用非预期的启用 (#9876) @status102
+* close inactive issues (#9866) @Constrat @zzyyyl @pre-commit-ci[bot]
+* 肉鸽插件添加设置参数功能，设置失败的插件会被自动disable (#9862) @Alan-Charred
+* 插件 verify 前先判断 enable @zzyyyl
+* feat!: 增加图像匹配算法 RGBCount, HSVCount (#9795) @zzyyyl
+* 增加特定情况下检查到 roi 为全屏的警告 (#9674) @pre-commit-ci[bot] @zzyyyl
+* first implementation (#9927) @Constrat
+* optimize templates in resource updater @Constrat
+* 增加 BattlePauseCancel 重试上限 @zzyyyl
+* cache 统一默认为 false (#9642) @zzyyyl
+* 重新加入 tasks.json 的默认值检查 (#9583) @zzyyyl
+* 由ci生成的非正式/公测/内测版判断为调试版本并且不再检查更新 (#9632) @SherkeyXD @zzyyyl
+* 隐式空 text 检测仅对无基任务生效 @zzyyyl
+* change glossary from markdown to JSON @AlisaAkiron
+* update turbo to v2 @AlisaAkiron
+* 删去 CcoeffHSV, HSVCount 时的模板匹配采用 RGB 的 Ccoeff @zzyyyl
+* RGBCount 和 HSVCount 改为 数色 和 模板匹配 的算术平均 @zzyyyl
+* 数色算法现在改为原来的结果与 ccoeff 结果的点积 @zzyyyl
+* 萨卡兹肉鸽混乱或阻滞时先使用一个再舍弃 (#9727) @Daydreamer114
+* 萨卡兹肉鸽添加混乱与阻滞时舍弃思维功能 (#9711) @Daydreamer114
 * YostarJP HS navigation (#9958) @Manicsteiner
 * 修改弹窗尺寸 @ABA2396
 * 肉鸽继续尝试探索但并不直接放弃 @ABA2396
