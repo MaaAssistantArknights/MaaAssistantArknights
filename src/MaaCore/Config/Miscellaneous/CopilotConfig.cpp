@@ -296,7 +296,8 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
     } break;
     case ActionType::MoveCamera: {
         auto dist_arr = action_info.at("distance").as_array();
-        action.payload.emplace<MoveCameraInfo>(std::make_pair(dist_arr[0].as_double(), dist_arr[1].as_double()));
+        action.payload.emplace<MoveCameraInfo>(
+            std::pair<double, double>(dist_arr[0].as_double(), dist_arr[1].as_double()));
     } break;
     case ActionType::Loop: {
         auto& loop = action.payload.emplace<LoopInfo>();
