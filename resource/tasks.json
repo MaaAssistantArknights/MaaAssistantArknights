@@ -5905,9 +5905,6 @@
             "Roguelike@ClickToDrops"
         ]
     },
-    "Sarkaz@Roguelike@ClickToDrops": {
-        "specificRect": [600, 600, 25, 25]
-    },
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
@@ -5925,9 +5922,6 @@
             "Roguelike@StartUpThemes#next",
             "Roguelike@ClickToStartPoint"
         ]
-    },
-    "Sarkaz@Roguelike@ClickToStartPoint": {
-        "specificRect": [600, 600, 25, 25]
     },
     "Roguelike@ClickToStartPointAfterFailed": {
         "doc": "因为是从肉鸽失败界面进入，删除了对下个stage的判断",
@@ -6096,9 +6090,6 @@
         "roi": [488, 206, 302, 289],
         "postDelay": 3000,
         "next": ["Roguelike@GetDrops#next", "Roguelike@ChooseOperFlag", "Roguelike@ClickToDrops"]
-    },
-    "Sarkaz@Roguelike@GetDropCompleted": {
-        "specificRect": [600, 600, 25, 25]
     },
     "Roguelike@GetDropLeave": {
         "Doc": "base_task",
@@ -8977,6 +8968,12 @@
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
         ]
     },
+    "Sarkaz@Roguelike@ClickToDrops": {
+        "specificRect": [600, 600, 25, 25]
+    },
+    "Sarkaz@Roguelike@ClickToStartPoint": {
+        "specificRect": [600, 600, 25, 25]
+    },
     "Sarkaz@Roguelike@CloseCollection": {
         "next": [
             "Sarkaz@Roguelike@LastReward",
@@ -9187,6 +9184,9 @@
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
     "Sarkaz@Roguelike@GetDrop3": {},
+    "Sarkaz@Roguelike@GetDropCompleted": {
+        "specificRect": [600, 600, 25, 25]
+    },
     "Sarkaz@Roguelike@GetDropLeave": {},
     "Sarkaz@Roguelike@GetDropRecruit": {},
     "Sarkaz@Roguelike@GetDropSelect": {
