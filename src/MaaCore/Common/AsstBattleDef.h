@@ -335,7 +335,7 @@ struct PointInfo
     };
 
     std::string target_code;
-    TriggerInfo::Category mode;
+    TriggerInfo::Category mode = TriggerInfo::Category::All;
     std::pair<SnapShot, SnapShot> range;
 
     std::vector<ActionPtr> then_actions; // 当条件满足时执行
