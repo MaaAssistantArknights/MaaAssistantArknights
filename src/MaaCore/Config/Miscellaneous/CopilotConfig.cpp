@@ -217,13 +217,13 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
         { "Check", ActionType::Check },
         { "check", ActionType::Check },
         { "CHECK", ActionType::Check },
-        { "检查", ActionType::Check },
+        { "确认", ActionType::Check },
         { "分支", ActionType::Check },
 
         { "Until", ActionType::Until },
         { "until", ActionType::Until },
         { "UNTIL", ActionType::Until },
-        { "直到", ActionType::Until },
+        { "轮询", ActionType::Until },
 
         { "SavePoint", ActionType::SavePoint },
         { "savepoint", ActionType::SavePoint },
@@ -376,8 +376,11 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
     case ActionType::Until: {
         auto& until = action.payload.emplace<UntilInfo>();
 
-        // 必选字段
-        until.mode = TriggerInfo::loadCategoryFrom(action_info.at("mode").as_string());
+        // 可选字段
+        if (auto t = action_info.find("mode")) {
+            until.mode = TriggerInfo::loadCategoryFrom(t.value().as_string());
+        }
+
         switch (until.mode) {
         case TriggerInfo::Category::Any:
         case TriggerInfo::Category::All:
@@ -387,8 +390,13 @@ bool asst::CopilotConfig::parse_action(const json::value& action_info, asst::bat
             break;
         }
 
-        // 必选字段，缺省值为0
-        action.trigger.count = action_info.get("limit", 0);
+        // 可选字段，缺省值为0
+        if (auto t = action_info.find("limit")) {
+            action.trigger.count = t.value().as_integer();
+        }
+        else if (action.trigger.count == TriggerInfo::DEACTIVE_COUNT) {
+            action.trigger.count = 0;
+        }
 
         // 可选字段
         if (auto t = action_info.find("candidate_actions")) {

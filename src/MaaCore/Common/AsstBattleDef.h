@@ -317,8 +317,8 @@ struct CheckInfo
 // 定义until操作需要的信息
 struct UntilInfo
 {
-    TriggerInfo::Category mode;       // all 全部命令执行完毕后才结束， any 只要有一个执行就结束
-    std::vector<ActionPtr> candidate; // 备用的命令序列
+    TriggerInfo::Category mode = TriggerInfo::Category::All; // all 全部命令执行完毕后才结束， any 只要有一个执行就结束
+    std::vector<ActionPtr> candidate;                        // 备用的命令序列
 };
 
 // 定义point操作需要的信息
@@ -332,6 +332,8 @@ struct PointInfo
         int interval = 0;
 
         std::chrono::steady_clock::time_point tNow;
+
+        SnapShot() = default;
     };
 
     std::string target_code;
@@ -340,6 +342,8 @@ struct PointInfo
 
     std::vector<ActionPtr> then_actions; // 当条件满足时执行
     std::vector<ActionPtr> else_actions; // 当条件不满足时执行
+
+    PointInfo() = default;
 };
 
 struct CheckIfStartOverInfo
