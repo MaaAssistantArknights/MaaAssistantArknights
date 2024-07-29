@@ -514,10 +514,11 @@ void Assistant::monitor_proc()
 
         if (m_thread_idle || m_tasks_list.empty()) {
             m_monitor_condvar.wait(lock);
+            m_guard_activity_name.reset();
             continue;
         }
 
-        if (m_ctrler) {
+        if (m_ctrler && m_ctrler->inited()) {
             const auto& _task = m_tasks_list.front().second;
             if (auto task = std::dynamic_pointer_cast<StartUpTask>(_task); task) {
                 continue;
@@ -525,17 +526,24 @@ void Assistant::monitor_proc()
             const auto& activities = m_ctrler->get_activities();
             if (!activities) {
             }
-            else if (activities->find("com.hypergryph.arknights") == std::string::npos) {
-                Log.warn("Assistant::monitor_proc | activities died");
+            else if (activities->empty()) {
+                Log.warn("Assistant::monitor_proc | activity died");
                 m_ctrler->start_game("Official");
                 std::this_thread::sleep_for(std::chrono::seconds(120));
             }
-            else {
+            else if (!m_guard_activity_name.has_value()) {
+                const auto& loc = activities->rfind("ACTIVITY ");
+                if (loc == std::string::npos) [[unlikely]] {
+                    Log.warn("not found");
+                }
+                else {
+                    m_guard_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
+                    Log.info("Assistant::guard_proc | activity_name:", m_guard_activity_name);
+                }
             }
         }
 
-        // 待完工后，考虑增加间隔至60-300s
-        m_monitor_condvar.wait_for(lock, std::chrono::seconds(5));
+        m_monitor_condvar.wait_for(lock, std::chrono::seconds(60));
     }
 }
 
