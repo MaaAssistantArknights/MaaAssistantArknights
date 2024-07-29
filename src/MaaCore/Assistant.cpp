@@ -59,7 +59,9 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
     return false;
 }
 
-Assistant::Assistant(ApiCallback callback, void* callback_arg) : m_callback(callback), m_callback_arg(callback_arg)
+Assistant::Assistant(ApiCallback callback, void* callback_arg) :
+    m_callback(callback),
+    m_callback_arg(callback_arg)
 {
     LogTraceFunction;
 
@@ -223,7 +225,8 @@ asst::Assistant::TaskId asst::Assistant::append_task(const std::string& type, co
         ptr = std::make_shared<TASK>(append_callback_for_inst, this); \
     }
 
-    if constexpr (false) {}
+    if constexpr (false) {
+    }
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(FightTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(StartUpTask)
     ASST_ASSISTANT_APPEND_TASK_FROM_STRING_IF_BRANCH(CloseDownTask)
@@ -316,14 +319,18 @@ bool asst::Assistant::connect(const std::string& adb_path, const std::string& ad
     return ctrl_connect(adb_path, address, config);
 }
 
-asst::Assistant::AsyncCallId asst::Assistant::async_connect(const std::string& adb_path, const std::string& address,
-                                                            const std::string& config, bool block)
+asst::Assistant::AsyncCallId asst::Assistant::async_connect(
+    const std::string& adb_path,
+    const std::string& address,
+    const std::string& config,
+    bool block)
 {
     LogTraceFunction;
 
     return append_async_call(
         AsyncCallItem::Type::Connect,
-        AsyncCallItem::ConnectParams { .adb_path = adb_path, .address = address, .config = config }, block);
+        AsyncCallItem::ConnectParams { .adb_path = adb_path, .address = address, .config = config },
+        block);
 }
 
 asst::Assistant::AsyncCallId asst::Assistant::async_click(int x, int y, bool block)
@@ -504,10 +511,11 @@ void Assistant::guard_proc()
 
         if (m_thread_idle || m_tasks_list.empty()) {
             m_guard_condvar.wait(lock);
+            m_guard_activity_name.reset();
             continue;
         }
 
-        if (m_ctrler) {
+        if (m_ctrler && m_ctrler->inited()) {
             const auto& _task = m_tasks_list.front().second;
             if (auto task = std::dynamic_pointer_cast<StartUpTask>(_task); task) {
                 continue;
@@ -515,22 +523,29 @@ void Assistant::guard_proc()
             const auto& activities = m_ctrler->get_activities();
             if (!activities) {
             }
-            else if (activities->find("com.hypergryph.arknights") == std::string::npos) {
-                Log.warn("Assistant::guard_proc | activities died");
+            else if (activities->empty()) {
+                Log.warn("Assistant::guard_proc | activity died");
                 m_ctrler->start_game("Official");
                 std::this_thread::sleep_for(std::chrono::seconds(120));
             }
-            else {
+            else if (!m_guard_activity_name.has_value()) {
+                const auto& loc = activities->rfind("ACTIVITY ");
+                if (loc == std::string::npos) [[unlikely]] {
+                    Log.warn("not found");
+                }
+                else {
+                    m_guard_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
+                    Log.info("Assistant::guard_proc | activity_name:", m_guard_activity_name);
+                }
             }
         }
 
-        // 待完工后，考虑增加间隔至60-300s
-        m_guard_condvar.wait_for(lock, std::chrono::seconds(5));
+        m_guard_condvar.wait_for(lock, std::chrono::seconds(60));
     }
 }
 
-asst::Assistant::AsyncCallId asst::Assistant::append_async_call(AsyncCallItem::Type type, AsyncCallItem::Parmas params,
-                                                                bool block)
+asst::Assistant::AsyncCallId
+    asst::Assistant::append_async_call(AsyncCallItem::Type type, AsyncCallItem::Parmas params, bool block)
 {
     LogTraceFunction;
 

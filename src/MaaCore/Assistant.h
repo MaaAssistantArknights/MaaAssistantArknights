@@ -181,6 +181,7 @@ namespace asst
 
         std::mutex m_guard_mutex;
         std::condition_variable m_guard_condvar;
+        std::optional<std::string> m_guard_activity_name;
 
         std::thread m_msg_thread;
         std::thread m_call_thread;
