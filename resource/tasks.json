@@ -7804,8 +7804,6 @@
         "algorithm": "OcrDetect",
         "text": ["目空", "目空一些", "图像", "图像损坏"],
         "roi": [1000, 22, 280, 165],
-        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
-        "specificRect": [150, 0, 0, 0],
         "next": ["RoguelikeControlTaskPlugin-Stop"]
     },
     "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
