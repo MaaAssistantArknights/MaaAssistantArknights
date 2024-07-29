@@ -204,6 +204,12 @@ void asst::PlayToolsController::back_to_home() noexcept
     return;
 }
 
+std::optional<std::string> asst::PlayToolsController::get_activities()
+{
+    Log.info("get_activities is not supported on iOS");
+    return std::nullopt;
+}
+
 bool asst::PlayToolsController::toucher_down(const Point& p, const int delay)
 {
     return toucher_commit(TouchPhase::Began, p, delay);

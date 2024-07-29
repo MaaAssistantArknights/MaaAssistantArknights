@@ -68,6 +68,8 @@ public:
 
     virtual void back_to_home() noexcept override;
 
+    virtual std::optional<std::string> get_activities() override;
+
 protected:
     std::optional<std::string> call_command(
         const std::string& cmd,
@@ -130,6 +132,7 @@ protected:
 
         std::string start;
         std::string stop;
+        std::string get_activities;
 
         std::string version;
 

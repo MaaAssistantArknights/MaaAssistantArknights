@@ -61,6 +61,8 @@ public:
 
     virtual void back_to_home() noexcept override;
 
+    virtual std::optional<std::string> get_activities() override;
+
 protected:
     AsstCallback m_callback;
 
