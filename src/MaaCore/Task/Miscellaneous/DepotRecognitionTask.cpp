@@ -61,7 +61,7 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
     json::value info = basic_info_with_what("DepotInfo");
     auto& details = info["details"];
 
-    // https://penguin-stats.cn/planner
+    // https://penguin-stats.io/planner
     if (auto arkplanner_template_opt = json::parse(templ.ark_planner)) {
         auto& arkplanner = details["arkplanner"];
         auto& arkplanner_obj = arkplanner["object"];

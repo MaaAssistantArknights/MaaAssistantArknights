@@ -55,8 +55,7 @@ struct Options
     int minitouch_swipe_extra_end_delay = 0;
     int swipe_with_pause_required_distance = 0;
     std::vector<std::string> minitouch_programs_order;
-    RequestInfo penguin_report; // 企鹅物流汇报：
-    // 每次到结算界面，汇报掉落数据至企鹅物流 https://penguin-stats.cn/
+    RequestInfo penguin_report; // 企鹅物流汇报：每次到结算界面，汇报掉落数据至企鹅物流 https://penguin-stats.io
     DepotExportTemplate depot_export_template; // 仓库识别结果导出模板
     RequestInfo
         yituliu_report; // 一图流大数据汇报：目前只有公招功能，https://ark.yituliu.cn/survey/maarecruitdata
