@@ -18,11 +18,11 @@ This chapter contains slightly dry content. If you're not interested, you can sk
 
 ### Repository
 
-"Repo" is short for "repository," which is the place where we store our code and other resource files.
+"Repo" is short for "repository", which is the place where we store our code and other resource files.
 
 👇 You can think of the current web page and all of its contents as the repository for MAA (we usually refer to it as MAA's main repository).
 
-![image](https://user-images.githubusercontent.com/18511905/193747349-5964bd12-de3c-4ce7-b444-29b0bd104acc.png)
+![image](/image/zh-cn/pr-tutorial/repository.png)
 
 ### Fork
 
@@ -32,7 +32,7 @@ Since it's a copy, let's assume it's called `MAA (1)`.
 To distinguish it from the original repository, we usually refer to the original MAA repository as "main repository", "upstream", or "origin".  
 Since everyone can make a copy of their own, the copied repository is called a "personal repository".
 
-![image](https://user-images.githubusercontent.com/18511905/193750507-b8167df5-7a70-48d4-ba69-5dda8327e8ec.png)
+![image](/image/zh-cn/pr-tutorial/fork.png)
 
 ### Pull Request
 
@@ -42,7 +42,7 @@ Of course, since it's a "request", it naturally requires approval. MAA Team may 
 
 👇 The following are the PRs currently submitted by contributors and awaiting approval from MAA Team.
 
-![image](https://user-images.githubusercontent.com/18511905/193750539-9106d425-2087-4116-a599-61904690718b.png)
+![image](/image/zh-cn/pr-tutorial/pull-request.png)
 
 ### Conflict
 
@@ -53,53 +53,53 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 1. First, go to the MAA main repository and fork a copy of the code.
 
-    ![image](https://user-images.githubusercontent.com/18511905/193751017-c052c3d4-fe77-433c-af21-eb8138f4b32e.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-1.png)
 
 2. Remove the "Only master branch" option, then click "Create Fork".
 
-    ![image](https://user-images.githubusercontent.com/18511905/193751300-ba9890fd-0916-4c85-8a46-756e686608b1.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-2.png)
 
 3. You will be taken to your personal repository, which will have a title of "Your Name/MaaAssistantArknights", with a small note below stating "forked from MaaAssistantArknights/MaaAssistantArknights" (copied from the MAA main repository).
 
-    ![image](https://user-images.githubusercontent.com/18511905/193751864-0d2d0caf-b5ef-4c91-9331-d9827f23f36b.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-3.png)
 
 4. Switch to the "dev" branch (the concept of branches is not relevant to this tutorial, so we will skip discussing it here, but you just need to follow these instructions to switch branches).
 
-    ![image](https://user-images.githubusercontent.com/18511905/193752379-90d5b317-b1aa-4563-b8b0-583c78373f9b.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-4.png)
 
 5. Find the file you want to modify. You can click "Go to file" to search for it globally, or you can navigate through the folders below (if you know where the file is located).
 
-    ![image](https://user-images.githubusercontent.com/18511905/193752691-7102a405-dc08-4dce-9617-7f862b0b32b9.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-5.png)
 
 6. After opening the file, click on the ✏️ icon on the top right corner of the file to start editing.
 
-    ![image](https://user-images.githubusercontent.com/18511905/193752862-a9cf6019-b363-4c22-b7c7-35f4aca7377f.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-6.png)
 
 7. Make your changes! (If it's a resource file, we recommend testing the changes in your local MAA folder before pasting them in the web page to avoid errors).
 8. When you finish editing, scroll to the bottom of the page and describe your changes.
 
-    ![image](https://user-images.githubusercontent.com/18511905/193754154-b21f4176-1418-49c8-87a3-dab088868fdc.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-8.png)
 
 9. Need to edit another file? Made a mistake and want to change it again? No problem! Simply repeat steps 5-8 for the other file.
 10. When all changes are made, create a Pull Request by going to the Pull Request tab in your personal repository.
     If there is a "Compare & Pull Request" button, that's great, just click it! If not, don't worry, clicking "New Pull Request" below is also the same (see step 11).
 
-    ![image](https://user-images.githubusercontent.com/18511905/193755450-59137215-4e0b-4eca-9ec9-8b35b52cd5ff.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-10.png)
 
 11. Now you are in the main repository, please double-check the changes you want to PR.
     As shown in the figure, there is a leftward arrow, which means you want to merge the dev branch from your forked repository "Your name/MAA" to the dev branch of the main repository "MAA".
     Then, write a title and description of your changes, and click "Create Pull Request".
 
-    ![20221004151004](https://user-images.githubusercontent.com/18511905/193756875-556df699-96b3-411f-815e-47050e283f4d.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-11.png)
 
 12. Just wait for the MAA Team's experts to review it! Of course, they may also provide some comments,
   👇 for example (for entertainment purposes only, do not take it seriously):
-    ![image](https://user-images.githubusercontent.com/18511905/193757006-75170e78-4c8d-4cd2-b8eb-ca590ea7aa50.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-12.png)
 
 13. If they request further changes, go back to your personal repository, switch to the dev branch, and repeat steps 3-9!
   Note that you do not need to redo step 2 (re-fork) or step 10 (re-Pull Request), your current Pull Request is still pending review, and subsequent changes will be added directly to this Pull Request.
   👇 For example, you can see that "revised demo" has been added at the bottom.
-    ![image](https://user-images.githubusercontent.com/18511905/193757668-4064273c-576d-4259-bbaa-e9f65ae486c1.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-13.png)
 
 14. Once the experts approve the PR, you're all set! After the version is released, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless dedication!
     [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
@@ -110,6 +110,6 @@ Now we have a conflict, as both of you have modified the A file but in different
 
     If you are not sure or don't care about what I said above, please click the button on the left.
 
-    ![image](https://user-images.githubusercontent.com/18511905/194709964-3ea0d5b0-1bfe-4d0e-a1dc-bf4f735af655.png)
+    ![image](/image/zh-cn/pr-tutorial/pr-15.png)
 
     Then repeat steps 3-14, make changes and submit PR.

@@ -5846,10 +5846,10 @@
             "Roguelike@Stages#next",
             "Roguelike@GetDrops#next",
             "Roguelike@NextLevel",
+            "Roguelike@Continue",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
-            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -8968,7 +8968,12 @@
             "Sarkaz@Roguelike@ChooseOperConfirm#next"
         ]
     },
-    "Sarkaz@Roguelike@ClickToDrops": {},
+    "Sarkaz@Roguelike@ClickToDrops": {
+        "specificRect": [600, 600, 25, 25]
+    },
+    "Sarkaz@Roguelike@ClickToStartPoint": {
+        "specificRect": [600, 600, 25, 25]
+    },
     "Sarkaz@Roguelike@CloseCollection": {
         "next": [
             "Sarkaz@Roguelike@LastReward",
@@ -9001,7 +9006,8 @@
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@CloseEvent",
-            "Sarkaz@Roguelike@ChooseOperFlag"
+            "Sarkaz@Roguelike@ChooseOperFlag",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
         ]
     },
     "Sarkaz@Roguelike@CloseEvent": {
@@ -9068,7 +9074,11 @@
         "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [1210, 120, 0, 0],
-        "next": ["Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2", "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"]
+        "next": [
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollection",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
+        ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2": {
         "roi": [1101, 51, 179, 137],
@@ -9174,7 +9184,9 @@
     "Sarkaz@Roguelike@GetDrop1": {},
     "Sarkaz@Roguelike@GetDrop2": {},
     "Sarkaz@Roguelike@GetDrop3": {},
-    "Sarkaz@Roguelike@GetDropCompleted": {},
+    "Sarkaz@Roguelike@GetDropCompleted": {
+        "specificRect": [600, 600, 25, 25]
+    },
     "Sarkaz@Roguelike@GetDropLeave": {},
     "Sarkaz@Roguelike@GetDropRecruit": {},
     "Sarkaz@Roguelike@GetDropSelect": {
@@ -9277,10 +9289,15 @@
         "next": ["Sarkaz@Roguelike@StageBoonsEnter", "Sarkaz@Roguelike@StageEncounterJudgeClick"]
     },
     "Sarkaz@Roguelike@StageBoskyPassage": {
-        "Doc": "诡谲断章",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
+        "Doc": "思维边界",
         "baseTask": "Sarkaz@Roguelike@Stage",
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [90, 2, 121],
+                [134, 142, 230]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageBoskyPassageEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageBoskyPassageEnter": {
@@ -9332,7 +9349,13 @@
         "next": ["Sarkaz@Roguelike@StageCanReconstructClose"]
     },
     "Sarkaz@Roguelike@StageCombatDps": {
-        "templThreshold": 0.975,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [127, 80, 50],
+                [136, 200, 180]
+            ]
+        ],
         "postDelay": 600,
         "next": [
             "Sarkaz@Roguelike@StageRefresh",
@@ -9388,8 +9411,13 @@
     "Sarkaz@Roguelike@StageEmergencyTransportation": {
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [15, 1, 93],
+                [93, 129, 141]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageEncounter": {
@@ -9439,14 +9467,12 @@
     },
     "Sarkaz@Roguelike@StageFilterTruthCanCombine": {
         "action": "ClickSelf",
-        "method": "CcoeffHSV",
         "templThreshold": 0.95,
         "roi": [750, 525, 188, 129],
         "next": ["Sarkaz@Roguelike@StageFilterTruthChooseCollection", "Sarkaz@Roguelike@StageFilterTruthConfirm"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
         "action": "DoNothing",
-        "method": "CcoeffHSV",
         "templThreshold": 0.95,
         "roi": [750, 525, 188, 129],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
@@ -9531,7 +9557,13 @@
     "Sarkaz@Roguelike@StageProphecy": {
         "Doc": "命运所指",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "templThreshold": 0.97,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [18, 1, 94],
+                [93, 173, 109]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@StageRefresh": {
@@ -9654,8 +9686,21 @@
     "Sarkaz@Roguelike@StageWindAndRain": {
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "method": "CcoeffHSV",
-        "templThreshold": 0.95,
+        "method": "HSVCount",
+        "maskRange": [
+            [
+                [18, 130, 155],
+                [20, 180, 180]
+            ],
+            [
+                [15, 130, 160],
+                [16, 150, 220]
+            ],
+            [
+                [15, 40, 85],
+                [95, 120, 110]
+            ]
+        ],
         "next": ["Sarkaz@Roguelike@StageEncounterEnter", "Sarkaz@Roguelike@Stages#next"]
     },
     "Sarkaz@Roguelike@Stages": {
