@@ -517,6 +517,8 @@ void Assistant::guard_proc()
             }
             else if (activities->find("com.hypergryph.arknights") == std::string::npos) {
                 Log.warn("Assistant::guard_proc | activities died");
+                m_ctrler->start_game("Official");
+                std::this_thread::sleep_for(std::chrono::seconds(120));
             }
             else {
             }
