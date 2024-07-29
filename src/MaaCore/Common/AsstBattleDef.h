@@ -239,7 +239,7 @@ struct TriggerInfo
     // 激活一次计数器
     void activeCounter() const noexcept { ++counter; }
 
-    static auto loadCategoryFrom(std::string const& _Str) -> Category
+    static auto loadCategoryFrom(std::string const& _Str) noexcept -> Category
     {
         if (_Str == "succ") {
             return Category::Succ;
@@ -353,7 +353,7 @@ struct CheckIfStartOverInfo
 
     CheckIfStartOverInfo() = default;
 
-    explicit CheckIfStartOverInfo(RoleCounts&& _Counts) :
+    explicit CheckIfStartOverInfo(RoleCounts&& _Counts) noexcept :
         role_counts(std::move(_Counts))
     {
     }
@@ -363,7 +363,7 @@ struct MoveCameraInfo
 {
     std::pair<double, double> distance;
 
-    explicit MoveCameraInfo(decltype(distance)&& _Dist) :
+    explicit MoveCameraInfo(decltype(distance)&& _Dist) noexcept :
         distance(std::move(_Dist))
     {
     }
