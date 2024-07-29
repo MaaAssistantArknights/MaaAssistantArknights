@@ -69,6 +69,7 @@ Assistant::Assistant(ApiCallback callback, void* callback_arg) : m_callback(call
     m_msg_thread = std::thread(&Assistant::msg_proc, this);
     m_call_thread = std::thread(&Assistant::call_proc, this);
     m_working_thread = std::thread(&Assistant::working_proc, this);
+    m_guard_thread = std::thread(&Assistant::guard_proc, this);
 }
 
 Assistant::~Assistant()
@@ -94,6 +95,7 @@ Assistant::~Assistant()
         std::unique_lock<std::mutex> lock(m_msg_mutex);
         m_msg_condvar.notify_all();
     }
+    m_guard_condvar.notify_all();
 
     if (m_working_thread.joinable()) {
         m_working_thread.join();
@@ -103,6 +105,9 @@ Assistant::~Assistant()
     }
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
+    }
+    if (m_guard_thread.joinable()) {
+        m_guard_thread.join();
     }
     if (m_callback) {
         m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
@@ -412,6 +417,7 @@ void Assistant::working_proc()
             m_running = false;
             Log.flush();
             m_condvar.wait(lock);
+            m_guard_condvar.notify_one();
             continue;
         }
 
@@ -483,6 +489,41 @@ void Assistant::msg_proc()
         if (m_callback) {
             m_callback(static_cast<AsstMsgId>(msg), detail.to_string().c_str(), m_callback_arg);
         }
+    }
+}
+
+void Assistant::guard_proc()
+{
+    LogTraceFunction;
+
+    while (true) {
+        std::unique_lock<std::mutex> lock(m_guard_mutex);
+        if (m_thread_exit) {
+            return;
+        }
+
+        if (m_thread_idle || m_tasks_list.empty()) {
+            m_guard_condvar.wait(lock);
+            continue;
+        }
+
+        if (m_ctrler) {
+            const auto& _task = m_tasks_list.front().second;
+            if (auto task = std::dynamic_pointer_cast<StartUpTask>(_task); task) {
+                continue;
+            }
+            const auto& activities = m_ctrler->get_activities();
+            if (!activities) {
+            }
+            else if (activities->find("com.hypergryph.arknights") == std::string::npos) {
+                Log.warn("Assistant::guard_proc | activities died");
+            }
+            else {
+            }
+        }
+
+        // 待完工后，考虑增加间隔至60-300s
+        m_guard_condvar.wait_for(lock, std::chrono::seconds(5));
     }
 }
 
