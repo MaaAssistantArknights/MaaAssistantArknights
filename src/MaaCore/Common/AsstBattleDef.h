@@ -208,7 +208,7 @@ struct TriggerInfo
     static constexpr int DEACTIVE_KILLS = -1;       // 击杀数未被设置
     static constexpr int DEACTIVE_COST = -1;        // 费用数未被设置
     static constexpr int DEACTIVE_COST_CHANGES = 0; // 费用变更未设置
-    static constexpr int DEACTIVE_COOLING = -1;     // 干员冷却数未设置
+    static constexpr int64_t DEACTIVE_COOLING = -1; // 干员冷却数未设置
     static constexpr int DEACTIVE_COUNT = -1;       // 循环计数
 
     enum class Category
@@ -333,7 +333,7 @@ struct PointInfo
 
         std::chrono::steady_clock::time_point tNow;
 
-        SnapShot() = default;
+        SnapShot() {}
     };
 
     std::string target_code;
@@ -343,7 +343,7 @@ struct PointInfo
     std::vector<ActionPtr> then_actions; // 当条件满足时执行
     std::vector<ActionPtr> else_actions; // 当条件不满足时执行
 
-    PointInfo() = default;
+    PointInfo() {}
 };
 
 struct CheckIfStartOverInfo
