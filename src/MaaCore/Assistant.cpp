@@ -510,8 +510,8 @@ void Assistant::guard_proc()
         }
 
         if (m_thread_idle || m_tasks_list.empty()) {
-            m_guard_condvar.wait(lock);
             m_guard_activity_name.reset();
+            m_guard_condvar.wait(lock);
             continue;
         }
 
@@ -525,17 +525,19 @@ void Assistant::guard_proc()
             }
             else if (activities->empty()) {
                 Log.warn("Assistant::guard_proc | activity died");
-                m_ctrler->start_game("Official");
+                if (m_guard_activity_name) {
+                    m_ctrler->start_game_by_activity(*m_guard_activity_name);
+                }
                 std::this_thread::sleep_for(std::chrono::seconds(120));
             }
             else if (!m_guard_activity_name.has_value()) {
                 const auto& loc = activities->rfind("ACTIVITY ");
                 if (loc == std::string::npos) [[unlikely]] {
-                    Log.warn("not found");
+                    Log.warn("Assistant::guard_proc | activity not found");
                 }
                 else {
                     m_guard_activity_name = activities->substr(loc + 9, activities->find(' ', loc + 9) - loc - 9);
-                    Log.info("Assistant::guard_proc | activity_name:", m_guard_activity_name);
+                    Log.info("Assistant::guard_proc | activity_name:", *m_guard_activity_name);
                 }
             }
         }

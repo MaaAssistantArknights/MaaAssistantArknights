@@ -42,6 +42,7 @@ public:
     virtual bool screencap(cv::Mat& image_payload, bool allow_reconnect = false) = 0;
 
     virtual bool start_game(const std::string& client_type) = 0;
+    virtual bool start_game_by_activity(const std::string& activity_name) = 0;
     virtual bool stop_game() = 0;
 
     virtual bool click(const Point& p) = 0;

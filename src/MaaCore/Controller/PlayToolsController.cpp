@@ -102,6 +102,11 @@ bool asst::PlayToolsController::start_game(const std::string& client_type [[mayb
     return true;
 }
 
+bool asst::PlayToolsController::start_game_by_activity(const std::string& activity_name [[maybe_unused]])
+{
+    return true;
+}
+
 bool asst::PlayToolsController::stop_game()
 {
     try {
