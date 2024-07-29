@@ -91,101 +91,139 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public ObservableCollection<LogItemViewModel> LogItemViewModels { get; private set; }
 
-        private string _actionAfterCompleted = ConfigurationHelper.GetValue(ConfigurationKeys.ActionAfterCompleted, ActionType.DoNothing.ToString());
+        #region ActionAfterTasks
+
+        private bool _enableAfterActionSetting;
 
         /// <summary>
-        /// Gets the list of the actions after completion.
+        ///  Gets or sets a value indicating whether to show after task queue settings
         /// </summary>
-        public List<GenericCombinedData<ActionType>> ActionAfterCompletedList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("DoNothing"), Value = ActionType.DoNothing },
-            new() { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
-            new() { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
-
-            new() { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
-            new() { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
-            new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelf"), Value = ActionType.ExitEmulatorAndSelf },
-
-            // new() { Display="待机",Value=ActionTypeAfterCompleted.Suspend },
-            new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfAndHibernate },
-            new() { Display = LocalizationHelper.GetString("Hibernate"), Value = ActionType.Hibernate },
-            new() { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
-
-            // new() { Display = Localization.GetString("ExitEmulatorAndSelfAndHibernate") + "*", Value = ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist },
-            new() { Display = LocalizationHelper.GetString("HibernateWithoutPersist"), Value = ActionType.HibernateWithoutPersist },
-            new() { Display = LocalizationHelper.GetString("ShutdownWithoutPersist"), Value = ActionType.ShutdownWithoutPersist },
-
-            new() { Display = LocalizationHelper.GetString("ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate"), Value = ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate },
-            new() { Display = LocalizationHelper.GetString("ExitSelfIfOtherMaaElseShutdown"), Value = ActionType.ExitSelfIfOtherMaaElseShutdown },
-        ];
-
-        public List<GenericCombinedData<ActionType>> ActionsAfterCompletedList { get; } =
-        [
-            new() { Display = LocalizationHelper.GetString("ExitArknights"), Value = ActionType.StopGame },
-            new() { Display = LocalizationHelper.GetString("BackToAndroidHome"), Value = ActionType.BackToAndroidHome },
-
-            new() { Display = LocalizationHelper.GetString("ExitEmulator"), Value = ActionType.ExitEmulator },
-            new() { Display = LocalizationHelper.GetString("ExitSelf"), Value = ActionType.ExitSelf },
-
-            new() { Display = LocalizationHelper.GetString("IfNoOtherMaa"), Value = ActionType.IfNoOtherMaa },
-            new() { Display = LocalizationHelper.GetString("Once"), Value = ActionType.Once },
-
-            new() { Display = LocalizationHelper.GetString("Hibernate"), Value = ActionType.Hibernate },
-            new() { Display = LocalizationHelper.GetString("Shutdown"), Value = ActionType.Shutdown },
-        ];
-
-        /// <summary>
-        /// Gets or sets the action after completion.
-        /// </summary>
-        public ActionType ActionAfterCompleted
+        public bool EnableAfterActionSetting
         {
-            get => !Enum.TryParse(_actionAfterCompleted, out ActionType action) ? ActionType.DoNothing : action;
+            get => _enableAfterActionSetting;
             set
             {
-                string storeValue = value.ToString();
-                SetAndNotify(ref _actionAfterCompleted, storeValue);
+                SetAndNotify(ref _enableAfterActionSetting, value);
+                TaskSettingVisibilityInfo.Current.Set("AfterAction", value);
+            }
+        }
 
-                if (value == ActionType.HibernateWithoutPersist ||
-                    value == ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist ||
-                    value == ActionType.ShutdownWithoutPersist)
+        /// <summary>
+        /// Checks after completion.
+        /// </summary>
+        public async void CheckAfterCompleted()
+        {
+            await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+
+            var settings = TaskSettingDataContext.AfterActionSetting;
+
+            if (settings.ExitArknights)
+            {
+                if (!Instances.AsstProxy.AsstStartCloseDown())
                 {
+                    AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
+                }
+
+
+                await Task.Delay(1000);
+            }
+
+            if (settings.BackToAndroidHome)
+            {
+                Instances.AsstProxy.AsstBackToHome();
+
+                await Task.Delay(1000);
+            }
+
+            if (settings.ExitEmulator)
+            {
+                if (!KillEmulatorModeSwitcher())
+                {
+                    AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                }
+
+                await Task.Delay(1000);
+            }
+
+            if (settings.ExitSelf && !settings.Hibernate)
+            {
+                Bootstrapper.Shutdown();
+            }
+
+            if (settings.Hibernate)
+            {
+                if (settings.IfNoOtherMaa)
+                {
+                    if (HasOtherMaa())
+                    {
+                        Bootstrapper.Shutdown();
+                    }
+                    else
+                    {
+                        DoHibernate();
+                    }
                 }
                 else
                 {
-                    ConfigurationHelper.SetValue(ConfigurationKeys.ActionAfterCompleted, storeValue);
+                    DoHibernate();
+                }
+
+                if (settings.ExitSelf)
+                {
+                    Bootstrapper.Shutdown();
+                }
+            }
+
+
+            if (settings.Shutdown)
+            {
+                if (settings.IfNoOtherMaa)
+                {
+                    if (HasOtherMaa())
+                    {
+                        Bootstrapper.Shutdown();
+                    }
+                    else
+                    {
+                        DoShutDown();
+                    }
+                }
+                else
+                {
+                    DoShutDown();
+                }
+            }
+
+            return;
+
+            bool HasOtherMaa()
+            {
+                return Process.GetProcessesByName("MAA").Length > 1;
+            }
+
+            void DoHibernate()
+            {
+                // 休眠提示
+                AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
+
+                // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
+                Process.Start("shutdown.exe", "-h");
+            }
+
+            void DoShutDown()
+            {
+                Process.Start("shutdown.exe", "-s -t 60");
+
+                // 关机询问
+                var shutdownResult = MessageBoxHelper.Show(LocalizationHelper.GetString("AboutToShutdown"), LocalizationHelper.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question, ok: LocalizationHelper.GetString("Cancel"));
+                if (shutdownResult == MessageBoxResult.OK)
+                {
+                    Process.Start("shutdown.exe", "-a");
                 }
             }
         }
 
-        private ActionType[] _actionsAfterCompleted =
-            ConfigurationHelper.GetValue(ConfigurationKeys.ActionsAfterCompleted, string.Empty).Split(" ")
-                .Select(s => s.Trim())
-                .Where(s => !string.IsNullOrEmpty(s))
-                .Select(s => Enum.TryParse(s, out ActionType action) ? action : ActionType.DoNothing)
-                .Where(a => a != ActionType.DoNothing)
-                .ToArray();
-
-        public object[] ActionsAfterCompleted
-        {
-            get => _actionsAfterCompleted
-                .Select(a => ActionsAfterCompletedList.Find(data => data.Value == a))
-                .Where(a => a != null)
-                .OrderBy(data => ActionsAfterCompletedList.FindIndex(a => a.Value == data.Value))
-                .ToArray();
-
-            set
-            {
-                var sorted = value
-                    .OrderBy(a => ActionsAfterCompletedList.FindIndex(data => data.Value == (a as GenericCombinedData<ActionType>)!.Value))
-                    .Select(v => (v as GenericCombinedData<ActionType>)!.Value)
-                    .ToArray();
-                SetAndNotify(ref _actionsAfterCompleted, sorted.ToArray());
-
-                var shutDownOnce = sorted.Contains(ActionType.Once);
-                var storeValue = string.Join(" ", sorted.Where(a => !((a is ActionType.Hibernate or ActionType.Shutdown && shutDownOnce) || a is ActionType.Once)).Select(a => a.ToString()));
-                ConfigurationHelper.SetValue(ConfigurationKeys.ActionsAfterCompleted, storeValue);
-            }
-        }
+        #endregion
 
         // private bool _actionListRefreshed = true;
 
@@ -925,6 +963,8 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
+            AfterActionSetting.Current.Save();
+
             if (!_runningState.GetIdle())
             {
                 return;
@@ -2057,325 +2097,6 @@ namespace MaaWpfGui.ViewModels.UI
             return true;
         }
 
-        /// <summary>
-        /// The action type.
-        /// </summary>
-        public enum ActionType
-        {
-            /// <summary>
-            /// Does nothing.
-            /// </summary>
-            DoNothing,
-
-            /// <summary>
-            /// Stops game.
-            /// </summary>
-            StopGame,
-
-            /// <summary>
-            /// Exits MAA.
-            /// </summary>
-            ExitSelf,
-
-            /// <summary>
-            /// Exits emulator.
-            /// </summary>
-            ExitEmulator,
-
-            /// <summary>
-            /// Exits MAA and emulator.
-            /// </summary>
-            ExitEmulatorAndSelf,
-
-            /// <summary>
-            /// Computer suspends.
-            /// </summary>
-            Suspend,
-
-            /// <summary>
-            /// Computer hibernates.
-            /// </summary>
-            Hibernate,
-
-            /// <summary>
-            /// Exits MAA and emulator and computer hibernates.
-            /// </summary>
-            ExitEmulatorAndSelfAndHibernate,
-
-            /// <summary>
-            /// Computer shutdown.
-            /// </summary>
-            Shutdown,
-
-            /// <summary>
-            /// Computer hibernates without Persist.
-            /// </summary>
-            HibernateWithoutPersist,
-
-            /// <summary>
-            /// Exits MAA and emulator and computer hibernates without Persist.
-            /// </summary>
-            ExitEmulatorAndSelfAndHibernateWithoutPersist,
-
-            /// <summary>
-            /// Computer shutdown without Persist.
-            /// </summary>
-            ShutdownWithoutPersist,
-
-            /// <summary>
-            /// Exits MAA and emulator and, if no other processes of MAA are running, computer hibernates.
-            /// </summary>
-            ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate,
-
-            /// <summary>
-            /// Exits MAA and, if no other processes of MAA are running, computer shutdown.
-            /// </summary>
-            ExitSelfIfOtherMaaElseShutdown,
-
-            /// <summary>
-            /// Switch the game to background without killing it.
-            /// </summary>
-            BackToAndroidHome,
-
-            /// <summary>
-            /// Judge if no other Maa
-            /// </summary>
-            IfNoOtherMaa,
-
-            /// <summary>
-            /// Following actions will be executed only this time.
-            /// </summary>
-            Once,
-        }
-
-        /// <summary>
-        /// Checks after completion.
-        /// </summary>
-        public async void CheckAfterCompleted()
-        {
-            await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
-
-            // switch (ActionAfterCompleted)
-            // {
-            //     case ActionType.DoNothing:
-            //         break;
-            //
-            //     case ActionType.StopGame:
-            //         if (!Instances.AsstProxy.AsstStartCloseDown())
-            //         {
-            //             AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-            //         }
-            //
-            //         break;
-            //
-            //     case ActionType.ExitSelf:
-            //         // Shutdown 会调用 OnExit 但 Exit 不会
-            //         Bootstrapper.Shutdown();
-            //
-            //         // Environment.Exit(0);
-            //         break;
-            //
-            //     case ActionType.ExitEmulator:
-            //         if (!KillEmulatorModeSwitcher())
-            //         {
-            //             AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
-            //         }
-            //
-            //         break;
-            //
-            //     case ActionType.ExitEmulatorAndSelf:
-            //         if (!KillEmulatorModeSwitcher())
-            //         {
-            //             AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
-            //         }
-            //
-            //         // Shutdown 会调用 OnExit 但 Exit 不会
-            //         Bootstrapper.Shutdown();
-            //
-            //         // Environment.Exit(0);
-            //         break;
-            //
-            //     case ActionType.Shutdown:
-            //     case ActionType.ShutdownWithoutPersist:
-            //         Process.Start("shutdown.exe", "-s -t 60");
-            //
-            //         // 关机询问
-            //         var shutdownResult = MessageBoxHelper.Show(LocalizationHelper.GetString("AboutToShutdown"), LocalizationHelper.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question, ok: LocalizationHelper.GetString("Cancel"));
-            //         if (shutdownResult == MessageBoxResult.OK)
-            //         {
-            //             Process.Start("shutdown.exe", "-a");
-            //         }
-            //
-            //         break;
-            //
-            //     case ActionType.Suspend:
-            //         Process.Start("powercfg", "-h off");
-            //         Process.Start("rundll32.exe", "powrprof.dll,SetSuspendState 0,1,0");
-            //         Process.Start("powercfg", "-h on");
-            //         break;
-            //
-            //     case ActionType.HibernateWithoutPersist:
-            //         // 休眠不会导致 MAA 重启，下次执行的还会是休眠
-            //         // 重新读取结束后动作，并刷新UI
-            //         _actionAfterCompleted = ConfigurationHelper.GetValue(ConfigurationKeys.ActionAfterCompleted, ActionType.DoNothing.ToString());
-            //         NotifyOfPropertyChange(nameof(ActionAfterCompleted));
-            //         goto case ActionType.Hibernate;
-            //     case ActionType.Hibernate:
-            //         // 休眠提示
-            //         AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
-            //
-            //         // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
-            //         Process.Start("shutdown.exe", "-h");
-            //         break;
-            //
-            //     case ActionType.ExitEmulatorAndSelfAndHibernate:
-            //     case ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist:
-            //         if (!KillEmulatorModeSwitcher())
-            //         {
-            //             AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
-            //         }
-            //
-            //         // 休眠提示
-            //         AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
-            //
-            //         // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
-            //         Process.Start("shutdown.exe", "-h");
-            //
-            //         // Shutdown 会调用 OnExit 但 Exit 不会
-            //         Bootstrapper.Shutdown();
-            //
-            //         // Environment.Exit(0);
-            //         break;
-            //
-            //     case ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate:
-            //         if (Process.GetProcessesByName("MAA").Length > 1)
-            //         {
-            //             goto case ActionType.ExitEmulatorAndSelf;
-            //         }
-            //         else
-            //         {
-            //             goto case ActionType.ExitEmulatorAndSelfAndHibernate;
-            //         }
-            //
-            //     case ActionType.ExitSelfIfOtherMaaElseShutdown:
-            //         if (Process.GetProcessesByName("MAA").Length > 1)
-            //         {
-            //             goto case ActionType.ExitSelf;
-            //         }
-            //         else
-            //         {
-            //             goto case ActionType.Shutdown;
-            //         }
-            //
-            //     case ActionType.BackToAndroidHome:
-            //         Instances.AsstProxy.AsstBackToHome();
-            //         break;
-            //
-            //     default:
-            //         _ = Execute.OnUIThreadAsync(() =>
-            //         {
-            //             using var toast = new ToastNotification(LocalizationHelper.GetString("UnknownActionAfterCompleted"));
-            //             toast.Show();
-            //         });
-            //
-            //         _logger.Error($"Unknown ActionAfterCompleted: {ActionAfterCompleted}");
-            //         break;
-            // }
-            var checkNoMaa = _actionsAfterCompleted.Contains(ActionType.IfNoOtherMaa);
-
-            var groupHasExitEmulator = _actionsAfterCompleted.Contains(ActionType.ExitEmulator);
-            var groupHasShutdown = _actionsAfterCompleted.Contains(ActionType.Shutdown);
-            var groupHasHibernate = _actionsAfterCompleted.Contains(ActionType.Hibernate);
-
-            foreach (var action in _actionsAfterCompleted)
-            {
-                switch (action)
-                {
-                    case ActionType.StopGame:
-                        if (!groupHasExitEmulator)
-                        {
-                            if (!Instances.AsstProxy.AsstStartCloseDown())
-                            {
-                                AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
-                            }
-                        }
-
-                        break;
-                    case ActionType.BackToAndroidHome:
-                        if (!groupHasExitEmulator)
-                        {
-                            Instances.AsstProxy.AsstBackToHome();
-                        }
-
-                        break;
-                    case ActionType.ExitEmulator:
-                        if (!KillEmulatorModeSwitcher())
-                        {
-                            AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
-                        }
-
-                        break;
-                    case ActionType.ExitSelf:
-                        if (!(groupHasShutdown || groupHasHibernate))
-                        {
-                            Bootstrapper.Shutdown();
-                        }
-
-                        break;
-                    case ActionType.Hibernate:
-                        if (!groupHasShutdown)
-                        {
-                            if (checkNoMaa && Process.GetProcessesByName("MAA").Length > 1)
-                            {
-                                Bootstrapper.Shutdown();
-                            }
-                            else
-                            {
-                                // 休眠提示
-                                AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
-
-                                // 休眠不能加时间参数，https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/1133
-                                Process.Start("shutdown.exe", "-h");
-                            }
-                        }
-
-                        break;
-                    case ActionType.Shutdown:
-                        if (checkNoMaa && Process.GetProcessesByName("MAA").Length > 1)
-                        {
-                            Bootstrapper.Shutdown();
-                        }
-                        else
-                        {
-                            Process.Start("shutdown.exe", "-s -t 60");
-
-                            // 关机询问
-                            var shutdownResult = MessageBoxHelper.Show(LocalizationHelper.GetString("AboutToShutdown"), LocalizationHelper.GetString("ShutdownPrompt"), MessageBoxButton.OK, MessageBoxImage.Question, ok: LocalizationHelper.GetString("Cancel"));
-                            if (shutdownResult == MessageBoxResult.OK)
-                            {
-                                Process.Start("shutdown.exe", "-a");
-                            }
-                        }
-
-                        break;
-                    case ActionType.DoNothing:
-                    case ActionType.ExitEmulatorAndSelf:
-                    case ActionType.Suspend:
-                    case ActionType.ExitEmulatorAndSelfAndHibernate:
-                    case ActionType.HibernateWithoutPersist:
-                    case ActionType.ExitEmulatorAndSelfAndHibernateWithoutPersist:
-                    case ActionType.ShutdownWithoutPersist:
-                    case ActionType.ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate:
-                    case ActionType.ExitSelfIfOtherMaaElseShutdown:
-                    case ActionType.IfNoOtherMaa:
-                    case ActionType.Once:
-                    default:
-                        break;
-                }
-
-                await Task.Delay(1000);
-            }
-        }
 
         /// <summary>
         /// Gets a value indicating whether it is initialized.

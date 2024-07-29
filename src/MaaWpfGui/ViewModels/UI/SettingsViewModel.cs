@@ -88,6 +88,11 @@ namespace MaaWpfGui.ViewModels.UI
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
 
         /// <summary>
+        /// Gets the after action setting.
+        /// </summary>
+        public AfterActionSetting AfterActionSetting { get; } = AfterActionSetting.Current;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
         public SettingsViewModel()
@@ -151,18 +156,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private void InitInfrast()
         {
-            var facilityList = new[]
-            {
-                "Mfg",
-                "Trade",
-                "Control",
-                "Power",
-                "Reception",
-                "Office",
-                "Dorm",
-                "Processing",
-                "Training",
-            };
+            var facilityList = new[] { "Mfg", "Trade", "Control", "Power", "Reception", "Office", "Dorm", "Processing", "Training", };
 
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
             for (int i = 0; i != facilityList.Length; ++i)
@@ -206,9 +200,9 @@ namespace MaaWpfGui.ViewModels.UI
         private void InitUiSettings()
         {
             var languageList = (from pair in LocalizationHelper.SupportedLanguages
-                                where pair.Key != PallasLangKey || Cheers
-                                select new CombinedData { Display = pair.Value, Value = pair.Key })
-               .ToList();
+                    where pair.Key != PallasLangKey || Cheers
+                    select new CombinedData { Display = pair.Value, Value = pair.Key })
+                .ToList();
 
             LanguageList = languageList;
 
@@ -929,9 +923,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = StartsWithScript,
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        UseShellExecute = true,
+                        FileName = StartsWithScript, WindowStyle = ProcessWindowStyle.Minimized, UseShellExecute = true,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {StartsWithScript}",
@@ -955,9 +947,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     StartInfo = new ProcessStartInfo
                     {
-                        FileName = EndsWithScript,
-                        WindowStyle = ProcessWindowStyle.Minimized,
-                        UseShellExecute = true,
+                        FileName = EndsWithScript, WindowStyle = ProcessWindowStyle.Minimized, UseShellExecute = true,
 
                         // FileName = "cmd.exe",
                         // Arguments = $"/c {EndsWithScript}",
@@ -1035,10 +1025,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var startInfo = arguments.Length != 0 ? new ProcessStartInfo(fileName, arguments) : new ProcessStartInfo(fileName);
 
                 startInfo.UseShellExecute = false;
-                Process process = new Process
-                {
-                    StartInfo = startInfo,
-                };
+                Process process = new Process { StartInfo = startInfo, };
 
                 _logger.Information("Try to start emulator: \nfileName: " + fileName + "\narguments: " + arguments);
                 process.Start();
@@ -1102,8 +1089,8 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception)
             {
                 _logger.Information("Start emulator error, try to start using the default: \n" +
-                    "EmulatorPath: " + EmulatorPath + "\n" +
-                    "EmulatorAddCommand: " + EmulatorAddCommand);
+                                    "EmulatorPath: " + EmulatorPath + "\n" +
+                                    "EmulatorAddCommand: " + EmulatorAddCommand);
                 try
                 {
                     if (EmulatorAddCommand.Length != 0)
@@ -1187,10 +1174,7 @@ namespace MaaWpfGui.ViewModels.UI
                 UseShellExecute = false,
             };
 
-            Process process = new Process
-            {
-                StartInfo = processStartInfo,
-            };
+            Process process = new Process { StartInfo = processStartInfo, };
 
             process.Start();
             process.StandardInput.WriteLine($"{adbPath} kill-server");
@@ -1253,13 +1237,9 @@ namespace MaaWpfGui.ViewModels.UI
             using var searcher = new ManagementObjectSearcher(WmiQueryString);
             using var results = searcher.Get();
             var query = from p in Process.GetProcesses()
-                        join mo in results.Cast<ManagementObject>()
-                            on p.Id equals (int)(uint)mo["ProcessId"]
-                        select new
-                        {
-                            Process = p,
-                            Path = (string)mo["ExecutablePath"],
-                        };
+                join mo in results.Cast<ManagementObject>()
+                    on p.Id equals (int)(uint)mo["ProcessId"]
+                select new { Process = p, Path = (string)mo["ExecutablePath"], };
             foreach (var item in query)
             {
                 if (item.Path != adbPath)
@@ -1288,10 +1268,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void SelectEmulatorExec()
         {
-            var dialog = new OpenFileDialog
-            {
-                Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk",
-            };
+            var dialog = new OpenFileDialog { Filter = LocalizationHelper.GetString("Executable") + "|*.exe;*.bat;*.lnk", };
 
             if (dialog.ShowDialog() == true)
             {
@@ -1384,28 +1361,28 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of uses of drones.
         /// </summary>
         public List<CombinedData> UsesOfDronesList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("DronesNotUse"), Value = "_NotUse" },
-                new() { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
-                new() { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
-                new() { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
-                new() { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
-                new() { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
-                new() { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("DronesNotUse"), Value = "_NotUse" },
+            new() { Display = LocalizationHelper.GetString("Money"), Value = "Money" },
+            new() { Display = LocalizationHelper.GetString("SyntheticJade"), Value = "SyntheticJade" },
+            new() { Display = LocalizationHelper.GetString("CombatRecord"), Value = "CombatRecord" },
+            new() { Display = LocalizationHelper.GetString("PureGold"), Value = "PureGold" },
+            new() { Display = LocalizationHelper.GetString("OriginStone"), Value = "OriginStone" },
+            new() { Display = LocalizationHelper.GetString("Chip"), Value = "Chip" },
+        ];
 
         /// <summary>
         /// Gets the list of uses of default infrast.
         /// </summary>
         public List<CombinedData> DefaultInfrastList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
-                new() { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
-                new() { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("UserDefined"), Value = UserDefined },
+            new() { Display = LocalizationHelper.GetString("153Time3"), Value = "153_layout_3_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("243Time3"), Value = "243_layout_3_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("243Time4"), Value = "243_layout_4_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("252Time3"), Value = "252_layout_3_times_a_day.json" },
+            new() { Display = LocalizationHelper.GetString("333Time3"), Value = "333_layout_for_Orundum_3_times_a_day.json" },
+        ];
 
         private int _dormThreshold = Convert.ToInt32(ConfigurationHelper.GetValue(ConfigurationKeys.DormThreshold, "30"));
 
@@ -1595,10 +1572,7 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void SelectCustomInfrastFile()
         {
-            var dialog = new OpenFileDialog
-            {
-                Filter = LocalizationHelper.GetString("CustomInfrastFile") + "|*.json",
-            };
+            var dialog = new OpenFileDialog { Filter = LocalizationHelper.GetString("CustomInfrastFile") + "|*.json", };
 
             if (dialog.ShowDialog() == true)
             {
@@ -1810,10 +1784,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 case "Phantom":
 
-                    foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
-                    })
+                    foreach (var item in new ObservableCollection<CombinedData> { new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" }, })
                     {
                         RoguelikeSquadList.Add(item);
                     }
@@ -1823,12 +1794,9 @@ namespace MaaWpfGui.ViewModels.UI
                 case "Mizuki":
 
                     foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad1"), Value = "心胜于物分队" },
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad2"), Value = "物尽其用分队" },
-                        new() { Display = LocalizationHelper.GetString("IS2NewSquad3"), Value = "以人为本分队" },
-                        new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
-                    })
+                             {
+                                 new() { Display = LocalizationHelper.GetString("IS2NewSquad1"), Value = "心胜于物分队" }, new() { Display = LocalizationHelper.GetString("IS2NewSquad2"), Value = "物尽其用分队" }, new() { Display = LocalizationHelper.GetString("IS2NewSquad3"), Value = "以人为本分队" }, new() { Display = LocalizationHelper.GetString("ResearchSquad"), Value = "研究分队" },
+                             })
                     {
                         RoguelikeSquadList.Add(item);
                     }
@@ -1838,12 +1806,9 @@ namespace MaaWpfGui.ViewModels.UI
                 case "Sami":
 
                     foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad1"), Value = "永恒狩猎分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad2"), Value = "生活至上分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad3"), Value = "科学主义分队" },
-                        new() { Display = LocalizationHelper.GetString("IS3NewSquad4"), Value = "特训分队" },
-                    })
+                             {
+                                 new() { Display = LocalizationHelper.GetString("IS3NewSquad1"), Value = "永恒狩猎分队" }, new() { Display = LocalizationHelper.GetString("IS3NewSquad2"), Value = "生活至上分队" }, new() { Display = LocalizationHelper.GetString("IS3NewSquad3"), Value = "科学主义分队" }, new() { Display = LocalizationHelper.GetString("IS3NewSquad4"), Value = "特训分队" },
+                             })
                     {
                         RoguelikeSquadList.Add(item);
                     }
@@ -1853,12 +1818,9 @@ namespace MaaWpfGui.ViewModels.UI
                 case "Sarkaz":
 
                     foreach (var item in new ObservableCollection<CombinedData>
-                    {
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad1"), Value = "魂灵护送分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
-                        new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
-                    })
+                             {
+                                 new() { Display = LocalizationHelper.GetString("IS4NewSquad1"), Value = "魂灵护送分队" }, new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" }, new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" }, new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
+                             })
                     {
                         RoguelikeSquadList.Add(item);
                     }
@@ -1868,17 +1830,17 @@ namespace MaaWpfGui.ViewModels.UI
 
             // 通用分队
             foreach (var item in new ObservableCollection<CombinedData>
-            {
-                new() { Display = LocalizationHelper.GetString("LeaderSquad"), Value = "指挥分队" },
-                new() { Display = LocalizationHelper.GetString("GatheringSquad"), Value = "集群分队" },
-                new() { Display = LocalizationHelper.GetString("SupportSquad"), Value = "后勤分队" },
-                new() { Display = LocalizationHelper.GetString("SpearheadSquad"), Value = "矛头分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
-                new() { Display = LocalizationHelper.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
-                new() { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" },
-            })
+                     {
+                         new() { Display = LocalizationHelper.GetString("LeaderSquad"), Value = "指挥分队" },
+                         new() { Display = LocalizationHelper.GetString("GatheringSquad"), Value = "集群分队" },
+                         new() { Display = LocalizationHelper.GetString("SupportSquad"), Value = "后勤分队" },
+                         new() { Display = LocalizationHelper.GetString("SpearheadSquad"), Value = "矛头分队" },
+                         new() { Display = LocalizationHelper.GetString("TacticalAssaultOperative"), Value = "突击战术分队" },
+                         new() { Display = LocalizationHelper.GetString("TacticalFortificationOperative"), Value = "堡垒战术分队" },
+                         new() { Display = LocalizationHelper.GetString("TacticalRangedOperative"), Value = "远程战术分队" },
+                         new() { Display = LocalizationHelper.GetString("TacticalDestructionOperative"), Value = "破坏战术分队" },
+                         new() { Display = LocalizationHelper.GetString("First-ClassSquad"), Value = "高规格分队" },
+                     })
             {
                 RoguelikeSquadList.Add(item);
             }
@@ -1939,12 +1901,12 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of roguelike lists.
         /// </summary>
         public List<CombinedData> RoguelikeThemeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
-                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
+            new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
+        ];
 
         private ObservableCollection<CombinedData> _roguelikeModeList = new();
 
@@ -1972,13 +1934,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of roguelike roles.
         /// </summary>
         public List<CombinedData> RoguelikeRolesList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
-                new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
-                new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
-                new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
-                new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("DefaultRoles"), Value = string.Empty },
+            new() { Display = LocalizationHelper.GetString("FirstMoveAdvantage"), Value = "先手必胜" },
+            new() { Display = LocalizationHelper.GetString("SlowAndSteadyWinsTheRace"), Value = "稳扎稳打" },
+            new() { Display = LocalizationHelper.GetString("OvercomingYourWeaknesses"), Value = "取长补短" },
+            new() { Display = LocalizationHelper.GetString("AsYourHeartDesires"), Value = "随心所欲" },
+        ];
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
         private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sarkaz");
@@ -2475,13 +2437,13 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         // ReSharper disable once MemberCanBePrivate.Global
         public List<CombinedData> FormationSelectList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("Current"), Value = "0" },
-                new() { Display = "1", Value = "1" },
-                new() { Display = "2", Value = "2" },
-                new() { Display = "3", Value = "3" },
-                new() { Display = "4", Value = "4" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("Current"), Value = "0" },
+            new() { Display = "1", Value = "1" },
+            new() { Display = "2", Value = "2" },
+            new() { Display = "3", Value = "3" },
+            new() { Display = "4", Value = "4" },
+        ];
 
         private bool _creditVisitFriends = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriends, bool.TrueString));
 
@@ -3058,11 +3020,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of auto recruit selecting extra tags.
         /// </summary>
         public List<CombinedData> AutoRecruitSelectExtraTagsList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
-                new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
-                new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("DefaultNoExtraTags"), Value = "0" },
+            new() { Display = LocalizationHelper.GetString("SelectExtraTags"), Value = "1" },
+            new() { Display = LocalizationHelper.GetString("SelectExtraOnlyRareTags"), Value = "2" },
+        ];
 
         private string _autoRecruitFirstList = ConfigurationHelper.GetValue(ConfigurationKeys.AutoRecruitFirstList, string.Empty);
 
@@ -3378,11 +3340,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of the version type.
         /// </summary>
         public List<GenericCombinedData<UpdateVersionType>> AllVersionTypeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
-                new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
-                new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
+            new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
+            new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
+        ];
 
         public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
         {
@@ -3583,42 +3545,42 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of the configuration of connection.
         /// </summary>
         public List<CombinedData> ConnectConfigList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("General"), Value = "General" },
-                new() { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
-                new() { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
-                new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
-                new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
-                new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
-                new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
-                new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
-                new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
-                new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("General"), Value = "General" },
+            new() { Display = LocalizationHelper.GetString("BlueStacks"), Value = "BlueStacks" },
+            new() { Display = LocalizationHelper.GetString("MuMuEmulator12"), Value = "MuMuEmulator12" },
+            new() { Display = LocalizationHelper.GetString("LDPlayer"), Value = "LDPlayer" },
+            new() { Display = LocalizationHelper.GetString("Nox"), Value = "Nox" },
+            new() { Display = LocalizationHelper.GetString("XYAZ"), Value = "XYAZ" },
+            new() { Display = LocalizationHelper.GetString("WSA"), Value = "WSA" },
+            new() { Display = LocalizationHelper.GetString("Compatible"), Value = "Compatible" },
+            new() { Display = LocalizationHelper.GetString("SecondResolution"), Value = "SecondResolution" },
+            new() { Display = LocalizationHelper.GetString("GeneralWithoutScreencapErr"), Value = "GeneralWithoutScreencapErr" },
+        ];
 
         /// <summary>
         /// Gets the list of touch modes
         /// </summary>
         public List<CombinedData> TouchModeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
-                new() { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
-                new() { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("MiniTouchMode"), Value = "minitouch" },
+            new() { Display = LocalizationHelper.GetString("MaaTouchMode"), Value = "maatouch" },
+            new() { Display = LocalizationHelper.GetString("AdbTouchMode"), Value = "adb" },
+        ];
 
         /// <summary>
         /// Gets the list of the client types.
         /// </summary>
         public List<CombinedData> ClientTypeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
-                new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
-                new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
-                new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
-                new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
-                new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
-                new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("NotSelected"), Value = string.Empty },
+            new() { Display = LocalizationHelper.GetString("Official"), Value = "Official" },
+            new() { Display = LocalizationHelper.GetString("Bilibili"), Value = "Bilibili" },
+            new() { Display = LocalizationHelper.GetString("YoStarEN"), Value = "YoStarEN" },
+            new() { Display = LocalizationHelper.GetString("YoStarJP"), Value = "YoStarJP" },
+            new() { Display = LocalizationHelper.GetString("YoStarKR"), Value = "YoStarKR" },
+            new() { Display = LocalizationHelper.GetString("Txwy"), Value = "txwy" },
+        ];
 
         private bool _autoDetectConnection = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDetect, bool.TrueString));
 
@@ -3855,12 +3817,7 @@ namespace MaaWpfGui.ViewModels.UI
                         return JsonConvert.SerializeObject(new JObject());
                     }
 
-                    var configObject = new JObject
-                    {
-                        ["path"] = EmulatorPath,
-                        ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0,
-                        ["display"] = int.TryParse(Display, out var displayParse) ? displayParse : 0,
-                    };
+                    var configObject = new JObject { ["path"] = EmulatorPath, ["index"] = int.TryParse(Index, out var indexParse) ? indexParse : 0, ["display"] = int.TryParse(Display, out var displayParse) ? displayParse : 0, };
                     return JsonConvert.SerializeObject(configObject);
                 }
             }
@@ -4036,15 +3993,15 @@ namespace MaaWpfGui.ViewModels.UI
                     break;
 
                 case > 1:
+                {
+                    foreach (var address in addresses.Where(address => address != "emulator-5554"))
                     {
-                        foreach (var address in addresses.Where(address => address != "emulator-5554"))
-                        {
-                            ConnectAddress = address;
-                            break;
-                        }
-
+                        ConnectAddress = address;
                         break;
                     }
+
+                    break;
+                }
             }
 
             if (ConnectAddress.Length == 0)
@@ -4134,10 +4091,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Width = 800,
                     Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
-                    Content = new Image
-                    {
-                        Source = TestLinkImage,
-                    },
+                    Content = new Image { Source = TestLinkImage, },
                 };
                 popupWindow.ShowDialog();
             }
@@ -4251,7 +4205,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             return (from line in allLines
                     where line.StartsWith(_bluestacksKeyWord)
-                    select line.Split('"') into sp
+                    select line.Split('"')
+                    into sp
                     select "127.0.0.1:" + sp[1])
                 .FirstOrDefault();
         }
@@ -4419,21 +4374,21 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the list of dark mode.
         /// </summary>
         public List<GenericCombinedData<DarkModeType>> DarkModeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
-                new() { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
-                new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("Light"), Value = DarkModeType.Light },
+            new() { Display = LocalizationHelper.GetString("Dark"), Value = DarkModeType.Dark },
+            new() { Display = LocalizationHelper.GetString("SyncWithOs"), Value = DarkModeType.SyncWithOs },
+        ];
 
         /// <summary>
         /// Gets the list of inverse clear modes.
         /// </summary>
         public List<CombinedData> InverseClearModeList { get; } =
-            [
-                new() { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
-                new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
-                new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
-            ];
+        [
+            new() { Display = LocalizationHelper.GetString("Clear"), Value = "Clear" },
+            new() { Display = LocalizationHelper.GetString("Inverse"), Value = "Inverse" },
+            new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
+        ];
 
         private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
 
@@ -4652,10 +4607,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly Dictionary<string, string> _windowTitleAllShowDict = new()
         {
-            { LocalizationHelper.GetString("ConfigurationName"), "1" },
-            { LocalizationHelper.GetString("ConnectionPreset"), "2" },
-            { LocalizationHelper.GetString("ConnectionAddress"), "3" },
-            { LocalizationHelper.GetString("ClientType"), "4" },
+            { LocalizationHelper.GetString("ConfigurationName"), "1" }, { LocalizationHelper.GetString("ConnectionPreset"), "2" }, { LocalizationHelper.GetString("ConnectionAddress"), "3" }, { LocalizationHelper.GetString("ClientType"), "4" },
         };
 
         private List<string> _windowTitleAllShowList = [.. _windowTitleAllShowDict.Keys];
@@ -4827,10 +4779,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 var growlInfo = new GrowlInfo
                 {
-                    IsCustom = true,
-                    Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName),
-                    IconKey = "HangoverGeometry",
-                    IconBrushKey = "PallasBrush",
+                    IsCustom = true, Message = string.Format(LocalizationHelper.GetString("AddConfigSuccess"), NewConfigurationName), IconKey = "HangoverGeometry", IconBrushKey = "PallasBrush",
                 };
                 Growl.Info(growlInfo);
             }
@@ -4838,10 +4787,7 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 var growlInfo = new GrowlInfo
                 {
-                    IsCustom = true,
-                    Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName),
-                    IconKey = "HangoverGeometry",
-                    IconBrushKey = "PallasBrush",
+                    IsCustom = true, Message = string.Format(LocalizationHelper.GetString("ConfigExists"), NewConfigurationName), IconKey = "HangoverGeometry", IconBrushKey = "PallasBrush",
                 };
                 Growl.Info(growlInfo);
             }

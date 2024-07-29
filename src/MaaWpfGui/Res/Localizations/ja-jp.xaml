@@ -421,6 +421,8 @@
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、他のMAAがない場合はPCを休止状態になる</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">MAAを終了し、他のMAAがない場合はシャットダウン</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
+    <system:String x:Key="AfterActionOncePromptYes">設定はタスクの開始時に保存されます</system:String>
+    <system:String x:Key="AfterActionOncePromptNo">今回の設定は保存されません</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">止める</system:String>
     <system:String x:Key="WaitAndStop">待って &amp; 止める</system:String>

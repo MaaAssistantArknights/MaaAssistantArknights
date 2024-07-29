@@ -412,6 +412,8 @@
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，無其他 MAA 則休眠</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，無其他 MAA 則關機</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模擬器 主荧幕</system:String>
+    <system:String x:Key="AfterActionOncePromptYes">配置將在任務開始時保存</system:String>
+    <system:String x:Key="AfterActionOncePromptNo">本次的配置將不會保存</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>

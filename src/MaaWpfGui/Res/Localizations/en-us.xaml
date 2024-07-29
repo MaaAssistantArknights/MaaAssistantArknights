@@ -420,6 +420,8 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">Exit MAA and Emulator, then Hibernate if no other running MAA</system:String>
     <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">Exit MAA and Emulator, then Shutdown if no other running MAA</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
+    <system:String x:Key="AfterActionOncePromptYes">The configuration will be saved at the start of the task</system:String>
+    <system:String x:Key="AfterActionOncePromptNo">This configuration will not be saved</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">Stop</system:String>
     <system:String x:Key="WaitAndStop">Wait &amp; Stop</system:String>

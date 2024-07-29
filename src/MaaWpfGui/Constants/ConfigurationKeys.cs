@@ -260,5 +260,14 @@ namespace MaaWpfGui.Constants
         public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
         public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
         public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";
+
+        public const string ExitArknights = "AfterAction.ExitArknights";
+        public const string BackToAndroidHome = "AfterAction.BackToAndroidHome";
+        public const string ExitEmulator = "AfterAction.ExitEmulator";
+        public const string ExitSelf = "AfterAction.ExitSelf";
+        public const string IfNoOtherMaa = "AfterAction.IfNoOtherMaa";
+        public const string Once = "AfterAction.Once";
+        public const string Hibernate = "AfterAction.Hibernate";
+        public const string Shutdown = "AfterAction.Shutdown";
     }
 }
