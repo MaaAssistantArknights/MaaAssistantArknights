@@ -8,6 +8,12 @@ repos:
     hooks:
       - id: oxipng
         args: ["-q", "-o", "2", "-s", "--ng"]
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v17.0.1
+    hooks:
+      - id: clang-format
+        files: ^src/MaaCore/.*
+        args: ["--assume-filename", ".clang-format"]
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:
@@ -23,34 +29,3 @@ repos:
         types:
           - markdown
         args: ["--fix", "--config", "docs/.markdownlint.yaml", "#**/node_modules"]
-  #- repo: https://github.com/lycheeverse/lychee
-  #  rev: v0.15.1
-  #  hooks:
-  #    - id: lychee
-  #      files: ^docs/.*|^README\.md$
-  #      types:
-  #        - markdown
-  #      args:
-  #        #- --verbose
-  #        - --quiet
-  #        - --no-progress
-  #        - --exclude
-  #        - 'https://map\.ark-nights\.com/areas'
-  #        - --exclude
-  #        - 'https://.*\.maa-org\.net/.*'
-  #        - --exclude
-  #        - 'https://support\.bluestacks\.com/.*'
-  #        - --exclude
-  #        - 'https://www\.bigfun\.cn/.*'
-  #        - --exclude
-  #        - 'https://myqqbot\.com/.*'
-  #        - --exclude
-  #        - 'http://xn--\w+\.com/'
-  #        - --exclude
-  #        - 'https://mywebsite\.com/.*'
-  #        - --exclude
-  #        - '/image/*'
-  #        - --exclude-path
-  #        - "docs/zh-tw/manual/introduction/introduction_old.md"
-  #        - --exclude-path
-  #        - "docs/ja-jp/manual/introduction/introduction_old.md"
