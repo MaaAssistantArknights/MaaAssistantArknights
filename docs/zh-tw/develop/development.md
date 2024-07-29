@@ -104,7 +104,7 @@ icon: iconoir:developer
 3. 在 Visual Studio 的 工具-選項 中搜索 clang-format。
 4. 點擊 `啟用 ClangFormat 支援`，然後選擇下面的 `使用自定義 clang-format.exe 檔案`，選擇第 2 步得到的 `clang-format.exe`
 
-![Visual Studio 設定 clang-format](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
+![Visual Studio 設定 clang-format](/image/zh-cn/development-enable-vs-clang-format.png)
 
 然後你的 Visual Studio 就能愉快的使用支援 c++20 語法的 clang-format 啦！
 

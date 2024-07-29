@@ -96,19 +96,21 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         cv::Mat matched;
         cv::Mat image_for_match;
         cv::Mat templ_for_match;
-        if (method == MatchMethod::CcoeffHSV || method == MatchMethod::HSVCount) {
-            cv::cvtColor(image, image_for_match, cv::COLOR_BGR2HSV);
-            cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2HSV);
+        cv::Mat image_for_count;
+        cv::Mat templ_for_count;
+        cv::cvtColor(image, image_for_match, cv::COLOR_BGR2RGB);
+        cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2RGB);
+        if (method == MatchMethod::HSVCount) {
+            cv::cvtColor(image, image_for_count, cv::COLOR_BGR2HSV);
+            cv::cvtColor(templ, templ_for_count, cv::COLOR_BGR2HSV);
         }
-        else {
-            cv::cvtColor(image, image_for_match, cv::COLOR_BGR2RGB);
-            cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2RGB);
+        else if (method == MatchMethod::RGBCount) {
+            image_for_count = image_for_match;
+            templ_for_count = templ_for_match;
         }
 
+        // 目前所有的匹配都是用 TM_CCOEFF_NORMED
         int match_algorithm = cv::TM_CCOEFF_NORMED;
-        if (method == MatchMethod::Ccoeff || method == MatchMethod::CcoeffHSV) {
-            match_algorithm = cv::TM_CCOEFF_NORMED;
-        }
 
         auto calc_mask = [&](const cv::Mat& templ_for_mask, bool with_close)->std::optional<cv::Mat> {
             cv::Mat templ_for_gray_mask;
@@ -138,41 +140,44 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             return mask;
         };
 
-        if (method == MatchMethod::Ccoeff || method == MatchMethod::CcoeffHSV) {
-            if (params.mask_range.empty()) {
-                cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm);
-            }
-            else {
-                auto mask_opt = calc_mask(
-                    params.mask_with_src ? image_for_match : templ_for_match,
-                    params.mask_with_close);
-                if (!mask_opt) {
-                    return {};
-                }
-                cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm, mask_opt.value());
-            }
+        if (params.mask_range.empty() || method == MatchMethod::RGBCount || method == MatchMethod::HSVCount) {
+            // workaround: 数色时的模板匹配忽略 maskRange
+            // TODO: 区分 maskRange 和 colorRange
+            cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm);
         }
-        else if (method == MatchMethod::RGBCount || method == MatchMethod::HSVCount) {
-            // 待匹配图像与模板中指定颜色的像素数量比值，越接近1越相似
-            auto templ_active_opt = calc_mask(templ_for_match, false);
-            auto image_active_opt = calc_mask(image_for_match, false);
+        else {
+            auto mask_opt = calc_mask(
+                params.mask_with_src ? image_for_match : templ_for_match,
+                params.mask_with_close);
+            if (!mask_opt) {
+                return {};
+            }
+            cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm, mask_opt.value());
+        }
+
+        if (method == MatchMethod::RGBCount || method == MatchMethod::HSVCount) {
+            auto templ_active_opt = calc_mask(templ_for_count, false);
+            auto image_active_opt = calc_mask(image_for_count, false);
             if (!image_active_opt || !templ_active_opt) [[unlikely]] {
                 return {};
             }
             const auto& templ_active = templ_active_opt.value();
             const auto& image_active = image_active_opt.value();
-            cv::Mat zero = cv::Mat::zeros(templ_active.size(), CV_8U);
+            cv::threshold(templ_active, templ_active, 1, 1, cv::THRESH_BINARY);
             cv::threshold(image_active, image_active, 1, 1, cv::THRESH_BINARY);
-            // 把 SQDIFF 当 count 用，计算 image_active 在 templ_active 形状内的像素数量
+            // 把 CCORR 当 count 用，计算 image_active 在 templ_active 形状内的像素数量
             cv::Mat tp, fp;
             int tp_fn = cv::countNonZero(templ_active);
-            cv::matchTemplate(image_active, zero, tp, cv::TM_SQDIFF, templ_active);
+            cv::matchTemplate(image_active, templ_active, tp, cv::TM_CCORR);
             tp.convertTo(tp, CV_32S);
-            cv::Mat templ_inactive;
-            cv::bitwise_not(templ_active, templ_inactive);
-            cv::matchTemplate(image_active, zero, fp, cv::TM_SQDIFF, templ_inactive);
+            cv::Mat templ_inactive = 1 - templ_active;
+            // TODO: 这里 TP+FP 是 image_active 的 count，可以消掉一个 matchtemplate
+            cv::matchTemplate(image_active, templ_inactive, fp, cv::TM_CCORR);
             fp.convertTo(fp, CV_32S);
-            cv::divide(2 * tp, tp + fp + tp_fn, matched, 1, CV_32F); // matched = f1 score
+            cv::Mat count_result; // 数色结果为 f1_score
+            cv::divide(2 * tp, tp + fp + tp_fn, count_result, 1, CV_32F);
+            // 返回的是数色和模板匹配的点积
+            cv::multiply(matched, count_result, matched);
         }
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
     }

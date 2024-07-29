@@ -29,7 +29,7 @@ Welcome to share your tasks with [prts.plus](https://prts.plus)!
   - 开启本功能后改为在**关卡所在的地图界面**开始自动战斗。在理智不足/战斗失败/非三星结算时将停止自动战斗队列。
   - 请确保列表中的关卡在同一区域 (只通过左右滑动地图界面就可以导航到)。
 - Remember to like the tasks that you think helpful!
-  ![image](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/99072975/39e6dd67-2ff1-4023-a2b8-0018673c08aa)
+  ![image](/image/zh-cn/copilot-click-like.png)
 
 ## Create Tasks
 

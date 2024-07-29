@@ -76,7 +76,7 @@ void asst::DebugTask::test_battle_image()
 
 void asst::DebugTask::test_match_template()
 {
-    auto test_task = [](const std::string& path, const std::string& task_name) {
+    auto test_task = [](const std::string& path, const std::string& task_name) -> double {
         cv::Mat image = imread(utils::path(path));
         cv::Mat resized;
         cv::resize(image, resized, cv::Size(1280, 720), 0, 0, cv::INTER_AREA);
@@ -87,16 +87,40 @@ void asst::DebugTask::test_match_template()
         const auto& result_opt = match_analyzer.analyze();
         if (result_opt) {
             const auto& result = result_opt.value().to_string();
-            Log.info(path, task_name, result);
+            Log.info("active", path, task_name, result);
+            return result_opt.value().score;
         }
         else {
-            Log.info(path, task_name, "inactive");
+            Log.info("inactive", path, task_name);
+            return 0.;
         }
     };
 
-    test_task("../../test/dist/1.png", "Sarkaz@Roguelike@StageCombatDps");
-    test_task("../../test/dist/2.png", "Sarkaz@Roguelike@StageCombatDps");
-    test_task("../../test/dist/3.png", "Sarkaz@Roguelike@StageCombatDps");
+    // test_task(
+    //     "../../x64/Release/debug/roguelike/2024-07-27_16-32-25-198_raw.png",
+    //     "Sarkaz@Roguelike@StageWindAndRain");
 
-    test_task("../../test/dist/2024-07-27_00-58-36-429_raw.png", "Sarkaz@Roguelike@StageCombatDps");
+    // for (int i = 1; i <= 15; ++i) {
+    //     test_task("../../test/dist/" + std::to_string(i) + ".png", "Sarkaz@Roguelike@StageCombatDps");
+    //     test_task("../../test/dist/" + std::to_string(i) + ".png", "Sarkaz@Roguelike@StageBoskyPassage");
+    //     test_task("../../test/dist/" + std::to_string(i) + ".png", "Sarkaz@Roguelike@StageEmergencyTransportation");
+    //     test_task("../../test/dist/" + std::to_string(i) + ".png", "Sarkaz@Roguelike@StageWindAndRain");
+    // }
+
+#define TEST(expr)                                       \
+    if (!(expr)) {                                       \
+        throw std::runtime_error("Test failed: " #expr); \
+    }
+
+#define ASSERT_ACTIVE(path, task_name) TEST(test_task(path, task_name) > DoubleDiff)
+#define ASSERT_INACTIVE(path, task_name) TEST(test_task(path, task_name) < DoubleDiff)
+
+    ASSERT_INACTIVE("../../test/dist/12.png", "Sarkaz@Roguelike@StageBoskyPassage");
+    ASSERT_ACTIVE("../../test/dist/13.png", "Sarkaz@Roguelike@StageEmergencyTransportation");
+    ASSERT_ACTIVE("../../test/dist/14.png", "Sarkaz@Roguelike@StageWindAndRain");
+    ASSERT_ACTIVE("../../test/dist/15.png", "Sarkaz@Roguelike@StageEmergencyTransportation");
+
+#undef TEST
+#undef ASSERT_ACTIVE
+#undef ASSERT_INACTIVE
 }

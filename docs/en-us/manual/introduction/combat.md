@@ -53,7 +53,7 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
   - For the SS event rerun, you can enter `SSReopen-XX` to clear XX-1 ~ XX-9 levels once. Example `SSReopen-IC`.
 
 ::: details Example
-![Example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/56174894/e94a0842-a42f-449d-9f2e-f2339175cbdd)
+![Example](/image/en-us/combat-start-interface-example.png)
 :::
 
 ### Annihilation Mode

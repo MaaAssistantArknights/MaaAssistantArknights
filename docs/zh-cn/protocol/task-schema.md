@@ -109,9 +109,10 @@ icon: material-symbols:task
         "method": "Ccoeff",                 // 可选项，模板匹配算法，可以是列表
                                             // 不填写时默认为 Ccoeff
                                             //      - Ccoeff:       对应 cv::TM_CCOEFF_NORMED
-                                            //      - CcoeffHSV:    转换为 HSV 颜色空间后再进行 CCOEFF
                                             //      - RGBCount:     先将待匹配区域和模板图片依据 maskRange 二值化，
-                                            //                      以 F1-score 为指标计算 RGB 颜色空间内的相似度
+                                            //                      以 F1-score 为指标计算 RGB 颜色空间内的相似度，
+                                            //                      再将结果与 Ccoeff 的结果点积
+                                            //                      总之是一个颜色敏感的模板匹配算法
                                             //      - HSVCount:     类似 RGBCount，颜色空间换为 HSV
 
         /* 以下字段仅当 algorithm 为 OcrDetect 时有效 */

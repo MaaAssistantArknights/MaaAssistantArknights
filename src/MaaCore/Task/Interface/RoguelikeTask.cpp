@@ -120,14 +120,30 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
         
-    bool stop_at_final_boss = params.get("stop_at_final_boss", mode == RoguelikeMode::Exp);
+    bool stop_at_final_boss = params.get("stop_at_final_boss", false);
     // 傀影肉鸽3层和5层boss图标一样,禁用
-    if (stop_at_final_boss && theme != "Phantom") {
+    if (stop_at_final_boss && theme != RoguelikeTheme::Phantom) {
         m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StageDreadfulFoe-5", 0);
     }
     else {
         // 重置boss进点
         m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StageDreadfulFoe-5", INT_MAX);
+    }
+
+    if (theme == RoguelikeTheme::Sami) {
+        if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
+            std::vector<std::string> list;
+            for (const auto& name : *opt) {
+                if (std::string name_str = name.as_string(); !name_str.empty()) {
+                    list.emplace_back(name_str);
+                }
+            }
+            /* 由于插件 load_param返回值仅决定自身是否启用，二次读取参数进行验证 */
+            if (list.empty()) {
+                Log.error(__FUNCTION__, "| Empty start_foldartal_list");
+                return false;
+            }
+        }
     }
 
     m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StartExplore", params.get("starts_count", INT_MAX));
@@ -138,30 +154,6 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
     m_roguelike_task_ptr->set_times_limit(
         "StageTraderRefreshWithDice",
         params.get("refresh_trader_with_dice", false) ? INT_MAX : 0);
-
-    // =========================== 萨米主题专用参数 ===========================
-
-    if (theme == RoguelikeTheme::Sami) {
-        // 是否生活队凹开局板子
-        m_foldartal_start_ptr->set_start_foldartal(params.contains("start_foldartal_list"));
-
-        if (auto opt = params.find<json::array>("start_foldartal_list"); opt) {
-            std::vector<std::string> list;
-            for (const auto& name : *opt) {
-                if (std::string name_str = name.as_string(); !name_str.empty()) {
-                    list.emplace_back(name_str);
-                }
-            }
-            if (list.empty()) {
-                Log.error(__FUNCTION__, "| Empty start_foldartal_list");
-                return false;
-            }
-            m_foldartal_start_ptr->set_start_foldartal_list(std::move(list));
-        }
-
-        // 是否使用密文版, 非CLP_PDS模式下默认为True, CLP_PDS模式下默认为False
-        m_foldartal_use_ptr->set_use_foldartal(params.get("use_foldartal", mode != RoguelikeMode::CLP_PDS));
-    }
 
     m_invest_ptr->set_control_plugin_ptr(m_control_ptr);
 
