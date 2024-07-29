@@ -63,7 +63,7 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
         commit_message = commit_info["message"]
 
         if not with_commitizen:
-            commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|debug|i18n)"
+            commitizens = r"(?:build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)"
             commit_message = re.sub(
                 rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *",
                 "",
