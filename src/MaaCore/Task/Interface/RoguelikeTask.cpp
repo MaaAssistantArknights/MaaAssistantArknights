@@ -120,9 +120,9 @@ bool asst::RoguelikeTask::set_params(const json::value& params)
         m_roguelike_task_ptr->set_times_limit("StageTraderLeaveConfirm", INT_MAX);
     }
         
-    bool stop_at_final_boss = params.get("stop_at_final_boss", mode == RoguelikeMode::Exp);
+    bool stop_at_final_boss = params.get("stop_at_final_boss", false);
     // 傀影肉鸽3层和5层boss图标一样,禁用
-    if (stop_at_final_boss && theme != "Phantom") {
+    if (stop_at_final_boss && theme != RoguelikeTheme::Phantom) {
         m_roguelike_task_ptr->set_times_limit(theme + "@Roguelike@StageDreadfulFoe-5", 0);
     }
     else {
