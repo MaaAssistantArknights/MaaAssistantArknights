@@ -27,6 +27,12 @@
     "SideStoryReopen": {
         "text": ["재개방"]
     },
+    "HS-OpenOcr": {
+        "text": ["회서리", "이벤트", "개방중"]
+    },
+    "HSChapterToHS": {
+        "text": ["경작지"]
+    },
     "RS-OpenOcr": {
         "text": ["은심호", "열차", "개방중"]
     },
