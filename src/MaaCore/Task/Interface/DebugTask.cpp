@@ -23,19 +23,6 @@ asst::DebugTask::DebugTask(const AsstCallback& callback, Assistant* inst) :
 
 bool asst::DebugTask::run()
 {
-    std::string ac =
-        "  ACTIVITY com.hypergryph.arknights.bilibili/com.u8.sdk.U8UnityContext 288a54c pid=2612"
-        "\r\n  ACTIVITY com.hypergryph.arknights/com.u8.sdk.U8UnityContext a02acff pid = 2341";
-
-    [[maybe_unused]] const auto& bc = ac.rfind("ACTIVITY ");
-    if (bc==std::string::npos) [[unlikely]]{
-        Log.info("not found");
-    }
-    else {
-        Log.info("found");
-        ac = ac.substr(bc + 9, ac.find(' ', bc + 9) - bc - 9);
-    }
-
     test_match_template();
     return true;
 }
