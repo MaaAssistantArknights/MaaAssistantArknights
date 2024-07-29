@@ -24,6 +24,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "HS-OpenOcr": {
+        "text": ["Here", "People", "Sows"]
+    },
+    "HSChapterToHS": {
+        "text": ["Agricultural", "Plate", "AGRICULTURAL", "PLATE"]
+    },
     "RS-OpenOcr": {
         "text": ["Rides", "Silberneherze", "Lake", "open"]
     },
