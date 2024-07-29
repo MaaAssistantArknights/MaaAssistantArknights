@@ -420,6 +420,12 @@ END_LOOP:;
     case ActionType::SyncPoint: {
         auto& info = action.getPayload<PointInfo>();
 
+        // 目标编码不匹配，退出
+        if (!find_snap_shot(info.target_code)) {
+            ret = false;
+            break;
+        }
+
         thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
         static const auto min_frame_interval =
             std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
@@ -453,6 +459,12 @@ END_LOOP:;
     } break;
     case ActionType::CheckPoint: {
         auto& info = action.getPayload<PointInfo>();
+
+        // 目标编码不匹配，退出
+        if (!find_snap_shot(info.target_code)) {
+            ret = false;
+            break;
+        }
 
         if (check_point(info)) {
             size_t i = 0;
@@ -1293,10 +1305,13 @@ auto asst::BattleProcessTask::gen_snap_shot() -> battle::copilot::PointInfo::Sna
     return shot;
 }
 
+bool asst::BattleProcessTask::find_snap_shot(const std::string& code) const noexcept
+{
+    return m_snap_shots.find(code) != m_snap_shots.cend();
+}
+
 void asst::BattleProcessTask::save_snap_shot(const std::string& code)
 {
-    using TriggerInfo = battle::copilot::TriggerInfo;
-
     if (code.empty()) {
         return;
     }

@@ -68,9 +68,8 @@ protected:
     void sleep_and_do_strategy(unsigned millisecond);
 
     auto gen_snap_shot() -> battle::copilot::PointInfo::SnapShot;
-
+    bool find_snap_shot(const std::string& code) const noexcept;
     void save_snap_shot(const std::string& code);
-
     auto get_snap_shot(const std::string& code) const noexcept -> battle::copilot::PointInfo::SnapShot const&;
 
     virtual bool check_in_battle(const cv::Mat& reusable = cv::Mat(), bool weak = true) override;
