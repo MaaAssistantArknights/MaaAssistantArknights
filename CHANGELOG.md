@@ -21,6 +21,7 @@
 
 ### 改进 | Improved
 
+* Wpf肉鸽非刷等级模式时，隐藏第五层BOSS前停下设置 @status102
 * 简化RoguelikeTask set_param (#9905) @status102
 * implement actionsx/prettier for resource updater (#9949) @Constrat
 * 更新 DebugTask 方便模板匹配测试 @zzyyyl
