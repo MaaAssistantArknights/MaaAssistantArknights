@@ -265,7 +265,7 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
             info.end_info.activeCounter();
 
             // 执行循环体
-            for (int i = 0; i < info.loop_actions.size(); ++i) {
+            for (size_t i = 0; i < info.loop_actions.size(); ++i) {
                 if (need_exit() || !m_in_battle) {
                     goto END_LOOP;
                 }
@@ -297,7 +297,7 @@ END_LOOP:;
             // 没找到或者没在CaseInfo 中匹配就使用默认的
             // 能够找到干员就使用对应的case
             if (auto itFind = info.dispatch_actions.find(it->second); itFind != info.dispatch_actions.cend()) {
-                for (int i = 0; i < itFind->second.size(); ++i) {
+                for (size_t i = 0; i < itFind->second.size(); ++i) {
                     ret &= do_action_sync(*itFind->second[i], i);
 
                     if (need_exit() || !m_in_battle) {
@@ -320,7 +320,7 @@ END_LOOP:;
         action.trigger.resetCounter();
         switch (info.mode) {
         case TriggerInfo::Category::Any: {
-            int idx = 0;
+            size_t idx = 0;
             while (ret == false) {
                 // 到达循环极限，退出
                 if (action.trigger.counter == action.trigger.count) {
@@ -347,7 +347,7 @@ END_LOOP:;
             [[fallthrough]];
         default: {
             std::set<ActionPtr> setSucc;
-            int idx = 0;
+            size_t idx = 0;
 
             // 全部成功则完成循环
             while (setSucc.size() != info.candidate.size()) {
@@ -385,7 +385,7 @@ END_LOOP:;
 
         if (check_condition(info.condition_info)) {
             // 触发器满足条件
-            int i = 0;
+            size_t i = 0;
             for (; i < info.then_actions.size(); ++i) {
                 if (!do_action_sync(*info.then_actions[i], i)) {
                     break;
@@ -399,7 +399,7 @@ END_LOOP:;
             ret = (i == info.then_actions.size());
         }
         else { // 触发器不满足条件
-            int i = 0;
+            size_t i = 0;
             for (; i < info.else_actions.size(); ++i) {
                 if (!do_action_sync(*info.else_actions[i], i)) {
                     break;
@@ -438,7 +438,7 @@ END_LOOP:;
             }
         } while (!need_exit() && m_in_battle);
 
-        int i = 0;
+        size_t i = 0;
         for (; i < info.then_actions.size(); ++i) {
             if (!do_action_sync(*info.then_actions[i], i)) {
                 break;
@@ -455,7 +455,7 @@ END_LOOP:;
         auto& info = action.getPayload<PointInfo>();
 
         if (check_point(info)) {
-            int i = 0;
+            size_t i = 0;
             for (; i < info.then_actions.size(); ++i) {
                 if (!do_action_sync(*info.then_actions[i], i)) {
                     break;
@@ -469,7 +469,7 @@ END_LOOP:;
             ret = (i == info.then_actions.size());
         }
         else {
-            int i = 0;
+            size_t i = 0;
             for (; i < info.else_actions.size(); ++i) {
                 if (!do_action_sync(*info.else_actions[i], i)) {
                     break;
