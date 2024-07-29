@@ -225,7 +225,7 @@ struct TriggerInfo
     int kills = DEACTIVE_KILLS;               // 击杀数条件
     int costs = DEACTIVE_COST;                // 费用条件
     int cost_changes = DEACTIVE_COST_CHANGES; // 费用变化条件
-    int cooling = DEACTIVE_COOLING;           // 冷却中的干员条件
+    int64_t cooling = DEACTIVE_COOLING;       // 冷却中的干员条件
     int count = DEACTIVE_COUNT;               // 计数条件，不做变化，记录初始值
 
     mutable int counter = 0;                  // 计数器
