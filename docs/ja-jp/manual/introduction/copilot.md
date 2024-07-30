@@ -8,7 +8,7 @@ order: 9
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.
 :::
 
-欢迎使用作业分享站 [prts.plus](https://prts.plus)，[抄作业.com](https://抄作业.com) 使用及分享作业文件。
+欢迎使用作业分享站 [prts.plus](https://prts.plus) 使用及分享作业文件。
 
 ## 抄作业
 
