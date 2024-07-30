@@ -237,6 +237,7 @@ namespace MaaWpfGui.Constants
         public const string PerformanceUseGpu = "Performance.UseGpu";
         public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
         public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
+        public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";
