@@ -10,6 +10,10 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 MAA selects the latest theme by default, and can be changed in `Auto I.S.` - `General`.
 
+::: warning
+All features involving auto-battle require a stable game frame rate of at least 60 frames, including but not limited to Copilot and Auto I.S..
+:::
+
 - Please pin the corresponding I.S. theme to the terminal in the game. 虽然目前也可以自动导航，但不保证长期可用性。
 - If there is exploration of non-target themes (such as if you plan to use MAA to brush Mizuki, but there is still an unfinished exploration of Phantom), please end it manually.
 - MAA will not automatically select the difficulty. If the difficulty is not selected, it will get stuck/repeatedly enter and exit the difficulty selection interface.
