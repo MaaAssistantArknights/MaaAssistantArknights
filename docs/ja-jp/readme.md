@@ -218,7 +218,7 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 
 ユーザー研究グループQQグループ：[QQグループ](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 ユーザー研究グループTGグループ：[Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自動作戦JSON作業シェア：[prts.plus](https://prts.plus) 或いは [抄作业.com](http://抄作业.com)  
+自動作戦JSON作業シェア：[prts.plus](https://prts.plus)  
 ビリビリ生放送：[ビリビリ生放送](https://live.bilibili.com/2808861) 毎晩ライブでコーディングします、最近はずっとこのソフトウェアのプログラミングをしていることが多いです。  
 
 技術研究(アークナイツ無関係)：[インボリューション・ヘル！(QQグループ)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  

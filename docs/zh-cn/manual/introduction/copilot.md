@@ -4,7 +4,7 @@ order: 9
 
 # 自动战斗
 
-欢迎使用作业分享站 [prts.plus](https://prts.plus)，[抄作业.com](https://抄作业.com) 使用及分享作业文件。
+欢迎使用作业分享站 [prts.plus](https://prts.plus) 使用及分享作业文件。
 
 ::: warning
 所有涉及到自动战斗的功能都需要至少 60 帧的稳定游戏帧数，这包括但不限于自动战斗和自动肉鸽。
