@@ -89,7 +89,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Gets the after action setting.
         /// </summary>
-        public PostActionSetting AfterActionSetting { get; } = PostActionSetting.Current;
+        public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.

@@ -66,7 +66,7 @@ public class PostActionSetting : PropertyChangedBase
         Shutdown = 64,
     }
 
-    private PostActions _postActions = JsonConvert.DeserializeObject<PostActions>(ConfigurationHelper.GetValue(ConfigurationKeys.PostActions, "0"));
+    private PostActions _postActions;
 
     private bool _once;
 
@@ -283,19 +283,24 @@ public class PostActionSetting : PropertyChangedBase
         if (!_once)
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.PostActions, JsonConvert.SerializeObject(_postActions));
-
         }
+    }
+
+    public void LoadPostActions()
+    {
+        _postActions = JsonConvert.DeserializeObject<PostActions>(ConfigurationHelper.GetValue(ConfigurationKeys.PostActions, "0"));
+        ExitArknights = _postActions.HasFlag(PostActions.ExitArknights);
+        BackToAndroidHome = _postActions.HasFlag(PostActions.BackToAndroidHome);
+        ExitEmulator = _postActions.HasFlag(PostActions.ExitEmulator);
+        ExitSelf = _postActions.HasFlag(PostActions.ExitSelf);
+        IfNoOtherMaa = _postActions.HasFlag(PostActions.IfNoOtherMaa);
+        Hibernate = _postActions.HasFlag(PostActions.Hibernate);
+        Shutdown = _postActions.HasFlag(PostActions.Shutdown);
     }
 
     private PostActionSetting()
     {
-        _exitArknights = _postActions.HasFlag(PostActions.ExitArknights);
-        _backToAndroidHome = _postActions.HasFlag(PostActions.BackToAndroidHome);
-        _exitEmulator = _postActions.HasFlag(PostActions.ExitEmulator);
-        _exitSelf = _postActions.HasFlag(PostActions.ExitSelf);
-        _ifNoOtherMaa = _postActions.HasFlag(PostActions.IfNoOtherMaa);
-        _hibernate = _postActions.HasFlag(PostActions.Hibernate);
-        _shutdown = _postActions.HasFlag(PostActions.Shutdown);
+        LoadPostActions();
         RefreshDescription();
     }
 }

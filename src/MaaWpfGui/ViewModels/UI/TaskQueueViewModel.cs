@@ -115,7 +115,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
 
-            var settings = TaskSettingDataContext.AfterActionSetting;
+            var settings = TaskSettingDataContext.PostActionSetting;
 
             if (settings.ExitArknights)
             {
@@ -192,6 +192,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
+            settings.LoadPostActions();
             return;
 
             bool HasOtherMaa()
@@ -201,6 +202,8 @@ namespace MaaWpfGui.ViewModels.UI
 
             void DoHibernate()
             {
+                settings.LoadPostActions();
+
                 // 休眠提示
                 AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
 
