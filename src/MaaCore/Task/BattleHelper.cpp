@@ -577,7 +577,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             Log.debug(
                 name,
                 "use skill too fast, interval time:",
-                std::chrono::duration_cast<std::chrono::milliseconds>(interval));
+                std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(interval).count()) + " ms");
             continue;
         }
 
