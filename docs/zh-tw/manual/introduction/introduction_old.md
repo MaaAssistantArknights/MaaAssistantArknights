@@ -106,7 +106,7 @@ icon: ic:baseline-article
 
 ### 自動戰鬥
 
-- 歡迎使用作業分享站 [prts.plus](https://prts.plus)，[抄作業.com](https://抄作业.com) 使用 & 分享作業檔案！
+- 歡迎使用作業分享站 [prts.plus](https://prts.plus) 使用 & 分享作業檔案！
 
 #### 抄作業
 
