@@ -196,6 +196,7 @@ namespace MaaWpfGui.Constants
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";
 
+        public const string PostActions = "MainFunction.PostActions";
         public const string MainFunctionInverseMode = "MainFunction.InverseMode";
         public const string Stage1 = "MainFunction.Stage1";
         public const string Stage2 = "MainFunction.Stage2";
@@ -258,13 +259,5 @@ namespace MaaWpfGui.Constants
         public const string AnnouncementInfo = "Announcement.AnnouncementInfo";
         public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
         public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";
-
-        public const string ExitArknights = "AfterAction.ExitArknights";
-        public const string BackToAndroidHome = "AfterAction.BackToAndroidHome";
-        public const string ExitEmulator = "AfterAction.ExitEmulator";
-        public const string ExitSelf = "AfterAction.ExitSelf";
-        public const string IfNoOtherMaa = "AfterAction.IfNoOtherMaa";
-        public const string Hibernate = "AfterAction.Hibernate";
-        public const string Shutdown = "AfterAction.Shutdown";
     }
 }

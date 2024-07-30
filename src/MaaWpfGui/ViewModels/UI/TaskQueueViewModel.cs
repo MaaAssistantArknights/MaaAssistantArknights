@@ -37,6 +37,7 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
+using static MaaWpfGui.Models.PostActionSetting;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Screen = Stylet.Screen;
@@ -124,7 +125,6 @@ namespace MaaWpfGui.ViewModels.UI
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
 
-
                 await Task.Delay(1000);
             }
 
@@ -173,7 +173,6 @@ namespace MaaWpfGui.ViewModels.UI
                     Bootstrapper.Shutdown();
                 }
             }
-
 
             if (settings.Shutdown)
             {
@@ -963,8 +962,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public async void LinkStart()
         {
-            AfterActionSetting.Current.Save();
-
             if (!_runningState.GetIdle())
             {
                 return;
