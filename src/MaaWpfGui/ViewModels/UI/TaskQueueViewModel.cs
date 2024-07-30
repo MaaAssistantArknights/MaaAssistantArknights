@@ -37,7 +37,6 @@ using Newtonsoft.Json.Linq;
 using Serilog;
 using Stylet;
 using StyletIoC;
-using static MaaWpfGui.Models.PostActionSetting;
 using Application = System.Windows.Application;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Screen = Stylet.Screen;
@@ -223,8 +222,6 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         #endregion
-
-        // private bool _actionListRefreshed = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TaskQueueViewModel"/> class.
@@ -596,7 +593,10 @@ namespace MaaWpfGui.ViewModels.UI
 
             AlternateStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList());
 
-            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList()) { [0] = new() { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty }, };
+            RemainingSanityStageList = new ObservableCollection<CombinedData>(_stageManager.GetStageList())
+            {
+                [0] = new() { Display = LocalizationHelper.GetString("NoUse"), Value = string.Empty },
+            };
 
             // reset closed stages to "Last/Current"
             if (!CustomStageCode)
@@ -1652,7 +1652,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"api -v {emuIndex} shutdown_player", CreateNoWindow = true, UseShellExecute = false, };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"api -v {emuIndex} shutdown_player",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1723,7 +1728,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"quit --index {emuIndex}", CreateNoWindow = true, UseShellExecute = false, };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"quit --index {emuIndex}",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1792,7 +1802,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"quit -index:{emuIndex}", CreateNoWindow = true, UseShellExecute = false, };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"quit -index:{emuIndex}",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1853,7 +1868,12 @@ namespace MaaWpfGui.ViewModels.UI
 
             if (File.Exists(consolePath))
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath) { Arguments = $"stop -i {emuIndex}", CreateNoWindow = true, UseShellExecute = false, };
+                ProcessStartInfo startInfo = new ProcessStartInfo(consolePath)
+                {
+                    Arguments = $"stop -i {emuIndex}",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                };
                 var process = Process.Start(startInfo);
                 if (process != null && process.WaitForExit(5000))
                 {
@@ -1947,7 +1967,13 @@ namespace MaaWpfGui.ViewModels.UI
         private static bool KillEmulatorByWindow()
         {
             int pid = 0;
-            var windowName = new[] { "明日方舟", "明日方舟 - MuMu模拟器", "BlueStacks App Player", "BlueStacks", };
+            var windowName = new[]
+            {
+                "明日方舟",
+                "明日方舟 - MuMu模拟器",
+                "BlueStacks App Player",
+                "BlueStacks",
+            };
             foreach (string i in windowName)
             {
                 var hwnd = FindWindow(null, i);
