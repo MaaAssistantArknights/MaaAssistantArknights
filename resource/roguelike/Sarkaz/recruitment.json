@@ -927,20 +927,6 @@
             "name": "速狙",
             "opers": [
                 {
-                    "name": "莱伊",
-                    "skill": 3,
-                    "alternate_skill": 2,
-                    "recruit_priority": 790,
-                    "promote_priority": 801,
-                    "recruit_priority_offsets": [
-                        {
-                            "groups": ["水陈", "速狙"],
-                            "threshold": 1,
-                            "offset": -300
-                        }
-                    ]
-                },
-                {
                     "name": "艾拉",
                     "skill": 3,
                     "is_key": true,
@@ -957,6 +943,20 @@
                             "groups": ["凯尔希", "近卫", "重装"],
                             "threshold": 1,
                             "is_less": true,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "莱伊",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 581,
+                    "promote_priority": 701,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["水陈", "速狙"],
+                            "threshold": 1,
                             "offset": -300
                         }
                     ]
