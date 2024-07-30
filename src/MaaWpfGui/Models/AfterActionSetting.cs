@@ -34,12 +34,6 @@ public class AfterActionSetting : PropertyChangedBase
     }
 
     private bool _exitArknights = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExitArknights, bool.FalseString));
-    private bool _backToAndroidHome = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BackToAndroidHome, bool.FalseString));
-    private bool _exitEmulator = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExitEmulator, bool.FalseString));
-    private bool _exitSelf = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExitSelf, bool.FalseString));
-    private bool _ifNoOtherMaa = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IfNoOtherMaa, bool.FalseString));
-    private bool _hibernate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Hibernate, bool.FalseString));
-    private bool _shutdown = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Shutdown, bool.FalseString));
 
     public bool ExitArknights
     {
@@ -51,6 +45,8 @@ public class AfterActionSetting : PropertyChangedBase
         }
     }
 
+    private bool _backToAndroidHome = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BackToAndroidHome, bool.FalseString));
+
     public bool BackToAndroidHome
     {
         get => _backToAndroidHome;
@@ -61,15 +57,25 @@ public class AfterActionSetting : PropertyChangedBase
         }
     }
 
+    private bool _exitEmulator = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExitEmulator, bool.FalseString));
+
     public bool ExitEmulator
     {
         get => _exitEmulator;
         set
         {
+            if (value)
+            {
+                ExitArknights = false;
+                BackToAndroidHome = false;
+            }
+
             SetAndNotify(ref _exitEmulator, value);
             RefreshDescription();
         }
     }
+
+    private bool _exitSelf = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ExitSelf, bool.FalseString));
 
     public bool ExitSelf
     {
@@ -81,6 +87,8 @@ public class AfterActionSetting : PropertyChangedBase
         }
     }
 
+    private bool _ifNoOtherMaa = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.IfNoOtherMaa, bool.FalseString));
+
     public bool IfNoOtherMaa
     {
         get => _ifNoOtherMaa;
@@ -91,21 +99,42 @@ public class AfterActionSetting : PropertyChangedBase
         }
     }
 
+    private bool _hibernate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Hibernate, bool.FalseString));
+
     public bool Hibernate
     {
         get => _hibernate;
         set
         {
+            if (!value)
+            {
+                IfNoOtherMaa = false;
+            }
+
             SetAndNotify(ref _hibernate, value);
             RefreshDescription();
         }
     }
+
+    private bool _shutdown = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Shutdown, bool.FalseString));
 
     public bool Shutdown
     {
         get => _shutdown;
         set
         {
+            if (value)
+            {
+                ExitSelf = false;
+                ExitArknights = false;
+                BackToAndroidHome = false;
+                ExitEmulator = false;
+            }
+            else
+            {
+                IfNoOtherMaa = false;
+            }
+
             SetAndNotify(ref _shutdown, value);
             RefreshDescription();
         }

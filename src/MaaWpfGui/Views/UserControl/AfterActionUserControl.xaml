@@ -31,22 +31,19 @@
                     Text="{DynamicResource AfterActionOncePromptYes}"
                     TextAlignment="Center"
                     TextWrapping="Wrap"
-                    Visibility="{c:Binding !AfterActionSetting.Once,
-                                           FalseToVisibility=Collapsed}" />
+                    Visibility="{c:Binding !AfterActionSetting.Once}" />
                 <controls:TextBlock
                     Width="200"
                     Text="{DynamicResource AfterActionOncePromptNo}"
                     TextAlignment="Center"
                     TextWrapping="Wrap"
-                    Visibility="{c:Binding AfterActionSetting.Once,
-                                           FalseToVisibility=Collapsed}" />
+                    Visibility="{c:Binding AfterActionSetting.Once}" />
             </StackPanel>
             <hc:Divider />
             <CheckBox
-                Name="CheckBoxExitArknights"
                 Margin="0,10"
-                Click="CheckBox_OnClick"
-                IsChecked="{Binding AfterActionSetting.ExitArknights}">
+                IsChecked="{Binding AfterActionSetting.ExitArknights}"
+                Visibility="{c:Binding !(AfterActionSetting.Shutdown || AfterActionSetting.ExitEmulator)}">
                 <CheckBox.Content>
                     <controls:TextBlock
                         Width="195"
@@ -55,10 +52,9 @@
                 </CheckBox.Content>
             </CheckBox>
             <CheckBox
-                Name="CheckBoxBackToAndroidHome"
                 Margin="0,10"
-                Click="CheckBox_OnClick"
-                IsChecked="{Binding AfterActionSetting.BackToAndroidHome}">
+                IsChecked="{Binding AfterActionSetting.BackToAndroidHome}"
+                Visibility="{c:Binding !(AfterActionSetting.ExitEmulator || AfterActionSetting.Shutdown)}">
                 <CheckBox.Content>
                     <controls:TextBlock
                         Width="195"
@@ -67,10 +63,9 @@
                 </CheckBox.Content>
             </CheckBox>
             <CheckBox
-                Name="CheckBoxExitEmulator"
                 Margin="0,10"
-                Click="CheckBox_OnClick"
-                IsChecked="{Binding AfterActionSetting.ExitEmulator}">
+                IsChecked="{Binding AfterActionSetting.ExitEmulator}"
+                Visibility="{c:Binding !AfterActionSetting.Shutdown}">
                 <CheckBox.Content>
                     <controls:TextBlock
                         Width="195"
@@ -79,10 +74,9 @@
                 </CheckBox.Content>
             </CheckBox>
             <CheckBox
-                Name="CheckBoxExitSelf"
                 Margin="0,10"
-                Click="CheckBox_OnClick"
-                IsChecked="{Binding AfterActionSetting.ExitSelf}">
+                IsChecked="{Binding AfterActionSetting.ExitSelf}"
+                Visibility="{c:Binding !AfterActionSetting.Shutdown}">
                 <CheckBox.Content>
                     <controls:TextBlock
                         Width="195"
@@ -92,10 +86,9 @@
             </CheckBox>
             <hc:Divider />
             <CheckBox
-                Name="CheckBoxIfNoOtherMaa"
                 Margin="0,10"
-                Click="CheckBox_OnClick"
-                IsChecked="{Binding AfterActionSetting.IfNoOtherMaa}">
+                IsChecked="{Binding AfterActionSetting.IfNoOtherMaa}"
+                Visibility="{c:Binding AfterActionSetting.Hibernate or AfterActionSetting.Shutdown}">
                 <CheckBox.Content>
                     <controls:TextBlock
                         Width="195"
@@ -105,10 +98,9 @@
             </CheckBox>
 
             <CheckBox
-                Name="CheckBoxHibernate"
                 Margin="0,10"
-                Click="CheckBox_OnClick"
-                IsChecked="{Binding AfterActionSetting.Hibernate}">
+                IsChecked="{Binding AfterActionSetting.Hibernate}"
+                Visibility="{c:Binding !AfterActionSetting.Shutdown}">
                 <CheckBox.Content>
                     <controls:TextBlock
                         Width="195"
@@ -117,10 +109,9 @@
                 </CheckBox.Content>
             </CheckBox>
             <CheckBox
-                Name="CheckBoxShutdown"
                 Margin="0,10"
-                Click="CheckBox_OnClick"
-                IsChecked="{Binding AfterActionSetting.Shutdown}">
+                IsChecked="{Binding AfterActionSetting.Shutdown}"
+                Visibility="{c:Binding !AfterActionSetting.Hibernate}">
                 <CheckBox.Content>
                     <controls:TextBlock
                         Width="195"

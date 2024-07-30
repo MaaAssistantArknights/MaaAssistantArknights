@@ -1,8 +1,15 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using MaaWpfGui.Models;
-using MaaWpfGui.ViewModels.UI;
+// <copyright file="AfterActionUserControl.xaml.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
 
 namespace MaaWpfGui.Views.UserControl;
 
@@ -11,152 +18,12 @@ namespace MaaWpfGui.Views.UserControl;
 /// </summary>
 public partial class AfterActionUserControl : System.Windows.Controls.UserControl
 {
-    private AfterActionSetting Model => (DataContext as SettingsViewModel)?.AfterActionSetting;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AfterActionUserControl"/> class.
+    /// </summary>
     public AfterActionUserControl()
     {
         InitializeComponent();
-        InitializeCheckBox();
-    }
-
-    private void InitializeCheckBox()
-    {
-        Dispatcher.Invoke(async () =>
-        {
-            await Task.Delay(500);
-            while (Model == null)
-            {
-                await Task.Delay(100);
-            }
-
-            InitCheckBox();
-        });
-        return;
-
-        void InitCheckBox()
-        {
-            if (Model == null)
-            {
-                return;
-            }
-
-            if (Model.ExitEmulator)
-            {
-                CheckBoxExitArknights.IsChecked = false;
-                CheckBoxBackToAndroidHome.IsChecked = false;
-                CheckBoxExitArknights.Visibility = Visibility.Collapsed;
-                CheckBoxBackToAndroidHome.Visibility = Visibility.Collapsed;
-            }
-
-            if (Model.Hibernate)
-            {
-                CheckBoxShutdown.IsChecked = false;
-                CheckBoxShutdown.Visibility = Visibility.Collapsed;
-            }
-
-            if (Model.Shutdown)
-            {
-                CheckBoxExitArknights.IsChecked = false;
-                CheckBoxBackToAndroidHome.IsChecked = false;
-                CheckBoxExitEmulator.IsChecked = false;
-                CheckBoxExitSelf.IsChecked = false;
-                CheckBoxHibernate.IsChecked = false;
-
-                CheckBoxHibernate.Visibility = Visibility.Collapsed;
-                CheckBoxExitArknights.Visibility = Visibility.Collapsed;
-                CheckBoxBackToAndroidHome.Visibility = Visibility.Collapsed;
-                CheckBoxExitEmulator.Visibility = Visibility.Collapsed;
-                CheckBoxExitSelf.Visibility = Visibility.Collapsed;
-            }
-
-            if (Model.Hibernate || Model.Shutdown)
-            {
-                CheckBoxIfNoOtherMaa.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                CheckBoxIfNoOtherMaa.IsChecked = false;
-                CheckBoxIfNoOtherMaa.Visibility = Visibility.Collapsed;
-            }
-        }
-    }
-
-    private void CheckBox_OnClick(object sender, RoutedEventArgs e)
-    {
-        if (Model == null)
-        {
-            return;
-        }
-
-        if (sender is not CheckBox checkBox)
-        {
-            return;
-        }
-
-        switch (checkBox.Name)
-        {
-            case "CheckBoxExitEmulator":
-                if (Model.ExitEmulator)
-                {
-                    CheckBoxExitArknights.IsChecked = false;
-                    CheckBoxBackToAndroidHome.IsChecked = false;
-                    CheckBoxExitArknights.Visibility = Visibility.Collapsed;
-                    CheckBoxBackToAndroidHome.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    CheckBoxExitArknights.Visibility = Visibility.Visible;
-                    CheckBoxBackToAndroidHome.Visibility = Visibility.Visible;
-                }
-
-                break;
-            case "CheckBoxHibernate":
-                if (Model.Hibernate)
-                {
-                    CheckBoxShutdown.IsChecked = false;
-                    CheckBoxShutdown.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    CheckBoxShutdown.Visibility = Visibility.Visible;
-                }
-
-                break;
-            case "CheckBoxShutdown":
-                if (Model.Shutdown)
-                {
-                    CheckBoxExitArknights.IsChecked = false;
-                    CheckBoxBackToAndroidHome.IsChecked = false;
-                    CheckBoxExitEmulator.IsChecked = false;
-                    CheckBoxExitSelf.IsChecked = false;
-                    CheckBoxHibernate.IsChecked = false;
-
-                    CheckBoxHibernate.Visibility = Visibility.Collapsed;
-                    CheckBoxExitArknights.Visibility = Visibility.Collapsed;
-                    CheckBoxBackToAndroidHome.Visibility = Visibility.Collapsed;
-                    CheckBoxExitEmulator.Visibility = Visibility.Collapsed;
-                    CheckBoxExitSelf.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    CheckBoxHibernate.Visibility = Visibility.Visible;
-                    CheckBoxExitArknights.Visibility = Visibility.Visible;
-                    CheckBoxBackToAndroidHome.Visibility = Visibility.Visible;
-                    CheckBoxExitEmulator.Visibility = Visibility.Visible;
-                    CheckBoxExitSelf.Visibility = Visibility.Visible;
-                }
-
-                break;
-        }
-
-        if (Model.Hibernate || Model.Shutdown)
-        {
-            CheckBoxIfNoOtherMaa.Visibility = Visibility.Visible;
-        }
-        else
-        {
-            CheckBoxIfNoOtherMaa.IsChecked = false;
-            CheckBoxIfNoOtherMaa.Visibility = Visibility.Collapsed;
-        }
     }
 }
