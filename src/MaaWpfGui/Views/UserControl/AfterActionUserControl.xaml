@@ -41,7 +41,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding AfterActionSetting.ExitArknights}"
-                IsEnabled="{c:Binding !(AfterActionSetting.Shutdown || AfterActionSetting.ExitEmulator)}">
+                IsEnabled="{c:Binding '!(AfterActionSetting.Shutdown || AfterActionSetting.ExitEmulator)'}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource ExitArknights}"
@@ -50,7 +50,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding AfterActionSetting.BackToAndroidHome}"
-                IsEnabled="{c:Binding !(AfterActionSetting.ExitEmulator || AfterActionSetting.Shutdown)}">
+                IsEnabled="{c:Binding '!(AfterActionSetting.ExitEmulator || AfterActionSetting.Shutdown)'}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource BackToAndroidHome}"
@@ -78,7 +78,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding AfterActionSetting.IfNoOtherMaa}"
-                IsEnabled="{c:Binding AfterActionSetting.Hibernate or AfterActionSetting.Shutdown}">
+                IsEnabled="{c:Binding 'AfterActionSetting.Hibernate || AfterActionSetting.Shutdown'}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource IfNoOtherMaa}"
