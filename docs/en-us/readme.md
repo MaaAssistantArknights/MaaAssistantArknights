@@ -5,10 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
 
+<!-- markdownlint-restore -->
 # MaaAssistantArknights
 
 ![C++](https://img.shields.io/badge/C++-20-%2300599C?logo=cplusplus)
@@ -120,7 +123,7 @@ MAA supports multiple languages and uses Weblate for localization management. If
 
 MAA uses Chinese (Simplified) as its first language, and all translation entries are in Chinese (Simplified).
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### Development Related Information
 
@@ -213,5 +216,3 @@ User Group: [Telegram](https://t.me/+Mgc2Zngr-hs3ZjU1), [QQ Group](https://ota.m
 [Dev Group(QQ Group)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 Please click "Star" if you consider it helpful! Thank you for your support!
-
-<!-- markdownlint-disable-file MD034 MD041 -->
