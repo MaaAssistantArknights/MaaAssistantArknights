@@ -12,10 +12,12 @@
 #include <random>
 #include <sstream>
 
-asst::ReportDataTask::ReportDataTask(const TaskCallback& task_callback, AbstractTask* upper_task)
-    : AbstractTask(nullptr, upper_task->inst(), upper_task->get_task_chain()), m_task_callback(task_callback),
-      m_upper_task(upper_task)
-{}
+asst::ReportDataTask::ReportDataTask(const TaskCallback& task_callback, AbstractTask* upper_task) :
+    AbstractTask(nullptr, upper_task->inst(), upper_task->get_task_chain()),
+    m_task_callback(task_callback),
+    m_upper_task(upper_task)
+{
+}
 
 asst::ReportDataTask& asst::ReportDataTask::set_report_type(ReportType type)
 {
@@ -88,7 +90,9 @@ void asst::ReportDataTask::report_to_penguin()
     constexpr int DefaultBackoff = 3 * 1000; // 3s
     int backoff = DefaultBackoff;
 
-    auto penguin_success_cond = [](const cpr::Response& response) -> bool { return response.status_code == 200; };
+    auto penguin_success_cond = [](const cpr::Response& response) -> bool {
+        return response.status_code == 200;
+    };
     auto penguin_retry_cond = [&](const cpr::Response& response) -> bool {
         if (!response.status_code) {
             return true;
@@ -183,9 +187,14 @@ void asst::ReportDataTask::report_to_yituliu(ReportType reportType)
     report(yituliu_subtask_name, url, headers, timeout);
 }
 
-cpr::Response asst::ReportDataTask::report(std::string_view subtask, const std::string& url, const cpr::Header& headers,
-                                           const int timeout, HttpResponsePred success_cond,
-                                           HttpResponsePred retry_cond, bool callback_on_failure)
+cpr::Response asst::ReportDataTask::report(
+    std::string_view subtask,
+    const std::string& url,
+    const cpr::Header& headers,
+    const int timeout,
+    HttpResponsePred success_cond,
+    HttpResponsePred retry_cond,
+    bool callback_on_failure)
 {
     LogTraceFunction;
 
@@ -201,7 +210,12 @@ cpr::Response asst::ReportDataTask::report(std::string_view subtask, const std::
 
     cpr::Response response;
     for (int i = 0; i <= m_retry_times; ++i) {
-        response = cpr::Post(cpr::Url { url }, cpr::Body { m_body }, headers, cpr::Timeout { timeout });
+        response = cpr::Post(
+            cpr::Url { url },
+            cpr::Body { m_body },
+            headers,
+            cpr::Timeout { timeout },
+            cpr::HttpVersion { cpr::HttpVersionCode::VERSION_2_0 });
         Log.info("Report response status code: ", response.status_code);
         for (const auto& [key, value] : response.header) {
             Log.info("Report response header: ", key, ":", value);
