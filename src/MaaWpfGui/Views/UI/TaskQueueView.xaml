@@ -150,7 +150,7 @@
                     <controls:TextBlock
                         Margin="20,5,0,10"
                         HorizontalAlignment="Center"
-                        Text="{DynamicResource Then}"
+                        Text="{Binding TaskSettingDataContext.PostActionSetting.ActionTitle}"
                         TextAlignment="Center" />
                     <controls:TextBlock
                         Width="160"

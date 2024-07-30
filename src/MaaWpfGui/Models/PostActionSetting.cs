@@ -85,6 +85,8 @@ public class PostActionSetting : PropertyChangedBase
                 SaveActions();
             }
 
+            ActionTitle = value ? string.Format("{0} ({1})", LocalizationHelper.GetString("Then"), LocalizationHelper.GetString("Once")) : LocalizationHelper.GetString("Then");
+
             RefreshDescription();
         }
     }
@@ -225,6 +227,14 @@ public class PostActionSetting : PropertyChangedBase
     }
 
     public static PostActionSetting Current { get; } = new();
+
+    private string _actionTitle = LocalizationHelper.GetString("Then");
+
+    public string ActionTitle
+    {
+        get => _actionTitle;
+        private set => SetAndNotify(ref _actionTitle, value);
+    }
 
     private string _actionDescription = string.Empty;
 
