@@ -10,6 +10,10 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 Welcome to share your tasks with [prts.plus](https://prts.plus)!
 
+::: warning
+All features involving auto-battle require a stable game frame rate of at least 60 frames, including but not limited to Copilot and Auto I.S..
+:::
+
 ## Load Tasks
 
 支持任意 `可编队关卡` 和 `保全派驻` 模式的自动战斗。
