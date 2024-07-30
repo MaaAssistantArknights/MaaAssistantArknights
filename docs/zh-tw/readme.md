@@ -5,9 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+
+<!-- markdownlint-restore -->
 
 # MaaAssistantArknights
 
@@ -111,6 +115,14 @@ MAA 的意思是 MAA Assistant Arknights
 - [官網](https://maa.plus) ： [前端](https://github.com/MaaAssistantArknights/maa-website)
 - 深度學習：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
 
+### 多語言 (i18n)
+
+MAA 支援多國語言，並使用 Weblate 進行在地化管理。如果您通曉多門語言，歡迎前往 [MAA Weblate](https://weblate.maa-org.net) 協助我們進行翻譯。
+
+MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）為準。
+
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
+
 ## 致謝
 
 ### 開源庫
@@ -210,5 +222,3 @@ Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
-
-<!-- markdownlint-disable-file MD034 MD041 -->

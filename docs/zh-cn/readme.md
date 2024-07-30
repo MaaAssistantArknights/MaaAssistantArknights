@@ -5,9 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+
+<!-- markdownlint-restore -->
 
 # MaaAssistantArknights
 
@@ -119,7 +123,7 @@ MAA 支持多国语言，并使用 Weblate 进行本地化管理。如果您通�
 
 MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）为准。
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### 参与开发
 
@@ -214,5 +218,3 @@ Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播
 开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
-
-<!-- markdownlint-disable-file MD034 MD041 -->

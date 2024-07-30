@@ -5,9 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+
+<!-- markdownlint-restore -->
 
 # MaaAssistantArknights
 
@@ -125,7 +129,7 @@ MAA は多言語をサポートし、Weblateを使用してローカライズ管
 
 MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべて中国語（簡体字）を基準としています。
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### Windows
 
@@ -225,5 +229,3 @@ MAAをより良くするために開発・テストに貢献してくれたす�
 開発者グループ：[QQグループ](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 ソフトウェアが役立つと思うなら、Star（ページの右上隅にある星）をクリックしてください。私たちにとって最高のサポートです！
-
-<!-- markdownlint-disable-file MD034 MD041 -->
