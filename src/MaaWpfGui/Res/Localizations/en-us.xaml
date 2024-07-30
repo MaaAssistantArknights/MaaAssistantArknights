@@ -410,7 +410,8 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ExitEmulator">Exit Emulator</system:String>
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
-    <system:String x:Key="Once">Only this Time</system:String>
+    <system:String x:Key="Once">Only once*</system:String>
+    <system:String x:Key="PostActionOnceTip">If active, changes will NOT be saved until next run.</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>

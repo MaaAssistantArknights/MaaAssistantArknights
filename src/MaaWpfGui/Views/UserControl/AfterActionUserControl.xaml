@@ -21,7 +21,7 @@
     <StackPanel>
         <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <CheckBox Margin="0,10" IsChecked="{Binding PostActionSetting.Once}">
-                <controls:TextBlock Text="{DynamicResource Once}" />
+                <controls:TextBlock Text="{DynamicResource Once}" ToolTip="{DynamicResource PostActionOnceTip}" />
             </CheckBox>
             <hc:Divider />
             <CheckBox

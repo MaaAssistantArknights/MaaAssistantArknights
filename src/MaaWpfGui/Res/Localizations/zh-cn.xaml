@@ -413,7 +413,8 @@
     <system:String x:Key="ExitEmulator">退出 模拟器</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
-    <system:String x:Key="Once">仅一次</system:String>
+    <system:String x:Key="Once">仅一次*</system:String>
+    <system:String x:Key="PostActionOnceTip">勾选后修改不会保留至下次</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>

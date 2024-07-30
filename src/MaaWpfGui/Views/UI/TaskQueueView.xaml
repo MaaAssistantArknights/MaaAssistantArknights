@@ -148,7 +148,7 @@
                     HorizontalAlignment="Left"
                     Orientation="Vertical">
                     <controls:TextBlock
-                        Margin="20,5,0,10"
+                        Margin="20,5,0,5"
                         HorizontalAlignment="Center"
                         Text="{Binding TaskSettingDataContext.PostActionSetting.ActionTitle}"
                         TextAlignment="Center" />
