@@ -156,7 +156,7 @@
                         Width="160"
                         Margin="20,0,0,0"
                         HorizontalAlignment="Center"
-                        Text="{Binding TaskSettingDataContext.AfterActionSetting.ActionDescription}"
+                        Text="{Binding TaskSettingDataContext.PostActionSetting.ActionDescription}"
                         TextAlignment="Center"
                         TextWrapping="Wrap" />
                 </StackPanel>

@@ -75,7 +75,16 @@ public class PostActionSetting : PropertyChangedBase
         get => _once;
         set
         {
-            SetAndNotify(ref _once, value);
+            if (!SetAndNotify(ref _once, value))
+            {
+                return;
+            }
+
+            if (!value)
+            {
+                SaveActions();
+            }
+
             RefreshDescription();
         }
     }
@@ -280,6 +289,11 @@ public class PostActionSetting : PropertyChangedBase
         }
 
         RefreshDescription();
+        SaveActions();
+    }
+
+    private void SaveActions()
+    {
         if (!_once)
         {
             ConfigurationHelper.SetValue(ConfigurationKeys.PostActions, JsonConvert.SerializeObject(_postActions));
