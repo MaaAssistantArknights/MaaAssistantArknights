@@ -14,19 +14,19 @@ icon: ri:game-fill
 - `resource/roguelike/` 下按照主题存放各个肉鸽的作业资源
   - 主题文件夹：`Phantom/` 为傀影肉鸽资源，`Mizuki/` 为水月肉鸽资源, `Sami/` 为萨米肉鸽资源
     - `autopilot/` 内是各个关卡的作战 json
-      - `关卡名.json` 关卡的作战逻辑      
+      - `关卡名.json` 关卡的作战逻辑
     - `encounter/` 内是不期而遇类（所有非战斗和商店节点）事件逻辑
       - `default.json` 刷等级模式
-      - `deposit.json` 刷源石锭模式      
+      - `deposit.json` 刷源石锭模式
     - `recruitment.json` 干员招募逻辑
     - `shopping.json` 商店购买藏品逻辑
 
 - 特别地，在`Sami/`下的
-    - `foldartal.json`表示萨米肉鸽密文板的使用逻辑
-    - `collapsal_paradigms.json`表示萨米肉鸽坍缩范式的类型
-    - `autopilot/关卡名_collapse.json` 关卡的作战逻辑（刷坍缩范式模式）
-    - `encounter/collapse.json` 刷坍缩范式模式不期而遇逻辑
-    
+  - `foldartal.json`表示萨米肉鸽密文板的使用逻辑
+  - `collapsal_paradigms.json`表示萨米肉鸽坍缩范式的类型
+  - `autopilot/关卡名_collapse.json` 关卡的作战逻辑（刷坍缩范式模式）
+  - `encounter/collapse.json` 刷坍缩范式模式不期而遇逻辑
+
 ## 肉鸽第一步——干员招募
 
 `resource/roguelike/主题名/recruitment.json` 描述了干员招募的逻辑
@@ -353,7 +353,7 @@ icon: ri:game-fill
     你可以看见很多作业中主要防守点的操作是[ "地面阻挡", "处决者", "其他地面"]，这意味着当主要抗伤位干员死了会尝试用处决者拖延cd
     :::
 
-3. 在某个时间点部署干员
+2. 在某个时间点部署干员
     ::: tip
     适用于某些单切干员或者需要炮灰的使用场景
     :::
@@ -376,7 +376,7 @@ icon: ri:game-fill
         ]
     ```
 
-4. 在某个时间点撤退干员
+3. 在某个时间点撤退干员
     ::: tip
     有时候炮灰过强站住场或者需要部署位腾挪阵容怎么办，撤退！
 
@@ -392,9 +392,9 @@ icon: ri:game-fill
         ]
     ```
 
-6. 在某个时间点释放技能（to do）
+4. 在某个时间点释放技能（to do）
 
-7. 一些其他的字段（不推荐使用）
+5. 一些其他的字段（不推荐使用）
 
     ```json
         "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术士，辅助，特种，召唤物的顺序补全，输入英文",
