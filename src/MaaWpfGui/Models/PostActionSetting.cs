@@ -288,7 +288,6 @@ public class PostActionSetting : PropertyChangedBase
 
     public void LoadPostActions()
     {
-        Once = false;
         _postActions = JsonConvert.DeserializeObject<PostActions>(ConfigurationHelper.GetValue(ConfigurationKeys.PostActions, "0"));
         ExitArknights = _postActions.HasFlag(PostActions.ExitArknights);
         BackToAndroidHome = _postActions.HasFlag(PostActions.BackToAndroidHome);
@@ -297,6 +296,7 @@ public class PostActionSetting : PropertyChangedBase
         IfNoOtherMaa = _postActions.HasFlag(PostActions.IfNoOtherMaa);
         Hibernate = _postActions.HasFlag(PostActions.Hibernate);
         Shutdown = _postActions.HasFlag(PostActions.Shutdown);
+        Once = false;
     }
 
     private PostActionSetting()
