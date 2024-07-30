@@ -416,8 +416,6 @@
     <system:String x:Key="Once">仅一次</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
-    <system:String x:Key="AfterActionOncePromptYes">配置将在任务开始时保存</system:String>
-    <system:String x:Key="AfterActionOncePromptNo">本次的配置将不会保存</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
     <system:String x:Key="WaitAndStop">等待 &amp; 停止</system:String>

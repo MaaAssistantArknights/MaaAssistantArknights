@@ -23,20 +23,6 @@
             <CheckBox Margin="0,10" IsChecked="{Binding AfterActionSetting.Once}">
                 <controls:TextBlock Text="{DynamicResource Once}" />
             </CheckBox>
-            <StackPanel Margin="10,0,10,10" Orientation="Vertical">
-                <controls:TextBlock
-                    Width="200"
-                    Text="{DynamicResource AfterActionOncePromptYes}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap"
-                    Visibility="{c:Binding !AfterActionSetting.Once}" />
-                <controls:TextBlock
-                    Width="200"
-                    Text="{DynamicResource AfterActionOncePromptNo}"
-                    TextAlignment="Center"
-                    TextWrapping="Wrap"
-                    Visibility="{c:Binding AfterActionSetting.Once}" />
-            </StackPanel>
             <hc:Divider />
             <CheckBox
                 Margin="0,10"

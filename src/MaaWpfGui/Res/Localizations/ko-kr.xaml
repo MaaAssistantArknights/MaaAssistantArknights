@@ -414,8 +414,6 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Once">한 번만</system:String>
     <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
     <system:String x:Key="BackToAndroidHome">에뮬레이터가 홈 화면으로 돌아갑니다</system:String>
-    <system:String x:Key="AfterActionOncePromptYes">설정은 작업 시작 시 저장됩니다</system:String>
-    <system:String x:Key="AfterActionOncePromptNo">이번 설정은 저장되지 않습니다</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
     <system:String x:Key="WaitAndStop">대기 &amp; 중지</system:String>
