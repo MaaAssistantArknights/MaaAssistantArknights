@@ -137,18 +137,29 @@
                     </Grid>
                 </Grid>
             </Border>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Stretch" Width="210">
-                <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="0,10" Width="185">
+            <StackPanel
+                Grid.Row="1"
+                Width="210"
+                HorizontalAlignment="Stretch"
+                Orientation="Horizontal">
+                <StackPanel
+                    Width="185"
+                    Margin="0,10"
+                    HorizontalAlignment="Left"
+                    Orientation="Vertical">
                     <controls:TextBlock
-                        TextAlignment="Center" HorizontalAlignment="Center"
-                        Text="{DynamicResource Then}" />
+                        HorizontalAlignment="Center"
+                        Text="{DynamicResource Then}"
+                        TextAlignment="Center" />
                     <controls:TextBlock
-                        TextWrapping="Wrap" Margin="5,5" Width="160" HorizontalAlignment="Center"
+                        Width="160"
+                        Margin="5,5"
+                        HorizontalAlignment="Center"
+                        Text="{Binding TaskSettingDataContext.AfterActionSetting.ActionDescription}"
                         TextAlignment="Center"
-                        Visibility="{c:Binding 'TaskSettingDataContext.AfterActionSetting.ActionDescription.Length!=0',FalseToVisibility=Collapsed}"
-                        Text="{Binding TaskSettingDataContext.AfterActionSetting.ActionDescription}" />
+                        TextWrapping="Wrap" />
                 </StackPanel>
-                <hc:ButtonGroup VerticalAlignment="Center" HorizontalAlignment="Right">
+                <hc:ButtonGroup HorizontalAlignment="Right" VerticalAlignment="Center">
                     <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
                     <RadioButton
                         hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
@@ -156,11 +167,11 @@
                         hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
                         Background="Transparent"
                         BorderThickness="0"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
                         GroupName="TaskSettings"
                         IsChecked="{Binding EnableAfterActionSetting}"
                         Style="{DynamicResource RadioGroupItemSingle}"
-                        ToolTip="{DynamicResource TaskSettings}"
-                        Foreground="{DynamicResource SecondaryTextBrush}" />
+                        ToolTip="{DynamicResource TaskSettings}" />
                 </hc:ButtonGroup>
             </StackPanel>
 
@@ -226,8 +237,7 @@
                 PanningMode="Both"
                 VerticalScrollBarVisibility="Auto">
                 <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
-                    <userControl:FightSettingsUserControl
-                        Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
+                    <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
                     <userControl:AutoRecruitSettingsUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"
