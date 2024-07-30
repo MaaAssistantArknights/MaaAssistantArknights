@@ -144,16 +144,17 @@
                 Orientation="Horizontal">
                 <StackPanel
                     Width="185"
-                    Margin="0,10"
+                    Margin="0,10,0,10"
                     HorizontalAlignment="Left"
                     Orientation="Vertical">
                     <controls:TextBlock
+                        Margin="20,5,0,10"
                         HorizontalAlignment="Center"
                         Text="{DynamicResource Then}"
                         TextAlignment="Center" />
                     <controls:TextBlock
                         Width="160"
-                        Margin="5,5"
+                        Margin="20,0,0,0"
                         HorizontalAlignment="Center"
                         Text="{Binding TaskSettingDataContext.AfterActionSetting.ActionDescription}"
                         TextAlignment="Center"
