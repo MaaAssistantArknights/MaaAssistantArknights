@@ -2,6 +2,21 @@
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
+    "OrundumActivities": {
+        "text": ["Lucky Strips", "Login Event"]
+    },
+    "RecruitingActivities": {
+        "text": ["Free", "Roll"]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": ["Free", "Roll"]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": ["Headhunt x1", "Headhunt"]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": ["Headhunt x1", "Headhunt"]
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
@@ -805,15 +820,6 @@
     },
     "RecruitNow": {
         "text": ["Expedite"]
-    },
-    "OrundumActivities": {
-        "text": ["Lucky Strips", "Login Event"]
-    },
-    "RecruitingActivities": {
-        "text": ["TODO"]
-    },
-    "RecruitingActivitiesConfirm": {
-        "text": ["TODO", "TODO"]
     },
     "NoFriends": {
         "text": ["No friends"]
