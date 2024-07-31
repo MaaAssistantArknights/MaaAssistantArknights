@@ -9,7 +9,7 @@ icon: mingcute:git-pull-request-fill
 
 ::: warning
 本教程中对很多概念进行了简化，为了让更多朋友能实际用起来，甚至有一些很不优雅~~但是简单~~的操作，还有一些不那么正确的解释，还请大佬们轻喷。  
-若您有一定的 git 使用经验及编程基础，~~那你还看个~~🔨，可以看稍微进阶一点的教程 [Github Pull Request 流程简述](./development.md)
+若您有一定的 git 使用经验及编程基础，~~那你还看个 🔨~~，可以看稍微进阶一点的教程 [Github Pull Request 流程简述](./development.md)
 :::
 
 ## 基本概念及名词解释
@@ -22,7 +22,16 @@ icon: mingcute:git-pull-request-fill
 
 👇 可以简单理解为当前这个网页及里面所有的内容，就是 MAA 的仓库（我们一般称之为 MAA 的主仓库）
 
-![image](/image/zh-cn/pr-tutorial/repository.png)
+```component Image
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/pr-tutorial/repository-light.png",
+      "dark": "image/zh-cn/pr-tutorial/repository-dark.png"
+    }
+  ]
+}
+```
 
 ### Fork（复制）
 
@@ -33,7 +42,16 @@ icon: mingcute:git-pull-request-fill
 为了和原本的仓库区分开，所以我们一般将原本的 MAA 仓库称为 “主仓库”、“upstream（上游仓库）”、“origin（原仓库）”；  
 因为每个人都可以自己复制一份走，所以复制后的称之为“个人仓库”
 
-![image](/image/zh-cn/pr-tutorial/fork.png)
+```component Image
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/pr-tutorial/fork-light.png",
+      "dark": "image/zh-cn/pr-tutorial/fork-dark.png"
+    }
+  ]
+}
+```
 
 ### Pull Request（拉取请求、合并请求）
 
@@ -44,7 +62,16 @@ icon: mingcute:git-pull-request-fill
 
 👇 下面的是目前大佬们提的 PR，正在等待审批的
 
-![image](/image/zh-cn/pr-tutorial/pull-request.png)
+```component Image
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/pr-tutorial/pull-request-light.png",
+      "dark": "image/zh-cn/pr-tutorial/pull-request-dark.png"
+    }
+  ]
+}
+```
 
 ### Conflict（冲突）
 
@@ -55,57 +82,159 @@ icon: mingcute:git-pull-request-fill
 
 ## 纯网页端 PR 操作全流程
 
-1. 首先进入 MAA 主仓库，fork 一份代码
+1. 首先进入 MAA 主仓库，点右上角这个按钮 fork 一份代码
 
-   ![image](/image/zh-cn/pr-tutorial/pr-1.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/fork-light.png",
+          "dark": "image/zh-cn/pr-tutorial/fork-dark.png"
+        }
+      ]
+    }
+    ```
 
-2. 把 “仅 master 分支” 这个选项去掉，然后点击 Create Fork
+2. ~~把 “仅 master 分支” 这个选项去掉~~，然后点击 Create Fork
 
-   ![image](/image/zh-cn/pr-tutorial/pr-2.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-2-dark.png"
+        }
+      ]
+    }
+    ```
 
 3. 接下来来到了你的个人仓库，可以看到标题是 “你的名字/MaaAssistantArknights”，下面一行小字 forked from MaaAssistantArknights/MaaAssistantArknights （复制自 MAA 主仓库）
 
-   ![image](/image/zh-cn/pr-tutorial/pr-3.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-3-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-3-dark.png"
+        }
+      ]
+    }
+    ```
 
-4. 切换到 dev 分支（分支这个概念和本文关系不大，~~其实是我懒得写~~，有兴趣可以搜索了解下，这里只需要这样操作即可，暂时不用关心原理）
+4. 找到你要改的文件，可以点 “Go to file” 进行全局搜索，也可以直接在下面的文件夹里翻（如果你知道文件在哪的话）
 
-   ![image](/image/zh-cn/pr-tutorial/pr-4.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-4-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-4-dark.png"
+        }
+      ]
+    }
+    ```
 
-5. 找到你要改的文件，可以点 “Go to file” 进行全局搜索，也可以直接在下面的文件夹里翻（如果你知道文件在哪的话）
+5. 打开文件后，直接点击文件右上角的 ✏️ 进行编辑
 
-   ![image](/image/zh-cn/pr-tutorial/pr-5.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-5-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-5-dark.png"
+        }
+      ]
+    }
+    ```
 
-6. 打开文件后，直接点击文件右上角的 ✏️ 进行编辑
+6. 开改！（当然如果是资源文件这种，我们建议先在你电脑上的 MAA 文件夹里测试修改，确认没问题了再粘贴到网页上，避免改错了）
+7. 改完了，翻到最下面，写一下你改了啥 [命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)
 
-   ![image](/image/zh-cn/pr-tutorial/pr-6.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-7-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-7-dark.png"
+        }
+      ]
+    }
+    ```
 
-7. 开改！（当然如果是资源文件这种，我们建议先在你电脑上的 MAA 文件夹里测试修改，确认没问题了再粘贴到网页上，避免改错了）
-8. 改完了，翻到最下面，写一下你改了啥
-
-   ![image](/image/zh-cn/pr-tutorial/pr-8.png)
-
-9. 还有第二个文件要改的？改完了发现弄错了想再改改？都没关系！重复 5-8 即可！
-10. 全改好了进行 PR ！直接点 **个人仓库** 里的 Pull Request 标签页  
+8. 还有第二个文件要改的？改完了发现弄错了想再改改？都没关系！重复 4-7 即可！
+9. ~~全改好了进行 PR ！直接点 **个人仓库** 里的 Pull Request 标签页~~  
     如果有 Compare & Pull Request 按钮，那最好，直接点他！如果没有也不用着急，点下面的 New Pull Request 也是一样的（请看步骤 11）
 
-    ![image](/image/zh-cn/pr-tutorial/pr-10.png)
+    点 Code 回仓库首页 点贡献 点 pr 别急 先这样写着 一会再改
 
-11. 这时候来到了主仓库，请核对一下你要 PR 的是否确认。  
-    如图中，中间有个向左的箭头，是将右边的的 个人姓名/MAA 的 dev 分支，申请合并到 主仓库/MAA 的 dev 分支。  
-    然后写一下标题，你要修改了的具体内容等等的，然后点确认
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-9-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-9-dark.png"
+        }
+      ]
+    }
+    ```
 
-    ![image](/image/zh-cn/pr-tutorial/pr-11.png)
+10. 这时候来到了主仓库，请核对一下你要 PR 的是否确认。  
+    如图中，中间有个向左的箭头，是将右边的的 个人姓名/MAA 的 dev 分支，申请合并到 主仓库/MAA 的 dev 分支。
 
-12. 等待 MAA Team 的大佬们审核吧！当然他们也可能会提意见  
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-10-1-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-10-1-dark.png"
+        }
+      ]
+    }
+    ```
+
+    然后写一下标题，你要修改了的具体内容等等的，然后点确认 [命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)
+
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-10-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-10-2-dark.png"
+        }
+      ]
+    }
+    ```
+
+11. 等待 MAA Team 的大佬们审核吧！当然他们也可能会提意见  
     👇 比如（纯属娱乐切勿当真）
-    ![image](/image/zh-cn/pr-tutorial/pr-12.png)
 
-13. 如果大佬们说要再修改一些小问题的话，回到 **你的个人仓库**，切换到先前的 dev 分支，重复 步骤 3-9 即可！  
-    注意不需要操作步骤 2（重新 fork），也不需要操作步骤 10（重新 Pull Request），你当前的 Pull Request 仍处于待审核状态，后续的修改会直接进入到这个 Pull Request 中  
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-11-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-11-dark.png"
+        }
+      ]
+    }
+    ```
+
+12. 如果大佬们说要再修改一些小问题的话，回到 **你的个人仓库**，切换到先前的 dev 分支，重复 步骤 4-7 即可！  
+    注意不需要操作步骤 1-2（重新 fork），也不需要操作步骤 9-10（重新 Pull Request），你当前的 Pull Request 仍处于待审核状态，后续的修改会直接进入到这个 Pull Request 中  
     👇 比如可以看到最下面多了一条“重新修改演示”的内容
-    ![image](/image/zh-cn/pr-tutorial/pr-13.png)
 
-14. 等大佬们审批通过，就全部完成啦！**版本发布后**，你的 GitHub 头像将会自动进入到贡献者列表名单中，非常感谢各位的无私奉献！  
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-12-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-12-dark.png"
+        }
+      ]
+    }
+    ```
+
+13. 等大佬们审批通过，就全部完成啦！**版本发布后**，你的 GitHub 头像将会自动进入到贡献者列表名单中，非常感谢各位的无私奉献！  
     ~~怎么全是二次元啊，哦我也是啊，那没事了~~
     ::: tip 贡献/参与者
     感谢所有参与到开发/测试中的朋友们，是大家的帮助让 MAA 越来越好！ (\*´▽ ｀)ノノ
@@ -113,14 +242,23 @@ icon: mingcute:git-pull-request-fill
     [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
     :::
 
-15. 下次如果还想提别的 PR，请先切换到 dev 分支，然后直接如下图操作  
+14. 下次如果还想提别的 PR，请先切换到 dev 分支，然后直接如下图操作  
     ::: warning
     这个操作会强制将你的个人仓库同步到和主仓库一模一样的状态，这是最简单粗暴但行之有效的解决冲突的方法。但如果你的个人仓库已经有额外的编辑了，会被直接删掉！
     :::
-    如果确定不会造成冲突，请使用右侧绿色的 `Update Branch` 按钮  
+    如果确定不会造成冲突，请使用右侧绿色的 `Update Branch` 按钮
 
     如果你不清楚/不 care 我上面说的这一大堆，也请点击左侧的按钮
 
-    ![image](/image/zh-cn/pr-tutorial/pr-15.png)
+```component Image
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/pr-tutorial/pr-14-light.png",
+      "dark": "image/zh-cn/pr-tutorial/pr-14-dark.png"
+    }
+  ]
+}
+```
 
-    接着重复步骤 3-14，修改、提 PR 即可~
+接着重复步骤 4-10，修改、提 PR 即可~
