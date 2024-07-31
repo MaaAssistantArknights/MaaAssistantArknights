@@ -30,7 +30,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -86,6 +85,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the visibility of task setting views.
         /// </summary>
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+
+        /// <summary>
+        /// Gets the after action setting.
+        /// </summary>
+        public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
