@@ -749,8 +749,8 @@ namespace MaaWpfGui.Main
                             mainTaskTypes.Remove(TaskType.CloseDown);
                         }
 
-                        var latestMinorTaskIds = _latestTaskId.Where(i => mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
-                        isMainTaskQueueAllCompleted = taskList.Any(i => latestMinorTaskIds.Contains(i));
+                        var latestMainTaskIds = _latestTaskId.Where(i => mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
+                        isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
