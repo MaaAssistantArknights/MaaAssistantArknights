@@ -361,9 +361,11 @@
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
+    <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 3.8.13以降を利用する必要があり、MuMu 12 Arknights edition/Globalには対応していません。\n\n
+        MuMu 12 3.8.13以降を利用する必要があり、MuMu 12 Arknights edition/Globalには対応していません。\n
+        この機能を有効にした後、初めて使用する前にスクリーンショット テストを実行することを強くお勧めします。\n\n
         以下の情報を記入してください：\n\n
         1. エミュレーターパス：（例：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         エミュレーターパスは、エミュレーターアプリケーションの親フォルダーパスを記入してください。例えば、アプリケーションのパスが\n
