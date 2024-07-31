@@ -218,7 +218,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - ~~오퍼레이터/기반시설 데이터: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)~~
 - 스테이지 데이터: [Penguin Stats](https://penguin-stats.io/)
 - 게임 데이터/리소스: [Arknights Game Resource](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~게임 데이터: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)~~
+- 게임 데이터: [Arknights Yostar Game Data](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### 기여자
 

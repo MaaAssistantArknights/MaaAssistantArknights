@@ -193,7 +193,7 @@ Check [Issue Bot Usage](./develop/issue-bot-usage.md).
 - ~~Operators and infrastructure data: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)~~
 - Stage data: [Penguin Stats](https://penguin-stats.io/)
 - Gamedata and resources: [Arknights Game Resource](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~Gamedata: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)~~
+- Gamedata: [Arknights Yostar Game Data](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### Contributors
 
