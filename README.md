@@ -4,7 +4,7 @@
 
 <img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
 
-# MaaAssistantArknights
+# MAA XYZ 打回来了！
 
 <br>
 <div>
@@ -27,7 +27,7 @@
 
 [简体中文](https://maa.plus/docs/zh-cn/) | [繁體中文](https://maa.plus/docs/zh-tw/) | [English](https://maa.plus/docs/en-us/) | [日本語](https://maa.plus/docs/ja-jp/) | [한국어](https://maa.plus/docs/ko-kr/)
 
-MAA 的意思是 MAA Assistant Arknights
+MAA XYZ 的意思是 玛丽小姨子
 
 一款明日方舟游戏小助手
 
