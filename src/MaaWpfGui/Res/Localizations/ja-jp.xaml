@@ -409,14 +409,11 @@
     <system:String x:Key="ExitArknights">アークナイツを終了する</system:String>
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="ExitEmulator">エミュレータを終了する</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">MAAとエミュレータを終了する</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる</system:String>
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
-    <system:String x:Key="HibernateWithoutPersist">休止状態にする（1回のみ）</system:String>
-    <system:String x:Key="ShutdownWithoutPersist">シャットダウン（1回のみ）</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、他のMAAがない場合はPCを休止状態になる</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">MAAを終了し、他のMAAがない場合はシャットダウン</system:String>
+    <system:String x:Key="Once">1回のみ*</system:String>
+    <system:String x:Key="PostActionOnceTip">有効にすると、変更は次回の実行まで保存されません。</system:String>
+    <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">止める</system:String>
