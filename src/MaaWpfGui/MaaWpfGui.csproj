@@ -124,6 +124,7 @@
     <PackageReference Include="Vanara.PInvoke.ComCtl32" Version="3.4.17" />
     <PackageReference Include="Vanara.PInvoke.Shared" Version="3.4.17" />
     <PackageReference Include="Vanara.PInvoke.Shell32" Version="3.4.16" />
+    <PackageReference Include="Vanara.PInvoke.CfgMgr32" Version="3.4.16" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
   </ItemGroup>
 
