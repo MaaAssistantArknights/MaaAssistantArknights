@@ -728,24 +728,29 @@ namespace MaaWpfGui.Main
                     var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                     if (taskList?.Length > 0)
                     {
-                        // 有非主界面任务时，不执行任务链结束后操作
-                        var minorTaskTypes = new HashSet<TaskType>
+                        var mainTaskTypes = new HashSet<TaskType>
                         {
-                            TaskType.Copilot,
-                            TaskType.RecruitCalc,
-                            TaskType.Depot,
-                            TaskType.OperBox,
-                            TaskType.Gacha,
+                            TaskType.StartUp,
+                            TaskType.Fight,
+                            TaskType.FightRemainingSanity,
+                            TaskType.Recruit,
+                            TaskType.Infrast,
+                            TaskType.Mall,
+                            TaskType.Award,
+                            TaskType.Roguelike,
+                            TaskType.ReclamationAlgorithm,
+                            TaskType.ReclamationAlgorithm2,
                         };
 
                         // 仅有一个任务且为 CloseDown 时，不执行任务链结束后操作
+                        /*
                         if (taskList.Length == 1)
                         {
-                            minorTaskTypes.Add(TaskType.CloseDown);
+                            mainTaskTypes.Remove(TaskType.CloseDown);
                         }
-
-                        var latestMinorTaskIds = _latestTaskId.Where(i => minorTaskTypes.Contains(i.Key)).Select(i => i.Value);
-                        isMainTaskQueueAllCompleted = taskList.All(i => !latestMinorTaskIds.Contains(i));
+                        */
+                        var latestMainTaskIds = _latestTaskId.Where(i => mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
+                        isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
