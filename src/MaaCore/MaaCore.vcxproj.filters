@@ -98,6 +98,9 @@
     <Filter Include="Source\Resource\TaskData">
       <UniqueIdentifier>{8d436f0b-8dad-42b2-9549-f9073b808104}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Task\Roguelike\Sami">
+      <UniqueIdentifier>{78679758-d75f-4a67-82cc-d0a868050ac7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resource\config.json">
@@ -453,18 +456,6 @@
     <ClInclude Include="Task\Roguelike\RoguelikeBattleTaskPlugin.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
-    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
-    <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClInclude>
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h">
       <Filter>Source\Task\Roguelike</Filter>
     </ClInclude>
@@ -710,6 +701,21 @@
     </ClInclude>
     <ClInclude Include="Utils\LibraryHolder.hpp">
       <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.h">
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.h">
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.h">
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClInclude>
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h">
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClInclude>
+    <ClInclude Include="Vision\Roguelike\RoguelikeParameterAnalyzer.h">
+      <Filter>Source\Vision\Roguelike</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -962,15 +968,6 @@
     <ClCompile Include="Task\Roguelike\RoguelikeBattleTaskPlugin.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
-    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
-    <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
-    </ClCompile>
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp">
       <Filter>Source\Task\Roguelike</Filter>
     </ClCompile>
@@ -1184,8 +1181,20 @@
     <ClCompile Include="Controller\MumuExtras.cpp">
       <Filter>Source\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClCompile>
     <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.cpp">
-      <Filter>Source\Task\Roguelike</Filter>
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClCompile>
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp">
+      <Filter>Source\Task\Roguelike\Sami</Filter>
+    </ClCompile>
+    <ClCompile Include="Vision\Roguelike\RoguelikeParameterAnalyzer.cpp">
+      <Filter>Source\Vision\Roguelike</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

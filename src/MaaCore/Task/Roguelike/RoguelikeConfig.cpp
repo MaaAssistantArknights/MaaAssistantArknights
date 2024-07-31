@@ -81,7 +81,20 @@ void asst::RoguelikeConfig::clear()
     m_team_full_without_rookie = false;
     m_use_support = false;
     m_oper = std::unordered_map<std::string, RoguelikeOper>();
+    m_collection = std::vector<std::string>();
+
+    m_hope = 0;
+    m_hp = 0;
+    m_floor = 0;
+    m_formation_upper_limit = 6;
 
     // ------------------ 萨米主题专用参数 ------------------
+    m_chaos = 0;
     m_foldartal = std::vector<std::string>();
+
+    // ------------------ 萨卡兹主题专用参数 ------------------
+    m_idea_count = 0;         // 构想数量
+    m_burden_number = 0;      // 负荷
+    m_burden_upper_limit = 3; // 负荷上限
 }
+
