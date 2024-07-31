@@ -40,7 +40,7 @@ OCRer::ResultsVecOpt OCRer::analyze() const
         results_vec.emplace_back(std::move(res));
     }
 
-    Log.trace("Proceed", results_vec);
+    // Log.trace("Proceed", results_vec);
 
     if (results_vec.empty()) {
         return std::nullopt;

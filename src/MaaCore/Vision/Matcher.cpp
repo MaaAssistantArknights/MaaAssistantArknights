@@ -27,11 +27,12 @@ Matcher::ResultOpt Matcher::analyze() const
         if (std::isnan(max_val) || std::isinf(max_val)) {
             max_val = 0;
         }
-        if (m_log_tracing && max_val > 0.5) { // 得分太低的肯定不对，没必要打印
+
+        double threshold = m_params.templ_thres[i];
+        if (m_log_tracing && max_val > 0.5 && max_val > threshold - 0.2) { // 得分太低的肯定不对，没必要打印
             Log.trace("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
         }
 
-        double threshold = m_params.templ_thres[i];
         if (max_val < threshold) {
             continue;
         }
