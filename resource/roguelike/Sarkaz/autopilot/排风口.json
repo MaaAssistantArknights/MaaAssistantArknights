@@ -34,7 +34,7 @@
             "direction": "down"
         },
         {
-            "groups": ["盾法"],
+            "groups": ["盾法", "其他高台"],
             "location": [6, 3],
             "direction": "right"
         },
@@ -61,11 +61,6 @@
         {
             "groups": ["单奶"],
             "location": [7, 1],
-            "direction": "down"
-        },
-        {
-            "groups": ["高台输出", "其他高台"],
-            "location": [8, 3],
             "direction": "down"
         },
         {
