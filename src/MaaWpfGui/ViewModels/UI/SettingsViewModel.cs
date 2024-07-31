@@ -50,6 +50,7 @@ using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PropertyChanged;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -647,6 +648,15 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 GpuOption.SetCurrent(value);
                 AskRestartToApplySettings();
+            }
+        }
+
+        public bool AllowDeprecatedGpu
+        {
+            get => GpuOption.AllowDeprecatedGpu;
+            set {
+                GpuOption.AllowDeprecatedGpu = value;
+                NotifyOfPropertyChange();
             }
         }
 
