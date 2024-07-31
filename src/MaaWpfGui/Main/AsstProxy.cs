@@ -731,7 +731,6 @@ namespace MaaWpfGui.Main
                         var mainTaskTypes = new HashSet<TaskType>
                         {
                             TaskType.StartUp,
-                            TaskType.CloseDown,
                             TaskType.Fight,
                             TaskType.FightRemainingSanity,
                             TaskType.Recruit,
@@ -744,11 +743,12 @@ namespace MaaWpfGui.Main
                         };
 
                         // 仅有一个任务且为 CloseDown 时，不执行任务链结束后操作
-                        if (taskList.Length > 1)
+                        /*
+                        if (taskList.Length == 1)
                         {
                             mainTaskTypes.Remove(TaskType.CloseDown);
                         }
-
+                        */
                         var latestMainTaskIds = _latestTaskId.Where(i => mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
                         isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
