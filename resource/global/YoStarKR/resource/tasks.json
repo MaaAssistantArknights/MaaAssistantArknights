@@ -809,6 +809,24 @@
     "RecruitNow": {
         "text": ["즉시모집", "측시모집", "즉시"]
     },
+    "OrundumActivities": {
+        "ocrReplace": [["복.+방", "복권방"]],
+        "doc": "용문복권방 adjusted roi value for ocr recognition",
+        "text": ["용문", "복권방"],
+        "roi": [23, 125, 135, 55]
+    },
+    "RecruitingActivities": {
+        "text": ["보너스"]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": ["보너스"]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": ["진행"]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": ["진행"]
+    },
     "NoFriends": {
         "text": ["등록된", "없습니다"]
     },
