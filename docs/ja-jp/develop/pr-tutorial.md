@@ -267,8 +267,12 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-14-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-14-dark.png"
+          "light": "image/zh-cn/pr-tutorial/pr-14-1-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-1-dark.png"
+        },
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-14-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-2-dark.png"
         }
       ]
     }

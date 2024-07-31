@@ -252,8 +252,12 @@ Now we have a conflict, as both of you have modified the A file but in different
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-14-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-14-dark.png"
+          "light": "image/zh-cn/pr-tutorial/pr-14-1-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-1-dark.png"
+        },
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-14-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-2-dark.png"
         }
       ]
     }

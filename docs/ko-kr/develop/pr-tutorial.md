@@ -264,8 +264,12 @@ PR로도 알려져 있으며, "풀 리퀘스트"라는 용어는 너무 길고 �
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-14-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-14-dark.png"
+          "light": "image/zh-cn/pr-tutorial/pr-14-1-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-1-dark.png"
+        },
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-14-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-2-dark.png"
         }
       ]
     }
