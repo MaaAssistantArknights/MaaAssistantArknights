@@ -166,7 +166,7 @@ icon: ri:game-fill
 {
     "theme": "Sarkaz",               //肉鸽主题
     "priority": [                    //群组
-             {
+        {
             "name": "益达",
             "opers": [
                 {
@@ -177,7 +177,7 @@ icon: ri:game-fill
                 }
             ]
         },
-             ...
+        ...
     ],
     "team_complete_condition": [     //阵容完备度检测
         {
@@ -196,7 +196,7 @@ icon: ri:game-fill
             "threshold": 2
         },
         ...
-        ]
+    ]
 }
 ```
 
