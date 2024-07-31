@@ -740,7 +740,11 @@
             ["Quick-*freezing Sprayer Platform", "速冷喷雾发射台"],
             ["Energizing Oil", "焕能精油"],
             ["Vitalizing Oil", "复苏精油"],
-            ["'Long Live Mead!'", "“蜜酿万岁！”"]
+            ["'Long Live Mead!'", "“蜜酿万岁！”"],
+            ["Shu", "黍"],
+            ["Wanqing", "万顷"],
+            ["Zuo Le", "左乐"],
+            ["Grain Buds", "小满"]
         ]
     },
     "StartToWakeUpOCR": {
