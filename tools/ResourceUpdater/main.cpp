@@ -983,7 +983,7 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     std::unordered_map</*name*/ std::string, /*id*/ std::string> chars_id_list;
 
     for (auto& [id, char_data] : operators_opt->as_object()) {
-        if (id.compare(0, 5, "char_") != 0) {
+        if (!id.starts_with("char_")) {
             continue;
         }
 
@@ -1034,11 +1034,12 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     for (const std::string& name : chars_list) {
         auto id_iter = chars_id_list.find(name);
         if (id_iter == chars_id_list.cend()) {
-            // // YostarJP
-            // if (name == "サーマル-EX") {
-            //     std::cout << "FIX: skip: サーマル-EX, no idea what's happening" << std::endl;
-            //     continue;
-            // }
+            // YostarJP
+            // https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/18c55553885342b3df2ccf93cc102f448f027f4b#commitcomment-144847169
+            if (name == "サーマル-EX") {
+                std::cout << "FIX: skiping サーマル-EX as it creates issues" << std::endl;
+                continue;
+            }
             std::cerr << "Failed to find char: " << std::endl;
             std::cerr << "char: " << name << std::endl;
             return false;
