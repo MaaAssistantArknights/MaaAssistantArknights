@@ -164,12 +164,23 @@ icon: ri:game-fill
 
 ```json
 {
-    "theme": "Phantom",              //肉鸽主题
+    "theme": "Sarkaz",               //肉鸽主题
     "priority": [                    //群组
-             ...
-        ],
-    "team_complete_condition": [     //阵容完备度检测
              {
+            "name": "益达",
+            "opers": [
+                {
+                    "name": "维什戴尔",
+                    ...
+                    "is_key": true,  //上文中的key干员，不写默认false
+                    "is_start": true //UI列表中的开局干员，开局时优先招募，不写默认false
+                }
+            ]
+        },
+             ...
+    ],
+    "team_complete_condition": [     //阵容完备度检测
+        {
             "groups": [              //需要哪些群组中的干员
                 "高台C"
             ],
