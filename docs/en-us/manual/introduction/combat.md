@@ -23,17 +23,17 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 ::: details Example
 | Use Sanity Potion | Use Originium | Perform Battles | Material | Result |
 | :------: | :----: | :------: | :------: | -------------------------------------------------------------------------------------------------------------------------------------- |
-| | | | | 刷完现有理智即结束。 |
-| 2 | | | | 先刷完现有理智，然后吃一次理智药，一共吃 `2` 次，刷完理智后结束。 |
-| _999_ | 2 | | | 先刷完现有理智，并吃光理智药后，再碎石，一共碎 `2` 次，刷完理智后结束。 |
-| | | 2 | | 刷 `2` 次选择的关卡即结束。 |
-| | | | 2 | 掉落统计刷到 `2` 个指定的材料即结束。 |
-| 2 | | 4 | | 在最多吃 `2` 次理智药的情况下，刷 `4` 次选择的关卡即结束。 |
-| 2 | | | 4 | 在最多吃 `2` 次理智药的情况下，掉落统计刷到 `4` 个指定的材料即结束。 |
-| 2 | | 4 | 8 | 在最多吃 `2` 次理智药的情况下，刷 `4` 次选择的关卡即结束。但如果在没刷完 `4` 次之前就获得了 `8` 个指定材料，则会提前结束。 |
-| _999_ | 4 | 8 | 16 | 在最多吃光理智药并碎 `4` 次石头的情况下，刷 `8` 次选择的关卡即结束。但如果在没刷完 `8` 次之前就获得了 `16` 个指定材料，则会提前结束。 |
-| | 2 | | | 先刷完现有理智，如果仓库中有理智药则结束，如果没有理智药则碎 `2` 次石，刷完理智后结束。_非 MAA GUI 行为_ |
-| 2 | 4 | | | 先刷完现有理智，如果吃完 `2` 次理智药后还有理智药，则结束；如果吃完 ≤`2` 次理智药后没有理智药了，则继续碎 `4` 次石头，刷完理智后结束。_非 MAA GUI 行为_ |
+| | | | | Ends after using up the existing Sanity. |
+| 2 | | | | Uses up the existing Sanity first, then consumes a Sanity Potion once, totaling `2` times. Ends after using up the Sanity. |
+| _999_ | 2 | | | Uses up the existing Sanity and all Sanity Potions, then uses Originium, totaling `2` times. Ends after using up the Sanity. |
+| | | 2 | | Ends after performing the selected stage `2` times. |
+| | | | 2 | Ends after farming and obtaining `2` of the specified materials. |
+| 2 | | 4 | | Ends after performing the selected stage `4` times, using up to `2` Sanity Potions. |
+| 2 | | | 4 | Ends after farming and obtaining `4` of the specified materials, using up to `2` Sanity Potions. |
+| 2 | | 4 | 8 | Ends after performing the selected stage `4` times, using up to `2` Sanity Potions. However, if `8` of the specified materials are obtained before completing `4` times, it will end early. |
+| _999_ | 4 | 8 | 16 | Ends after performing the selected stage `8` times, using up all Sanity Potions and `4` Originium. However, if `16` of the specified materials are obtained before completing `8` times, it will end early. |
+| | 2 | | | Uses up the existing Sanity first. If there are Sanity Potions in storage, it ends; if there are no Sanity Potions, it uses `2` Originium and ends after using up the Sanity. _Not a MAA GUI behavior_ |
+| 2 | 4 | | | Uses up the existing Sanity first. If after consuming `2` Sanity Potions there are still Sanity Potions left, it ends; if there are no Sanity Potions after consuming ≤`2` Sanity Potions, it continues to use `4` Originium and ends after using up the Sanity. _Not a MAA GUI behavior_ |
 
 :::
 
