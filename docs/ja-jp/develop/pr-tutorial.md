@@ -24,7 +24,7 @@ repo、コードやその他のリソースファイルを保存する場所で�
 
 👇 これはMAAのリポジトリです（一般的にMAAのメインリポジトリと呼ばれます）。
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -44,7 +44,7 @@ repo、コードやその他のリソースファイルを保存する場所で�
 区別するために、元のMAAリポジトリは「主リポジトリ」「upstream（上流リポジトリ）」「origin（元のリポジトリ）」と呼ばれます。  
 それぞれの人がコピーできるので、コピーしたものを「個人リポジトリ」と呼びます。
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -65,7 +65,7 @@ repo、コードやその他のリソースファイルを保存する場所で�
 
 👇 以下は、現在承認待ちの提出されたPRの例です。
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -87,7 +87,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 1. まず、MAAのメインリポジトリにアクセスして、コードをforkします。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -100,7 +100,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 2. 「Copy the master branch only」オプションを外して、Create Forkをクリックします。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -113,7 +113,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 3. 次に、あなたの個人リポジトリに移動し、「あなたの名前/ MaaAssistantArknights」というタイトルが表示され、下に「MAAメインリポジトリから複製されたMaaAssistantArknights/MaaAssistantArknights」という文言が表示されます。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -126,7 +126,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 4. 変更するファイルを探します。 "Go to file" をクリックしてグローバル検索を行うか、下のフォルダーから直接検索することもできます（ファイルの場所を知っている場合）。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -139,7 +139,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
 5. ファイルを開いたら、ファイルの右上隅にある✏️をクリックして編集を開始します。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -153,7 +153,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 6. 変更を加えます！（もちろん、リソースファイルなどの場合は、まずMAAフォルダー内で変更をテストし、問題がないことを確認してから、ウェブページに貼り付けて変更を行ってください）
 7. 変更が完了したら、一番下までスクロールして、変更内容を記述します。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -164,7 +164,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
     }
     ```
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -179,7 +179,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 9. 変更が完了したら、PRを行います！個人リポジトリのPull Requestタブをクリックします。  
     「Compare & Pull Request」ボタンがある場合は、それをクリックしてください。ない場合は、「New Pull Request」をクリックしてください。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -193,7 +193,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 10. これでメインリポジトリに移動します。PRする内容を確認してください。  
     スクリーンショットのように、真ん中に左向きの矢印があり、右側の「個人名/MAA」のdevブランチを「メインリポジトリ/MAA」のdevブランチにマージすることを申請しています。  
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -206,7 +206,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
     次に、タイトルや変更内容などを記述して、承認をリクエストします。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -220,7 +220,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 11. MAAチームの大佬たちに承認していただきましょう！もちろん、意見を提供してくださることもあるかもしれません  
   👇例えば（純粋に娯楽のために、本気にしないでください）
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -235,7 +235,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
   手順2（再度フォークする）を実行する必要はなく、手順10（再度プルリクエストする）を実行する必要もありません。現在のプルリクエストはまだ承認待ちの状態にあり、後続の変更はこのプルリクエストに直接反映されます。  
   👇 以下は例です。最下部に「再度変更デモを変更」というメッセージが追加されたことがわかります。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -263,7 +263,7 @@ Conflictを解決するのは少し面倒ですが、ここでは概念につい
 
     私が言ったことが何を意味するのか分からない/関係ない場合は、左側のボタンをクリックしてください。
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {

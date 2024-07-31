@@ -22,7 +22,7 @@ This chapter contains slightly dry content. If you're not interested, you can sk
 
 👇 You can think of the current web page and all of its contents as the repository for MAA (we usually refer to it as MAA's main repository).
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -41,7 +41,7 @@ Since it's a copy, let's assume it's called `MAA (1)`.
 To distinguish it from the original repository, we usually refer to the original MAA repository as "main repository", "upstream", or "origin".  
 Since everyone can make a copy of their own, the copied repository is called a "personal repository".
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -60,7 +60,7 @@ Of course, since it's a "request", it naturally requires approval. MAA Team may 
 
 👇 The following are the PRs currently submitted by contributors and awaiting approval from MAA Team.
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -80,7 +80,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 1. First, go to the MAA main repository and fork a copy of the code.
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -93,7 +93,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 2. Remove the "Only master branch" option, then click "Create Fork".
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -106,7 +106,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 3. You will be taken to your personal repository, which will have a title of "Your Name/MaaAssistantArknights", with a small note below stating "forked from MaaAssistantArknights/MaaAssistantArknights" (copied from the MAA main repository).
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -119,7 +119,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 4. Find the file you want to modify. You can click "Go to file" to search for it globally, or you can navigate through the folders below (if you know where the file is located).
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -132,7 +132,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 5. After opening the file, click on the ✏️ icon on the top right corner of the file to start editing.
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -146,7 +146,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 6. Make your changes! (If it's a resource file, we recommend testing the changes in your local MAA folder before pasting them in the web page to avoid errors).
 7. When you finish editing, scroll to the bottom of the page and describe your changes.
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -157,7 +157,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -172,7 +172,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 9. When all changes are made, create a Pull Request by going to the Pull Request tab in your personal repository.
     If there is a "Compare & Pull Request" button, that's great, just click it! If not, don't worry, clicking "New Pull Request" below is also the same (see step 11).
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -186,7 +186,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 10. Now you are in the main repository, please double-check the changes you want to PR.
     As shown in the figure, there is a leftward arrow, which means you want to merge the dev branch from your forked repository "Your name/MAA" to the dev branch of the main repository "MAA".
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -199,7 +199,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
     Then, write a title and description of your changes, and click "Create Pull Request".
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -213,7 +213,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 11. Just wait for the MAA Team's experts to review it! Of course, they may also provide some comments,
   👇 for example (for entertainment purposes only, do not take it seriously):
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -228,7 +228,7 @@ Now we have a conflict, as both of you have modified the A file but in different
   Note that you do not need to redo step 2 (re-fork) or step 10 (re-Pull Request), your current Pull Request is still pending review, and subsequent changes will be added directly to this Pull Request.
   👇 For example, you can see that "revised demo" has been added at the bottom.
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -248,7 +248,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
     If you are not sure or don't care about what I said above, please click the button on the left.
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {

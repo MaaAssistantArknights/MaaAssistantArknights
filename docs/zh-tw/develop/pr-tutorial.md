@@ -21,7 +21,7 @@ icon: mingcute:git-pull-request-fill
 
 👇 可以簡單理解為目前這個網頁及裡面所有的內容，就是 MAA 的倉庫（我們一般稱之為 MAA 的主倉庫）
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -41,7 +41,7 @@ icon: mingcute:git-pull-request-fill
 為了和原本的倉庫區分開，所以我們一般將原本的 MAA 倉庫稱為 “主倉庫”、“upstream （上遊倉庫）”、“origin （原倉庫）”；  
 因為每個人都可以自己複製一份走，所以複製後的稱之為 “個人倉庫”
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -61,7 +61,7 @@ icon: mingcute:git-pull-request-fill
 
 👇 下面的是目前大佬們提的 PR，正在等待審批的
 
-```component Image
+```component Image1
 {
   "imageList": [
     {
@@ -83,7 +83,7 @@ icon: mingcute:git-pull-request-fill
 
 1. 首先進入 MAA 主倉庫，fork 一份代碼
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -96,7 +96,7 @@ icon: mingcute:git-pull-request-fill
 
 2. 把 “僅 master 分支” 這個選項去掉，然後點擊 Create Fork
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -109,7 +109,7 @@ icon: mingcute:git-pull-request-fill
 
 3. 接下來來到了你的個人倉庫，可以看到標題是 “你的名字/MaaAssistantArknights”，下面一行小字 forked from MaaAssistantArknights/MaaAssistantArknights （複製自 MAA 主倉庫）
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -122,7 +122,7 @@ icon: mingcute:git-pull-request-fill
 
 4. 找到你要改的檔案，可以點 “Go to file” 進行全局搜尋，也可以直接在下面的資料夾裡翻（如果你知道檔案在哪的話）
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -135,7 +135,7 @@ icon: mingcute:git-pull-request-fill
 
 5. 打開檔案後，直接點擊檔案右上角的 ✏️ 進行編輯
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -149,7 +149,7 @@ icon: mingcute:git-pull-request-fill
 6. 開改！（當然如果是資源檔案這種，我們建議先在你電腦上的 MAA 資料夾裡測試修改，確認沒問題了再貼上到網頁上，避免改錯了）
 7. 改完了，翻到最下面，寫一下你改了啥
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -160,7 +160,7 @@ icon: mingcute:git-pull-request-fill
     }
     ```
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -175,7 +175,7 @@ icon: mingcute:git-pull-request-fill
 9. 全改好了進行 PR ！直接點 **個人倉庫** 裡的 Pull Request 標籤頁  
     如果有 Compare & Pull Request 按鈕，那最好，直接點他！如果沒有也不用著急，點下面的 New Pull Request 也是一樣的（請看步驟 11）
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -189,7 +189,7 @@ icon: mingcute:git-pull-request-fill
 10. 這時候來到了主倉庫，請核對一下你要 PR 的是否確認。  
     如圖中，中間有個向左的箭頭，是將右邊的 個人姓名/MAA 的 dev 分支，申請合併到 主倉庫/MAA 的 dev 分支。  
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -202,7 +202,7 @@ icon: mingcute:git-pull-request-fill
 
     然後寫一下標題，你修改的具體內容等等的，然後點確認
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -216,7 +216,7 @@ icon: mingcute:git-pull-request-fill
 11. 等待 MAA Team 的大佬們審核吧！當然他們也可能會提意見  
   👇 比如（純屬娛樂切勿當真）
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -231,7 +231,7 @@ icon: mingcute:git-pull-request-fill
   注意不需要操作步驟 2（重新 fork），也不需要操作步驟 10（重新 Pull Request），你目前的 Pull Request 仍處於待審核狀態，後續的修改會直接進入到這個 Pull Request 中  
   👇 比如可以看到最下面多了一條 “重新修改演示” 的內容
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {
@@ -258,7 +258,7 @@ icon: mingcute:git-pull-request-fill
 
     如果你不清楚 / 不 care 我上面說的這一大堆，也請點擊左側的按鈕
 
-    ```component Image
+    ```component Image1
     {
       "imageList": [
         {

@@ -33,6 +33,7 @@
   <style scoped>
   .image {
     box-sizing: border-box;
+    width: auto;
     padding: 9px;
     border-radius: 16px;
   }

@@ -46,7 +46,7 @@ export default defineComponent({
 
 @media (max-width: 419px) {
   .image {
-    width: 100%;
+    width: auto;
   }
 }
 </style>
