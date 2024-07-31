@@ -1787,21 +1787,15 @@
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["선택"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["테마진입"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
+    },
+    "Roguelike@PreSelectTheme": {
+        "text": ["모든테마보기", "테마", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": ["지원"]
-    },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
@@ -1965,8 +1959,7 @@
         "text": ["안개의기로", "석양의정원", "고향의잔해", "악몽의시작", "붉은달회랑", "욕망의로비"]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["팬텀", "팬럼"]
+        "text": ["고성", "노트"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -2003,8 +1996,7 @@
         "text": ["하늘빛해안", "연안외딴섬", "맹렬한파도", "은밀한온상", "신성한동굴", "심해의숲", "짙푸른요람"]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["미즈키"]
+        "text": ["생태", "계보"]
     },
     "Mizuki@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
@@ -2235,8 +2227,7 @@
         "text": ["이번구역", "다음붕괴"]
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["탐험가"]
+        "text": ["탐험", "기록"]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["안전가옥활용"]
