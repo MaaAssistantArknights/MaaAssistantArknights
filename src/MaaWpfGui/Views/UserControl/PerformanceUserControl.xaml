@@ -38,7 +38,7 @@
         <hc:ComboBox
                 Grid.Column="1"
                     Width="240"
-                    Margin="10"
+                    Margin="10, 5"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     ItemsSource="{Binding GpuOptions}"
@@ -58,11 +58,12 @@
                 </Style>
             </hc:ComboBox.ItemContainerStyle>
         </hc:ComboBox>
-        <CheckBox Grid.Row="1" Grid.Column="1" Margin="10" Content="{DynamicResource GpuAllowDeprecated}" IsChecked="{Binding AllowDeprecatedGpu}"/>
+        <CheckBox Grid.Row="1" Grid.Column="1" Margin="10, 5" Content="{DynamicResource GpuAllowDeprecated}" IsChecked="{Binding AllowDeprecatedGpu}"/>
         <controls:TextBlock
             Grid.Row="2"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
+            Margin="10"
             Text="{c:Binding ScreencapCost}"/>
     </Grid>
 </UserControl>
