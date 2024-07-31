@@ -917,6 +917,16 @@
     "RecruitNow": {
         "text": ["緊急招集"]
     },
+    "OrundumActivities": {
+        "doc": "幸运墙领合成玉",
+        "text": ["開運", "おみくじ"]
+    },
+    "RecruitingActivities": {
+        "text": ["回無料"]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": ["回無料", "時間"]
+    },
     "RecruitingActivitiesRecruit": {
         "text": ["1回スカウト", "スカウト"]
     },
