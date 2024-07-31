@@ -2590,5 +2590,8 @@
     "docs/ko-kr/combat-start-interface-example": "4d05ad72f252112ef69fb2904f0397fc73fba1eb314724af9833755d522aa792",
     "docs/ja-jp/combat-start-interface-example": "2b42f7433327cb7fb1dd290245cff85ed0a7d12a8f68d2cf14d4a8e7c9ab1884",
     "docs/ja-jp/introduction-i.s.-pin-up": "dee292485e4aaa77493c56dbaacef3ee4dac2aa6ab061ac5406d5b397a9c4554",
-    "docs/en-us/combat-start-interface-example": "aa66d1602911a50905a70f322e644983e580de1e9240610ceff59cb5589d6122"
+    "docs/en-us/combat-start-interface-example": "aa66d1602911a50905a70f322e644983e580de1e9240610ceff59cb5589d6122",
+    "YoStarJP/OrundumActivitiesConfirm": "a7ccef6b9159ebe4725b03b426908857b225bd76616160a989abd6e7ea3a4341",
+    "YoStarKR/OrundumActivitiesConfirm": "d75defe2c6067d90685ad6f74ebcab03da66d6f1e17e02d442f9cbc469b92406",
+    "YoStarEN/OrundumActivitiesConfirm": "66969c4a2c8af68fcb394e06d64607283fe5f695991ddde0e95ac937d0fd5655"
 }
