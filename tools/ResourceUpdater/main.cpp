@@ -1030,6 +1030,11 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
     for (const std::string& name : chars_list) {
         auto id_iter = chars_id_list.find(name);
         if (id_iter == chars_id_list.cend()) {
+            // YostarJP
+            if (name == "サーマル-EX") {
+                std::cout << "FIX: skip: サーマル-EX, no idea what's happening" << std::endl;
+                continue;
+            }
             std::cerr << "Failed to find char: " << std::endl;
             std::cerr << "char: " << name << std::endl;
             return false;
@@ -1045,8 +1050,13 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
         }
 
         // YostarKR
-        if (id == " trap_470_tmantic") {
+        if (id == "trap_470_tmantic") {
             std::cout << "FIX: trap_470_tmantic has the same name as the operator 맨티코어" << std::endl;
+            continue;
+        }
+
+        if (id == "trap_466_tzumama") {
+            std::cout << "FIX: trap_466_tzumama has the same name as the operator 유넥티스" << std::endl;
             continue;
         }
 
