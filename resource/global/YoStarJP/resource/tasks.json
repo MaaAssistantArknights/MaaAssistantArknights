@@ -2046,21 +2046,15 @@
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["選択"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["テーマへ"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
+    },
+    "Roguelike@PreSelectTheme": {
+        "text": ["全テーマ一覧", "全テ", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": ["サ.*ート", "招集", "召集"]
-    },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
@@ -2247,8 +2241,7 @@
         "text": ["迷霧の岐路", "落陽の庭園", "凋落の故地", "悪夢の幕開け", "緋月の回廊", "渇欲の大広間"]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["ファントム"]
+        "text": ["古城の手記"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -2284,8 +2277,7 @@
         "text": ["陽の射す海岸", "離れの孤島", "迫り来る波濤", "秘密の温床", "不可侵の洞窟", "深海の密林", "紺碧の揺籃"]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["ミヅキ"]
+        "text": ["進化の系譜", "進化", "系譜"]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
         "roi": [1063, 0, 217, 700],
@@ -2491,8 +2483,7 @@
         "text": ["本エリア", "通過後", "次段階", "パラダイム"]
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["探索"]
+        "text": ["科学考察記録"]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
