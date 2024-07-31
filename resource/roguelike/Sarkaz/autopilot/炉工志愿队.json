@@ -10,7 +10,12 @@
             "direction": "up"
         }
     ],
-    "blacklist_location": [[1, 2],[6, 1],[6, 2],[8, 3]],
+    "blacklist_location": [
+        [1, 2],
+        [6, 1],
+        [6, 2],
+        [8, 3]
+    ],
     "deploy_plan": [
         {
             "groups": ["益达"],
