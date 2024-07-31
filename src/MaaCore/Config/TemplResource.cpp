@@ -57,7 +57,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
 const cv::Mat& asst::TemplResource::get_templ(const std::string& name)
 {
     if (m_templs.find(name) == m_templs.cend()) {
-        Log.info(__FUNCTION__, "lazy load", name);
+        // Log.info(__FUNCTION__, "lazy load", name);
 
         auto path_iter = m_templ_paths.find(name);
         if (path_iter == m_templ_paths.cend()) {
