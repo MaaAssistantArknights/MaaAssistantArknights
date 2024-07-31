@@ -2,6 +2,15 @@
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
+    "OrundumActivities": {
+        "text": ["Lucky Strips", "Login Event"]
+    },
+    "RecruitingActivities": {
+        "text": ["TODO"]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": ["TODO", "TODO"]
+    },
     "ClickChapter1": {
         "text": ["Hour of An Awakening", "Hour of An"]
     },
