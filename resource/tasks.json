@@ -8178,6 +8178,12 @@
     "Sami@Roguelike@SelectTheme": {
         "text": ["科考记录"]
     },
+    "Sami@Roguelike@SpecialValRecognition": {
+        "algorithm": "OcrDetect",
+        "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
+        "text": [],
+        "roi": [615, 0, 80, 45]
+    },
     "Sami@Roguelike@SquadConfirm": {
         "template": "Sami@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -9258,6 +9264,12 @@
     "Sarkaz@Roguelike@RolesDefault": {},
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假说辑录"]
+    },
+    "Sarkaz@Roguelike@SpecialValRecognition": {
+        "algorithm": "OcrDetect",
+        "Doc": "特殊值识别，构想数量",
+        "text": [],
+        "roi": [848, 686, 46, 26]
     },
     "Sarkaz@Roguelike@SquadConfirm": {
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
