@@ -1808,21 +1808,15 @@
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["ENTER"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
+    },
+    "Roguelike@PreSelectTheme": {
+        "text": ["View all Themes", "Themes", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": ["Recruit support"]
-    },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
     },
     "Roguelike@StageEncounterOcr": {
         "fullMatch": true,
@@ -2002,8 +1996,7 @@
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["Phantom"]
+        "text": ["Castle Notes"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -2051,8 +2044,7 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["Mizuki"]
+        "text": ["Ecosequence"]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]
@@ -2278,8 +2270,7 @@
         "templThreshold": 0.75
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["Expeditioner"]
+        "text": ["Expedition Record"]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]
