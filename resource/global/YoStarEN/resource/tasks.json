@@ -809,11 +809,6 @@
     "NoFriends": {
         "text": ["No friends"]
     },
-    "StartToVisit": {
-        "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in September 2024 OPERATION LUCENT ARROWHEAD",
-        "templThreshold": 0.8,
-        "roi": [920, 91, 162, 141]
-    },
     "VisitNextOcr": {
         "text": ["Visit Next"]
     },
