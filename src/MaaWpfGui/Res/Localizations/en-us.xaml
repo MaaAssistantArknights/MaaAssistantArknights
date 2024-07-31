@@ -363,9 +363,11 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ConnectionAddress">Connection address</system:String>
     <system:String x:Key="ConnectionAddressTip">It will be filled in automatically when you use it for the first time. If you encounter any problems, you can try to manually modify it</system:String>
     <system:String x:Key="ConnectionPreset">Connection Preset</system:String>
+    <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 3.8.13 and later is required, not supported by MuMu 12 Arknights edition/Global.\n\n
+        MuMu 12 3.8.13 and later is required, not supported by MuMu 12 Arknights edition/Global.\n
+        It is strongly recommended to perform a screenshot test before using this feature for the first time after enabling it.\n\n
         Please fill in the following information:\n\n
         1. Emulator Path: (e.g., C:\\Program Files\\Netease\\MuMuPlayer-12.0)\n
         The emulator path should be the parent folder path of the emulator application. For example, if the application path is\n
