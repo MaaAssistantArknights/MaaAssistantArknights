@@ -22,7 +22,16 @@ This chapter contains slightly dry content. If you're not interested, you can sk
 
 👇 You can think of the current web page and all of its contents as the repository for MAA (we usually refer to it as MAA's main repository).
 
-![image](/image/zh-cn/pr-tutorial/repository.png)
+```component Image
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/pr-tutorial/repository-light.png",
+      "dark": "image/zh-cn/pr-tutorial/repository-dark.png"
+    }
+  ]
+}
+```
 
 ### Fork
 
@@ -32,7 +41,16 @@ Since it's a copy, let's assume it's called `MAA (1)`.
 To distinguish it from the original repository, we usually refer to the original MAA repository as "main repository", "upstream", or "origin".  
 Since everyone can make a copy of their own, the copied repository is called a "personal repository".
 
-![image](/image/zh-cn/pr-tutorial/fork.png)
+```component Image
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/pr-tutorial/fork-light.png",
+      "dark": "image/zh-cn/pr-tutorial/fork-dark.png"
+    }
+  ]
+}
+```
 
 ### Pull Request
 
@@ -42,7 +60,16 @@ Of course, since it's a "request", it naturally requires approval. MAA Team may 
 
 👇 The following are the PRs currently submitted by contributors and awaiting approval from MAA Team.
 
-![image](/image/zh-cn/pr-tutorial/pull-request.png)
+```component Image
+{
+  "imageList": [
+    {
+      "light": "image/zh-cn/pr-tutorial/pull-request-light.png",
+      "dark": "image/zh-cn/pr-tutorial/pull-request-dark.png"
+    }
+  ]
+}
+```
 
 ### Conflict
 
@@ -53,63 +80,183 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 1. First, go to the MAA main repository and fork a copy of the code.
 
-    ![image](/image/zh-cn/pr-tutorial/pr-1.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/fork-light.png",
+          "dark": "image/zh-cn/pr-tutorial/fork-dark.png"
+        }
+      ]
+    }
+    ```
 
 2. Remove the "Only master branch" option, then click "Create Fork".
 
-    ![image](/image/zh-cn/pr-tutorial/pr-2.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-2-dark.png"
+        }
+      ]
+    }
+    ```
 
 3. You will be taken to your personal repository, which will have a title of "Your Name/MaaAssistantArknights", with a small note below stating "forked from MaaAssistantArknights/MaaAssistantArknights" (copied from the MAA main repository).
 
-    ![image](/image/zh-cn/pr-tutorial/pr-3.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-3-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-3-dark.png"
+        }
+      ]
+    }
+    ```
 
-4. Switch to the "dev" branch (the concept of branches is not relevant to this tutorial, so we will skip discussing it here, but you just need to follow these instructions to switch branches).
+4. Find the file you want to modify. You can click "Go to file" to search for it globally, or you can navigate through the folders below (if you know where the file is located).
 
-    ![image](/image/zh-cn/pr-tutorial/pr-4.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-4-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-4-dark.png"
+        }
+      ]
+    }
+    ```
 
-5. Find the file you want to modify. You can click "Go to file" to search for it globally, or you can navigate through the folders below (if you know where the file is located).
+5. After opening the file, click on the ✏️ icon on the top right corner of the file to start editing.
 
-    ![image](/image/zh-cn/pr-tutorial/pr-5.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-5-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-5-dark.png"
+        }
+      ]
+    }
+    ```
 
-6. After opening the file, click on the ✏️ icon on the top right corner of the file to start editing.
+6. Make your changes! (If it's a resource file, we recommend testing the changes in your local MAA folder before pasting them in the web page to avoid errors).
+7. When you finish editing, scroll to the bottom of the page and describe your changes.
 
-    ![image](/image/zh-cn/pr-tutorial/pr-6.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-7-1-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-7-1-dark.png"
+        }
+      ]
+    }
+    ```
 
-7. Make your changes! (If it's a resource file, we recommend testing the changes in your local MAA folder before pasting them in the web page to avoid errors).
-8. When you finish editing, scroll to the bottom of the page and describe your changes.
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-7-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-7-2-dark.png"
+        }
+      ]
+    }
+    ```
 
-    ![image](/image/zh-cn/pr-tutorial/pr-8.png)
-
-9. Need to edit another file? Made a mistake and want to change it again? No problem! Simply repeat steps 5-8 for the other file.
-10. When all changes are made, create a Pull Request by going to the Pull Request tab in your personal repository.
+8. Need to edit another file? Made a mistake and want to change it again? No problem! Simply repeat steps 5-8 for the other file.
+9. When all changes are made, create a Pull Request by going to the Pull Request tab in your personal repository.
     If there is a "Compare & Pull Request" button, that's great, just click it! If not, don't worry, clicking "New Pull Request" below is also the same (see step 11).
 
-    ![image](/image/zh-cn/pr-tutorial/pr-10.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-9-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-9-dark.png"
+        }
+      ]
+    }
+    ```
 
-11. Now you are in the main repository, please double-check the changes you want to PR.
+10. Now you are in the main repository, please double-check the changes you want to PR.
     As shown in the figure, there is a leftward arrow, which means you want to merge the dev branch from your forked repository "Your name/MAA" to the dev branch of the main repository "MAA".
+
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-10-1-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-10-1-dark.png"
+        }
+      ]
+    }
+    ```
+
     Then, write a title and description of your changes, and click "Create Pull Request".
 
-    ![image](/image/zh-cn/pr-tutorial/pr-11.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-10-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-10-2-dark.png"
+        }
+      ]
+    }
+    ```
 
-12. Just wait for the MAA Team's experts to review it! Of course, they may also provide some comments,
+11. Just wait for the MAA Team's experts to review it! Of course, they may also provide some comments,
   👇 for example (for entertainment purposes only, do not take it seriously):
-    ![image](/image/zh-cn/pr-tutorial/pr-12.png)
 
-13. If they request further changes, go back to your personal repository, switch to the dev branch, and repeat steps 3-9!
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-11-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-11-dark.png"
+        }
+      ]
+    }
+    ```
+
+12. If they request further changes, go back to your personal repository, switch to the dev branch, and repeat steps 3-9!
   Note that you do not need to redo step 2 (re-fork) or step 10 (re-Pull Request), your current Pull Request is still pending review, and subsequent changes will be added directly to this Pull Request.
   👇 For example, you can see that "revised demo" has been added at the bottom.
-    ![image](/image/zh-cn/pr-tutorial/pr-13.png)
 
-14. Once the experts approve the PR, you're all set! After the version is released, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless dedication!
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-12-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-12-dark.png"
+        }
+      ]
+    }
+    ```
+
+13. Once the experts approve the PR, you're all set! After the version is released, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless dedication!
     [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
 
-15. Next time if you want to submit another PR, please switch to the dev branch first, and then follow the steps in the image below.
+14. Next time if you want to submit another PR, please switch to the dev branch first, and then follow the steps in the image below.
     **Please note!** This operation will forcibly synchronize your personal repository to the exact same state as the main repository. This is the simplest but effective way to resolve conflicts. However, if you have made additional edits in your personal repository, they will be directly deleted!
     If you are sure that it will not cause conflicts, please use the green Update Branch button on the right.
 
     If you are not sure or don't care about what I said above, please click the button on the left.
 
-    ![image](/image/zh-cn/pr-tutorial/pr-15.png)
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-14-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-dark.png"
+        }
+      ]
+    }
+    ```
 
     Then repeat steps 3-14, make changes and submit PR.

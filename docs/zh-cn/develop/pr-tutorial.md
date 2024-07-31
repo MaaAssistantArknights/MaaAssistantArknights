@@ -261,15 +261,15 @@ icon: mingcute:git-pull-request-fill
 
     如果你不清楚/不 care 我上面说的这一大堆，也请点击左侧的按钮
 
-```component Image
-{
-  "imageList": [
+    ```component Image
     {
-      "light": "image/zh-cn/pr-tutorial/pr-14-light.png",
-      "dark": "image/zh-cn/pr-tutorial/pr-14-dark.png"
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-14-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-14-dark.png"
+        }
+      ]
     }
-  ]
-}
-```
+    ```
 
-接着重复步骤 4-10，修改、提 PR 即可~
+    接着重复步骤 4-10，修改、提 PR 即可~
