@@ -148,14 +148,25 @@ icon: mingcute:git-pull-request-fill
     ```
 
 6. 开改！（当然如果是资源文件这种，我们建议先在你电脑上的 MAA 文件夹里测试修改，确认没问题了再粘贴到网页上，避免改错了）
-7. 改完了，翻到最下面，写一下你改了啥 [命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)
+7. 改完了，点击右上角的（那个按钮），写一下你改了啥 [命名格式](https://www.conventionalcommits.org/zh-hans/v1.0.0/)
 
     ```component Image
     {
       "imageList": [
         {
-          "light": "image/zh-cn/pr-tutorial/pr-7-light.png",
-          "dark": "image/zh-cn/pr-tutorial/pr-7-dark.png"
+          "light": "image/zh-cn/pr-tutorial/pr-7-1-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-7-1-dark.png"
+        }
+      ]
+    }
+    ```
+
+    ```component Image
+    {
+      "imageList": [
+        {
+          "light": "image/zh-cn/pr-tutorial/pr-7-2-light.png",
+          "dark": "image/zh-cn/pr-tutorial/pr-7-2-dark.png"
         }
       ]
     }
