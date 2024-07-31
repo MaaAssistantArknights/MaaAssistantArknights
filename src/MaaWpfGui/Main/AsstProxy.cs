@@ -262,8 +262,10 @@ namespace MaaWpfGui.Main
             {
                 if (x.IsDeprecated && !GpuOption.AllowDeprecatedGpu)
                 {
-                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), x.Description), UiLogColor.Warning);
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), x.GpuInfo?.Description), UiLogColor.Warning);
                 }
+
+                _logger.Debug("Using GPU {0} (Driver {1} {2})", x.GpuInfo?.Description, x.GpuInfo?.DriverVersion, x.GpuInfo?.DriverDate?.ToString("yyyy-mm-dd"));
 
                 AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
             }

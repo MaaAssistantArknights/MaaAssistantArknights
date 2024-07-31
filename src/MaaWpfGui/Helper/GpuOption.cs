@@ -144,18 +144,19 @@ namespace MaaWpfGui.Helper
 
                 var desc = adapter.GetDesc1();
                 var instance_path = GetAdapterInstancePath((ulong)desc.AdapterLuid.Value);
+                var driverInfo = GetGpuDriverInformation(desc.Description, instance_path);
 
-                if (!CheckGpu(adapter, ref desc, instance_path, out var deprecated))
+                if (!CheckGpu(adapter, ref desc, instance_path, driverInfo, out var deprecated))
                 {
                     continue;
                 }
 
                 if (index == 0)
                 {
-                    options.Add(new SystemDefaultOption(factory) { IsDeprecated = deprecated });
+                    options.Add(new SystemDefaultOption(driverInfo) { IsDeprecated = deprecated });
                 }
 
-                var opt = new SpecificGpuOption(index, desc, instance_path ?? string.Empty) { IsDeprecated = deprecated };
+                var opt = new SpecificGpuOption(index, desc, instance_path ?? string.Empty, driverInfo) { IsDeprecated = deprecated };
 
                 options.Add(opt);
             }
@@ -169,12 +170,12 @@ namespace MaaWpfGui.Helper
             var counter = new Dictionary<string, int>();
             foreach (var option in options.OfType<SpecificGpuOption>())
             {
-                counter[option.Description] = counter.GetValueOrDefault(option.Description, 0) + 1;
+                counter[option.GpuInfo.Description] = counter.GetValueOrDefault(option.GpuInfo.Description, 0) + 1;
             }
 
             foreach (var option in options.OfType<SpecificGpuOption>())
             {
-                if (counter.GetValueOrDefault(option.Description, 0) > 1)
+                if (counter.GetValueOrDefault(option.GpuInfo.Description, 0) > 1)
                 {
                     option.ShowIndex = true;
                 }
@@ -265,13 +266,18 @@ namespace MaaWpfGui.Helper
             return false;
         }
 
-        private static unsafe DateTime? GetDriverDate(string instance_path)
+        private static unsafe GpuDriverInformation GetGpuDriverInformation(string description, string? instance_path)
         {
+            if (instance_path == null)
+            {
+                return new(description, null, null);
+            }
+
             var err = CfgMgr32.CM_Locate_DevNode(out var devinst, instance_path, CfgMgr32.CM_LOCATE_DEVNODE.CM_LOCATE_DEVNODE_NORMAL);
 
             if (err != CfgMgr32.CONFIGRET.CR_SUCCESS)
             {
-                return null;
+                return new(description, null, null);
             }
 
             System.Runtime.InteropServices.ComTypes.FILETIME ft;
@@ -281,13 +287,31 @@ namespace MaaWpfGui.Helper
 
             if (err != CfgMgr32.CONFIGRET.CR_SUCCESS)
             {
-                return null;
+                return new(description, null, null);
             }
 
-            return ft.ToDateTime();
+            var driverDate = ft.ToDateTime(DateTimeKind.Utc).Date;
+
+            size = 0;
+            err = CfgMgr32.CM_Get_DevNode_Property(devinst, SetupAPI.DEVPKEY_Device_DriverVersion, out _, 0, ref size, 0);
+
+            if (err != CfgMgr32.CONFIGRET.CR_BUFFER_SMALL)
+            {
+                return new(description, null, driverDate);
+            }
+
+            var buf = new byte[size];
+            string? driverVersion = null;
+            fixed (byte* ptr = buf)
+            {
+                err = CfgMgr32.CM_Get_DevNode_Property(devinst, SetupAPI.DEVPKEY_Device_DriverVersion, out _, (nint)ptr, ref size, 0);
+                driverVersion = Marshal.PtrToStringUni((nint)ptr);
+            }
+
+            return new(description, driverVersion, driverDate);
         }
 
-        private static bool CheckGpu(IDXGIAdapter1 adapter, ref DXGI_ADAPTER_DESC1 desc, string? instance_path, out bool deprecated)
+        private static bool CheckGpu(IDXGIAdapter1 adapter, ref DXGI_ADAPTER_DESC1 desc, string? instance_path, GpuDriverInformation driverInfo, out bool deprecated)
         {
             deprecated = false;
             if ((desc.Flags & (uint)DXGI_ADAPTER_FLAG.DXGI_ADAPTER_FLAG_SOFTWARE) != 0)
@@ -321,7 +345,7 @@ namespace MaaWpfGui.Helper
                 // reject drivers that predates DirectML (released alongside with Windows 10 1903, i.e. 2019-05-21)
                 if (instance_path != null)
                 {
-                    var devdate = GetDriverDate(instance_path);
+                    var devdate = driverInfo.DriverDate;
                     if (devdate.HasValue && devdate.Value < new DateTime(2019, 5, 21))
                     {
                         return true;
@@ -378,7 +402,7 @@ namespace MaaWpfGui.Helper
                 if (result is SystemDefaultOption && preferredGpuDescription != string.Empty)
                 {
                     // instance path lookup failed, fallback to description (name) lookup
-                    result = options.OfType<SpecificGpuOption>().FirstOrDefault(x => string.Equals(((SpecificGpuOption)x).Description, preferredGpuDescription, StringComparison.OrdinalIgnoreCase), result);
+                    result = options.OfType<SpecificGpuOption>().FirstOrDefault(x => string.Equals(((SpecificGpuOption)x).GpuInfo.Description, preferredGpuDescription, StringComparison.OrdinalIgnoreCase), result);
                 }
             }
             else
@@ -403,13 +427,15 @@ namespace MaaWpfGui.Helper
                     break;
                 case SpecificGpuOption x:
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformanceUseGpu, "true");
-                    ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, x.Description);
+                    ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuDescription, x.GpuInfo.Description);
                     ConfigurationHelper.SetValue(ConfigurationKeys.PerformancePreferredGpuInstancePath, x.InstancePath);
                     break;
                 default:
                     break;
             }
         }
+
+        public record GpuDriverInformation(string Description, string? DriverVersion, DateTime? DriverDate);
 
         public class DisableOption : GpuOption
         {
@@ -436,23 +462,18 @@ namespace MaaWpfGui.Helper
 
             public bool IsDeprecated { get; set; }
 
-            public abstract string? Description { get; }
+            public abstract GpuDriverInformation GpuInfo { get; }
         }
 
         public class SystemDefaultOption : EnableOption
         {
-
             public override uint Index => 0;
 
-            public override string? Description { get; }
+            public override GpuDriverInformation GpuInfo { get; }
 
-            public SystemDefaultOption(IDXGIFactory1 factory)
+            public SystemDefaultOption(GpuDriverInformation info)
             {
-                if (factory.EnumAdapters1(0, out var adapter).IsSuccess)
-                {
-                    var desc = adapter.GetDesc1();
-                    Description = desc.Description;
-                }
+                GpuInfo = info;
             }
 
             public override bool Equals(object? obj)
@@ -462,7 +483,7 @@ namespace MaaWpfGui.Helper
 
             public override int GetHashCode() => typeof(SystemDefaultOption).GetHashCode();
 
-            public override string ToString() => LocalizationHelper.GetString("GpuOptionSystemDefault") + (Description == null ? string.Empty : $" ({Description})");
+            public override string ToString() => LocalizationHelper.GetString("GpuOptionSystemDefault") + (GpuInfo.Description == null ? string.Empty : $" ({GpuInfo.Description})");
         }
 
         public class SpecificGpuOption : EnableOption
@@ -471,18 +492,19 @@ namespace MaaWpfGui.Helper
             private uint _index;
             private string _instance_path;
 
+            public override GpuDriverInformation GpuInfo { get; }
+
             public bool ShowIndex { get; set; }
 
-            public SpecificGpuOption(uint index, DXGI_ADAPTER_DESC1 description, string instance_path)
+            public SpecificGpuOption(uint index, DXGI_ADAPTER_DESC1 description, string instance_path, GpuDriverInformation info)
             {
                 _index = index;
                 _description = description;
                 _instance_path = instance_path;
+                GpuInfo = info;
             }
 
             public override uint Index => _index;
-
-            public override string Description => _description.Description;
 
             public string InstancePath => _instance_path;
 
