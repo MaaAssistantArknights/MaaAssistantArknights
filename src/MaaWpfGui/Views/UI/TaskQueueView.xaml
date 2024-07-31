@@ -137,30 +137,46 @@
                     </Grid>
                 </Grid>
             </Border>
-            <Grid
+            <StackPanel
                 Grid.Row="1"
-                Margin="10"
-                HorizontalAlignment="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <controls:TextBlock
-                    Padding="5,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Text="{DynamicResource Then}"
-                    TextWrapping="Wrap" />
-                <ComboBox
-                    Grid.Column="1"
-                    Width="160"
-                    Margin="5"
-                    DisplayMemberPath="Display"
-                    ItemsSource="{Binding ActionAfterCompletedList}"
-                    MaxDropDownHeight="800"
-                    SelectedValue="{Binding ActionAfterCompleted}"
-                    SelectedValuePath="Value" />
-            </Grid>
+                Width="210"
+                HorizontalAlignment="Stretch"
+                Orientation="Horizontal">
+                <StackPanel
+                    Width="185"
+                    Margin="0,10,0,10"
+                    HorizontalAlignment="Left"
+                    Orientation="Vertical">
+                    <controls:TextBlock
+                        Margin="20,5,0,5"
+                        HorizontalAlignment="Center"
+                        Text="{Binding TaskSettingDataContext.PostActionSetting.ActionTitle}"
+                        TextAlignment="Center" />
+                    <controls:TextBlock
+                        Width="160"
+                        Margin="20,0,0,0"
+                        HorizontalAlignment="Center"
+                        Text="{Binding TaskSettingDataContext.PostActionSetting.ActionDescription}"
+                        TextAlignment="Center"
+                        TextWrapping="Wrap" />
+                </StackPanel>
+                <hc:ButtonGroup HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <!--  ReSharper disable once Xaml.StaticResourceNotResolved  -->
+                    <RadioButton
+                        hc:IconElement.Geometry="{StaticResource ConfigGeometry}"
+                        hc:VisualElement.HighlightBackground="Transparent"
+                        hc:VisualElement.HighlightForeground="{DynamicResource PrimaryBrush}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
+                        GroupName="TaskSettings"
+                        IsChecked="{Binding EnableAfterActionSetting}"
+                        Style="{DynamicResource RadioGroupItemSingle}"
+                        ToolTip="{DynamicResource TaskSettings}" />
+                </hc:ButtonGroup>
+            </StackPanel>
+
+
             <Grid Grid.Row="2" Height="60">
                 <Button
                     Width="100"
@@ -222,8 +238,7 @@
                 PanningMode="Both"
                 VerticalScrollBarVisibility="Auto">
                 <hc:SimpleStackPanel Width="220" Margin="0,0,10,0">
-                    <userControl:FightSettingsUserControl 
-                        Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
+                    <userControl:FightSettingsUserControl Visibility="{c:Binding TaskSettingVisibilities.Combat}" />
                     <userControl:AutoRecruitSettingsUserControl
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"
@@ -257,6 +272,10 @@
                         s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
                         DataContext="{Binding TaskSettingDataContext}"
                         Visibility="{c:Binding TaskSettingVisibilities.Reclamation2}" />
+                    <userControl:AfterActionUserControl
+                        s:View.ActionTarget="{Binding DataContext, RelativeSource={RelativeSource Self}}"
+                        DataContext="{Binding TaskSettingDataContext}"
+                        Visibility="{c:Binding TaskSettingVisibilities.AfterAction}" />
                 </hc:SimpleStackPanel>
             </hc:ScrollViewer>
             <hc:ButtonGroup
