@@ -2601,5 +2601,8 @@
     "resource/template/items/premium_material_voucher_perm": "be4a129b4f2931c5d9e38fb16c556452d7eec949e1241e6213e01bf1e962841e",
     "resource/template/infrast/Bskill_man_spd&dorm1": "d4d36eda10a1303035d4751c97be76f196ad188737a2e1a73f10bd19451a8e49",
     "resource/template/infrast/Bskill_tra_limit&trade1": "4e58399bb6a592806966e1f0c9f8e4f329bf0374dd627a041cd0d927ff884a2f",
-    "resource/template/infrast/Bskill_tra_pepe": "473aa66cc54e1f39f4da092f63c688aa5411a33a1d57bc846885ba0448ce3a6c"
+    "resource/template/infrast/Bskill_tra_pepe": "473aa66cc54e1f39f4da092f63c688aa5411a33a1d57bc846885ba0448ce3a6c",
+    "YoStarEN/InfrastTrainingLevel1": "8e72dda3e59815daa1e66502920626561657d83a3ad5bff891e040fd99a32f7c",
+    "YoStarEN/InfrastTrainingLevel3": "a42099cf6e420c9e8b312edb2752cf2634d78127acd59a14fccacf8bc05790a8",
+    "YoStarEN/InfrastTrainingLevel2": "59c8c82f926746c67540525aac42aa9a59c4188fce976293a52586e4da2b16f3"
 }
