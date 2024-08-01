@@ -694,6 +694,79 @@
     "BB-4@SideStoryStage": {
         "text": ["BB-4"]
     },
+    "AS-9": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-9@SideStoryStage", "AS-9@SwipeToStage"]
+    },
+    "AS-8": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-8@SideStoryStage", "AS-8@SwipeToStage"]
+    },
+    "AS-7": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-7@SideStoryStage", "AS-7@SwipeToStage"]
+    },
+    "AS-6": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-6@SideStoryStage", "AS-6@SwipeToStage"]
+    },
+    "AS-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["AS-OpenOcr"]
+    },
+    "AS-Open": {
+        "baseTask": "AS-OpenOcr",
+        "Doc": "先不写"
+    },
+    "AS-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "太阳甩在身后",
+            "太阳",
+            "阳甩",
+            "甩在",
+            "在身",
+            "身后",
+            "市民花园",
+            "市民",
+            "民花",
+            "花园",
+            "丰获集会",
+            "丰获",
+            "获集",
+            "集会",
+            "藏珍宝库",
+            "藏珍",
+            "珍宝",
+            "宝库"
+        ],
+        "roi": [103, 538, 175, 25],
+        "next": ["ASChapterToAS"]
+    },
+    "ASChapterToAS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["市民", "花园", "市民花园"],
+        "preDelay": 3000,
+        "roi": [1025, 381, 214, 149],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "AS-9@SideStoryStage": {
+        "text": ["AS-9"]
+    },
+    "AS-8@SideStoryStage": {
+        "text": ["AS-8"]
+    },
+    "AS-7@SideStoryStage": {
+        "text": ["AS-7"]
+    },
+    "AS-6@SideStoryStage": {
+        "text": ["AS-6"]
+    },
     "OD-8": {
         "algorithm": "JustReturn",
         "sub": ["OD-OpenOcr"],
