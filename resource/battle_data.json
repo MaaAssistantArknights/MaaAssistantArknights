@@ -1121,7 +1121,7 @@
         },
         "char_2025_shu": {
             "name": "黍",
-            "name_en": "黍",
+            "name_en": "Shu",
             "name_jp": "シュウ",
             "name_kr": "슈",
             "name_tw": "黍",
@@ -2413,7 +2413,7 @@
         },
         "char_4023_rfalcn": {
             "name": "红隼",
-            "name_en": "红隼",
+            "name_en": "Kestrel",
             "name_jp": "ケストレル",
             "name_kr": "케스트럴",
             "name_tw": "红隼",
@@ -2597,6 +2597,17 @@
             "position": "RANGED",
             "profession": "SNIPER",
             "rangeId": ["2-3", "3-6", "3-6"],
+            "rarity": 6
+        },
+        "char_4058_pepe": {
+            "name": "佩佩",
+            "name_en": "佩佩",
+            "name_jp": "佩佩",
+            "name_kr": "佩佩",
+            "name_tw": "佩佩",
+            "position": "MELEE",
+            "profession": "WARRIOR",
+            "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 6
         },
         "char_405_absin": {
@@ -2955,7 +2966,7 @@
         },
         "char_4119_wanqin": {
             "name": "万顷",
-            "name_en": "万顷",
+            "name_en": "Wanqing",
             "name_jp": "ワンチィン",
             "name_kr": "완칭",
             "name_tw": "万顷",
@@ -2977,7 +2988,7 @@
         },
         "char_4121_zuole": {
             "name": "左乐",
-            "name_en": "左乐",
+            "name_en": "Zuo Le",
             "name_jp": "ズオ・ラウ",
             "name_kr": "좌락",
             "name_tw": "左乐",
@@ -2988,7 +2999,7 @@
         },
         "char_4122_grabds": {
             "name": "小满",
-            "name_en": "小满",
+            "name_en": "Grain Buds",
             "name_jp": "グレインバッズ",
             "name_kr": "그레인버즈",
             "name_tw": "小满",
@@ -3116,6 +3127,39 @@
             "position": "MELEE",
             "profession": "TANK",
             "rangeId": ["2-2", "2-2", "2-2"],
+            "rarity": 5
+        },
+        "char_4138_narant": {
+            "name": "娜仁图亚",
+            "name_en": "娜仁图亚",
+            "name_jp": "娜仁图亚",
+            "name_kr": "娜仁图亚",
+            "name_tw": "娜仁图亚",
+            "position": "RANGED",
+            "profession": "SNIPER",
+            "rangeId": ["3-3", "y-7", "y-7"],
+            "rarity": 6
+        },
+        "char_4139_papyrs": {
+            "name": "莎草",
+            "name_en": "莎草",
+            "name_jp": "莎草",
+            "name_kr": "莎草",
+            "name_tw": "莎草",
+            "position": "RANGED",
+            "profession": "MEDIC",
+            "rangeId": ["y-1", "y-2", "y-2"],
+            "rarity": 5
+        },
+        "char_4140_lasher": {
+            "name": "衡沙",
+            "name_en": "衡沙",
+            "name_jp": "衡沙",
+            "name_kr": "衡沙",
+            "name_tw": "衡沙",
+            "position": "RANGED",
+            "profession": "SUPPORT",
+            "rangeId": ["3-6", "3-1", "3-1"],
             "rarity": 5
         },
         "char_4145_ulpia": {
@@ -4295,6 +4339,17 @@
             "profession": "TOKEN",
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 6
+        },
+        "token_10036_lasher_mcbird": {
+            "name": "发条羽兽",
+            "name_en": "发条羽兽",
+            "name_jp": "发条羽兽",
+            "name_kr": "发条羽兽",
+            "name_tw": "发条羽兽",
+            "position": "RANGED",
+            "profession": "TOKEN",
+            "rangeId": ["3-6", "3-6", "3-6"],
+            "rarity": 5
         },
         "token_10037_mitm_trshrb": {
             "name": "樱桃三号",
@@ -5805,7 +5860,7 @@
         },
         "trap_139_dhtl": {
             "name": "阻流阀",
-            "name_en": "阻流阀",
+            "name_en": "Throttle Valve",
             "name_jp": "水門",
             "name_kr": "차단 밸브",
             "name_tw": "阻流阀",
@@ -5816,7 +5871,7 @@
         },
         "trap_140_dhsb": {
             "name": "泵站",
-            "name_en": "泵站",
+            "name_en": "Pumping Station",
             "name_jp": "給水ポンプ",
             "name_kr": "양수기",
             "name_tw": "泵站",
@@ -5827,7 +5882,7 @@
         },
         "trap_141_sheltr": {
             "name": "封阻物",
-            "name_en": "封阻物",
+            "name_en": "Barricade",
             "name_jp": "バリケード",
             "name_kr": "바리케이드",
             "name_tw": "封阻物",
@@ -5838,7 +5893,7 @@
         },
         "trap_142_barrel": {
             "name": "源石爆炸物",
-            "name_en": "源石爆炸物",
+            "name_en": "Originium Explosive",
             "name_jp": "源石爆弾",
             "name_kr": "오리지늄 폭발물",
             "name_tw": "源石爆炸物",
@@ -5849,7 +5904,7 @@
         },
         "trap_143_rnfcar": {
             "name": "封阻加固装置",
-            "name_en": "封阻加固装置",
+            "name_en": "Block Reinforcement Device",
             "name_jp": "バリケード補強装置",
             "name_kr": "바리케이드 보강 장치",
             "name_tw": "封阻加固装置",
@@ -5860,7 +5915,7 @@
         },
         "trap_144_ads": {
             "name": "临时掩护装置",
-            "name_en": "临时掩护装置",
+            "name_en": "Temporary Cover",
             "name_jp": "仮設掩体装置",
             "name_kr": "임시 엄호 장치",
             "name_tw": "临时掩护装置",
@@ -5871,7 +5926,7 @@
         },
         "trap_145_edd": {
             "name": "诡雷布设装置",
-            "name_en": "诡雷布设装置",
+            "name_en": "Mine Deployer",
             "name_jp": "トラップ設置装置",
             "name_kr": "폭탄 매설 장치",
             "name_tw": "诡雷布设装置",
@@ -5882,7 +5937,7 @@
         },
         "trap_146_dhdcr": {
             "name": "天桩",
-            "name_en": "天桩",
+            "name_en": "Sky Pole",
             "name_jp": "天杭",
             "name_kr": "천주",
             "name_tw": "天桩",
@@ -6122,6 +6177,28 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_181_sgray": {
+            "name": "结晶消除桩",
+            "name_en": "结晶消除桩",
+            "name_jp": "结晶消除桩",
+            "name_kr": "结晶消除桩",
+            "name_tw": "结晶消除桩",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_182_sglink": {
+            "name": "纯净结晶",
+            "name_en": "纯净结晶",
+            "name_jp": "纯净结晶",
+            "name_kr": "纯净结晶",
+            "name_tw": "纯净结晶",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
@@ -6135,7 +6212,7 @@
         },
         "trap_401_xbfato": {
             "name": "木材采集站",
-            "name_en": "Basic Gathering Hub",
+            "name_en": "Sawing Harvester Hub",
             "name_jp": "木材採取基地",
             "name_kr": "목재 채집 허브",
             "name_tw": "採集實習站",
@@ -6509,7 +6586,7 @@
         },
         "trap_438_xbfato2": {
             "name": "石材采集站",
-            "name_en": "Advanced Gathering Hub",
+            "name_en": "Quarrying Harvester Hub",
             "name_jp": "石材採取基地",
             "name_kr": "석재 채집 허브",
             "name_tw": "採集專員站",
@@ -6520,7 +6597,7 @@
         },
         "trap_439_xbfato3": {
             "name": "铁矿采集站",
-            "name_en": "Executive Gathering Hub",
+            "name_en": "Mining Harvester Hub",
             "name_jp": "鉄鉱石採取基地",
             "name_kr": "철광석 채집 허브",
             "name_tw": "採集主任站",
@@ -6531,7 +6608,7 @@
         },
         "trap_440_xbalis": {
             "name": "简易弩台",
-            "name_en": "简易弩台",
+            "name_en": "Basic Repeater Turret",
             "name_jp": "簡易弩台",
             "name_kr": "간이 발리스타",
             "name_tw": "简易弩台",
@@ -6542,7 +6619,7 @@
         },
         "trap_441_xbmgbird": {
             "name": "喙中奇物",
-            "name_en": "喙中奇物",
+            "name_en": "Fowlbeast's Return",
             "name_jp": "くちばしの中の珍品",
             "name_kr": "부리 속 기물",
             "name_tw": "喙中奇物",
@@ -6553,7 +6630,7 @@
         },
         "trap_442_xbtrap": {
             "name": "流沙黯坑",
-            "name_en": "流沙黯坑",
+            "name_en": "Occluded Quicksand Pit",
             "name_jp": "砂地獄",
             "name_kr": "사막의 구덩이",
             "name_tw": "流沙黯坑",
@@ -6564,7 +6641,7 @@
         },
         "trap_443_xbtent": {
             "name": "作战中心",
-            "name_en": "作战中心",
+            "name_en": "Operations Station",
             "name_jp": "作戦司令部",
             "name_kr": "작전센터",
             "name_tw": "作战中心",
@@ -6575,7 +6652,7 @@
         },
         "trap_444_xbexbi": {
             "name": "“纪念”",
-            "name_en": "“纪念”",
+            "name_en": "Lootmark",
             "name_jp": "「記念」",
             "name_kr": "'기념'",
             "name_tw": "“纪念”",
@@ -6586,7 +6663,7 @@
         },
         "trap_445_xbfence": {
             "name": "兽栏",
-            "name_en": "兽栏",
+            "name_en": "Corral",
             "name_jp": "畜舎",
             "name_kr": "축사",
             "name_tw": "兽栏",
@@ -6597,7 +6674,7 @@
         },
         "trap_446_xbfdtion": {
             "name": "风沙营垒",
-            "name_en": "风沙营垒",
+            "name_en": "Headquarter of Sandbank",
             "name_jp": "砂漠の砦",
             "name_kr": "샌드뱅크",
             "name_tw": "风沙营垒",
@@ -6608,7 +6685,7 @@
         },
         "trap_447_xbmcv": {
             "name": "旷野房车\n",
-            "name_en": "旷野房车\n",
+            "name_en": "Campervan\n",
             "name_jp": "キャンピングカー",
             "name_kr": "캠핑카",
             "name_tw": "旷野房车\n",
@@ -6619,7 +6696,7 @@
         },
         "trap_448_xbmire": {
             "name": "污浊泥沼",
-            "name_en": "污浊泥沼",
+            "name_en": "Cursed Mire",
             "name_jp": "汚濁した泥沼",
             "name_kr": "진흙탕",
             "name_tw": "污浊泥沼",
@@ -6630,7 +6707,7 @@
         },
         "trap_449_xbspgun": {
             "name": "烟雾发射台",
-            "name_en": "烟雾发射台",
+            "name_en": "Smoke Launcher",
             "name_jp": "煙幕発射台",
             "name_kr": "연막 발사대",
             "name_tw": "烟雾发射台",
@@ -6641,7 +6718,7 @@
         },
         "trap_450_xbdrill": {
             "name": "澄亮采集站",
-            "name_en": "澄亮采集站",
+            "name_en": "Extracting Harvester Hub",
             "name_jp": "透珀石採取基地",
             "name_kr": "명징석 채집 허브",
             "name_tw": "澄亮采集站",
@@ -6652,7 +6729,7 @@
         },
         "trap_451_xbflare": {
             "name": "荧光棒",
-            "name_en": "荧光棒",
+            "name_en": "Glow Stick",
             "name_jp": "ケミカルライト",
             "name_kr": "형광봉",
             "name_tw": "荧光棒",
@@ -6663,7 +6740,7 @@
         },
         "trap_452_xbcage": {
             "name": "捕猎笼",
-            "name_en": "捕猎笼",
+            "name_en": "Beast Trap",
             "name_jp": "捕獲カゴ",
             "name_kr": "비스트 트랩",
             "name_tw": "捕猎笼",
@@ -6674,7 +6751,7 @@
         },
         "trap_453_xbbee": {
             "name": "寻宝仪",
-            "name_en": "寻宝仪",
+            "name_en": "Prospector",
             "name_jp": "金属探知機",
             "name_kr": "프로스펙터",
             "name_tw": "寻宝仪",
@@ -6685,7 +6762,7 @@
         },
         "trap_454_xbember": {
             "name": "激励剂",
-            "name_en": "激励剂",
+            "name_en": "Restanding Potion",
             "name_jp": "激励剤",
             "name_kr": "격려제",
             "name_tw": "激励剂",
@@ -6696,7 +6773,7 @@
         },
         "trap_455_xbistorm": {
             "name": "冰爆罐",
-            "name_en": "冰爆罐",
+            "name_en": "Ice Bomb",
             "name_jp": "氷爆缶",
             "name_kr": "얼음 폭탄",
             "name_tw": "冰爆罐",
@@ -6707,7 +6784,7 @@
         },
         "trap_456_xbfarmm": {
             "name": "种植箱集群\n",
-            "name_en": "种植箱集群\n",
+            "name_en": "Planting Box Group\n",
             "name_jp": "栽培ボックス",
             "name_kr": "재배키트",
             "name_tw": "种植箱集群\n",
@@ -6718,7 +6795,7 @@
         },
         "trap_457_xbfort": {
             "name": "高台工事",
-            "name_en": "高台工事",
+            "name_en": "Battlement",
             "name_jp": "臨時高台",
             "name_kr": "고지대 공사",
             "name_tw": "高台工事",
@@ -6729,7 +6806,7 @@
         },
         "trap_458_xbbarir": {
             "name": "反应壁障",
-            "name_en": "反应壁障",
+            "name_en": "Reactive Barrier",
             "name_jp": "反応障壁",
             "name_kr": "반응형 장벽",
             "name_tw": "反应壁障",
@@ -6740,7 +6817,7 @@
         },
         "trap_459_xblight": {
             "name": "监视哨站",
-            "name_en": "监视哨站",
+            "name_en": "Watch Tower",
             "name_jp": "監視塔",
             "name_kr": "감시초소",
             "name_tw": "监视哨站",
@@ -6751,7 +6828,7 @@
         },
         "trap_460_xbdiam": {
             "name": "澄亮矿脉",
-            "name_en": "澄亮矿脉",
+            "name_en": "Lighting Ore Vein",
             "name_jp": "透珀石鉱脈",
             "name_kr": "명징 광맥",
             "name_tw": "澄亮矿脉",
@@ -6762,7 +6839,7 @@
         },
         "trap_461_xbhydr": {
             "name": "机关石门",
-            "name_en": "机关石门",
+            "name_en": "Olden Keystone",
             "name_jp": "石の関門",
             "name_kr": "석문 장치",
             "name_tw": "机关石门",
@@ -6773,7 +6850,7 @@
         },
         "trap_462_xbsighta": {
             "name": "灵动清泉",
-            "name_en": "灵动清泉",
+            "name_en": "Fountain",
             "name_jp": "涼しげな泉",
             "name_kr": "분수대",
             "name_tw": "灵动清泉",
@@ -6784,7 +6861,7 @@
         },
         "trap_463_xbsightb": {
             "name": "静谧盆栽",
-            "name_en": "静谧盆栽",
+            "name_en": "Potting",
             "name_jp": "静かなる盆栽",
             "name_kr": "분재",
             "name_tw": "静谧盆栽",
@@ -6795,7 +6872,7 @@
         },
         "trap_464_xbsightc": {
             "name": "休闲长椅",
-            "name_en": "休闲长椅",
+            "name_en": "Bench",
             "name_jp": "休憩用ベンチ",
             "name_kr": "벤치",
             "name_tw": "休闲长椅",
@@ -6806,7 +6883,7 @@
         },
         "trap_465_xbstation": {
             "name": "号令点",
-            "name_en": "号令点",
+            "name_en": "Command Point",
             "name_jp": "号令ポイント",
             "name_kr": "호령 포인트",
             "name_tw": "号令点",
@@ -6817,7 +6894,7 @@
         },
         "trap_466_tzumama": {
             "name": "森蚺",
-            "name_en": "森蚺",
+            "name_en": "Eunectes",
             "name_jp": "ユーネクテス",
             "name_kr": "유넥티스",
             "name_tw": "森蚺",
@@ -6828,7 +6905,7 @@
         },
         "trap_467_ttuye": {
             "name": "图耶",
-            "name_en": "图耶",
+            "name_en": "Tuye",
             "name_jp": "トゥイエ",
             "name_kr": "투예",
             "name_tw": "图耶",
@@ -6839,7 +6916,7 @@
         },
         "trap_468_tpriest": {
             "name": "大祭司",
-            "name_en": "大祭司",
+            "name_en": "High Priest",
             "name_jp": "大祭司",
             "name_kr": "대제사장",
             "name_tw": "大祭司",
@@ -6850,7 +6927,7 @@
         },
         "trap_469_tpasngr": {
             "name": "异客",
-            "name_en": "异客",
+            "name_en": "Passenger",
             "name_jp": "パッセンジャー",
             "name_kr": "패신저",
             "name_tw": "异客",
@@ -6861,7 +6938,7 @@
         },
         "trap_470_tmantic": {
             "name": "狮蝎",
-            "name_en": "狮蝎",
+            "name_en": "Manticore",
             "name_jp": "マンティコア",
             "name_kr": "맨티코어",
             "name_tw": "狮蝎",
@@ -6872,7 +6949,7 @@
         },
         "trap_471_tegmaus": {
             "name": "佩佩",
-            "name_en": "佩佩",
+            "name_en": "Pepe",
             "name_jp": "ペペ",
             "name_kr": "페페",
             "name_tw": "佩佩",
@@ -6883,7 +6960,7 @@
         },
         "trap_472_tfalco": {
             "name": "红隼",
-            "name_en": "红隼",
+            "name_en": "Kestrel",
             "name_jp": "ケストレル",
             "name_kr": "케스트럴",
             "name_tw": "红隼",
@@ -6894,7 +6971,7 @@
         },
         "trap_473_trmedic": {
             "name": "罗德岛工作人员",
-            "name_en": "罗德岛工作人员",
+            "name_en": "Rhodes Island Staff Worker",
             "name_jp": "ロドスオペレーター",
             "name_kr": "로도스 아일랜드 직원",
             "name_tw": "罗德岛工作人员",
@@ -6905,7 +6982,7 @@
         },
         "trap_474_mailbox": {
             "name": "信使邮筒",
-            "name_en": "信使邮筒",
+            "name_en": "Mail Box",
             "name_jp": "郵便ポスト",
             "name_kr": "전달자 우편함",
             "name_tw": "信使邮筒",
@@ -6916,7 +6993,7 @@
         },
         "trap_475_xbcbag": {
             "name": "猎获笼",
-            "name_en": "猎获笼",
+            "name_en": "Game Holding Cage",
             "name_jp": "捕獲カゴ",
             "name_kr": "케이지",
             "name_tw": "猎获笼",
@@ -6927,7 +7004,7 @@
         },
         "trap_476_mscskt": {
             "name": "讯息匣",
-            "name_en": "讯息匣",
+            "name_en": "Message Casket",
             "name_jp": "情報ボックス",
             "name_kr": "사서함",
             "name_tw": "讯息匣",
@@ -6938,7 +7015,7 @@
         },
         "trap_477_xbspps": {
             "name": "失衡异香",
-            "name_en": "失衡异香",
+            "name_en": "Overspeed Spice",
             "name_jp": "眩暈のお香",
             "name_kr": "언밸런스 디퓨저",
             "name_tw": "失衡异香",
@@ -6949,7 +7026,7 @@
         },
         "trap_478_xbcanoe": {
             "name": "特制水上平台",
-            "name_en": "特制水上平台",
+            "name_en": "Custom Floating Platform",
             "name_jp": "特設ボート",
             "name_kr": "특제 수상 플랫폼",
             "name_tw": "特制水上平台",
@@ -6960,7 +7037,7 @@
         },
         "trap_479_xbbillb": {
             "name": "告示牌",
-            "name_en": "告示牌",
+            "name_en": "Billboard",
             "name_jp": "看板",
             "name_kr": "게시판",
             "name_tw": "告示牌",
@@ -6971,7 +7048,7 @@
         },
         "trap_480_roadblockxb": {
             "name": "道路障碍物",
-            "name_en": "道路障碍物",
+            "name_en": "Static Roadblock",
             "name_jp": "道路障害物",
             "name_kr": "도로 장애물",
             "name_tw": "道路障碍物",
@@ -6982,7 +7059,7 @@
         },
         "trap_481_gtreasureb": {
             "name": "埋没金属箱",
-            "name_en": "埋没金属箱",
+            "name_en": "Buried Metal Chest",
             "name_jp": "埋もれた金属の箱",
             "name_kr": "파묻힌 금속 상자",
             "name_tw": "埋没金属箱",
