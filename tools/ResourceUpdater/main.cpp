@@ -968,6 +968,11 @@ bool update_recruitment_data(const std::filesystem::path& input_dir, const std::
             if (name == "Justice Knight") {
                 name = "'Justice Knight'";
             }
+            // There seems to be an issue in the gamedata: gacha_table.json has 샤미르 while character_table.json has
+            // 샤마르
+            if (name == "샤미르") {
+                name = "샤마르";
+            }
             chars_list.emplace_back(name);
         }
     }
