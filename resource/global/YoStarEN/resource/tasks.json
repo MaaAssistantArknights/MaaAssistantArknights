@@ -1908,6 +1908,7 @@
         "fullMatch": true,
         "ocrReplace": [
             ["<", ""],
+            [".", ""],
             ["Camp", "扎营"],
             ["The Kind Puppet", "善良的木偶"],
             ["Teller of Tales", "讲故事的人"],
@@ -2059,7 +2060,7 @@
             ["Pessimist's ?Cage", "悲观者囚笼"],
             ["Change", "变化"],
             ["Reconstruction", "重构"],
-            ["One Small Step for Expeditioners", "探索者的一小步"]
+            ["One ?Small ?Step ?for ?Expeditioners", "探索者的一小步"]
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
