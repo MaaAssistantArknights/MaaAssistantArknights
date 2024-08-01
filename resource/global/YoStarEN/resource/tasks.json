@@ -857,6 +857,9 @@
     "OrundumActivities": {
         "text": ["Lucky Strips", "Login Event"]
     },
+    "OrundumActivitiesConfirm": {
+        "text": ["Confirm"]
+    },
     "RecruitingActivities": {
         "text": ["Free", "Roll"]
     },

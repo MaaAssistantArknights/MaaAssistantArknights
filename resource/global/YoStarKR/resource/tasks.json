@@ -812,6 +812,9 @@
         "text": ["용문", "복권방"],
         "roi": [23, 125, 135, 55]
     },
+    "OrundumActivitiesConfirm": {
+        "text": ["TODO: KR Confirm"]
+    },
     "RecruitingActivities": {
         "text": ["보너스"]
     },

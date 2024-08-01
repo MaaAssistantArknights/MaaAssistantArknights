@@ -970,6 +970,9 @@
         "doc": "幸运墙领合成玉",
         "text": ["開運", "おみくじ"]
     },
+    "OrundumActivitiesConfirm": {
+        "text": ["TODO: JP Confirm"]
+    },
     "RecruitingActivities": {
         "text": ["回無料"]
     },
