@@ -59,7 +59,8 @@ body:
     attributes:
       label: 还有别的吗？
       description: |
-        使用的模拟器？操作系统？相关的配置？链接？参考资料？
+        使用的模拟器？模拟器的分辨率和帧数？操作系统？相关的配置？
+        MuMu 截图增强是否开启？GPU 加速推理是否开启？
         任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false
