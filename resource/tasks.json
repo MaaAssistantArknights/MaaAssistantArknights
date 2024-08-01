@@ -2741,16 +2741,16 @@
     "OrundumActivities": {
         "doc": "幸运墙领合成玉",
         "algorithm": "OcrDetect",
-        "text": ["幸运墙", "幸运"],
+        "text": ["幸运墙", "幸运", "大巴扎"],
         "action": "ClickSelf",
-        "roi": [23, 81, 182, 141],
+        "roi": [64, 72, 97, 156],
         "next": ["OrundumActivitiesChoose", "OrundumActivitiesReturn"],
         "onErrorNext": ["Stop"]
     },
     "OrundumActivitiesChoose": {
-        "baseTask": "OrundumActivitiesClick",
-        "template": "OrundumActivitiesClick.png",
         "action": "DoNothing",
+        "baseTask": "OrundumActivitiesClick",
+        "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
         "sub": ["OrundumActivitiesClick", "OrundumActivitiesClick", "OrundumActivitiesClick"],
         "subErrorIgnored": true,
         "next": ["OrundumActivitiesConfirm", "OrundumActivitiesEarnRewards", "OrundumActivitiesReturn"]
@@ -2758,11 +2758,14 @@
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
         "roi": [150, 150, 1000, 400],
+        "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
         "templThreshold": 0.9,
         "maskRange": [1, 255],
         "rectMove": [10, 10, 50, 50]
     },
     "OrundumActivitiesConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["确定", "确定抽取"],
         "action": "ClickSelf",
         "roi": [1030, 500, 200, 80],
         "next": ["OrundumActivitiesEarnRewards"]
