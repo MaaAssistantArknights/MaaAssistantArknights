@@ -975,6 +975,19 @@
     "InfrastTrainingOperatorAndSkill": {
         "roi": [152, 621, 341, 29]
     },
+    "InfrastTrainingTimeRec0": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "HH",
+        "roi": [156, 651, 31, 25]
+    },
+    "InfrastTrainingTimeRec1": {
+        "Doc": "MM",
+        "roi": [188, 651, 30, 25]
+    },
+    "InfrastTrainingTimeRec2": {
+        "Doc": "SS",
+        "roi": [219, 651, 31, 25]
+    },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
         "roi": [250, 435, 800, 100],
