@@ -25,7 +25,7 @@ namespace asst
         static int skill_index_from_rect(const Rect& r);
 
         int m_level;
-        int time_left[3];
+        std::string time_left[3];
         std::string m_operator_name;
         std::string m_skill_name;
         // asst::battle::Role m_operator_role;

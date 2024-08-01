@@ -153,10 +153,13 @@ bool asst::InfrastTrainingTask::time_left_analyze(cv::Mat image)
         }
         std::string str_time = match.str();
 
-        if (!utils::chars_to_number(str_time, time_left[i])) {
-            Log.error(__FUNCTION__, "chars_to_number failed");
-            return false;
+        // Ensure the time string has two characters
+        if (str_time.length() == 1) {
+            str_time = "0" + str_time;
         }
+
+        // Store the time as a string with leading zeros
+        time_left[i] = str_time;
     }
 
     return true;
