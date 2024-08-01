@@ -85,10 +85,8 @@ body:
     attributes:
       label: Anthing else?
       description: >-
-        Emulator used, operating system, related configuration, links,
-        reference material, etc.
-
-        Anything that will give us more insight into the problem
-        you are having.
+        Emulator used, Emulator's resolution and frame rate, operating system, etc.
+        Is MuMu's screenshot enhancement enabled? Is GPU acceleration enabled?
+        Anything that will give us more insight into the problem you are having.
     validations:
       required: false
