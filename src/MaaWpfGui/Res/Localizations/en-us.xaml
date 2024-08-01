@@ -319,7 +319,7 @@ Please do not check it when the stage OF-1 is not unlocked.</system:String>
     <system:String x:Key="ReceiveFreeRecruit">Conducting daily free single pull from the limited banner</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">If there is no free single pull, it will not be pooled</system:String>
     <system:String x:Key="GachaWarning">It's a dangerous feature and may result in a mis-pull.\nBy pressing "Confirm", you understand and are willing to assume the possible risks.</system:String>
-    <system:String x:Key="ReceiveOrundum">Collect daily Orundum reward from the lucky wall</system:String>
+    <system:String x:Key="ReceiveOrundum">Collect daily Orundum reward from the Lucky Strips</system:String>
     <system:String x:Key="ReceiveMining">Collect daily Orundum reward from the provisional mining permit</system:String>
     <system:String x:Key="ReceiveSpecialAccess">Collect Special Access rewards</system:String>
     <system:String x:Key="DroneUsage">Drone Usage</system:String>
