@@ -37,7 +37,7 @@ namespace MaaWpfGui.Services.Web
         {
             get
             {
-                var p = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+                var p = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
                 if (string.IsNullOrEmpty(p))
                 {
                     return string.Empty;
