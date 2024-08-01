@@ -2593,5 +2593,6 @@
     "docs/en-us/combat-start-interface-example": "aa66d1602911a50905a70f322e644983e580de1e9240610ceff59cb5589d6122",
     "YoStarJP/OrundumActivitiesConfirm": "a7ccef6b9159ebe4725b03b426908857b225bd76616160a989abd6e7ea3a4341",
     "YoStarKR/OrundumActivitiesConfirm": "d75defe2c6067d90685ad6f74ebcab03da66d6f1e17e02d442f9cbc469b92406",
-    "YoStarEN/OrundumActivitiesConfirm": "66969c4a2c8af68fcb394e06d64607283fe5f695991ddde0e95ac937d0fd5655"
+    "YoStarEN/OrundumActivitiesConfirm": "66969c4a2c8af68fcb394e06d64607283fe5f695991ddde0e95ac937d0fd5655",
+    "official/OrundumActivitiesClickBazaar": "08b76fc196b1e75617cd86200bd74d192d9fa91395bbce269d8cb15eb297f7b1"
 }
