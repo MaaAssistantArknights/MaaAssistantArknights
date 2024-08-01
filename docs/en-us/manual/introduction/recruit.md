@@ -20,4 +20,4 @@ Auto-uploading recruitment data to [Penguin Stats](https://penguin-stats.io/) an
 
 ## Advanced Settings
 
-`Auto confirm` 即 MAA 自动选择标签并进行招募，`Manually confirm` 即不进行自动选择与招募。
+`Auto confirm` means MAA automatically selects tags and recruits, while `Manually confirm` means no automatic selection and recruitment.
