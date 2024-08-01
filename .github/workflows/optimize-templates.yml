@@ -5,11 +5,7 @@ on:
     branches:
       - "dev"
     paths:
-      - "resource/global/txwy/resource/template/**"
-      - "resource/global/YostarEN/resource/template/**"
-      - "resource/global/YostarJP/resource/template/**"
-      - "resource/global/YostarKR/resource/template/**"
-      - "resource/template/**"
+      - "resource/**/*.png"
       - "docs/.vuepress/public/image/**"
       - "website/apps/web/public/**"
       - "website/apps/web/src/assets/links/**"
