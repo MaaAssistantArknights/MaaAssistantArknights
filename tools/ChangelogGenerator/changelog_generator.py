@@ -8,7 +8,7 @@ import re
 import urllib.request
 import urllib.error
 
-repo = "MaaAssistantArknights/MaaAssistantArknights" # Owner/ Repo name
+repo = "MaaAssistantArknights/MaaAssistantArknights" # Owner/RepoName
 cur_dir = Path(__file__).parent
 contributors_path = cur_dir / "contributors.json"
 changelog_path = cur_dir.parent.parent / "CHANGELOG.md"
@@ -16,7 +16,9 @@ changelog_path = cur_dir.parent.parent / "CHANGELOG.md"
 with_hash = False
 with_commitizen = False
 committer_is_author = False
-ignore_merge_author = False
+merge_author = False
+commitizens = r"(?:build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)"
+ignore_commitizens = r"(?:build|ci|style|debug)"
 
 contributors = {}
 raw_commits_info = {}
@@ -62,8 +64,10 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
 
         commit_message = commit_info["message"]
 
+        if re.match(rf"^{ignore_commitizens} *(?:\([^\)]*\))*: *", commit_message):
+            continue
+
         if not with_commitizen:
-            commitizens = r"(?:build|chore|ci|docs?|feat|fix|perf|refactor|rft|style|test|debug|i18n)"
             commit_message = re.sub(
                 rf"^(?:{commitizens}, *)*{commitizens} *(?:\([^\)]*\))*: *",
                 "",
@@ -74,7 +78,7 @@ def individual_commits(commits: dict, indent: str = "") -> Tuple[str, list]:
 
         mes, ctrs = individual_commits(commit_info["branch"], indent + "   ")
 
-        if not ignore_merge_author or not commit_info["branch"]:
+        if merge_author or not commit_info["branch"]:
             ctrs.extend(
                 ctr
                 for ctr in [
@@ -106,12 +110,14 @@ def update_commits(commit_message, sorted_commits, update_dict):
     sorted_commits[oper].update(update_dict)
 
 
-def update_message(sorted_commits, ret_message, ret_contributor):
+def update_message(sorted_commits, ret_contributor):
+    ret_message = ""
     for key, trans in translations_resort.items():
         if sorted_commits[trans.value]:
-            ret_message += f"\n### {key}\n\n"
             mes, ctrs = individual_commits(sorted_commits[trans.value], "")
-            ret_message += mes
+            if mes:
+                ret_message += f"\n### {key}\n\n"
+                ret_message += mes
             for ctr in ctrs:
                 if ret_contributor.count(ctr) == 0:
                     ret_contributor.append(ctr)
@@ -130,7 +136,7 @@ def print_commits(commits: dict):
         commit_message = commit_info["message"]
         update_commits(commit_message, sorted_commits, {commit_hash: commit_info})
 
-    return update_message(sorted_commits, "", [])
+    return update_message(sorted_commits, [])
 
 
 def build_commits_tree(commit_hash: str):
@@ -301,15 +307,15 @@ def main(tag_name=None, latest=None):
             continue
         git_addition_command = rf'git log {commit_hash} --no-walk --pretty=format:"%b"'
         addition = call_command(git_addition_command)
-        coauthors = set()
+        coauthors = []
         for coauthor in re.findall(r"Co-authored-by: (.*) <(?:.*)>", addition):
             if coauthor in contributors:
-                coauthors.add(contributors[coauthor])
+                coauthors.append(contributors[coauthor])
             elif coauthor in contributors.values():
-                coauthors.add(coauthor)
+                coauthors.append(coauthor)
             else:
                 print(f"Cannot get coauthor: {coauthor}.")
-        raw_commits_info[commit_hash]["coauthors"] = list(coauthors)
+        raw_commits_info[commit_hash]["coauthors"] = coauthors
 
     git_skip_command = (
         rf'git log {latest}..HEAD --pretty=format:"%H%n" --grep="\[skip changelog\]"'
@@ -362,12 +368,11 @@ def ArgParser():
         dest="with_commitizen",
     )
     parser.add_argument(
-        "-im",
-        "--ignore-merge-author",
-        help="ignore merge author",
+        "-ma",
+        "--merge-author",
+        help="do not ignore merge author",
         action="store_true",
-        dest="ignore_merge_author",
-        default=True,
+        dest="merge_author",
     )
     parser.add_argument(
         "-ca",
@@ -393,6 +398,6 @@ if __name__ == "__main__":
     with_merge = args.with_merge
     latest = args.latest
     tag_name = args.tag_name
-    ignore_merge_author = args.ignore_merge_author
+    merge_author = args.merge_author
     committer_is_author = args.committer_is_author
     main(tag_name=tag_name, latest=latest)

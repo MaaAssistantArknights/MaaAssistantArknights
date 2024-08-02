@@ -8,6 +8,6 @@ order: 6
 This page is outdated and maybe still in Simplified Chinese. Translation is needed.
 :::
 
-自动领取每日奖励和每周奖励。
+Automatically claim daily rewards and weekly rewards.
 
-同时支持其他奖励类型，具体请查看设置。
+Other reward types are also supported, please check the settings for details.

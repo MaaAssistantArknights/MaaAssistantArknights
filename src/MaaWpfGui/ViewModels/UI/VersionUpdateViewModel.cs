@@ -465,12 +465,15 @@ namespace MaaWpfGui.ViewModels.UI
                 return ret;
             }
 
+            // nnd 都别更新了
+            /*
             var resRet = await ResourceUpdater.UpdateAsync();
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
                 Instances.SettingsViewModel.IsCheckingForUpdates = false;
                 return CheckUpdateRetT.OnlyGameResourceUpdated;
             }
+            */
 
             Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return ret;

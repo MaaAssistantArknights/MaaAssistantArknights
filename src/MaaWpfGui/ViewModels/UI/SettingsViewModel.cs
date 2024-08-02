@@ -30,7 +30,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
@@ -51,6 +50,7 @@ using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PropertyChanged;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -86,6 +86,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the visibility of task setting views.
         /// </summary>
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+
+        /// <summary>
+        /// Gets the after action setting.
+        /// </summary>
+        public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -643,6 +648,15 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 GpuOption.SetCurrent(value);
                 AskRestartToApplySettings();
+            }
+        }
+
+        public bool AllowDeprecatedGpu
+        {
+            get => GpuOption.AllowDeprecatedGpu;
+            set {
+                GpuOption.AllowDeprecatedGpu = value;
+                NotifyOfPropertyChange();
             }
         }
 
@@ -3516,7 +3530,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
-            string toastMessage = null;
+            string toastMessage = string.Empty;
             switch (ret)
             {
                 case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
@@ -3558,7 +3572,7 @@ namespace MaaWpfGui.ViewModels.UI
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (toastMessage != null)
+            if (toastMessage != string.Empty)
             {
                 _ = Execute.OnUIThreadAsync(() =>
                 {

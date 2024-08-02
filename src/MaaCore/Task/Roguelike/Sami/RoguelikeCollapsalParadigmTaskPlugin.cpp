@@ -18,7 +18,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& 
         return false;
     }
 
-    // ———————— 根据 params 设置插件, TODO: 去掉名字里的下划线, _b -> B, _p -> P —————
+    // ———————— 根据 params 设置插件 ————————————————————————————————————————————————
     const RoguelikeMode& mode = m_config->get_mode();
     m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
 

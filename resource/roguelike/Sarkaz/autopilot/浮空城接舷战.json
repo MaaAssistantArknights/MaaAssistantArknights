@@ -1,0 +1,61 @@
+{
+    "stage_name": "浮空城接舷战",
+    "replacement_home": [
+        {
+            "location": [3, 4],
+            "direction": "right"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["益达"],
+            "location": [2, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["情报官", "重装", "地面远程", "地面阻挡"],
+            "location": [1, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["提丰", "单奶"],
+            "location": [3, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [2, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [4, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["焰苇", "高台输出"],
+            "location": [4, 6],
+            "direction": "right"
+        },
+        {
+            "groups": ["盾法"],
+            "location": [6, 5],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [4, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["情报官", "地面远程"],
+            "location": [6, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "处决者", "其他地面"],
+            "location": [3, 3],
+            "direction": "right"
+        }
+    ]
+}

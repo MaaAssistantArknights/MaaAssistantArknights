@@ -1,4 +1,4 @@
-name: Check Markdown files
+name: Check Dead Links
 
 on:
   push:

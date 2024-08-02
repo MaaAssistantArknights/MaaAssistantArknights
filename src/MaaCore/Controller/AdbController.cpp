@@ -705,7 +705,12 @@ bool asst::AdbController::connect(
                                  { "why", "ConfigNotFound" },
                              };
         callback(AsstMsg::ConnectionInfo, info);
+#ifdef ASST_DEBUG
         return false;
+#else
+        Log.error("config ", config, "not found");
+        adb_ret = Config.get_adb_cfg("General");
+#endif
     }
 
     const auto& adb_cfg = adb_ret.value();

@@ -196,7 +196,7 @@ namespace MaaWpfGui.Constants
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";
 
-        public const string ActionAfterCompleted = "MainFunction.ActionAfterCompleted";
+        public const string PostActions = "MainFunction.PostActions";
         public const string MainFunctionInverseMode = "MainFunction.InverseMode";
         public const string Stage1 = "MainFunction.Stage1";
         public const string Stage2 = "MainFunction.Stage2";
@@ -237,6 +237,7 @@ namespace MaaWpfGui.Constants
         public const string PerformanceUseGpu = "Performance.UseGpu";
         public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
         public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
+        public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";

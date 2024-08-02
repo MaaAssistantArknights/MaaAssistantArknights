@@ -119,6 +119,15 @@ bool asst::RoguelikeRecruitConfig::parse(const json::value& json)
                 }
             }
 
+            if (auto opt = oper_info.find<json::array>("collection_priority_offsets")) {
+                for (const auto& offset_json : opt.value()) {
+                    CollectionPriorityOffset offset;
+                    offset.collection = offset_json.get("collection", "");
+                    offset.offset = offset_json.get("offset", 0);
+                    info.collection_priority_offsets.emplace_back(std::move(offset));
+                }
+            }
+
             m_all_opers[theme][name] = std::move(info);
             order_in_group++;
         }

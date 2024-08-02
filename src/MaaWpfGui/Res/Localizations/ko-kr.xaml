@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -361,9 +364,11 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ConnectionAddress">연결 주소</system:String>
     <system:String x:Key="ConnectionAddressTip">문제 발생 시 직접 수정해 주세요</system:String>
     <system:String x:Key="ConnectionPreset">연결 프리셋</system:String>
+    <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu의 스크린샷 향상 모드를 활성화하세요</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 3.8.13 이상은 필요하며, MuMu 12 Arknights edition/Global 에서는 지원되지 않습니다.\n\n
+        MuMu 12 3.8.13 이상은 필요하며, MuMu 12 Arknights edition/Global 에서는 지원되지 않습니다.\n
+        이 기능을 활성화한 후 처음으로 사용하기 전에 스크린샷 테스트를 수행하는 것이 좋습니다.\n\n
         다음 정보를 기입하세요: \n\n
         1. 에뮬레이터 경로: (예: C:\\Program Files\\Netease\\MuMuPlayer-12.0) \n
         에뮬레이터 경로는 에뮬레이터 응용 프로그램의 상위 폴더 경로를 입력해야 합니다. 예를 들어, 응용 프로그램 경로가\n
@@ -409,14 +414,11 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
     <system:String x:Key="ExitEmulator">에뮬레이터를 종료</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">MAA와 에뮬레이터를 종료</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAA와 에뮬레이터를 종료하고 절전 모드</system:String>
     <system:String x:Key="Hibernate">절전 모드</system:String>
     <system:String x:Key="Shutdown">시스템 종료</system:String>
-    <system:String x:Key="HibernateWithoutPersist">절전 모드(한 번만)</system:String>
-    <system:String x:Key="ShutdownWithoutPersist">시스템 종료(한 번만)</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">MAA와 에뮬레이터를 종료, 다른 MAA가 없으면 절전 모드</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">MAA를 종료, 다른 MAA가 없으면 시스템 종료</system:String>
+    <system:String x:Key="Once">한 번만*</system:String>
+    <system:String x:Key="PostActionOnceTip">활성화된 경우, 다음 실행까지 변경 사항이 저장되지 않습니다.</system:String>
+    <system:String x:Key="IfNoOtherMaa">다른 MAA가 없는 경우</system:String>
     <system:String x:Key="BackToAndroidHome">에뮬레이터가 홈 화면으로 돌아갑니다</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">중지</system:String>
@@ -692,6 +694,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="SSSGamePass">보안 파견을 클리어했습니다!</system:String>
     <system:String x:Key="Trader">레벨: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">레벨: 안전가옥</system:String>
+    <system:String x:Key="FilterTruth">节点: 去伪存真</system:String>
     <system:String x:Key="CombatDps">레벨: 작전</system:String>
     <system:String x:Key="EmergencyDps">레벨: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>
@@ -737,6 +740,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">오퍼레이터를 선택: </system:String>
     <system:String x:Key="CurrentSteps">현재 단계: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">지원되지 않는 레벨입니다. 레벨 이름을 확인하거나 설정으로 이동하여 소프트웨어 업데이트를 확인하고 리소스 버전을 업데이트해보세요!</system:String>
+    <system:String x:Key="ResourceUpdatePaused">서버 리소스 제약으로 인해 자원 버전 업데이트가 일시 중지되었습니다. 레벨 파일을 수동으로 가져오거나 새 버전 출시를 기다려 주십시오</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">인식 결과: </system:String>
     <system:String x:Key="ConnectFailed">연결 실패</system:String>
     <system:String x:Key="TryToReconnectByAdb">재접속을 시도하고 있습니다</system:String>
