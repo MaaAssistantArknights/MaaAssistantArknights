@@ -148,10 +148,11 @@
                     HorizontalAlignment="Left"
                     Orientation="Vertical">
                     <controls:TextBlock
-                        Margin="20,5,0,5"
+                        Margin="20,5,0,0"
                         HorizontalAlignment="Center"
                         Text="{Binding TaskSettingDataContext.PostActionSetting.ActionTitle}"
                         TextAlignment="Center" />
+                    <hc:Divider Margin="10,2,10,5" />
                     <controls:TextBlock
                         Width="160"
                         Margin="20,0,0,0"
