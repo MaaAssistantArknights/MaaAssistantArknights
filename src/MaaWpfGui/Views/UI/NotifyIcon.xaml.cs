@@ -49,6 +49,7 @@ namespace MaaWpfGui.Views.UI
             stopMenu.Click += StopTask;
             forceShowMenu.Click += ForceShow;
             useTrayMenu.Click += UseTray;
+            restartMenu.Click += App_restart;
             exitMenu.Click += App_exit;
 
             foreach (var lang in LocalizationHelper.SupportedLanguages)
@@ -111,6 +112,14 @@ namespace MaaWpfGui.Views.UI
         {
             Instances.SettingsViewModel.UseTray = !Instances.SettingsViewModel.UseTray;
             _logger.Information("Use tray icon: {0}", Instances.SettingsViewModel.UseTray);
+        }
+
+        private void App_restart(object sender, RoutedEventArgs e)
+        {
+            if (Instances.TaskQueueViewModel.ConfirmExit())
+            {
+                Bootstrapper.ShutdownAndRestartWithoutArgs();
+            }
         }
 
         private void App_exit(object sender, RoutedEventArgs e)

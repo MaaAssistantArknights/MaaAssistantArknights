@@ -749,6 +749,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>
+    <system:String x:Key="Restart">Restart</system:String>
     <system:String x:Key="Exit">Exit</system:String>
     <!--  !TrayIcon  -->
     <!--  About  -->

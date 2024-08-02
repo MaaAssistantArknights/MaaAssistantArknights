@@ -748,6 +748,7 @@
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>
+    <system:String x:Key="Restart">重启动</system:String>
     <system:String x:Key="Exit">終了</system:String>
     <!--  !TrayIcon  -->
     <!--  About  -->

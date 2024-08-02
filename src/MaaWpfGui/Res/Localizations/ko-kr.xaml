@@ -751,6 +751,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAA 강제 표시</system:String>
+    <system:String x:Key="Restart">재개</system:String>
     <system:String x:Key="Exit">종료</system:String>
     <!--  !TrayIcon  -->
     <!--  About  -->
