@@ -3530,7 +3530,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
-            string toastMessage = null;
+            string toastMessage = string.Empty;
             switch (ret)
             {
                 case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
@@ -3572,7 +3572,7 @@ namespace MaaWpfGui.ViewModels.UI
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (toastMessage != null)
+            if (toastMessage != string.Empty)
             {
                 _ = Execute.OnUIThreadAsync(() =>
                 {
