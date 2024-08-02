@@ -691,6 +691,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="SSSGamePass">보안 파견을 클리어했습니다!</system:String>
     <system:String x:Key="Trader">레벨: 교활한 상인</system:String>
     <system:String x:Key="SafeHouse">레벨: 안전가옥</system:String>
+    <system:String x:Key="FilterTruth">节点: 去伪存真</system:String>
     <system:String x:Key="CombatDps">레벨: 작전</system:String>
     <system:String x:Key="EmergencyDps">레벨: 긴급 작전</system:String>
     <system:String x:Key="DreadfulFoe">레벨: 험난한 길</system:String>

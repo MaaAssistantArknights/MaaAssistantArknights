@@ -680,8 +680,9 @@
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">購買了特殊商品！</system:String>
     <system:String x:Key="SSSGamePass">保全通關啦！</system:String>
-    <system:String x:Key="Trader">關卡: 詭意行商</system:String>
-    <system:String x:Key="SafeHouse">關卡: 安全的角落</system:String>
+    <system:String x:Key="Trader">節點: 詭意行商</system:String>
+    <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>
+    <system:String x:Key="FilterTruth">節點: 去偽存真</system:String>
     <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>

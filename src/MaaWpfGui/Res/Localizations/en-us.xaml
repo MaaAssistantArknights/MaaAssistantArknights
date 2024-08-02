@@ -692,6 +692,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="SSSGamePass">Game cleared! congratulations!</system:String>
     <system:String x:Key="Trader">Node: Rogue Trader</system:String>
     <system:String x:Key="SafeHouse">Node: Safe House</system:String>
+    <system:String x:Key="FilterTruth">Node: Filter Truth</system:String>
     <system:String x:Key="CombatDps">Node: Combat Operation</system:String>
     <system:String x:Key="EmergencyDps">Node: Emergency Operation</system:String>
     <system:String x:Key="DreadfulFoe">Node: Dreadful Foe</system:String>
