@@ -96,7 +96,7 @@ namespace MaaWpfGui.ViewModels.UI
         private bool _enableAfterActionSetting;
 
         /// <summary>
-        ///  Gets or sets a value indicating whether to show after task queue settings
+        ///  Gets or sets a value indicating whether to show after task queue actions
         /// </summary>
         public bool EnableAfterActionSetting
         {
@@ -114,10 +114,9 @@ namespace MaaWpfGui.ViewModels.UI
         public async void CheckAfterCompleted()
         {
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
+            var actions = TaskSettingDataContext.PostActionSetting;
 
-            var settings = TaskSettingDataContext.PostActionSetting;
-
-            if (settings.ExitArknights)
+            if (actions.ExitArknights)
             {
                 if (!Instances.AsstProxy.AsstStartCloseDown())
                 {
@@ -127,64 +126,47 @@ namespace MaaWpfGui.ViewModels.UI
                 await Task.Delay(1000);
             }
 
-            if (settings.BackToAndroidHome)
+            if (actions.BackToAndroidHome)
             {
                 Instances.AsstProxy.AsstBackToHome();
 
                 await Task.Delay(1000);
             }
 
-            if (settings.ExitEmulator)
+            if (actions.ExitEmulator)
             {
-                if (!KillEmulatorModeSwitcher())
-                {
-                    AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
-                }
+                DoKillEmulator();
 
                 await Task.Delay(1000);
             }
 
-            if (settings.ExitSelf && !settings.Hibernate)
+            if (actions.ExitSelf && !actions.Hibernate)
             {
                 Bootstrapper.Shutdown();
             }
 
-            if (settings.Hibernate)
+            if (actions.Hibernate)
             {
-                if (settings.IfNoOtherMaa)
+                if (actions.IfNoOtherMaa && HasOtherMaa())
                 {
-                    if (HasOtherMaa())
-                    {
-                        Bootstrapper.Shutdown();
-                    }
-                    else
-                    {
-                        DoHibernate();
-                    }
+                    Bootstrapper.Shutdown();
                 }
                 else
                 {
                     DoHibernate();
                 }
 
-                if (settings.ExitSelf)
+                if (actions.ExitSelf)
                 {
                     Bootstrapper.Shutdown();
                 }
             }
 
-            if (settings.Shutdown)
+            if (actions.Shutdown)
             {
-                if (settings.IfNoOtherMaa)
+                if (actions.IfNoOtherMaa && HasOtherMaa())
                 {
-                    if (HasOtherMaa())
-                    {
-                        Bootstrapper.Shutdown();
-                    }
-                    else
-                    {
-                        DoShutDown();
-                    }
+                    Bootstrapper.Shutdown();
                 }
                 else
                 {
@@ -192,7 +174,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            settings.LoadPostActions();
+            actions.LoadPostActions();
             return;
 
             bool HasOtherMaa()
@@ -200,9 +182,17 @@ namespace MaaWpfGui.ViewModels.UI
                 return Process.GetProcessesByName("MAA").Length > 1;
             }
 
+            void DoKillEmulator()
+            {
+                if (!KillEmulatorModeSwitcher())
+                {
+                    AddLog(LocalizationHelper.GetString("ExitEmulatorFailed"), UiLogColor.Error);
+                }
+            }
+
             void DoHibernate()
             {
-                settings.LoadPostActions();
+                actions.LoadPostActions();
 
                 // 休眠提示
                 AddLog(LocalizationHelper.GetString("HibernatePrompt"), UiLogColor.Error);
@@ -577,7 +567,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var hideUnavailableStage = Instances.SettingsViewModel.HideUnavailableStage;
 
-            // forceUpdate: initializing or settings changing, update stage list forcibly
+            // forceUpdate: initializing or actions changing, update stage list forcibly
             if (!forceUpdate && !hideUnavailableStage)
             {
                 return;
