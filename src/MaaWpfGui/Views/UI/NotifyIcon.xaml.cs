@@ -25,7 +25,7 @@ namespace MaaWpfGui.Views.UI
     /// <summary>
     /// 托盘图标。
     /// </summary>
-    public partial class NotifyIcon : System.Windows.Controls.UserControl
+    public partial class NotifyIcon
     {
         private static readonly ILogger _logger = Log.ForContext<NotifyIcon>();
         private readonly int _menuItemNum;
@@ -34,7 +34,10 @@ namespace MaaWpfGui.Views.UI
         {
             InitializeComponent();
             InitIcon();
-            _menuItemNum = notifyIcon.ContextMenu.Items.Count;
+            if (notifyIcon.ContextMenu is not null)
+            {
+                _menuItemNum = notifyIcon.ContextMenu.Items.Count;
+            }
         }
 
         private void InitIcon()
@@ -60,7 +63,7 @@ namespace MaaWpfGui.Views.UI
                 }
 
                 var langMenu = new MenuItem() { Header = lang.Value };
-                langMenu.Click += (sender, e) =>
+                langMenu.Click += (_, _) =>
                 {
                     Instances.SettingsViewModel.Language = lang.Key;
                 };
@@ -69,10 +72,17 @@ namespace MaaWpfGui.Views.UI
             }
         }
 
+        // 不知道是干嘛的，先留着
+        // ReSharper disable once UnusedMember.Local
         private void AddMenuItemOnFirst(string text, Action action)
         {
-            var menuItem = new MenuItem() { Header = text };
-            menuItem.Click += (sender, e) => { action?.Invoke(); };
+            var menuItem = new MenuItem { Header = text };
+            menuItem.Click += (_, _) => { action?.Invoke(); };
+            if (notifyIcon.ContextMenu is null)
+            {
+                return;
+            }
+
             if (notifyIcon.ContextMenu.Items.Count == _menuItemNum)
             {
                 notifyIcon.ContextMenu.Items.Insert(0, menuItem);
@@ -83,12 +93,12 @@ namespace MaaWpfGui.Views.UI
             }
         }
 
-        private void NotifyIcon_MouseClick(object sender, RoutedEventArgs e)
+        private static void NotifyIcon_MouseClick(object sender, RoutedEventArgs e)
         {
             Instances.MainWindowManager?.SwitchWindowState();
         }
 
-        private void StartTask(object sender, RoutedEventArgs e)
+        private static void StartTask(object sender, RoutedEventArgs e)
         {
             // taskQueueViewModel意外为null了是不是也可以考虑Log一下
             // 先放个log点方便跟踪
@@ -96,25 +106,25 @@ namespace MaaWpfGui.Views.UI
             _logger.Information("Tray service task started.");
         }
 
-        private void StopTask(object sender, RoutedEventArgs e)
+        private static void StopTask(object sender, RoutedEventArgs e)
         {
             Instances.TaskQueueViewModel?.Stop();
             _logger.Information("Tray service task stop.");
         }
 
-        private void ForceShow(object sender, RoutedEventArgs e)
+        private static void ForceShow(object sender, RoutedEventArgs e)
         {
             Instances.MainWindowManager?.ForceShow();
             _logger.Information("WindowManager force show.");
         }
 
-        private void UseTray(object sender, RoutedEventArgs e)
+        private static void UseTray(object sender, RoutedEventArgs e)
         {
             Instances.SettingsViewModel.UseTray = !Instances.SettingsViewModel.UseTray;
             _logger.Information("Use tray icon: {0}", Instances.SettingsViewModel.UseTray);
         }
 
-        private void App_restart(object sender, RoutedEventArgs e)
+        private static void App_restart(object sender, RoutedEventArgs e)
         {
             if (Instances.TaskQueueViewModel.ConfirmExit())
             {
@@ -122,7 +132,7 @@ namespace MaaWpfGui.Views.UI
             }
         }
 
-        private void App_exit(object sender, RoutedEventArgs e)
+        private static void App_exit(object sender, RoutedEventArgs e)
         {
             if (Instances.TaskQueueViewModel.ConfirmExit())
             {
@@ -130,14 +140,16 @@ namespace MaaWpfGui.Views.UI
             }
         }
 
-        private void App_show(object sender, RoutedEventArgs e)
+        // ReSharper disable UnusedParameter.Local
+        private static void App_show(object sender, RoutedEventArgs e)
         {
             Instances.MainWindowManager?.Show();
         }
+        // ReSharper restore UnusedParameter.Local
 
-        private void OnNotifyIconDoubleClick(object sender, RoutedEventArgs e)
+        private static void OnNotifyIconDoubleClick(object sender, RoutedEventArgs e)
         {
-            Instances.MainWindowManager?.Show();
+            App_show(sender, e);
         }
     }
 }
