@@ -206,6 +206,12 @@ void asst::PlayToolsController::back_to_home() noexcept
     return;
 }
 
+std::string asst::PlayToolsController::get_ark_version() noexcept
+{
+    //TODO: PlayTools获取方舟版本
+    return std::string();
+}
+
 bool asst::PlayToolsController::toucher_down(const Point& p, const int delay)
 {
     return toucher_commit(TouchPhase::Began, p, delay);

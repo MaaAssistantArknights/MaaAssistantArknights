@@ -66,6 +66,8 @@ public:
     ControllerAPI& operator=(ControllerAPI&&) = delete;
 
     virtual void back_to_home() noexcept {}
+
+    virtual std::string get_ark_version() noexcept=0;
 };
 
 struct InputEvent

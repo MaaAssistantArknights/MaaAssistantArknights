@@ -3,6 +3,7 @@
 #include <utility>
 
 #include "Config/GeneralConfig.h"
+#include "Controller/Controller.h"
 #include "Task/Miscellaneous/AccountSwitchTask.h"
 #include "Task/Miscellaneous/StartGameTaskPlugin.h"
 #include "Task/ProcessTask.h"
@@ -25,6 +26,10 @@ asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst)
     m_subtasks.emplace_back(m_start_game_task_ptr)->set_ignore_error(true);
     m_subtasks.emplace_back(m_account_switch_task_ptr);
     m_subtasks.emplace_back(m_start_up_task_ptr);
+
+    auto ark_version=ctrler()->get_ark_version();
+    LogInfo << "Ark version: " << ark_version;
+    //BUG: 无法正常获取到内容，而且似乎该处任何adb操作都是无效的。
 }
 
 bool asst::StartUpTask::set_params(const json::value& params)

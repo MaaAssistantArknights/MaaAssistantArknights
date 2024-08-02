@@ -88,7 +88,8 @@
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
             "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i",
             "callMaatouch": "[Adb] -s [AdbSerial] shell \"export CLASSPATH=/data/local/tmp/[minitouchWorkingFile]; app_process /data/local/tmp com.shxyke.MaaTouch.App\"",
-            "back_to_home": "[Adb] -s [AdbSerial] shell input keyevent HOME"
+            "back_to_home": "[Adb] -s [AdbSerial] shell input keyevent HOME",
+            "get_ark_version": "[Adb] -s [AdbSerial] shell \"dumpsys package com.hypergryph.arknights | grep versionName\""
         },
         {
             "configName": "CapWithShell",

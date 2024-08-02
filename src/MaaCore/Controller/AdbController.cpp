@@ -893,6 +893,7 @@ bool asst::AdbController::connect(
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
     m_adb.back_to_home = cmd_replace(adb_cfg.back_to_home);
+    m_adb.get_ark_version=cmd_replace(adb_cfg.get_ark_version);
 
     if (m_support_socket && !m_server_started) {
         std::string bind_address;
@@ -953,4 +954,9 @@ void asst::AdbController::back_to_home() noexcept
 {
     call_command(m_adb.back_to_home);
     return;
+}
+
+std::string asst::AdbController::get_ark_version() noexcept
+{
+    return call_command(m_adb.get_ark_version).value_or(std::string("NO INFO"));
 }

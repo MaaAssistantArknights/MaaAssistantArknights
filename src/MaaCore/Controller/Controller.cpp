@@ -135,6 +135,13 @@ bool asst::Controller::back_to_home()
     return true;
 }
 
+std::string asst::Controller::get_ark_version()
+{
+    CHECK_EXIST(m_controller, "");
+
+    return m_controller->get_ark_version();
+}
+
 cv::Mat asst::Controller::get_resized_image_cache() const
 {
     const static cv::Size d_size(m_scale_size.first, m_scale_size.second);
