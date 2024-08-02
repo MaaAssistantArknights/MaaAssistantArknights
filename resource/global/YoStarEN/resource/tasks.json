@@ -971,8 +971,8 @@
         "roi": [408, 636, 108, 58]
     },
     "InfrastTrainingCompleted": {
-        "text": ["Done"],
-        "roi": [408, 636, 108, 58]
+        "roi": [408, 636, 108, 58],
+        "text": ["Done"]
     },
     "InfrastTrainingOperatorAndSkill": {
         "roi": [152, 621, 341, 29]
