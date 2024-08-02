@@ -205,6 +205,11 @@ public class PostActionSetting : PropertyChangedBase
         get => _shutdown;
         set
         {
+            if (!SetAndNotify(ref _shutdown, value))
+            {
+                return;
+            }
+
             if (value)
             {
                 ExitSelf = false;
@@ -217,12 +222,7 @@ public class PostActionSetting : PropertyChangedBase
                 IfNoOtherMaa = false;
             }
 
-            if (!SetAndNotify(ref _shutdown, value))
-            {
-                return;
-            }
-
-            UpdatePostAction(PostActions.Hibernate, value);
+            UpdatePostAction(PostActions.Shutdown, value);
         }
     }
 
