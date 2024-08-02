@@ -1427,7 +1427,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "SSSSettlement":
-                    Instances.CopilotViewModel.AddLog(details!["why"].ToString(), UiLogColor.Info);
+                    Instances.CopilotViewModel.AddLog($"{details["why"]}", UiLogColor.Info);
                     break;
 
                 case "SSSGamePass":
@@ -1436,6 +1436,7 @@ namespace MaaWpfGui.Main
 
                 case "UnsupportedLevel":
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails!["level"], UiLogColor.Error);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("ResourceUpdatePaused"));
                     break;
 
                 case "CustomInfrastRoomGroupsMatch":
