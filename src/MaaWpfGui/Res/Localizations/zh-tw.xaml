@@ -728,6 +728,7 @@
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往「設置 - 軟體更新 - 檢查更新」，嘗試更新資源版本！</system:String>
+    <system:String x:Key="ResourceUpdatePaused">由於伺服器資源緊張，暫時停止提供資源版本更新。請手動導入關卡文件或等待新的版本發佈</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重连</system:String>

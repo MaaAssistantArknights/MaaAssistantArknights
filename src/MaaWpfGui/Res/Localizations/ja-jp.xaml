@@ -737,6 +737,7 @@
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="ResourceUpdatePaused">サーバーリソースの制約により、リソースバージョンの更新は一時的に停止しています。レベルファイルを手動でインポートするか、新しいバージョンのリリースをお待ちください</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
