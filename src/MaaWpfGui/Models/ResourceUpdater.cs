@@ -205,6 +205,19 @@ namespace MaaWpfGui.Models
         public static async Task<UpdateResult> UpdateAsync()
         {
             var baseUrl = await GetResourceApiAsync();
+
+            // only allow resource update if using cdn
+            var resourceUpdateAllowedMirrors = new HashSet<string>
+            {
+                MaaUrls.S3ResourceApi,
+                MaaUrls.R2ResourceApi,
+            };
+
+            if (!resourceUpdateAllowedMirrors.Contains(baseUrl))
+            {
+                return UpdateResult.NotModified;
+            }
+
             bool needUpdate = await CheckUpdateAsync(baseUrl);
             if (!needUpdate)
             {
