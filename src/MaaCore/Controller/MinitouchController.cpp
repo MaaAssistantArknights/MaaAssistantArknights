@@ -368,7 +368,17 @@ bool asst::MinitouchController::connect(const std::string& adb_path, const std::
     auto adb_ret = Config.get_adb_cfg(config);
 
     if (!adb_ret) {
+        json::value info = get_info_json()
+                           | json::object {
+                                 { "what", "ConnectFailed" },
+                                 { "why", "ConfigNotFound" },
+                             };
+        callback(AsstMsg::ConnectionInfo, info);
+#ifdef ASST_DEBUG
         return false;
+#endif
+        Log.error("config ", config, "not found");
+        adb_ret = Config.get_adb_cfg("General");
     }
 
     const auto& adb_cfg = adb_ret.value();
