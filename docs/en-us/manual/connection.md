@@ -149,7 +149,7 @@ For specific differences, you can read the [source code](https://github.com/MaaA
 
 ### MuMu Screenshot Enhanced Mode
 
-You need to use the official China MuMu 12 3.8.13 and later versions, and close the background keep alive. Ark Edition and Global Edition are not supported now.
+You need to use the official China MuMu 12 3.8.13 and later versions, and close MuMu's background keep alive. Ark Edition and Global Edition are not supported now.
 
 1. Settings → Connection Settings, tick `Enable MuMu Screenshot Enhanced Mode`.
 
@@ -159,13 +159,13 @@ You need to use the official China MuMu 12 3.8.13 and later versions, and close 
 
 4. `Instance Screen` Fill in `0`.
 
-#### About background keep alive
+#### About MuMu's background keep alive
 
 It is recommended to turn it off, at this time the instance screen is always `0`.
 
 When it is on, the order of MuMu emulator tabs should be the serial number of the instance screen, e.g. `0` for emulator desktop, `1` for Arknights client.
 
-Adaptation for backend live is very imperfect, there are always all kinds of inexplicable problems, it is very not recommended.
+Adaptation for background keep alive is very incomplete, there are always all kinds of inexplicable problems and it's not recommended at all.
 
 ## Touch Mode
 

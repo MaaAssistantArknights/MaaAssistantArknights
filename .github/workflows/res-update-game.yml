@@ -223,14 +223,35 @@ jobs:
           Write-Output "contains_png=$hasPng" >> $env:GITHUB_OUTPUT
           Write-Output "changes=$changes" >> $env:GITHUB_OUTPUT
 
-      - name: Optimize Templates
+      - name: Setup python
+        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache Python packages
+        if: always() && steps.check_sorted_templates.outputs.contains_png == 'True'
+        id: cache_python
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.pythonLocation }}/Lib/site-packages
+          key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
+
+      - name: Install dependencies
+        if: steps.cache_python.outputs.cache-hit != 'true' && steps.check_sorted_templates.outputs.contains_png == 'True'
+        run: |
+          pip install -r tools/OptimizeTemplates/requirements.txt
+
+      - name: Setup oxipng
+        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: oxipng
+
+      - name: Run optimize_templates
         if: steps.check_sorted_templates.outputs.contains_png == 'True'
         run: |
-          python3 tools/OptimizeTemplates/optimize_templates.py resource/template/items/ resource/template/infrast/
-
-      - name: Cancelling
-        if: steps.check_sorted_templates.outputs.changes != 'True'
-        uses: andymckay/cancel-action@0.5
+          python3 tools/OptimizeTemplates/optimize_templates.py -p resource/template/items/ resource/template/infrast/
 
       - name: Add files to git
         if: steps.check_sorted_templates.outputs.changes == 'True'
@@ -253,10 +274,6 @@ jobs:
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
-      - name: Cancelling
-        if: steps.add_files.outputs.have_commits != 'True'
-        uses: andymckay/cancel-action@0.5
-
       - name: Push changes
         if: steps.add_files.outputs.have_commits == 'True'
         uses: ad-m/github-push-action@master
@@ -269,6 +286,10 @@ jobs:
           GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
+
+      - name: Add cancelled status
+        if: steps.check_sorted_templates.outputs.changes != 'True' || steps.add_files.outputs.have_commits != 'True'
+        uses: andymckay/cancel-action@0.5
 
     #   - name: Release # ref: https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow
     #     if: steps.add_files.outputs.have_commits == 'True'

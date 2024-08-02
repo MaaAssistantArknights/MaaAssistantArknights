@@ -149,14 +149,9 @@
             "stop": "[Adb] -s [AdbSerial] shell 'PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -E \"(packageName|Activities)=[^\\n]+rknights\" 2>/dev/null | grep -i -o -E \"[^= ]*rknights[^ /\\n]*\" | head -n 1); if [ -n \"$PACKAGE_NAME\" ]; then echo \"Closing $PACKAGE_NAME\"; am force-stop $PACKAGE_NAME; else echo \"app not running or arknights package name not found\"; fi'"
         },
         {
-            "configName": "GeneralWithoutScreencapErr",
-            "baseConfig": "General",
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
-        },
-        {
-            "configName": "CompatPOSIXShellWithoutScreencapErr",
+            "configName": "Waydroid",
             "baseConfig": "CompatPOSIXShell",
+            "start": "[Adb] -s [AdbSerial] shell am start --windowingMode 4 -n [Intent]",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
         }

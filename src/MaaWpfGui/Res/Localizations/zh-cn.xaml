@@ -51,6 +51,8 @@
     <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
     <system:String x:Key="GpuOptionDisable">不使用</system:String>
     <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
+    <system:String x:Key="GpuDeprecatedMessage">不推荐使用当前选择的推理加速 GPU（{0}）。\n\n您可以前往「设置 - 性能设置」选择其他 GPU 或禁用此消息。</system:String>
+    <system:String x:Key="GpuAllowDeprecated">允许使用不推荐的 GPU</system:String>
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
@@ -364,9 +366,11 @@
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
+    <system:String x:Key="ScreenshotTest">截图测试</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 游戏专版、Global 不支持。\n\n
+        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 游戏专版、Global 不支持。\n
+        强烈建议在开启本功能后的首次使用之前进行截图测试。\n\n
         请填写以下信息：\n\n
         1. 模拟器路径：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         模拟器路径应填写模拟器应用的上一层文件夹路径，例如应用路径为\n
@@ -411,14 +415,11 @@
     <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模拟器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">退出 MAA 和 模拟器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，并休眠</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
-    <system:String x:Key="HibernateWithoutPersist">休眠（仅一次）</system:String>
-    <system:String x:Key="ShutdownWithoutPersist">关机（仅一次）</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模拟器，无其他 MAA 则休眠</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，无其他 MAA 则关机</system:String>
+    <system:String x:Key="Once">仅一次*</system:String>
+    <system:String x:Key="PostActionOnceTip">勾选后修改不会保留至下次</system:String>
+    <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
@@ -692,8 +693,9 @@
     <system:String x:Key="RoguelikeGamePass">肉鸽通关啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">购买了特殊商品！</system:String>
     <system:String x:Key="SSSGamePass">保全通关啦！</system:String>
-    <system:String x:Key="Trader">关卡: 诡意行商</system:String>
-    <system:String x:Key="SafeHouse">关卡: 安全的角落</system:String>
+    <system:String x:Key="Trader">节点: 诡意行商</system:String>
+    <system:String x:Key="SafeHouse">节点: 安全的角落</system:String>
+    <system:String x:Key="FilterTruth">节点: 去伪存真</system:String>
     <system:String x:Key="CombatDps">关卡: 普通作战</system:String>
     <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
@@ -739,6 +741,7 @@
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 软件更新 - 检查更新」尝试更新资源版本！</system:String>
+    <system:String x:Key="ResourceUpdatePaused">由于服务器资源紧张，暂时停止提供资源版本更新。请手动导入关卡文件或等待新的版本发布</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>

@@ -824,8 +824,11 @@
                 "template": "Bskill_man_limit&cost1.png"
             },
             "bskill_man_limit&cost2": {
-                "desc": ["进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"],
-                "name": ["囤积者"],
+                "desc": [
+                    "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25",
+                    "进驻制造站时，仓库容量上限+10，心情每小时消耗-0.25"
+                ],
+                "name": ["囤积者", "无畏豪情"],
                 "template": "Bskill_man_limit&cost2.png"
             },
             "bskill_man_limit&cost3": {
@@ -878,6 +881,11 @@
                 "desc": ["进驻制造站时，当前制造站内每个金属工艺类技能为自身+5%的生产力"],
                 "name": ["打工心得"],
                 "template": "Bskill_man_skill_spd3.png"
+            },
+            "bskill_man_spd&dorm1": {
+                "desc": ["进驻制造站时，每间宿舍每级为贵金属类配方的生产力+1%"],
+                "name": ["齐心沙盗"],
+                "template": "Bskill_man_spd&dorm1.png"
             },
             "bskill_man_spd&limit&cost1": {
                 "desc": ["进驻制造站时，生产力-5%，仓库容量上限+16，心情每小时消耗-0.15"],
@@ -2328,6 +2336,11 @@
                 "name": ["谈判"],
                 "template": "Bskill_tra_limit&cost.png"
             },
+            "bskill_tra_limit&trade1": {
+                "desc": ["进驻贸易站时，当前贸易站每级+1个订单上限"],
+                "name": ["多面逢源"],
+                "template": "Bskill_tra_limit&trade1.png"
+            },
             "bskill_tra_limit2spd": {
                 "desc": ["进驻贸易站时，当前贸易站内干员提升的每5个订单上限，提供25%订单获取效率，最多提供100%效率"],
                 "name": ["冠军风采"],
@@ -2383,6 +2396,11 @@
                 ],
                 "name": ["帮派指南针"],
                 "template": "Bskill_tra_par1.png"
+            },
+            "bskill_tra_pepe": {
+                "desc": ["进驻贸易站时，固定获取特别独占订单（不视作违约订单），且该类订单不受任何订单获取效率的影响"],
+                "name": ["慧眼独到"],
+                "template": "Bskill_tra_pepe.png"
             },
             "bskill_tra_share1": {
                 "desc": ["进驻贸易站时，贸易站内除自身以外每名处于工作状态的干员+15%订单获取效率"],
@@ -2475,12 +2493,13 @@
             "bskill_tra_spd&limit7": {
                 "desc": [
                     "进驻贸易站时，订单获取效率+30%，且订单上限+1",
+                    "进驻贸易站时，订单获取效率+30%，且订单上限+1",
                     "进驻贸易站时，订单获取效率+30%，且订单上限+1"
                 ],
                 "efficient": {
                     "all": 30
                 },
-                "name": ["使命必达", "少当家"],
+                "name": ["使命必达", "少当家", "大巴扎管理学"],
                 "template": "Bskill_tra_spd&limit7.png"
             },
             "bskill_tra_spd&limit_down1": {

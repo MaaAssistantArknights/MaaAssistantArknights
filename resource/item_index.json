@@ -1063,6 +1063,14 @@
         "sortId": 10024,
         "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
     },
+    "LMTGS_COIN_5301": {
+        "classifyType": "NORMAL",
+        "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
+        "icon": "LMTGS_COIN_5301.png",
+        "name": "寻访数据契约",
+        "sortId": 10025,
+        "usage": "新型招聘合约所约定的一种时限货币，累积一定数量后可在指定时期内招聘指定干员。"
+    },
     "LMTGS_COIN_601": {
         "classifyType": "NORMAL",
         "description": "与猎头公司长久且稳定的合作关系带来的回报，可有效控制支出。不过，但愿不是每次都需要用到这个手段。",
@@ -1687,6 +1695,14 @@
         "sortId": -10000,
         "usage": "存储了许多设计蓝图的微缩芯片，凭借它就可以在物质塑形操作终端打印出对应的实物。"
     },
+    "act35side_token_dust": {
+        "classifyType": "NONE",
+        "description": "“辉煌之城”提供的观光纪念品，据说工匠们能把它变回大个头的宝石。“曾有一位帕夏，命人将宫殿里辉耀千年的宝石全部磨制成沙，铺在花园的水池底，只为与全城的子民共赏光华。”——摘自博物馆中某干尸的展签",
+        "icon": "act35side_token_dust.png",
+        "name": "流光之沙",
+        "sortId": -10000,
+        "usage": "星星点点闪烁的宝石细沙。它比“辉煌之城”更古老，比古老秘藏更辉煌。"
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "纯净无瑕的源石晶体，圣所对此视若珍宝。",
@@ -1838,6 +1854,14 @@
         "name": "高级材料提货券",
         "sortId": 30201,
         "usage": "罗德岛采购部特别发行的提货券，凭此券可限时领取一份高级品质的精英材料。"
+    },
+    "advanced_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "为应对加工时部分材料紧缺的问题，采购部发行了提货券供干员们自行取用所需的材料。",
+        "icon": "advanced_material_voucher_perm.png",
+        "name": "高级材料提货券",
+        "sortId": 60005,
+        "usage": "罗德岛采购部特别发行的提货券，凭此券可领取一份高级品质的精英材料。"
     },
     "ap_supply_lt_010": {
         "classifyType": "CONSUME",
@@ -2126,6 +2150,14 @@
         "name": "特级材料提货券",
         "sortId": 30200,
         "usage": "罗德岛采购部特别发行的提货券，凭此券可限时领取一份特级品质的精英材料。"
+    },
+    "premium_material_voucher_perm": {
+        "classifyType": "CONSUME",
+        "description": "为应对加工时部分材料紧缺的问题，采购部发行了提货券供干员们自行取用所需的材料。",
+        "icon": "premium_material_voucher_perm.png",
+        "name": "特级材料提货券",
+        "sortId": 60004,
+        "usage": "罗德岛采购部特别发行的提货券，凭此券可领取一份特级品质的精英材料。"
     },
     "randomDiamondShd_1": {
         "classifyType": "CONSUME",

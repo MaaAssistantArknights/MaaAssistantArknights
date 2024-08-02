@@ -915,7 +915,7 @@
         "classifyType": "NORMAL",
         "description": "인재 확보를 위해 박사가 준비해달라 요구했던 긴급수단. 해당 헤드헌팅 항목은 타겟팅과 타임 리미트가 적용되었으며, 그리고 아주 작은 리스크가 존재한다.",
         "icon": "LINKAGE_TKT_GACHA_10_1701.png",
-        "name": "엑스퍼트 헤드헌팅 허가증",
+        "name": "엘리트 포스 헤드헌팅 허가증",
         "sortId": 40003,
         "usage": "로도스 아일랜드 인사부에서 특별 발행한 허가증. 특정 시간 동안 특수한 인재를 모집하는 데 쓰인다. 1회 모집으로 10명을 채용할 수 있다."
     },
@@ -1037,6 +1037,14 @@
         "icon": "LMTGS_COIN_4401.png",
         "name": "헤드헌팅 데이터 계약",
         "sortId": 10022,
+        "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
+    },
+    "LMTGS_COIN_4701": {
+        "classifyType": "NORMAL",
+        "description": "헤드헌팅 회사와 장기적이고 안정적인 협력 관계를 유지한 보답. 효과적으로 지출을 조절할 수 있지만, 매번 이와 같은 수단을 써야 하는 것은 아니다.",
+        "icon": "LMTGS_COIN_4701.png",
+        "name": "헤드헌팅 데이터 계약",
+        "sortId": 10023,
         "usage": "신형 모집 협약에서 정한 일종의 기간 한정 화폐. 일정 수량을 누적하여 지정된 기간 동안 지정된 오퍼레이터를 채용할 수 있다."
     },
     "LMTGS_COIN_601": {
@@ -1639,6 +1647,14 @@
         "sortId": -10000,
         "usage": "버든비스트 랜덤 박스는 품절될 정도로 큰 인기를 끌었다. 지금 딱 적절한 시기에 온 물량인지라, 열차의 승무원들도 기꺼이 다른 상품들로 교환해 주려고 한다."
     },
+    "act31side_token_box": {
+        "classifyType": "NONE",
+        "description": "대황성 천사부의 최신 연구 개발 성과. 조작이 간편하고 기동성이 좋다. 토양의 샘플 채취, 검사 등 다양한 기능이 있는데, 때때로 개구쟁이 아이들이 가져가 '파울비스트 맞추기'를 한다.",
+        "icon": "act31side_token_box.png",
+        "name": "천주",
+        "sortId": -10000,
+        "usage": "천사부에서 개발한 농업용 드론. 종종 고장 때문에 밭에 추락한다. 주운 드론은 신농 장터에서 물자를 교환할 수 있다고 한다."
+    },
     "act38d1_token_coin": {
         "classifyType": "NONE",
         "description": "순수하고 무결한 오리지늄 결정체. 생추어리에서는 이것을 보물처럼 귀하게 여긴다.",
@@ -1659,6 +1675,22 @@
         "classifyType": "NONE",
         "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
         "icon": "act3bossrush_token_relic.png",
+        "name": "블랙큐브",
+        "sortId": -10000,
+        "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
+    },
+    "act4bossrush_milestone_point": {
+        "classifyType": "NONE",
+        "description": "시뮬레이션에서 옳고 그름은 중요하지 않다. 그것들은 단지 실전에서 올바른 선택을 할 수 있도록 도와주는 보조일 뿐이다.",
+        "icon": "act4bossrush_milestone_point.png",
+        "name": "시련 경험치",
+        "sortId": -10000,
+        "usage": "시련을 끝마치고 얻은 경험치로 시련의 등급을 올리는 용도로 사용된다."
+    },
+    "act4bossrush_token_relic": {
+        "classifyType": "NONE",
+        "description": "해독되지 않은 데이터 큐브. 정보의 전달 과정에 종종 불가피한 손실을 겪는다는 것을 명심하라. 정보기록 장치를 현명하게 활용하되, 의존하지는 말 것.",
+        "icon": "act4bossrush_token_relic.png",
         "name": "블랙큐브",
         "sortId": -10000,
         "usage": "억제 유닛에 데이터를 업그레이드하는 용도로 사용된다."
@@ -2318,6 +2350,14 @@
         "name": "생태 표본",
         "sortId": -10000,
         "usage": null
+    },
+    "sandbox_1_tokencoin": {
+        "classifyType": "NONE",
+        "description": "황무지에서 흘린 모든 땀방울은 테라 문명이 번영하는 증거가 될 것이다.",
+        "icon": "sandbox_1_tokencoin.png",
+        "name": "번영 포인트",
+        "sortId": -10000,
+        "usage": "'번영의 선물'에서 보상을 교환하는 데 사용된다."
     },
     "token_Obsidian": {
         "classifyType": "NONE",

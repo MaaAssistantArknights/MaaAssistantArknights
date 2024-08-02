@@ -37,7 +37,7 @@ namespace MaaWpfGui.Services.Web
         {
             get
             {
-                var p = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+                var p = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
                 if (string.IsNullOrEmpty(p))
                 {
                     return string.Empty;
@@ -81,7 +81,7 @@ namespace MaaWpfGui.Services.Web
         {
             try
             {
-                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, };
+                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Head, Version = HttpVersion.Version20, };
 
                 if (extraHeader != null)
                 {
@@ -135,7 +135,7 @@ namespace MaaWpfGui.Services.Web
         {
             try
             {
-                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, };
+                var request = new HttpRequestMessage { RequestUri = uri, Method = HttpMethod.Get, Version = HttpVersion.Version20, };
 
                 if (extraHeader != null)
                 {
@@ -162,7 +162,7 @@ namespace MaaWpfGui.Services.Web
             try
             {
                 var body = JsonSerializer.Serialize(content);
-                var message = new HttpRequestMessage(HttpMethod.Post, uri);
+                var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
 
                 if (extraHeader is not null)
                 {
@@ -189,7 +189,7 @@ namespace MaaWpfGui.Services.Web
         {
             try
             {
-                var message = new HttpRequestMessage(HttpMethod.Post, uri);
+                var message = new HttpRequestMessage(HttpMethod.Post, uri) { Version = HttpVersion.Version20 };
                 message.Headers.Accept.ParseAdd("application/json");
 
                 if (extraHeader is not null)

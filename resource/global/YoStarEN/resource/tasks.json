@@ -24,6 +24,12 @@
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
     },
+    "HS-OpenOcr": {
+        "text": ["Here", "People", "Sows"]
+    },
+    "HSChapterToHS": {
+        "text": ["Agricultural", "Plate", "AGRICULTURAL", "PLATE"]
+    },
     "RS-OpenOcr": {
         "text": ["Rides", "Silberneherze", "Lake", "open"]
     },
@@ -734,7 +740,55 @@
             ["Quick-*freezing Sprayer Platform", "速冷喷雾发射台"],
             ["Energizing Oil", "焕能精油"],
             ["Vitalizing Oil", "复苏精油"],
-            ["'Long Live Mead!'", "“蜜酿万岁！”"]
+            ["'Long Live Mead!'", "“蜜酿万岁！”"],
+            ["Shu", "黍"],
+            ["Wanqing", "万顷"],
+            ["Zuo Le", "左乐"],
+            ["Grain Buds", "小满"],
+            ["Restanding Potion", "激励剂"],
+            ["Block Reinforcement Device", "封阻加固装置"],
+            ["Temporary Cover", "临时掩护装置"],
+            ["Originium Explosive", "源石爆炸物"],
+            ["Ice Bomb", "冰爆罐"],
+            ["Beast Trap", "捕猎笼"],
+            ["Lootmark", "“纪念”"],
+            ["Pumping Station", "泵站"],
+            ["Campervan\n", "旷野房车\n"],
+            ["Fountain", "灵动清泉"],
+            ["Barricade", "封阻物"],
+            ["Kestrel", "红隼"],
+            ["Battlement", "高台工事"],
+            ["Occluded Quicksand Pit", "流沙黯坑"],
+            ["Planting Box Group\n", "种植箱集群\n"],
+            ["Throttle Valve", "阻流阀"],
+            ["Mine Deployer", "诡雷布设装置"],
+            ["Sky Pole", "天桩"],
+            ["Basic Repeater Turret", "简易弩台"],
+            ["Fowlbeast's Return", "喙中奇物"],
+            ["Operations Station", "作战中心"],
+            ["Corral", "兽栏"],
+            ["Headquarter of Sandbank", "风沙营垒"],
+            ["Cursed Mire", "污浊泥沼"],
+            ["Smoke Launcher", "烟雾发射台"],
+            ["Extracting Harvester Hub", "澄亮采集站"],
+            ["Glow Stick", "荧光棒"],
+            ["Prospector", "寻宝仪"],
+            ["Reactive Barrier", "反应壁障"],
+            ["Watch Tower", "监视哨站"],
+            ["Lighting Ore Vein", "澄亮矿脉"],
+            ["Olden Keystone", "机关石门"],
+            ["Potting", "静谧盆栽"],
+            ["Bench", "休闲长椅"],
+            ["Game Holding Cage", "猎获笼"],
+            ["Command Point", "号令点"],
+            ["High Priest", "大祭司"],
+            ["Pepe", "佩佩"],
+            ["Kestrel", "红隼"],
+            ["Rhodes Island Staff Worker", "罗德岛工作人员"],
+            ["Mail Box", "信使邮筒"],
+            ["Message Casket", "讯息匣"],
+            ["Overspeed Spice", "失衡异香"],
+            ["Billboard", "告示牌"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -800,13 +854,26 @@
     "RecruitNow": {
         "text": ["Expedite"]
     },
+    "OrundumActivities": {
+        "text": ["Lucky Strips", "Login Event"]
+    },
+    "OrundumActivitiesConfirm": {
+        "text": ["Confirm"]
+    },
+    "RecruitingActivities": {
+        "text": ["Free", "Roll"]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": ["Free", "Roll"]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": ["Headhunt x1", "Headhunt"]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": ["Headhunt x1", "Headhunt"]
+    },
     "NoFriends": {
         "text": ["No friends"]
-    },
-    "StartToVisit": {
-        "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in September 2024 OPERATION LUCENT ARROWHEAD",
-        "templThreshold": 0.8,
-        "roi": [920, 91, 162, 141]
     },
     "VisitNextOcr": {
         "text": ["Visit Next"]
@@ -907,6 +974,19 @@
     },
     "InfrastTrainingOperatorAndSkill": {
         "roi": [152, 621, 341, 29]
+    },
+    "InfrastTrainingTimeRec0": {
+        "baseTask": "NumberOcrReplace",
+        "Doc": "HH",
+        "roi": [156, 651, 31, 25]
+    },
+    "InfrastTrainingTimeRec1": {
+        "Doc": "MM",
+        "roi": [188, 651, 30, 25]
+    },
+    "InfrastTrainingTimeRec2": {
+        "Doc": "SS",
+        "roi": [219, 651, 31, 25]
     },
     "BattleStageName": {
         "Doc": "该任务的 ocrReplace 被所有涉及Rouge-like的English识别任务复用",
@@ -1076,7 +1156,19 @@
             ["Where be No Mounts and Seas", "何处无山海"],
             ["Instinct Contamination", "本能污染"],
             ["Moneymaking from Nothing", "无中生钱"],
-            ["'Envoy of Justice'", "“正义使者”"]
+            ["'Envoy of Justice'", "“正义使者”"],
+            ["No More Than Four", "事不过四"],
+            ["Where Ice Condenses", "冰凝之所"],
+            ["Ice-Cold Image", "深寒造像"],
+            ["Hollow Visage", "虚无之偶"],
+            ["Sentinel", "哨兵"],
+            ["Sands of Time", "时光之沙"],
+            ["Enter Eternity", "迈入永恒"],
+            ["Illusions In The Sand", "黄沙幻境"],
+            ["Ancient Enemies", "亘古仇敌"],
+            ["Payback", "还之彼身"],
+            ["Harass With Strength", "恃强凌弱"],
+            ["Manmade Carnival", "人造物狂欢节"]
         ]
     },
     "BattleQuickFormationExpandRole": {
@@ -1786,32 +1878,50 @@
             ["Warrior", "战士"],
             ["Shaman", "萨满"],
             ["Snowpriest", "雪祀"],
-            ["Survey Equipment[ Maintenance Device]*", "设备维护装置"]
+            ["Survey Equipment[ Maintenance Device]*", "设备维护装置"],
+            ["Vinecreep Mortar Gunner", "藤蔓炮手"],
+            ["Shattered Alliance Treaty", "破落盟约"],
+            ["Paradigm Apparatus", "范式中和仪"],
+            ["Palmtop Pavilion", "掌上楼阁"],
+            ["Minoan Ode", "米诺斯颂诗"],
+            ["Northwind Construct", "北风的造物"],
+            ["Expeditioner's Field Pack", "探索者背包"],
+            ["Black Hole Protocol", "黑洞协议"],
+            ["Hand of Unyielding", "坚实之手"],
+            ["Hand of Return", "复还之手"],
+            ["Horizon Invitation", "视界邀约"],
+            ["Rusted Blade[- ]*Disturbance", "锈刃-扰袭"],
+            ["Blunt Claws[- ]*Fuel", "钝爪-拾柴"],
+            ["Bend Spears[- ]*Battlecry", "折戟-战吼"],
+            ["Iron Guard[- ]*Rampart", "铁卫-垒沙"],
+            ["Fatal Bolts[- ]*Succession", "残弩-连珠"],
+            ["Broken Wand[- ]*Harmony", "断杖-和声"],
+            ["Stalwart Aid[- ]*Linkup", "支柱-联手"],
+            ["Healer's Path[- ]*Wellspring", "医者-涌泉"],
+            ["Dimensional Fluid", "维度流质"],
+            ["Collapsal Seed", "坍缩之种"],
+            ["Fragment of Space", "空间碎片"],
+            ["Profound Scorchmarks", "深度灼痕"]
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["ENTER"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
+    },
+    "Roguelike@PreSelectTheme": {
+        "text": ["View all Themes", "Themes", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": ["Recruit support"]
-    },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
     },
     "Roguelike@StageEncounterOcr": {
         "fullMatch": true,
         "ocrReplace": [
             ["<", ""],
+            [".", ""],
             ["Camp", "扎营"],
             ["The Kind Puppet", "善良的木偶"],
             ["Teller of Tales", "讲故事的人"],
@@ -1960,7 +2070,10 @@
             ["Amma ?Tal", "安玛塔卢"],
             ["Crossing ?Sami's ?Arm", "走过萨米的臂膀"],
             ["Shattered ?Omen", "木裂前兆"],
-            ["Pessimist's ?Cage", "悲观者囚笼"]
+            ["Pessimist's ?Cage", "悲观者囚笼"],
+            ["Change", "变化"],
+            ["Reconstruction", "重构"],
+            ["One ?Small ?Step ?for ?Expeditioners", "探索者的一小步"]
         ]
     },
     "Roguelike@StageTraderInvestSystem": {
@@ -1986,8 +2099,7 @@
         ]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["Phantom"]
+        "text": ["Castle Notes"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -2035,8 +2147,7 @@
         ]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["Mizuki"]
+        "text": ["Ecosequence"]
     },
     "Mizuki@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]
@@ -2262,8 +2373,7 @@
         "templThreshold": 0.75
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["Expeditioner"]
+        "text": ["Expedition Record"]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["Use the Safe House again", "Use the Safe"]

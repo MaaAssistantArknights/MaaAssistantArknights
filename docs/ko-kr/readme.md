@@ -5,9 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+
+<!-- markdownlint-restore -->
 
 # MaaAssistantArknights
 
@@ -138,7 +142,7 @@ MAA는 다국어를 지원하며, Weblate를 사용하여 로컬라이징을 관
 
 MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(간체)를 기준으로 합니다.
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### Windows
 
@@ -214,7 +218,7 @@ MAA는 중국어(간체)를 기본 언어로 하며, 번역 단어는 중국어(
 - ~~오퍼레이터/기반시설 데이터: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)~~
 - 스테이지 데이터: [Penguin Stats](https://penguin-stats.io/)
 - 게임 데이터/리소스: [Arknights Game Resource](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~게임 데이터: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)~~
+- 게임 데이터: [Arknights Yostar Game Data](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### 기여자
 
@@ -236,5 +240,3 @@ MAA의 개선을 위한 개발/테스트에 기여해준 모든 친구들에게 
 [개발자 그룹 (QQ 그룹)](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)
 
 프로그램이 도움이 된다고 생각하시면 Star를 눌러주세요! (페이지 우측 상단의 작은 별) 저희에게 가장 큰 도움이 됩니다!
-
-<!-- markdownlint-disable-file MD034 MD041 -->

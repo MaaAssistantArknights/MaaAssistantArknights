@@ -694,6 +694,79 @@
     "BB-4@SideStoryStage": {
         "text": ["BB-4"]
     },
+    "AS-9": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-9@SideStoryStage", "AS-9@SwipeToStage"]
+    },
+    "AS-8": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-8@SideStoryStage", "AS-8@SwipeToStage"]
+    },
+    "AS-7": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-7@SideStoryStage", "AS-7@SwipeToStage"]
+    },
+    "AS-6": {
+        "algorithm": "JustReturn",
+        "sub": ["AS-OpenOpt"],
+        "next": ["AS-6@SideStoryStage", "AS-6@SwipeToStage"]
+    },
+    "AS-OpenOpt": {
+        "algorithm": "JustReturn",
+        "next": ["AS-OpenOcr"]
+    },
+    "AS-Open": {
+        "baseTask": "AS-OpenOcr",
+        "Doc": "先不写"
+    },
+    "AS-OpenOcr": {
+        "baseTask": "SS-OpenOcr",
+        "text": [
+            "太阳甩在身后",
+            "太阳",
+            "阳甩",
+            "甩在",
+            "在身",
+            "身后",
+            "市民花园",
+            "市民",
+            "民花",
+            "花园",
+            "丰获集会",
+            "丰获",
+            "获集",
+            "集会",
+            "藏珍宝库",
+            "藏珍",
+            "珍宝",
+            "宝库"
+        ],
+        "roi": [103, 538, 175, 25],
+        "next": ["ASChapterToAS"]
+    },
+    "ASChapterToAS": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["市民", "花园", "市民花园"],
+        "preDelay": 3000,
+        "roi": [1025, 381, 214, 149],
+        "next": ["#self", "ChapterSwipeToTheRight"]
+    },
+    "AS-9@SideStoryStage": {
+        "text": ["AS-9"]
+    },
+    "AS-8@SideStoryStage": {
+        "text": ["AS-8"]
+    },
+    "AS-7@SideStoryStage": {
+        "text": ["AS-7"]
+    },
+    "AS-6@SideStoryStage": {
+        "text": ["AS-6"]
+    },
     "OD-8": {
         "algorithm": "JustReturn",
         "sub": ["OD-OpenOcr"],
@@ -2741,16 +2814,16 @@
     "OrundumActivities": {
         "doc": "幸运墙领合成玉",
         "algorithm": "OcrDetect",
-        "text": ["幸运墙", "幸运"],
+        "text": ["幸运墙", "幸运", "大巴扎"],
         "action": "ClickSelf",
-        "roi": [23, 81, 182, 141],
+        "roi": [64, 72, 97, 156],
         "next": ["OrundumActivitiesChoose", "OrundumActivitiesReturn"],
         "onErrorNext": ["Stop"]
     },
     "OrundumActivitiesChoose": {
-        "baseTask": "OrundumActivitiesClick",
-        "template": "OrundumActivitiesClick.png",
         "action": "DoNothing",
+        "baseTask": "OrundumActivitiesClick",
+        "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
         "sub": ["OrundumActivitiesClick", "OrundumActivitiesClick", "OrundumActivitiesClick"],
         "subErrorIgnored": true,
         "next": ["OrundumActivitiesConfirm", "OrundumActivitiesEarnRewards", "OrundumActivitiesReturn"]
@@ -2758,11 +2831,14 @@
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
         "roi": [150, 150, 1000, 400],
+        "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
         "templThreshold": 0.9,
         "maskRange": [1, 255],
         "rectMove": [10, 10, 50, 50]
     },
     "OrundumActivitiesConfirm": {
+        "algorithm": "OcrDetect",
+        "text": ["确定", "确定抽取"],
         "action": "ClickSelf",
         "roi": [1030, 500, 200, 80],
         "next": ["OrundumActivitiesEarnRewards"]
@@ -4888,7 +4964,7 @@
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
         "Doc_2": "需要在任务 Task 开始时截图时，将 Task 加入到此任务的 next 列表。",
         "algorithm": "JustReturn",
-        "next": ["Roguelike@StageEncounterOptionUnknown", "Screenshot@Stop"]
+        "next": ["Roguelike@StageEncounterOptionUnknown"]
     },
     "ScreenshotTaskPlugin-Config-Debug": {
         "Doc": "本任务是插件 ScreenshotTaskPlugin 的配置",
@@ -7804,8 +7880,6 @@
         "algorithm": "OcrDetect",
         "text": ["目空", "目空一些", "图像", "图像损坏"],
         "roi": [1000, 22, 280, 165],
-        "specificRect_Doc": "x拿来当文字灰度二值化下限用",
-        "specificRect": [150, 0, 0, 0],
         "next": ["RoguelikeControlTaskPlugin-Stop"]
     },
     "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
@@ -8179,6 +8253,12 @@
     "Sami@Roguelike@RolesDefault": {},
     "Sami@Roguelike@SelectTheme": {
         "text": ["科考记录"]
+    },
+    "Sami@Roguelike@SpecialValRecognition": {
+        "algorithm": "OcrDetect",
+        "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
+        "text": [],
+        "roi": [615, 0, 80, 45]
     },
     "Sami@Roguelike@SquadConfirm": {
         "template": "Sami@Roguelike@LastRewardConfirm.png",
@@ -9261,6 +9341,12 @@
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假说辑录"]
     },
+    "Sarkaz@Roguelike@SpecialValRecognition": {
+        "algorithm": "OcrDetect",
+        "Doc": "特殊值识别，构想数量",
+        "text": [],
+        "roi": [848, 686, 46, 26]
+    },
     "Sarkaz@Roguelike@SquadConfirm": {
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png",
         "next": [
@@ -9330,7 +9416,6 @@
     "Sarkaz@Roguelike@StageCanReconstructClose": {
         "action": "ClickSelf",
         "roi": [1144, 0, 136, 152],
-        "onErrorNext": ["Screenshot@Stop"],
         "next": [
             "Sarkaz@Roguelike@StageTraderEnter",
             "Sarkaz@Roguelike@StageFilterTruthEnter",
@@ -9500,7 +9585,7 @@
         "maskRange": [
             [
                 [23, 150, 40],
-                [23, 230, 150]
+                [25, 230, 150]
             ]
         ],
         "next": [

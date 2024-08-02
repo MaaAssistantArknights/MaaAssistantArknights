@@ -408,7 +408,7 @@ labels:
   - name: pr-ambiguous
     # 不符合 commitizen 的 PR
     content: ambiguous
-    regexes: '^(?!(?:build|chore|ci|docs?|feat!?|fix|i18n|perf|refactor|rft|style|test)[\:\.\(\,]|[Rr]evert|[Rr]elease)'
+    regexes: '^(?!(?:build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)[\:\.\(\,]|[Rr]evert|[Rr]elease)'
     mode:
       pull_request_target:
     skip-if:

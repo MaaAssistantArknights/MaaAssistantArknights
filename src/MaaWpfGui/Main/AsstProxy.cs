@@ -260,6 +260,13 @@ namespace MaaWpfGui.Main
         {
             if (GpuOption.GetCurrent() is GpuOption.EnableOption x)
             {
+                if (x.IsDeprecated && !GpuOption.AllowDeprecatedGpu)
+                {
+                    Instances.TaskQueueViewModel.AddLog(string.Format(LocalizationHelper.GetString("GpuDeprecatedMessage"), x.GpuInfo?.Description), UiLogColor.Warning);
+                }
+
+                _logger.Debug("Using GPU {0} (Driver {1} {2})", x.GpuInfo?.Description, x.GpuInfo?.DriverVersion, x.GpuInfo?.DriverDate?.ToString("yyyy-MM-dd"));
+
                 AsstSetStaticOption(AsstStaticOptionKey.GpuOCR, x.Index.ToString());
             }
 
@@ -721,24 +728,29 @@ namespace MaaWpfGui.Main
                     var taskList = details["finished_tasks"]?.ToObject<AsstTaskId[]>();
                     if (taskList?.Length > 0)
                     {
-                        // 有非主界面任务时，不执行任务链结束后操作
-                        var minorTaskTypes = new HashSet<TaskType>
+                        var mainTaskTypes = new HashSet<TaskType>
                         {
-                            TaskType.Copilot,
-                            TaskType.RecruitCalc,
-                            TaskType.Depot,
-                            TaskType.OperBox,
-                            TaskType.Gacha,
+                            TaskType.StartUp,
+                            TaskType.Fight,
+                            TaskType.FightRemainingSanity,
+                            TaskType.Recruit,
+                            TaskType.Infrast,
+                            TaskType.Mall,
+                            TaskType.Award,
+                            TaskType.Roguelike,
+                            TaskType.ReclamationAlgorithm,
+                            TaskType.ReclamationAlgorithm2,
                         };
 
                         // 仅有一个任务且为 CloseDown 时，不执行任务链结束后操作
+                        /*
                         if (taskList.Length == 1)
                         {
-                            minorTaskTypes.Add(TaskType.CloseDown);
+                            mainTaskTypes.Remove(TaskType.CloseDown);
                         }
-
-                        var latestMinorTaskIds = _latestTaskId.Where(i => minorTaskTypes.Contains(i.Key)).Select(i => i.Value);
-                        isMainTaskQueueAllCompleted = taskList.All(i => !latestMinorTaskIds.Contains(i));
+                        */
+                        var latestMainTaskIds = _latestTaskId.Where(i => mainTaskTypes.Contains(i.Key)).Select(i => i.Value);
+                        isMainTaskQueueAllCompleted = taskList.Any(i => latestMainTaskIds.Contains(i));
                     }
 
                     if (_latestTaskId.ContainsKey(TaskType.Copilot))
@@ -1058,6 +1070,10 @@ namespace MaaWpfGui.Main
 
                             case "StageSafeHouseEnter":
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"));
+                                break;
+
+                            case "StageFilterTruthEnter":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FilterTruth"));
                                 break;
 
                             // case "StageBoonsEnter":
@@ -1411,7 +1427,7 @@ namespace MaaWpfGui.Main
                     break;
 
                 case "SSSSettlement":
-                    Instances.CopilotViewModel.AddLog(details!["why"].ToString(), UiLogColor.Info);
+                    Instances.CopilotViewModel.AddLog($"{details["why"]}", UiLogColor.Info);
                     break;
 
                 case "SSSGamePass":
@@ -1420,6 +1436,7 @@ namespace MaaWpfGui.Main
 
                 case "UnsupportedLevel":
                     Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("UnsupportedLevel") + subTaskDetails!["level"], UiLogColor.Error);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("ResourceUpdatePaused"));
                     break;
 
                 case "CustomInfrastRoomGroupsMatch":
@@ -1459,7 +1476,7 @@ namespace MaaWpfGui.Main
                         var skillName = subTaskDetails["skill"]?.ToString() ?? "UnKnown";
                         Instances.TaskQueueViewModel.AddLog(
                             $"[{operatorName}]{skillName}\n" +
-                            $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)subTaskDetails["level"]} {LocalizationHelper.GetString("TrainingCompleted")}",
+                            $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)} {LocalizationHelper.GetString("TrainingCompleted")}",
                             UiLogColor.Info);
                         break;
                     }
@@ -1470,8 +1487,8 @@ namespace MaaWpfGui.Main
                         var skillName = subTaskDetails["skill"]?.ToString() ?? "UnKnown";
                         Instances.TaskQueueViewModel.AddLog(
                             $"[{operatorName}]{skillName}\n" +
-                            $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)subTaskDetails["level"]}\n" +
-                            $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["hh"]}:{subTaskDetails["mm"]}:{subTaskDetails["ss"]}",
+                            $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)}\n" +
+                            $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["hh"]:D2}:{subTaskDetails["mm"]:D2}:{subTaskDetails["ss"]:D2}",
                             UiLogColor.Info);
                         break;
                     }
@@ -1480,16 +1497,16 @@ namespace MaaWpfGui.Main
                 case "ReclamationReport":
                     Instances.TaskQueueViewModel.AddLog(
                         LocalizationHelper.GetString("AlgorithmFinish") + "\n" +
-                        LocalizationHelper.GetString("AlgorithmBadge") + ": " + $"{(int)subTaskDetails!["total_badges"]}(+{(int)subTaskDetails["badges"]})" + "\n" +
-                        LocalizationHelper.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)subTaskDetails["total_construction_points"]}(+{(int)subTaskDetails["construction_points"]})");
+                        LocalizationHelper.GetString("AlgorithmBadge") + ": " + $"{(int)(subTaskDetails!["total_badges"] ?? -1)}(+{(int)(subTaskDetails["badges"] ?? -1)})" + "\n" +
+                        LocalizationHelper.GetString("AlgorithmConstructionPoint") + ": " + $"{(int)(subTaskDetails["total_construction_points"] ?? -1)}(+{(int)(subTaskDetails["construction_points"] ?? -1)})");
                     break;
 
                 case "ReclamationProcedureStart":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MissionStart") + $" {(int)subTaskDetails!["times"]} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MissionStart") + $" {(int)(subTaskDetails!["times"] ?? -1)} " + LocalizationHelper.GetString("UnitTime"), UiLogColor.Info);
                     break;
 
                 case "ReclamationSmeltGold":
-                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AlgorithmDoneSmeltGold") + $" {(int)subTaskDetails!["times"]} " + LocalizationHelper.GetString("UnitTime"));
+                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("AlgorithmDoneSmeltGold") + $" {(int)(subTaskDetails!["times"] ?? -1)} " + LocalizationHelper.GetString("UnitTime"));
                     break;
 
                 case "SanityBeforeStage":
@@ -2281,7 +2298,7 @@ namespace MaaWpfGui.Main
         /// <param name="invests">投资源石锭次数。</param>
         /// <param name="stopWhenFull">投资满了自动停止任务。</param>
         /// <param name="squad">开局分队</param>
-        /// <param name="roles"> 开局职业组</param>
+        /// <param name="roles">开局职业组</param>
         /// <param name="coreChar">开局干员名</param>
         /// <param name="startWithEliteTwo">是否凹开局直升</param>
         /// <param name="onlyStartWithEliteTwo">是否只凹开局直升，不进行作战</param>
