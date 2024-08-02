@@ -50,7 +50,6 @@ using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using PropertyChanged;
 using Serilog;
 using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
