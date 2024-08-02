@@ -83,6 +83,7 @@
     <system:String x:Key="ContinueTraining">訓練完了後、現在のスキルを特化する試みを続けます</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
+    <system:String x:Key="TrainingNameFormat">[{0}]{1}</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
     <system:String x:Key="TrainingTimeLeft">残り時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">カスタムされた基地構成を有効にする（ベータ）</system:String>

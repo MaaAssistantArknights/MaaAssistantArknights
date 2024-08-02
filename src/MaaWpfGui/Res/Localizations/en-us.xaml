@@ -85,6 +85,7 @@
     <system:String x:Key="ContinueTraining">After training is complete, try to continue mastering the current skill</system:String>
     <system:String x:Key="TrainingIdle">Training room is vacant</system:String>
     <system:String x:Key="TrainingCompleted">Training completed</system:String>
+    <system:String x:Key="TrainingNameFormat">[{0}] {1}</system:String>
     <system:String x:Key="TrainingLevel">Skill Rank</system:String>
     <system:String x:Key="TrainingTimeLeft">Remaining Time</system:String>
     <system:String x:Key="CustomInfrastEnabled">Enable Custom Base (beta)</system:String>

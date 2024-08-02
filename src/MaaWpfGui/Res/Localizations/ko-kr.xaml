@@ -86,6 +86,7 @@
     <system:String x:Key="ContinueTraining">훈련 완료 시 스킬 마스터리를 훈련</system:String>
     <system:String x:Key="TrainingIdle">훈련실이 비어 있습니다</system:String>
     <system:String x:Key="TrainingCompleted">훈련 완료</system:String>
+    <system:String x:Key="TrainingNameFormat">[{0}]{1}</system:String>
     <system:String x:Key="TrainingLevel">스킬 랭크</system:String>
     <system:String x:Key="TrainingTimeLeft">남은 시간</system:String>
     <system:String x:Key="CustomInfrastEnabled">커스텀 기반시설 (베타)</system:String>

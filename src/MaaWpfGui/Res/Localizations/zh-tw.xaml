@@ -79,6 +79,7 @@
     <system:String x:Key="ContinueTraining">訓練完成後繼續嘗試專精當前技能</system:String>
     <system:String x:Key="TrainingIdle">訓練室空閒中</system:String>
     <system:String x:Key="TrainingCompleted">訓練完成</system:String>
+    <system:String x:Key="TrainingNameFormat">[{0}]{1}</system:String>
     <system:String x:Key="TrainingLevel">專精等級</system:String>
     <system:String x:Key="TrainingTimeLeft">剩餘時間</system:String>
     <system:String x:Key="CustomInfrastEnabled">啟用自定義基建配置（beta）</system:String>
