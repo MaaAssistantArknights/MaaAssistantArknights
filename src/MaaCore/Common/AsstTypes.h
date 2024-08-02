@@ -299,7 +299,7 @@ namespace asst
         BasicClick = 0x100,
         ClickSelf = BasicClick | 1, // 点击自身位置
         ClickRect = BasicClick | 2, // 点击指定区域
-        ClickRand = BasicClick | 4, // 点击随机区域
+        // ClickRand = BasicClick | 4, // 点击随机区域
         DoNothing = 0x200,          // 什么都不做
         Stop = 0x400,               // 停止当前Task
         Swipe = 0x1000,             // 滑动
@@ -309,10 +309,9 @@ namespace asst
     {
         utils::tolowers(action_str);
         static const std::unordered_map<std::string, ProcessTaskAction> action_map = {
-            { "clickself", ProcessTaskAction::ClickSelf }, { "clickrand", ProcessTaskAction::ClickRand },
             { "", ProcessTaskAction::DoNothing },          { "donothing", ProcessTaskAction::DoNothing },
-            { "stop", ProcessTaskAction::Stop },           { "clickrect", ProcessTaskAction::ClickRect },
-            { "swipe", ProcessTaskAction::Swipe },
+            { "clickself", ProcessTaskAction::ClickSelf }, { "clickrect", ProcessTaskAction::ClickRect },
+            { "stop", ProcessTaskAction::Stop },           { "swipe", ProcessTaskAction::Swipe },
         };
         if (auto it = action_map.find(action_str); it != action_map.end()) {
             return it->second;
@@ -323,10 +322,13 @@ namespace asst
     inline std::string enum_to_string(ProcessTaskAction action)
     {
         static const std::unordered_map<ProcessTaskAction, std::string> action_map = {
-            { ProcessTaskAction::Invalid, "Invalid" },     { ProcessTaskAction::BasicClick, "BasicClick" },
-            { ProcessTaskAction::ClickSelf, "ClickSelf" }, { ProcessTaskAction::ClickRect, "ClickRect" },
-            { ProcessTaskAction::ClickRand, "ClickRand" }, { ProcessTaskAction::DoNothing, "DoNothing" },
-            { ProcessTaskAction::Stop, "Stop" },           { ProcessTaskAction::Swipe, "Swipe" },
+            { ProcessTaskAction::Invalid, "Invalid" },
+            { ProcessTaskAction::DoNothing, "DoNothing" },
+            { ProcessTaskAction::BasicClick, "BasicClick" },
+            { ProcessTaskAction::ClickSelf, "ClickSelf" },
+            { ProcessTaskAction::ClickRect, "ClickRect" },
+            { ProcessTaskAction::Stop, "Stop" },
+            { ProcessTaskAction::Swipe, "Swipe" },
         };
         if (auto it = action_map.find(action); it != action_map.end()) {
             return it->second;
