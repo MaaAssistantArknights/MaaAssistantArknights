@@ -2123,7 +2123,6 @@ namespace MaaWpfGui.ViewModels.UI
             return true;
         }
 
-
         /// <summary>
         /// Gets a value indicating whether it is initialized.
         /// </summary>
@@ -2536,6 +2535,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 return _customInfrastPlanIndex;
             }
+
             set
             {
                 if (CustomInfrastPlanInfoList.Count == 0)
