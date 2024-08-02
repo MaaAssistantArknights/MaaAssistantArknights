@@ -1072,6 +1072,10 @@ namespace MaaWpfGui.Main
                                 Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("SafeHouse"));
                                 break;
 
+                            case "StageFilterTruthEnter":
+                                Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("FilterTruth"));
+                                break;
+
                             // case "StageBoonsEnter":
                             //    Instances.TaskQueueViewModel.AddLog("古堡馈赠");
                             //    break;

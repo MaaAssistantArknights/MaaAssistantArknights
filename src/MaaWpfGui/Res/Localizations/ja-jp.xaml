@@ -691,6 +691,7 @@
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
+    <system:String x:Key="FilterTruth">节点: 去伪存真</system:String>
     <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
