@@ -3892,14 +3892,12 @@ namespace MaaWpfGui.ViewModels.UI
                         MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
 
                         // 读取mumu注册表地址 并填充GUI
-                        #if WINDOWS
-                        if (string.Empty.Equals(EmulatorPath))
+                        if (string.IsNullOrEmpty(EmulatorPath))
                         {
                             try
                             {
                                 RegistryKey driverKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0");
                                 string result = (String)driverKey.GetValue("UninstallString");
-                                // MessageBoxHelper.Show(result.Substring(1, result.IndexOf("\\uninstall.exe") - 1));
                                 EmulatorPath = result.Substring(1, result.IndexOf("\\uninstall.exe") - 1);
                             }
                             catch(Exception e)
@@ -3907,7 +3905,6 @@ namespace MaaWpfGui.ViewModels.UI
                                 // 暂不处理
                             }
                         }
-                        #endif
                     }
 
                     Instances.AsstProxy.Connected = false;
@@ -3927,7 +3924,7 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _emulatorPath;
                 set
                 {
-                    if (!Directory.Exists(value) && _enable)
+                    if (_enable && !Directory.Exists(value))
                     {
                         MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
                         value = string.Empty;
