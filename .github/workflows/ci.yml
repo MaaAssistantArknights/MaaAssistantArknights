@@ -270,7 +270,7 @@ jobs:
           cp -v tools/AppImage/io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
           wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
           # appimagetool with embedded runtime does not support cross build, till AppImage/appimagetool 7a10b8
-          wget "https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-fuse3-${{ matrix.arch }}"
+          wget "https://github.com/AppImage/type2-runtime/releases/download/old/runtime-fuse3-${{ matrix.arch }}"
           chmod a+x appimagetool-x86_64.AppImage
           ARCH=${{ matrix.arch }} ./appimagetool-x86_64.AppImage --runtime-file runtime-${{ matrix.arch }} Maa.AppDir
           chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
