@@ -86,7 +86,6 @@ public class PostActionSetting : PropertyChangedBase
             }
 
             ActionTitle = value ? string.Format("{0} ({1})", LocalizationHelper.GetString("Then"), LocalizationHelper.GetString("Once")) : LocalizationHelper.GetString("Then");
-
             RefreshDescription();
         }
     }
@@ -130,15 +129,15 @@ public class PostActionSetting : PropertyChangedBase
         get => _exitEmulator;
         set
         {
+            if (!SetAndNotify(ref _exitEmulator, value))
+            {
+                return;
+            }
+
             if (value)
             {
                 ExitArknights = false;
                 BackToAndroidHome = false;
-            }
-
-            if (!SetAndNotify(ref _exitEmulator, value))
-            {
-                return;
             }
 
             UpdatePostAction(PostActions.ExitEmulator, value);
@@ -184,14 +183,14 @@ public class PostActionSetting : PropertyChangedBase
         get => _hibernate;
         set
         {
-            if (!value)
-            {
-                IfNoOtherMaa = false;
-            }
-
             if (!SetAndNotify(ref _hibernate, value))
             {
                 return;
+            }
+
+            if (!value)
+            {
+                IfNoOtherMaa = false;
             }
 
             UpdatePostAction(PostActions.Hibernate, value);
