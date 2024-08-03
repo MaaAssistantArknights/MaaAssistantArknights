@@ -74,7 +74,7 @@ body:
     id: others
     attributes:
       label: 还有别的吗？
-      description: >-
+      description: |
         任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false

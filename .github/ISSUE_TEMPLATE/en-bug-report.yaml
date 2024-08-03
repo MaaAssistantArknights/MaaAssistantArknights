@@ -100,7 +100,7 @@ body:
     id: others
     attributes:
       label: Anthing else?
-      description: >-
+      description: |
         Anything that will give us more insight into the problem you are having.
     validations:
       required: false
