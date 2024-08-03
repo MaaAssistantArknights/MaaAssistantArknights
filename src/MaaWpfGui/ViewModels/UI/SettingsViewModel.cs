@@ -3477,6 +3477,24 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public List<CombinedData> PorxyTypeList { get; } =
+            [
+                new() { Display = "HTTP proxy", Value = "http" },
+                new() { Display = "SOCKS5 proxy", Value = "socks5" },
+            ];
+
+        string _proxyType = "http";
+
+        public string ProxyType
+        {
+            get => _proxyType;
+            set
+            {
+                SetAndNotify(ref _proxyType, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.ProxyType, value);
+            }
+        }
+
         private bool _isCheckingForUpdates;
 
         /// <summary>
