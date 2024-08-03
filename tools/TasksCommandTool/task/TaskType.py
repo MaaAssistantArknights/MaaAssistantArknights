@@ -15,7 +15,6 @@ class AlgorithmType(Enum):
 class ActionType(Enum):
     # Enum for actions
     ClickSelf = "ClickSelf"
-    ClickRand = "ClickRand"
     ClickRect = "ClickRect"
     DoNothing = "DoNothing"
     Stop = "Stop"
