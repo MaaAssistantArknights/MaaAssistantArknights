@@ -252,6 +252,15 @@ bool asst::AdbController::start_game(const std::string& client_type)
     return call_command(cur_cmd).has_value();
 }
 
+bool asst::AdbController::start_game_by_activity(const std::string& activity_name)
+{
+    if (activity_name.empty()) {
+        return false;
+    }
+    std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", activity_name);
+    return call_command(cur_cmd).has_value();
+}
+
 bool asst::AdbController::stop_game()
 {
     return call_command(m_adb.stop).has_value();
@@ -897,6 +906,7 @@ bool asst::AdbController::connect(
     m_adb.screencap_encode = cmd_replace(adb_cfg.screencap_encode);
     m_adb.start = cmd_replace(adb_cfg.start);
     m_adb.stop = cmd_replace(adb_cfg.stop);
+    m_adb.get_activities = cmd_replace(adb_cfg.get_activities);
     m_adb.back_to_home = cmd_replace(adb_cfg.back_to_home);
 
     if (m_support_socket && !m_server_started) {
@@ -958,4 +968,9 @@ void asst::AdbController::back_to_home() noexcept
 {
     call_command(m_adb.back_to_home);
     return;
+}
+
+std::optional<std::string> asst::AdbController::get_activities()
+{
+    return call_command(m_adb.get_activities);
 }
