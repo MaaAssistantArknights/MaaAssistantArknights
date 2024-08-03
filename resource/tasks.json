@@ -9560,7 +9560,7 @@
     "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
         "action": "DoNothing",
         "templThreshold": 0.95,
-        "roi": [750, 525, 188, 129],
+        "roi": [ 279, 374, 155, 170 ],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
     },
     "Sarkaz@Roguelike@StageFilterTruthChooseCollection": {
