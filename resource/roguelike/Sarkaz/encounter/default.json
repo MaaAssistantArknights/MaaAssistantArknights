@@ -429,7 +429,7 @@
             "choose": 2,
             "choices": [
                 {
-                    "name": "举起矛头！",
+                    "name": "准备把鸭子刺个对穿",
                     "option_num": 3,
                     "choose": 2,
                     "requirements": [
@@ -448,7 +448,7 @@
             "choose": 2,
             "choices": [
                 {
-                    "name": "举起矛头！",
+                    "name": "狩猎死仇",
                     "option_num": 3,
                     "choose": 3,
                     "requirements": [
