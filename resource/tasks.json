@@ -2822,8 +2822,9 @@
     },
     "OrundumActivitiesChoose": {
         "action": "DoNothing",
-        "baseTask": "OrundumActivitiesClick",
-        "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
+        "algorithm": "OcrDetect",
+        "text": ["请选择", "选择"],
+        "roi": [1023, 504, 198, 81],
         "sub": ["OrundumActivitiesClick", "OrundumActivitiesClick", "OrundumActivitiesClick"],
         "subErrorIgnored": true,
         "next": ["OrundumActivitiesConfirm", "OrundumActivitiesEarnRewards", "OrundumActivitiesReturn"]
