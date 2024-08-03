@@ -970,11 +970,11 @@
         "doc": "幸运墙领合成玉",
         "text": ["開運", "おみくじ"]
     },
-    "OrundumActivitiesConfirm": {
-        "text": ["引く"]
-    },
     "OrundumActivitiesChoose": {
         "text": ["開運くじ", "を選択"]
+    },
+    "OrundumActivitiesConfirm": {
+        "text": ["引く"]
     },
     "RecruitingActivities": {
         "text": ["回無料"]
