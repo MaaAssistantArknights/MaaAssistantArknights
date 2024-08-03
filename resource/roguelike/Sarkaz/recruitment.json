@@ -106,6 +106,12 @@
                             "threshold": 2,
                             "offset": -200
                         }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "折戟-浴血",
+                            "offset": 120
+                        }
                     ]
                 },
                 {
@@ -150,6 +156,12 @@
                             "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 3,
                             "offset": -150
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 }
@@ -180,9 +192,6 @@
             "name": "近卫",
             "opers": [
                 {
-                    "name": "锏"
-                },
-                {
                     "name": "圣约送葬人",
                     "skill": 3,
                     "alternate_skill": 2,
@@ -194,6 +203,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -300
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -209,6 +224,64 @@
                             "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 1,
                             "offset": -210
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
+                        }
+                    ]
+                },
+                {
+                    "name": "锏"
+                },
+                {
+                    "name": "佩佩",
+                    "skill": 2,
+                    "recruit_priority": 819,
+                    "promote_priority": 801,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤"],
+                            "threshold": 1,
+                            "offset": -210
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
+                        }
+                    ]
+                },
+                {
+                    "name": "乌尔比安",
+                    "skill": 3,
+                    "alternate_skill": 2,
+                    "recruit_priority": 520,
+                    "promote_priority": 801,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤"],
+                            "threshold": 1,
+                            "offset": -210
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "折戟-浴血",
+                            "offset": 220
                         }
                     ]
                 },
@@ -223,6 +296,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -300
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -238,6 +317,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -500
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -252,6 +337,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -300
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -266,6 +357,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -500
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -282,6 +379,18 @@
                             "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 3,
                             "offset": -150
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "折戟-浴血",
+                            "offset": 120
                         }
                     ]
                 },
@@ -296,6 +405,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -300
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -310,6 +425,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -200
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -325,6 +446,12 @@
                             "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 1,
                             "offset": -400
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -339,6 +466,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -400
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -352,6 +485,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -400
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -366,6 +505,12 @@
                             "groups": ["凯尔希", "近卫", "召唤", "重装"],
                             "threshold": 1,
                             "offset": -400
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 },
@@ -386,6 +531,12 @@
                             "is_less": true,
                             "offset": -300,
                             "Doc": "地面阻挡≤1时，幽灵鲨的招募优先级-300"
+                        },
+                        {
+                            "groups": ["元素奶"],
+                            "threshold": 1,
+                            "is_less": true,
+                            "offset": -80
                         }
                     ]
                 }
@@ -420,7 +571,7 @@
                     "skill": 1,
                     "is_key": true,
                     "recruit_priority": 624,
-                    "promote_priority": 620,
+                    "promote_priority": 650,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["单奶", "群奶"],
@@ -440,7 +591,7 @@
                     "skill": 2,
                     "is_key": true,
                     "recruit_priority": 622,
-                    "promote_priority": 600,
+                    "promote_priority": 620,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["重装", "凯尔希"],
@@ -751,7 +902,7 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": ["凯尔希", "重装"],
-                            "threshold": 2,
+                            "threshold": 1,
                             "offset": -140
                         }
                     ]
@@ -786,8 +937,22 @@
                     "name": "莱伊",
                     "skill": 3,
                     "alternate_skill": 2,
-                    "recruit_priority": 581,
+                    "recruit_priority": 481,
                     "promote_priority": 701,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["水陈", "速狙", "益达"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
+                },
+                {
+                    "name": "娜仁图亚",
+                    "skill": 2,
+                    "is_key": true,
+                    "recruit_priority": 581,
+                    "promote_priority": 500,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["水陈", "速狙", "益达"],
@@ -823,7 +988,6 @@
                     "skill": 2,
                     "recruit_priority": 477,
                     "promote_priority": 420,
-                    "is_key": true,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["水陈", "速狙", "益达"],
@@ -1006,6 +1170,26 @@
                             "offset": -300
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "name": "元素奶",
+            "opers": [
+                {
+                    "name": "纯烬艾雅法拉"
+                },
+                {
+                    "name": "蜜莓"
+                },
+                {
+                    "name": "桑葚"
+                },
+                {
+                    "name": "哈洛德"
+                },
+                {
+                    "name": "褐果"
                 }
             ]
         },
@@ -1240,10 +1424,15 @@
                 },
                 {
                     "name": "预备干员-后勤",
-                    "skill": 0,
                     "recruit_priority": 405,
-                    "promote_priority": 0,
-                    "is_alternate": true
+                    "is_alternate": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["单奶", "群奶"],
+                            "threshold": 1,
+                            "offset": -300
+                        }
+                    ]
                 },
                 {
                     "name": "Lancet-2"
@@ -1390,6 +1579,9 @@
                     "auto_retreat": 8
                 },
                 {
+                    "name": "Mon3tr"
+                },
+                {
                     "name": "芙兰卡",
                     "skill": 2,
                     "auto_retreat": 20
@@ -1512,6 +1704,9 @@
                             "offset": -300
                         }
                     ]
+                },
+                {
+                    "name": "莎草"
                 },
                 {
                     "name": "淬羽赫默",
@@ -2277,6 +2472,9 @@
                     "name": "地灵"
                 },
                 {
+                    "name": "娜仁图亚"
+                },
+                {
                     "name": "跃跃"
                 },
                 {
@@ -2343,6 +2541,9 @@
                 },
                 {
                     "name": "号角"
+                },
+                {
+                    "name": "乌尔比安"
                 },
                 {
                     "name": "锏"
@@ -2461,10 +2662,7 @@
                     "name": "白铁",
                     "skill": 2
                 },
-                {
-                    "name": "乌尔比安",
-                    "skill": 2
-                },
+
                 {
                     "name": "赫德雷",
                     "skill": 2,
@@ -2702,6 +2900,9 @@
                     "name": "烈夏"
                 },
                 {
+                    "name": "乌尔比安"
+                },
+                {
                     "name": "伊内丝"
                 },
                 {
@@ -2858,6 +3059,9 @@
                     "name": "华法琳"
                 },
                 {
+                    "name": "凯尔希"
+                },
+                {
                     "name": "图耶"
                 },
                 {
@@ -2919,6 +3123,12 @@
                 },
                 {
                     "name": "夏栎"
+                },
+                {
+                    "name": "明椒"
+                },
+                {
+                    "name": "莎草"
                 },
                 {
                     "name": "波登可"
@@ -3024,16 +3234,19 @@
                     "name": "焰影苇草"
                 },
                 {
-                    "name": "莱伊"
+                    "name": "艾拉"
                 },
                 {
-                    "name": "艾拉"
+                    "name": "莱伊"
                 },
                 {
                     "name": "假日威龙陈"
                 },
                 {
                     "name": "妮芙"
+                },
+                {
+                    "name": "娜仁图亚"
                 },
                 {
                     "name": "能天使"
@@ -3222,6 +3435,10 @@
                     "name": "梅尔"
                 },
                 {
+                    "name": "衡沙",
+                    "skill": 2
+                },
+                {
                     "name": "深海色"
                 },
                 {
@@ -3229,6 +3446,9 @@
                 },
                 {
                     "name": "龙腾.A"
+                },
+                {
+                    "name": "发条羽兽"
                 }
             ]
         },
