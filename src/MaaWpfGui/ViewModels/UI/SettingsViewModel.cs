@@ -168,6 +168,8 @@ namespace MaaWpfGui.ViewModels.UI
                 "Training",
             };
 
+            var tempOrderSet = new HashSet<int>();
+
             var tempOrderList = new List<DragItemViewModel>(new DragItemViewModel[facilityList.Length]);
             for (int i = 0; i != facilityList.Length; ++i)
             {
@@ -176,12 +178,25 @@ namespace MaaWpfGui.ViewModels.UI
 
                 if (!parsed || order < 0)
                 {
-                    tempOrderList[i] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    order = i;
                 }
-                else
+
+                if (tempOrderSet.Contains(order))
                 {
-                    tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
+                    for (int j = 0; j != facilityList.Length; j++)
+                    {
+                        int newOrder = j;
+                        if (!tempOrderSet.Contains(newOrder))
+                        {
+                            order = newOrder;
+                            break;
+                        }
+                    }
                 }
+
+                tempOrderSet.Add(order);
+
+                tempOrderList[order] = new DragItemViewModel(LocalizationHelper.GetString(facility), facility, "Infrast.");
             }
 
             InfrastItemViewModels = new ObservableCollection<DragItemViewModel>(tempOrderList);
