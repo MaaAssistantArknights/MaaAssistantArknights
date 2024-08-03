@@ -57,6 +57,22 @@ body:
 
         **Please drag and drop the full file in, not your own cuttings or copies;**
         **compress it before uploading if too large.**
+      placeholder: |
+        Please confirm that MAA is turned off when uploading files:
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Configuration information
+      description: |
+        Which emulator is being used? What are the emulator's resolution and frame rate? What operating system? Relevant configuration?
+        Is MuMu Screenshot Enhancement enabled? Is GPU accelerated inference enabled?
+      placeholder: |
+        Emulator brand, emulator resolution, DPI (if using non-default DPI), frame rate:
+        Operating system (e.g., Windows__, MacOS):
+        Is MuMu Screenshot Enhancement enabled? (Only specify for Mumu12):
+        Is GPU accelerated inference enabled? GPU model (if enabled):
     validations:
       required: true
   - type: textarea
@@ -85,8 +101,6 @@ body:
     attributes:
       label: Anthing else?
       description: >-
-        Emulator used, Emulator's resolution and frame rate, operating system, etc.
-        Is MuMu's screenshot enhancement enabled? Is GPU acceleration enabled?
         Anything that will give us more insight into the problem you are having.
     validations:
       required: false
