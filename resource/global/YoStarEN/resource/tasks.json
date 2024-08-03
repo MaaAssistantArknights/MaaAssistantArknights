@@ -967,7 +967,7 @@
         "templThreshold": 0.85
     },
     "InfrastTrainingIdle": {
-        "text": ["Idle"],
+        "text": ["Idle", "ldle"],
         "roi": [408, 636, 108, 58]
     },
     "InfrastTrainingCompleted": {
