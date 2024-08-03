@@ -50,13 +50,10 @@ body:
     attributes:
       label: 配置信息
       description: |
-        使用的模拟器？模拟器的分辨率、帧数？操作系统？相关的配置？
-        MuMu 截图增强是否开启？GPU 加速推理是否开启？
-      placeholder: |
-        模拟器品牌，模拟器分辨率、DPI(非默认dpi需写)、帧率:
-        操作系统 (如 Windows__, MacOS):
-        MuMu截图增强是否开启 (Mumu12需写):
-        GPU加速推理是否开启，GPU型号(若开启):
+        模拟器品牌，模拟器分辨率、DPI(非默认dpi需写)、帧率；
+        操作系统 (如 Windows__, MacOS)；
+        MuMu截图增强是否开启 (Mumu12需写)；
+        GPU加速推理是否开启，GPU型号(若开启)。
     validations:
       required: true
   - type: textarea
