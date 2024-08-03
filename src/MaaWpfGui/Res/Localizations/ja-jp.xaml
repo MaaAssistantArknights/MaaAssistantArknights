@@ -406,7 +406,7 @@
     <system:String x:Key="SelectAll">全て選択</system:String>
     <system:String x:Key="Inverse">逆選択</system:String>
     <system:String x:Key="Clear">解除</system:String>
-    <system:String x:Key="Then">完了後</system:String>
+    <system:String x:Key="PostActions">完了後</system:String>
     <system:String x:Key="DoNothing">何もしない</system:String>
     <system:String x:Key="ExitArknights">アークナイツを終了する</system:String>
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>

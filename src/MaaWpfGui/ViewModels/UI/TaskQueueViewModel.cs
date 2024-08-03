@@ -116,19 +116,19 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
 
-            if (actions.ExitArknights)
+
+            if (actions.BackToAndroidHome)
+            {
+                Instances.AsstProxy.AsstBackToHome();
+
+                await Task.Delay(1000);
+            }
+            else if (actions.ExitArknights)
             {
                 if (!Instances.AsstProxy.AsstStartCloseDown())
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
-
-                await Task.Delay(1000);
-            }
-
-            if (actions.BackToAndroidHome)
-            {
-                Instances.AsstProxy.AsstBackToHome();
 
                 await Task.Delay(1000);
             }
@@ -140,7 +140,7 @@ namespace MaaWpfGui.ViewModels.UI
                 await Task.Delay(1000);
             }
 
-            if (actions.ExitSelf && !actions.Hibernate)
+            if (actions.ExitSelf && !(actions.Hibernate || actions.Shutdown))
             {
                 Bootstrapper.Shutdown();
             }
