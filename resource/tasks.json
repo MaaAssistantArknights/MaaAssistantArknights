@@ -9082,7 +9082,7 @@
         "action": "ClickSelf",
         "roi": [549, 440, 123, 130],
         "maskRange": [100, 255],
-        "templThreshold": 0.7,
+        "templThreshold": 0.75,
         "next": [
             "Sarkaz@Roguelike@StageEncounterEnter",
             "Sarkaz@Roguelike@Stages#next",
