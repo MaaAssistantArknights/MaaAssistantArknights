@@ -107,6 +107,12 @@
                             "threshold": 2,
                             "offset": -200
                         }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "折戟-浴血",
+                            "offset": 120
+                        }
                     ]
                 },
                 {
@@ -256,6 +262,21 @@
                     "name": "锏"
                 },
                 {
+                    "name": "佩佩",
+                    "skill": 2,
+                    "recruit_priority": 819,
+                    "promote_priority": 801,
+                    "is_start": true,
+                    "is_key": true,
+                    "recruit_priority_offsets": [
+                        {
+                            "groups": ["凯尔希", "近卫", "召唤"],
+                            "threshold": 1,
+                            "offset": -210
+                        }
+                    ]
+                },
+                {
                     "name": "山",
                     "skill": 2,
                     "skill_usage": 2,
@@ -283,6 +304,12 @@
                             "groups": ["凯尔希", "近卫", "召唤"],
                             "threshold": 3,
                             "offset": -150
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "折戟-浴血",
+                            "offset": 120
                         }
                     ]
                 },
@@ -501,6 +528,12 @@
                             "groups": ["凯尔希", "重装"],
                             "threshold": 2,
                             "offset": -120
+                        }
+                    ],
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "炸裂之手",
+                            "offset": 100
                         }
                     ]
                 },
@@ -749,7 +782,7 @@
                     "recruit_priority_offsets": [
                         {
                             "groups": ["凯尔希", "重装"],
-                            "threshold": 2,
+                            "threshold": 1,
                             "offset": -140
                         }
                     ]
@@ -902,7 +935,6 @@
                     "is_key": true,
                     "is_start": true,
                     "recruit_priority": 678,
-                    "promote_priority": 0,
                     "recruit_priority_offsets": [
                         {
                             "groups": ["水陈", "速狙"],
@@ -1130,6 +1162,12 @@
                     ]
                 },
                 {
+                    "name": "嘉维尔"
+                },
+                {
+                    "name": "末药"
+                },
+                {
                     "name": "褐果",
                     "skill": 1,
                     "recruit_priority": 687,
@@ -1183,12 +1221,6 @@
                             "offset": -300
                         }
                     ]
-                },
-                {
-                    "name": "末药"
-                },
-                {
-                    "name": "嘉维尔"
                 },
                 {
                     "name": "锡兰",
@@ -1867,9 +1899,16 @@
                 {
                     "name": "异客",
                     "skill": 3,
+                    "is_key": true,
                     "alternate_skill": 2,
                     "recruit_priority": 359,
-                    "promote_priority": 780
+                    "promote_priority": 780,
+                    "collection_priority_offsets": [
+                        {
+                            "collection": "炸裂之手",
+                            "offset": 638
+                        }
+                    ]
                 },
                 {
                     "name": "莫斯提马",
