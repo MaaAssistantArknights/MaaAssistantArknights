@@ -812,6 +812,9 @@
         "text": ["용문", "복권방"],
         "roi": [23, 125, 135, 55]
     },
+    "OrundumActivitiesChoose": {
+        "text": ["행운티켓", "선택"]
+    },
     "OrundumActivitiesConfirm": {
         "text": ["뽑기"]
     },
