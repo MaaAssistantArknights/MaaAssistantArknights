@@ -79,7 +79,7 @@
         },
         {
             "groups": ["元素奶"],
-            "location": [10, 6],
+            "location": [11, 6],
             "direction": "up",
             "condition": [27, 70]
         }
