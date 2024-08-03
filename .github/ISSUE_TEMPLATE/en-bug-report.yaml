@@ -66,13 +66,10 @@ body:
     attributes:
       label: Configuration information
       description: |
-        Which emulator is being used? What are the emulator's resolution and frame rate? What operating system? Relevant configuration?
-        Is MuMu Screenshot Enhancement enabled? Is GPU accelerated inference enabled?
-      placeholder: |
-        Emulator brand, emulator resolution, DPI (if using non-default DPI), frame rate:
-        Operating system (e.g., Windows__, MacOS):
-        Is MuMu Screenshot Enhancement enabled? (Only specify for Mumu12):
-        Is GPU accelerated inference enabled? GPU model (if enabled):
+        Emulator brand, emulator resolution, DPI (if using non-default DPI), frame rate;
+        Operating system (e.g., Windows__, MacOS);
+        Is MuMu Screenshot Enhancement enabled? (Only specify for Mumu12);
+        Is GPU accelerated inference enabled? GPU model (if enabled).
     validations:
       required: true
   - type: textarea
