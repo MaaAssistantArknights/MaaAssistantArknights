@@ -857,6 +857,9 @@
     "OrundumActivities": {
         "text": ["Lucky Strips", "Login Event"]
     },
+    "OrundumActivitiesChoose": {
+        "text": ["Choose", "spot"]
+    },
     "OrundumActivitiesConfirm": {
         "text": ["Confirm"]
     },
@@ -967,9 +970,11 @@
         "templThreshold": 0.85
     },
     "InfrastTrainingIdle": {
-        "text": ["Idle"]
+        "text": ["Idle", "ldle"],
+        "roi": [408, 636, 108, 58]
     },
     "InfrastTrainingCompleted": {
+        "roi": [408, 636, 108, 58],
         "text": ["Done"]
     },
     "InfrastTrainingOperatorAndSkill": {
@@ -2391,7 +2396,7 @@
             [".*Immaculate ?Garden", "_default"],
             ["Garden", "_default"],
             [".*Clairvoyant ?Carcass", "_default"],
-            ["深埋迷境", "_SKIP_"]
+            [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode4": {
@@ -2407,7 +2412,7 @@
             [".*Immaculate ?Garden", "_exit"],
             [".*Garden", "_exit"],
             [".*Clairvoyant ?Carcass", "_exit"],
-            ["深埋迷境", "_exit"]
+            [".*Secluded ?Passage", "_exit"]
         ]
     },
     "Sami@Roguelike@StrategyChange_mode5": {
@@ -2422,7 +2427,7 @@
             [".*Immaculate ?Garden", "_SKIP_"],
             [".*Garden", "_SKIP_"],
             [".*Clairvoyant ?Carcass", "_SKIP_"],
-            ["Secluded Passage", "_SKIP_"]
+            [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
     "Reclamation@BuyWaterProcedure": {

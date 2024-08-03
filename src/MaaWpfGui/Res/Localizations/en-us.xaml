@@ -407,7 +407,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="SelectAll">Select All</system:String>
     <system:String x:Key="Inverse">Inverse</system:String>
     <system:String x:Key="Clear">Clear</system:String>
-    <system:String x:Key="Then">Then</system:String>
+    <system:String x:Key="PostActions">Then</system:String>
     <system:String x:Key="DoNothing">Do Nothing</system:String>
     <system:String x:Key="ExitArknights">Exit Arknights</system:String>
     <system:String x:Key="ExitSelf">Exit MAA</system:String>
@@ -749,6 +749,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">Force display of MAA</system:String>
+    <system:String x:Key="Restart">Restart</system:String>
     <system:String x:Key="Exit">Exit</system:String>
     <!--  !TrayIcon  -->
     <!--  About  -->
