@@ -400,7 +400,7 @@
     <system:String x:Key="SelectAll">全選</system:String>
     <system:String x:Key="Inverse">反選</system:String>
     <system:String x:Key="Clear">清空</system:String>
-    <system:String x:Key="Then">完成後</system:String>
+    <system:String x:Key="PostActions">完成後</system:String>
     <system:String x:Key="DoNothing">無動作</system:String>
     <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="ExitSelf">退出 MAA</system:String>

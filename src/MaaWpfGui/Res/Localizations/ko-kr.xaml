@@ -409,7 +409,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="SelectAll">모두 선택</system:String>
     <system:String x:Key="Inverse">선택 반전</system:String>
     <system:String x:Key="Clear">모두 해제</system:String>
-    <system:String x:Key="Then">완료 후</system:String>
+    <system:String x:Key="PostActions">완료 후</system:String>
     <system:String x:Key="DoNothing">-</system:String>
     <system:String x:Key="ExitArknights">명일방주를 종료</system:String>
     <system:String x:Key="ExitSelf">MAA를 종료</system:String>
