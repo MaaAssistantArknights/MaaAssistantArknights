@@ -55,6 +55,11 @@
             "direction": "down"
         },
         {
+            "groups": ["补给站"],
+            "location": [3, 1],
+            "direction": "down"
+        },
+        {
             "groups": ["玛恩纳"],
             "location": [3, 4],
             "direction": "down"
