@@ -13,6 +13,8 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Input;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
 using Newtonsoft.Json;
@@ -85,8 +87,7 @@ public class PostActionSetting : PropertyChangedBase
                 SaveActions();
             }
 
-            ActionTitle = value ? string.Format("{0} ({1})", LocalizationHelper.GetString("Then"), LocalizationHelper.GetString("Once")) : LocalizationHelper.GetString("Then");
-
+            ActionTitle = value ? string.Format("{0} ({1})", LocalizationHelper.GetString("PostActions"), LocalizationHelper.GetString("Once")) : LocalizationHelper.GetString("PostActions");
             RefreshDescription();
         }
     }
@@ -101,6 +102,11 @@ public class PostActionSetting : PropertyChangedBase
             if (!SetAndNotify(ref _exitArknights, value))
             {
                 return;
+            }
+
+            if (value)
+            {
+                BackToAndroidHome = false;
             }
 
             UpdatePostAction(PostActions.ExitArknights, value);
@@ -119,6 +125,11 @@ public class PostActionSetting : PropertyChangedBase
                 return;
             }
 
+            if (value)
+            {
+                ExitArknights = false;
+            }
+
             UpdatePostAction(PostActions.BackToAndroidHome, value);
         }
     }
@@ -130,15 +141,19 @@ public class PostActionSetting : PropertyChangedBase
         get => _exitEmulator;
         set
         {
+            if (!SetAndNotify(ref _exitEmulator, value))
+            {
+                return;
+            }
+
             if (value)
             {
                 ExitArknights = false;
                 BackToAndroidHome = false;
             }
-
-            if (!SetAndNotify(ref _exitEmulator, value))
+            else
             {
-                return;
+                IfNoOtherMaa = false;
             }
 
             UpdatePostAction(PostActions.ExitEmulator, value);
@@ -157,6 +172,11 @@ public class PostActionSetting : PropertyChangedBase
                 return;
             }
 
+            if (!value)
+            {
+                IfNoOtherMaa = false;
+            }
+
             UpdatePostAction(PostActions.ExitSelf, value);
         }
     }
@@ -173,6 +193,12 @@ public class PostActionSetting : PropertyChangedBase
                 return;
             }
 
+            if (value)
+            {
+                ExitEmulator = true;
+                ExitSelf = true;
+            }
+
             UpdatePostAction(PostActions.IfNoOtherMaa, value);
         }
     }
@@ -184,14 +210,18 @@ public class PostActionSetting : PropertyChangedBase
         get => _hibernate;
         set
         {
-            if (!value)
-            {
-                IfNoOtherMaa = false;
-            }
-
             if (!SetAndNotify(ref _hibernate, value))
             {
                 return;
+            }
+
+            if (value)
+            {
+                Shutdown = false;
+            }
+            else if (!Shutdown)
+            {
+                IfNoOtherMaa = false;
             }
 
             UpdatePostAction(PostActions.Hibernate, value);
@@ -205,30 +235,29 @@ public class PostActionSetting : PropertyChangedBase
         get => _shutdown;
         set
         {
-            if (value)
-            {
-                ExitSelf = false;
-                ExitArknights = false;
-                BackToAndroidHome = false;
-                ExitEmulator = false;
-            }
-            else
-            {
-                IfNoOtherMaa = false;
-            }
-
             if (!SetAndNotify(ref _shutdown, value))
             {
                 return;
             }
 
-            UpdatePostAction(PostActions.Hibernate, value);
+            if (value)
+            {
+                ExitArknights = false;
+                BackToAndroidHome = false;
+                Hibernate = false;
+            }
+            else if (!Hibernate)
+            {
+                IfNoOtherMaa = false;
+            }
+
+            UpdatePostAction(PostActions.Shutdown, value);
         }
     }
 
     public static PostActionSetting Current { get; } = new();
 
-    private string _actionTitle = LocalizationHelper.GetString("Then");
+    private string _actionTitle = LocalizationHelper.GetString("PostActions");
 
     public string ActionTitle
     {
@@ -244,17 +273,30 @@ public class PostActionSetting : PropertyChangedBase
         private set => SetAndNotify(ref _actionDescription, value);
     }
 
+    public void PostActionsAndOnce(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton != MouseButton.Right)
+        {
+            return;
+        }
+
+        Once = !Once;
+        CheckBox checkBox = (CheckBox)sender;
+        checkBox.IsChecked = !checkBox.IsChecked;
+    }
+
     private void RefreshDescription()
     {
         List<string> actions = [];
-        if (ExitArknights)
-        {
-            actions.Add(LocalizationHelper.GetString("ExitArknights"));
-        }
 
         if (BackToAndroidHome)
         {
             actions.Add(LocalizationHelper.GetString("BackToAndroidHome"));
+        }
+
+        if (ExitArknights)
+        {
+            actions.Add(LocalizationHelper.GetString("ExitArknights"));
         }
 
         if (ExitEmulator)
@@ -267,19 +309,15 @@ public class PostActionSetting : PropertyChangedBase
             actions.Add(LocalizationHelper.GetString("ExitSelf"));
         }
 
-        if (IfNoOtherMaa)
-        {
-            actions.Add(LocalizationHelper.GetString("IfNoOtherMaa"));
-        }
-
+        var prefix = IfNoOtherMaa ? LocalizationHelper.GetString("IfNoOtherMaa") : string.Empty;
         if (Hibernate)
         {
-            actions.Add(LocalizationHelper.GetString("Hibernate"));
+            actions.Add(prefix + LocalizationHelper.GetString("Hibernate"));
         }
 
         if (Shutdown)
         {
-            actions.Add(LocalizationHelper.GetString("Shutdown"));
+            actions.Add(prefix + LocalizationHelper.GetString("Shutdown"));
         }
 
         ActionDescription = actions.Count == 0

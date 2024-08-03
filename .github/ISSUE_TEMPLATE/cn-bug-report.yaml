@@ -41,6 +41,19 @@ body:
       description: |
         **请在关闭MAA后，上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
+      placeholder: |
+        请确认上传文件时MAA已关闭:
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: 配置信息
+      description: |
+        模拟器品牌，模拟器分辨率、DPI(非默认dpi需写)、帧率；
+        操作系统 (如 Windows__, MacOS)；
+        MuMu截图增强是否开启 (Mumu12需写)；
+        GPU加速推理是否开启，GPU型号(若开启)。
     validations:
       required: true
   - type: textarea
@@ -59,8 +72,6 @@ body:
     attributes:
       label: 还有别的吗？
       description: |
-        使用的模拟器？模拟器的分辨率和帧数？操作系统？相关的配置？
-        MuMu 截图增强是否开启？GPU 加速推理是否开启？
         任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false

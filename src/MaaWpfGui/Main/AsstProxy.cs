@@ -1475,7 +1475,7 @@ namespace MaaWpfGui.Main
                         var operatorName = DataHelper.GetLocalizedCharacterName(subTaskDetails!["operator"]?.ToString()) ?? "UnKnown";
                         var skillName = subTaskDetails["skill"]?.ToString() ?? "UnKnown";
                         Instances.TaskQueueViewModel.AddLog(
-                            $"[{operatorName}]{skillName}\n" +
+                            $"[{operatorName}] {skillName}\n" +
                             $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)} {LocalizationHelper.GetString("TrainingCompleted")}",
                             UiLogColor.Info);
                         break;
@@ -1486,7 +1486,7 @@ namespace MaaWpfGui.Main
                         var operatorName = DataHelper.GetLocalizedCharacterName(subTaskDetails!["operator"]?.ToString()) ?? "UnKnown";
                         var skillName = subTaskDetails["skill"]?.ToString() ?? "UnKnown";
                         Instances.TaskQueueViewModel.AddLog(
-                            $"[{operatorName}]{skillName}\n" +
+                            $"[{operatorName}] {skillName}\n" +
                             $"{LocalizationHelper.GetString("TrainingLevel")}: {(int)(subTaskDetails["level"] ?? -1)}\n" +
                             $"{LocalizationHelper.GetString("TrainingTimeLeft")}: {subTaskDetails["hh"]:D2}:{subTaskDetails["mm"]:D2}:{subTaskDetails["ss"]:D2}",
                             UiLogColor.Info);
