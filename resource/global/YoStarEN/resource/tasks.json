@@ -860,6 +860,9 @@
     "OrundumActivitiesConfirm": {
         "text": ["Confirm"]
     },
+    "OrundumActivitiesChoose": {
+        "text": ["Choose", "spot"]
+    },
     "RecruitingActivities": {
         "text": ["Free", "Roll"]
     },
