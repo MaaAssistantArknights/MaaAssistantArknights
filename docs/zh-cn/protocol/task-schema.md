@@ -28,7 +28,6 @@ icon: material-symbols:task
         "action": "ClickSelf",              // 可选项，表示识别到后的动作
                                             // 不填写时默认为 DoNothing
                                             //      - ClickSelf:        点击识别到的位置（识别到的目标范围内随机点）
-                                            //      - ClickRand:        点击整个画面中随机位置
                                             //      - ClickRect:        点击指定的区域，对应 specificRect 字段，不建议使用该选项
                                             //      - DoNothing:        什么都不做
                                             //      - Stop:             停止当前任务
