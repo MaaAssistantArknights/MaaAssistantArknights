@@ -27,7 +27,7 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding PostActionSetting.ExitArknights}"
-                IsEnabled="{c:Binding '!(PostActionSetting.Shutdown || PostActionSetting.ExitEmulator)'}">
+                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource ExitArknights}"
@@ -36,16 +36,13 @@
             <CheckBox
                 Margin="0,10"
                 IsChecked="{Binding PostActionSetting.BackToAndroidHome}"
-                IsEnabled="{c:Binding '!(PostActionSetting.ExitEmulator || PostActionSetting.Shutdown)'}">
+                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource BackToAndroidHome}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding PostActionSetting.ExitEmulator}"
-                IsEnabled="{c:Binding !PostActionSetting.Shutdown}">
+            <CheckBox Margin="0,10" IsChecked="{Binding PostActionSetting.ExitEmulator}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource ExitEmulator}"
@@ -71,19 +68,13 @@
                     TextWrapping="Wrap" />
             </CheckBox>
 
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding PostActionSetting.Hibernate}"
-                IsEnabled="{c:Binding !PostActionSetting.Shutdown}">
+            <CheckBox Margin="0,10" IsChecked="{Binding PostActionSetting.Hibernate}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource Hibernate}"
                     TextWrapping="Wrap" />
             </CheckBox>
-            <CheckBox
-                Margin="0,10"
-                IsChecked="{Binding PostActionSetting.Shutdown}"
-                IsEnabled="{c:Binding !PostActionSetting.Hibernate}">
+            <CheckBox Margin="0,10" IsChecked="{Binding PostActionSetting.Shutdown}">
                 <controls:TextBlock
                     Width="195"
                     Text="{DynamicResource Shutdown}"

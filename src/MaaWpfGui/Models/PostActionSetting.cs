@@ -188,7 +188,11 @@ public class PostActionSetting : PropertyChangedBase
                 return;
             }
 
-            if (!value)
+            if (value)
+            {
+                Shutdown = false;
+            }
+            else if (!Shutdown)
             {
                 IfNoOtherMaa = false;
             }
@@ -212,11 +216,9 @@ public class PostActionSetting : PropertyChangedBase
             if (value)
             {
                 ExitSelf = false;
-                ExitArknights = false;
-                BackToAndroidHome = false;
-                ExitEmulator = false;
+                Hibernate = false;
             }
-            else
+            else if (!Hibernate)
             {
                 IfNoOtherMaa = false;
             }
@@ -273,13 +275,26 @@ public class PostActionSetting : PropertyChangedBase
 
         if (Hibernate)
         {
-            actions.Add(LocalizationHelper.GetString("Hibernate"));
+            var action = LocalizationHelper.GetString("Hibernate");
+            if (IfNoOtherMaa)
+            {
+                action = action + " else " + LocalizationHelper.GetString("ExitSelf");
+            }
+
+            actions.Add(action);
         }
 
         if (Shutdown)
         {
-            actions.Add(LocalizationHelper.GetString("Shutdown"));
+            var action = LocalizationHelper.GetString("Shutdown");
+            if (IfNoOtherMaa)
+            {
+                action = action + " else " + LocalizationHelper.GetString("ExitSelf");
+            }
+
+            actions.Add(action);
         }
+
 
         ActionDescription = actions.Count == 0
             ? LocalizationHelper.GetString("DoNothing")
