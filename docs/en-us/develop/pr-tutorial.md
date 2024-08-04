@@ -35,7 +35,7 @@ This chapter contains slightly dry content. If you're not interested, you can sk
 
 ### Fork
 
-Copy, literally meaning to make a copy of MAA's code, and then perform subsequent modifications and operations to avoid damaging the original.
+To fork,  literally meaning to make a copy of MAA's code, and then perform subsequent modifications and operations to avoid damaging the original repository.
 
 Since it's a copy, let's assume it's called `MAA (1)`.  
 To distinguish it from the original repository, we usually refer to the original MAA repository as "main repository" or "upstream".  
@@ -187,7 +187,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     ```
 
 10. Now you are in the main repository, please double-check the changes you want to PR.
-    As shown in the figure, there is a leftward arrow, which means you want to merge the dev branch from your forked repository "Your name/MAA" to the dev branch of the main repository "MAA".
+    As shown in the figure, there is a leftward arrow, which means you want to merge the dev branch from your forked repository "your_name/MAA" to the dev branch of the main repository "MAA".
     Scrolling down shows the differences between these two branches, indicating what changes you have made.
 
     ```component Image1
@@ -244,7 +244,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-13. Once the experts approve the PR, you're all set! Your changes have been merged into the MAA main repository!
+13. Once the experts approve the PR, you're all set! Your changes have been merged into the main MAA repository!
 
 14. If you want to submit another PR next time, please first go back to the homepage of your personal repository and click 'Sync fork' to synchronize your repository with the main repository.
     Note here: If there is a red 'Discard 1 commit', click the red one. If there isn't, then click the green 'Update branch'.
