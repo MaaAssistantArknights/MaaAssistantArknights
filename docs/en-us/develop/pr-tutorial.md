@@ -104,7 +104,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-3. You will be taken to your personal repository, which will have a title of "Your Name/MaaAssistantArknights", with a small note below stating "forked from MaaAssistantArknights/MaaAssistantArknights" (copied from the MAA main repository).
+3. You will be taken to your personal repository, which will have a title of "your_name/MaaAssistantArknights", with a small note below stating "forked from MaaAssistantArknights/MaaAssistantArknights" (copied from the MAA main repository).
 
     ```component Image1
     {
