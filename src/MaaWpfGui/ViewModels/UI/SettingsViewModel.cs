@@ -1936,7 +1936,7 @@ namespace MaaWpfGui.ViewModels.UI
                             continue;
                         }
 
-                        var localizedName = DataHelper.GetLocalizedCharacterName(name, _language);
+                        var localizedName = DataHelper.GetLocalizedCharacterName(name, OperNameLocalization);
                         if (!string.IsNullOrEmpty(localizedName) && !(_clientType.Contains("YoStar") && DataHelper.GetLocalizedCharacterName(name, "en-us") == DataHelper.GetLocalizedCharacterName(name, "zh-cn")))
                         {
                             roguelikeCoreCharList.Add(localizedName);
@@ -4429,6 +4429,15 @@ namespace MaaWpfGui.ViewModels.UI
         public List<CombinedData> LanguageList { get; set; }
 
         /// <summary>
+        /// Gets the list of operator name language settings
+        /// </summary>
+        public List<CombinedData> OperNameLanguageModeList { get; } =
+            [
+                new() { Display = LocalizationHelper.GetString("OperNameLanguageMAA"), Value = "OperNameLanguageMAA" },
+                new() { Display = LocalizationHelper.GetString("OperNameLanguageClient"), Value = "OperNameLanguageClient" }
+            ];
+
+        /// <summary>
         /// Gets the list of dark mode.
         /// </summary>
         public List<GenericCombinedData<DarkModeType>> DarkModeList { get; } =
@@ -4760,6 +4769,51 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 var language = (string)Application.Current.Resources["Language"];
                 return language == "Language" ? language : language + " / Language";
+            }
+        }
+
+        private static readonly Dictionary<string, string> _clientLanguageMapper = new()
+        {
+            { string.Empty, "zh-cn" },
+            { "Official", "zh-cn" },
+            { "Bilibili", "zh-cn" },
+            { "YoStarEN", "en-us" },
+            { "YoStarJP", "ja-jp" },
+            { "YoStarKR", "ko-kr" },
+            { "txwy", "zh-tw" },
+        };
+
+        private string _operNameLanguage = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+
+        public string OperNameLanguage
+        {
+            get => _operNameLanguage;
+
+            set
+            {
+                switch (value)
+                {
+                    case "OperNameLanguageClient":
+                        ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, value);
+                        break;
+                    case "OperNameLanguageMAA":
+                    default:
+                        ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
+                        break;
+                }
+            }
+        }
+
+        public string OperNameLocalization
+        {
+            get
+            {
+                if (_operNameLanguage == "OperNameLanguageClient")
+                {
+                    return _clientLanguageMapper[ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty)];
+                }
+
+                return _language;
             }
         }
 

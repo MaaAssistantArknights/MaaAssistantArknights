@@ -98,6 +98,17 @@
                 Margin="10"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
+                hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
+                DisplayMemberPath="Display"
+                ItemsSource="{Binding OperNameLanguageModeList}"
+                SelectedValue="{Binding OperNameLanguage}"
+                SelectedValuePath="Value"
+                Style="{StaticResource ComboBoxExtend}" />
+            <ComboBox
+                Width="180"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource UiTheme}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding DarkModeList}"

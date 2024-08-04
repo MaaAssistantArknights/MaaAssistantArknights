@@ -404,6 +404,9 @@
     <system:String x:Key="AutoRoguelike">自动肉鸽</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算·沙中之火</system:String>
     <system:String x:Key="ReclamationAlgorithm2">生息演算·沙洲遗闻</system:String>
+    <system:String x:Key="OperNameLanguage">干员名称显示语言</system:String>
+    <system:String x:Key="OperNameLanguageMAA">跟随MAA</system:String>
+    <system:String x:Key="OperNameLanguageClient">跟随游戏客户端</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">与系统同步</system:String>
