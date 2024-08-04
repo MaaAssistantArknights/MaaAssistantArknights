@@ -2825,9 +2825,7 @@
         "algorithm": "OcrDetect",
         "text": ["请选择", "选择"],
         "roi": [1023, 504, 198, 81],
-        "sub": ["OrundumActivitiesClick", "OrundumActivitiesClick", "OrundumActivitiesClick"],
-        "subErrorIgnored": true,
-        "next": ["OrundumActivitiesConfirm", "OrundumActivitiesEarnRewards", "OrundumActivitiesReturn"]
+        "next": ["OrundumActivitiesClick"]
     },
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
@@ -2835,7 +2833,8 @@
         "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
         "templThreshold": 0.9,
         "maskRange": [1, 255],
-        "rectMove": [10, 10, 50, 50]
+        "rectMove": [10, 10, 50, 50],
+        "next": ["OrundumActivitiesChoose", "OrundumActivitiesConfirm"]
     },
     "OrundumActivitiesConfirm": {
         "algorithm": "OcrDetect",
