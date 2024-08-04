@@ -323,47 +323,76 @@ namespace MaaWpfGui.ViewModels.UI
             DateTime currentTime = DateTime.Now;
             currentTime = new DateTime(currentTime.Year, currentTime.Month, currentTime.Day, currentTime.Hour, currentTime.Minute, 0);
 
-            if (NeedToUpdateDatePrompt())
-            {
-                UpdateDatePrompt();
-                UpdateStageList(false);
-
-                // 随机延迟，防止同时更新
-                var delayTime = new Random().Next(0, 60 * 60 * 1000);
-                _ = Task.Run(async () =>
-                {
-                    await Task.Delay(delayTime);
-                    await _runningState.UntilIdleAsync(60000);
-                    await _stageManager.UpdateStageWeb();
-                    UpdateDatePrompt();
-                    UpdateStageList(false);
-                });
-            }
-
-            if (NeedToCheckForUpdates())
-            {
-                if (Instances.SettingsViewModel.UpdateAutoCheck)
-                {
-                    // 随机延迟，防止同时更新
-                    var delayTime = new Random().Next(0, 60 * 60 * 1000);
-                    _ = Task.Run(async () =>
-                    {
-                        await Task.Delay(delayTime);
-                        _ = Instances.SettingsViewModel.ManualUpdate();
-                    });
-                }
-            }
+            HandleDatePromptUpdate();
+            HandleCheckForUpdates();
 
             RefreshCustomInfrastPlanIndexByPeriod();
 
-            if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart && !Instances.SettingsViewModel.CustomConfig)
+            await HandleTimerLogic(currentTime);
+        }
+
+        private static int CalculateRandomDelay()
+        {
+            Random random = new Random();
+            int delayTime = random.Next(0, 60 * 60 * 1000);
+            return delayTime;
+        }
+
+        private bool _isUpdatingDatePrompt;
+
+        private void HandleDatePromptUpdate()
+        {
+            if (!NeedToUpdateDatePrompt() || _isUpdatingDatePrompt)
             {
                 return;
             }
 
-            var timeToStart = false;
-            var timeToChangeConfig = false;
-            var configIndex = 0;
+            _isUpdatingDatePrompt = true;
+            UpdateDatePrompt();
+            UpdateStageList(false);
+
+            var delayTime = CalculateRandomDelay();
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(delayTime);
+                await _runningState.UntilIdleAsync(60000);
+                await _stageManager.UpdateStageWeb();
+                UpdateDatePrompt();
+                UpdateStageList(false);
+                _isUpdatingDatePrompt = false;
+            });
+        }
+
+        private bool _isCheckingForUpdates;
+
+        private void HandleCheckForUpdates()
+        {
+            if (!NeedToCheckForUpdates() || _isCheckingForUpdates)
+            {
+                return;
+            }
+
+            if (!Instances.SettingsViewModel.UpdateAutoCheck)
+            {
+                return;
+            }
+
+            _isCheckingForUpdates = true;
+            var delayTime = CalculateRandomDelay();
+            _ = Task.Run(async () =>
+            {
+                await Task.Delay(delayTime);
+                await Instances.SettingsViewModel.ManualUpdate();
+                _isCheckingForUpdates = false;
+            });
+        }
+
+        private static (bool timeToStart, bool timeToChangeConfig, int configIndex) CheckTimers(DateTime currentTime)
+        {
+            bool timeToStart = false;
+            bool timeToChangeConfig = false;
+            int configIndex = 0;
+
             for (int i = 0; i < 8; ++i)
             {
                 if (!Instances.SettingsViewModel.TimerModels.Timers[i].IsOn)
@@ -402,28 +431,46 @@ namespace MaaWpfGui.ViewModels.UI
                 }
             }
 
-            if (timeToChangeConfig)
-            {
-                if (Instances.SettingsViewModel.CustomConfig &&
-                    (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
-                {
-                    // CurrentConfiguration设置后会重启
-                    Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
-                    return;
-                }
-            }
-
-            if (!timeToStart)
+            return (timeToStart, timeToChangeConfig, configIndex);
+        }
+        private async Task HandleTimerLogic(DateTime currentTime)
+        {
+            if (!_runningState.GetIdle() && !Instances.SettingsViewModel.ForceScheduledStart)
             {
                 return;
             }
 
+            var (timeToStart, timeToChangeConfig, configIndex) = CheckTimers(currentTime);
+
+            if (timeToChangeConfig)
+            {
+                HandleConfigChange(configIndex);
+                return;
+            }
+
+            if (timeToStart)
+            {
+                await HandleScheduledStart(configIndex);
+            }
+        }
+
+        private void HandleConfigChange(int configIndex)
+        {
+            if (Instances.SettingsViewModel.CustomConfig &&
+                (_runningState.GetIdle() || Instances.SettingsViewModel.ForceScheduledStart))
+            {
+                Instances.SettingsViewModel.CurrentConfiguration = Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig;
+            }
+        }
+
+        private async Task HandleScheduledStart(int configIndex)
+        {
             if (Instances.SettingsViewModel.ForceScheduledStart)
             {
-                // 什么时候会遇到这种情况？
                 if (Instances.SettingsViewModel.CustomConfig &&
                     Instances.SettingsViewModel.CurrentConfiguration != Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig)
                 {
+                    _logger.Warning($"Scheduled start skipped: Custom configuration is enabled, but the current configuration does not match the scheduled timer configuration (Timer Index: {configIndex}). Current Configuration: {Instances.SettingsViewModel.CurrentConfiguration}, Scheduled Configuration: {Instances.SettingsViewModel.TimerModels.Timers[configIndex].TimerConfig}");
                     return;
                 }
 
