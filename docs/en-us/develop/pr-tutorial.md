@@ -157,8 +157,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-    We have a simple commit title [naming format](https://www.conventionalcommits.org/zh-hans/v1.0.0/), which you should try to follow. However, if you find it difficult to understand, you can just write something for now. 
-
+    We have a simple commit title [naming format](https://www.conventionalcommits.org/zh-hans/v1.0.0/), which you should try to follow. However, if you find it difficult to understand, you can just write something for now.
 
     ```component Image1
     {
