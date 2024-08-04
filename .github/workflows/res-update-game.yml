@@ -83,6 +83,7 @@ jobs:
           path: ./Overseas
 
   clone-resources-txwy:
+    if: github.repository_owner == 'MaaAssistantArknights'
     runs-on: ubuntu-latest
     steps:
       - name: Clone arknights-toolbox-update for Taiwan
