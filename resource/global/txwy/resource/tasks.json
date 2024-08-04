@@ -183,7 +183,7 @@
         "text": ["極限", "鐵人", "大獎"]
     },
     "CharsNameOcrReplace": {
-        "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用",
+        "Doc": "该任务的 ocrReplace 被所有涉及干员名的繁中识别任务复用，先全字符串匹配再部分匹配",
         "ocrReplace": [
             ["^<", ""],
             ["^《", ""],
