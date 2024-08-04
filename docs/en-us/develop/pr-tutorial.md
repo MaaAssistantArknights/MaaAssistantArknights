@@ -38,8 +38,8 @@ This chapter contains slightly dry content. If you're not interested, you can sk
 Copy, literally meaning to make a copy of MAA's code, and then perform subsequent modifications and operations to avoid damaging the original.
 
 Since it's a copy, let's assume it's called `MAA (1)`.  
-To distinguish it from the original repository, we usually refer to the original MAA repository as "main repository", "upstream", or "origin".  
-Since everyone can make a copy of their own, the copied repository is called a "personal repository".
+To distinguish it from the original repository, we usually refer to the original MAA repository as "main repository" or "upstream".  
+Since everyone can make a copy of their own, the copied repository is called a "personal repository" or "origin".
 
 ```component Image1
 {
@@ -78,7 +78,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 ## Full Process of Pure Web-based PR Operation
 
-1. First, go to the MAA main repository and fork a copy of the code.
+1. First, go to the MAA main repository and click the button in the top right corner to fork a copy of the code.
 
     ```component Image1
     {
@@ -91,7 +91,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-2. Remove the "Only master branch" option, then click "Create Fork".
+2. Then, click on 'Create Fork' directly.
 
     ```component Image1
     {
@@ -117,7 +117,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-4. Find the file you want to modify. You can click "Go to file" to search for it globally, or you can navigate through the folders below (if you know where the file is located).
+4. Find the file you want to edit. You can click 'Go to file' to search globally, or you can browse through the folders below if you know where the file is located.
 
     ```component Image1
     {
@@ -144,7 +144,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     ```
 
 6. Make your changes! (If it's a resource file, we recommend testing the changes in your local MAA folder before pasting them in the web page to avoid errors).
-7. When you finish editing, scroll to the bottom of the page and describe your changes.
+7. Once you've finished editing, click the button 👇 in the top right corner to open the commit page and write a brief description of what you changed.
 
     ```component Image1
     {
@@ -157,6 +157,9 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
+    We have a simple commit title [naming format](https://www.conventionalcommits.org/zh-hans/v1.0.0/), which you should try to follow. However, if you find it difficult to understand, you can just write something for now. 
+
+
     ```component Image1
     {
       "imageList": [
@@ -168,9 +171,10 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-8. Need to edit another file? Made a mistake and want to change it again? No problem! Simply repeat steps 5-8 for the other file.
+8. Need to edit another file? Made a mistake and want to change it again? No problem! Simply repeat steps 4-7 for the other file.
 9. When all changes are made, create a Pull Request by going to the Pull Request tab in your personal repository.
-    If there is a "Compare & Pull Request" button, that's great, just click it! If not, don't worry, clicking "New Pull Request" below is also the same (see step 11).
+    If there is a "Compare & Pull Request" button, that's great, just click it!
+    If not, don't worry, clicking "Open Pull Request" below is also the same.
 
     ```component Image1
     {
@@ -185,6 +189,7 @@ Now we have a conflict, as both of you have modified the A file but in different
 
 10. Now you are in the main repository, please double-check the changes you want to PR.
     As shown in the figure, there is a leftward arrow, which means you want to merge the dev branch from your forked repository "Your name/MAA" to the dev branch of the main repository "MAA".
+    Scrolling down shows the differences between these two branches, indicating what changes you have made.
 
     ```component Image1
     {
@@ -198,6 +203,7 @@ Now we have a conflict, as both of you have modified the A file but in different
     ```
 
     Then, write a title and description of your changes, and click "Create Pull Request".
+    The PR title should also follow the [naming format](https://www.conventionalcommits.org/zh-hans/v1.0.0/). However, if you still don't understand it, you can also just write something for now.
 
     ```component Image1
     {
@@ -210,8 +216,8 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-11. Just wait for the MAA Team's experts to review it! Of course, they may also provide some comments,
-  👇 for example (for entertainment purposes only, do not take it seriously):
+11. Just wait for the MAA Team members to review it! Of course, they may also provide some comments,
+    👇 for example (for entertainment purposes only, do not take it seriously):
 
     ```component Image1
     {
@@ -224,9 +230,9 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-12. If they request further changes, go back to your personal repository, switch to the dev branch, and repeat steps 3-9!
-  Note that you do not need to redo step 2 (re-fork) or step 10 (re-Pull Request), your current Pull Request is still pending review, and subsequent changes will be added directly to this Pull Request.
-  👇 For example, you can see that "revised demo" has been added at the bottom.
+12. If they request further changes, go back to **your personal repository** and repeat steps 4-7!
+    Note that you do not need to redo step 1-2 (re-fork) or step 9-10 (re-Pull Request), your current Pull Request is still pending review, and subsequent changes will be added directly to this Pull Request.
+    👇 For example, you can see that "revised demo" has been added at the bottom.
 
     ```component Image1
     {
@@ -239,14 +245,11 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-13. Once the experts approve the PR, you're all set! After the version is released, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless dedication!
-    [![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+13. Once the experts approve the PR, you're all set! Your changes have been merged into the MAA main repository!
 
-14. Next time if you want to submit another PR, please switch to the dev branch first, and then follow the steps in the image below.
-    **Please note!** This operation will forcibly synchronize your personal repository to the exact same state as the main repository. This is the simplest but effective way to resolve conflicts. However, if you have made additional edits in your personal repository, they will be directly deleted!
-    If you are sure that it will not cause conflicts, please use the green Update Branch button on the right.
-
-    If you are not sure or don't care about what I said above, please click the button on the left.
+14. If you want to submit another PR next time, please first go back to the homepage of your personal repository and click 'Sync fork' to synchronize your repository with the main repository.
+    Note here: If there is a red 'Discard 1 commit', click the red one. If there isn't, then click the green 'Update branch'.
+    Next, you can repeat steps 4-10 to make further modifications.
 
     ```component Image1
     {
@@ -263,4 +266,9 @@ Now we have a conflict, as both of you have modified the A file but in different
     }
     ```
 
-    Then repeat steps 3-14, make changes and submit PR.
+**After the version is released**, your GitHub avatar will automatically be added to the contributors list. Thank you very much for your selfless dedication!
+::: tip Contributors/Participators
+Thank you to everyone involved in development and testing. Your help is going to ~~Make MAA Great Again~~! (\*´▽ ｀)ノノ
+
+[![Contributors](https://contributors-img.web.app/image?repo=MaaAssistantArknights/MaaAssistantArknights&max=114514&columns=15)](https://github.com/MaaAssistantArknights/MaaAssistantArknights/graphs/contributors)
+:::
