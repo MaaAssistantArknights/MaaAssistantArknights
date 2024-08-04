@@ -47,7 +47,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！  
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {

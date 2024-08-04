@@ -46,7 +46,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {
