@@ -48,7 +48,7 @@ maa init
 - `maa closedown`: 关闭游戏客户端；
 - `maa fight [stage]`: 运行战斗任务，`[stage]` 是关卡名称，例如 `1-7`；留空选择上次或者当前关卡；
 - `maa copilot <maa_uri>`: 运行自动战斗任务，其中 `<maa_uri>` 是作业的 URI，其可以是 `maa://1234` 或者本地文件路径 `./1234.json`；
-- `maa roguelike [theme]`: 自动集成战略，`[theme]` 是集成战略的主题，可选值为 `Phantom`，`Mizuki` 以及 `Sami`；
+- `maa roguelike [theme]`: 自动集成战略，`[theme]` 是集成战略的主题，可选值为 `Phantom`，`Mizuki`，`Sami` 以及 `Sarkaz`；
 
 上述任务接受一些参数，你可以通过 `maa <task> --help` 来查看具体的参数。
 
