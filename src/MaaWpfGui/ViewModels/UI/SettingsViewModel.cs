@@ -653,7 +653,8 @@ namespace MaaWpfGui.ViewModels.UI
         public bool AllowDeprecatedGpu
         {
             get => GpuOption.AllowDeprecatedGpu;
-            set {
+            set
+            {
                 GpuOption.AllowDeprecatedGpu = value;
                 NotifyOfPropertyChange();
             }
@@ -777,6 +778,25 @@ namespace MaaWpfGui.ViewModels.UI
             get => _emulatorPath;
             set
             {
+                if (Path.GetFileName(value).ToLower().Contains("maa"))
+                {
+                    int count = 3;
+                    while (count-- > 0)
+                    {
+                        var result = MessageBoxHelper.Show(
+                            LocalizationHelper.GetString("EmulatorPathSelectionErrorPrompt"),
+                            LocalizationHelper.GetString("Tip"),
+                            MessageBoxButton.OKCancel,
+                            MessageBoxImage.Warning,
+                            ok: LocalizationHelper.GetString("EmulatorPathSelectionErrorImSure") + $"({count + 1})",
+                            cancel: LocalizationHelper.GetString("EmulatorPathSelectionErrorSelectAgain"));
+                        if (result == MessageBoxResult.Cancel)
+                        {
+                            return;
+                        }
+                    }
+                }
+
                 SetAndNotify(ref _emulatorPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorPath, value);
             }
