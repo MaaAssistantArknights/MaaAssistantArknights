@@ -70,8 +70,6 @@ body:
         Operating system (e.g. Windows__, MacOS);
         Is MuMu Screenshot Enhancement enabled? (Only specify for Mumu12);
         Is GPU accelerated inference enabled? GPU model (if enabled).
-      placeholder: |
-        If you confirm that this bug is not related to the configuration, please enter 'Not Related'. (e.g. a GUI-related bug)
     validations:
       required: true
   - type: textarea
