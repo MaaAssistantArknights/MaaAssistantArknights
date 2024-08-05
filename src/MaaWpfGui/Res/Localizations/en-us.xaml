@@ -586,6 +586,12 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="LoopTimes">Loop Times</system:String>
     <system:String x:Key="Start">Start</system:String>
     <system:String x:Key="VideoLink">Video Link</system:String>
+    <system:String x:Key="CopilotSkill">Skill</system:String>
+    <system:String x:Key="TotalOperatorsCount">Total {0} Operator(s)</system:String>
+    <system:String x:Key="DirectiveECTerm">Directive EC unit:</system:String>
+    <system:String x:Key="OtherOperators">Other operators:</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">Tactical Equipment (horizontal):</system:String>
+    <system:String x:Key="InitialStrategy">Initial Strategy:</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         Tips: \n\n

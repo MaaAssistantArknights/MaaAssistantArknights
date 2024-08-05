@@ -585,6 +585,12 @@
     <system:String x:Key="LoopTimes">ループ回数</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">映像へのハイパーリンク</system:String>
+    <system:String x:Key="CopilotSkill">スキル</system:String>
+    <system:String x:Key="TotalOperatorsCount">合計 {0} 名のオペレーター</system:String>
+    <system:String x:Key="DirectiveECTerm">拡張式戦術ユニット：</system:String>
+    <system:String x:Key="OtherOperators">その他のオペレーター：</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">初期戦術装備（横）：</system:String>
+    <system:String x:Key="InitialStrategy">初期戦略：</system:String>
     <!--  Logs  -->
     <system:String x:Key="CopilotTip">
         ヒント: \n\n
