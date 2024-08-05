@@ -149,7 +149,7 @@
         {
             "configName": "Waydroid",
             "baseConfig": "CompatPOSIXShell",
-            "start": "[Adb] -s [AdbSerial] shell am start --windowingMode 4 -n [Intent]",
+            "start": "[Adb] -s [AdbSerial] shell am start --windowingMode 4 -n [PackageName]/com.u8.sdk.U8UnityContext",
             "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
             "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
         }
