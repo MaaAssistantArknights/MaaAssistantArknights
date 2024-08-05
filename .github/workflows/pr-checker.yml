@@ -38,7 +38,7 @@ jobs:
               per_page: 100
             });
 
-            const regex = /^((build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)[\:\.\(\,]|[Rr]evert|[Rr]elease|[Mm]erge)/;
+            const regex = /^((build|chore|ci|docs?|feat!?|fix|perf|refactor|rft|style|test|i18n|typo|debug)[\:\.\(\,]|[Rr]evert|[Rr]elease)/;
             const invalidCommits = commits.filter(commit => !regex.test(commit.commit.message) || commit.parents.length > 1);
 
             console.log(`Checked ${commits.length} commit(s)`);
