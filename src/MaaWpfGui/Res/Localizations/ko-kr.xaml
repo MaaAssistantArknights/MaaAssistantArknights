@@ -267,6 +267,9 @@
     <system:String x:Key="WaitForEmulator">에뮬레이터 실행 대기 (초)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">대기 시간 종료</system:String>
     <system:String x:Key="EmulatorPath">에뮬레이터 경로</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">바에서 바를 주문하고 싶습니까?</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorImSure">잘못 선택한 것이 확실히 아닙니다</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">다시 선택하겠습니다</system:String>
     <system:String x:Key="Select">선택</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB 강제 교체</system:String>
     <system:String x:Key="TouchMode">터치 수행 방식</system:String>

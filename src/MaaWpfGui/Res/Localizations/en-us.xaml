@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  Settings  -->
     <system:String x:Key="Settings">Settings</system:String>
     <system:String x:Key="GeneralSettings">General</system:String>
@@ -266,6 +269,9 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="WaitForEmulator">Delay time (s)</system:String>
     <system:String x:Key="WaitForEmulatorFinish">End of wait</system:String>
     <system:String x:Key="EmulatorPath">Emulator exec path</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">Do you also want to order a bar in a bar?</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorImSure">I'm sure I haven't selected the wrong one</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">Okay, I will choose again</system:String>
     <system:String x:Key="Select">Select</system:String>
     <system:String x:Key="ForcedReplaceAdb">Replace ADB</system:String>
     <system:String x:Key="TouchMode">Touch Mode</system:String>

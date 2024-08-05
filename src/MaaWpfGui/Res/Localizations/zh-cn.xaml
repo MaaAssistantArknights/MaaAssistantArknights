@@ -269,6 +269,9 @@
     <system:String x:Key="WaitForEmulator">等待模拟器启动时间（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待结束</system:String>
     <system:String x:Key="EmulatorPath">模拟器路径</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里点酒吧？</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorImSure">我确定没选错</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我会重新选择</system:String>
     <system:String x:Key="Select">选择</system:String>
     <system:String x:Key="ForcedReplaceAdb">强制替换 ADB</system:String>
     <system:String x:Key="TouchMode">触控模式</system:String>
