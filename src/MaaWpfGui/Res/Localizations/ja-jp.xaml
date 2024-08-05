@@ -400,6 +400,9 @@
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
     <system:String x:Key="ReclamationAlgorithm2">生息演算「沙洲遺聞」</system:String>
+    <system:String x:Key="OperNameLanguage">オペレーター名の表示言語</system:String>
+    <system:String x:Key="OperNameLanguageMAA">MAAをフォローする</system:String>
+    <system:String x:Key="OperNameLanguageClient">ゲームクライアントをフォローする</system:String>
     <system:String x:Key="Light">ライトモード</system:String>
     <system:String x:Key="Dark">ダークモード</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
