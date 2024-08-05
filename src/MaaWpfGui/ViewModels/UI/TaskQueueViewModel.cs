@@ -116,7 +116,6 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
 
-
             if (actions.BackToAndroidHome)
             {
                 Instances.AsstProxy.AsstBackToHome();
@@ -125,7 +124,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (actions.ExitArknights)
             {
-                if (!Instances.AsstProxy.AsstStartCloseDown())
+                var mode = Instances.SettingsViewModel.ClientType;
+                if (!Instances.AsstProxy.AsstStartCloseDown(mode))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
