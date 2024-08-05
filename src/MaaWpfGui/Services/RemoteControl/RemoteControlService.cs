@@ -647,6 +647,10 @@ namespace MaaWpfGui.Services.RemoteControl
                             taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendReclamation");
                             break;
 
+                        case "ReclamationAlgorithm2":
+                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendReclamation2");
+                            break;
+
                         default:
                             --count;
 
