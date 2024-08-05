@@ -122,7 +122,7 @@
             "configName": "WSA",
             "baseConfig": "CapWithShell",
             "display": "[Adb] -s [AdbSerial] shell \"wm size -d [DisplayId] | grep -o -E [0-9]+\"",
-            "displayId": "[Adb] -s [AdbSerial] shell \"dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights\"",
+            "displayId": "[Adb] -s [AdbSerial] shell \"dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:[PackageName]\"",
             "click": "[Adb] -s [AdbSerial] shell input -d [DisplayId] tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]"
         },
