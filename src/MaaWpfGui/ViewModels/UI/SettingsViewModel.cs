@@ -4791,6 +4791,11 @@ namespace MaaWpfGui.ViewModels.UI
 
             set
             {
+                if (value == _operNameLanguage)
+                {
+                    return;
+                }
+
                 switch (value)
                 {
                     case "OperNameLanguageClient":
@@ -4801,6 +4806,29 @@ namespace MaaWpfGui.ViewModels.UI
                         ConfigurationHelper.SetValue(ConfigurationKeys.OperNameLanguage, "OperNameLanguageMAA");
                         break;
                 }
+
+                var mainWindow = Application.Current.MainWindow;
+
+                if (mainWindow != null)
+                {
+                    mainWindow.Show();
+                    mainWindow.WindowState = mainWindow.WindowState = WindowState.Normal;
+                    mainWindow.Activate();
+                }
+
+                var result = MessageBoxHelper.Show(
+                    LocalizationHelper.GetString("LanguageChangedTip"),
+                    LocalizationHelper.GetString("Tip"),
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.Question,
+                    ok: LocalizationHelper.GetString("Ok"),
+                    cancel: LocalizationHelper.GetString("ManualRestart"));
+                if (result == MessageBoxResult.OK)
+                {
+                    Bootstrapper.ShutdownAndRestartWithoutArgs();
+                }
+
+                SetAndNotify(ref _operNameLanguage, value);
             }
         }
 
