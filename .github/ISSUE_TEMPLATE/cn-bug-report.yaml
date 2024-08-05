@@ -54,8 +54,6 @@ body:
         操作系统 (如 Windows__, MacOS)；
         MuMu截图增强是否开启 (Mumu12需写)；
         GPU加速推理是否开启，GPU型号(若开启)。
-      placeholder: |
-        如果你确认此bug与配置无关，请输入“无关”，比如GUI相关的bug
     validations:
       required: true
   - type: textarea
