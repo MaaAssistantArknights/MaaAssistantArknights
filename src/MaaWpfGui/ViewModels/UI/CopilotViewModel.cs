@@ -115,7 +115,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <param name="content">The content.</param>
         /// <param name="color">The font color.</param>
         /// <param name="weight">The font weight.</param>
-        /// <param name="showTime">Wether show time.</param>
+        /// <param name="showTime">Whether show time.</param>
         public void AddLog(string content, string color = UiLogColor.Trace, string weight = "Regular", bool showTime = true)
         {
             Execute.OnUIThread(() =>
@@ -430,24 +430,26 @@ namespace MaaWpfGui.ViewModels.UI
                 File.Delete(TempCopilotFile);
                 File.WriteAllText(TempCopilotFile, json.ToString());
 
-                if (_taskType == "Copilot" && UseCopilotList)
+                if (_taskType != "Copilot" || !UseCopilotList)
                 {
-                    var value = json["difficulty"];
-                    var diff = value?.Type == JTokenType.Integer ? (int)value : 0;
-                    switch (diff)
-                    {
-                        case 0:
-                        case 1:
-                            AddCopilotTask();
-                            break;
-                        case 2:
-                            AddCopilotTask_Adverse();
-                            break;
-                        case 3:
-                            AddCopilotTask();
-                            AddCopilotTask_Adverse();
-                            break;
-                    }
+                    return;
+                }
+
+                var value = json["difficulty"];
+                var diff = value?.Type == JTokenType.Integer ? (int)value : 0;
+                switch (diff)
+                {
+                    case 0:
+                    case 1:
+                        AddCopilotTask();
+                        break;
+                    case 2:
+                        AddCopilotTask_Adverse();
+                        break;
+                    case 3:
+                        AddCopilotTask();
+                        AddCopilotTask_Adverse();
+                        break;
                 }
             }
             catch (Exception)
@@ -458,20 +460,6 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task ParseCopilotSet(string jsonStr)
         {
-            void Log(string? name, string? description)
-            {
-                ClearLog();
-                if (!string.IsNullOrWhiteSpace(name))
-                {
-                    AddLog(name, UiLogColor.Message, showTime: false);
-                }
-
-                if (!string.IsNullOrWhiteSpace(description))
-                {
-                    AddLog(description, UiLogColor.Message, showTime: false);
-                }
-            }
-
             UseCopilotList = true;
             IsCopilotSet = false;
             try
@@ -503,6 +491,22 @@ namespace MaaWpfGui.ViewModels.UI
             catch (Exception)
             {
                 AddLog(LocalizationHelper.GetString("CopilotJsonError"), UiLogColor.Error, showTime: false);
+            }
+
+            return;
+
+            void Log(string? name, string? description)
+            {
+                ClearLog();
+                if (!string.IsNullOrWhiteSpace(name))
+                {
+                    AddLog(name, UiLogColor.Message, showTime: false);
+                }
+
+                if (!string.IsNullOrWhiteSpace(description))
+                {
+                    AddLog(description, UiLogColor.Message, showTime: false);
+                }
             }
         }
 
