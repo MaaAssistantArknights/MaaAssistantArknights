@@ -67,16 +67,19 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 ### Alternative Stage
 
 The alternative stage is determined based on the availability of stages on the given day, i.e., the first available stage will be selected for battle.
+This is a function similar to a schedule and cannot be used as a backup stage when the stage selection task fails.
 
 1. Example: Stage selection `CE-6/5`, alternatives `1-7` and `LS-6/5`:
    - If `CE-6/5` is available on the day, it will proceed to `CE-6/5` and not to `1-7` or `LS-6/5`. If the player has not unlocked the `CE-6/5` proxy, the sanity farming task will fail.
    - If `CE-6/5` is not available on the day, it will proceed to `1-7` and not to `CE-6/5`. If the player has not unlocked the 1-7 proxy, the sanity farming task will fail.
    - Since `1-7` is a permanent stage before `LS-6/5`, MAA will never proceed to `LS-6/5` in this scenario.
-2. If the stage selection is `Annihilation Mode`, the result of Annihilation will not affect the selection logic of other alternative stages. Even if Annihilation fails, the sanity farming task will not fail.
+2. If the stage selection is `Annihilation`, then:
+   - The selection logic of the remaining backup stages will not be affected by the result of the Annihilation, even if the Annihilation fails, the sanity farming task will not fail.
+   - The remaining backup stages will only inherit the settings of `Use Sanity Potion` and `Series`, and will not be controlled by `Use Originium`, `Perform Battles`, or `Material`.
 
-### Remaining Sanity Stage
+### Remaining Sanity
 
-Starts after the `Sanity Farming` task ends, not controlled by sanity potions, originite, specified times, specified materials, or consecutive battles. It ends when all sanity is used up.
+It starts after the `Combat` task ends and is not controlled by `Use Sanity Potion`, `Use Originium`, `Perform Battles`, `Material`, or `Series`. It ends when the current remaining sanity is exhausted.
 
 - Suitable for clearing the remaining "corner" sanity (e.g., going to 1-7) after sanity is insufficient in the `Stage Selection` stage.
 - Also suitable for automatically using single battles to use up sanity when the set number of consecutive battles is too high and sanity is insufficient (e.g., setting 1-7 to battle 6 times, but only having 30 sanity, thus automatically switching to 5 single battles of 1-7).
@@ -86,8 +89,8 @@ Starts after the `Sanity Farming` task ends, not controlled by sanity potions, o
 ### Series
 
 - MAA currently only performs consecutive battles according to the number of times set by the user and does not yet support automatic recognition of the maximum number of consecutive battles.
-- If the set number of times is too high but sanity is insufficient, MAA will directly perform the `use sanity potions` or `use originite prime` operation and continue to attempt consecutive battles.
-- If `use sanity potions` or `use originite prime` is not set, MAA will directly consider sanity insufficient and terminate the sanity farming task. If `remaining sanity` is set, MAA will directly start farming the `remaining sanity` stages.
+- If the set number of times is too high but sanity is insufficient, MAA will directly perform the `Use Sanity Potion` or `Use Originium` operation and continue to attempt consecutive battles.
+- If `Use Sanity Potion` or `Use Originium` is not set, MAA will directly consider sanity insufficient and terminate the sanity farming task. If `Remaining Sanity` is set, MAA will directly start farming the `Remaining Sanity` stages.
 
 ### Drop Recognition
 
