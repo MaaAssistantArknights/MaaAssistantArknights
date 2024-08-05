@@ -394,6 +394,9 @@
     <system:String x:Key="AutoRoguelike">自動肉鴿</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算·沙中之火</system:String>
     <system:String x:Key="ReclamationAlgorithm2">生息演算·沙洲遺聞</system:String>
+    <system:String x:Key="OperNameLanguage">幹員名稱顯示語言</system:String>
+    <system:String x:Key="OperNameLanguageMAA">跟隨MAA</system:String>
+    <system:String x:Key="OperNameLanguageClient">跟隨遊戲客戶端</system:String>
     <system:String x:Key="Light">亮色</system:String>
     <system:String x:Key="Dark">暗色</system:String>
     <system:String x:Key="SyncWithOs">與系統同步</system:String>
