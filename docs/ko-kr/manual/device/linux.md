@@ -11,7 +11,7 @@ icon: teenyicons:linux-alt-solid
 
 ### maa-cli 사용
 
-[maa-cli](https://github.com/MaaAssistantArknights/maa-cli)는 Rust로 작성된 간단한 MAA 커맨드 라인 도구입니다. 관련 설치 및 사용 방법은 [CLI 가이드](../cli/intro.md)를 참조하세요.
+[maa-cli](https://github.com/MaaAssistantArknights/maa-cli)는 Rust로 작성된 간단한 MAA 커맨드 라인 도구입니다. 관련 설치 및 사용 방법은 [CLI 가이드](../cli/)를 참조하세요.
 
 ### Python 사용
 

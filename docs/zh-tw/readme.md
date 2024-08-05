@@ -5,9 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+
+<!-- markdownlint-restore -->
 
 # MaaAssistantArknights
 
@@ -31,7 +35,7 @@ MAA 的意思是 MAA Assistant Arknights
 ## 亮點功能
 
 - 刷理智，掉落辨識及上傳 [企鵝物流數據統計](https://penguin-stats.io/)；
-- 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./3.6-基建排班協議.md)；
+- 智能基建換班，自動計算幹員效率，單設施內最優解；同時也支援 [自定義排班](./protocol/base-scheduling-schema.md)；
 - 自動公招，可選使用加急許可，一次全部刷完！公招數據上傳 [企鵝物流數據統計](https://penguin-stats.io/result/stage/recruit/recruit) ， [一圖流](https://ark.yituliu.cn/survey/maarecruitdata) ；
 - 支援手動辨識公招介面，方便對高星公招做出選擇 ~~（你的這個高資回費出的是推王呢還是推王呢）~~
 - 支援辨識幹員列表，統計已有和未有幹員（還能為手動辨識公招介面提供已有潛能數據提示）；
@@ -44,7 +48,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 話不多說，看圖！
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {
@@ -76,12 +80,12 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### 基本說明
 
-1. 請根據 [模擬器支援情況](./1.3-模擬器支援.md)，進行對應的操作。
+1. 請根據 [模擬器支援情況](./manual/device/)，進行對應的操作。
 2. 修改模擬器解析度為 `16:9` 比例，最低 `1280 * 720`，最高 `2K`。  
    對於國際服（美服）玩家，由於介面佈局問題，我們則建議您將解析度修改為 `1920 * 1080`。
 3. 開始使用吧！
 
-更多使用說明請參考 [詳細介紹](./1.1-詳細介紹.md)
+更多使用說明請參考 [詳細介紹](./manual/introduction/).
 
 ## 常見問題
 
@@ -93,7 +97,7 @@ MAA 的意思是 MAA Assistant Arknights
 - 下載到一半提示 “登錄” / “鑒權”
 - 連接正常，任務開始了，但是沒反應
 
-請參考 [常見問題](./1.2-常見問題.md)
+請參考 [常見問題](./manual/faq.md)
 
 ## 外服支援
 
@@ -110,6 +114,14 @@ MAA 的意思是 MAA Assistant Arknights
 - [作業站](https://prts.plus) 後端：[MaaBackendCenter](https://github.com/MaaAssistantArknights/MaaBackendCenter)
 - [官網](https://maa.plus) ： [前端](https://github.com/MaaAssistantArknights/maa-website)
 - 深度學習：[MaaAI](https://github.com/MaaAssistantArknights/MaaAI)
+
+### 多語言 (i18n)
+
+MAA 支援多國語言，並使用 Weblate 進行在地化管理。如果您通曉多門語言，歡迎前往 [MAA Weblate](https://weblate.maa-org.net) 協助我們進行翻譯。
+
+MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）為準。
+
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ## 致謝
 
@@ -140,7 +152,7 @@ MAA 的意思是 MAA Assistant Arknights
 - ~~幹員及基建數據：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
 - 關卡數據：[企鵝物流數據統計](https://penguin-stats.io/)
 - 遊戲數據及資源：[明日方舟用戶端素材](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~遊戲數據：[《明日方舟》遊戲數據](https://github.com/Kengxxiao/ArknightsGameData)~~
+- 遊戲數據：[《明日方舟》Yostar遊戲數據](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### 貢獻 / 參與者
 
@@ -161,11 +173,11 @@ MAA 的意思是 MAA Assistant Arknights
 2. 使用 Visual Studio 2022 打開 `MAA.sln`，右鍵 `MaaWpfGui`，設為啟動項目
 3. VS 上方配置選擇 `RelWithDebInfo`, `x64` （如果編譯 Release 包 或 ARM 平台，請忽略這步）
 4. 右鍵 `MaaWpfGui` - 屬性 - 偵錯 - 啟用本地偵錯（這樣就能把斷點掛到 C++ Core 那邊了）
-5. （可選）若準備提交 PR，建議啟用 [clang-format 支援](./2.2-開發相關.md#在-visual-studio-中啟用-clang-format)
+5. （可選）若準備提交 PR，建議啟用 [clang-format 支援](./develop/development.md#在-visual-studio-中啟用-clang-format)
 
 ### Linux | macOS
 
-請參考 [Linux 編譯教學](./2.1-Linux編譯教學.md)
+請參考 [Linux 編譯教學](./develop/linux-tutorial.md)
 
 ### API
 
@@ -177,22 +189,22 @@ MAA 的意思是 MAA Assistant Arknights
 - [Java HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/src/Java/Readme.md)
 - [Rust 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust/src/maa_sys) ： [HTTP 接口](https://github.com/MaaAssistantArknights/MaaAssistantArknights/tree/master/src/Rust)
 - [TypeScript 接口](https://github.com/MaaAssistantArknights/MaaAsstElectronUI/tree/main/packages/main/coreLoader)
-- [集成文件](./3.1-集成文件.md)
-- [回呼訊息協議](./3.2-回呼訊息協議.md)
-- [任務流程協議](./3.4-任務流程協議.md)
-- [自動抄作業協議](./3.3-戰鬥流程協議.md)
+- [集成文件](./protocol/integration.md)
+- [回呼訊息協議](./protocol/callback-schema.md)
+- [任務流程協議](./protocol/task-schema.md)
+- [自動抄作業協議](./protocol/copilot-schema.md)
 
 ### 外服適配
 
-請參考 [外服適配教學](./2.5-外服適配教學.md)，對於陸服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
+請參考 [外服適配教學](./develop/overseas-client-adaptation.md)，對於陸服已支援的功能，絕大部分的外服適配工作僅需要截圖 + 簡單的 JSON 修改即可。
 
 ### 想參與開發，但不太會用 Github?
 
-[Github Pull Request 流程簡述](./2.2-開發相關.md#github-pull-request-流程簡述)
+[Github Pull Request 流程簡述](./develop/development.md#introduction-to-github-pull-request-flow)
 
 ### Issue bot
 
-請參考 [Issue bot 使用方法](./2.3-IssueBot使用方法.md)
+請參考 [Issue bot 使用方法](./develop/issue-bot-usage.md)
 
 ## 聲明
 
@@ -210,5 +222,3 @@ Bilibili 直播間：[直播間](https://live.bilibili.com/2808861) 每晚直播
 開發者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果覺得軟體對你有幫助，幫忙點個 Star 吧！~（網頁最上方右上角的小星星），這就是對我們最大的支持了！
-
-<!-- markdownlint-disable-file MD034 MD041 -->

@@ -496,7 +496,11 @@
             "char_4125_rdoc": "医生",
             "char_4126_fuze": "导火索",
             "char_4131_odda": "奥达",
-            "char_4137_udflow": "深巡"
+            "char_4137_udflow": "深巡",
+            "char_4139_papyrs": "莎草",
+            "char_4140_lasher": "衡沙",
+            "char_4147_mitm": "渡桥",
+            "char_4151_tinman": "锡人"
         },
         "6": {
             "char_003_kalts": "凯尔希",
@@ -578,6 +582,7 @@
             "char_4046_ebnhlz": "黑键",
             "char_4048_doroth": "多萝西",
             "char_4055_bgsnow": "鸿雪",
+            "char_4058_pepe": "佩佩",
             "char_4064_mlynar": "玛恩纳",
             "char_4065_judge": "斥罪",
             "char_4072_ironmn": "白铁",
@@ -593,7 +598,9 @@
             "char_4132_ascln": "阿斯卡纶",
             "char_4133_logos": "逻各斯",
             "char_4134_cetsyr": "魔王",
-            "char_4145_ulpia": "乌尔比安"
+            "char_4138_narant": "娜仁图亚",
+            "char_4145_ulpia": "乌尔比安",
+            "char_4146_nymph": "妮芙"
         }
     }
 }

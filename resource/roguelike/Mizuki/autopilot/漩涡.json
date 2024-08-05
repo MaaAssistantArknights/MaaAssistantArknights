@@ -2,153 +2,59 @@
     "stage_name": "漩涡",
     "replacement_home": [
         {
-            "location": [
-                8,
-                3
-            ],
+            "location": [8, 3],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "异德",
-                "刺客",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                5
-            ],
+            "groups": ["异德", "刺客", "其他地面"],
+            "location": [7, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师"],
+            "location": [8, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["召唤"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "基石",
-                "地面C",
-                "地刺"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["玛恩纳", "基石", "地面C", "地刺"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶",
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["单奶", "群奶", "高台C", "控制", "狙击", "术师", "辅助", "其他高台"],
+            "location": [8, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [8, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                8,
-                4
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "辅助", "其他高台"],
+            "location": [8, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "挡人先锋",
-                "地面C",
-                "重装",
-                "地刺"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["挡人先锋", "地面C", "重装", "地刺"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "异德",
-                "刺客",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["异德", "刺客", "其他地面"],
+            "location": [6, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [8, 3],
             "direction": "left"
         }
     ]

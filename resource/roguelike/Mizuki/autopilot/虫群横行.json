@@ -2,136 +2,49 @@
     "stage_name": "虫群横行",
     "replacement_home": [
         {
-            "location": [
-                7,
-                4
-            ],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "location": [
-                3,
-                3
-            ],
+            "location": [3, 3],
             "direction": "right"
         },
         {
-            "location": [
-                3,
-                4
-            ],
+            "location": [3, 4],
             "direction": "right"
         }
     ],
-    "blacklist_location": [
-        [
-            4,
-            1
-        ]
-    ],
-    "role_order": [
-        "warrior",
-        "pioneer",
-        "sniper",
-        "caster",
-        "medic",
-        "tank",
-        "support",
-        "special",
-        "drone"
-    ],
+    "blacklist_location": [[4, 1]],
+    "role_order": ["warrior", "pioneer", "sniper", "caster", "medic", "tank", "support", "special", "drone"],
     "deploy_plan": [
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助"],
+            "location": [3, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "玛恩纳",
-                "号角",
-                "地刺",
-                "刺客",
-                "重装",
-                "挡人先锋"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["百嘉", "基石", "地面C", "玛恩纳", "号角", "地刺", "刺客", "重装", "挡人先锋"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
+            "location": [3, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面C",
-                "异德",
-                "地刺",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                2,
-                2
-            ],
+            "groups": ["地面C", "异德", "地刺", "刺客", "挡人先锋", "其他地面"],
+            "location": [2, 2],
             "direction": "left"
         }
     ]

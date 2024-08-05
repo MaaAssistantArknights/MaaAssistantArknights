@@ -189,6 +189,15 @@
                     Text="{DynamicResource RoguelikeDelayAbortUntilCombatComplete}"
                     TextWrapping="Wrap" />
             </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding RoguelikeStopAtFinalBoss}"
+                Visibility="{c:Binding 'RoguelikeMode == &quot;0&quot;'}">
+                <TextBlock
+                    Block.TextAlignment="Left"
+                    Text="{DynamicResource RoguelikeStopAtFinalBoss}"
+                    TextWrapping="Wrap" />
+            </CheckBox>
         </StackPanel>
     </StackPanel>
 </UserControl>

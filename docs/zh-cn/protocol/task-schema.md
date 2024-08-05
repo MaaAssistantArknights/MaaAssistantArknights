@@ -15,28 +15,26 @@ icon: material-symbols:task
 
 ```json
 {
-    "TaskName" : {                          // 任务名
+    "TaskName" : {                          // 任务名，带 @ 时可能为特殊任务，字段默认值会有不同，详见下方特殊任务类型
 
-        "baseTask": "xxx",                  // 以xxx任务为模板生成任务，详细见下方特殊任务类型中的Base Task
+        "baseTask": "xxx",                  // 以 xxx 任务为模板生成任务，详细见下方特殊任务类型中的 Base Task
 
         "algorithm": "MatchTemplate",       // 可选项，表示识别算法的类型
                                             // 不填写时默认为 MatchTemplate
                                             //      - JustReturn:       不进行识别，直接执行 action
                                             //      - MatchTemplate:    匹配图片
                                             //      - OcrDetect:        文字识别
-                                            //      - Hash:             哈希计算
 
         "action": "ClickSelf",              // 可选项，表示识别到后的动作
                                             // 不填写时默认为 DoNothing
                                             //      - ClickSelf:        点击识别到的位置（识别到的目标范围内随机点）
-                                            //      - ClickRand:        点击整个画面中随机位置
                                             //      - ClickRect:        点击指定的区域，对应 specificRect 字段，不建议使用该选项
                                             //      - DoNothing:        什么都不做
                                             //      - Stop:             停止当前任务
                                             //      - Swipe:            滑动，对应 specificRect 与 rectMove 字段
 
         "sub": [ "SubTaskName1", "SubTaskName2" ],
-                                            // 可选项，子任务。会在执行完当前任务后，依次执行每一个子任务
+                                            // 可选项，子任务，不推荐使用。会在执行完当前任务后，依次执行每一个子任务
                                             // 可以套娃，子任务再套子任务。但要注意不要写出了死循环
 
         "subErrorIgnored": true,            // 可选项，是否忽略子任务的错误。
@@ -69,7 +67,7 @@ icon: material-symbols:task
                                             // 以 1280 * 720 为基准自动缩放；不填写时默认 [ 0, 0, 1280, 720 ]
                                             // 尽量填写，减小识别范围可以减少性能消耗，加快识别速度
 
-        "cache": true,                      // 可选项，表示该任务是否使用缓存，默认为 true;
+        "cache": false,                     // 可选项，表示该任务是否使用缓存，默认为 false;
                                             // 第一次识别到后，以后永远只在第一次识别到的位置进行识别，开启可大幅节省性能
                                             // 但仅适用于待识别目标位置完全不会变的任务，若待识别目标位置会变请设为 false
 
@@ -92,14 +90,29 @@ icon: material-symbols:task
 
         /* 以下字段仅当 algorithm 为 MatchTemplate 时有效 */
 
-        "template": "xxx.png",              // 可选项，要匹配的图片文件名
+        "template": "xxx.png",              // 可选项，要匹配的图片文件名，可以是字符串或字符串列表
                                             // 默认 "任务名.png"
 
-        "templThreshold": 0.8,              // 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了。
+        "templThreshold": 0.8,              // 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了，可以是数字或数字列表
                                             // 默认 0.8, 可根据日志查看实际得分是多少
 
-        "maskRange": [ 1, 255 ],            // 可选项，灰度掩码范围。例如将图片不需要识别的部分涂成黑色（灰度值为 0）
-                                            // 然后设置"maskRange"的范围为 [ 1, 255 ], 匹配的时候即刻忽略涂黑的部分
+        "maskRange": [ 1, 255 ],            // 可选项，掩码范围。 array<int, 2> | list<array<array<int, 3>, 2>>
+                                            // 当为 array<int, 2> 时 是灰度掩码范围
+                                            //     例如将图片不需要识别的部分涂成黑色（灰度值为 0）
+                                            //     然后设置"maskRange"的范围为 [ 1, 255 ], 匹配的时候即忽略涂黑的部分
+                                            // 当为 list<array<array<int, 3>, 2>> 时
+                                            //     最内层代表一个颜色，由 method 决定它是 RGB 或 HSV；
+                                            //     中间一层是颜色范围的下限和上限；
+                                            //     最外层代表允许多个范围，最后取并集作为待识别区域。
+
+        "method": "Ccoeff",                 // 可选项，模板匹配算法，可以是列表
+                                            // 不填写时默认为 Ccoeff
+                                            //      - Ccoeff:       对应 cv::TM_CCOEFF_NORMED
+                                            //      - RGBCount:     先将待匹配区域和模板图片依据 maskRange 二值化，
+                                            //                      以 F1-score 为指标计算 RGB 颜色空间内的相似度，
+                                            //                      再将结果与 Ccoeff 的结果点积
+                                            //                      总之是一个颜色敏感的模板匹配算法
+                                            //      - HSVCount:     类似 RGBCount，颜色空间换为 HSV
 
         /* 以下字段仅当 algorithm 为 OcrDetect 时有效 */
 
@@ -120,9 +133,6 @@ icon: material-symbols:task
         "withoutDet": false                 // 可选项，是否不使用检测模型
                                             // 不填写默认 false
 
-        /* 以下字段仅当 algorithm 为 Hash 时有效 */
-        // 算法不成熟，仅部分特例情况中用到了，暂不推荐使用
-        // Todo
     }
 }
 ```

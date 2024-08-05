@@ -2,182 +2,80 @@
     "stage_name": "新部族",
     "replacement_home": [
         {
-            "location": [
-                7,
-                3
-            ],
+            "location": [7, 3],
             "direction": "left"
         }
     ],
     "blacklist_location": [
-        [
-            8,
-            1
-        ],
-        [
-            6,
-            6
-        ],
-        [
-            7,
-            5
-        ],
-        [
-            1,
-            2
-        ]
+        [8, 1],
+        [6, 6],
+        [7, 5],
+        [1, 2]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["益达"],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "情报官",
-                "回费",
-                "地面远程",
-                "地面阻挡",
-                "处决者",
-                "障碍物"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["情报官", "回费", "地面远程", "地面阻挡", "处决者", "障碍物"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "凯尔希",
-                "单奶"
-            ],
-            "location": [
-                6,
-                1
-            ],
+            "groups": ["焰苇", "凯尔希", "单奶"],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "召唤",
-                "单奶"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["召唤", "单奶"],
+            "location": [7, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地刺"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["玛恩纳", "地刺"],
+            "location": [5, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "狙击"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["狙击"],
+            "location": [8, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "水陈"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["水陈"],
+            "location": [7, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "狙击",
-                "凯尔希",
-                "单奶",
-                "高台输出",
-                "辅助"
-            ],
-            "location": [
-                6,
-                1
-            ],
+            "groups": ["狙击", "凯尔希", "单奶", "高台输出", "辅助"],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "盾法",
-                "高台输出",
-                "辅助",
-                "群奶"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["盾法", "高台输出", "辅助", "群奶"],
+            "location": [6, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "狙击",
-                "单奶",
-                "高台输出"
-            ],
-            "location": [
-                8,
-                5
-            ],
+            "groups": ["狙击", "单奶", "高台输出"],
+            "location": [8, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "补给站",
-                "无人机",
-                "支援陷阱"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["补给站", "无人机", "支援陷阱"],
+            "location": [6, 3],
             "direction": "up"
         }
     ]

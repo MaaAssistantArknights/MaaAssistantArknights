@@ -2,32 +2,32 @@ name: Bug Report (in English)
 description: >-
   Recognition errors, operation abnormalities,
   connection errors, etc.
-labels: ['bug']
+labels: ["bug"]
 body:
   - type: checkboxes
     id: checks
     attributes:
       label: Before raising the issue...
       options:
-      - label: >-
-          I understand that Issues are for feedback and problem solving,
-          not trolling the comments section, and will provide as
-          much information as possible to help solve the problem.
-        required: true
-      - label: >-
-          I filled in a short, clear title
-          so that developers could quickly identify the general problem
-          when going through the issue list.
-          Instead of "Some suggestions", "Stuck", etc.
-        required: true
-      - label: >-
-          I have checked the latest beta update and there is no mention
-          of the bug being fixed.
-        required: true
-      - label: >-
-          I have reviewed the pinned issues and confirmed that my issue
-          is not mentioned.
-        required: true
+        - label: >-
+            I understand that Issues are for feedback and problem solving,
+            not trolling the comments section, and will provide as
+            much information as possible to help solve the problem.
+          required: true
+        - label: >-
+            I filled in a short, clear title
+            so that developers could quickly identify the general problem
+            when going through the issue list.
+            Instead of "Some suggestions", "Stuck", etc.
+          required: true
+        - label: >-
+            I have checked the latest beta update and there is no mention
+            of the bug being fixed.
+          required: true
+        - label: >-
+            I have reviewed the pinned issues and confirmed that my issue
+            is not mentioned.
+          required: true
   - type: textarea
     id: describe
     attributes:
@@ -57,6 +57,19 @@ body:
 
         **Please drag and drop the full file in, not your own cuttings or copies;**
         **compress it before uploading if too large.**
+      placeholder: |
+        Please confirm that MAA is turned off when uploading files:
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Configuration information
+      description: |
+        Emulator brand, emulator resolution, DPI (if using non-default DPI), frame rate;
+        Operating system (e.g. Windows__, MacOS);
+        Is MuMu Screenshot Enhancement enabled? (Only specify for Mumu12);
+        Is GPU accelerated inference enabled? GPU model (if enabled).
     validations:
       required: true
   - type: textarea
@@ -84,11 +97,7 @@ body:
     id: others
     attributes:
       label: Anthing else?
-      description: >-
-        Emulator used, operating system, related configuration, links,
-        reference material, etc.
-
-        Anything that will give us more insight into the problem
-        you are having.
+      description: |
+        Anything that will give us more insight into the problem you are having.
     validations:
       required: false

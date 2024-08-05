@@ -1,5 +1,5 @@
 ---
-order: 5
+order: 4
 icon: ph:question-fill
 ---
 
@@ -23,5 +23,3 @@ When running the maa-cli task, you may see some logs that look like this:
 ```
 
 This log is output by `fastdeploy`, which is a dependency of MaaCore. For the officially compiled MaaCore, this log cannot be closed. However, if you are using a package manager to install maa-cli, you can try installing the package manager's version of MaaCore which uses a newer version of `fastdeploy` without logs enabled by default.
-
-<!-- markdownlint-disable-file MD013 -->

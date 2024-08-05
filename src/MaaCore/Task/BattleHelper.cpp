@@ -94,7 +94,7 @@ bool asst::BattleHelper::abandon()
     return ProcessTask(this_task(), { "RoguelikeBattleExitBegin" }).run();
 }
 
-bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
+bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, bool need_oper_cost)
 {
     LogTraceFunction;
 
@@ -112,7 +112,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
     BattlefieldMatcher oper_analyzer(image);
 
     // 保全要识别开局费用，先用init判断了，之后别的地方要用的话再做cache
-    if (init) {
+    if (init || need_oper_cost) {
         oper_analyzer.set_object_of_interest({ .deployment = true, .oper_cost = true });
     }
     else {
@@ -152,6 +152,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
 
     for (auto& oper : cur_opers) {
         BestMatcher avatar_analyzer(oper.avatar);
+        avatar_analyzer.set_method(MatchMethod::Ccoeff);
         if (oper.cooling) {
             Log.trace("start matching cooling", oper.index);
             static const auto cooling_threshold =
@@ -159,8 +160,7 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable)
             static const auto cooling_mask_range =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
             avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer
-                .set_mask_range(cooling_mask_range.first, cooling_mask_range.second, true, true);
+            avatar_analyzer.set_mask_range(cooling_mask_range, true, true);
         }
         else {
             static const auto threshold =
@@ -577,7 +577,7 @@ bool asst::BattleHelper::use_all_ready_skill(const cv::Mat& reusable)
             Log.debug(
                 name,
                 "use skill too fast, interval time:",
-                std::chrono::duration_cast<std::chrono::milliseconds>(interval));
+                std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(interval).count()) + " ms");
             continue;
         }
 

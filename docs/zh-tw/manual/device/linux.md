@@ -10,7 +10,7 @@ icon: teenyicons:linux-alt-solid
 
 ### 使用 maa-cli
 
-[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) 是一個使用 Rust 編寫的簡單 MAA 命令列工具。相關安裝與使用教程請閱讀[CLI 使用指南](./1.6-CLI使用說明)。
+[maa-cli](https://github.com/MaaAssistantArknights/maa-cli) 是一個使用 Rust 編寫的簡單 MAA 命令列工具。相關安裝與使用教程請閱讀[CLI 使用指南](../cli)。
 
 ### 使用 Python
 
@@ -25,7 +25,7 @@ icon: teenyicons:linux-alt-solid
 
 ::: tip
 預編譯的版本包含在相對較新的 Linux 發行版 (Ubuntu 22.04) 中編譯的動態庫，如果您系統中的 libstdc++ 版本較老，可能遇到 ABI 不兼容的問題
-可以參考 [2.1-Linux編譯教學](./2.1-Linux編譯教學.md) 重新編譯或使用容器執行
+可以參考 [Linux編譯教學](../../develop/linux-tutorial.md) 重新編譯或使用容器執行
 :::
 
 #### 2. `adb` 配置
@@ -62,7 +62,7 @@ icon: teenyicons:linux-alt-solid
 
 #### 3. 任務配置
 
-自定義任務： 根據需要參考 [3.x 集成文件](https://maa.plus/docs/zh-tw/3.1-%E9%9B%86%E6%88%90%E6%96%87%E4%BB%B6.html) 對 `sample.py` 的 [`# 任務及參數請參考 docs/集成文件.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一欄進行修改
+自定義任務： 根據需要參考 [集成文件](../../protocol/integration.md) 對 `sample.py` 的 [`# 任務及參數請參考 docs/集成文件.md`](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/722f0ddd4765715199a5dc90ea1bec2940322344/src/Python/sample.py#L54) 一欄進行修改
 
 ## 模擬器支援
 

@@ -3,7 +3,7 @@ order: 1
 icon: iconoir:developer
 ---
 
-# 开始开发
+# 开发前须知
 
 ## Github Pull Request 流程简述
 
@@ -94,7 +94,34 @@ icon: iconoir:developer
 在打开 VS2022 之后，和 git 有关的操作可以不用命令行工具，直接使用 vs 自带的“Git 更改”即可
 :::
 
-## 在 Visual Studio 中启用 clang-format
+## MAA 的文件格式化要求
+
+MAA 使用一系列的格式化工具来保证仓库中的代码和资源文件美观统一，以便于维护和阅读
+
+请确保在提交之前已经格式化，或是[启用 Pre-commit Hooks 来进行自动格式化](#利用-pre-commit-hooks-自动进行代码格式化)
+
+目前启用的格式化工具如下：
+
+| 文件类型 | 格式化工具 |
+| --- | --- |
+| C++ | [clang-format](https://clang.llvm.org/docs/ClangFormat.html) |
+| Json/Yaml | [Prettier](https://prettier.io/) |
+| Markdown | [markdownlint](https://github.com/DavidAnson/markdownlint-cli2) |
+
+### 利用 Pre-commit Hooks 自动进行代码格式化
+
+1. 确保你的电脑上有 Python 与 Node 环境
+
+2. 在项目根目录下执行以下命令
+
+    ```bash
+    pip install pre-commit
+    pre-commit install
+    ```
+
+接下来，每次提交时都将会自动运行格式化工具，来确保你的代码格式符合规范
+
+### 在 Visual Studio 中启用 clang-format
 
 1. 安装 clang-format 17 或更高版本
 
@@ -107,7 +134,7 @@ icon: iconoir:developer
 3. 在 Visual Studio `工具-选项` 中搜索 `clang-format`
 4. 点击 `启用 ClangFormat 支持`，然后选择下面的 `使用自定义 clang-format.exe 文件`，选择第 2 步找到的 `clang-format.exe`
 
-![Visual Studio 设置 clang-format](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
+![Visual Studio 设置 clang-format](/image/zh-cn/development-enable-vs-clang-format.png)
 
 然后你的 Visual Studio 就能愉快的使用支持 c++20 语法的 clang-format 啦！
 

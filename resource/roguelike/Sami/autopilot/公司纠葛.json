@@ -2,227 +2,100 @@
     "stage_name": "公司纠葛",
     "replacement_home": [
         {
-            "location": [
-                7,
-                2
-            ],
+            "location": [7, 2],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "情报官",
-                "投锋",
-                "挡人先锋"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["情报官", "投锋", "挡人先锋"],
+            "location": [7, 2],
             "direction": "left",
-            "condition": [
-                0,
-                5
-            ]
+            "condition": [0, 5]
         },
         {
-            "groups": [
-                "重装",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["重装", "地面阻挡", "其他地面"],
+            "location": [6, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "焰苇",
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                7,
-                1
-            ],
+            "groups": ["焰苇", "凯尔希", "奶"],
+            "location": [7, 1],
             "direction": "left"
         },
         {
-            "groups": [
-                "益达"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["益达"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希",
-                "单奶"
-            ],
-            "location": [
-                9,
-                2
-            ],
+            "groups": ["凯尔希", "单奶"],
+            "location": [9, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["玛恩纳", "地面阻挡", "其他地面"],
+            "location": [6, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                4,
-                1
-            ],
+            "groups": ["玛恩纳"],
+            "location": [4, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "处决者",
-                "情报官"
-            ],
-            "location": [
-                2,
-                2
-            ],
+            "groups": ["处决者", "情报官"],
+            "location": [2, 2],
             "direction": "left",
-            "condition": [
-                12,
-                16
-            ]
+            "condition": [12, 16]
         },
         {
-            "groups": [
-                "狙击",
-                "高台输出",
-                "奶",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["狙击", "高台输出", "奶", "辅助", "其他高台"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "奶",
-                "高台输出",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                3,
-                1
-            ],
+            "groups": ["奶", "高台输出", "狙击", "辅助", "其他高台"],
+            "location": [3, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                6,
-                1
-            ],
+            "groups": ["补给站"],
+            "location": [6, 1],
             "direction": "down"
         },
         {
-            "groups": [
-                "处决者",
-                "情报官"
-            ],
-            "location": [
-                3,
-                2
-            ],
+            "groups": ["处决者", "情报官"],
+            "location": [3, 2],
             "direction": "left",
-            "condition": [
-                21,
-                25
-            ]
+            "condition": [21, 25]
         },
         {
-            "groups": [
-                "无人机"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["无人机"],
+            "location": [5, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台输出",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["高台输出", "狙击", "辅助", "其他高台"],
+            "location": [6, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "支援陷阱"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["支援陷阱"],
+            "location": [5, 3],
             "direction": "down",
-            "condition": [
-                21,
-                30
-            ]
+            "condition": [21, 30]
         },
         {
-            "groups": [
-                "处决者",
-                "情报官"
-            ],
-            "location": [
-                3,
-                2
-            ],
+            "groups": ["处决者", "情报官"],
+            "location": [3, 2],
             "direction": "left",
-            "condition": [
-                31,
-                35
-            ]
+            "condition": [31, 35]
         }
     ]
 }

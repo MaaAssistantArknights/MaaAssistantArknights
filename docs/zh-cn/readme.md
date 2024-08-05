@@ -5,9 +5,13 @@ dir:
   order: 0
 ---
 
+<!-- markdownlint-disable -->
+
 ::: center
 
 ![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+
+<!-- markdownlint-restore -->
 
 # MaaAssistantArknights
 
@@ -43,7 +47,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 话不多说，看图！  
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {
@@ -98,7 +102,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 ### CLI 支持
 
-MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](./manual/cli/intro.md)
+MAA 支持命令行界面（CLI）操作，支持 Linux，macOS 和 Windows，可用于自动化脚本或在无图形界面的服务器上使用。请参阅 [CLI 使用指南](./manual/cli/)
 
 ## 加入我们
 
@@ -119,13 +123,13 @@ MAA 支持多国语言，并使用 Weblate 进行本地化管理。如果您通�
 
 MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）为准。
 
-[![Weblate](https://weblate.maa-org.net/widgets/maa-assistant-arknights/zh_Hans/maa-wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa-assistant-arknights/zh_Hans/)
+[![Weblate](https://weblate.maa-org.net/widget/maa/wpf-gui/multi-auto.svg)](https://weblate.maa-org.net/engage/maa/)
 
 ### 参与开发
 
 #### Windows
 
-请参阅 [开始开发](./develop/development.md)。
+请参阅 [开发前须知](./develop/development.md)。
 
 #### Linux | macOS
 
@@ -189,7 +193,7 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 - ~~干员及基建数据：[PRTS Wiki](http://prts.wiki/)~~
 - 关卡数据：[企鹅物流数据统计](https://penguin-stats.cn/)
 - 游戏数据及资源：[明日方舟客户端素材](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~游戏数据：[《明日方舟》游戏数据](https://github.com/Kengxxiao/ArknightsGameData)~~
+- 游戏数据：[《明日方舟》Yostar游戏数据](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### 贡献/参与者
 
@@ -207,12 +211,10 @@ MAA 以中文（简体）为第一语言，翻译词条均以中文（简体）�
 
 用户交流 QQ 群：[MAA 使用 & 粥游交流 QQ 群](https://ota.maa.plus/MaaAssistantArknights/api/qqgroup/index.html)  
 用户交流 TG 群：[Telegram 群](https://t.me/+Mgc2Zngr-hs3ZjU1)  
-自动战斗 JSON 作业分享：[prts.plus](https://prts.plus) 或 [抄作业.com](http://抄作业.com)  
+自动战斗 JSON 作业分享：[prts.plus](https://prts.plus)  
 Bilibili 直播间：[直播间](https://live.bilibili.com/2808861) 每晚直播敲代码，近期很长一段时间应该都是在写本软件~  
 
 技术群（舟无关、禁水）：[内卷地狱！(QQ 群)](https://jq.qq.com/?_wv=1027&k=ypbzXcA2)  
 开发者群：[QQ 群](https://jq.qq.com/?_wv=1027&k=JM9oCk3C)  
 
 如果觉得软件对你有帮助，帮忙点个 Star 吧！~（网页最上方右上角的小星星），这就是对我们最大的支持了！
-
-<!-- markdownlint-disable-file MD034 MD041 -->

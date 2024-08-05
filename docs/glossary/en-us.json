@@ -496,7 +496,11 @@
             "char_4125_rdoc": "Doc",
             "char_4126_fuze": "Fuze",
             "char_4131_odda": "Odda",
-            "char_4137_udflow": "Underflow"
+            "char_4137_udflow": "Underflow",
+            "char_4139_papyrs": "Papyrus",
+            "char_4140_lasher": "Sand Reckoner",
+            "char_4147_mitm": "Mitm",
+            "char_4151_tinman": "Tin Man"
         },
         "6": {
             "char_003_kalts": "Kal'tsit",
@@ -578,6 +582,7 @@
             "char_4046_ebnhlz": "Ebenholz",
             "char_4048_doroth": "Dorothy",
             "char_4055_bgsnow": "Pozëmka",
+            "char_4058_pepe": "Pepe",
             "char_4064_mlynar": "Młynar",
             "char_4065_judge": "Penance",
             "char_4072_ironmn": "Stainless",
@@ -593,7 +598,9 @@
             "char_4132_ascln": "Ascalon",
             "char_4133_logos": "Logos",
             "char_4134_cetsyr": "Civilight Eterna",
-            "char_4145_ulpia": "Ulpianus"
+            "char_4138_narant": "Narantuya",
+            "char_4145_ulpia": "Ulpianus",
+            "char_4146_nymph": "Nymph"
         }
     }
 }

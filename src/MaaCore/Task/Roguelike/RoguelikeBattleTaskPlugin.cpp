@@ -448,6 +448,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                 return true;
             }
             deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            // 防止滑动丢失(有些物体比如鸟笼没有方向),点一下右下角费用那里
+            asst::BattleHelper::cancel_oper_selection();
             // 开始计时
             auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
@@ -571,6 +573,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         }
 
         Log.info("To path", m_cur_home_index);
+
+        if (!update_deployment(false, image, true)) {
+            return false;
+        }
 
         if (!best_oper_is_dice) {
             if (auto best_oper_opt = calc_best_oper()) {
@@ -836,7 +842,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         Log.info("No best oper");
         return std::nullopt;
     }
-    Log.info("best oper is", best_oper.name);
+    Log.info("best oper is", best_oper.name, "with cost being", best_oper.cost);
     return best_oper;
 }
 

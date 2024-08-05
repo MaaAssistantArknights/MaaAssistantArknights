@@ -95,7 +95,7 @@ Appends a task.
 }
 ```
 
-Supports some of the special stages,Please refer to [autoLocalization example](..\..\..\tools\AutoLocalization\example\en-us.xaml#L260).
+Supports some of the special stages,Please refer to [autoLocalization example](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/en-us.xaml#L260).
 
 - `Recruit`  
     Recruitment

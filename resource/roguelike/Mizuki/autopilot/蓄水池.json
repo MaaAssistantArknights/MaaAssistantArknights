@@ -2,10 +2,7 @@
     "stage_name": "蓄水池",
     "replacement_home": [
         {
-            "location": [
-                6,
-                4
-            ],
+            "location": [6, 4],
             "direction_Doc1": "优先朝向，但并不代表绝对是这个方向（算法自行判断）",
             "direction_Doc2": "不填默认 none，即没有推荐方向，完全由算法自行判断",
             "direction_Doc3": "none / left / right / up / down / 无 / 上 / 下 / 左 / 右",
@@ -14,29 +11,13 @@
     ],
     "blacklist_location_Doc": "这里是用法举例，不是说蓄水池这个图需要 ban 这两个点",
     "blacklist_location": [
-        [
-            0,
-            0
-        ],
-        [
-            1,
-            1
-        ]
+        [0, 0],
+        [1, 1]
     ],
     "not_use_dice_Doc": "蓝门干员撤退时是否需要用骰子，不写默认false",
     "not_use_dice": false,
     "role_order_Doc": "干员类型部署顺序，未写出部分以近卫，先锋，医疗，重装，狙击，术师，辅助，特种，召唤物的顺序补全，输入英文",
-    "role_order": [
-        "warrior",
-        "pioneer",
-        "medic",
-        "tank",
-        "sniper",
-        "caster",
-        "support",
-        "special",
-        "drone"
-    ],
+    "role_order": ["warrior", "pioneer", "medic", "tank", "sniper", "caster", "support", "special", "drone"],
     "force_air_defense_when_deploy_blocking_num_Doc": "场上有10000个阻挡单位时就开始强制部署总共1个对空单位（填不填写均不影响正常部署逻辑），在此期间不禁止部署医疗单位（不写默认false）",
     "force_air_defense_when_deploy_blocking_num": {
         "melee_num": 10000,
@@ -46,146 +27,56 @@
     "force_deploy_direction_Doc": "这些点对某些职业强制部署方向",
     "force_deploy_direction": [
         {
-            "location": [
-                1,
-                1
-            ],
+            "location": [1, 1],
             "role_Doc": "填入的职业适用强制方向",
-            "role": [
-                "warrior",
-                "pioneer"
-            ],
+            "role": ["warrior", "pioneer"],
             "direction": "up"
         },
         {
-            "location": [
-                3,
-                1
-            ],
-            "role": [
-                "sniper"
-            ],
+            "location": [3, 1],
+            "role": ["sniper"],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["召唤"],
+            "location": [6, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "玛恩纳",
-                "地刺",
-                "重装",
-                "投锋",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "玛恩纳", "地刺", "重装", "投锋", "挡人先锋", "其他地面"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [6, 2],
             "direction": "down"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["高台C", "控制", "术师", "狙击", "辅助"],
+            "location": [6, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
+            "location": [6, 2],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面C",
-                "异德",
-                "地刺",
-                "刺客",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                1
-            ],
+            "groups": ["地面C", "异德", "地刺", "刺客", "挡人先锋", "其他地面"],
+            "location": [6, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                2,
-                3
-            ],
+            "groups": ["召唤", "高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
+            "location": [2, 3],
             "direction": "right"
         }
     ]

@@ -5,10 +5,6 @@ icon: mdi:plug
 
 # Connection
 
-:::note
-For information about physical machines, please also check [Android Physical Devices](./device/android.md).
-:::
-
 ## ADB Path
 
 :::info Technical Details
@@ -153,7 +149,7 @@ For specific differences, you can read the [source code](https://github.com/MaaA
 
 ### MuMu Screenshot Enhanced Mode
 
-You need to use the official China MuMu 12 3.8.13 and later versions, and close the background keep alive. Ark Edition and Global Edition are not supported now.
+You need to use the official China MuMu 12 3.8.13 and later versions, and close MuMu's background keep alive. Ark Edition and Global Edition are not supported now.
 
 1. Settings → Connection Settings, tick `Enable MuMu Screenshot Enhanced Mode`.
 
@@ -163,13 +159,13 @@ You need to use the official China MuMu 12 3.8.13 and later versions, and close 
 
 4. `Instance Screen` Fill in `0`.
 
-#### About background keep alive
+#### About MuMu's background keep alive
 
 It is recommended to turn it off, at this time the instance screen is always `0`.
 
 When it is on, the order of MuMu emulator tabs should be the serial number of the instance screen, e.g. `0` for emulator desktop, `1` for Arknights client.
 
-Adaptation for backend live is very imperfect, there are always all kinds of inexplicable problems, it is very not recommended.
+Adaptation for background keep alive is very incomplete, there are always all kinds of inexplicable problems and it's not recommended at all.
 
 ## Touch Mode
 
@@ -179,6 +175,6 @@ Adaptation for backend live is very imperfect, there are always all kinds of ine
 
 ## ADB Lite
 
-The ADB Client independently implemented by MAA can avoid continuously opening multiple ADB processes and reduce performance loss compared to the original ADB, but some screenshot methods are not available.
+An ADB Client independently implemented by MAA uses TCP to communicate directly with the ADB Server. Compared with the original ADB, it can avoid opening multiple ADB processes continuously and reduce performance overhead, but some screenshot methods are unavailable.<sup>[PR](https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/3315)</sup>
 
 It is recommended to enable it, but the specific advantages and disadvantages need feedback. ~~Help us do some testing x2~~

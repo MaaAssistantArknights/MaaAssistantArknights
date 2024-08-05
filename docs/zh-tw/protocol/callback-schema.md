@@ -5,7 +5,7 @@ icon: material-symbols:u-turn-left
 # 回呼訊息協議
 
 ::: info 注意
-回呼訊息隨版本更新快速迭代中，本檔案可能過時。如需獲取最新内容可参考 [簡中檔案](../3.2-回调消息协议.md) 或 [C# 集成源碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs)
+回呼訊息隨版本更新快速迭代中，本檔案可能過時。如需獲取最新内容可参考 [簡中檔案](../../zh-cn/protocol/callback-schema.md) 或 [C# 集成源碼](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/src/MaaWpfGui/Main/AsstProxy.cs)
 :::
 
 ## 回調函數原型

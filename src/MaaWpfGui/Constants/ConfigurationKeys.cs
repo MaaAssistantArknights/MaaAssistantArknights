@@ -30,6 +30,7 @@ namespace MaaWpfGui.Constants
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization";
+        public const string UseTray = "GUI.UseTray";
         public const string MinimizeToTray = "GUI.MinimizeToTray";
         public const string HideCloseButton = "GUI.HideCloseButton";
         public const string WindowTitleScrollable = "GUI.WindowTitleScrollable";
@@ -132,7 +133,7 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
-
+        public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
         public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
         public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
 
@@ -175,6 +176,8 @@ namespace MaaWpfGui.Constants
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
         public const string ResourceApi = "VersionUpdate.ResourceApi";
+        public const string AllowNightlyUpdates = "VersionUpdate.AllowNightlyUpdates";
+        public const string HasAcknowledgedNightlyWarning = "VersionUpdate.HasAcknowledgedNightlyWarning";
 
         // 这个已经废弃了，还要留着吗？
         // ReSharper disable once UnusedMember.Global
@@ -193,7 +196,7 @@ namespace MaaWpfGui.Constants
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";
 
-        public const string ActionAfterCompleted = "MainFunction.ActionAfterCompleted";
+        public const string PostActions = "MainFunction.PostActions";
         public const string MainFunctionInverseMode = "MainFunction.InverseMode";
         public const string Stage1 = "MainFunction.Stage1";
         public const string Stage2 = "MainFunction.Stage2";
@@ -234,6 +237,7 @@ namespace MaaWpfGui.Constants
         public const string PerformanceUseGpu = "Performance.UseGpu";
         public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
         public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
+        public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name";

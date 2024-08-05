@@ -98,7 +98,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-另支援少部分資源關卡名請參考[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/dev/tools/AutoLocalization/example/zh-cn.xaml#L260)
+另支援少部分資源關卡名請參考[集成範例](https://github.com/MaaAssistantArknights/MaaAssistantArknights/blob/master/tools/AutoLocalization/example/zh-tw.xaml#L219)
 
 - `Recruit`  
     公開招募
@@ -247,7 +247,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-作業 JSON 請參考 [3.3-戰鬥流程協議](./3.3-戰鬥流程協議.md)
+作業 JSON 請參考 [3.3-戰鬥流程協議](./copilot-schema.md)
 
 - `SSSCopilot`  
     自動抄保全作業
@@ -260,7 +260,7 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 }
 ```
 
-保全作業 JSON 請參考 [3.7-保全派駐協議](./3.7-保全派駐協議.md)
+保全作業 JSON 請參考 [3.7-保全派駐協議](./sss-schema.md)
 
 - `Depot`  
     倉庫辨識

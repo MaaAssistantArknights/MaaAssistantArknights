@@ -9,7 +9,7 @@ icon: iconoir:developer
 
 ### プログラミングの仕方がわからないので、JSONファイルやドキュメントなどを少し変更したいのですが、どうすればいいですか？
 
-[「パラスちゃん」も理解できるGitHubのPull Requestの使用ガイド](./純WebサイトのPRチュートリアル.md)へようこそ（純WebサイトのPRチュートリアル）
+[「パラスちゃん」も理解できるGitHubのPull Requestの使用ガイド](./pr-tutorial.md)へようこそ（純WebサイトのPRチュートリアル）
 
 ### プログラミングの仕方を知っていますが、GitHub/C++/...... に触れたことがありません、どうすればいいですか？
 
@@ -104,7 +104,7 @@ VS2022を開いた後、gitに関する操作はコマンドラインツール�
 3. Visual Studioで、 Tools-Optionsで 'clang-format'を検索します。
 4. `clang-formatサポートを有効にする` をクリックし、下の `カスタムのclang-format.exeファイルを使用する` を選択し、最初取得した `clang-format.exe` を選択します。
 
-![Visual Studioでclang-formatを有効にする](https://github.com/MaaAssistantArknights/MaaAssistantArknights/assets/18511905/23ab94dd-09da-4b88-8c62-6b5f9dfad1a2)
+![Visual Studioでclang-formatを有効にする](/image/zh-cn/development-enable-vs-clang-format.png)
 
 そうすれば、 Visual Studio は c++20 構文をサポートする clang-format を問題なく使用できます！
 
@@ -120,4 +120,4 @@ GitHub codespace を作成して C++ 開発環境を自動的に構成する
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg?color=green)](https://codespaces.new/MaaAssistantArknights/MaaAssistantArknights)
 
-次に、 vscode または [Linuxチュートリアル](./Linuxチュートリアル.md) のプロンプトに従って、 GCC 12 および CMake プロジェクトを構成します。
+次に、 vscode または [Linuxチュートリアル](./linux-tutorial.md) のプロンプトに従って、 GCC 12 および CMake プロジェクトを構成します。

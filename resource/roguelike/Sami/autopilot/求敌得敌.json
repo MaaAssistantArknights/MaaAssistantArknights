@@ -2,147 +2,64 @@
     "stage_name": "求敌得敌",
     "replacement_home": [
         {
-            "location": [
-                6,
-                5
-            ],
+            "location": [6, 5],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "情报官",
-                "投锋",
-                "挡人先锋",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["情报官", "投锋", "挡人先锋", "处决者", "其他地面"],
+            "location": [5, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "焰苇"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["焰苇"],
+            "location": [5, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "重装",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["地面阻挡", "重装", "其他地面"],
+            "location": [6, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希",
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                6,
-                6
-            ],
+            "groups": ["凯尔希", "单奶", "群奶"],
+            "location": [6, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地刺"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["玛恩纳", "地刺"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "水陈",
-                "狙击",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                6
-            ],
+            "groups": ["水陈", "狙击", "高台输出", "辅助", "其他高台"],
+            "location": [4, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [6, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台输出",
-                "盾法",
-                "辅助",
-                "单奶",
-                "狙击",
-                "群奶",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["高台输出", "盾法", "辅助", "单奶", "狙击", "群奶", "其他高台"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "地刺",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["地刺", "处决者", "其他地面"],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "无人机",
-                "支援陷阱",
-                "补给站"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["无人机", "支援陷阱", "补给站"],
+            "location": [6, 3],
             "direction": "down"
         }
     ]

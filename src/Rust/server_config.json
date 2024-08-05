@@ -7,7 +7,7 @@
         "path": "./data/database",
         "drop_on_start_up": true
     },
-    "resource":{
-        "path":"./"
+    "resource": {
+        "path": "./"
     }
 }

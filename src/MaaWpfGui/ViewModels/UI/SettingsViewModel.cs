@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,6 +29,8 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using HandyControl.Controls;
 using HandyControl.Data;
 using MaaWpfGui.Configuration;
@@ -52,6 +55,7 @@ using Stylet;
 using ComboBox = System.Windows.Controls.ComboBox;
 using DarkModeType = MaaWpfGui.Configuration.GUI.DarkModeType;
 using Timer = System.Timers.Timer;
+using Window = HandyControl.Controls.Window;
 
 namespace MaaWpfGui.ViewModels.UI
 {
@@ -81,6 +85,11 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets the visibility of task setting views.
         /// </summary>
         public TaskSettingVisibilityInfo TaskSettingVisibilities { get; } = TaskSettingVisibilityInfo.Current;
+
+        /// <summary>
+        /// Gets the after action setting.
+        /// </summary>
+        public PostActionSetting PostActionSetting { get; } = PostActionSetting.Current;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
@@ -141,6 +150,7 @@ namespace MaaWpfGui.ViewModels.UI
             InitConfiguration();
             InitUiSettings();
             InitConnectConfig();
+            InitVersionUpdate();
         }
 
         private void InitInfrast()
@@ -215,6 +225,14 @@ namespace MaaWpfGui.ViewModels.UI
             if (!string.IsNullOrEmpty(addressListJson))
             {
                 ConnectAddressHistory = JsonConvert.DeserializeObject<ObservableCollection<string>>(addressListJson) ?? [];
+            }
+        }
+
+        private void InitVersionUpdate()
+        {
+            if (VersionType == UpdateVersionType.Nightly && !AllowNightlyUpdates)
+            {
+                VersionType = UpdateVersionType.Beta;
             }
         }
 
@@ -632,6 +650,16 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public bool AllowDeprecatedGpu
+        {
+            get => GpuOption.AllowDeprecatedGpu;
+            set
+            {
+                GpuOption.AllowDeprecatedGpu = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         #endregion Performance
 
         #region 启动设置
@@ -750,6 +778,25 @@ namespace MaaWpfGui.ViewModels.UI
             get => _emulatorPath;
             set
             {
+                if (Path.GetFileName(value).ToLower().Contains("maa"))
+                {
+                    int count = 3;
+                    while (count-- > 0)
+                    {
+                        var result = MessageBoxHelper.Show(
+                            LocalizationHelper.GetString("EmulatorPathSelectionErrorPrompt"),
+                            LocalizationHelper.GetString("Tip"),
+                            MessageBoxButton.OKCancel,
+                            MessageBoxImage.Warning,
+                            ok: LocalizationHelper.GetString("EmulatorPathSelectionErrorImSure") + $"({count + 1})",
+                            cancel: LocalizationHelper.GetString("EmulatorPathSelectionErrorSelectAgain"));
+                        if (result == MessageBoxResult.Cancel)
+                        {
+                            return;
+                        }
+                    }
+                }
+
                 SetAndNotify(ref _emulatorPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorPath, value);
             }
@@ -1606,12 +1653,10 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.RefreshCustomInfrastPlan();
 
                 // SetAndNotify 在值没有变化时不会触发 PropertyChanged 事件，所以这里手动触发一下
-                var index = Instances.TaskQueueViewModel.CustomInfrastPlanIndex;
-                var count = Instances.TaskQueueViewModel.CustomInfrastPlanList.Count;
                 Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = false;
                 {
-                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = (index + 1) % count;
-                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex = index;
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex--;
+                    Instances.TaskQueueViewModel.CustomInfrastPlanIndex++;
                 }
 
                 Instances.TaskQueueViewModel.NeedAddCustomInfrastPlanInfo = true;
@@ -1778,7 +1823,7 @@ namespace MaaWpfGui.ViewModels.UI
                 case "Sami":
 
                     RoguelikeModeList.Add(new() { Display = LocalizationHelper.GetString("RoguelikeStrategyCollapse"), Value = "5" });
-                    
+
                     break;
             }
 
@@ -1831,6 +1876,21 @@ namespace MaaWpfGui.ViewModels.UI
                         new() { Display = LocalizationHelper.GetString("IS3NewSquad2"), Value = "生活至上分队" },
                         new() { Display = LocalizationHelper.GetString("IS3NewSquad3"), Value = "科学主义分队" },
                         new() { Display = LocalizationHelper.GetString("IS3NewSquad4"), Value = "特训分队" },
+                    })
+                    {
+                        RoguelikeSquadList.Add(item);
+                    }
+
+                    break;
+
+                case "Sarkaz":
+
+                    foreach (var item in new ObservableCollection<CombinedData>
+                    {
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad1"), Value = "魂灵护送分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad2"), Value = "博闻广记分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad3"), Value = "蓝图测绘分队" },
+                        new() { Display = LocalizationHelper.GetString("IS4NewSquad4"), Value = "因地制宜分队" },
                     })
                     {
                         RoguelikeSquadList.Add(item);
@@ -1916,12 +1976,13 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemePhantom"), Value = "Phantom" },
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeMizuki"), Value = "Mizuki" },
                 new() { Display = LocalizationHelper.GetString("RoguelikeThemeSami"), Value = "Sami" },
+                new() { Display = LocalizationHelper.GetString("RoguelikeThemeSarkaz"), Value = "Sarkaz" },
             ];
 
         private ObservableCollection<CombinedData> _roguelikeModeList = new();
 
         /// <summary>
-        /// Gets the list of roguelike modes.
+        /// Gets or sets the list of roguelike modes.
         /// </summary>
         public ObservableCollection<CombinedData> RoguelikeModeList
         {
@@ -1953,8 +2014,7 @@ namespace MaaWpfGui.ViewModels.UI
             ];
 
         // public List<CombData> RoguelikeCoreCharList { get; set; }
-
-        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sami");
+        private string _roguelikeTheme = ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeTheme, "Sarkaz");
 
         /// <summary>
         /// Gets or sets the Roguelike theme.
@@ -2123,7 +2183,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public bool RoguelikeOnlyStartWithEliteTwo => _roguelikeOnlyStartWithEliteTwo && RoguelikeStartWithEliteTwo;
 
-
         private bool _roguelike3FirstFloorFoldartal = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3FirstFloorFoldartal, bool.FalseString));
 
         /// <summary>
@@ -2175,7 +2234,6 @@ namespace MaaWpfGui.ViewModels.UI
         /// Gets a value indicating whether core char need start with elite two.
         /// </summary>
         public bool Roguelike3NewSquad2StartingFoldartal => _roguelike3NewSquad2StartingFoldartal && RoguelikeSquadIsFoldartal;
-
 
         private string _roguelike3NewSquad2StartingFoldartals = ConfigurationHelper.GetValue(ConfigurationKeys.Roguelike3NewSquad2StartingFoldartals, string.Empty);
 
@@ -2338,6 +2396,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _roguelikeStopWhenInvestmentFull, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopWhenInvestmentFull, value.ToString());
+            }
+        }
+
+        private bool _roguelikeStopAtFinalBoss = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to stop when investment is full.
+        /// </summary>
+        public bool RoguelikeStopAtFinalBoss
+        {
+            get => _roguelikeStopAtFinalBoss;
+            set
+            {
+                SetAndNotify(ref _roguelikeStopAtFinalBoss, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.RoguelikeStopAtFinalBoss, value.ToString());
             }
         }
 
@@ -3319,7 +3392,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private UpdateVersionType _versionType = (UpdateVersionType)Enum.Parse(
             typeof(UpdateVersionType),
-            ConfigurationHelper.GetValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
+            ConfigurationHelper.GetGlobalValue(ConfigurationKeys.VersionType, UpdateVersionType.Stable.ToString()));
 
         /// <summary>
         /// Gets or sets the type of version to update.
@@ -3330,19 +3403,38 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _versionType, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.VersionType, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.VersionType, value.ToString());
             }
         }
 
         /// <summary>
         /// Gets the list of the version type.
         /// </summary>
-        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList { get; } =
+        public List<GenericCombinedData<UpdateVersionType>> AllVersionTypeList { get; } =
             [
                 new() { Display = LocalizationHelper.GetString("UpdateCheckNightly"), Value = UpdateVersionType.Nightly },
                 new() { Display = LocalizationHelper.GetString("UpdateCheckBeta"), Value = UpdateVersionType.Beta },
                 new() { Display = LocalizationHelper.GetString("UpdateCheckStable"), Value = UpdateVersionType.Stable },
             ];
+
+        public List<GenericCombinedData<UpdateVersionType>> VersionTypeList
+        {
+            get => AllVersionTypeList.Where(v => AllowNightlyUpdates || v.Value != UpdateVersionType.Nightly).ToList();
+        }
+
+        public bool AllowNightlyUpdates { get; set; } = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AllowNightlyUpdates, bool.FalseString));
+
+        private bool _hasAcknowledgedNightlyWarning = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, bool.FalseString));
+
+        public bool HasAcknowledgedNightlyWarning
+        {
+            get => _hasAcknowledgedNightlyWarning;
+            set
+            {
+                SetAndNotify(ref _hasAcknowledgedNightlyWarning, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.HasAcknowledgedNightlyWarning, value.ToString());
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether to update nightly.
@@ -3360,7 +3452,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _versionType == UpdateVersionType.Beta;
         }
 
-        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
+        private bool _updateCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateCheck, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -3371,11 +3463,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateCheck, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateCheck, value.ToString());
             }
         }
 
-        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
+        private bool _updateAutoCheck = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateAutoCheck, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to check update.
@@ -3386,11 +3478,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _updateAutoCheck, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateAutoCheck, value.ToString());
             }
         }
 
-        private string _proxy = ConfigurationHelper.GetValue(ConfigurationKeys.UpdateProxy, string.Empty);
+        private string _proxy = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.UpdateProxy, string.Empty);
 
         /// <summary>
         /// Gets or sets the proxy settings.
@@ -3401,7 +3493,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _proxy, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.UpdateProxy, value);
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.UpdateProxy, value);
             }
         }
 
@@ -3419,7 +3511,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
+        private bool _autoDownloadUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, bool.TrueString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto download update package.
@@ -3430,11 +3522,11 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoDownloadUpdatePackage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoDownloadUpdatePackage, value.ToString());
             }
         }
 
-        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
+        private bool _autoInstallUpdatePackage = Convert.ToBoolean(ConfigurationHelper.GetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to auto install update package.
@@ -3445,7 +3537,7 @@ namespace MaaWpfGui.ViewModels.UI
             set
             {
                 SetAndNotify(ref _autoInstallUpdatePackage, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
+                ConfigurationHelper.SetGlobalValue(ConfigurationKeys.AutoInstallUpdatePackage, value.ToString());
             }
         }
 
@@ -3457,7 +3549,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             var ret = await Instances.VersionUpdateViewModel.CheckAndDownloadUpdate();
 
-            string toastMessage = null;
+            string toastMessage = string.Empty;
             switch (ret)
             {
                 case VersionUpdateViewModel.CheckUpdateRetT.NoNeedToUpdate:
@@ -3499,7 +3591,7 @@ namespace MaaWpfGui.ViewModels.UI
                     throw new ArgumentOutOfRangeException();
             }
 
-            if (toastMessage != null)
+            if (toastMessage != string.Empty)
             {
                 _ = Execute.OnUIThreadAsync(() =>
                 {
@@ -4038,6 +4130,69 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         /// <summary>
+        /// Test Link And Get Image.
+        /// </summary>
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public async void TestLinkAndGetImage()
+        {
+            _runningState.SetIdle(false);
+
+            string errMsg = string.Empty;
+            TestLinkInfo = LocalizationHelper.GetString("ConnectingToEmulator");
+            bool caught = await Task.Run(() => Instances.AsstProxy.AsstConnect(ref errMsg));
+            if (!caught)
+            {
+                TestLinkInfo = errMsg;
+                _runningState.SetIdle(true);
+                return;
+            }
+
+            if (!Instances.AsstProxy.AsstStartTestLink())
+            {
+                return;
+            }
+
+            await Task.Delay(500);
+            TestLinkImage = Instances.AsstProxy.AsstGetImage();
+            TestLinkInfo = "Finish";
+            Instances.AsstProxy.AsstStop();
+            if (TestLinkImage is null)
+            {
+                TestLinkInfo = "Image is null";
+            }
+            else
+            {
+                Window popupWindow = new Window
+                {
+                    Width = 800,
+                    Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
+                    Content = new Image
+                    {
+                        Source = TestLinkImage,
+                    },
+                };
+                popupWindow.ShowDialog();
+            }
+        }
+
+        private BitmapImage? _testLinkImage;
+
+        public BitmapImage? TestLinkImage
+        {
+            get => _testLinkImage;
+            set => SetAndNotify(ref _testLinkImage, value);
+        }
+
+        private string _testLinkInfo = string.Empty;
+
+        public string TestLinkInfo
+        {
+            get => _testLinkInfo;
+            set => SetAndNotify(ref _testLinkInfo, value);
+        }
+
+        /// <summary>
         /// 标题栏显示模拟器名称和IP端口。
         /// </summary>
         public void UpdateWindowTitle()
@@ -4313,12 +4468,22 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = LocalizationHelper.GetString("Switchable"), Value = "ClearInverse" },
             ];
 
-        /*
+        private bool _useTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString));
+
         /// <summary>
-        /// Gets a value indicating whether to use tray icon.
+        /// Gets or sets a value indicating whether to use tray icon.
         /// </summary>
-        public bool UseTray => true;
-        */
+        public bool UseTray
+        {
+            get => _useTray;
+            set
+            {
+                SetAndNotify(ref _useTray, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.UseTray, value.ToString());
+                Instances.MainWindowManager.SetUseTrayIcon(value);
+            }
+        }
+
 
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
@@ -4800,7 +4965,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Remembers the user to set 1920x1080 for YoStarEN.
         /// </summary>
-        private void AskRestartToApplySettingsYoStarEN()
+        private static void AskRestartToApplySettingsYoStarEN()
         {
             var result = MessageBoxHelper.Show(
                 LocalizationHelper.GetString("PromptRestartForSettingsChange") + "\n" +
@@ -4834,6 +4999,13 @@ namespace MaaWpfGui.ViewModels.UI
         {
             await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
             _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void SetAcknowledgedNightlyWarning()
+        {
+            HasAcknowledgedNightlyWarning = true;
         }
 
         public void SetupSleepManagement()

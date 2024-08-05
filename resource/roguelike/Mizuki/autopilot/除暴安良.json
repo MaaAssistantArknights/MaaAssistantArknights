@@ -2,171 +2,69 @@
     "stage_name": "除暴安良",
     "replacement_home": [
         {
-            "location": [
-                4,
-                3
-            ],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "location": [
-                3,
-                1
-            ],
+            "location": [3, 1],
             "direction": "none"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "号角",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["百嘉", "基石", "地面C", "号角", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "召唤",
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "辅助"
-            ],
-            "location": [
-                3,
-                2
-            ],
+            "groups": ["召唤", "高台C", "控制", "狙击", "术师", "辅助"],
+            "location": [3, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "号角",
-                "地面C",
-                "重装",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                3,
-                1
-            ],
+            "groups": ["基石", "号角", "地面C", "重装", "挡人先锋", "其他地面"],
+            "location": [3, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "群奶"
-            ],
-            "location": [
-                2,
-                2
-            ],
+            "groups": ["群奶"],
+            "location": [2, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "单奶"
-            ],
-            "location": [
-                3,
-                4
-            ],
+            "groups": ["单奶"],
+            "location": [3, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地刺"
-            ],
-            "location": [
-                4,
-                2
-            ],
+            "groups": ["玛恩纳", "地刺"],
+            "location": [4, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "投锋",
-                "挡人先锋",
-                "地面C",
-                "重装",
-                "其他地面"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["基石", "投锋", "挡人先锋", "地面C", "重装", "其他地面"],
+            "location": [3, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "术师",
-                "狙击",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                2,
-                2
-            ],
+            "groups": ["高台C", "控制", "术师", "狙击", "辅助", "其他高台"],
+            "location": [2, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                6,
-                2
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [6, 2],
             "direction": "up",
-            "condition": [
-                26,
-                30
-            ]
+            "condition": [26, 30]
         },
         {
-            "groups": [
-                "号角",
-                "地面C",
-                "重装",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                1,
-                1
-            ],
+            "groups": ["号角", "地面C", "重装", "挡人先锋", "其他地面"],
+            "location": [1, 1],
             "direction": "right"
         },
         {
-            "groups": [
-                "号角",
-                "地面C",
-                "重装",
-                "挡人先锋",
-                "其他地面"
-            ],
-            "location": [
-                1,
-                3
-            ],
+            "groups": ["号角", "地面C", "重装", "挡人先锋", "其他地面"],
+            "location": [1, 3],
             "direction": "right"
         }
     ]

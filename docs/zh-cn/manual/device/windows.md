@@ -28,12 +28,12 @@ const fullySupport = shuffleArray([
     {
         name: '蓝叠模拟器 5 国际版',
         link: 'https://www.bluestacks.com/tw/index.html',
-        note: '完美支持，需要在模拟器 `设定` - `进阶` 中打开 `Android调试桥`。已知兼容 Hyper-V。\n\n- 推荐下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免缓慢和捆绑安装；推荐安装 [Android 11](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F#:~:text=%E5%AE%89%E8%A3%9D%20BlueStacks%205%20%E7%9A%84%20Android%2011) 版本；卸载请使用官方提供的 [卸载工具](https://support.bluestacks.com/hc/zh-tw/articles/360057724751-%E5%A6%82%E4%BD%95%E5%BE%9E%E6%82%A8%E7%9A%84%E9%9B%BB%E8%85%A6%E4%B8%8A%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4-BlueStacks-5-BlueStacks-X-%E5%92%8C-BlueStacks-%E6%9C%8D%E5%8B%99) 以清除残留。\n- 若 ADB 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [连接设置](../connection.md#蓝叠模拟器-hyper-v-每次启动端口号都不一样) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 ADB 的操作同样需要以管理员身份运行 MAA。',
+        note: '完美支持，需要在模拟器 `设定` - `进阶` 中打开 `Android调试桥`。已知兼容 Hyper-V。\n\n- 推荐下载 [离线安装包](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F)，避免缓慢和捆绑安装；推荐安装 [Android 11](https://support.bluestacks.com/hc/zh-tw/articles/4402611273485-BlueStacks-5-%E9%9B%A2%E7%B7%9A%E5%AE%89%E8%A3%9D%E7%A8%8B%E5%BC%8F#:~:text=%E5%AE%89%E8%A3%9D%20BlueStacks%205%20%E7%9A%84%20Android%2011) 版本；卸载请使用官方提供的 [卸载工具](https://support.bluestacks.com/hc/zh-tw/articles/360057724751-%E5%A6%82%E4%BD%95%E5%BE%9E%E6%82%A8%E7%9A%84%E9%9B%BB%E8%85%A6%E4%B8%8A%E5%AE%8C%E5%85%A8%E7%A7%BB%E9%99%A4-BlueStacks-5-BlueStacks-X-%E5%92%8C-BlueStacks-%E6%9C%8D%E5%8B%99) 以清除残留。\n- 若 ADB 端口号不断的无规律变动，每次启动都不相同，可能是因为您的电脑开启了 [Hyper-V](https://support.bluestacks.com/hc/zh-tw/articles/4415238471053-BlueStacks-5-%E6%94%AF%E6%8F%B4-Hyper-V-%E7%9A%84-Windows-10-%E5%92%8C-11-%E4%B8%8A%E7%9A%84%E9%9B%BB%E8%85%A6%E8%A6%8F%E6%A0%BC%E9%9C%80%E6%B1%82)。MAA 现在会尝试自动读取蓝叠模拟器配置文件内的端口号，若该功能失效/你有多开需求/安装了多个模拟器核心，请参考 [连接设置](../connection.html#蓝叠模拟器-hyper-v-每次启动端口号都不一样) 做出修改。由于 Hyper-V 以管理员身份运行，如自动关闭模拟器、自动检测连接等不涉及 ADB 的操作同样需要以管理员身份运行 MAA。',
     },
     {
         name: 'MuMu 模拟器 12',
         link: 'https://mumu.163.com/',
-        note: '完美支持，且额外支持[独家截图增强模式](../connection.md#mumu-截图增强模式)。已知兼容 Hyper-V。\n\n- “完成后退出模拟器”功能可能偶现异常，如果遇到请向 MuMu 官方反馈。\n- 3.5.4 ~ 3.5.7 版本 MuMu 12 的“后台保活”功能会导致截图失败，推荐使用 3.5.7 之后的版本；若您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，请关闭 MuMu 12 设置 - 其他 中的“后台挂机时保活运行”（详见[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）。',
+        note: '完美支持，且额外支持[独家截图增强模式](../connection.html#mumu-截图增强模式)。已知兼容 Hyper-V。\n\n- “完成后退出模拟器”功能可能偶现异常，如果遇到请向 MuMu 官方反馈。\n- 3.5.4 ~ 3.5.7 版本 MuMu 12 的“后台保活”功能会导致截图失败，推荐使用 3.5.7 之后的版本；若您正在使用 3.5.4 ~ 3.5.7 版本的 MuMu 12，请关闭 MuMu 12 设置 - 其他 中的“后台挂机时保活运行”（详见[官方公告](https://mumu.163.com/help/20230802/35047_1102450.html)）。',
     },
     {
         name: '雷电模拟器',
@@ -66,7 +66,7 @@ const partiallySupport = shuffleArray([
     {
         name: '适用于 Android™️ 的 Windows 子系统',
         link: 'https://docs.microsoft.com/zh-cn/windows/android/wsa/',
-        note: '自 MAA v5.2.0 起放弃支持，微软将在 2025.3.5 停止维护。\n\n- 需要使用 [自定义连接](../connection.md) 的方式来连接。\n- WSA 2204 或更高版本（版本号在子系统设置的 `关于` 页面中），连接配置选择 `通用配置`。\n- WSA 2203 或更老版本（版本号在子系统设置页面的上方），连接配置选择 `WSA 旧版本`。\n- 由于本软件仅对 720p 以上 `16:9` 分辨率支持较好，所以请手动拖动窗口大小，尽量贴近 16:9 比例。（如果你的显示器是 16:9 的，可以直接按 `F11` 全屏）。\n- 任务运行过程中请尽量保证明日方舟在前台且无其他安卓应用同时在前台运行，否则可能导致游戏暂停运行或任务识别错误。\n- WSA 的截图经常莫名其妙截出来一个白屏，导致识别异常，还是不推荐使用。',
+        note: '自 MAA v5.2.0 起放弃支持，微软将在 2025.3.5 停止维护。\n\n- 需要使用 [自定义连接](../connection.html) 的方式来连接。\n- WSA 2204 或更高版本（版本号在子系统设置的 `关于` 页面中），连接配置选择 `通用配置`。\n- WSA 2203 或更老版本（版本号在子系统设置页面的上方），连接配置选择 `WSA 旧版本`。\n- 由于本软件仅对 720p 以上 `16:9` 分辨率支持较好，所以请手动拖动窗口大小，尽量贴近 16:9 比例。（如果你的显示器是 16:9 的，可以直接按 `F11` 全屏）。\n- 任务运行过程中请尽量保证明日方舟在前台且无其他安卓应用同时在前台运行，否则可能导致游戏暂停运行或任务识别错误。\n- WSA 的截图经常莫名其妙截出来一个白屏，导致识别异常，还是不推荐使用。',
     },
     {
         name: 'AVD',
