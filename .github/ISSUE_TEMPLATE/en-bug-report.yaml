@@ -67,7 +67,7 @@ body:
       label: Configuration information
       description: |
         Emulator brand, emulator resolution, DPI (if using non-default DPI), frame rate;
-        Operating system (e.g., Windows__, MacOS);
+        Operating system (e.g. Windows__, MacOS);
         Is MuMu Screenshot Enhancement enabled? (Only specify for Mumu12);
         Is GPU accelerated inference enabled? GPU model (if enabled).
     validations:
