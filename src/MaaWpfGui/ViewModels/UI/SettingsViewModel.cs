@@ -1476,6 +1476,26 @@ namespace MaaWpfGui.ViewModels.UI
             return (from item in InfrastItemViewModels where item.IsChecked select item.OriginalName).ToList();
         }
 
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void InfrastItemSelectedAll()
+        {
+            foreach (var item in InfrastItemViewModels)
+            {
+                item.IsChecked = true;
+            }
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void InfrastItemUnselectedAll()
+        {
+            foreach (var item in InfrastItemViewModels)
+            {
+                item.IsChecked = false;
+            }
+        }
+
         /// <summary>
         /// 实时更新基建换班顺序
         /// </summary>
