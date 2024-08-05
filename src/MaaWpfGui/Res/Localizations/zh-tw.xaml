@@ -579,6 +579,12 @@
     <system:String x:Key="LoopTimes">循環次數</system:String>
     <system:String x:Key="Start">開始</system:String>
     <system:String x:Key="VideoLink">影片連結</system:String>
+    <system:String x:Key="CopilotSkill">技能</system:String>
+    <system:String x:Key="TotalOperatorsCount">共 {0} 名幹員</system:String>
+    <system:String x:Key="DirectiveECTerm">導能組件：</system:String>
+    <system:String x:Key="OtherOperators">其他幹員：</system:String>
+    <system:String x:Key="InitialEquipmentHorizontal">開局裝備（橫向）：</system:String>
+    <system:String x:Key="InitialStrategy">開局策略：</system:String>
     <!--  日誌  -->
     <system:String x:Key="CopilotTip">
         小提示: \n\n
