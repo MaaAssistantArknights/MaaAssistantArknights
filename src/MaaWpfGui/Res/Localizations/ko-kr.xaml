@@ -302,6 +302,8 @@
     <system:String x:Key="DrGrandet">그랑데 영감 모드</system:String>
     <system:String x:Key="DrGrandetTip">회복제나 순오리지늄 사용 시 이성이 자연 회복될 때까지 기다렸다가 회복되는 즉시 사용합니다.</system:String>
     <system:String x:Key="SocialPtShop">크레딧 구매</system:String>
+    <system:String x:Key="CreditVisitFriendsTip" xml:space="preserve">친구를 방문하여 크레딧을 획득하세요.
+하루에 한 번만.</system:String>
     <system:String x:Key="CreditFight">지원 유닛 사용으로 크레딧 얻기</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">OF-1을 지원 오퍼레이터를 사용해 클리어하여 30크레딧을 얻습니다.
 하루에 한 번만 활용할 수 있습니다.
