@@ -316,8 +316,8 @@ namespace MaaWpfGui.ViewModels.UI
                             foreach (var oper in (JArray?)combs["opers"] ?? [])
                             {
                                 int operLevel = (int)oper["level"];
-                                string operId = oper["id"]?.ToString();
-                                string operName = oper["name"]?.ToString();
+                                var operId = oper["id"]?.ToString();
+                                var operName = DataHelper.GetLocalizedCharacterName(oper["name"]?.ToString());
 
                                 string potential = string.Empty;
 
@@ -617,7 +617,16 @@ namespace MaaWpfGui.ViewModels.UI
             List<Tuple<string, int>> operHave = [];
             List<Tuple<string, int>> operNotHave = [];
 
-            string localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty) switch
+            string localizedName = ConfigurationHelper.GetValue(ConfigurationKeys.OperNameLanguage, string.Empty) == "OperNameLanguageClient" ?
+                ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty) switch
+            {
+                "Official" => "name",
+                "Bilibili" => "name",
+                "YoStarJP" => "name_jp",
+                "YoStarKR" => "name_kr",
+                "txwy" => "name_tw",
+                _ => "name_en",
+            } : ConfigurationHelper.GetValue(ConfigurationKeys.Localization, string.Empty) switch
             {
                 "zh-cn" => "name",
                 "ja-jp" => "name_jp",
