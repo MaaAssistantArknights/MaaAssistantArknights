@@ -491,7 +491,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "AutoRoguelike",
             ];
 
-            if (Instances.SettingsViewModel.ClientType is "" or "Official" or "Bilibili")
+            if (!(Instances.SettingsViewModel.ClientType is "txwy"))
             {
                 taskList.Add("ReclamationAlgorithm2");
             }
