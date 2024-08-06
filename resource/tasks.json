@@ -9120,9 +9120,11 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
@@ -9145,9 +9147,11 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1": {
