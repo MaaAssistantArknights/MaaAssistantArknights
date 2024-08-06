@@ -299,8 +299,7 @@
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
-    <system:String x:Key="CreditVisitFriendsTip" xml:space="preserve">友達を訪問してクレジットを獲得しましょう。
-1日1回のみ。</system:String>
+    <system:String x:Key="OnlyOnceADay">一日一回だけ</system:String>
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 一日一回だけ。

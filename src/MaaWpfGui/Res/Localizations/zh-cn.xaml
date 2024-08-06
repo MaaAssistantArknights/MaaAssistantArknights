@@ -304,8 +304,7 @@
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
-    <system:String x:Key="CreditVisitFriendsTip" xml:space="preserve">拜访好友即可获得积分。
-每天仅限一次。</system:String>
+    <system:String x:Key="OnlyOnceADay">一日只执行一次</system:String>
     <system:String x:Key="CreditFight">借助战打 OF-1 赚信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。
 一日只执行一次。
