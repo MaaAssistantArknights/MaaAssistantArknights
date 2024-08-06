@@ -3807,6 +3807,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public string ScreencapMethod { get; set; } = string.Empty;
+
         public class MuMuEmulator12ConnectionExtras : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged;
@@ -4175,25 +4177,35 @@ namespace MaaWpfGui.ViewModels.UI
 
             await Task.Delay(500);
             TestLinkImage = Instances.AsstProxy.AsstGetImage();
-            TestLinkInfo = "Finish";
             Instances.AsstProxy.AsstStop();
+
             if (TestLinkImage is null)
             {
                 TestLinkInfo = "Image is null";
+                return;
             }
-            else
+
+            switch (ConnectConfig)
             {
-                Window popupWindow = new Window
-                {
-                    Width = 800,
-                    Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
-                    Content = new Image
+                case "MuMuEmulator12":
+                    if (MuMuEmulator12Extras.Enable && ScreencapMethod != "MumuExtras")
                     {
-                        Source = TestLinkImage,
-                    },
-                };
-                popupWindow.ShowDialog();
+                        TestLinkInfo = LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage");
+                        return;
+                    }
+
+                    break;
             }
+
+            TestLinkInfo = "Finish";
+
+            Window popupWindow = new Window
+            {
+                Width = 800,
+                Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
+                Content = new Image { Source = TestLinkImage, },
+            };
+            popupWindow.ShowDialog();
         }
 
         private BitmapImage? _testLinkImage;
