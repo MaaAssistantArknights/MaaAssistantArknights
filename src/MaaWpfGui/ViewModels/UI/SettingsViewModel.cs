@@ -1349,14 +1349,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
-                if (_clientType is "YoStarEN")
-                {
-                    AskRestartToApplySettingsYoStarEN();
-                }
-                else
-                {
-                    AskRestartToApplySettings();
-                }
+                AskRestartToApplySettings(_clientType is "YoStarEN");
             }
         }
 
@@ -4979,32 +4972,19 @@ namespace MaaWpfGui.ViewModels.UI
         #endregion SettingsGuide
 
         /// <summary>
-        /// 要求用户重启以应用设置
+        /// Requires the user to restart to apply settings.
         /// </summary>
-        private void AskRestartToApplySettings()
+        /// <param name="isYostarEN">Whether to include the YostarEN resolution tip.</param>
+        private static void AskRestartToApplySettings(bool isYostarEN = false)
         {
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("PromptRestartForSettingsChange"),
-                LocalizationHelper.GetString("Tip"),
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question);
-            if (result == MessageBoxResult.OK)
-            {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
-            }
-        }
+            var resolutionTip = isYostarEN ? "\n" + LocalizationHelper.GetString("SwitchResolutionTip") : string.Empty;
 
-        /// <summary>
-        /// Remembers the user to set 1920x1080 for YoStarEN.
-        /// </summary>
-        private static void AskRestartToApplySettingsYoStarEN()
-        {
             var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("PromptRestartForSettingsChange") + "\n" +
-                LocalizationHelper.GetString("SwitchResolutionTip"),
+                LocalizationHelper.GetString("PromptRestartForSettingsChange") + resolutionTip,
                 LocalizationHelper.GetString("Tip"),
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
+
             if (result == MessageBoxResult.OK)
             {
                 Bootstrapper.ShutdownAndRestartWithoutArgs();
