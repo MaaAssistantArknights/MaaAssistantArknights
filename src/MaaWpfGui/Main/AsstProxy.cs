@@ -689,6 +689,12 @@ namespace MaaWpfGui.Main
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("CreditFight"));
                                 }
 
+                                if (Instances.SettingsViewModel.CreditVisitFriendsEnabled)
+                                {
+                                    Instances.SettingsViewModel.LastCreditiVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
+                                }
+
                                 break;
                             }
                     }

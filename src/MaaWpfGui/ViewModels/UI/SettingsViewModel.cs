@@ -2536,18 +2536,60 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "4", Value = "4" },
             ];
 
-        private bool _creditVisitFriends = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriends, bool.TrueString));
+        private string _lastCreditiVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditiVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
-        /// <summary>
-        /// Gets or sets a value indicating whether visiting is enabled or disabled.
-        /// </summary>
-        public bool CreditVisitFriends
+        public string LastCreditiVisitFriendsTime
         {
-            get => _creditVisitFriends;
+            get => _lastCreditiVisitFriendsTime;
             set
             {
-                SetAndNotify(ref _creditVisitFriends, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriends, value.ToString());
+                SetAndNotify(ref _lastCreditiVisitFriendsTime, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditiVisitFriendsTime, value);
+            }
+        }
+
+        private bool _creditVisitFriendsEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether visiting friends task is enabled.
+        /// </summary>
+        public bool CreditVisitFriendsEnabled
+        {
+            get
+            {
+                try
+                {
+                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditiVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    {
+                        return _creditVisitFriendsEnabled;
+                    }
+                }
+                catch
+                {
+                    return _creditVisitFriendsEnabled;
+                }
+
+                return false;
+            }
+
+            set
+            {
+                SetAndNotify(ref _creditVisitFriendsEnabled, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
+            }
+        }
+
+        public bool CreditVisitFriendsEnabledDisplay
+        {
+            get
+            {
+                return _creditVisitFriendsEnabled;
+            }
+
+            set
+            {
+                SetAndNotify(ref _creditVisitFriendsEnabled, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
             }
         }
 
