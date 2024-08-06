@@ -558,6 +558,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         case AdbProperty::ScreencapMethod::MumuExtras: {
             auto img_opt = m_mumu_extras.screencap();
             screencap_ret = img_opt.has_value();
+
+            if (!screencap_ret && allow_reconnect) {
+                m_mumu_extras.reload();
+                img_opt = m_mumu_extras.screencap();
+                screencap_ret = img_opt.has_value();
+            }
+
             if (screencap_ret) {
                 image_payload = img_opt.value();
             }

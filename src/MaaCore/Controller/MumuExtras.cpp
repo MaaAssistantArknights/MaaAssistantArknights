@@ -33,6 +33,13 @@ bool MumuExtras::init(
     return inited_;
 }
 
+bool MumuExtras::reload()
+{
+    inited_ = load_mumu_library() && connect_mumu() && init_screencap();
+    LogInfo << "Reload MumuExtras: " << VAR(inited_);
+    return inited_;
+}
+
 void MumuExtras::uninit()
 {
     inited_ = false;
