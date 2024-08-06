@@ -22,8 +22,13 @@
                 Margin="0,10"
                 Block.TextAlignment="Left"
                 Content="{DynamicResource Visiting}"
-                IsChecked="{Binding CreditVisitFriendsEnabledDisplay}"
-                ToolTip="{DynamicResource CreditVisitFriendsTip}"/>
+                IsChecked="{Binding CreditVisitFriendsEnabledDisplay}"/>
+            <CheckBox
+                Margin="10,10,0,10"
+                Block.TextAlignment="Left"
+                Visibility="{c:Binding CreditVisitFriendsEnabledDisplay}"
+                Content="{DynamicResource OnlyOnceADay}"
+                IsChecked="{Binding BypassDailyLimit}"/>
             <CheckBox
                 Margin="0,10"
                 Block.TextAlignment="Left"
