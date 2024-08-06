@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
+<img alt="LOGO" src="./docs/.vuepress/public/image/maa-logo_512x512.png" width="256" height="256" />
 
 # MaaAssistantArknights
 
