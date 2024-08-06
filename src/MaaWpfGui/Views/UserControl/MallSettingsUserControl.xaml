@@ -24,7 +24,7 @@
                 Content="{DynamicResource Visiting}"
                 IsChecked="{Binding CreditVisitFriendsEnabledDisplay}"/>
             <CheckBox
-                Margin="10,10,0,10"
+                Margin="20,10,0,10"
                 Block.TextAlignment="Left"
                 Visibility="{c:Binding CreditVisitFriendsEnabledDisplay}"
                 Content="{DynamicResource OnlyOnceADay}"
