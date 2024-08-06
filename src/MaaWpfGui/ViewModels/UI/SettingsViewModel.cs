@@ -2536,15 +2536,30 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "4", Value = "4" },
             ];
 
-        private string _lastCreditiVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditiVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
+        private string _lastCreditVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
-        public string LastCreditiVisitFriendsTime
+        public string LastCreditVisitFriendsTime
         {
-            get => _lastCreditiVisitFriendsTime;
+            get => _lastCreditVisitFriendsTime;
             set
             {
-                SetAndNotify(ref _lastCreditiVisitFriendsTime, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditiVisitFriendsTime, value);
+                SetAndNotify(ref _lastCreditVisitFriendsTime, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditVisitFriendsTime, value);
+            }
+        }
+
+        private bool _bypassDailyLimit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BypassCreditVisitDaily, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to bypass the daily limit.
+        /// </summary>
+        public bool BypassDailyLimit
+        {
+            get => _bypassDailyLimit;
+            set
+            {
+                SetAndNotify(ref _bypassDailyLimit, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BypassCreditVisitDaily, value.ToString());
             }
         }
 
@@ -2557,9 +2572,14 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
+                if (_bypassDailyLimit)
+                {
+                    return true;
+                }
+
                 try
                 {
-                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditiVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
                     {
                         return _creditVisitFriendsEnabled;
                     }

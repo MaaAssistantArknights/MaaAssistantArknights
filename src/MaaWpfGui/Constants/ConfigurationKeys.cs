@@ -153,7 +153,8 @@ namespace MaaWpfGui.Constants
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
         public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
-        public const string LastCreditiVisitFriendsTime = "Mall.LastCreditiVisitFriendsTime";
+        public const string LastCreditVisitFriendsTime = "Mall.LastCreditVisitFriendsTime";
+        public const string BypassCreditVisitDaily = "Mall.BypassCreditVisitDaily";
         public const string CreditVisitFriendsEnabled = "Mall.CreditVisitFriendsEnabled";
         public const string CreditShopping = "Mall.CreditShopping";
         public const string CreditFirstListNew = "Mall.CreditFirstListNew";

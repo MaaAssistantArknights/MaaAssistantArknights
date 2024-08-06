@@ -691,7 +691,7 @@ namespace MaaWpfGui.Main
 
                                 if (Instances.SettingsViewModel.CreditVisitFriendsEnabled)
                                 {
-                                    Instances.SettingsViewModel.LastCreditiVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
+                                    Instances.SettingsViewModel.LastCreditVisitFriendsTime = DateTime.UtcNow.ToYjDate().ToFormattedString();
                                     Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("CompleteTask") + LocalizationHelper.GetString("Visiting"));
                                 }
 
