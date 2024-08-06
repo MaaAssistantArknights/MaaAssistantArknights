@@ -14,7 +14,7 @@
     <SolidColorBrush x:Key="MdXamlForeground" Color="#212121" />
     <SolidColorBrush x:Key="MdXamlHyperlink" Color="#326cf3" />
     <SolidColorBrush x:Key="MdXamlHyperlinkClicked" Color="#ff0000" />
-    
+
 
     <!--  UiLogColor  -->
     <SolidColorBrush x:Key="ErrorLogBrush" Color="DarkRed" />
@@ -25,4 +25,5 @@
     <SolidColorBrush x:Key="RareOperatorLogBrush" Color="DarkOrange" />
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="DarkGray" />
     <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />
+    <SolidColorBrush x:Key="HighlightBrush" Color="DodgerBlue" />
 </ResourceDictionary>

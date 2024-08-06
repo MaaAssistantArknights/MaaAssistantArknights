@@ -493,6 +493,7 @@ namespace MaaWpfGui.Main
                     {
                         string costString = details["details"]?["cost"]?.ToString() ?? "???";
                         string method = details["details"]?["method"]?.ToString() ?? "???";
+                        Instances.SettingsViewModel.ScreencapMethod = method;
 
                         StringBuilder fastestScreencapStringBuilder = new();
                         string color = UiLogColor.Trace;
@@ -515,20 +516,36 @@ namespace MaaWpfGui.Main
                             color = UiLogColor.Error;
                         }
 
-                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
-                        Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color, showTime: false);
-
+                        var needToStop = false;
                         switch (Instances.SettingsViewModel.ConnectConfig)
                         {
                             case "MuMuEmulator12":
                                 if (Instances.SettingsViewModel.MuMuEmulator12Extras.Enable && method != "MumuExtras")
                                 {
-                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Warning);
-                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Warning, showTime: false);
+                                    Instances.TaskQueueViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error);
+                                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage"), UiLogColor.Error, showTime: false);
+                                    needToStop = true;
+                                }
+                                else if (timeCost < 100)
+                                {
+                                    color = UiLogColor.SpecialScreenshot;
                                 }
 
                                 break;
+                        }
+
+                        fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
+                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color, showTime: false);
+
+                        // 截图增强未生效自动停止一次，再开就不管了
+                        if (needToStop)
+                        {
+                            Execute.OnUIThreadAsync(async () =>
+                            {
+                                await Instances.TaskQueueViewModel.Stop();
+                                Instances.TaskQueueViewModel.SetStopped();
+                            });
                         }
                     }
 
