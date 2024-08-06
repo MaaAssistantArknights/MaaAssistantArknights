@@ -5925,7 +5925,7 @@
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
-            "Roguelike@Continue",
+            "Roguelike@ContinueThenAbandon",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -5993,7 +5993,7 @@
             "Roguelike@Stages#next",
             "Roguelike@GamePass",
             "Roguelike@TodoEnter",
-            "Roguelike@Continue",
+            "Roguelike@ContinueThenAbandon",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next",
@@ -6030,6 +6030,11 @@
         "template": "empty.png",
         "action": "ClickSelf",
         "roi": [1032, 487, 248, 215],
+        "next": ["Roguelike@Begin"]
+    },
+    "Roguelike@ContinueThenAbandon": {
+        "template": "empty.png",
+        "baseTask": "Roguelike@Continue",
         "postDelay": 500,
         "next": ["Roguelike@MissionFailedFlag2", "Roguelike@ExitThenAbandon"]
     },
@@ -7033,6 +7038,9 @@
     },
     "Phantom@Roguelike@CloseEvent": {},
     "Phantom@Roguelike@Continue": {},
+    "Phantom@Roguelike@ContinueThenAbandon": {
+        "template": "Phantom@Roguelike@Continue.png"
+    },
     "Phantom@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
         "next": ["Phantom@Roguelike@DialogSkip", "Phantom@Roguelike@Stages#next"]
@@ -7341,6 +7349,9 @@
         "next": ["Mizuki@Roguelike@StageEncounterEnter", "Mizuki@Roguelike@Stages#next"]
     },
     "Mizuki@Roguelike@Continue": {},
+    "Mizuki@Roguelike@ContinueThenAbandon": {
+        "template": "Mizuki@Roguelike@Continue.png"
+    },
     "Mizuki@Roguelike@DataTraceback": {
         "action": "ClickSelf",
         "roi": [1114, 0, 166, 134],
@@ -7969,6 +7980,10 @@
         "text": []
     },
     "Sami@Roguelike@Continue": {
+        "roi": [967, 536, 313, 177]
+    },
+    "Sami@Roguelike@ContinueThenAbandon": {
+        "template": "Sami@Roguelike@Continue.png",
         "roi": [967, 536, 313, 177],
         "next": ["Sami@Roguelike@MissionFailedFlag2", "Sami@Roguelike@ExitThenAbandon", "Sami@Roguelike@ContinueClick"]
     },
@@ -7977,7 +7992,7 @@
         "action": "ClickSelf",
         "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
         "roi": [522, 525, 245, 81],
-        "next": ["Sami@Roguelike@Continue"]
+        "next": ["Sami@Roguelike@ContinueThenAbandon"]
     },
     "Sami@Roguelike@DialogSkipConfirm": {
         "template": "Roguelike@DialogSkipConfirm.png",
@@ -9096,6 +9111,9 @@
         "specificRect": [153, 79, 63, 29]
     },
     "Sarkaz@Roguelike@Continue": {},
+    "Sarkaz@Roguelike@ContinueThenAbandon": {
+        "template": "Sarkaz@Roguelike@Continue.png"
+    },
     "Sarkaz@Roguelike@DecreaseBurdenAbandon": {
         "templThreshold": 0.9,
         "roi": [499, 471, 167, 151],
