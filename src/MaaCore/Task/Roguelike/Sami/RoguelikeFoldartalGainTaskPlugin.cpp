@@ -106,7 +106,7 @@ void asst::RoguelikeFoldartalGainTaskPlugin::enter_next_floor()
                     .set_times_limit("Roguelike@StrategyChange", 0)
                     .run();
                 ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-                    .set_times_limit("Roguelike@Abandon", 0)
+                    .set_times_limit("Roguelike@StartExplore", 0)
                     .run();
             }
         }
