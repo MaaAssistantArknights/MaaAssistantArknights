@@ -2828,11 +2828,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         public class TimerModel
         {
-            public class TimerProperties : INotifyPropertyChanged
+            public class TimerProperties : PropertyChangedBase
             {
-                public event PropertyChangedEventHandler PropertyChanged;
-
-                public TimerProperties(int timeId, bool isOn, int hour, int min, string timerConfig)
+                public TimerProperties(int timeId, bool isOn, int hour, int min, string? timerConfig)
                 {
                     TimerId = timeId;
                     _isOn = isOn;
@@ -2846,11 +2844,6 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _timerConfig = timerConfig;
                     }
-                }
-
-                protected void OnPropertyChanged([CallerMemberName] string name = null)
-                {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
                 }
 
                 public int TimerId { get; set; }
@@ -2872,8 +2865,7 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _isOn;
                     set
                     {
-                        _isOn = value;
-                        OnPropertyChanged();
+                        SetAndNotify(ref _isOn, value);
                         ConfigurationHelper.SetTimer(TimerId, value.ToString());
                     }
                 }
@@ -2888,8 +2880,8 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _hour;
                     set
                     {
-                        _hour = value is >= 0 and <= 23 ? value : _hour;
-                        OnPropertyChanged();
+                        value = value is >= 0 and <= 23 ? value : _hour;
+                        SetAndNotify(ref _hour, value);
                         ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
                     }
                 }
@@ -2904,31 +2896,25 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _min;
                     set
                     {
-                        _min = value is >= 0 and <= 59 ? value : _min;
-                        OnPropertyChanged();
+                        value = value is >= 0 and <= 59 ? value : _min;
+                        SetAndNotify(ref _min, value);
                         ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
                     }
                 }
 
-                private string _timerConfig;
+                private string? _timerConfig;
 
                 /// <summary>
                 /// Gets or sets the config of the timer.
                 /// </summary>
-                public string TimerConfig
+                public string? TimerConfig
                 {
                     get => _timerConfig;
                     set
                     {
-                        _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
-                        OnPropertyChanged();
+                        SetAndNotify(ref _timerConfig, value ?? ConfigurationHelper.GetCurrentConfiguration());
                         ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
                     }
-                }
-
-                public TimerProperties()
-                {
-                    PropertyChanged += (_, _) => { };
                 }
             }
 
@@ -3865,15 +3851,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public string ScreencapMethod { get; set; } = string.Empty;
 
-        public class MuMuEmulator12ConnectionExtras : INotifyPropertyChanged
+        public class MuMuEmulator12ConnectionExtras : PropertyChangedBase
         {
-            public event PropertyChangedEventHandler? PropertyChanged;
-
-            protected void OnPropertyChanged([CallerMemberName] string? name = null)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-
             private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, bool.FalseString));
 
             public bool Enable
@@ -3885,8 +3864,6 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         return;
                     }
-
-                    _enable = value;
 
                     if (value)
                     {
@@ -3931,7 +3908,7 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _enable, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
                 }
             }
@@ -3953,9 +3930,8 @@ namespace MaaWpfGui.ViewModels.UI
                         value = string.Empty;
                     }
 
-                    _emulatorPath = value;
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _emulatorPath, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12EmulatorPath, value);
                 }
             }
@@ -3970,9 +3946,8 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _index;
                 set
                 {
-                    _index = value;
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _index, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
                 }
             }
@@ -3987,9 +3962,8 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _display;
                 set
                 {
-                    _display = value;
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _display, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Display, _display);
                 }
             }
@@ -4011,11 +3985,6 @@ namespace MaaWpfGui.ViewModels.UI
                     };
                     return JsonConvert.SerializeObject(configObject);
                 }
-            }
-
-            public MuMuEmulator12ConnectionExtras()
-            {
-                PropertyChanged += (_, _) => { };
             }
         }
 
@@ -4948,9 +4917,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         public ObservableCollection<CombinedData> ConfigurationList { get; set; }
 
-        private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+        private string? _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
-        public string CurrentConfiguration
+        public string? CurrentConfiguration
         {
             get => _currentConfiguration;
             set
