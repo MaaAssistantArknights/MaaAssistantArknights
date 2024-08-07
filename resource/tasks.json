@@ -576,7 +576,8 @@
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [0, 220, 1280, 500],
-        "next": ["SS-ShoppingSetMax", "SS-Shopping@ChapterSlowlySwipeToTheRight", "#self"]
+        "sub": ["SS-ShoppingSetMax"],
+        "next": ["#self", "SS-Shopping@ChapterSlowlySwipeToTheRight"]
     },
     "SS-ShoppingSetMax": {
         "action": "ClickSelf",
@@ -596,7 +597,7 @@
         "next": ["SS-ShoppingBuyClose"]
     },
     "SS-ShoppingBuyClose": {
-        "template": "SS-Shopping.png",
+        "template": "SS-ShoppingBuyClose.png",
         "action": "ClickSelf",
         "roi": [557, 555, 168, 164]
     },
@@ -925,7 +926,7 @@
     },
     "HS-ShoppingBegin": {
         "baseTask": "SS-ShoppingBegin",
-        "sub": ["SS-ShoppingBegin#next", "HS-OpenOcr", "HSToShop", "HS-Shopping"]
+        "sub": ["SS-ShoppingBegin#next", "HS-Open", "HSToShop", "HS-Shopping"]
     },
     "HS-Shopping": {
         "baseTask": "SS-Shopping",
