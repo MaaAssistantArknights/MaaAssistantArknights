@@ -1745,46 +1745,7 @@ namespace MaaWpfGui.Main
 
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
-                string? bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
-
-                if (string.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
-                {
-                    // 防止bsHvAddress和connectAddress重合
-                    bsHvAddress = string.Empty;
-                }
-
-                // tcp连接测试端口是否有效，超时时间500ms
-                // 如果是本地设备，没有冒号
-                bool adbResult =
-                    (!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
-                    !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
-                    IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
-                bool bsResult = IfPortEstablished(bsHvAddress);
-
-                if (adbResult)
-                {
-                    error = string.Empty;
-                }
-                else if (bsResult)
-                {
-                    if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath))
-                    {
-                        Instances.SettingsViewModel.DetectAdbConfig(ref error);
-                    }
-
-                    Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
-                    if (string.IsNullOrEmpty(error))
-                    {
-                        error = string.Empty;
-                    }
-                }
-                else if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
-                {
-                    // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8547
-                    // DetectAdbConfig 会把 ConnectAddress 变成第一个不是 emulator 开头的地址，可能会存在多开问题
-                    error = string.Empty;
-                }
-                else
+                if (!AutoDetectConnection(ref error))
                 {
                     return false;
                 }
@@ -1859,6 +1820,48 @@ namespace MaaWpfGui.Main
             }
 
             return ret;
+        }
+
+        private static bool AutoDetectConnection(ref string error)
+        {
+            string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
+
+            // tcp连接测试端口是否有效，超时时间500ms
+            // 如果是本地设备，没有冒号
+            bool adbResult =
+                (!Instances.SettingsViewModel.ConnectAddress.Contains(':') &&
+                 !string.IsNullOrEmpty(Instances.SettingsViewModel.ConnectAddress)) ||
+                IfPortEstablished(Instances.SettingsViewModel.ConnectAddress);
+
+            if (adbResult)
+            {
+                error = string.Empty;
+                return true;
+            }
+
+            bool bsResult = IfPortEstablished(bsHvAddress);
+
+            if (bsResult)
+            {
+                error = string.Empty;
+                if (string.IsNullOrEmpty(Instances.SettingsViewModel.AdbPath) && Instances.SettingsViewModel.DetectAdbConfig(ref error))
+                {
+                    return string.IsNullOrEmpty(error);
+                }
+                Instances.SettingsViewModel.ConnectAddress = bsHvAddress;
+                return true;
+            }
+
+
+            if (Instances.SettingsViewModel.DetectAdbConfig(ref error))
+            {
+                // https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/8547
+                // DetectAdbConfig 会把 ConnectAddress 变成第一个不是 emulator 开头的地址，可能会存在多开问题
+                error = string.Empty;
+                return true;
+            }
+
+            return false;
         }
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject? taskParams = null)
