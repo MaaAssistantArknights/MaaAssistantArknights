@@ -26,26 +26,34 @@
             <hc:Divider />
             <CheckBox
                 Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
                 IsChecked="{Binding PostActionSetting.BackToAndroidHome}"
-                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}">
+                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource BackToAndroidHome}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
                 IsChecked="{Binding PostActionSetting.ExitArknights}"
-                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}">
+                IsEnabled="{c:Binding !PostActionSetting.ExitEmulator}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitArknights}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
                 IsChecked="{Binding PostActionSetting.ExitEmulator}"
-                IsEnabled="{c:Binding !PostActionSetting.IfNoOtherMaa}">
+                IsEnabled="{c:Binding !PostActionSetting.IfNoOtherMaa}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitEmulator}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,10"
+                s:View.ActionTarget="{Binding PostActionSetting}"
                 IsChecked="{Binding PostActionSetting.ExitSelf}"
-                IsEnabled="{c:Binding !PostActionSetting.IfNoOtherMaa}">
+                IsEnabled="{c:Binding !PostActionSetting.IfNoOtherMaa}"
+                MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource ExitSelf}" TextWrapping="Wrap" />
             </CheckBox>
             <hc:Divider />
@@ -58,15 +66,15 @@
 
             <CheckBox
                 Margin="0,10"
-                IsChecked="{Binding PostActionSetting.Hibernate}"
                 s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.Hibernate}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource Hibernate}" TextWrapping="Wrap" />
             </CheckBox>
             <CheckBox
                 Margin="0,10"
-                IsChecked="{Binding PostActionSetting.Shutdown}"
                 s:View.ActionTarget="{Binding PostActionSetting}"
+                IsChecked="{Binding PostActionSetting.Shutdown}"
                 MouseRightButtonUp="{s:Action PostActionsAndOnce}">
                 <controls:TextBlock Text="{DynamicResource Shutdown}" TextWrapping="Wrap" />
             </CheckBox>
