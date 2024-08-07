@@ -175,6 +175,41 @@ namespace MaaWpfGui.Helper
             }
         }
 
+        private static void EnsureConfigDirectoryExists()
+        {
+            if (Directory.Exists("config") is false)
+            {
+                Directory.CreateDirectory("config");
+            }
+        }
+
+        private static bool ParseConfig(out JObject parsed)
+        {
+            parsed = ParseJsonFile(_configurationFile);
+            if (parsed is null && File.Exists(_configurationBakFile))
+            {
+                parsed = ParseJsonFile(_configurationFile);
+                if (parsed is not null)
+                {
+                    File.Copy(_configurationBakFile, _configurationFile, true);
+                }
+            }
+
+            if (parsed is null)
+            {
+                _logger.Information("Failed to load configuration file, creating a new one");
+
+                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
+                _current = ConfigurationKeys.DefaultConfiguration;
+                _kvsMap[_current] = new Dictionary<string, string>();
+                _kvs = _kvsMap[_current];
+                _globalKvs = new Dictionary<string, string>();
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Load configuration file
         /// </summary>
@@ -183,61 +218,49 @@ namespace MaaWpfGui.Helper
         {
             lock (_lock)
             {
-                if (Directory.Exists("config") is false)
-                {
-                    Directory.CreateDirectory("config");
-                }
+                EnsureConfigDirectoryExists();
 
                 // Load configuration file
-                var parsed = ParseJsonFile(_configurationFile);
-                if (parsed is null)
+                if (!ParseConfig(out var parsed))
                 {
-                    if (File.Exists(_configurationBakFile))
-                    {
-                        File.Copy(_configurationBakFile, _configurationFile, true);
-                        parsed = ParseJsonFile(_configurationFile);
-                    }
-                }
-
-                if (parsed is null)
-                {
-                    _logger.Information("Failed to load configuration file, creating a new one");
-
-                    _kvsMap = new Dictionary<string, Dictionary<string, string>>();
-                    _current = ConfigurationKeys.DefaultConfiguration;
-                    _kvsMap[_current] = new Dictionary<string, string>();
-                    _kvs = _kvsMap[_current];
-                    _globalKvs = new Dictionary<string, string>();
-
                     return false;
                 }
 
-                if (parsed.ContainsKey(ConfigurationKeys.ConfigurationMap))
-                {
-                    // new version
-                    _kvsMap = parsed[ConfigurationKeys.ConfigurationMap]?.ToObject<Dictionary<string, Dictionary<string, string>>>()
-                        ?? new Dictionary<string, Dictionary<string, string>>();
-                    _current = parsed[ConfigurationKeys.CurrentConfiguration]?.ToString()
-                        ?? ConfigurationKeys.DefaultConfiguration;
-                    _kvs = _kvsMap[_current];
-                }
-                else
-                {
-                    // old version
-                    _logger.Information("Configuration file is in old version, migrating to new version");
 
-                    _kvsMap = new Dictionary<string, Dictionary<string, string>>();
-                    _current = ConfigurationKeys.DefaultConfiguration;
-                    _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
-                    _kvs = _kvsMap[_current];
-                }
-
-                _globalKvs = parsed.ContainsKey(ConfigurationKeys.GlobalConfiguration)
-                    ? parsed[ConfigurationKeys.GlobalConfiguration]?.ToObject<Dictionary<string, string>>()
-                    : new Dictionary<string, string>();
+                SetKvOrMigrate(parsed);
 
                 return true;
             }
+        }
+
+        private static void SetKvOrMigrate(JObject parsed)
+        {
+
+            bool hasConfigMap = parsed.ContainsKey(ConfigurationKeys.ConfigurationMap);
+            bool hasCurrentConfig = parsed.ContainsKey(ConfigurationKeys.CurrentConfiguration);
+            if (hasConfigMap)
+            {
+                // new version
+                _kvsMap = parsed[ConfigurationKeys.ConfigurationMap]?.ToObject<Dictionary<string, Dictionary<string, string>>>()
+                          ?? new Dictionary<string, Dictionary<string, string>>();
+                _current = parsed[ConfigurationKeys.CurrentConfiguration]?.ToString()
+                           ?? ConfigurationKeys.DefaultConfiguration;
+                _kvs = _kvsMap[_current];
+            }
+            else
+            {
+                // old version
+                _logger.Information("Configuration file is in old version, migrating to new version");
+
+                _kvsMap = new Dictionary<string, Dictionary<string, string>>();
+                _current = ConfigurationKeys.DefaultConfiguration;
+                _kvsMap[_current] = parsed.ToObject<Dictionary<string, string>>();
+                _kvs = _kvsMap[_current];
+            }
+
+            _globalKvs = hasCurrentConfig
+                ? parsed[ConfigurationKeys.GlobalConfiguration]?.ToObject<Dictionary<string, string>>()
+                : new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -255,18 +278,7 @@ namespace MaaWpfGui.Helper
             try
             {
                 var jsonStr = JsonConvert.SerializeObject(
-                    new Dictionary<string, object>
-                    {
-                        {
-                            ConfigurationKeys.ConfigurationMap, _kvsMap
-                        },
-                        {
-                            ConfigurationKeys.CurrentConfiguration, _current
-                        },
-                        {
-                            ConfigurationKeys.GlobalConfiguration, _globalKvs
-                        },
-                    },
+                    new Dictionary<string, object> { { ConfigurationKeys.ConfigurationMap, _kvsMap }, { ConfigurationKeys.CurrentConfiguration, _current }, { ConfigurationKeys.GlobalConfiguration, _globalKvs }, },
                     Formatting.Indented);
 
                 File.WriteAllText(file ?? _configurationFile, jsonStr);
