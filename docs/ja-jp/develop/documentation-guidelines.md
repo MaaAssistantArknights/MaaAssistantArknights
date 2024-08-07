@@ -101,9 +101,9 @@ Markdown 内で `<HopeIcon />` コンポーネントを使用してアイコン�
 <HopeIcon icon="ic:round-home" color="#1f1e33"/>
 ```
 
-<HopeIcon icon="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" size="4rem" />
+<HopeIcon icon="/image/maa-logo_512x512.png" size="4rem" />
 ```markdown
-<HopeIcon icon="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" size="4rem" />
+<HopeIcon icon="/image/maa-logo_512x512.png" size="4rem" />
 ```
 :::
 

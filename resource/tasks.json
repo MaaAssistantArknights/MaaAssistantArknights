@@ -2825,9 +2825,7 @@
         "algorithm": "OcrDetect",
         "text": ["请选择", "选择"],
         "roi": [1023, 504, 198, 81],
-        "sub": ["OrundumActivitiesClick", "OrundumActivitiesClick", "OrundumActivitiesClick"],
-        "subErrorIgnored": true,
-        "next": ["OrundumActivitiesConfirm", "OrundumActivitiesEarnRewards", "OrundumActivitiesReturn"]
+        "next": ["OrundumActivitiesClick"]
     },
     "OrundumActivitiesClick": {
         "action": "ClickSelf",
@@ -2835,7 +2833,8 @@
         "template": ["OrundumActivitiesClick.png", "OrundumActivitiesClickBazaar.png"],
         "templThreshold": 0.9,
         "maskRange": [1, 255],
-        "rectMove": [10, 10, 50, 50]
+        "rectMove": [10, 10, 50, 50],
+        "next": ["OrundumActivitiesChoose", "OrundumActivitiesConfirm"]
     },
     "OrundumActivitiesConfirm": {
         "algorithm": "OcrDetect",
@@ -5923,10 +5922,10 @@
             "Roguelike@Stages#next",
             "Roguelike@GetDrops#next",
             "Roguelike@NextLevel",
-            "Roguelike@Continue",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
+            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -5979,6 +5978,7 @@
             "Roguelike@StageTraderLeave",
             "Roguelike@Stages#next",
             "Roguelike@StartUpThemes#next",
+            "Roguelike@StageTraderLeave",
             "Roguelike@ClickToDrops"
         ]
     },
@@ -7976,7 +7976,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
-        "roi": [522, 431, 245, 144],
+        "roi": [522, 525, 245, 81],
         "next": ["Sami@Roguelike@Continue"]
     },
     "Sami@Roguelike@DialogSkipConfirm": {

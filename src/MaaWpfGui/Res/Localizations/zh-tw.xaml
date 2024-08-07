@@ -263,6 +263,9 @@
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里點酒吧？</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>
@@ -293,6 +296,7 @@
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢復理智確認介面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="SocialPtShop">信用購物</system:String>
+    <system:String x:Key="OnlyOnceADay">一日只執行一次</system:String>
     <system:String x:Key="CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 一日只執行一次。

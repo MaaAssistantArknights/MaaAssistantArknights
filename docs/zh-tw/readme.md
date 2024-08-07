@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 
@@ -48,7 +48,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 話不多說，看圖！
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {

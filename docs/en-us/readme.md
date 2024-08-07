@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 # MaaAssistantArknights
@@ -46,7 +46,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {

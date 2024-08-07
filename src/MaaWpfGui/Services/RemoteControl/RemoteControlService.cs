@@ -636,7 +636,7 @@ namespace MaaWpfGui.Services.RemoteControl
                             break;
 
                         case "Mission":
-                            taskRet &= InvokeInstanceFunction<bool>(Instances.TaskQueueViewModel, "AppendAward");
+                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendAward");
                             break;
 
                         case "AutoRoguelike":
@@ -645,6 +645,10 @@ namespace MaaWpfGui.Services.RemoteControl
 
                         case "ReclamationAlgorithm":
                             taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendReclamation");
+                            break;
+
+                        case "ReclamationAlgorithm2":
+                            taskRet &= InvokeStaticFunction<bool>(Instances.TaskQueueViewModel.GetType(), "AppendReclamation2");
                             break;
 
                         default:

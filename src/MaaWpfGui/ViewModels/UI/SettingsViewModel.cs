@@ -653,7 +653,8 @@ namespace MaaWpfGui.ViewModels.UI
         public bool AllowDeprecatedGpu
         {
             get => GpuOption.AllowDeprecatedGpu;
-            set {
+            set
+            {
                 GpuOption.AllowDeprecatedGpu = value;
                 NotifyOfPropertyChange();
             }
@@ -777,6 +778,25 @@ namespace MaaWpfGui.ViewModels.UI
             get => _emulatorPath;
             set
             {
+                if (Path.GetFileName(value).ToLower().Contains("maa"))
+                {
+                    int count = 3;
+                    while (count-- > 0)
+                    {
+                        var result = MessageBoxHelper.Show(
+                            LocalizationHelper.GetString("EmulatorPathSelectionErrorPrompt"),
+                            LocalizationHelper.GetString("Tip"),
+                            MessageBoxButton.OKCancel,
+                            MessageBoxImage.Warning,
+                            ok: LocalizationHelper.GetString("EmulatorPathSelectionErrorImSure") + $"({count + 1})",
+                            cancel: LocalizationHelper.GetString("EmulatorPathSelectionErrorSelectAgain"));
+                        if (result == MessageBoxResult.Cancel)
+                        {
+                            return;
+                        }
+                    }
+                }
+
                 SetAndNotify(ref _emulatorPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.EmulatorPath, value);
             }
@@ -1329,14 +1349,7 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.TaskQueueViewModel.UpdateStageList(true);
                 Instances.TaskQueueViewModel.UpdateDatePrompt();
                 Instances.AsstProxy.LoadResource();
-                if (_clientType is "YoStarEN")
-                {
-                    AskRestartToApplySettingsYoStarEN();
-                }
-                else
-                {
-                    AskRestartToApplySettings();
-                }
+                AskRestartToApplySettings(_clientType is "YoStarEN");
             }
         }
 
@@ -1454,6 +1467,26 @@ namespace MaaWpfGui.ViewModels.UI
         public List<string> GetInfrastOrderList()
         {
             return (from item in InfrastItemViewModels where item.IsChecked select item.OriginalName).ToList();
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void InfrastItemSelectedAll()
+        {
+            foreach (var item in InfrastItemViewModels)
+            {
+                item.IsChecked = true;
+            }
+        }
+
+        // UI 绑定的方法
+        // ReSharper disable once UnusedMember.Global
+        public void InfrastItemUnselectedAll()
+        {
+            foreach (var item in InfrastItemViewModels)
+            {
+                item.IsChecked = false;
+            }
         }
 
         /// <summary>
@@ -2496,18 +2529,80 @@ namespace MaaWpfGui.ViewModels.UI
                 new() { Display = "4", Value = "4" },
             ];
 
-        private bool _creditVisitFriends = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriends, bool.TrueString));
+        private string _lastCreditVisitFriendsTime = ConfigurationHelper.GetValue(ConfigurationKeys.LastCreditVisitFriendsTime, DateTime.UtcNow.ToYjDate().AddDays(-1).ToFormattedString());
 
-        /// <summary>
-        /// Gets or sets a value indicating whether visiting is enabled or disabled.
-        /// </summary>
-        public bool CreditVisitFriends
+        public string LastCreditVisitFriendsTime
         {
-            get => _creditVisitFriends;
+            get => _lastCreditVisitFriendsTime;
             set
             {
-                SetAndNotify(ref _creditVisitFriends, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriends, value.ToString());
+                SetAndNotify(ref _lastCreditVisitFriendsTime, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.LastCreditVisitFriendsTime, value);
+            }
+        }
+
+        private bool _bypassDailyLimit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BypassCreditVisitDaily, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to bypass the daily limit.
+        /// </summary>
+        public bool BypassDailyLimit
+        {
+            get => _bypassDailyLimit;
+            set
+            {
+                SetAndNotify(ref _bypassDailyLimit, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.BypassCreditVisitDaily, value.ToString());
+            }
+        }
+
+        private bool _creditVisitFriendsEnabled = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitFriendsEnabled, bool.TrueString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether visiting friends task is enabled.
+        /// </summary>
+        public bool CreditVisitFriendsEnabled
+        {
+            get
+            {
+                if (_bypassDailyLimit)
+                {
+                    return true;
+                }
+
+                try
+                {
+                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    {
+                        return _creditVisitFriendsEnabled;
+                    }
+                }
+                catch
+                {
+                    return _creditVisitFriendsEnabled;
+                }
+
+                return false;
+            }
+
+            set
+            {
+                SetAndNotify(ref _creditVisitFriendsEnabled, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
+            }
+        }
+
+        public bool CreditVisitFriendsEnabledDisplay
+        {
+            get
+            {
+                return _creditVisitFriendsEnabled;
+            }
+
+            set
+            {
+                SetAndNotify(ref _creditVisitFriendsEnabled, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitFriendsEnabled, value.ToString());
             }
         }
 
@@ -3767,6 +3862,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
+        public string ScreencapMethod { get; set; } = string.Empty;
+
         public class MuMuEmulator12ConnectionExtras : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged;
@@ -4135,25 +4232,35 @@ namespace MaaWpfGui.ViewModels.UI
 
             await Task.Delay(500);
             TestLinkImage = Instances.AsstProxy.AsstGetImage();
-            TestLinkInfo = "Finish";
             Instances.AsstProxy.AsstStop();
+
             if (TestLinkImage is null)
             {
                 TestLinkInfo = "Image is null";
+                return;
             }
-            else
+
+            switch (ConnectConfig)
             {
-                Window popupWindow = new Window
-                {
-                    Width = 800,
-                    Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
-                    Content = new Image
+                case "MuMuEmulator12":
+                    if (MuMuEmulator12Extras.Enable && ScreencapMethod != "MumuExtras")
                     {
-                        Source = TestLinkImage,
-                    },
-                };
-                popupWindow.ShowDialog();
+                        TestLinkInfo = LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage");
+                        return;
+                    }
+
+                    break;
             }
+
+            TestLinkInfo = "Finish";
+
+            Window popupWindow = new Window
+            {
+                Width = 800,
+                Height = 481, // (800 - 1 - 1) * 9 / 16 + 32 + 1,
+                Content = new Image { Source = TestLinkImage, },
+            };
+            popupWindow.ShowDialog();
         }
 
         private BitmapImage? _testLinkImage;
@@ -4927,32 +5034,19 @@ namespace MaaWpfGui.ViewModels.UI
         #endregion SettingsGuide
 
         /// <summary>
-        /// 要求用户重启以应用设置
+        /// Requires the user to restart to apply settings.
         /// </summary>
-        private void AskRestartToApplySettings()
+        /// <param name="isYostarEN">Whether to include the YostarEN resolution tip.</param>
+        private static void AskRestartToApplySettings(bool isYostarEN = false)
         {
-            var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("PromptRestartForSettingsChange"),
-                LocalizationHelper.GetString("Tip"),
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.Question);
-            if (result == MessageBoxResult.OK)
-            {
-                Bootstrapper.ShutdownAndRestartWithoutArgs();
-            }
-        }
+            var resolutionTip = isYostarEN ? "\n" + LocalizationHelper.GetString("SwitchResolutionTip") : string.Empty;
 
-        /// <summary>
-        /// Remembers the user to set 1920x1080 for YoStarEN.
-        /// </summary>
-        private static void AskRestartToApplySettingsYoStarEN()
-        {
             var result = MessageBoxHelper.Show(
-                LocalizationHelper.GetString("PromptRestartForSettingsChange") + "\n" +
-                LocalizationHelper.GetString("SwitchResolutionTip"),
+                LocalizationHelper.GetString("PromptRestartForSettingsChange") + resolutionTip,
                 LocalizationHelper.GetString("Tip"),
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
+
             if (result == MessageBoxResult.OK)
             {
                 Bootstrapper.ShutdownAndRestartWithoutArgs();

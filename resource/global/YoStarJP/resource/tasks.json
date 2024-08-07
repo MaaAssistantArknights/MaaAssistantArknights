@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選択"]
     },
@@ -10,6 +13,18 @@
     },
     "ClickChapter3": {
         "text": ["残映"]
+    },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-5": {
+        "sub": ["HS-Open", "HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["懐黍離", "イベント開催中", "荒城中枢", "大江北岸", "ステージ開放中"]
@@ -891,7 +906,7 @@
             ["涼しげな泉", "灵动清泉"],
             ["バリケード", "封阻物"],
             ["ケストレル", "红隼"],
-            ["ズオ・ラウ", "左乐"],
+            ["ズオ.?ラウ", "左乐"],
             ["臨時高台", "高台工事"],
             ["砂地獄", "流沙黯坑"],
             ["栽培ボックス", "种植箱集群\n"],
@@ -969,6 +984,9 @@
     "OrundumActivities": {
         "doc": "幸运墙领合成玉",
         "text": ["開運", "おみくじ"]
+    },
+    "OrundumActivitiesChoose": {
+        "text": ["開運くじ", "を選択"]
     },
     "OrundumActivitiesConfirm": {
         "text": ["引く"]
