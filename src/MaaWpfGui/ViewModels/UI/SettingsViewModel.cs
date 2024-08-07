@@ -4345,13 +4345,13 @@ namespace MaaWpfGui.ViewModels.UI
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
-                return null;
+                return string.Empty;
             }
 
             if (!File.Exists(_bluestacksConfig))
             {
                 ConfigurationHelper.SetValue(ConfigurationKeys.BluestacksConfigError, "File not exists");
-                return null;
+                return string.Empty;
             }
 
             var allLines = File.ReadAllLines(_bluestacksConfig);
