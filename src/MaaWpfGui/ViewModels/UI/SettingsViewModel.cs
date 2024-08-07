@@ -2542,18 +2542,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _bypassDailyLimit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BypassCreditVisitDaily, bool.FalseString));
+        private bool _creditVisitOnceADay = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to bypass the daily limit.
         /// </summary>
-        public bool BypassDailyLimit
+        public bool CreditVisitOnceADay
         {
-            get => _bypassDailyLimit;
+            get => _creditVisitOnceADay;
             set
             {
-                SetAndNotify(ref _bypassDailyLimit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.BypassCreditVisitDaily, value.ToString());
+                SetAndNotify(ref _creditVisitOnceADay, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitOnceADay, value.ToString());
             }
         }
 
@@ -2566,24 +2566,20 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (!_bypassDailyLimit)
+                if (_creditVisitOnceADay)
                 {
-                    return true;
-                }
-
-                try
-                {
-                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    try
+                    {
+                        return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+                               && _creditVisitFriendsEnabled;
+                    }
+                    catch
                     {
                         return _creditVisitFriendsEnabled;
                     }
                 }
-                catch
-                {
-                    return _creditVisitFriendsEnabled;
-                }
 
-                return false;
+                return true;
             }
 
             set

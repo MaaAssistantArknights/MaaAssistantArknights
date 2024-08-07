@@ -28,7 +28,7 @@
                 Block.TextAlignment="Left"
                 Visibility="{c:Binding CreditVisitFriendsEnabledDisplay}"
                 Content="{DynamicResource OnlyOnceADay}"
-                IsChecked="{Binding BypassDailyLimit}"/>
+                IsChecked="{Binding CreditVisitOnceADay}"/>
             <CheckBox
                 Margin="0,10"
                 Block.TextAlignment="Left"
