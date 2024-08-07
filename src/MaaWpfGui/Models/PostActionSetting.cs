@@ -280,8 +280,8 @@ public class PostActionSetting : PropertyChangedBase
             return;
         }
 
-        Once = !Once;
         CheckBox checkBox = (CheckBox)sender;
+        Once = !checkBox.IsChecked ?? false;
         checkBox.IsChecked = !checkBox.IsChecked;
     }
 
