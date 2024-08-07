@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選択"]
     },
@@ -22,9 +25,6 @@
     },
     "HS-5": {
         "sub": ["HS-Open", "HSChapterToHS"]
-    },
-    "HS-Open": {
-        "baseTask": "SS-Open"
     },
     "HS-OpenOcr": {
         "text": ["懐黍離", "イベント開催中", "荒城中枢", "大江北岸", "ステージ開放中"]
