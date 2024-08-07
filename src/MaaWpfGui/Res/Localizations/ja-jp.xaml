@@ -403,7 +403,7 @@
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算「沙洲遺聞」</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算「熱砂秘聞」</system:String>
     <system:String x:Key="Light">ライトモード</system:String>
     <system:String x:Key="Dark">ダークモード</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
@@ -837,4 +837,24 @@
     <system:String x:Key="CheckAndDownloadAnnouncement">公告を見ます</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">このお知らせをもう表示しない</system:String>
     <!--  !Announcement  -->
+    <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">詳細設定のオプションでモードを切り替えることができます
+
+生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
+
+ ノーマルモードの場合：
+  1. すでにセーブデータがある場合は使用できません（既存のセーブデータを削除します）
+  2. 生息演算の編成にオペレーターがいる場合は使用できません（特に戦闘の後は、現在の編成を空にするだけで十分です）
+  3. タスクは生息演算のメイン画面で開始する必要があります（ナビゲーションはまだ書かれていません）
+
+ 道具作りでポイントを得る：
+  1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
+  2. 生息演算で開始する必要があります（駐屯地を見ることができるページ）
+  3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。
+    </system:String>
+    <system:String x:Key="ReclamationBePatient">改善するのが待ちきれません！また急いでいます</system:String>
+    <system:String x:Key="Reclamation2ExEnable">道具作りでポイントを得る</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">支援道具名</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">ケミカルライト</system:String>
+    <!--  !Reclamation  -->
 </ResourceDictionary>
