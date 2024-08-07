@@ -165,8 +165,6 @@ bool asst::RoguelikeInvestTaskPlugin::is_investment_error(const cv::Mat& image) 
 
 void asst::RoguelikeInvestTaskPlugin::stop_roguelike() const
 {
-    if (m_roguelike_task_ptr) {
-        m_roguelike_task_ptr->exit_then_stop(true);
-    }
+    m_control_ptr->exit_then_stop(true);
     m_task_ptr->set_enable(false);
 }
