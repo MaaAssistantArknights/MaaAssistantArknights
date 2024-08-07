@@ -18,7 +18,12 @@ namespace asst
         inline static const std::unordered_set<std::string> DiceSet = { "骰子", "8面骰子", "12面骰子" };
 
     public:
-        RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst, std::string_view task_chain, std::shared_ptr<RoguelikeConfig>roguelike_config_ptr);
+        RoguelikeBattleTaskPlugin(
+            const AsstCallback& callback,
+            Assistant* inst,
+            std::string_view task_chain,
+            const std::shared_ptr<RoguelikeConfig>& roguelike_config_ptr,
+            const std::shared_ptr<RoguelikeControlTaskPlugin>& control);
         virtual ~RoguelikeBattleTaskPlugin() override = default;
 
         virtual bool verify(AsstMsg msg, const json::value& details) const override;

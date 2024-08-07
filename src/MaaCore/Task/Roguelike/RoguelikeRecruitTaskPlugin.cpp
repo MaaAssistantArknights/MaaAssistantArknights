@@ -483,9 +483,7 @@ bool asst::RoguelikeRecruitTaskPlugin::lazy_recruit()
                         if (!only_start_with_elite_two) {
                             m_config->set_difficulty(0);
                         }
-                        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-                            .set_times_limit("Roguelike@Abandon", 0)
-                            .run();
+                        m_control_ptr->exit_then_stop();
                     }
                 }
                 else {

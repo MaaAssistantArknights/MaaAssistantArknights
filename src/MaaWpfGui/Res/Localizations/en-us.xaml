@@ -304,6 +304,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
     <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
+    <system:String x:Key="OnlyOnceADay">Only once a day</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn Credits</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
 Only once a day.
@@ -406,7 +407,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Mission">Collect Rewards</system:String>
     <system:String x:Key="AutoRoguelike">Auto I.S.</system:String>
     <system:String x:Key="ReclamationAlgorithm">Reclamation Algorithm</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">Reclamation Algorithm #2</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">Reclamation Algorithm 2</system:String>
     <system:String x:Key="Light">Light</system:String>
     <system:String x:Key="Dark">Dark</system:String>
     <system:String x:Key="SyncWithOs">Sync with OS</system:String>
@@ -820,6 +821,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RemoteControlConnectionTestSuccess">Connection Test Successful!</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">Connection Test Failed, reason: {0}.</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">Connection Test Failed, Endpoint is empty.</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">Connection test failed, connection endpoint is not a http(s) address.</system:String>
     <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">Endpoint is using http, might be unsafe.</system:String>
     <system:String x:Key="RemoteControlReceivedTask">Received remote task {0}, Task Id:{1}.</system:String>
     <system:String x:Key="RemoteControlCompletedTask">Completed remote task {0}, Task Id:{1}.</system:String>
@@ -839,5 +841,24 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="CheckAndDownloadAnnouncement">View Announcement</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">Do not show this announcement again</system:String>
     <!--  !Announcement  -->
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">Connection test failed, connection endpoint is not a http(s) address.</system:String>
+    <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">Different modes are available in advanced settings.
+
+The support for reclamation algorithm is still under development at present. Please mind the following:
+
+In normal mode, MAA: 
+  1. Cannot be used when a save already exists. (simply delete the current save)
+  2. Cannot be used when squads are not empty. (simply clear the current squad)
+  3. Can only be started at the main nav page of reclamation algorithm. 
+
+To get points by manufacturing: 
+  1. it must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days. 
+  2. It must start when entering the reclamation algorithm. (stationed location needs to be visible)
+  3. If the quantity that can be manufactured is exactly a multiple of 99, MAA can be confused (stuck). You can use up a little before saving. This might be repaired later. 
+    </system:String>
+    <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
+    <system:String x:Key="Reclamation2ExEnable">Earn points by manufacturing</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">Support prop name</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">Glow Stick</system:String>
+    <!--  !Reclamation  -->
 </ResourceDictionary>

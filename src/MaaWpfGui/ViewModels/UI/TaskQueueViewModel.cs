@@ -491,7 +491,7 @@ namespace MaaWpfGui.ViewModels.UI
                 "AutoRoguelike",
             ];
 
-            if (Instances.SettingsViewModel.ClientType is "" or "Official" or "Bilibili")
+            if (!(Instances.SettingsViewModel.ClientType is "txwy"))
             {
                 taskList.Add("ReclamationAlgorithm2");
             }
@@ -1451,7 +1451,7 @@ namespace MaaWpfGui.ViewModels.UI
             return Instances.AsstProxy.AsstAppendMall(
                 !string.IsNullOrEmpty(this.Stage) && Instances.SettingsViewModel.CreditFightTaskEnabled,
                 Instances.SettingsViewModel.CreditFightSelectFormation,
-                Instances.SettingsViewModel.CreditVisitFriends,
+                Instances.SettingsViewModel.CreditVisitFriendsEnabled,
                 Instances.SettingsViewModel.CreditShopping,
                 buyFirst.ToArray(),
                 blackList.ToArray(),
