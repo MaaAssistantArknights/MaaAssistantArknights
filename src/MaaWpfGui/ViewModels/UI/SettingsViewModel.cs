@@ -2566,7 +2566,7 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (_bypassDailyLimit)
+                if (!_bypassDailyLimit)
                 {
                     return true;
                 }
