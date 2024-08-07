@@ -855,7 +855,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
   3. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
     </system:String>
     <system:String x:Key="ReclamationBePatient">빨리 발전하고 싶어요! 또 급해져버렸네요</system:String>
-    <system:String x:Key="Reclamation2ExEnable">제작으로 점수 획득 모드</system:String>
+    <system:String x:Key="Reclamation2ExEnable">제작 점수 획득 모드</system:String>
     <system:String x:Key="Reclamation2ExProductTip">제작할 도구 이름</system:String>
     <system:String x:Key="Reclamation2ExProductPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
