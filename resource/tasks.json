@@ -561,6 +561,18 @@
     },
     "SS-ShoppingReturnHome": {
         "baseTask": "Home",
+        "action": "DoNothing",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
+        "next": []
+    },
+    "SS-ShoppingReturnTerminal": {
+        "baseTask": "Home",
         "action": "ClickSelf",
         "template": [
             "Terminal.png",
@@ -572,12 +584,12 @@
         "next": []
     },
     "SS-Shopping": {
-        "template": "empty.png",
+        "template": "SS-Shopping.png",
         "maskRange": [1, 255],
         "action": "ClickSelf",
         "roi": [0, 220, 1280, 500],
         "sub": ["SS-ShoppingSetMax"],
-        "next": ["#self", "SS-Shopping@ChapterSlowlySwipeToTheRight"]
+        "next": ["#self", "SS-ShopSlowlySwipeToTheRight"]
     },
     "SS-ShoppingSetMax": {
         "action": "ClickSelf",
@@ -585,14 +597,24 @@
         "isAscii": true,
         "text": ["Max"],
         "roi": [991, 357, 155, 129],
+        "subErrorIgnored": true,
+        "sub": ["SS-ShoppingCanNotBuy"],
         "next": ["SS-ShoppingBuy"]
+    },
+    "SS-ShoppingCanNotBuy": {
+        "action": "DoNothing",
+        "algorithm": "OcrDetect",
+        "fullMatch": true,
+        "isAscii": true,
+        "text": ["0"],
+        "roi": [841, 357, 155, 129],
+        "next": ["CurrentEvent-ShoppingBegin@Stop"]
     },
     "SS-ShoppingBuy": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["購入", "购买", "购入"],
         "roi": [779, 505, 280, 148],
-        "maxTimes": 3,
         "onErrorNext": ["Stop"],
         "next": ["SS-ShoppingBuyClose"]
     },
@@ -600,6 +622,16 @@
         "template": "SS-ShoppingBuyClose.png",
         "action": "ClickSelf",
         "roi": [557, 555, 168, 164]
+    },
+    "SS-ShopSlowlySwipeToTheRight": {
+        "baseTask": "SlowlySwipeToTheRight",
+        "specificRect": [600, 220, 60, 60],
+        "rectMove": [200, 220, 60, 60],
+        "next": ["SS-Shopping"]
+    },
+    "CurrentEvent-ShoppingBegin": {
+        "algorithm": "JustReturn",
+        "next": ["HS-ShoppingBegin"]
     },
     "BP-5": {
         "algorithm": "JustReturn",
@@ -926,11 +958,12 @@
     },
     "HS-ShoppingBegin": {
         "baseTask": "SS-ShoppingBegin",
-        "sub": ["SS-ShoppingBegin#next", "HS-Open", "HSToShop", "HS-Shopping"]
+        "sub": ["SS-ShoppingBegin#next", "SS-ShoppingReturnTerminal", "HS-Open", "HSToShop"],
+        "next": ["HS-Shopping"]
     },
     "HS-Shopping": {
-        "baseTask": "SS-Shopping",
-        "template": "SS-Shopping.png"
+        "algorithm": "JustReturn",
+        "next": ["SS-Shopping", "SS-Shopping@SS-ShopSlowlySwipeToTheRight", "Stop"]
     },
     "HS-9": {
         "algorithm": "JustReturn",
