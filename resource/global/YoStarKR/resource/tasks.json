@@ -2239,5 +2239,71 @@
             [".*예견의구상", "_SKIP_"],
             [".*숨겨진비경", "_SKIP_"]
         ]
+    },
+    "Reclamation2Begin": {
+        "text": ["연", "산", "시", "작"]
+    },
+    "Reclamation2BeginPlotEnter": {
+        "text": ["캠프", "만남", "광장"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["사냥터", "파울비스트의", "땅"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["작전", "종료"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["채집터", "우거진", "숲"]
+    },
+    "Reclamation2DeleteArchiveConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2DeleteArchiveEnter": {
+        "text": ["삭제", "하기"]
+    },
+    "Reclamation2EnterStage": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["작업대"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["형광봉"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["제작", "하기"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "text": ["불러", "오기"]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["생존일"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2Fight": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2FightConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2LeaveStageConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2SkipDays2SkipTime": {
+        "text": ["시간", "보내기"]
+    },
+    "Reclamation2SkipDays2SkipTimeConfig": {
+        "text": ["확인"]
+    },
+    "Reclamation2SkipDaysAward2": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
     }
 }
