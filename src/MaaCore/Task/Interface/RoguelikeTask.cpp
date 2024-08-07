@@ -87,7 +87,7 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
 
     // ------------------ 萨卡兹主题专用插件 ------------------
 
-    m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_config_ptr);
+    m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {
