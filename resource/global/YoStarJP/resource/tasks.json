@@ -11,6 +11,21 @@
     "ClickChapter3": {
         "text": ["残映"]
     },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-5": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "HS-OpenOcr": {
         "text": ["懐黍離", "イベント開催中", "荒城中枢", "大江北岸", "ステージ開放中"]
     },
