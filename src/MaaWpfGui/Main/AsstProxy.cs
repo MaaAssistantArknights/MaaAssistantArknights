@@ -528,7 +528,8 @@ namespace MaaWpfGui.Main
                                 }
                                 else if (timeCost < 100)
                                 {
-                                    color = UiLogColor.SpecialScreenshot;
+                                    color = UiLogColor.MuMuSpecialScreenshot;
+                                    method = "MuMuExtras";
                                 }
 
                                 break;

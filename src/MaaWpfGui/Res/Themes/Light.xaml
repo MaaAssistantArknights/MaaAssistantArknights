@@ -25,5 +25,5 @@
     <SolidColorBrush x:Key="RareOperatorLogBrush" Color="DarkOrange" />
     <SolidColorBrush x:Key="RobotOperatorLogBrush" Color="DarkGray" />
     <SolidColorBrush x:Key="DownloadLogBrush" Color="BlueViolet" />
-    <SolidColorBrush x:Key="HighlightBrush" Color="DodgerBlue" />
+    <SolidColorBrush x:Key="MuMuSpecialScreenshot" Color="#02BFFF" />
 </ResourceDictionary>
