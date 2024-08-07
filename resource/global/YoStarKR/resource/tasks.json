@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -26,6 +29,18 @@
     },
     "SideStoryReopen": {
         "text": ["재개방"]
+    },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-5": {
+        "sub": ["HS-Open", "HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["회서리", "이벤트", "개방중"]
