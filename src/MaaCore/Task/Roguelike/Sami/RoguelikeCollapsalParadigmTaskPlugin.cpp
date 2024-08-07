@@ -372,16 +372,12 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage()
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_restart()
 {
-    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-        .set_times_limit("Roguelike@Abandon", 0)
-        .run();
+    m_control_ptr->exit_then_stop();
 }
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_stop()
 {
-    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-        .set_times_limit(m_config->get_theme() + "@Roguelike@Abandon", 0)
-        .run();
+    m_control_ptr->exit_then_stop();
     m_task_ptr->set_enable(false);
 }
 
