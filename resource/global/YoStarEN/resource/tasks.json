@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["Select"]
     },
@@ -23,9 +26,6 @@
     "SideStoryReopen": {
         "text": ["Rerun", "Retrospection"],
         "roi": [0, 500, 500, 150]
-    },
-    "HS-Open": {
-        "baseTask": "SS-Open"
     },
     "HS-9": {
         "sub": ["HS-Open", "HSChapterToHS"]
