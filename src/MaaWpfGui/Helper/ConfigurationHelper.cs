@@ -188,6 +188,7 @@ namespace MaaWpfGui.Helper
             parsed = ParseJsonFile(_configurationFile);
             if (parsed is null && File.Exists(_configurationBakFile))
             {
+                _logger.Warning("Failed to load configuration file, trying to use backup file");
                 parsed = ParseJsonFile(_configurationFile);
                 if (parsed is not null)
                 {
@@ -197,7 +198,7 @@ namespace MaaWpfGui.Helper
 
             if (parsed is null)
             {
-                _logger.Information("Failed to load configuration file, creating a new one");
+                _logger.Warning("Failed to load configuration file and/or backup file, using default settings");
 
                 _kvsMap = new Dictionary<string, Dictionary<string, string>>();
                 _current = ConfigurationKeys.DefaultConfiguration;
