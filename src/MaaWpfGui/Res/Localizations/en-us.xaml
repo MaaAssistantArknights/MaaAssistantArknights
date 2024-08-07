@@ -304,6 +304,7 @@ You can cancel this popup by clicking the Settings - About Us - Issue Reporting 
     <system:String x:Key="DrGrandet">Dr. Grandet Mode</system:String>
     <system:String x:Key="DrGrandetTip">Wait on the sanity confirmation screen until the current sanity recovers to 1 point, then confirm immediately.</system:String>
     <system:String x:Key="SocialPtShop">Credit shopping</system:String>
+    <system:String x:Key="OnlyOnceADay">Only once a day</system:String>
     <system:String x:Key="CreditFight">Combat with Support to earn Credits</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">Combat with Support Unit in OF-1 after Visit Friends to earn 30 credits.
 Only once a day.

@@ -296,6 +296,7 @@
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢復理智確認介面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="SocialPtShop">信用購物</system:String>
+    <system:String x:Key="OnlyOnceADay">一日只執行一次</system:String>
     <system:String x:Key="CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 一日只執行一次。
