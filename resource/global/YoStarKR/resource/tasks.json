@@ -2259,7 +2259,7 @@
         "text": ["제작", "하기"]
     },
     "Reclamation2ExManufactureConfirmClickToContinue": {
-        "text": ["탭하여", "계속", "하기"]
+        "text": ["탭하여", "계", "속"]
     },
     "Reclamation2ExReadArchiveEnter": {
         "text": ["불러", "오기"]
@@ -2286,7 +2286,7 @@
         "text": ["확인"]
     },
     "Reclamation2SkipDaysAward2": {
-        "text": ["탭하여", "계속", "하기"]
+        "text": ["탭하여", "계", "속"]
     },
     "Reclamation2SkipDaysBeginNewDay": {
         "text": ["시", "작", "하", "기"]
