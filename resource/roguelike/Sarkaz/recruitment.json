@@ -1470,7 +1470,7 @@
                     "promote_priority": 821,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["地面单切", "史尔特尔"],
+                            "groups": ["处决者", "史尔特尔"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -1484,7 +1484,7 @@
                     "promote_priority": 815,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["地面单切", "史尔特尔"],
+                            "groups": ["处决者", "史尔特尔"],
                             "threshold": 1,
                             "offset": -300
                         }
@@ -1500,7 +1500,7 @@
                     "promote_priority": 720,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["地面单切", "史尔特尔"],
+                            "groups": ["处决者", "史尔特尔"],
                             "threshold": 1,
                             "offset": -200
                         },
@@ -1521,7 +1521,7 @@
                     "promote_priority": 555,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["地面单切", "史尔特尔"],
+                            "groups": ["处决者", "史尔特尔"],
                             "threshold": 2,
                             "offset": -200
                         }
@@ -1535,7 +1535,7 @@
                     "promote_priority": 302,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["地面单切", "史尔特尔"],
+                            "groups": ["处决者", "史尔特尔"],
                             "threshold": 1,
                             "offset": -200
                         }

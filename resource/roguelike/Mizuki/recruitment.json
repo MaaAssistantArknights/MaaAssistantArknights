@@ -382,6 +382,14 @@
             ]
         },
         {
+            "name": "焰苇",
+            "opers": [
+                {
+                    "name": "焰影苇草"
+                }
+            ]
+        },
+        {
             "name": "地面C",
             "opers": [
                 {
@@ -481,7 +489,7 @@
                     "is_key": true,
                     "recruit_priority_offsets": [
                         {
-                            "groups": ["凯尔希", "近卫", "召唤"],
+                            "groups": ["凯尔希", "地面C", "召唤"],
                             "threshold": 3,
                             "offset": -150
                         }
@@ -1014,6 +1022,14 @@
             ]
         },
         {
+            "name": "凯尔希",
+            "opers": [
+                {
+                    "name": "凯尔希"
+                }
+            ]
+        },
+        {
             "name": "群奶",
             "opers": [
                 {
@@ -1475,7 +1491,7 @@
                             "offset": 120
                         },
                         {
-                            "groups": ["凯尔希", "重装", "近卫"],
+                            "groups": ["凯尔希", "重装", "地面C"],
                             "threshold": 2,
                             "offset": -200
                         }
