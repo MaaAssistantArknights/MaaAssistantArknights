@@ -4578,7 +4578,6 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
         /// <summary>

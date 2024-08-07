@@ -82,10 +82,10 @@ public unsafe class FontConfigIntegration
         var resolved = FcCharSetCreate();
         using var _dtor_resolved = new Defer(() => FcCharSetDestroy(resolved));
 
-        for (var i = 0; i < fs->nfont; i++)
+        for (var i = 0; i < fs->Nfont; i++)
         {
             var item = new FontFamilyMap();
-            result = FcPatternGetString(fs->fonts[i], "family", 0, out var pfamily);
+            result = FcPatternGetString(fs->Fonts[i], "family", 0, out var pfamily);
             if (result == FcResult.Match)
             {
                 item.Target = Marshal.PtrToStringUTF8(pfamily);
@@ -97,7 +97,7 @@ public unsafe class FontConfigIntegration
                 continue;
             }
 
-            result = FcPatternGetCharSet(fs->fonts[i], "charset", 0, out var s);
+            result = FcPatternGetCharSet(fs->Fonts[i], "charset", 0, out var s);
             if (result == FcResult.Match)
             {
                 var fallback = FcCharSetSubtract(s, resolved);
