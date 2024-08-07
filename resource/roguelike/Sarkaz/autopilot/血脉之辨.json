@@ -1,0 +1,46 @@
+{
+    "stage_name": "血脉之辨",
+    "replacement_home": [
+        {
+            "location": [9, 6],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["情报官", "重装", "地面远程", "地面阻挡"],
+            "location": [8, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["益达"],
+            "location": [7, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["提丰", "单奶"],
+            "location": [8, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["焰苇", "高台输出"],
+            "location": [7, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["盾法"],
+            "location": [6, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["玛恩纳", "地面远程", "处决者", "其他地面"],
+            "location": [6, 6],
+            "direction": "right"
+        }
+    ]
+}
