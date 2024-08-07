@@ -405,8 +405,8 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="Mall">크레딧 수급 및 상점</system:String>
     <system:String x:Key="Mission">보상 수령</system:String>
     <system:String x:Key="AutoRoguelike">통합전략</system:String>
-    <system:String x:Key="ReclamationAlgorithm">생명연산·모래 속의 불</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">생명연산·沙洲遗闻</system:String>
+    <system:String x:Key="ReclamationAlgorithm">생존연산·모래 속의 불</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">생존연산·사막 이야기</system:String>
     <system:String x:Key="Light">라이트</system:String>
     <system:String x:Key="Dark">다크</system:String>
     <system:String x:Key="SyncWithOs">시스템 연동</system:String>
@@ -530,7 +530,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="VideoRecognition">영상 인식</system:String>
     <system:String x:Key="StartToVideoRecognition">인식 시작</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">폴더 열기</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">「자동지휘」페이지에서 영상 파일을 드래그하여 시작하세요.
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">「자동지휘」화면에서 영상 파일을 드래그하여 시작하세요.
 동영상의 해상도 비율은 16:9에 게임화면만 나와야 하며, 화면 보정 등의 방해 요소가 없어야 합니다.</system:String>
     <!--  영상 인식  -->
     <!--  헤드헌팅  -->
@@ -841,11 +841,23 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">이 공지사항을 더 이상 표시하지 않음</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">현재 생명연산 기능은 초기 단계이며, 다음 사항을 주의하세요:
- 1. 기존 데이터(진행사항)가 있으면 사용할 수 없습니다
- 2. 생명연산의 편성창에 오퍼레이터가 있으면 안됩니다
- 3. 생명연산 메인화면에서 시작해야합니다
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">고급 설정에서 모드를 전환할 수 있습니다.
+    
+현재 생존연산 기능은 초기 단계이며, 다음 사항을 주의하세요:   
+
+ 일반 모드에서:
+ 1. 기존 데이터(진행사항)가 있는 경우 사용할 수 없습니다
+ 2. 생존연산 편성 창에 오퍼레이터가 있는 경우 사용할 수 없습니다
+ 3. 생존연산 메인 화면에서 작업을 시작해야 합니다
+
+ 제작 점수 획득 모드에서:
+  1. 결산 후 첫 번째 날이어야 하며, 이후 3일 이내에 적의 침입이 없어야 합니다
+  2. 생존연산에 진입해서 기지를 볼 수 있는 화면에서 시작해야 합니다
+  3. 제조 가능한 수량이 99의 배수일 경우 멈출 수 있습니다. 저장하기 전에 재료를 약간 사용한 후에 다시 시도하세요
     </system:String>
     <system:String x:Key="ReclamationBePatient">빨리 발전하고 싶어요! 또 급해져버렸네요</system:String>
+    <system:String x:Key="Reclamation2ExEnable">제작 점수 획득 모드</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">제작할 도구 이름</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">형광봉 (荧光棒)</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>
