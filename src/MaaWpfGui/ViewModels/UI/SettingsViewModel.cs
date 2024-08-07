@@ -26,6 +26,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -3866,9 +3867,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         public class MuMuEmulator12ConnectionExtras : INotifyPropertyChanged
         {
-            public event PropertyChangedEventHandler PropertyChanged;
+            public event PropertyChangedEventHandler? PropertyChanged;
 
-            protected void OnPropertyChanged([CallerMemberName] string name = null)
+            protected void OnPropertyChanged([CallerMemberName] string? name = null)
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
@@ -3896,13 +3897,35 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             try
                             {
-                                RegistryKey driverKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0");
-                                string result = (String)driverKey.GetValue("UninstallString");
-                                EmulatorPath = result.Substring(1, result.IndexOf("\\uninstall.exe") - 1);
+                                const string UninstallKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0";
+                                const string UninstallExeName = @"\uninstall.exe";
+
+                                using RegistryKey? driverKey = Registry.LocalMachine.OpenSubKey(UninstallKeyPath);
+                                if (driverKey == null)
+                                {
+                                    EmulatorPath = string.Empty;
+                                    return;
+                                }
+
+                                string? uninstallString = driverKey.GetValue("UninstallString") as string;
+
+                                if (string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
+                                {
+                                    EmulatorPath = string.Empty;
+                                    return;
+                                }
+
+                                var match = Regex.Match(uninstallString,
+                                    $"""
+                                     ^"(.*?){Regex.Escape(UninstallExeName)}
+                                     """,
+                                    RegexOptions.IgnoreCase);
+                                EmulatorPath = match.Success ? match.Groups[1].Value : string.Empty;
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
-                                // 暂不处理
+                                _logger.Warning($"An error occurred: {e.Message}");
+                                EmulatorPath = string.Empty;
                             }
                         }
                     }
