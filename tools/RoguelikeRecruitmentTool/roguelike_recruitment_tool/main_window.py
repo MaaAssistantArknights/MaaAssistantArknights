@@ -2,8 +2,9 @@ from os import system
 from pathlib import Path
 
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QCheckBox, QComboBox, QFileDialog, QHBoxLayout, QLabel, QLineEdit, QMainWindow,
-                             QMessageBox, QPlainTextEdit, QPushButton, QTabWidget, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (QCheckBox, QComboBox, QDesktopWidget, QFileDialog, QHBoxLayout, QLabel, QLineEdit,
+                             QMainWindow, QMessageBox, QPlainTextEdit, QPushButton, QSizePolicy, QStyleFactory,
+                             QTabWidget, QVBoxLayout, QWidget)
 
 from pydantic import ValidationError
 
@@ -20,7 +21,12 @@ class MainWindow(QMainWindow):
                  flags: Qt.WindowFlags = Qt.WindowFlags()):
         super().__init__(parent, flags)
 
-        self.configurations = configurations
+        self.configurations: list[Configuration] = configurations
+
+        self.set_style: Callable[str, None] = lambda: None
+
+        self.screen = QDesktopWidget().screenGeometry()
+        self.setFixedSize(self.screen.width() * 3 // 5, self.screen.height() * 3 // 4)
 
         self.setWindowTitle(f"MAA Roguelike Recruitment Management Tool")
         self.version_label = QLabel(f"Version:")
@@ -52,36 +58,44 @@ class MainWindow(QMainWindow):
         # group_list_view
         tmp_widget = QWidget(self.visualisation_widget)
         tmp_layout = QVBoxLayout(tmp_widget)
+        tmp_layout.setAlignment(Qt.AlignCenter)
         tmp_layout.setContentsMargins(0, 0, 0, 0)
+        tmp_layout.setSpacing(0)
         self.visualisation_layout.addWidget(tmp_widget)
 
         tmp_label = QLabel("Group List")
         tmp_label.setAlignment(Qt.AlignCenter)
-        tmp_label.setFixedHeight(16)
+        tmp_label.setFixedHeight(self.height() // 32)
         tmp_layout.addWidget(tmp_label)
 
         self.group_list_view = GroupListView(self.visualisation_widget)
         self.group_list_view.setModel(self.visualisation_model.group_list_model)
         self.group_list_view.selectionModel().selectionChanged.connect(self.visualisation_model.on_group_selection)
-        self.group_list_view.setFixedWidth(120)
+        self.group_list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tmp_layout.addWidget(self.group_list_view)
+
+        self.visualisation_layout.addStretch()
 
         # oper_list_view
         tmp_widget = QWidget(self.visualisation_widget)
         tmp_layout = QVBoxLayout(tmp_widget)
+        tmp_layout.setAlignment(Qt.AlignCenter)
         tmp_layout.setContentsMargins(0, 0, 0, 0)
+        tmp_layout.setSpacing(0)
         self.visualisation_layout.addWidget(tmp_widget)
 
         tmp_label = QLabel("Oper List")
         tmp_label.setAlignment(Qt.AlignCenter)
-        tmp_label.setFixedHeight(16)
+        tmp_label.setFixedHeight(self.height() // 32)
         tmp_layout.addWidget(tmp_label)
 
         self.oper_list_view = OperListView(self.visualisation_widget)
         self.oper_list_view.setModel(self.visualisation_model.oper_list_model)
         self.oper_list_view.selectionModel().selectionChanged.connect(self.visualisation_model.on_oper_selection)
-        self.oper_list_view.setFixedWidth(120)
+        self.oper_list_view.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         tmp_layout.addWidget(self.oper_list_view)
+
+        self.visualisation_layout.addStretch()
 
         # oper_details_widget
         tmp_widget = QWidget(self.visualisation_widget)
@@ -90,9 +104,10 @@ class MainWindow(QMainWindow):
         self.visualisation_layout.addWidget(tmp_widget)
 
         self.oper_details_widget = QTabWidget(self.visualisation_widget)
+        self.oper_details_widget.setFixedWidth(self.width() // 2)
         self.oper_details_widget.setTabBar(TabBar(self))
+        self.oper_details_widget.tabBar().setFixedHeight(self.height() // 32)
         self.oper_details_widget.setDocumentMode(True)
-        self.oper_details_widget.setStyleSheet("QTabBar::tab { height: 10px }")
         tmp_layout.addWidget(self.oper_details_widget)
 
         # oper_info_view
@@ -115,13 +130,23 @@ class MainWindow(QMainWindow):
         # -------- log_widget --------------------------------------------
         self.log_widget = QPlainTextEdit(self.display_widget)
         self.log_widget.setReadOnly(True)
-        self.log_widget.setFixedHeight(57)
+        self.log_widget.setFixedHeight(self.height() // 10)
         self.display_layout.addWidget(self.log_widget)
 
         # ———————— control_widget ———————————————————————————————————
         self.control_widget = QWidget(self.main_widget)
         self.control_layout = QVBoxLayout(self.control_widget)
+        self.control_layout.setAlignment(Qt.AlignCenter)
+        self.control_widget.setFixedWidth(self.width() // 8)
         self.main_layout.addWidget(self.control_widget)
+
+        # -------- style_combo_box ---------------------------------------
+        self.style_combo_box = QComboBox(self.control_widget)
+        for style_name in QStyleFactory.keys():
+            self.style_combo_box.addItem(style_name, style_name)
+        self.style_combo_box.setCurrentIndex(QStyleFactory.keys().index(self.style().objectName()))
+        self.style_combo_box.currentIndexChanged.connect(lambda: self.set_style(self.style_combo_box.currentData()))
+        self.control_layout.addWidget(self.style_combo_box)
 
         # -------- theme_combo_box ---------------------------------------
         self.theme_combo_box = QComboBox(self.control_widget)
@@ -223,7 +248,7 @@ class MainWindow(QMainWindow):
             try:
                 config_path = Path(
                     self.resource_dir_line_widget.text()) / "roguelike" / theme.value / "recruitment.json"
-                with open(config_path) as fp:
+                with open(config_path, encoding="utf-8") as fp:
                     self.configurations[theme] = Configuration.json2config(fp.read())
             except Exception as e:
                 self.set_control_enabled(False)
@@ -305,7 +330,7 @@ class MainWindow(QMainWindow):
                 config_path = Path(
                     self.resource_dir_line_widget.text()) / "roguelike" / theme.value / "recruitment.json"
                 json_str = Configuration.config2json(self.configurations[theme])
-                with open(config_path, "w") as fp:
+                with open(config_path, "w", encoding="utf-8") as fp:
                     fp.write(json_str)
                 if self.prettier_checkbox_widget.isChecked():
                     system("prettier -w " + str(config_path))

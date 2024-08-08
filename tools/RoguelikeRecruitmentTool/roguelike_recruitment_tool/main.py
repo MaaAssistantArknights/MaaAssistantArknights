@@ -15,7 +15,12 @@ class RecruitmentTool(QApplication):
         self.configurations: dict[Theme, Configuration] = {}
         self.main_window = MainWindow(self.configurations)
 
-        self.main_window.setFixedSize(800, 480)
+        self.main_window.set_style = lambda style_name: (
+            self.setStyle(style_name),
+            self.setPalette(self.style().standardPalette()),
+            [widget.update() for widget in self.allWidgets()]
+        )
+
         self.main_window.version_label.setText(f"Version: {RecruitmentTool.VERSION}")
         self.main_window.resource_dir_line_widget.setText(str(resource_path))
 
