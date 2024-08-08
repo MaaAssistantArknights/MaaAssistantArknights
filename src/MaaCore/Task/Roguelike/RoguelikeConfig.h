@@ -55,8 +55,8 @@ namespace asst
             return mode == RoguelikeMode::Exp || 
                    mode == RoguelikeMode::Investment ||
                    mode == RoguelikeMode::Collectible ||
-                  (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
-                  (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz);
+                   (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
+                   (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz);
         }
 
         bool verify_and_load_params(const json::value& params);

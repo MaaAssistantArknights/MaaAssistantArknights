@@ -9036,12 +9036,9 @@
         "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
     },
     "Sarkaz@Roguelike@RoutingRefreshNodeWaiting": {
-        "algorithm": "OcrDetect",
-        "text": ["正在提交反馈至神经"],
-        "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
-        "roi": [720, 645, 355, 45],
+        "baseTask": "LoadingText",
         "postDelay": 300,
-        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
+        "next": [ "Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted" ]
     },
     "Sarkaz@Roguelike@RoutingRefreshNodeCompleted": {
         "algorithm": "JustReturn"
