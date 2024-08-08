@@ -3863,7 +3863,7 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _enable;
                 set
                 {
-                    if (_enable == value)
+                    if (!SetAndNotify(ref _enable, value))
                     {
                         return;
                     }
@@ -3911,7 +3911,6 @@ namespace MaaWpfGui.ViewModels.UI
                     }
 
                     Instances.AsstProxy.Connected = false;
-                    SetAndNotify(ref _enable, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
                 }
             }
