@@ -2559,11 +2559,28 @@
     "Reclamation2ExManufactureConfirm": {
         "text": ["Craft"]
     },
+    "Reclamation2ExManufactureConfirmAmount": {
+        "algorithm": "OcrDetect",
+        "Doc": "如果刚好用完的话可能会卡住，这个之后再处理了",
+        "text": ["99"],
+        "roi": [720, 442, 175, 166],
+        "sub": ["Reclamation2ExManufactureConfirm"],
+        "next": ["Reclamation2ExManufacture"]
+    },
     "Reclamation2ExManufactureConfirmClickToContinue": {
         "text": ["Tap anywhere to continue"]
     },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "text": ["Load Save"]
+    },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["Days"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["Confirm"]
     },
     "Reclamation2Fight": {
         "text": ["Start"]
