@@ -214,7 +214,7 @@ jobs:
 
           limit=$(printf "%d" ${{ inputs.limit || 30 }} 2>/dev/null || echo 30)
           limit_2=$(printf "%d" ${{ inputs.limit_2 || 30 }} 2>/dev/null || echo 30)
-    
+
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
           gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
           echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
