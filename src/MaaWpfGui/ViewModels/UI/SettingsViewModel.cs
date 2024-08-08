@@ -3758,6 +3758,8 @@ namespace MaaWpfGui.ViewModels.UI
                     return;
                 }
 
+                Instances.AsstProxy.Connected = false;
+
                 UpdateConnectionHistory(value);
 
                 SetAndNotify(ref _connectAddress, value);
@@ -3824,6 +3826,8 @@ namespace MaaWpfGui.ViewModels.UI
                     }
                 }
 
+                Instances.AsstProxy.Connected = false;
+
                 SetAndNotify(ref _adbPath, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AdbPath, value);
             }
@@ -3839,6 +3843,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _connectConfig;
             set
             {
+                Instances.AsstProxy.Connected = false;
                 SetAndNotify(ref _connectConfig, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.ConnectConfig, value);
                 UpdateWindowTitle(); // 每次修改客户端时更新WindowTitle
@@ -3846,6 +3851,8 @@ namespace MaaWpfGui.ViewModels.UI
         }
 
         public string ScreencapMethod { get; set; } = string.Empty;
+
+        public string ScreencapTestCost { get; set; } = string.Empty;
 
         public class MuMuEmulator12ConnectionExtras : PropertyChangedBase
         {
@@ -4248,14 +4255,14 @@ namespace MaaWpfGui.ViewModels.UI
                 case "MuMuEmulator12":
                     if (MuMuEmulator12Extras.Enable && ScreencapMethod != "MumuExtras")
                     {
-                        TestLinkInfo = LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage");
+                        TestLinkInfo = $"{LocalizationHelper.GetString("MuMuExtrasNotEnabledMessage")}\n{ScreencapTestCost}";
                         return;
                     }
 
                     break;
             }
 
-            TestLinkInfo = "Finish";
+            TestLinkInfo = ScreencapTestCost;
 
             Window popupWindow = new Window
             {

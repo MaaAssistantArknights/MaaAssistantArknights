@@ -536,8 +536,10 @@ namespace MaaWpfGui.Main
                         }
 
                         fastestScreencapStringBuilder.Insert(0, string.Format(LocalizationHelper.GetString("FastestWayToScreencap"), costString, method));
-                        Instances.TaskQueueViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color);
-                        Instances.CopilotViewModel.AddLog(fastestScreencapStringBuilder.ToString(), color, showTime: false);
+                        var fastestScreencapString = fastestScreencapStringBuilder.ToString();
+                        Instances.SettingsViewModel.ScreencapTestCost = fastestScreencapString;
+                        Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color);
+                        Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
 
                         // 截图增强未生效自动停止一次，再开就不管了
                         if (needToStop)
