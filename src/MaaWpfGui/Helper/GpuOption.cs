@@ -1,3 +1,16 @@
+// <copyright file="GpuOption.cs" company="MaaAssistantArknights">
+// MaaWpfGui - A part of the MaaCoreArknights project
+// Copyright (C) 2021 MistEO and Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
+// the Free Software Foundation, either version 3 of the License, or
+// any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY
+// </copyright>
+#nullable enable
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -24,7 +37,7 @@ namespace MaaWpfGui.Helper
         {
             get
             {
-                bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, "false"), out var allowUnsupported);
+                _ = bool.TryParse(ConfigurationHelper.GetValue(ConfigurationKeys.PerformanceAllowDeprecatedGpu, "false"), out var allowUnsupported);
                 return allowUnsupported;
             }
 
@@ -101,7 +114,7 @@ namespace MaaWpfGui.Helper
                         return _factory;
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     _factory = null;
                 }
@@ -441,7 +454,9 @@ namespace MaaWpfGui.Helper
         {
             public static DisableOption Instance { get; } = new DisableOption();
 
-            private DisableOption() { }
+            private DisableOption()
+            {
+            }
 
             // make WPF happy
             public bool IsDeprecated => false;
