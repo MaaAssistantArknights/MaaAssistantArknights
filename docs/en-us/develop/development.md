@@ -110,7 +110,7 @@ The currently enabled formatting tools are as follows:
     pre-commit install
     ```
 
-If pre commit still cannot be used after pip install, please check if the pip installation path has been added to the PATH.
+If pre-commit still cannot be used after pip install, please check if the pip installation path has been added to the PATH.
 
 The formatting tool will automatically run every time you submit to ensure that your code format conforms to the style guide.
 
