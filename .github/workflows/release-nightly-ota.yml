@@ -213,8 +213,8 @@ jobs:
           mkdir -pv build-ota && cd build-ota
 
           # Convert inputs to integers
-          limit=$(echo "${{ inputs.limit || 30 }}" | awk '{printf "%d", $1}')
-          limit_2=$(echo "${{ inputs.limit_2 || 30 }}" | awk '{printf "%d", $1}')
+          limit=${{ inputs.limit%.* || 30 }}
+          limit_2=${{ inputs.limit_2%.* || 30 }}
 
           echo "Parsed limit: $limit"
           echo "Parsed limit_2: $limit_2"
