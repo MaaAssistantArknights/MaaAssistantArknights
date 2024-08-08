@@ -2284,6 +2284,7 @@
     },
     "Reclamation2ExReadArchiveEnter": {
         "doc": "Needs to be edited if confirmation window is removed later",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
         "text": ["불러", "오기"],
         "sub": [
             "Reclamation2ExReadArchiveConfirm*2",
