@@ -262,8 +262,9 @@ class MainWindow(QMainWindow):
         group_index_begin: int = selected_group_index if selected_group_index is not None else 0
         for group_index in range(group_index_begin, len(selected_configuration.priority)):
             tmp_selected_group: Group = selected_configuration.priority[group_index]
-            oper_index_begin: int = \
-                selected_oper_index if group_index == selected_group_index and selected_oper_index is not None else 0
+            oper_index_begin: int = selected_oper_index + 1 \
+                if group_index == selected_group_index and selected_oper_index is not None \
+                else 0
             for oper_index in range(oper_index_begin, len(tmp_selected_group.opers)):
                 tmp_selected_oper = tmp_selected_group.opers[oper_index]
                 if tmp_selected_oper.name == target_oper_name:
@@ -279,6 +280,9 @@ class MainWindow(QMainWindow):
                         oper_model_index, self.oper_list_view.selectionModel().Select)
                     self.oper_list_view.scrollTo(oper_model_index, self.oper_list_view.PositionAtCenter)
                     break
+            else:
+                continue
+            break
 
     def on_validate(self):
         for theme in Theme:
