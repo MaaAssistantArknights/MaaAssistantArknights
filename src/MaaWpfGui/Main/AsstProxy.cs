@@ -541,11 +541,12 @@ namespace MaaWpfGui.Main
                         Instances.TaskQueueViewModel.AddLog(fastestScreencapString, color);
                         Instances.CopilotViewModel.AddLog(fastestScreencapString, color, showTime: false);
 
-                        // 截图增强未生效自动停止一次，再开就不管了
+                        // 截图增强未生效禁止启动
                         if (needToStop)
                         {
                             Execute.OnUIThreadAsync(async () =>
                             {
+                                Connected = false;
                                 await Instances.TaskQueueViewModel.Stop();
                                 Instances.TaskQueueViewModel.SetStopped();
                             });
