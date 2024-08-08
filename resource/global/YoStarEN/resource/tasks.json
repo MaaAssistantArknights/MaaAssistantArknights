@@ -2559,14 +2559,6 @@
     "Reclamation2ExManufactureConfirm": {
         "text": ["Craft"]
     },
-    "Reclamation2ExManufactureConfirmAmount": {
-        "algorithm": "OcrDetect",
-        "Doc": "如果刚好用完的话可能会卡住，这个之后再处理了",
-        "text": ["99"],
-        "roi": [720, 442, 175, 166],
-        "sub": ["Reclamation2ExManufactureConfirm"],
-        "next": ["Reclamation2ExManufacture"]
-    },
     "Reclamation2ExManufactureConfirmClickToContinue": {
         "text": ["Tap anywhere to continue"]
     },
@@ -2589,7 +2581,7 @@
         "text": ["Confirm"]
     },
     "Reclamation2LeaveStageConfirm": {
-        "text": ["Are you sure you", "to leave?"]
+        "text": ["Are you sure you"]
     },
     "Reclamation2SkipDays2SkipTime": {
         "text": ["Skip Day"]
