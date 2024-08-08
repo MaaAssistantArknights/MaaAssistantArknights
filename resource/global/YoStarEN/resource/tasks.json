@@ -2442,6 +2442,78 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
+    "Reclamation2Begin": {
+        "text": ["Commence"]
+    },
+    "Reclamation2BeginPlotEnter": {
+        "text": ["Gathering Grounds", "Base Camp"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["Gathering of Feathers", "Hunting Zone"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["MISSION RESULTS"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["Shrubbery Galore", "Resource", "Zone"]
+    },
+    "Reclamation2DeleteArchiveConfirm": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2DeleteArchiveEnter": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2EnterStage": {
+        "text": ["Start"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["Workbench"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["Resume"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["Glow Stick"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["Craft"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "text": ["Load Save"]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["Days"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2Fight": {
+        "text": ["Start"]
+    },
+    "Reclamation2FightConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2LeaveStageConfirm": {
+        "text": ["Are you sure you"]
+    },
+    "Reclamation2SkipDays2SkipTime": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2SkipDays2SkipTimeConfig": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2SkipDaysAward2": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["Start Today"]
+    },
     "Reclamation@BuyWaterProcedure": {
         "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
     },
@@ -2522,77 +2594,5 @@
     },
     "Reclamation@TodoEnter": {
         "text": ["FIRE", "WITHIN", "THE", "SAND"]
-    },
-    "Reclamation2Begin": {
-        "text": ["Commence"]
-    },
-    "Reclamation2BeginPlotEnter": {
-        "text": ["Gathering Grounds", "Base Camp"]
-    },
-    "Reclamation2Birdland": {
-        "text": ["Gathering of Feathers", "Hunting Zone"]
-    },
-    "Reclamation2ClickDrop": {
-        "text": ["MISSION RESULTS"]
-    },
-    "Reclamation2CopiousCoppice": {
-        "text": ["Shrubbery Galore", "Resource", "Zone"]
-    },
-    "Reclamation2DeleteArchiveConfirm": {
-        "text": ["Confirm Wipe"]
-    },
-    "Reclamation2DeleteArchiveEnter": {
-        "text": ["Wipe Save"]
-    },
-    "Reclamation2EnterStage": {
-        "text": ["Start"]
-    },
-    "Reclamation2ExAssemblyStationOcr": {
-        "text": ["Workbench"]
-    },
-    "Reclamation2ExBegin": {
-        "text": ["Resume"]
-    },
-    "Reclamation2ExClickProduct": {
-        "text": ["Glow Stick"]
-    },
-    "Reclamation2ExManufactureConfirm": {
-        "text": ["Craft"]
-    },
-    "Reclamation2ExManufactureConfirmClickToContinue": {
-        "text": ["Tap anywhere to continue"]
-    },
-    "Reclamation2ExReadArchiveConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2ExReadArchiveEnter": {
-        "text": ["Load Save"]
-    },
-    "Reclamation2ExReadArchiveSelectDay": {
-        "text": ["Days"]
-    },
-    "Reclamation2ExReadArchiveSelectDayConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2Fight": {
-        "text": ["Start"]
-    },
-    "Reclamation2FightConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2LeaveStageConfirm": {
-        "text": ["Are you sure you"]
-    },
-    "Reclamation2SkipDays2SkipTime": {
-        "text": ["Skip Day"]
-    },
-    "Reclamation2SkipDays2SkipTimeConfig": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2SkipDaysAward2": {
-        "text": ["Tap anywhere to continue"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
-        "text": ["Start Today"]
     }
 }
