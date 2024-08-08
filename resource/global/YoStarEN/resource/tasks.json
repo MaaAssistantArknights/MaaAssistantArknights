@@ -2485,7 +2485,13 @@
         "text": ["Confirm"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "text": ["Load Save"]
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "text": ["Load Save"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["Days"]

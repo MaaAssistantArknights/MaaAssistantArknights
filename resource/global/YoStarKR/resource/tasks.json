@@ -2283,10 +2283,10 @@
         "text": ["확인"]
     },
     "Reclamation2ExReadArchiveEnter": {
-        "doc": "add sub for KR-specific notification",
+        "doc": "Needs to be edited if confirmation window is removed later",
         "text": ["불러", "오기"],
         "sub": [
-            "Reclamation2SkipDays2SkipTimeConfig*2",
+            "Reclamation2ExReadArchiveConfirm*2",
             "Reclamation2ExReadArchiveSelectDay",
             "Reclamation2ExReadArchiveSelectDayConfirm"
         ]

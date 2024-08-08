@@ -2678,8 +2678,17 @@
     "Reclamation2ExManufactureConfirmClickToContinue": {
         "text": ["空白", "箇所", "タップ", "続ける"]
     },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["確認する", "確認"]
+    },
     "Reclamation2ExReadArchiveEnter": {
-        "text": ["ロード"]
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "text": ["ロード"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["生息", "日"]
