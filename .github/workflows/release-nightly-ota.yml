@@ -212,11 +212,12 @@ jobs:
         run: |
           mkdir -pv build-ota && cd build-ota
 
-          limit=$(printf "%d" ${{ inputs.limit || 30 }} 2>/dev/null || echo 30)
-          limit_2=$(printf "%d" ${{ inputs.limit_2 || 30 }} 2>/dev/null || echo 30)
+          # Convert inputs to integers
+          limit=$(echo "${{ inputs.limit || 30 }}" | awk '{printf "%d", $1}')
+          limit_2=$(echo "${{ inputs.limit_2 || 30 }}" | awk '{printf "%d", $1}')
 
-          echo $limit
-          echo $limit_2
+          echo "Parsed limit: $limit"
+          echo "Parsed limit_2: $limit_2"
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
           gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
