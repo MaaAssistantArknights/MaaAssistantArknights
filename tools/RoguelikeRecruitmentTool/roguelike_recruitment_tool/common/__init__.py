@@ -6,9 +6,11 @@ from PyQt5.QtCore import Qt
 
 class RecruitmentItemDataRole(IntEnum):
     DocRole = Qt.UserRole + 1
+    DescriptionRole = Qt.UserRole + 2
 
 
 DocRole = RecruitmentItemDataRole.DocRole
+DescriptionRole = RecruitmentItemDataRole.DescriptionRole
 
 str_bool_dict = {"True": True, "False": False,
                  "true": True, "false": False,
@@ -49,5 +51,6 @@ def parse_field(value: str, field_type: type) -> Any:
 
 __all__ = [
     "DocRole",
+    "DescriptionRole",
     "parse_field"
 ]
