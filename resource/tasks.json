@@ -9038,7 +9038,7 @@
     "Sarkaz@Roguelike@RoutingRefreshNodeWaiting": {
         "baseTask": "LoadingText",
         "postDelay": 300,
-        "next": [ "Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted" ]
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
     },
     "Sarkaz@Roguelike@RoutingRefreshNodeCompleted": {
         "algorithm": "JustReturn"
