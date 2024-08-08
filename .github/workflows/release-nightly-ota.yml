@@ -97,7 +97,7 @@ jobs:
         id: generate_changelog
         run: |
           python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
-          $content=$(((Get-Content .\changelog.md) | Select-Object -Skip 2) -join "\n\n") 
+          $content=$(((Get-Content .\changelog.md) | Select-Object -Skip 2) -join "\n\n")
           echo "changelog=$content" >> $env:GITHUB_OUTPUT
           echo $content
         env:
@@ -212,8 +212,17 @@ jobs:
         run: |
           mkdir -pv build-ota && cd build-ota
 
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
-          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
+          # Convert inputs to integers
+          limit=${{ inputs.limit || 30 }}
+          limit=${limit%.*}
+          echo "Parsed limit: $limit"
+
+          limit_2=${{ inputs.limit_2 || 30 }}
+          limit_2=${limit_2%.*}
+          echo "Parsed limit_2: $limit_2"
+
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
+          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
           echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
 
           cat ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
