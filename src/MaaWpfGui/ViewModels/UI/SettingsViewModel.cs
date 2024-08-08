@@ -1943,7 +1943,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var jsonStr = File.ReadAllText(filePath);
-            var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
 
             var roguelikeCoreCharList = new ObservableCollection<string>();
 
@@ -1964,7 +1964,7 @@ namespace MaaWpfGui.ViewModels.UI
                             continue;
                         }
 
-                        var name = (string)operItem["name"];
+                        var name = (string?)operItem["name"];
                         if (string.IsNullOrEmpty(name))
                         {
                             continue;
@@ -3419,7 +3419,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return versionName;
             }
 
-            JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+            var versionJson = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
             var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
             var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
@@ -4172,7 +4172,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Get the path of bluestacks.conf
         /// </summary>
         /// <returns>path</returns>
-        private static string GetBluestacksConfig()
+        private static string? GetBluestacksConfig()
         {
             var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
             if (!string.IsNullOrEmpty(conf))
@@ -4180,8 +4180,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return conf;
             }
 
-            using RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
-            object value = key?.GetValue(BluestacksNxtValueName);
+            using var key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
+            var value = key?.GetValue(BluestacksNxtValueName);
             if (value != null)
             {
                 return (string)value + @"\bluestacks.conf";
@@ -4334,14 +4334,14 @@ namespace MaaWpfGui.ViewModels.UI
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
-        private readonly string _bluestacksConfig = GetBluestacksConfig();
+        private readonly string? _bluestacksConfig = GetBluestacksConfig();
         private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
         /// Tries to set BlueStack Hyper V address.
         /// </summary>
         /// <returns>success</returns>
-        public string TryToSetBlueStacksHyperVAddress()
+        public string? TryToSetBlueStacksHyperVAddress()
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
@@ -4573,7 +4573,6 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.MainWindowManager.SetUseTrayIcon(value);
             }
         }
-
 
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 

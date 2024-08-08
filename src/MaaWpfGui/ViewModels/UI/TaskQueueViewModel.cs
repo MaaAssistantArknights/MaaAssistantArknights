@@ -116,7 +116,6 @@ namespace MaaWpfGui.ViewModels.UI
             await Task.Run(() => Instances.SettingsViewModel.RunScript("EndsWithScript"));
             var actions = TaskSettingDataContext.PostActionSetting;
 
-
             if (actions.BackToAndroidHome)
             {
                 Instances.AsstProxy.AsstBackToHome();
@@ -2536,7 +2535,7 @@ namespace MaaWpfGui.ViewModels.UI
                 if (value >= CustomInfrastPlanInfoList.Count || value < 0)
                 {
                     var count = CustomInfrastPlanInfoList.Count;
-                    value = (value % count + count) % count;
+                    value = ((value % count) + count) % count;
                     _logger.Warning($"CustomInfrastPlanIndex out of range, reset to Index % Count: {value}");
                 }
 
