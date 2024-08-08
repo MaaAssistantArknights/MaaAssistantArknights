@@ -2267,6 +2267,9 @@
     "Reclamation2ExAssemblyStationOcr": {
         "text": ["작업대"]
     },
+    "Reclamation2ExBegin": {
+        "text": ["계", "속", "하", "기"]
+    },
     "Reclamation2ExClickProduct": {
         "text": ["형광봉"]
     },
@@ -2276,8 +2279,17 @@
     "Reclamation2ExManufactureConfirmClickToContinue": {
         "text": ["탭하여", "계", "속"]
     },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["확인"]
+    },
     "Reclamation2ExReadArchiveEnter": {
-        "text": ["불러", "오기"]
+        "doc": "add sub for KR-specific notification",
+        "text": ["불러", "오기"],
+        "sub": [
+            "Reclamation2SkipDays2SkipTimeConfig*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
     },
     "Reclamation2ExReadArchiveSelectDay": {
         "text": ["생존일"]
