@@ -98,7 +98,7 @@ public:
 
     // ———————— set node fields ———————————————————————————————————————————————————————
     void set_node_type(const size_t& node_index, RoguelikeNodeType type);
-    void set_node_visited(const size_t& node_index, bool visisted) const;
+    void set_node_visited(const size_t& node_index, bool visisted);
     void set_node_refresh_times(const size_t& node_index, int refresh_times);
 
     // ———————— constants and variables ———————————————————————————————————————————————

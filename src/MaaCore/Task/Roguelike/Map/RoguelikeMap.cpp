@@ -112,15 +112,16 @@ size_t asst::RoguelikeMap::get_next_node() const
 // get node fields
 // ————————————————————————————————————————————————————————————————————————————————
 
-#define DEFINE_GET_NODE_FIELD(RETURN_TYPE, FIELD)                                    \
-    RETURN_TYPE asst::RoguelikeMap::get_node_##FIELD(const size_t& node_index) const \
-    {                                                                                \
-        if (node_index >= m_nodes.size()) {                                          \
-            Log.error(__FUNCTION__, "| node does not exist");                         \
-        }                                                                            \
-                                                                                     \
-        return m_nodes.at(node_index)->FIELD;                                        \
-    }
+/*
+#define DEFINE_GET_NODE_FIELD(RETURN_TYPE, FIELD)                                \
+RETURN_TYPE asst::RoguelikeMap::get_node_##FIELD(const size_t& node_index) const \
+{                                                                                \
+    if (node_index >= m_nodes.size()) {                                          \
+        Log.error(__FUNCTION__, "| node does not exist");                        \
+    }                                                                            \
+                                                                                 \
+    return m_nodes.at(node_index)->FIELD;                                        \
+}
 
 DEFINE_GET_NODE_FIELD(asst::RoguelikeNodeType, type)
 DEFINE_GET_NODE_FIELD(size_t, column)
@@ -132,14 +133,92 @@ DEFINE_GET_NODE_FIELD(int, cost)
 DEFINE_GET_NODE_FIELD(int, refresh_times)
 
 #undef DEFINE_GET_NODE_FIELD
+*/
+
+asst::RoguelikeNodeType asst::RoguelikeMap::get_node_type(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->type;
+}
+
+size_t asst::RoguelikeMap::get_node_column(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->column;
+}
+
+int asst::RoguelikeMap::get_node_y(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->y;
+}
+
+bool asst::RoguelikeMap::get_node_visited(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->visited;
+}
+
+std::vector<size_t> asst::RoguelikeMap::get_node_succs(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->succs;
+}
+
+std::vector<size_t> asst::RoguelikeMap::get_node_preds(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->preds;
+}
+
+int asst::RoguelikeMap::get_node_cost(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->cost;
+}
+
+int asst::RoguelikeMap::get_node_refresh_times(const size_t& node_index) const
+{
+    if (node_index >= m_nodes.size()) {
+        Log.error(__FUNCTION__, "| node does not exist");
+    }
+
+    return m_nodes.at(node_index)->refresh_times;
+}
 
 // ————————————————————————————————————————————————————————————————————————————————
-// get node fields
+// set node fields
 // ————————————————————————————————————————————————————————————————————————————————
 
 void asst::RoguelikeMap::set_node_type(const size_t& node_index, RoguelikeNodeType type)
 {
     m_nodes.at(node_index)->type = type;
+}
+
+void asst::RoguelikeMap::set_node_visited(const size_t& node_index, bool visisted)
+{
+    m_nodes.at(node_index)->visited = visisted;
 }
 
 void asst::RoguelikeMap::set_node_refresh_times(const size_t& node_index, int refresh_times)
