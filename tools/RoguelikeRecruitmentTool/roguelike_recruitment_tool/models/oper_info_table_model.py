@@ -2,7 +2,7 @@ from PyQt5.QtCore import QAbstractTableModel, QModelIndex, QVariant, Qt
 
 from roguelike.recruitment import Oper
 
-from ..common import parse_field
+from ..common import DescriptionRole, parse_field
 
 
 class OperInfoTableModel(QAbstractTableModel):
@@ -36,6 +36,10 @@ class OperInfoTableModel(QAbstractTableModel):
             field = self._field_list[index.row()]
             if index.column() == 1:
                 return QVariant(str(getattr(self._oper, field)))
+        elif role == DescriptionRole:
+            field = self._field_list[index.row()]
+            if index.column() == 0:
+                return QVariant(Oper.model_fields[field].description)
         return QVariant()
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):

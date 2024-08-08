@@ -85,20 +85,23 @@ OperClass = ForwardRef("Oper")
 
 
 class Oper(BaseModel, extra="forbid"):
-    name: StrictNonEmptyStr
+    name: Annotated[StrictNonEmptyStr, Field(description="干员代号")]
     doc: StrictStr = ""
-    skill: StrictInt = 0
-    skill_usage: Annotated[StrictInt, Field(ge=0, le=3, validate_default=True)] = 1
-    skill_times: StrictInt = 1
-    alternate_skill: StrictInt = 0
-    alternate_skill_usage: Annotated[StrictInt, Field(ge=0, le=3, validate_default=True)] = 1
-    alternate_skill_times: StrictInt = 1
-    is_key: StrictBool = False
-    is_start: StrictBool = False
+    skill: Annotated[StrictInt, Field(description="技能")] = 0
+    skill_usage: Annotated[StrictInt, Field(ge=0, le=3, validate_default=True), Field(description="技能使用模式")] = 1
+    skill_times: Annotated[StrictInt, Field(description="技能使用次数")] = 1
+    alternate_skill: Annotated[StrictInt, Field(description="备选技能")] = 0
+    alternate_skill_usage: Annotated[
+        StrictInt, Field(ge=0, le=3, validate_default=True), Field(description="备选技能使用技能")] = 1
+    alternate_skill_times: Annotated[StrictInt, Field(description="备选技能使用模式")] = 1
+    is_key: Annotated[StrictBool, Field(description="是否为关键干员")] = False
+    is_start: Annotated[StrictBool, Field(description="是否为开局干员")] = False
     is_alternate: StrictBool = False
-    auto_retreat: StrictInt = 0
-    recruit_priority: StrictInt = 0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
-    promote_priority: StrictInt = 0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
+    auto_retreat: Annotated[StrictInt, Field(description="部署后自动撤退间隔（秒）")] = 0
+    recruit_priority: Annotated[StrictInt, Field(
+        description="招募优先级")] = 0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
+    promote_priority: Annotated[StrictInt, Field(
+        description="进阶优先级")] = 0  # Annotated[StrictInt, Field(ge=0, le=1000, validate_default=True)]
     recruit_priority_when_team_full: StrictInt | None = None  # Annotated[StrictInt, Field(ge=0, le=1000)]
     promote_priority_when_team_full: StrictInt | None = None  # Annotated[StrictInt, Field(ge=0, le=1000)]
     recruit_priority_offsets: conlist(
