@@ -750,7 +750,20 @@
     "ASChapterToAS": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["市民", "花园", "市民花园"],
+        "text": [
+            "市民花园",
+            "市民",
+            "民花",
+            "花园",
+            "丰获集会",
+            "丰获",
+            "获集",
+            "集会",
+            "藏珍宝库",
+            "藏珍",
+            "珍宝",
+            "宝库"
+        ],
         "preDelay": 3000,
         "roi": [1025, 381, 214, 149],
         "next": ["#self", "ChapterSwipeToTheRight"]
