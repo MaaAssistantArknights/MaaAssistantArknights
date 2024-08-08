@@ -213,11 +213,19 @@ jobs:
           mkdir -pv build-ota && cd build-ota
 
           # Convert inputs to integers
-          limit=${{ inputs.limit%.* || 30 }}
-          limit_2=${{ inputs.limit_2%.* || 30 }}
+          limit=${{ inputs.limit || 30 }}
+          echo "Parsed raw limit: $limit"
 
+          limit=${limit%.*}
           echo "Parsed limit: $limit"
+
+          limit_2=${{ inputs.limit_2 || 30 }}
+          echo "Parsed raw limit_2: $limit_2"
+
+          limit_2=${limit_2%.*}
           echo "Parsed limit_2: $limit_2"
+
+
 
           gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
           gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
