@@ -1044,7 +1044,7 @@
         "description": "羅德島情報處理系統的一個次要功能。從龐雜的資訊中提取有效情報後，經過特殊處理，以影像的形式還原出各種事件的流程，精確程度令當事人都感到驚歎。\n做成錄影帶的樣子只是為了方便一般人理解。",
         "icon": "STORY_REVIEW_COIN.png",
         "name": "事相碎片",
-        "sortId": 10202,
+        "sortId": 10203,
         "usage": "有效情報的拓撲模型，可以用來重建過往事件。"
     },
     "act10d5_token_biscuit": {
@@ -1375,6 +1375,14 @@
         "sortId": -10000,
         "usage": "一枚金屬製的小型獎牌。獲取一定數量的獎章將得到相應的賽事獎勵。"
     },
+    "act1mainlinebp_token_star": {
+        "classifyType": "NONE",
+        "description": "閃爍輝光的碎片，點亮了您無畏黑暗、步履不停的荊棘之路。",
+        "icon": "act1mainlinebp_token_star.png",
+        "name": "里程碑碎片",
+        "sortId": -10000,
+        "usage": "可用於兌換里程碑獎勵。"
+    },
     "act1sandbox_milestone_point": {
         "classifyType": "NONE",
         "description": "生息繁榮，代代相傳，以此為證。",
@@ -1502,6 +1510,14 @@
         "name": "毛絨絨生物的毛",
         "sortId": -10000,
         "usage": "看上去可以放進戶外保暖裝備之中，只不過在這個季節好像沒有什麼作用。“純白火山”家的小女兒不知為何很喜歡這種奇怪絨毛，她願意悄悄拿店裡的商品和你交換。注意：千萬不要告訴她的哥哥！"
+    },
+    "act28side_token_box": {
+        "classifyType": "NONE",
+        "description": "塑膠、紙張、木材......甚至報廢的源石電路。唯一的共同點是可以丟進動力爐裡燒掉，為地塊提供一點點熱量。",
+        "icon": "act28side_token_box.png",
+        "name": "劣質燃料",
+        "sortId": -10000,
+        "usage": "從達維鎮及周圍地區回收來的可燃物，熱值低，燃燒時會產生大量濃煙，不過能源塔旁有位老工人願意用礦廠的物資來換取這些燃料。"
     },
     "act2bossrush_milestone_point": {
         "classifyType": "NONE",
@@ -2085,6 +2101,14 @@
         "icon": "randomMaterial_8.png",
         "name": "羅德島物資補給V",
         "sortId": 60108,
+        "usage": "裝有各種物資補給，包含多種隨機材料。"
+    },
+    "randomMaterial_9": {
+        "classifyType": "CONSUME",
+        "description": "羅德島從各地採購、儲備的材料補給箱。不過因為缺乏系統性的整理收納，每一個箱子裡都裝著截然不同的材料。",
+        "icon": "randomMaterial_9.png",
+        "name": "羅德島物資補給VI",
+        "sortId": 60109,
         "usage": "裝有各種物資補給，包含多種隨機材料。"
     },
     "randomMaterial_rhine2": {
