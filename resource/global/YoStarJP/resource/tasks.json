@@ -2637,6 +2637,77 @@
             ["深埋の迷境", "_SKIP_"]
         ]
     },
+    "Reclamation2Begin": {
+        "text": ["演", "算", "開", "始"]
+    },
+    "Reclamation2BeginPlotEnter": {
+        "text": ["人々", "が集う", "集会場"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["羽獣", "集う地", "狩猟エリア"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["行動", "完了"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["豊かな", "低木林", "資源エリア"],
+        "ocrReplace": [
+            ["(予|青)原(工|正)", "資源エリア"],
+            ["夢方.?な", "豊かな"],
+            ["豊方", "豊かな"]
+        ]
+    },
+    "Reclamation2DeleteArchiveConfirm": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2DeleteArchiveEnter": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2EnterStage": {
+        "text": ["行動", "開始"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["組立台"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["ケミカルライト"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["組立開始"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["空白", "箇所", "タップ", "続ける"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "text": ["ロード"]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["生息", "日"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["確認する", "確認"]
+    },
+    "Reclamation2Fight": {
+        "text": ["作戦", "開始"]
+    },
+    "Reclamation2FightConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2LeaveStageConfirm": {
+        "text": ["離脱する", "離脱"]
+    },
+    "Reclamation2SkipDays2SkipTime": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2SkipDays2SkipTimeConfig": {
+        "text": ["確定"]
+    },
+    "Reclamation2SkipDaysAward2": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["次へ"]
+    },
     "Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],
         "text": ["Zone", "狩猟エリア", "エリア", "資源エリア", "資源", "狩猟"]

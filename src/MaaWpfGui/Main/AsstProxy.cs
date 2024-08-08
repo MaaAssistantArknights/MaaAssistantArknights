@@ -528,7 +528,8 @@ namespace MaaWpfGui.Main
                                 }
                                 else if (timeCost < 100)
                                 {
-                                    color = UiLogColor.SpecialScreenshot;
+                                    color = UiLogColor.MuMuSpecialScreenshot;
+                                    method = "MuMuExtras";
                                 }
 
                                 break;
@@ -1687,7 +1688,7 @@ namespace MaaWpfGui.Main
         /// </summary>
         /// <param name="address">连接地址。</param>
         /// <returns>是否有效。</returns>
-        private static bool IfPortEstablished(string address)
+        private static bool IfPortEstablished(string? address)
         {
             if (string.IsNullOrEmpty(address) || !address.Contains(':'))
             {
@@ -1744,7 +1745,7 @@ namespace MaaWpfGui.Main
 
             if (Instances.SettingsViewModel.AutoDetectConnection)
             {
-                string bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
+                string? bsHvAddress = Instances.SettingsViewModel.TryToSetBlueStacksHyperVAddress();
 
                 if (string.Equals(Instances.SettingsViewModel.ConnectAddress, bsHvAddress))
                 {

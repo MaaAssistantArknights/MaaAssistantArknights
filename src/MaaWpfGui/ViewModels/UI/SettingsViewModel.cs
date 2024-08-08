@@ -26,6 +26,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -1942,7 +1943,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
 
             var jsonStr = File.ReadAllText(filePath);
-            var json = (JObject)JsonConvert.DeserializeObject(jsonStr);
+            var json = (JObject?)JsonConvert.DeserializeObject(jsonStr);
 
             var roguelikeCoreCharList = new ObservableCollection<string>();
 
@@ -1963,7 +1964,7 @@ namespace MaaWpfGui.ViewModels.UI
                             continue;
                         }
 
-                        var name = (string)operItem["name"];
+                        var name = (string?)operItem["name"];
                         if (string.IsNullOrEmpty(name))
                         {
                             continue;
@@ -2541,18 +2542,18 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _bypassDailyLimit = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.BypassCreditVisitDaily, bool.FalseString));
+        private bool _creditVisitOnceADay = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.CreditVisitOnceADay, bool.FalseString));
 
         /// <summary>
         /// Gets or sets a value indicating whether to bypass the daily limit.
         /// </summary>
-        public bool BypassDailyLimit
+        public bool CreditVisitOnceADay
         {
-            get => _bypassDailyLimit;
+            get => _creditVisitOnceADay;
             set
             {
-                SetAndNotify(ref _bypassDailyLimit, value);
-                ConfigurationHelper.SetValue(ConfigurationKeys.BypassCreditVisitDaily, value.ToString());
+                SetAndNotify(ref _creditVisitOnceADay, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.CreditVisitOnceADay, value.ToString());
             }
         }
 
@@ -2565,24 +2566,20 @@ namespace MaaWpfGui.ViewModels.UI
         {
             get
             {
-                if (_bypassDailyLimit)
+                if (_creditVisitOnceADay)
                 {
-                    return true;
-                }
-
-                try
-                {
-                    if (DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture))
+                    try
+                    {
+                        return DateTime.UtcNow.ToYjDate() > DateTime.ParseExact(_lastCreditVisitFriendsTime.Replace('-', '/'), "yyyy/MM/dd HH:mm:ss", CultureInfo.InvariantCulture)
+                               && _creditVisitFriendsEnabled;
+                    }
+                    catch
                     {
                         return _creditVisitFriendsEnabled;
                     }
                 }
-                catch
-                {
-                    return _creditVisitFriendsEnabled;
-                }
 
-                return false;
+                return true;
             }
 
             set
@@ -2827,11 +2824,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         public class TimerModel
         {
-            public class TimerProperties : INotifyPropertyChanged
+            public class TimerProperties : PropertyChangedBase
             {
-                public event PropertyChangedEventHandler PropertyChanged;
-
-                public TimerProperties(int timeId, bool isOn, int hour, int min, string timerConfig)
+                public TimerProperties(int timeId, bool isOn, int hour, int min, string? timerConfig)
                 {
                     TimerId = timeId;
                     _isOn = isOn;
@@ -2845,11 +2840,6 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _timerConfig = timerConfig;
                     }
-                }
-
-                protected void OnPropertyChanged([CallerMemberName] string name = null)
-                {
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
                 }
 
                 public int TimerId { get; set; }
@@ -2871,8 +2861,7 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _isOn;
                     set
                     {
-                        _isOn = value;
-                        OnPropertyChanged();
+                        SetAndNotify(ref _isOn, value);
                         ConfigurationHelper.SetTimer(TimerId, value.ToString());
                     }
                 }
@@ -2887,8 +2876,8 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _hour;
                     set
                     {
-                        _hour = value is >= 0 and <= 23 ? value : _hour;
-                        OnPropertyChanged();
+                        value = value is >= 0 and <= 23 ? value : _hour;
+                        SetAndNotify(ref _hour, value);
                         ConfigurationHelper.SetTimerHour(TimerId, _hour.ToString());
                     }
                 }
@@ -2903,31 +2892,25 @@ namespace MaaWpfGui.ViewModels.UI
                     get => _min;
                     set
                     {
-                        _min = value is >= 0 and <= 59 ? value : _min;
-                        OnPropertyChanged();
+                        value = value is >= 0 and <= 59 ? value : _min;
+                        SetAndNotify(ref _min, value);
                         ConfigurationHelper.SetTimerMin(TimerId, _min.ToString());
                     }
                 }
 
-                private string _timerConfig;
+                private string? _timerConfig;
 
                 /// <summary>
                 /// Gets or sets the config of the timer.
                 /// </summary>
-                public string TimerConfig
+                public string? TimerConfig
                 {
                     get => _timerConfig;
                     set
                     {
-                        _timerConfig = value ?? ConfigurationHelper.GetCurrentConfiguration();
-                        OnPropertyChanged();
+                        SetAndNotify(ref _timerConfig, value ?? ConfigurationHelper.GetCurrentConfiguration());
                         ConfigurationHelper.SetTimerConfig(TimerId, _timerConfig);
                     }
-                }
-
-                public TimerProperties()
-                {
-                    PropertyChanged += (_, _) => { };
                 }
             }
 
@@ -3436,7 +3419,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return versionName;
             }
 
-            JObject versionJson = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
+            var versionJson = (JObject?)JsonConvert.DeserializeObject(File.ReadAllText(jsonPath));
             var currentTime = (ulong)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             var poolTime = (ulong?)versionJson?["gacha"]?["time"]; // 卡池的开始时间
             var activityTime = (ulong?)versionJson?["activity"]?["time"]; // 活动的开始时间
@@ -3864,15 +3847,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         public string ScreencapMethod { get; set; } = string.Empty;
 
-        public class MuMuEmulator12ConnectionExtras : INotifyPropertyChanged
+        public class MuMuEmulator12ConnectionExtras : PropertyChangedBase
         {
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            protected void OnPropertyChanged([CallerMemberName] string name = null)
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            }
-
             private bool _enable = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MuMu12ExtrasEnabled, bool.FalseString));
 
             public bool Enable
@@ -3885,15 +3861,50 @@ namespace MaaWpfGui.ViewModels.UI
                         return;
                     }
 
-                    _enable = value;
-
                     if (value)
                     {
                         MessageBoxHelper.Show(LocalizationHelper.GetString("MuMu12ExtrasEnabledTip"));
+
+                        // 读取mumu注册表地址 并填充GUI
+                        if (string.IsNullOrEmpty(EmulatorPath))
+                        {
+                            try
+                            {
+                                const string UninstallKeyPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\MuMuPlayer-12.0";
+                                const string UninstallExeName = @"\uninstall.exe";
+
+                                using RegistryKey? driverKey = Registry.LocalMachine.OpenSubKey(UninstallKeyPath);
+                                if (driverKey == null)
+                                {
+                                    EmulatorPath = string.Empty;
+                                    return;
+                                }
+
+                                string? uninstallString = driverKey.GetValue("UninstallString") as string;
+
+                                if (string.IsNullOrEmpty(uninstallString) || !uninstallString.Contains(UninstallExeName))
+                                {
+                                    EmulatorPath = string.Empty;
+                                    return;
+                                }
+
+                                var match = Regex.Match(uninstallString,
+                                    $"""
+                                     ^"(.*?){Regex.Escape(UninstallExeName)}
+                                     """,
+                                    RegexOptions.IgnoreCase);
+                                EmulatorPath = match.Success ? match.Groups[1].Value : string.Empty;
+                            }
+                            catch (Exception e)
+                            {
+                                _logger.Warning($"An error occurred: {e.Message}");
+                                EmulatorPath = string.Empty;
+                            }
+                        }
                     }
 
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _enable, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12ExtrasEnabled, value.ToString());
                 }
             }
@@ -3909,15 +3920,14 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _emulatorPath;
                 set
                 {
-                    if (!Directory.Exists(value))
+                    if (_enable && !Directory.Exists(value))
                     {
                         MessageBoxHelper.Show("MuMu Emulator 12 Path Not Found");
                         value = string.Empty;
                     }
 
-                    _emulatorPath = value;
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _emulatorPath, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12EmulatorPath, value);
                 }
             }
@@ -3932,9 +3942,8 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _index;
                 set
                 {
-                    _index = value;
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _index, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Index, value);
                 }
             }
@@ -3949,9 +3958,8 @@ namespace MaaWpfGui.ViewModels.UI
                 get => _display;
                 set
                 {
-                    _display = value;
                     Instances.AsstProxy.Connected = false;
-                    OnPropertyChanged();
+                    SetAndNotify(ref _display, value);
                     ConfigurationHelper.SetValue(ConfigurationKeys.MuMu12Display, _display);
                 }
             }
@@ -3973,11 +3981,6 @@ namespace MaaWpfGui.ViewModels.UI
                     };
                     return JsonConvert.SerializeObject(configObject);
                 }
-            }
-
-            public MuMuEmulator12ConnectionExtras()
-            {
-                PropertyChanged += (_, _) => { };
             }
         }
 
@@ -4169,7 +4172,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// Get the path of bluestacks.conf
         /// </summary>
         /// <returns>path</returns>
-        private static string GetBluestacksConfig()
+        private static string? GetBluestacksConfig()
         {
             var conf = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigPath, string.Empty);
             if (!string.IsNullOrEmpty(conf))
@@ -4177,8 +4180,8 @@ namespace MaaWpfGui.ViewModels.UI
                 return conf;
             }
 
-            using RegistryKey key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
-            object value = key?.GetValue(BluestacksNxtValueName);
+            using var key = Registry.LocalMachine.OpenSubKey(BluestacksNxtRegistryKey);
+            var value = key?.GetValue(BluestacksNxtValueName);
             if (value != null)
             {
                 return (string)value + @"\bluestacks.conf";
@@ -4331,14 +4334,14 @@ namespace MaaWpfGui.ViewModels.UI
             rvm.WindowTitle = $"{prefix}MAA{currentConfiguration} - {CoreVersion}{resourceVersion}{connectConfigName}{connectAddress}{clientName}";
         }
 
-        private readonly string _bluestacksConfig = GetBluestacksConfig();
+        private readonly string? _bluestacksConfig = GetBluestacksConfig();
         private string _bluestacksKeyWord = ConfigurationHelper.GetValue(ConfigurationKeys.BluestacksConfigKeyword, string.Empty);
 
         /// <summary>
         /// Tries to set BlueStack Hyper V address.
         /// </summary>
         /// <returns>success</returns>
-        public string TryToSetBlueStacksHyperVAddress()
+        public string? TryToSetBlueStacksHyperVAddress()
         {
             if (string.IsNullOrEmpty(_bluestacksConfig))
             {
@@ -4570,7 +4573,6 @@ namespace MaaWpfGui.ViewModels.UI
                 Instances.MainWindowManager.SetUseTrayIcon(value);
             }
         }
-
 
         private bool _minimizeToTray = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.MinimizeToTray, bool.FalseString));
 
@@ -4910,9 +4912,9 @@ namespace MaaWpfGui.ViewModels.UI
 
         public ObservableCollection<CombinedData> ConfigurationList { get; set; }
 
-        private string _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
+        private string? _currentConfiguration = ConfigurationHelper.GetCurrentConfiguration();
 
-        public string CurrentConfiguration
+        public string? CurrentConfiguration
         {
             get => _currentConfiguration;
             set
