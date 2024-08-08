@@ -2548,68 +2548,22 @@
         "text": ["Start"]
     },
     "Reclamation2ExAssemblyStationOcr": {
-        "Doc": "确认进入组装台",
-        "algorithm": "OcrDetect",
-        "roi": [56, 0, 185, 134],
-        "text": ["组装台"]
+        "text": ["Workbench"]
     },
     "Reclamation2ExBegin": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["继", "续", "演", "算"],
-        "roi": [844, 569, 436, 151]
+        "text": ["Resume"]
     },
     "Reclamation2ExClickProduct": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["荧光棒"]
+        "text": ["Glow Stick"]
     },
     "Reclamation2ExManufactureConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开始组装"],
-        "roi": [981, 461, 198, 128],
-        "next": ["Reclamation2ExManufactureConfirmClickToContinue"]
-    },
-    "Reclamation2ExManufactureConfirmAmount": {
-        "algorithm": "OcrDetect",
-        "Doc": "如果刚好用完的话可能会卡住，这个之后再处理了",
-        "text": ["99"],
-        "roi": [720, 442, 175, 166],
-        "sub": ["Reclamation2ExManufactureConfirm"],
-        "next": ["Reclamation2ExManufacture"]
+        "text": ["Craft"]
     },
     "Reclamation2ExManufactureConfirmClickToContinue": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["点击", "空白", "继续"],
-        "roi": [507, 398, 268, 139],
-        "preDelay": 1000
-    },
-    "Reclamation2ExReadArchiveConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [820, 406, 308, 146]
-    },
-    "Reclamation2ExReadArchiveEnter": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["读取"],
-        "roi": [1030, 548, 170, 124],
-        "sub": ["Reclamation2ExReadArchiveSelectDay", "Reclamation2ExReadArchiveSelectDayConfirm"]
+        "text": ["Tap anywhere to continue"]
     },
     "Reclamation2ExReadArchiveSelectDay": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["生息", "日"],
-        "roi": [406, 368, 166, 128]
-    },
-    "Reclamation2ExReadArchiveSelectDayConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["点击", "确认"],
-        "roi": [528, 480, 225, 142]
+        "text": ["Days"]
     },
     "Reclamation2Fight": {
         "text": ["Start"]
