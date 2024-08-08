@@ -97,7 +97,7 @@ jobs:
   #       id: generate_changelog
   #       run: |
   #         python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
-  #         $content=$(((Get-Content .\changelog.md) | Select-Object -Skip 2) -join "\n\n") 
+  #         $content=$(((Get-Content .\changelog.md) | Select-Object -Skip 2) -join "\n\n")
   #         echo "changelog=$content" >> $env:GITHUB_OUTPUT
   #         echo $content
   #       env:
