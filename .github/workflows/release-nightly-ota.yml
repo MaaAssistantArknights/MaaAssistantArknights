@@ -212,8 +212,11 @@ jobs:
         run: |
           mkdir -pv build-ota && cd build-ota
 
-          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit ${{ inputs.limit || 30 }} | tee ./release_maa.txt
-          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit ${{ inputs.limit_2 || 30 }} | tee ./release_mr.txt
+          limit=$(expr ${{ inputs.limit || 30 }} + 0)
+          limit_2=$(expr ${{ inputs.limit_2 || 30 }} + 0)
+
+          gh release list --repo 'MaaAssistantArknights/MaaAssistantArknights' --limit $limit | tee ./release_maa.txt
+          gh release list --repo "${{ github.repository_owner }}/MaaRelease" --limit $limit_2 | tee ./release_mr.txt
           echo ${{ needs.build-win-nightly.outputs.tag }} > ./config
 
           cat ./release_maa.txt | awk '{ print $1 }' > ./tags_maa.txt
