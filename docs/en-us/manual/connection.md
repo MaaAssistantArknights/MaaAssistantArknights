@@ -149,11 +149,11 @@ For specific differences, you can read the [source code](https://github.com/MaaA
 
 ### MuMu Screenshot Enhanced Mode
 
-You need to use the official China MuMu 12 3.8.13 and later versions, and close MuMu's background keep alive. Ark Edition and Global Edition are not supported now.
+Only support official China or Ark Edition MuMu 12 V4.0.0 and later versions, and close MuMu's background keep alive. Global Edition are not supported now. <!-- V3.8.13 -->
 
 1. Settings → Connection Settings, tick `Enable MuMu Screenshot Enhanced Mode`.
 
-2. `MuMu Emulator Path` Fill in the path to the `MuMuPlayer-12.0` folder, e.g. `C:`Program Files\Netease\MuMuPlayer-12.0`.
+2. `MuMu Emulator Path` Fill in the path to the `MuMuPlayer-12.0` or `YXArkNights-12.0` folder, e.g. `C:\Program Files\Netease\MuMuPlayer-12.0`.
 
 3. `Instance Number` Fill in the serial number of the corresponding emulator in MuMu Multiplayer, e.g. `0` for Main Multiplayer.
 
