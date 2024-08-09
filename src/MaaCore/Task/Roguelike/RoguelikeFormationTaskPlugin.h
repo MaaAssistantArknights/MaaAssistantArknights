@@ -28,6 +28,6 @@ namespace asst
         int cur_page = 0;
         int max_page = 0;
         std::vector<RoguelikeFormationImageAnalyzer::FormationOper> oper_list;
-        std::vector<std::string> m_last_detected_oper_names;
+        std::vector<std::string> m_last_detected_oper_names; // 上一页识别到的干员
     };
 }

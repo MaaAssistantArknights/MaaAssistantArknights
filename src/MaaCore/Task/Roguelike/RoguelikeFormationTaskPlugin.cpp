@@ -167,8 +167,10 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
         return false;
     }
 
+    // 比较在新一页识别到的干员名 （detected_oper_names） 与 上一页识别到的干员名 (m_last_detected_oper_names)
+    // 若完全相同则认为已到达尾页
     auto formation_analyze_result = formation_analyzer.get_result();
-    auto oper_name_view = formation_analyze_result | views::transform([&](auto oper) { return oper.name; });;
+    auto oper_name_view = formation_analyze_result | views::transform([&](auto oper) { return oper.name; });
     std::vector<std::string> detected_oper_names(oper_name_view.begin(), oper_name_view.end());
     const bool reach_last_column = (detected_oper_names == m_last_detected_oper_names);
     m_last_detected_oper_names = std::move(detected_oper_names);
