@@ -66,11 +66,11 @@
     },
     "CV-Open": {
         "baseTask": "#none",
-        "algorithm": "MatchTemplate",
+        "template": "StageSideStory.png",
         "action": "ClickSelf",
+        "algorithm": "MatchTemplate",
         "postDelay": 2000,
         "roi": [517, 64, 155, 168],
-        "template": "StageSideStory.png",
         "next": ["CVChapterToCV"]
     },
     "CVChapterToCV": {
