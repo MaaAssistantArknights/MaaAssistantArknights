@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -51,10 +51,10 @@ namespace MaaWpfGui.Views.UI
             while (true)
             {
                 errorStr.Append(exc.Message);
-                exc = exc.InnerException;
-                if (exc != null)
+                if (exc.InnerException != null)
                 {
                     errorStr.AppendLine();
+                    exc = exc.InnerException;
                 }
                 else
                 {
@@ -88,6 +88,16 @@ namespace MaaWpfGui.Views.UI
                 (details.Contains("System.Net.Http") && details.Contains("Version")))
             {
                 return LocalizationHelper.GetString("ErrorSolutionCrash");
+            }
+
+            if (details.Contains("CheckAndUpdateNow()") && details.Contains("MoveFile"))
+            {
+                return LocalizationHelper.GetString("ErrorSolutionUpdatePackageExtractionFailed");
+            }
+
+            if (details.Contains("Hyperlink_Click") && details.Contains("StartWithShellExecuteEx"))
+            {
+                return LocalizationHelper.GetString("ErrorSolutionSelectDefaultBrowser");
             }
 
             // ReSharper disable once ConvertIfStatementToReturnStatement

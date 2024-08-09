@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -30,8 +30,10 @@ namespace MaaWpfGui.Constants
         public const string ConfigurationCron = "Cron";
 
         public const string Localization = "GUI.Localization"; // 迁移
+        public const string UseTray = "GUI.UseTray";
         public const string MinimizeToTray = "GUI.MinimizeToTray"; // 迁移
         public const string HideCloseButton = "GUI.HideCloseButton"; // 迁移
+        public const string WindowTitleScrollable = "GUI.WindowTitleScrollable";
         public const string UseLogItemDateFormat = "GUI.UseLogItemDateFormat"; // 迁移
         public const string LogItemDateFormat = "GUI.LogItemDateFormatString"; // 迁移
         public const string WindowPlacement = "GUI.Placement"; // 迁移
@@ -39,9 +41,15 @@ namespace MaaWpfGui.Constants
         public const string SaveWindowPlacement = "GUI.Placement.SaveOnClosing"; // 迁移
         public const string UseAlternateStage = "GUI.UseAlternateStage";
         public const string HideUnavailableStage = "GUI.HideUnavailableStage";
+        public const string HideSeries = "GUI.HideSeries";
         public const string CustomStageCode = "GUI.CustomStageCode";
         public const string InverseClearMode = "GUI.InverseClearMode"; // 迁移
         public const string WindowTitlePrefix = "GUI.WindowTitlePrefix"; // 迁移
+        public const string WindowTitleSelectShowList = "GUI.WindowTitleSelectShowList";
+        public const string SoberLanguage = "GUI.SoberLanguage";
+        public const string Cheers = "GUI.Cheers";
+        public const string Hangover = "GUI.Hangover";
+        public const string LastBuyWineTime = "GUI.LastBuyWineTime";
 
         public const string AddressHistory = "Connect.AddressHistory";
         public const string AutoDetect = "Connect.AutoDetect";
@@ -49,6 +57,10 @@ namespace MaaWpfGui.Constants
         public const string ConnectAddress = "Connect.Address";
         public const string AdbPath = "Connect.AdbPath";
         public const string ConnectConfig = "Connect.ConnectConfig";
+        public const string MuMu12ExtrasEnabled = "Connect.MuMu12Extras.Enabled";
+        public const string MuMu12EmulatorPath = "Connect.MuMu12EmulatorPath";
+        public const string MuMu12Index = "Connect.MuMu12Index";
+        public const string MuMu12Display = "Connect.MuMu12Display";
         public const string RetryOnAdbDisconnected = "Connect.RetryOnDisconnected";
         public const string AllowAdbRestart = "Connect.AllowADBRestart";
         public const string AllowAdbHardRestart = "Connect.AllowADBHardRestart";
@@ -69,6 +81,8 @@ namespace MaaWpfGui.Constants
         public const string AutoRestartOnDrop = "Start.AutoRestartOnDrop";
         public const string StartsWithScript = "Start.StartsWithScript";
         public const string EndsWithScript = "Start.EndsWithScript";
+        public const string CopilotWithScript = "Start.CopilotWithScript";
+        public const string ManualStopWithScript = "Start.ManualStopWithScript";
         public const string BlockSleep = "Start.BlockSleep";
         public const string BlockSleepWithScreenOn = "Start.BlockSleepWithScreenOn";
 
@@ -105,6 +119,10 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeCoreChar = "Roguelike.CoreChar";
         public const string RoguelikeStartWithEliteTwo = "Roguelike.RoguelikeStartWithEliteTwo";
         public const string RoguelikeOnlyStartWithEliteTwo = "Roguelike.RoguelikeOnlyStartWithEliteTwo";
+        public const string Roguelike3FirstFloorFoldartal = "Roguelike.Roguelike3FirstFloorFoldartal";
+        public const string Roguelike3StartFloorFoldartal = "Roguelike.Roguelike3StartFloorFoldartal";
+        public const string Roguelike3NewSquad2StartingFoldartal = "Roguelike.Roguelike3NewSquad2StartingFoldartal";
+        public const string Roguelike3NewSquad2StartingFoldartals = "Roguelike.Roguelike3NewSquad2StartingFoldartals";
         public const string RoguelikeUseSupportUnit = "Roguelike.RoguelikeUseSupportUnit";
         public const string RoguelikeEnableNonfriendSupport = "Roguelike.RoguelikeEnableNonfriendSupport";
         public const string RoguelikeDelayAbortUntilCombatComplete = "Roguelike.RoguelikeDelayAbortUntilCombatComplete";
@@ -115,12 +133,16 @@ namespace MaaWpfGui.Constants
         public const string RoguelikeInvestsCount = "Roguelike.InvestsCount";
         public const string RoguelikeStopWhenInvestmentFull = "Roguelike.StopWhenInvestmentFull";
         public const string RoguelikeDeploymentWithPause = "Roguelike.DeploymentWithPause";
+        public const string RoguelikeStopAtFinalBoss = "Roguelike.ExitAtFinalBoss";
+        public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
+        public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
 
         public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
         public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
         public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
 
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
+        public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
         public const string ForceRefresh = "AutoRecruit.ForceRefresh";
         public const string SelectExtraTags = "AutoRecruit.SelectExtraTags";
@@ -131,6 +153,7 @@ namespace MaaWpfGui.Constants
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
 
+        public const string CreditVisitFriends = "Mall.CreditVisitFriends";
         public const string CreditShopping = "Mall.CreditShopping"; // 迁移
         public const string CreditFirstListNew = "Mall.CreditFirstListNew"; // 迁移
         public const string CreditBlackListNew = "Mall.CreditBlackListNew"; // 迁移
@@ -141,11 +164,27 @@ namespace MaaWpfGui.Constants
         public const string ReceiveAward = "Mission.ReceiveAward"; // 迁移
         public const string ReceiveMail = "Mission.ReceiveMail"; // 迁移
         public const string ReceiveFreeRecruit = "Mission.ReceiveFreeRecruit";
-
+        public const string ReceiveOrundum = "Mission.ReceiveOrundum";
+        public const string ReceiveMining = "Mission.ReceiveMining";
+        public const string ReceiveSpecialAccess = "Mission.ReceiveSpecialAccess";
         public const string CopilotAddUserAdditional = "Copilot.AddUserAdditional";
         public const string CopilotUserAdditional = "Copilot.UserAdditional";
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
+        public const string UpdateProxy = "VersionUpdate.Proxy"; // 不完全迁移
+        public const string VersionType = "VersionUpdate.VersionType"; // 迁移
+        public const string UpdateCheck = "VersionUpdate.UpdateCheck"; // 迁移
+        public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck"; // 迁移
+        public const string ResourceApi = "VersionUpdate.ResourceApi"; // 迁移
+        public const string AllowNightlyUpdates = "VersionUpdate.AllowNightlyUpdates";
+        public const string HasAcknowledgedNightlyWarning = "VersionUpdate.HasAcknowledgedNightlyWarning";
+
+        // 这个已经废弃了，还要留着吗？
+        // ReSharper disable once UnusedMember.Global
+        public const string UseAria2 = "VersionUpdate.UseAria2"; // 不迁移
+
+        public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage"; // 迁移
+        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage"; // 迁移
 
         public const string PenguinId = "Penguin.Id";
         public const string IsDrGrandet = "Penguin.IsDrGrandet";
@@ -188,19 +227,16 @@ namespace MaaWpfGui.Constants
         public const string ExternalNotificationSmtpFrom = "ExternalNotification.Smtp.From";
         public const string ExternalNotificationSmtpTo = "ExternalNotification.Smtp.To";
         public const string ExternalNotificationServerChanSendKey = "ExternalNotification.ServerChan.SendKey";
+        public const string ExternalNotificationDiscordBotToken = "ExternalNotification.Discord.BotToken";
+        public const string ExternalNotificationDiscordUserId = "ExternalNotification.Discord.UserId";
+        public const string ExternalNotificationTelegramBotToken = "ExternalNotification.Telegram.BotToken";
+        public const string ExternalNotificationTelegramChatId = "ExternalNotification.Telegram.ChatId";
+        public const string ExternalNotificationBarkSendKey = "ExternalNotification.Bark.SendKey";
+        public const string ExternalNotificationBarkServer = "ExternalNotification.Bark.Server";
 
-        public const string UpdateProxy = "VersionUpdate.Proxy"; // 不完全迁移
-        public const string VersionType = "VersionUpdate.VersionType"; // 迁移
-        public const string UpdateCheck = "VersionUpdate.UpdateCheck"; // 迁移
-        public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck"; // 迁移
-        public const string ResourceApi = "VersionUpdate.ResourceApi"; // 迁移
-
-        // 这个已经废弃了，还要留着吗？
-        // ReSharper disable once UnusedMember.Global
-        public const string UseAria2 = "VersionUpdate.UseAria2"; // 不迁移
-
-        public const string AutoDownloadUpdatePackage = "VersionUpdate.AutoDownloadUpdatePackage"; // 迁移
-        public const string AutoInstallUpdatePackage = "VersionUpdate.AutoInstallUpdatePackage"; // 迁移
+        public const string PerformanceUseGpu = "Performance.UseGpu";
+        public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
+        public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name"; // 迁移
@@ -208,6 +244,7 @@ namespace MaaWpfGui.Constants
         public const string VersionUpdateBody = "VersionUpdate.body"; // 迁移
         public const string VersionUpdateIsFirstBoot = "VersionUpdate.isfirstboot"; // 迁移
         public const string VersionUpdatePackage = "VersionUpdate.package"; // 迁移
+        public const string VersionUpdateDoNotShowUpdate = "VersionUpdate.doNotShowUpdate";
 
         public const string OperBoxData = "OperBox.Data";
 
@@ -216,9 +253,11 @@ namespace MaaWpfGui.Constants
         public const string GuideStepIndex = "Guide.StepIndex";
 
         public const string ForceScheduledStart = "Timer.ForceScheduledStart";
+        public const string ShowWindowBeforeForceScheduledStart = "Timer.ShowWindowBeforeForceScheduledStart";
         public const string CustomConfig = "Timer.CustomConfig";
 
         public const string AnnouncementInfo = "Announcement.AnnouncementInfo"; // 迁移
         public const string DoNotRemindThisAnnouncementAgain = "Announcement.DoNotRemindThisAnnouncementAgain";
+        public const string DoNotShowAnnouncement = "Announcement.DoNotShowAnnouncement";
     }
 }

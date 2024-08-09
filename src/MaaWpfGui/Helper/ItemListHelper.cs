@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
+using System.Windows.Media.Imaging;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
 using MaaWpfGui.Models;
@@ -77,11 +78,29 @@ namespace MaaWpfGui.Helper
             ArkItems = tempItems ?? new Dictionary<string, ArkItem>();
         }
 
+        /// <summary>
+        /// 获取当前语言下的物品名称 / Get the name of the item in the current language
+        /// </summary>
+        /// <param name="itemId">物品 id / Item id</param>
+        /// <returns></returns>
         public static string GetItemName(string itemId)
         {
             return ArkItems.TryGetValue(itemId, out var item)
                 ? item.Name
                 : itemId;
+        }
+
+        /// <summary>
+        /// 获取对应物品的图标 / Get the icon of the corresponding item
+        /// </summary>
+        /// <param name="itemId">物品 id / Item id</param>
+        /// <returns></returns>
+        public static BitmapImage GetItemImage(string itemId)
+        {
+            var imagePath = Path.Combine(Environment.CurrentDirectory, $"resource/template/items/{itemId}.png");
+            return File.Exists(imagePath)
+                ? new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute))
+                : new BitmapImage();
         }
     }
 }

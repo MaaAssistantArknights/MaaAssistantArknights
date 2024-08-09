@@ -2,12 +2,16 @@ name: gen-changelog
 
 on:
   pull_request:
-    types: [opened, reopened, ready_for_review]
+    types:
+      - opened
+      - reopened
+      - ready_for_review
   workflow_dispatch:
 
 jobs:
   gen:
-    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v') # startsWith 表达式不区分大小写
+    # startsWith 表达式不区分大小写
+    if: github.event.pull_request.draft == false && startsWith(github.event.pull_request.title, 'Release v')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,6 +22,8 @@ jobs:
 
       - name: Extract tag name
         id: extract_tag
+        env:
+          PR_BODY: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
         run: |
           tag_name=$(echo "${{ github.event.pull_request.title }}" | sed -E 's/(Release|release)//' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
           echo "tag_name=$tag_name" >> $GITHUB_OUTPUT
@@ -27,18 +33,32 @@ jobs:
 
           latest_stable_tag=$(git tag -l 'v*' | grep -v '-' | sort -V | tail -n 1) # 上一个 stable 版本
           newest_tag=$(git describe --tags --match "v*" --abbrev=0) # 最新版本
-          echo "latest_stable_tag: $latest_stable_tag"
-          echo "newest_tag: $newest_tag"
+          echo "latest_stable_tag=$latest_stable_tag" >> $GITHUB_OUTPUT
+          echo "newest_tag=$newest_tag" >> $GITHUB_OUTPUT
 
-          if [[ $tag_name == *-* ]]; then                         # 判断新版本是否为 beta 版本
-            latest=$newest_tag # 若是，则将 latest 参数设置为最新版本
+          if [[ $tag_name == *-* ]]; then # 判断新版本是否为 beta 版本
+            latest=$newest_tag            # 若是，则将 latest 参数设置为最新版本
           else
-            latest=$latest_stable_tag # 若否，则设置为上一个 stable 版本
+            latest=$latest_stable_tag     # 若否，则设置为上一个 stable 版本
           fi
 
           echo "latest=$latest" >> $GITHUB_OUTPUT
 
           cat $GITHUB_OUTPUT
+
+          echo '======='
+
+          echo 'Target RP: ${{ github.event.pull_request.html_url }}' >> $PR_BODY
+          echo '' >> $PR_BODY
+          echo '<details><summary>Debug info</summary>' >> $PR_BODY
+          echo '' >> $PR_BODY
+          echo '```' >> $PR_BODY
+          sed 's/=/: /1' $GITHUB_OUTPUT >> $PR_BODY
+          echo '```' >> $PR_BODY
+          echo '' >> $PR_BODY
+          echo '</details>' >> $PR_BODY
+
+          cat $PR_BODY
 
       - name: Generate Changelog
         run: |
@@ -59,11 +79,11 @@ jobs:
           git commit -m "$commit_msg"
 
       - name: Create PR
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           title: ${{ steps.extract_tag.outputs.pr_title }}
-          body: ${{ github.event.pull_request.html_url }}
+          body-path: ${{ format('{0}/{1}', runner.temp, 'output' ) }}
           base: "dev"
           branch: "changelog"
           delete-branch: true
@@ -73,6 +93,6 @@ jobs:
             AnnAngela
 
       - name: Add reviewers to release PR
-        uses: kentaro-m/auto-assign-action@v1.2.5
+        uses: kentaro-m/auto-assign-action@v2.0.0
         with:
           configuration-path: ".github/release_reviewers.yaml"

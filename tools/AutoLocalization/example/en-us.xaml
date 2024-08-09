@@ -158,9 +158,9 @@
             <s:String x:Key="NotSelected">Not selected</s:String>
             <s:String x:Key="Official">Official (CN)</s:String>
             <s:String x:Key="Bilibili">Bilibili</s:String>
-            <s:String x:Key="YoStarEN">YoStarEN</s:String>
-            <s:String x:Key="YoStarJP">YoStarJP</s:String>
-            <s:String x:Key="YoStarKR">YoStarKR</s:String>
+            <s:String x:Key="YoStarEN">YostarEN</s:String>
+            <s:String x:Key="YoStarJP">YostarJP</s:String>
+            <s:String x:Key="YoStarKR">YostarKR</s:String>
             <s:String x:Key="txwy">txwy</s:String>
         </ResourceDictionary>
 
@@ -388,7 +388,7 @@
             <s:String x:Key="DepotRecognitionTip">This function is still a test version, please check if the recognition result is correct before using it. If there is an error, please submit the issue by compressing the debug/depot folder in the working path.</s:String>
             <s:String x:Key="StartToDepotRecognition">Start to identify</s:String>
             <s:String x:Key="ExportToArkplanner">Export to Arkplanner</s:String>
-            <s:String x:Key="ExportToLolicon">Export to Lolicon</s:String>
+            <s:String x:Key="ExportToLolicon">Export to Arkntools</s:String>
             <s:String x:Key="CopiedToClipboard">Copied to clipboard</s:String>
         </ResourceDictionary>
 

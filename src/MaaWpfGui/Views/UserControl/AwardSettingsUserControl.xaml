@@ -20,17 +20,33 @@
         <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource ReceiveDailyAndWeeklyAward}"
-                IsChecked="{Binding ReceiveAward}" />
+                IsChecked="{Binding ReceiveAward}">
+                <controls:TextBlock Text="{DynamicResource ReceiveDailyAndWeeklyAward}" TextWrapping="Wrap" />
+            </CheckBox>
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource ReceiveMail}"
                 IsChecked="{Binding ReceiveMail}" />
             <CheckBox
                 Margin="0,10"
-                Content="{DynamicResource ReceiveFreeRecruit}"
                 ToolTip="{DynamicResource ReceiveFreeRecruitTip}"
-                IsChecked="{Binding ReceiveFreeRecruit}" />
+                IsChecked="{Binding ReceiveFreeRecruit}">
+                <controls:TextBlock Text="{DynamicResource ReceiveFreeRecruit}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding ReceiveOrundum}">
+                <controls:TextBlock Text="{DynamicResource ReceiveOrundum}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                IsChecked="{Binding ReceiveMining}">
+                <controls:TextBlock Text="{DynamicResource ReceiveMining}" TextWrapping="Wrap" />
+            </CheckBox>
+            <CheckBox
+                Margin="0,10"
+                Content="{DynamicResource ReceiveSpecialAccess}"
+                IsChecked="{Binding ReceiveSpecialAccess}" />
         </StackPanel>
     </StackPanel>
 </UserControl>

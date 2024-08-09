@@ -37,6 +37,7 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       pre_version: ${{ steps.set_tag.outputs.pre_version }}
       main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
+      changelog: ${{ steps.generate_changelog.outputs.changelog }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,6 +60,9 @@ jobs:
       - name: Set tag
         id: set_tag
         run: |
+          # pre_version是上一个公版，这里需要拉上一个tag，避免堆积过多commit
+          $latest_tag=$(git describe --tags --abbrev=0)
+          echo "latest_tag=$latest_tag" >> $env:GITHUB_OUTPUT
           $described = $(git describe --tags --long --match 'v*')
           $ids = $($described -split "-")
           if ($ids.length -eq 3) {
@@ -89,6 +93,17 @@ jobs:
           git push --tags origin HEAD:refs/tags/$main_tag_name -f
           echo "main_tag_name=$main_tag_name" >> $env:GITHUB_OUTPUT
 
+      - name: Generate Changelog
+        id: generate_changelog
+        run: |
+          python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
+          $content=$(((Get-Content .\changelog.md) | Select-Object -Skip 2) -join "\n\n") 
+          echo "changelog=$content" >> $env:GITHUB_OUTPUT
+          echo $content
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PYTHONIOENCODING: "utf-8"
+
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
         uses: actions/cache@v4
@@ -97,7 +112,7 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj') }}
-  
+
       - name: Restore dependencies
         if: steps.cache-nuget.outputs.cache-hit != 'true'
         run: dotnet restore
@@ -105,6 +120,28 @@ jobs:
       - name: Bootstrap MaaDeps
         run: |
           python3 maadeps-download.py ${{ matrix.lowercase_target }}-windows
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Taggify Version
+        run: |
+          $csprojPath = "src/MaaWpfGui/MaaWpfGui.csproj"
+          $csprojPath = Resolve-Path -Path $csprojPath
+          $tag = '${{ steps.set_tag.outputs.tag }}' -replace '.*?/', ''
+          if ($tag -match '\d+(\.\d+){1,3}') {
+              $match = $Matches[0]
+          } else {
+              $match = "0.0.1"
+          }
+          echo "Tag value: $tag"
+          echo "Version value: $match"
+          [xml]$csproj = Get-Content -Path $csprojPath
+          $node = $csproj.Project.PropertyGroup | where {$_.ApplicationVersion -ne $null}
+          $node.InformationalVersion = $tag
+          $node.Version = $match
+          $node.FileVersion = $match
+          $node.AssemblyVersion = $match
+          $csproj.Save($csprojPath)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -211,7 +248,7 @@ jobs:
         run: |
           pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
           cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-          echo -e "${{ inputs.release_body || '' }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
+          echo -e "${{ inputs.release_body || '' }}\n\n${{ needs.build-win-nightly.outputs.changelog }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
           export r=$(cat alpha_changelog.md)
 
           # https://github.com/svenstaro/upload-release-action

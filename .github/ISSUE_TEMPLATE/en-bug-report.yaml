@@ -2,32 +2,32 @@ name: Bug Report (in English)
 description: >-
   Recognition errors, operation abnormalities,
   connection errors, etc.
-labels: ['bug']
+labels: ["bug"]
 body:
   - type: checkboxes
     id: checks
     attributes:
       label: Before raising the issue...
       options:
-      - label: >-
-          I understand that Issues are for feedback and problem solving,
-          not trolling the comments section, and will provide as
-          much information as possible to help solve the problem.
-        required: true
-      - label: >-
-          I filled in a short, clear title
-          so that developers could quickly identify the general problem
-          when going through the issue list.
-          Instead of "Some suggestions", "Stuck", etc.
-        required: true
-      - label: >-
-          I have checked the latest beta update and there is no mention
-          of the bug being fixed.
-        required: true
-      - label: >-
-          I have reviewed the pinned issues and confirmed that my issue
-          is not mentioned.
-        required: true
+        - label: >-
+            I understand that Issues are for feedback and problem solving,
+            not trolling the comments section, and will provide as
+            much information as possible to help solve the problem.
+          required: true
+        - label: >-
+            I filled in a short, clear title
+            so that developers could quickly identify the general problem
+            when going through the issue list.
+            Instead of "Some suggestions", "Stuck", etc.
+          required: true
+        - label: >-
+            I have checked the latest beta update and there is no mention
+            of the bug being fixed.
+          required: true
+        - label: >-
+            I have reviewed the pinned issues and confirmed that my issue
+            is not mentioned.
+          required: true
   - type: textarea
     id: describe
     attributes:
@@ -52,7 +52,7 @@ body:
     attributes:
       label: Log files
       description: >-
-        **Upload the `asst.log` and `gui.log` log file in the `debug` folder and**
+        **After closing the MAA, upload the `asst.log` and `gui.log` log file in the `debug` folder and**
         **indicate the approximate point in time when the problem occurred.**
 
         **Please drag and drop the full file in, not your own cuttings or copies;**

@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -14,7 +14,9 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
+using MaaWpfGui.Constants;
 using MaaWpfGui.Helper;
+using MaaWpfGui.Main;
 using MaaWpfGui.ViewModels.UI;
 using Serilog;
 
@@ -33,18 +35,20 @@ namespace MaaWpfGui.Views.UI
             InitializeComponent();
             InitIcon();
             _menuItemNum = notifyIcon.ContextMenu.Items.Count;
-            ToastNotification.ShowBalloonTip = notifyIcon.ShowBalloonTip;
-            ToastNotification.AddMenuItemOnFirst = AddMenuItemOnFirst;
         }
 
         private void InitIcon()
         {
+            notifyIcon.Icon = AppIcon.GetIcon();
+            notifyIcon.Visibility = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.UseTray, bool.TrueString)) ? Visibility.Visible : Visibility.Collapsed;
+
             notifyIcon.Click += NotifyIcon_MouseClick;
             notifyIcon.MouseDoubleClick += OnNotifyIconDoubleClick;
 
             startMenu.Click += StartTask;
             stopMenu.Click += StopTask;
             forceShowMenu.Click += ForceShow;
+            useTrayMenu.Click += UseTray;
             exitMenu.Click += App_exit;
 
             foreach (var lang in LocalizationHelper.SupportedLanguages)
@@ -103,11 +107,17 @@ namespace MaaWpfGui.Views.UI
             _logger.Information("WindowManager force show.");
         }
 
+        private void UseTray(object sender, RoutedEventArgs e)
+        {
+            Instances.SettingsViewModel.UseTray = !Instances.SettingsViewModel.UseTray;
+            _logger.Information("Use tray icon: {0}", Instances.SettingsViewModel.UseTray);
+        }
+
         private void App_exit(object sender, RoutedEventArgs e)
         {
             if (Instances.TaskQueueViewModel.ConfirmExit())
             {
-                Application.Current.Shutdown();
+                Bootstrapper.Shutdown();
             }
         }
 

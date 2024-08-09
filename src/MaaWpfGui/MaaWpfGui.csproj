@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  
+
   <!-- Project -->
   <PropertyGroup>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.17763.0</TargetFramework>
     <RuntimeIdentifier Condition="$(Platform)=='x64'">win-x64</RuntimeIdentifier>
     <RuntimeIdentifier Condition="$(Platform)=='ARM64'">win-arm64</RuntimeIdentifier>
     <OutputType>WinExe</OutputType>
@@ -11,6 +11,8 @@
     <UseWpf>true</UseWpf>
     <Configurations>Debug;Release;RelWithDebInfo</Configurations>
     <Platforms>ARM64;x64</Platforms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <XamlDebuggingInformation>True</XamlDebuggingInformation>
   </PropertyGroup>
 
   <!-- Build and Publish -->
@@ -88,6 +90,7 @@
   <!-- Nuget Packages -->
   <ItemGroup>
     <PackageReference Include="CalcBinding" Version="2.5.2" />
+    <PackageReference Include="DirectNCore" Version="1.16.1" />
     <PackageReference Include="FluentEmail.Liquid" Version="3.0.2" />
     <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
     <PackageReference Include="Fody" Version="6.8.0">
@@ -98,7 +101,7 @@
       <NoWarn>NU1701</NoWarn>
     </PackageReference>
     <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageReference Include="HandyControls" Version="3.5.0" />
+    <PackageReference Include="HandyControls" Version="3.5.2" />
     <PackageReference Include="MdXaml" Version="1.22.0" />
     <PackageReference Include="MdXaml.Html" Version="1.22.0" />
     <PackageReference Include="MdXaml.Plugins" Version="1.22.0" />

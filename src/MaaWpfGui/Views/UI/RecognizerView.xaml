@@ -30,8 +30,8 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
-                    PanningMode="Both"
-                    IsInertiaEnabled="True">
+                    IsInertiaEnabled="True"
+                    PanningMode="Both">
                     <StackPanel>
                         <controls:TextBlock
                             Height="36"
@@ -126,9 +126,10 @@
             </Grid>
         </TabItem>
         <TabItem Header="{DynamicResource OperBoxRecognition}">
-            <Grid Margin="20,0,20,20"
-                  Width="600"
-                  IsEnabled="{Binding Idle}">
+            <Grid
+                Width="600"
+                Margin="20,0,20,20"
+                IsEnabled="{Binding Idle}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="150" />
@@ -137,11 +138,10 @@
                     Grid.Row="0"
                     Margin="10,0"
                     VerticalAlignment="Top"
-                    PanningMode="Both"
-                    IsInertiaEnabled="True">
+                    IsInertiaEnabled="True"
+                    PanningMode="Both">
                     <StackPanel>
                         <controls:TextBlock
-                            Height="36"
                             Margin="10"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
@@ -151,12 +151,12 @@
                             Text="{Binding OperBoxInfo}"
                             TextWrapping="Wrap" />
                         <TextBox
-                            IsReadOnly="True"
                             Margin="10"
                             HorizontalAlignment="Stretch"
                             BorderThickness="0"
-                            FontFamily="SimSun"
+                            FontFamily="SimSun, Global Monospace"
                             FontSize="14"
+                            IsReadOnly="True"
                             Text="{Binding OperBoxResult}"
                             TextWrapping="Wrap" />
                     </StackPanel>
@@ -205,15 +205,33 @@
                 </StackPanel>
                 <DataGrid
                     Grid.Row="1"
-                    Width="600"
+                    Width="680"
                     HorizontalAlignment="Center"
+                    AutoGenerateColumns="False"
+                    HeadersVisibility="None"
                     IsReadOnly="True"
-                    ItemsSource="{Binding DepotResult}">
+                    ItemsSource="{Binding DepotResult}"
+                    ScrollViewer.CanContentScroll="True"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <DataGrid.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <UniformGrid Columns="3" />
+                            <WrapPanel  HorizontalAlignment="Center"/>
                         </ItemsPanelTemplate>
                     </DataGrid.ItemsPanel>
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image
+                                        Width="30"
+                                        Height="30"
+                                        Source="{Binding Image}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding Name}" Header="Name" />
+                        <DataGridTextColumn Binding="{Binding Count}" Header="Count" />
+                    </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel
                     Grid.Row="2"
@@ -358,8 +376,9 @@
                         Margin="6"
                         HorizontalAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Content="{DynamicResource GachaShowDisclaimerNoMore}"
-                        IsChecked="{Binding GachaShowDisclaimerNoMore}" />
+                        Content="{DynamicResource ShowDisclaimerNoMore}"
+                        IsChecked="{Binding GachaShowDisclaimerNoMore}"
+                        IsEnabled="False" />
                 </StackPanel>
 
                 <StackPanel

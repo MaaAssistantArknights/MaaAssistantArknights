@@ -10,10 +10,10 @@ bool asst::AvatarCacheManager::load(const std::filesystem::path& path)
     LogTraceFunction;
 
     if (path == m_save_path) {
-        Log.info("already loaded", path);
+        Log.info("already loaded", path.lexically_relative(UserDir.get()));
         return true;
     }
-    Log.info("load", path);
+    Log.info("load", path.lexically_relative(UserDir.get()));
 
     m_save_path = path;
 
@@ -44,6 +44,11 @@ const asst::AvatarCacheManager::AvatarsMap& asst::AvatarCacheManager::get_avatar
     return m_avatars[role];
 }
 
+void asst::AvatarCacheManager::remove_avatars(battle::Role role)
+{
+    m_avatars.erase(role);
+}
+
 void asst::AvatarCacheManager::set_avatar(const std::string& name, battle::Role role, const cv::Mat& avatar,
                                           bool overlay)
 {
@@ -64,7 +69,7 @@ void asst::AvatarCacheManager::set_avatar(const std::string& name, battle::Role 
     }
 
     auto path = m_save_path / utils::path(name + CacheExtension);
-    Log.info(path);
+    Log.info(path.lexically_relative(UserDir.get()));
 
     asst::imwrite(path, avatar);
 }
@@ -84,16 +89,19 @@ void asst::AvatarCacheManager::_load(LoadItem waiting_to_load)
 
     for (const auto& [role, name_and_paths] : waiting_to_load) {
         for (const auto& [name, filepath] : name_and_paths) {
-            Log.trace(__FUNCTION__, name, filepath);
+
+#ifdef ASST_DEBUG
+            Log.trace(__FUNCTION__, name, filepath.lexically_relative(UserDir.get()));
+#endif
 
             auto avatar = asst::imread(filepath);
 
             if (avatar.empty()) {
-                Log.error("load failed", filepath);
+                Log.error("load failed", filepath.lexically_relative(UserDir.get()));
                 continue;
             }
             if (avatar.cols != w || avatar.rows != h) {
-                Log.error("size mismatch", filepath, avatar.cols, avatar.rows);
+                Log.error("size mismatch", filepath.lexically_relative(UserDir.get()), avatar.cols, avatar.rows);
                 continue;
             }
 

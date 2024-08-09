@@ -207,7 +207,7 @@ void asst::InfrastOperImageAnalyzer::face_hash_analyze()
 {
     LogTraceFunction;
 
-    const Rect hash_rect_move = Task.get("InfrastOperFaceHash")->rect_move;
+    const Rect hash_rect_move = Task.get("InfrastOperFace")->rect_move;
 
     Hasher hash_analyzer(m_image);
 
@@ -228,8 +228,9 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 
     Matcher skill_analyzer(m_image);
 
-    skill_analyzer.set_mask_range(task_ptr->mask_range.first, task_ptr->mask_range.second);
+    skill_analyzer.set_mask_range(task_ptr->mask_range);
     skill_analyzer.set_threshold(task_ptr->templ_thresholds.front());
+    skill_analyzer.set_method(task_ptr->methods.front());
 
     for (auto&& oper : m_result) {
         Rect roi = task_ptr->rect_move;
@@ -357,8 +358,8 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
         cv::cvtColor(roi, hsv, cv::COLOR_BGR2HSV);
         std::vector<cv::Mat> channels;
         cv::split(hsv, channels);
-        int mask_lowb = selected_task_ptr->mask_range.first;
-        int mask_uppb = selected_task_ptr->mask_range.second;
+        int mask_lowb = selected_task_ptr->mask_range[0].first[0];
+        int mask_uppb = selected_task_ptr->mask_range[0].second[0];
 
         int count = 0;
         auto& h_channel = channels.at(0);
@@ -372,7 +373,7 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
         }
         Log.trace("selected_analyze |", count);
         oper.selected = count >= selected_task_ptr->templ_thresholds.front();
-        oper.rect = selected_rect; // 先凑合用（
+        oper.rect = selected_rect.move({ 18, 0, 10, 160 }); // 先凑合用（
     }
 }
 

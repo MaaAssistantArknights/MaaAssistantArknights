@@ -138,26 +138,43 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
     StageDropsImageAnalyzer analyzer(ctrler()->get_image());
 
     bool ret = false;
-    while (!need_exit()) {
-        ret = false;
+    auto append_image = [&]() {
+        while (!need_exit()) {
+            ret = false;
 
-        // more materials to reveal?
+            // more materials to reveal?
 
-        auto swipe_begin = Point { WindowWidthDefault - 40, 632 };
+            auto swipe_begin = Point { WindowWidthDefault - 240, 632 };
 
-        const int swipe_dist = 200;
-        ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
-        sleep(Config.get_options().task_delay * 3);
+            const int swipe_dist = 200;
+            ctrler()->swipe(swipe_begin, swipe_begin + swipe_dist * Point::left(), 500, true, 2, 0);
+            sleep(Config.get_options().task_delay * 3);
 
-        auto new_img = ctrler()->get_image();
+            auto new_img = ctrler()->get_image();
 
-        const auto offset_opt = analyzer.merge_image(new_img);
-        if (!offset_opt.has_value()) break;
-        const auto offset = offset_opt.value();
-        Log.trace("new image offset:", offset);
-        if (offset <= 4) {
+            const auto offset_opt = analyzer.merge_image(new_img);
+            if (!offset_opt.has_value()) {
+                break;
+            }
+            const auto offset = offset_opt.value();
+            Log.trace("new image offset:", offset);
+            if (offset <= 4) {
+                ret = true;
+                break;
+            }
+        }
+    };
+
+    if (!analyzer.analyze_baseline() || analyzer.get_baseline().empty()) {
+        append_image();
+    }
+    else {
+        const auto baseline = analyzer.get_baseline().back().first;
+        if (baseline.x + baseline.width >= WindowWidthDefault * 0.95) {
+            append_image();
+        }
+        else {
             ret = true;
-            break;
         }
     }
 
@@ -342,7 +359,7 @@ bool asst::StageDropsTaskPlugin::upload_to_server(const std::string& subtask, Re
         }
         json::value format_drop = drop;
         format_drop.as_object().erase("itemName");
-        all_drops.array_emplace(std::move(format_drop));
+        all_drops.emplace(std::move(format_drop));
     }
     body["source"] = UploadDataSource;
     body["version"] = Version;

@@ -306,7 +306,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         // 最后一页会触底反弹，先糊个屎避免一下
         // 总不能有成体系的干员了还没160个人吧）
         if(swipe_times > 20) {
-            sleep(1500);
+            sleep(500);
         }
     }
 
@@ -331,11 +331,7 @@ bool asst::InfrastAbstractTask::swipe_and_select_custom_opers(bool is_dorm_order
         order_opers_selection(opers_order);
     }
 
-    if (!room_config.names.empty()) {
-        return false;
-    }
-
-    if (!is_dorm_order && !select_opers_review(origin_room_config)) {
+    if (!room_config.names.empty() || (!is_dorm_order && !select_opers_review(origin_room_config))) {
         // 复核失败，说明current_room_config与OCR识别是不符的，current_room_config是无效信息，还原到用户原来的配置，重选
         current_room_config() = std::move(origin_room_config);
         return false;

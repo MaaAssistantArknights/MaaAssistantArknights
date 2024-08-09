@@ -316,8 +316,7 @@ size_t asst::InfrastProductionTask::opers_detect()
     const auto& cur_all_opers = oper_analyzer.get_result();
     max_num_of_opers_per_page = (std::max)(max_num_of_opers_per_page, cur_all_opers.size());
 
-    const int face_hash_thres =
-        std::dynamic_pointer_cast<HashTaskInfo>(Task.get("InfrastOperFaceHash"))->dist_threshold;
+    const int face_hash_thres = Task.get("InfrastOperFace")->special_params[0];
     const size_t pre_size = m_all_available_opers.size();
     for (const auto& cur_oper : cur_all_opers) {
         if (cur_oper.skills.empty()) {
@@ -511,11 +510,14 @@ bool asst::InfrastProductionTask::optimal_calc()
                         name_analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
                                                   Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
                         Log.trace("Analyze name filter");
-                        if (!name_analyzer.analyze()) {
-                            continue;
+                        if (name_analyzer.analyze()) {
+                            std::string name = name_analyzer.get_result().text;
+                            hash_matched =
+                                ranges::find(opt.name_filter, name) != opt.name_filter.cend();
                         }
-                        std::string name = name_analyzer.get_result().text;
-                        hash_matched = ranges::find(opt.name_filter, name) != opt.name_filter.cend();
+                        else {
+                            hash_matched = false;
+                        }
                     }
                     if (!hash_matched) {
                         ++find_iter;
@@ -585,8 +587,7 @@ bool asst::InfrastProductionTask::opers_choose()
     auto& facility_info = InfrastData.get_facility_info(facility_name());
     int cur_max_num_of_opers = facility_info.max_num_of_opers - m_cur_num_of_locked_opers;
 
-    const int face_hash_thres =
-        std::dynamic_pointer_cast<HashTaskInfo>(Task.get("InfrastOperFaceHash"))->dist_threshold;
+    const int face_hash_thres = Task.get("InfrastOperFace")->special_params[0];
 
     int count = 0;
     int swipe_times = 0;

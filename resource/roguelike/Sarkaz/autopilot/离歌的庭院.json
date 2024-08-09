@@ -1,0 +1,43 @@
+{
+    "stage_name": "离歌的庭院",
+    "replacement_home": [
+        {
+            "location": [5, 1],
+            "direction": "down"
+        }
+    ],
+    "blacklist_location": [],
+    "deploy_plan": [
+        {
+            "groups": ["高台输出"],
+            "location": [7, 3],
+            "direction": "left"
+        },
+        {
+            "groups": ["单奶", "群奶"],
+            "location": [6, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
+            "location": [5, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面阻挡", "地面远程"],
+            "location": [5, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台输出"],
+            "location": [3, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["补给站", "支援陷阱", "无人机"],
+            "location": [6, 2],
+            "direction": "left"
+        }
+    ],
+    "retreat_plan": []
+}

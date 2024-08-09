@@ -1,16 +1,18 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml"
+    xmlns:mdhtml="clr-namespace:MdXaml.Html;assembly=MdXaml.Html"
     xmlns:mdplug="clr-namespace:MdXaml.Plugins;assembly=MdXaml.Plugins"
-    xmlns:mdhtml="clr-namespace:MdXaml.Html;assembly=MdXaml.Html">
+    xmlns:mdxam="clr-namespace:MdXaml;assembly=MdXaml">
 
-    <!-- Based on from Sasabune
-    https://github.com/whistyun/MdXaml/blob/master/MdXaml/Markdown.Style.xaml  -->
+    <!--
+        Based on from Sasabune
+        https://github.com/whistyun/MdXaml/blob/master/MdXaml/Markdown.Style.xaml
+    -->
 
     <Style x:Key="MdXamlStyle" TargetType="FlowDocument">
         <Setter Property="Background" Value="{DynamicResource MdXamlBackground}" />
-        <Setter Property="FontFamily" Value="Microsoft YaHei" />
+        <Setter Property="FontFamily" Value="Microsoft YaHei, Global User Interface" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="TextAlignment" Value="Left" />
         <Setter Property="PagePadding" Value="10" />
@@ -19,52 +21,52 @@
             <Style TargetType="Section">
                 <Style.Triggers>
                     <Trigger Property="Tag" Value="Blockquote">
-                        <Setter Property="Padding" Value="10, 5" />
+                        <Setter Property="Padding" Value="10,5" />
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
                         <Setter Property="BorderBrush" Value="{DynamicResource MdXamlForeground}" />
                         <Setter Property="BorderThickness" Value="5,0,0,0" />
-                        <Setter Property="Margin" Value="0, 5, 5, 0" />
+                        <Setter Property="Margin" Value="0,5,5,0" />
                     </Trigger>
                 </Style.Triggers>
             </Style>
 
             <Style TargetType="Paragraph">
-                <Setter Property="Margin" Value="10, 5, 10, 5" />
+                <Setter Property="Margin" Value="10,5,10,5" />
                 <Style.Triggers>
                     <Trigger Property="Tag" Value="Heading1">
-                        <Setter Property="Margin" Value="0, 0, 15, 0" />
+                        <Setter Property="Margin" Value="0,0,15,0" />
                         <Setter Property="Foreground" Value="{DynamicResource MdXamlForeground}" />
                         <Setter Property="FontSize" Value="30" />
                         <Setter Property="FontWeight" Value="UltraBold" />
                         <Setter Property="TextAlignment" Value="Center" />
                     </Trigger>
                     <Trigger Property="Tag" Value="Heading2">
-                        <Setter Property="Margin" Value="5, 10, 15, 10" />
+                        <Setter Property="Margin" Value="5,10,15,10" />
                         <Setter Property="Foreground" Value="{DynamicResource MdXamlForeground}" />
                         <Setter Property="FontSize" Value="24" />
                         <Setter Property="FontWeight" Value="Bold" />
                     </Trigger>
                     <Trigger Property="Tag" Value="Heading3">
-                        <Setter Property="Margin" Value="5, 10, 10, 10" />
+                        <Setter Property="Margin" Value="5,10,10,10" />
                         <Setter Property="Foreground" Value="{DynamicResource MdXamlForeground}" />
                         <Setter Property="FontSize" Value="20" />
                         <Setter Property="FontWeight" Value="Bold" />
                     </Trigger>
                     <Trigger Property="Tag" Value="Heading4">
-                        <Setter Property="Margin" Value="5, 10, 5, 10" />
+                        <Setter Property="Margin" Value="5,10,5,10" />
                         <Setter Property="Foreground" Value="{DynamicResource MdXamlForeground}" />
                         <Setter Property="FontSize" Value="17" />
                         <Setter Property="FontWeight" Value="Bold" />
                     </Trigger>
                     <Trigger Property="Tag" Value="CodeBlock">
-                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei" />
+                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei, Global Monospace" />
                         <Setter Property="FontSize" Value="14" />
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
-                        <Setter Property="Padding" Value="20, 10" />
+                        <Setter Property="Padding" Value="20,10" />
                     </Trigger>
                     <Trigger Property="Tag" Value="Note">
                         <Setter Property="Margin" Value="5,0,5,0" />
-                        <Setter Property="Padding" Value="10, 5" />
+                        <Setter Property="Padding" Value="10,5" />
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
                         <Setter Property="BorderBrush" Value="{DynamicResource MdXamlCodeBackground}" />
                         <Setter Property="BorderThickness" Value="3,3,3,3" />
@@ -76,7 +78,7 @@
                 <Style.Triggers>
                     <Trigger Property="Tag" Value="CodeSpan">
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
-                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei" />
+                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei, Global Monospace" />
                         <Setter Property="FontSize" Value="14" />
                     </Trigger>
                 </Style.Triggers>
@@ -86,7 +88,7 @@
                 <Style.Triggers>
                     <Trigger Property="Tag" Value="CodeSpan">
                         <Setter Property="Background" Value="{DynamicResource MdXamlCodeBackground}" />
-                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei" />
+                        <Setter Property="FontFamily" Value="Consolas, Microsoft YaHei, Global Monospace" />
                         <Setter Property="FontSize" Value="14" />
                     </Trigger>
                 </Style.Triggers>
@@ -112,10 +114,10 @@
             </Style>
 
             <!--
-			The Table's style don't seem to support border-collapse.
-			By making the ruled line width 0.5 and applying it to cell and table,
-			it looks like the ruled lines are not doubled.
-		    -->
+                The Table's style don't seem to support border-collapse.
+                By making the ruled line width 0.5 and applying it to cell and table,
+                it looks like the ruled lines are not doubled.
+            -->
             <Style TargetType="Table">
                 <Setter Property="CellSpacing" Value="0" />
                 <Setter Property="BorderThickness" Value="0.5" />
@@ -124,7 +126,7 @@
                     <Style TargetType="TableCell">
                         <Setter Property="BorderThickness" Value="0.5" />
                         <Setter Property="BorderBrush" Value="{DynamicResource MdXamlForeground}" />
-                        <Setter Property="Padding" Value="13, 6" />
+                        <Setter Property="Padding" Value="13,6" />
                     </Style>
                 </Style.Resources>
             </Style>
@@ -134,7 +136,7 @@
                     <Trigger Property="Tag" Value="TableHeader">
                         <Setter Property="FontWeight" Value="DemiBold" />
                         <Setter Property="FontWeight" Value="Bold" />
-                        <Setter Property="Background" Value="{DynamicResource MdXamlBackground}"/>
+                        <Setter Property="Background" Value="{DynamicResource MdXamlBackground}" />
                     </Trigger>
                 </Style.Triggers>
             </Style>

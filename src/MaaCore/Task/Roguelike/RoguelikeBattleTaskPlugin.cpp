@@ -7,6 +7,7 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
 #include "Config/Roguelike/RoguelikeCopilotConfig.h"
@@ -23,15 +24,20 @@
 using namespace asst::battle;
 using namespace asst::battle::roguelike;
 
-asst::RoguelikeBattleTaskPlugin::RoguelikeBattleTaskPlugin(const AsstCallback& callback, Assistant* inst,
-                                                           std::string_view task_chain,
-                                                           std::shared_ptr<RoguelikeConfig> roguelike_config_ptr)
-    : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, roguelike_config_ptr), BattleHelper(inst)
-{}
+asst::RoguelikeBattleTaskPlugin::RoguelikeBattleTaskPlugin(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain,
+    std::shared_ptr<RoguelikeConfig> roguelike_config_ptr)
+    : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, roguelike_config_ptr)
+    , BattleHelper(inst)
+{
+}
 
 bool asst::RoguelikeBattleTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
-    if (msg != AsstMsg::SubTaskCompleted || details.get("subtask", std::string()) != "ProcessTask") {
+    if (msg != AsstMsg::SubTaskCompleted
+        || details.get("subtask", std::string()) != "ProcessTask") {
         return false;
     }
 
@@ -101,10 +107,14 @@ void asst::RoguelikeBattleTaskPlugin::wait_until_start_button_clicked()
         .run();
 }
 
-std::string asst::RoguelikeBattleTaskPlugin::oper_name_in_config(const battle::DeploymentOper& oper) const
+std::string
+    asst::RoguelikeBattleTaskPlugin::oper_name_in_config(const battle::DeploymentOper& oper) const
 {
     if (oper.role == Role::Warrior && oper.name == "阿米娅") {
         return "阿米娅-WARRIOR"; // 在 BattleData.json 中有
+    }
+    else if (oper.role == Role::Medic && oper.name == "阿米娅") {
+        return "阿米娅-MEDIC"; // 在 BattleData.json 中有
     }
     else {
         return oper.name;
@@ -123,8 +133,10 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     const auto stage_name_task_ptr = Task.get("BattleStageName");
     sleep(stage_name_task_ptr->pre_delay);
 
-    constexpr int StageNameRetryTimes = 100;
-    for (int i = 0; i != StageNameRetryTimes; ++i) {
+    auto start = std::chrono::steady_clock::now();
+    constexpr auto kTimeout = std::chrono::seconds(20);
+
+    while (std::chrono::steady_clock::now() - start < kTimeout) {
         if (need_exit()) {
             return false;
         }
@@ -138,7 +150,10 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             continue;
         }
 
-        static const std::vector<std::string> RoguelikeStageCode = { "ISW-NO", "ISW-DF", "ISW-DU", "ISW-SP",
+        static const std::vector<std::string> RoguelikeStageCode = { "ISW-NO",
+                                                                     "ISW-DF",
+                                                                     "ISW-DU",
+                                                                     "ISW-SP",
                                                                      std::string() };
         TilePack::LevelKey stage_key;
         stage_key.name = text;
@@ -150,8 +165,12 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
             }
             calced = true;
             m_stage_name = text;
-            m_normal_tile_info = Tile.calc(stage_key, false);
-            m_side_tile_info = Tile.calc(stage_key, true);
+            m_map_data = TilePack::find_level(stage_key).value_or(Map::Level {});
+            auto calc_result = TilePack::calc(m_map_data);
+            m_normal_tile_info = std::move(calc_result.normal_tile_info);
+            m_side_tile_info = std::move(calc_result.side_tile_info);
+            m_retreat_button_pos = calc_result.retreat_button;
+            m_skill_button_pos = calc_result.skill_button;
             break;
         }
 
@@ -166,16 +185,26 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
         return false;
     }
 
-    auto opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+    std::optional<CombatData> opt;
+    if (m_config->get_mode() == RoguelikeMode::CLP_PDS) {
+        opt = RoguelikeCopilot.get_stage_data(m_stage_name + "_collapse");
+        if (opt == std::nullopt) {
+            opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+        }
+    } else {
+        opt = RoguelikeCopilot.get_stage_data(m_stage_name);
+    }
+
     if (opt) {
         m_homes = opt->replacement_home;
         m_allow_to_use_dice = opt->use_dice_stage;
         m_blacklist_location = opt->blacklist_location;
         m_role_order = opt->role_order;
         m_force_deploy_direction = opt->force_deploy_direction;
-        m_force_air_defense = AirDefenseData { .stop_blocking_deploy_num = opt->stop_deploy_blocking_num,
-                                               .deploy_air_defense_num = opt->force_deploy_air_defense_num,
-                                               .ban_medic = opt->force_ban_medic };
+        m_force_air_defense =
+            AirDefenseData { .stop_blocking_deploy_num = opt->stop_deploy_blocking_num,
+                             .deploy_air_defense_num = opt->force_deploy_air_defense_num,
+                             .ban_medic = opt->force_ban_medic };
         m_deploy_plan = opt->deploy_plan;
         m_retreat_plan = opt->retreat_plan;
     }
@@ -194,9 +223,10 @@ bool asst::RoguelikeBattleTaskPlugin::calc_stage_info()
     }
     else {
         auto homes_pos = m_homes | views::transform(&ReplacementHome::location);
-        auto invalid_homes_pos =
-            homes_pos | views::filter([&](const auto& home_pos) { return !m_normal_tile_info.contains(home_pos); }) |
-            views::transform(&Point::to_string);
+        auto invalid_homes_pos = homes_pos | views::filter([&](const auto& home_pos) {
+                                     return !m_normal_tile_info.contains(home_pos);
+                                 })
+                                 | views::transform(&Point::to_string);
         if (!invalid_homes_pos.empty()) {
             Log.error("No replacement homes point:", invalid_homes_pos);
         }
@@ -224,7 +254,8 @@ asst::battle::LocationType asst::RoguelikeBattleTaskPlugin::get_oper_location_ty
     return BattleData.get_location_type(oper_name_in_config(oper));
 }
 
-asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(const battle::Role& role) const
+asst::battle::OperPosition
+    asst::RoguelikeBattleTaskPlugin::get_role_position(const battle::Role& role) const
 {
     switch (role) {
     case battle::Role::Support:
@@ -238,7 +269,8 @@ asst::battle::OperPosition asst::RoguelikeBattleTaskPlugin::get_role_position(co
         return battle::OperPosition::Blocking;
         break;
     case battle::Role::Medic:
-        return m_force_air_defense.ban_medic ? battle::OperPosition::None : battle::OperPosition::AirDefense;
+        return m_force_air_defense.ban_medic ? battle::OperPosition::None
+                                             : battle::OperPosition::AirDefense;
         break;
     case battle::Role::Special:
     case battle::Role::Drone:
@@ -252,7 +284,9 @@ void asst::RoguelikeBattleTaskPlugin::cache_oper_elite_status()
 {
     const auto& oper_list = m_config->get_oper();
     for (const auto& oper : m_cur_deployment_opers) {
-        m_oper_elite.emplace(oper.name, oper_list.contains(oper.name) ? oper_list.at(oper.name).elite : 0);
+        m_oper_elite.emplace(
+            oper.name,
+            oper_list.contains(oper.name) ? oper_list.at(oper.name).elite : 0);
     }
 }
 
@@ -283,7 +317,9 @@ void asst::RoguelikeBattleTaskPlugin::set_position_full(const Point& loc, bool f
     }
 }
 
-void asst::RoguelikeBattleTaskPlugin::set_position_full(const battle::DeploymentOper& oper, bool full)
+void asst::RoguelikeBattleTaskPlugin::set_position_full(
+    const battle::DeploymentOper& oper,
+    bool full)
 {
     set_position_full(get_oper_location_type(oper), full);
 }
@@ -346,7 +382,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
         // 获取招募信息
         const auto& recruit_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), oper_name);
         // 获取会用到该干员的干员组[干员组1序号,干员组2序号,...]
-        std::vector<int> group_ids = RoguelikeRecruit.get_group_id(m_config->get_theme(), oper_name);
+        std::vector<int> group_ids =
+            RoguelikeRecruit.get_group_id(m_config->get_theme(), oper_name);
 
         for (const auto& group_id : group_ids) {
             // 当前干员组名,string类型
@@ -355,7 +392,12 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
             if (m_deploy_plan.contains(group_name)) {
                 for (const auto& info : m_deploy_plan[group_name]) {
                     if (m_kills < info.kill_lower_bound || m_kills > info.kill_upper_bound) {
-                        Log.debug("    deploy info", oper.name, "in group", group_name, "is waiting.");
+                        Log.debug(
+                            "    deploy info",
+                            oper.name,
+                            "in group",
+                            group_name,
+                            "is waiting.");
                         is_success = true; // 如果发现了待命干员，此函数最终返回true
                         continue;
                     }
@@ -366,13 +408,22 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
                     // deploy_plan.oper_order_in_group = recruit_info.order_in_group.at(group_id);
 
                     deploy_plan.oper_order_in_group =
-                        recruit_info.order_in_group.empty() ? INT_MAX : recruit_info.order_in_group.at(group_id);
+                        recruit_info.order_in_group.empty()
+                            ? INT_MAX
+                            : recruit_info.order_in_group.at(group_id);
                     deploy_plan.rank = info.rank;
                     deploy_plan.placed = info.location;
                     deploy_plan.direction = info.direction;
                     deploy_plan_list.emplace_back(deploy_plan);
-                    Log.debug("    deploy info", deploy_plan.oper_name, "is No. ", deploy_plan.oper_order_in_group + 1,
-                              "in group", group_name, ", with deploy command rank", deploy_plan.rank);
+                    Log.debug(
+                        "    deploy info",
+                        deploy_plan.oper_name,
+                        "is No. ",
+                        deploy_plan.oper_order_in_group + 1,
+                        "in group",
+                        group_name,
+                        ", with deploy command rank",
+                        deploy_plan.rank);
                 }
             }
             else {
@@ -382,22 +433,29 @@ bool asst::RoguelikeBattleTaskPlugin::do_best_deploy()
     }
     std::sort(deploy_plan_list.begin(), deploy_plan_list.end());
     for (const auto& deploy_plan : deploy_plan_list) {
-        if (!m_used_tiles.contains(deploy_plan.placed) &&
-            !m_blacklist_location.contains(deploy_plan.placed) /* 判断该位置是否已被占据 */) {
-
-            if (auto oper_it = ranges::find_if(m_cur_deployment_opers,
-                                               [&](const auto& oper) { return oper.name == deploy_plan.oper_name; });
+        if (!m_used_tiles.contains(deploy_plan.placed)
+            && !m_blacklist_location.contains(deploy_plan.placed) /* 判断该位置是否已被占据 */) {
+            if (auto oper_it = ranges::find_if(
+                    m_cur_deployment_opers,
+                    [&](const auto& oper) { return oper.name == deploy_plan.oper_name; });
                 oper_it == m_cur_deployment_opers.end() || !oper_it->available) { // 等费
-                Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank,
-                          "but now waiting for cost.");
+                Log.trace(
+                    "    best deploy is",
+                    deploy_plan.oper_name,
+                    "with rank",
+                    deploy_plan.rank,
+                    "but now waiting for cost.");
                 return true;
             }
             deploy_oper(deploy_plan.oper_name, deploy_plan.placed, deploy_plan.direction);
+            // 防止滑动丢失(有些物体比如鸟笼没有方向),点一下右下角费用那里
+            asst::BattleHelper::cancel_oper_selection();
             // 开始计时
             auto deployed_time = std::chrono::steady_clock::now();
             m_deployed_time.insert_or_assign(deploy_plan.oper_name, deployed_time);
             // 获取技能用法和使用次数
-            const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
+            const auto& oper_info =
+                RoguelikeRecruit.get_oper_info(m_config->get_theme(), deploy_plan.oper_name);
             m_skill_usage[deploy_plan.oper_name] = oper_info.skill_usage;
             m_skill_times[deploy_plan.oper_name] = oper_info.skill_times;
             Log.trace("    best deploy is", deploy_plan.oper_name, "with rank", deploy_plan.rank);
@@ -411,7 +469,21 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
 {
     check_drone_tiles();
 
+    // TODO: move this to controller
+    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static const auto min_frame_interval =
+        std::chrono::milliseconds(Config.get_options().roguelike_fight_screencap_interval);
+
+    // prevent our program from consuming too much CPU
+    if (const auto now = std::chrono::steady_clock::now();
+        prev_frame_time > now - min_frame_interval) [[unlikely]] {
+        Log.debug("Sleeping for framerate limit");
+        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
+    }
+
     cv::Mat image = ctrler()->get_image();
+    prev_frame_time = std::chrono::steady_clock::now();
+
     if (!m_first_deploy) {
         use_all_ready_skill(image);
     }
@@ -429,8 +501,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), name);
         auto iter = m_deployed_time.find(name);
         if (iter != m_deployed_time.end() && oper_info.auto_retreat > 0) {
-            if (std::chrono::steady_clock::now() - m_deployed_time.at(name) >=
-                oper_info.auto_retreat * std::chrono::seconds(1)) {
+            if (std::chrono::steady_clock::now() - m_deployed_time.at(name)
+                >= oper_info.auto_retreat * std::chrono::seconds(1)) {
                 // 时间到了就撤退
                 asst::BattleHelper::retreat_oper(name);
                 m_deployed_time.erase(name);
@@ -449,14 +521,18 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     size_t cur_available_count = 0;   // without drones
     size_t cur_deployments_count = 0; // without drones
     for (const auto& oper : m_cur_deployment_opers) {
-        if (oper.role == Role::Drone) continue;
+        if (oper.role == Role::Drone) {
+            continue;
+        }
 
         ++cur_deployments_count;
         if (oper.cooling) {
             cur_cooling.emplace(oper.name);
             m_deployed_time.erase(oper.name);
         }
-        if (oper.available) ++cur_available_count;
+        if (oper.available) {
+            ++cur_available_count;
+        }
     }
 
     if (do_best_deploy()) { // 这是新的部署逻辑，更加精确
@@ -486,8 +562,9 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
             m_cur_home_index = *urgent_home_opt;
 
             if (m_allow_to_use_dice) {
-                auto dice_key_iter = ranges::find_if(m_cur_deployment_opers,
-                                                     [&](const auto& oper) { return DiceSet.contains(oper.name); });
+                auto dice_key_iter = ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) {
+                    return DiceSet.contains(oper.name);
+                });
                 if (dice_key_iter != m_cur_deployment_opers.end()) {
                     best_oper_is_dice = true;
                     best_oper = *dice_key_iter;
@@ -496,6 +573,10 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         }
 
         Log.info("To path", m_cur_home_index);
+
+        if (!update_deployment(false, image, true)) {
+            return false;
+        }
 
         if (!best_oper_is_dice) {
             if (auto best_oper_opt = calc_best_oper()) {
@@ -523,7 +604,8 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
         auto deployed_time = std::chrono::steady_clock::now();
         m_deployed_time.insert_or_assign(best_oper.name, deployed_time);
         // 获取技能用法和使用次数
-        const auto& oper_info = RoguelikeRecruit.get_oper_info(m_config->get_theme(), best_oper.name);
+        const auto& oper_info =
+            RoguelikeRecruit.get_oper_info(m_config->get_theme(), best_oper.name);
         m_skill_usage[best_oper.name] = oper_info.skill_usage;
         m_skill_times[best_oper.name] = oper_info.skill_times;
 
@@ -540,16 +622,18 @@ bool asst::RoguelikeBattleTaskPlugin::do_once()
     return true;
 }
 
-void asst::RoguelikeBattleTaskPlugin::postproc_of_deployment_conditions(const battle::DeploymentOper& oper,
-                                                                        const Point& placed_loc,
-                                                                        battle::DeployDirection direction)
+void asst::RoguelikeBattleTaskPlugin::postproc_of_deployment_conditions(
+    const battle::DeploymentOper& oper,
+    const Point& placed_loc,
+    battle::DeployDirection direction)
 {
     // 如果是医疗干员，判断覆盖范围内有无第一次放置的干员
     if (oper.role == battle::Role::Medic) {
         std::vector<size_t> contain_index;
         for (const Point& relative_pos : get_attack_range(oper, direction)) {
             Point absolute_pos = placed_loc + relative_pos;
-            if (auto iter = m_blocking_for_home_index.find(absolute_pos); iter != m_blocking_for_home_index.end()) {
+            if (auto iter = m_blocking_for_home_index.find(absolute_pos);
+                iter != m_blocking_for_home_index.end()) {
                 m_homes_status[iter->second].wait_medic = false;
                 contain_index.emplace_back(iter->second);
             }
@@ -574,7 +658,8 @@ void asst::RoguelikeBattleTaskPlugin::postproc_of_deployment_conditions(const ba
     case OperPosition::AirDefense:
         if (!m_force_air_defense.has_finished_deploy_air_defense) {
             m_force_air_defense.has_deployed_air_defense_num++;
-            if (m_force_air_defense.has_deployed_air_defense_num >= m_force_air_defense.deploy_air_defense_num) {
+            if (m_force_air_defense.has_deployed_air_defense_num
+                >= m_force_air_defense.deploy_air_defense_num) {
                 m_force_air_defense.has_finished_deploy_air_defense = true;
                 Log.info("FORCE RANGED OPER DEPLOY END");
             }
@@ -584,7 +669,8 @@ void asst::RoguelikeBattleTaskPlugin::postproc_of_deployment_conditions(const ba
         break;
     }
 
-    if (m_force_air_defense.has_finished_deploy_air_defense && position != OperPosition::AirDefense) {
+    if (m_force_air_defense.has_finished_deploy_air_defense
+        && position != OperPosition::AirDefense) {
         Log.info("FORCE RANGED OPER DEPLOY END");
         m_force_air_defense.has_finished_deploy_air_defense = true;
     }
@@ -597,7 +683,12 @@ void asst::RoguelikeBattleTaskPlugin::check_drone_tiles()
     while ((!m_need_clear_tiles.empty()) && m_need_clear_tiles.top().placed_time < now_time) {
         const auto& placed_loc = m_need_clear_tiles.top().placed_loc;
         if (auto iter = m_used_tiles.find(placed_loc); iter != m_used_tiles.end()) {
-            Log.info("Drone at location (", placed_loc.x, ",", placed_loc.y, ") is recognized as retreated");
+            Log.info(
+                "Drone at location (",
+                placed_loc.x,
+                ",",
+                placed_loc.y,
+                ") is recognized as retreated");
             set_position_full(placed_loc, false);
             m_battlefield_opers.erase(iter->second);
             m_used_tiles.erase(iter);
@@ -606,9 +697,10 @@ void asst::RoguelikeBattleTaskPlugin::check_drone_tiles()
     }
 }
 
-std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(const std::unordered_set<std::string>& pre_cooling,
-                                                                    const std::unordered_set<std::string>& cur_cooling,
-                                                                    const std::map<std::string, Point>& pre_battlefield)
+std::optional<size_t> asst::RoguelikeBattleTaskPlugin::check_urgent(
+    const std::unordered_set<std::string>& pre_cooling,
+    const std::unordered_set<std::string>& cur_cooling,
+    const std::map<std::string, Point>& pre_battlefield)
 {
     std::vector<size_t> new_urgent;
     for (const auto& name : cur_cooling) {
@@ -690,19 +782,31 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         }
     }
 
-    bool use_air_defense =
-        has_air_defense && !m_force_air_defense.has_finished_deploy_air_defense &&
-        m_force_air_defense.has_deployed_blocking_num >= m_force_air_defense.stop_blocking_deploy_num && !m_ranged_full;
-    bool use_blocking = has_blocking && m_homes_status[m_cur_home_index].wait_blocking && !m_melee_full;
+    bool use_air_defense = has_air_defense && !m_force_air_defense.has_finished_deploy_air_defense
+                           && m_force_air_defense.has_deployed_blocking_num
+                                  >= m_force_air_defense.stop_blocking_deploy_num
+                           && !m_ranged_full;
+    bool use_blocking =
+        has_blocking && m_homes_status[m_cur_home_index].wait_blocking && !m_melee_full;
     bool use_medic = has_medic && m_homes_status[m_cur_home_index].wait_medic && !m_ranged_full;
-    Log.trace("use_air_defense", use_air_defense, ", use_blocking", use_blocking, ", use_medic", use_medic);
+    Log.trace(
+        "use_air_defense",
+        use_air_defense,
+        ", use_blocking",
+        use_blocking,
+        ", use_medic",
+        use_medic);
 
     std::vector<DeploymentOper> cur_available;
     for (const auto& oper : m_cur_deployment_opers) {
-        if (oper.available) cur_available.emplace_back(oper);
+        if (oper.available) {
+            cur_available.emplace_back(oper);
+        }
     }
     // 费用高的优先用，放前面
-    ranges::sort(cur_available, [](const auto& lhs, const auto& rhs) { return lhs.cost > rhs.cost; });
+    ranges::sort(cur_available, [](const auto& lhs, const auto& rhs) {
+        return lhs.cost > rhs.cost;
+    });
 
     DeploymentOper best_oper;
 
@@ -738,7 +842,7 @@ std::optional<asst::battle::DeploymentOper> asst::RoguelikeBattleTaskPlugin::cal
         Log.info("No best oper");
         return std::nullopt;
     }
-    Log.info("best oper is", best_oper.name);
+    Log.info("best oper is", best_oper.name, "with cost being", best_oper.cost);
     return best_oper;
 }
 
@@ -784,7 +888,8 @@ void asst::RoguelikeBattleTaskPlugin::clear()
     m_oper_elite.clear();
 }
 
-std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(const DeploymentOper& oper) const
+std::vector<asst::Point>
+    asst::RoguelikeBattleTaskPlugin::available_locations(const DeploymentOper& oper) const
 {
     auto type = get_oper_location_type(oper);
     if (type == LocationType::Invalid || type == LocationType::None) {
@@ -793,15 +898,18 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(co
     return available_locations(type);
 }
 
-std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(battle::LocationType type) const
+std::vector<asst::Point>
+    asst::RoguelikeBattleTaskPlugin::available_locations(battle::LocationType type) const
 {
     std::vector<Point> result;
     for (const auto& [loc, tile] : m_normal_tile_info) {
-        bool position_matched = tile.buildable == type || tile.buildable == battle::LocationType::All;
-        position_matched |= (type == battle::LocationType::All) && (tile.buildable == battle::LocationType::Melee ||
-                                                                    tile.buildable == battle::LocationType::Ranged);
-        if (position_matched &&
-            tile.key != TilePack::TileKey::DeepSea && // 水上要先放板子才能放人，肉鸽里也没板子，那就当作不可放置
+        bool position_matched =
+            tile.buildable == type || tile.buildable == battle::LocationType::All;
+        position_matched |= (type == battle::LocationType::All)
+                            && (tile.buildable == battle::LocationType::Melee
+                                || tile.buildable == battle::LocationType::Ranged);
+        if (position_matched && tile.key != TilePack::TileKey::DeepSea
+            && // 水上要先放板子才能放人，肉鸽里也没板子，那就当作不可放置
             !m_used_tiles.contains(loc) && !m_blacklist_location.contains(loc)) {
             result.emplace_back(loc);
         }
@@ -809,8 +917,9 @@ std::vector<asst::Point> asst::RoguelikeBattleTaskPlugin::available_locations(ba
     return result;
 }
 
-asst::battle::AttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(const battle::DeploymentOper& oper,
-                                                                            DeployDirection direction) const
+asst::battle::AttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(
+    const battle::DeploymentOper& oper,
+    DeployDirection direction) const
 {
     int64_t elite = 0;
     if (m_oper_elite.contains(oper.name)) {
@@ -856,20 +965,25 @@ asst::battle::AttackRange asst::RoguelikeBattleTaskPlugin::get_attack_range(cons
         }
     }
 
-    for (auto cur_direction :
-         { DeployDirection::Right, DeployDirection::Up, DeployDirection::Left, DeployDirection::Down }) {
-        if (cur_direction == direction) break;
+    for (auto cur_direction : { DeployDirection::Right,
+                                DeployDirection::Up,
+                                DeployDirection::Left,
+                                DeployDirection::Down }) {
+        if (cur_direction == direction) {
+            break;
+        }
 
         // rotate relative attack range counterclockwise
-        for (Point& point : right_attack_range)
+        for (Point& point : right_attack_range) {
             point = { point.y, -point.x };
+        }
     }
 
     return right_attack_range;
 }
 
-std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo> asst::RoguelikeBattleTaskPlugin::calc_best_loc(
-    const battle::DeploymentOper& oper) const
+std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo>
+    asst::RoguelikeBattleTaskPlugin::calc_best_loc(const battle::DeploymentOper& oper) const
 {
     size_t home_index = m_cur_home_index;
     if (home_index >= m_homes.size()) {
@@ -908,10 +1022,12 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo> asst::RoguelikeBattle
     // 取距离最近的N个点，计算分数。然后使用得分最高的点
     constexpr int CalcPointCount = 4;
     for (const auto& loc : available_loc | views::take(CalcPointCount)) {
-        const auto& [cur_direction, cur_socre] = calc_best_direction_and_score(loc, oper, home.direction);
+        const auto& [cur_direction, cur_socre] =
+            calc_best_direction_and_score(loc, oper, home.direction);
         // 离得远的要扣分
         constexpr int DistWeights = -1050;
-        int extra_dist = std::abs(loc.x - home.location.x) + std::abs(loc.y - home.location.y) - min_dist;
+        int extra_dist =
+            std::abs(loc.x - home.location.x) + std::abs(loc.y - home.location.y) - min_dist;
         int extra_dist_score = DistWeights * extra_dist;
         if (oper.role == battle::Role::Medic) { // 医疗干员离得远无所谓
             extra_dist_score = 0;
@@ -925,7 +1041,8 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo> asst::RoguelikeBattle
     }
 
     // 强制变化为确定的攻击方向
-    if (auto iter = m_force_deploy_direction.find(best_location); iter != m_force_deploy_direction.end()) {
+    if (auto iter = m_force_deploy_direction.find(best_location);
+        iter != m_force_deploy_direction.end()) {
         if (iter->second.role.contains(oper.role)) {
             best_direction = iter->second.direction;
         }
@@ -934,8 +1051,11 @@ std::optional<asst::RoguelikeBattleTaskPlugin::DeployInfo> asst::RoguelikeBattle
     return DeployInfo { best_location, best_direction };
 }
 
-asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlugin::calc_best_direction_and_score(
-    Point loc, const battle::DeploymentOper& oper, DeployDirection recommended_direction) const
+asst::RoguelikeBattleTaskPlugin::DirectionAndScore
+    asst::RoguelikeBattleTaskPlugin::calc_best_direction_and_score(
+        Point loc,
+        const battle::DeploymentOper& oper,
+        DeployDirection recommended_direction) const
 {
     LogTraceFunction;
 
@@ -991,8 +1111,10 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
     int max_score = 0;
     DeployDirection best_direction = DeployDirection::None;
 
-    for (auto direction :
-         { DeployDirection::Right, DeployDirection::Up, DeployDirection::Left, DeployDirection::Down }) {
+    for (auto direction : { DeployDirection::Right,
+                            DeployDirection::Up,
+                            DeployDirection::Left,
+                            DeployDirection::Down }) {
         int score = 0;
         // 按朝右算，后面根据方向做转换
         for (const Point& relative_pos : get_attack_range(oper, direction)) {
@@ -1001,12 +1123,14 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
             using TileKey = TilePack::TileKey;
             // 战斗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyFightWeights = {
-                { TileKey::Invalid, 0 },    { TileKey::Forbidden, 0 },  { TileKey::Wall, 500 },
-                { TileKey::Road, 1000 },    { TileKey::Home, 500 },     { TileKey::EnemyHome, 1000 },
-                { TileKey::Airport, 1000 }, { TileKey::Floor, 1000 },   { TileKey::Hole, 0 },
-                { TileKey::Telin, 700 },    { TileKey::Telout, 800 },   { TileKey::Grass, 500 },
-                { TileKey::DeepSea, 1000 }, { TileKey::Volcano, 1000 }, { TileKey::Healing, 1000 },
-                { TileKey::Fence, 800 },
+                { TileKey::Invalid, 0 },    { TileKey::Forbidden, 0 },
+                { TileKey::Wall, 500 },     { TileKey::Road, 1000 },
+                { TileKey::Home, 500 },     { TileKey::EnemyHome, 1000 },
+                { TileKey::Airport, 1000 }, { TileKey::Floor, 1000 },
+                { TileKey::Hole, 0 },       { TileKey::Telin, 700 },
+                { TileKey::Telout, 800 },   { TileKey::Grass, 500 },
+                { TileKey::DeepSea, 1000 }, { TileKey::Volcano, 1000 },
+                { TileKey::Healing, 1000 }, { TileKey::Fence, 800 },
             };
             // 治疗干员朝向的权重
             static const std::unordered_map<TileKey, int> TileKeyMedicWeights = {
@@ -1021,15 +1145,21 @@ asst::RoguelikeBattleTaskPlugin::DirectionAndScore asst::RoguelikeBattleTaskPlug
             switch (oper.role) {
             case battle::Role::Medic:
                 if (auto iter = m_used_tiles.find(absolute_pos);
-                    iter != m_used_tiles.cend() &&
-                    BattleData.get_role(iter->second) != battle::Role::Drone) // 根据哪个方向上人多决定朝向哪
+                    iter != m_used_tiles.cend()
+                    && BattleData.get_role(iter->second)
+                           != battle::Role::Drone) { // 根据哪个方向上人多决定朝向哪
                     score += 10000;
-                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
+                }
+                if (auto iter = m_side_tile_info.find(absolute_pos);
+                    iter != m_side_tile_info.end()) {
                     score += TileKeyMedicWeights.at(iter->second.key);
+                }
                 break;
             default:
-                if (auto iter = m_side_tile_info.find(absolute_pos); iter != m_side_tile_info.end())
+                if (auto iter = m_side_tile_info.find(absolute_pos);
+                    iter != m_side_tile_info.end()) {
                     score += TileKeyFightWeights.at(iter->second.key);
+                }
                 break;
             }
         }

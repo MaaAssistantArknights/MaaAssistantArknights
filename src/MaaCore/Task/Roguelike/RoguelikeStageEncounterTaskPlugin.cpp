@@ -1,13 +1,11 @@
 #include "RoguelikeStageEncounterTaskPlugin.h"
 
 #include "Config/Roguelike/RoguelikeStageEncounterConfig.h"
-#include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/ImageIo.hpp"
 #include "Utils/Logger.hpp"
-#include "Vision/OCRer.h"
 
 bool asst::RoguelikeStageEncounterTaskPlugin::verify(AsstMsg msg, const json::value& details) const
 {
@@ -38,18 +36,11 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
 {
     LogTraceFunction;
 
-    auto mode = m_config->get_mode();
-    std::vector<RoguelikeEvent> events = RoguelikeStageEncounter.get_events(m_config->get_theme());
-    // 刷源石锭模式和烧水模式
-    if (mode == RoguelikeMode::Investment || mode == RoguelikeMode::Collectible) {
-        events = RoguelikeStageEncounter.get_events(m_config->get_theme() + "_deposit");
-    }
-    std::vector<std::string> event_names;
-    std::unordered_map<std::string, RoguelikeEvent> event_map;
-    for (const auto& event : events) {
-        event_names.emplace_back(event.name);
-        event_map.emplace(event.name, event);
-    }
+    const std::string& theme = m_config->get_theme();
+    const RoguelikeMode& mode = m_config->get_mode();
+    std::unordered_map<std::string, Config::RoguelikeEvent> event_map = RoguelikeStageEncounter.get_events(theme, mode);
+    std::vector<std::string> event_names = RoguelikeStageEncounter.get_event_names(theme);
+    
     const auto event_name_task_ptr = Task.get("Roguelike@StageEncounterOcr");
     sleep(event_name_task_ptr->pre_delay);
 
@@ -64,26 +55,144 @@ bool asst::RoguelikeStageEncounterTaskPlugin::_run()
         Log.info("Unknown Event");
         return true;
     }
-    const auto& resultVec = name_analyzer.get_result();
-    if (resultVec.empty()) {
+    const auto& result_vec = name_analyzer.get_result();
+    if (result_vec.empty()) {
         Log.info("Unknown Event");
         return true;
     }
-    std::string text = resultVec.front().text;
+    std::string text = result_vec.front().text;
 
-    RoguelikeEvent event = event_map.at(text);
+    Config::RoguelikeEvent event = event_map.at(text);
 
-    Log.info("Event:", event.name, "choose option", event.default_choose);
+    int special_val = 0;
+    // 水月的不好识别，先试试萨米能不能用
+    if (m_config->get_theme() == RoguelikeTheme::Sami) {
+        OCRer analyzer(image);
+        analyzer.set_task_info(m_config->get_theme() + "@Roguelike@SpecialValRecognition");
+        analyzer.set_replace(Task.get<OcrTaskInfo>("NumberOcrReplace")->replace_map);
+        analyzer.set_use_char_model(true);
+
+        if (!analyzer.analyze()) {
+            return false;
+        }
+        utils::chars_to_number(analyzer.get_result().front().text, special_val);
+    }
+
+    // 现在只有抗干扰值判断
+    int choose_option = process_task(event, special_val);
+    Log.info("Event:", event.name, "special_val", special_val, "choose option", choose_option);
+
     auto info = basic_info_with_what("RoguelikeEvent");
     info["details"]["name"] = event.name;
     info["details"]["default_choose"] = event.default_choose;
+    info["details"]["choose_option"] = choose_option;
     callback(AsstMsg::SubTaskExtraInfo, info);
+
+    const auto click_option_task_name = [&](const int item, const int total) {
+        return m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(total) + "-"
+               + std::to_string(item);
+    };
+
     for (int j = 0; j < 2; ++j) {
-        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@OptionChoose" + std::to_string(event.option_num) + "-" +
-                             std::to_string(event.default_choose) })
-            .run();
+        ProcessTask(*this, { click_option_task_name(choose_option, event.option_num) }).run();
         sleep(300);
     }
 
+    // 判断是否点击成功，成功进入对话后左上角的生命值会消失
+    sleep(500);
+    image = ctrler()->get_image();
+    if (hp(image) <= 0) {
+        return true;
+    }
+
+    int max_time = event.option_num;
+    while (max_time > 0) {
+        // 从下往上点
+        for (int i = max_time; i > 0; --i) {
+            for (int j = 0; j < 2; ++j) {
+                ProcessTask(*this, { click_option_task_name(i, max_time) }).run();
+                sleep(300);
+            }
+
+            if (need_exit()) {
+                return false;
+            }
+
+            sleep(500);
+            image = ctrler()->get_image();
+            if (hp(image) <= 0) {
+                return true;
+            }
+        }
+        // 没通关结局有些事件会少选项
+        --max_time;
+    }
+
+    return false;
+}
+
+bool asst::RoguelikeStageEncounterTaskPlugin::satisfies_condition(
+    const Config::ChoiceRequire& requirement,
+    const int special_val)
+{
+    int value = 0;
+    bool ret = utils::chars_to_number(requirement.vision.value, value);
+    Log.trace("special_val: ", special_val, "value: ", value);
+    switch (requirement.vision.type) {
+    case Config::ComparisonType::GreaterThan:
+        ret &= special_val > value;
+        Log.trace("special_val > value: ", special_val > value ? "true" : "false");
+        break;
+    case Config::ComparisonType::LessThan:
+        ret &= special_val < value;
+        Log.trace("special_val < value: ", special_val < value ? "true" : "false");
+        break;
+    case Config::ComparisonType::Equal:
+        ret &= special_val == value;
+        Log.trace("special_val == value: ", special_val == value ? "true" : "false");
+        break;
+    case Config::ComparisonType::None:
+        Log.warn("no vision type");
+        break;
+    case Config::ComparisonType::Unsupported:
+        Log.warn("unsupported vision type");
+        return false;
+    }
+    /*
+    switch (requirement.hp.type) {
+        // ...
+    }
+    */
+    if (!ret) {
+        return false;
+    }
     return true;
+}
+
+int asst::RoguelikeStageEncounterTaskPlugin::process_task(
+    const Config::RoguelikeEvent& event,
+    const int special_val)
+{
+    for (const auto& requirement : event.choice_require) {
+        if (requirement.choose == -1) {
+            continue;
+        }
+        if (satisfies_condition(requirement, special_val)) {
+            return requirement.choose;
+        }
+    }
+    return event.default_choose;
+}
+
+int asst::RoguelikeStageEncounterTaskPlugin::hp(const cv::Mat& image)
+{
+    int hp_val;
+    asst::OCRer analyzer(image);
+    analyzer.set_task_info("Roguelike@HpRecognition");
+
+    auto res_vec_opt = analyzer.analyze();
+    if (!res_vec_opt) {
+        return -1;
+    }
+    return utils::chars_to_number(res_vec_opt->front().text, hp_val) ? hp_val : 0;
 }

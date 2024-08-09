@@ -3,13 +3,14 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System;
 using System.Collections.Generic;
@@ -65,8 +66,8 @@ namespace MaaWpfGui.ViewModels.UI
             return Regex.Replace(text, @"([^\[`]|^)@([^\s]+)", "$1[@$2](https://github.com/$2)");
         }
 
-        private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion());
-        private string _latestVersion;
+        private readonly string _curVersion = Marshal.PtrToStringAnsi(MaaService.AsstGetVersion()) ?? "0.0.1";
+        private string _latestVersion = string.Empty;
 
         private string _updateTag = ConfigFactory.Root.VersionUpdate.Name;
 
@@ -111,7 +112,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _updateUrl;
+        private string _updateUrl = string.Empty;
 
         /// <summary>
         /// Gets or sets the update URL.
@@ -171,8 +172,8 @@ namespace MaaWpfGui.ViewModels.UI
 
         private const string MaaUpdateApi = "https://ota.maa.plus/MaaAssistantArknights/api/version/summary.json";
 
-        private JObject _latestJson;
-        private JObject _assetsObject;
+        private JObject? _latestJson;
+        private JObject? _assetsObject;
 
         /// <summary>
         /// 检查是否有已下载的更新包
@@ -256,7 +257,15 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                     }
 
-                    File.Move(path, moveTo);
+                    try
+                    {
+                        File.Move(path, moveTo);
+                    }
+                    catch (Exception e)
+                    {
+                        _logger.Error($"move file error, path: {path}, moveTo: {moveTo}, error: {e.Message}");
+                        throw;
+                    }
                 }
             }
 
@@ -279,18 +288,26 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 string curFileName = file.Replace(extractDir, curDir);
-                if (File.Exists(curFileName))
+                try
                 {
-                    string moveTo = file.Replace(extractDir, oldFileDir);
-                    if (File.Exists(moveTo))
+                    if (File.Exists(curFileName))
                     {
-                        DeleteFileWithBackup(moveTo);
+                        string moveTo = file.Replace(extractDir, oldFileDir);
+                        if (File.Exists(moveTo))
+                        {
+                            DeleteFileWithBackup(moveTo);
+                        }
+
+                        File.Move(curFileName, moveTo);
                     }
 
-                    File.Move(curFileName, moveTo);
+                    File.Move(file, curFileName);
                 }
-
-                File.Move(file, curFileName);
+                catch (Exception e)
+                {
+                    _logger.Error($"move file error, file name: {file}, error: {e.Message}");
+                    throw;
+                }
             }
 
             // 操作完了，把解压的文件删了
@@ -300,7 +317,6 @@ namespace MaaWpfGui.ViewModels.UI
             // 保存更新信息，下次启动后会弹出已更新完成的提示
             UpdatePackageName = string.Empty;
             IsFirstBootAfterUpdate = true;
-            ConfigurationHelper.Release();
             return true;
 
             static void DeleteFileWithBackup(string filePath)
@@ -309,8 +325,9 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     File.Delete(filePath);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    _logger.Error($"delete file error, filePath: {filePath}, error: {e.Message}, try to backup.");
                     int index = 0;
                     string currentDate = DateTime.Now.ToString("yyyyMMddHHmm");
                     string backupFilePath = $"{filePath}.{currentDate}.{index}";
@@ -321,7 +338,15 @@ namespace MaaWpfGui.ViewModels.UI
                         backupFilePath = $"{filePath}.{currentDate}.{index}";
                     }
 
-                    File.Move(filePath, backupFilePath);
+                    try
+                    {
+                        File.Move(filePath, backupFilePath);
+                    }
+                    catch (Exception e1)
+                    {
+                        _logger.Error($"move file error, path: {filePath}, moveTo: {backupFilePath}, error: {e1.Message}");
+                        throw;
+                    }
                 }
             }
         }
@@ -343,6 +368,11 @@ namespace MaaWpfGui.ViewModels.UI
             /// 无需更新
             /// </summary>
             NoNeedToUpdate,
+
+            /// <summary>
+            /// 调试版本无需更新
+            /// </summary>
+            NoNeedToUpdateDebugVersion,
 
             /// <summary>
             /// 已经是最新版
@@ -380,6 +410,21 @@ namespace MaaWpfGui.ViewModels.UI
             Native,
         }
 
+        private bool _doNotShowUpdate = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the update.
+        /// </summary>
+        public bool DoNotShowUpdate
+        {
+            get => _doNotShowUpdate;
+            set
+            {
+                SetAndNotify(ref _doNotShowUpdate, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.VersionUpdateDoNotShowUpdate, value.ToString());
+            }
+        }
+
         /// <summary>
         /// 如果是在更新后第一次启动，显示ReleaseNote弹窗，否则检查更新并下载更新包。
         /// </summary>
@@ -388,20 +433,26 @@ namespace MaaWpfGui.ViewModels.UI
             if (IsFirstBootAfterUpdate)
             {
                 IsFirstBootAfterUpdate = false;
-                Instances.WindowManager.ShowWindow(this);
+                if (!DoNotShowUpdate)
+                {
+                    Instances.WindowManager.ShowWindow(this);
+                }
             }
             else
             {
-#if RELEASE
-                var ret = await CheckAndDownloadUpdate();
-                if (ret == CheckUpdateRetT.OK)
+                if (!IsDebugVersion())
                 {
-                    AskToRestart();
+                    var ret = await CheckAndDownloadUpdate();
+                    if (ret == CheckUpdateRetT.OK)
+                    {
+                        AskToRestart();
+                    }
                 }
-#else
-                // 跑个空任务避免 async warning
-                await Task.Run(() => { });
-#endif
+                else
+                {
+                    // 跑个空任务避免 async warning
+                    await Task.Run(() => { });
+                }
             }
         }
 
@@ -415,7 +466,7 @@ namespace MaaWpfGui.ViewModels.UI
                 return ret;
             }
 
-            var resRet = await ResourceUpdater.Update();
+            var resRet = await ResourceUpdater.UpdateAsync();
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
                 Instances.SettingsViewModel.IsCheckingForUpdates = false;
@@ -446,10 +497,10 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 // 保存新版本的信息
-                var name = _latestJson["name"]?.ToString();
-                UpdateTag = name == string.Empty ? _latestJson["tag_name"]?.ToString() : name;
-                var body = _latestJson["body"]?.ToString();
-                if (body == string.Empty)
+                var name = _latestJson?["name"]?.ToString();
+                UpdateTag = string.IsNullOrEmpty(name) ? (_latestJson?["tag_name"]?.ToString() ?? string.Empty) : name;
+                var body = _latestJson?["body"]?.ToString() ?? string.Empty;
+                if (string.IsNullOrEmpty(body))
                 {
                     var curHash = ComparableHash(_curVersion);
                     var latestHash = ComparableHash(_latestVersion);
@@ -461,7 +512,7 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 UpdateInfo = body;
-                UpdateUrl = _latestJson["html_url"]?.ToString();
+                UpdateUrl = _latestJson?["html_url"]?.ToString() ?? string.Empty;
 
                 bool otaFound = _assetsObject != null;
                 bool goDownload = otaFound && Instances.SettingsViewModel.AutoDownloadUpdatePackage;
@@ -504,8 +555,7 @@ namespace MaaWpfGui.ViewModels.UI
                         }
                     }
 
-                    toast.AddButtonLeft(text, action);
-                    toast.ButtonSystemUrl = UpdateUrl;
+                    toast.AddButton(text, ToastNotification.GetActionTagForOpenWeb(UpdateUrl));
                     toast.ShowUpdateVersion();
                 });
 
@@ -522,7 +572,7 @@ namespace MaaWpfGui.ViewModels.UI
                     return CheckUpdateRetT.FailedToGetInfo;
                 }
 
-                string rawUrl = _assetsObject["browser_download_url"]?.ToString();
+                string? rawUrl = _assetsObject["browser_download_url"]?.ToString();
                 var mirrors = _assetsObject["mirrors"]?.ToObject<List<string>>();
 
                 var urls = new List<string>();
@@ -546,7 +596,7 @@ namespace MaaWpfGui.ViewModels.UI
                 var latencies = await Task.WhenAll(tasks);
 
                 var proxy = ConfigFactory.Root.VersionUpdate.Proxy;
-                var hasProxy = string.IsNullOrEmpty(proxy);
+                var hasProxy = !string.IsNullOrEmpty(proxy);
 
                 // select the fastest mirror
                 _logger.Information("Selecting the fastest mirror:");
@@ -594,10 +644,9 @@ namespace MaaWpfGui.ViewModels.UI
                     OutputDownloadProgress(downloading: false, output: LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                     _ = Execute.OnUIThreadAsync(() =>
                     {
-                        using var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
-                        toast.ButtonSystemUrl = UpdateUrl;
+                        var toast = new ToastNotification(LocalizationHelper.GetString("NewVersionDownloadFailedTitle"));
                         toast.AppendContentText(LocalizationHelper.GetString("NewVersionDownloadFailedDesc"))
-                             .AddButtonLeft(text, action)
+                             .AddButton(text, ToastNotification.GetActionTagForOpenWeb(UpdateUrl))
                              .Show();
                     });
                     return CheckUpdateRetT.NoNeedToUpdate;
@@ -605,7 +654,7 @@ namespace MaaWpfGui.ViewModels.UI
 
                 return CheckUpdateRetT.OK;
 
-                string ComparableHash(string version)
+                string? ComparableHash(string version)
                 {
                     if (IsStdVersion(version))
                     {
@@ -658,7 +707,7 @@ namespace MaaWpfGui.ViewModels.UI
             // 调试版不检查更新
             if (IsDebugVersion())
             {
-                return CheckUpdateRetT.FailedToGetInfo;
+                return CheckUpdateRetT.NoNeedToUpdateDebugVersion;
             }
 
             try
@@ -674,7 +723,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<CheckUpdateRetT> CheckUpdateByMaaApi()
         {
-            string response;
+            string? response;
             try
             {
                 response = await Instances.HttpService.GetStringAsync(new Uri(MaaUpdateApi)).ConfigureAwait(false);
@@ -690,13 +739,13 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            if (!(JsonConvert.DeserializeObject(response) is JObject json))
+            if (JsonConvert.DeserializeObject(response) is not JObject json)
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            string latestVersion;
-            string detailUrl;
+            string? latestVersion;
+            string? detailUrl;
             if (Instances.SettingsViewModel.UpdateNightly)
             {
                 latestVersion = json["alpha"]?["version"]?.ToString();
@@ -713,6 +762,9 @@ namespace MaaWpfGui.ViewModels.UI
                 detailUrl = json["stable"]?["detail"]?.ToString();
             }
 
+            latestVersion ??= string.Empty;
+            detailUrl ??= string.Empty;
+
             if (!NeedToUpdate(latestVersion))
             {
                 return CheckUpdateRetT.AlreadyLatest;
@@ -723,7 +775,7 @@ namespace MaaWpfGui.ViewModels.UI
 
         private async Task<CheckUpdateRetT> GetVersionDetailsByMaaApi(string url)
         {
-            string response;
+            string? response;
             try
             {
                 response = await Instances.HttpService.GetStringAsync(new Uri(url)).ConfigureAwait(false);
@@ -739,12 +791,12 @@ namespace MaaWpfGui.ViewModels.UI
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            if (!(JsonConvert.DeserializeObject(response) is JObject json))
+            if (JsonConvert.DeserializeObject(response) is not JObject json)
             {
                 return CheckUpdateRetT.FailedToGetInfo;
             }
 
-            string latestVersion = json["version"]?.ToString();
+            string? latestVersion = json["version"]?.ToString();
             if (string.IsNullOrEmpty(latestVersion))
             {
                 return CheckUpdateRetT.FailedToGetInfo;
@@ -764,14 +816,13 @@ namespace MaaWpfGui.ViewModels.UI
 
             _assetsObject = null;
 
-            JObject fullPackage = null;
+            JObject? fullPackage = null;
 
             var curVersionLower = _curVersion.ToLower();
             var latestVersionLower = _latestVersion.ToLower();
-            foreach (var curAssets in ((JArray)_latestJson["assets"])!)
+            foreach (var curAssets in ((JArray?)_latestJson["assets"])!)
             {
-                string name = curAssets["name"]?.ToString().ToLower();
-
+                string? name = curAssets["name"]?.ToString().ToLower();
                 if (name == null)
                 {
                     continue;
@@ -867,7 +918,7 @@ namespace MaaWpfGui.ViewModels.UI
 
             var log = new LogItemViewModel(downloading ? LocalizationHelper.GetString("NewVersionFoundDescDownloading") + "\n" + output : output, UiLogColor.Download);
 
-            Application.Current.Dispatcher.Invoke(() =>
+            Execute.OnUIThread(() =>
             {
                 if (_logItemViewModels.Count > 0 && _logItemViewModels[0].Color == UiLogColor.Download)
                 {
@@ -888,13 +939,17 @@ namespace MaaWpfGui.ViewModels.UI
             });
         }
 
-        public bool IsDebugVersion(string version = null)
+        public bool IsDebugVersion(string? version = null)
         {
             version ??= _curVersion;
-            return version.Contains("DEBUG");
+
+            // match case 1: DEBUG VERSION
+            // match case 2: v{Major}.{Minor}.{Patch}-{CommitDistance}-g{CommitHash}
+            // match case 3: {CommitHash}
+            return Regex.IsMatch(version, @"^(.*DEBUG.*|v\d+(\.\d+){1,3}-\d+-g[0-9a-f]{7,}|[^v][0-9a-f]{7,})$");
         }
 
-        public bool IsStdVersion(string version = null)
+        public bool IsStdVersion(string? version = null)
         {
             // 正式版：vX.X.X
             // DevBuild (CI)：yyyy-MM-dd-HH-mm-ss-{CommitHash[..7]}

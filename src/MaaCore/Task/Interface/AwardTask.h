@@ -19,5 +19,8 @@ namespace asst
         std::shared_ptr<ProcessTask> award_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> mail_task_ptr = nullptr;
         std::shared_ptr<ProcessTask> recruit_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> orundum_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> mining_task_ptr = nullptr;
+        std::shared_ptr<ProcessTask> specialaccess_task_ptr = nullptr;
     };
 }

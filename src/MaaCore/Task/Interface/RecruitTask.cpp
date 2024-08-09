@@ -52,6 +52,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
     bool expedite = params.get("expedite", false);
     [[maybe_unused]] int expedite_times = params.get("expedite_times", 0);
     bool skip_robot = params.get("skip_robot", true);
+    std::vector<std::string> first_tags = params.get("first_tags", std::vector<std::string>(0));
 
     std::unordered_map<int /*level*/, int /*minute*/> recruitment_time_map;
     recruitment_time_map[3] = std::clamp(params.get("recruitment_time", "3", 9 * 60), 1 * 60, 9 * 60);
@@ -71,6 +72,7 @@ bool asst::RecruitTask::set_params(const json::value& params)
         .set_need_refresh(refresh)
         .set_use_expedited(expedite)
         .set_select_extra_tags(extra_tags_mode)
+        .set_first_tags(first_tags)
         .set_select_level(std::move(select))
         .set_confirm_level(std::move(confirm))
         .set_skip_robot(skip_robot)

@@ -157,9 +157,9 @@ bool asst::CombatRecordRecognitionTask::analyze_formation()
         std::vector<battle::OperUsage> opers;
         opers.emplace_back(battle::OperUsage { name, 0, battle::SkillUsage::NotUse });
         json::object oper_json { { "name", name }, { "skill", 0 }, { "skill_usage", 0 } };
-        m_copilot_json["opers"].array_emplace(std::move(oper_json));
+        m_copilot_json["opers"].emplace(std::move(oper_json));
 
-        cb_formation.array_emplace(name);
+        cb_formation.emplace(name);
         asst::imwrite(utils::path("debug/video_export/formation/") / utils::path(name + ".png"), avatar);
     }
     callback(AsstMsg::SubTaskCompleted, cb_info);
@@ -218,7 +218,8 @@ bool asst::CombatRecordRecognitionTask::analyze_stage()
         callback(AsstMsg::SubTaskError, basic_info_with_what("OcrStage"));
         return false;
     }
-    m_normal_tile_info = Tile.calc(m_stage_name, false);
+    auto calc_result = Tile.calc(m_stage_name);
+    m_normal_tile_info = std::move(calc_result.normal_tile_info);
 
     m_copilot_json["stage_name"] = m_stage_name;
     m_copilot_json["minimum_required"] = "v4.0.0";
@@ -782,6 +783,7 @@ void asst::CombatRecordRecognitionTask::ananlyze_deployment_names(ClipInfo& clip
         }
         BestMatcher avatar_analyzer(oper.avatar);
         static const double threshold = Task.get<MatchTaskInfo>("BattleAvatarDataForVideo")->templ_thresholds.front();
+        avatar_analyzer.set_method(MatchMethod::Ccoeff);
         avatar_analyzer.set_threshold(threshold);
         // static const double drone_threshold = Task.get<MatchTaskInfo>("BattleDroneAvatarData")->templ_threshold;
         // avatar_analyzer.set_threshold(oper.role == battle::Role::Drone ? drone_threshold : threshold);

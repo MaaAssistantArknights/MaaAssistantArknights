@@ -1,0 +1,87 @@
+name: Auto Optimize PNG Templates
+
+on:
+  push:
+    branches:
+      - "dev"
+    paths:
+      - "resource/global/txwy/resource/template/**"
+      - "resource/global/YostarEN/resource/template/**"
+      - "resource/global/YostarJP/resource/template/**"
+      - "resource/global/YostarKR/resource/template/**"
+      - "resource/template/**"
+      - "docs/.vuepress/public/image/**"
+      - "website/apps/web/public/**"
+      - "website/apps/web/src/assets/links/**"
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: "Commit Message"
+        type: string
+        required: false
+
+jobs:
+  optimize-png:
+    # Skip workflow to prevent double consecutive runs
+    if: ${{ github.event.head_commit.author.email != '41898282+github-actions[bot]@users.noreply.github.com' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          persist-credentials: false
+
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache Python packages
+        id: cache_python
+        if: always()
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.pythonLocation }}/lib/python3.11/site-packages
+          key: ${{ runner.os }}-pip-optimize-templates-${{ hashFiles('./tools/OptimizeTemplates/requirements.txt') }}
+
+      - name: Install dependencies
+        if: steps.cache_python.outputs.cache-hit != 'true'
+        run: |
+          pip install -r tools/OptimizeTemplates/requirements.txt
+
+      - name: Setup oxipng
+        uses: baptiste0928/cargo-install@v3
+        with:
+          crate: oxipng
+
+      - name: Run optimize_templates
+        run: |
+          python3 tools/OptimizeTemplates/optimize_templates.py
+
+      - name: Commit changes
+        id: commit_changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add .
+
+          if git diff-index --quiet HEAD --; then
+            echo "No changes to commit"
+          else
+            commit_msg="${{ github.event.inputs.commit_message }}"
+            if [ -z "$commit_msg" ]; then
+              commit_msg="chore: Auto Templates Optimization"
+            fi
+            git commit -m "$commit_msg" -m "[skip changelog]"
+            git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
+            echo "have_commits=True" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Push changes
+        if: steps.commit_changes.outputs.have_commits == 'True'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
+          branch: ${{ github.ref }}

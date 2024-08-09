@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -18,6 +18,8 @@ using System.Windows;
 using System.Windows.Documents;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Main;
+using MaaWpfGui.WineCompat;
+using MaaWpfGui.WineCompat.FontConfig;
 using Serilog;
 
 namespace MaaWpfGui
@@ -44,6 +46,12 @@ namespace MaaWpfGui
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (WineRuntimeInformation.IsRunningUnderWine && MaaDesktopIntegration.Availabile)
+            {
+                // override buintin font map as early as possible
+                FontConfigIntegration.Install();
+            }
+
             base.OnStartup(e);
 
             string[] args = e.Args;

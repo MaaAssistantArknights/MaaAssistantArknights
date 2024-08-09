@@ -1,0 +1,24 @@
+{
+  "name": "maa-website",
+  "version": "1.0.0",
+  "description": "Maa website monorepo",
+  "main": "index.js",
+  "repository": "https://github.com/MaaAssistantArknights/maa-website",
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "build": "turbo run build && node bundler.mjs",
+    "dev": "turbo run dev",
+    "dev:home": "turbo run dev:home",
+    "dev:docs": "turbo run dev:docs",
+    "lint": "turbo run lint",
+    "lint:js": "turbo run lint:js",
+    "lint:prettier": "turbo run lint:prettier",
+    "lintfix": "turbo run lintfix"
+  },
+  "private": true,
+  "devDependencies": {
+    "prettier": "^2.6.2",
+    "turbo": "^2.0.9"
+  },
+  "packageManager": "pnpm@9.5.0"
+}

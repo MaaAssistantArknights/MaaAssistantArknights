@@ -35,8 +35,10 @@ bool asst::MallTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
+    bool visit_friends = params.get("visit_friends", true);
     bool shopping = params.get("shopping", true);
 
+    m_visit_task_ptr->set_enable(visit_friends);
     if (shopping) {
         if (auto buy_first_opt = params.find<json::array>("buy_first")) {
             std::vector<std::string> buy_first;

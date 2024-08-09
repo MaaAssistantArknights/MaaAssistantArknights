@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:styles="clr-namespace:MaaWpfGui.Styles"
     x:Name="ErrorViewWindow"
+    Icon="../../newlogo.ico"
     Title="{DynamicResource Error}"
     Width="600"
     Height="480"

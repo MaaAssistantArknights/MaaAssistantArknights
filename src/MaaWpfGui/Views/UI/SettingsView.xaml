@@ -52,36 +52,38 @@
                 <userControl:TimerSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
                 <hc:Divider Content="{Binding ListTitle[2]}" />
-                <userControl:GameClientUserControl
-                    Margin="0,20"
-                    HorizontalAlignment="Center"
-                    IsEnabled="{Binding Idle}" />
+                <userControl:PerformanceUserControl Margin="0,20" HorizontalAlignment="Center" IsEnabled="{Binding Idle}" />
 
                 <hc:Divider Content="{Binding ListTitle[3]}" />
+                <userControl:GameClientUserControl
+                    Margin="0,20"
+                    HorizontalAlignment="Center"/>
+
+                <hc:Divider Content="{Binding ListTitle[4]}" />
                 <userControl:ConnectSettingsUserControl
                     Margin="0,20"
                     HorizontalAlignment="Center"
                     IsEnabled="{Binding Idle}" />
 
-                <hc:Divider Content="{Binding ListTitle[4]}" />
+                <hc:Divider Content="{Binding ListTitle[5]}" />
                 <userControl:StartSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[5]}" />
+                <hc:Divider Content="{Binding ListTitle[6]}" />
                 <userControl:RemoteControlUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[6]}" />
+                <hc:Divider Content="{Binding ListTitle[7]}" />
                 <userControl:GUISettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[7]}" />
+                <hc:Divider Content="{Binding ListTitle[8]}" />
                 <userControl:ExternalNotificationSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[8]}" />
+                <hc:Divider Content="{Binding ListTitle[9]}" />
                 <userControl:HotKeySettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[9]}" />
+                <hc:Divider Content="{Binding ListTitle[10]}" />
                 <userControl:VersionUpdateSettingsUserControl Margin="0,20" HorizontalAlignment="Center" />
 
-                <hc:Divider Content="{Binding ListTitle[10]}" />
+                <hc:Divider Content="{Binding ListTitle[11]}" />
                 <userControl:AboutUserControl Margin="0,20" HorizontalAlignment="Center" />
                 <!--<Rectangle HorizontalAlignment="Stretch" Fill="{DynamicResource BorderBrush}" Height="1" />-->
             </StackPanel>

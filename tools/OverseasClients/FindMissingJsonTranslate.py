@@ -6,12 +6,13 @@ import re
 # NOTE
 # You may customize here
 regex_ignore_list = [
-    "Sami",
     "SSSBuffChoose",
     "Roguelike@LevelName_normal_mode",
     "Reclamation@ClickAnyZoneOcr",
     "MiningActivities",
-    "RecruitingActivities"
+    "RecruitingActivities",
+    "Reclamation2",
+    "Sami@Roguelike@FoldartalGainOcr"
 ]
 
 server_list = [

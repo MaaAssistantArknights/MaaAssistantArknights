@@ -38,6 +38,7 @@
                         VerticalContentAlignment="Center"
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseMedicineWithNull}"
+                        IsEnabled="{c:Binding !UseStone}"
                         MouseRightButtonUp="{s:Action ToggleCheckBoxNullOnRightClick,
                                                       Target={x:Type helper:CheckBoxHelper}}"
                         ToolTip="{DynamicResource CheckBoxesNotSavedAsNull}" />
@@ -70,9 +71,9 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        IsEnabled="{c:Binding !UseStone}"
+                        Maximum="999"
                         Minimum="0"
-                        ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MedicineNumber, UpdateSourceTrigger=PropertyChanged}" />
                     <hc:NumericUpDown
                         Width="70"
@@ -81,9 +82,8 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        Maximum="999"
                         Minimum="0"
-                        ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding StoneNumber, UpdateSourceTrigger=PropertyChanged}" />
                     <hc:NumericUpDown
                         Width="70"
@@ -92,9 +92,8 @@
                         HorizontalAlignment="Left"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Maximum="9999"
+                        Maximum="999"
                         Minimum="0"
-                        ValueChanged="NumericUpDown_ValueChanged"
                         Value="{Binding MaxTimes, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
@@ -145,12 +144,11 @@
                         VerticalContentAlignment="Center"
                         Maximum="1145141919"
                         Minimum="1"
-                        ValueChanged="NumericUpDown_ValueChanged"
                         Visibility="{c:Binding IsSpecifiedDropsWithNull}"
                         Value="{Binding DropsQuantity, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="2" Visibility="{c:Binding !HideSeries}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="100" />
                     <ColumnDefinition />
@@ -173,7 +171,7 @@
                         VerticalContentAlignment="Center"
                         IsHitTestVisible="{c:Binding !FightTaskRunning}"
                         ItemsSource="{Binding SeriesList}"
-                        SelectedValue="{Binding Series}"/>
+                        SelectedValue="{Binding Series}" />
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="3">
@@ -369,21 +367,18 @@
                 IsChecked="{Binding HideUnavailableStage}" />
             <CheckBox
                 Margin="0,10"
+                Content="{DynamicResource HideSeries}"
+                IsChecked="{Binding HideSeries}" />
+            <CheckBox
+                Margin="0,10"
                 Content="{DynamicResource CustomInfrastPlanShowInFightSettings}"
                 IsChecked="{Binding TaskSettingVisibilities.CustomInfrastPlanShowInFightSettings}" />
             <CheckBox
                 Margin="0,10"
                 Content="{DynamicResource EnablePenguin}"
                 IsChecked="{Binding EnablePenguin}" />
-            <TextBlock
-                Margin="8,10,8,0"
-                HorizontalAlignment="Left"
-                Block.TextAlignment="Center"
-                Foreground="{DynamicResource PrimaryTextBrush}"
-                Text="{DynamicResource PenguinId}"
-                TextWrapping="Wrap"
-                Visibility="{c:Binding EnablePenguin}" />
             <TextBox
+                hc:InfoElement.Title="{DynamicResource PenguinId}"
                 Margin="0,5"
                 InputMethod.IsInputMethodEnabled="False"
                 Style="{StaticResource TextBoxExtend}"

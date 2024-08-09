@@ -11,6 +11,7 @@
     xmlns:ui="clr-namespace:MaaWpfGui.ViewModels.UI"
     xmlns:viewModels="clr-namespace:MaaWpfGui.ViewModels"
     xmlns:vm="clr-namespace:MaaWpfGui"
+    Icon="../../newlogo.ico"
     Title="{DynamicResource VersionUpdated}"
     Width="600"
     Height="500"

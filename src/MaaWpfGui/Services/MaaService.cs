@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -37,6 +37,9 @@ namespace MaaWpfGui.Services
         public static extern unsafe bool AsstSetInstanceOption(AsstHandle handle, AsstInstanceOptionKey key, byte* value);
 
         [DllImport("MaaCore.dll")]
+        public static extern bool AsstSetStaticOption(AsstStaticOptionKey key, [MarshalAs(UnmanagedType.LPUTF8Str)]string value);
+
+        [DllImport("MaaCore.dll")]
         public static extern unsafe bool AsstLoadResource(byte* dirname);
 
         [DllImport("MaaCore.dll")]
@@ -68,5 +71,8 @@ namespace MaaWpfGui.Services
 
         [DllImport("MaaCore.dll")]
         public static extern bool AsstBackToHome(AsstHandle handle);
+
+        [DllImport("MaaCore.dll")]
+        public static extern unsafe void AsstSetConnectionExtras(byte* name, byte* extras);
     }
 }

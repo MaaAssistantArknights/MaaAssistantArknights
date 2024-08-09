@@ -152,11 +152,23 @@ std::optional<int> asst::Win32IO::call_command(const std::string& cmd, bool recv
                         handle_string.emplace_back("UnknownHandle");
                     }
                 }
-                Log.warn("Wait handles:", handle_string, "timeout.");
+                Log.warn("Wait handles:", handle_string, " after", timeout, "ms.");
                 if (process_running) {
                     TerminateProcess(process_info.hProcess, 0);
                 }
-                break;
+                // 处理超时后返回 std::nullopt
+                CloseHandle(pipe_parent_read);
+                CloseHandle(pipeov.hEvent);
+                CloseHandle(process_info.hProcess);
+                CloseHandle(process_info.hThread);
+                if (recv_by_socket) {
+                    CloseHandle(sockov.hEvent);
+                    if (client_socket != INVALID_SOCKET) {
+                        closesocket(client_socket);
+                    }
+                }
+                return std::nullopt;
+                // break;
             }
             continue;
         }

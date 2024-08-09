@@ -2,185 +2,89 @@
     "stage_name": "何处无山海",
     "replacement_home": [
         {
-            "location": [
-                2,
-                3
-            ],
+            "location": [2, 3],
             "direction": "right"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "回费",
-                "处决者",
-                "炮灰"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["回费", "处决者", "炮灰"],
+            "location": [3, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "情报官",
-                "挡人先锋",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["情报官", "挡人先锋", "地面阻挡", "其他地面"],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "焰苇"
-            ],
-            "location": [
-                5,
-                2
-            ],
+            "groups": ["焰苇", "术师", "盾法", "速狙"],
+            "location": [5, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地面阻挡",
-                "地面远程"
-            ],
-            "location": [
-                8,
-                3
-            ],
+            "groups": ["玛恩纳", "地面阻挡", "地面远程"],
+            "location": [8, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "凯尔希",
-                "单奶"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["益达"],
+            "location": [7, 3],
+            "direction": "up"
+        },
+        {
+            "groups": ["凯尔希", "单奶"],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "浊心斯卡蒂"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["浊心斯卡蒂"],
+            "location": [7, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希",
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["凯尔希", "单奶", "群奶"],
+            "location": [6, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                9,
-                3
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [9, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "处决者",
-                "炮灰",
-                "地刺"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["处决者", "炮灰", "地刺"],
+            "location": [8, 2],
             "direction": "up"
         },
         {
-            "groups": [
-                "高台输出",
-                "狙击",
-                "辅助",
-                "奶",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                2
-            ],
+            "groups": ["高台输出", "狙击", "辅助", "奶", "其他高台"],
+            "location": [7, 2],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台输出",
-                "狙击",
-                "辅助",
-                "奶",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                3
-            ],
+            "groups": ["高台输出", "狙击", "辅助", "奶", "其他高台"],
+            "location": [7, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                6,
-                3
-            ],
+            "groups": ["地面阻挡", "处决者", "其他地面"],
+            "location": [6, 3],
             "direction": "up"
         },
         {
-            "groups": [
-                "无人机"
-            ],
-            "location": [
-                9,
-                2
-            ],
+            "groups": ["无人机"],
+            "location": [9, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                8,
-                2
-            ],
+            "groups": ["补给站"],
+            "location": [8, 2],
             "direction": "left"
         },
         {
-            "groups": [
-                "支援陷阱"
-            ],
-            "location": [
-                9,
-                2
-            ],
+            "groups": ["支援陷阱"],
+            "location": [9, 2],
             "direction": "left"
         }
     ]

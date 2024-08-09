@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 import shutil
 
-TARGET_TAG = "2023-04-24-3"
+TARGET_TAG = "2024-05-30"
 basedir = Path(__file__).parent
 
 def detect_host_triplet():

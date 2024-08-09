@@ -9,17 +9,17 @@ export const zhtwNavbar = navbar([
   {
     text: "用戶說明書",
     icon: "mdi:user",
-    link: "/zh-tw/1.1-詳細介紹",
+    link: "/zh-tw/manual/",
   },
   {
     text: "開發文件",
     icon: "ph:code-bold",
-    link: "/zh-tw/2.1-Linux編譯教學",
+    link: "/zh-tw/develop/",
   },
   {
     text: "協議文件",
     icon: "basil:document-solid",
-    link: "/zh-tw/3.1-集成文件",
+    link: "/zh-tw/protocol/",
   },
   {
     text: "MAA 官網",

@@ -20,19 +20,32 @@
         <StackPanel Visibility="{c:Binding !TaskSettingVisibilities.EnableAdvancedSettings}">
             <controls:TextBlock
                 Margin="5,10,5,10"
-                FontSize="16"
                 Style="{StaticResource TextBlockDefault}"
                 Text="{DynamicResource ReclamationEarlyTip}"
                 TextWrapping="Wrap" />
         </StackPanel>
 
         <StackPanel Visibility="{c:Binding TaskSettingVisibilities.EnableAdvancedSettings}">
-            <controls:TextBlock
+            <CheckBox
+                Margin="5,10,5,10"
+                Content="{DynamicResource Reclamation2ExEnable}"
+                IsChecked="{Binding Reclamation2ExEnable}"
+                IsEnabled="{c:Binding Idle}" />
+            <TextBox
+                hc:InfoElement.Title="{DynamicResource Reclamation2ExProductTip}"
+                hc:InfoElement.Placeholder="{DynamicResource Reclamation2ExProductPlaceholder}"
+                Style="{StaticResource TextBoxExtend}"
+                Margin="0,10"
+                VerticalContentAlignment="Center"
+                IsEnabled="{c:Binding '(Idle) and (Reclamation2ExEnable)' }"
+                Text="{Binding Reclamation2ExProduct}" />
+            <!--<controls:TextBlock
                 Margin="5,50,5,10"
                 FontSize="40"
                 Style="{StaticResource TextBlockDefaultBold}"
                 Text="{DynamicResource ReclamationBePatient}"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                TextWrapping="Wrap">
                 <controls:TextBlock.Foreground>
                     <LinearGradientBrush SpreadMethod="Repeat">
                         <LinearGradientBrush.Transform>
@@ -72,7 +85,7 @@
                         ShadowDepth="5"
                         Color="Black" />
                 </controls:TextBlock.Effect>
-            </controls:TextBlock>
+            </controls:TextBlock>-->
         </StackPanel>
     </StackPanel>
 </UserControl>

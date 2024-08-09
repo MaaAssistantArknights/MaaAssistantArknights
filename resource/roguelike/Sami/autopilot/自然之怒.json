@@ -2,190 +2,93 @@
     "stage_name": "自然之怒",
     "replacement_home": [
         {
-            "location": [
-                4,
-                6
-            ],
+            "location": [4, 6],
             "direction": "up"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "情报官",
-                "地面远程",
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                6
-            ],
+            "groups": ["益达"],
+            "location": [6, 4],
+            "direction": "left"
+        },
+        {
+            "groups": ["情报官", "地面远程", "地面阻挡", "处决者", "其他地面"],
+            "location": [4, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "投锋"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["投锋"],
+            "location": [5, 6],
+            "direction": "up",
+            "condition": [0, 11]
+        },
+        {
+            "groups": ["地面阻挡", "地面远程", "地面阻挡", "处决者", "其他地面"],
+            "location": [4, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "地面远程",
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                4
-            ],
-            "direction": "up"
-        },
-        {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                2,
-                4
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [2, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "焰苇",
-                "水陈",
-                "狙击",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["焰苇", "水陈", "狙击", "高台输出", "辅助", "其他高台"],
+            "location": [5, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "玛恩纳",
-                "地面远程",
-                "地面阻挡",
-                "处决者",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["玛恩纳", "地面远程", "地面阻挡", "处决者", "其他地面"],
+            "location": [4, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "水陈",
-                "狙击",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["水陈", "狙击", "高台输出", "辅助", "其他高台"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "狙击",
-                "高台输出",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["狙击", "高台输出", "辅助", "其他高台"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "奶"
-            ],
-            "location": [
-                3,
-                5
-            ],
+            "groups": ["奶"],
+            "location": [3, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "炮灰",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                5
-            ],
+            "groups": ["地面阻挡", "炮灰", "其他地面"],
+            "location": [4, 5],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面远程",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                6
-            ],
+            "groups": ["地面远程", "地面阻挡", "其他地面"],
+            "location": [4, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["地面阻挡", "其他地面"],
+            "location": [5, 4],
             "direction": "up"
         },
         {
-            "groups": [
-                "补给站"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["补给站"],
+            "location": [3, 3],
             "direction": "down"
         },
         {
-            "groups": [
-                "处决者",
-                "情报官",
-                "地面阻挡",
-                "其他地面"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["处决者", "情报官", "地面阻挡", "其他地面"],
+            "location": [4, 3],
             "direction": "down",
-            "condition": [
-                11,
-                24
-            ]
+            "condition": [11, 24]
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [5, 6],
+            "condition": [12, 37]
         }
     ]
 }

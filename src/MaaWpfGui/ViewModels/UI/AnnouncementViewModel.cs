@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -11,6 +11,7 @@
 // but WITHOUT ANY WARRANTY
 // </copyright>
 
+using System;
 using System.Threading.Tasks;
 using MaaWpfGui.Configuration;
 using MaaWpfGui.Constants;
@@ -42,7 +43,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _doNotRemindThisAnnouncementAgain = bool.Parse(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, false.ToString()));
+        private bool _doNotRemindThisAnnouncementAgain = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, bool.FalseString));
 
         public bool DoNotRemindThisAnnouncementAgain
         {
@@ -51,6 +52,21 @@ namespace MaaWpfGui.ViewModels.UI
             {
                 SetAndNotify(ref _doNotRemindThisAnnouncementAgain, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.DoNotRemindThisAnnouncementAgain, value.ToString());
+            }
+        }
+
+        private bool _doNotShowAnnouncement = Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.DoNotShowAnnouncement, bool.FalseString));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to show the update.
+        /// </summary>
+        public bool DoNotShowAnnouncement
+        {
+            get => _doNotShowAnnouncement;
+            set
+            {
+                SetAndNotify(ref _doNotShowAnnouncement, value);
+                ConfigurationHelper.SetValue(ConfigurationKeys.DoNotShowAnnouncement, value.ToString());
             }
         }
 

@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -51,6 +51,12 @@ namespace MaaWpfGui.Services.Managers
         /// </summary>
         /// <param name="shouldMinimizeToTaskBar">Whether to minimize to taskBar.</param>
         void SetMinimizeToTaskBar(bool shouldMinimizeToTaskBar);
+
+        /// <summary>
+        /// Sets whether to use the tray icon.
+        /// </summary>
+        /// <param name="useTrayIcon">Whether to use the tray icon.</param>
+        void SetUseTrayIcon(bool useTrayIcon);
 
         /// <summary>
         /// Get the main window if it is visible.

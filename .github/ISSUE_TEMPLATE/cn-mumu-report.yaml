@@ -1,0 +1,80 @@
+name: MuMu 截图增强反馈（使用中文）
+description: 有关 MuMu 截图增强功能的集中反馈
+labels: ["mumu api"]
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 在提问之前...
+      options:
+        - label: 我理解 Issue 是用于反馈和解决问题的，而非吐槽评论区，将尽可能提供更多信息帮助问题解决
+          required: true
+        - label: 我填写了简短且清晰明确的标题，以便开发者在翻阅 Issue 列表时能快速确定大致问题。而不是“一个建议”、“卡住了”等
+          required: true
+        - label: 我已检查了置顶议题（Pinned Issue），确认我的问题未被提及
+          required: true
+        - label: 我正在使用最新的 MAA 内测版本和最新的**官版** MuMu 模拟器
+          required: true
+        - label: 我已参考文档确定安装路径、实例编号、屏幕编号填写正确，并确认在关闭截图增强模式后问题消失
+          required: true
+        - label: 我关闭了后台保活和高帧率模式，且显存使用策略为“画面表现更好”
+          required: false
+  - type: textarea
+    id: describe
+    attributes:
+      label: 问题描述
+      description: 描述问题时请尽可能详细
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: Version
+      description: |
+        请提供 MAA 版本和 MuMu 版本。MAA 版本可在 MAA -> 设置 -> 软件更新中找到（点击图标可复制）。
+        MuMu 版本可在右上角菜单按钮 -> 关于 MuMu 中找到。
+      placeholder: |
+        Resource Version: 
+        UI Version: 
+        Core Version: 
+        MuMu 版本号:
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: MAA 日志文件
+      description: |
+        **上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
+        **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
+    validations:
+      required: true
+  - type: textarea
+    id: mumulogs
+    attributes:
+      label: MuMu 问题诊断
+      description: |
+        **在 MuMu 右上角菜单按钮 -> 问题诊断 中点击 复制配置信息，并将全部内容粘贴进来。**
+        **注意隐去 电脑出口IP地址 等以保护个人隐私**
+    validations:
+      required: true
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图
+      description: |
+        如果有，添加屏幕截图以帮助解释你的问题，包括但不限于 MAA 软件截图、游戏画面截图
+        若是**识别相关问题**，请尽可能提供模拟器自带的截图工具截取的无遮挡的**原图**（或通过 adb 截取原图）
+        用其他的工具（如QQ）截取的图片包含窗口边框，不利于我们排除bug
+        `debug` 文件夹下有一些自动截图的错误图片，若有相关的，请一并打包上传
+    validations:
+      required: false
+  - type: textarea
+    id: others
+    attributes:
+      label: 还有别的吗？
+      description: |
+        操作系统？相关的配置？链接？参考资料？
+        任何能让我们对你所遇到的问题有更多了解的东西
+    validations:
+      required: false

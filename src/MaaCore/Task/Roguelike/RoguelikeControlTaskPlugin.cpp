@@ -32,11 +32,11 @@ bool asst::RoguelikeControlTaskPlugin::verify(AsstMsg msg, const json::value& de
     return false;
 }
 
-void asst::RoguelikeControlTaskPlugin::exit_then_stop()
+void asst::RoguelikeControlTaskPlugin::exit_then_stop(bool abandon) const
 {
     ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
         .set_times_limit("Roguelike@StartExplore", 0)
-        .set_times_limit("Roguelike@Abandon", 0)
+        .set_times_limit("Roguelike@Abandon", abandon ? INT_MAX : 0)
         .run();
 }
 

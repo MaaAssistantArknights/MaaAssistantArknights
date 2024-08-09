@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -43,7 +43,7 @@ namespace MaaWpfGui.Helper
         private static void MoveWindowToDisplay(Window window)
         {
             var mainWindow = Application.Current.MainWindow;
-            if (!(mainWindow is { WindowState: WindowState.Normal }))
+            if (mainWindow is not { WindowState: WindowState.Normal })
             {
                 return;
             }
@@ -60,6 +60,8 @@ namespace MaaWpfGui.Helper
             Window window = base.CreateWindow(viewModel, isDialog, ownerViewModel);
             if (window is RootView)
             {
+                HandyControl.Controls.Dialog.Register(nameof(RootView), window);
+
                 if (_loadWindowPlacement && GetConfiguration(out WindowPlacement wp))
                 {
                     window.SourceInitialized += (s, e) =>

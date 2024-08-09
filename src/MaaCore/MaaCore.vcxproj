@@ -60,6 +60,7 @@
     <ClInclude Include="Controller\MaaThriftController.h" />
     <ClInclude Include="Controller\MaatouchController.h" />
     <ClInclude Include="Controller\MinitouchController.h" />
+    <ClInclude Include="Controller\MumuExtras.h" />
     <ClInclude Include="Controller\PlayToolsController.h" />
     <ClInclude Include="Controller\AdbController.h" />
     <ClInclude Include="Controller\Platform\AdbLiteIO.h" />
@@ -92,18 +93,22 @@
     <ClInclude Include="Task\Interface\SingleStepTask.h" />
     <ClInclude Include="Task\Interface\SSSCopilotTask.h" />
     <ClInclude Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.h" />
-    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.h" />
-    <ClInclude Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeConfig.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\RoguelikeInvestTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.h" />
     <ClInclude Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.h" />
+    <ClInclude Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSBattleProcessTask.h" />
     <ClInclude Include="Task\SSS\SSSDropRewardsTaskPlugin.h" />
     <ClInclude Include="Task\SSS\SSSStageManagerTask.h" />
     <ClInclude Include="Utils\Algorithm.hpp" />
     <ClInclude Include="Utils\File.hpp" />
+    <ClInclude Include="Utils\LibraryHolder.hpp" />
     <ClInclude Include="Vision\VisionHelper.h" />
     <ClInclude Include="Vision\Battle\BattleFormationAnalyzer.h" />
     <ClInclude Include="Vision\Battle\BattlefieldMatcher.h" />
@@ -150,7 +155,8 @@
     <ClInclude Include="Config\Roguelike\RoguelikeRecruitConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeShoppingConfig.h" />
     <ClInclude Include="Config\Roguelike\RoguelikeStageEncounterConfig.h" />
-    <ClInclude Include="Config\Roguelike\RoguelikeFoldartalConfig.h" />
+    <ClInclude Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.h" />
+    <ClInclude Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.h" />
     <ClInclude Include="Config\TaskData.h" />
     <ClInclude Include="Config\TemplResource.h" />
     <ClInclude Include="Status.h" />
@@ -240,6 +246,7 @@
     <ClCompile Include="Controller\ControlScaleProxy.cpp" />
     <ClCompile Include="Controller\MaaThriftController.cpp" />
     <ClCompile Include="Controller\MinitouchController.cpp" />
+    <ClCompile Include="Controller\MumuExtras.cpp" />
     <ClCompile Include="Controller\PlayToolsController.cpp" />
     <ClCompile Include="Controller\AdbController.cpp" />
     <ClCompile Include="Controller\Platform\AdbLiteIO.cpp" />
@@ -269,10 +276,13 @@
     <ClCompile Include="Task\Interface\SingleStepTask.cpp" />
     <ClCompile Include="Task\Interface\SSSCopilotTask.cpp" />
     <ClCompile Include="Task\Roguelike\AbstractRoguelikeTaskPlugin.cpp" />
-    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalGainTaskPlugin.cpp" />
-    <ClCompile Include="Task\Roguelike\RoguelikeFoldartalUseTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalGainTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalStartTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeFoldartalUseTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\Sami\RoguelikeCollapsalParadigmTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeConfig.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeDifficultySelectionTaskPlugin.cpp" />
+    <ClCompile Include="Task\Roguelike\RoguelikeInvestTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeLastRewardTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeSettlementTaskPlugin.cpp" />
     <ClCompile Include="Task\Roguelike\RoguelikeStrategyChangeTaskPlugin.cpp" />
@@ -323,7 +333,8 @@
     <ClCompile Include="Config\Roguelike\RoguelikeRecruitConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeShoppingConfig.cpp" />
     <ClCompile Include="Config\Roguelike\RoguelikeStageEncounterConfig.cpp" />
-    <ClCompile Include="Config\Roguelike\RoguelikeFoldartalConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeFoldartalConfig.cpp" />
+    <ClCompile Include="Config\Roguelike\Sami\RoguelikeCollapsalParadigmConfig.cpp" />
     <ClCompile Include="Config\TaskData.cpp" />
     <ClCompile Include="Config\TemplResource.cpp" />
     <ClCompile Include="Status.cpp" />
@@ -458,37 +469,37 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|ARM64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\3rdparty\EmulatorExtras;$(ProjectDir)..\..\include;$(ProjectDir)..\..\3rdparty\include;$(ProjectDir)</IncludePath>
     <LibraryPath>$(TargetDir);$(LibraryPath)</LibraryPath>
     <OutDir>$(ProjectDir)..\..\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -498,7 +509,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -514,7 +525,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
@@ -546,7 +557,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -561,7 +572,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
@@ -594,7 +605,7 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -612,7 +623,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
@@ -645,7 +656,7 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -666,7 +677,7 @@
       <OptimizeReferences>
       </OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4d.lib;zlibd.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl-d.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4d.lib;zlibd.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl-d.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>
       </Profile>
@@ -700,7 +711,7 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -717,7 +728,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>true</Profile>
       <AdditionalOptions>/ignore:4286 %(AdditionalOptions)</AdditionalOptions>
@@ -750,7 +761,7 @@
       </FunctionLevelLinking>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CONSOLE;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CONSOLE;_DISABLE_CONSTEXPR_MUTEX_CONSTRUCTOR;ASST_DLL_EXPORTS;ASST_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <LanguageStandard_C>stdc11</LanguageStandard_C>
@@ -770,7 +781,7 @@
       <OptimizeReferences>
       </OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MaaDerpLearning.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fastdeploy_ppocr.lib;opencv_world4.lib;zlib.lib;ws2_32.lib;onnxruntime.lib;cpr.lib;libcurl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <Profile>
       </Profile>

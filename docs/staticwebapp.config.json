@@ -1,0 +1,7 @@
+{
+    "responseOverrides": {
+        "404": {
+            "rewrite": "/docs/404.html"
+        }
+    }
+}

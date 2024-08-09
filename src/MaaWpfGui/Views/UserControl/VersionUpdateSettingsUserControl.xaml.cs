@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -39,11 +39,15 @@ namespace MaaWpfGui.Views.UserControl
             InitializeComponent();
             _timer.Tick += (s, e1) =>
             {
+                _easterEggsCount = 0;
                 _timer.IsEnabled = false;
             };
         }
 
-        private readonly DispatcherTimer _timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 0, 0, 6000), };
+        private readonly DispatcherTimer _timer = new()
+        {
+            Interval = new TimeSpan(0, 0, 6),
+        };
 
         private void CoreVersionClick(object sender, MouseButtonEventArgs e)
         {
@@ -74,7 +78,7 @@ namespace MaaWpfGui.Views.UserControl
                 {
                     try
                     {
-                        Clipboard.SetData(DataFormats.Text, text);
+                        Clipboard.SetData(DataFormats.UnicodeText, text);
                     }
                     catch (Exception e)
                     {
@@ -91,14 +95,21 @@ namespace MaaWpfGui.Views.UserControl
             }
         }
 
+        private int _easterEggsCount;
+
         private void EasterEggs()
         {
-            if (_timer.IsEnabled)
+            if (!_timer.IsEnabled)
             {
+                _timer.IsEnabled = true;
+            }
+
+            if (_easterEggsCount <= 1)
+            {
+                ++_easterEggsCount;
                 return;
             }
 
-            _timer.IsEnabled = true;
             var growlInfo = new GrowlInfo
             {
                 IsCustom = true,

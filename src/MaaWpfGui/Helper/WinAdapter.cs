@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -32,7 +32,6 @@ namespace MaaWpfGui.Helper
             { "HD-Player",  "BlueStacks" },
             { "dnplayer", "LDPlayer" },
             { "Nox", "Nox" },
-            { "NemuPlayer", "MuMuEmulator" },
             { "MuMuPlayer", "MuMuEmulator12" }, // MuMu 12
             { "MEmu", "XYAZ" },
         };
@@ -48,14 +47,6 @@ namespace MaaWpfGui.Helper
             },
             { "LDPlayer", new List<string> { @".\adb.exe" } },
             { "Nox", new List<string> { @".\nox_adb.exe" } },
-            {
-                "MuMuEmulator",  new List<string>
-                {
-                    @"..\vmonitor\bin\adb_server.exe",
-                    @"..\..\MuMu\emulator\nemu\vmonitor\bin\adb_server.exe",
-                    @".\adb.exe",
-                }
-            },
             {
                 "MuMuEmulator12",  new List<string>
                 {

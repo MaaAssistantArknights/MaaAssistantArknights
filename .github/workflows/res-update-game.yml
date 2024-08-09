@@ -11,38 +11,18 @@ on:
         required: false
 
 jobs:
-  update-game-resources:
+  clone-resources-official:
     if: github.repository_owner == 'MaaAssistantArknights'
-    runs-on: windows-latest
-    env:
-      GH_TOKEN: ${{ secrets.MISTEOWORKFLOW }}
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout MAA
-        uses: actions/checkout@v4
-        with:
-          show-progress: false
-          token: ${{ secrets.MISTEOWORKFLOW }}
-
-      - name: Bootstrap MaaDeps
-        run: |
-          python3 maadeps-download.py x64-windows
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1
-
-      - name: Build Resource Updater
-        run: |
-          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
-
       - name: Clone ArknightsGameResource for Official
         uses: actions/checkout@v4
         with:
           show-progress: false
           repository: yuanyan3060/ArknightsGameResource
           ref: main
-          path: .\tools\ResourceUpdater\x64\Release\Official
+          path: ./Official
+          sparse-checkout-cone-mode: false
           sparse-checkout: |
             /levels.json
             /item
@@ -54,15 +34,25 @@ jobs:
             /gamedata/excel/gacha_table.json
             /gamedata/excel/roguelike_topic_table.json
             /gamedata/excel/activity_table.json
-          sparse-checkout-cone-mode: false
 
+      - name: Upload Official
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: official
+          path: ./Official
+
+  clone-resources-overseas:
+    if: github.repository_owner == 'MaaAssistantArknights'
+    runs-on: ubuntu-latest
+    steps:
       - name: Clone ArknightsGameResource_Yostar for Overseas
         uses: actions/checkout@v4
         with:
           show-progress: false
-          repository: Kengxxiao/ArknightsGameData_YoStar
+          repository: Kengxxiao/ArknightsGameData_Yostar
           ref: main
-          path: .\tools\ResourceUpdater\x64\Release\Overseas
+          path: ./Overseas
+          sparse-checkout-cone-mode: false
           sparse-checkout: |
             /en_US/gamedata/excel/item_table.json
             /en_US/gamedata/excel/building_data.json
@@ -85,72 +75,169 @@ jobs:
             /ko_KR/gamedata/excel/gacha_table.json
             /ko_KR/gamedata/excel/roguelike_topic_table.json
             /ko_KR/gamedata/excel/activity_table.json
-          sparse-checkout-cone-mode: false
 
+      - name: Upload Official
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: overseas
+          path: ./Overseas
+
+  clone-resources-txwy:
+    runs-on: ubuntu-latest
+    steps:
       - name: Clone arknights-toolbox-update for Taiwan
         uses: actions/checkout@v4
         with:
           show-progress: false
           repository: arkntools/arknights-toolbox-update
           ref: data-tw
-          path: .\tools\ResourceUpdater\x64\Release\Overseas\zh_TW\gamedata\excel
+          path: ./excel
           token: ${{ secrets.ARKNTOOLS_MAA_RESOURCE_UPDATER}}
+
+      - name: Upload Official
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: txwy
+          path: ./excel
+
+  update-game-resources:
+    if: github.repository_owner == 'MaaAssistantArknights'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout MAA
+        uses: actions/checkout@v4
+        with:
+          # TL;DR https://github.com/MaaAssistantArknights/MaaAssistantArknights/issues/9872#issuecomment-2251378371
+          # actions/checkout uses ${{ secrets.GITHUB_TOKEN }} by default, meaning all steps will inherit it
+          persist-credentials: false # Needed to bypass protection rules in Push changes
+          show-progress: false
+
+      - name: Restore ResourceUpdater.exe from cache
+        id: cache-resupd
+        uses: actions/cache/restore@v4
+        with:
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          path: |
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+
+      - name: Bootstrap MaaDeps
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
+        run: |
+          python3 maadeps-download.py x64-windows
+
+      - name: Add msbuild to PATH
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build Resource Updater
+        if: steps.cache-resupd.outputs.cache-hit != 'true'
+        run: |
+          MSBUILD tools/ResourceUpdater/ResourceUpdater.vcxproj /t:rebuild /p:Configuration="Release" /p:Platform="x64" /p:BuildProjectReferences=false /m
+
+      - name: Save ResourceUpdater.exe to cache
+        if: always() && steps.cache-resupd.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          key: ${{ runner.os }}-resource-updater-main-cpp-${{ hashFiles('./tools/ResourceUpdater/main.cpp') }}
+          path: |
+            ./tools/ResourceUpdater/x64/Release/opencv_world4_maa.dll
+            ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
+
+      - name: Download txwy
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: txwy
+          path: ./tools/ResourceUpdater/x64/Release/Overseas/zh_TW/gamedata/excel
+
+      - name: Download Overseas
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: overseas
+          path: ./tools/ResourceUpdater/x64/Release/Overseas
+
+      - name: Download Official
+        uses: actions/download-artifact@v4.1.8
+        with:
+          name: official
+          path: ./tools/ResourceUpdater/x64/Release/Official
 
       - name: Run Resource Updater
         run: |
-          .\tools\ResourceUpdater\x64\Release\ResourceUpdater.exe
+          ./tools/ResourceUpdater/x64/Release/ResourceUpdater.exe
 
-      - name: Overseas Tasks Ordering
+      - name: Task Sorting
+        id: task_sorting
         run: |
           python3 tools/TaskSorter/TaskSorter.py
+          Write-Output "gitdiff=$(git diff --name-only --diff-filter=ACM 2>$null | Select-String -Pattern '\.json$' -List)" >> $env:GITHUB_OUTPUT
 
-      - name: Check if only sorted
-        id: check_only_sorted
+      - name: Run prettier
+        uses: actionsx/prettier@v3
+        with:
+          args: -w ${{ steps.task_sorting.outputs.gitdiff }}
+
+      - name: Check if only sorted and Templates
+        id: check_sorted_templates
         run: |
           git status
 
-          $diff = $(git diff --numstat HEAD | findstr -i resource)
+          $gitdiff = git diff --numstat HEAD 2>$null | findstr -i resource
           if ($LASTEXITCODE -ne 0) {
-            echo "no diff"
+            Write-Output "no diff"
             exit 0
           }
 
-          echo "diff: "$diff
-          $sp = $($diff -split "\s+")
-          $numbers = $($sp | Where-Object { $_ -match "^\d+$" })
-          echo "numbers: "$numbers
+          Write-Output $gitdiff
 
-          $length = $numbers.Length
-          $isAllEqual = $true
-          for ($i = 0; $i -lt $length; $i += 2) {
-            $firstNumber = $numbers[$i]
-            $secondNumber = $numbers[$i+1]
+          $diff = $false
+          $hasPng = $false
 
-            if ($firstNumber -gt 1) {
-              $isAllEqual = $false
-              break
-            }
-            
-            if ($firstNumber -ne $secondNumber) {
-                $isAllEqual = $false
+          $diffLines = $gitdiff -split "`n"
+
+          foreach ($line in $diffLines) {
+              $parts = $line -split "\s+"
+              $filePath = $parts[2]
+              $firstNumber = $parts[0]
+              $secondNumber = $parts[1]
+
+              if ($filePath -match "\.png$") {
+                $hasPng = $true
+              }
+
+              if ($firstNumber -gt 1 -or $firstNumber -ne $secondNumber) {
+                $diff = $true
+              }
+
+              if ($hasPng -and $diff) {
                 break
-            }
+              }
           }
-          echo "isAllEqual: "$isAllEqual
-          echo "only_sorted=$isAllEqual" >> $env:GITHUB_OUTPUT
+
+          $changes = $hasPng -or $diff
+
+          Write-Output "diff: $diff"
+          Write-Output "hasPng: $hasPng"
+          Write-Output "changes: $changes"
+
+          Write-Output "contains_png=$hasPng" >> $env:GITHUB_OUTPUT
+          Write-Output "changes=$changes" >> $env:GITHUB_OUTPUT
+
+      - name: Optimize Templates
+        if: steps.check_sorted_templates.outputs.contains_png == 'True'
+        run: |
+          python3 tools/OptimizeTemplates/optimize_templates.py resource/template/items/ resource/template/infrast/
 
       - name: Cancelling
-        if: steps.check_only_sorted.outputs.only_sorted == 'True'
-        uses: andymckay/cancel-action@0.3
+        if: steps.check_sorted_templates.outputs.changes != 'True'
+        uses: andymckay/cancel-action@0.5
 
       - name: Add files to git
-        if: steps.check_only_sorted.outputs.only_sorted != 'True'
+        if: steps.check_sorted_templates.outputs.changes == 'True'
         id: add_files
         run: |
-          git status
-
-          git config user.name "$env:GITHUB_ACTOR"
-          git config user.email "$env:GITHUB_ACTOR@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
 
           $commit_msg = "${{ github.event.inputs.commit_message }}"
@@ -161,22 +248,25 @@ jobs:
           }
           git commit -m "$commit_msg" -m "[skip changelog]"
           if ($LASTEXITCODE -eq 0) {
-            echo "have_commits=True" >> $env:GITHUB_OUTPUT
+            Write-Output "have_commits=True" >> $env:GITHUB_OUTPUT
           }
 
           git pull origin $(git rev-parse --abbrev-ref HEAD) --unshallow --rebase
 
       - name: Cancelling
         if: steps.add_files.outputs.have_commits != 'True'
-        uses: andymckay/cancel-action@0.3
+        uses: andymckay/cancel-action@0.5
 
-      - name: Push changes # push the output folder to your repo
+      - name: Push changes
         if: steps.add_files.outputs.have_commits == 'True'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.MISTEOWORKFLOW }}
+          github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
 
       - name: Update OTA resource
+        if: steps.add_files.outputs.have_commits == 'True'
+        env:
+          GH_TOKEN: ${{ secrets.MAA_RESOURCE_SYNC }}
         run: |
           gh workflow --repo MaaAssistantArknights/MaaRelease run update-resource.yml
 
@@ -184,5 +274,3 @@ jobs:
     #     if: steps.add_files.outputs.have_commits == 'True'
     #     run: |
     #       gh workflow run release-nightly-ota -f release_body="Auto Release of Resource Updates"
-    #     env:
-    #       GH_TOKEN: ${{ github.token }}

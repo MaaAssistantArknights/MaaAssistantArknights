@@ -24,12 +24,18 @@ asst::OcrPack::OcrPack() : m_det(nullptr), m_rec(nullptr), m_ocr(nullptr)
 asst::OcrPack::~OcrPack()
 {
     LogTraceFunction;
+    if (m_gpu_id) {
+        // FIXME: leak fastdeploy objects to avoid crash (double free?)
+        (void)m_det.release();
+        (void)m_rec.release();
+        (void)m_ocr.release();
+    }
 }
 
 bool asst::OcrPack::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("load", path);
+    Log.info("load", path.lexically_relative(UserDir.get()));
 
     using namespace asst::utils::path_literals;
     const auto det_dir = path / "det"_p;
@@ -77,7 +83,13 @@ asst::OcrPack::ResultsVec asst::OcrPack::recognize(const cv::Mat& image, bool wi
         std::string rec_text;
         float rec_score = 0;
         m_rec->Predict(image, &rec_text, &rec_score);
+#ifdef ASST_DEBUG
+        // zzyyyl 注: RelWithDebInfo 时 OCR 莫名很卡，简单查了一下发现主要是这里的
+        // _com_error 很多导致的，暂时把 std::move 去掉
+        ocr_result.text.emplace_back(rec_text);
+#else
         ocr_result.text.emplace_back(std::move(rec_text));
+#endif
         ocr_result.rec_scores.emplace_back(rec_score);
     }
 

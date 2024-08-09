@@ -162,9 +162,9 @@
             <s:String x:Key="NotSelected">不选择</s:String>
             <s:String x:Key="Official">官服</s:String>
             <s:String x:Key="Bilibili">Bilibili服</s:String>
-            <s:String x:Key="YoStarEN">国际服 (YoStarEN)</s:String>
-            <s:String x:Key="YoStarJP">日服 (YoStarJP)</s:String>
-            <s:String x:Key="YoStarKR">韩服 (YoStarKR)</s:String>
+            <s:String x:Key="YoStarEN">国际服 (YostarEN)</s:String>
+            <s:String x:Key="YoStarJP">日服 (YostarJP)</s:String>
+            <s:String x:Key="YoStarKR">韩服 (YostarKR)</s:String>
             <s:String x:Key="txwy">繁中服 (txwy)</s:String>
         </ResourceDictionary>
 
@@ -296,7 +296,7 @@
         </ResourceDictionary>
 
         <ResourceDictionary x:Uid="RecruitingSettings">
-            <s:String x:Key="AutoRefresh">自动刷新 3 星 Tags</s:String>
+            <s:String x:Key="AutoRefresh">无倾向 Tag 时自动刷新 3 星 Tags</s:String>
             <s:String x:Key="AutoUseExpedited">自动使用加急许可*</s:String>
             <s:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</s:String>
             <s:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</s:String>

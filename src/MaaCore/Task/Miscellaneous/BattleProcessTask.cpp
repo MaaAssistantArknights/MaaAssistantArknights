@@ -7,6 +7,7 @@
 
 #include "Utils/NoWarningCV.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/BattleDataConfig.h"
 #include "Config/Miscellaneous/CopilotConfig.h"
 #include "Config/Miscellaneous/TilePack.h"
@@ -84,16 +85,31 @@ void asst::BattleProcessTask::set_wait_until_end(bool wait_until_end)
     m_need_to_wait_until_end = wait_until_end;
 }
 
+void asst::BattleProcessTask::set_formation_task_ptr(std::shared_ptr<std::unordered_map<std::string, std::string>> value)
+{
+    m_formation_ptr = value;
+}
+
 bool asst::BattleProcessTask::to_group()
 {
     std::unordered_map<std::string, std::vector<std::string>> groups;
+    // 从编队任务中获取<干员-组名>映射
+    if (m_formation_ptr != nullptr) {
+        for (const auto& [group, oper] : *m_formation_ptr) {
+            groups.emplace(oper, std::vector<std::string> { group });
+        }
+    }
+    // 补充剩余的干员
     for (const auto& [group_name, oper_list] : get_combat_data().groups) {
+        if (groups.contains(group_name)) {
+            continue;
+        }
         std::vector<std::string> oper_name_list;
         ranges::transform(oper_list, std::back_inserter(oper_name_list), [](const auto& oper) { return oper.name; });
         groups.emplace(group_name, std::move(oper_name_list));
     }
 
-    std::unordered_set<std::string> char_set;
+    std::unordered_set<std::string> char_set; // 干员集合
     for (const auto& oper : m_cur_deployment_opers) {
         char_set.emplace(oper.name);
     }
@@ -152,9 +168,22 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
 
     notify_action(action);
 
+    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().copilot_fight_screencap_interval);
+
+    // prevent our program from consuming too much CPU
+    if (const auto now = std::chrono::steady_clock::now();
+        prev_frame_time > now - min_frame_interval) [[unlikely]] {
+        Log.debug("Sleeping for framerate limit");
+        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
+    }
+
     if (!wait_condition(action)) {
         return false;
     }
+
+     prev_frame_time = std::chrono::steady_clock::now();
+
     if (action.pre_delay > 0) {
         sleep_and_do_strategy(action.pre_delay);
         // 等待之后画面可能会变化，更新下干员信息
@@ -191,8 +220,8 @@ bool asst::BattleProcessTask::do_action(const battle::copilot::Action& action, s
         break;
 
     case ActionType::SkillUsage:
-        m_skill_usage[action.name] = action.modify_usage;
-        if (action.modify_usage == SkillUsage::Times) m_skill_times[action.name] = action.modify_times;
+        m_skill_usage[name] = action.modify_usage;
+        if (action.modify_usage == SkillUsage::Times) m_skill_times[name] = action.modify_times;
         ret = true;
         break;
 
@@ -337,12 +366,9 @@ bool asst::BattleProcessTask::wait_condition(const Action& action)
         const std::string& name = get_name_from_group(action.name);
         update_image_if_empty();
         while (!need_exit()) {
-            if (check_skip_plot_button(image)) {
-                speed_up();
-            }
-            else if (!update_deployment(false, image)) {
+            if (!update_deployment(false, image)) {
                 return false;
-            };
+            }
             if (auto iter =
                     ranges::find_if(m_cur_deployment_opers, [&](const auto& oper) { return oper.name == name; });
                 iter != m_cur_deployment_opers.end() && iter->available) {
@@ -392,12 +418,13 @@ bool asst::BattleProcessTask::check_in_battle(const cv::Mat& reusable, bool weak
         auto result = analyzer.analyze();
         m_in_battle = result.has_value();
         if (m_in_battle && !result->pause_button) {
-            if (check_skip_plot_button(image)) {
+            if (check_skip_plot_button(image) && check_in_speed_up(image)) {
                 speed_up();
             }
         }
     }
     else {
+        check_skip_plot_button(image);
         m_in_battle = check_pause_button(image);
     }
     return m_in_battle;

@@ -192,3 +192,18 @@ csharp_space_between_method_call_empty_parameter_list_parentheses = false
 # Wrapping preferences
 csharp_preserve_single_line_statements = true
 csharp_preserve_single_line_blocks = true
+
+# SA1010: Opening square brackets should be spaced correctly
+dotnet_diagnostic.SA1010.severity = silent
+# Code inspection: Incorrect line breaks (around parenthesis)
+resharper_bad_parens_line_breaks_highlighting = none
+# Code inspection: Incorrect spacing (around braces)
+resharper_bad_braces_spaces_highlighting = none
+# Code inspection: Incorrect line breaks (around expression braces)
+resharper_bad_expression_braces_line_breaks_highlighting = none
+# Code inspection: Incorrect line breaks (around comma in lists)
+resharper_bad_list_line_breaks_highlighting = Hint
+# Code inspection: Incorrect spacing (multiple spaces are prohibited)
+resharper_multiple_spaces_highlighting = Hint
+# Code inspection: Incorrect spacing (around attributes)
+resharper_bad_attribute_brackets_spaces_highlighting = Hint

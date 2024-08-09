@@ -20,13 +20,14 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:TextBlock
             Grid.Row="0"
             HorizontalAlignment="Center"
             FontWeight="Bold"
-            Text="{DynamicResource TimerTip}"
+            Text="{DynamicResource GlobalConfigTip}"
             TextAlignment="Center" />
         <StackPanel
             Grid.Row="1"
@@ -50,7 +51,21 @@
                 ToolTip="{DynamicResource TimerCustomConfigTip}" />
         </StackPanel>
 
-        <Grid Grid.Row="2">
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <CheckBox
+                Height="30"
+                Margin="5,0"
+                HorizontalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Content="{DynamicResource ShowWindowBeforeForceScheduledStart}"
+                IsChecked="{Binding ShowWindowBeforeForceScheduledStart}"
+                Visibility="{c:Binding ForceScheduledStart}" />
+        </StackPanel>
+
+        <Grid Grid.Row="3">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -67,32 +82,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[0].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 1">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[0].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[0].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
                             Text="{Binding TimerModels.Timers[0].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[0].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[0].IsOn}"
                             Text="{Binding TimerModels.Timers[0].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -101,9 +111,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[0].TimerConfig}"
                     SelectedValuePath="Value"
@@ -116,32 +124,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[1].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 2">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[1].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[1].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
                             Text="{Binding TimerModels.Timers[1].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[1].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[1].IsOn}"
                             Text="{Binding TimerModels.Timers[1].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -150,9 +153,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[1].TimerConfig}"
                     SelectedValuePath="Value"
@@ -165,32 +166,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[2].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 3">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[2].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[2].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
                             Text="{Binding TimerModels.Timers[2].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[2].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[2].IsOn}"
                             Text="{Binding TimerModels.Timers[2].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -199,9 +195,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[2].TimerConfig}"
                     SelectedValuePath="Value"
@@ -214,32 +208,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[3].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 4">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[3].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[3].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
                             Text="{Binding TimerModels.Timers[3].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[3].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[3].IsOn}"
                             Text="{Binding TimerModels.Timers[3].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -248,9 +237,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[3].TimerConfig}"
                     SelectedValuePath="Value"
@@ -263,32 +250,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[4].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 5">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[4].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[4].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
                             Text="{Binding TimerModels.Timers[4].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[4].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[4].IsOn}"
                             Text="{Binding TimerModels.Timers[4].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -297,9 +279,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[4].TimerConfig}"
                     SelectedValuePath="Value"
@@ -312,32 +292,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[5].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 6">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[5].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[5].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
                             Text="{Binding TimerModels.Timers[5].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[5].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[5].IsOn}"
                             Text="{Binding TimerModels.Timers[5].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -346,9 +321,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[5].TimerConfig}"
                     SelectedValuePath="Value"
@@ -361,32 +334,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[6].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 7">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[6].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[6].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
                             Text="{Binding TimerModels.Timers[6].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[6].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[6].IsOn}"
                             Text="{Binding TimerModels.Timers[6].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -395,9 +363,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[6].TimerConfig}"
                     SelectedValuePath="Value"
@@ -410,32 +376,27 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
-                    <CheckBox Margin="10" IsChecked="{Binding TimerModels.Timers[7].IsOn}">
-                        <CheckBox.Content>
-                            <controls:TextBlock>
-                                <controls:TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} 8">
-                                        <Binding Source="{StaticResource Timer}" />
-                                    </MultiBinding>
-                                </controls:TextBlock.Text>
-                            </controls:TextBlock>
-                        </CheckBox.Content>
-                    </CheckBox>
+                    <CheckBox
+                        Margin="10"
+                        Content="{Binding TimerModels.Timers[7].TimerName}"
+                        IsChecked="{Binding TimerModels.Timers[7].IsOn}" />
                     <StackPanel Orientation="Horizontal">
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
                             Text="{Binding TimerModels.Timers[7].Hour, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                         <controls:TextBlock Text=":" />
                         <TextBox
                             Width="35"
                             Margin="10"
                             InputMethod.IsInputMethodEnabled="False"
-                            IsReadOnly="{c:Binding !TimerModels.Timers[7].IsOn}"
+                            IsEnabled="{c:Binding TimerModels.Timers[7].IsOn}"
                             Text="{Binding TimerModels.Timers[7].Min, StringFormat=D2}"
+                            PreviewTextInput="NumberValidationTextBox"
                             TextWrapping="Wrap" />
                     </StackPanel>
                 </StackPanel>
@@ -444,9 +405,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Focusable="False"
-                    IsEditable="True"
-                    IsHitTestVisible="{Binding Idle}"
-                    IsReadOnly="True"
+                    IsEnabled="{Binding Idle}"
                     ItemsSource="{Binding ConfigurationList}"
                     SelectedValue="{Binding TimerModels.Timers[7].TimerConfig}"
                     SelectedValuePath="Value"

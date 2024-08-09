@@ -1,0 +1,105 @@
+{
+    "stage_name": "再启新篇",
+    "replacement_home": [
+        {
+            "location": [9, 1],
+            "direction": "down"
+        }
+    ],
+    "blacklist_location": [
+        [8, 1],
+        [8, 3],
+        [8, 5],
+        [8, 7],
+        [9, 2],
+        [9, 4],
+        [9, 6],
+        [7, 2],
+        [7, 4],
+        [7, 6],
+        [6, 2],
+        [6, 5],
+        [5, 2],
+        [10, 2],
+        [10, 5]
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["回费", "情报官"],
+            "location": [9, 1],
+            "direction": "down",
+            "condition": [0, 10]
+        },
+        {
+            "groups": ["棘刺", "地面远程", "地面阻挡", "银灰"],
+            "location": [8, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["群奶", "浊心斯卡蒂"],
+            "location": [7, 3],
+            "direction": "right"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [6, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["奶"],
+            "location": [10, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["地面阻挡", "地面单切", "银灰"],
+            "location": [9, 3],
+            "direction": "down"
+        },
+        {
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [10, 4],
+            "direction": "down"
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰"],
+            "location": [11, 2],
+            "direction": "up",
+            "condition": [14, 27]
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰"],
+            "location": [11, 2],
+            "direction": "up",
+            "condition": [20, 40]
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰"],
+            "location": [1, 6],
+            "direction": "down",
+            "condition": [41, 45]
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰"],
+            "location": [1, 4],
+            "direction": "down",
+            "condition": [45, 48]
+        },
+        {
+            "groups": ["史尔特尔", "地面单切", "情报官", "炮灰"],
+            "location": [2, 3],
+            "direction": "left",
+            "condition": [48, 51]
+        },
+        {
+            "groups": ["银灰", "地面阻挡", "地面单切", "地刺", "其他地面"],
+            "location": [8, 4],
+            "direction": "down"
+        }
+    ],
+    "retreat_plan": [
+        {
+            "location": [9, 1],
+            "condition": [11, 14]
+        }
+    ]
+}

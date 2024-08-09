@@ -6,6 +6,7 @@
 
 #include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/OcrPack.h"
+#include "Config/OnnxSessions.h"
 #include "Config/ResourceLoader.h"
 #include "Controller/Controller.h"
 #include "Status.h"
@@ -40,12 +41,14 @@ bool ::AsstExtAPI::set_static_option(StaticOptionKey key, const std::string& val
     case StaticOptionKey::CpuOCR: {
         WordOcr::get_instance().use_cpu();
         CharOcr::get_instance().use_cpu();
+        OnnxSessions::get_instance().use_cpu();
         return true;
     } break;
     case StaticOptionKey::GpuOCR: {
         int device_id = std::stoi(value);
         WordOcr::get_instance().use_gpu(device_id);
         CharOcr::get_instance().use_gpu(device_id);
+        OnnxSessions::get_instance().use_gpu(device_id);
         return true;
     } break;
     default:
@@ -100,6 +103,9 @@ Assistant::~Assistant()
     }
     if (m_msg_thread.joinable()) {
         m_msg_thread.join();
+    }
+    if (m_callback) {
+        m_callback(static_cast<AsstMsgId>(AsstMsg::Destroyed), "{}", m_callback_arg);
     }
 }
 

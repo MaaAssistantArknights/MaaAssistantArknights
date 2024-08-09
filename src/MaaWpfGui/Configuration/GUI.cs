@@ -1,9 +1,10 @@
 // <copyright file="GUI.cs" company="MaaAssistantArknights">
+// <copyright file="GUI.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -12,7 +13,8 @@
 // </copyright>
 
 using System.ComponentModel;
-using static MaaWpfGui.ViewModels.UI.TaskQueueViewModel;
+using MaaWpfGui.Helper;
+using MaaWpfGui.Models;using static MaaWpfGui.ViewModels.UI.TaskQueueViewModel;
 
 namespace MaaWpfGui.Configuration
 {

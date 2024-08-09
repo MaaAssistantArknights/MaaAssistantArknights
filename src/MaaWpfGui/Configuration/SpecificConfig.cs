@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -32,8 +32,8 @@ namespace MaaWpfGui.Configuration
         [JsonInclude]
         public ObservableDictionary<string, bool> DragItemIsChecked { get; private set; } = new();
 
-        public object ToolBox { get; private set; } = new(); // æŠ½å¡ã€æ‰«ä»“åº“ã€è‡ªåŠ¨æˆ˜æ–—
-        public object å¤–éƒ¨é€šçŸ¥ { get; private set; } = new();
-        public object Cache { get; private set; } = new(); // ç†æ™ºã€å½“å¤©æ‰“OF-1
+        public object ToolBox { get; private set; } = new(); // ³é¿¨¡¢É¨²Ö¿â¡¢×Ô¶¯Õ½¶·
+        public object Íâ²¿Í¨Öª { get; private set; } = new();
+        public object Cache { get; private set; } = new(); // ÀíÖÇ¡¢µ±Ìì´òOF-1
     }
 }

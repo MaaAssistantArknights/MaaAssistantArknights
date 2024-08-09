@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -13,27 +13,20 @@
 #pragma warning disable SA1307
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Drawing;
 using System.Media;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using HandyControl.Data;
+using MaaWpfGui.Configuration;
+using MaaWpfGui.Helper.Notification;
+using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
-using Notification.Wpf;
-using Notification.Wpf.Base;
-using Notification.Wpf.Constants;
-using Notification.Wpf.Controls;
-using Semver;
+
 using Serilog;
-using Application = System.Windows.Forms.Application;
-using FontFamily = System.Windows.Media.FontFamily;
 
 namespace MaaWpfGui.Helper
 {
@@ -42,58 +35,75 @@ namespace MaaWpfGui.Helper
     /// </summary>
     public class ToastNotification : IDisposable
     {
-        // 这玩意有用吗？
-        // ReSharper disable once UnusedMember.Local
-        private ToastNotification()
+        private unsafe struct OSVERSIONINFOEXW
         {
-            if (!CheckToastSystem())
-            {
-                NotificationConstants.MessagePosition = NotificationPosition.BottomRight;
-            }
+            public int dwOSVersionInfoSize;
+            public int dwMajorVersion;
+            public int dwMinorVersion;
+            public int dwBuildNumber;
+            public int dwPlatformId;
+            private fixed char _szCSDVersion[128];
+            public short wServicePackMajor;
+            public short wServicePackMinor;
+            public short wSuiteMask;
+            public byte wProductType;
+            public byte wReserved;
+
+            public Span<char> szCSDVersion => MemoryMarshal.CreateSpan(ref _szCSDVersion[0], 128);
         }
 
-        private static bool _systemToastChecked;
-        private static bool _systemToastCheckInited;
+        [DllImport("ntdll.dll", ExactSpelling = true)]
+        private static extern int RtlGetVersion(ref OSVERSIONINFOEXW versionInfo);
+
+        // 这玩意有用吗？
+        // ReSharper disable once UnusedMember.Local
+
+        private static INotificationPoster _notificationPoster;
+
+        private static readonly string _openUrlPrefix;
+
+        static ToastNotification()
+        {
+            _notificationPoster = GetNotificationPoster();
+            _notificationPoster.ActionActivated += OnActionActivated;
+            _openUrlPrefix = $"OpenUrl:{_notificationPoster.GetHashCode()}:";
+        }
 
         private static readonly ILogger _logger = Log.ForContext<ToastNotification>();
 
-        public static Action<string, string, NotifyIconInfoType> ShowBalloonTip { get; set; }
-
-        public static Action<string, Action> AddMenuItemOnFirst { get; set; }
+        private static unsafe bool IsWindows10OrGreater()
+        {
+            var osVersionInfo = default(OSVERSIONINFOEXW);
+            osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
+            RtlGetVersion(ref osVersionInfo);
+            var version = new Version(osVersionInfo.dwMajorVersion, osVersionInfo.dwMinorVersion, osVersionInfo.dwBuildNumber);
+            return version > new Version(10, 0, 10240);
+        }
 
         /// <summary>
         /// Checks toast system.
         /// </summary>
         /// <returns>The toast system is initialized.</returns>
-        public bool CheckToastSystem()
+        private static INotificationPoster GetNotificationPoster()
         {
-            if (_systemToastCheckInited)
+            if (WineRuntimeInformation.IsRunningUnderWine)
             {
-                return _systemToastChecked;
+                if (NotificationImplLibNotify.IsSupported)
+                {
+                    return new NotificationImplLibNotify();
+                }
             }
-
-            _systemToastCheckInited = true;
-
-            // like "Microsoft Windows 10.0.10240 "
-            var osDesc = RuntimeInformation.OSDescription;
-            Regex versionRegex = new Regex(@"\d+\.\d+\.\d+");
-            var matched = versionRegex.Match(osDesc);
-            if (!matched.Success)
+            else if (IsWindows10OrGreater())
             {
-                _systemToastChecked = false;
-                return _systemToastChecked;
+                return new NotificationImplWinRT();
             }
-
-            var osVersion = matched.Groups[0].Value;
-            bool verParsed = SemVersion.TryParse(osVersion, SemVersionStyles.Strict, out var curVersionObj);
-
-            var minimumVersionObj = new SemVersion(10, 0, 10240);
-            _systemToastChecked = verParsed && curVersionObj.CompareSortOrderTo(minimumVersionObj) >= 0;
-
-            return _systemToastChecked;
+            return new NotificationImplWpf();
         }
 
-        private NotificationManager _notificationManager = new NotificationManager();
+        /// <summary>
+        /// 按钮激活后的事件，参数为按钮标签
+        /// </summary>
+        public static event EventHandler<string> ActionActivated;
 
         /// <summary>
         /// 通知标题
@@ -104,27 +114,6 @@ namespace MaaWpfGui.Helper
         /// 通知文本内容
         /// </summary>
         private StringBuilder _contentCollection = new StringBuilder();
-
-        /// <summary>
-        /// 应用图标资源
-        /// </summary>
-        private static ImageSource GetAppIcon()
-        {
-            try
-            {
-                var icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-                var imageSource = Imaging.CreateBitmapSourceFromHIcon(
-                    icon!.Handle,
-                    Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
-
-                return imageSource;
-            }
-            catch (Exception)
-            {
-                return new BitmapImage();
-            }
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ToastNotification"/> class.
@@ -139,18 +128,16 @@ namespace MaaWpfGui.Helper
         {
             // 初始化通知标题
             _notificationTitle = title ?? _notificationTitle;
+        }
 
-            // 同时显示最大数量
-            NotificationConstants.NotificationsOverlayWindowMaxCount = 5;
-
-            // 默认显示位置
-            // NotificationConstants.MessagePosition = NotificationPosition.BottomRight;
-
-            // 最小显示宽度
-            NotificationConstants.MinWidth = 400d;
-
-            // 最大显示宽度
-            NotificationConstants.MaxWidth = 460d;
+        private static void OnActionActivated(object sender, string tag)
+        {
+            if (tag.StartsWith(_openUrlPrefix)) {
+                var url = tag.Substring(_openUrlPrefix.Length);
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            } else {
+                ActionActivated?.Invoke(sender, tag);
+            }
         }
 
         /// <summary>
@@ -273,142 +260,37 @@ namespace MaaWpfGui.Helper
 
         #region 通知按钮变量
 
-        // 左边按钮
-        private string _buttonLeftText;
-
-        private Action _buttonLeftAction;
-
-        // 右边按钮
-        private string _buttonRightText;
-
-        private Action _buttonRightAction;
-
-        // 系统按钮
-        private string _buttonSystemText;
-
-        /// <summary>
-        /// Gets or sets the button system URL.
-        /// </summary>
-        public string ButtonSystemUrl { get; set; } = string.Empty;
-
-        private bool _buttonSystemEnabled;
+        private List<NotificationAction> _actions = new List<NotificationAction>();
 
         #endregion 通知按钮变量
 
         /// <summary>
-        /// 给通知添加一个在左边的按钮，比如确定按钮，多次设置只会按最后一次设置生效
+        /// 给通知添加一个按钮
         /// </summary>
-        /// <param name="text">按钮标题</param>
-        /// <param name="action">按钮执行方法</param>
+        /// <param name="label">按钮标题</param>
+        /// <param name="tag">事件标签</param>
         /// <returns>返回类本身，可继续调用其它方法</returns>
-        public ToastNotification AddButtonLeft(string text, Action action)
+        /// <remarks>按钮按下时，触发 <see cref="ActionActivated"/> 事件</remarks>
+        public ToastNotification AddButton(string label, string tag)
         {
-            AddMenuItemOnFirst(text, action); // TODO: 整理过时代码
-
-            _buttonLeftText = text;
-            _buttonLeftAction = action;
-            _buttonSystemText = text;
-            _buttonSystemEnabled = true;
+            _actions.Add(new NotificationAction(label, tag));
             return this;
         }
 
-        /// <summary>
-        /// 给通知添加一个在右边的按钮，比如取消按钮，多次设置只会按最后一次设置生效
-        /// </summary>
-        /// <param name="text">按钮标题</param>
-        /// <param name="action">按钮执行方法</param>
-        /// <returns>返回类本身，可继续调用其它方法</returns>
-        // ReSharper disable once UnusedMember.Global
-        public ToastNotification AddButtonRight(string text, Action action)
+        public static string GetActionTagForOpenWeb(string url)
         {
-            AddMenuItemOnFirst(text, action); // TODO: 整理过时代码
+            if (url.StartsWith("http://") || url.StartsWith("https://"))
+            {
+                return _openUrlPrefix + url;
+            }
 
-            _buttonRightText = text;
-            _buttonRightAction = action;
-            _buttonSystemText = text;
-            _buttonSystemEnabled = true;
-            return this;
+            throw new ArgumentException("URL must start with http:// or https://");
         }
 
         #endregion 通知按钮设置
 
         #region 通知显示
-
-        #region 通知基本字体样式和内容模板
-
-        /// <summary>
-        /// Gets basic text styles.
-        /// </summary>
-        /// <remarks>创建一个基本文本字体样式。</remarks>
-        public TextContentSettings BaseTextSettings => new TextContentSettings()
-        {
-            FontStyle = FontStyles.Normal,
-            FontFamily = new FontFamily("Microsoft Yahei"),
-            FontSize = 14,
-            FontWeight = FontWeights.Normal,
-            TextAlignment = TextAlignment.Left,
-            HorizontalAlignment = HorizontalAlignment.Stretch,
-            VerticalTextAlignment = VerticalAlignment.Stretch,
-            Opacity = 1d,
-        };
-
-        /// <summary>
-        /// 创建一个基本通知内容模板
-        /// </summary>
-        /// <returns>The notification content.</returns>
-        public NotificationContent BaseContent()
-        {
-            var content = new NotificationContent()
-            {
-                Title = _notificationTitle,
-                Message = _contentCollection.ToString(),
-
-                Type = NotificationType.None,
-                Icon = GetAppIcon(),
-                CloseOnClick = true,
-
-                RowsCount = 1,
-                TrimType = NotificationTextTrimType.AttachIfMoreRows,
-
-                Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF1F3550"),
-
-                LeftButtonContent = _buttonLeftText ?? NotificationConstants.DefaultLeftButtonContent,
-                LeftButtonAction = _buttonLeftAction,
-
-                RightButtonContent = _buttonRightText ?? NotificationConstants.DefaultRightButtonContent,
-                RightButtonAction = _buttonRightAction,
-            };
-
-            // 默认的标题文本样式
-            var titleTextSettings = BaseTextSettings;
-            titleTextSettings.FontSize = 18d;
-            content.TitleTextSettings = titleTextSettings;
-
-            // 默认的内容文本样式
-            var messageTextSettings = BaseTextSettings;
-            content.MessageTextSettings = messageTextSettings;
-
-            return content;
-        }
-
-        #endregion 通知基本字体样式和内容模板
-
         #region 显示通知方法
-
-        /// <summary>
-        /// 显示通知
-        /// </summary>
-        public void Show()
-        {
-            if (!Instances.SettingsViewModel.UseNotify)
-            {
-                _logger.Information($"UseNotify is not turned on, the information is {_contentCollection}");
-                return;
-            }
-
-            _contentCollection.AppendLine(); // content 不能为空，否则通知发不出去
-            ShowBalloonTip(_notificationTitle, _contentCollection.ToString(), NotifyIconInfoType.None);
-        }
 
         /// <summary>
         /// 显示通知
@@ -416,89 +298,52 @@ namespace MaaWpfGui.Helper
         /// <param name="lifeTime">通知显示时间 (s)</param>
         /// <param name="row">内容显示行数，如果内容太多建议使用 <see cref="ShowMore(double, uint, NotificationSounds, NotificationContent)"/></param>
         /// <param name="sound">播放提示音</param>
-        /// <param name="notificationContent">通知内容</param>
+        /// <param name="hints">通知额外元数据，可能影响通知展示方式</param>
         ///
         public void Show(double lifeTime = 10d, uint row = 1,
-            NotificationSounds sound = NotificationSounds.Notification,
-            NotificationContent notificationContent = null)
+            NotificationSounds sound = NotificationSounds.Notification, params NotificationHint[] hints)
         {
-            Show();
-            return;
-
             // TODO: 整理过时代码
-            /*
             if (!ConfigFactory.CurrentConfig.GUI.UseNotify)
             {
                 return;
             }
 
-            try
+            var content = new NotificationContent
             {
-                if (CheckToastSystem())
-                {
-                    Execute.OnUIThreadAsync(() =>
-                    {
-                        if (_buttonSystemEnabled)
-                        {
-                            Uri burl = new Uri(ButtonSystemUrl);
-                            var toastContent = new ToastContentBuilder()
-                                .AddText(_notificationTitle)
-                                .AddText(_contentCollection.ToString())
-                                .AddButton(new ToastButton()
-                                    .SetContent(_buttonSystemText)
-                                    .SetProtocolActivation(burl))
-                                .GetToastContent();
-                            var toastXmlDoc = new XmlDocument();
-                            toastXmlDoc.LoadXml(toastContent.GetContent());
-                            var toastNotification = new Windows.UI.Notifications.ToastNotification(toastXmlDoc);
-                            ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
-                        }
-                        else
-                        {
-                            var toastContent = new ToastContentBuilder()
-                                .AddText(_notificationTitle)
-                                .AddText(_contentCollection.ToString())
-                                .GetToastContent();
-                            var toastXmlDoc = new XmlDocument();
-                            toastXmlDoc.LoadXml(toastContent.GetContent());
-                            var toastNotification = new Windows.UI.Notifications.ToastNotification(toastXmlDoc);
-                            ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
-                        }
-                    });
+                Summary = _notificationTitle,
+                Body = _contentCollection.ToString(),
+            };
 
-                    // 通知正常弹出了就直接 return，否则用 catch 下面的兼容版通知
-                    return;
-                }
-            }
-            catch (Exception e)
+            foreach (var action in _actions)
             {
-                _logger.Error(e, "显示通知失败");
-                _systemToastChecked = false;
+                content.Actions.Add(action);
             }
 
-            notificationContent ??= BaseContent();
-
-            notificationContent.RowsCount = row;
+            content.Hints.Add(NotificationHint.RowCount((int)row));
 
             // 调整显示时间，如果存在按钮的情况下显示时间将强制设为最大时间
             lifeTime = lifeTime < 3d ? 3d : lifeTime;
 
-            var timeSpan = _buttonLeftAction == null && _buttonRightAction == null
+            var timeSpan = _actions.Count != 0
                 ? TimeSpan.FromSeconds(lifeTime)
                 : TimeSpan.MaxValue;
 
+            content.Hints.Add(NotificationHint.ExpirationTime(timeSpan));
+
+            foreach (var hint in hints)
+            {
+                content.Hints.Add(hint);
+            }
+
             // 显示通知
-            _notificationManager.Show(
-                notificationContent,
-                expirationTime: timeSpan,
-                ShowXbtn: false);
+            _notificationPoster.ShowNotification(content);
 
             // 播放通知提示音
             PlayNotificationSound(sound);
 
             // 任务栏闪烁
             FlashWindowEx();
-            */
         }
 
         /// <summary>
@@ -507,18 +352,16 @@ namespace MaaWpfGui.Helper
         /// <param name="lifeTime">通知显示时间 (s)</param>
         /// <param name="row">内容显示行数，只用于预览一部分通知，多出内容会放在附加按钮的窗口中</param>
         /// <param name="sound">播放提示音，不设置就没有声音</param>
-        /// <param name="notificationContent">通知内容</param>
         public void ShowMore(double lifeTime = 12d, uint row = 2,
-            NotificationSounds sound = NotificationSounds.None,
-            NotificationContent notificationContent = null)
+            NotificationSounds sound = NotificationSounds.None, params NotificationHint[] hints)
         {
-            notificationContent ??= BaseContent();
-            notificationContent.TrimType = NotificationTextTrimType.Attach;
-
+            var morehints = new NotificationHint[hints.Length + 1];
+            hints.CopyTo(morehints, 0);
+            morehints[hints.Length] = NotificationHint.Expandable;
             Show(lifeTime: lifeTime,
                  row: row,
                  sound: sound,
-                 notificationContent: notificationContent);
+                 hints: morehints);
         }
 
         /// <summary>
@@ -527,15 +370,9 @@ namespace MaaWpfGui.Helper
         /// <param name="row">内容显示行数，比如第 2 行用来放星星</param>
         public void ShowRecruit(uint row = 1)
         {
-            var content = BaseContent();
-
-            // 给通知染上资深标签相似的颜色
-            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF401804");
-            content.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFC800");
-
             Show(row: row,
                  sound: NotificationSounds.Notification,
-                 notificationContent: content);
+                 hints: NotificationHint.RecruitHighRarity);
         }
 
         /// <summary>
@@ -544,15 +381,9 @@ namespace MaaWpfGui.Helper
         /// <param name="row">内容显示行数，比如第 2 行用来放星星</param>
         public void ShowRecruitRobot(uint row = 1)
         {
-            var content = BaseContent();
-
-            // 给通知染上小车相似的颜色
-            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFFF4");
-            content.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF111111");
-
             Show(row: row,
                 sound: NotificationSounds.Notification,
-                notificationContent: content);
+                hints: NotificationHint.RecruitRobot);
         }
 
         /// <summary>
@@ -561,13 +392,9 @@ namespace MaaWpfGui.Helper
         /// <param name="row">内容行数</param>
         public void ShowUpdateVersion(uint row = 3)
         {
-            var content = BaseContent();
-
-            content.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF007280");
-
             ShowMore(row: row,
                     sound: NotificationSounds.Notification,
-                    notificationContent: content);
+                    hints: NotificationHint.NewVersion);
         }
 
         #endregion 显示通知方法
@@ -695,12 +522,18 @@ namespace MaaWpfGui.Helper
         public void Dispose()
         {
             _contentCollection.Clear();
+        }
 
-            _notificationManager = null;
-            _notificationTitle = null;
-            _contentCollection = null;
-            _buttonLeftText = _buttonRightText = null;
-            _buttonLeftAction = _buttonRightAction = null;
+        public static void Cleanup()
+        {
+            try
+            {
+                (_notificationPoster as IDisposable)?.Dispose();
+            }
+            catch (Exception e)
+            {
+                Log.ForContext<ToastNotification>().Error(e, "Cleanup error");
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,6 +29,7 @@ using MaaWpfGui.States;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Serilog;
+using Stylet;
 
 namespace MaaWpfGui.Services.RemoteControl
 {
@@ -247,7 +249,7 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (string.IsNullOrWhiteSpace(endpoint) || !endpoint.ToLower().StartsWith("https://"))
+            if (!IsEndpointValid(endpoint))
             {
                 return;
             }
@@ -331,18 +333,15 @@ namespace MaaWpfGui.Services.RemoteControl
                             await _runningState.UntilIdleAsync();
                             var startLogStr = string.Format(LocalizationHelper.GetString("RemoteControlReceivedTask"), type, id);
 
-                            Application.Current.Dispatcher.Invoke(() =>
+                            Instances.TaskQueueViewModel.AddLog(startLogStr);
+                            await Execute.OnUIThreadAsync(() =>
                             {
-                                Instances.TaskQueueViewModel.AddLog(startLogStr);
                                 Instances.TaskQueueViewModel.LinkStart();
                             });
                             await _runningState.UntilIdleAsync();
 
                             var stopLogStr = string.Format(LocalizationHelper.GetString("RemoteControlCompletedTask"), type, id);
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                Instances.TaskQueueViewModel.AddLog(stopLogStr);
-                            });
+                            Instances.TaskQueueViewModel.AddLog(stopLogStr);
                             break;
                         }
 
@@ -415,13 +414,13 @@ namespace MaaWpfGui.Services.RemoteControl
 
                     case "Settings-ConnectAddress":
                         // ConfigurationHelper.SetValue(type.Split('-')[1], data);
-                        Application.Current.Dispatcher.Invoke(() =>
+                        await Execute.OnUIThreadAsync(() =>
                         {
                             Instances.SettingsViewModel.ConnectAddress = data;
                         });
                         break;
                     case "Settings-Stage1":
-                        Application.Current.Dispatcher.Invoke(() =>
+                        await Execute.OnUIThreadAsync(() =>
                         {
                             Instances.TaskQueueViewModel.Stage1 = data;
                         });
@@ -435,7 +434,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
-                if (!string.IsNullOrWhiteSpace(endpoint) && endpoint.ToLower().StartsWith("https://"))
+                if (IsEndpointValid(endpoint))
                 {
                     var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
                     var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
@@ -530,7 +529,7 @@ namespace MaaWpfGui.Services.RemoteControl
                 }
 
                 var endpoint = Instances.SettingsViewModel.RemoteControlReportStatusUri;
-                if (!string.IsNullOrWhiteSpace(endpoint) && endpoint.ToLower().StartsWith("https://"))
+                if (IsEndpointValid(endpoint))
                 {
                     var uid = Instances.SettingsViewModel.RemoteControlUserIdentity;
                     var did = Instances.SettingsViewModel.RemoteControlDeviceIdentity;
@@ -572,7 +571,7 @@ namespace MaaWpfGui.Services.RemoteControl
 
             _runningState.SetIdle(false);
 
-            await Application.Current.Dispatcher.Invoke(async () =>
+            await Execute.OnUIThreadAsync(async () =>
             {
                 // 虽然更改时已经保存过了，不过保险起见还是在点击开始之后再保存一次任务及基建列表
                 Instances.TaskQueueViewModel.TaskItemSelectionChanged();
@@ -694,19 +693,8 @@ namespace MaaWpfGui.Services.RemoteControl
         {
             var endpoint = Instances.SettingsViewModel.RemoteControlGetTaskEndpointUri;
 
-            if (string.IsNullOrWhiteSpace(endpoint))
+            if (!IsEndpointValid(endpoint, alarm: true))
             {
-                using var toastEmpty = new ToastNotification(
-                    LocalizationHelper.GetString("RemoteControlConnectionTestFailEmpty"));
-                toastEmpty.Show();
-                return;
-            }
-
-            if (!endpoint.ToLower().StartsWith("https://"))
-            {
-                using var toastEmpty = new ToastNotification(
-                    LocalizationHelper.GetString("RemoteControlConnectionTestFailNotHttps"));
-                toastEmpty.Show();
                 return;
             }
 
@@ -764,6 +752,41 @@ namespace MaaWpfGui.Services.RemoteControl
         public static void RegenerateDeviceIdentity()
         {
             Instances.SettingsViewModel.RemoteControlDeviceIdentity = Guid.NewGuid().ToString("N");
+        }
+
+        public static bool IsEndpointValid(string endpoint, bool alarm = false)
+        {
+            if (string.IsNullOrWhiteSpace(endpoint))
+            {
+                ShowToast("RemoteControlConnectionTestFailEmpty", alarm);
+                return false;
+            }
+
+            string lowerEndpoint = endpoint.ToLower();
+
+            if (lowerEndpoint.StartsWith("https://"))
+            {
+                return true;
+            }
+            else if (lowerEndpoint.StartsWith("http://"))
+            {
+                ShowToast("RemoteControlConnectionTestWarningHttpUnsafe", alarm);
+                return true;
+            }
+            else
+            {
+                ShowToast("RemoteControlConnectionTestFailNotHttpOrHttps", alarm);
+                return false;
+            }
+        }
+
+        public static void ShowToast(string message, bool alarm)
+        {
+            if (alarm)
+            {
+                using var toast = new ToastNotification(LocalizationHelper.GetString(message));
+                toast.Show();
+            }
         }
     }
 }

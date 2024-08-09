@@ -2,161 +2,66 @@
     "stage_name": "危机四伏",
     "replacement_home": [
         {
-            "location": [
-                7,
-                5
-            ],
+            "location": [7, 5],
             "direction": "left"
         }
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "回费",
-                "情报官"
-            ],
-            "location": [
-                9,
-                5
-            ],
+            "groups": ["回费", "情报官"],
+            "location": [9, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "凯尔希",
-                "奶"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["凯尔希", "奶"],
+            "location": [7, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "情报官",
-                "地面单切",
-                "炮灰",
-                "银灰",
-                "回费",
-                "史尔特尔"
-            ],
-            "location": [
-                7,
-                5
-            ],
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [7, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡",
-                "情报官",
-                "回费",
-                "炮灰",
-                "银灰"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["棘刺", "地面阻挡", "情报官", "回费", "炮灰", "银灰"],
+            "location": [6, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "棘刺",
-                "地面阻挡"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["棘刺", "地面阻挡"],
+            "location": [5, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "浊心斯卡蒂",
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["浊心斯卡蒂", "高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [5, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                4,
-                4
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [4, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "高台输出",
-                "梓兰",
-                "高台预备"
-            ],
-            "location": [
-                6,
-                4
-            ],
+            "groups": ["高台C", "高台输出", "梓兰", "高台预备"],
+            "location": [6, 4],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "情报官",
-                "地面单切",
-                "炮灰",
-                "银灰",
-                "回费",
-                "史尔特尔"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [6, 5],
             "direction": "left"
         },
         {
-            "groups": [
-                "地面阻挡",
-                "情报官",
-                "地面单切",
-                "炮灰",
-                "银灰",
-                "回费",
-                "史尔特尔"
-            ],
-            "location": [
-                8,
-                5
-            ],
+            "groups": ["地面阻挡", "情报官", "地面单切", "炮灰", "银灰", "回费", "史尔特尔"],
+            "location": [8, 5],
             "direction": "left"
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                9,
-                5
-            ],
-            "condition": [
-                10,
-                15
-            ]
+            "location": [9, 5],
+            "condition": [10, 15]
         }
     ]
 }

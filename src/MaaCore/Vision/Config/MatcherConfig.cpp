@@ -41,9 +41,24 @@ void asst::MatcherConfig::set_threshold(std::vector<double> templ_thres) noexcep
 
 void MatcherConfig::set_mask_range(int lower, int upper, bool mask_with_src, bool mask_with_close)
 {
-    m_params.mask_range = std::make_pair(lower, upper);
+    m_params.mask_range = { { { lower }, { upper } } };
     m_params.mask_with_src = mask_with_src;
     m_params.mask_with_close = mask_with_close;
+}
+
+void MatcherConfig::set_mask_range(
+    std::vector<MatchTaskInfo::Range> mask_range,
+    bool mask_with_src,
+    bool mask_with_close)
+{
+    m_params.mask_range = std::move(mask_range);
+    m_params.mask_with_src = mask_with_src;
+    m_params.mask_with_close = mask_with_close;
+}
+
+void MatcherConfig::set_method(MatchMethod method) noexcept
+{
+    m_params.methods = { method };
 }
 
 void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
@@ -52,6 +67,7 @@ void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
     ranges::copy(task_info.templ_names, std::back_inserter(m_params.templs));
     m_params.templ_thres = std::move(task_info.templ_thresholds);
     m_params.mask_range = std::move(task_info.mask_range);
+    m_params.methods = std::move(task_info.methods);
 
     _set_roi(task_info.roi);
 }

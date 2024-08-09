@@ -13,5 +13,9 @@ namespace asst
 
     protected:
         virtual bool _run() override;
+    
+    private:
+        // 购买一次
+        bool buy_once();
     };
 }

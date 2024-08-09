@@ -36,6 +36,7 @@ namespace asst
         void set_add_trust(bool add_trust);
         // 设置对指定编队自动编队
         void set_select_formation(int index);
+        std::shared_ptr<std::unordered_map<std::string, std::string>> get_opers_in_formation() const;
 
         enum class DataResource
         {
@@ -45,10 +46,10 @@ namespace asst
         void set_data_resource(DataResource resource);
 
     protected:
-        using OperGroup = std::vector<battle::OperUsage>;
+        using OperGroup = std::pair<std::string, std::vector<asst::battle::OperUsage>>;
 
         virtual bool _run() override;
-        bool add_formation(battle::Role role, std::vector<OperGroup> oper_group);
+        bool add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing);
         // 追加附加干员（按部署费用等小分类）
         bool add_additional();
         // 补充刷信赖的干员，从最小的开始
@@ -62,21 +63,24 @@ namespace asst
         bool parse_formation();
         bool select_formation(int select_index);
         bool select_random_support_unit();
+        void report_missing_operators(std::vector<OperGroup>& groups);
 
         std::vector<asst::TemplDetOCRer::Result> analyzer_opers();
 
         std::string m_stage_name;
         std::unordered_map<battle::Role, std::vector<OperGroup>> m_formation;
         std::vector<OperGroup> m_user_formation;
-        int m_size_of_operators_in_formation = 0;       // 编队中干员个数
-        std::set<std::string> m_operators_in_formation; // 编队中的干员名称，用来判断能不能追加某个干员
-        bool m_add_trust = false;                       // 是否需要追加信赖干员
-        bool m_add_user_additional = false;             // 补用户自定义干员
+        int m_size_of_operators_in_formation = 0;                          // 编队中干员个数
+        std::shared_ptr<std::unordered_map<std::string, std::string>> m_opers_in_formation =
+            std::make_shared<std::unordered_map<std::string, std::string>>(); // 编队中的干员名称-所属组名
+        bool m_add_trust = false;                                   // 是否需要追加信赖干员
+        bool m_add_user_additional = false;                         // 补用户自定义干员
         std::vector<std::pair<std::string, int>> m_user_additional; // 追加干员表，从头往后加
         std::string m_support_unit_name;
         DataResource m_data_resource = DataResource::Copilot;
         std::vector<AdditionalFormation> m_additional;
         std::string m_last_oper_name;
         int m_select_formation_index = 0;
+        int m_missing_retry_times = 1; // 识别不到干员的重试次数
     };
 } // namespace asst

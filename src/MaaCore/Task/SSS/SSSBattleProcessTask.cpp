@@ -1,5 +1,6 @@
 #include "SSSBattleProcessTask.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/Miscellaneous/SSSCopilotConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
@@ -94,7 +95,19 @@ bool asst::SSSBattleProcessTask::do_derived_action(const battle::copilot::Action
 bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
 {
     LogTraceFunction;
+
+    thread_local auto prev_frame_time = std::chrono::steady_clock::time_point {};
+    static const auto min_frame_interval = std::chrono::milliseconds(Config.get_options().sss_fight_screencap_interval);
+
+    // prevent our program from consuming too much CPU
+    if (const auto now = std::chrono::steady_clock::now();
+        prev_frame_time > now - min_frame_interval) [[unlikely]] {
+        Log.debug("Sleeping for framerate limit");
+        std::this_thread::sleep_for(min_frame_interval - (now - prev_frame_time));
+    }
+
     cv::Mat image = reusable.empty() ? ctrler()->get_image() : reusable;
+    prev_frame_time = std::chrono::steady_clock::now();
 
     if (check_and_get_drops(image)) {
         return true;

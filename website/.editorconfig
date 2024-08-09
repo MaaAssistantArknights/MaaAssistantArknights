@@ -1,0 +1,14 @@
+root = true
+
+[*]
+indent_style = space
+insert_final_newline = true
+
+[*.{json, js, jsx, mjs, ts, tsx, css, html}]
+indent_size = 2
+charset = utf-8
+end_of_line = lf
+
+[*.{md, mdx}]
+end_of_line = lf
+charset = utf-8

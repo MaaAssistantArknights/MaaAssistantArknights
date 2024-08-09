@@ -1,5 +1,6 @@
 #include "RoguelikeSettlementTaskPlugin.h"
 
+#include "Config/GeneralConfig.h"
 #include "Config/TaskData.h"
 #include "Controller/Controller.h"
 #include "Utils/ImageIo.hpp"
@@ -127,7 +128,7 @@ bool asst::RoguelikeSettlementTaskPlugin::wait_for_whole_page()
     int retry = 0;
     cv::Mat image;
     Matcher matcher;
-    matcher.set_task_info("RoguelikeSettlementConfirm");
+    matcher.set_task_info(m_config->get_theme() + "@RoguelikeSettlementConfirm");
     do {
         image = ctrler()->get_image();
         matcher.set_image(image);

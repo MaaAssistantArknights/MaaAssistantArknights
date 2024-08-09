@@ -16,7 +16,7 @@ void asst::TemplResource::set_load_required(std::unordered_set<std::string> requ
 bool asst::TemplResource::load(const std::filesystem::path& path)
 {
     LogTraceFunction;
-    Log.info("load", path);
+    Log.info("load", path.lexically_relative(UserDir.get()));
 
 #ifdef ASST_DEBUG
     bool some_file_not_exists = false;
@@ -38,7 +38,7 @@ bool asst::TemplResource::load(const std::filesystem::path& path)
             continue;
         }
         else {
-            Log.error("Templ load failed, file not exists", filepath);
+            Log.error("Templ load failed, file not exists", filepath.lexically_relative(UserDir.get()));
 #ifdef ASST_DEBUG
             some_file_not_exists = true;
 #else

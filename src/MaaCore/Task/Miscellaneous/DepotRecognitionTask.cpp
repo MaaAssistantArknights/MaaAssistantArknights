@@ -61,7 +61,7 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
     json::value info = basic_info_with_what("DepotInfo");
     auto& details = info["details"];
 
-    // https://penguin-stats.cn/planner
+    // https://penguin-stats.io/planner
     if (auto arkplanner_template_opt = json::parse(templ.ark_planner)) {
         auto& arkplanner = details["arkplanner"];
         auto& arkplanner_obj = arkplanner["object"];
@@ -69,7 +69,7 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
         auto& arkplanner_data_items = arkplanner_obj["items"];
 
         for (const auto& [item_id, item_info] : m_all_items) {
-            arkplanner_data_items.array_emplace(json::object {
+            arkplanner_data_items.emplace(json::object {
                 { "id", item_id },
                 { "have", item_info.quantity },
                 { "name", item_info.item_name },
@@ -78,12 +78,12 @@ void asst::DepotRecognitionTask::callback_analyze_result(bool done)
         arkplanner["data"] = arkplanner_obj.to_string();
     }
 
-    // https://arkn.lolicon.app/#/material
+    // https://arkntools.app/#/material
     {
         auto& lolicon = details["lolicon"];
         auto& lolicon_obj = lolicon["object"];
         for (const auto& [item_id, item_info] : m_all_items) {
-            lolicon_obj.object_emplace(item_id, item_info.quantity);
+            lolicon_obj.emplace(item_id, item_info.quantity);
         }
         lolicon["data"] = lolicon_obj.to_string();
     }

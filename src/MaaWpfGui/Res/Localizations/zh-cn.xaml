@@ -6,6 +6,7 @@
     <system:String x:Key="Settings">设置</system:String>
     <system:String x:Key="GeneralSettings">常规设置</system:String>
     <system:String x:Key="AdvancedSettings">高级设置</system:String>
+    <system:String x:Key="PerformanceSettings">性能设置</system:String>
     <system:String x:Key="GameSettings">游戏设置</system:String>
     <system:String x:Key="BaseSettings">基建设置</system:String>
     <system:String x:Key="RoguelikeSettings">肉鸽设置</system:String>
@@ -20,9 +21,9 @@
     <system:String x:Key="HotKeySettings">热键设置</system:String>
     <system:String x:Key="UpdateSettings">软件更新</system:String>
     <system:String x:Key="AboutUs">关于我们</system:String>
-    <system:String x:Key="CoreVersion">Core 版本号</system:String>
-    <system:String x:Key="UiVersion">UI 版本号</system:String>
-    <system:String x:Key="ResourceVersion">资源版本号</system:String>
+    <system:String x:Key="CoreVersion">核心版本</system:String>
+    <system:String x:Key="UiVersion">界面版本</system:String>
+    <system:String x:Key="ResourceVersion">资源版本</system:String>
     <system:String x:Key="Off">关闭</system:String>
     <system:String x:Key="ExternalNotificationTips">请注意：外部通知功能目前仅会发送“所有任务完成”的通知。</system:String>
     <system:String x:Key="ExternalNotificationSettings">外部通知</system:String>
@@ -33,6 +34,8 @@
     <system:String x:Key="ExternalNotificationSendTestTitle">MAA 外部通知测试</system:String>
     <system:String x:Key="ExternalNotificationSendTestContent">这是 MAA 外部通知测试信息。如果你看到了这段内容，就说明通知发送成功了！</system:String>
     <system:String x:Key="ExternalNotificationServerChanSendKey">Server Chan 发送密钥</system:String>
+    <system:String x:Key="ExternalNotificationBarkSendKey">Bark 发送密钥</system:String>
+    <system:String x:Key="ExternalNotificationBarkServer">Bark 服务器</system:String>
     <system:String x:Key="ExternalNotificationSmtpServer">SMTP 服务器</system:String>
     <system:String x:Key="ExternalNotificationSmtpPort">端口</system:String>
     <system:String x:Key="ExternalNotificationSmtpSsl">使用 SSL</system:String>
@@ -41,6 +44,13 @@
     <system:String x:Key="ExternalNotificationSmtpPassword">密码</system:String>
     <system:String x:Key="ExternalNotificationSmtpFrom">发件人</system:String>
     <system:String x:Key="ExternalNotificationSmtpTo">收件人</system:String>
+    <system:String x:Key="ExternalNotificationDiscordBotToken">机器人 Token</system:String>
+    <system:String x:Key="ExternalNotificationDiscordUserId">用户 ID</system:String>
+    <system:String x:Key="ExternalNotificationTelegramBotToken">机器人 Token</system:String>
+    <system:String x:Key="ExternalNotificationTelegramChatId">聊天 ID</system:String>
+    <system:String x:Key="UseGpuForInference">使用 GPU 加速推理</system:String>
+    <system:String x:Key="GpuOptionDisable">不使用</system:String>
+    <system:String x:Key="GpuOptionSystemDefault">系统默认 GPU</system:String>
     <!--  设置指引  -->
     <system:String x:Key="TaskSettings">任务设置</system:String>
     <system:String x:Key="SettingsGuide">设置指引</system:String>
@@ -77,7 +87,7 @@
     <system:String x:Key="TrainingIdle">训练室空闲中</system:String>
     <system:String x:Key="TrainingCompleted">训练完成</system:String>
     <system:String x:Key="TrainingLevel">专精等级</system:String>
-    <system:String x:Key="TrainingProgress">训练进度</system:String>
+    <system:String x:Key="TrainingTimeLeft">剩余时间</system:String>
     <system:String x:Key="CustomInfrastEnabled">启用自定义基建配置（beta）</system:String>
     <system:String x:Key="DefaultInfrast">内置配置</system:String>
     <system:String x:Key="UserDefined">自定义</system:String>
@@ -94,7 +104,6 @@
     <system:String x:Key="CustomizeInfrastSelectionEmpty">自定义设施配置选择为空，请检查配置或关闭自定义功能。</system:String>
     <system:String x:Key="General">通用模式</system:String>
     <system:String x:Key="BlueStacks">蓝叠模拟器</system:String>
-    <system:String x:Key="MuMuEmulator">MuMu 模拟器 6</system:String>
     <system:String x:Key="MuMuEmulator12">MuMu 模拟器 12</system:String>
     <system:String x:Key="LDPlayer">雷电模拟器</system:String>
     <system:String x:Key="Nox">夜神模拟器</system:String>
@@ -108,18 +117,23 @@
     <system:String x:Key="InfrastThresholdTip">若启用自定义换班，该字段仅针对 autofill 和使用干员编组的房间有效</system:String>
     <system:String x:Key="RoguelikeStrategyExp">刷等级，尽可能稳定地打更多层数</system:String>
     <system:String x:Key="RoguelikeStrategyGold">刷源石锭，到达第二层后直接退出</system:String>
-    <system:String x:Key="RoguelikeLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">刷开局，刷取热水壶或精二干员开局</system:String>
+    <system:String x:Key="RoguelikeStrategyCollapse">刷坍缩范式，遇到非稀有坍缩范式后直接重开</system:String>
     <system:String x:Key="StartingSquad">开局分队</system:String>
     <system:String x:Key="StartingRoles">开局职业组</system:String>
     <system:String x:Key="StartingCoreChar">开局干员 (单个)</system:String>
     <system:String x:Key="StartingCoreCharTip">不填写则使用默认策略。</system:String>
-    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员「{0}」未在 battle_data 中，请检查输入的名称是否正确，或检查 maa 资源版本。</system:String>
+    <system:String x:Key="RoguelikeStartingCoreCharNotFound">输入的干员未在 battle_data 中。</system:String>
     <system:String x:Key="RoguelikeStartWithEliteTwo">凹「开局干员」直升精二</system:String>
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">只凹「开局干员」直升精二，不进行作战</system:String>
+    <system:String x:Key="Roguelike3FirstFloorFoldartal">凹第一层远见密文板，不进行作战</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">生活队凹开局密文板</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">最多写三个，并用英文分号「;」隔开</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">「开局干员」使用助战</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">可以使用非好友助战</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">在战斗结束前延迟「停止」动作</system:String>
-    <system:String x:Key="DeploymentWithPause">暂停下干员（同时影响肉鸽、自动战斗、保全）（不稳定，暂不推荐开启）</system:String>
+    <system:String x:Key="RoguelikeStopAtFinalBoss">在第五层 BOSS 前暂停</system:String>
+    <system:String x:Key="DeploymentWithPause">划火柴模式（自动战斗）</system:String>
     <system:String x:Key="AdbLiteEnabled">使用 ADB Lite（实验性功能）</system:String>
     <system:String x:Key="KillAdbOnExit">退出时释放 ADB</system:String>
     <system:String x:Key="DefaultSquad">默认分队</system:String>
@@ -130,6 +144,10 @@
     <system:String x:Key="IS3NewSquad2">生活至上分队</system:String>
     <system:String x:Key="IS3NewSquad3">科学主义分队</system:String>
     <system:String x:Key="IS3NewSquad4">特训分队</system:String>
+    <system:String x:Key="IS4NewSquad1">魂灵护送分队</system:String>
+    <system:String x:Key="IS4NewSquad2">博闻广记分队</system:String>
+    <system:String x:Key="IS4NewSquad3">蓝图测绘分队</system:String>
+    <system:String x:Key="IS4NewSquad4">因地制宜分队</system:String>
     <system:String x:Key="LeaderSquad">指挥分队</system:String>
     <system:String x:Key="GatheringSquad">集群分队</system:String>
     <system:String x:Key="SupportSquad">后勤分队</system:String>
@@ -152,9 +170,9 @@
     <system:String x:Key="NotSelected">不选择</system:String>
     <system:String x:Key="Official">官服</system:String>
     <system:String x:Key="Bilibili">Bilibili服</system:String>
-    <system:String x:Key="YoStarEN">国际服 (YoStarEN)</system:String>
-    <system:String x:Key="YoStarJP">日服 (YoStarJP)</system:String>
-    <system:String x:Key="YoStarKR">韩服 (YoStarKR)</system:String>
+    <system:String x:Key="YoStarEN">国际服 (YostarEN)</system:String>
+    <system:String x:Key="YoStarJP">日服 (YostarJP)</system:String>
+    <system:String x:Key="YoStarKR">韩服 (YostarKR)</system:String>
     <system:String x:Key="Txwy">繁中服 (txwy)</system:String>
     <system:String x:Key="Switchable">可切换</system:String>
     <system:String x:Key="Executable">可执行文件</system:String>
@@ -163,7 +181,7 @@
     <system:String x:Key="AdbException">检测ADB出错\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorNotFound">未检测到任何模拟器\n请使用管理员权限打开本软件\n或手动设置连接</system:String>
     <system:String x:Key="EmulatorTooMany">检测到多个模拟器\n请关闭不需要的模拟器\n或手动设置连接</system:String>
-    <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器</system:String>
+    <system:String x:Key="EmulatorStartFailed">未能成功启动模拟器\n请使用管理员权限打开本软件\n或手动启动模拟器。</system:String>
     <system:String x:Key="SwitchLanguage">切换语言</system:String>
     <system:String x:Key="Language">语言</system:String>
     <system:String x:Key="LanguageChangedTip">语言设置已更改，是否现在重启 MAA 以应用语言设置？</system:String>
@@ -189,6 +207,16 @@
     <system:String x:Key="UpdateCheckStable">稳定版</system:String>
     <system:String x:Key="UpdateCheckBeta">公测版</system:String>
     <system:String x:Key="UpdateCheckNightly">内测版</system:String>
+    <system:String x:Key="NightlyWarning" xml:space="preserve">您已启用内测版更新。感谢您对 MAA 的支持与测试。
+
+请注意：
+
+1. 这是内测版，可能包含不稳定的功能。
+2. 如果遇到问题，请务必在 GitHub 上检查是否已有相关 issue，若无则提交 issue，并附上日志文件。这样我们可以更高效地处理问题。
+3. 请不要在其他地方讨论内测版问题，例如用户群、评论区等。这会占用公共资源且无法及时反馈和解决问题。
+4. 请勿将更新内测版的方法告知其他非开发用户，以避免对他们造成不必要的困扰和风险。
+
+您可通过点击 设置-关于我们-问题反馈 链接来取消该弹窗，感谢您的理解与配合！</system:String>
     <system:String x:Key="UpdateCheck">更新版本</system:String>
     <system:String x:Key="DownloadWithAria2">使用 aria2 进行下载</system:String>
     <system:String x:Key="UpdateCheckNow">检查更新</system:String>
@@ -204,6 +232,7 @@
     <system:String x:Key="NewVersionZipFileBrokenDescFilename" xml:space="preserve">文件名: </system:String>
     <system:String x:Key="NewVersionZipFileBrokenDescDeleted">已将其删除！</system:String>
     <system:String x:Key="AlreadyLatest">已是最新版本~</system:String>
+    <system:String x:Key="NoNeedToUpdateDebugVersion">当前为调试版本，无需更新</system:String>
     <system:String x:Key="NewVersionDetectFailedTitle">检查更新失败</system:String>
     <system:String x:Key="CheckNetworking">请检查网络连接或代理。</system:String>
     <system:String x:Key="GetReleaseNoteFailed">获取更新信息失败。</system:String>
@@ -217,10 +246,11 @@
     <system:String x:Key="NewVersionFoundButNoPackageDesc">请手动下载完整包更新！</system:String>
     <system:String x:Key="ForceScheduledStart">强制定时启动</system:String>
     <system:String x:Key="ForceScheduledStartTip">停止当前任务，重启游戏并开始新任务</system:String>
+    <system:String x:Key="ShowWindowBeforeForceScheduledStart">强制定时启动前显示窗口</system:String>
     <system:String x:Key="TimerCustomConfig">自定义配置选择</system:String>
     <system:String x:Key="TimerCustomConfigTip">将提前两分钟重启并切换配置</system:String>
     <system:String x:Key="Timer">定时</system:String>
-    <system:String x:Key="TimerTip">此选项页为全局配置</system:String>
+    <system:String x:Key="GlobalConfigTip">此选项页为全局配置</system:String>
     <system:String x:Key="SwitchConfiguration">切换配置</system:String>
     <system:String x:Key="ConfigurationName">配置名称</system:String>
     <system:String x:Key="AddConfiguration">添加</system:String>
@@ -246,6 +276,8 @@
     <system:String x:Key="AdditionCommand">附加命令</system:String>
     <system:String x:Key="StartsWithScript">开始前脚本</system:String>
     <system:String x:Key="EndsWithScript">结束后脚本</system:String>
+    <system:String x:Key="CopilotWithScript">自动战斗时启用上述脚本</system:String>
+    <system:String x:Key="ManualStopWithScript">手动暂停时启用上述脚本</system:String>
     <system:String x:Key="BlockSleep">运行任务时阻止休眠</system:String>
     <system:String x:Key="BlockSleepWithScreenOn">阻止休眠时保持屏幕常亮</system:String>
     <system:String x:Key="ScreencapCost">截图耗时 min/avg/max(ms): {0:#,#} / {1:#,#} / {2:#,#} ({3})</system:String>
@@ -253,12 +285,13 @@
     <system:String x:Key="RoguelikeThemePhantom">傀影</system:String>
     <system:String x:Key="RoguelikeThemeMizuki">水月</system:String>
     <system:String x:Key="RoguelikeThemeSami">萨米</system:String>
+    <system:String x:Key="RoguelikeThemeSarkaz">萨卡兹</system:String>
     <system:String x:Key="Strategy">策略</system:String>
     <system:String x:Key="StartTimesLimit">开始探索 N 次后停止任务</system:String>
     <system:String x:Key="GoldTimesLimit">投资 N 个源石锭后停止任务</system:String>
     <system:String x:Key="StopOnGoldLimit">储备源石锭达到上限时停止</system:String>
     <system:String x:Key="InvestmentEnabled">投资源石锭</system:String>
-    <system:String x:Key="InvestmentEnterSecondFloor">投资后进入第二层</system:String>
+    <system:String x:Key="InvestmentWithMoreScore">投资模式启用购物、招募、进2层</system:String>
     <system:String x:Key="RefreshTraderWithDice">刷新商店（指路鳞）</system:String>
     <system:String x:Key="PenguinId">企鹅物流汇报ID（仅数字部分）</system:String>
     <system:String x:Key="EnablePenguin">上报企鹅物流</system:String>
@@ -278,7 +311,7 @@
     <system:String x:Key="Drink">要来一杯美酒吗🍷？博士</system:String>
     <system:String x:Key="ForceShoppingIfCreditFull">信用溢出时无视黑名单</system:String>
     <system:String x:Key="OnlyBuyDiscount">只购买打折的信用商品</system:String>
-    <system:String x:Key="ReserveMaxCredit">300以下信用点停止购买商品</system:String>
+    <system:String x:Key="ReserveMaxCredit">信用点低于300时停止购买商品</system:String>
     <system:String x:Key="OnlyBuyDiscountTips">⚠ 注意：可能会导致信用点数溢出！仍然会购买未打折的白名单物品！</system:String>
     <system:String x:Key="ReserveMaxCreditTips">低于300信用点也仍然会购买白名单物品！</system:String>
     <system:String x:Key="CreditFullOnlyBuyDiscount">博士！ \n只购买折扣商品让信用点数溢出了！\n小心信用点数浪费哦！\n剩余信用点数：</system:String>
@@ -286,19 +319,29 @@
     <system:String x:Key="ReceiveMail">领取所有邮件奖励</system:String>
     <system:String x:Key="ReceiveFreeRecruit">进行限定池赠送的每日免费单抽</system:String>
     <system:String x:Key="ReceiveFreeRecruitTip">若不存在免费单抽，则不会抽取</system:String>
-    <system:String x:Key="ReceiveFreeRecruitWarning">该功能属于危险功能，可能会造成误抽\n按下「确认」键即视为你了解并愿意承担可能出现的风险</system:String>
+    <system:String x:Key="GachaWarning">该功能属于危险功能，可能会造成误抽\n按下「确认」键即视为你了解并愿意承担可能出现的风险</system:String>
+    <system:String x:Key="ReceiveOrundum">领取幸运墙的每日合成玉奖励</system:String>
+    <system:String x:Key="ReceiveMining">领取限时开采许可的每日合成玉奖励</system:String>
+    <system:String x:Key="ReceiveSpecialAccess">领取五周年赠送月卡奖励</system:String>
     <system:String x:Key="DroneUsage">无人机用途</system:String>
+    <system:String x:Key="UseTray">显示托盘图标</system:String>
+    <system:String x:Key="HideTray">隐藏托盘图标</system:String>
     <system:String x:Key="MinimizeToTray">最小化时隐藏至托盘</system:String>
     <system:String x:Key="SystemNotification">重要信息弹出系统通知</system:String>
     <system:String x:Key="HideCloseButton">隐藏关闭按钮</system:String>
+    <system:String x:Key="WindowTitleScrollable">窗口标题滚动</system:String>
+    <system:String x:Key="TitleBarDisplayContent">标题栏显示内容</system:String>
     <system:String x:Key="UseLogItemDateFormat">自选日志日期格式</system:String>
     <system:String x:Key="LogItemDateFormatString">日期格式字符串</system:String>
-    <system:String x:Key="DarkModeSetColorsTip">是否立刻重启应用更改？</system:String>
+    <system:String x:Key="PromptRestartForSettingsChange">是否立刻重启应用更改？</system:String>
+    <system:String x:Key="SwitchResolutionTip">将模拟器分辨率更改为1920x1080！</system:String>
+    <system:String x:Key="ResolutionInfoYoStarEN">确保模拟器设置为1920x1080</system:String>
     <system:String x:Key="UseAlternateStage">使用备选关卡</system:String>
     <system:String x:Key="UseRemainingSanityStage">使用剩余理智</system:String>
     <system:String x:Key="UseRemainingSanityStageTip">在完成主任务后刷取指定关卡，不使用理智药/碎石</system:String>
     <system:String x:Key="UseExpiringMedicine">无限吃48小时内过期的理智药</system:String>
     <system:String x:Key="HideUnavailableStage">隐藏当日不开放关卡</system:String>
+    <system:String x:Key="HideSeries">隐藏连战次数</system:String>
     <system:String x:Key="CustomInfrastPlanShowInFightSettings">显示基建计划</system:String>
     <system:String x:Key="MainViewButtonFeature">主界面可选择按钮功能</system:String>
     <system:String x:Key="CustomStageCode">手动输入关卡名</system:String>
@@ -311,10 +354,9 @@
     <system:String x:Key="AlwaysAutoDetectConnection">每次重新检测</system:String>
     <system:String x:Key="AccountSwitch">账号切换</system:String>
     <system:String x:Key="AccountSwitchManualRun">立即切换</system:String>
-    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用
-官服输入登录界面显示的手机号，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
- B服输入登录界面显示的账号名，如「张三」，可输入「张」或「三」
-暂不支持其他服</system:String>
+    <system:String x:Key="AccountSwitchTip" xml:space="preserve">需要切换至的账号，留空以禁用。
+输入登录界面显示的内容，如「123****4567」，可输入「123****4567」或「4567」或「23****45」
+仅支持官服、B服，不支持登录账号。</system:String>
     <system:String x:Key="AdbPath">ADB 路径 (相对/绝对)</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorPrompt">所选文件名不包含 ADB，请检查是否选择了错误的文件或错选成了模拟器本体。</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我确定没选错</system:String>
@@ -322,6 +364,24 @@
     <system:String x:Key="ConnectionAddress">连接地址</system:String>
     <system:String x:Key="ConnectionAddressTip">若遇到问题可尝试手动修改</system:String>
     <system:String x:Key="ConnectionPreset">连接配置</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强模式</system:String>
+    <system:String x:Key="MuMu12ExtrasEnabledTip">
+        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 游戏专版、Global 不支持。\n\n
+        请填写以下信息：\n\n
+        1. 模拟器路径：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
+        模拟器路径应填写模拟器应用的上一层文件夹路径，例如应用路径为\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0\\shell\\MuMuPlayer.exe」\n
+        应填写\n
+        「C:\\Program Files\\Netease\\MuMuPlayer-12.0」。\n\n
+        2. 实例编号：（例如：0）\n
+        实例编号可在 MuMu 多开器中查看，默认为 0，若有多开实例，编号见实例前的数字。\n\n
+        3. 窗口编号：（例如：0）\n
+        注意：关闭MuMu的后台保活后填写0，如需打开后台保活，请自行探索方法。
+    </system:String>
+    <system:String x:Key="MuMu12EmulatorPath">MuMu 安装路径</system:String>
+    <system:String x:Key="MuMu12Index">实例编号</system:String>
+    <system:String x:Key="MuMu12Display">屏幕编号</system:String>
+    <system:String x:Key="MuMuExtrasNotEnabledMessage">MumuExtras 未生效，请检查相关设置</system:String>
     <system:String x:Key="RetryOnDisconnected">ADB 连接失败时尝试启动模拟器</system:String>
     <system:String x:Key="RetryOnDisconnectedTip">重连失败 20 次后尝试重启模拟器，使用后台定时任务且设置任务完成关闭模拟器时请勾选</system:String>
     <system:String x:Key="RetryOnDisconnectedEmulatorPathEmptyError">模拟器路径为空！请填写「启动设置-模拟器路径」后重新勾选。</system:String>
@@ -430,7 +490,8 @@
     <system:String x:Key="ShutdownPrompt">提示</system:String>
     <system:String x:Key="HibernatePrompt">已刷完，即将休眠</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知的结束动作</system:String>
-    <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效</system:String>
+    <system:String x:Key="AnnihilationTaskTip">关卡选择为剿灭任务，任务结束后将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
+    <system:String x:Key="AnnihilationTaskFailed">剿灭任务失败，将尝试使用剩余备选关卡，部分战斗设置将不生效。</system:String>
     <!--  !日志  -->
     <!--  !一键长草  -->
     <system:String x:Key="Toolbox">小工具</system:String>
@@ -456,7 +517,7 @@
     <!--  !仓库识别  -->
     <!--  干员识别  -->
     <system:String x:Key="OperBoxRecognition">干员识别</system:String>
-    <system:String x:Key="OperBoxRecognitionTip">该功能尚处于测试阶段，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
+    <system:String x:Key="OperBoxRecognitionTip">特别关注会影响干员识别准确率，如有特别关注干员识别错误请自行判断。\n该功能尚处于测试阶段，若统计有误，欢迎打包 debug/oper 文件后向我们提交issue ~</system:String>
     <system:String x:Key="OperBoxRecognitionResult">未拥有: {0} 名: \n\n{1}\n\n已拥有: {2} 名: \n\n{3}</system:String>
     <system:String x:Key="StartToOperBoxRecognition">开始识别</system:String>
     <system:String x:Key="OperBoxCopyToClipboard">复制到剪切板</system:String>
@@ -493,7 +554,7 @@
     <system:String x:Key="GachaDisclaimerHead">请注意，这是</system:String>
     <system:String x:Key="GachaDisclaimerEmphasize">真正的抽卡</system:String>
     <system:String x:Key="GachaAgreeDisclaimer">知道了</system:String>
-    <system:String x:Key="GachaShowDisclaimerNoMore">下次不再提示</system:String>
+    <system:String x:Key="ShowDisclaimerNoMore">下次不再提示</system:String>
     <!--  !Gacha Recognition  -->
     <!--  日志  -->
     <system:String x:Key="Identifying">正在识别……</system:String>
@@ -506,7 +567,7 @@
     <system:String x:Key="CopilotTaskNameTip">关卡名, 例: 1-7</system:String>
     <system:String x:Key="SelectTheFile">选择作业</system:String>
     <system:String x:Key="SelectTheFileTip">作业文件可以直接用鼠标拖进来哦 (oﾟvﾟ)ノ</system:String>
-    <system:String x:Key="PasteClipboardTip">粘贴剪贴板</system:String>
+    <system:String x:Key="PasteClipboardTip">粘贴剪贴板，右键添加作业集</system:String>
     <system:String x:Key="ImportFilesTip">批量导入</system:String>
     <system:String x:Key="DoYouLikeThisWebJson">作业怎么样？评价下吧！</system:String>
     <system:String x:Key="FailedToLikeWebJson">出现错误，评价失败 : &lt;</system:String>
@@ -519,6 +580,7 @@
     <system:String x:Key="LoopTimes">循环次数</system:String>
     <system:String x:Key="UseCopilotList">战斗列表</system:String>
     <system:String x:Key="UseCopilotListTip">开始前请切换至关卡选择页面</system:String>
+    <system:String x:Key="CopilotTaskRaidStage">(突袭)</system:String>
     <system:String x:Key="CopilotAddTask">右键添加突袭难度</system:String>
     <system:String x:Key="CopilotClearTask">右键清除未激活任务</system:String>
     <system:String x:Key="Start">开始</system:String>
@@ -539,7 +601,7 @@
         清除: 左键清空列表，右键仅移除未激活的任务。\n
         开始前，需要切换至对应关卡的选择界面，不支持跨章节导航。\n
         遇到 理智不足、战斗失败、未能以三星结算 时将会中止运行。\n
-        批量导入时，添加突袭关需修改文件名 (如: 1-7-Adverse)。\n\n
+        批量导入时，添加突袭关需修改文件名 (如: '1-7(Raid).json')。\n\n
     </system:String>
     <system:String x:Key="CopilotFileReadError">读取文件失败！</system:String>
     <system:String x:Key="CopilotNoFound">未找到对应作业！</system:String>
@@ -555,8 +617,10 @@
     <system:String x:Key="ErrorDetails">详细信息</system:String>
     <system:String x:Key="ErrorSolution">解决方案</system:String>
     <system:String x:Key="ErrorSolutionCrash">请参考文档: 常见问题 - 闪退 进行操作。</system:String>
+    <system:String x:Key="ErrorSolutionUpdatePackageExtractionFailed">解压更新包失败，请尝试手动解压根目录下更新包。</system:String>
     <system:String x:Key="ErrorSolutionReplaceAdb">请「关闭模拟器与 ADB」或「重启电脑后在未开启模拟器的情况下使用管理员权限打开 MAA」后进行操作。</system:String>
-    <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试</system:String>
+    <system:String x:Key="ErrorSolutionFailedToMove">文件被占用，请重启电脑后重试。</system:String>
+    <system:String x:Key="ErrorSolutionSelectDefaultBrowser">打开链接失败，请前往「Windows 设置」选择默认浏览器。</system:String>
     <system:String x:Key="ErrorFeedbackLinkText">创建 GitHub issue</system:String>
     <system:String x:Key="ErrorQqGroupLinkText">加入QQ群反馈问题</system:String>
     <system:String x:Key="CopyErrorMessage">复制错误信息</system:String>
@@ -580,9 +644,9 @@
     <system:String x:Key="ReconnectFailed">重连失败，连接断开！</system:String>
     <system:String x:Key="TouchModeNotAvailable">触控模式不可用。请进入 设置 - 连接设置 切换其他触控模式。</system:String>
     <system:String x:Key="ScreencapFailed">截图失败，如反复出现请尝试重启或更换模拟器！</system:String>
-    <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms</system:String>
-    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，使用自动战斗类功能（如自动肉鸽）时，可能出现部分异常表现</system:String>
-    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器</system:String>
+    <system:String x:Key="FastestWayToScreencap">最快截图耗时: {0}ms ({1})</system:String>
+    <system:String x:Key="FastestWayToScreencapWarningTip">截图用时较长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）可能表现异常。</system:String>
+    <system:String x:Key="FastestWayToScreencapErrorTip">截图用时过长(平均: {0}ms)，自动战斗类功能（如自动肉鸽）很可能无法正常运行，建议尝试重启或更换模拟器！</system:String>
     <system:String x:Key="IdentifyTheMistakes">识别错误</system:String>
     <system:String x:Key="TaskError" xml:space="preserve">任务出错: </system:String>
     <system:String x:Key="CombatError">战斗出错</system:String>
@@ -601,13 +665,14 @@
     <system:String x:Key="DropRecognitionError">掉落识别错误</system:String>
     <system:String x:Key="GiveUpUploadingPenguins">放弃上传企鹅物流</system:String>
     <system:String x:Key="TheEx">无奖励关卡，已停止</system:String>
+    <system:String x:Key="MissingOperators">缺少以下干员组中的干员：</system:String>
     <system:String x:Key="StageQueue">关卡队列:</system:String>
     <system:String x:Key="UnableToAgent">无法使用代理指挥</system:String>
     <system:String x:Key="MissionStart">已开始行动</system:String>
     <system:String x:Key="UnitTime">次</system:String>
     <system:String x:Key="CurrentSanity" xml:space="preserve">理智: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">药: {0}  </system:String>
-    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0}/{1}(临期)  </system:String>
+    <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">药: {0},{1}(临期)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">石: {0}  </system:String>
     <system:String x:Key="MedicineUsed">已使用理智药</system:String>
     <system:String x:Key="ExpiringMedicineUsed">已使用 48 小时内过期的理智药</system:String>
@@ -617,7 +682,6 @@
     <system:String x:Key="RecruitConfirm">已确认招募</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">干员冲突</system:String>
     <system:String x:Key="BegunToExplore">已开始探索</system:String>
-    <system:String x:Key="HasInvested">已投资</system:String>
     <system:String x:Key="ExplorationAbandoned">已放弃本次探索</system:String>
     <system:String x:Key="FightCompleted">战斗完成</system:String>
     <system:String x:Key="FightFailed">战斗失败</system:String>
@@ -634,14 +698,13 @@
     <system:String x:Key="EmergencyDps">关卡: 紧急作战</system:String>
     <system:String x:Key="DreadfulFoe">关卡: 险路恶敌</system:String>
     <system:String x:Key="RoguelikeEvent">事件:</system:String>
-    <system:String x:Key="RoguelikeSettlement">
-        肉鸽结算: {0}\n
-        探索: {1} 层 {2} 步\n
-        战斗: {3} / {4} 紧急 / {5} BOSS\n
-        招募: {6}  收藏品: {7}\n
-        难度: {8}  得分: {9}\n
-        Exp: {10}  Skill: {11}
-    </system:String>
+    <system:String x:Key="FoldartalGainOcrNextLevel">预见:</system:String>
+    <system:String x:Key="RoguelikeInvestment">已投资 {1}(+{0}), 存款: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">肉鸽结算: {0} (n{8})\n探索: {1} 层 {2} 步\n战斗: {3}/ {4}紧急/ {5}BOSS\n招募: {6}   收藏品: {7}\n得分: {9}\nExp: {10}   Skill: {11}</system:String>
+    <system:String x:Key="RoguelikeGainParadigm">坍缩范式加深: {0}</system:String>
+    <system:String x:Key="RoguelikeDeepenParadigm">坍缩范式 {0} 加深为 {1}</system:String>
+    <system:String x:Key="RoguelikeLoseParadigm">坍缩范式消退: {1}</system:String>
+    <system:String x:Key="RoguelikeWeakenParadigm">坍缩范式 {1} 消退为 {0}</system:String>
     <system:String x:Key="CurTimes">当前次数</system:String>
     <system:String x:Key="NoDrop">无</system:String>
     <system:String x:Key="Drop" xml:space="preserve">本次掉落: </system:String>
@@ -666,6 +729,8 @@
     <system:String x:Key="DefaultNoExtraTags">默认不选择额外 Tag</system:String>
     <system:String x:Key="SelectExtraTags">选择高星时总是选择三个 Tag</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">尽可能多地选且只选高星 Tag</system:String>
+    <system:String x:Key="AutoRecruitHighPriority">3 星 Tag 时的 Tag 倾向，分号分隔</system:String>
+    <system:String x:Key="AutoRecruitHighPriorityTooltip">子串即可，会尽可能多的选择倾向的 Tag</system:String>
     <system:String x:Key="NotEnoughStaff">可用干员不足</system:String>
     <system:String x:Key="StageInfoError">关卡识别错误</system:String>
     <system:String x:Key="UseFormation">使用编队</system:String>
@@ -673,9 +738,10 @@
     <system:String x:Key="BattleFormation">开始编队</system:String>
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">选择干员: </system:String>
     <system:String x:Key="CurrentSteps">当前步骤: {0} {1}</system:String>
-    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名！</system:String>
+    <system:String x:Key="UnsupportedLevel">不支持的关卡，请检查关卡名或前往「设置 - 软件更新 - 检查更新」尝试更新资源版本！</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">识别结果: </system:String>
     <system:String x:Key="ConnectFailed">连接失败</system:String>
+    <system:String x:Key="TryToReconnectByAdb">正在尝试重连</system:String>
     <system:String x:Key="TryToStartEmulator">正在尝试启动模拟器</system:String>
     <system:String x:Key="RestartAdb">正在尝试重启 ADB Server</system:String>
     <system:String x:Key="HardRestartAdb">正在尝试关闭并重启 ADB 进程</system:String>
@@ -698,14 +764,14 @@
     <system:String x:Key="Issue">问题反馈</system:String>
     <!--  !About  -->
     <!--  AutoRecruitSettings  -->
-    <system:String x:Key="AutoRefresh">自动刷新 3 星 Tags</system:String>
+    <system:String x:Key="AutoRefresh">无倾向 Tag 时自动刷新 3 星 Tags</system:String>
     <system:String x:Key="ForceRefresh">无招聘许可时继续尝试刷新 Tags</system:String>
     <system:String x:Key="AutoUseExpedited">自动使用加急许可*</system:String>
     <system:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTime2">3 星设置 1:00 而非 9:00</system:String>
     <system:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</system:String>
     <system:String x:Key="RecruitMaxTimes">每次执行时最大招募次数</system:String>
-    <system:String x:Key="ManuallySelectLevel1">手动确认「支援机械」</system:String>
+    <system:String x:Key="ManuallySelectLevel1">手动确认 1 星</system:String>
     <system:String x:Key="AutoSelectLevel3">自动确认 3 星</system:String>
     <system:String x:Key="AutoSelectLevel4">自动确认 4 星</system:String>
     <system:String x:Key="AutoSelectLevel5">自动确认 5 星</system:String>
@@ -747,7 +813,8 @@
     <system:String x:Key="RemoteControlConnectionTestSuccess">连接测试成功！</system:String>
     <system:String x:Key="RemoteControlConnectionTestFail">连接测试失败，原因: {0}。</system:String>
     <system:String x:Key="RemoteControlConnectionTestFailEmpty">连接测试失败，连接端点为空。</system:String>
-    <system:String x:Key="RemoteControlConnectionTestFailNotHttps">连接测试失败。端点不是https地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestFailNotHttpOrHttps">连接测试失败，连接端点不为 http(s) 地址。</system:String>
+    <system:String x:Key="RemoteControlConnectionTestWarningHttpUnsafe">连接端点未启用 https，可能不安全。</system:String>
     <system:String x:Key="RemoteControlReceivedTask">收到远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlCompletedTask">完成远端任务{0}，任务Id:{1}。</system:String>
     <system:String x:Key="RemoteControlTooltips">注意：随意填入未知来源的地址可能会导致您的账户受到损失。</system:String>
@@ -767,12 +834,23 @@
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">不再提示此公告</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
-    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">目前生息演算的支持仍处于早期阶段，使用时请注意以下几点：
-    1. 不能在已经有存档的情况下使用（删除现有存档即可）
-    2. 不能在编队中有干员的情况下使用（把所有编队清空即可）
-    3. 必须在生息演算主界面开始任务（导航还没写）
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">可通过高级设置中的选项切换模式
+
+目前生息演算的支持仍处于早期阶段，使用时请注意以下几点：
+
+ 在普通模式下：
+  1. 不能在已经有存档的情况下使用（删除现有存档即可）
+  2. 不能在生息演算的编队中有干员的情况下使用（把生息演算中的当前编队清空即可，特别是打完浪潮之后）
+  3. 必须在生息演算主界面开始任务（导航还没写）
+
+ 通过制造刷点数：
+  1. 要求是结算后的第一天，且后续三天没有敌袭进入驻扎地
+  2. 必须在进入生息演算中开始（能看到驻扎地的页面）
+  3. 如果能制造的数量刚好是 99 的倍数会卡住，在存档前可以先用掉一点，这个之后再修
     </system:String>
-    <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了
-    你看，又急</system:String>
+    <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>
+    <system:String x:Key="Reclamation2ExEnable">通过制造刷点数</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">支援道具名称</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">荧光棒</system:String>
     <!--  !Reclamation  -->
 </ResourceDictionary>

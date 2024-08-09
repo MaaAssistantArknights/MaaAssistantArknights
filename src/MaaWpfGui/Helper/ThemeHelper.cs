@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -16,6 +16,7 @@ using System.Windows.Media;
 using HandyControl.Themes;
 using HandyControl.Tools;
 using MaaWpfGui.Constants;
+using MaaWpfGui.WineCompat;
 using Microsoft.Win32;
 
 namespace MaaWpfGui.Helper
@@ -27,7 +28,12 @@ namespace MaaWpfGui.Helper
         private static void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
-            ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
+
+            if (!WineRuntimeInformation.IsRunningUnderWine)
+            {
+                ThemeManager.Current.AccentColor = ThemeManager.Current.GetAccentColorFromSystem();
+            }
+
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
         }
 
@@ -49,9 +55,17 @@ namespace MaaWpfGui.Helper
 
         public static void SwitchToSyncWithOsMode()
         {
-            ThemeManager.Current.UsingWindowsAppTheme = true;
+            if (WineRuntimeInformation.IsRunningUnderWine)
+            {
+                ThemeManager.Current.ApplicationTheme = ThemeManager.GetSystemTheme(isSystemTheme: false);
+            }
+            else
+            {
+                ThemeManager.Current.UsingWindowsAppTheme = true;
+                SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            }
+
             Application.Current.Resources["TitleBrush"] = ThemeManager.Current.AccentColor;
-            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         }
 
         #endregion Swith Theme

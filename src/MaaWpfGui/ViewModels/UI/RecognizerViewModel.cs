@@ -3,14 +3,14 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
-
+#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -47,7 +47,7 @@ namespace MaaWpfGui.ViewModels.UI
             _runningState.IdleChanged += RunningState_IdleChanged;
         }
 
-        private void RunningState_IdleChanged(object sender, bool e)
+        private void RunningState_IdleChanged(object? sender, bool e)
         {
             Idle = e;
         }
@@ -294,7 +294,7 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         JArray tags = (JArray)subTaskDetails["tags"];
                         string infoContent = LocalizationHelper.GetString("RecruitTagsDetected");
-                        tags ??= new JArray();
+                        tags ??= [];
                         infoContent = tags.Select(tagName => tagName.ToString()).Aggregate(infoContent, (current, tagStr) => current + (tagStr + "    "));
 
                         RecruitInfo = infoContent;
@@ -307,14 +307,14 @@ namespace MaaWpfGui.ViewModels.UI
                         string resultContent = string.Empty;
                         JArray resultArray = (JArray)subTaskDetails["result"];
                         /* int level = (int)subTaskDetails["level"]; */
-                        foreach (var combs in resultArray ?? new JArray())
+                        foreach (var combs in resultArray ?? [])
                         {
                             int tagLevel = (int)combs["level"];
-                            resultContent += tagLevel + " ★ Tags:  ";
-                            resultContent = (((JArray)combs["tags"]) ?? new JArray()).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
+                            resultContent += tagLevel + "★ Tags:    ";
+                            resultContent = (((JArray?)combs["tags"]) ?? []).Aggregate(resultContent, (current, tag) => current + (tag + "    "));
 
                             resultContent += "\n\t";
-                            foreach (var oper in (JArray)combs["opers"] ?? new JArray())
+                            foreach (var oper in (JArray?)combs["opers"] ?? [])
                             {
                                 int operLevel = (int)oper["level"];
                                 string operId = oper["id"]?.ToString();
@@ -335,7 +335,7 @@ namespace MaaWpfGui.ViewModels.UI
                                     }
                                 }
 
-                                resultContent += operLevel + " - " + operName + potential + "    ";
+                                resultContent += operLevel + "★ " + operName + potential + "    ";
                             }
 
                             resultContent += "\n\n";
@@ -378,6 +378,10 @@ namespace MaaWpfGui.ViewModels.UI
         {
             public string Name { get; set; }
 
+            public string Id { get; set; }
+
+            public BitmapImage Image { get; set; }
+
             public int Count { get; set; }
         }
 
@@ -406,7 +410,14 @@ namespace MaaWpfGui.ViewModels.UI
             DepotResult.Clear();
             foreach (var item in details["arkplanner"]?["object"]?["items"]?.Cast<JObject>()!)
             {
-                DepotResultDate result = new DepotResultDate() { Name = (string)item["name"], Count = (int)item["have"] };
+                var id = (string)item["id"];
+                DepotResultDate result = new DepotResultDate()
+                {
+                    Id = id,
+                    Name = ItemListHelper.GetItemName(id),
+                    Image = ItemListHelper.GetItemImage(id),
+                    Count = (int)item["have"]
+                };
                 DepotResult.Add(result);
             }
 
@@ -517,6 +528,7 @@ namespace MaaWpfGui.ViewModels.UI
             "char_509_acast",
             "char_508_aguard",
             "char_1001_amiya2",
+            "char_1037_amiya3",
         };
 
         private string _operBoxInfo = LocalizationHelper.GetString("OperBoxRecognitionTip");
@@ -568,9 +580,9 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private Dictionary<string, int> _operBoxPotential;
+        private Dictionary<string, int>? _operBoxPotential;
 
-        public Dictionary<string, int> OperBoxPotential
+        public Dictionary<string, int>? OperBoxPotential
         {
             get
             {
@@ -601,10 +613,10 @@ namespace MaaWpfGui.ViewModels.UI
 
         public bool OperBoxParse(JObject details)
         {
-            JArray operBoxes = (JArray)details["all_opers"];
+            var operBoxes = (JArray)details["all_opers"];
 
-            List<Tuple<string, int>> operHave = new List<Tuple<string, int>>();
-            List<Tuple<string, int>> operNotHave = new List<Tuple<string, int>>();
+            List<Tuple<string, int>> operHave = [];
+            List<Tuple<string, int>> operNotHave = [];
 
             string localizedName = ConfigFactory.CurrentConfig.GUI.Localization switch
             {
@@ -807,15 +819,15 @@ namespace MaaWpfGui.ViewModels.UI
 
         private static readonly object _lock = new object();
 
-        private BitmapImage _gachaImage;
+        private BitmapImage? _gachaImage;
 
-        public BitmapImage GachaImage
+        public BitmapImage? GachaImage
         {
             get => _gachaImage;
             set => SetAndNotify(ref _gachaImage, value);
         }
 
-        private void RefreshGachaImage(object sender, EventArgs e)
+        private void RefreshGachaImage(object? sender, EventArgs? e)
         {
             lock (_lock)
             {
@@ -832,7 +844,12 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private bool _gachaShowDisclaimer = !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.GachaShowDisclaimerNoMore, bool.FalseString));
+        // DO NOT CHANGE
+        // 请勿更改
+        // 請勿更改
+        // このコードを変更しないでください
+        // 변경하지 마십시오
+        private bool _gachaShowDisclaimer = true; // !Convert.ToBoolean(ConfigurationHelper.GetValue(ConfigurationKeys.ShowDisclaimerNoMore, bool.FalseString));
 
         public bool GachaShowDisclaimer
         {
@@ -859,6 +876,19 @@ namespace MaaWpfGui.ViewModels.UI
         // ReSharper disable once UnusedMember.Global
         public void GachaAgreeDisclaimer()
         {
+            var result = MessageBoxHelper.Show(
+                LocalizationHelper.GetString("GachaWarning"),
+                LocalizationHelper.GetString("Warning"),
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning,
+                no: LocalizationHelper.GetString("Confirm"),
+                yes: LocalizationHelper.GetString("Cancel"),
+                iconBrushKey: "DangerBrush");
+            if (result != MessageBoxResult.No)
+            {
+                return;
+            }
+
             GachaShowDisclaimer = false;
         }
 

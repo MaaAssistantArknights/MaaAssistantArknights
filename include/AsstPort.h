@@ -2,15 +2,17 @@
 
 // The way how the function is called
 #if !defined(ASST_CALL)
-#if defined(_WIN32)
+#if defined(__WINE__) && defined(__x86_64__)
+#define ASST_CALL __attribute__((sysv_abi))
+#elif defined(_WIN32)
 #define ASST_CALL __stdcall
 #else
 #define ASST_CALL
-#endif /* _WIN32 */
+#endif /* __WINE__ / _WIN32 */
 #endif /* ASST_CALL */
 
 // The function exported symbols
-#if defined _WIN32 || defined __CYGWIN__
+#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(__WINE__)
 #define ASST_DLL_IMPORT __declspec(dllimport)
 #define ASST_DLL_EXPORT __declspec(dllexport)
 #define ASST_DLL_LOCAL

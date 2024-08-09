@@ -27,6 +27,9 @@
             <RowDefinition />
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel
@@ -249,6 +252,153 @@
                     Margin="10"
                     Text="{c:Binding SmtpTo}" />
 
+            </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="4"
+            Grid.Column="0"
+            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Discord&quot;'}"
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="270" />
+                    <ColumnDefinition Width="65" />
+                </Grid.ColumnDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationDiscordBotToken}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="DiscordBotToken"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding DiscordBotToken}" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationDiscordUserId}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="DiscordUserId"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding DiscordUserId}" />
+            </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="5"
+            Grid.Column="0"
+            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Telegram&quot;'}"
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="270" />
+                    <ColumnDefinition Width="65" />
+                </Grid.ColumnDefinitions>
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationTelegramBotToken}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="TelegramBotToken"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding TelegramBotToken}" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationTelegramChatId}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="TelegramChatId"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding TelegramChatId}" />
+            </Grid>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="6"
+            Grid.Column="0"
+            Visibility="{c:Binding 'EnabledExternalNotificationProvider == &quot;Bark&quot;'}"
+            Orientation="Horizontal">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="270" />
+                    <ColumnDefinition Width="65" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    x:Name="BarkSendKey"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding BarkSendKey}" />
+                <controls:TextBlock
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationBarkSendKey}"
+                    TextWrapping="Wrap" />
+                <TextBox
+                    x:Name="BarkServer"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="250"
+                    Height="30"
+                    Margin="10"
+                    Text="{c:Binding BarkServer}" />
+                <controls:TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="10"
+                    Block.TextAlignment="Center"
+                    Text="{DynamicResource ExternalNotificationBarkServer}"
+                    TextWrapping="Wrap" />
             </Grid>
         </StackPanel>
     </Grid>

@@ -1,4 +1,4 @@
-// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
+﻿// <copyright file="VersionUpdate.cs" company="MaaAssistantArknights">
 // MaaWpfGui - A part of the MaaCoreArknights project
 // Copyright (C) 2021 MistEO and Contributors
 //

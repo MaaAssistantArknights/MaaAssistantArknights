@@ -3,10 +3,13 @@
     "options": {
         "taskDelay": 500,
         "taskDelay_Doc": "识别的延迟：越快识别频率越快，但会增加CPU消耗。单位毫秒，默认500",
-        "controlDelayRange": [
-            0,
-            0
-        ],
+        "SSSFightScreencapInterval": 0,
+        "SSSFightScreencapInterval_Doc": "保全战斗截图最小间隔",
+        "RoguelikeFightScreencapInterval": 100,
+        "RoguelikeFightScreencapInterval_Doc": "肉鸽战斗截图最小间隔",
+        "CopilotFightScreencapInterval": 0,
+        "CopilotFightScreencapInterval_Doc": "抄作业战斗截图最小间隔",
+        "controlDelayRange": [0, 0],
         "controlDelayRange_Doc": "点击随机延时：每次点击操作会进行随机延时，降低封号风险（好像也没听说过谁被封号的）。格式为 [ 最小延时, 最大延时 ]，单位为毫秒。例如想设置3~5秒延时，即修改为[ 3000, 5000 ]，默认0~0",
         "adbExtraSwipeDist": 100,
         "adbExtraSwipeDist_Doc": "额外的滑动距离：adb有bug，同样的参数，偶尔会划得非常远。额外做一个短程滑动，把之前的停下来",
@@ -20,13 +23,7 @@
         "minitouchSwipeExtraEndDelay": 150,
         "minitouchExtraSwipeDist": 100,
         "minitouchExtraSwipeDuration": 200,
-        "minitouchProgramsOrder": [
-            "x86_64",
-            "x86",
-            "arm64-v8a",
-            "armeabi-v7a",
-            "armeabi"
-        ],
+        "minitouchProgramsOrder": ["x86_64", "x86", "arm64-v8a", "armeabi-v7a", "armeabi"],
         "swipeWithPauseRequiredDistance": 20,
         "swipeWithPauseRequiredDistance_Doc": "暂停下干员滑动多远距离后开始按暂停",
         "penguinReport": {
@@ -39,9 +36,9 @@
             }
         },
         "yituliuReport": {
-            "Doc": "一图流汇报：https://yituliu.site/maarecruitdata",
-            "recruitUrl": "https://backend.yituliu.site/maa/upload/recruit",
-            "dropUrl": "https://developer.yituliu.site/stage/drop/upload",
+            "Doc": "一图流汇报：https://ark.yituliu.cn/survey/maarecruitdata",
+            "recruitUrl": "https://backend.yituliu.cn/maa/upload/recruit",
+            "dropUrl": "https://backend.yituliu.cn/maa/upload/stageDrop",
             "timeout": 5000,
             "headers": {
                 "Content-Type": "application/json"
@@ -75,7 +72,7 @@
             "click": "[Adb] -s [AdbSerial] shell input tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input swipe [x1] [y1] [x2] [y2] [duration]",
             "pressEsc": "[Adb] -s [AdbSerial] shell input keyevent 111",
-            "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+",
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | grep -o -E [0-9]+\"",
             "displayFormat": "%d%d",
             "screencapRawByNC": "[Adb] -s [AdbSerial] exec-out \"screencap | nc -w 3 [NcAddress] [NcPort]\"",
             "ncAddress": "[Adb] -s [AdbSerial] shell \" cat /proc/net/arp | grep : \"",
@@ -85,7 +82,8 @@
             "start": "[Adb] -s [AdbSerial] shell am start -n [Intent]",
             "stop": "[Adb] -s [AdbSerial] shell \"PACKAGE_NAME=$(dumpsys activity activities 2>/dev/null | grep -i -o -E '(packageName|Activities)=.+arknights' 2>/dev/null | grep -i -o -E '[^= ]*arknights[^ /]*' | head -n 1); if [ -n \\\"$PACKAGE_NAME\\\" ]; then echo \\\"Closing $PACKAGE_NAME\\\"; am force-stop $PACKAGE_NAME; else echo \\\"app not running or arknights package name not found\\\"; fi\"",
             "abilist": "[Adb] -s [AdbSerial] shell getprop ro.product.cpu.abilist",
-            "orientation": "[Adb] -s [AdbSerial] shell dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]",
+            "version": "[Adb] -s [AdbSerial] shell getprop ro.build.version.release",
+            "orientation": "[Adb] -s [AdbSerial] shell \"dumpsys input | grep SurfaceOrientation | grep -m 1 -o -E [0-9]\"",
             "pushMinitouch": "[Adb] -s [AdbSerial] push \"[minitouchLocalPath]\" \"/data/local/tmp/[minitouchWorkingFile]\"",
             "chmodMinitouch": "[Adb] -s [AdbSerial] shell chmod 700 \"/data/local/tmp/[minitouchWorkingFile]\"",
             "callMinitouch": "[Adb] -s [AdbSerial] shell \"/data/local/tmp/[minitouchWorkingFile]\" -i",
@@ -101,10 +99,6 @@
         },
         {
             "configName": "BlueStacks",
-            "baseConfig": "General"
-        },
-        {
-            "configName": "MuMuEmulator",
             "baseConfig": "General"
         },
         {
@@ -127,7 +121,7 @@
         {
             "configName": "WSA",
             "baseConfig": "CapWithShell",
-            "displayId": "[Adb] -s [AdbSerial] shell dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights",
+            "displayId": "[Adb] -s [AdbSerial] shell \"dumpsys display | grep mUniqueId=virtual:com.microsoft.windows.systemapp:com.hypergryph.arknights\"",
             "click": "[Adb] -s [AdbSerial] shell input -d [DisplayId] tap [x] [y]",
             "swipe": "[Adb] -s [AdbSerial] shell input -d [DisplayId] swipe [x1] [y1] [x2] [y2] [duration]",
             "display": "[Adb] -s [AdbSerial] shell \"wm size -d [DisplayId] | grep -o -E [0-9]+\""
@@ -140,7 +134,7 @@
         {
             "configName": "SecondResolution",
             "baseConfig": "General",
-            "display": "[Adb] -s [AdbSerial] shell dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+"
+            "display": "[Adb] -s [AdbSerial] shell \"dumpsys window displays | grep -o -E cur=+[^\\ ]+ | tail -n 1 | grep -o -E [0-9]+\""
         },
         {
             "configName": "CompatMac",
@@ -157,8 +151,14 @@
         {
             "configName": "GeneralWithoutScreencapErr",
             "baseConfig": "General",
-            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/tmp/maa-assistant-arknights.log | gzip -1\"",
-            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/tmp/maa-assistant-arknights.log\""
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
+        },
+        {
+            "configName": "CompatPOSIXShellWithoutScreencapErr",
+            "baseConfig": "CompatPOSIXShell",
+            "screencapRawWithGzip": "[Adb] -s [AdbSerial] exec-out \"screencap 2>/dev/null | gzip -1\"",
+            "screencapEncode": "[Adb] -s [AdbSerial] exec-out \"screencap -p 2>/dev/null\""
         }
     ]
 }

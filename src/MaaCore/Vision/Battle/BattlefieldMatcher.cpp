@@ -129,6 +129,13 @@ std::vector<battle::DeploymentOper> BattlefieldMatcher::deployment_analyze() con
             Log.error("oper is available, but with cooling");
         }
 
+#ifdef ASST_DEBUG
+        if (oper.cooling) {
+            cv::putText(m_image_draw, "cooling", cv::Point(oper.rect.x, oper.rect.y - 20), 1, 1.2,
+                        cv::Scalar(0, 0, 255));
+        }
+#endif
+
         if (m_object_of_interest.oper_cost) {
             Rect cost_rect = correct_rect(flag_res.rect.move(cost_move), m_image);
             oper.cost = oper_cost_analyze(cost_rect);
@@ -186,15 +193,10 @@ bool BattlefieldMatcher::oper_cooling_analyze(const Rect& roi) const
     auto img_roi = m_image(make_rect<cv::Rect>(roi));
     cv::Mat hsv;
     cv::cvtColor(img_roi, hsv, cv::COLOR_BGR2HSV);
-    int h_low = cooling_task_ptr->mask_range.first;
-    int h_up = cooling_task_ptr->mask_range.second;
-    int s_low = cooling_task_ptr->specific_rect.x;
-    int s_up = cooling_task_ptr->specific_rect.y;
-    int v_low = cooling_task_ptr->specific_rect.width;
-    int v_up = cooling_task_ptr->specific_rect.height;
+    const auto& mask_range = cooling_task_ptr->mask_range[0];
 
     cv::Mat bin;
-    cv::inRange(hsv, cv::Scalar(h_low, s_low, v_low), cv::Scalar(h_up, s_up, v_up), bin);
+    cv::inRange(hsv, mask_range.first, mask_range.second, bin);
 
     int count = 0;
     for (int i = 0; i != bin.rows; ++i) {

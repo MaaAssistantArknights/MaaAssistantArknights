@@ -33,10 +33,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
-          
+          submodules: recursive
+
       - name: Restore dependencies
         run: dotnet restore
-      
+
       - name: Bootstrap MaaDeps
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,7 +45,8 @@ jobs:
           python3 maadeps-download.py x64-windows
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1
+        uses: microsoft/setup-msbuild@v2
+
       - name: Build MaaSample
         run: |
           MSBUILD src/Cpp/MaaSample.slnf /t:rebuild /p:Configuration="Debug" /p:Platform="x64" /m
@@ -53,18 +55,18 @@ jobs:
         run: |
           .\x64\Debug\Sample.exe
 
-      - name: Run tests - YoStarJP
+      - name: Run tests - YostarJP
         run: |
-          .\x64\Debug\Sample.exe YoStarJP
-          
-      - name: Run tests - YoStarEN
+          .\x64\Debug\Sample.exe YostarJP
+
+      - name: Run tests - YostarEN
         run: |
-          .\x64\Debug\Sample.exe YoStarEN
-        
-      - name: Run tests - YoStarKR
+          .\x64\Debug\Sample.exe YostarEN
+
+      - name: Run tests - YostarKR
         run: |
-          .\x64\Debug\Sample.exe YoStarKR
-        
+          .\x64\Debug\Sample.exe YostarKR
+
       - name: Run tests - txwy
         run: |
           .\x64\Debug\Sample.exe txwy

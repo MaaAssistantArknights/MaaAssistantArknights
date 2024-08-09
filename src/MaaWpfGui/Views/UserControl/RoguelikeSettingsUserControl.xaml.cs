@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -15,7 +15,9 @@
 using System;
 using System.Globalization;
 using System.Reflection;
+using System.Windows.Controls;
 using System.Windows.Data;
+using MaaWpfGui.Helper;
 
 namespace MaaWpfGui.Views.UserControl
 {
@@ -30,37 +32,52 @@ namespace MaaWpfGui.Views.UserControl
         public RoguelikeSettingsUserControl()
         {
             InitializeComponent();
+            _current = this;
         }
 
-        private static readonly MethodInfo _setText = typeof(HandyControl.Controls.NumericUpDown).GetMethod("SetText", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static RoguelikeSettingsUserControl _current;
+        private static bool _isValidResult;
 
-        private static readonly object[] _paras = { true };
-
-        private void NumericUpDown_ValueChanged(object sender, HandyControl.Data.FunctionEventArgs<double> e)
+        internal static bool IsValidResult
         {
-            _setText?.Invoke(sender, _paras);
+            get => _isValidResult;
+            set
+            {
+                _isValidResult = value;
+                if (!IsValidResult)
+                {
+                    _current.StartingCoreCharComboBox.ItemsSource = DataHelper.CharacterNames;
+                }
+            }
+        }
+
+        private void StartingCoreCharComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            if (IsValidResult)
+            {
+                var name = StartingCoreCharComboBox.Text;
+                StartingCoreCharComboBox.ItemsSource = Instances.SettingsViewModel.RoguelikeCoreCharList;
+            }
         }
     }
 
-    public class InvestmentButtonCheckedConverter : IMultiValueConverter
+    public class StartingCoreCharRule : ValidationRule
     {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
-            string isEnabled = System.Convert.ToString(values[0]);
-            string roguelikeMode = System.Convert.ToString(values[1]);
-
-            if (roguelikeMode == "1" || roguelikeMode == "4")
+            if (value is not string stringValue)
             {
-                return true;
+                return new ValidationResult(false, HandyControl.Properties.Langs.Lang.FormatError);
             }
 
-            return isEnabled == "True";
-        }
+            if (!string.IsNullOrEmpty(stringValue) && DataHelper.GetCharacterByNameOrAlias(stringValue) is null)
+            {
+                RoguelikeSettingsUserControl.IsValidResult = false;
+                return new ValidationResult(false, LocalizationHelper.GetString("RoguelikeStartingCoreCharNotFound"));
+            }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            bool isEnabled = (bool)value;
-            return new object[] { isEnabled, isEnabled };
+            RoguelikeSettingsUserControl.IsValidResult = true;
+            return ValidationResult.ValidResult;
         }
     }
 }

@@ -13,9 +13,13 @@ option(BUILD_UNIVERSAL "build both arm64 and x86_64 on macOS" OFF)
 option(INSTALL_PYTHON "install python ffi" OFF)
 option(INSTALL_RESOURCE "install resource" OFF)
 option(INSTALL_DEVEL "install development files" OFF)
+option(INSTALL_FLATTEN "do not use bin lib include directory" ON)
 option(INSTALL_THIRD_LIBS "install third party libraries" ON)
 option(USE_MAADEPS "use third-party libraries built by MaaDeps" ON)
+option(USE_RANGE_V3 "use range-v3" OFF)
+option(WITH_EMULATOR_EXTRAS "build with emulator extras" ${WIN32})
 option(WITH_THRIFT "build with thrift" OFF)
+option(WITH_ASST_DEBUG "build with ASST_DEBUG defined" OFF)
 
 include(${PROJECT_SOURCE_DIR}/cmake/utils.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/thrift-gen.cmake)
@@ -24,28 +28,27 @@ if(USE_MAADEPS)
     include(${PROJECT_SOURCE_DIR}/MaaDeps/maadeps.cmake)
 endif()
 
-if (MSVC)
-    add_compile_options("/utf-8")
-    add_compile_options("/MP")
-    add_compile_options("/W4;/WX")
-    add_compile_options("/wd4127")  # conditional expression is constant
-    add_compile_options("/Wv:19.35.32217")  # disable warning introduced after this version
-
-    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
-else ()
-    add_compile_options("-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
-        add_compile_options("-Wno-restrict")
-    endif()
-endif ()
-
-
 add_library(header_only_libraries INTERFACE)
-target_include_directories(header_only_libraries INTERFACE 3rdparty/include)
+target_include_directories(header_only_libraries INTERFACE 3rdparty/include 3rdparty/EmulatorExtras)
 
 file(GLOB_RECURSE maa_src src/MaaCore/*.cpp)
 
 add_library(MaaCore SHARED ${maa_src})
+
+if (MSVC)
+    target_compile_options(MaaCore PRIVATE "/utf-8")
+    target_compile_options(MaaCore PRIVATE "/MP")
+    target_compile_options(MaaCore PRIVATE "/W4;/WX")
+    target_compile_options(MaaCore PRIVATE "/wd4127")  # conditional expression is constant
+    target_compile_options(MaaCore PRIVATE "/Wv:19.35.32217")  # disable warning introduced after this version
+
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
+else ()
+    target_compile_options(MaaCore PRIVATE "-Wall;-Werror;-Wextra;-Wpedantic;-Wno-missing-field-initializers")
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
+        target_compile_options(MaaCore PRIVATE "-Wno-restrict")
+    endif()
+endif ()
 
 if (WIN32)
     #注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
@@ -77,26 +80,61 @@ endif (BUILD_TEST)
 
 find_package(OpenCV REQUIRED COMPONENTS core imgproc imgcodecs videoio)
 find_package(ZLIB REQUIRED)
-find_package(MaaDerpLearning REQUIRED)
-find_package(asio REQUIRED)
-find_package(ONNXRuntime)
 find_package(cpr CONFIG REQUIRED)
+
+list(APPEND maa_libs ${OpenCV_LIBS} ZLIB::ZLIB cpr::cpr header_only_libraries)
+
+if(USE_MAADEPS)
+    find_package(asio REQUIRED)
+    list(APPEND maa_libs asio::asio)
+endif()
+
+find_package(onnxruntime CONFIG REQUIRED) # provided by onnxruntime>=1.16
+list(APPEND maa_libs onnxruntime::onnxruntime)
+if(DEFINED fastdeploy_SOURCE_DIR)
+    # TODO: FetchContent github.com/MaaAssistantArknights/FastDeploy
+    if(NOT DEFINED fastdeploy_BINARY_DIR)
+        set(fastdeploy_BINARY_DIR ${CMAKE_BINARY_DIR}/fastdeploy)
+    endif()
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+    add_subdirectory(${fastdeploy_SOURCE_DIR} ${fastdeploy_BINARY_DIR} EXCLUDE_FROM_ALL SYSTEM)
+    if(NOT DEFINED fastdeploy_INCLUDE_DIRS)
+        set(fastdeploy_INCLUDE_DIRS ${fastdeploy_SOURCE_DIR})
+    endif()
+    target_include_directories(MaaCore SYSTEM PRIVATE ${fastdeploy_INCLUDE_DIRS})
+    get_target_property(fastdeploy_type fastdeploy_ppocr TYPE)
+    if(fastdeploy_type STREQUAL "SHARED_LIBRARY")
+        install(TARGETS fastdeploy_ppocr)
+    endif()
+else()
+    find_package(fastdeploy_ppocr REQUIRED)
+endif()
+list(APPEND maa_libs fastdeploy_ppocr)
+
+target_link_libraries(MaaCore ${maa_libs})
+
+if(WITH_EMULATOR_EXTRAS AND NOT EXISTS ${PROJECT_SOURCE_DIR}/3rdparty/EmulatorExtras/Mumu)
+    message(WARNING "EmulatorExtras not found, please run `git submodule update --init 3rdparty/EmulatorExtras`")
+    set(WITH_EMULATOR_EXTRAS OFF)
+endif()
+target_compile_definitions(MaaCore PRIVATE ASST_WITH_EMULATOR_EXTRAS=$<BOOL:${WITH_EMULATOR_EXTRAS}>)
+
 if(WITH_THRIFT)
     find_package(Thrift CONFIG REQUIRED)
-endif(WITH_THRIFT)
-
-target_link_libraries(MaaCore ${OpenCV_LIBS} MaaDerpLearning asio::asio ZLIB::ZLIB ONNXRuntime::ONNXRuntime cpr::cpr header_only_libraries)
-
-if(WITH_THRIFT)
     add_subdirectory(src/MaaThriftController)
     target_link_libraries(MaaCore MaaThriftController)
 endif(WITH_THRIFT)
+
+if (WITH_ASST_DEBUG)
+    target_compile_definitions(MaaCore PRIVATE ASST_DEBUG)
+endif ()
 
 if(WIN32)
     target_link_libraries(MaaCore ws2_32)
 endif()
 
-if (CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+if (USE_RANGE_V3)
+    target_compile_definitions(MaaCore PRIVATE ASST_USE_RANGES_RANGE_V3)
     find_package(range-v3 REQUIRED)
     target_link_libraries(MaaCore range-v3::range-v3)
 endif ()
@@ -105,12 +143,11 @@ if(INSTALL_DEVEL)
     set(MaaCore_install_extra_args PUBLIC_HEADER DESTINATION devel/include ARCHIVE DESTINATION devel/lib)
 endif()
 
-install(TARGETS MaaCore
-    RUNTIME DESTINATION .
-    LIBRARY DESTINATION .
-    PUBLIC_HEADER DESTINATION .
-    ${MaaCore_install_extra_args}
-)
+if(INSTALL_FLATTEN)
+    set(MaaCore_install_flatten_args RUNTIME DESTINATION . LIBRARY DESTINATION . PUBLIC_HEADER DESTINATION .)
+endif()
+
+install(TARGETS MaaCore ${MaaCore_install_flatten_args} ${MaaCore_install_extra_args})
 
 if(INSTALL_THIRD_LIBS AND USE_MAADEPS)
     maadeps_install()

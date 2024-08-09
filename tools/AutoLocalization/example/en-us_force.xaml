@@ -304,7 +304,7 @@
 
         <ResourceDictionary x:Uid="RecruitingSettings">
             <!--$RecruitingSettings:-->
-            <s:String x:Key="AutoRefresh">自动刷新 3 星 Tags</s:String>
+            <s:String x:Key="AutoRefresh">无倾向 Tag 时自动刷新 3 星 Tags</s:String>
             <s:String x:Key="AutoUseExpedited">自动使用加急许可*</s:String>
             <s:String x:Key="Level3UseShortTime">3 星设置 7:40 而非 9:00</s:String>
             <s:String x:Key="Level3UseShortTimeTip">不影响其他星级 Tags</s:String>

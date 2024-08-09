@@ -3,13 +3,14 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY
 // </copyright>
+#nullable enable
 
 using System.Windows;
 using System.Windows.Input;
@@ -25,7 +26,7 @@ namespace MaaWpfGui.Views.UserControl
                 new FrameworkPropertyMetadata(default(MaaHotKey),
                     FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
-        public MaaHotKey HotKey
+        public MaaHotKey? HotKey
         {
             get => (MaaHotKey)GetValue(HotKeyProperty);
             set => SetValue(HotKeyProperty, value);

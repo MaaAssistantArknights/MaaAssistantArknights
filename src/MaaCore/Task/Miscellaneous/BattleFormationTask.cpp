@@ -42,6 +42,11 @@ void asst::BattleFormationTask::set_select_formation(int index)
     m_select_formation_index = index;
 }
 
+std::shared_ptr<std::unordered_map<std::string, std::string>>asst::BattleFormationTask::get_opers_in_formation() const
+{
+    return m_opers_in_formation;
+}
+
 void asst::BattleFormationTask::set_data_resource(DataResource resource)
 {
     m_data_resource = resource;
@@ -63,27 +68,37 @@ bool asst::BattleFormationTask::_run()
         save_img(utils::path("debug") / utils::path("other"));
         return false;
     }
-
+    auto missing_operators = std::vector<OperGroup>();
     for (auto& [role, oper_groups] : m_formation) {
-        add_formation(role, oper_groups);
+        add_formation(role, oper_groups, missing_operators);
     }
+    
+    if (!missing_operators.empty()) {
+        if (missing_operators.size() == 1) {
+            // TODO: 自动借助战？
+        }
+        
+        report_missing_operators(missing_operators);
+
+        return false;
+    }
+
     if (m_add_user_additional) {
+        auto limit = 12 - m_size_of_operators_in_formation;
         for (const auto& [name, skill] : m_user_additional) {
-            if (m_operators_in_formation.contains(name)) {
+            if (m_opers_in_formation->contains(name)) {
                 continue;
             }
-            if (m_size_of_operators_in_formation >= 12) {
+            if (--limit < 0) {
                 break;
             }
             asst::battle::OperUsage oper;
             oper.name = name;
             oper.skill = skill;
             std::vector<asst::battle::OperUsage> usage { std::move(oper) };
-            m_user_formation.emplace_back(std::move(usage));
-            ++m_size_of_operators_in_formation;
+            m_user_formation.emplace_back(name, std::move(usage));
         }
-        m_size_of_operators_in_formation -= (int)m_user_formation.size();
-        add_formation(battle::Role::Unknown, m_user_formation);
+        add_formation(battle::Role::Unknown, m_user_formation, missing_operators);
     }
 
     add_additional();
@@ -102,13 +117,14 @@ bool asst::BattleFormationTask::_run()
     return true;
 }
 
-bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group)
+bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing)
 {
     LogTraceFunction;
 
     click_role_table(role);
     bool has_error = false;
     int swipe_times = 0;
+    int overall_swipe_times = 0; // 完整从左到右滑动的次数
     while (!need_exit()) {
         if (select_opers_in_cur_page(oper_group)) {
             has_error = false;
@@ -128,6 +144,13 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
             has_error = false;
         }
         else {
+            if (overall_swipe_times == m_missing_retry_times) {
+                 missing.insert(missing.end(), oper_group.begin(), oper_group.end());
+                return true;
+            }
+
+            ++overall_swipe_times;
+
             has_error = true;
             swipe_to_the_left(swipe_times);
             swipe_times = 0;
@@ -200,6 +223,10 @@ bool asst::BattleFormationTask::add_trust_operators()
     // 双击信赖
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
+    // 检查特关是否开启
+    ProcessTask(*this, { 
+        "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated"
+    }).run();
 
     // 重置职业选择，保证处于最左
     click_role_table(battle::Role::Caster);
@@ -236,6 +263,25 @@ bool asst::BattleFormationTask::add_trust_operators()
 bool asst::BattleFormationTask::select_random_support_unit()
 {
     return ProcessTask(*this, { "BattleSupportUnitFormation" }).run();
+}
+
+void asst::BattleFormationTask::report_missing_operators(std::vector<OperGroup>& groups)
+{
+    auto info = basic_info();
+
+    std::vector<std::vector<std::string>> oper_names;
+    for (auto& group : groups) {
+        std::vector<std::string> names;
+        for (const auto& oper : group.second) {
+            names.push_back(oper.name);
+        }
+        oper_names.push_back(names);
+    }
+
+    info["why"] = "OperatorMissing";
+
+    info["details"] = json::object { { "opers", json::array(oper_names) } };
+    callback(AsstMsg::SubTaskError, info);
 }
 
 std::vector<asst::TemplDetOCRer::Result> asst::BattleFormationTask::analyzer_opers()
@@ -313,12 +359,12 @@ bool asst::BattleFormationTask::select_opers_in_cur_page(std::vector<OperGroup>&
         bool found = false;
         auto iter = groups.begin();
         for (; iter != groups.end(); ++iter) {
-            for (const auto& oper : *iter) {
+            for (const auto& oper : iter->second) {
                 if (oper.name == name) {
                     found = true;
                     skill = oper.skill;
 
-                    m_operators_in_formation.emplace(name);
+                    m_opers_in_formation->emplace(name, iter->first);
                     ++m_size_of_operators_in_formation;
                     break;
                 }
@@ -405,7 +451,7 @@ bool asst::BattleFormationTask::parse_formation()
         if (opers_vec.empty()) {
             continue;
         }
-        formation.array_emplace(name);
+        formation.emplace(name);
 
         // 判断干员/干员组的职业，放进对应的分组
         bool same_role = true;
@@ -415,7 +461,7 @@ bool asst::BattleFormationTask::parse_formation()
         }
 
         // for unknown, will use { "BattleQuickFormationRole-All", "BattleQuickFormationRole-All-OCR" }
-        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(opers_vec);
+        m_formation[same_role ? role : battle::Role::Unknown].emplace_back(name, opers_vec);
     }
 
     callback(AsstMsg::SubTaskExtraInfo, info);

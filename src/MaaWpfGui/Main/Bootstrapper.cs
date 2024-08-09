@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -15,9 +15,12 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
 using MaaWpfGui.Helper;
@@ -29,6 +32,7 @@ using MaaWpfGui.Services.Web;
 using MaaWpfGui.States;
 using MaaWpfGui.ViewModels.UI;
 using MaaWpfGui.Views.UI;
+using MaaWpfGui.WineCompat;
 using Serilog;
 using Serilog.Core;
 using Stylet;
@@ -63,7 +67,7 @@ namespace MaaWpfGui.Main
                                 "Only one instance can be launched under the same path!\n\n" +
                                 "同じパスの下で1つのインスタンスしか起動できません！\n\n" +
                                 "동일한 경로에는 하나의 인스턴스만 실행할 수 있습니다!");
-                Application.Current.Shutdown();
+                Bootstrapper.Shutdown();
                 return;
             }
             */
@@ -97,7 +101,7 @@ namespace MaaWpfGui.Main
                 .Enrich.WithThreadId()
                 .Enrich.WithThreadName();
 
-            var uiVersion = Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1";
+            var uiVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.0.1";
             uiVersion = uiVersion == "0.0.1" ? "DEBUG VERSION" : uiVersion;
             var maaEnv = Environment.GetEnvironmentVariable("MAA_ENVIRONMENT") == "Debug"
                 ? "Debug"
@@ -116,6 +120,14 @@ namespace MaaWpfGui.Main
             if (IsUserAdministrator())
             {
                 _logger.Information("Run as Administrator");
+            }
+
+            if (WineRuntimeInformation.IsRunningUnderWine)
+            {
+                _logger.Information($"Running under Wine {WineRuntimeInformation.WineVersion} on {WineRuntimeInformation.HostSystemName}");
+                RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+                _logger.Information($"MaaWineBridge status: {MaaWineBridge.Availability}");
+                _logger.Information($"MaaDesktopIntegration available: {MaaDesktopIntegration.Availabile}");
             }
 
             _logger.Information("===================================");
@@ -196,22 +208,6 @@ namespace MaaWpfGui.Main
         }
 
         /// <inheritdoc/>
-        protected override void OnLaunch()
-        {
-            Task.Run(async () =>
-            {
-                await Instances.AnnouncementViewModel.CheckAndDownloadAnnouncement();
-                if (Instances.AnnouncementViewModel.DoNotRemindThisAnnouncementAgain)
-                {
-                    return;
-                }
-
-                _ = Execute.OnUIThreadAsync(() => Instances.WindowManager.ShowWindow(Instances.AnnouncementViewModel));
-            });
-            Instances.VersionUpdateViewModel.ShowUpdateOrDownload();
-        }
-
-        /// <inheritdoc/>
         /// <remarks>退出时执行啥自己加。</remarks>
         protected override void OnExit(ExitEventArgs e)
         {
@@ -227,14 +223,7 @@ namespace MaaWpfGui.Main
             Instances.MaaHotKeyManager.Release();
 
             // 关闭程序时清理操作中心中的通知
-            // 使用 handyorg 的 ShowBalloonTip，不需要清理
-            /*
-            var os = RuntimeInformation.OSDescription;
-            if (string.Compare(os, "Microsoft Windows 10.0.10240", StringComparison.Ordinal) >= 0)
-            {
-                new ToastNotificationHistory().Clear();
-            }
-            */
+            ToastNotification.Cleanup();
 
             ConfigurationHelper.Release();
 
@@ -243,15 +232,22 @@ namespace MaaWpfGui.Main
             Log.CloseAndFlush();
             base.OnExit(e);
 
-            if (_isRestartingWithoutArgs)
+            if (!_isRestartingWithoutArgs)
             {
-                ProcessStartInfo startInfo = new ProcessStartInfo
-                {
-                    FileName = System.Windows.Forms.Application.ExecutablePath,
-                };
-
-                Process.Start(startInfo);
+                return;
             }
+
+            if (Environment.ProcessPath is null)
+            {
+                return;
+            }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo
+            {
+                FileName = Environment.ProcessPath,
+            };
+
+            Process.Start(startInfo);
         }
 
         private static bool _isRestartingWithoutArgs;
@@ -263,7 +259,13 @@ namespace MaaWpfGui.Main
         {
             _isRestartingWithoutArgs = true;
             _logger.Information("Shutdown and restart without Args");
-            Application.Current.Shutdown();
+            Execute.OnUIThread(Application.Current.Shutdown);
+        }
+
+        public static void Shutdown()
+        {
+            _logger.Information("Shutdown");
+            Execute.OnUIThread(Application.Current.Shutdown);
         }
 
         private static bool _isWaitingToRestart;

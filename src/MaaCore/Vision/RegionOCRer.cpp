@@ -15,28 +15,39 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
     bin_left_trim(bin);
     bin_right_trim(bin);
 
-    cv::Rect bounding_rect = cv::boundingRect(bin);
-    bounding_rect.x += m_roi.x;
-    bounding_rect.y += m_roi.y;
-    auto new_roi = make_rect<Rect>(bounding_rect);
+    auto bounding_rect = make_rect<Rect>(cv::boundingRect(bin));
 
-    if (new_roi.empty()) {
+    if (bounding_rect.empty()) {
         return std::nullopt;
     }
+    auto expand_roi = [](Rect& roi, int exp) {
+        if (exp == 0) return;
+        roi.x -= exp;
+        roi.y -= exp;
+        roi.width += 2 * exp;
+        roi.height += 2 * exp;
+    };
+    expand_roi(bounding_rect, m_params.bin_expansion);
 
-    int exp = m_params.bin_expansion;
-    if (exp) {
-        new_roi.x -= exp;
-        new_roi.y -= exp;
-        new_roi.width += 2 * exp;
-        new_roi.height += 2 * exp;
-    }
+    auto new_roi = bounding_rect;
+    new_roi.x += m_roi.x;
+    new_roi.y += m_roi.y;
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw, make_rect<cv::Rect>(new_roi), cv::Scalar(0, 0, 255), 1);
 #endif // ASST_DEBUG
 
-    OCRer ocr_analyzer(m_image, new_roi);
+    OCRer ocr_analyzer;
+    if (m_use_raw) {
+        ocr_analyzer = OCRer(m_image, new_roi);
+    }
+    else {
+        cv::Mat bin3;
+        std::array arr_bin3 { bin, bin, bin };
+        cv::merge(arr_bin3, bin3);
+        ocr_analyzer = OCRer(bin3, bounding_rect);
+    }
+
     auto config = m_params;
     config.without_det = true;
     ocr_analyzer.set_params(std::move(config));
@@ -46,6 +57,10 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
         return std::nullopt;
     }
     m_result = result->front();
+    if (!m_use_raw) {
+        m_result.rect.x += m_roi.x;
+        m_result.rect.y += m_roi.y;
+    }
     return m_result;
 }
 

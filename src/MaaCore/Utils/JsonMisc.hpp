@@ -39,6 +39,15 @@ namespace asst::utils
         return false;
     }
 
+    bool parse_json_as(const json::value& input, MatchMethod& output)
+    {
+        if (input.is_string()) {
+            output = get_match_method(input.as_string());
+            return output != MatchMethod::Invalid;
+        }
+        return false;
+    }
+
     // std::pair<FirstT, SecondT> <- [first, second]
     template <typename FirstT, typename SecondT>
     requires(requires(const json::value& input, FirstT x, SecondT y) {
@@ -105,7 +114,7 @@ namespace asst::utils
         return parse_json_as(input, output) ? output : std::nullopt;
     }
 
-    template <typename OutT, typename DefaultT>
+    template <typename OutT, typename DefaultT, bool CheckDefault = false>
     requires(std::constructible_from<OutT, DefaultT> || std::constructible_from<OutT, std::invoke_result_t<DefaultT>>)
     bool get_value_or(std::string_view repr, const json::value& input, const std::string& key, OutT& output,
                       DefaultT&& default_val)
@@ -122,15 +131,17 @@ namespace asst::utils
         }
         if (parse_json_as(*opt, output)) {
 #ifdef ASST_DEBUG
-            // 如果有默认值，检查是否与默认值相同
-            if constexpr (std::constructible_from<OutT, DefaultT>) {
-                if (output == default_val) {
-                    Log.warn("Value of", key, "in", repr, "is same as default value");
+            if constexpr (CheckDefault) {
+                // 如果有默认值，检查是否与默认值相同
+                if constexpr (std::constructible_from<OutT, DefaultT>) {
+                    if (output == default_val) {
+                        Log.warn("Value of", key, "in", repr, "is same as default value");
+                    }
                 }
-            }
-            else {
-                if (output == default_val()) {
-                    Log.warn("Value of", key, "in", repr, "is same as default value");
+                else {
+                    if (output == default_val()) {
+                        Log.warn("Value of", key, "in", repr, "is same as default value of construct function");
+                    }
                 }
             }
 #endif
@@ -140,12 +151,28 @@ namespace asst::utils
         return false;
     }
 
-    template <typename OutT, typename DefaultT>
+    template <typename OutT, typename DefaultT, bool CheckDefault = false>
     requires(std::constructible_from<OutT, DefaultT> || std::constructible_from<OutT, std::invoke_result_t<DefaultT>>)
     std::optional<OutT> get_value_or(std::string_view repr, const json::value& input, const std::string& key,
                                      DefaultT&& default_val)
     {
         OutT output;
         return get_value_or(repr, input, key, output, std::forward<DefaultT>(default_val)) ? output : std::nullopt;
+    }
+
+    template <typename OutT, typename DefaultT>
+    requires(std::constructible_from<OutT, DefaultT> || std::constructible_from<OutT, std::invoke_result_t<DefaultT>>)
+    bool get_and_check_value_or(
+        std::string_view repr, const json::value& input, const std::string& key, OutT& output, DefaultT&& default_val)
+    {
+        return get_value_or<OutT, DefaultT, true>(repr, input, key, output, std::forward<DefaultT>(default_val));
+    }
+
+    template <typename OutT, typename DefaultT>
+    requires(std::constructible_from<OutT, DefaultT> || std::constructible_from<OutT, std::invoke_result_t<DefaultT>>)
+    std::optional<OutT> get_and_check_value_or(
+        std::string_view repr, const json::value& input, const std::string& key, DefaultT&& default_val)
+    {
+        return get_value_or<OutT, DefaultT, true>(repr, input, key, std::forward<DefaultT>(default_val));
     }
 } // namespace asst::utils

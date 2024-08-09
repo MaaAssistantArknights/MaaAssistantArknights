@@ -17,130 +17,134 @@
     d:DesignHeight="300"
     d:DesignWidth="550"
     mc:Ignorable="d">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <StackPanel
+    <StackPanel>
+        <controls:TextBlock
             Grid.Row="0"
-            Grid.Column="0"
-            VerticalAlignment="Center">
-            <StackPanel VerticalAlignment="Center">
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource StartupUpdateCheck}"
-                    IsChecked="{Binding UpdateCheck}"
-                    IsEnabled="False" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource UpdateAutoCheck}"
-                    IsChecked="{Binding UpdateAutoCheck}" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource UpdateAutoDownload}"
-                    IsChecked="{Binding AutoDownloadUpdatePackage}"
-                    IsEnabled="{Binding UpdateCheck}" />
-                <CheckBox
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    Content="{DynamicResource AutoInstallUpdatePackage}"
-                    IsChecked="{Binding AutoInstallUpdatePackage}"
-                    IsEnabled="{Binding UpdateCheck}" />
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <controls:TextBlock
-                        Margin="10,10,0,10"
-                        Block.TextAlignment="Center"
-                        Text="{DynamicResource UpdateCheck}" />
-                    <ComboBox
-                        Width="120"
+            HorizontalAlignment="Center"
+            FontWeight="Bold"
+            Text="{DynamicResource GlobalConfigTip}"
+            TextAlignment="Center" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="0"
+                VerticalAlignment="Center">
+                <StackPanel VerticalAlignment="Center">
+                    <CheckBox
                         Margin="10"
-                        DisplayMemberPath="Display"
-                        IsEnabled="{Binding UpdateCheck}"
-                        ItemsSource="{Binding VersionTypeList}"
-                        SelectedValue="{Binding VersionType}"
-                        SelectedValuePath="Value" />
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource StartupUpdateCheck}"
+                        IsChecked="{Binding UpdateCheck}"
+                        IsEnabled="False" />
+                    <CheckBox
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource UpdateAutoCheck}" />
+                    <CheckBox
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource UpdateAutoDownload}"
+                        IsChecked="{Binding AutoDownloadUpdatePackage}" />
+                    <CheckBox
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Content="{DynamicResource AutoInstallUpdatePackage}"
+                        IsChecked="{Binding AutoInstallUpdatePackage}" />
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <controls:TextBlock
+                            Margin="10,10,0,10"
+                            Block.TextAlignment="Center"
+                            Text="{DynamicResource UpdateCheck}" />
+                        <ComboBox
+                            Width="120"
+                            Margin="10"
+                            DisplayMemberPath="Display"
+                            ItemsSource="{Binding VersionTypeList}"
+                            SelectedValue="{Binding VersionType}"
+                            SelectedValuePath="Value" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="1"
-            Margin="3"
-            VerticalAlignment="Center">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="3"
+                VerticalAlignment="Center">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-                <controls:TextBlock
-                    Grid.Row="0"
-                    Margin="1"
-                    VerticalAlignment="Center"
-                    Text="Http Proxy" />
-                <TextBox
-                    Grid.Row="1"
-                    Width="150"
-                    Margin="10"
-                    VerticalAlignment="Center"
-                    InputMethod.IsInputMethodEnabled="False"
-                    Text="{Binding Proxy}" />
-                <StackPanel Grid.Row="2">
-                    <hc:Shield
-                        Margin="0,5"
-                        HorizontalAlignment="Center"
+                    <controls:TextBlock
+                        Grid.Row="0"
+                        Margin="1"
                         VerticalAlignment="Center"
-                        hc:FloatingBlock.Content="{Binding ResourceVersion}"
-                        PreviewMouseDown="ResourceVersionClick"
-                        Status="{Binding ResourceVersion, Mode=OneWay}"
-                        Subject="{DynamicResource ResourceVersion}"
-                        Color="#6969AA" />
-                    <hc:Shield
-                        Margin="0,5"
-                        HorizontalAlignment="Center"
+                        Text="Http Proxy" />
+                    <TextBox
+                        Grid.Row="1"
+                        Width="150"
+                        Margin="10"
                         VerticalAlignment="Center"
-                        hc:FloatingBlock.Content="{Binding UiVersion}"
-                        PreviewMouseDown="UiVersionClick"
-                        Status="{Binding UiVersion, Mode=OneWay}"
-                        Subject="{DynamicResource UiVersion}"
-                        Color="#6969AA" />
-                    <hc:Shield
-                        Margin="0,5"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        hc:FloatingBlock.Content="{Binding CoreVersion}"
-                        PreviewMouseDown="CoreVersionClick"
-                        Status="{Binding CoreVersion, Mode=OneWay}"
-                        Subject="{DynamicResource CoreVersion}"
-                        Color="#6969AA" />
-                </StackPanel>
-                <StackPanel
-                    Grid.Row="3"
-                    Margin="5"
-                    VerticalAlignment="Center">
-                    <Button
+                        InputMethod.IsInputMethodEnabled="False"
+                        Text="{Binding Proxy}" />
+                    <StackPanel Grid.Row="2">
+                        <hc:Shield
+                            Margin="0,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            hc:FloatingBlock.Content="{Binding ResourceVersion}"
+                            PreviewMouseDown="ResourceVersionClick"
+                            Status="{Binding ResourceVersion, Mode=OneWay}"
+                            Subject="{DynamicResource ResourceVersion}"
+                            Color="#6969AA" />
+                        <hc:Shield
+                            Margin="0,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            hc:FloatingBlock.Content="{Binding UiVersion}"
+                            PreviewMouseDown="UiVersionClick"
+                            Status="{Binding UiVersion, Mode=OneWay}"
+                            Subject="{DynamicResource UiVersion}"
+                            Color="#6969AA" />
+                        <hc:Shield
+                            Margin="0,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            hc:FloatingBlock.Content="{Binding CoreVersion}"
+                            PreviewMouseDown="CoreVersionClick"
+                            Status="{Binding CoreVersion, Mode=OneWay}"
+                            Subject="{DynamicResource CoreVersion}"
+                            Color="#6969AA" />
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="3"
                         Margin="5"
-                        Command="{s:Action ManualUpdate}"
-                        Content="{DynamicResource UpdateCheckNow}"
-                        IsEnabled="{c:Binding !IsCheckingForUpdates}" />
-                    <Button
-                        Margin="5"
-                        Command="{s:Action ShowChangelog}"
-                        Content="{DynamicResource ShowChangelog}"
-                        IsEnabled="{c:Binding !IsCheckingForUpdates}" />
-                </StackPanel>
-            </Grid>
-        </StackPanel>
-    </Grid>
+                        VerticalAlignment="Center">
+                        <Button
+                            Margin="5"
+                            Command="{s:Action ManualUpdate}"
+                            Content="{DynamicResource UpdateCheckNow}"
+                            IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                        <Button
+                            Margin="5"
+                            Command="{s:Action ShowChangelog}"
+                            Content="{DynamicResource ShowChangelog}"
+                            IsEnabled="{c:Binding !IsCheckingForUpdates}" />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
 </UserControl>

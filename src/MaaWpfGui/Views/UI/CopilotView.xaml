@@ -78,6 +78,7 @@
                         BorderThickness="0,1,1,1"
                         Command="{s:Action PasteClipboard}"
                         IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                        MouseRightButtonUp="{s:Action PasteClipboardCopilotSet}"
                         ToolTip="{DynamicResource PasteClipboardTip}" />
                 </Grid>
             </StackPanel>
@@ -96,14 +97,12 @@
                         Content="{DynamicResource AutoSquad}"
                         IsChecked="{Binding Form}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource AutoSquadTip}" />
                     <CheckBox
                         HorizontalAlignment="Center"
                         Content="{DynamicResource UseCopilotList}"
                         IsChecked="{Binding UseCopilotList}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource UseCopilotListTip}" />
                 </StackPanel>
                 <StackPanel
@@ -116,7 +115,6 @@
                         Content="{DynamicResource AddUserAdditional}"
                         IsChecked="{Binding AddUserAdditional}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         ToolTip="{DynamicResource AddUserAdditionalTip}" />
                     <TextBox
                         MinWidth="140"
@@ -142,7 +140,6 @@
                         Content="{DynamicResource AddTrust}"
                         IsChecked="{Binding AddTrust}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         Visibility="{c:Binding Form}" />
                     <CheckBox
                         Height="30"
@@ -151,7 +148,6 @@
                         Content="{DynamicResource UseSanityPotion}"
                         IsChecked="{Binding UseSanityPotion}"
                         IsEnabled="{Binding Idle}"
-                        IsHitTestVisible="{Binding Idle}"
                         Visibility="{c:Binding UseCopilotList}" />
                 </StackPanel>
                 <StackPanel
@@ -197,12 +193,14 @@
                     x:Name="CopilotList"
                     Grid.Row="0"
                     Grid.ColumnSpan="4"
+                    HorizontalContentAlignment="Stretch"
                     dd:DragDrop.IsDragSource="{Binding Idle}"
                     dd:DragDrop.IsDropTarget="{Binding Idle}"
                     hc:BorderElement.CornerRadius="4,4,0,0"
+                    properties:AutoScroll.AutoScroll="True"
                     BorderThickness="1,1,1,0"
                     DragDrop.Drop="{s:Action CopilotItemIndexChanged}"
-                    IsEnabled="{c:Binding '(Idle) and (StartEnabled)'}"
+                    IsEnabled="{c:Binding StartEnabled}"
                     ItemContainerStyle="{StaticResource CustomListBoxItemStyle}"
                     ItemsSource="{Binding Path=CopilotItemViewModels}"
                     ToolTip="{DynamicResource LabelSequenceTip}">
@@ -210,22 +208,31 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="150" />
                                     <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <!--<maa:TextBlock  Text="{Binding ID}" />
-                            <maa:TextBlock  Text=". " />-->
                                 <CheckBox
                                     Grid.Column="0"
                                     Content="{c:Binding Name}"
                                     IsChecked="{Binding IsChecked}"
-                                    IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}" />
-                                <Button
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                    IsHitTestVisible="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
+                                    ToolTip="{c:Binding CopilotId}" />
+                                <controls:TextBlock
                                     Grid.Column="1"
+                                    MinWidth="35"
+                                    VerticalAlignment="Center"
+                                    Text="{DynamicResource CopilotTaskRaidStage}"
+                                    Visibility="{c:Binding IsRaid}" />
+                                <Button
+                                    Grid.Column="2"
+                                    MinWidth="30"
                                     hc:IconElement.Geometry="{StaticResource CloseGeometry}"
                                     BorderThickness="0"
                                     Command="{s:Action DeleteCopilotTask}"
                                     CommandParameter="{c:Binding Index}"
+                                    IsEnabled="{Binding ElementName=CopilotList, Path=DataContext.Idle}"
                                     Style="{StaticResource ButtonDashed}" />
                             </Grid>
                         </DataTemplate>
@@ -326,8 +333,8 @@
                 Margin="0,10"
                 properties:AutoScroll.AutoScroll="True"
                 HorizontalScrollBarVisibility="Disabled"
-                PanningMode="VerticalOnly"
-                IsInertiaEnabled="True">
+                IsInertiaEnabled="True"
+                PanningMode="VerticalOnly">
                 <ItemsControl ItemsSource="{Binding Path=LogItemViewModels}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

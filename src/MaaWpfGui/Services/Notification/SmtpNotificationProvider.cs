@@ -3,7 +3,7 @@
 // Copyright (C) 2021 MistEO and Contributors
 //
 // This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
+// it under the terms of the GNU Affero General Public License v3.0 only as published by
 // the Free Software Foundation, either version 3 of the License, or
 // any later version.
 //
@@ -24,7 +24,7 @@ namespace MaaWpfGui.Services.Notification
 {
     public class SmtpNotificationProvider : IExternalNotificationProvider
     {
-        private readonly ILogger _logger = Log.ForContext<ServerChanNotificationProvider>();
+        private readonly ILogger _logger = Log.ForContext<SmtpNotificationProvider>();
 
         public async Task<bool> SendAsync(string title, string content)
         {

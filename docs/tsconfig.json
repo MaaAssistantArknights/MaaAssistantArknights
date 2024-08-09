@@ -1,4 +1,7 @@
 {
-  "extends": "maa-tsconfig/react-library.json",
-  "include": [".vuepress/**/*.ts"]
+    "compilerOptions": {
+        "module": "ESNext",
+        "moduleResolution": "Node"
+    },
+    "include": [".vuepress/**/*.ts"]
 }

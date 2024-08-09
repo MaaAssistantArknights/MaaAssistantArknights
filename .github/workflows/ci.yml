@@ -106,6 +106,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           show-progress: false
+          submodules: recursive
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
@@ -183,6 +184,8 @@ jobs:
     strategy:
       matrix:
         arch: [aarch64, x86_64]
+    permissions:
+      actions: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -198,8 +201,6 @@ jobs:
 
       - name: Setup ccache
         uses: Chocobo1/setup-ccache-action@v1
-        with:
-          remove_stale_cache: false
 
       - name: Bootstrap MaaDeps
         env:
@@ -224,19 +225,18 @@ jobs:
           CC: ${{ matrix.arch == 'x86_64' && 'ccache gcc-12' || 'ccache aarch64-linux-gnu-gcc-12' }}
           CXX: ${{ matrix.arch == 'x86_64' && 'ccache g++-12' || 'ccache aarch64-linux-gnu-g++-12' }}
 
-      - name: Setup Rust
+      - name: Setup Cross Compile Toolchains for CLI
         uses: ./src/maa-cli/.github/actions/setup
         with:
           os: ubuntu-latest
-          arch: ${{ matrix.arch }}
+          target_arch: ${{ matrix.arch }}
 
       - name: Build CLI
         run: |
-          cargo build --release --locked --package maa-cli \
-             ${{ matrix.arch != 'x86_64' && '--features vendored-openssl' || '' }}
+          cargo build --release --locked --package maa-cli --features vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/install/maa
           cargo build --release --locked --package maa-cli --no-default-features \
-            --features ${{ matrix.arch != 'x86_64' && 'git2,vendored-openssl' || 'git2' }}
+            --features git2,vendored-openssl
           cp -v target/$CARGO_BUILD_TARGET/release/maa $GITHUB_WORKSPACE/appimage-maa
         working-directory: src/maa-cli
 
@@ -269,8 +269,10 @@ jobs:
           mkdir -pv Maa.AppDir/usr/share/metainfo/
           cp -v tools/AppImage/io.github.maaassistantarknights.maaassistantarknights.metainfo.xml Maa.AppDir/usr/share/metainfo/
           wget "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage"
+          # appimagetool with embedded runtime does not support cross build, till AppImage/appimagetool 7a10b8
+          wget "https://github.com/AppImage/type2-runtime/releases/download/continuous/runtime-${{ matrix.arch }}"
           chmod a+x appimagetool-x86_64.AppImage
-          ./appimagetool-x86_64.AppImage Maa.AppDir
+          ARCH=${{ matrix.arch }} ./appimagetool-x86_64.AppImage --runtime-file runtime-${{ matrix.arch }} Maa.AppDir
           chmod a+x MaaAssistantArknights-${{ matrix.arch }}.AppImage
           mv -v MaaAssistantArknights-${{ matrix.arch }}.AppImage $GITHUB_WORKSPACE/release/MAA-${{ needs.meta.outputs.tag }}-linux-${{ matrix.arch }}.AppImage
 
@@ -290,7 +292,7 @@ jobs:
 
   macOS-Core:
     needs: meta
-    runs-on: macos-13
+    runs-on: macos-14
     strategy:
       matrix:
         arch: [arm64, x86_64]
@@ -328,7 +330,7 @@ jobs:
 
   macOS-GUI:
     needs: [meta, macOS-Core]
-    runs-on: macos-13
+    runs-on: macos-14
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -355,6 +357,10 @@ jobs:
           p12-file-base64: ${{ secrets.HGUANDL_SIGN_CERT_P12 }}
           p12-password: ${{ secrets.HGUANDL_SIGN_CERT_PASSWD }}
 
+      - name: Setup Xcode Toolchain
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.0.1.app/Contents/Developer
+
       - name: Build Universal Binaries
         run: |
           mkdir build
@@ -365,7 +371,7 @@ jobs:
       - name: Build XCFramework
         run: |
           xcodebuild -create-xcframework -library libMaaCore.dylib -headers ../include -output MaaCore.xcframework
-          xcodebuild -create-xcframework -library libMaaDerpLearning.dylib -output MaaDerpLearning.xcframework
+          xcodebuild -create-xcframework -library libfastdeploy_ppocr.dylib -output fastdeploy_ppocr.xcframework
           xcodebuild -create-xcframework -library libonnxruntime.*.dylib -output ONNXRuntime.xcframework
           xcodebuild -create-xcframework -library libopencv*.dylib -output OpenCV.xcframework
         working-directory: build
@@ -455,7 +461,7 @@ jobs:
           find . -type f | while read f; do mv -fvt . $f; done
 
       - name: Release to Github
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body_path: CHANGELOG.md
           files: |

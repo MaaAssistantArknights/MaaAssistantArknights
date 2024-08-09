@@ -1,240 +1,97 @@
 {
     "stage_name": "狩猎场",
-    "role_order": [
-        "pioneer",
-        "sniper",
-        "warrior",
-        "tank",
-        "medic",
-        "caster",
-        "support"
-    ],
+    "role_order": ["pioneer", "sniper", "warrior", "tank", "medic", "caster", "support"],
     "replacement_home": [
         {
-            "location": [
-                5,
-                5
-            ],
+            "location": [5, 5],
             "direction": "right"
         },
         {
-            "location": [
-                5,
-                4
-            ],
+            "location": [5, 4],
             "direction": "up"
         },
         {
-            "location": [
-                5,
-                3
-            ],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "location": [
-                6,
-                4
-            ],
+            "location": [6, 4],
             "direction": "right"
         }
     ],
     "blacklist_location": [
-        [
-            7,
-            4
-        ],
-        [
-            8,
-            4
-        ],
-        [
-            9,
-            4
-        ],
-        [
-            3,
-            1
-        ]
+        [7, 4],
+        [8, 4],
+        [9, 4],
+        [3, 1]
     ],
     "deploy_plan": [
         {
-            "groups": [
-                "号角"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["号角"],
+            "location": [6, 5],
             "direction": "right",
-            "condition": [
-                15,
-                50
-            ]
+            "condition": [15, 50]
         },
         {
-            "groups": [
-                "投锋",
-                "挡人先锋"
-            ],
-            "location": [
-                6,
-                5
-            ],
+            "groups": ["投锋", "挡人先锋"],
+            "location": [6, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "百嘉",
-                "基石",
-                "地面C",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["百嘉", "基石", "地面C", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [5, 5],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "地面C",
-                "挡人先锋",
-                "重装",
-                "其他地面",
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                5,
-                3
-            ],
+            "groups": ["基石", "地面C", "挡人先锋", "重装", "其他地面", "异德", "刺客"],
+            "location": [5, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "玛恩纳"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["玛恩纳"],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "单奶",
-                "群奶"
-            ],
-            "location": [
-                5,
-                6
-            ],
+            "groups": ["单奶", "群奶"],
+            "location": [5, 6],
             "direction": "up"
         },
         {
-            "groups": [
-                "异德",
-                "刺客"
-            ],
-            "location": [
-                2,
-                6
-            ],
+            "groups": ["异德", "刺客"],
+            "location": [2, 6],
             "direction": "left"
         },
         {
-            "groups": [
-                "地刺"
-            ],
-            "location": [
-                7,
-                4
-            ],
+            "groups": ["地刺"],
+            "location": [7, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                3,
-                3
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助", "其他高台"],
+            "location": [3, 3],
             "direction": "left"
         },
         {
-            "groups": [
-                "高台C",
-                "控制",
-                "狙击",
-                "术师",
-                "召唤",
-                "辅助",
-                "其他高台"
-            ],
-            "location": [
-                4,
-                3
-            ],
+            "groups": ["高台C", "控制", "狙击", "术师", "召唤", "辅助", "其他高台"],
+            "location": [4, 3],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "挡人先锋",
-                "地面C",
-                "重装",
-                "地刺",
-                "异德",
-                "刺客",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                4
-            ],
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "异德", "刺客", "其他地面"],
+            "location": [5, 4],
             "direction": "right"
         },
         {
-            "groups": [
-                "基石",
-                "挡人先锋",
-                "地面C",
-                "重装",
-                "地刺",
-                "异德",
-                "刺客",
-                "其他地面"
-            ],
-            "location": [
-                5,
-                5
-            ],
+            "groups": ["基石", "挡人先锋", "地面C", "重装", "地刺", "异德", "刺客", "其他地面"],
+            "location": [5, 5],
             "direction": "right"
         }
     ],
     "retreat_plan": [
         {
-            "location": [
-                6,
-                5
-            ],
-            "condition": [
-                13,
-                14
-            ]
+            "location": [6, 5],
+            "condition": [13, 14]
         }
     ]
 }
