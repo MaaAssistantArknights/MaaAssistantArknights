@@ -45,7 +45,7 @@
     <system:String x:Key="ExternalNotificationDiscordUserId">ユーザーID</system:String>
     <system:String x:Key="ExternalNotificationTelegramBotToken">ボットトークン</system:String>
     <system:String x:Key="ExternalNotificationTelegramChatId">チャットID</system:String>
-    <system:String x:Key="UseGpuForInference">推論加速のためにGPUを使用</system:String>
+    <system:String x:Key="UseGpuForInference">処理の加速のためにGPUを使用する</system:String>
     <system:String x:Key="GpuOptionDisable">使用しない</system:String>
     <system:String x:Key="GpuOptionSystemDefault">システムデフォルトGPU</system:String>
     <!--  設定ガイド  -->
@@ -76,11 +76,11 @@
     <system:String x:Key="PureGold">製造所-純金</system:String>
     <system:String x:Key="OriginStone">製造所-源石の欠片</system:String>
     <system:String x:Key="Chip">製造所-中級SoC</system:String>
-    <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼を上げる</system:String>
+    <system:String x:Key="DormTrustEnabled">宿舎の空き位置で信頼度を上げる</system:String>
     <system:String x:Key="DormFilterNotStationedEnabled">作業中の人員を宿舎に移動しない（例:訓練所でのアイリーニなど）</system:String>
-    <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのようなオペレーターを訓練室から外さなくなり、でも、加工所のオペレーターが宿舎に送られることも防止します。</system:String>
+    <system:String x:Key="DormFilterNotStationedTips">チェックした場合、アイリーニのようなオペレーターが訓練室から外れなくなり、また、加工所のオペレーターが宿舎に送られることを防止します。</system:String>
     <system:String x:Key="OriginiumShardAutoReplenishment">源石の欠片を自動で補充</system:String>
-    <system:String x:Key="ContinueTraining">訓練完了後、現在のスキルを特化する試みを続けます</system:String>
+    <system:String x:Key="ContinueTraining">訓練完了後に現在スキルの継続特化を試みます</system:String>
     <system:String x:Key="TrainingIdle">訓練室は空いています</system:String>
     <system:String x:Key="TrainingCompleted">訓練が完了しました</system:String>
     <system:String x:Key="TrainingLevel">スキルランク</system:String>
@@ -113,8 +113,8 @@
     <system:String x:Key="DormThreshold">体力が設定した%以下になれば宿舎へ移動する</system:String>
     <system:String x:Key="InfrastThresholdTip">カスタム シフトが有効な場合、このフィールドは自動入力とオペレーター グループのあるルームに対してのみ有効です</system:String>
     <system:String x:Key="RoguelikeStrategyExp">経験値を取得し、できるだけクリア</system:String>
-    <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2階到着後終了</system:String>
-    <system:String x:Key="RoguelikeStrategyLastReward">序盤の報酬を得るために戦い、3階到着後終了</system:String>
+    <system:String x:Key="RoguelikeStrategyGold">源石錐の収集、2層到着後終了</system:String>
+    <system:String x:Key="RoguelikeStrategyLastReward">支援選択を得るため3層到着後に終了</system:String>
     <system:String x:Key="RoguelikeStrategyCollapse">パラダイムロストをファーミングして、非レアパラダイムロストに遭遇したらすぐに再起動します</system:String>
     <system:String x:Key="StartingSquad">最初の分隊</system:String>
     <system:String x:Key="StartingRoles">最初の職業</system:String>
@@ -292,10 +292,10 @@
     <system:String x:Key="StopOnGoldLimit">源石錐が上限に達した後に停止する</system:String>
     <system:String x:Key="InvestmentEnabled">源石錐を投資する</system:String>
     <system:String x:Key="InvestmentWithMoreScore">投資モードでは買い物、採用、2階への入場が可能</system:String>
-    <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する</system:String>
+    <system:String x:Key="RefreshTraderWithDice">ダイスで品揃えを更新する（ミチビキリンジュウ）</system:String>
     <system:String x:Key="PenguinId">Penguin-StatsのレポートのID（デジタル部分のみ）</system:String>
-    <system:String x:Key="EnablePenguin">Penguin-Statsの報告</system:String>
-    <system:String x:Key="EnableYituliu">Yituliuの報告</system:String>
+    <system:String x:Key="EnablePenguin">Penguin-Statsへ報告</system:String>
+    <system:String x:Key="EnableYituliu">Yituliuへ報告</system:String>
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
@@ -319,7 +319,7 @@
     <system:String x:Key="ReceiveDailyAndWeeklyAward">毎日/毎週任務報酬を受取</system:String>
     <system:String x:Key="ReceiveMail">すべてのメール報酬を受取</system:String>
     <system:String x:Key="ReceiveFreeRecruit">リミテッドスカウトから毎日無料スカウトを行う</system:String>
-    <system:String x:Key="ReceiveFreeRecruitTip">無料スカウトがない場合はスカウトされない</system:String>
+    <system:String x:Key="ReceiveFreeRecruitTip">無料スカウトがない場合はスカウトしない</system:String>
     <system:String x:Key="GachaWarning">これは危険な機能であり、誤用につながる可能性があります\n「確認」ボタンを押すことで、起こりうる危険を理解し、それを引き受ける意思があるとみなされます</system:String>
     <system:String x:Key="ReceiveOrundum">ラッキーウォールから毎日合成玉の報酬を受け取る</system:String>
     <system:String x:Key="ReceiveMining">期間限定の採掘許可で毎日合成玉の報酬を受け取る</system:String>
@@ -422,13 +422,13 @@
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
-    <system:String x:Key="Stop">止める</system:String>
-    <system:String x:Key="WaitAndStop">待って &amp; 止める</system:String>
+    <system:String x:Key="Stop">停止</system:String>
+    <system:String x:Key="WaitAndStop">待機 &amp; 停止</system:String>
     <!--  戦闘設定  -->
     <system:String x:Key="UseSanityPotion">理性剤使用数</system:String>
     <system:String x:Key="UseOriginitePrime">割る源石の数*</system:String>
     <system:String x:Key="PerformBattles">周回数指定</system:String>
-    <system:String x:Key="AssignedMaterial">素材を限定</system:String>
+    <system:String x:Key="AssignedMaterial">素材の指定</system:String>
     <system:String x:Key="Quantity">ドロップ数</system:String>
     <system:String x:Key="Series">連戦回数</system:String>
     <system:String x:Key="StageSelect">ステージ</system:String>
@@ -439,9 +439,9 @@
     <!--<system:String x:Key="CurrentStage">当前关卡</system:String> -->
     <!--<system:String x:Key="LastBattle">上次作战</system:String>-->
     <system:String x:Key="DefaultStage">現在/前回</system:String>
-    <system:String x:Key="ClosedStage">イベントは未公開か既に終了</system:String>
+    <system:String x:Key="ClosedStage">ステージが未公開か既に終了している</system:String>
     <system:String x:Key="UnsupportedStages">未サポートステージ</system:String>
-    <system:String x:Key="LowVersion">更新必要</system:String>
+    <system:String x:Key="LowVersion">バージョンの更新が必要</system:String>
     <system:String x:Key="MinimumRequirements" xml:space="preserve">最低バージョン要件: </system:String>
     <system:String x:Key="DaysLeftOpen" xml:space="preserve">公開日まで: </system:String>
     <system:String x:Key="LessThanOneDay">1日以内</system:String>
@@ -491,7 +491,7 @@
     <system:String x:Key="ShutdownPrompt">ヒント</system:String>
     <system:String x:Key="HibernatePrompt">完了しました。休止状態にしようとしています</system:String>
     <system:String x:Key="UnknownActionAfterCompleted">未知の終了動作</system:String>
-    <system:String x:Key="AnnihilationTaskTip">ステージ選択は殲滅任務です。任務終了後、残りの代替ステージが試されます。一部の戦闘設定は有効になりません。</system:String>
+    <system:String x:Key="AnnihilationTaskTip">ステージ選択が殲滅任務になっています。任務終了後、残りの代替ステージが試されます。一部の戦闘設定は有効になりません。</system:String>
     <system:String x:Key="AnnihilationTaskFailed">殲滅戦に失敗、代替ステージを使用しますが、一部の戦闘設定が有効ではありません</system:String>
     <!--  !Logs  -->
     <!--  !動作不明  -->
@@ -500,7 +500,7 @@
     <system:String x:Key="RecruitmentRecognition">公開求人認識</system:String>
     <system:String x:Key="RecruitmentRecognitionTip">ヒント: スタート画面の公開求人とは、別々の機能になっています。使用する前にゲームの公開求人を手動で開いてください</system:String>
     <system:String x:Key="AutoSettingTime">募集期間を自動的に設定する</system:String>
-    <system:String x:Key="RecruitmentShowPotential">潜在能力を示す</system:String>
+    <system:String x:Key="RecruitmentShowPotential">潜在数を表示する（星4以上）</system:String>
     <system:String x:Key="RecruitmentShowPotentialTips">情報を取得するために「オペレーター」を使用してください。</system:String>
     <system:String x:Key="AutoSelectLevel3Tags">星3タグを自動的に選択する</system:String>
     <system:String x:Key="AutoSelectLevel4Tags">星4タグを自動的に選択する</system:String>
@@ -527,11 +527,11 @@
     <system:String x:Key="VideoRecognition">映像</system:String>
     <system:String x:Key="StartToVideoRecognition">認識を始める</system:String>
     <system:String x:Key="OpenVideoRecognitionResult">ディレクトリを開く</system:String>
-    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、「自動戦闘」ページを開き、映像をドラッグしてください。\n
+    <system:String x:Key="VideoRecognitionTips" xml:space="preserve">映像認識のために、「自動戦闘」ページを開き、映像をドラッグしてください。
 映像の解像度は16: 9である必要があり、黒枠、エミュレータ枠、特殊な形状、画面効果などが無いことを確認してください。</system:String>
     <!--  VideoRecognition  -->
     <!--  Gacha Recognition  -->
-    <system:String x:Key="Gacha">ガチャ</system:String>
+    <system:String x:Key="Gacha">パラスガチャ</system:String>
     <system:String x:Key="GachaOnce">ガチャを一回引く</system:String>
     <system:String x:Key="GachaTenTimes">10回ガチャ</system:String>
     <system:String x:Key="GachaInitTip">志を同じくする義士の方が、ロドスにこれほどいらっしゃるとは思いませんでした。ええ、詩、戦、自由！歴史の奔流の中で人々の力を集結させ、この大地を変えるために奮闘できるとは……なんと燃えることか！このような悲壮で非凡な物語は、語り継がれてゆくべきものなのです。</system:String>
@@ -575,7 +575,7 @@
     <system:String x:Key="ThanksForLikeWebJson">感謝と評価！\nウェブページには既にコメント欄が開放されており、あなたのコメントを心待ちにしています！</system:String>
     <system:String x:Key="AutoSquad">自動編成</system:String>
     <system:String x:Key="AutoSquadTip">自動編成では、一時的に「戦術要員」オペレーターを認識できません</system:String>
-    <system:String x:Key="AddTrust">信頼度が低いのオペレーターを追加する</system:String>
+    <system:String x:Key="AddTrust">信頼度が低いオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditional">カスタムで指定したオペレーターを追加する</system:String>
     <system:String x:Key="AddUserAdditionalTip">";" はセパレータ、"," でオペレーターの名前とスキルを区切ります。例: Surtr, 3; Eyjafjalla,1</system:String>
     <system:String x:Key="UseCopilotList">バトルリスト</system:String>
@@ -729,8 +729,8 @@
     <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
     <system:String x:Key="AutoRecruitSelectStrategy">公開求人でのタグを複数選択する場合の作戦</system:String>
     <system:String x:Key="DefaultNoExtraTags">追加のタグを選択しない</system:String>
-    <system:String x:Key="SelectExtraTags">タグを選択すると、常に 3 つのタグが選択されます</system:String>
-    <system:String x:Key="SelectExtraOnlyRareTags">可能な限り多くのタグを選択し、高い星のタグのみを選択する</system:String>
+    <system:String x:Key="SelectExtraTags">常に 3 つのタグを選択する</system:String>
+    <system:String x:Key="SelectExtraOnlyRareTags">可能な限りタグを選択し、かつ高い星のタグのみを選択する</system:String>
     <system:String x:Key="AutoRecruitHighPriority">優先タグ（セミコロンで区切）</system:String>
     <system:String x:Key="AutoRecruitHighPriorityTooltip">サブストリングで十分です、できるだけ多くのタグの傾向を選択します</system:String>
     <system:String x:Key="NotEnoughStaff">利用可能なオペレーターが不足しています</system:String>
@@ -759,8 +759,8 @@
     <system:String x:Key="Website">MAA公式サイト</system:String>
     <system:String x:Key="Github">ソースコード: GitHub</system:String>
     <system:String x:Key="PrtsPlus">自動攻略ファイルシェアWebサイト</system:String>
-    <system:String x:Key="MapPrts">Copilot Map and Coordinate</system:String>
-    <system:String x:Key="CustomInfrastGenerator">Custom Base Json Generator</system:String>
+    <system:String x:Key="MapPrts">自動指揮マップの制作</system:String>
+    <system:String x:Key="CustomInfrastGenerator">カスタム基地Json作成</system:String>
     <system:String x:Key="QqGroup">QQグループ</system:String>
     <system:String x:Key="QqChannel">QQ channel</system:String>
     <system:String x:Key="Telegram">Telegram</system:String>
@@ -769,7 +769,7 @@
     <!--  !About  -->
     <!--  自動募集設定  -->
     <system:String x:Key="AutoRefresh">星3タグを自動的に更新する</system:String>
-    <system:String x:Key="ForceRefresh">採用許可なしでタグの更新を続けます</system:String>
+    <system:String x:Key="ForceRefresh">採用不可でもタグの更新を行う</system:String>
     <system:String x:Key="AutoUseExpedited">緊急招集票を自動的に使用*</system:String>
     <system:String x:Key="Level3UseShortTime">星3タグを7:40に設定する</system:String>
     <system:String x:Key="Level3UseShortTime2">星3タグを1:00に設定する</system:String>
@@ -833,8 +833,8 @@
     <system:String x:Key="ExternalNotificationEmailTemplateLinkCopilotSite">Copilot（中国語）</system:String>
     <!--  !External Notification  -->
     <!--  Announcement  -->
-    <system:String x:Key="Announcement">公告</system:String>
-    <system:String x:Key="CheckAndDownloadAnnouncement">公告を見ます</system:String>
+    <system:String x:Key="Announcement">アナウンス</system:String>
+    <system:String x:Key="CheckAndDownloadAnnouncement">アナウンスを見ます</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">このお知らせをもう表示しない</system:String>
     <!--  !Announcement  -->
     <!--  Reclamation  -->
