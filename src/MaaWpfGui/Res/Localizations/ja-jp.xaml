@@ -727,7 +727,7 @@
     <system:String x:Key="Refreshed">現在のタグが更新されました</system:String>
     <system:String x:Key="ContinueRefresh">採用許可がないため、タグを更新しようとしています</system:String>
     <system:String x:Key="NoRecruitmentPermit">採用許可がないため返却されました</system:String>
-    <system:String x:Key="AutoRecruitSelectStrategy">公募の複数のタグを選択する戦略</system:String>
+    <system:String x:Key="AutoRecruitSelectStrategy">公開求人でのタグを複数選択する場合の作戦</system:String>
     <system:String x:Key="DefaultNoExtraTags">デフォルトでは、追加のタグを選択しない</system:String>
     <system:String x:Key="SelectExtraTags">タグを選択すると、常に 3 つのタグが選択されます</system:String>
     <system:String x:Key="SelectExtraOnlyRareTags">可能な限り多くのタグを選択し、高い星のタグのみを選択する</system:String>
