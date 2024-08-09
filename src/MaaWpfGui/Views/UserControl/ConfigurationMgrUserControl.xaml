@@ -27,9 +27,7 @@
             Margin="10"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsEditable="True"
-            IsHitTestVisible="{Binding Idle}"
-            IsReadOnly="True"
+            IsEnabled="{Binding Idle}"
             ItemsSource="{Binding ConfigurationList}"
             SelectedValue="{Binding CurrentConfiguration}"
             SelectedValuePath="Value">
@@ -38,7 +36,7 @@
                     <Grid Width="{c:Binding 'ActualWidth - 20', RelativeSource={RelativeSource AncestorType=ComboBox}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="28" />
                         </Grid.ColumnDefinitions>
                         <TextBlock
                             Grid.Column="0"
