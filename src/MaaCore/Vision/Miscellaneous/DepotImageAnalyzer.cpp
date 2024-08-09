@@ -60,10 +60,11 @@ template <typename F>
 cv::Mat asst::DepotImageAnalyzer::image_from_function(const cv::Size& size, const F& func)
 {
     auto result = cv::Mat1f { size, CV_32F };
-    for (int i = 0; i < result.cols; ++i)
+    for (int i = 0; i < result.cols; ++i) {
         for (int j = 0; j < result.rows; ++j) {
             result.at<float>(j, i) = func(i, j);
         }
+    }
     return result;
 }
 
@@ -101,7 +102,9 @@ bool asst::DepotImageAnalyzer::analyze_base_rect()
 
     const double phase = std::atan2(s_v, c_v);
     double x_first = phase / (2. * std::numbers::pi_v<double>)*x_period + x_period / 2.;
-    if (phase < 0) x_first += x_period;
+    if (phase < 0) {
+        x_first += x_period;
+    }
 
     for (int x = static_cast<int>(x_first); x <= m_image_resized.cols; x += x_period) {
         for (int y = y_first; y <= m_image_resized.rows; y += y_period) {
@@ -138,10 +141,22 @@ bool asst::DepotImageAnalyzer::analyze_all_items()
         info.quantity = match_quantity(info);
         info.item_name = ItemData.get_item_name(item_id);
 #ifdef ASST_DEBUG
-        cv::putText(m_image_draw_resized, item_id, cv::Point(roi.x, roi.y - 10), cv::FONT_HERSHEY_SIMPLEX, 0.5,
-                    cv::Scalar(0, 0, 255), 2);
-        cv::putText(m_image_draw_resized, std::to_string(info.quantity), cv::Point(roi.x, roi.y + 10),
-                    cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 255), 2);
+        cv::putText(
+            m_image_draw_resized,
+            item_id,
+            cv::Point(roi.x, roi.y - 10),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(0, 0, 255),
+            2);
+        cv::putText(
+            m_image_draw_resized,
+            std::to_string(info.quantity),
+            cv::Point(roi.x, roi.y + 10),
+            cv::FONT_HERSHEY_SIMPLEX,
+            0.5,
+            cv::Scalar(0, 0, 255),
+            2);
 #endif
         if (item_id.empty() || info.quantity == 0) {
             Log.error(__FUNCTION__, item_id, info.item_name, " quantity is zero");
@@ -165,8 +180,11 @@ bool asst::DepotImageAnalyzer::check_roi_empty(const Rect& roi)
     return false;
 }
 
-size_t asst::DepotImageAnalyzer::match_item(const Rect& roi, /* out */ ItemInfo& item_info, size_t begin_index,
-                                            bool with_enlarge)
+size_t asst::DepotImageAnalyzer::match_item(
+    const Rect& roi,
+    /* out */ ItemInfo& item_info,
+    size_t begin_index,
+    bool with_enlarge)
 {
     LogTraceFunction;
 
@@ -221,9 +239,11 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     auto item_templ = TemplResource::get_instance().get_templ(item.item_id);
     auto item_image = m_image_resized(make_rect<cv::Rect>(item.rect));
     cv::Mat quotient;
-    cv::divide(item_image + cv::Scalar { 1, 1, 1 }, // I've forgot why I should plus 1 here
-               item_templ + cv::Scalar { 1, 1, 1 }, // plus 1 to avoid divide by zero
-               quotient, 255);
+    cv::divide(
+        item_image + cv::Scalar { 1, 1, 1 }, // I've forgot why I should plus 1 here
+        item_templ + cv::Scalar { 1, 1, 1 }, // plus 1 to avoid divide by zero
+        quotient,
+        255);
 
     cv::Mat mask_r;
     cv::Mat mask_g;
@@ -242,16 +262,22 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
     mask_rect.width -= 1;
     mask_rect.height -= 1;
 
-    if (mask_rect.height < 18) mask_rect.height = 18;
+    if (mask_rect.height < 18) {
+        mask_rect.height = 18;
+    }
     const auto mid_x = mask.cols / 2; // center of image
-    if (mask_rect.br().x - mid_x < 30) mask_rect.width = mid_x + 30 - mask_rect.x;
+    if (mask_rect.br().x - mid_x < 30) {
+        mask_rect.width = mid_x + 30 - mask_rect.x;
+    }
 
     // minus 2 to trim white pixels
     Rect ocr_roi { item.rect.x + mask_rect.x, item.rect.y + mask_rect.y, mask_rect.width - 2, mask_rect.height - 2 };
 
     cv::Mat ocr_img = m_image_resized.clone();
-    cv::subtract(m_image_resized(make_rect<cv::Rect>(item.rect)), item_templ * 0.41,
-                 ocr_img(make_rect<cv::Rect>(item.rect)));
+    cv::subtract(
+        m_image_resized(make_rect<cv::Rect>(item.rect)),
+        item_templ * 0.41,
+        ocr_img(make_rect<cv::Rect>(item.rect)));
 
     RegionOCRer analyzer(m_image_resized);
     analyzer.set_task_info("NumberOcrReplace");
@@ -266,8 +292,14 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
 
 #ifdef ASST_DEBUG
     cv::rectangle(m_image_draw_resized, make_rect<cv::Rect>(result.rect), cv::Scalar(0, 0, 255));
-    cv::putText(m_image_draw_resized, result.text, cv::Point(result.rect.x, result.rect.y - 5),
-                cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(
+        m_image_draw_resized,
+        result.text,
+        cv::Point(result.rect.x, result.rect.y - 5),
+        cv::FONT_HERSHEY_SIMPLEX,
+        0.5,
+        cv::Scalar(0, 255, 0),
+        2);
 #endif
 
     std::string digit_str = result.text;
@@ -281,11 +313,11 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         digit_str.erase(k_pos, digit_str.size());
     }
     else if (size_t e_pos = digit_str.find("亿"); e_pos != std::string::npos) {
-        multiple = 100000000;
+        multiple = 100'000'000;
         digit_str.erase(e_pos, digit_str.size());
     }
     else if (size_t m_pos = digit_str.find('M'); m_pos != std::string::npos) {
-        multiple = 1000000;
+        multiple = 1'000'000;
         digit_str.erase(m_pos, digit_str.size());
     }
     else if (size_t n_pos = digit_str.find("만"); n_pos != std::string::npos) {
@@ -293,7 +325,7 @@ int asst::DepotImageAnalyzer::match_quantity(const ItemInfo& item)
         digit_str.erase(n_pos, digit_str.size());
     }
     else if (size_t o_pos = digit_str.find("억"); o_pos != std::string::npos) {
-        multiple = 100000000;
+        multiple = 100'000'000;
         digit_str.erase(o_pos, digit_str.size());
     }
 

@@ -21,7 +21,9 @@ RegionOCRer::ResultOpt RegionOCRer::analyze() const
         return std::nullopt;
     }
     auto expand_roi = [](Rect& roi, int exp) {
-        if (exp == 0) return;
+        if (exp == 0) {
+            return;
+        }
         roi.x -= exp;
         roi.y -= exp;
         roi.width += 2 * exp;

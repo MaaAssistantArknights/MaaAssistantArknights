@@ -42,7 +42,7 @@ void asst::BattleFormationTask::set_select_formation(int index)
     m_select_formation_index = index;
 }
 
-std::shared_ptr<std::unordered_map<std::string, std::string>>asst::BattleFormationTask::get_opers_in_formation() const
+std::shared_ptr<std::unordered_map<std::string, std::string>> asst::BattleFormationTask::get_opers_in_formation() const
 {
     return m_opers_in_formation;
 }
@@ -72,12 +72,12 @@ bool asst::BattleFormationTask::_run()
     for (auto& [role, oper_groups] : m_formation) {
         add_formation(role, oper_groups, missing_operators);
     }
-    
+
     if (!missing_operators.empty()) {
         if (missing_operators.size() == 1) {
             // TODO: 自动借助战？
         }
-        
+
         report_missing_operators(missing_operators);
 
         return false;
@@ -117,7 +117,10 @@ bool asst::BattleFormationTask::_run()
     return true;
 }
 
-bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<OperGroup> oper_group, std::vector<OperGroup>& missing)
+bool asst::BattleFormationTask::add_formation(
+    battle::Role role,
+    std::vector<OperGroup> oper_group,
+    std::vector<OperGroup>& missing)
 {
     LogTraceFunction;
 
@@ -145,7 +148,7 @@ bool asst::BattleFormationTask::add_formation(battle::Role role, std::vector<Ope
         }
         else {
             if (overall_swipe_times == m_missing_retry_times) {
-                 missing.insert(missing.end(), oper_group.begin(), oper_group.end());
+                missing.insert(missing.end(), oper_group.begin(), oper_group.end());
                 return true;
             }
 
@@ -224,9 +227,8 @@ bool asst::BattleFormationTask::add_trust_operators()
     ProcessTask(*this, { "BattleQuickFormationFilter-Trust" }).run();
     ProcessTask(*this, { "BattleQuickFormationFilterClose" }).run();
     // 检查特关是否开启
-    ProcessTask(*this, { 
-        "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated"
-    }).run();
+    ProcessTask(*this, { "BattleQuickFormationFilter-PinUnactivated", "BattleQuickFormationFilter-PinActivated" })
+        .run();
 
     // 重置职业选择，保证处于最左
     click_role_table(battle::Role::Caster);
@@ -475,7 +477,8 @@ bool asst::BattleFormationTask::select_formation(int select_index)
     // 第二组是名字最左边和最右边的一块区域
     // 右边比左边窄，暂定为左边 10*58
 
-    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1", "BattleSelectFormation2",
+    static const std::vector<std::string> select_formation_task = { "BattleSelectFormation1",
+                                                                    "BattleSelectFormation2",
                                                                     "BattleSelectFormation3",
                                                                     "BattleSelectFormation4" };
 

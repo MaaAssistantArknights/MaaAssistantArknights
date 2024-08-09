@@ -183,8 +183,9 @@ bool asst::StageDropsTaskPlugin::recognize_drops()
 
     auto&& [code, difficulty] = analyzer.get_stage_key();
     m_stage_code = std::move(code);
-    ranges::transform(m_stage_code, m_stage_code.begin(),
-                      [](char ch) -> char { return static_cast<char>(::toupper(ch)); });
+    ranges::transform(m_stage_code, m_stage_code.begin(), [](char ch) -> char {
+        return static_cast<char>(::toupper(ch));
+    });
     m_stage_difficulty = difficulty;
     m_stars = analyzer.get_stars();
     m_cur_drops = analyzer.get_drops();

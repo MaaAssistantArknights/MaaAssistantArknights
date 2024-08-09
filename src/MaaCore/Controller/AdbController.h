@@ -16,9 +16,7 @@
 
 namespace asst
 {
-class AdbController
-    : public ControllerAPI
-    , protected InstHelper
+class AdbController : public ControllerAPI, protected InstHelper
 {
 public:
     AdbController(const AsstCallback& callback, Assistant* inst, PlatformType type);
@@ -26,10 +24,7 @@ public:
     AdbController(AdbController&&) = delete;
     virtual ~AdbController();
 
-    virtual bool connect(
-        const std::string& adb_path,
-        const std::string& address,
-        const std::string& config) override;
+    virtual bool connect(const std::string& adb_path, const std::string& address, const std::string& config) override;
 
     virtual void set_kill_adb_on_exit(bool enable) noexcept override;
 
@@ -57,17 +52,11 @@ public:
         double slope_out = 1,
         bool with_pause = false) override;
 
-    virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override
-    {
-        return false;
-    }
+    virtual bool inject_input_event([[maybe_unused]] const InputEvent& event) override { return false; }
 
     virtual bool press_esc() override;
 
-    virtual ControlFeat::Feat support_features() const noexcept override
-    {
-        return ControlFeat::NONE;
-    }
+    virtual ControlFeat::Feat support_features() const noexcept override { return ControlFeat::NONE; }
 
     virtual std::pair<int, int> get_screen_res() const noexcept override;
 
@@ -83,8 +72,7 @@ protected:
         bool allow_reconnect = true,
         bool recv_by_socket = false);
 
-    virtual std::optional<std::string>
-        reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket);
+    virtual std::optional<std::string> reconnect(const std::string& cmd, int64_t timeout, bool recv_by_socket);
 
     void release();
 

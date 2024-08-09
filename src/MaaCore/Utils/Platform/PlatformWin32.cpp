@@ -47,26 +47,13 @@ bool asst::win32::CreateOverlappablePipe(
     if (overlapped_write) {
         write_flag |= FILE_FLAG_OVERLAPPED;
     }
-    auto pipe_read = CreateNamedPipeW(
-        pipename.c_str(),
-        read_flag,
-        PIPE_TYPE_BYTE | PIPE_WAIT,
-        1,
-        bufsize,
-        bufsize,
-        0,
-        secattr_read);
+    auto pipe_read =
+        CreateNamedPipeW(pipename.c_str(), read_flag, PIPE_TYPE_BYTE | PIPE_WAIT, 1, bufsize, bufsize, 0, secattr_read);
     if (pipe_read == INVALID_HANDLE_VALUE) {
         return false;
     }
-    auto pipe_write = CreateFileW(
-        pipename.c_str(),
-        write_flag,
-        0,
-        secattr_write,
-        OPEN_EXISTING,
-        FILE_ATTRIBUTE_NORMAL,
-        nullptr);
+    auto pipe_write =
+        CreateFileW(pipename.c_str(), write_flag, 0, secattr_write, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
     if (pipe_write == INVALID_HANDLE_VALUE) {
         CloseHandle(pipe_read);
         return false;
@@ -86,8 +73,7 @@ static std::string get_ansi_short_path(const std::filesystem::path& path)
         return {};
     }
     BOOL failed = FALSE;
-    auto ansilen =
-        WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, nullptr, 0, nullptr, &failed);
+    auto ansilen = WideCharToMultiByte(CP_ACP, 0, short_path, shortlen, nullptr, 0, nullptr, &failed);
     if (failed) {
         return {};
     }
@@ -123,26 +109,10 @@ std::string asst::platform::path_to_ansi_string(const std::filesystem::path& pat
     // so we use CRT wcstombs instead of WideCharToMultiByte
     BOOL failed = FALSE;
     auto& osstr = path.native();
-    auto ansilen = WideCharToMultiByte(
-        CP_ACP,
-        0,
-        osstr.c_str(),
-        (int)osstr.size(),
-        nullptr,
-        0,
-        nullptr,
-        &failed);
+    auto ansilen = WideCharToMultiByte(CP_ACP, 0, osstr.c_str(), (int)osstr.size(), nullptr, 0, nullptr, &failed);
     if (!failed) {
         std::string result(ansilen, 0);
-        WideCharToMultiByte(
-            CP_ACP,
-            0,
-            osstr.c_str(),
-            (int)osstr.size(),
-            result.data(),
-            ansilen,
-            nullptr,
-            &failed);
+        WideCharToMultiByte(CP_ACP, 0, osstr.c_str(), (int)osstr.size(), result.data(), ansilen, nullptr, &failed);
         return result;
     }
     else {
@@ -161,25 +131,9 @@ asst::platform::os_string asst::platform::to_osstring(const std::string& utf8_st
 
 std::string asst::platform::from_osstring(const os_string& os_str)
 {
-    int len = WideCharToMultiByte(
-        CP_UTF8,
-        0,
-        os_str.c_str(),
-        (int)os_str.size(),
-        nullptr,
-        0,
-        nullptr,
-        nullptr);
+    int len = WideCharToMultiByte(CP_UTF8, 0, os_str.c_str(), (int)os_str.size(), nullptr, 0, nullptr, nullptr);
     std::string result(len, 0);
-    WideCharToMultiByte(
-        CP_UTF8,
-        0,
-        os_str.c_str(),
-        (int)os_str.size(),
-        result.data(),
-        len,
-        nullptr,
-        nullptr);
+    WideCharToMultiByte(CP_UTF8, 0, os_str.c_str(), (int)os_str.size(), result.data(), len, nullptr, nullptr);
     return result;
 }
 
@@ -190,8 +144,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     std::string pipe_str;
 
     HANDLE pipe_parent_read = INVALID_HANDLE_VALUE, pipe_child_write = INVALID_HANDLE_VALUE;
-    SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES),
-                                     .bInheritHandle = TRUE };
+    SECURITY_ATTRIBUTES sa_inherit { .nLength = sizeof(SECURITY_ATTRIBUTES), .bInheritHandle = TRUE };
     if (!asst::win32::CreateOverlappablePipe(
             &pipe_parent_read,
             &pipe_child_write,
@@ -220,11 +173,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     InitializeProcThreadAttributeList(nullptr, 1, 0, &attrsize);
     if (attrsize == 0) {
         DWORD err = GetLastError();
-        Log.error(
-            "Call `",
-            cmdline,
-            "` InitializeProcThreadAttributeList failed, ret error code:",
-            err);
+        Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
         return {};
     }
     attrs.resize(attrsize);
@@ -232,11 +181,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     auto attr_success = InitializeProcThreadAttributeList(si.lpAttributeList, 1, 0, &attrsize);
     if (!attr_success) {
         DWORD err = GetLastError();
-        Log.error(
-            "Call `",
-            cmdline,
-            "` InitializeProcThreadAttributeList failed, ret error code:",
-            err);
+        Log.error("Call `", cmdline, "` InitializeProcThreadAttributeList failed, ret error code:", err);
         return {};
     }
     attr_success = UpdateProcThreadAttribute(
@@ -267,13 +212,7 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
     DeleteProcThreadAttributeList(si.lpAttributeList);
     if (!create_ret) {
         DWORD err = GetLastError();
-        Log.error(
-            "Call `",
-            cmdline,
-            "` create process failed, ret",
-            create_ret,
-            "error code:",
-            err);
+        Log.error("Call `", cmdline, "` create process failed, ret", create_ret, "error code:", err);
         return {};
     }
 
@@ -298,12 +237,8 @@ std::string asst::platform::call_command(const std::string& cmdline, bool* exit_
         if (wait_handles.empty()) {
             break;
         }
-        auto wait_result = WaitForMultipleObjectsEx(
-            (DWORD)wait_handles.size(),
-            wait_handles.data(),
-            FALSE,
-            INFINITE,
-            TRUE);
+        auto wait_result =
+            WaitForMultipleObjectsEx((DWORD)wait_handles.size(), wait_handles.data(), FALSE, INFINITE, TRUE);
         HANDLE signaled_object = INVALID_HANDLE_VALUE;
         if (wait_result >= WAIT_OBJECT_0 && wait_result < WAIT_OBJECT_0 + wait_handles.size()) {
             signaled_object = wait_handles[(size_t)wait_result - WAIT_OBJECT_0];
@@ -403,10 +338,7 @@ HANDLE asst::win32::OpenDirectory(const std::filesystem::path& path, BOOL bReadW
     HANDLE hToken;
     TOKEN_PRIVILEGES tp;
     OpenProcessToken(GetCurrentProcess(), TOKEN_ADJUST_PRIVILEGES, &hToken);
-    LookupPrivilegeValueW(
-        NULL,
-        (bReadWrite ? SE_RESTORE_NAME : SE_BACKUP_NAME),
-        &tp.Privileges[0].Luid);
+    LookupPrivilegeValueW(NULL, (bReadWrite ? SE_RESTORE_NAME : SE_BACKUP_NAME), &tp.Privileges[0].Luid);
     tp.PrivilegeCount = 1;
     tp.Privileges[0].Attributes = SE_PRIVILEGE_ENABLED;
     AdjustTokenPrivileges(hToken, FALSE, &tp, sizeof(TOKEN_PRIVILEGES), NULL, NULL);
@@ -426,12 +358,9 @@ HANDLE asst::win32::OpenDirectory(const std::filesystem::path& path, BOOL bReadW
     return hDir;
 }
 
-bool asst::win32::SetDirectoryReparsePoint(
-    const std::filesystem::path& link,
-    const std::filesystem::path& target)
+bool asst::win32::SetDirectoryReparsePoint(const std::filesystem::path& link, const std::filesystem::path& target)
 {
-    auto normtarget =
-        asst::platform::path(asst::utils::string_replace_all(target.native(), L"/", L"\\"));
+    auto normtarget = asst::platform::path(asst::utils::string_replace_all(target.native(), L"/", L"\\"));
 
     auto nttarget = L"\\GLOBAL??\\" + std::filesystem::absolute(normtarget).native();
     if (nttarget.back() != L'\\') {

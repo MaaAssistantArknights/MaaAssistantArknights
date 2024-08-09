@@ -5,27 +5,29 @@
 
 namespace asst
 {
-    class BattleFormationAnalyzer : public VisionHelper
+class BattleFormationAnalyzer : public VisionHelper
+{
+public:
+    struct Result
     {
-    public:
-        struct Result
-        {
-            std::string to_string() const { return name; }
-            explicit operator std::string() const { return to_string(); }
+        std::string to_string() const { return name; }
 
-            std::string name;
-            cv::Mat avatar;
-        };
-        using ResultsVec = std::vector<Result>;
-        using ResultsVecOpt = std::optional<ResultsVec>;
+        explicit operator std::string() const { return to_string(); }
 
-    public:
-        using VisionHelper::VisionHelper;
-        virtual ~BattleFormationAnalyzer() override = default;
-
-        ResultsVecOpt analyze() const;
-
-    protected:
-        ResultsVec proc_ocr_result(const TemplDetOCRer::ResultsVec& ocr_result) const;
+        std::string name;
+        cv::Mat avatar;
     };
+
+    using ResultsVec = std::vector<Result>;
+    using ResultsVecOpt = std::optional<ResultsVec>;
+
+public:
+    using VisionHelper::VisionHelper;
+    virtual ~BattleFormationAnalyzer() override = default;
+
+    ResultsVecOpt analyze() const;
+
+protected:
+    ResultsVec proc_ocr_result(const TemplDetOCRer::ResultsVec& ocr_result) const;
+};
 }
