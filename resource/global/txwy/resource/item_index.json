@@ -1687,38 +1687,6 @@
         "sortId": 30001,
         "usage": "用於臨時維持理智的大劑量濃縮緊急合劑，配方中新增活性成分，效果立竿見影，可能會造成生理時鐘紊亂，服用前請仔細閱讀說明。"
     },
-    "ap_supply_lt_120_2022_1": {
-        "classifyType": "CONSUME",
-        "description": "口口鬆脆的酥皮月餅，顏色焦黃，讓人食指大動。",
-        "icon": "ap_supply_lt_120_2022_1.png",
-        "name": "滿顏色",
-        "sortId": 30001,
-        "usage": "一份鮮甜肉餡的酥皮月餅，可用於恢復理智。"
-    },
-    "ap_supply_lt_120_2022_2": {
-        "classifyType": "CONSUME",
-        "description": "口口鬆脆的酥皮月餅，顏色焦黃，讓人食指大動。",
-        "icon": "ap_supply_lt_120_2022_2.png",
-        "name": "正圓月",
-        "sortId": 30001,
-        "usage": "一份乳香雲腿的酥皮月餅，可用於恢復理智。"
-    },
-    "ap_supply_lt_120_2022_3": {
-        "classifyType": "CONSUME",
-        "description": "口口綿潤的糖皮月餅，色澤油亮，引人口水四溢。",
-        "icon": "ap_supply_lt_120_2022_3.png",
-        "name": "笑靨開",
-        "sortId": 30001,
-        "usage": "一份玫瑰豆沙的糖皮月餅，可用於恢復理智。"
-    },
-    "ap_supply_lt_120_2022_4": {
-        "classifyType": "CONSUME",
-        "description": "口口綿潤的糖皮月餅，色澤油亮，引人口水四溢。",
-        "icon": "ap_supply_lt_120_2022_4.png",
-        "name": "桂子落",
-        "sortId": 30001,
-        "usage": "一份椒鹽果仁的糖皮月餅，可用於恢復理智。"
-    },
     "ap_supply_lt_60": {
         "classifyType": "CONSUME",
         "description": "雖然暴飲暴食可以緩解戰場帶來的焦慮與壓力，但總歸不利於博士的身體健康。本品含有一定糖分，故而外包裝採取特製結構，較難拆解，請借此消耗掉多餘的卡路里。",
