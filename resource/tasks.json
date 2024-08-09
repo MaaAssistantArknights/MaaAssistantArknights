@@ -5998,7 +5998,7 @@
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [600, 600, 50, 50],
+        "specificRect": [600, 600, 50, 10],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033",
         "postDelay": 800,
         "next": [
