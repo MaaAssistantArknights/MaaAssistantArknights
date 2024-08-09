@@ -56,6 +56,8 @@ Appends a task.
 // Corresponding task parameters
 {
     "enable": bool,              // Whether to enable this task, optional, true by default
+    "client_type": string,       // Client version, required, no execution if left blank
+                                 // Options: "Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 

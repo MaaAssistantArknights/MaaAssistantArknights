@@ -65,7 +65,7 @@ public:
     bool screencap(bool allow_reconnect = false);
 
     bool start_game(const std::string& client_type);
-    bool stop_game();
+    bool stop_game(const std::string& client_type);
 
     bool click(const Point& p);
     bool click(const Rect& rect);
