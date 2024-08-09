@@ -1,7 +1,4 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  설정  -->
     <system:String x:Key="Settings">설정</system:String>
     <system:String x:Key="GeneralSettings">일반 설정</system:String>
@@ -674,7 +671,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
-    <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복제: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
