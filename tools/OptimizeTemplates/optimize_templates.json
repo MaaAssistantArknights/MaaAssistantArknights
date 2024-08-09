@@ -2643,5 +2643,13 @@
     "YoStarKR/Reclamation2SkipDays1": "6e12fabbab1b91d8d71e3be27259c0c7e7b3455209ea8053e80e4ceaac6cd2a7",
     "YoStarEN/HS-Open": "f96d93c80e74e1d666a3ef863b848c54274360b9d9599a1ac13c66f00ee1b7ad",
     "YoStarEN/Reclamation2SkipDays1": "71324201d97fd85f5e5ef3c662255990df7cec2dfc05b4dd309ade7ba121e0c9",
-    "txwy/StageSideStory": "b29891726954981e936deb030b0b288e8c3d6032f79a2683f4bf54caec3b8949"
+    "txwy/StageSideStory": "b29891726954981e936deb030b0b288e8c3d6032f79a2683f4bf54caec3b8949",
+    "official/Sarkaz@Roguelike@MapNodeCombatOpsGrey": "2b652cadc72367ca443a23b3c2b2688c97a5b84edeb0496d09f38d9070a09b5b",
+    "official/Sarkaz@Roguelike@RoutingRefreshNode": "2636c583faf726b2647d978463354a5f3f3fd067116179c45eed23847b79b409",
+    "official/Sarkaz@Roguelike@MapNodeEmergencyOpsGrey": "5d732288fb776df0daf3eec5700449ae7d84540e63f97682d36eef5364d09927",
+    "official/Sarkaz@Roguelike@MapNodeRogueTraderGrey": "6197ed0812ab9f8671f00cc84e6288cf18bf56ab0ebcf95f83e1ad26ca068cbb",
+    "official/Sarkaz@Roguelike@MapNodeCombatOps": "f91972b001bf62ed5baae3c27f08945de5bb4a2da6828d25b5b577cdf88aacd5",
+    "official/Sarkaz@Roguelike@MapNodeEncounter": "4c8114c422f044fed2a777190e542ee3678fc893975f8ebde6f1f902c8c6d69c",
+    "official/Sarkaz@Roguelike@MapNodeEmergencyOps": "f7e6bac4401e57029ec7b26e2ae8c2e553e3556ad2b07eac8f078fe6eac3fdf0",
+    "official/Sarkaz@Roguelike@MapNodeEncounterGrey": "3aa76116c12b6c3297df9b7b0895feffaea108fc531f478582f1783a360725ac"
 }
