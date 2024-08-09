@@ -5,6 +5,8 @@ basedir=$(dirname "$0")/..
 pushd ${basedir}
 
 build_arch() {
+    // remove previous artifacts
+    rm -rf build-$1
     [[ $1 = "arm64" ]] && triplet="arm64-osx" || triplet="x64-osx"
 
     if [ ! -d ${basedir}/MaaDeps/runtime/maa-${triplet} ]; then
