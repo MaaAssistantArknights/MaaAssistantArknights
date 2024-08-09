@@ -853,7 +853,7 @@ Without save file: farm points through initial setup.
 
 With save file: farm points through crafting (advanced).
   1. It must be the first day after settlement, and there should be no enemy attacks entering the stationed area for the next three days.
-  2. It must start when entering the reclamation algorithm. (stationed location needs to be visible)
+  2. It must start after entering the interface of the large map. (stationed location needs to be visible)
   3. If the quantity that can be manufactured is exactly a multiple of 99, MAA can get confused (stuck). You can use up a little before saving. This might be repaired later.
     </system:String>
     <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
