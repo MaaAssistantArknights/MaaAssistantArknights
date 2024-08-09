@@ -135,7 +135,7 @@
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Pause-Trick) (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
-    <system:String x:Key="DefaultSquad">Default</system:String>
+    <system:String x:Key="DefaultSquad">Default Squad</system:String>
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
     <system:String x:Key="IS2NewSquad2">Resourceful Squad</system:String>
     <system:String x:Key="IS2NewSquad3">People-Oriented Squad</system:String>
@@ -157,7 +157,7 @@
     <system:String x:Key="TacticalDestructionOperative">Tactical Destruction Squad</system:String>
     <system:String x:Key="ResearchSquad">Research Squad</system:String>
     <system:String x:Key="First-ClassSquad">First-Class Squad</system:String>
-    <system:String x:Key="DefaultRoles">Default</system:String>
+    <system:String x:Key="DefaultRoles">Default Roles</system:String>
     <system:String x:Key="FirstMoveAdvantage">First Move Advantage</system:String>
     <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
