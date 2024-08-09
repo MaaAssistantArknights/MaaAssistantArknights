@@ -703,7 +703,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RoguelikeEvent">Event:</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">FoldartalForesee:</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
-    <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}\nExp: {10}, Skill: {11}</system:String>
+    <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6} Collectibles: {7}\nDifficulty: {8}\nScore: {9}Exp: {10}, Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">Collapsal Paradigm Deepening: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">Collapsal Paradigm {0} Deepened to {1}</system:String>
     <system:String x:Key="RoguelikeLoseParadigm">Collapsal Paradigm Regression: {1}</system:String>
