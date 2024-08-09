@@ -3718,6 +3718,8 @@ namespace MaaWpfGui.ViewModels.UI
             get => _autoDetectConnection;
             set
             {
+                Instances.AsstProxy.Connected = false;
+
                 SetAndNotify(ref _autoDetectConnection, value);
                 ConfigurationHelper.SetValue(ConfigurationKeys.AutoDetect, value.ToString());
             }
