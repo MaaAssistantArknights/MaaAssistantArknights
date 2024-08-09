@@ -143,7 +143,12 @@ bool asst::InfrastTask::set_params(const json::value& params)
     m_replenish_task_ptr->set_enable(replenish);
 
     if (is_custom && !m_running) {
-        std::string filename = params.at("filename").as_string();
+        auto filename_opt = params.find<std::string>("filename");
+        if (!filename_opt) {
+            Log.error("filename is not set while custom mode is enabled");
+            return false;
+        }
+        std::string filename = filename_opt.value();
         int index = params.get("plan_index", 0);
 
         try {
