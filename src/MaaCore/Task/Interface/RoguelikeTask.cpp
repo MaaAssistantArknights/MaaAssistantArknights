@@ -31,6 +31,9 @@
 #include "Task/Roguelike/Sami/RoguelikeFoldartalStartTaskPlugin.h"
 #include "Task/Roguelike/Sami/RoguelikeFoldartalUseTaskPlugin.h"
 
+// –––––––– 萨卡兹主题专用配置及插件 –––––––––––––––––––
+#include "Task/Roguelike/Map/RoguelikeRoutingTaskPlugin.h"
+
 #include "Utils/Logger.hpp"
 
 asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst) :
@@ -81,6 +84,10 @@ asst::RoguelikeTask::RoguelikeTask(const AsstCallback& callback, Assistant* inst
     m_foldartal_start_ptr =
         m_roguelike_task_ptr->register_plugin<RoguelikeFoldartalStartTaskPlugin>(m_config_ptr, m_control_ptr);
     m_roguelike_task_ptr->register_plugin<RoguelikeCollapsalParadigmTaskPlugin>(m_config_ptr, m_control_ptr);
+
+    // ------------------ 萨卡兹主题专用插件 ------------------
+
+    m_roguelike_task_ptr->register_plugin<RoguelikeRoutingTaskPlugin>(m_config_ptr, m_control_ptr);
 
     // 这个任务如果卡住会放弃当前的肉鸽并重新开始，所以多添加亿点。先这样凑合用
     for (int i = 0; i != 999; ++i) {

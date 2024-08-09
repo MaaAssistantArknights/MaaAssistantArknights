@@ -28,7 +28,10 @@ namespace asst
         Collectible = 4, // 4 - 刷开局，以获得热水壶或者演讲稿开局或只凹直升，不期而遇采用保守策略
 
         // ------------------ 萨米主题专用模式 ------------------
-        CLP_PDS = 5      // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
+        CLP_PDS = 5,     // 5 - 刷隐藏坍缩范式,以增加坍缩值为最优先目标
+
+        // ------------------ 萨卡兹主题专用模式 ------------------
+        FastPass = 10001 // 10001 - 快速通过第一层
     };
 
     struct RoguelikeOper
@@ -52,7 +55,8 @@ namespace asst
             return mode == RoguelikeMode::Exp || 
                    mode == RoguelikeMode::Investment ||
                    mode == RoguelikeMode::Collectible ||
-                   (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami);
+                   (mode == RoguelikeMode::CLP_PDS && theme == RoguelikeTheme::Sami) ||
+                   (mode == RoguelikeMode::FastPass && theme == RoguelikeTheme::Sarkaz);
         }
 
         bool verify_and_load_params(const json::value& params);
