@@ -99,7 +99,7 @@ namespace asst
     public:
         std::shared_ptr<Controller> ctrler() const { return m_ctrler; }
         std::shared_ptr<Status> status() const { return m_status; }
-        bool need_exit() const { return m_thread_idle; }
+        bool need_exit() const { return m_run_status.load() == RunStatus::Stopping; }
 
     private:
         void append_callback(AsstMsg msg, const json::value& detail);
@@ -156,12 +156,18 @@ namespace asst
 
         std::atomic_bool m_thread_exit = false;
         std::list<std::pair<TaskId, std::shared_ptr<InterfaceTask>>> m_tasks_list;
-        inline static TaskId m_task_id = 0; // 进程级唯一
+        inline static std::atomic<TaskId> m_task_id = 0; // 进程级唯一
         ApiCallback m_callback = nullptr;
         void* m_callback_arg = nullptr;
 
-        std::atomic_bool m_thread_idle = true;
-        std::atomic_bool m_running = false;
+        enum struct RunStatus
+        {
+            Stopped = 0,
+            Starting = 1,
+            Stopping = 2,
+            Started = 3,
+        };
+        std::atomic<RunStatus> m_run_status = RunStatus::Stopped;
         mutable std::mutex m_mutex;
         std::condition_variable m_condvar;
 
@@ -174,9 +180,14 @@ namespace asst
         std::mutex m_call_mutex;
         std::condition_variable m_call_condvar;
 
-        AsyncCallId m_completed_call = 0; // 每个实例有自己独立的执行队列，所以不能静态
+        std::atomic<AsyncCallId> m_completed_call = 0; // 每个实例有自己独立的执行队列，所以不能静态
+
+        // TODO: use atomic_wait instead
         std::mutex m_completed_call_mutex;
         std::condition_variable m_completed_call_condvar;
+        // we can use atomic wait on windows, but some
+        // users seemed to have missing dlls
+        // ref: https://github.com/MaaAssistantArknights/MaaAssistantArknights/pull/4360
 
         std::thread m_msg_thread;
         std::thread m_call_thread;
