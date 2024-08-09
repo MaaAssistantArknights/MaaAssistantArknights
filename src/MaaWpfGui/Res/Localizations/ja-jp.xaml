@@ -656,7 +656,7 @@
     <system:String x:Key="StartCombat" xml:space="preserve">戦闘開始: </system:String>
     <system:String x:Key="CompleteCombat">戦闘完了</system:String>
     <system:String x:Key="AllTasksComplete">すべてのタスクが完了しました！</system:String>
-    <system:String x:Key="SanityReport">理性は {DateTime} に満杯になります。({TimeDiff} 後)</system:String>
+    <system:String x:Key="SanityReport">({TimeDiff} 後)、{DateTime} に理性が完全回復します。</system:String>
     <system:String x:Key="AllTaskCompleteContent">MAA は、{DateTime} の {Preset} 構成の下にあるすべてのプリセット タスクを完了しました。</system:String>
     <system:String x:Key="BackgroundLinkStarted">Tasks started</system:String>
     <system:String x:Key="BackgroundLinkStopped">Tasks stopped</system:String>
@@ -682,27 +682,27 @@
     <system:String x:Key="LabelsRefreshed">タグが更新されました</system:String>
     <system:String x:Key="RecruitConfirm">募集を行いました</system:String>
     <system:String x:Key="InfrastDormDoubleConfirmed">オペレーターが競合しました</system:String>
-    <system:String x:Key="BegunToExplore">冒険を開始しました</system:String>
-    <system:String x:Key="ExplorationAbandoned">この冒険を放棄しました</system:String>
+    <system:String x:Key="BegunToExplore">探索を開始しました</system:String>
+    <system:String x:Key="ExplorationAbandoned">この探索を放棄しました</system:String>
     <system:String x:Key="FightCompleted">戦闘完了</system:String>
     <system:String x:Key="FightFailed">戦闘失敗</system:String>
     <system:String x:Key="UpperLimit">源石錐が上限に達しました</system:String>
     <system:String x:Key="GameCrash">ゲームがクラッシュ。再起動を行います</system:String>
     <system:String x:Key="GameDrop">回線が落ちました。再接続を行います</system:String>
-    <system:String x:Key="GameDropNoRestart">ゲームが落ちる、再接続しない、クエストを停止する</system:String>
+    <system:String x:Key="GameDropNoRestart">ゲームが落ちたため、再接続せず任務を停止します</system:String>
     <system:String x:Key="RoguelikeGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">スペシャルアイテムを購入しました！</system:String>
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
     <system:String x:Key="FilterTruth">节点: 去伪存真</system:String>
-    <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
+    <system:String x:Key="CombatDps">ステージ: 通常作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
     <system:String x:Key="RoguelikeEvent">イベント:</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">予見啓示板:</system:String>
-    <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、デポジット: {2}</system:String>
-    <system:String x:Key="RoguelikeSettlement">ローグライク決済: {0}\n探検する: {1} 階層 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\n人材招集数: {6}\nアイテム入手数: {7}\n困難: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
+    <system:String x:Key="RoguelikeInvestment">投資しました: {1}(+{0})、貯蓄: {2}</system:String>
+    <system:String x:Key="RoguelikeSettlement">ローグライクスコア: {0}\n探索: {1} 階層 {2} ステップ\n戦闘: {3} / {4} 緊急 / {5} BOSS\n人材招集数: {6}\nアイテム入手数: {7}\n難度: {8}\nスコア: {9}\n経験値: {10}, スキル: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">パラダイムロストの深化: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">パラダイムロスト {0} が {1} に深化した</system:String>
     <system:String x:Key="RoguelikeLoseParadigm">パラダイムロストの消退: {1}</system:String>
@@ -715,10 +715,10 @@
     <system:String x:Key="ThisFacility" xml:space="preserve">現在の施設: </system:String>
     <system:String x:Key="RoomGroupsMatch" xml:space="preserve">グループに合わせる: </system:String>
     <system:String x:Key="RoomGroupsMatchFailed" xml:space="preserve">オペレータ グループ、グループ リストの一致に失敗しました: </system:String>
-    <system:String x:Key="RoomOperators" xml:space="preserve">優先しています: </system:String>
-    <system:String x:Key="ProductIncorrect">製品が構成と一致しません。</system:String>
-    <system:String x:Key="ProductUnknown">認識不能な製品</system:String>
-    <system:String x:Key="ProductChanged">製品が切り替わった</system:String>
+    <system:String x:Key="RoomOperators" xml:space="preserve">優先オペレーター: </system:String>
+    <system:String x:Key="ProductIncorrect">製産物が構成と一致しません。</system:String>
+    <system:String x:Key="ProductUnknown">認識不能な製産物</system:String>
+    <system:String x:Key="ProductChanged">製産物が切り替わった</system:String>
     <system:String x:Key="RecruitingResults" xml:space="preserve">公開求人の認識結果: </system:String>
     <system:String x:Key="RecruitingTips">公開求人ヒント</system:String>
     <system:String x:Key="RecruitmentOfStar">公開求人で星{0}が出ました！</system:String>
