@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">一般設定</system:String>
@@ -842,14 +845,14 @@
 
 生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
 
- ノーマルモードの場合：
+ セーブファイルなし: 初期設定でポイントを稼ぐ。
   1. すでにセーブデータがある場合は使用できません（既存のセーブデータを削除します）
   2. 生息演算の編成にオペレーターがいる場合は使用できません（特に戦闘の後は、現在の編成を空にするだけで十分です）
   3. タスクは生息演算のメイン画面で開始する必要があります（ナビゲーションはまだ書かれていません）
 
- 道具作りでポイントを得る：
+ セーブファイルあり: クラフトでポイントを稼ぐ(高度な設定)。
   1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
-  2. 生息演算で開始する必要があります（駐屯地を見ることができるページ）
+  2. 大地図のインターフェースに入った後に開始する必要があります（駐屯地を見ることができるページ）
   3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。
     </system:String>
     <system:String x:Key="ReclamationBePatient">改善するのが待ちきれません！また急いでいます</system:String>
