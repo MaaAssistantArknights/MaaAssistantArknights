@@ -76,6 +76,8 @@ public:
 
     virtual void back_to_home() noexcept override;
 
+    std::string get_ark_version() noexcept override;
+
 protected:
     std::optional<std::string> call_command(
         const std::string& cmd,
@@ -137,6 +139,8 @@ protected:
         std::string version;
 
         std::string back_to_home;
+
+        std::string get_ark_version;
 
         /* properties */
         enum class ScreencapEndOfLine

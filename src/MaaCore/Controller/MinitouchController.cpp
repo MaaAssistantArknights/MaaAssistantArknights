@@ -403,3 +403,8 @@ void asst::MinitouchController::back_to_home() noexcept
     AdbController::back_to_home();
     return;
 }
+
+std::string asst::MinitouchController::get_ark_version() noexcept
+{
+    return AdbController::get_ark_version();
+}

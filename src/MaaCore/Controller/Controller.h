@@ -99,6 +99,8 @@ public:
 
     bool back_to_home();
 
+    std::string get_ark_version();
+
 private:
     cv::Mat get_resized_image_cache() const;
 

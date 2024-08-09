@@ -87,6 +87,7 @@ struct AdbCfg
     std::string call_minitouch;
     std::string call_maatouch;
     std::string back_to_home;
+    std::string get_ark_version;
     json::object extras;
 };
 

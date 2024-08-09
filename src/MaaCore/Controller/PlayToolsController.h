@@ -70,6 +70,8 @@ public:
 
     virtual void back_to_home() noexcept override;
 
+    std::string get_ark_version() noexcept override;
+
 protected:
     AsstCallback m_callback;
 

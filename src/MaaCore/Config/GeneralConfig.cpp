@@ -106,6 +106,7 @@ bool asst::GeneralConfig::parse(const json::value& json)
         adb.call_minitouch = cfg_json.get("callMinitouch", base_cfg.call_minitouch);
         adb.call_maatouch = cfg_json.get("callMaatouch", base_cfg.call_maatouch);
         adb.back_to_home = cfg_json.get("back_to_home", base_cfg.back_to_home);
+        adb.get_ark_version= cfg_json.get("get_ark_version", base_cfg.get_ark_version);
     }
 
     return true;
