@@ -13,10 +13,14 @@
 
 using namespace asst;
 
-asst::ReclamationBattlePlugin::ReclamationBattlePlugin(const AsstCallback& callback, Assistant* inst,
-                                                       std::string_view task_chain)
-    : AbstractTaskPlugin(callback, inst, task_chain), BattleHelper(inst)
-{}
+asst::ReclamationBattlePlugin::ReclamationBattlePlugin(
+    const AsstCallback& callback,
+    Assistant* inst,
+    std::string_view task_chain) :
+    AbstractTaskPlugin(callback, inst, task_chain),
+    BattleHelper(inst)
+{
+}
 
 bool asst::ReclamationBattlePlugin::verify(AsstMsg, const json::value&) const
 {
@@ -62,7 +66,9 @@ bool asst::ReclamationBattlePlugin::quit_action()
             bool stage1 = ProcessTask(*this, { "Reclamation@ClickExitLevel" }).set_retry_times(0).run();
             bool stage2 = ProcessTask(*this, { "Reclamation@ExitLevelConfirm" }).set_retry_times(3).run();
             Log.info(__FUNCTION__, "| click exit level perform ", stage1, stage2);
-            if (stage2) break;
+            if (stage2) {
+                break;
+            }
             retry++; // stage1==true&&stage2==false，应该是手动按了确定或是没按到退出
             if ((!stage1 && !stage2) || retry > 5) {
                 // 已经到了结算界面，或是用户手动操作了
@@ -87,7 +93,9 @@ bool asst::ReclamationBattlePlugin::quit_action()
 
         Log.info(__FUNCTION__, "| click exit level check ", check1, check2, check3);
 
-        if (!check1 && !check2) break;
+        if (!check1 && !check2) {
+            break;
+        }
         if (check3) {
             sleep(Task.get("Reclamation@BattleStart")->special_params.at(1));
             break;
@@ -98,8 +106,12 @@ bool asst::ReclamationBattlePlugin::quit_action()
 
 bool asst::ReclamationBattlePlugin::buy_water()
 {
-    if (!communicate_with(Task.get<OcrTaskInfo>("Reclamation@Liaison")->text.front())) return false;
-    if (!do_dialog_procedure(Task.get<OcrTaskInfo>("Reclamation@BuyWaterProcedure")->text)) return false;
+    if (!communicate_with(Task.get<OcrTaskInfo>("Reclamation@Liaison")->text.front())) {
+        return false;
+    }
+    if (!do_dialog_procedure(Task.get<OcrTaskInfo>("Reclamation@BuyWaterProcedure")->text)) {
+        return false;
+    }
     return true;
 }
 
@@ -108,19 +120,22 @@ bool asst::ReclamationBattlePlugin::communicate_with(const std::string& npcName)
     // 在存在两个及以上npc时地图会移动，从上到下、从下到上各试一次，还不行算了
     if (communicate_with_aux(npcName, [](const MatchRect& l, const MatchRect& r) {
             return l.rect.y < r.rect.y || (l.rect.y == r.rect.y && l.rect.x < r.rect.x);
-        }))
+        })) {
         return true;
+    }
     if (communicate_with_aux(npcName, [](const MatchRect& l, const MatchRect& r) {
             return l.rect.y > r.rect.y || (l.rect.y == r.rect.y && l.rect.x > r.rect.x);
-        }))
+        })) {
         return true;
+    }
 
     Log.info(__FUNCTION__, " | ", "fail to communicate with npc");
     return false;
 }
 
 bool asst::ReclamationBattlePlugin::communicate_with_aux(
-    const std::string& npcName, std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
+    const std::string& npcName,
+    std::function<bool(const MatchRect&, const MatchRect&)> orderComp)
 {
     std::ignore = npcName;
     std::ignore = orderComp;
@@ -186,7 +201,9 @@ bool asst::ReclamationBattlePlugin::do_dialog_procedure(const std::vector<std::s
             int retry = 0;
             bool succeed = false;
             while (!need_exit()) {
-                if (retry == max_retry) break;
+                if (retry == max_retry) {
+                    break;
+                }
 
                 const auto& image = ctrler()->get_image();
                 OCRer dialogAnalyzer(image);

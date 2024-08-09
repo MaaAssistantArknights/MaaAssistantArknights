@@ -4,8 +4,7 @@
 
 using namespace asst;
 
-bool StartGameTaskPlugin::start_game_with_retries(size_t pipe_data_size_limit, bool newer_android)
-    const
+bool StartGameTaskPlugin::start_game_with_retries(size_t pipe_data_size_limit, bool newer_android) const
 {
     int extra_runs = 0;
     for (int i = 0; i < 30; ++i) {

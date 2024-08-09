@@ -6,8 +6,8 @@
 
 #include "Utils/Logger.hpp"
 
-const asst::RoguelikeOperInfo& asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme,
-                                                                           const std::string& name) noexcept
+const asst::RoguelikeOperInfo&
+    asst::RoguelikeRecruitConfig::get_oper_info(const std::string& theme, const std::string& name) noexcept
 {
     auto& opers = m_all_opers.at(theme);
     if (opers.contains(name)) {
@@ -27,14 +27,14 @@ const std::vector<std::string> asst::RoguelikeRecruitConfig::get_group_info(cons
     return m_oper_groups.at(theme);
 }
 
-const std::vector<asst::RecruitPriorityOffset> asst::RoguelikeRecruitConfig::get_team_complete_info(
-    const std::string& theme) const noexcept
+const std::vector<asst::RecruitPriorityOffset>
+    asst::RoguelikeRecruitConfig::get_team_complete_info(const std::string& theme) const noexcept
 {
     return m_team_complete_comdition.at(theme);
 }
 
-std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme,
-                                                            const std::string& name) const noexcept
+std::vector<int>
+    asst::RoguelikeRecruitConfig::get_group_id(const std::string& theme, const std::string& name) const noexcept
 {
     auto& opers = m_all_opers.at(theme);
     if (auto find_iter = opers.find(name); find_iter != opers.cend()) {
@@ -43,10 +43,12 @@ std::vector<int> asst::RoguelikeRecruitConfig::get_group_id(const std::string& t
     else {
         const auto& role = BattleData.get_role(name);
         if (role != battle::Role::Pioneer && role != battle::Role::Tank && role != battle::Role::Warrior &&
-            role != battle::Role::Special)
+            role != battle::Role::Special) {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 2 };
-        else
+        }
+        else {
             return { static_cast<int>(m_oper_groups.at(theme).size()) - 1 };
+        }
     }
 }
 

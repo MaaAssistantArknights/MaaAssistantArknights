@@ -15,15 +15,17 @@
 
 using namespace asst;
 
-asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name)
-    : AbstractTask(abs), m_raw_task_name_list(std::move(tasks_name))
+asst::ProcessTask::ProcessTask(const AbstractTask& abs, std::vector<std::string> tasks_name) :
+    AbstractTask(abs),
+    m_raw_task_name_list(std::move(tasks_name))
 {
     m_task_delay = Config.get_options().task_delay;
     m_basic_info_cache = json::value();
 }
 
-asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept
-    : AbstractTask(std::move(abs)), m_raw_task_name_list(std::move(tasks_name))
+asst::ProcessTask::ProcessTask(AbstractTask&& abs, std::vector<std::string> tasks_name) noexcept :
+    AbstractTask(std::move(abs)),
+    m_raw_task_name_list(std::move(tasks_name))
 {
     m_task_delay = Config.get_options().task_delay;
     m_basic_info_cache = json::value();
@@ -205,11 +207,13 @@ bool ProcessTask::_run()
             exec_click_task(rect);
             break;
         case ProcessTaskAction::Swipe:
-            exec_swipe_task(m_cur_task_ptr->specific_rect, m_cur_task_ptr->rect_move,
-                            m_cur_task_ptr->special_params.empty() ? 0 : m_cur_task_ptr->special_params.at(0),
-                            (m_cur_task_ptr->special_params.size() < 2) ? false : m_cur_task_ptr->special_params.at(1),
-                            (m_cur_task_ptr->special_params.size() < 3) ? 1 : m_cur_task_ptr->special_params.at(2),
-                            (m_cur_task_ptr->special_params.size() < 4) ? 1 : m_cur_task_ptr->special_params.at(3));
+            exec_swipe_task(
+                m_cur_task_ptr->specific_rect,
+                m_cur_task_ptr->rect_move,
+                m_cur_task_ptr->special_params.empty() ? 0 : m_cur_task_ptr->special_params.at(0),
+                (m_cur_task_ptr->special_params.size() < 2) ? false : m_cur_task_ptr->special_params.at(1),
+                (m_cur_task_ptr->special_params.size() < 3) ? 1 : m_cur_task_ptr->special_params.at(2),
+                (m_cur_task_ptr->special_params.size() < 4) ? 1 : m_cur_task_ptr->special_params.at(3));
             break;
         case ProcessTaskAction::DoNothing:
             break;
@@ -233,8 +237,12 @@ bool ProcessTask::_run()
                 Log.trace("Task `", m_cur_task_ptr->name, "` reduce `", reduce, "` times to ", v);
             }
             else {
-                Log.trace("Task `", m_cur_task_ptr->name, "` attempt to reduce `", reduce,
-                          "` times, but it is already 0");
+                Log.trace(
+                    "Task `",
+                    m_cur_task_ptr->name,
+                    "` attempt to reduce `",
+                    reduce,
+                    "` times, but it is already 0");
             }
         }
 
@@ -344,8 +352,13 @@ void ProcessTask::exec_click_task(const Rect& matched_rect)
     ctrler()->click(matched_rect);
 }
 
-void asst::ProcessTask::exec_swipe_task(const Rect& r1, const Rect& r2, int duration, bool extra_swipe, double slope_in,
-                                        double slope_out)
+void asst::ProcessTask::exec_swipe_task(
+    const Rect& r1,
+    const Rect& r2,
+    int duration,
+    bool extra_swipe,
+    double slope_in,
+    double slope_out)
 {
     ctrler()->swipe(r1, r2, duration, extra_swipe, slope_in, slope_out);
 }

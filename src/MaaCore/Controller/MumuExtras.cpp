@@ -12,13 +12,9 @@ MumuExtras::~MumuExtras()
     uninit();
 }
 
-bool MumuExtras::init(
-    const std::filesystem::path& mumu_path,
-    int mumu_inst_index,
-    int mumu_display_id)
+bool MumuExtras::init(const std::filesystem::path& mumu_path, int mumu_inst_index, int mumu_display_id)
 {
-    bool same = mumu_path == mumu_path_ && mumu_inst_index == mumu_inst_index_
-                && mumu_display_id == mumu_display_id_;
+    bool same = mumu_path == mumu_path_ && mumu_inst_index == mumu_inst_index_ && mumu_display_id == mumu_display_id_;
 
     if (same && inited_) {
         return true;
@@ -62,9 +58,8 @@ std::optional<cv::Mat> MumuExtras::screencap()
         display_buffer_.data());
 
     if (ret) {
-        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_)
-                 << VAR(mumu_display_id_) << VAR(display_buffer_.size()) << VAR(display_width_)
-                 << VAR(display_height_);
+        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(mumu_display_id_)
+                 << VAR(display_buffer_.size()) << VAR(display_width_) << VAR(display_height_);
         return std::nullopt;
     }
 
@@ -110,29 +105,25 @@ bool MumuExtras::load_mumu_library()
         return false;
     }
 
-    input_event_touch_down_func_ =
-        get_function<decltype(nemu_input_event_touch_down)>(kInputEventTouchDownFuncName);
+    input_event_touch_down_func_ = get_function<decltype(nemu_input_event_touch_down)>(kInputEventTouchDownFuncName);
     if (!input_event_touch_down_func_) {
         LogError << "Failed to get function" << VAR(kInputEventTouchDownFuncName);
         return false;
     }
 
-    input_event_touch_up_func_ =
-        get_function<decltype(nemu_input_event_touch_up)>(kInputEventTouchUpFuncName);
+    input_event_touch_up_func_ = get_function<decltype(nemu_input_event_touch_up)>(kInputEventTouchUpFuncName);
     if (!input_event_touch_up_func_) {
         LogError << "Failed to get function" << VAR(kInputEventTouchUpFuncName);
         return false;
     }
 
-    input_event_key_down_func_ =
-        get_function<decltype(nemu_input_event_key_down)>(kInputEventKeyDownFuncName);
+    input_event_key_down_func_ = get_function<decltype(nemu_input_event_key_down)>(kInputEventKeyDownFuncName);
     if (!input_event_key_down_func_) {
         LogError << "Failed to get function" << VAR(kInputEventKeyDownFuncName);
         return false;
     }
 
-    input_event_key_up_func_ =
-        get_function<decltype(nemu_input_event_key_up)>(kInputEventKeyUpFuncName);
+    input_event_key_up_func_ = get_function<decltype(nemu_input_event_key_up)>(kInputEventKeyUpFuncName);
     if (!input_event_key_up_func_) {
         LogError << "Failed to get function" << VAR(kInputEventKeyUpFuncName);
         return false;
@@ -151,9 +142,7 @@ bool MumuExtras::connect_mumu()
     }
 
     std::u16string u16path = mumu_path_.u16string();
-    std::wstring wpath(
-        std::make_move_iterator(u16path.begin()),
-        std::make_move_iterator(u16path.end()));
+    std::wstring wpath(std::make_move_iterator(u16path.begin()), std::make_move_iterator(u16path.end()));
 
     mumu_handle_ = connect_func_(wpath.c_str(), mumu_inst_index_);
 
@@ -172,18 +161,11 @@ bool MumuExtras::init_screencap()
         return false;
     }
 
-    int ret = capture_display_func_(
-        mumu_handle_,
-        mumu_display_id_,
-        0,
-        &display_width_,
-        &display_height_,
-        nullptr);
+    int ret = capture_display_func_(mumu_handle_, mumu_display_id_, 0, &display_width_, &display_height_, nullptr);
 
     // mumu 的文档给错了，这里 0 才是成功
     if (ret) {
-        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_)
-                 << VAR(mumu_display_id_);
+        LogError << "Failed to capture display" << VAR(ret) << VAR(mumu_handle_) << VAR(mumu_display_id_);
         return false;
     }
 

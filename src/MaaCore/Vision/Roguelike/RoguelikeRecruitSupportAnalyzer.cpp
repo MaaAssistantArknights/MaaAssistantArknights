@@ -23,7 +23,9 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         const auto& task = Task.get<OcrTaskInfo>("RoguelikeChooseSupportBtnOcr");
         analyzer.set_roi(task->roi);
         analyzer.set_required(task->text);
-        if (!analyzer.analyze()) return false;
+        if (!analyzer.analyze()) {
+            return false;
+        }
         m_choose_support_result = analyzer.get_result().front().rect;
         Log.info(__FUNCTION__, "| ChooseSupportBtn");
         return true;
@@ -33,9 +35,12 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
         OCRer analyzer(m_image);
         analyzer.set_roi(Task.get("RoguelikeRecruitSupportOcr")->roi);
         analyzer.set_required(m_required);
-        analyzer.set_replace(Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
-                             Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
-        if (!analyzer.analyze()) return false;
+        analyzer.set_replace(
+            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_map,
+            Task.get<OcrTaskInfo>("CharsNameOcrReplace")->replace_full);
+        if (!analyzer.analyze()) {
+            return false;
+        }
 
         const auto& char_name_rects = analyzer.get_result();
         const auto& task_off1 = Task.get("RoguelikeRecruitSupportOff1");
@@ -64,7 +69,10 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
             int char_elite = match_elite(elite_roi, task_off_elite->special_params.front());
 
             battle::roguelike::RecruitSupportCharInfo char_info {
-                { char_rect.text, char_rect.rect, char_elite, char_level }, is_friend, char_elite, char_level
+                { char_rect.text, char_rect.rect, char_elite, char_level },
+                is_friend,
+                char_elite,
+                char_level
             };
 
             // 助战招募最多精一
@@ -84,9 +92,16 @@ bool asst::RoguelikeRecruitSupportAnalyzer::analyze()
                 }
             }
 
-            Log.info(__FUNCTION__, "| AnalyzeChars append ", char_info.oper_info.name, char_info.oper_info.rect,
-                     char_info.oper_info.elite, char_info.oper_info.level, is_friend, char_info.max_elite,
-                     char_info.max_level);
+            Log.info(
+                __FUNCTION__,
+                "| AnalyzeChars append ",
+                char_info.oper_info.name,
+                char_info.oper_info.rect,
+                char_info.oper_info.elite,
+                char_info.oper_info.level,
+                is_friend,
+                char_info.max_elite,
+                char_info.max_level);
             m_char_result.push_back(char_info);
         }
         return !m_char_result.empty();

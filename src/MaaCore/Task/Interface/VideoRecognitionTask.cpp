@@ -5,8 +5,8 @@
 
 #include <filesystem>
 
-asst::VideoRecognitionTask::VideoRecognitionTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
+asst::VideoRecognitionTask::VideoRecognitionTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType)
 {
     LogTraceFunction;
 }

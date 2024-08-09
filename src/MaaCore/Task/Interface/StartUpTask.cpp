@@ -8,11 +8,11 @@
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
-asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType),
-      m_start_game_task_ptr(std::make_shared<StartGameTaskPlugin>(m_callback, m_inst, TaskType)),
-      m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
-      m_account_switch_task_ptr(std::make_shared<AccountSwitchTask>(m_callback, m_inst, TaskType))
+asst::StartUpTask::StartUpTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_start_game_task_ptr(std::make_shared<StartGameTaskPlugin>(m_callback, m_inst, TaskType)),
+    m_start_up_task_ptr(std::make_shared<ProcessTask>(m_callback, m_inst, TaskType)),
+    m_account_switch_task_ptr(std::make_shared<AccountSwitchTask>(m_callback, m_inst, TaskType))
 {
     LogTraceFunction;
 
@@ -34,8 +34,7 @@ bool asst::StartUpTask::set_params(const json::value& params)
     std::string account_name = params.get("account_name", std::string());
     std::string client_type = params.get("client_type", std::string());
 
-    m_start_game_task_ptr->set_client_type(client_type)
-        .set_enable(params.get("start_game_enabled", false));
+    m_start_game_task_ptr->set_client_type(client_type).set_enable(params.get("start_game_enabled", false));
     m_account_switch_task_ptr->set_enable(!account_name.empty());
     m_account_switch_task_ptr->set_account(std::move(account_name));
     m_account_switch_task_ptr->set_client_type(std::move(client_type));

@@ -13,14 +13,14 @@ public:
     using VisionHelper::VisionHelper;
     virtual ~RoguelikeParameterAnalyzer() noexcept override = default;
 
-    //bool analyze();
+    // bool analyze();
 
     int get_number(const cv::Mat& image, const std::string& task_name);
 
     // int update_hope(const cv::Mat& image);
     int update_hp(const cv::Mat& image);
     // int update_formation_upper_limit(const cv::Mat& image);
-    
+
     //  识别萨米肉鸽抗干扰
     int update_chaos(const cv::Mat& image);
 

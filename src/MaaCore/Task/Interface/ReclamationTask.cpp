@@ -1,8 +1,8 @@
 #include "Task/Interface/ReclamationTask.h"
 
 #include "Common/AsstBattleDef.h"
-#include "Status.h"
 #include "Config/TaskData.h"
+#include "Status.h"
 #include "Task/ProcessTask.h"
 #include "Utils/Logger.hpp"
 
@@ -24,7 +24,8 @@ auto asst::ReclamationTask::init_reclamation_tales_within_the_sand(const bool en
     auto ptr = std::make_shared<tales_within_the_sand_task>(m_callback, m_inst, TaskType);
     if (enable_ex) {
         ptr->set_tasks({ "Reclamation2Ex" });
-    } else {
+    }
+    else {
         ptr->set_tasks({ "Reclamation2" });
     }
     m_subtasks = { ptr };
@@ -32,8 +33,8 @@ auto asst::ReclamationTask::init_reclamation_tales_within_the_sand(const bool en
     return ptr;
 }
 
-asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
+asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType)
 {
     LogTraceFunction;
     init_reclamation_tales_within_the_sand(false);

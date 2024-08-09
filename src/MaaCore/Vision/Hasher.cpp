@@ -102,7 +102,9 @@ std::string asst::Hasher::s_hash(const cv::Mat& img)
     int tmp_dec = 0;
     for (int ro = 0; ro < 256; ro++) {
         tmp_dec = tmp_dec << 1;
-        if (*pix > 127) tmp_dec++;
+        if (*pix > 127) {
+            tmp_dec++;
+        }
         if (ro % 4 == 3) {
             hash_value << std::hex << tmp_dec;
             tmp_dec = 0;

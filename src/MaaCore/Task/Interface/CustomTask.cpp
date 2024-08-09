@@ -3,7 +3,8 @@
 
 #include "Utils/Logger.hpp"
 
-asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType)
+asst::CustomTask::CustomTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType)
 {
     LogTraceFunction;
 }

@@ -50,9 +50,9 @@ private:
     bool m_double_check_clp_pds = false; // 是否在每次回到地图时验证坍缩范式
 
     // ———————— 插件配置信息，从 tasks.json 中读取  ——————————————————————————————
-    std::string m_deepen_text; // 坍缩范式变动通知中"坍缩范式加深"的文字
+    std::string m_deepen_text;                               // 坍缩范式变动通知中"坍缩范式加深"的文字
 
-    std::unordered_set<std::string> m_banner_triggers_start;     // 通过 SubTaskStart 触发 banner check 的任务
+    std::unordered_set<std::string> m_banner_triggers_start; // 通过 SubTaskStart 触发 banner check 的任务
     std::unordered_set<std::string> m_banner_triggers_completed; // 通过 SubTaskCompleted 触发 banner check 的任务
     std::unordered_set<std::string> m_panel_triggers;            // 通过 SubTaskStart 触发 panel check 的任务
 
