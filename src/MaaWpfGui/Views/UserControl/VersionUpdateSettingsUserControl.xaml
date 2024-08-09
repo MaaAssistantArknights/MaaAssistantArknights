@@ -88,11 +88,14 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <controls:TextBlock
+                    <ComboBox
                         Grid.Row="0"
-                        Margin="1"
-                        VerticalAlignment="Center"
-                        Text="Http Proxy" />
+                        Width="120"
+                        Margin="10"
+                        DisplayMemberPath="Display"
+                        ItemsSource="{Binding PorxyTypeList}"
+                        SelectedValue="{Binding ProxyType}"
+                        SelectedValuePath="Value" />
                     <TextBox
                         Grid.Row="1"
                         Width="150"
