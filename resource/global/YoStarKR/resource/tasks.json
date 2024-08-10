@@ -2253,7 +2253,11 @@
         "text": ["작전", "종료"]
     },
     "Reclamation2CopiousCoppice": {
-        "text": ["채집터", "우거진", "숲"]
+        "text": ["채집터", "우거진", "숲"],
+        "ocrReplace": [
+            [".+터", "채집터"],
+            [".*거진.*", "우거진숲"]
+        ]
     },
     "Reclamation2DeleteArchiveConfirm": {
         "text": ["확인"]
