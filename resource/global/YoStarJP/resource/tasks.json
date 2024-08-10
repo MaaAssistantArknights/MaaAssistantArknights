@@ -2673,8 +2673,8 @@
         "ocrReplace": [["ケミカルライト", "荧光棒"]]
     },
     "Reclamation2ExManufactureConfirm": {
-        "text": ["組立開始"],
-        "ocrReplace": [["狙", "組"]]
+        "ocrReplace": [["狙", "組"]],
+        "text": ["組立開始"]
     },
     "Reclamation2ExManufactureConfirmClickToContinue": {
         "text": ["空白", "箇所", "タップ", "続ける"]
