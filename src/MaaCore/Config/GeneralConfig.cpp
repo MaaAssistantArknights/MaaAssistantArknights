@@ -74,8 +74,8 @@ bool asst::GeneralConfig::parse(const json::value& json)
         m_options.debug.max_debug_file_num = options_json.get("debug", "maxDebugFileNum", 1000);
     }
 
-    for (const auto& [client_type, intent_name] : json.at("intent").as_object()) {
-        m_intent_name[client_type] = intent_name.as_string();
+    for (const auto& [client_type, package_name] : json.at("packageName").as_object()) {
+        m_package_name[client_type] = package_name.as_string();
     }
 
     for (const auto& cfg_json : json.at("connection").as_array()) {

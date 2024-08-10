@@ -244,17 +244,27 @@ bool asst::AdbController::start_game(const std::string& client_type)
     if (client_type.empty()) {
         return false;
     }
-    auto intent_name = Config.get_intent_name(client_type);
-    if (!intent_name) {
+    auto package_name = Config.get_package_name(client_type);
+    if (!package_name) {
         return false;
     }
-    std::string cur_cmd = utils::string_replace_all(m_adb.start, "[Intent]", intent_name.value());
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.start, "[PackageName]", package_name.value());
     return call_command(cur_cmd).has_value();
 }
 
-bool asst::AdbController::stop_game()
+bool asst::AdbController::stop_game(const std::string& client_type)
 {
-    return call_command(m_adb.stop).has_value();
+    if (client_type.empty()) {
+        return false;
+    }
+    auto package_name = Config.get_package_name(client_type);
+    if (!package_name) {
+        return false;
+    }
+    std::string cur_cmd =
+        utils::string_replace_all(m_adb.stop, "[PackageName]", package_name.value());
+    return call_command(cur_cmd).has_value();
 }
 
 bool asst::AdbController::click(const Point& p)

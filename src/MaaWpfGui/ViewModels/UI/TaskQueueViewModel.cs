@@ -124,7 +124,8 @@ namespace MaaWpfGui.ViewModels.UI
             }
             else if (actions.ExitArknights)
             {
-                if (!Instances.AsstProxy.AsstStartCloseDown())
+                var mode = Instances.SettingsViewModel.ClientType;
+                if (!Instances.AsstProxy.AsstStartCloseDown(mode))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
@@ -441,7 +442,8 @@ namespace MaaWpfGui.ViewModels.UI
                     await Stop();
                 }
 
-                if (!Instances.AsstProxy.AsstAppendCloseDown())
+                var mode = Instances.SettingsViewModel.ClientType;
+                if (!Instances.AsstProxy.AsstAppendCloseDown(mode))
                 {
                     AddLog(LocalizationHelper.GetString("CloseArknightsFailed"), UiLogColor.Error);
                 }
