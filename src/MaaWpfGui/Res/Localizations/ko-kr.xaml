@@ -676,7 +676,7 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <system:String x:Key="UnableToAgent">프록시 명령을 사용할 수 없습니다</system:String>
     <system:String x:Key="MissionStart">행동 개시</system:String>
     <system:String x:Key="UnitTime">회</system:String>
-    <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}</system:String>
+    <system:String x:Key="CurrentSanity" xml:space="preserve">이성: {0}/{1}  </system:String>
     <system:String x:Key="MedicineUsedTimes" xml:space="preserve">\n이성 회복제: {0}  </system:String>
     <system:String x:Key="MedicineUsedTimesWithExpiring" xml:space="preserve">\n이성 회복제: {0},{1}(만료 예정)  </system:String>
     <system:String x:Key="StoneUsedTimes" xml:space="preserve">\n순오리지늄: {0}  </system:String>
@@ -844,8 +844,8 @@ Only once가 체크되면 실행 후 Only once가 체크되기 전 상태로 작
     <!--  !Announcement  -->
     <!--  Reclamation  -->
     <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">고급 설정에서 모드를 전환할 수 있습니다.
-    
-현재 생존연산 기능은 초기 단계이며, 다음 사항을 주의하세요:   
+
+현재 생존연산 기능은 초기 단계이며, 다음 사항을 주의하세요:
 
  저장 데이터 있음: 초회 상태에서 포인트를 모으기
   1. 기존 데이터가 있는 경우 사용할 수 없습니다 (현재 데이터를 지우세요)

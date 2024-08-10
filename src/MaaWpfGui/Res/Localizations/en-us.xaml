@@ -8,11 +8,11 @@
     <system:String x:Key="AdvancedSettings">Advanced</system:String>
     <system:String x:Key="PerformanceSettings">Performance</system:String>
     <system:String x:Key="GameSettings">Client</system:String>
-    <system:String x:Key="BaseSettings">Base</system:String>
+    <system:String x:Key="BaseSettings">Base Setting</system:String>
     <system:String x:Key="RoguelikeSettings">I.S.</system:String>
-    <system:String x:Key="RecruitingSettings">Recruit</system:String>
-    <system:String x:Key="MallSettings">Credit</system:String>
-    <system:String x:Key="OtherCombatSettings">Combat</system:String>
+    <system:String x:Key="RecruitingSettings">Auto Recruit</system:String>
+    <system:String x:Key="MallSettings">Credit Related</system:String>
+    <system:String x:Key="OtherCombatSettings">Combat Setting</system:String>
     <system:String x:Key="ConnectionSettings">Connection</system:String>
     <system:String x:Key="StartupSettings">Startup</system:String>
     <system:String x:Key="ScheduleSettings">Schedule</system:String>
@@ -130,7 +130,7 @@
     <system:String x:Key="RoguelikeOnlyStartWithEliteTwo">Only Repeat for「Starting Operator」Elite 2, No Battle</system:String>
     <system:String x:Key="Roguelike3FirstFloorFoldartal">Repeat for foldartal foreseed first floor，No Battle</system:String>
     <system:String x:Key="Roguelike3NewSquad2StartingFoldartal">Start with "Life Prioritizing Squad" and acquire the cypherboard</system:String>
-    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ;</system:String>
+    <system:String x:Key="Roguelike3NewSquad2StartingFoldartalTip">Write up to three and separate with ";"</system:String>
     <system:String x:Key="RoguelikeUseSupportUnit">Select 「Starting Operator」 from support unit list</system:String>
     <system:String x:Key="RoguelikeUseNonFriendSupport">Enable non-friend support</system:String>
     <system:String x:Key="RoguelikeDelayAbortUntilCombatComplete">Don't abort Auto IS until the end of battle</system:String>
@@ -138,7 +138,7 @@
     <system:String x:Key="DeploymentWithPause" xml:space="preserve">Deployment with Pause (Pause-Trick) (Works for IS, Copilot and SSS) (Beta function, Not recommended yet)</system:String>
     <system:String x:Key="AdbLiteEnabled">Use ADB Lite (Experimental)</system:String>
     <system:String x:Key="KillAdbOnExit">Kill ADB On Exit</system:String>
-    <system:String x:Key="DefaultSquad">Default</system:String>
+    <system:String x:Key="DefaultSquad">Default Squad</system:String>
     <system:String x:Key="IS2NewSquad1">Mind Over Matter Squad</system:String>
     <system:String x:Key="IS2NewSquad2">Resourceful Squad</system:String>
     <system:String x:Key="IS2NewSquad3">People-Oriented Squad</system:String>
@@ -160,7 +160,7 @@
     <system:String x:Key="TacticalDestructionOperative">Tactical Destruction Squad</system:String>
     <system:String x:Key="ResearchSquad">Research Squad</system:String>
     <system:String x:Key="First-ClassSquad">First-Class Squad</system:String>
-    <system:String x:Key="DefaultRoles">Default</system:String>
+    <system:String x:Key="DefaultRoles">Default Roles</system:String>
     <system:String x:Key="FirstMoveAdvantage">First Move Advantage</system:String>
     <system:String x:Key="SlowAndSteadyWinsTheRace">Slow and Steady Wins the Race</system:String>
     <system:String x:Key="OvercomingYourWeaknesses">Overcoming Your Weaknesses</system:String>
@@ -399,7 +399,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <!--  Farming  -->
     <system:String x:Key="Farming">Farming</system:String>
     <system:String x:Key="WakeUp">Login</system:String>
-    <system:String x:Key="Recruiting">Recruit</system:String>
+    <system:String x:Key="Recruiting">Auto Recruit</system:String>
     <system:String x:Key="Base">Base</system:String>
     <system:String x:Key="Combat">Combat</system:String>
     <system:String x:Key="Visiting">Visit Friends</system:String>
@@ -422,9 +422,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="Once">Only once*</system:String>
-    <system:String x:Key="PostActionOnceTip" xml:space="preserve">If you want to execute only once, please check Only once first.
-When Only once is checked, the action will be restored to the state before Only once was checked after execution.
-When you right-click the action below, it will activate/cancel the selected state of Only once synchronously.</system:String>
+    <system:String x:Key="PostActionOnceTip">If active, changes will NOT be saved until next run.</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -708,7 +706,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <system:String x:Key="RoguelikeEvent">Event:</system:String>
     <system:String x:Key="FoldartalGainOcrNextLevel">FoldartalForesee:</system:String>
     <system:String x:Key="RoguelikeInvestment">Invested {1}(+{0}), deposit: {2}</system:String>
-    <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}\nExp: {10}, Skill: {11}</system:String>
+    <system:String x:Key="RoguelikeSettlement">Roguelike Settlement: {0}\nExplore: {1} Floor {2} Step\nCombat: {3} / {4} Emergency / {5} BOSS\nRecruit: {6}\nCollectibles: {7}\nDifficulty: {8}\nScore: {9}  Exp: {10}  Skill: {11}</system:String>
     <system:String x:Key="RoguelikeGainParadigm">Collapsal Paradigm Deepening: {0}</system:String>
     <system:String x:Key="RoguelikeDeepenParadigm">Collapsal Paradigm {0} Deepened to {1}</system:String>
     <system:String x:Key="RoguelikeLoseParadigm">Collapsal Paradigm Regression: {1}</system:String>
@@ -798,7 +796,7 @@ The video aspect ratio needs to be 16:9 without interference factors such as bla
     <!--  VersionUpdatePopup  -->
     <system:String x:Key="UpdateNotificationOk">OK!</system:String>
     <system:String x:Key="VersionUpdated">Version Updated</system:String>
-    <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Version: </system:String>
+    <system:String x:Key="VersionUpdatedTo" xml:space="preserve">Updated Version: </system:String>
     <!--  !VersionUpdatePopup  -->
     <!--  RootViewModel  -->
     <system:String x:Key="ConfirmExitTitle">MAA is running tasks</system:String>
@@ -859,7 +857,7 @@ With save file: farm points through crafting (advanced).
   3. If the quantity that can be manufactured is exactly a multiple of 99, MAA can get confused (stuck). You can use up a little before saving. This might be repaired later.
     </system:String>
     <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
-    <system:String x:Key="Reclamation2ExEnable">Earn points by manufacturing</system:String>
+    <system:String x:Key="Reclamation2ExEnable">Farm points through crafting</system:String>
     <system:String x:Key="Reclamation2ExProductTip">Support prop name</system:String>
     <system:String x:Key="Reclamation2ExProductPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
