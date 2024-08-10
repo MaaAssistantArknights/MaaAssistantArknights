@@ -421,7 +421,9 @@
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
     <system:String x:Key="Once">1回のみ*</system:String>
-    <system:String x:Key="PostActionOnceTip">有効にすると、変更は次回の実行まで保存されません。</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">一度だけ実行したい場合は、まず「一度だけ」をチェックしてください。
+「一度だけ」をチェックすると、実行後にアクションは「一度だけ」をチェックする前の状態に戻ります。
+下のアクションを右クリックすると、選択した「一度だけ」の状態が同期的に有効/解除されます。</system:String>
     <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
