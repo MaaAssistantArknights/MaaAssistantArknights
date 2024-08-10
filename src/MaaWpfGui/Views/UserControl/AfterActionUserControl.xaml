@@ -23,16 +23,10 @@
             <CheckBox
                 Margin="0,10"
                 HorizontalAlignment="Left"
-                IsChecked="{Binding PostActionSetting.Once}">
-                <controls:TextBlock
-                    hc:Poptip.Content="{DynamicResource PostActionOnceTip}"
-                    hc:Poptip.HitMode="None"
-                    hc:Poptip.HorizontalOffset="-200"
-                    hc:Poptip.VerticalOffset="6"
-                    hc:Poptip.IsOpen="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType=CheckBox}}"
-                    hc:Poptip.Placement="Bottom"
-                    Text="{DynamicResource Once}"
-                    TextWrapping="Wrap" />
+                IsChecked="{Binding PostActionSetting.Once}"
+                ToolTip="{DynamicResource PostActionOnceTip}"
+                ToolTipService.InitialShowDelay="0">
+                <controls:TextBlock Text="{DynamicResource Once}" TextWrapping="Wrap" />
             </CheckBox>
             <hc:Divider />
             <CheckBox
