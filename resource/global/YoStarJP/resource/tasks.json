@@ -2670,16 +2670,17 @@
         "text": ["組立台"]
     },
     "Reclamation2ExClickProduct": {
-        "text": ["ケミカルライト"]
+        "ocrReplace": [["ケミカルライト", "荧光棒"]]
     },
     "Reclamation2ExManufactureConfirm": {
-        "text": ["組立開始"]
+        "text": ["組立開始"],
+        "ocrReplace": [["狙", "組"]]
     },
     "Reclamation2ExManufactureConfirmClickToContinue": {
         "text": ["空白", "箇所", "タップ", "続ける"]
     },
     "Reclamation2ExReadArchiveConfirm": {
-        "text": ["確認する", "確認"]
+        "text": ["確定"]
     },
     "Reclamation2ExReadArchiveEnter": {
         "doc": "Needs to be edited if confirmation window is removed later",
