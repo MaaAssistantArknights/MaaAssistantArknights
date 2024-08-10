@@ -288,13 +288,13 @@ bool asst::MaaThriftController::start_game(const std::string& client_type)
     if (client_type.empty()) {
         return false;
     }
-    auto intent_name = Config.get_intent_name(client_type);
-    if (!intent_name) {
+    auto package_name = Config.get_package_name(client_type);
+    if (!package_name) {
         return false;
     }
 
     try {
-        return client_->start_game(*intent_name);
+        return client_->start_game(*package_name);
     }
     catch (const std::exception& e) {
         Log.error("Cannot start game:", e.what());

@@ -1333,7 +1333,7 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official");
+        private string _clientType = ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty);
 
         /// <summary>
         /// Gets or sets the client type.
@@ -3392,7 +3392,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// </summary>
         public static string UiVersion { get; } = _uiVersion == "0.0.1" ? "DEBUG VERSION" : _uiVersion;
 
-        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, "Official"));
+        private static string _resourceVersion = GetResourceVersionByClientType(ConfigurationHelper.GetValue(ConfigurationKeys.ClientType, string.Empty));
 
         /// <summary>
         /// Gets or sets the resource version.
