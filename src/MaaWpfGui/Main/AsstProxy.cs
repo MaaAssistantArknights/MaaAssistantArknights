@@ -1849,12 +1849,9 @@ namespace MaaWpfGui.Main
                 }
             }
 
-            if (ret)
+            if (ret && Instances.SettingsViewModel.AutoDetectConnection && !Instances.SettingsViewModel.AlwaysAutoDetectConnection)
             {
-                if (!Instances.SettingsViewModel.AlwaysAutoDetectConnection)
-                {
-                    Instances.SettingsViewModel.AutoDetectConnection = false;
-                }
+                Instances.SettingsViewModel.AutoDetectConnection = false;
             }
             else
             {
