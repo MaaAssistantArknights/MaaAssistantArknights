@@ -750,7 +750,20 @@
     "ASChapterToAS": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["市民", "花园", "市民花园"],
+        "text": [
+            "市民花园",
+            "市民",
+            "民花",
+            "花园",
+            "丰获集会",
+            "丰获",
+            "获集",
+            "集会",
+            "藏珍宝库",
+            "藏珍",
+            "珍宝",
+            "宝库"
+        ],
         "preDelay": 3000,
         "roi": [1025, 381, 214, 149],
         "next": ["#self", "ChapterSwipeToTheRight"]
@@ -5922,10 +5935,10 @@
             "Roguelike@Stages#next",
             "Roguelike@GetDrops#next",
             "Roguelike@NextLevel",
-            "Roguelike@Continue",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
+            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -5985,7 +5998,7 @@
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [600, 600, 50, 50],
+        "specificRect": [600, 600, 50, 10],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033",
         "postDelay": 800,
         "next": [
@@ -6961,6 +6974,9 @@
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChange_mode1": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
+    "Roguelike@StrategyChange_mode10001": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
     "Roguelike@StrategyChange_mode4": {
@@ -7976,7 +7992,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
-        "roi": [522, 431, 245, 144],
+        "roi": [522, 525, 245, 81],
         "next": ["Sami@Roguelike@Continue"]
     },
     "Sami@Roguelike@DialogSkipConfirm": {
@@ -9120,9 +9136,11 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
@@ -9145,9 +9163,11 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1": {
@@ -9339,6 +9359,117 @@
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png"
     },
     "Sarkaz@Roguelike@RolesDefault": {},
+    "Sarkaz@Roguelike@Routing": {
+        "template": [
+            "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageEmergencyDps",
+            "Sarkaz@Roguelike@StageDreadfulFoe",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@StageEncounter",
+            "Sarkaz@Roguelike@StageBoons",
+            "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
+            "Sarkaz@Roguelike@StageGambling",
+            "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
+            "Sarkaz@Roguelike@StageTraderHD",
+            "Sarkaz@Roguelike@StageWindAndRain",
+            "Sarkaz@Roguelike@StageEmergencyTransportation",
+            "Sarkaz@Roguelike@StageBoskyPassage",
+            "Sarkaz@Roguelike@StageProphecy",
+            "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
+            "Sarkaz@Roguelike@StageConfrontation"
+        ],
+        "next": ["Sarkaz@Roguelike@RoutingAction"]
+    },
+    "Sarkaz@Roguelike@RoutingAction": {
+        "algorithm": "JustReturn"
+    },
+    "Sarkaz@Roguelike@RoutingActionEncounter": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
+    },
+    "Sarkaz@Roguelike@RoutingActionRogueTrader": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter"]
+    },
+    "Sarkaz@Roguelike@RoutingConfig": {
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "RoguelikeRoutingTaskPlugin用参数",
+            "————————————————————————————————————————————————————————————————",
+            "(roi.x, roi.y): 生成地图时向左滑动起点",
+            "(roi.width, roi.height): 生成地图时向左滑动终点",
+            "specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
+            "specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
+            "specialParams[3]: 节点 Rect.width",
+            "specialParams[4]: 节点 Rect.height",
+            "specialParams[5]: 两列节点之间的距离",
+            "specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+            "specialParams[7]: roi 时的 margin offset",
+            "specialParams[8]: 节点间连线方向判定的阈值"
+        ],
+        "template": "empty.png",
+        "roi": [1000, 360, 570, 360],
+        "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
+    },
+    "Sarkaz@Roguelike@RoutingContinue": {
+        "template": "Sarkaz@Roguelike@Continue.png",
+        "roi": [1050, 550, 210, 100],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@Roguelike@RoutingContinueConfirm"]
+    },
+    "Sarkaz@Roguelike@RoutingContinueConfirm": {
+        "Doc": "next 里的 RoutingNodeAnalyze 是为了确保回到地图",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [50, 360, 0, 0],
+        "next": ["Sarkaz@Roguelike@RoutingNodeAnalyze", "Sarkaz@Roguelike@RoutingContinueConfirm"]
+    },
+    "Sarkaz@Roguelike@RoutingExitThenContinue": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "roi": [18, 8, 53, 53],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@Roguelike@RoutingContinue"]
+    },
+    "Sarkaz@Roguelike@RoutingNodeAnalyze": {
+        "template": [
+            "Sarkaz@Roguelike@MapNodeCombatOps.png",
+            "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png",
+            "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
+            "Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png",
+            "Sarkaz@Roguelike@MapNodeEncounter.png",
+            "Sarkaz@Roguelike@MapNodeEncounterGrey.png",
+            "Sarkaz@Roguelike@MapNodeRogueTraderGrey.png"
+        ],
+        "roi": [246, 60, 288, 575],
+        "postDelay": 300
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNode": {
+        "roi": [796, 150, 50, 150],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeConfirm"]
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeCompleted": {
+        "algorithm": "JustReturn"
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
+        "algorithm": "OcrDetect",
+        "roi": [993, 472, 53, 26],
+        "text": ["确定"],
+        "action": "ClickSelf",
+        "postDelay": 300,
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeWaiting": {
+        "baseTask": "LoadingText",
+        "postDelay": 300,
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
+    },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假说辑录"]
     },
@@ -9890,6 +10021,18 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
+    "Sarkaz@Roguelike@Stages_routing": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+            "Sarkaz@Roguelike@Routing"
+        ]
+    },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
     },
@@ -9921,6 +10064,18 @@
     "Sarkaz@Roguelike@StrategyChange_mode1": {
         "baseTask": "Sarkaz@Roguelike@StrategyChange_mode4",
         "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
+    },
+    "Sarkaz@Roguelike@StrategyChange_mode10001": {
+        "text": ["_routing", "_exit"],
+        "ocrReplace": [
+            ["熔魂之始", "_routing"],
+            ["锻铁根须", "_exit"],
+            ["灰铸迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虚实疆界", "_exit"],
+            ["辉光天顶", "_exit"],
+            ["诡谲断章", "_exit"]
+        ]
     },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit"],

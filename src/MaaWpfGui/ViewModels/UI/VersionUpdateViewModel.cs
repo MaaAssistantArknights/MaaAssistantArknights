@@ -235,6 +235,7 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     File.Delete("MAA_win7.exe");
                 }
+
                 if (File.Exists("启动旧版.cmd"))
                 {
                     File.Delete("启动旧版.cmd");
@@ -537,8 +538,7 @@ namespace MaaWpfGui.ViewModels.UI
                         {
                             Process.Start(new ProcessStartInfo(UpdateUrl) { UseShellExecute = true });
                         }
-                    }
-                );
+                    });
                 _ = Execute.OnUIThreadAsync(() =>
                 {
                     using var toast = new ToastNotification((otaFound ? LocalizationHelper.GetString("NewVersionFoundTitle") : LocalizationHelper.GetString("NewVersionFoundButNoPackageTitle")) + " : " + UpdateTag);

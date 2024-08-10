@@ -64,6 +64,18 @@
     "SideStoryReopen": {
         "text": ["復刻"]
     },
+    "CV-Open": {
+        "baseTask": "#none",
+        "template": "StageSideStory.png",
+        "action": "ClickSelf",
+        "algorithm": "MatchTemplate",
+        "postDelay": 2000,
+        "roi": [517, 64, 155, 168],
+        "next": ["CVChapterToCV"]
+    },
+    "CVChapterToCV": {
+        "text": ["蒼白", "平台"]
+    },
     "SL-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -597,7 +609,16 @@
             ["液態激化插件", "液态激化插件"],
             ["超頻轉化模組", "超频转化模块"],
             ["聚能回收模組", "聚能回收模块"],
-            ["-斯卡蒂", "斯卡蒂"]
+            ["-斯卡蒂", "斯卡蒂"],
+            ["滌火潔西卡", "涤火杰西卡"],
+            ["戰場裝置LUD-99X", "战场装置LUD-99X"],
+            ["冰釀", "冰酿"],
+            ["機動盾牌", "机动盾牌"],
+            ["景觀巨蕈", "景观巨蕈"],
+            ["祭壇式雷達", "祭坛式雷达"],
+            ["R-45便攜式“留聲機”", "R-45便携式“留声机”"],
+            ["“二踢腳”型數據收集裝置", "“二踢脚”型数据收集装置"],
+            ["勘察用自走車", "勘察用自走车"]
         ]
     },
     "StartToWakeUpOCR": {

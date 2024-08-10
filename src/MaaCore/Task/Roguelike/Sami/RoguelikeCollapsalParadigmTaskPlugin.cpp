@@ -237,7 +237,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 
 #ifdef ASST_DEBUG
     if (m_verification_check) {
-        Log.info("Roguelike Collapsal Paradigm Task Plugin: Verification");
+        Log.info(__FUNCTION__, "| Verification");
     }
 #endif
 
@@ -287,7 +287,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
         return;
     }
     else if (m_verification_check) {
-        Log.info("Roguelike Collapsal Paradigm Task Plugin: Verification Failed");
+        Log.info(__FUNCTION__, "| Verification Failed");
 #ifdef ASST_DEBUG
         Log.info("–––––––– Previous ––––––––––––––");
         for (const std::string& clp_pd : prev_clp_pds) {
@@ -372,16 +372,12 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage()
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_restart()
 {
-    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-        .set_times_limit("Roguelike@Abandon", 0)
-        .run();
+    m_control_ptr->exit_then_stop();
 }
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_stop()
 {
-    ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-        .set_times_limit(m_config->get_theme() + "@Roguelike@Abandon", 0)
-        .run();
+    m_control_ptr->exit_then_stop();
     m_task_ptr->set_enable(false);
 }
 
@@ -396,7 +392,7 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
     if (zone != m_zone) {
         m_zone = zone;
 #ifdef ASST_DEBUG
-        Log.info("Collapsal Paradigm ｜ Current Zone is " + m_zone);
+        Log.info(__FUNCTION__, "Current Zone is " + m_zone);
 #endif
         return true;
     }

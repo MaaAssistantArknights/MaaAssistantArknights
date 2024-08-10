@@ -304,6 +304,7 @@
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢复理智确认界面等待，直到当前的 1 点理智恢复完成再立即确认。</system:String>
     <system:String x:Key="SocialPtShop">信用交易所自动购物</system:String>
+    <system:String x:Key="OnlyOnceADay">一日只执行一次</system:String>
     <system:String x:Key="CreditFight">借助战打 OF-1 赚信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">访问好友后借助战打一把OF-1赚30信用。
 一日只执行一次。
@@ -421,7 +422,9 @@
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">关机</system:String>
     <system:String x:Key="Once">仅一次*</system:String>
-    <system:String x:Key="PostActionOnceTip">勾选后修改不会保留至下次</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只执行一次，请先勾选仅一次
+勾选仅一次时，执行动作后将恢复至勾选仅一次前一刻的状态
+右键点击下方动作时，会同步 激活/取消 仅一次的选中状态</system:String>
     <system:String x:Key="IfNoOtherMaa">无其他 MAA 时</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模拟器 主屏幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
@@ -845,14 +848,14 @@
 
 目前生息演算的支持仍处于早期阶段，使用时请注意以下几点：
 
- 在普通模式下：
+ 无存档通过开局刷点数：
   1. 不能在已经有存档的情况下使用（删除现有存档即可）
   2. 不能在生息演算的编队中有干员的情况下使用（把生息演算中的当前编队清空即可，特别是打完浪潮之后）
   3. 必须在生息演算主界面开始任务（导航还没写）
 
- 通过制造刷点数：
+ 有存档通过制造刷点数（高级设置）：
   1. 要求是结算后的第一天，且后续三天没有敌袭进入驻扎地
-  2. 必须在进入生息演算中开始（能看到驻扎地的页面）
+  2. 必须在进入大地图后的界面开始（能看到驻扎地的界面）
   3. 如果能制造的数量刚好是 99 的倍数会卡住，在存档前可以先用掉一点，这个之后再修
     </system:String>
     <system:String x:Key="ReclamationBePatient">牛牛，我太想进步了！你看，又急</system:String>

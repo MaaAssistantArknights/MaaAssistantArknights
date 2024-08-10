@@ -5,7 +5,7 @@ containerClass: home
 heroText: MAA 文档站 | Document
 tagline: 选择语言 | Select Language
 heroAlt: MAA Logo
-heroImage: https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png
+heroImage: /image/maa-logo_512x512.png
 heroFullScreen: true
 actions:
   - text: 简体中文
