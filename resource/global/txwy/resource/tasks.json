@@ -1840,7 +1840,7 @@
         "action": "DoNothing",
         "cache": false,
         "doc": "The translations are not verified.",
-        "ocrReplace": [["目前坍縮值", "当前坍缩值"]],
+        "ocrReplace": [["當前坍縮值", "当前坍缩值"]],
         "algorithm": "OcrDetect",
         "text": ["当前坍缩值"],
         "roi": [350, 120, 310, 520]
