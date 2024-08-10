@@ -854,7 +854,7 @@ With save file: farm points through crafting (advanced).
   3. If the quantity that can be manufactured is exactly a multiple of 99, MAA can get confused (stuck). You can use up a little before saving. This might be repaired later.
     </system:String>
     <system:String x:Key="ReclamationBePatient">Chill and relax, please be patient</system:String>
-    <system:String x:Key="Reclamation2ExEnable">farm points through crafting</system:String>
+    <system:String x:Key="Reclamation2ExEnable">Farm points through crafting</system:String>
     <system:String x:Key="Reclamation2ExProductTip">Support prop name</system:String>
     <system:String x:Key="Reclamation2ExProductPlaceholder">Glow Stick</system:String>
     <!--  !Reclamation  -->
