@@ -412,7 +412,9 @@
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">關機</system:String>
     <system:String x:Key="Once">僅一次*</system:String>
-    <system:String x:Key="PostActionOnceTip">勾選後修改不會保留至下次</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">如想只執行一次，請先勾選僅一次
+勾選僅一次時，執行動作後將恢復至勾選僅一次前一刻的狀態
+右鍵點選下方動作時，會同步 啟動/取消 僅一次的選取狀態</system:String>
     <system:String x:Key="IfNoOtherMaa">無其他 MAA 時</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模擬器 主荧幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>

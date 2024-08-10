@@ -422,7 +422,9 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Hibernate">Hibernate</system:String>
     <system:String x:Key="Shutdown">Shutdown</system:String>
     <system:String x:Key="Once">Only once*</system:String>
-    <system:String x:Key="PostActionOnceTip">If active, changes will NOT be saved until next run.</system:String>
+    <system:String x:Key="PostActionOnceTip" xml:space="preserve">If you want to execute only once, please check Only once first.
+When Only once is checked, the action will be restored to the state before Only once was checked after execution.
+When you right-click the action below, it will activate/cancel the selected state of Only once synchronously.</system:String>
     <system:String x:Key="IfNoOtherMaa">If no other running MAA</system:String>
     <system:String x:Key="BackToAndroidHome">Return to home screen of emulator</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
