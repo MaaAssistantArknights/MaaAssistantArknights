@@ -1853,16 +1853,14 @@ namespace MaaWpfGui.Main
                 }
             }
 
-            if (ret && Instances.SettingsViewModel.AutoDetectConnection && !Instances.SettingsViewModel.AlwaysAutoDetectConnection)
-            {
-                Instances.SettingsViewModel.AutoDetectConnection = false;
-            }
-            else
+            if (!ret)
             {
                 error = LocalizationHelper.GetString("ConnectFailed") + "\n" + LocalizationHelper.GetString("CheckSettings");
             }
-
-            return ret;
+            else if (ret && Instances.SettingsViewModel.AutoDetectConnection && !Instances.SettingsViewModel.AlwaysAutoDetectConnection)
+            {
+                Instances.SettingsViewModel.AutoDetectConnection = false;
+            }
         }
 
         private AsstTaskId AsstAppendTaskWithEncoding(string type, JObject? taskParams = null)
