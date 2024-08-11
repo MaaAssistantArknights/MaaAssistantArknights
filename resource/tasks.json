@@ -9091,7 +9091,9 @@
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@CloseEvent",
-            "Sarkaz@Roguelike@ChooseOperFlag"
+            "Sarkaz@Roguelike@ChooseOperFlag",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
     },
     "Sarkaz@Roguelike@CloseCollectionContinue": {
@@ -9104,7 +9106,8 @@
             "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@CloseEvent",
             "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
     },
     "Sarkaz@Roguelike@CloseEvent": {
@@ -9177,7 +9180,8 @@
         "specificRect": [1210, 120, 0, 0],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "Sarkaz@Roguelike@CloseCollection",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
         ]
     },
@@ -9186,7 +9190,12 @@
         "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [1210, 120, 0, 0],
-        "next": ["Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2", "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"]
+        "next": [
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
+        ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenUse": {
         "roi": [734, 469, 168, 155],
