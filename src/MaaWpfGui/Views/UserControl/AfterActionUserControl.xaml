@@ -86,8 +86,7 @@
 
             <Button
                 Height="30"
-                Margin="0,10,0,0"
-                HorizontalAlignment="Stretch"
+                Margin="20,10,20,0"
                 s:View.ActionTarget="{Binding PostActionSetting}"
                 Command="{s:Action PostActionsClear}"
                 Content="{DynamicResource Clear}" />
