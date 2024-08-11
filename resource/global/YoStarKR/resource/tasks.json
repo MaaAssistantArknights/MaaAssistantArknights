@@ -2066,12 +2066,6 @@
             ["블랙아웃", "一抹黑"]
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "ocrReplace": [
-            ["피드백", "正在提交反馈至神经"],
-            ["전달", "正在提交反馈至神经"]
-        ]
-    },
     "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "ocrReplace": [
             ["붕괴패러다임심화", "坍缩范式加深"],
@@ -2080,6 +2074,12 @@
     },
     "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
         "ocrReplace": [["붕괴수치", "当前坍缩值"]]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "ocrReplace": [
+            ["피드백", "正在提交反馈至神经"],
+            ["전달", "正在提交反馈至神经"]
+        ]
     },
     "Sami@Roguelike@Collapsal": {
         "text": ["선택적", "선택적무시", "이미지", "이미지에러"]
