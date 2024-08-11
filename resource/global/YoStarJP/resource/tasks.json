@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選択"]
     },
@@ -10,6 +13,18 @@
     },
     "ClickChapter3": {
         "text": ["残映"]
+    },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-5": {
+        "sub": ["HS-Open", "HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["懐黍離", "イベント開催中", "荒城中枢", "大江北岸", "ステージ開放中"]
@@ -230,6 +245,7 @@
             [".*キノキ", "月禾"],
             ["イースチナ", "真理"],
             ["ポデンコ", "波登可"],
+            ["ポ(デ|テ)(ン|シ)コ", "波登可"],
             ["アーススピリット", "地灵"],
             [".*ースス.*リッ", "地灵"],
             ["ロベルタ", "罗比菈塔"],
@@ -500,7 +516,7 @@
             ["医療ドローン", "医疗探机"],
             ["エンペラー", "大帝"],
             ["チェストナット", "褐果"],
-            ["Fェストナット", "褐果"],
+            ["[Ffi]ェストナット", "褐果"],
             ["ドローン工場", "无人机工厂"],
             ["シャッター", "闸门"],
             ["^リー$", "老鲤"],
@@ -778,7 +794,7 @@
             ["携帯式医療設備", "便携式医疗设备"],
             ["エネルギーカプセル", "能效胶囊"],
             ["活力注射薬", "增活针剂"],
-            ["聖約イグゼキュター", "圣约送葬人"],
+            ["聖約イグゼキュタ", "圣约送葬人"],
             ["スプリア", "空构"],
             ["インサイダー", "隐现"],
             ["聖像", "圣像"],
@@ -873,7 +889,55 @@
             ["急速冷却噴射台", "速冷喷雾发射台"],
             ["エネルギーオイル", "焕能精油"],
             ["リバイバルオイル", "复苏精油"],
-            ["ミード万歳", "“蜜酿万岁！”"]
+            ["ミード万歳", "“蜜酿万岁！”"],
+            ["激励剤", "激励剂"],
+            ["バリケード補強装置", "封阻加固装置"],
+            ["仮設掩体装置", "临时掩护装置"],
+            ["グレインバッズ", "小满"],
+            [".?レインバッズ", "小满"],
+            ["源石爆弾", "源石爆炸物"],
+            ["^シュウ[^アァ]?", "黍"],
+            ["氷爆缶", "冰爆罐"],
+            ["捕獲カゴ", "捕猎笼"],
+            ["「記念」", "“纪念”"],
+            ["給水ポンプ", "泵站"],
+            ["キャンピングカー", "旷野房车\n"],
+            ["ワンチィン", "万顷"],
+            ["涼しげな泉", "灵动清泉"],
+            ["バリケード", "封阻物"],
+            ["ケストレル", "红隼"],
+            ["ズオ.?ラウ", "左乐"],
+            ["臨時高台", "高台工事"],
+            ["砂地獄", "流沙黯坑"],
+            ["栽培ボックス", "种植箱集群\n"],
+            ["水門", "阻流阀"],
+            ["トラップ設置装置", "诡雷布设装置"],
+            ["天杭", "天桩"],
+            ["簡易弩台", "简易弩台"],
+            ["くちばしの中の珍品", "喙中奇物"],
+            ["作戦司令部", "作战中心"],
+            ["畜舎", "兽栏"],
+            ["砂漠の砦", "风沙营垒"],
+            ["汚濁した泥沼", "污浊泥沼"],
+            ["煙幕発射台", "烟雾发射台"],
+            ["透珀石採取基地", "澄亮采集站"],
+            ["ケミカルライト", "荧光棒"],
+            ["金属探知機", "寻宝仪"],
+            ["反応障壁", "反应壁障"],
+            ["監視塔", "监视哨站"],
+            ["透珀石鉱脈", "澄亮矿脉"],
+            ["石の関門", "机关石门"],
+            ["静かなる盆栽", "静谧盆栽"],
+            ["休憩用ベンチ", "休闲长椅"],
+            ["捕獲カゴ", "猎获笼"],
+            ["号令ポイント", "号令点"],
+            ["^ペペ$", "佩佩"],
+            ["ケストレル", "红隼"],
+            ["ロドスオペレーター", "罗德岛工作人员"],
+            ["郵便ポスト", "信使邮筒"],
+            ["情報ボックス", "讯息匣"],
+            ["眩暈のお香", "失衡异香"],
+            ["看板", "告示牌"]
         ]
     },
     "StartToWakeUp": {
@@ -917,6 +981,22 @@
     "RecruitNow": {
         "text": ["緊急招集"]
     },
+    "OrundumActivities": {
+        "doc": "幸运墙领合成玉",
+        "text": ["開運", "おみくじ"]
+    },
+    "OrundumActivitiesChoose": {
+        "text": ["開運くじ", "を選択"]
+    },
+    "OrundumActivitiesConfirm": {
+        "text": ["引く"]
+    },
+    "RecruitingActivities": {
+        "text": ["回無料"]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": ["回無料", "時間"]
+    },
     "RecruitingActivitiesRecruit": {
         "text": ["1回スカウト", "スカウト"]
     },
@@ -925,11 +1005,6 @@
     },
     "NoFriends": {
         "text": ["戦友があリませれ"]
-    },
-    "StartToVisit": {
-        "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in September 2024 OPERATION LUCENT ARROWHEAD",
-        "templThreshold": 0.8,
-        "roi": [920, 91, 162, 141]
     },
     "VisitNextOcr": {
         "text": ["次を訪問"]
@@ -1166,7 +1241,19 @@
             ["禁止区域", "禁区"],
             ["無から富を生む", "无中生钱"],
             ["「正義の使者」", "“正义使者”"],
-            [".*正義の使者.*", "“正义使者”"]
+            [".*正義の使者.*", "“正义使者”"],
+            ["四度目は無し", "事不过四"],
+            ["凍てついた地", "冰凝之所"],
+            ["極寒が造りしもの", "深寒造像"],
+            ["虚無の偶像", "虚无之偶"],
+            ["歩哨", "哨兵"],
+            ["時の砂", "时光之沙"],
+            ["永遠へと踏み入る", "迈入永恒"],
+            ["黄砂の幻境", "黄沙幻境"],
+            ["古よりの仇敵", "亘古仇敌"],
+            ["目には目を", "还之彼身"],
+            ["弱いものいじめ", "恃强凌弱"],
+            ["人工物のカーニバル", "人造物狂欢节"]
         ]
     },
     "BattleStartPre": {
@@ -2040,27 +2127,44 @@
             ["作戦を完璧にクリアできなかった場合、崩壊値+2", "非完美作战增长2坍缩值"],
             ["月固定編成5オリジナルイベント表示", "显示月阵容5原始事件"],
             ["月固定編成8オリジナルイベント表示", "显示月阵容8原始事件"],
-            ["秘境で異変発生", "秘境出现异变"]
+            ["秘境で異変発生", "秘境出现异变"],
+            ["バインシューター", "藤蔓炮手"],
+            ["破られた盟約", "破落盟约"],
+            ["崩壊中和装置", "范式中和仪"],
+            ["掌上の楼閣", "掌上楼阁"],
+            ["ミノスの賛歌", "米诺斯颂诗"],
+            ["北風の創造物", "北风的造物"],
+            ["探索者のリュック", "探索者背包"],
+            ["ブラックホール協定", "黑洞协议"],
+            ["堅実の手", "坚实之手"],
+            ["再生の手", "复还之手"],
+            ["可視領界への招待状", "视界邀约"],
+            ["錆刃・奇襲", "锈刃-扰袭"],
+            ["鈍爪・薪拾", "钝爪-拾柴"],
+            ["折戟・咆哮", "折戟-战吼"],
+            ["鉄衛・塁砂", "铁卫-垒沙"],
+            ["残弩・連珠", "残弩-连珠"],
+            ["断杖・和音", "断杖-和声"],
+            ["支柱・協力", "支柱-联手"],
+            ["医者・湧泉", "医者-涌泉"],
+            ["次元流体", "维度流质"],
+            ["崩壊の種", "坍缩之种"],
+            ["空間の断片", "空间碎片"],
+            ["残された焼け跡", "深度灼痕"]
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["選択"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["テーマへ"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
+    },
+    "Roguelike@PreSelectTheme": {
+        "text": ["全テーマ一覧", "全テ", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": ["サ.*ート", "招集", "召集"]
-    },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
@@ -2230,7 +2334,10 @@
             ["主役：ダック卿？", "鸭爵主演？"],
             ["夢中の邂逅", "梦中之会"],
             ["仕事への情熱は？", "工作热情？"],
-            ["ビジネス帝国？", "商业帝国？"]
+            ["ビジネス帝国？", "商业帝国？"],
+            ["変化", "变化"],
+            ["再構築", "重构"],
+            ["探索者の小さな一歩", "探索者的一小步"]
         ],
         "roi": [0, 320, 725, 310]
     },
@@ -2247,8 +2354,7 @@
         "text": ["迷霧の岐路", "落陽の庭園", "凋落の故地", "悪夢の幕開け", "緋月の回廊", "渇欲の大広間"]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["ファントム"]
+        "text": ["古城の手記"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -2284,8 +2390,7 @@
         "text": ["陽の射す海岸", "離れの孤島", "迫り来る波濤", "秘密の温床", "不可侵の洞窟", "深海の密林", "紺碧の揺籃"]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["ミヅキ"]
+        "text": ["進化の系譜", "進化", "系譜"]
     },
     "Mizuki@Roguelike@StageEncounterLeaveConfirm": {
         "roi": [1063, 0, 217, 700],
@@ -2491,8 +2596,7 @@
         "text": ["本エリア", "通過後", "次段階", "パラダイム"]
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["探索"]
+        "text": ["科学考察記録"]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["セーフハウスを利用する"]
@@ -2532,6 +2636,87 @@
             ["遠見の巨構", "_SKIP_"],
             ["深埋の迷境", "_SKIP_"]
         ]
+    },
+    "Reclamation2Begin": {
+        "text": ["演", "算", "開", "始"]
+    },
+    "Reclamation2BeginPlotEnter": {
+        "text": ["人々", "が集う", "集会場"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["羽獣", "集う地", "狩猟エリア"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["行動", "完了"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["豊かな", "低木林", "資源エリア"],
+        "ocrReplace": [
+            ["(予|青)原(工|正)", "資源エリア"],
+            ["夢方.?な", "豊かな"],
+            ["豊方", "豊かな"]
+        ]
+    },
+    "Reclamation2DeleteArchiveConfirm": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2DeleteArchiveEnter": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2EnterStage": {
+        "text": ["行動", "開始"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["組立台"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["ケミカルライト"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["組立開始"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["空白", "箇所", "タップ", "続ける"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["確認する", "確認"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "text": ["ロード"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["生息", "日"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["確認する", "確認"]
+    },
+    "Reclamation2Fight": {
+        "text": ["作戦", "開始"]
+    },
+    "Reclamation2FightConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2LeaveStageConfirm": {
+        "text": ["離脱する", "離脱"]
+    },
+    "Reclamation2SkipDays2SkipTime": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2SkipDays2SkipTimeConfig": {
+        "text": ["確定"]
+    },
+    "Reclamation2SkipDaysAward2": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["次へ"]
     },
     "Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],

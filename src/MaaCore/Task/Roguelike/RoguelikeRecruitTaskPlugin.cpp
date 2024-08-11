@@ -180,6 +180,7 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
         std::unordered_set<std::string> oper_names;
         const auto& oper_list = analyzer.get_result();
         bool stop_swipe = false;
+        std::vector<std::string> owned_collection=m_config->get_collection();
 
         int max_oper_x = 0;
         for (const auto& oper_info : oper_list) {
@@ -286,6 +287,13 @@ bool asst::RoguelikeRecruitTaskPlugin::_run()
                         else {
                             if (count >= priority_offset.threshold) priority += priority_offset.offset;
                         }
+                    }
+                    for (const auto& priority_offset : recruit_info.collection_priority_offsets) {                        
+                        auto iter =
+                            std::find(owned_collection.begin(), owned_collection.end(), priority_offset.collection);
+                        if (iter != owned_collection.end()) {                            
+                            priority += priority_offset.offset; 
+                        }    
                     }
                     if (!m_starts_complete) {
                         if (!recruit_info.is_start) priority -= 1000;
@@ -475,9 +483,7 @@ bool asst::RoguelikeRecruitTaskPlugin::lazy_recruit()
                         if (!only_start_with_elite_two) {
                             m_config->set_difficulty(0);
                         }
-                        ProcessTask(*this, { m_config->get_theme() + "@Roguelike@ExitThenAbandon" })
-                            .set_times_limit("Roguelike@Abandon", 0)
-                            .run();
+                        m_control_ptr->exit_then_stop();
                     }
                 }
                 else {

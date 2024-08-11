@@ -10,13 +10,13 @@ This page is outdated and maybe still in Simplified Chinese. Translation is need
 
 ## Recruitment Recognition
 
-打开公招标签界面，点击开始识别即可启动。
+Open the Recruit tag interface and click Start Recognition to initiate.
 
-如果之前运行过干员识别，在识别结束的干员名后还会显示潜能数据。
+If you have previously run Operator recognition, potential data will be displayed after the recognized Operator's name.
 
 ## Operator Recognition (Beta)
 
-可识别持有与未持有的干员名单，并识别并保存潜能数据供公招识别显示。
+Can recognize the list of owned and unowned Operators, and recognize and save potential data for display in Recruitment recognition.
 
 ## Depot Recognition (Beta)
 
@@ -36,8 +36,14 @@ Only 16:9 aspect ratio videos with a resolution of 720p or higher are supported.
 
 ## Gacha
 
-**真的是用你的号抽你的卡 真的是用你的号抽你的卡 真的是用你的号抽你的卡**
-**真的是用你的号抽你的卡 真的是用你的号抽你的卡 真的是用你的号抽你的卡**
-**真的是用你的号抽你的卡 真的是用你的号抽你的卡 真的是用你的号抽你的卡**
+**It really uses your account to draw your cards! It really uses your account to draw your cards!**
+**It really uses your account to draw your cards! It really uses your account to draw your cards!**
+**It really uses your account to draw your cards! It really uses your account to draw your cards!**
 
-牛牛航空没报上名？没关系！现在每个人都有自己的牛牛航空！并且在抽卡的过程中还会截图并显示在界面中央！
+Didn't get a spot in [NiuNiu Airlines](https://www.bilibili.com/opus/926129394412421126)? No problem! Now everyone has their own NiuNiu Airlines! And it will take screenshots and display them in the center of the interface during the draw!
+
+<!-- markdownlint-disable -->
+
+_(WTF is NiuNiu Airlines)_
+
+<!-- markdownlint-restore -->

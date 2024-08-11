@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 
@@ -47,36 +47,20 @@ MAAは、MAA Assistant Arknightsです。
 
 UIを見れば使い方もすぐ分かる！  
 
-<!-- markdownlint-disable -->
-
-<div class="image-ja-jp">
-  <img src="/image/ja-jp/readme/1-light.png" />
-  <img src="/image/ja-jp/readme/2-light.png" />
-</div>
-
-<style>
-  .image-ja-jp {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .image-ja-jp > img {
-     box-sizing: border-box;
-     width: 50% !important;
-     padding: 9px;
-     border-radius: 16px;
-  }
-
-  @media (max-width: 419px){
-    .image-ja-jp > img {
-      width: 100% !important;
+```component Image2
+{
+  "imageList": [
+    {
+      "light": "image/ja-jp/readme/1-light.png",
+      "dark": "image/ja-jp/readme/1-light.png"
+    },
+    {
+      "light": "image/ja-jp/readme/2-light.png",
+      "dark": "image/ja-jp/readme/2-light.png"
     }
-  }
-</style>
-
-<!-- markdownlint-restore -->
+  ]
+}
+```
 
 ## ダウンロードリンク
 
@@ -205,7 +189,7 @@ MAA は中国語（簡体字）を第一言語とし、翻訳見出しはすべ�
 - ~~オペレーターおよび基地データ：[PRTSアークナイツ中国語WIKI](http://prts.wiki/)~~
 - ステージデータ：[PenguinStatsデータ統計](https://penguin-stats.io/)
 - ゲームのデータとリソース：[アークナイツのクライアント資料](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~ゲームデータ：[アークナイツのゲームデータ](https://github.com/Kengxxiao/ArknightsGameData)~~
+- ゲームデータ：[アークナイツYostarのゲームデータ](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### 貢献/協力者
 

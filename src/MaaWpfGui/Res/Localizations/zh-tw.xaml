@@ -1,4 +1,7 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:system="clr-namespace:System;assembly=mscorlib">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:system="clr-namespace:System;assembly=mscorlib">
     <!--  設定  -->
     <system:String x:Key="Settings">設定</system:String>
     <system:String x:Key="GeneralSettings">常規設定</system:String>
@@ -260,6 +263,9 @@
     <system:String x:Key="WaitForEmulator">等待模擬器啟動時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">等待結束</system:String>
     <system:String x:Key="EmulatorPath">模擬器路徑</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">你也想在酒吧里點酒吧？</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorImSure">我確定沒選錯</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="Select">選擇</system:String>
     <system:String x:Key="ForcedReplaceAdb">強制替換 ADB</system:String>
     <system:String x:Key="TouchMode">觸控模式</system:String>
@@ -290,6 +296,7 @@
     <system:String x:Key="DrGrandet">博朗台模式</system:String>
     <system:String x:Key="DrGrandetTip">在恢復理智確認介面等待，直到當前的 1 點理智恢復完成再立即確認。</system:String>
     <system:String x:Key="SocialPtShop">信用購物</system:String>
+    <system:String x:Key="OnlyOnceADay">一日只執行一次</system:String>
     <system:String x:Key="CreditFight">借助戰打 OF-1 賺信用</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">訪問好友後借助戰打一把 OF-1 賺 30 信用。
 一日只執行一次。
@@ -353,9 +360,11 @@
     <system:String x:Key="AdbPathFileSelectionErrorImSure">我確定沒選錯</system:String>
     <system:String x:Key="AdbPathFileSelectionErrorSelectAgain">好的，我會重新選擇</system:String>
     <system:String x:Key="ConnectionPreset">連接配置</system:String>
+    <system:String x:Key="ScreenshotTest">截圖測試</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">啟用 MuMu 截圖增強模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 遊戲專版、Global 不支援。\n\n
+        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 遊戲專版、Global 不支援。\n
+        強烈建議在開啟本功能後的首次使用之前進行截圖測試。\n\n
         請填寫以下資訊：\n\n
         1. 模擬器路徑：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         模擬器路徑應填寫模擬器應用的上一層資料夾路徑，例如應用路徑為\n
@@ -395,19 +404,16 @@
     <system:String x:Key="SelectAll">全選</system:String>
     <system:String x:Key="Inverse">反選</system:String>
     <system:String x:Key="Clear">清空</system:String>
-    <system:String x:Key="Then">完成後</system:String>
+    <system:String x:Key="PostActions">完成後</system:String>
     <system:String x:Key="DoNothing">無動作</system:String>
     <system:String x:Key="ExitArknights">退出 明日方舟</system:String>
     <system:String x:Key="ExitSelf">退出 MAA</system:String>
     <system:String x:Key="ExitEmulator">退出 模擬器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">退出 MAA 和 模擬器</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，並休眠</system:String>
     <system:String x:Key="Hibernate">休眠</system:String>
     <system:String x:Key="Shutdown">關機</system:String>
-    <system:String x:Key="HibernateWithoutPersist">休眠（僅一次）</system:String>
-    <system:String x:Key="ShutdownWithoutPersist">關機（僅一次）</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">退出 MAA 和 模擬器，無其他 MAA 則休眠</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">退出 MAA，無其他 MAA 則關機</system:String>
+    <system:String x:Key="Once">僅一次*</system:String>
+    <system:String x:Key="PostActionOnceTip">勾選後修改不會保留至下次</system:String>
+    <system:String x:Key="IfNoOtherMaa">無其他 MAA 時</system:String>
     <system:String x:Key="BackToAndroidHome">返回 模擬器 主荧幕</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">停止</system:String>
@@ -681,8 +687,9 @@
     <system:String x:Key="RoguelikeGamePass">肉鴿通關啦！</system:String>
     <system:String x:Key="RoguelikeSpecialItemBought">購買了特殊商品！</system:String>
     <system:String x:Key="SSSGamePass">保全通關啦！</system:String>
-    <system:String x:Key="Trader">關卡: 詭意行商</system:String>
-    <system:String x:Key="SafeHouse">關卡: 安全的角落</system:String>
+    <system:String x:Key="Trader">節點: 詭意行商</system:String>
+    <system:String x:Key="SafeHouse">節點: 安全的角落</system:String>
+    <system:String x:Key="FilterTruth">節點: 去偽存真</system:String>
     <system:String x:Key="CombatDps">關卡: 普通作戰</system:String>
     <system:String x:Key="EmergencyDps">關卡: 緊急作戰</system:String>
     <system:String x:Key="DreadfulFoe">關卡: 險路惡敵</system:String>
@@ -728,6 +735,7 @@
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">選擇幹員: </system:String>
     <system:String x:Key="CurrentSteps">當前步驟: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">不支援的關卡，請檢查關卡名稱或前往「設置 - 軟體更新 - 檢查更新」，嘗試更新資源版本！</system:String>
+    <system:String x:Key="ResourceUpdatePaused">由於伺服器資源緊張，暫時停止提供資源版本更新。請手動導入關卡文件或等待新的版本發佈</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">辨識結果: </system:String>
     <system:String x:Key="ConnectFailed">連接失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">正在嘗試重连</system:String>
@@ -738,6 +746,7 @@
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">強制顯示 MAA</system:String>
+    <system:String x:Key="Restart">重啓</system:String>
     <system:String x:Key="Exit">退出</system:String>
     <!--  !TrayIcon  -->
     <!--  About  -->

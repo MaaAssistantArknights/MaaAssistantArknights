@@ -230,6 +230,17 @@ namespace MaaWpfGui.ViewModels.UI
                 const string CmdFileContent = "@echo off\r\nif exist MAA.exe (\r\n    ren MAA.exe MAA_v5.exe\r\n)\r\nstart \"\" .\\MAA_win7.exe";
                 File.WriteAllText("启动旧版.cmd", CmdFileContent);
             }
+            else
+            {
+                if (File.Exists("MAA_win7.exe"))
+                {
+                    File.Delete("MAA_win7.exe");
+                }
+                if (File.Exists("启动旧版.cmd"))
+                {
+                    File.Delete("启动旧版.cmd");
+                }
+            }
 
             string removeListFile = Path.Combine(extractDir, "removelist.txt");
             if (File.Exists(removeListFile))
@@ -466,12 +477,15 @@ namespace MaaWpfGui.ViewModels.UI
                 return ret;
             }
 
+            // nnd 都别更新了
+            /*
             var resRet = await ResourceUpdater.UpdateAsync();
             if (resRet == ResourceUpdater.UpdateResult.Success)
             {
                 Instances.SettingsViewModel.IsCheckingForUpdates = false;
                 return CheckUpdateRetT.OnlyGameResourceUpdated;
             }
+            */
 
             Instances.SettingsViewModel.IsCheckingForUpdates = false;
             return ret;

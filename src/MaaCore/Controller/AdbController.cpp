@@ -558,6 +558,13 @@ bool asst::AdbController::screencap(cv::Mat& image_payload, bool allow_reconnect
         case AdbProperty::ScreencapMethod::MumuExtras: {
             auto img_opt = m_mumu_extras.screencap();
             screencap_ret = img_opt.has_value();
+
+            if (!screencap_ret && allow_reconnect) {
+                m_mumu_extras.reload();
+                img_opt = m_mumu_extras.screencap();
+                screencap_ret = img_opt.has_value();
+            }
+
             if (screencap_ret) {
                 image_payload = img_opt.value();
             }
@@ -705,7 +712,12 @@ bool asst::AdbController::connect(
                                  { "why", "ConfigNotFound" },
                              };
         callback(AsstMsg::ConnectionInfo, info);
+#ifdef ASST_DEBUG
         return false;
+#else
+        Log.error("config ", config, "not found");
+        adb_ret = Config.get_adb_cfg("General");
+#endif
     }
 
     const auto& adb_cfg = adb_ret.value();

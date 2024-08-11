@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -26,6 +29,18 @@
     },
     "SideStoryReopen": {
         "text": ["재개방"]
+    },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-5": {
+        "sub": ["HS-Open", "HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["회서리", "이벤트", "개방중"]
@@ -92,7 +107,7 @@
     "CharsNameOcrReplace": {
         "Doc": "이 작업의 'ocrReplace'는 오퍼레이터 이름과 관련된 모든 인식 작업에서 사용됩니다",
         "ocrReplace": [
-            ["(\\s|\\$|\\(|\\)|\\.|\"|/|'| | |—|_|-|=|,|《|》|■|~)", ""],
+            ["(\\$|\\(|\\)|\\.|\"|/|'| | |—|_|-|=|,|《|》|■|~)", ""],
             ["드래곤플라이L", "드래곤플라이엘"],
             ["드래곤플라이F", "드래곤플라이에프"],
             ["드래곤플라이A", "드래곤플라이에이"],
@@ -443,7 +458,7 @@
             ["로밍하우스", "“漫游小屋”"],
             ["실체화모듈", "实体程式"],
             ["아스트젠", "星源"],
-            ["(그레.+더.*|.*더라이트닝베어러)", "그레이더라이트닝베어러"],
+            ["(그레.+더.*|.+닝베.+러)", "그레이더라이트닝베어러"],
             ["그레이더라이트닝베어러", "承曦格雷伊"],
             ["도로시", "多萝西"],
             ["공진장치", "共振装置"],
@@ -521,7 +536,6 @@
             ["다목적공급장치", "自适应补给元件"],
             ["늪지대제어", "沼泽控制"],
             ["에기르오실로스코프", "阿戈尔示波器"],
-            ["다목적공급장치", "自适应补给元件"],
             ["에너지재정비유닛", "重整导能组件"],
             ["에너지억제유닛", "反制导能组件"],
             ["코팅장치전도밸브", "镀膜装置导能阀"],
@@ -572,7 +586,6 @@
             ["감시탑", "监控塔"],
             ["섬광폭탄", "眩光手雷"],
             ["고압펄스트랩", "高压脉冲诡雷"],
-            ["공중견인드론", "滞空牵引无人机"],
             ["견고한플랫폼", "坚固筑台"],
             ["잡목림", "杂木林"],
             ["간이재배용기", "便携式种植槽"],
@@ -594,7 +607,7 @@
             ["이네스", "伊内丝"],
             ["길거리보급품", "街头应急储备"],
             ["중력", "重力"],
-            ["(사일런스더.*|.*더패러디그.*)", "사일런스더패러디그매틱"],
+            ["(.*런스더.*|.*더패러디그.*)", "사일런스더패러디그매틱"],
             ["사일런스더패러디그매틱", "淬羽赫默"],
             ["자동계좌이체기", "全自动划账器"],
             ["뮤엘시스", "缪尔赛思"],
@@ -688,7 +701,54 @@
             ["^워미$", "温米"],
             ["^레이$", "莱伊"],
             ["샌드비스트", "沙地兽"],
-            [".?벌꿀주만세.*", "“蜜酿万岁！”"]
+            [".?벌꿀주만세.*", "“蜜酿万岁！”"],
+            ["^격려제$", "激励剂"],
+            ["바리케이드보강장치", "封阻加固装置"],
+            ["임시엄호장치", "临时掩护装置"],
+            ["그레인버즈", "小满"],
+            ["오리지늄폭발물", "源石爆炸物"],
+            ["^슈$", "黍"],
+            ["얼음폭탄", "冰爆罐"],
+            ["비스트트랩", "捕猎笼"],
+            ["^.?기념.?$", "“纪念”"],
+            ["^양수기$", "泵站"],
+            ["^캠핑카$", "旷野房车\n"],
+            ["^완칭$", "万顷"],
+            ["^분수대$", "灵动清泉"],
+            ["바리케이드", "封阻物"],
+            ["^좌락$", "左乐"],
+            ["고지대공사", "高台工事"],
+            ["사막의구덩이", "流沙黯坑"],
+            ["재배키트", "种植箱集群\n"],
+            ["차단밸브", "阻流阀"],
+            ["폭탄매설장치", "诡雷布设装置"],
+            ["^천주$", "天桩"],
+            ["간이발리스타", "简易弩台"],
+            ["부리속기물", "喙中奇物"],
+            ["작전센터", "作战中心"],
+            ["^축사$", "兽栏"],
+            ["샌드뱅크", "风沙营垒"],
+            ["진흙탕", "污浊泥沼"],
+            ["연막발사대", "烟雾发射台"],
+            ["명징석채집허브", "澄亮采集站"],
+            ["형광봉", "荧光棒"],
+            ["프로스펙터", "寻宝仪"],
+            ["반응형장벽", "反应壁障"],
+            ["감시초소", "监视哨站"],
+            ["명징광맥", "澄亮矿脉"],
+            ["석문장치", "机关石门"],
+            ["^분재$", "静谧盆栽"],
+            ["^벤치$", "休闲长椅"],
+            ["^케이지$", "猎获笼"],
+            ["호령포인트", "号令点"],
+            ["대제사장", "大祭司"],
+            ["^페페$", "佩佩"],
+            ["케스트럴", "红隼"],
+            ["로도스아일랜드직원", "罗德岛工作人员"],
+            ["전달자우편함", "信使邮筒"],
+            ["^사서함$", "讯息匣"],
+            ["언밸런스디퓨저", "失衡异香"],
+            ["^게시판$", "告示牌"]
         ]
     },
     "StartUpThemes": {
@@ -761,13 +821,32 @@
     "RecruitNow": {
         "text": ["즉시모집", "측시모집", "즉시"]
     },
+    "OrundumActivities": {
+        "ocrReplace": [["복.+방", "복권방"]],
+        "doc": "용문복권방 adjusted roi value for ocr recognition",
+        "text": ["용문", "복권방"],
+        "roi": [23, 125, 135, 55]
+    },
+    "OrundumActivitiesChoose": {
+        "text": ["행운티켓", "선택"]
+    },
+    "OrundumActivitiesConfirm": {
+        "text": ["뽑기"]
+    },
+    "RecruitingActivities": {
+        "text": ["보너스"]
+    },
+    "RecruitingActivitiesConfirm": {
+        "text": ["보너스"]
+    },
+    "RecruitingActivitiesRecruit": {
+        "text": ["진행"]
+    },
+    "RecruitingActivitiesRecruitEnd": {
+        "text": ["진행"]
+    },
     "NoFriends": {
         "text": ["등록된", "없습니다"]
-    },
-    "StartToVisit": {
-        "doc": "Temp fix until Overseas gets the same interface as Official, expected to be removed in September 2024 OPERATION LUCENT ARROWHEAD",
-        "templThreshold": 0.8,
-        "roi": [920, 91, 162, 141]
     },
     "VisitNextOcr": {
         "text": ["다음", "방문"]
@@ -1032,7 +1111,19 @@
             ["장기시용", "长期试用"],
             ["자연의섭리", "自然条款"],
             ["창조경제", "无中生钱"],
-            [".?정의의사자.?", "“正义使者”"]
+            [".?정의의사자.?", "“正义使者”"],
+            ["금기숫자", "事不过四"],
+            ["얼어붙은곳", "冰凝之所"],
+            ["혹한의동상", "深寒造像"],
+            ["허무한꼭두각시", "虚无之偶"],
+            ["보초", "哨兵"],
+            ["시간의모래", "时光之沙"],
+            ["영원속으로", "迈入永恒"],
+            ["모래의환상", "黄沙幻境"],
+            ["영원한적수", "亘古仇敌"],
+            ["적의칼로적베기", "还之彼身"],
+            ["경멸", "恃强凌弱"],
+            ["인조물페스티벌", "人造物狂欢节"]
         ]
     },
     "BattleQuickFormationFilter-Cost": {
@@ -1688,27 +1779,44 @@
             ["영웅", "英雄"],
             ["상흔", "伤痕"],
             ["공허", "空无"],
-            ["설비보수장치", "设备维护装置"]
+            ["설비보수장치", "设备维护装置"],
+            ["넝쿨포격수", "藤蔓炮手"],
+            ["부서진맹약", "破落盟约"],
+            ["패러다임중화기", "范式中和仪"],
+            ["손바닥위의누각", "掌上楼阁"],
+            ["미노스의찬가", "米诺斯颂诗"],
+            ["북풍의피조물", "北风的造物"],
+            ["탐험가의배낭", "探索者背包"],
+            ["블랙홀협의", "黑洞协议"],
+            ["튼튼한손", "坚实之手"],
+            ["복원의손", "复还之手"],
+            ["비전초대장", "视界邀约"],
+            ["러스트블레이드.?교란", "锈刃-扰袭"],
+            ["클로.?장작", "钝爪-拾柴"],
+            ["브로큰스피어.?포효", "折戟-战吼"],
+            ["프로텍터.?모래탑", "铁卫-垒沙"],
+            ["브로큰보우.?속사", "残弩-连珠"],
+            ["브로큰스태프.?화음", "断杖-和声"],
+            ["스트럿.?연합", "支柱-联手"],
+            ["힐러.?샘물", "医者-涌泉"],
+            ["차원유동체", "维度流质"],
+            ["붕괴의씨앗", "坍缩之种"],
+            ["공간파편", "空间碎片"],
+            ["심한화상", "深度灼痕"]
         ]
     },
     "Roguelike@ChooseDifficultyConfirm": {
         "text": ["선택"]
     },
-    "Roguelike@FromIntegratedStrategies": {
-        "action": "ClickSelf",
-        "roi": [1006, 445, 246, 157],
-        "text": ["테마진입"],
-        "algorithm": "OcrDetect",
-        "next": ["Roguelike@FromIntegratedStrategies", "Roguelike@Begin"]
-    },
     "Roguelike@IntegratedStrategies": {
-        "next": ["Roguelike@IntegratedStrategies", "Roguelike@SelectTheme"]
+        "templThreshold": 0.75
+    },
+    "Roguelike@PreSelectTheme": {
+        "text": ["모든테마보기", "테마", "TODO: image of //INTEGRATED STRATEGIES"],
+        "roi": [450, 480, 160, 45]
     },
     "Roguelike@RecruitSupportConfirm": {
         "text": ["지원"]
-    },
-    "Roguelike@SelectTheme": {
-        "roi": [0, 29, 515, 648]
     },
     "Roguelike@StageEncounterOcr": {
         "ocrReplace": [
@@ -1854,9 +1962,9 @@
             ["경각심유지", "时刻警惕"],
             ["(꼬|고)리에(꼬|고)리를무는의심", "猜疑链"],
             ["전진하(는|눈)숲", "前行的林地"],
-            ["scene_ro3_ex1", "变化"],
-            ["scene_ro3_ex2", "重构"],
-            ["scene_ro3_ex3", "探索者的一小步"]
+            ["변화", "变化"],
+            ["재구성", "重构"],
+            ["탐험가의작은한걸음", "探索者的一小步"]
         ]
     },
     "Roguelike@StageTraderInvestSystemFull": {
@@ -1872,8 +1980,7 @@
         "text": ["안개의기로", "석양의정원", "고향의잔해", "악몽의시작", "붉은달회랑", "욕망의로비"]
     },
     "Phantom@Roguelike@SelectTheme": {
-        "next": ["Phantom@Roguelike@FromIntegratedStrategies"],
-        "text": ["팬텀", "팬럼"]
+        "text": ["고성", "노트"]
     },
     "Phantom@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.95
@@ -1899,19 +2006,11 @@
             ["욕망의로비", "_exit"]
         ]
     },
-    "Mizuki@Roguelike@DataTraceback": {
-        "Doc": "이 작업은 YostarKR에서 DataTraceback 에서 정산 화면으로 넘어가지 않는 문제를 수정하기 위해 있습니다.",
-        "algorithm": "MatchTemplate",
-        "specificRect": [1160, 30, 90, 40],
-        "template": "Mizuki@Roguelike@DataTraceback.png",
-        "action": "ClickRect"
-    },
     "Mizuki@Roguelike@NextLevel": {
         "text": ["하늘빛해안", "연안외딴섬", "맹렬한파도", "은밀한온상", "신성한동굴", "심해의숲", "짙푸른요람"]
     },
     "Mizuki@Roguelike@SelectTheme": {
-        "next": ["Mizuki@Roguelike@FromIntegratedStrategies"],
-        "text": ["미즈키"]
+        "text": ["생태", "계보"]
     },
     "Mizuki@Roguelike@StageEncounterOptionUnknown": {
         "templThreshold": 0.85
@@ -1944,10 +2043,8 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
-        "action": "DoNothing",
-        "cache": false,
         "ocrReplace": [
-            ["수적붕괴", "去量化"],
+            ["^수적붕괴$", "去量化"],
             ["수적붕괴심화", "去量深化"],
             ["실질적붕괴", "实质性坍缩"],
             ["확산적붕괴", "蔓延性坍缩"],
@@ -1967,62 +2064,22 @@
             ["안하무인", "睁眼瞎"],
             ["이미지에러", "图像损坏"],
             ["블랙아웃", "一抹黑"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": [
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "action": "DoNothing",
-        "cache": false,
-        "algorithm": "OcrDetect",
-        "text": ["正在提交反馈至神经"],
         "ocrReplace": [
             ["피드백", "正在提交反馈至神经"],
             ["전달", "正在提交反馈至神经"]
-        ],
-        "roi": [720, 645, 355, 45]
+        ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
-        "action": "DoNothing",
-        "cache": false,
-        "doc": "The translations are not verified.",
         "ocrReplace": [
             ["붕괴패러다임심화", "坍缩范式加深"],
             ["붕괴패러다임약화", "坍缩范式消退"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": ["坍缩范式加深", "坍缩范式消退"],
-        "roi": [945, 60, 335, 660]
+        ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
-        "action": "DoNothing",
-        "cache": false,
-        "doc": "The translation is not verified.",
-        "ocrReplace": [["현재붕괴값", "当前坍缩值"]],
-        "algorithm": "OcrDetect",
-        "text": ["当前坍缩值"],
-        "roi": [350, 120, 310, 520]
+        "ocrReplace": [["붕괴수치", "当前坍缩值"]]
     },
     "Sami@Roguelike@Collapsal": {
         "text": ["선택적", "선택적무시", "이미지", "이미지에러"]
@@ -2142,8 +2199,7 @@
         "text": ["이번구역", "다음붕괴"]
     },
     "Sami@Roguelike@SelectTheme": {
-        "next": ["Sami@Roguelike@FromIntegratedStrategies"],
-        "text": ["탐험가"]
+        "text": ["탐험", "기록"]
     },
     "Sami@Roguelike@StageSafeHouseReuse": {
         "text": ["안전가옥활용"]
@@ -2183,5 +2239,84 @@
             [".*예견의구상", "_SKIP_"],
             [".*숨겨진비경", "_SKIP_"]
         ]
+    },
+    "Reclamation2Begin": {
+        "text": ["연", "산", "시", "작"]
+    },
+    "Reclamation2BeginPlotEnter": {
+        "text": ["캠프", "만남", "광장"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["사냥터", "파울비스트의", "땅"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["작전", "종료"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["채집터", "우거진", "숲"]
+    },
+    "Reclamation2DeleteArchiveConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2DeleteArchiveEnter": {
+        "text": ["삭제", "하기"]
+    },
+    "Reclamation2EnterStage": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["작업대"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["계", "속", "하", "기"]
+    },
+    "Reclamation2ExClickProduct": {
+        "text": ["형광봉"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["제작", "하기"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "text": ["불러", "오기"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["생존일"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2Fight": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2FightConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2LeaveStageConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2SkipDays2SkipTime": {
+        "text": ["시간", "보내기"]
+    },
+    "Reclamation2SkipDays2SkipTimeConfig": {
+        "text": ["확인"]
+    },
+    "Reclamation2SkipDaysAward2": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
     }
 }

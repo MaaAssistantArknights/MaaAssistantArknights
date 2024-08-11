@@ -162,20 +162,20 @@
                     hc:TitleElement.TitlePlacement="Left"
                     Text="{Binding MuMuEmulator12Extras.Display}"
                     Visibility="{c:Binding 'ConnectConfig==&quot;MuMuEmulator12&quot;'}" />
-                <Button
-                    Width="60"
-                    Height="30"
-                    Margin="10"
-                    HorizontalAlignment="Right"
-                    Command="{s:Action TestLinkAndGetImage}"
-                    Content="Test" />
             </StackPanel>
-            <controls:TextBlock
-                Margin="10"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Text="{Binding TestLinkInfo}"
-                Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
+            <StackPanel HorizontalAlignment="Center" Orientation="Vertical">
+                <Button
+                    Height="30"
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    Command="{s:Action TestLinkAndGetImage}"
+                    Content="{DynamicResource ScreenshotTest}" />
+                <controls:TextBlock
+                    Margin="5"
+                    HorizontalAlignment="Center"
+                    Text="{Binding TestLinkInfo}"
+                    Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
+            </StackPanel>
         </StackPanel>
         <WrapPanel
             Grid.Row="4"

@@ -37,6 +37,7 @@ namespace MaaWpfGui.Models
         private bool _mission;
         private bool _autoRoguelike;
         private bool _reclamation2;
+        private bool _afterAction;
 
         public bool WakeUp { get => _wakeUp; set => SetAndNotify(ref _wakeUp, value); }
 
@@ -53,6 +54,8 @@ namespace MaaWpfGui.Models
         public bool AutoRoguelike { get => _autoRoguelike; set => SetAndNotify(ref _autoRoguelike, value); }
 
         public bool Reclamation2 { get => _reclamation2; set => SetAndNotify(ref _reclamation2, value); }
+
+        public bool AfterAction { get => _afterAction; set => SetAndNotify(ref _afterAction, value); }
 
         public int CurrentIndex { get; set; }
 
@@ -144,10 +147,13 @@ namespace MaaWpfGui.Models
                 case "ReclamationAlgorithm2":
                     Reclamation2 = enable;
                     break;
+                case "AfterAction":
+                    AfterAction = enable;
+                    break;
             }
 
             EnableAdvancedSettings = false;
-            if (Mission || WakeUp)
+            if (Mission || WakeUp || AfterAction)
             {
                 AdvancedSettingsVisibility = false;
             }

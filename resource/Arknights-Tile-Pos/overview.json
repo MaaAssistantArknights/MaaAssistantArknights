@@ -10034,6 +10034,240 @@
         "stageId": "act34side_tr01",
         "width": 10
     },
+    "act35side_01-activities/act35side/level_act35side_01": {
+        "code": "AS-1",
+        "filename": "act35side_01-activities-act35side-level_act35side_01.json",
+        "height": 7,
+        "levelId": "activities/act35side/level_act35side_01",
+        "name": "节前热身",
+        "stageId": "act35side_01",
+        "width": 10
+    },
+    "act35side_02-activities/act35side/level_act35side_02": {
+        "code": "AS-2",
+        "filename": "act35side_02-activities-act35side-level_act35side_02.json",
+        "height": 7,
+        "levelId": "activities/act35side/level_act35side_02",
+        "name": "馆中特别行动",
+        "stageId": "act35side_02",
+        "width": 11
+    },
+    "act35side_03-activities/act35side/level_act35side_03": {
+        "code": "AS-3",
+        "filename": "act35side_03-activities-act35side-level_act35side_03.json",
+        "height": 7,
+        "levelId": "activities/act35side/level_act35side_03",
+        "name": "相约大巴扎",
+        "stageId": "act35side_03",
+        "width": 10
+    },
+    "act35side_04-activities/act35side/level_act35side_04": {
+        "code": "AS-4",
+        "filename": "act35side_04-activities-act35side-level_act35side_04.json",
+        "height": 7,
+        "levelId": "activities/act35side/level_act35side_04",
+        "name": "家传金拖鞋",
+        "stageId": "act35side_04",
+        "width": 10
+    },
+    "act35side_05-activities/act35side/level_act35side_05": {
+        "code": "AS-5",
+        "filename": "act35side_05-activities-act35side-level_act35side_05.json",
+        "height": 7,
+        "levelId": "activities/act35side/level_act35side_05",
+        "name": "文物也上班",
+        "stageId": "act35side_05",
+        "width": 10
+    },
+    "act35side_06-activities/act35side/level_act35side_06": {
+        "code": "AS-6",
+        "filename": "act35side_06-activities-act35side-level_act35side_06.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_06",
+        "name": "过往云烟",
+        "stageId": "act35side_06",
+        "width": 11
+    },
+    "act35side_07-activities/act35side/level_act35side_07": {
+        "code": "AS-7",
+        "filename": "act35side_07-activities-act35side-level_act35side_07.json",
+        "height": 9,
+        "levelId": "activities/act35side/level_act35side_07",
+        "name": "谁是宠物？",
+        "stageId": "act35side_07",
+        "width": 12
+    },
+    "act35side_08-activities/act35side/level_act35side_08": {
+        "code": "AS-8",
+        "filename": "act35side_08-activities-act35side-level_act35side_08.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_08",
+        "name": "黄沙尽头",
+        "stageId": "act35side_08",
+        "width": 12
+    },
+    "act35side_09-activities/act35side/level_act35side_09": {
+        "code": "AS-9",
+        "filename": "act35side_09-activities-act35side-level_act35side_09.json",
+        "height": 9,
+        "levelId": "activities/act35side/level_act35side_09",
+        "name": "向过去告别",
+        "stageId": "act35side_09",
+        "width": 13
+    },
+    "act35side_ex01#f#-activities/act35side/level_act35side_ex01": {
+        "code": "AS-EX-1",
+        "filename": "act35side_ex01#f#-activities-act35side-level_act35side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex01",
+        "name": "小偷与收款人",
+        "stageId": "act35side_ex01#f#",
+        "width": 11
+    },
+    "act35side_ex01-activities/act35side/level_act35side_ex01": {
+        "code": "AS-EX-1",
+        "filename": "act35side_ex01-activities-act35side-level_act35side_ex01.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex01",
+        "name": "小偷与收款人",
+        "stageId": "act35side_ex01",
+        "width": 11
+    },
+    "act35side_ex02#f#-activities/act35side/level_act35side_ex02": {
+        "code": "AS-EX-2",
+        "filename": "act35side_ex02#f#-activities-act35side-level_act35side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex02",
+        "name": "被吹碎的镜子",
+        "stageId": "act35side_ex02#f#",
+        "width": 10
+    },
+    "act35side_ex02-activities/act35side/level_act35side_ex02": {
+        "code": "AS-EX-2",
+        "filename": "act35side_ex02-activities-act35side-level_act35side_ex02.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex02",
+        "name": "被吹碎的镜子",
+        "stageId": "act35side_ex02",
+        "width": 10
+    },
+    "act35side_ex03#f#-activities/act35side/level_act35side_ex03": {
+        "code": "AS-EX-3",
+        "filename": "act35side_ex03#f#-activities-act35side-level_act35side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex03",
+        "name": "一捧宝石",
+        "stageId": "act35side_ex03#f#",
+        "width": 12
+    },
+    "act35side_ex03-activities/act35side/level_act35side_ex03": {
+        "code": "AS-EX-3",
+        "filename": "act35side_ex03-activities-act35side-level_act35side_ex03.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex03",
+        "name": "一捧宝石",
+        "stageId": "act35side_ex03",
+        "width": 12
+    },
+    "act35side_ex04#f#-activities/act35side/level_act35side_ex04": {
+        "code": "AS-EX-4",
+        "filename": "act35side_ex04#f#-activities-act35side-level_act35side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex04",
+        "name": "被盗的钱包",
+        "stageId": "act35side_ex04#f#",
+        "width": 12
+    },
+    "act35side_ex04-activities/act35side/level_act35side_ex04": {
+        "code": "AS-EX-4",
+        "filename": "act35side_ex04-activities-act35side-level_act35side_ex04.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex04",
+        "name": "被盗的钱包",
+        "stageId": "act35side_ex04",
+        "width": 12
+    },
+    "act35side_ex05#f#-activities/act35side/level_act35side_ex05": {
+        "code": "AS-EX-5",
+        "filename": "act35side_ex05#f#-activities-act35side-level_act35side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex05",
+        "name": "不幸的士兵",
+        "stageId": "act35side_ex05#f#",
+        "width": 11
+    },
+    "act35side_ex05-activities/act35side/level_act35side_ex05": {
+        "code": "AS-EX-5",
+        "filename": "act35side_ex05-activities-act35side-level_act35side_ex05.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex05",
+        "name": "不幸的士兵",
+        "stageId": "act35side_ex05",
+        "width": 11
+    },
+    "act35side_ex06#f#-activities/act35side/level_act35side_ex06": {
+        "code": "AS-EX-6",
+        "filename": "act35side_ex06#f#-activities-act35side-level_act35side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex06",
+        "name": "假帕夏",
+        "stageId": "act35side_ex06#f#",
+        "width": 12
+    },
+    "act35side_ex06-activities/act35side/level_act35side_ex06": {
+        "code": "AS-EX-6",
+        "filename": "act35side_ex06-activities-act35side-level_act35side_ex06.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex06",
+        "name": "假帕夏",
+        "stageId": "act35side_ex06",
+        "width": 12
+    },
+    "act35side_ex07#f#-activities/act35side/level_act35side_ex07": {
+        "code": "AS-EX-7",
+        "filename": "act35side_ex07#f#-activities-act35side-level_act35side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex07",
+        "name": "疯狂的宠物",
+        "stageId": "act35side_ex07#f#",
+        "width": 11
+    },
+    "act35side_ex07-activities/act35side/level_act35side_ex07": {
+        "code": "AS-EX-7",
+        "filename": "act35side_ex07-activities-act35side-level_act35side_ex07.json",
+        "height": 8,
+        "levelId": "activities/act35side/level_act35side_ex07",
+        "name": "疯狂的宠物",
+        "stageId": "act35side_ex07",
+        "width": 11
+    },
+    "act35side_ex08#f#-activities/act35side/level_act35side_ex08": {
+        "code": "AS-EX-8",
+        "filename": "act35side_ex08#f#-activities-act35side-level_act35side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act35side/level_act35side_ex08",
+        "name": "无冕之王与朝圣者",
+        "stageId": "act35side_ex08#f#",
+        "width": 13
+    },
+    "act35side_ex08-activities/act35side/level_act35side_ex08": {
+        "code": "AS-EX-8",
+        "filename": "act35side_ex08-activities-act35side-level_act35side_ex08.json",
+        "height": 9,
+        "levelId": "activities/act35side/level_act35side_ex08",
+        "name": "无冕之王与朝圣者",
+        "stageId": "act35side_ex08",
+        "width": 13
+    },
+    "act35side_tr01-activities/act35side/level_act35side_tr01": {
+        "code": "AS-TR-1",
+        "filename": "act35side_tr01-activities-act35side-level_act35side_tr01.json",
+        "height": 7,
+        "levelId": "activities/act35side/level_act35side_tr01",
+        "name": "护卫队演练",
+        "stageId": "act35side_tr01",
+        "width": 9
+    },
     "act3bossrush_01-activities/act3bossrush/level_bossrush3_01": {
         "code": "TN-1",
         "filename": "act3bossrush_01-activities-act3bossrush-level_bossrush3_01.json",
@@ -16460,6 +16694,15 @@
         "stageId": "mem_aglina_1",
         "width": 12
     },
+    "mem_agoat2_1-obt/memory/level_memory_agoat2_1": {
+        "code": "mem_agoat2_1",
+        "filename": "mem_agoat2_1-obt-memory-level_memory_agoat2_1.json",
+        "height": 8,
+        "levelId": "obt/memory/level_memory_agoat2_1",
+        "name": "学者的实力",
+        "stageId": "mem_agoat2_1",
+        "width": 11
+    },
     "mem_akafyu_1-obt/memory/level_memory_akafyu_1": {
         "code": "mem_akafyu_1",
         "filename": "mem_akafyu_1-obt-memory-level_memory_akafyu_1.json",
@@ -16730,6 +16973,15 @@
         "stageId": "mem_brownb_1",
         "width": 11
     },
+    "mem_bryota_1-obt/memory/level_memory_bryota_1": {
+        "code": "mem_bryota_1",
+        "filename": "mem_bryota_1-obt-memory-level_memory_bryota_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_bryota_1",
+        "name": "挺过风暴",
+        "stageId": "mem_bryota_1",
+        "width": 11
+    },
     "mem_bstalk_1-obt/memory/level_memory_bstalk_1": {
         "code": "mem_bstalk_1",
         "filename": "mem_bstalk_1-obt-memory-level_memory_bstalk_1.json",
@@ -16782,6 +17034,15 @@
         "levelId": "obt/memory/level_memory_catap_1",
         "name": "防空炮手",
         "stageId": "mem_catap_1",
+        "width": 11
+    },
+    "mem_cement_1-obt/memory/level_memory_cement_1": {
+        "code": "mem_cement_1",
+        "filename": "mem_cement_1-obt-memory-level_memory_cement_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_cement_1",
+        "name": "无坚不陷",
+        "stageId": "mem_cement_1",
         "width": 11
     },
     "mem_cerber_1-obt/memory/level_memory_cerber_1": {
@@ -17729,6 +17990,15 @@
         "stageId": "mem_mostma_1",
         "width": 11
     },
+    "mem_mudrok_1-obt/memory/level_memory_mudrok_1": {
+        "code": "mem_mudrok_1",
+        "filename": "mem_mudrok_1-obt-memory-level_memory_mudrok_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_mudrok_1",
+        "name": "只此一人",
+        "stageId": "mem_mudrok_1",
+        "width": 9
+    },
     "mem_myrrh_1-obt/memory/level_memory_myrrh_1": {
         "code": "mem_myrrh_1",
         "filename": "mem_myrrh_1-obt-memory-level_memory_myrrh_1.json",
@@ -17944,6 +18214,15 @@
         "name": "电力充沛",
         "stageId": "mem_pudd_1",
         "width": 8
+    },
+    "mem_puzzle_1-obt/memory/level_memory_puzzle_1": {
+        "code": "mem_puzzle_1",
+        "filename": "mem_puzzle_1-obt-memory-level_memory_puzzle_1.json",
+        "height": 7,
+        "levelId": "obt/memory/level_memory_puzzle_1",
+        "name": "看不见的武器",
+        "stageId": "mem_puzzle_1",
+        "width": 9
     },
     "mem_qanik_1-obt/memory/level_memory_qanik_1": {
         "code": "mem_qanik_1",
@@ -24216,6 +24495,24 @@
         "levelId": "obt/training/level_training_25",
         "name": "特殊环境适应作战",
         "stageId": "tr_25",
+        "width": 9
+    },
+    "tr_s_1-obt/training/level_training_sub_1": {
+        "code": "TR-S-1",
+        "filename": "tr_s_1-obt-training-level_training_sub_1.json",
+        "height": 6,
+        "levelId": "obt/training/level_training_sub_1",
+        "name": "综合作战训练1",
+        "stageId": "tr_s_1",
+        "width": 8
+    },
+    "tr_s_2-obt/training/level_training_sub_2": {
+        "code": "TR-S-2",
+        "filename": "tr_s_2-obt-training-level_training_sub_2.json",
+        "height": 7,
+        "levelId": "obt/training/level_training_sub_2",
+        "name": "综合作战训练2",
+        "stageId": "tr_s_2",
         "width": 9
     },
     "wk_armor_1-obt/weekly/level_weekly_armor_1": {

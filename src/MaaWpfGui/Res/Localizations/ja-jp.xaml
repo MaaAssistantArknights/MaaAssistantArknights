@@ -264,6 +264,9 @@
     <system:String x:Key="WaitForEmulator">エミュレータを待つ時間（秒）</system:String>
     <system:String x:Key="WaitForEmulatorFinish">待ち時間は終わりました</system:String>
     <system:String x:Key="EmulatorPath">エミュレータパス</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorPrompt">バーでバーを注文したいですか？</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorImSure">確かに間違って選択していないと思います</system:String>
+    <system:String x:Key="EmulatorPathSelectionErrorSelectAgain">はい、もう一度選択します</system:String>
     <system:String x:Key="Select">選択</system:String>
     <system:String x:Key="ForcedReplaceAdb">ADB強制置き換え</system:String>
     <system:String x:Key="TouchMode">タッチモード</system:String>
@@ -296,6 +299,7 @@
     <system:String x:Key="DrGrandet">Dr.グランデモード</system:String>
     <system:String x:Key="DrGrandetTip">理性の回復画面で、現在の待機中の回復が完了するまで待ってから、理性剤などを使用します。</system:String>
     <system:String x:Key="SocialPtShop">FP交換</system:String>
+    <system:String x:Key="OnlyOnceADay">一日一回だけ</system:String>
     <system:String x:Key="CreditFight">サポートを借りて戦闘を行いポイントを獲得します</system:String>
     <system:String x:Key="CreditFightTip" xml:space="preserve">基地訪問後、OF-1でサポートを使用すると、30FP獲得できます。
 一日一回だけ。
@@ -361,9 +365,11 @@
     <system:String x:Key="ConnectionAddress">接続先アドレス</system:String>
     <system:String x:Key="ConnectionAddressTip">問題があれば手動で修正してください</system:String>
     <system:String x:Key="ConnectionPreset">接続構成</system:String>
+    <system:String x:Key="ScreenshotTest">スクリーンショットテスト</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu のスクリーンショット拡張モードを有効にする</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 3.8.13以降を利用する必要があり、MuMu 12 Arknights edition/Globalには対応していません。\n\n
+        MuMu 12 3.8.13以降を利用する必要があり、MuMu 12 Arknights edition/Globalには対応していません。\n
+        この機能を有効にした後、初めて使用する前にスクリーンショット テストを実行することを強くお勧めします。\n\n
         以下の情報を記入してください：\n\n
         1. エミュレーターパス：（例：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
         エミュレーターパスは、エミュレーターアプリケーションの親フォルダーパスを記入してください。例えば、アプリケーションのパスが\n
@@ -397,26 +403,23 @@
     <system:String x:Key="Mission">報酬受取</system:String>
     <system:String x:Key="AutoRoguelike">自動ローグ</system:String>
     <system:String x:Key="ReclamationAlgorithm">生息演算「砂中の火」</system:String>
-    <system:String x:Key="ReclamationAlgorithm2">生息演算「沙洲遺聞」</system:String>
+    <system:String x:Key="ReclamationAlgorithm2">生息演算「熱砂秘聞」</system:String>
     <system:String x:Key="Light">ライトモード</system:String>
     <system:String x:Key="Dark">ダークモード</system:String>
     <system:String x:Key="SyncWithOs">OSと同期する</system:String>
     <system:String x:Key="SelectAll">全て選択</system:String>
     <system:String x:Key="Inverse">逆選択</system:String>
     <system:String x:Key="Clear">解除</system:String>
-    <system:String x:Key="Then">完了後</system:String>
+    <system:String x:Key="PostActions">完了後</system:String>
     <system:String x:Key="DoNothing">何もしない</system:String>
     <system:String x:Key="ExitArknights">アークナイツを終了する</system:String>
     <system:String x:Key="ExitSelf">MAAを終了する</system:String>
     <system:String x:Key="ExitEmulator">エミュレータを終了する</system:String>
-    <system:String x:Key="ExitEmulatorAndSelf">MAAとエミュレータを終了する</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、PCをスリープさせる</system:String>
     <system:String x:Key="Hibernate">休止状態にする</system:String>
     <system:String x:Key="Shutdown">シャットダウン</system:String>
-    <system:String x:Key="HibernateWithoutPersist">休止状態にする（1回のみ）</system:String>
-    <system:String x:Key="ShutdownWithoutPersist">シャットダウン（1回のみ）</system:String>
-    <system:String x:Key="ExitEmulatorAndSelfIfOtherMaaElseExitEmulatorAndSelfAndHibernate">MAAとエミューレータを終了し、他のMAAがない場合はPCを休止状態になる</system:String>
-    <system:String x:Key="ExitSelfIfOtherMaaElseShutdown">MAAを終了し、他のMAAがない場合はシャットダウン</system:String>
+    <system:String x:Key="Once">1回のみ*</system:String>
+    <system:String x:Key="PostActionOnceTip">有効にすると、変更は次回の実行まで保存されません。</system:String>
+    <system:String x:Key="IfNoOtherMaa">他のMAAがない場合</system:String>
     <system:String x:Key="BackToAndroidHome">エミュレータのホーム画面に戻る</system:String>
     <system:String x:Key="LinkStart">Link Start!</system:String>
     <system:String x:Key="Stop">止める</system:String>
@@ -692,6 +695,7 @@
     <system:String x:Key="SSSGamePass">ゲームクリア、おめでとうございます！</system:String>
     <system:String x:Key="Trader">ステージ: 怪しい旅商人</system:String>
     <system:String x:Key="SafeHouse">ステージ: 安全な片隅</system:String>
+    <system:String x:Key="FilterTruth">节点: 去伪存真</system:String>
     <system:String x:Key="CombatDps">ステージ: 作戦</system:String>
     <system:String x:Key="EmergencyDps">ステージ: 緊急作戦</system:String>
     <system:String x:Key="DreadfulFoe">ステージ: 悪路凶敵</system:String>
@@ -737,6 +741,7 @@
     <system:String x:Key="BattleFormationSelected" xml:space="preserve">オペレーターを選択: </system:String>
     <system:String x:Key="CurrentSteps">現在の手順: {0} {1}</system:String>
     <system:String x:Key="UnsupportedLevel">サポートされていないステージです。ステージ名を確認するか、設定に移動してソフトウェア更新をチェックし、リソースバージョンを更新してみてください！</system:String>
+    <system:String x:Key="ResourceUpdatePaused">サーバーリソースの制約により、リソースバージョンの更新は一時的に停止しています。レベルファイルを手動でインポートするか、新しいバージョンのリリースをお待ちください</system:String>
     <system:String x:Key="RecruitTagsDetected" xml:space="preserve">認識結果: </system:String>
     <system:String x:Key="ConnectFailed">接続失敗</system:String>
     <system:String x:Key="TryToReconnectByAdb">再接続を試みています</system:String>
@@ -747,6 +752,7 @@
     <!--  !AsstProxy  -->
     <!--  TrayIcon  -->
     <system:String x:Key="ForceShow">MAAの強制表示</system:String>
+    <system:String x:Key="Restart">重启动</system:String>
     <system:String x:Key="Exit">終了</system:String>
     <!--  !TrayIcon  -->
     <!--  About  -->
@@ -831,4 +837,24 @@
     <system:String x:Key="CheckAndDownloadAnnouncement">公告を見ます</system:String>
     <system:String x:Key="DoNotRemindThisAnnouncementAgain">このお知らせをもう表示しない</system:String>
     <!--  !Announcement  -->
+    <!--  Reclamation  -->
+    <system:String x:Key="ReclamationEarlyTip" xml:space="preserve">詳細設定のオプションでモードを切り替えることができます
+
+生息演算のサポートはまだ初期段階にありますので、ご利用の際は以下の点にご注意ください：
+
+ ノーマルモードの場合：
+  1. すでにセーブデータがある場合は使用できません（既存のセーブデータを削除します）
+  2. 生息演算の編成にオペレーターがいる場合は使用できません（特に戦闘の後は、現在の編成を空にするだけで十分です）
+  3. タスクは生息演算のメイン画面で開始する必要があります（ナビゲーションはまだ書かれていません）
+
+ 道具作りでポイントを得る：
+  1. 条件は、決算後初日と、その後3日間、敵襲がないこと。
+  2. 生息演算で開始する必要があります（駐屯地を見ることができるページ）
+  3. 作れる数字がちょうど99の倍数の場合、スタックしてしまうので、セーブする前に少し使い切り、後で修正することができる。
+    </system:String>
+    <system:String x:Key="ReclamationBePatient">改善するのが待ちきれません！また急いでいます</system:String>
+    <system:String x:Key="Reclamation2ExEnable">道具作りでポイントを得る</system:String>
+    <system:String x:Key="Reclamation2ExProductTip">支援道具名</system:String>
+    <system:String x:Key="Reclamation2ExProductPlaceholder">ケミカルライト</system:String>
+    <!--  !Reclamation  -->
 </ResourceDictionary>

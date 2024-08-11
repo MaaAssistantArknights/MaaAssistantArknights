@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 # MaaAssistantArknights
@@ -46,7 +46,7 @@ Development in progress  ✿✿ヽ(°▽°)ノ✿
 
 Talk is cheap. Show me the pictures!
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {
@@ -193,7 +193,7 @@ Check [Issue Bot Usage](./develop/issue-bot-usage.md).
 - ~~Operators and infrastructure data: [PRTS Arknights Wiki (Chinese)](http://prts.wiki/)~~
 - Stage data: [Penguin Stats](https://penguin-stats.io/)
 - Gamedata and resources: [Arknights Game Resource](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~Gamedata: [Arknights Game Data](https://github.com/Kengxxiao/ArknightsGameData)~~
+- Gamedata: [Arknights Yostar Game Data](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### Contributors
 

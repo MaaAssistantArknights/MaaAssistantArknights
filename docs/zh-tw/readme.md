@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 
@@ -48,7 +48,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 話不多說，看圖！
 
-```component ImageGrid
+```component Image4
 {
   "imageList": [
     {
@@ -152,7 +152,7 @@ MAA 以中文（簡體）為第一語言，翻譯詞條皆以中文（簡體）�
 - ~~幹員及基建數據：[PRTS明日方舟中文WIKI](http://prts.wiki/)~~
 - 關卡數據：[企鵝物流數據統計](https://penguin-stats.io/)
 - 遊戲數據及資源：[明日方舟用戶端素材](https://github.com/yuanyan3060/ArknightsGameResource)
-- ~~遊戲數據：[《明日方舟》遊戲數據](https://github.com/Kengxxiao/ArknightsGameData)~~
+- 遊戲數據：[《明日方舟》Yostar遊戲數據](https://github.com/Kengxxiao/ArknightsGameData_YoStar)
 
 ### 貢獻 / 參與者
 

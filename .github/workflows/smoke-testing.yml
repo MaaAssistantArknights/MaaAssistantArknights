@@ -25,6 +25,10 @@ on:
       - "!**/*.md"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   smoke-testing:
     runs-on: windows-latest

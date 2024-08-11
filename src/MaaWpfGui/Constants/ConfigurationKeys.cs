@@ -137,10 +137,6 @@ namespace MaaWpfGui.Constants
         public const string Reclamation2ExEnable = "Reclamation.Reclamation2ExEnable";
         public const string Reclamation2ExProduct = "Reclamation.Reclamation2ExProduct";
 
-        public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
-        public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
-        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
-
         public const string RecruitMaxTimes = "AutoRecruit.MaxTimes";
         public const string AutoRecruitFirstList = "AutoRecruit.AutoRecruitFirstList";
         public const string RefreshLevel3 = "AutoRecruit.RefreshLevel3";
@@ -153,7 +149,13 @@ namespace MaaWpfGui.Constants
         public const string RecruitChooseLevel4 = "AutoRecruit.ChooseLevel4";
         public const string RecruitChooseLevel5 = "AutoRecruit.ChooseLevel5";
 
-        public const string CreditVisitFriends = "Mall.CreditVisitFriends";
+        public const string LastCreditFightTaskTime = "Visit.LastCreditFightTaskTime";
+        public const string CreditFightTaskEnabled = "Visit.CreditFightTaskEnabled";
+        public const string CreditFightSelectFormation = "Visit.CreditFightSelectFormation";
+
+        public const string LastCreditVisitFriendsTime = "Mall.LastCreditVisitFriendsTime";
+        public const string CreditVisitOnceADay = "Mall.CreditVisitOnceADay";
+        public const string CreditVisitFriendsEnabled = "Mall.CreditVisitFriendsEnabled";
         public const string CreditShopping = "Mall.CreditShopping"; // 迁移
         public const string CreditFirstListNew = "Mall.CreditFirstListNew"; // 迁移
         public const string CreditBlackListNew = "Mall.CreditBlackListNew"; // 迁移
@@ -196,7 +198,7 @@ namespace MaaWpfGui.Constants
         public const string BluestacksConfigKeyword = "Bluestacks.Config.Keyword";
         public const string BluestacksConfigError = "Bluestacks.Config.Error";
 
-        public const string ActionAfterCompleted = "MainFunction.ActionAfterCompleted"; // 迁移
+        public const string PostActions = "MainFunction.PostActions";
         public const string MainFunctionInverseMode = "MainFunction.InverseMode"; // 迁移
         public const string Stage1 = "MainFunction.Stage1";
         public const string Stage2 = "MainFunction.Stage2";
@@ -237,6 +239,7 @@ namespace MaaWpfGui.Constants
         public const string PerformanceUseGpu = "Performance.UseGpu";
         public const string PerformancePreferredGpuDescription = "Performance.PreferredGpuDescription";
         public const string PerformancePreferredGpuInstancePath = "Performance.PreferredGpuInstancePath";
+        public const string PerformanceAllowDeprecatedGpu = "Performance.AllowDeprecatedGpu";
 
         // The following should not be modified manually
         public const string VersionName = "VersionUpdate.name"; // 迁移
