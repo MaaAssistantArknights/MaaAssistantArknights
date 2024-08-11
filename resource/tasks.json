@@ -7796,12 +7796,6 @@
         "baseTask": "Sami@Roguelike@CheckCollapsalParadigms",
         "roi": [945, 60, 335, 660]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "algorithm": "OcrDetect",
-        "text": ["正在提交反馈至神经"],
-        "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
-        "roi": [720, 645, 355, 45]
-    },
     "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "algorithm": "OcrDetect",
         "text": ["坍缩范式加深", "坍缩范式消退"],

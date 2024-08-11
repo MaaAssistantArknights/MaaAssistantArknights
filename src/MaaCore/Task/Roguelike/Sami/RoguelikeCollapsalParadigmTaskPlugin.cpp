@@ -12,17 +12,17 @@
 
 bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& params)
 {
-    // ———————— 检查适用主题, 仅萨米肉鸽使用 ———————————————————————————————————————
+    // 检查适用主题, 仅萨米肉鸽使用
     const std::string& theme = m_config->get_theme();
     if (theme != RoguelikeTheme::Sami) {
         return false;
     }
 
-    // ———————— 根据 params 设置插件 ————————————————————————————————————————————————
+    // 根据 params 设置插件
     const RoguelikeMode& mode = m_config->get_mode();
     m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
 
-    // ———————— 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死 ———————————
+    // 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死
     const auto& bannerCheckConfig =
         Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
     const auto& panelCheckConfig =
@@ -351,7 +351,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_panel()
 void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading()
 {
     OCRer analyzer(ctrler()->get_image());
-    analyzer.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_loading");
+    analyzer.set_task_info("LoadingText");
     while (!need_exit() && analyzer.analyze()) {
         sleep(100);
         analyzer.set_image(ctrler()->get_image());
