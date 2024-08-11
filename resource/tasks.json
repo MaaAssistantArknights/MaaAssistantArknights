@@ -10454,39 +10454,18 @@
     "Reclamation2SkipDaysBeginNewDayEndTask": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
+        "text": [ "开", "启", "今", "日" ],
         "preDelay": 1000,
-        "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2DeleteArchiveEndTask"]
+        "roi": [ 519, 525, 261, 144 ],
+        "next": [ "Reclamation2QuitToMainPage", "Stop" ]
     },
-    "Reclamation2DeleteArchiveEndTask": {
-        "Doc": "删除存档",
-        "template": "Reclamation2DeleteArchive.png",
-        "action": "ClickSelf",
-        "roi": [955, 611, 142, 109],
-        "preDelay": 500,
-        "next": ["Reclamation2DeleteArchiveEnterEndTask", "Reclamation2DeleteArchiveEndTask"]
-    },
-    "Reclamation2DeleteArchiveConfirm1EndTask": {
+    "Reclamation2QuitToMainPage": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["确认", "删除"],
-        "roi": [820, 406, 308, 146],
-        "next": ["Reclamation2DeleteArchiveConfirm2EndTask"]
-    },
-    "Reclamation2DeleteArchiveConfirm2EndTask": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认", "删除"],
-        "roi": [820, 406, 308, 146],
+        "text": [ "返回" ],
+        "preDelay": 2000,
+        "roi": [ 33, 0, 97, 63 ],
         "next": ["Stop"]
-    },
-    "Reclamation2DeleteArchiveEnterEndTask": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["删除"],
-        "roi": [1063, 550, 182, 123],
-        "next": ["Reclamation2DeleteArchiveConfirm1EndTask"]
     },
     "Reclamation2SkipDaysBeginNewDay": {
         "algorithm": "OcrDetect",
