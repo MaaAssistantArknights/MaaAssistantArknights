@@ -2311,6 +2311,9 @@
     "Reclamation2LeaveStageConfirm": {
         "text": ["확인"]
     },
+    "Reclamation2QuitToMainPage": {
+        "text": ["뒤로"]
+    },
     "Reclamation2SkipDays2SkipTime": {
         "text": ["시간", "보내기"]
     },
