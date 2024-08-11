@@ -40,7 +40,7 @@ _VIRTUAL_TASK_TYPES = ["self", "back", "next", "sub", "on_error_next", "exceeded
 
 
 def _is_template_task_name(name: str) -> bool:
-    return name.__contains__('@')
+    return '@' in name
 
 
 def _is_base_task(task: Task) -> bool:
@@ -65,7 +65,10 @@ assert TaskFieldEnum.ALGORITHM.value.field_name == "algorithm"
 
 
 class Task:
-    """@DynamicAttrs"""
+    """
+    @DynamicAttrs
+    动态属性
+    """
 
     def __init__(self, name: str, construct_task_dict: dict):
         assert _is_valid_task_name(name), f"Invalid task name: {name}"
@@ -180,8 +183,7 @@ class Task:
             return task
         base_dict = Task.get(task.base_task).to_task_dict().copy()
         construct_task_dict = task._construct_task_dict.copy()
-        if "template" not in construct_task_dict:
-            construct_task_dict["template"] = f"{task.name}.png"
+        construct_task_dict.setdefault("template", f"{task.name}.png")
         base_dict.update(construct_task_dict)
         base_dict.pop(TaskFieldEnum.BASE_TASK.value.field_name)
         return BaseTask(task.name, base_dict, task)
@@ -206,7 +208,6 @@ class Task:
         if override_task is not None:
             if override_task.task_status == TaskStatus.Original and hasattr(override_task, "template"):
                 override_task._construct_task_dict.setdefault("template", f"{name}.png")
-                # override_task._construct_task_dict["template"] = f"{name}.png"
             new_task_dict.update(override_task._construct_task_dict)
             override_task_dict = override_task._construct_task_dict
             for field in get_fields(lambda x: x in _TASK_INFO_FIELDS):
