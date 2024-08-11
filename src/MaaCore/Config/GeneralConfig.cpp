@@ -70,8 +70,8 @@ bool asst::GeneralConfig::parse(const json::value& json)
         }
         m_options.depot_export_template.ark_planner =
             options_json.get("depotExportTemplate", "arkPlanner", std::string());
-        m_options.debug.clean_files_freq = options_json.get("debug", "cleanFilesFreq", 100);
-        m_options.debug.max_debug_file_num = options_json.get("debug", "maxDebugFileNum", 1000);
+        m_options.debug.clean_files_freq = options_json.get("debug", "cleanFilesFreq", 50);
+        m_options.debug.max_debug_file_num = options_json.get("debug", "maxDebugFileNum", 100);
     }
 
     for (const auto& [client_type, package_name] : json.at("packageName").as_object()) {
