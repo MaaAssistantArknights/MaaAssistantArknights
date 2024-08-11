@@ -10110,6 +10110,11 @@
     },
     "Sarkaz@RoguelikeSettlementConfirm": {},
     "Reclamation": {
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "生息演算：沙中之火",
+            "————————————————————————————————————————————————————————————————"
+        ],
         "template": [
             "Terminal.png",
             "TerminalDark.png",
@@ -10121,364 +10126,6 @@
         "roi": [844, 58, 268, 272],
         "next": ["Reclamation", "Reclamation@CloseAnnos#next", "Reclamation@TodoEnter"],
         "postDelay": 1000
-    },
-    "Reclamation2": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "Reclamation2BeginPlotEnterLoading@Reclamation2Begin",
-            "Reclamation2CopiousCoppice",
-            "Reclamation2Birdland",
-            "Reclamation2SkipDays*3",
-            "Reclamation2DeleteArchive"
-        ],
-        "Doc": "现在是纯tasks实现的，先一直跑着",
-        "next": ["#self"]
-    },
-    "Reclamation2Begin": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开", "始", "演", "算"],
-        "roi": [844, 569, 436, 151],
-        "next": ["#self", "#back"]
-    },
-    "Reclamation2BeginPlot": {
-        "Doc": "点指定区域，直到左上角出现退出",
-        "roi": [0, 0, 100, 100],
-        "sub": ["Reclamation2ClickBeginPlotTalk*10"],
-        "next": ["Reclamation2LeaveStage", "#self"]
-    },
-    "Reclamation2BeginPlotEnter": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["众人", "汇聚", "后舍"],
-        "roi": [633, 239, 275, 156],
-        "next": ["#self", "Reclamation2BeginPlotLoading@Reclamation2EnterStage"]
-    },
-    "Reclamation2BeginPlotEnterLoading": {
-        "algorithm": "JustReturn",
-        "postDelay": 8000,
-        "next": ["Reclamation2BeginPlotEnter", "Reclamation2Begin"]
-    },
-    "Reclamation2BeginPlotLoading": {
-        "algorithm": "JustReturn",
-        "postDelay": 8000,
-        "next": ["Reclamation2BeginPlot"]
-    },
-    "Reclamation2Birdland": {
-        "Doc": "进入聚羽之地，基地左下支线",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["聚羽", "之地", "捕猎区"],
-        "preDelay": 2000,
-        "roi": [598, 510, 262, 156],
-        "next": ["#self", "Reclamation2BirdlandBegin"]
-    },
-    "Reclamation2BirdlandBegin": {
-        "algorithm": "JustReturn",
-        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"]
-    },
-    "Reclamation2ClickBeginPlotTalk": {
-        "Doc": "点对话框区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1072, 431, 159, 27],
-        "next": ["#back"]
-    },
-    "Reclamation2ClickDrop": {
-        "Doc": "点击收取掉落物品",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["行动", "结束"],
-        "preDelay": 2000,
-        "roi": [0, 158, 456, 201]
-    },
-    "Reclamation2CopiousCoppice": {
-        "Doc": "进入丰饶灌木林，基地上方支线",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["木", "林", "资源区"],
-        "ocrReplace": [[".*源区", "资源区"]],
-        "preDelay": 2000,
-        "roi": [0, 171, 207, 144],
-        "next": ["#self", "Reclamation2CopiousCoppiceBegin"]
-    },
-    "Reclamation2CopiousCoppiceBegin": {
-        "algorithm": "JustReturn",
-        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"]
-    },
-    "Reclamation2DeleteArchive": {
-        "Doc": "删除存档",
-        "action": "ClickSelf",
-        "roi": [955, 611, 142, 109],
-        "preDelay": 500,
-        "next": ["Reclamation2DeleteArchiveEnter", "#self"]
-    },
-    "Reclamation2DeleteArchiveConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认", "删除"],
-        "roi": [820, 406, 308, 146]
-    },
-    "Reclamation2DeleteArchiveEnter": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["删除"],
-        "roi": [1063, 550, 182, 123],
-        "sub": ["Reclamation2DeleteArchiveConfirm*2"]
-    },
-    "Reclamation2Enter": {
-        "Doc": "导航先不做了，跑起来再说",
-        "algorithm": "JustReturn",
-        "next": ["Reclamation2Begin"],
-        "postDelay": 1000
-    },
-    "Reclamation2EnterStage": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开始", "行动"],
-        "roi": [1077, 499, 203, 146],
-        "next": ["#back"]
-    },
-    "Reclamation2Ex": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "Reclamation2ExAssemblyStation",
-            "Reclamation2ExManufacture",
-            "Reclamation2ExAssemblyStationBack",
-            "Reclamation2SkipDays*3",
-            "Reclamation2ExReadArchive",
-            "Reclamation2SkipDaysBeginNewDay"
-        ],
-        "Doc": "现在是纯tasks实现的，先一直跑着",
-        "next": ["#self"]
-    },
-    "Reclamation2ExAdd": {
-        "action": "ClickSelf",
-        "roi": [814, 445, 166, 160]
-    },
-    "Reclamation2ExAddProduct": {
-        "algorithm": "JustReturn",
-        "sub": ["Reclamation2ExAdd*99"]
-    },
-    "Reclamation2ExAssemblyStation": {
-        "Doc": "进入组装台",
-        "action": "ClickSelf",
-        "roi": [109, 642, 1111, 63],
-        "next": ["Reclamation2ExAssemblyStationOcr", "#self"]
-    },
-    "Reclamation2ExAssemblyStationBack": {
-        "baseTask": "Reclamation2ExAssemblyStationOcr",
-        "action": "ClickSelf"
-    },
-    "Reclamation2ExAssemblyStationOcr": {
-        "Doc": "确认进入组装台",
-        "algorithm": "OcrDetect",
-        "roi": [56, 0, 185, 134],
-        "text": ["组装台"]
-    },
-    "Reclamation2ExBegin": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["继", "续", "演", "算"],
-        "roi": [844, 569, 436, 151]
-    },
-    "Reclamation2ExClickProduct": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["荧光棒"]
-    },
-    "Reclamation2ExManufacture": {
-        "algorithm": "JustReturn",
-        "sub": ["Reclamation2ExSwipeAndClickProduct", "Reclamation2ExAddProduct"],
-        "next": ["Reclamation2ExManufactureConfirmAmount", "Reclamation2ExManufactureConfirm"]
-    },
-    "Reclamation2ExManufactureConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开始组装"],
-        "roi": [981, 461, 198, 128],
-        "next": ["Reclamation2ExManufactureConfirmClickToContinue"]
-    },
-    "Reclamation2ExManufactureConfirmAmount": {
-        "algorithm": "OcrDetect",
-        "Doc": "如果刚好用完的话可能会卡住，这个之后再处理了",
-        "text": ["99"],
-        "roi": [720, 442, 175, 166],
-        "sub": ["Reclamation2ExManufactureConfirm"],
-        "next": ["Reclamation2ExManufacture"]
-    },
-    "Reclamation2ExManufactureConfirmClickToContinue": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["点击", "空白", "继续"],
-        "roi": [507, 398, 268, 139],
-        "preDelay": 1000
-    },
-    "Reclamation2ExReadArchive": {
-        "Doc": "读取存档",
-        "template": "Reclamation2DeleteArchive.png",
-        "baseTask": "Reclamation2DeleteArchive",
-        "next": ["Reclamation2ExReadArchiveEnter", "#self"]
-    },
-    "Reclamation2ExReadArchiveConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [820, 406, 308, 146]
-    },
-    "Reclamation2ExReadArchiveEnter": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["读取"],
-        "roi": [1030, 548, 170, 124],
-        "sub": ["Reclamation2ExReadArchiveSelectDay", "Reclamation2ExReadArchiveSelectDayConfirm"]
-    },
-    "Reclamation2ExReadArchiveSelectDay": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["生息", "日"],
-        "roi": [406, 368, 166, 128]
-    },
-    "Reclamation2ExReadArchiveSelectDayConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["点击", "确认"],
-        "roi": [528, 480, 225, 142]
-    },
-    "Reclamation2ExSwipeAndClickProduct": {
-        "algorithm": "JustReturn",
-        "Doc": "寻找需要制作的物品，暂定荧光棒，后续可以增加参数指定",
-        "next": ["Reclamation2ExClickProduct", "Reclamation2ExSwipeToProduct"]
-    },
-    "Reclamation2ExSwipeToProduct": {
-        "Doc": "竖直滑动",
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [752, 620, 0, 0],
-        "rectMove": [752, 80, 0, 0],
-        "specialParams": [500, 0, 3, 0],
-        "next": ["Reclamation2ExSwipeAndClickProduct#next"]
-    },
-    "Reclamation2Fight": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开始", "行动"],
-        "roi": [1029, 646, 222, 58],
-        "next": ["Reclamation2FightConfirm"]
-    },
-    "Reclamation2FightConfirm": {
-        "Doc": "没人的时候会有弹窗",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [646, 447, 631, 64],
-        "postDelay": 5000,
-        "next": ["Stop"]
-    },
-    "Reclamation2LeaveStage": {
-        "action": "ClickSelf",
-        "roi": [0, 0, 146, 154],
-        "templThreshold": [0.7],
-        "postDelay": 1000,
-        "next": ["Reclamation2LeaveStageConfirm", "#self"]
-    },
-    "Reclamation2LeaveStageConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认", "离开"],
-        "roi": [871, 407, 238, 146],
-        "next": ["#back"]
-    },
-    "Reclamation2QuitToMainPage": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["返回"],
-        "preDelay": 2000,
-        "roi": [33, 0, 97, 63],
-        "next": ["Stop"]
-    },
-    "Reclamation2RightMax": {
-        "roi": [789, 475, 154, 122],
-        "preDelay": 1000,
-        "next": ["Reclamation2SkipDaysAwardEndTask"]
-    },
-    "Reclamation2SkipDays": {
-        "algorithm": "JustReturn",
-        "postDelay": 1000,
-        "next": ["Reclamation2SkipDays1", "Reclamation2SkipDays2"]
-    },
-    "Reclamation2SkipDays1": {
-        "action": "ClickSelf",
-        "roi": [1103, 1, 152, 182],
-        "maskRange": [1, 255],
-        "templThreshold": 0.7,
-        "preDelay": 2000,
-        "next": ["Reclamation2SkipDaysAward"]
-    },
-    "Reclamation2SkipDays2": {
-        "action": "ClickSelf",
-        "roi": [1051, 0, 229, 184],
-        "maskRange": [1, 255],
-        "templThreshold": 0.7,
-        "preDelay": 2000,
-        "next": ["Reclamation2SkipDays2SkipTime", "#self"]
-    },
-    "Reclamation2SkipDays2SkipTime": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["消磨", "时间"],
-        "roi": [1071, 104, 208, 124],
-        "sub": ["Reclamation2SkipDays2SkipTimeConfig", "Reclamation2SkipDays1"]
-    },
-    "Reclamation2SkipDays2SkipTimeConfig": {
-        "Doc": "消耗所有决断数",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [646, 447, 631, 64]
-    },
-    "Reclamation2SkipDaysAward": {
-        "algorithm": "JustReturn",
-        "postDelay": 5000,
-        "next": ["Reclamation2RightMax", "Reclamation2SkipDaysAward2", "Reclamation2SkipDaysAward1"]
-    },
-    "Reclamation2SkipDaysAward1": {
-        "algorithm": "JustReturn",
-        "Doc": "会自己消失",
-        "preDelay": 3000
-    },
-    "Reclamation2SkipDaysAward2": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [506, 609, 272, 111],
-        "preDelay": 1000,
-        "postDelay": 4000,
-        "text": ["点击", "任意处", "继续"],
-        "next": ["Reclamation2SkipDaysBeginNewDay"]
-    },
-    "Reclamation2SkipDaysAwardEndTask": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [506, 609, 272, 111],
-        "preDelay": 1000,
-        "postDelay": 4000,
-        "text": ["点击", "任意处", "继续"],
-        "next": ["Reclamation2SkipDaysBeginNewDayEndTask"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "preDelay": 1000,
-        "roi": [519, 525, 261, 144]
-    },
-    "Reclamation2SkipDaysBeginNewDayEndTask": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "preDelay": 1000,
-        "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2QuitToMainPage", "Stop"]
     },
     "Reclamation@AtCmdCenterFlag": {
         "algorithm": "OcrDetect",
@@ -11054,5 +10701,363 @@
         "template": "Reclamation@BetweenDayFlag.png",
         "postDelay": 500,
         "next": ["Stop"]
+    },
+    "Reclamation2": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "Reclamation2BeginPlotEnterLoading@Reclamation2Begin",
+            "Reclamation2CopiousCoppice",
+            "Reclamation2Birdland",
+            "Reclamation2SkipDays*3",
+            "Reclamation2DeleteArchive"
+        ],
+        "Doc": "现在是纯tasks实现的，先一直跑着",
+        "next": ["#self"]
+    },
+    "Reclamation2Begin": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开", "始", "演", "算"],
+        "roi": [844, 569, 436, 151],
+        "next": ["#self", "#back"]
+    },
+    "Reclamation2BeginPlot": {
+        "Doc": "点指定区域，直到左上角出现退出",
+        "roi": [0, 0, 100, 100],
+        "sub": ["Reclamation2ClickBeginPlotTalk*10"],
+        "next": ["Reclamation2LeaveStage", "#self"]
+    },
+    "Reclamation2BeginPlotEnter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["众人", "汇聚", "后舍"],
+        "roi": [633, 239, 275, 156],
+        "next": ["#self", "Reclamation2BeginPlotLoading@Reclamation2EnterStage"]
+    },
+    "Reclamation2BeginPlotEnterLoading": {
+        "algorithm": "JustReturn",
+        "postDelay": 8000,
+        "next": ["Reclamation2BeginPlotEnter", "Reclamation2Begin"]
+    },
+    "Reclamation2BeginPlotLoading": {
+        "algorithm": "JustReturn",
+        "postDelay": 8000,
+        "next": ["Reclamation2BeginPlot"]
+    },
+    "Reclamation2Birdland": {
+        "Doc": "进入聚羽之地，基地左下支线",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["聚羽", "之地", "捕猎区"],
+        "preDelay": 2000,
+        "roi": [598, 510, 262, 156],
+        "next": ["#self", "Reclamation2BirdlandBegin"]
+    },
+    "Reclamation2BirdlandBegin": {
+        "algorithm": "JustReturn",
+        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"]
+    },
+    "Reclamation2ClickBeginPlotTalk": {
+        "Doc": "点对话框区域",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [1072, 431, 159, 27],
+        "next": ["#back"]
+    },
+    "Reclamation2ClickDrop": {
+        "Doc": "点击收取掉落物品",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["行动", "结束"],
+        "preDelay": 2000,
+        "roi": [0, 158, 456, 201]
+    },
+    "Reclamation2CopiousCoppice": {
+        "Doc": "进入丰饶灌木林，基地上方支线",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["木", "林", "资源区"],
+        "ocrReplace": [[".*源区", "资源区"]],
+        "preDelay": 2000,
+        "roi": [0, 171, 207, 144],
+        "next": ["#self", "Reclamation2CopiousCoppiceBegin"]
+    },
+    "Reclamation2CopiousCoppiceBegin": {
+        "algorithm": "JustReturn",
+        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"]
+    },
+    "Reclamation2DeleteArchive": {
+        "Doc": "删除存档",
+        "action": "ClickSelf",
+        "roi": [955, 611, 142, 109],
+        "preDelay": 500,
+        "next": ["Reclamation2DeleteArchiveEnter", "#self"]
+    },
+    "Reclamation2DeleteArchiveConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认", "删除"],
+        "roi": [820, 406, 308, 146]
+    },
+    "Reclamation2DeleteArchiveEnter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["删除"],
+        "roi": [1063, 550, 182, 123],
+        "sub": ["Reclamation2DeleteArchiveConfirm*2"]
+    },
+    "Reclamation2Enter": {
+        "Doc": "导航先不做了，跑起来再说",
+        "algorithm": "JustReturn",
+        "next": ["Reclamation2Begin"],
+        "postDelay": 1000
+    },
+    "Reclamation2EnterStage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始", "行动"],
+        "roi": [1077, 499, 203, 146],
+        "next": ["#back"]
+    },
+    "Reclamation2Ex": {
+        "algorithm": "JustReturn",
+        "sub": [
+            "Reclamation2ExAssemblyStation",
+            "Reclamation2ExManufacture",
+            "Reclamation2ExAssemblyStationBack",
+            "Reclamation2SkipDays*3",
+            "Reclamation2ExReadArchive",
+            "Reclamation2SkipDaysBeginNewDay"
+        ],
+        "Doc": "现在是纯tasks实现的，先一直跑着",
+        "next": ["#self"]
+    },
+    "Reclamation2ExAdd": {
+        "action": "ClickSelf",
+        "roi": [814, 445, 166, 160]
+    },
+    "Reclamation2ExAddProduct": {
+        "algorithm": "JustReturn",
+        "sub": ["Reclamation2ExAdd*99"]
+    },
+    "Reclamation2ExAssemblyStation": {
+        "Doc": "进入组装台",
+        "action": "ClickSelf",
+        "roi": [109, 642, 1111, 63],
+        "next": ["Reclamation2ExAssemblyStationOcr", "#self"]
+    },
+    "Reclamation2ExAssemblyStationBack": {
+        "baseTask": "Reclamation2ExAssemblyStationOcr",
+        "action": "ClickSelf"
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "Doc": "确认进入组装台",
+        "algorithm": "OcrDetect",
+        "roi": [56, 0, 185, 134],
+        "text": ["组装台"]
+    },
+    "Reclamation2ExBegin": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["继", "续", "演", "算"],
+        "roi": [844, 569, 436, 151]
+    },
+    "Reclamation2ExClickProduct": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["荧光棒"]
+    },
+    "Reclamation2ExManufacture": {
+        "algorithm": "JustReturn",
+        "sub": ["Reclamation2ExSwipeAndClickProduct", "Reclamation2ExAddProduct"],
+        "next": ["Reclamation2ExManufactureConfirmAmount", "Reclamation2ExManufactureConfirm"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始组装"],
+        "roi": [981, 461, 198, 128],
+        "next": ["Reclamation2ExManufactureConfirmClickToContinue"]
+    },
+    "Reclamation2ExManufactureConfirmAmount": {
+        "algorithm": "OcrDetect",
+        "Doc": "如果刚好用完的话可能会卡住，这个之后再处理了",
+        "text": ["99"],
+        "roi": [720, 442, 175, 166],
+        "sub": ["Reclamation2ExManufactureConfirm"],
+        "next": ["Reclamation2ExManufacture"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["点击", "空白", "继续"],
+        "roi": [507, 398, 268, 139],
+        "preDelay": 1000
+    },
+    "Reclamation2ExReadArchive": {
+        "Doc": "读取存档",
+        "template": "Reclamation2DeleteArchive.png",
+        "baseTask": "Reclamation2DeleteArchive",
+        "next": ["Reclamation2ExReadArchiveEnter", "#self"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [820, 406, 308, 146]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["读取"],
+        "roi": [1030, 548, 170, 124],
+        "sub": ["Reclamation2ExReadArchiveSelectDay", "Reclamation2ExReadArchiveSelectDayConfirm"]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["生息", "日"],
+        "roi": [406, 368, 166, 128]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["点击", "确认"],
+        "roi": [528, 480, 225, 142]
+    },
+    "Reclamation2ExSwipeAndClickProduct": {
+        "algorithm": "JustReturn",
+        "Doc": "寻找需要制作的物品，暂定荧光棒，后续可以增加参数指定",
+        "next": ["Reclamation2ExClickProduct", "Reclamation2ExSwipeToProduct"]
+    },
+    "Reclamation2ExSwipeToProduct": {
+        "Doc": "竖直滑动",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [752, 620, 0, 0],
+        "rectMove": [752, 80, 0, 0],
+        "specialParams": [500, 0, 3, 0],
+        "next": ["Reclamation2ExSwipeAndClickProduct#next"]
+    },
+    "Reclamation2Fight": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始", "行动"],
+        "roi": [1029, 646, 222, 58],
+        "next": ["Reclamation2FightConfirm"]
+    },
+    "Reclamation2FightConfirm": {
+        "Doc": "没人的时候会有弹窗",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [646, 447, 631, 64],
+        "postDelay": 5000,
+        "next": ["Stop"]
+    },
+    "Reclamation2LeaveStage": {
+        "action": "ClickSelf",
+        "roi": [0, 0, 146, 154],
+        "templThreshold": [0.7],
+        "postDelay": 1000,
+        "next": ["Reclamation2LeaveStageConfirm", "#self"]
+    },
+    "Reclamation2LeaveStageConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认", "离开"],
+        "roi": [871, 407, 238, 146],
+        "next": ["#back"]
+    },
+    "Reclamation2QuitToMainPage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["返回"],
+        "preDelay": 2000,
+        "roi": [33, 0, 97, 63],
+        "next": ["Stop"]
+    },
+    "Reclamation2RightMax": {
+        "roi": [789, 475, 154, 122],
+        "preDelay": 1000,
+        "next": ["Reclamation2SkipDaysAwardEndTask"]
+    },
+    "Reclamation2SkipDays": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
+        "next": ["Reclamation2SkipDays1", "Reclamation2SkipDays2"]
+    },
+    "Reclamation2SkipDays1": {
+        "action": "ClickSelf",
+        "roi": [1103, 1, 152, 182],
+        "maskRange": [1, 255],
+        "templThreshold": 0.7,
+        "preDelay": 2000,
+        "next": ["Reclamation2SkipDaysAward"]
+    },
+    "Reclamation2SkipDays2": {
+        "action": "ClickSelf",
+        "roi": [1051, 0, 229, 184],
+        "maskRange": [1, 255],
+        "templThreshold": 0.7,
+        "preDelay": 2000,
+        "next": ["Reclamation2SkipDays2SkipTime", "#self"]
+    },
+    "Reclamation2SkipDays2SkipTime": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["消磨", "时间"],
+        "roi": [1071, 104, 208, 124],
+        "sub": ["Reclamation2SkipDays2SkipTimeConfig", "Reclamation2SkipDays1"]
+    },
+    "Reclamation2SkipDays2SkipTimeConfig": {
+        "Doc": "消耗所有决断数",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [646, 447, 631, 64]
+    },
+    "Reclamation2SkipDaysAward": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "next": ["Reclamation2RightMax", "Reclamation2SkipDaysAward2", "Reclamation2SkipDaysAward1"]
+    },
+    "Reclamation2SkipDaysAward1": {
+        "algorithm": "JustReturn",
+        "Doc": "会自己消失",
+        "preDelay": 3000
+    },
+    "Reclamation2SkipDaysAward2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [506, 609, 272, 111],
+        "preDelay": 1000,
+        "postDelay": 4000,
+        "text": ["点击", "任意处", "继续"],
+        "next": ["Reclamation2SkipDaysBeginNewDay"]
+    },
+    "Reclamation2SkipDaysAwardEndTask": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [506, 609, 272, 111],
+        "preDelay": 1000,
+        "postDelay": 4000,
+        "text": ["点击", "任意处", "继续"],
+        "next": ["Reclamation2SkipDaysBeginNewDayEndTask"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开", "启", "今", "日"],
+        "preDelay": 1000,
+        "roi": [519, 525, 261, 144]
+    },
+    "Reclamation2SkipDaysBeginNewDayEndTask": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开", "启", "今", "日"],
+        "preDelay": 1000,
+        "roi": [519, 525, 261, 144],
+        "next": ["Reclamation2QuitToMainPage", "Stop"]
     }
 }
