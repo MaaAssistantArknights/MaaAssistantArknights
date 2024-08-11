@@ -80,6 +80,13 @@ bool asst::ReclamationTask::set_params(const json::value& params)
         else {
             Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { "荧光棒" };
         }
+        // 刷满点数后停止运行
+        const auto& task_name = params.get("details", "task", "");
+        if (task_name.ends_with("Reclamation2SkipDaysAwardEndTask")) {
+            ProcessTask(*this, {"Reclamation2SkipDaysAwardEndTask" })
+                .set_times_limit("Reclamation2", 0)
+                .run();
+        }
         break;
     }
     default:

@@ -10444,7 +10444,7 @@
     },
     "Reclamation2LeftMax": {
         "roi": [531, 475, 154, 121],
-        "next": ["Reclamation2SkipDaysAwardEndTask"]
+        "next": ["Reclamation2SkipDaysAward2"]
     },
     "Reclamation2SkipDaysAwardEndTask": {
         "algorithm": "OcrDetect",
@@ -10481,8 +10481,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["确认", "删除"],
-        "roi": [820, 406, 308, 146],
-        "next": ["ReclamationTask-Stop"]
+        "roi": [820, 406, 308, 146]
     },
     "Reclamation2DeleteArchiveEnterEndTask": {
         "algorithm": "OcrDetect",
