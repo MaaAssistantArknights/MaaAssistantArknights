@@ -2719,6 +2719,9 @@
     "Reclamation2SkipDaysAwardEndTask": {
         "text": ["タップ", "続く"]
     },
+    "Reclamation2QuitToMainPage": {
+        "text": ["戻る"]
+    },
     "Reclamation2SkipDaysBeginNewDay": {
         "text": ["次へ"]
     },
