@@ -2509,6 +2509,9 @@
     "Reclamation2LeaveStageConfirm": {
         "text": ["Are you sure you"]
     },
+    "Reclamation2QuitToMainPage": {
+        "text": ["Back"]
+    },
     "Reclamation2SkipDays2SkipTime": {
         "text": ["Skip Day"]
     },
