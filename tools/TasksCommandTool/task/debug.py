@@ -3,19 +3,44 @@ import inspect
 import re
 
 _PREFIX = ""
+
 _ENABLE_TRACING = False
+_ENABLE_BASE_TASK_WARNING = True
+_ENABLE_INVALID_FIELD_WARNING = True
 
 
-def enable_tracing():
-    """Enables tracing for all decorated functions."""
+def set_enable_tracing(enable: bool):
     global _ENABLE_TRACING
-    _ENABLE_TRACING = True
+    _ENABLE_TRACING = enable
 
 
-def disable_tracing():
-    """Disables tracing for all decorated functions."""
-    global _ENABLE_TRACING
-    _ENABLE_TRACING = False
+def enable_base_task_warning():
+    return _ENABLE_BASE_TASK_WARNING
+
+
+def enable_invalid_field_warning():
+    return _ENABLE_INVALID_FIELD_WARNING
+
+
+class Debug:
+    def __init__(self, show_tracing: bool = False,
+                 show_base_task_warning: bool = True,
+                 show_invalid_field_warning: bool = True):
+        self.show_tracing = show_tracing
+        self.show_base_task_warning = show_base_task_warning
+        self.show_invalid_field_warning = show_invalid_field_warning
+
+    def __enter__(self):
+        global _ENABLE_TRACING, _ENABLE_BASE_TASK_WARNING, _ENABLE_INVALID_FIELD_WARNING
+        _ENABLE_TRACING = self.show_tracing
+        _ENABLE_BASE_TASK_WARNING = self.show_base_task_warning
+        _ENABLE_INVALID_FIELD_WARNING = self.show_invalid_field_warning
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        global _ENABLE_TRACING, _ENABLE_BASE_TASK_WARNING, _ENABLE_INVALID_FIELD_WARNING
+        _ENABLE_TRACING = False
+        _ENABLE_BASE_TASK_WARNING = True
+        _ENABLE_INVALID_FIELD_WARNING = True
 
 
 def trace(fn):

@@ -2,15 +2,13 @@ from __future__ import annotations
 
 import copy
 
-from .debug import trace
-from .TaskType import AlgorithmType, TaskStatus
-from .TaskField import TaskFieldEnum, get_fields, get_fields_with_algorithm
 from .TaskExpression import _tokenize, _shunting_yard
+from .TaskField import TaskFieldEnum, get_fields, get_fields_with_algorithm
 from .TaskLogging import get_logger
+from .TaskType import AlgorithmType, TaskStatus
+from .debug import trace, enable_base_task_warning, enable_invalid_field_warning
 
 logger = get_logger(__name__)
-
-_SHOW_BASE_TASK_WARNING = True
 
 # 存储所有任务
 _TASKS_CACHE: dict[str, Task] = {}
@@ -51,11 +49,6 @@ def _is_valid_task_name(name: str) -> bool:
     return all(x.isalnum() or x in ['-', '_', '@'] for x in name)
 
 
-def set_base_task_warning(check: bool):
-    global _SHOW_BASE_TASK_WARNING
-    _SHOW_BASE_TASK_WARNING = check
-
-
 def clear_cache():
     _TASKS_CACHE.clear()
 
@@ -88,7 +81,7 @@ class Task:
             if field_value is not None:
                 field_value = field.field_construct(field_value)
             setattr(self, field.python_field_name, field_value)
-            if not field_valid:
+            if not field_valid and enable_invalid_field_warning():
                 logger.warning(f"Invalid value for field {field.field_name}: {field_value} in task {self.name}")
 
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
@@ -199,7 +192,7 @@ class Task:
         override_task = _ORIGINAL_TASKS.get(name, None)
         base_task = Task.get(rest)
         if base_task is None:
-            if _SHOW_BASE_TASK_WARNING:
+            if enable_base_task_warning():
                 logger.warning(f"Base task {rest} not found for template task {name}.")
             return Task.get(name, False)
 
