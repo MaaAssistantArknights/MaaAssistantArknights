@@ -298,7 +298,10 @@
         "isAscii": true,
         "text": [],
         "next": ["ClickedCorrectStageOrSwipe", "#self"],
-        "ocrReplace": [["-\\]", "-1"]]
+        "ocrReplace": [
+            ["-\\]", "-1"],
+            ["^.*([A-Z]{2}-EX-\\d+)", "$1"]
+        ]
     },
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "ChapterSlowlySwipeToTheLeft",
@@ -10257,7 +10260,7 @@
     "Reclamation2ExAssemblyStation": {
         "Doc": "进入组装台",
         "action": "ClickSelf",
-        "roi": [109, 642, 1111, 63],
+        "roi": [564, 596, 155, 124],
         "next": ["Reclamation2ExAssemblyStationOcr", "#self"]
     },
     "Reclamation2ExAssemblyStationBack": {
@@ -10383,19 +10386,6 @@
         "roi": [871, 407, 238, 146],
         "next": ["#back"]
     },
-    "Reclamation2QuitToMainPage": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["返回"],
-        "preDelay": 2000,
-        "roi": [33, 0, 97, 63],
-        "next": ["Stop"]
-    },
-    "Reclamation2RightMax": {
-        "roi": [789, 475, 154, 122],
-        "preDelay": 1000,
-        "next": ["Reclamation2SkipDaysAwardEndTask"]
-    },
     "Reclamation2SkipDays": {
         "algorithm": "JustReturn",
         "postDelay": 1000,
@@ -10434,7 +10424,7 @@
     "Reclamation2SkipDaysAward": {
         "algorithm": "JustReturn",
         "postDelay": 5000,
-        "next": ["Reclamation2RightMax", "Reclamation2SkipDaysAward2", "Reclamation2SkipDaysAward1"]
+        "next": ["Reclamation2SkipDaysAward2", "Reclamation2SkipDaysAward1"]
     },
     "Reclamation2SkipDaysAward1": {
         "algorithm": "JustReturn",
@@ -10450,29 +10440,12 @@
         "text": ["点击", "任意处", "继续"],
         "next": ["Reclamation2SkipDaysBeginNewDay"]
     },
-    "Reclamation2SkipDaysAwardEndTask": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "roi": [506, 609, 272, 111],
-        "preDelay": 1000,
-        "postDelay": 4000,
-        "text": ["点击", "任意处", "继续"],
-        "next": ["Reclamation2SkipDaysBeginNewDayEndTask"]
-    },
     "Reclamation2SkipDaysBeginNewDay": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "preDelay": 1000,
         "roi": [519, 525, 261, 144]
-    },
-    "Reclamation2SkipDaysBeginNewDayEndTask": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "preDelay": 1000,
-        "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2QuitToMainPage", "Stop"]
     },
     "Reclamation@AtCmdCenterFlag": {
         "algorithm": "OcrDetect",
