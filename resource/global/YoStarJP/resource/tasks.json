@@ -2707,6 +2707,9 @@
     "Reclamation2LeaveStageConfirm": {
         "text": ["離脱する", "離脱"]
     },
+    "Reclamation2QuitToMainPage": {
+        "text": ["戻る"]
+    },
     "Reclamation2SkipDays2SkipTime": {
         "text": ["時間", "経過"]
     },
@@ -2718,9 +2721,6 @@
     },
     "Reclamation2SkipDaysAwardEndTask": {
         "text": ["タップ", "続く"]
-    },
-    "Reclamation2QuitToMainPage": {
-        "text": ["戻る"]
     },
     "Reclamation2SkipDaysBeginNewDay": {
         "text": ["次へ"]
