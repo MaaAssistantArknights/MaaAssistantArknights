@@ -3155,7 +3155,8 @@
         "action": "ClickSelf",
         "text": ["采购", "购中", "中心"],
         "roi": [740, 440, 200, 100],
-        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"]
+        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
+        "postDelay": 500
     },
     "CreditStoreOcr": {
         "algorithm": "OcrDetect",
