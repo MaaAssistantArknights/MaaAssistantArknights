@@ -2072,13 +2072,13 @@
             ["전달", "正在提交反馈至神经"]
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "ocrReplace": [
             ["붕괴패러다임심화", "坍缩范式加深"],
             ["붕괴패러다임약화", "坍缩范式消退"]
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
         "ocrReplace": [["붕괴수치", "当前坍缩值"]]
     },
     "Sami@Roguelike@Collapsal": {

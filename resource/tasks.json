@@ -7792,7 +7792,7 @@
             "一抹黑"
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_banner": {
+    "Sami@Roguelike@CheckCollapsalParadigmsBanner": {
         "baseTask": "Sami@Roguelike@CheckCollapsalParadigms",
         "roi": [945, 60, 335, 660]
     },
@@ -7802,17 +7802,17 @@
         "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "algorithm": "OcrDetect",
         "text": ["坍缩范式加深", "坍缩范式消退"],
         "roi": [945, 60, 335, 660]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
         "algorithm": "OcrDetect",
         "text": ["当前坍缩值"],
         "roi": [350, 120, 310, 520]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onStage": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnStage": {
         "template": [
             "Sami@Roguelike@OnStage_1",
             "Sami@Roguelike@OnStage_2",
@@ -7826,7 +7826,7 @@
         "templThreshold": 0.96,
         "roi": [590, 45, 45, 35]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_panel": {
+    "Sami@Roguelike@CheckCollapsalParadigmsPanel": {
         "baseTask": "Sami@Roguelike@CheckCollapsalParadigms",
         "roi": [350, 120, 310, 520]
     },

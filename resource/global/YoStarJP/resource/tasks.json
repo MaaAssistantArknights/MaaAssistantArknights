@@ -2484,7 +2484,7 @@
         ],
         "roi": [720, 645, 355, 45]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "action": "DoNothing",
         "cache": false,
         "ocrReplace": [
@@ -2495,7 +2495,7 @@
         "text": ["坍缩范式加深", "坍缩范式消退"],
         "roi": [945, 60, 335, 660]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
         "action": "DoNothing",
         "cache": false,
         "ocrReplace": [["現在の崩壊値", "当前坍缩值"]],

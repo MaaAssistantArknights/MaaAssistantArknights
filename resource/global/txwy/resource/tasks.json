@@ -1824,7 +1824,7 @@
         "ocrReplace": [["正在提交反饋至神經", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "action": "DoNothing",
         "cache": false,
         "doc": "The translations are not verified.",
@@ -1836,7 +1836,7 @@
         "text": ["坍缩范式加深", "坍缩范式消退"],
         "roi": [945, 60, 335, 660]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
         "action": "DoNothing",
         "cache": false,
         "doc": "The translations are not verified.",

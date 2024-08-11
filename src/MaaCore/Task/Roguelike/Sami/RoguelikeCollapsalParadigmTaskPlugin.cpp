@@ -126,7 +126,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
     wait_for_loading();
     cv::Mat image = ctrler()->get_image();
     OCRer analyzer1(image);
-    analyzer1.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_onBanner");
+    analyzer1.set_task_info(theme + "@Roguelike@CheckCollapsalParadigmsOnBanner");
     auto detected = analyzer1.analyze();
     if (!detected) { // 以防万一，等一等再识别一次
         wait_for_loading();
@@ -143,7 +143,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
         std::vector<std::string> prev_clp_pds = m_clp_pds;
 
         OCRer analyzer2(image); // 检测坍缩范式名
-        analyzer2.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_banner");
+        analyzer2.set_task_info(theme + "@Roguelike@CheckCollapsalParadigmsBanner");
         if (!analyzer2.analyze()) {
             Log.info(m_banner_check_error_message);
             return;
@@ -252,7 +252,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 
     cv::Mat image;
     OCRer analyzer;
-    analyzer.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_onPanel");
+    analyzer.set_task_info(theme + "@Roguelike@CheckCollapsalParadigmsOnPanel");
     do {
         toggle_panel();
         image = ctrler()->get_image();
@@ -261,7 +261,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 
     // ================================================================================
     std::vector<std::string> cur_clp_pds;
-    analyzer.set_task_info(theme + "@Roguelike@CheckCollapsalParadigms_panel"); // 检测坍缩范式状态栏上的坍缩范式
+    analyzer.set_task_info(theme + "@Roguelike@CheckCollapsalParadigmsPanel"); // 检测坍缩范式状态栏上的坍缩范式
     if (analyzer.analyze()) {
         OCRer::ResultsVec ocr_results = analyzer.get_result();
         // 识别到两个及以上坍缩范式的时候，向上滑动一下再识别一次
@@ -362,7 +362,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading()
 void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage()
 {
     Matcher matcher(ctrler()->get_image());
-    matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
+    matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigmsOnStage");
     while (!need_exit() && !matcher.analyze()) {
         sleep(100);
         matcher.set_image(ctrler()->get_image());
@@ -384,7 +384,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_stop()
 bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
 {
     Matcher matcher(ctrler()->get_image());
-    matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigms_onStage");
+    matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigmsOnStage");
     if (!matcher.analyze()) {
         return false;
     }
