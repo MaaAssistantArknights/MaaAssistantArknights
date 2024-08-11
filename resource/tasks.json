@@ -301,7 +301,7 @@
         "ocrReplace": [
             ["-\\]", "-1"],
             ["^.*([A-Z]{2}-EX-\\d+)", "$1"]
-        ]    
+        ]
     },
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "ChapterSlowlySwipeToTheLeft",
