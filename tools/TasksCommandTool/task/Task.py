@@ -148,9 +148,7 @@ class Task:
 
     @staticmethod
     @trace
-    def get(name, maybe_template=True) -> Task | None:
-        if isinstance(name, Task):
-            return name
+    def get(name: str, maybe_template=True) -> Task | None:
         if name in _TASKS_CACHE:
             return _TASKS_CACHE[name]
         elif name in _ORIGINAL_TASKS:
@@ -235,12 +233,14 @@ class Task:
             for task_name in task_name_context:
                 result.extend(Task._eval_virtual_task(task_name, virtual_task_type, parent_task))
             return result
+        # 在 virtual_task_type 是 self 的情况下 task_name_context 有可能是 None
+        # 所以要提前判断
+        if virtual_task_type == "self":
+            return parent_task.name
         context_task = Task.get(task_name_context)
         if context_task is None:
             context_task = Task(task_name_context, {})
-        if virtual_task_type == "self":
-            return parent_task.name
-        elif virtual_task_type == "back":
+        if virtual_task_type == "back":
             return context_task.name
         elif virtual_task_type == "next":
             return context_task.next
