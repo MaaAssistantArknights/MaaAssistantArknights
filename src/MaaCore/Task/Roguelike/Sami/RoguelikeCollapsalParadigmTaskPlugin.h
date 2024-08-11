@@ -19,24 +19,24 @@ protected:
     virtual bool _run() override;
 
 private:
-    void check_banner();      // 检查坍缩范式变动通知
-    void check_panel();       // 检查坍缩范式状态栏
+    void check_banner();            // 检查坍缩范式变动通知
+    void check_panel();             // 检查坍缩范式状态栏
 
-    void toggle_panel();      // 开关坍缩范式状态栏
+    void toggle_panel() const;      // 开关坍缩范式状态栏
 
-    void wait_for_loading();  // 等待"正在反馈至神经"结束
-    void wait_for_stage();    // 等待回到地图
+    void wait_for_loading() const;  // 等待"正在反馈至神经"结束
+    void wait_for_stage() const;    // 等待回到地图
 
-    void exit_then_restart(); // 退出当前肉鸽局并重开
-    void exit_then_stop();    // 退出当前肉鸽局并停止任务
+    void exit_then_restart() const; // 退出当前肉鸽局并重开
+    void exit_then_stop() const;    // 退出当前肉鸽局并停止任务
 
-    bool new_zone() const;    // 判断是否进入了新的区域
+    bool new_zone() const;          // 判断是否进入了新的区域
 
-    // 向 Gui 回调坍缩范式变动情况，表示坍缩范式 prev 变动为 cur
+    // 向 GUI 回调坍缩范式变动情况，表示坍缩范式 prev 变动为 cur
     // deepen_or_weaken = 1 表示加深
     // deepen_or_weaken = -1 表示消退
     // deepen_or_weaken = 0 表示其它信息
-    void clp_pd_callback(std::string cur, int deepen_or_weaken = 0, std::string prev = "");
+    void clp_pd_callback(const std::string& cur, const int& deepen_or_weaken = 0, const std::string& prev = "");
 
     // ————————  局内临时变量，在 reset 时 重制 ——————————————————————————————————
     std::vector<std::string> m_clp_pds;        // 当前拥有的坍缩范式
@@ -55,10 +55,6 @@ private:
     std::unordered_set<std::string> m_banner_triggers_start;     // 通过 SubTaskStart 触发 banner check 的任务
     std::unordered_set<std::string> m_banner_triggers_completed; // 通过 SubTaskCompleted 触发 banner check 的任务
     std::unordered_set<std::string> m_panel_triggers;            // 通过 SubTaskStart 触发 panel check 的任务
-
-    Rect m_roi;          // 屏幕上方居中区域，点击以展开坍缩范式状态栏
-    Point m_swipe_begin; // 坍缩范式状态栏向上滑动的起点
-    Point m_swipe_end;   // 坍缩范式状态栏向上滑动的终点
 
     std::unordered_map<std::string, std::string> m_zone_dict; // template 名与区域名的映射关系
 

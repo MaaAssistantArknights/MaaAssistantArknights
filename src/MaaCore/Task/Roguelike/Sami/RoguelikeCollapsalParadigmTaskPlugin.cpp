@@ -23,17 +23,10 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::load_params(const json::value& 
     m_double_check_clp_pds = params.get("double_check_collapsal_paradigms", mode == RoguelikeMode::CLP_PDS);
 
     // 从 tasks.json 获取插件设置，由于仅有萨米肉鸽使用，任务名暂定写死
-    const auto& bannerCheckConfig =
-        Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
-    const auto& panelCheckConfig =
-        Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig");
+    const auto& bannerCheckConfig = Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig");
+    const auto& panelCheckConfig = Task.get<OcrTaskInfo>("Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig");
 
     m_deepen_text = bannerCheckConfig->text.front();
-    m_roi = panelCheckConfig->roi;
-    m_swipe_begin.x = panelCheckConfig->specific_rect.x;
-    m_swipe_begin.y = panelCheckConfig->specific_rect.y;
-    m_swipe_end.x = panelCheckConfig->rect_move.x;
-    m_swipe_end.y = panelCheckConfig->rect_move.y;
 
     m_banner_triggers_start = std::unordered_set(bannerCheckConfig->sub.begin(), bannerCheckConfig->sub.end());
     m_banner_triggers_completed = std::unordered_set(bannerCheckConfig->next.begin(), bannerCheckConfig->next.end());
@@ -67,20 +60,17 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
     const auto task_name = details.get("details", "task", "");
 
     // banner check
-    if (msg == AsstMsg::SubTaskStart &&
-        m_banner_triggers_start.find(task_name) != m_banner_triggers_start.end()) {
+    if (msg == AsstMsg::SubTaskStart && m_banner_triggers_start.contains(task_name)) {
         m_check_banner = true;
         return true;
     }
-    if (msg == AsstMsg::SubTaskCompleted &&
-        m_banner_triggers_completed.find(task_name) != m_banner_triggers_completed.end()) {
+    if (msg == AsstMsg::SubTaskCompleted && m_banner_triggers_completed.contains(task_name)) {
         m_check_banner = true;
         return true;
     }
 
     // panel check
-    if (msg == AsstMsg::SubTaskStart &&
-        m_panel_triggers.find(task_name) != m_panel_triggers.end()) {
+    if (msg == AsstMsg::SubTaskStart && m_panel_triggers.contains(task_name)) {
         if (new_zone()) {
             m_need_check_panel = true;
             m_verification_check = false;
@@ -93,9 +83,8 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::verify(const AsstMsg msg, const
         }
     }
 
-    if (msg == AsstMsg::SubTaskCompleted &&
-        m_panel_triggers.find(task_name) == m_panel_triggers.end() &&
-        !m_need_check_panel && m_double_check_clp_pds) {
+    if (msg == AsstMsg::SubTaskCompleted && !m_panel_triggers.contains(task_name) && !m_need_check_panel &&
+        m_double_check_clp_pds) {
         m_need_check_panel = true;
         m_verification_check = true;
     };
@@ -154,30 +143,29 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
         sort_by_vertical_(ocr_results1); // 按照垂直方向排序（从上到下）
         sort_by_vertical_(ocr_results2); // 按照垂直方向排序（从上到下）
 
-        OCRer::ResultsVec::iterator result_it1 = ocr_results1.begin();
-        OCRer::ResultsVec::iterator result_it2 = ocr_results2.begin();
+        auto  result_it1 = ocr_results1.begin();
+        auto  result_it2 = ocr_results2.begin();
 
         std::vector<std::string>::iterator it;
         while (result_it1 != ocr_results1.end() && result_it2 != ocr_results2.end()) {
-
             // 如果坍缩范式名与坍缩范式变动之间的距离太远，则提示识别出错，跳到下一个坍缩范式变动
-            if ((*result_it2).rect.y >= (*result_it1).rect.y + (*result_it1).rect.height + 25) {
+            if (result_it2->rect.y >= result_it1->rect.y + result_it1->rect.height + 25) {
                 Log.info(m_banner_check_error_message);
                 ++result_it1;
                 continue;
             }
             // 如果坍缩范式名在坍缩范式变动之前，则提示识别出错，跳到下一个坍缩范式名
-            else if ((*result_it2).rect.y <= (*result_it1).rect.y) {
+            else if (result_it2->rect.y <= result_it1->rect.y) {
                 Log.info(m_banner_check_error_message);
                 ++result_it2;
                 continue;
             }
 
-            std::string cur_clp_pd = (*result_it2).text;
+            std::string cur_clp_pd = result_it2->text;
             const CollapsalParadigmClass& cur_class = clp_pd_classes.at(clp_pd_dict.at(cur_clp_pd));
 
             // 如果检测到坍缩范式加深，根据之前的坍缩范式，将其添加或替换到当前拥有的坍缩范式列表
-            if ((*result_it1).text == m_deepen_text) {
+            if (result_it1->text == m_deepen_text) {
                 // 已拥有坍缩范式，跳到下一组
                 if (it = std::ranges::find(prev_clp_pds, cur_clp_pd); it != prev_clp_pds.end()) {
                     ++result_it1;
@@ -195,7 +183,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_banner()
                 }
 
                 // 如果 cur_clp_pd 是需要的坍缩范式
-                if (expected_clp_pds.find(cur_clp_pd) != expected_clp_pds.end()) {
+                if (expected_clp_pds.contains(cur_clp_pd)) {
                     exit_then_stop();
                     return;
                 }
@@ -267,8 +255,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
         // 识别到两个及以上坍缩范式的时候，向上滑动一下再识别一次
         // if detect more than two collapsal paradigms, swipe up and analyze again
         if (ocr_results.size() >= 2) {
-            ctrler()->swipe(m_swipe_begin, m_swipe_end, 500);
-            sleep(500);
+            ProcessTask(*this, { "Sami@Roguelike@SwipeCollapsalParadigmPanelUp" }).run();
             analyzer.set_image(ctrler()->get_image());
             if (analyzer.analyze()) {
                 ocr_results = analyzer.get_result();
@@ -277,7 +264,9 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 
         // 将 OCRer::Result 按照垂直方向排序（从上到下）并转换为坍缩范式名称
         sort_by_vertical_(ocr_results);
-        std::ranges::transform(ocr_results, std::back_inserter(cur_clp_pds), [](OCRer::Result x) { return x.text; });
+        std::ranges::transform(ocr_results, std::back_inserter(cur_clp_pds), [](const OCRer::Result& x) {
+            return x.text;
+        });
     }
 
     // ================================================================================
@@ -300,7 +289,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
 #endif
     }
 
-    std::vector<std::string>::iterator it = prev_clp_pds.begin();
+    auto  it = prev_clp_pds.begin();
     for (const std::string& cur_clp_pd : cur_clp_pds) {
         // 判断坍缩范式变动
         const unsigned int& cur_index = clp_pd_dict.at(cur_clp_pd);
@@ -322,7 +311,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
             ++it;
         }
         // 判断 cur_clp_pd 是否为需要的坍缩范式
-        if (expected_clp_pds.find(cur_clp_pd) != expected_clp_pds.end()) {
+        if (expected_clp_pds.contains(cur_clp_pd)) {
             exit_then_stop();
             return;
         }
@@ -342,13 +331,12 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::check_panel()
     m_clp_pds = std::move(cur_clp_pds);
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_panel()
+void asst::RoguelikeCollapsalParadigmTaskPlugin::toggle_panel() const
 {
-    ctrler()->click(m_roi);
-    sleep(500);
+    ProcessTask(*this, { "Sami@Roguelike@ToggleCollapsalParadigmPanel" }).run();
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading()
+void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading() const
 {
     OCRer analyzer(ctrler()->get_image());
     analyzer.set_task_info("LoadingText");
@@ -359,7 +347,7 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_loading()
     sleep(200);
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage()
+void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage() const
 {
     Matcher matcher(ctrler()->get_image());
     matcher.set_task_info(m_config->get_theme() + "@Roguelike@CheckCollapsalParadigmsOnStage");
@@ -370,12 +358,12 @@ void asst::RoguelikeCollapsalParadigmTaskPlugin::wait_for_stage()
     sleep(200);
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_restart()
+void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_restart() const
 {
     m_control_ptr->exit_then_stop();
 }
 
-void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_stop()
+void asst::RoguelikeCollapsalParadigmTaskPlugin::exit_then_stop() const
 {
     m_control_ptr->exit_then_stop();
     m_task_ptr->set_enable(false);
@@ -400,9 +388,9 @@ bool asst::RoguelikeCollapsalParadigmTaskPlugin::new_zone() const
 }
 
 void asst::RoguelikeCollapsalParadigmTaskPlugin::clp_pd_callback(
-    std::string cur,
-    int deepen_or_weaken,
-    std::string prev)
+    const std::string& cur,
+    const int& deepen_or_weaken,
+    const std::string& prev)
 {
     json::value info = basic_info_with_what("RoguelikeCollapsalParadigms");
     info["details"]["cur"] = cur;
