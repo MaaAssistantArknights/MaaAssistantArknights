@@ -10383,6 +10383,19 @@
         "roi": [871, 407, 238, 146],
         "next": ["#back"]
     },
+    "Reclamation2QuitToMainPage": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["返回"],
+        "preDelay": 2000,
+        "roi": [33, 0, 97, 63],
+        "next": ["Stop"]
+    },
+    "Reclamation2RightMax": {
+        "roi": [789, 475, 154, 122],
+        "preDelay": 1000,
+        "next": ["Reclamation2SkipDaysAwardEndTask"]
+    },
     "Reclamation2SkipDays": {
         "algorithm": "JustReturn",
         "postDelay": 1000,
@@ -10437,11 +10450,6 @@
         "text": ["点击", "任意处", "继续"],
         "next": ["Reclamation2SkipDaysBeginNewDay"]
     },
-    "Reclamation2RightMax": {
-        "roi": [789, 475, 154, 122],
-        "preDelay": 1000,
-        "next": ["Reclamation2SkipDaysAwardEndTask"]
-    },
     "Reclamation2SkipDaysAwardEndTask": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -10451,6 +10459,13 @@
         "text": ["点击", "任意处", "继续"],
         "next": ["Reclamation2SkipDaysBeginNewDayEndTask"]
     },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开", "启", "今", "日"],
+        "preDelay": 1000,
+        "roi": [519, 525, 261, 144]
+    },
     "Reclamation2SkipDaysBeginNewDayEndTask": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
@@ -10458,21 +10473,6 @@
         "preDelay": 1000,
         "roi": [519, 525, 261, 144],
         "next": ["Reclamation2QuitToMainPage", "Stop"]
-    },
-    "Reclamation2QuitToMainPage": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["返回"],
-        "preDelay": 2000,
-        "roi": [33, 0, 97, 63],
-        "next": ["Stop"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "preDelay": 1000,
-        "roi": [519, 525, 261, 144]
     },
     "Reclamation@AtCmdCenterFlag": {
         "algorithm": "OcrDetect",
