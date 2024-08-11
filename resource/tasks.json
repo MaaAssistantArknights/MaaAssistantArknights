@@ -10444,7 +10444,7 @@
     },
     "Reclamation2LeftMax": {
         "roi": [531, 475, 154, 121],
-        "next": ["Reclamation2SkipDaysAward2"]
+        "next": ["Reclamation2SkipDaysAwardEndTask"]
     },
     "Reclamation2SkipDaysAwardEndTask": {
         "algorithm": "OcrDetect",
@@ -10460,7 +10460,8 @@
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "preDelay": 1000,
-        "roi": [519, 525, 261, 144]
+        "roi": [ 519, 525, 261, 144 ],
+        "next": [ "Reclamation2DeleteArchiveEndTask" ]
     },
     "Reclamation2DeleteArchiveEndTask": {
         "Doc": "删除存档",
@@ -10488,7 +10489,6 @@
         "action": "ClickSelf",
         "text": ["删除"],
         "roi": [1063, 550, 182, 123],
-        "sub": ["Reclamation2DeleteArchiveConfirm1EndTask"]
     },
     "Reclamation2SkipDaysBeginNewDay": {
         "algorithm": "OcrDetect",
