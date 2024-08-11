@@ -2518,7 +2518,13 @@
     "Reclamation2SkipDaysAward2": {
         "text": ["Tap anywhere to continue"]
     },
+    "Reclamation2SkipDaysAwardEndTask": {
+        "text": ["Tap anywhere to continue"]
+    },
     "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2SkipDaysBeginNewDayEndTask": {
         "text": ["Start Today"]
     },
     "Reclamation@BuyWaterProcedure": {
