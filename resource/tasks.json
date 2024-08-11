@@ -10257,7 +10257,7 @@
     "Reclamation2ExAssemblyStation": {
         "Doc": "进入组装台",
         "action": "ClickSelf",
-        "roi": [564, 596, 155, 124],
+        "roi": [109, 642, 1111, 63],
         "next": ["Reclamation2ExAssemblyStationOcr", "#self"]
     },
     "Reclamation2ExAssemblyStationBack": {
