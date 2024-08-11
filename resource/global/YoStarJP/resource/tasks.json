@@ -2637,6 +2637,76 @@
             ["深埋の迷境", "_SKIP_"]
         ]
     },
+    "SandFire@Reclamation@ClickAnyZoneOcr": {
+        "roi": [308, 73, 739, 567],
+        "text": ["Zone", "狩猟エリア", "エリア", "資源エリア", "資源", "狩猟"]
+    },
+    "SandFire@Reclamation@ConfirmStart": {
+        "text": ["演算", "開始"]
+    },
+    "SandFire@Reclamation@EmptyInitUnits": {
+        "roi": [592, 595, 336, 125],
+        "text": ["演算", "参加", "オペレーター"]
+    },
+    "SandFire@Reclamation@EnterResearchLab": {
+        "text": ["研", "究", "所"]
+    },
+    "SandFire@Reclamation@EnterSmeltGoldPage": {
+        "text": ["地金", "粗悪"]
+    },
+    "SandFire@Reclamation@ExitLevelConfirm": {
+        "text": ["離れる"]
+    },
+    "SandFire@Reclamation@GiveupAlgorithm": {
+        "text": ["撤", "退"]
+    },
+    "SandFire@Reclamation@GiveupCheckRemainItems": {
+        "text": ["物資", "確認"]
+    },
+    "SandFire@Reclamation@GiveupClickEmergencyExit": {
+        "text": ["緊急", "撤退"]
+    },
+    "SandFire@Reclamation@GiveupTakeNothing": {
+        "text": ["確認", "撤退"]
+    },
+    "SandFire@Reclamation@LabClickAssembleable": {
+        "text": ["組立", "可"]
+    },
+    "SandFire@Reclamation@LabClickDetailView": {
+        "text": ["詳細", "ビュー"]
+    },
+    "SandFire@Reclamation@LevelComplete": {
+        "text": ["終了", "MISSION", "RESULTS"]
+    },
+    "SandFire@Reclamation@Liaison": {
+        "text": ["聯絡員"]
+    },
+    "SandFire@Reclamation@ManufactureDecrease": {
+        "text": ["材料", "足り"]
+    },
+    "SandFire@Reclamation@ManufactureIncrease": {
+        "text": ["開始", "立開"]
+    },
+    "SandFire@Reclamation@PrepareAction": {
+        "roi": [1014, 590, 234, 130],
+        "text": ["行動", "凖備"]
+    },
+    "SandFire@Reclamation@SkipAnnounce": {
+        "text": ["SKIP"]
+    },
+    "SandFire@Reclamation@SkipDailyReport": {
+        "text": ["本日", "日報"]
+    },
+    "SandFire@Reclamation@StartActionEnter": {
+        "roi": [1100, 550, 150, 130],
+        "text": ["行動開始", "決断"]
+    },
+    "SandFire@Reclamation@TodoEnter": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["WITHIN", "砂", "中", "の", "火"],
+        "roi": [686, 164, 207, 133]
+    },
     "Reclamation2Begin": {
         "text": ["演", "算", "開", "始"]
     },
@@ -2727,75 +2797,5 @@
     },
     "Reclamation2SkipDaysBeginNewDayEndTask": {
         "text": ["次へ"]
-    },
-    "Reclamation@ClickAnyZoneOcr": {
-        "roi": [308, 73, 739, 567],
-        "text": ["Zone", "狩猟エリア", "エリア", "資源エリア", "資源", "狩猟"]
-    },
-    "Reclamation@ConfirmStart": {
-        "text": ["演算", "開始"]
-    },
-    "Reclamation@EmptyInitUnits": {
-        "roi": [592, 595, 336, 125],
-        "text": ["演算", "参加", "オペレーター"]
-    },
-    "Reclamation@EnterResearchLab": {
-        "text": ["研", "究", "所"]
-    },
-    "Reclamation@EnterSmeltGoldPage": {
-        "text": ["地金", "粗悪"]
-    },
-    "Reclamation@ExitLevelConfirm": {
-        "text": ["離れる"]
-    },
-    "Reclamation@GiveupAlgorithm": {
-        "text": ["撤", "退"]
-    },
-    "Reclamation@GiveupCheckRemainItems": {
-        "text": ["物資", "確認"]
-    },
-    "Reclamation@GiveupClickEmergencyExit": {
-        "text": ["緊急", "撤退"]
-    },
-    "Reclamation@GiveupTakeNothing": {
-        "text": ["確認", "撤退"]
-    },
-    "Reclamation@LabClickAssembleable": {
-        "text": ["組立", "可"]
-    },
-    "Reclamation@LabClickDetailView": {
-        "text": ["詳細", "ビュー"]
-    },
-    "Reclamation@LevelComplete": {
-        "text": ["終了", "MISSION", "RESULTS"]
-    },
-    "Reclamation@Liaison": {
-        "text": ["聯絡員"]
-    },
-    "Reclamation@ManufactureDecrease": {
-        "text": ["材料", "足り"]
-    },
-    "Reclamation@ManufactureIncrease": {
-        "text": ["開始", "立開"]
-    },
-    "Reclamation@PrepareAction": {
-        "roi": [1014, 590, 234, 130],
-        "text": ["行動", "凖備"]
-    },
-    "Reclamation@SkipAnnounce": {
-        "text": ["SKIP"]
-    },
-    "Reclamation@SkipDailyReport": {
-        "text": ["本日", "日報"]
-    },
-    "Reclamation@StartActionEnter": {
-        "roi": [1100, 550, 150, 130],
-        "text": ["行動開始", "決断"]
-    },
-    "Reclamation@TodoEnter": {
-        "action": "ClickSelf",
-        "algorithm": "OcrDetect",
-        "text": ["WITHIN", "砂", "中", "の", "火"],
-        "roi": [686, 164, 207, 133]
     }
 }
