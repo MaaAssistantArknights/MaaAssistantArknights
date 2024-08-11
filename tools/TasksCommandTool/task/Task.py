@@ -235,20 +235,23 @@ class Task:
             for task_name in task_name_context:
                 result.extend(Task._eval_virtual_task(task_name, virtual_task_type, parent_task))
             return result
+        context_task = Task.get(task_name_context)
+        if context_task is None:
+            context_task = Task(task_name_context, {})
         if virtual_task_type == "self":
             return parent_task.name
         elif virtual_task_type == "back":
-            return Task.get(task_name_context).name
+            return context_task.name
         elif virtual_task_type == "next":
-            return Task.get(task_name_context).next
+            return context_task.next
         elif virtual_task_type == "sub":
-            return Task.get(task_name_context).sub_tasks
+            return context_task.sub_tasks
         elif virtual_task_type == "on_error_next":
-            return Task.get(task_name_context).on_error_next
+            return context_task.on_error_next
         elif virtual_task_type == "exceeded_next":
-            return Task.get(task_name_context).exceeded_next
+            return context_task.exceeded_next
         elif virtual_task_type == "reduce_other_times":
-            return Task.get(task_name_context).reduce_other_times
+            return context_task.reduce_other_times
         else:
             raise ValueError(f"Invalid virtual task type: {virtual_task_type}")
 
