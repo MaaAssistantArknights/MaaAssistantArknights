@@ -27,8 +27,8 @@ struct DepotExportTemplate
 
 struct DebugConf
 {
-    int clean_files_freq = 100;
-    int max_debug_file_num = 1000;
+    int clean_files_freq = 50;
+    int max_debug_file_num = 100;
 };
 
 struct Options
