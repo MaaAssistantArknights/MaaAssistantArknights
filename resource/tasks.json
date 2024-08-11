@@ -10127,6 +10127,21 @@
         "next": ["SandFire@Reclamation", "SandFire@Reclamation@CloseAnnos#next", "SandFire@Reclamation@TodoEnter"],
         "postDelay": 1000
     },
+    "SandFire@Reclamation@NavigateHome": {
+        "baseTask": "SandFire@Reclamation",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
+        "next": [
+            "SandFire@Reclamation@NavigateHome",
+            "SandFire@Reclamation@NavigateHome@CloseAnnos#next",
+            "SandFire@Reclamation@NavigateHome@TodoEnter"
+        ]
+    },
     "SandFire@Reclamation@AtCmdCenterFlag": {
         "algorithm": "OcrDetect",
         "roi": [68, 0, 326, 137],
@@ -10341,7 +10356,7 @@
     },
     "SandFire@Reclamation@NavigateHome@ExitAlgorithm": {
         "baseTask": "SandFire@Reclamation@ExitAlgorithm",
-        "algorithm": "SandFire@Reclamation@ExitAlgorithm.png",
+        "template": "SandFire@Reclamation@ExitAlgorithm.png",
         "next": [
             "SandFire@Reclamation@NavigateHome@GiveupAlgorithm",
             "SandFire@Reclamation@NavigateHome@ExitAlgorithm"
