@@ -2716,7 +2716,13 @@
     "Reclamation2SkipDaysAward2": {
         "text": ["タップ", "続く"]
     },
+    "Reclamation2SkipDaysAwardEndTask": {
+        "text": ["タップ", "続く"]
+    },
     "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2SkipDaysBeginNewDayEndTask": {
         "text": ["次へ"]
     },
     "Reclamation@ClickAnyZoneOcr": {

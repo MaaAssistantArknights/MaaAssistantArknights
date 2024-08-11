@@ -2320,7 +2320,13 @@
     "Reclamation2SkipDaysAward2": {
         "text": ["탭하여", "계", "속"]
     },
+    "Reclamation2SkipDaysAwardEndTask": {
+        "text": ["탭하여", "계", "속"]
+    },
     "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    }
+    "Reclamation2SkipDaysBeginNewDayEndTask": {
         "text": ["시", "작", "하", "기"]
     }
 }
