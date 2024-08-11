@@ -10460,8 +10460,8 @@
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "preDelay": 1000,
-        "roi": [ 519, 525, 261, 144 ],
-        "next": [ "Reclamation2DeleteArchiveEndTask" ]
+        "roi": [519, 525, 261, 144],
+        "next": ["Reclamation2DeleteArchiveEndTask"]
     },
     "Reclamation2DeleteArchiveEndTask": {
         "Doc": "删除存档",
@@ -10488,7 +10488,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["删除"],
-        "roi": [1063, 550, 182, 123],
+        "roi": [1063, 550, 182, 123]
     },
     "Reclamation2SkipDaysBeginNewDay": {
         "algorithm": "OcrDetect",
