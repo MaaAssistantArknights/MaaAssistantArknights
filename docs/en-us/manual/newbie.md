@@ -23,7 +23,7 @@ icon: ri:guide-fill
 
 3. Download the correct version
 
-    [MAA official website](https://maa.plus/) will automatically selects the correct version architecture, which for most users reading this article should be Windows x64.
+    [MAA official website](https://maa.plus/) will automatically select the correct version architecture, which for most users reading this article should be Windows x64.
 
 4. Unzip correctly
 
@@ -41,7 +41,7 @@ icon: ri:guide-fill
 
 0. If you'd like to use automatic detection, run **one** emulator and make sure no other Android devices are connected to the computer.
 
-1. Follow the setup guide to configure, and MAA will automatically detect the running emulator. If you'd like to run multiple emulator or customize your connection, please check [Connection](./connection.md).
+1. Follow the setup guide to configure, and MAA will automatically detect the running emulator. If you'd like to run multiple emulators or customize your connection, please check [Connection](./connection.md).
 
 2. ~~A hot update will be performed when MAA is run for the first time. Please close MAA and restart after prompting in the log on the right.~~
 
@@ -60,12 +60,12 @@ Check out the documentation.
 **When encountering problems, read the documents please.**
 :::
 
-1. The log files are located in the folder under the MAA folder which named `debug`. Logs are important. When asking others for help, be sure to take `asst.log` and `gui.log` with you.
+1. The log files are located in the folder under the MAA folder which is named `debug`. Logs are important. When asking others for help, be sure to take `asst.log` and `gui.log` with you.
 
-2. In order to meet the various needs of all users as much as possible, MAA provides a large number of customization options. When you find that MAA lacks a certain function, it may be because it is not easily discoverable rather than non-existent, such as `Manual entry of stage names` and `Do not put stationed operators in Dormitory`.
+2. To meet the various needs of all users as much as possible, MAA provides a large number of customization options. When you find that MAA lacks a certain function, it may be because it is not easily discoverable rather than non-existent, such as `Manual entry of stage names` and `Do not put stationed operators in Dormitory`.
 
 3. Placing the mouse pointer on some options will give detailed instructions, such as `Do not put stationed operators in Dormitory`.
 
-4. For some check boxes, right-click on them to change them to a half-selected state. The check boxes in this state will be automatically cleared the next time MAA is started, which can be understood as `only once`.
+4. For some checkboxes, right-click on them to change them to a half-selected state. The checkboxes in this state will be automatically cleared the next time MAA is started, which can be understood as `only once`.
 
 5. ~~If you're uncertain about your needs, don't select the Nightly Release.~~
