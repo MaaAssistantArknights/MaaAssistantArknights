@@ -11139,11 +11139,12 @@
         "specificRect": [1072, 431, 159, 27]
     },
     "Reclamation2BeginStageLeave": {
+        "template": "Reclamation2StageLeave.png",
         "action": "ClickSelf",
-        "roi": [0, 0, 146, 154],
+        "roi": [ 0, 0, 146, 154 ],
         "templThreshold": 0.7,
         "postDelay": 1000,
-        "next": ["Reclamation2BeginStageLeaveConfirm", "Reclamation2BeginStageLeave"]
+        "next": [ "Reclamation2BeginStageLeaveConfirm", "Reclamation2BeginStageLeave" ]
     },
     "Reclamation2BeginStageLeaveConfirm": {
         "algorithm": "OcrDetect",
@@ -11186,11 +11187,12 @@
         "next": ["Reclamation2CopiousCoppiceStageLeave"]
     },
     "Reclamation2CopiousCoppiceStageLeave": {
+        "template": "Reclamation2StageLeave.png",
         "action": "ClickSelf",
-        "roi": [0, 0, 146, 154],
-        "templThreshold": [0.7],
+        "roi": [ 0, 0, 146, 154 ],
+        "templThreshold": [ 0.7 ],
         "postDelay": 1000,
-        "next": ["Reclamation2CopiousCoppiceStageLeaveConfirm", "Reclamation2CopiousCoppiceStageLeave"]
+        "next": [ "Reclamation2CopiousCoppiceStageLeaveConfirm", "Reclamation2CopiousCoppiceStageLeave" ]
     },
     "Reclamation2CopiousCoppiceStageLeaveConfirm": {
         "algorithm": "OcrDetect",
@@ -11241,11 +11243,12 @@
         "next": ["Reclamation2BirdlandStageLeave"]
     },
     "Reclamation2BirdlandStageLeave": {
+        "template": "Reclamation2StageLeave.png",
         "action": "ClickSelf",
-        "roi": [0, 0, 146, 154],
-        "templThreshold": [0.7],
+        "roi": [ 0, 0, 146, 154 ],
+        "templThreshold": [ 0.7 ],
         "postDelay": 1000,
-        "next": ["Reclamation2BirdlandStageLeaveConfirm", "Reclamation2BirdlandStageLeave"]
+        "next": [ "Reclamation2BirdlandStageLeaveConfirm", "Reclamation2BirdlandStageLeave" ]
     },
     "Reclamation2BirdlandStageLeaveConfirm": {
         "algorithm": "OcrDetect",
@@ -11355,10 +11358,9 @@
     },
     "Reclamation2DeleteArchiveEnter": {
         "Doc": "删除存档",
-        "template": "Reclamation2Delete.png",
         "action": "ClickSelf",
-        "roi": [955, 611, 142, 109],
-        "next": ["Reclamation2DeleteArchiveEnterConfirm", "Reclamation2DeleteArchive"]
+        "roi": [ 955, 611, 142, 109 ],
+        "next": [ "Reclamation2DeleteArchiveEnterConfirm", "Reclamation2DeleteArchive" ]
     },
     "Reclamation2DeleteArchiveEnterConfirm": {
         "algorithm": "OcrDetect",
