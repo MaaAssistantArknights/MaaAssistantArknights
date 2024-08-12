@@ -1,0 +1,56 @@
+{
+    "stage_name": "炉工志愿队",
+    "blacklist_location":[
+        [2,3],
+        [2,4],
+        [2,5],
+        [3,2],
+        [3,3],
+        [3,4],
+        [3,5],
+        [4,2],
+        [4,3],
+        [4,4],
+        [5,2],
+        [5,3],
+        [5,4]
+    ],
+    "replacement_home": [
+        {
+            "location": [1, 6],
+            "direction": "up"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["情报官", "地面远程"],
+            "location": [2, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["益达","高台输出"],
+            "location": [4, 6],
+            "direction": "left"
+        },
+        {
+            "groups": ["奶","高台输出"],
+            "location": [1, 2],
+            "direction": "right"
+        },
+        {
+            "groups": ["玛恩纳", "其他地面"],
+            "location": [4, 5],
+            "direction": "up"
+        },
+        {
+            "groups": ["炮灰","地刺","处决者","投锋"],
+            "location": [8, 2],
+            "direction": "dowm"
+        },
+        {
+            "groups": ["奶盾","其他地面"],
+            "location": [5, 5],
+            "direction": "left"
+        }
+    ]
+}
