@@ -11354,7 +11354,7 @@
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2DeleteArchive"]
+        "next": ["Reclamation2DeleteArchiveEnter"]
     },
     "Reclamation2DeleteArchiveEnter": {
         "Doc": "删除存档",
@@ -11401,14 +11401,14 @@
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "roi": [519, 525, 261, 144],
-        "next": ["Reclamation2ProsperityMaxDeleteArchive"]
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter"]
     },
     "Reclamation2ProsperityMaxDeleteArchiveEnter": {
         "Doc": "删除存档",
         "template": "Reclamation2Delete.png",
         "action": "ClickSelf",
         "roi": [955, 611, 142, 109],
-        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnterConfirm", "Reclamation2ProsperityMaxDeleteArchive"]
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnterConfirm", "Reclamation2ProsperityMaxDeleteArchiveEnter"]
     },
     "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
         "algorithm": "OcrDetect",
