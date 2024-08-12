@@ -162,8 +162,14 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             if (!image_active_opt || !templ_active_opt) [[unlikely]] {
                 return {};
             }
-            const auto& templ_active = templ_active_opt.value();
-            const auto& image_active = image_active_opt.value();
+            cv::Mat templ_active = std::move(templ_active_opt).value();
+            cv::Mat image_active = std::move(image_active_opt).value();
+
+            // 闭运算填充小空洞，避免数色的得分过低 TODO: 或许可以做成可选的
+            cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
+            cv::morphologyEx(templ_active, templ_active, cv::MORPH_CLOSE, kernel);
+            cv::morphologyEx(image_active, image_active, cv::MORPH_CLOSE, kernel);
+
             cv::threshold(templ_active, templ_active, 1, 1, cv::THRESH_BINARY);
             cv::threshold(image_active, image_active, 1, 1, cv::THRESH_BINARY);
             // 把 CCORR 当 count 用，计算 image_active 在 templ_active 形状内的像素数量
