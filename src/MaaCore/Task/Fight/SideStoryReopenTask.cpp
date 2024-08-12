@@ -9,8 +9,9 @@
 void asst::SideStoryReopenTask::set_sidestory_name(std::string sidestory_name)
 {
     std::string upper_prefix = std::move(sidestory_name);
-    ranges::transform(upper_prefix, upper_prefix.begin(),
-                      [](char ch) -> char { return static_cast<char>(::toupper(ch)); });
+    ranges::transform(upper_prefix, upper_prefix.begin(), [](char ch) -> char {
+        return static_cast<char>(::toupper(ch));
+    });
     m_sidestory_name = upper_prefix;
 }
 
@@ -34,22 +35,26 @@ bool asst::SideStoryReopenTask::set_server(std::string server)
     m_server = std::move(server);
     return true;
 }
+
 bool asst::SideStoryReopenTask::set_enable_penguin(bool enable)
 {
     m_enable_penguin = enable;
     return true;
 }
+
 bool asst::SideStoryReopenTask::set_penguin_id(std::string id)
 {
     m_penguin_id = std::move(id);
     return true;
 }
+
 bool asst::SideStoryReopenTask::set_enable_yituliu(bool enable)
 {
     // 暂时没用上，其他地方加了这里也加一个
     m_enable_yituliu = enable;
     return true;
 }
+
 bool asst::SideStoryReopenTask::_run()
 {
     LogTraceFunction;
@@ -131,6 +136,7 @@ bool asst::SideStoryReopenTask::_run()
     }
     return true;
 }
+
 bool asst::SideStoryReopenTask::at_normal_page()
 {
     std::vector<std::string> stage_name;
@@ -144,6 +150,7 @@ bool asst::SideStoryReopenTask::at_normal_page()
 
     return ProcessTask(*this, { m_sidestory_name + "@ClickStageName" }).set_retry_times(0).run();
 }
+
 /// <summary>
 /// 从首页导航至普通关页面
 /// </summary>
@@ -154,6 +161,7 @@ bool asst::SideStoryReopenTask::navigate_to_normal_page()
     return ProcessTask(*this, { "StageBegin" }).set_times_limit("GoLastBattle", 0).run() &&
            ProcessTask(*this, { "SideStoryReopen" }).run();
 }
+
 /// <summary>
 /// 点选关卡
 /// </summary>
@@ -168,6 +176,7 @@ bool asst::SideStoryReopenTask::select_stage(int stage_index)
     Task.get<OcrTaskInfo>(m_stage_code + "@ClickedCorrectStage")->text = { m_stage_code };
     return ProcessTask(*this, { m_stage_code + "@StageNavigationBegin" }).run();
 }
+
 /// <summary>
 /// 检查 / 激活代理
 /// </summary>

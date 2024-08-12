@@ -9,9 +9,10 @@
 
 #include "ReclamationBattlePlugin.h"
 
-#define RunCheckSuccess(func, ...)            \
-    do {                                      \
-        if (!func(__VA_ARGS__)) return false; \
+#define RunCheckSuccess(func, ...) \
+    do {                           \
+        if (!func(__VA_ARGS__))    \
+            return false;          \
     } while (false);
 
 bool asst::ReclamationControlTask::_run()
@@ -91,11 +92,14 @@ bool asst::ReclamationControlTask::run_smelt_gold_procedure()
     }
 
     RunCheckSuccess(enter_command_center);
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; i < 2; ++i) {
         swipe_right();
+    }
     RunCheckSuccess(ProcessTask(*this, { "Reclamation@EnterSmeltGoldPage" }).run);
 
-    if (check_manufacture_status() != 1) return false;
+    if (check_manufacture_status() != 1) {
+        return false;
+    }
     while (!need_exit() && check_manufacture_status() == 1) {
         smelt_gold_callback(++m_total_gold);
         do_manufacture();
@@ -156,7 +160,9 @@ bool asst::ReclamationControlTask::wait_between_day()
             return true;
         }
         else {
-            if (flag) return true;
+            if (flag) {
+                return true;
+            }
         }
     }
     return false;
@@ -189,12 +195,15 @@ bool asst::ReclamationControlTask::check_emergency()
 
 int asst::ReclamationControlTask::check_manufacture_status()
 {
-    if (ProcessTask(*this, { "Reclamation@ManufactureInsufficientMaterial" }).set_retry_times(0).run())
+    if (ProcessTask(*this, { "Reclamation@ManufactureInsufficientMaterial" }).set_retry_times(0).run()) {
         return 0;
-    else if (ProcessTask(*this, { "Reclamation@ManufactureSufficientMaterial" }).set_retry_times(0).run())
+    }
+    else if (ProcessTask(*this, { "Reclamation@ManufactureSufficientMaterial" }).set_retry_times(0).run()) {
         return 1;
-    else
+    }
+    else {
         return -1;
+    }
 }
 
 bool asst::ReclamationControlTask::click_center_base()

@@ -45,8 +45,9 @@ bool asst::SSSDropRewardsTaskPlugin::_run()
             continue;
         }
         auto role = BattleData.get_role(result.text);
-        opers.emplace_back(DropRecruitment {
-            .ocr_res = result, .role = role == Role::Unknown ? std::nullopt : std::optional<Role>(role) });
+        opers.emplace_back(
+            DropRecruitment { .ocr_res = result,
+                              .role = role == Role::Unknown ? std::nullopt : std::optional<Role>(role) });
     }
 
     bool operSelect = false;

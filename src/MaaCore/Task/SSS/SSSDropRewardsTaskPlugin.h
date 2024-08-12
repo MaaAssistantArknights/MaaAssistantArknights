@@ -4,15 +4,15 @@
 
 namespace asst
 {
-    class SSSDropRewardsTaskPlugin : public AbstractTaskPlugin
-    {
-    public:
-        using AbstractTaskPlugin::AbstractTaskPlugin;
-        virtual ~SSSDropRewardsTaskPlugin() noexcept override = default;
+class SSSDropRewardsTaskPlugin : public AbstractTaskPlugin
+{
+public:
+    using AbstractTaskPlugin::AbstractTaskPlugin;
+    virtual ~SSSDropRewardsTaskPlugin() noexcept override = default;
 
-        virtual bool verify(AsstMsg msg, const json::value& details) const override;
+    virtual bool verify(AsstMsg msg, const json::value& details) const override;
 
-    protected:
-        bool _run() override;
-    };
+protected:
+    bool _run() override;
+};
 }

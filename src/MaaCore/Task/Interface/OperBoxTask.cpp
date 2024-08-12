@@ -3,7 +3,8 @@
 #include "Task/Miscellaneous/OperBoxRecognitionTask.h"
 #include "Task/ProcessTask.h"
 
-asst::OperBoxTask::OperBoxTask(const AsstCallback& callback, Assistant* inst) : InterfaceTask(callback, inst, TaskType)
+asst::OperBoxTask::OperBoxTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType)
 {
     auto enter_task = std::make_shared<ProcessTask>(m_callback, m_inst, TaskType);
     enter_task->set_tasks({ "OperBoxBegin" }).set_ignore_error(true);

@@ -4,28 +4,30 @@
 
 namespace asst
 {
-    class CopilotConfig : public SingletonHolder<CopilotConfig>, public AbstractConfig
-    {
-    public:
-        static battle::copilot::BasicInfo parse_basic_info(const json::value& json);
-        static battle::copilot::OperUsageGroups parse_groups(const json::value& json);
-        static std::vector<battle::copilot::Action> parse_actions(const json::value& json);
-        static battle::RoleCounts parse_role_counts(const json::value& json);
-        static battle::DeployDirection string_to_direction(const std::string& str);
+class CopilotConfig : public SingletonHolder<CopilotConfig>, public AbstractConfig
+{
+public:
+    static battle::copilot::BasicInfo parse_basic_info(const json::value& json);
+    static battle::copilot::OperUsageGroups parse_groups(const json::value& json);
+    static std::vector<battle::copilot::Action> parse_actions(const json::value& json);
+    static battle::RoleCounts parse_role_counts(const json::value& json);
+    static battle::DeployDirection string_to_direction(const std::string& str);
 
-    public:
-        virtual ~CopilotConfig() override = default;
+public:
+    virtual ~CopilotConfig() override = default;
 
-        const battle::copilot::CombatData& get_data() const noexcept { return m_data; }
-        const std::string& get_stage_name() const noexcept { return m_data.info.stage_name; }
-        bool parse_magic_code(const std::string& copilot_magic_code);
-        void clear();
+    const battle::copilot::CombatData& get_data() const noexcept { return m_data; }
 
-    protected:
-        virtual bool parse(const json::value& json) override;
+    const std::string& get_stage_name() const noexcept { return m_data.info.stage_name; }
 
-        battle::copilot::CombatData m_data;
-    };
+    bool parse_magic_code(const std::string& copilot_magic_code);
+    void clear();
 
-    inline static auto& Copilot = CopilotConfig::get_instance();
+protected:
+    virtual bool parse(const json::value& json) override;
+
+    battle::copilot::CombatData m_data;
+};
+
+inline static auto& Copilot = CopilotConfig::get_instance();
 }

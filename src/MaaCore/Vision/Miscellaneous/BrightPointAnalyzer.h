@@ -15,6 +15,7 @@ public:
     virtual ~BrightPointAnalyzer() override = default;
 
     ResultsVecOpt analyze();
+
     // FIXME: 老接口太难重构了，先弄个这玩意兼容下，后续慢慢全删掉
     const auto& get_result() const noexcept { return m_result; }
 

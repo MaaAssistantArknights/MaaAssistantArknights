@@ -83,8 +83,7 @@ bool proc_data(
     return true;
 }
 
-asst::TilePack::result_type
-    asst::TilePack::calc_(const Map::Level& level, double shift_x, double shift_y)
+asst::TilePack::result_type asst::TilePack::calc_(const Map::Level& level, double shift_x, double shift_y)
 {
     LogTraceFunction;
 

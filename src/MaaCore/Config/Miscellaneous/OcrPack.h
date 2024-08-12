@@ -8,65 +8,67 @@
 
 namespace cv
 {
-    class Mat;
+class Mat;
 }
 
 namespace fastdeploy
 {
-    namespace vision::ocr
-    {
-        class DBDetector;
-        class Recognizer;
-    }
+namespace vision::ocr
+{
+class DBDetector;
+class Recognizer;
+}
 
-    namespace pipeline
-    {
-        class PPOCRv3;
-    }
+namespace pipeline
+{
+class PPOCRv3;
+}
 
-    struct RuntimeOption;
+struct RuntimeOption;
 }
 
 namespace asst
 {
-    class OcrPack : public AbstractResource
-    {
-    public:
-        using Result = TextRect;
-        using ResultsVec = std::vector<Result>;
+class OcrPack : public AbstractResource
+{
+public:
+    using Result = TextRect;
+    using ResultsVec = std::vector<Result>;
 
-    public:
-        virtual ~OcrPack() override;
+public:
+    virtual ~OcrPack() override;
 
-        virtual bool load(const std::filesystem::path& path) override;
-        void use_cpu() { m_gpu_id = std::nullopt; }
-        void use_gpu(int gpu_id) { m_gpu_id = gpu_id; }
+    virtual bool load(const std::filesystem::path& path) override;
 
-        ResultsVec recognize(const cv::Mat& image, bool without_det = false);
+    void use_cpu() { m_gpu_id = std::nullopt; }
 
-    protected:
-        OcrPack();
+    void use_gpu(int gpu_id) { m_gpu_id = gpu_id; }
 
-        bool check_and_load();
+    ResultsVec recognize(const cv::Mat& image, bool without_det = false);
 
-        std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
-        std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
-        std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
+protected:
+    OcrPack();
 
-        std::filesystem::path m_det_model_path;
-        std::filesystem::path m_rec_model_path;
-        std::filesystem::path m_rec_label_path;
+    bool check_and_load();
 
-        std::optional<int> m_gpu_id = std::nullopt;
-    };
+    std::unique_ptr<fastdeploy::vision::ocr::DBDetector> m_det;
+    std::unique_ptr<fastdeploy::vision::ocr::Recognizer> m_rec;
+    std::unique_ptr<fastdeploy::pipeline::PPOCRv3> m_ocr;
 
-    class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack
-    {
-        friend class SingletonHolder<WordOcr>;
-    };
+    std::filesystem::path m_det_model_path;
+    std::filesystem::path m_rec_model_path;
+    std::filesystem::path m_rec_label_path;
 
-    class CharOcr final : public SingletonHolder<CharOcr>, public OcrPack
-    {
-        friend class SingletonHolder<CharOcr>;
-    };
+    std::optional<int> m_gpu_id = std::nullopt;
+};
+
+class WordOcr final : public SingletonHolder<WordOcr>, public OcrPack
+{
+    friend class SingletonHolder<WordOcr>;
+};
+
+class CharOcr final : public SingletonHolder<CharOcr>, public OcrPack
+{
+    friend class SingletonHolder<CharOcr>;
+};
 }

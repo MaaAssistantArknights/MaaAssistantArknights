@@ -2,8 +2,8 @@
 
 namespace asst::utils
 {
-    template <typename... Unused>
-    constexpr bool always_false = false;
+template <typename... Unused>
+constexpr bool always_false = false;
 }
 
 // delete instantiation of template with message, when static_assert(false, Message) does not work

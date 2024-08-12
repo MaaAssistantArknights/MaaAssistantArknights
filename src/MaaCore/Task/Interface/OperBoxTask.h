@@ -3,12 +3,12 @@
 
 namespace asst
 {
-    class OperBoxTask final : public InterfaceTask
-    {
-    public:
-        inline static constexpr std::string_view TaskType = "OperBox";
+class OperBoxTask final : public InterfaceTask
+{
+public:
+    inline static constexpr std::string_view TaskType = "OperBox";
 
-        OperBoxTask(const AsstCallback& callback, Assistant* inst);
-        virtual ~OperBoxTask() override = default;
-    };
+    OperBoxTask(const AsstCallback& callback, Assistant* inst);
+    virtual ~OperBoxTask() override = default;
+};
 }

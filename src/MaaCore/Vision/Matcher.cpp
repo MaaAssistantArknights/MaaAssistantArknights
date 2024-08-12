@@ -89,8 +89,15 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         if (templ.cols > image.cols || templ.rows > image.rows) {
-            Log.error("templ size is too large", templ_name, "image size:", image.cols, image.rows,
-                      "templ size:", templ.cols, templ.rows);
+            Log.error(
+                "templ size is too large",
+                templ_name,
+                "image size:",
+                image.cols,
+                image.rows,
+                "templ size:",
+                templ.cols,
+                templ.rows);
             return {};
         }
 
@@ -113,7 +120,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         // 目前所有的匹配都是用 TM_CCOEFF_NORMED
         int match_algorithm = cv::TM_CCOEFF_NORMED;
 
-        auto calc_mask = [&](const cv::Mat& templ_for_mask, bool with_close)->std::optional<cv::Mat> {
+        auto calc_mask = [&](const cv::Mat& templ_for_mask, bool with_close) -> std::optional<cv::Mat> {
             cv::Mat templ_for_gray_mask;
             cv::cvtColor(templ_for_mask, templ_for_gray_mask, cv::COLOR_BGR2GRAY);
 
@@ -147,9 +154,7 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm);
         }
         else {
-            auto mask_opt = calc_mask(
-                params.mask_with_src ? image_for_match : templ_for_match,
-                params.mask_with_close);
+            auto mask_opt = calc_mask(params.mask_with_src ? image_for_match : templ_for_match, params.mask_with_close);
             if (!mask_opt) {
                 return {};
             }

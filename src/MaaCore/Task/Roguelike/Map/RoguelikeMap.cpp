@@ -101,10 +101,9 @@ size_t asst::RoguelikeMap::get_next_node() const
         return m_curr_pos;
     }
 
-    const size_t next_index =
-        ranges::min(curr->succs, [&](const size_t& node1_index, const size_t& node2_index) {
-            return m_nodes.at(node1_index)->cost < m_nodes.at(node2_index)->cost;
-        });
+    const size_t next_index = ranges::min(curr->succs, [&](const size_t& node1_index, const size_t& node2_index) {
+        return m_nodes.at(node1_index)->cost < m_nodes.at(node2_index)->cost;
+    });
     return next_index;
 }
 
@@ -238,8 +237,7 @@ std::optional<size_t> asst::RoguelikeMap::insert_node(const RoguelikeNodePtr& no
         return std::nullopt;
     }
     // 只允许有一个 init node
-    if (column == init_index && column < m_column_indices.size() && m_column_indices.at(column) > 0)
-        [[unlikely]] {
+    if (column == init_index && column < m_column_indices.size() && m_column_indices.at(column) > 0) [[unlikely]] {
         Log.error(__FUNCTION__, "| init node has already exist");
         return std::nullopt;
     }

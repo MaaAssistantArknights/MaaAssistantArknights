@@ -6,9 +6,9 @@
 #include "Task/Miscellaneous/StopGameTaskPlugin.h"
 #include "Task/ProcessTask.h"
 
-asst::CloseDownTask::CloseDownTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
-    , m_stop_game_task_ptr(std::make_shared<StopGameTaskPlugin>(m_callback, m_inst, TaskType))
+asst::CloseDownTask::CloseDownTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_stop_game_task_ptr(std::make_shared<StopGameTaskPlugin>(m_callback, m_inst, TaskType))
 {
     m_subtasks.emplace_back(m_stop_game_task_ptr);
 }
