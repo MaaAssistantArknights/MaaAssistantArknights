@@ -9305,6 +9305,8 @@
     "Sarkaz@Roguelike@GetDropRecruit": {},
     "Sarkaz@Roguelike@GetDropSelect": {
         "next": [
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@GetDropSelectRecruit",
             "Sarkaz@Roguelike@GetDropSelectReward",
             "Sarkaz@Roguelike@ChooseOperFlag",
