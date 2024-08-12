@@ -16,7 +16,7 @@ order: 3
   - `Perform Battles` specifies the number of battles to perform at most.
   - `Material` specifies the number of materials to collect.
 
-- `Material` and `Stage` are independent options. `Material` is not going to automatically navigate to the the stage for the specified material. You still need to manually configure the stage option.
+- `Material` and `Stage` are independent options. `Material` is not going to automatically navigate to the stage for the specified material. You still need to manually configure the stage option.
 - `Use Originium` will only be used after `Use Sanity Option`, because MAA will only use Originium to replenish sanity when there are no Sanity Potions left. Therefore, after checking `Use Originium`, MAA will lock the number of `Use Sanity Potion` to 999, making sure to consume all the Sanity Potions to avoid skipping the `Use Originium` judgment.
 
 ::: details Example
