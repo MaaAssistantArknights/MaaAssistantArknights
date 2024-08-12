@@ -5,12 +5,12 @@ icon: material-symbols:view-quilt-rounded
 
 # Infrastructure Schedule Schema
 
-This document is machine-translated. If you have the ability, please refer to the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
+This document is primarily machine-translated. If you have the ability, please take a look at the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
 
 Usage and Field Description for `resource/custom_infrast/*.json` files
 
 ::: tip
-As JSON format does not support comments, please remove the comments when using the examples below.
+As the JSON format does not support comments, please remove them when using the examples below.
 :::
 
 [Visual Schedule Generation Tool](https://ark.yituliu.cn/tools/schedule)
@@ -28,10 +28,10 @@ As JSON format does not support comments, please remove the comments when using 
             "description_post": "", // The description to display after executing the plan, optional
             "period": [             // Shift change period, optional
                                     // If the current time is within this interval, the plan will be automatically selected (there may be multiple plans in the entire JSON file)
-                                    // If this field does not exist, it will automatically switch to the next plan after each running.
+                                    // If this field does not exist, it will automatically switch to the next plan after each run.
                                     // Core does not process this field. If you are using interface integration with MAA, please implement this logic on your own
                 [
-                    "22:00",        // In the format of hh:mm, currently only simple numerical comparison is used. If it crosses midnight, please refer to the example in this file
+                    "22:00",        // In the hh: mm format, currently only simple numerical comparison is used. If it crosses midnight, please refer to the example in this file
                     "23:59"
                 ],
                 [
@@ -39,14 +39,14 @@ As JSON format does not support comments, please remove the comments when using 
                     "06:00"
                 ]
             ],
-            "duration": 360,        // Work duration (in minutes), reserved field, currently not used. In the future, there may be reminders or automatic shift changes when the time comes
+            "duration": 360,        // Work duration (in minutes), reserved field, currently unused. In the future, there may be reminders or automatic shift changes when the time comes
             "Fiammetta": {          // Which operator is using "Fiammetta", optional, not required if not in use
                 "enable": true,     // Whether to use "Fiammetta", optional, default is true
                 "target": "巫恋",   // Target operator, which is obtained through OCR and needs to be passed in the name of the operator in the corresponding client language
                 "order": "pre",     // Whether to use it before or after the entire shift change, optional, with a value range of "pre" / "post", default is "pre"
             },
             "drones": {              // For using drones. Optional. If not specified, drones won't be used.
-                "enable": true,      // Whether to use drones. Optional. Default is true.
+                "enable": true,      // Whether to use drones. Optional. The default is true.
                 "room": "trading",   // Which type of room to use drones for. Possible values: "trading" / "manufacture"
                 "index": 1,          // The index of the room to use drones for. Corresponds to the tab on the left. Possible values: [1, 5].
                 "rule": "all",       // Usage rules. Reserved field. Currently unused, but may be used in the future to support plug-ins and other operations.
@@ -105,9 +105,9 @@ As JSON format does not support comments, please remove the comments when using 
                             "Castle-3"
                         ],
                         "autofill": true, // Use the original algorithm to automatically fill the remaining positions. Optional, default to false.
-                                          // If the operators array is empty, the scheduling of the entire room will be based on the original algorithm.
-                                          // If the operators array is not empty, only the efficiency of individual operators will be considered, not the efficiency of the entire combination.
-                                          // Be careful that conflicts may arise with the custom operators defined later, for example, if the operators needed later are used here, please use it with caution, or place the autofill room order at the end.
+                                          // If the operator's array is empty, the scheduling of the entire room will be based on the original algorithm.
+                                          // If the operator's array is not empty, only the efficiency of individual operators will be considered, not the efficiency of the entire combination.
+                                          // Be careful that conflicts may arise with the custom operators defined later, for example, if the operators needed later are used here; please use it with caution, or place the autofill room order at the end.
                         "product": "Battle Record" // The current manufactured product, optional.
                                                    // If the product recognized by the facility does not match the one set in the task, the interface will display a red warning message. More functions may be added in the future.
                                                    // Possible values: "Battle Record" | "Pure Gold" | "Dualchip" | "Originium Shard" | "LMD" | "Orundum"
