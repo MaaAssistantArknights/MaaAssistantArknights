@@ -7904,11 +7904,17 @@
         "next": [ "RoguelikeControlTaskPlugin-Stop" ]
     },
     "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
-        "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "RoguelikeCollapsalParadigmTaskPlugin用参数",
+            "————————————————————————————————————————————————————————————————",
+            "text: 坍缩范式加深时 banner 通知第一行的文字",
+            "sub: 在 SubTaskStart 时触发 banner check 的任务",
+            "next: 在 SubTaskCompleted 时触发 banner check 的任务"
+        ],
         "algorithm": "OcrDetect",
-        "roi": [ 0, 0, 1280, 720 ],
-        "sub": [ "Sami@Roguelike@MissionCompletedFlag" ],
-        "text": [ "坍缩范式加深" ],
+        "text": ["坍缩范式加深"],
+        "sub": ["Sami@Roguelike@MissionCompletedFlag"],
         "next": [
             "Sami@Roguelike@GetDrop1",
             "Sami@Roguelike@GetDrop2",
@@ -7920,12 +7926,14 @@
         ]
     },
     "Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig": {
-        "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "RoguelikeCollapsalParadigmTaskPlugin用参数",
+            "————————————————————————————————————————————————————————————————",
+            "sub: 在 SubTaskStart 时触发 panek check 的任务",
+            "ocrReplace: 从温度模版名到区域名的映射"
+        ],
         "algorithm": "OcrDetect",
-        "action": "Swipe",
-        "roi": [ 655, 20, 10, 10 ],
-        "specificRect": [ 640, 300, 0, 0 ],
-        "rectMove": [ 640, 0, 0, 0 ],
         "sub": [
             "Sami@Roguelike@StageCombatDps",
             "Sami@Roguelike@StageCombatDpsAI6",
@@ -8974,7 +8982,23 @@
             [ "深埋迷境", "_SKIP_" ]
         ]
     },
+    "Sami@Roguelike@SwipeCollapsalParadigmPanelUp": {
+        "doc": "向上滑动坍缩范式状态栏",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [640, 300, 0, 0],
+        "rectMove": [640, 0, 0, 0],
+        "specialParams": [500],
+        "postDelay": 500
+    },
     "Sami@Roguelike@TodoEnter": {},
+    "Sami@Roguelike@ToggleCollapsalParadigmPanel": {
+        "doc": "点击屏幕上方居中区域以展开坍缩范式状态栏",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [655, 20, 10, 10],
+        "postDelay": 500
+    },
     "Sami@Roguelike@TraderCheck": {
         "roi": [ 96, 210, 293, 236 ],
         "next": [ "Sami@Roguelike@StageTraderEnter#next" ]
