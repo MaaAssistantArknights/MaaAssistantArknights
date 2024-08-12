@@ -11278,10 +11278,10 @@
     "Reclamation2SkipDay2": {
         "template": "Reclamation2SkipDays2.png",
         "action": "ClickSelf",
-        "roi": [ 1051, 0, 229, 184 ],
-        "maskRange": [ 1, 255 ],
+        "roi": [1051, 0, 229, 184],
+        "maskRange": [1, 255],
         "templThreshold": 0.7,
-        "next": [ "Reclamation2SkipDay2SkipTime", "Reclamation2SkipDay2" ]
+        "next": ["Reclamation2SkipDay2SkipTime", "Reclamation2SkipDay2"]
     },
     "Reclamation2SkipDay2SkipTime": {
         "algorithm": "OcrDetect",
@@ -11302,19 +11302,19 @@
     "Reclamation2SkipDay2Skip": {
         "template": "Reclamation2SkipDays1.png",
         "action": "ClickSelf",
-        "roi": [ 1103, 1, 152, 182 ],
-        "maskRange": [ 1, 255 ],
+        "roi": [1103, 1, 152, 182],
+        "maskRange": [1, 255],
         "templThreshold": 0.7,
         "postDelay": 10000,
-        "next": [ "Reclamation2SkipDay3", "Reclamation2SkipDay2Skip" ]
+        "next": ["Reclamation2SkipDay3", "Reclamation2SkipDay2Skip"]
     },
     "Reclamation2SkipDay3": {
         "template": "Reclamation2SkipDays2.png",
         "action": "ClickSelf",
-        "roi": [ 1051, 0, 229, 184 ],
-        "maskRange": [ 1, 255 ],
+        "roi": [1051, 0, 229, 184],
+        "maskRange": [1, 255],
         "templThreshold": 0.7,
-        "next": [ "Reclamation2SkipDay3SkipTime", "Reclamation2SkipDay3" ]
+        "next": ["Reclamation2SkipDay3SkipTime", "Reclamation2SkipDay3"]
     },
     "Reclamation2SkipDay3SkipTime": {
         "algorithm": "OcrDetect",
@@ -11335,11 +11335,11 @@
     "Reclamation2SkipDay3Skip": {
         "template": "Reclamation2SkipDays1.png",
         "action": "ClickSelf",
-        "roi": [ 1103, 1, 152, 182 ],
-        "maskRange": [ 1, 255 ],
+        "roi": [1103, 1, 152, 182],
+        "maskRange": [1, 255],
         "templThreshold": 0.7,
         "postDelay": 4000,
-        "next": [ "Reclamation2ProsperityMax", "Reclamation2SkipDaysClickContinue", "Reclamation2SkipDay3Skip" ]
+        "next": ["Reclamation2ProsperityMax", "Reclamation2SkipDaysClickContinue", "Reclamation2SkipDay3Skip"]
     },
     "Reclamation2SkipDaysClickContinue": {
         "algorithm": "OcrDetect",
@@ -11560,20 +11560,20 @@
     "Reclamation2ExSkipDays1": {
         "template": "Reclamation2SkipDays1.png",
         "action": "ClickSelf",
-        "roi": [ 1103, 1, 152, 182 ],
-        "maskRange": [ 1, 255 ],
+        "roi": [1103, 1, 152, 182],
+        "maskRange": [1, 255],
         "templThreshold": 0.7,
         "preDelay": 2000,
-        "next": [ "Reclamation2ExSkipDaysAward" ]
+        "next": ["Reclamation2ExSkipDaysAward"]
     },
     "Reclamation2ExSkipDays2": {
         "template": "Reclamation2SkipDays2.png",
         "action": "ClickSelf",
-        "roi": [ 1051, 0, 229, 184 ],
-        "maskRange": [ 1, 255 ],
+        "roi": [1051, 0, 229, 184],
+        "maskRange": [1, 255],
         "templThreshold": 0.7,
         "preDelay": 2000,
-        "next": [ "Reclamation2ExSkipDays2ExSkipTime", "#self" ]
+        "next": ["Reclamation2ExSkipDays2ExSkipTime", "#self"]
     },
     "Reclamation2ExSkipDays2ExSkipTime": {
         "algorithm": "OcrDetect",
@@ -11619,9 +11619,9 @@
         "Doc": "删除存档",
         "template": "Reclamation2DeleteArchiveEnter.png",
         "action": "ClickSelf",
-        "roi": [ 955, 611, 142, 109 ],
+        "roi": [955, 611, 142, 109],
         "preDelay": 500,
-        "next": [ "Reclamation2ExDeleteArchiveEnter", "#self" ]
+        "next": ["Reclamation2ExDeleteArchiveEnter", "#self"]
     },
     "Reclamation2ExDeleteArchiveConfirm": {
         "algorithm": "OcrDetect",
