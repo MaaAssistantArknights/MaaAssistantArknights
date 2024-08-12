@@ -11,9 +11,12 @@ def sort_tasks(res: dict[str, any]):
         "Phantom@Roguelike...": [],
         "Mizuki@Roguelike...": [],
         "Sami@Roguelike...": [],
+        "Sarkaz@Roguelike...": [],
         "...@Roguelike...": [],
         "Reclamation...": [],
         "Reclamation@...": [],
+        "Fire@Reclamation...": [],
+        "Tales@Reclamation...": [],
         "...@Reclamation...": []
     }
     unclassified_list = []
@@ -24,9 +27,12 @@ def sort_tasks(res: dict[str, any]):
         (r"^Phantom@Roguelike", classified_lists["Phantom@Roguelike..."]),
         (r"^Mizuki@Roguelike", classified_lists["Mizuki@Roguelike..."]),
         (r"^Sami@Roguelike", classified_lists["Sami@Roguelike..."]),
+        (r"^Sarkaz@Roguelike", classified_lists["Sarkaz@Roguelike..."]),
         (r"^(\w+)@Roguelike", classified_lists["...@Roguelike..."]),
         (r"^Reclamation@", classified_lists["Reclamation@..."]),
         (r"^Reclamation", classified_lists["Reclamation..."]),
+        (r"^Fire@Reclamation", classified_lists["Fire@Reclamation..."]),
+        (r"^Tales@Reclamation", classified_lists["Tales@Reclamation..."]),
         (r"^(\w+)@Reclamation", classified_lists["...@Reclamation..."]),
         (r"", unclassified_list)
     ]
