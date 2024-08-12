@@ -7771,22 +7771,6 @@
             "mask": []
         }
     },
-    "Sami@Roguelike@ToggleCollapsalParadigmPanel": {
-        "doc": "点击屏幕上方居中区域以展开坍缩范式状态栏",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [655, 20, 10, 10],
-        "postDelay": 500
-    },
-    "Sami@Roguelike@SwipeCollapsalParadigmPanelUp": {
-        "doc": "向上滑动坍缩范式状态栏",
-        "algorithm": "JustReturn",
-        "action": "Swipe",
-        "specificRect": [640, 300, 0, 0],
-        "rectMove": [640, 0, 0, 0],
-        "specialParams": [500],
-        "postDelay": 500
-    },
     "Sami@Roguelike@CheckCollapsalParadigms": {
         "algorithm": "OcrDetect",
         "text": [
@@ -8998,7 +8982,23 @@
             ["深埋迷境", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@SwipeCollapsalParadigmPanelUp": {
+        "doc": "向上滑动坍缩范式状态栏",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [640, 300, 0, 0],
+        "rectMove": [640, 0, 0, 0],
+        "specialParams": [500],
+        "postDelay": 500
+    },
     "Sami@Roguelike@TodoEnter": {},
+    "Sami@Roguelike@ToggleCollapsalParadigmPanel": {
+        "doc": "点击屏幕上方居中区域以展开坍缩范式状态栏",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [655, 20, 10, 10],
+        "postDelay": 500
+    },
     "Sami@Roguelike@TraderCheck": {
         "roi": [96, 210, 293, 236],
         "next": ["Sami@Roguelike@StageTraderEnter#next"]
