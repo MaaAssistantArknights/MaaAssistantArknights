@@ -1956,64 +1956,64 @@
             ["深埋迷境", "_SKIP_"]
         ]
     },
-    "Reclamation@ClickAnyZoneOcr": {
+    "Fire@Reclamation@ClickAnyZoneOcr": {
         "text": ["區", "Zone"]
     },
-    "Reclamation@ConfirmStart": {
+    "Fire@Reclamation@ConfirmStart": {
         "text": ["演算", "開始"]
     },
-    "Reclamation@DoManufacture": {
+    "Fire@Reclamation@DoManufacture": {
         "text": ["開", "始"]
     },
-    "Reclamation@EmptyInitUnits": {
+    "Fire@Reclamation@EmptyInitUnits": {
         "text": ["請選擇", "参加", "演算"]
     },
-    "Reclamation@EnterSmeltGoldPage": {
+    "Fire@Reclamation@EnterSmeltGoldPage": {
         "text": ["粗製", "赤金"]
     },
-    "Reclamation@ExitLevelConfirm": {
+    "Fire@Reclamation@ExitLevelConfirm": {
         "text": ["確認", "離開"]
     },
-    "Reclamation@GiveupAlgorithm": {
+    "Fire@Reclamation@GiveupAlgorithm": {
         "text": ["放", "棄"]
     },
-    "Reclamation@GiveupClickEmergencyExit": {
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
         "text": ["緊急", "撤退"]
     },
-    "Reclamation@GiveupCrossdomainPageFlag": {
+    "Fire@Reclamation@GiveupCrossdomainPageFlag": {
         "text": ["確認", "帶走", "緊急", "撤退"]
     },
-    "Reclamation@GiveupTakeNothing": {
+    "Fire@Reclamation@GiveupTakeNothing": {
         "text": ["確認", "撤退"]
     },
-    "Reclamation@LabClickAssembleable": {
+    "Fire@Reclamation@LabClickAssembleable": {
         "text": ["可", "組", "裝"]
     },
-    "Reclamation@LabClickDetailView": {
+    "Fire@Reclamation@LabClickDetailView": {
         "text": ["詳", "情", "視", "圖"]
     },
-    "Reclamation@LevelComplete": {
+    "Fire@Reclamation@LevelComplete": {
         "text": ["結束", "MISSION", "RESULTS"]
     },
-    "Reclamation@Liaison": {
+    "Fire@Reclamation@Liaison": {
         "text": ["聯絡員"]
     },
-    "Reclamation@ManufactureIncrease": {
+    "Fire@Reclamation@ManufactureIncrease": {
         "text": ["開", "始"]
     },
-    "Reclamation@ManufactureSufficientMaterial": {
+    "Fire@Reclamation@ManufactureSufficientMaterial": {
         "text": ["開", "始"]
     },
-    "Reclamation@PrepareAction": {
+    "Fire@Reclamation@PrepareAction": {
         "text": ["行動準備"]
     },
-    "Reclamation@SkipAnnounce": {
+    "Fire@Reclamation@SkipAnnounce": {
         "text": ["跳過", "SKIP"]
     },
-    "Reclamation@SkipDailyReport": {
+    "Fire@Reclamation@SkipDailyReport": {
         "text": ["今日", "日報"]
     },
-    "Reclamation@StartActionEnter": {
+    "Fire@Reclamation@StartActionEnter": {
         "text": ["開始行動", "決斷"]
     }
 }

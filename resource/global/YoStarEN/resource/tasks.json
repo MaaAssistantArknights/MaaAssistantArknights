@@ -2442,6 +2442,87 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
+    "Fire@Reclamation@BuyWaterProcedure": {
+        "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
+    },
+    "Fire@Reclamation@ConfirmStart": {
+        "text": ["COMMENCE", "ALGORITHM"]
+    },
+    "Fire@Reclamation@DoManufacture": {
+        "text": ["Craft"]
+    },
+    "Fire@Reclamation@EmptyInitUnits": {
+        "roi": [349, 598, 563, 120],
+        "text": ["Choose the Operators", "you wish to begin", "the Algorithm with"]
+    },
+    "Fire@Reclamation@EnterResearchLab": {
+        "text": ["Research", "Development"]
+    },
+    "Fire@Reclamation@EnterSmeltGoldPage": {
+        "roi": [0, 31, 1280, 175],
+        "text": ["Crude", "Gold"]
+    },
+    "Fire@Reclamation@ExitLevelConfirm": {
+        "text": ["Are you sure you", "want to leave?"]
+    },
+    "Fire@Reclamation@GiveupAlgorithm": {
+        "text": ["ABANDON"]
+    },
+    "Fire@Reclamation@GiveupCheckRemainItems": {
+        "text": ["Check", "Supplies"]
+    },
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
+        "text": ["Confirm", "Evacuation"]
+    },
+    "Fire@Reclamation@GiveupCrossdomainPageFlag": {
+        "text": ["Select supplies", "to keep", "and manually tap", "Emergency", "Evacua"]
+    },
+    "Fire@Reclamation@GiveupTakeNothing": {
+        "text": ["Confirm", "Evacuation"]
+    },
+    "Fire@Reclamation@LabClickAssembleable": {
+        "text": ["Craftable"]
+    },
+    "Fire@Reclamation@LabClickDetailView": {
+        "text": ["View", "Details"]
+    },
+    "Fire@Reclamation@LevelComplete": {
+        "text": ["Results"]
+    },
+    "Fire@Reclamation@Liaison": {
+        "text": ["Liaison"]
+    },
+    "Fire@Reclamation@ManufactureDecrease": {
+        "text": ["Insufficient", "materials"]
+    },
+    "Fire@Reclamation@ManufactureIncrease": {
+        "text": ["Craft"]
+    },
+    "Fire@Reclamation@ManufactureInsufficientMaterial": {
+        "text": ["Insufficient", "materials"]
+    },
+    "Fire@Reclamation@ManufactureStatus": {
+        "roi": [1021, 336, 259, 109],
+        "text": []
+    },
+    "Fire@Reclamation@ManufactureSufficientMaterial": {
+        "text": ["Craft"]
+    },
+    "Fire@Reclamation@PrepareAction": {
+        "text": ["Prepare for", "Battle"]
+    },
+    "Fire@Reclamation@SkipAnnounce": {
+        "text": ["SKIP"]
+    },
+    "Fire@Reclamation@SkipDailyReport": {
+        "text": ["Today's News"]
+    },
+    "Fire@Reclamation@StartActionEnter": {
+        "text": ["Start"]
+    },
+    "Fire@Reclamation@TodoEnter": {
+        "text": ["FIRE", "WITHIN", "THE", "SAND"]
+    },
     "Reclamation2Begin": {
         "text": ["Commence"]
     },
@@ -2529,86 +2610,5 @@
     },
     "Reclamation2SkipDaysBeginNewDayEndTask": {
         "text": ["Start Today"]
-    },
-    "Reclamation@BuyWaterProcedure": {
-        "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
-    },
-    "Reclamation@ConfirmStart": {
-        "text": ["COMMENCE", "ALGORITHM"]
-    },
-    "Reclamation@DoManufacture": {
-        "text": ["Craft"]
-    },
-    "Reclamation@EmptyInitUnits": {
-        "roi": [349, 598, 563, 120],
-        "text": ["Choose the Operators", "you wish to begin", "the Algorithm with"]
-    },
-    "Reclamation@EnterResearchLab": {
-        "text": ["Research", "Development"]
-    },
-    "Reclamation@EnterSmeltGoldPage": {
-        "roi": [0, 31, 1280, 175],
-        "text": ["Crude", "Gold"]
-    },
-    "Reclamation@ExitLevelConfirm": {
-        "text": ["Are you sure you", "want to leave?"]
-    },
-    "Reclamation@GiveupAlgorithm": {
-        "text": ["ABANDON"]
-    },
-    "Reclamation@GiveupCheckRemainItems": {
-        "text": ["Check", "Supplies"]
-    },
-    "Reclamation@GiveupClickEmergencyExit": {
-        "text": ["Confirm", "Evacuation"]
-    },
-    "Reclamation@GiveupCrossdomainPageFlag": {
-        "text": ["Select supplies", "to keep", "and manually tap", "Emergency", "Evacua"]
-    },
-    "Reclamation@GiveupTakeNothing": {
-        "text": ["Confirm", "Evacuation"]
-    },
-    "Reclamation@LabClickAssembleable": {
-        "text": ["Craftable"]
-    },
-    "Reclamation@LabClickDetailView": {
-        "text": ["View", "Details"]
-    },
-    "Reclamation@LevelComplete": {
-        "text": ["Results"]
-    },
-    "Reclamation@Liaison": {
-        "text": ["Liaison"]
-    },
-    "Reclamation@ManufactureDecrease": {
-        "text": ["Insufficient", "materials"]
-    },
-    "Reclamation@ManufactureIncrease": {
-        "text": ["Craft"]
-    },
-    "Reclamation@ManufactureInsufficientMaterial": {
-        "text": ["Insufficient", "materials"]
-    },
-    "Reclamation@ManufactureStatus": {
-        "roi": [1021, 336, 259, 109],
-        "text": []
-    },
-    "Reclamation@ManufactureSufficientMaterial": {
-        "text": ["Craft"]
-    },
-    "Reclamation@PrepareAction": {
-        "text": ["Prepare for", "Battle"]
-    },
-    "Reclamation@SkipAnnounce": {
-        "text": ["SKIP"]
-    },
-    "Reclamation@SkipDailyReport": {
-        "text": ["Today's News"]
-    },
-    "Reclamation@StartActionEnter": {
-        "text": ["Start"]
-    },
-    "Reclamation@TodoEnter": {
-        "text": ["FIRE", "WITHIN", "THE", "SAND"]
     }
 }
