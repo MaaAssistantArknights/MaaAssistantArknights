@@ -2442,85 +2442,85 @@
             [".*Secluded ?Passage", "_SKIP_"]
         ]
     },
-    "SandFire@Reclamation@BuyWaterProcedure": {
+    "Fire@Reclamation@BuyWaterProcedure": {
         "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
     },
-    "SandFire@Reclamation@ConfirmStart": {
+    "Fire@Reclamation@ConfirmStart": {
         "text": ["COMMENCE", "ALGORITHM"]
     },
-    "SandFire@Reclamation@DoManufacture": {
+    "Fire@Reclamation@DoManufacture": {
         "text": ["Craft"]
     },
-    "SandFire@Reclamation@EmptyInitUnits": {
+    "Fire@Reclamation@EmptyInitUnits": {
         "roi": [349, 598, 563, 120],
         "text": ["Choose the Operators", "you wish to begin", "the Algorithm with"]
     },
-    "SandFire@Reclamation@EnterResearchLab": {
+    "Fire@Reclamation@EnterResearchLab": {
         "text": ["Research", "Development"]
     },
-    "SandFire@Reclamation@EnterSmeltGoldPage": {
+    "Fire@Reclamation@EnterSmeltGoldPage": {
         "roi": [0, 31, 1280, 175],
         "text": ["Crude", "Gold"]
     },
-    "SandFire@Reclamation@ExitLevelConfirm": {
+    "Fire@Reclamation@ExitLevelConfirm": {
         "text": ["Are you sure you", "want to leave?"]
     },
-    "SandFire@Reclamation@GiveupAlgorithm": {
+    "Fire@Reclamation@GiveupAlgorithm": {
         "text": ["ABANDON"]
     },
-    "SandFire@Reclamation@GiveupCheckRemainItems": {
+    "Fire@Reclamation@GiveupCheckRemainItems": {
         "text": ["Check", "Supplies"]
     },
-    "SandFire@Reclamation@GiveupClickEmergencyExit": {
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
         "text": ["Confirm", "Evacuation"]
     },
-    "SandFire@SandFire@Reclamation@GiveupCrossdomainPageFlag": {
+    "Fire@Reclamation@GiveupCrossdomainPageFlag": {
         "text": ["Select supplies", "to keep", "and manually tap", "Emergency", "Evacua"]
     },
-    "SandFire@Reclamation@GiveupTakeNothing": {
+    "Fire@Reclamation@GiveupTakeNothing": {
         "text": ["Confirm", "Evacuation"]
     },
-    "SandFire@Reclamation@LabClickAssembleable": {
+    "Fire@Reclamation@LabClickAssembleable": {
         "text": ["Craftable"]
     },
-    "SandFire@Reclamation@LabClickDetailView": {
+    "Fire@Reclamation@LabClickDetailView": {
         "text": ["View", "Details"]
     },
-    "SandFire@Reclamation@LevelComplete": {
+    "Fire@Reclamation@LevelComplete": {
         "text": ["Results"]
     },
-    "SandFire@Reclamation@Liaison": {
+    "Fire@Reclamation@Liaison": {
         "text": ["Liaison"]
     },
-    "SandFire@Reclamation@ManufactureDecrease": {
+    "Fire@Reclamation@ManufactureDecrease": {
         "text": ["Insufficient", "materials"]
     },
-    "SandFire@Reclamation@ManufactureIncrease": {
+    "Fire@Reclamation@ManufactureIncrease": {
         "text": ["Craft"]
     },
-    "SandFire@Reclamation@ManufactureInsufficientMaterial": {
+    "Fire@Reclamation@ManufactureInsufficientMaterial": {
         "text": ["Insufficient", "materials"]
     },
-    "SandFire@Reclamation@ManufactureStatus": {
+    "Fire@Reclamation@ManufactureStatus": {
         "roi": [1021, 336, 259, 109],
         "text": []
     },
-    "SandFire@Reclamation@ManufactureSufficientMaterial": {
+    "Fire@Reclamation@ManufactureSufficientMaterial": {
         "text": ["Craft"]
     },
-    "SandFire@Reclamation@PrepareAction": {
+    "Fire@Reclamation@PrepareAction": {
         "text": ["Prepare for", "Battle"]
     },
-    "SandFire@Reclamation@SkipAnnounce": {
+    "Fire@Reclamation@SkipAnnounce": {
         "text": ["SKIP"]
     },
-    "SandFire@Reclamation@SkipDailyReport": {
+    "Fire@Reclamation@SkipDailyReport": {
         "text": ["Today's News"]
     },
-    "SandFire@Reclamation@StartActionEnter": {
+    "Fire@Reclamation@StartActionEnter": {
         "text": ["Start"]
     },
-    "SandFire@Reclamation@TodoEnter": {
+    "Fire@Reclamation@TodoEnter": {
         "text": ["FIRE", "WITHIN", "THE", "SAND"]
     },
     "Reclamation2Begin": {

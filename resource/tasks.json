@@ -10109,7 +10109,7 @@
         "template": "Roguelike@QuickFormation.png"
     },
     "Sarkaz@RoguelikeSettlementConfirm": {},
-    "SandFire@Reclamation": {
+    "Fire@Reclamation": {
         "doc": [
             "————————————————————————————————————————————————————————————————",
             "生息演算：沙中之火",
@@ -10124,11 +10124,11 @@
         ],
         "action": "ClickSelf",
         "roi": [844, 58, 268, 272],
-        "next": ["SandFire@Reclamation", "SandFire@Reclamation@CloseAnnos#next", "SandFire@Reclamation@TodoEnter"],
+        "next": ["Fire@Reclamation", "Fire@Reclamation@CloseAnnos#next", "Fire@Reclamation@TodoEnter"],
         "postDelay": 1000
     },
-    "SandFire@Reclamation@NavigateHome": {
-        "baseTask": "SandFire@Reclamation",
+    "Fire@Reclamation@NavigateHome": {
+        "baseTask": "Fire@Reclamation",
         "template": [
             "Terminal.png",
             "TerminalDark.png",
@@ -10137,962 +10137,962 @@
             "TerminalSiege.png"
         ],
         "next": [
-            "SandFire@Reclamation@NavigateHome",
-            "SandFire@Reclamation@NavigateHome@CloseAnnos#next",
-            "SandFire@Reclamation@NavigateHome@TodoEnter"
+            "Fire@Reclamation@NavigateHome",
+            "Fire@Reclamation@NavigateHome@CloseAnnos#next",
+            "Fire@Reclamation@NavigateHome@TodoEnter"
         ]
     },
-    "SandFire@Reclamation@AtCmdCenterFlag": {
+    "Fire@Reclamation@AtCmdCenterFlag": {
         "algorithm": "OcrDetect",
         "roi": [68, 0, 326, 137],
         "text": ["COM", "MAND", "ENTER"],
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@AtHomePageFlag": {
+    "Fire@Reclamation@AtHomePageFlag": {
         "doc": "base_task",
         "roi": [801, 98, 479, 309],
-        "next": ["SandFire@Reclamation@Begin"]
+        "next": ["Fire@Reclamation@Begin"]
     },
-    "SandFire@Reclamation@AtMapFlag": {
+    "Fire@Reclamation@AtMapFlag": {
         "doc": "base_task",
-        "template": "SandFire@Reclamation@ResetScope.png",
+        "template": "Fire@Reclamation@ResetScope.png",
         "roi": [0, 605, 141, 115]
     },
-    "SandFire@Reclamation@BalckMarketDialogOption": {
+    "Fire@Reclamation@BalckMarketDialogOption": {
         "algorithm": "OcrDetect",
         "roi": [721, 78, 543, 492],
         "text": [],
         "postDelay": 500
     },
-    "SandFire@Reclamation@BattlePackIconTemplate": {
-        "template": "SandFire@Reclamation@ClickExitLevel.png",
+    "Fire@Reclamation@BattlePackIconTemplate": {
+        "template": "Fire@Reclamation@ClickExitLevel.png",
         "roi": [100, 0, 164, 166]
     },
-    "SandFire@Reclamation@BattleSkillReadyOnClick": {
+    "Fire@Reclamation@BattleSkillReadyOnClick": {
         "baseTask": "BattleSkillReadyOnClick",
         "template": "BattleSkillReadyOnClick.png",
         "roi": [439, 76, 841, 644]
     },
-    "SandFire@Reclamation@BattleStart": {
-        "baseTask": "SandFire@Reclamation@BattlePackIconTemplate",
-        "template": "SandFire@Reclamation@ClickExitLevel.png",
-        "next": ["SandFire@Reclamation@LevelComplete"],
+    "Fire@Reclamation@BattleStart": {
+        "baseTask": "Fire@Reclamation@BattlePackIconTemplate",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
+        "next": ["Fire@Reclamation@LevelComplete"],
         "specialParams_Doc": "二次复核前的delay，网络不佳delay",
         "specialParams": [2000, 2000]
     },
-    "SandFire@Reclamation@NavigateHome@BattleStart": {
-        "baseTask": "SandFire@Reclamation@BattleStart",
-        "template": "SandFire@Reclamation@ClickExitLevel.png",
-        "next": ["SandFire@Reclamation@NavigateHome@LevelComplete"]
+    "Fire@Reclamation@NavigateHome@BattleStart": {
+        "baseTask": "Fire@Reclamation@BattleStart",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
+        "next": ["Fire@Reclamation@NavigateHome@LevelComplete"]
     },
-    "SandFire@Reclamation@Begin": {
+    "Fire@Reclamation@Begin": {
         "algorithm": "JustReturn",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm",
-            "SandFire@Reclamation@StartAlgorithm",
-            "SandFire@Reclamation@ConfirmStart#next",
-            "SandFire@Reclamation@ReturnButton#next",
-            "SandFire@Reclamation@BattleStart#next",
-            "SandFire@Reclamation@LevelComplete",
-            "SandFire@Reclamation@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupSkipConfirm",
-            "SandFire@Reclamation@GainReward",
-            "SandFire@Reclamation@StartUpThemes#next",
-            "SandFire@Reclamation@TodoEnter"
+            "Fire@Reclamation@GiveupAlgorithm",
+            "Fire@Reclamation@StartAlgorithm",
+            "Fire@Reclamation@ConfirmStart#next",
+            "Fire@Reclamation@ReturnButton#next",
+            "Fire@Reclamation@BattleStart#next",
+            "Fire@Reclamation@LevelComplete",
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupSkipConfirm",
+            "Fire@Reclamation@GainReward",
+            "Fire@Reclamation@StartUpThemes#next",
+            "Fire@Reclamation@TodoEnter"
         ]
     },
-    "SandFire@Reclamation@BetweenDayFlag": {
+    "Fire@Reclamation@BetweenDayFlag": {
         "roi": [508, 142, 267, 283]
     },
-    "SandFire@Reclamation@BuyWaterProcedure": {
+    "Fire@Reclamation@BuyWaterProcedure": {
         "algorithm": "OcrDetect",
         "text": ["Skip", "建材", "清水", "Skip"]
     },
-    "SandFire@Reclamation@ClickAnyZoneOcr": {
+    "Fire@Reclamation@ClickAnyZoneOcr": {
         "algorithm": "OcrDetect",
         "roi": [308, 73, 739, 567],
         "text": ["区", "Zone"],
         "postDelay": 500,
         "action": "ClickSelf",
-        "exceededNext": ["SandFire@Reclamation@ResetScope"],
-        "next": ["SandFire@Reclamation@StartActionEnter"]
+        "exceededNext": ["Fire@Reclamation@ResetScope"],
+        "next": ["Fire@Reclamation@StartActionEnter"]
     },
-    "SandFire@Reclamation@NavigateHome@ClickAnyZoneOcr": {
-        "baseTask": "SandFire@Reclamation@ClickAnyZoneOcr",
-        "exceededNext": ["SandFire@Reclamation@NavigateHome@ResetScope"],
-        "next": ["SandFire@Reclamation@NavigateHome@StartActionEnter"]
+    "Fire@Reclamation@NavigateHome@ClickAnyZoneOcr": {
+        "baseTask": "Fire@Reclamation@ClickAnyZoneOcr",
+        "exceededNext": ["Fire@Reclamation@NavigateHome@ResetScope"],
+        "next": ["Fire@Reclamation@NavigateHome@StartActionEnter"]
     },
-    "SandFire@Reclamation@ClickBlackMarket": {
+    "Fire@Reclamation@ClickBlackMarket": {
         "roi": [302, 28, 146, 126],
         "action": "ClickSelf"
     },
-    "SandFire@Reclamation@ClickBlackMarketCorner": {
+    "Fire@Reclamation@ClickBlackMarketCorner": {
         "roi": [318, 40, 115, 113],
         "action": "ClickSelf"
     },
-    "SandFire@Reclamation@ClickCenterBase": {
+    "Fire@Reclamation@ClickCenterBase": {
         "roi": [557, 281, 162, 155],
         "action": "ClickSelf",
         "postDelay": 1000,
-        "exceededNext": ["SandFire@Reclamation@ResetScope"],
+        "exceededNext": ["Fire@Reclamation@ResetScope"],
         "next": [
-            "SandFire@Reclamation@NextDay",
-            "SandFire@Reclamation@ClickAnyZoneOcr",
-            "SandFire@Reclamation@SkipAnnounce",
-            "SandFire@Reclamation@SkipDailyReport",
-            "SandFire@Reclamation@ClickCenterBase"
+            "Fire@Reclamation@NextDay",
+            "Fire@Reclamation@ClickAnyZoneOcr",
+            "Fire@Reclamation@SkipAnnounce",
+            "Fire@Reclamation@SkipDailyReport",
+            "Fire@Reclamation@ClickCenterBase"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@ClickCenterBase": {
-        "baseTask": "SandFire@Reclamation@ClickCenterBase",
-        "template": "SandFire@Reclamation@ClickCenterBase.png",
+    "Fire@Reclamation@NavigateHome@ClickCenterBase": {
+        "baseTask": "Fire@Reclamation@ClickCenterBase",
+        "template": "Fire@Reclamation@ClickCenterBase.png",
         "next": [
-            "SandFire@Reclamation@NavigateHome@NextDay",
-            "SandFire@Reclamation@NavigateHome@ClickAnyZoneOcr",
-            "SandFire@Reclamation@NavigateHome@SkipAnnounce",
-            "SandFire@Reclamation@NavigateHome@SkipDailyReport",
-            "SandFire@Reclamation@NavigateHome@ClickCenterBase"
+            "Fire@Reclamation@NavigateHome@NextDay",
+            "Fire@Reclamation@NavigateHome@ClickAnyZoneOcr",
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@ClickCenterBase"
         ]
     },
-    "SandFire@Reclamation@ClickChooseInitUnits": {
+    "Fire@Reclamation@ClickChooseInitUnits": {
         "roi": [1055, 0, 225, 178],
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
-            "SandFire@Reclamation@EmptyInitUnits",
-            "SandFire@Reclamation@InitSupplyAll",
-            "SandFire@Reclamation@ClickChooseInitUnits",
-            "SandFire@Reclamation@ReturnButtons#next"
+            "Fire@Reclamation@EmptyInitUnits",
+            "Fire@Reclamation@InitSupplyAll",
+            "Fire@Reclamation@ClickChooseInitUnits",
+            "Fire@Reclamation@ReturnButtons#next"
         ]
     },
-    "SandFire@Reclamation@ClickCmdCenter": {
+    "Fire@Reclamation@ClickCmdCenter": {
         "roi": [0, 86, 156, 154],
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@AtCmdCenterFlag", "SandFire@Reclamation@ClickCmdCenter"]
+        "next": ["Fire@Reclamation@AtCmdCenterFlag", "Fire@Reclamation@ClickCmdCenter"]
     },
-    "SandFire@Reclamation@ClickExitLevel": {
+    "Fire@Reclamation@ClickExitLevel": {
         "action": "ClickRect",
-        "baseTask": "SandFire@Reclamation@BattlePackIconTemplate",
+        "baseTask": "Fire@Reclamation@BattlePackIconTemplate",
         "specificRect": [49, 30, 58, 54]
     },
-    "SandFire@Reclamation@CmdCenterSwipeLeft": {
+    "Fire@Reclamation@CmdCenterSwipeLeft": {
         "baseTask": "SwipeToTheLeft",
         "postDelay": 1000
     },
-    "SandFire@Reclamation@CmdCenterSwipeRight": {
+    "Fire@Reclamation@CmdCenterSwipeRight": {
         "baseTask": "SwipeToTheRight",
         "postDelay": 1000
     },
-    "SandFire@Reclamation@ConclusionReportBadgeIcon": {
-        "template": "SandFire@Reclamation@Badge.png",
+    "Fire@Reclamation@ConclusionReportBadgeIcon": {
+        "template": "Fire@Reclamation@Badge.png",
         "roi": [560, 345, 552, 210]
     },
-    "SandFire@Reclamation@ConfirmStart": {
+    "Fire@Reclamation@ConfirmStart": {
         "algorithm": "OcrDetect",
         "text": ["演算", "开始"],
         "roi": [790, 497, 465, 223],
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@SkipAnnounce",
-            "SandFire@Reclamation@SkipDailyReport",
-            "SandFire@Reclamation@Emergency",
-            "SandFire@Reclamation@ClickCenterBase",
-            "SandFire@Reclamation@ResetScope"
+            "Fire@Reclamation@SkipAnnounce",
+            "Fire@Reclamation@SkipDailyReport",
+            "Fire@Reclamation@Emergency",
+            "Fire@Reclamation@ClickCenterBase",
+            "Fire@Reclamation@ResetScope"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@ConfirmStart": {
-        "baseTask": "SandFire@Reclamation@ConfirmStart",
+    "Fire@Reclamation@NavigateHome@ConfirmStart": {
+        "baseTask": "Fire@Reclamation@ConfirmStart",
         "next": [
-            "SandFire@Reclamation@NavigateHome@SkipAnnounce",
-            "SandFire@Reclamation@NavigateHome@SkipDailyReport",
-            "SandFire@Reclamation@NavigateHome@Emergency",
-            "SandFire@Reclamation@NavigateHome@ClickCenterBase",
-            "SandFire@Reclamation@NavigateHome@ResetScope"
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@Emergency",
+            "Fire@Reclamation@NavigateHome@ClickCenterBase",
+            "Fire@Reclamation@NavigateHome@ResetScope"
         ]
     },
-    "SandFire@Reclamation@DialogSkip": {
-        "baseTask": "SandFire@Reclamation@SkipAnnounce",
+    "Fire@Reclamation@DialogSkip": {
+        "baseTask": "Fire@Reclamation@SkipAnnounce",
         "next": []
     },
-    "SandFire@Reclamation@DoManufacture": {
-        "baseTask": "SandFire@Reclamation@ManufactureStatus",
+    "Fire@Reclamation@DoManufacture": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "action": "ClickSelf",
         "text": ["开", "始"],
         "postDelay": 1000
     },
-    "SandFire@Reclamation@Emergency": {
+    "Fire@Reclamation@Emergency": {
         "templThreshold": 0.7,
         "roi": [1055, 0, 225, 181],
-        "next": ["SandFire@Reclamation@ExitAlgorithm"]
+        "next": ["Fire@Reclamation@ExitAlgorithm"]
     },
-    "SandFire@Reclamation@NavigateHome@Emergency": {
-        "baseTask": "SandFire@Reclamation@Emergency",
-        "template": "SandFire@Reclamation@Emergency.png",
-        "next": ["SandFire@Reclamation@NavigateHome@ExitAlgorithm"]
+    "Fire@Reclamation@NavigateHome@Emergency": {
+        "baseTask": "Fire@Reclamation@Emergency",
+        "template": "Fire@Reclamation@Emergency.png",
+        "next": ["Fire@Reclamation@NavigateHome@ExitAlgorithm"]
     },
-    "SandFire@Reclamation@EmptyInitUnits": {
+    "Fire@Reclamation@EmptyInitUnits": {
         "algorithm": "OcrDetect",
         "roi": [592, 595, 336, 125],
         "text": ["请选择", "参加", "演算"],
-        "next": ["SandFire@Reclamation@QuickFormation", "SandFire@Reclamation@QuickFormationSelectOneUnit"]
+        "next": ["Fire@Reclamation@QuickFormation", "Fire@Reclamation@QuickFormationSelectOneUnit"]
     },
-    "SandFire@Reclamation@EnterResearchLab": {
+    "Fire@Reclamation@EnterResearchLab": {
         "algorithm": "OcrDetect",
         "roi": [0, 79, 1280, 139],
         "text": ["研", "究", "所"],
         "action": "ClickSelf",
         "postDelay": 500
     },
-    "SandFire@Reclamation@EnterSmeltGoldPage": {
+    "Fire@Reclamation@EnterSmeltGoldPage": {
         "algorithm": "OcrDetect",
         "roi": [0, 31, 1280, 175],
         "text": ["粗制", "赤金"],
         "action": "ClickSelf"
     },
-    "SandFire@Reclamation@ExitAlgorithm": {
+    "Fire@Reclamation@ExitAlgorithm": {
         "roi": [0, 0, 160, 154],
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@GiveupAlgorithm", "SandFire@Reclamation@ExitAlgorithm"]
+        "next": ["Fire@Reclamation@GiveupAlgorithm", "Fire@Reclamation@ExitAlgorithm"]
     },
-    "SandFire@Reclamation@NavigateHome@ExitAlgorithm": {
-        "baseTask": "SandFire@Reclamation@ExitAlgorithm",
-        "template": "SandFire@Reclamation@ExitAlgorithm.png",
+    "Fire@Reclamation@NavigateHome@ExitAlgorithm": {
+        "baseTask": "Fire@Reclamation@ExitAlgorithm",
+        "template": "Fire@Reclamation@ExitAlgorithm.png",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupAlgorithm",
-            "SandFire@Reclamation@NavigateHome@ExitAlgorithm"
+            "Fire@Reclamation@NavigateHome@GiveupAlgorithm",
+            "Fire@Reclamation@NavigateHome@ExitAlgorithm"
         ]
     },
-    "SandFire@Reclamation@ExitLevelConfirm": {
+    "Fire@Reclamation@ExitLevelConfirm": {
         "algorithm": "OcrDetect",
         "roi": [856, 336, 371, 177],
         "text": ["确认", "离开"],
         "action": "ClickSelf"
     },
-    "SandFire@Reclamation@FormationConfirmBase": {
-        "template": "SandFire@Reclamation@FormationConfirm.png",
+    "Fire@Reclamation@FormationConfirmBase": {
+        "template": "Fire@Reclamation@FormationConfirm.png",
         "roi": [862, 604, 358, 116]
     },
-    "SandFire@Reclamation@GainReward": {
+    "Fire@Reclamation@GainReward": {
         "roi": [556, 559, 179, 161],
         "postDelay": 1000,
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@Begin#next", "SandFire@Reclamation@GainReward"]
+        "next": ["Fire@Reclamation@Begin#next", "Fire@Reclamation@GainReward"]
     },
-    "SandFire@Reclamation@NavigateHome@GainReward": {
-        "baseTask": "SandFire@Reclamation@GainReward",
-        "template": "SandFire@Reclamation@GainReward.png",
-        "next": ["SandFire@Reclamation@NavigateHome@Begin#next", "SandFire@Reclamation@NavigateHome@GainReward"]
+    "Fire@Reclamation@NavigateHome@GainReward": {
+        "baseTask": "Fire@Reclamation@GainReward",
+        "template": "Fire@Reclamation@GainReward.png",
+        "next": ["Fire@Reclamation@NavigateHome@Begin#next", "Fire@Reclamation@NavigateHome@GainReward"]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GainReward": {
-        "baseTask": "SandFire@Reclamation@GainReward",
-        "template": "SandFire@Reclamation@GainReward.png",
+    "Fire@Reclamation@GiveupAlgorithm@GainReward": {
+        "baseTask": "Fire@Reclamation@GainReward",
+        "template": "Fire@Reclamation@GainReward.png",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@Begin#next",
-            "SandFire@Reclamation@GiveupAlgorithm@GainReward"
+            "Fire@Reclamation@GiveupAlgorithm@Begin#next",
+            "Fire@Reclamation@GiveupAlgorithm@GainReward"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm": {
+    "Fire@Reclamation@GiveupAlgorithm": {
         "algorithm": "OcrDetect",
         "text": ["放", "弃"],
         "roi": [684, 569, 273, 151],
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@GiveupAlgorithmConfirm", "SandFire@Reclamation@GiveupAlgorithm"]
+        "next": ["Fire@Reclamation@GiveupAlgorithmConfirm", "Fire@Reclamation@GiveupAlgorithm"]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupAlgorithm": {
-        "baseTask": "SandFire@Reclamation@GiveupAlgorithm",
+    "Fire@Reclamation@NavigateHome@GiveupAlgorithm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithm",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupAlgorithmConfirm",
-            "SandFire@Reclamation@NavigateHome@GiveupAlgorithm"
+            "Fire@Reclamation@NavigateHome@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupAlgorithm"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithm": {
-        "baseTask": "SandFire@Reclamation@GiveupAlgorithm",
+    "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithm",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithm"
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithmConfirm": {
+    "Fire@Reclamation@GiveupAlgorithmConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "SandFire@Reclamation@ReturnConfirm",
+        "baseTask": "Fire@Reclamation@ReturnConfirm",
         "next": [
-            "SandFire@Reclamation@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupCrossdomainPageFlag",
-            "SandFire@Reclamation@GiveupAlgorithmConfirm"
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupCrossdomainPageFlag",
+            "Fire@Reclamation@GiveupAlgorithmConfirm"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupAlgorithmConfirm": {
-        "baseTask": "SandFire@Reclamation@GiveupAlgorithmConfirm",
-        "template": "PopupConfirm.png",
-        "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupReportSkip",
-            "SandFire@Reclamation@NavigateHome@GiveupCrossdomainPageFlag",
-            "SandFire@Reclamation@NavigateHome@GiveupAlgorithmConfirm"
-        ]
-    },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm": {
-        "baseTask": "SandFire@Reclamation@GiveupAlgorithmConfirm",
+    "Fire@Reclamation@NavigateHome@GiveupAlgorithmConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithmConfirm",
         "template": "PopupConfirm.png",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupCrossdomainPageFlag",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm"
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupCrossdomainPageFlag",
+            "Fire@Reclamation@NavigateHome@GiveupAlgorithmConfirm"
         ]
     },
-    "SandFire@Reclamation@GiveupCheckRemainItems": {
+    "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithmConfirm",
+        "template": "PopupConfirm.png",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdomainPageFlag",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm"
+        ]
+    },
+    "Fire@Reclamation@GiveupCheckRemainItems": {
         "algorithm": "OcrDetect",
         "roi": [729, 539, 337, 134],
         "action": "ClickSelf",
         "text": ["查看", "物品"],
         "next": [
-            "SandFire@Reclamation@GiveupTakeNothing",
-            "SandFire@Reclamation@GiveupCheckRemainItems",
-            "SandFire@Reclamation@GiveupTakeNothing#next"
+            "Fire@Reclamation@GiveupTakeNothing",
+            "Fire@Reclamation@GiveupCheckRemainItems",
+            "Fire@Reclamation@GiveupTakeNothing#next"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupCheckRemainItems": {
-        "baseTask": "SandFire@Reclamation@GiveupCheckRemainItems",
+    "Fire@Reclamation@NavigateHome@GiveupCheckRemainItems": {
+        "baseTask": "Fire@Reclamation@GiveupCheckRemainItems",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupTakeNothing",
-            "SandFire@Reclamation@NavigateHome@GiveupCheckRemainItems",
-            "SandFire@Reclamation@NavigateHome@GiveupTakeNothing#next"
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothing",
+            "Fire@Reclamation@NavigateHome@GiveupCheckRemainItems",
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothing#next"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems": {
-        "baseTask": "SandFire@Reclamation@GiveupCheckRemainItems",
+    "Fire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems": {
+        "baseTask": "Fire@Reclamation@GiveupCheckRemainItems",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothing",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothing#next"
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing#next"
         ]
     },
-    "SandFire@Reclamation@GiveupClickEmergencyExit": {
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
         "algorithm": "OcrDetect",
         "roi": [500, 441, 780, 268],
         "action": "ClickSelf",
         "text": ["紧急", "撤退"],
-        "next": ["SandFire@Reclamation@GiveupCheckRemainItems", "SandFire@Reclamation@GiveupClickEmergencyExit"]
+        "next": ["Fire@Reclamation@GiveupCheckRemainItems", "Fire@Reclamation@GiveupClickEmergencyExit"]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupClickEmergencyExit": {
-        "baseTask": "SandFire@Reclamation@GiveupClickEmergencyExit",
+    "Fire@Reclamation@NavigateHome@GiveupClickEmergencyExit": {
+        "baseTask": "Fire@Reclamation@GiveupClickEmergencyExit",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupCheckRemainItems",
-            "SandFire@Reclamation@NavigateHome@GiveupClickEmergencyExit"
+            "Fire@Reclamation@NavigateHome@GiveupCheckRemainItems",
+            "Fire@Reclamation@NavigateHome@GiveupClickEmergencyExit"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit": {
-        "baseTask": "SandFire@Reclamation@GiveupClickEmergencyExit",
+    "Fire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit": {
+        "baseTask": "Fire@Reclamation@GiveupClickEmergencyExit",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit"
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit"
         ]
     },
-    "SandFire@Reclamation@GiveupCrossdoaimSwipeRight": {
+    "Fire@Reclamation@GiveupCrossdoaimSwipeRight": {
         "baseTask": "SwipeToTheRight",
         "postDelay": 1500,
-        "next": ["SandFire@Reclamation@GiveupClickEmergencyExit", "SandFire@Reclamation@GiveupCrossdoaimSwipeRight"]
+        "next": ["Fire@Reclamation@GiveupClickEmergencyExit", "Fire@Reclamation@GiveupCrossdoaimSwipeRight"]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight": {
-        "baseTask": "SandFire@Reclamation@GiveupCrossdoaimSwipeRight",
+    "Fire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdoaimSwipeRight",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupClickEmergencyExit",
-            "SandFire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight"
+            "Fire@Reclamation@NavigateHome@GiveupClickEmergencyExit",
+            "Fire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight": {
-        "baseTask": "SandFire@Reclamation@GiveupCrossdoaimSwipeRight",
+    "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdoaimSwipeRight",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight"
+            "Fire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight"
         ]
     },
-    "SandFire@Reclamation@GiveupCrossdomainPageFlag": {
+    "Fire@Reclamation@GiveupCrossdomainPageFlag": {
         "algorithm": "OcrDetect",
         "roi": [1016, 49, 264, 152],
         "text": ["确认", "带走", "紧急", "撤退"],
-        "next": ["SandFire@Reclamation@GiveupCrossdoaimSwipeRight"]
+        "next": ["Fire@Reclamation@GiveupCrossdoaimSwipeRight"]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupCrossdomainPageFlag": {
-        "baseTask": "SandFire@Reclamation@GiveupCrossdomainPageFlag",
-        "next": ["SandFire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight"]
+    "Fire@Reclamation@NavigateHome@GiveupCrossdomainPageFlag": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdomainPageFlag",
+        "next": ["Fire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight"]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupCrossdomainPageFlag": {
-        "baseTask": "SandFire@Reclamation@GiveupCrossdomainPageFlag",
-        "next": ["SandFire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight"]
+    "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdomainPageFlag": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdomainPageFlag",
+        "next": ["Fire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight"]
     },
-    "SandFire@Reclamation@GiveupReportSkip": {
+    "Fire@Reclamation@GiveupReportSkip": {
         "roi": [1074, 537, 183, 180],
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupSkipConfirm",
-            "SandFire@Reclamation@GiveupSkipConfirm#next"
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupSkipConfirm",
+            "Fire@Reclamation@GiveupSkipConfirm#next"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupReportSkip": {
-        "baseTask": "SandFire@Reclamation@GiveupReportSkip",
-        "template": "SandFire@Reclamation@GiveupReportSkip.png",
+    "Fire@Reclamation@NavigateHome@GiveupReportSkip": {
+        "baseTask": "Fire@Reclamation@GiveupReportSkip",
+        "template": "Fire@Reclamation@GiveupReportSkip.png",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupReportSkip",
-            "SandFire@Reclamation@NavigateHome@GiveupSkipConfirm",
-            "SandFire@Reclamation@NavigateHome@GiveupSkipConfirm#next"
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm#next"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupReportSkip": {
-        "baseTask": "SandFire@Reclamation@GiveupReportSkip",
-        "template": "SandFire@Reclamation@GiveupReportSkip.png",
+    "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip": {
+        "baseTask": "Fire@Reclamation@GiveupReportSkip",
+        "template": "Fire@Reclamation@GiveupReportSkip.png",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm#next"
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm#next"
         ]
     },
-    "SandFire@Reclamation@GiveupSkipConfirm": {
+    "Fire@Reclamation@GiveupSkipConfirm": {
         "roi": [1082, 547, 198, 157],
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@GainReward",
-            "SandFire@Reclamation@AtHomePageFlag",
-            "SandFire@Reclamation@GiveupSkipConfirm"
+            "Fire@Reclamation@GainReward",
+            "Fire@Reclamation@AtHomePageFlag",
+            "Fire@Reclamation@GiveupSkipConfirm"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupSkipConfirm": {
-        "baseTask": "SandFire@Reclamation@GiveupSkipConfirm",
-        "template": "SandFire@Reclamation@GiveupSkipConfirm.png",
+    "Fire@Reclamation@NavigateHome@GiveupSkipConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupSkipConfirm",
+        "template": "Fire@Reclamation@GiveupSkipConfirm.png",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GainReward",
-            "SandFire@Reclamation@NavigateHome@AtHomePageFlag",
-            "SandFire@Reclamation@NavigateHome@GiveupSkipConfirm"
+            "Fire@Reclamation@NavigateHome@GainReward",
+            "Fire@Reclamation@NavigateHome@AtHomePageFlag",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm": {
-        "baseTask": "SandFire@Reclamation@GiveupSkipConfirm",
-        "template": "SandFire@Reclamation@GiveupSkipConfirm.png",
+    "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupSkipConfirm",
+        "template": "Fire@Reclamation@GiveupSkipConfirm.png",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GainReward",
-            "SandFire@Reclamation@GiveupAlgorithm@AtHomePageFlag",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm"
+            "Fire@Reclamation@GiveupAlgorithm@GainReward",
+            "Fire@Reclamation@GiveupAlgorithm@AtHomePageFlag",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm"
         ]
     },
-    "SandFire@Reclamation@GiveupTakeNothing": {
+    "Fire@Reclamation@GiveupTakeNothing": {
         "algorithm": "OcrDetect",
         "roi": [729, 539, 337, 134],
         "action": "ClickSelf",
         "text": ["确认", "撤退"],
         "next": [
-            "SandFire@Reclamation@GiveupTakeNothingConfirm",
-            "SandFire@Reclamation@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupTakeNothing"
+            "Fire@Reclamation@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupTakeNothing"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupTakeNothing": {
-        "baseTask": "SandFire@Reclamation@GiveupTakeNothing",
+    "Fire@Reclamation@NavigateHome@GiveupTakeNothing": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothing",
         "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupTakeNothingConfirm",
-            "SandFire@Reclamation@NavigateHome@GiveupReportSkip",
-            "SandFire@Reclamation@NavigateHome@GiveupTakeNothing"
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothing"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothing": {
-        "baseTask": "SandFire@Reclamation@GiveupTakeNothing",
+    "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothing",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothing"
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing"
         ]
     },
-    "SandFire@Reclamation@GiveupTakeNothingConfirm": {
+    "Fire@Reclamation@GiveupTakeNothingConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "SandFire@Reclamation@ReturnConfirm",
+        "baseTask": "Fire@Reclamation@ReturnConfirm",
         "next": [
-            "SandFire@Reclamation@GiveupTakeNothingConfirm",
-            "SandFire@Reclamation@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupTakeNothingConfirm"
+            "Fire@Reclamation@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupTakeNothingConfirm"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@GiveupTakeNothingConfirm": {
-        "baseTask": "SandFire@Reclamation@GiveupTakeNothingConfirm",
-        "template": "PopupConfirm.png",
-        "next": [
-            "SandFire@Reclamation@NavigateHome@GiveupTakeNothingConfirm",
-            "SandFire@Reclamation@NavigateHome@GiveupReportSkip",
-            "SandFire@Reclamation@NavigateHome@GiveupTakeNothingConfirm"
-        ]
-    },
-    "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm": {
-        "baseTask": "SandFire@Reclamation@GiveupTakeNothingConfirm",
+    "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothingConfirm",
         "template": "PopupConfirm.png",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm"
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm"
         ]
     },
-    "SandFire@Reclamation@InitSupplyAll": {
+    "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothingConfirm",
+        "template": "PopupConfirm.png",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm"
+        ]
+    },
+    "Fire@Reclamation@InitSupplyAll": {
         "roi": [862, 572, 418, 148],
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@ConfirmStart", "SandFire@Reclamation@InitSupplyAll"]
+        "next": ["Fire@Reclamation@ConfirmStart", "Fire@Reclamation@InitSupplyAll"]
     },
-    "SandFire@Reclamation@LabClickAssembleable": {
+    "Fire@Reclamation@LabClickAssembleable": {
         "algorithm": "OcrDetect",
         "roi": [0, 85, 161, 126],
         "action": "ClickSelf",
         "text": ["可", "组", "装"]
     },
-    "SandFire@Reclamation@LabClickDetailView": {
+    "Fire@Reclamation@LabClickDetailView": {
         "algorithm": "OcrDetect",
         "roi": [1116, 416, 164, 134],
         "text": ["详", "情", "视", "图"],
         "postDelay": 500,
         "action": "ClickSelf"
     },
-    "SandFire@Reclamation@LevelComplete": {
+    "Fire@Reclamation@LevelComplete": {
         "algorithm": "OcrDetect",
         "roi": [0, 197, 469, 224],
         "action": "ClickSelf",
         "postDelay": 1000,
         "text": ["结束", "MISSION", "RESULTS"],
         "next": [
-            "SandFire@Reclamation@NextDay",
-            "SandFire@Reclamation@ResetScope",
-            "SandFire@Reclamation@LevelComplete"
+            "Fire@Reclamation@NextDay",
+            "Fire@Reclamation@ResetScope",
+            "Fire@Reclamation@LevelComplete"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@LevelComplete": {
-        "baseTask": "SandFire@Reclamation@LevelComplete",
+    "Fire@Reclamation@NavigateHome@LevelComplete": {
+        "baseTask": "Fire@Reclamation@LevelComplete",
         "next": [
-            "SandFire@Reclamation@NavigateHome@NextDay",
-            "SandFire@Reclamation@NavigateHome@ResetScope",
-            "SandFire@Reclamation@NavigateHome@LevelComplete"
+            "Fire@Reclamation@NavigateHome@NextDay",
+            "Fire@Reclamation@NavigateHome@ResetScope",
+            "Fire@Reclamation@NavigateHome@LevelComplete"
         ]
     },
-    "SandFire@Reclamation@LevelForceExit": {
-        "baseTask": "SandFire@Reclamation@ClickExitLevel",
-        "template": "SandFire@Reclamation@ClickExitLevel.png",
+    "Fire@Reclamation@LevelForceExit": {
+        "baseTask": "Fire@Reclamation@ClickExitLevel",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
         "postDelay": 3000,
         "next": [
-            "SandFire@Reclamation@LevelForceExitConfirm",
-            "SandFire@Reclamation@LevelForceExit",
-            "SandFire@Reclamation@ReturnButton#next"
+            "Fire@Reclamation@LevelForceExitConfirm",
+            "Fire@Reclamation@LevelForceExit",
+            "Fire@Reclamation@ReturnButton#next"
         ]
     },
-    "SandFire@Reclamation@LevelForceExitConfirm": {
-        "baseTask": "SandFire@Reclamation@ExitLevelConfirm",
-        "next": ["SandFire@Reclamation@ReturnButton#next"]
+    "Fire@Reclamation@LevelForceExitConfirm": {
+        "baseTask": "Fire@Reclamation@ExitLevelConfirm",
+        "next": ["Fire@Reclamation@ReturnButton#next"]
     },
-    "SandFire@Reclamation@Liaison": {
+    "Fire@Reclamation@Liaison": {
         "algorithm": "OcrDetect",
         "roi": [0, 141, 179, 130],
         "text": ["联络员"]
     },
-    "SandFire@Reclamation@MainThemes": {
+    "Fire@Reclamation@MainThemes": {
         "next": [
-            "SandFire@Reclamation",
-            "SandFire@Reclamation@AtHomePageFlag",
-            "SandFire@Reclamation@LevelForceExitConfirm",
-            "SandFire@Reclamation@LevelForceExit",
-            "SandFire@Reclamation@LevelComplete",
-            "SandFire@Reclamation@ExitAlgorithm",
-            "SandFire@Reclamation@SmallReturn",
-            "SandFire@Reclamation@ReturnInFocus"
+            "Fire@Reclamation",
+            "Fire@Reclamation@AtHomePageFlag",
+            "Fire@Reclamation@LevelForceExitConfirm",
+            "Fire@Reclamation@LevelForceExit",
+            "Fire@Reclamation@LevelComplete",
+            "Fire@Reclamation@ExitAlgorithm",
+            "Fire@Reclamation@SmallReturn",
+            "Fire@Reclamation@ReturnInFocus"
         ]
     },
-    "SandFire@Reclamation@ManufactureDecrease": {
-        "baseTask": "SandFire@Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureDecrease": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "action": "ClickRect",
         "specificRect": [1096, 288, 139, 28],
         "text": ["材", "料", "不", "足"]
     },
-    "SandFire@Reclamation@ManufactureIncrease": {
-        "baseTask": "SandFire@Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureIncrease": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "action": "ClickRect",
         "specificRect": [1120, 86, 111, 26],
         "text": ["开", "始"]
     },
-    "SandFire@Reclamation@ManufactureInsufficientMaterial": {
-        "baseTask": "SandFire@Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureInsufficientMaterial": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "text": ["材", "料", "不", "足"]
     },
-    "SandFire@Reclamation@ManufactureStatus": {
+    "Fire@Reclamation@ManufactureStatus": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "roi": [1080, 320, 200, 146],
         "text": []
     },
-    "SandFire@Reclamation@ManufactureSufficientMaterial": {
-        "baseTask": "SandFire@Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureSufficientMaterial": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "text": ["开", "始"]
     },
-    "SandFire@Reclamation@NextDay": {
+    "Fire@Reclamation@NextDay": {
         "roi": [1055, 0, 225, 177],
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@Emergency",
-            "SandFire@Reclamation@NextDay",
-            "SandFire@Reclamation@ConfirmStart#next"
+            "Fire@Reclamation@Emergency",
+            "Fire@Reclamation@NextDay",
+            "Fire@Reclamation@ConfirmStart#next"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@NextDay": {
-        "baseTask": "SandFire@Reclamation@NextDay",
-        "template": "SandFire@Reclamation@NextDay.png",
+    "Fire@Reclamation@NavigateHome@NextDay": {
+        "baseTask": "Fire@Reclamation@NextDay",
+        "template": "Fire@Reclamation@NextDay.png",
         "next": [
-            "SandFire@Reclamation@NavigateHome@Emergency",
-            "SandFire@Reclamation@NavigateHome@NextDay",
-            "SandFire@Reclamation@NavigateHome@ConfirmStart#next"
+            "Fire@Reclamation@NavigateHome@Emergency",
+            "Fire@Reclamation@NavigateHome@NextDay",
+            "Fire@Reclamation@NavigateHome@ConfirmStart#next"
         ]
     },
-    "SandFire@Reclamation@PrepareAction": {
+    "Fire@Reclamation@PrepareAction": {
         "algorithm": "OcrDetect",
         "roi": [996, 590, 254, 130],
         "text": ["行动准备"],
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@StartActionConfirm", "SandFire@Reclamation@PrepareAction"]
+        "next": ["Fire@Reclamation@StartActionConfirm", "Fire@Reclamation@PrepareAction"]
     },
-    "SandFire@Reclamation@NavigateHome@PrepareAction": {
-        "baseTask": "SandFire@Reclamation@PrepareAction",
+    "Fire@Reclamation@NavigateHome@PrepareAction": {
+        "baseTask": "Fire@Reclamation@PrepareAction",
         "next": [
-            "SandFire@Reclamation@NavigateHome@StartActionConfirm",
-            "SandFire@Reclamation@NavigateHome@PrepareAction"
+            "Fire@Reclamation@NavigateHome@StartActionConfirm",
+            "Fire@Reclamation@NavigateHome@PrepareAction"
         ]
     },
-    "SandFire@Reclamation@BattleDefaultFormationStart@PrepareAction": {
-        "baseTask": "SandFire@Reclamation@PrepareAction",
+    "Fire@Reclamation@BattleDefaultFormationStart@PrepareAction": {
+        "baseTask": "Fire@Reclamation@PrepareAction",
         "next": [
-            "SandFire@Reclamation@BattleDefaultFormationStart@StartActionConfirm",
-            "SandFire@Reclamation@BattleDefaultFormationStart@PrepareAction"
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionConfirm",
+            "Fire@Reclamation@BattleDefaultFormationStart@PrepareAction"
         ]
     },
-    "SandFire@Reclamation@QuickFormation": {
+    "Fire@Reclamation@QuickFormation": {
         "roi": [958, 0, 175, 144],
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@QuickFormationSelectOneUnit", "SandFire@Reclamation@QuickFormation"]
+        "next": ["Fire@Reclamation@QuickFormationSelectOneUnit", "Fire@Reclamation@QuickFormation"]
     },
-    "SandFire@Reclamation@QuickFormationConfirm": {
-        "baseTask": "SandFire@Reclamation@FormationConfirmBase",
-        "template": "SandFire@Reclamation@FormationConfirm.png",
+    "Fire@Reclamation@QuickFormationConfirm": {
+        "baseTask": "Fire@Reclamation@FormationConfirmBase",
+        "template": "Fire@Reclamation@FormationConfirm.png",
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@EmptyInitUnits",
-            "SandFire@Reclamation@InitSupplyAll",
-            "SandFire@Reclamation@ConfirmStart"
+            "Fire@Reclamation@EmptyInitUnits",
+            "Fire@Reclamation@InitSupplyAll",
+            "Fire@Reclamation@ConfirmStart"
         ]
     },
-    "SandFire@Reclamation@QuickFormationSelectOneUnit": {
-        "baseTask": "SandFire@Reclamation@FormationConfirmBase",
-        "template": "SandFire@Reclamation@FormationConfirm.png",
+    "Fire@Reclamation@QuickFormationSelectOneUnit": {
+        "baseTask": "Fire@Reclamation@FormationConfirmBase",
+        "template": "Fire@Reclamation@FormationConfirm.png",
         "action": "ClickRect",
         "specificRect": [506, 116, 186, 57],
-        "next": ["SandFire@Reclamation@QuickFormationConfirm"]
+        "next": ["Fire@Reclamation@QuickFormationConfirm"]
     },
-    "SandFire@Reclamation@ReportBadgesOcr": {
+    "Fire@Reclamation@ReportBadgesOcr": {
         "template": "empty.png",
         "roi": [639, 392, 427, 102]
     },
-    "SandFire@Reclamation@ReportConstructPointsOcr": {
+    "Fire@Reclamation@ReportConstructPointsOcr": {
         "template": "empty.png",
         "roi": [548, 580, 80, 60]
     },
-    "SandFire@Reclamation@ResetScope": {
+    "Fire@Reclamation@ResetScope": {
         "roi": [0, 605, 141, 115],
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
-            "SandFire@Reclamation@NextDay",
-            "SandFire@Reclamation@ClickCenterBase",
-            "SandFire@Reclamation@ClickChooseInitUnits",
-            "SandFire@Reclamation@ResetScope"
+            "Fire@Reclamation@NextDay",
+            "Fire@Reclamation@ClickCenterBase",
+            "Fire@Reclamation@ClickChooseInitUnits",
+            "Fire@Reclamation@ResetScope"
         ]
     },
-    "SandFire@Reclamation@ReturnConfirm": {
+    "Fire@Reclamation@ReturnConfirm": {
         "Doc": "base_task",
         "template": "PopupConfirm.png",
         "templThreshold": 0.7,
         "next": [
-            "SandFire@Reclamation",
-            "SandFire@Reclamation@ReturnButtons#next",
-            "SandFire@Reclamation@ReturnConfirm",
-            "SandFire@Reclamation@ReturnConfirm@LoadingIcon",
-            "SandFire@Reclamation@ReturnConfirm@LoadingText"
+            "Fire@Reclamation",
+            "Fire@Reclamation@ReturnButtons#next",
+            "Fire@Reclamation@ReturnConfirm",
+            "Fire@Reclamation@ReturnConfirm@LoadingIcon",
+            "Fire@Reclamation@ReturnConfirm@LoadingText"
         ]
     },
-    "SandFire@Reclamation@ReturnInFocus": {
+    "Fire@Reclamation@ReturnInFocus": {
         "roi": [0, 0, 147, 145],
         "templThreshold": 0.7,
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@ReturnButton#next"]
+        "next": ["Fire@Reclamation@ReturnButton#next"]
     },
-    "SandFire@Reclamation@SkillReadyRoleOffset": {
+    "Fire@Reclamation@SkillReadyRoleOffset": {
         "Doc": "技能准备完成距离npc中心的偏移",
         "template": "empty.png",
         "specialParams": [100]
     },
-    "SandFire@Reclamation@SkipAnnounce": {
+    "Fire@Reclamation@SkipAnnounce": {
         "algorithm": "OcrDetect",
         "roi": [1109, 0, 171, 151],
         "text": ["跳过"],
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@SkipAnnounce",
-            "SandFire@Reclamation@SkipDailyReport",
-            "SandFire@Reclamation@AtMapFlag"
+            "Fire@Reclamation@SkipAnnounce",
+            "Fire@Reclamation@SkipDailyReport",
+            "Fire@Reclamation@AtMapFlag"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@SkipAnnounce": {
-        "baseTask": "SandFire@Reclamation@SkipAnnounce",
+    "Fire@Reclamation@NavigateHome@SkipAnnounce": {
+        "baseTask": "Fire@Reclamation@SkipAnnounce",
         "next": [
-            "SandFire@Reclamation@NavigateHome@SkipAnnounce",
-            "SandFire@Reclamation@NavigateHome@SkipDailyReport",
-            "SandFire@Reclamation@NavigateHome@AtMapFlag"
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@AtMapFlag"
         ]
     },
-    "SandFire@Reclamation@SkipAnnounceReport@SkipAnnounce": {
-        "baseTask": "SandFire@Reclamation@SkipAnnounce",
+    "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce": {
+        "baseTask": "Fire@Reclamation@SkipAnnounce",
         "next": [
-            "SandFire@Reclamation@SkipAnnounceReport@SkipAnnounce",
-            "SandFire@Reclamation@SkipAnnounceReport@SkipDailyReport",
-            "SandFire@Reclamation@SkipAnnounceReport@AtMapFlag"
+            "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce",
+            "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport",
+            "Fire@Reclamation@SkipAnnounceReport@AtMapFlag"
         ]
     },
-    "SandFire@Reclamation@SkipDailyReport": {
+    "Fire@Reclamation@SkipDailyReport": {
         "algorithm": "OcrDetect",
         "roi": [539, 39, 207, 134],
         "text": ["今日", "日报"],
         "action": "ClickRect",
         "specificRect": [1190, 651, 52, 48],
         "next": [
-            "SandFire@Reclamation@SkipAnnounce",
-            "SandFire@Reclamation@SkipDailyReport",
-            "SandFire@Reclamation@AtMapFlag"
+            "Fire@Reclamation@SkipAnnounce",
+            "Fire@Reclamation@SkipDailyReport",
+            "Fire@Reclamation@AtMapFlag"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@SkipDailyReport": {
-        "baseTask": "SandFire@Reclamation@SkipDailyReport",
+    "Fire@Reclamation@NavigateHome@SkipDailyReport": {
+        "baseTask": "Fire@Reclamation@SkipDailyReport",
         "next": [
-            "SandFire@Reclamation@NavigateHome@SkipAnnounce",
-            "SandFire@Reclamation@NavigateHome@SkipDailyReport",
-            "SandFire@Reclamation@NavigateHome@AtMapFlag"
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@AtMapFlag"
         ]
     },
-    "SandFire@Reclamation@SkipAnnounceReport@SkipDailyReport": {
-        "baseTask": "SandFire@Reclamation@SkipDailyReport",
+    "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport": {
+        "baseTask": "Fire@Reclamation@SkipDailyReport",
         "next": [
-            "SandFire@Reclamation@SkipAnnounceReport@SkipAnnounce",
-            "SandFire@Reclamation@SkipAnnounceReport@SkipDailyReport",
-            "SandFire@Reclamation@SkipAnnounceReport@AtMapFlag"
+            "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce",
+            "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport",
+            "Fire@Reclamation@SkipAnnounceReport@AtMapFlag"
         ]
     },
-    "SandFire@Reclamation@SmallReturn": {
+    "Fire@Reclamation@SmallReturn": {
         "roi": [0, 0, 148, 148],
         "templThreshold": 0.7,
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@ReturnButton#next"]
+        "next": ["Fire@Reclamation@ReturnButton#next"]
     },
-    "SandFire@Reclamation@StartActionConfirm": {
+    "Fire@Reclamation@StartActionConfirm": {
         "roi": [962, 65, 311, 522],
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@BattleStart",
-            "SandFire@Reclamation@StartActionPopupConfirm",
-            "SandFire@Reclamation@StartActionConfirm"
+            "Fire@Reclamation@BattleStart",
+            "Fire@Reclamation@StartActionPopupConfirm",
+            "Fire@Reclamation@StartActionConfirm"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@StartActionConfirm": {
-        "baseTask": "SandFire@Reclamation@StartActionConfirm",
-        "template": "SandFire@Reclamation@StartActionConfirm.png",
+    "Fire@Reclamation@NavigateHome@StartActionConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionConfirm",
+        "template": "Fire@Reclamation@StartActionConfirm.png",
         "next": [
-            "SandFire@Reclamation@NavigateHome@BattleStart",
-            "SandFire@Reclamation@NavigateHome@StartActionPopupConfirm",
-            "SandFire@Reclamation@NavigateHome@StartActionConfirm"
+            "Fire@Reclamation@NavigateHome@BattleStart",
+            "Fire@Reclamation@NavigateHome@StartActionPopupConfirm",
+            "Fire@Reclamation@NavigateHome@StartActionConfirm"
         ]
     },
-    "SandFire@Reclamation@BattleDefaultFormationStart@StartActionConfirm": {
-        "baseTask": "SandFire@Reclamation@StartActionConfirm",
-        "template": "SandFire@Reclamation@StartActionConfirm.png",
+    "Fire@Reclamation@BattleDefaultFormationStart@StartActionConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionConfirm",
+        "template": "Fire@Reclamation@StartActionConfirm.png",
         "next": [
-            "SandFire@Reclamation@BattleDefaultFormationStart@BattleStart",
-            "SandFire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm",
-            "SandFire@Reclamation@BattleDefaultFormationStart@StartActionConfirm"]
+            "Fire@Reclamation@BattleDefaultFormationStart@BattleStart",
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm",
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionConfirm"]
     },
-    "SandFire@Reclamation@StartActionEnter": {
+    "Fire@Reclamation@StartActionEnter": {
         "algorithm": "OcrDetect",
         "roi": [995, 550, 285, 130],
         "text": ["开始行动", "决断"],
         "action": "ClickSelf",
         "next": [
-            "SandFire@Reclamation@PrepareAction",
-            "SandFire@Reclamation@StartActionEnter",
-            "SandFire@Reclamation@StartActionConfirm"
+            "Fire@Reclamation@PrepareAction",
+            "Fire@Reclamation@StartActionEnter",
+            "Fire@Reclamation@StartActionConfirm"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@StartActionEnter": {
-        "baseTask": "SandFire@Reclamation@StartActionEnter",
+    "Fire@Reclamation@NavigateHome@StartActionEnter": {
+        "baseTask": "Fire@Reclamation@StartActionEnter",
         "next": [
-            "SandFire@Reclamation@NavigateHome@PrepareAction",
-            "SandFire@Reclamation@NavigateHome@StartActionEnter",
-            "SandFire@Reclamation@NavigateHome@StartActionConfirm"
+            "Fire@Reclamation@NavigateHome@PrepareAction",
+            "Fire@Reclamation@NavigateHome@StartActionEnter",
+            "Fire@Reclamation@NavigateHome@StartActionConfirm"
         ]
     },
-    "SandFire@Reclamation@StartActionPopupConfirm": {
+    "Fire@Reclamation@StartActionPopupConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "SandFire@Reclamation@ReturnConfirm",
+        "baseTask": "Fire@Reclamation@ReturnConfirm",
         "postDelay": 4000,
-        "next": ["SandFire@Reclamation@BattleStart", "SandFire@Reclamation@StartActionPopupConfirm"]
+        "next": ["Fire@Reclamation@BattleStart", "Fire@Reclamation@StartActionPopupConfirm"]
     },
-    "SandFire@Reclamation@NavigateHome@StartActionPopupConfirm": {
-        "baseTask": "SandFire@Reclamation@StartActionPopupConfirm",
+    "Fire@Reclamation@NavigateHome@StartActionPopupConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionPopupConfirm",
         "template": "PopupConfirm.png",
         "next": [
-            "SandFire@Reclamation@NavigateHome@BattleStart",
-            "SandFire@Reclamation@NavigateHome@StartActionPopupConfirm"
+            "Fire@Reclamation@NavigateHome@BattleStart",
+            "Fire@Reclamation@NavigateHome@StartActionPopupConfirm"
         ]
     },
-    "SandFire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm": {
-        "baseTask": "SandFire@Reclamation@StartActionPopupConfirm",
+    "Fire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionPopupConfirm",
         "template": "PopupConfirm.png",
         "next": [
-            "SandFire@Reclamation@BattleDefaultFormationStart@BattleStart",
-            "SandFire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm"
+            "Fire@Reclamation@BattleDefaultFormationStart@BattleStart",
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm"
         ]
     },
-    "SandFire@Reclamation@StartAlgorithm": {
+    "Fire@Reclamation@StartAlgorithm": {
         "Doc": "继续演算的图标也能match，所以就不单独写了",
         "roi": [844, 569, 436, 151],
         "action": "ClickSelf",
-        "next": ["SandFire@Reclamation@ClickChooseInitUnits", "SandFire@Reclamation@StartAlgorithm"]
+        "next": ["Fire@Reclamation@ClickChooseInitUnits", "Fire@Reclamation@StartAlgorithm"]
     },
-    "SandFire@Reclamation@TodoEnter": {
+    "Fire@Reclamation@TodoEnter": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["WITHIN", "沙", "中", "之", "火"],
         "roi": [686, 164, 207, 133],
         "postDelay": 2000,
-        "next": ["SandFire@Reclamation@Begin"]
+        "next": ["Fire@Reclamation@Begin"]
     },
-    "SandFire@Reclamation@NavigateHome@TodoEnter": {
-        "baseTask": "SandFire@Reclamation@TodoEnter",
-        "next": ["SandFire@Reclamation@NavigateHome@Begin"]
+    "Fire@Reclamation@NavigateHome@TodoEnter": {
+        "baseTask": "Fire@Reclamation@TodoEnter",
+        "next": ["Fire@Reclamation@NavigateHome@Begin"]
     },
-    "SandFire@Reclamation@BattleDefaultFormationStart@BattleStart": {
-        "baseTask": "SandFire@Reclamation@BattleStart",
-        "template": "SandFire@Reclamation@ClickExitLevel.png",
+    "Fire@Reclamation@BattleDefaultFormationStart@BattleStart": {
+        "baseTask": "Fire@Reclamation@BattleStart",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@BattleDefaultFormationStart@Begin": {
+    "Fire@Reclamation@BattleDefaultFormationStart@Begin": {
         "algorithm": "JustReturn",
-        "next": ["SandFire@Reclamation@BattleDefaultFormationStart@PrepareAction"]
+        "next": ["Fire@Reclamation@BattleDefaultFormationStart@PrepareAction"]
     },
-    "SandFire@Reclamation@CheckEmergency@Emergency": {
-        "baseTask": "SandFire@Reclamation@Emergency",
-        "template": "SandFire@Reclamation@Emergency.png",
+    "Fire@Reclamation@CheckEmergency@Emergency": {
+        "baseTask": "Fire@Reclamation@Emergency",
+        "template": "Fire@Reclamation@Emergency.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@CheckNextDay@NextDay": {
-        "baseTask": "SandFire@Reclamation@NextDay",
-        "template": "SandFire@Reclamation@NextDay.png",
+    "Fire@Reclamation@CheckNextDay@NextDay": {
+        "baseTask": "Fire@Reclamation@NextDay",
+        "template": "Fire@Reclamation@NextDay.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@ClickAnyZone@Begin": {
-        "baseTask": "SandFire@Reclamation@ClickAnyZoneOcr",
+    "Fire@Reclamation@ClickAnyZone@Begin": {
+        "baseTask": "Fire@Reclamation@ClickAnyZoneOcr",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@ClickCenterBase@Begin": {
-        "baseTask": "SandFire@Reclamation@ClickCenterBase",
-        "template": "SandFire@Reclamation@ClickCenterBase.png",
+    "Fire@Reclamation@ClickCenterBase@Begin": {
+        "baseTask": "Fire@Reclamation@ClickCenterBase",
+        "template": "Fire@Reclamation@ClickCenterBase.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@EnterNextDay@Begin": {
-        "baseTask": "SandFire@Reclamation@NextDay",
-        "template": "SandFire@Reclamation@NextDay.png",
+    "Fire@Reclamation@EnterNextDay@Begin": {
+        "baseTask": "Fire@Reclamation@NextDay",
+        "template": "Fire@Reclamation@NextDay.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@AtHomePageFlag": {
-        "baseTask": "SandFire@Reclamation@AtHomePageFlag",
-        "template": "SandFire@Reclamation@AtHomePageFlag.png",
+    "Fire@Reclamation@GiveupAlgorithm@AtHomePageFlag": {
+        "baseTask": "Fire@Reclamation@AtHomePageFlag",
+        "template": "Fire@Reclamation@AtHomePageFlag.png",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm",
             "Stop"
         ]
     },
-    "SandFire@Reclamation@GiveupAlgorithm@Begin": {
+    "Fire@Reclamation@GiveupAlgorithm@Begin": {
         "algorithm": "JustReturn",
         "next": [
-            "SandFire@Reclamation@GiveupAlgorithm@AtHomePageFlag",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
-            "SandFire@Reclamation@GiveupAlgorithm@GiveupAlgorithm"
+            "Fire@Reclamation@GiveupAlgorithm@AtHomePageFlag",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm"
         ]
     },
-    "SandFire@Reclamation@LevelCompleteConfirm@AtMapFlag": {
-        "baseTask": "SandFire@Reclamation@AtMapFlag",
-        "template": "SandFire@Reclamation@ResetScope.png",
+    "Fire@Reclamation@LevelCompleteConfirm@AtMapFlag": {
+        "baseTask": "Fire@Reclamation@AtMapFlag",
+        "template": "Fire@Reclamation@ResetScope.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@LevelCompleteConfirm@LevelComplete": {
-        "baseTask": "SandFire@Reclamation@LevelComplete",
+    "Fire@Reclamation@LevelCompleteConfirm@LevelComplete": {
+        "baseTask": "Fire@Reclamation@LevelComplete",
         "next": [
-            "SandFire@Reclamation@LevelCompleteConfirm@AtMapFlag",
-            "SandFire@Reclamation@LevelCompleteConfirm@LevelComplete"
+            "Fire@Reclamation@LevelCompleteConfirm@AtMapFlag",
+            "Fire@Reclamation@LevelCompleteConfirm@LevelComplete"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@AtHomePageFlag": {
-        "baseTask": "SandFire@Reclamation@AtHomePageFlag",
-        "template": "SandFire@Reclamation@AtHomePageFlag.png",
+    "Fire@Reclamation@NavigateHome@AtHomePageFlag": {
+        "baseTask": "Fire@Reclamation@AtHomePageFlag",
+        "template": "Fire@Reclamation@AtHomePageFlag.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@NavigateHome@AtMapFlag": {
-        "baseTask": "SandFire@Reclamation@AtMapFlag",
-        "template": "SandFire@Reclamation@ResetScope.png",
-        "next": ["SandFire@Reclamation@NavigateHome@Begin"]
+    "Fire@Reclamation@NavigateHome@AtMapFlag": {
+        "baseTask": "Fire@Reclamation@AtMapFlag",
+        "template": "Fire@Reclamation@ResetScope.png",
+        "next": ["Fire@Reclamation@NavigateHome@Begin"]
     },
-    "SandFire@Reclamation@NavigateHome@Begin": {
+    "Fire@Reclamation@NavigateHome@Begin": {
         "algorithm": "JustReturn",
         "next": [
-            "SandFire@Reclamation@NavigateHome@AtHomePageFlag",
-            "SandFire@Reclamation@NavigateHome@ReturnButton#next",
-            "SandFire@Reclamation@NavigateHome@SkipAnnounce",
-            "SandFire@Reclamation@NavigateHome@SkipDailyReport",
-            "SandFire@Reclamation@NavigateHome@LevelComplete",
-            "SandFire@Reclamation@NavigateHome@GiveupReportSkip",
-            "SandFire@Reclamation@NavigateHome@GiveupSkipConfirm",
-            "SandFire@Reclamation@NavigateHome@GainReward",
-            "SandFire@Reclamation@NavigateHome@StartUpThemes#next",
-            "SandFire@Reclamation@NavigateHome@TodoEnter"
+            "Fire@Reclamation@NavigateHome@AtHomePageFlag",
+            "Fire@Reclamation@NavigateHome@ReturnButton#next",
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@LevelComplete",
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm",
+            "Fire@Reclamation@NavigateHome@GainReward",
+            "Fire@Reclamation@NavigateHome@StartUpThemes#next",
+            "Fire@Reclamation@NavigateHome@TodoEnter"
         ]
     },
-    "SandFire@Reclamation@NavigateHome@ResetScope": {
-        "baseTask": "SandFire@Reclamation@ResetScope",
-        "template": "SandFire@Reclamation@ResetScope.png",
-        "next": ["SandFire@Reclamation@NavigateHome@Begin"]
+    "Fire@Reclamation@NavigateHome@ResetScope": {
+        "baseTask": "Fire@Reclamation@ResetScope",
+        "template": "Fire@Reclamation@ResetScope.png",
+        "next": ["Fire@Reclamation@NavigateHome@Begin"]
     },
-    "SandFire@Reclamation@ResetScope@Begin": {
-        "baseTask": "SandFire@Reclamation@ResetScope",
-        "template": "SandFire@Reclamation@ResetScope.png",
+    "Fire@Reclamation@ResetScope@Begin": {
+        "baseTask": "Fire@Reclamation@ResetScope",
+        "template": "Fire@Reclamation@ResetScope.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@SkipAnnounceReport@AtMapFlag": {
-        "baseTask": "SandFire@Reclamation@AtMapFlag",
-        "template": "SandFire@Reclamation@ResetScope.png",
+    "Fire@Reclamation@SkipAnnounceReport@AtMapFlag": {
+        "baseTask": "Fire@Reclamation@AtMapFlag",
+        "template": "Fire@Reclamation@ResetScope.png",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@SkipAnnounceReport@Begin": {
+    "Fire@Reclamation@SkipAnnounceReport@Begin": {
         "algorithm": "JustReturn",
         "next": [
-            "SandFire@Reclamation@SkipAnnounceReport@SkipAnnounce",
-            "SandFire@Reclamation@SkipAnnounceReport@SkipDailyReport",
-            "SandFire@Reclamation@SkipAnnounceReport@AtMapFlag"
+            "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce",
+            "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport",
+            "Fire@Reclamation@SkipAnnounceReport@AtMapFlag"
         ]
     },
-    "SandFire@Reclamation@StartActionEnter@StartActionEnter": {
-        "baseTask": "SandFire@Reclamation@StartActionEnter",
+    "Fire@Reclamation@StartActionEnter@StartActionEnter": {
+        "baseTask": "Fire@Reclamation@StartActionEnter",
         "next": ["Stop"]
     },
-    "SandFire@Reclamation@StartWithDefaultFormation@ConfirmStart": {
-        "baseTask": "SandFire@Reclamation@ConfirmStart",
+    "Fire@Reclamation@StartWithDefaultFormation@ConfirmStart": {
+        "baseTask": "Fire@Reclamation@ConfirmStart",
         "next": []
     },
-    "SandFire@Reclamation@WaitNextDayFlag@BetweenDayFlag": {
-        "baseTask": "SandFire@Reclamation@BetweenDayFlag",
-        "template": "SandFire@Reclamation@BetweenDayFlag.png",
+    "Fire@Reclamation@WaitNextDayFlag@BetweenDayFlag": {
+        "baseTask": "Fire@Reclamation@BetweenDayFlag",
+        "template": "Fire@Reclamation@BetweenDayFlag.png",
         "postDelay": 500,
         "next": ["Stop"]
     },
