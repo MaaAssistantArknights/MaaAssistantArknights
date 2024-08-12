@@ -219,43 +219,42 @@ class Task:
 
     @staticmethod
     @trace
-    def _eval_virtual_task(task_name_context: str | list[str] | None, virtual_task_type: str, parent_task: Task):
-        if virtual_task_type != "self" and task_name_context is None:
-            return None
-        if isinstance(task_name_context, list):
-            result = []
-            for task_name in task_name_context:
-                result.extend(Task._eval_virtual_task(task_name, virtual_task_type, parent_task))
-            return result
-        # 在 virtual_task_type 是 self 的情况下 task_name_context 有可能是 None
-        # 所以要提前判断
-        if virtual_task_type == "self":
-            return parent_task.name
-        context_task = Task.get(task_name_context)
-        if context_task is None:
-            context_task = Task(task_name_context, {})
-        if virtual_task_type == "back":
-            return context_task.name
-        elif virtual_task_type == "next":
-            return context_task.next
-        elif virtual_task_type == "sub":
-            return context_task.sub_tasks
-        elif virtual_task_type == "on_error_next":
-            return context_task.on_error_next
-        elif virtual_task_type == "exceeded_next":
-            return context_task.exceeded_next
-        elif virtual_task_type == "reduce_other_times":
-            return context_task.reduce_other_times
-        else:
-            raise ValueError(f"Invalid virtual task type: {virtual_task_type}")
-
-    @staticmethod
-    @trace
     def evaluate(expression: str, parent_task: Task = None) -> list[str]:
         assert expression is not None, "Expression cannot be None."
 
         def _to_list(x):
             return [x] if not isinstance(x, list) else x
+
+        @trace
+        def _eval_virtual_task(task_name_context: str | list[str] | None, virtual_task_type: str, parent_task: Task):
+            if virtual_task_type != "self" and task_name_context is None:
+                return None
+            if isinstance(task_name_context, list):
+                result = []
+                for task_name in task_name_context:
+                    result.extend(_eval_virtual_task(task_name, virtual_task_type, parent_task))
+                return result
+            # 在 virtual_task_type 是 self 的情况下 task_name_context 有可能是 None
+            # 所以要提前判断
+            if virtual_task_type == "self":
+                return parent_task.name
+            context_task = Task.get(task_name_context)
+            if context_task is None:
+                context_task = Task(task_name_context, {})
+            if virtual_task_type == "back":
+                return context_task.name
+            elif virtual_task_type == "next":
+                return context_task.next
+            elif virtual_task_type == "sub":
+                return context_task.sub_tasks
+            elif virtual_task_type == "on_error_next":
+                return context_task.on_error_next
+            elif virtual_task_type == "exceeded_next":
+                return context_task.exceeded_next
+            elif virtual_task_type == "reduce_other_times":
+                return context_task.reduce_other_times
+            else:
+                raise ValueError(f"Invalid virtual task type: {virtual_task_type}")
 
         @trace
         def _eval_virtual_task_result(virtual_task):
@@ -290,13 +289,13 @@ class Task:
                     stack.append([f"{left_name}@{right_name}" for left_name in left for right_name in right])
             elif token == '#u':
                 right = stack.pop()
-                task = Task._eval_virtual_task(None, right, parent_task)
+                task = _eval_virtual_task(None, right, parent_task)
                 if task is not None:
                     stack.append(_eval_virtual_task_result(task))
             elif token == '#':
                 right = stack.pop()
                 left = stack.pop()
-                task = Task._eval_virtual_task(left, right, parent_task)
+                task = _eval_virtual_task(left, right, parent_task)
                 if task is not None:
                     stack.append(_eval_virtual_task_result(task))
             elif token == '*':
