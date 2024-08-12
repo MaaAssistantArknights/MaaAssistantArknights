@@ -2424,8 +2424,6 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
-        "action": "DoNothing",
-        "cache": false,
         "ocrReplace": [
             ["^数的崩壊", "去量化"],
             ["完全なる数的崩壊", "去量深化"],
@@ -2447,49 +2445,16 @@
             ["広域的認識不可", "睁眼瞎"],
             ["画像破損", "图像损坏"],
             ["ブラックアウト", "一抹黑"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": [
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
-        "action": "DoNothing",
-        "cache": false,
         "ocrReplace": [
             ["パラダイムロスト進行", "坍缩范式加深"],
             ["パラダイムロスト減退", "坍缩范式消退"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": ["坍缩范式加深", "坍缩范式消退"],
-        "roi": [945, 60, 335, 660]
+        ]
     },
     "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
-        "action": "DoNothing",
-        "cache": false,
-        "ocrReplace": [["現在の崩壊値", "当前坍缩值"]],
-        "algorithm": "OcrDetect",
-        "text": ["当前坍缩值"],
-        "roi": [350, 120, 310, 520]
+        "ocrReplace": [["現在の崩壊値", "当前坍缩值"]]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "action": "DoNothing",
