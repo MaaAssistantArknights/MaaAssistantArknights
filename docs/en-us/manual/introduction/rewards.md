@@ -4,8 +4,7 @@ order: 6
 
 # Rewards
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+::: important This page may be outdated.
 :::
 
 Automatically claim daily rewards and weekly rewards.
