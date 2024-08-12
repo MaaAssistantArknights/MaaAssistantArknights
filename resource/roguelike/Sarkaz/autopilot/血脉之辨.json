@@ -1,21 +1,21 @@
 {
     "stage_name": "血脉之辨",
-    "blacklist_location":[
-        [2,5],
-        [5,3],
-        [5,4],
-        [6,3],
-        [6,4],
-        [6,5],
-        [7,3],
-        [7,4],
-        [7,5],
-        [7,6],
-        [8,3],
-        [8,5],
-        [8,6],
-        [9,5],
-        [9,6]
+    "blacklist_location": [
+        [2, 5],
+        [5, 3],
+        [5, 4],
+        [6, 3],
+        [6, 4],
+        [6, 5],
+        [7, 3],
+        [7, 4],
+        [7, 5],
+        [7, 6],
+        [8, 3],
+        [8, 5],
+        [8, 6],
+        [9, 5],
+        [9, 6]
     ],
     "replacement_home": [
         {
@@ -40,12 +40,12 @@
             "direction": "left"
         },
         {
-            "groups": ["术士","凯尔希","单奶"],
+            "groups": ["术士", "凯尔希", "单奶"],
             "location": [3, 5],
             "direction": "right"
         },
         {
-            "groups": ["盾法","高台输出"],
+            "groups": ["盾法", "高台输出"],
             "location": [5, 2],
             "direction": "right"
         },
@@ -55,12 +55,12 @@
             "direction": "right"
         },
         {
-            "groups": ["炮灰","地刺"],
+            "groups": ["炮灰", "地刺"],
             "location": [3, 3],
             "direction": "left"
         },
         {
-            "groups": ["投锋","奶盾"],
+            "groups": ["投锋", "奶盾"],
             "location": [9, 4],
             "direction": "right"
         }
