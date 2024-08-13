@@ -2410,25 +2410,46 @@
     "Reclamation2Begin": {
         "text": ["Commence"]
     },
-    "Reclamation2BeginPlotEnter": {
+    "Reclamation2BeginStage": {
         "text": ["Gathering Grounds", "Base Camp"]
     },
     "Reclamation2Birdland": {
         "text": ["Gathering of Feathers", "Hunting Zone"]
     },
-    "Reclamation2ClickDrop": {
+    "Reclamation2CopiousCoppiceClickDrop": {
+        "text": ["MISSION RESULTS"]
+    },
+    "Reclamation2BirdlandClickDrop": {
         "text": ["MISSION RESULTS"]
     },
     "Reclamation2CopiousCoppice": {
         "text": ["Shrubbery Galore", "Resource", "Zone"]
     },
-    "Reclamation2DeleteArchiveConfirm": {
+    "Reclamation2DeleteArchiveLastConfirm1": {
         "text": ["Confirm Wipe"]
     },
-    "Reclamation2DeleteArchiveEnter": {
+    "Reclamation2DeleteArchiveLastConfirm2": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
         "text": ["Wipe Save"]
     },
-    "Reclamation2EnterStage": {
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2BeginStageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2CopiousCoppiceStageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2BirdlandStageEnter": {
         "text": ["Start"]
     },
     "Reclamation2ExAssemblyStationOcr": {
@@ -2465,34 +2486,67 @@
     "Reclamation2ExReadArchiveSelectDayConfirm": {
         "text": ["Confirm"]
     },
-    "Reclamation2Fight": {
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2CopiousCoppiceFight": {
         "text": ["Start"]
     },
-    "Reclamation2FightConfirm": {
+    "Reclamation2BirdlandFight": {
+        "text": ["Start"]
+    },
+    "Reclamation2BirdlandFightConfirm": {
         "text": ["Confirm"]
     },
-    "Reclamation2LeaveStageConfirm": {
+    "Reclamation2CopiousCoppiceFightConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2BeginStageLeaveConfirm": {
         "text": ["Are you sure you"]
     },
-    "Reclamation2QuitToMainPage": {
-        "text": ["Back"]
+    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
+        "text": ["Are you sure you"]
     },
-    "Reclamation2SkipDays2SkipTime": {
+    "Reclamation2BirdlandStageLeaveConfirm": {
+        "text": ["Are you sure you"]
+    },
+    "Reclamation2SkipDay2SkipTime": {
         "text": ["Skip Day"]
     },
-    "Reclamation2SkipDays2SkipTimeConfig": {
+    "Reclamation2SkipDay3SkipTime": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2SkipDay2SkipTimeConfirm": {
         "text": ["Confirm"]
     },
-    "Reclamation2SkipDaysAward2": {
+    "Reclamation2SkipDay3SkipTimeConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2SkipDaysClickContinue": {
         "text": ["Tap anywhere to continue"]
     },
-    "Reclamation2SkipDaysAwardEndTask": {
+    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
         "text": ["Tap anywhere to continue"]
     },
     "Reclamation2SkipDaysBeginNewDay": {
         "text": ["Start Today"]
     },
-    "Reclamation2SkipDaysBeginNewDayEndTask": {
+    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
         "text": ["Start Today"]
     },
     "Fire@Reclamation@BuyWaterProcedure": {
