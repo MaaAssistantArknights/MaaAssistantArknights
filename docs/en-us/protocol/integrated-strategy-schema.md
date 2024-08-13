@@ -110,7 +110,7 @@ By default, only E1 Level 55 operators will be recruited
     | Reed Alter | Reed the Flame Shadow | In Sami I.S. she's commonly used as an opening caster, DPS and healing, some maps have optimal spots |
     | SilverAsh | SilverAsh, Młynar | Ground operators with large range, very useful against bosses |
     | Surtr | Surtr | Since Surtr always carries the 3rd skill, her positioning ability is almost zero and deployment priority is extremely low |
-    | Dice | Dice | In Mizuki I.S. the dice need to be operated separately |
+    | Dice | Dice | In Mizuki I.S. the dice needs to be operated separately |
 
 ::: info
 Currently fixed to group unidentified ground crews behind the penultimate formation (other ground), and unidentified high-platform crews behind the penultimate formation (other high-platform)
