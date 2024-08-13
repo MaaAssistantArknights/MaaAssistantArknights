@@ -2283,6 +2283,12 @@
     "Reclamation2BeginStageEnter": {
         "text": ["작전", "개시"]
     },
+    "Reclamation2CopiousCoppiceStageEnter": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2BirdlandStageEnter": {
+        "text": ["작전", "개시"]
+    },
     "Reclamation2ExAssemblyStationOcr": {
         "text": ["작업대"]
     },
