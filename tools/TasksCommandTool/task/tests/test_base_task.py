@@ -112,5 +112,5 @@ class BaseTaskTest(TaskTest):
             "exceededNext": ["B_exceededNext"],
             "reduceOtherTimes": ["B_reduceOtherTimes"],
             "algorithm": "MatchTemplate",
-            "template": "B.png",
+            "template": ["B.png"],
         })

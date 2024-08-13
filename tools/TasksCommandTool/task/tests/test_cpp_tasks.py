@@ -34,13 +34,6 @@ class CPPTaskTests(TaskTest):
     def assertTaskEqual(self, actual, expected, task_name=""):
         actual = actual.to_task_dict()
         for key in expected:
-            # 将2147483647视作math.inf
-            if key == "maxTimes" and (expected[key] == 2147483647 and actual[key] == math.inf):
-                continue
-            if isinstance(expected[key], list) and not isinstance(actual[key], list) and len(expected[key]) == 1:
-                self.assertEqual(expected[key][0], actual[key], f"Task: {task_name}, Key: {key}")
-                continue
-
             self.assertEqual(expected[key], actual[key], f"Task: {task_name}, Key: {key}")
 
     @unittest.skip("unfinished")

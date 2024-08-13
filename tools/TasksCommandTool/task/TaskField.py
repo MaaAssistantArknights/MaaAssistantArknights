@@ -9,26 +9,28 @@ from .TaskType import AlgorithmType, ActionType, MethodType
 class TaskField:
     def __init__(self,
                  field_name: str,
-                 python_field_name: str,
-                 field_type: Union[type, UnionType, List[Type]],
-                 field_doc: str,
+                 field_type: Union[Type, UnionType, List[Type]],
                  field_default: any = None,
-                 is_valid_with: Callable[[Any], bool] = lambda x: True,
+                 field_doc: str = "",
+                 python_field_name: str = None,
+                 python_field_type: Type = None,
                  field_construct: Callable[[Any], Any] = lambda x: x,
+                 is_valid_with: Callable[[Any], bool] = lambda x: True,
                  valid_for_algorithm: AlgorithmType = None,
                  ):
         self.field_name = field_name
-        self.python_field_name = python_field_name
         self.field_type = field_type
-        self.field_doc = field_doc.strip(" ")
         self.field_default = field_default
-        self.is_valid_with = lambda x: x is None or self._check_type(x) and is_valid_with(x)
+        self.field_doc = field_doc.strip()
+        self.python_field_name = python_field_name if python_field_name else field_name
+        self.python_field_type = python_field_type if python_field_type else field_type
         self.field_construct = field_construct
+        self.is_valid_with = lambda x: x is None or self._check_type(x) and is_valid_with(x)
         self.valid_for_algorithm = valid_for_algorithm
         assert self.is_valid_with(field_default)
 
-    def _check_type(self, x: Any) -> bool:
-        def _check_type(expected_type: Union[type, UnionType, List[Type]], value) -> bool:
+    def _check_type(self, x: any) -> bool:
+        def _check_type(expected_type: Union[Type, UnionType, List[Type]], value) -> bool:
             origin = get_origin(expected_type)
             args = get_args(expected_type)
 
@@ -38,159 +40,163 @@ class TaskField:
                 return all(isinstance(v, args[0]) for v in x)
             if origin is UnionType:
                 return any(_check_type(t, value) for t in args)
-
-            # if hasattr(expected_type, '__origin__') and expected_type.__origin__ is Union:
-            #     expected_type = tuple(expected_type.__args__)
-
             return isinstance(x, expected_type)
 
-        return _check_type(self.field_type, x)
+        return _check_type(self.python_field_type, x)
 
 
 class TaskFieldEnum(Enum):
     BASE_TASK = TaskField(
         "baseTask",
-        "base_task",
         str,
+        None,
         "以xxx任务为模板生成任务，详细见下方特殊任务类型中的Base Task",
+        "base_task",
     )
     ALGORITHM = TaskField(
         "algorithm",
-        "algorithm",
-        str | AlgorithmType,
+        str,
+        AlgorithmType.MatchTemplate,
         "可选项，表示识别算法的类型",
-        "MatchTemplate",
-        lambda x: AlgorithmType(x) in AlgorithmType,
+        "algorithm",
+        AlgorithmType,
+        lambda x: AlgorithmType(x),
+        lambda x: x in AlgorithmType,
     )
     ACTION = TaskField(
         "action",
-        "action",
-        str | ActionType,
+        str,
+        ActionType.DoNothing,
         "可选项，表示识别到后的动作",
-        "DoNothing",
-        lambda x: ActionType(x) in ActionType,
+        "action",
+        ActionType,
+        lambda x: ActionType(x),
+        lambda x: x in ActionType,
     )
     SUB_TASKS = TaskField(
         "sub",
+        list[str],
+        [],
+        "可选项，子任务。会在执行完当前任务后，依次执行每一个子任务",
         "sub_tasks",
         list[str],
-        "可选项，子任务。会在执行完当前任务后，依次执行每一个子任务",
-        []
     )
     SUB_ERROR_IGNORED = TaskField(
         "subErrorIgnored",
-        "sub_error_ignored",
         bool,
-        "可选项，是否忽略子任务的错误。",
         False,
+        "可选项，是否忽略子任务的错误。",
+        "sub_error_ignored",
     )
     NEXT = TaskField(
         "next",
-        "next",
         list[str],
+        [],
         "可选项，表示执行完当前任务和 sub 任务后，下一个要 execute 的任务",
-        []
+        "next",
     )
     MAX_TIMES = TaskField(
         "maxTimes",
-        "max_times",
-        int | float,
+        int,
+        2147483647,
         "可选项，表示该任务最大执行次数",
-        math.inf,
-        lambda x: x == math.inf or (isinstance(x, int) and x >= 0),
+        "max_times",
+        int,
+        is_valid_with=lambda x: 0 <= x <= 2147483647,
     )
     EXCEEDED_NEXT = TaskField(
         "exceededNext",
-        "exceeded_next",
         list[str],
+        [],
         "可选项，表示达到了最大执行次数后要执行的任务",
-        []
+        "exceeded_next",
     )
     ON_ERROR_NEXT = TaskField(
         "onErrorNext",
-        "on_error_next",
         list[str],
+        [],
         "可选项，表示执行出错时，后续要执行的任务",
-        []
+        "on_error_next",
     )
     PRE_DELAY = TaskField(
         "preDelay",
-        "pre_delay",
         int,
-        "可选项，表示识别到后延迟多久才执行 action，单位毫秒",
         0,
-        lambda x: x >= 0,
+        "可选项，表示识别到后延迟多久才执行 action，单位毫秒",
+        "pre_delay",
+        is_valid_with=lambda x: x >= 0,
     )
     POST_DELAY = TaskField(
         "postDelay",
-        "post_delay",
         int,
-        "可选项，表示执行完 action 后延迟多久才执行下一个任务，单位毫秒",
         0,
-        lambda x: x >= 0,
+        "可选项，表示执行完 action 后延迟多久才执行下一个任务，单位毫秒",
+        "post_delay",
+        is_valid_with=lambda x: x >= 0,
     )
     ROI = TaskField(
         "roi",
-        "roi",
         list[int],
-        "可选项，表示识别的区域",
         [0, 0, 0, 0],
-        lambda x: len(x) == 4,
+        "可选项，表示识别的区域",
+        is_valid_with=lambda x: len(x) == 4,
     )
     CACHE = TaskField(
         "cache",
-        "cache",
         bool,
-        "可选项，表示该任务是否使用缓存，默认为 true",
         False,
+        "可选项，表示该任务是否使用缓存，默认为 true",
     )
     RECT_MOVE = TaskField(
         "rectMove",
-        "rect_move",
         list[int],
-        "可选项，表示识别到后移动的区域",
         [0, 0, 0, 0],
-        lambda x: len(x) == 4,
+        "可选项，表示识别到后移动的区域",
+        "rect_move",
+        is_valid_with=lambda x: len(x) == 4,
     )
     REDUCE_OTHER_TIMES = TaskField(
         "reduceOtherTimes",
-        "reduce_other_times",
         list[str],
+        [],
         "可选项，表示减少其他任务的执行次数",
-        []
+        "reduce_other_times",
     )
     SPECIFIC_RECT = TaskField(
         "specificRect",
-        "specific_rect",
         list[int],
-        "可选项，表示特殊区域",
         [0, 0, 0, 0],
-        lambda x: len(x) == 4,
+        "可选项，表示特殊区域",
+        "specific_rect",
+        is_valid_with=lambda x: len(x) == 4,
     )
     SPECIAL_PARAMS = TaskField(
         "specialParams",
-        "special_params",
         list,
-        "可选项，表示特殊参数",
         [],
+        "可选项，表示特殊参数",
+        "special_params",
         # 特殊参数为int数组，历史遗留问题tasks.json里有小数
         # 但 MaaCore但实现是vector<int>, 所以转化成小数
         field_construct=lambda x: [int(i) for i in x],
     )
     TEMPLATE = TaskField(
         "template",
-        "template",
         str | list[str],
+        None,
         "可选项，表示模板路径",
+        field_construct=lambda x: x if isinstance(x, list) else [x],
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
     TEMPL_THRESHOLD = TaskField(
         "templThreshold",
-        "templ_threshold",
         float | list[float],
+        [0.8],
         "可选项，表示模板匹配的阈值",
-        0.8,
-        lambda x: 0 <= x <= 1 if isinstance(x, float) else all(0 <= i <= 1 for i in x),
+        "templ_threshold",
+        list[float],
+        field_construct=lambda x: x if isinstance(x, list) else [x],
+        is_valid_with=lambda x: all(0 <= i <= 1 for i in x),
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
 
@@ -222,80 +228,82 @@ class TaskFieldEnum(Enum):
 
     MASK_RANGE = TaskField(
         "maskRange",
+        list,
+        [],
+        "可选项，表示模板匹配的掩码范围",
         "mask_range",
         list,
-        "可选项，表示模板匹配的掩码范围",
-        [],
         # [1, 255] 或者 [[[0,0,0],[255,255,255]],[[0,0,0],[255,255,255]]]
-        _check_mask_range,
-        valid_for_algorithm=AlgorithmType.MatchTemplate,
         field_construct=_construct_mask_range,
+        is_valid_with=_check_mask_range,
+        valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
     METHOD = TaskField(
         "method",
-        "method",
-        str | MethodType | list,
+        str | list[str],
+        [MethodType.Ccoeff],
         "可选项，模板匹配算法，可以是列表",
-        MethodType.Ccoeff,
-        lambda x: MethodType(x) in MethodType or all(MethodType(i) in MethodType for i in x),
+        "method",
+        list[MethodType],
+        field_construct=lambda x: [MethodType(i) for i in x] if isinstance(x, list) else [MethodType(x)],
+        is_valid_with=lambda x: all(i in MethodType for i in x),
         valid_for_algorithm=AlgorithmType.MatchTemplate,
     )
     TEXT = TaskField(
         "text",
-        "text",
         list[str],
+        None,
         "可选项，表示要识别的文字内容",
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
     FULL_MATCH = TaskField(
         "fullMatch",
-        "full_match",
         bool,
-        "可选项，表示是否全字匹配",
         False,
-        lambda x: isinstance(x, bool),
+        "可选项，表示是否全字匹配",
+        "full_match",
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
     IS_ASCII = TaskField(
         "isAscii",
-        "is_ascii",
         bool,
-        "可选项，表示是否为 ASCII 码字符",
         False,
+        "可选项，表示是否为 ASCII 码字符",
+        "is_ascii",
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
     WITHOUT_DET = TaskField(
         "withoutDet",
-        "without_det",
         bool,
-        "可选项，表示是否不使用检测模型",
         False,
+        "可选项，表示是否不使用检测模型",
+        "without_det",
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
     OCR_REPLACE = TaskField(
         "ocrReplace",
-        "ocr_replace",
         list,
-        "可选项，表示是否替换识别错误的文字",
         [],
-        lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
+        "可选项，表示是否替换识别错误的文字",
+        "ocr_replace",
+        is_valid_with=lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
     REPLACE_FULL = TaskField(
         "replaceFull",
-        "replace_full",
         bool,
-        "可选项，表示是否替换全字",
         False,
+        "可选项，表示是否替换全字",
+        "replace_full",
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
     REPLACE_MAP = TaskField(
         "replaceMap",
-        "replace_map",
         list,
-        "可选项，表示替换的字典",
         None,
-        lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
+        "可选项，表示替换的字典",
+        "replace_map",
+        is_valid_with=lambda x: all(isinstance(i, list) and len(i) == 2 for i in x),
         valid_for_algorithm=AlgorithmType.OcrDetect,
     )
 

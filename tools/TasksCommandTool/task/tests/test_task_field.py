@@ -4,13 +4,13 @@ from ..TaskField import TaskFieldEnum, TaskField
 
 class TaskFieldTests(TaskTest):
     def test_check_type(self):
-        field = TaskField("test", "test", str, "test")
+        field = TaskField("test", str)
         self.assertTrue(field._check_type("test"))
         self.assertFalse(field._check_type(1))
         self.assertFalse(field._check_type([]))
 
     def test_check_type_2(self):
-        field = TaskField("test", "test", str | list[str], "test")
+        field = TaskField("test", str | list[str])
         self.assertTrue(field._check_type(["test"]))
         self.assertFalse(field._check_type(1))
         self.assertTrue(field._check_type("test"))

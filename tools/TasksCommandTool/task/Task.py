@@ -46,7 +46,7 @@ def _is_base_task(task: Task) -> bool:
 
 
 def _is_valid_task_name(name: str) -> bool:
-    return all(x.isalnum() or x in ['-', '_', '@'] for x in name)
+    return all(x.isalpha() or x.isdigit() or x in ['-', '_', '@'] for x in name)
 
 
 def clear_cache():
@@ -74,21 +74,21 @@ class Task:
 
         for field in self._get_valid_fields():
             field_value = construct_task_dict.get(field.field_name, field.field_default)
+            if field_value is not None:
+                field_value = field.field_construct(field_value)
             try:
                 field_valid = field.is_valid_with(field_value)
             except Exception as e:
                 raise ValueError(f"Error checking field {field.field_name}: {e}")
-            if field_value is not None:
-                field_value = field.field_construct(field_value)
             setattr(self, field.python_field_name, field_value)
             if not field_valid and enable_invalid_field_warning():
                 logger.warning(f"Invalid value for field {field.field_name}: {field_value} in task {self.name}")
 
+        if self.algorithm == AlgorithmType.MatchTemplate:
+            if self.template and len(self.template) != len(self.templ_threshold):
+                self.templ_threshold = [self.templ_threshold[0]] * len(self.template)
         if self.algorithm == AlgorithmType.MatchTemplate and self.template is None:
             self.template = f"{self.name}.png"
-        if self.algorithm == AlgorithmType.MatchTemplate:
-            if isinstance(self.template, list) and not isinstance(self.templ_threshold, list):
-                self.templ_threshold = [self.templ_threshold] * len(self.template)
 
     def __str__(self):
         return f"{self.task_status.value}Task({self.name})"
