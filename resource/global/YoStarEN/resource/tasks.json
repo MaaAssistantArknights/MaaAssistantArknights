@@ -2526,28 +2526,22 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["Confirm Wipe"]
     },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
         "text": ["Start Today"]
     },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]
     },
-    "Reclamation2SkipDay2SkipTime": {
-        "text": ["Skip Day"]
-    },
-    "Reclamation2SkipDay2SkipTimeConfirm": {
+    "Reclamation2SkipTimeSkipConfirm": {
         "text": ["Confirm"]
     },
-    "Reclamation2SkipDay3SkipTime": {
+    "Reclamation2SkipTimeSkip": {
         "text": ["Skip Day"]
     },
-    "Reclamation2SkipDay3SkipTimeConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
+    "Reclamation2SkipDayBeginNewDay": {
         "text": ["Start Today"]
     },
-    "Reclamation2SkipDaysClickContinue": {
+    "Reclamation2SkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]
     },
     "Fire@Reclamation@BuyWaterProcedure": {

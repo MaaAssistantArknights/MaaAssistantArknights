@@ -2727,28 +2727,22 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["削除する", "削除"]
     },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
         "text": ["次へ"]
     },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["タップ", "続く"]
     },
-    "Reclamation2SkipDay2SkipTime": {
+    "Reclamation2SkipTimeSkip": {
         "text": ["時間", "経過"]
     },
-    "Reclamation2SkipDay2SkipTimeConfirm": {
+    "Reclamation2SkipTimeSkipConfirm": {
         "text": ["確定"]
     },
-    "Reclamation2SkipDay3SkipTime": {
-        "text": ["時間", "経過"]
-    },
-    "Reclamation2SkipDay3SkipTimeConfirm": {
-        "text": ["確定"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
+    "Reclamation2SkipDayBeginNewDay": {
         "text": ["次へ"]
     },
-    "Reclamation2SkipDaysClickContinue": {
+    "Reclamation2SkipDayClickContinue": {
         "text": ["タップ", "続く"]
     },
     "Fire@Reclamation@ClickAnyZoneOcr": {

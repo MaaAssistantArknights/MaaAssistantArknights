@@ -2390,28 +2390,22 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["확인"]
     },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
         "text": ["시", "작", "하", "기"]
     },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
     },
-    "Reclamation2SkipDay2SkipTime": {
+    "Reclamation2SkipTimeSkip": {
         "text": ["시간", "보내기"]
     },
-    "Reclamation2SkipDay2SkipTimeConfirm": {
+    "Reclamation2SkipTimeSkipConfirm": {
         "text": ["확인"]
     },
-    "Reclamation2SkipDay3SkipTime": {
-        "text": ["시간", "보내기"]
-    },
-    "Reclamation2SkipDay3SkipTimeConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
+    "Reclamation2SkipDayBeginNewDay": {
         "text": ["시", "작", "하", "기"]
     },
-    "Reclamation2SkipDaysClickContinue": {
+    "Reclamation2SkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
     }
 }
