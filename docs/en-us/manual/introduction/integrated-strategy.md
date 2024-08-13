@@ -25,7 +25,7 @@ MAA does not have AI capabilities; all operations in automatic Integrated Strate
 For more details, please refer to the [Integrated Strategy Schema](../../protocol/integrated-strategy-schema.md).
 
 - It supports automatic recognition of operators and proficiency and automatically selects better operators and skills.
-- It supports identifying store items and prioritizes purchasing more powerful collectables.
+- It supports identifying store items and prioritizes purchasing more powerful relics.
 
 ## Abnormal Detection
 
