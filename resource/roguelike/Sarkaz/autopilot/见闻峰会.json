@@ -1,0 +1,48 @@
+{
+    "stage_name": "见闻峰会",
+    "blacklist_location": [
+        [1, 1],
+        [3, 2],
+        [5, 1],
+        [5, 5],
+        [6, 5]
+    ],
+    "replacement_home": [
+        {
+            "location": [5, 3],
+            "direction": "left"
+        }
+    ],
+    "deploy_plan": [
+        {
+            "groups": ["情报官", "地面远程", "处决者"],
+            "location": [1, 2],
+            "direction": "down"
+        },
+        {
+            "groups": ["益达", "辅助", "术士"],
+            "location": [3, 4],
+            "direction": "right"
+        },
+        {
+            "groups": ["奶", "高台输出"],
+            "location": [2, 4],
+            "direction": "up"
+        },
+        {
+            "groups": ["玛恩纳", "其他地面"],
+            "location": [1, 1],
+            "direction": "down"
+        },
+        {
+            "groups": ["炮灰", "地刺"],
+            "location": [5, 5],
+            "direction": "left"
+        },
+        {
+            "groups": ["投锋", "奶盾"],
+            "location": [6, 5],
+            "direction": "left"
+        }
+    ]
+}
