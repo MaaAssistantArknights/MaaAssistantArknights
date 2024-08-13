@@ -2612,14 +2612,29 @@
     "Reclamation2BeginStage": {
         "text": ["人々", "が集う", "集会場"]
     },
+    "Reclamation2BeginStageEnter": {
+        "text": ["行動", "開始"]
+    },
+    "Reclamation2BeginStageLeaveConfirm": {
+        "text": ["離脱する", "離脱"]
+    },
     "Reclamation2Birdland": {
         "text": ["羽獣", "集う地", "狩猟エリア"]
     },
     "Reclamation2BirdlandClickDrop": {
         "text": ["行動", "完了"]
     },
-    "Reclamation2CopiousCoppiceClickDrop": {
-        "text": ["行動", "完了"]
+    "Reclamation2BirdlandFight": {
+        "text": ["作戦", "開始"]
+    },
+    "Reclamation2BirdlandFightConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2BirdlandStageEnter": {
+        "text": ["行動", "開始"]
+    },
+    "Reclamation2BirdlandStageLeaveConfirm": {
+        "text": ["離脱する", "離脱"]
     },
     "Reclamation2CopiousCoppice": {
         "text": ["豊かな", "低木林", "資源エリア"],
@@ -2629,38 +2644,41 @@
             ["豊方", "豊かな"]
         ]
     },
+    "Reclamation2CopiousCoppiceClickDrop": {
+        "text": ["行動", "完了"]
+    },
+    "Reclamation2CopiousCoppiceFight": {
+        "text": ["作戦", "開始"]
+    },
+    "Reclamation2CopiousCoppiceFightConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2CopiousCoppiceStageEnter": {
+        "text": ["行動", "開始"]
+    },
+    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
+        "text": ["離脱する", "離脱"]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["データ", "削除"]
+    },
     "Reclamation2DeleteArchiveLastConfirm1": {
         "text": ["削除する", "削除"]
     },
     "Reclamation2DeleteArchiveLastConfirm2": {
         "text": ["削除する", "削除"]
     },
-    "Reclamation2DeleteArchiveEnterConfirm": {
-        "text": ["データ", "削除"]
-    },
-    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
-        "text": ["削除する", "削除"]
-    },
-    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
-        "text": ["削除する", "削除"]
-    },
-    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
-        "text": ["データ", "削除"]
-    },
-    "Reclamation2BeginStageEnter": {
-        "text": ["行動", "開始"]
-    },
-    "Reclamation2CopiousCoppiceStageEnter": {
-        "text": ["行動", "開始"]
-    },
-    "Reclamation2BirdlandStageEnter": {
-        "text": ["行動", "開始"]
-    },
     "Reclamation2ExAssemblyStationOcr": {
         "text": ["組立台"]
     },
     "Reclamation2ExClickProduct": {
         "ocrReplace": [["ケミカルライト", "荧光棒"]]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["データ", "削除"]
     },
     "Reclamation2ExManufactureConfirm": {
         "ocrReplace": [["狙", "組"]],
@@ -2688,57 +2706,6 @@
     "Reclamation2ExReadArchiveSelectDayConfirm": {
         "text": ["確認する", "確認"]
     },
-    "Reclamation2ExDeleteArchiveConfirm": {
-        "text": ["削除する", "削除"]
-    },
-    "Reclamation2ExDeleteArchiveEnter": {
-        "text": ["データ", "削除"]
-    },
-    "Reclamation2CopiousCoppiceFight": {
-        "text": ["作戦", "開始"]
-    },
-    "Reclamation2BirdlandFight": {
-        "text": ["作戦", "開始"]
-    },
-    "Reclamation2BirdlandFightConfirm": {
-        "text": ["確定"]
-    },
-    "Reclamation2CopiousCoppiceFightConfirm": {
-        "text": ["確定"]
-    },
-    "Reclamation2BeginStageLeaveConfirm": {
-        "text": ["離脱する", "離脱"]
-    },
-    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
-        "text": ["離脱する", "離脱"]
-    },
-    "Reclamation2BirdlandStageLeaveConfirm": {
-        "text": ["離脱する", "離脱"]
-    },
-    "Reclamation2SkipDay2SkipTime": {
-        "text": ["時間", "経過"]
-    },
-    "Reclamation2SkipDay3SkipTime": {
-        "text": ["時間", "経過"]
-    },
-    "Reclamation2SkipDay2SkipTimeConfirm": {
-        "text": ["確定"]
-    },
-    "Reclamation2SkipDay3SkipTimeConfirm": {
-        "text": ["確定"]
-    },
-    "Reclamation2SkipDaysClickContinue": {
-        "text": ["タップ", "続く"]
-    },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
-        "text": ["タップ", "続く"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
-        "text": ["次へ"]
-    },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
-        "text": ["次へ"]
-    },
     "Reclamation2ExSkipDays2ExSkipTime": {
         "text": ["時間", "経過"]
     },
@@ -2750,6 +2717,39 @@
     },
     "Reclamation2ExSkipDaysBeginNewDay": {
         "text": ["次へ"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2SkipDay2SkipTime": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2SkipDay2SkipTimeConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2SkipDay3SkipTime": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2SkipDay3SkipTimeConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2SkipDaysClickContinue": {
+        "text": ["タップ", "続く"]
     },
     "Fire@Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],

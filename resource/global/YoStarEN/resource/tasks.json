@@ -2413,44 +2413,56 @@
     "Reclamation2BeginStage": {
         "text": ["Gathering Grounds", "Base Camp"]
     },
+    "Reclamation2BeginStageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2BeginStageLeaveConfirm": {
+        "text": ["Are you sure you"]
+    },
     "Reclamation2Birdland": {
         "text": ["Gathering of Feathers", "Hunting Zone"]
-    },
-    "Reclamation2CopiousCoppiceClickDrop": {
-        "text": ["MISSION RESULTS"]
     },
     "Reclamation2BirdlandClickDrop": {
         "text": ["MISSION RESULTS"]
     },
+    "Reclamation2BirdlandFight": {
+        "text": ["Start"]
+    },
+    "Reclamation2BirdlandFightConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2BirdlandStageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2BirdlandStageLeaveConfirm": {
+        "text": ["Are you sure you"]
+    },
     "Reclamation2CopiousCoppice": {
         "text": ["Shrubbery Galore", "Resource", "Zone"]
+    },
+    "Reclamation2CopiousCoppiceClickDrop": {
+        "text": ["MISSION RESULTS"]
+    },
+    "Reclamation2CopiousCoppiceFight": {
+        "text": ["Start"]
+    },
+    "Reclamation2CopiousCoppiceFightConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2CopiousCoppiceStageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
+        "text": ["Are you sure you"]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["Wipe Save"]
     },
     "Reclamation2DeleteArchiveLastConfirm1": {
         "text": ["Confirm Wipe"]
     },
     "Reclamation2DeleteArchiveLastConfirm2": {
         "text": ["Confirm Wipe"]
-    },
-    "Reclamation2DeleteArchiveEnterConfirm": {
-        "text": ["Wipe Save"]
-    },
-    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
-        "text": ["Confirm Wipe"]
-    },
-    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
-        "text": ["Confirm Wipe"]
-    },
-    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
-        "text": ["Wipe Save"]
-    },
-    "Reclamation2BeginStageEnter": {
-        "text": ["Start"]
-    },
-    "Reclamation2CopiousCoppiceStageEnter": {
-        "text": ["Start"]
-    },
-    "Reclamation2BirdlandStageEnter": {
-        "text": ["Start"]
     },
     "Reclamation2ExAssemblyStationOcr": {
         "text": ["Workbench"]
@@ -2460,6 +2472,12 @@
     },
     "Reclamation2ExClickProduct": {
         "text": ["Glow Stick"]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["Wipe Save"]
     },
     "Reclamation2ExManufactureConfirm": {
         "text": ["Craft"]
@@ -2486,57 +2504,6 @@
     "Reclamation2ExReadArchiveSelectDayConfirm": {
         "text": ["Confirm"]
     },
-    "Reclamation2ExDeleteArchiveConfirm": {
-        "text": ["Confirm Wipe"]
-    },
-    "Reclamation2ExDeleteArchiveEnter": {
-        "text": ["Wipe Save"]
-    },
-    "Reclamation2CopiousCoppiceFight": {
-        "text": ["Start"]
-    },
-    "Reclamation2BirdlandFight": {
-        "text": ["Start"]
-    },
-    "Reclamation2BirdlandFightConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2CopiousCoppiceFightConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2BeginStageLeaveConfirm": {
-        "text": ["Are you sure you"]
-    },
-    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
-        "text": ["Are you sure you"]
-    },
-    "Reclamation2BirdlandStageLeaveConfirm": {
-        "text": ["Are you sure you"]
-    },
-    "Reclamation2SkipDay2SkipTime": {
-        "text": ["Skip Day"]
-    },
-    "Reclamation2SkipDay3SkipTime": {
-        "text": ["Skip Day"]
-    },
-    "Reclamation2SkipDay2SkipTimeConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2SkipDay3SkipTimeConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2SkipDaysClickContinue": {
-        "text": ["Tap anywhere to continue"]
-    },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
-        "text": ["Tap anywhere to continue"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
-        "text": ["Start Today"]
-    },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
-        "text": ["Start Today"]
-    },
     "Reclamation2ExSkipDays2ExSkipTime": {
         "text": ["Skip Day"]
     },
@@ -2548,6 +2515,39 @@
     },
     "Reclamation2ExSkipDaysBeginNewDay": {
         "text": ["Start Today"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["Wipe Save"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["Confirm Wipe"]
+    },
+    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+        "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2SkipDay2SkipTime": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2SkipDay2SkipTimeConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2SkipDay3SkipTime": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2SkipDay3SkipTimeConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["Start Today"]
+    },
+    "Reclamation2SkipDaysClickContinue": {
+        "text": ["Tap anywhere to continue"]
     },
     "Fire@Reclamation@BuyWaterProcedure": {
         "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
