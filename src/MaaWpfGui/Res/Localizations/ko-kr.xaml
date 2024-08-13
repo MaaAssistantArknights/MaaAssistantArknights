@@ -371,7 +371,7 @@ OF-1을 해금하지 않았다면 선택하지 말아 주세요.</system:String>
     <system:String x:Key="ScreenshotTest">스크린샷 테스트</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">MuMu의 스크린샷 향상 모드를 활성화하세요</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 3.8.13 이상은 필요하며, MuMu 12 Arknights edition/Global 에서는 지원되지 않습니다.\n
+        MuMu 12 V4.0.0 이상은 필요하며, MuMu 12 Global 에서는 지원되지 않습니다.\n
         이 기능을 활성화한 후 처음으로 사용하기 전에 스크린샷 테스트를 수행하는 것이 좋습니다.\n\n
         다음 정보를 기입하세요: \n\n
         1. 에뮬레이터 경로: (예: C:\\Program Files\\Netease\\MuMuPlayer-12.0) \n

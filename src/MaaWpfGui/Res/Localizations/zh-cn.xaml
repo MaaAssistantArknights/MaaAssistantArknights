@@ -373,7 +373,7 @@
     <system:String x:Key="ScreenshotTest">截图测试</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">启用 MuMu 截图增强模式</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        需使用 MuMu 12 3.8.13 及更新版本，MuMu 12 游戏专版、Global 不支持。\n
+        需使用官版或方舟专版 MuMu 12 V4.0.0 及更新版本。国际版等暂不支持。\n
         强烈建议在开启本功能后的首次使用之前进行截图测试。\n\n
         请填写以下信息：\n\n
         1. 模拟器路径：（例如：C:\\Program Files\\Netease\\MuMuPlayer-12.0）\n
