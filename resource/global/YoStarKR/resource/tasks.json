@@ -2243,31 +2243,28 @@
     "Reclamation2Begin": {
         "text": ["연", "산", "시", "작"]
     },
+    "Reclamation2BeginContinue": {
+        "text": ["계", "속", "하", "기"]
+    },
     "Reclamation2BeginStage": {
         "text": ["캠프", "만남", "광장"]
     },
-    "Reclamation2BeginStageEnter": {
+    "Reclamation2StageEnter": {
         "text": ["작전", "개시"]
     },
-    "Reclamation2BeginStageLeaveConfirm": {
+    "Reclamation2StageLeaveConfirm": {
         "text": ["확인"]
     },
     "Reclamation2Birdland": {
         "text": ["사냥터", "파울비스트의", "땅"]
     },
-    "Reclamation2BirdlandClickDrop": {
+    "Reclamation2ClickDrop": {
         "text": ["작전", "종료"]
     },
-    "Reclamation2BirdlandFight": {
+    "Reclamation2StageFight": {
         "text": ["작전", "개시"]
     },
-    "Reclamation2BirdlandFightConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2BirdlandStageEnter": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2BirdlandStageLeaveConfirm": {
+    "Reclamation2StageFightConfirm": {
         "text": ["확인"]
     },
     "Reclamation2CopiousCoppice": {
@@ -2277,28 +2274,10 @@
             [".*거진.*", "우거진숲"]
         ]
     },
-    "Reclamation2CopiousCoppiceClickDrop": {
-        "text": ["작전", "종료"]
-    },
-    "Reclamation2CopiousCoppiceFight": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2CopiousCoppiceFightConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2CopiousCoppiceStageEnter": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
-        "text": ["확인"]
-    },
     "Reclamation2DeleteArchiveEnterConfirm": {
         "text": ["삭제", "하기"]
     },
-    "Reclamation2DeleteArchiveLastConfirm1": {
-        "text": ["확인"]
-    },
-    "Reclamation2DeleteArchiveLastConfirm2": {
+    "Reclamation2DeleteArchiveLastConfirm": {
         "text": ["확인"]
     },
     "Reclamation2ExAssemblyStationOcr": {
@@ -2390,28 +2369,22 @@
     "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
         "text": ["확인"]
     },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
         "text": ["시", "작", "하", "기"]
     },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
     },
-    "Reclamation2SkipDay2SkipTime": {
+    "Reclamation2SkipTimeSkip": {
         "text": ["시간", "보내기"]
     },
-    "Reclamation2SkipDay2SkipTimeConfirm": {
+    "Reclamation2SkipTimeSkipConfirm": {
         "text": ["확인"]
     },
-    "Reclamation2SkipDay3SkipTime": {
-        "text": ["시간", "보내기"]
-    },
-    "Reclamation2SkipDay3SkipTimeConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
+    "Reclamation2SkipDayBeginNewDay": {
         "text": ["시", "작", "하", "기"]
     },
-    "Reclamation2SkipDaysClickContinue": {
+    "Reclamation2SkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
     }
 }
