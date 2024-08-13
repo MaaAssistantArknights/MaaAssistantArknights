@@ -2730,5 +2730,9 @@
     "official/Reclamation2DeleteArchiveEnter": "dc2fb96b6ecf00f81b3542fe54d6ca577534dbb7de644bc44060ff42eed4f647",
     "official/Reclamation2StageLeave": "e134eccfbfc14c95eb604ab8e87a7244615545bd5bb6034493deea2eacd9d84c",
     "official/Reclamation2ProsperityMax": "17c4bd5faef50b9e1934d8334fcd9640e9c8dbe810ccfe6789c6269d7c9291b3",
-    "official/Reclamation2BeginStageTalk": "10dfd0b3244ef7f892c5f136fa8493193bd7e230265058c4e581549ce4ba31c9"
+    "official/Reclamation2BeginStageTalk": "10dfd0b3244ef7f892c5f136fa8493193bd7e230265058c4e581549ce4ba31c9",
+    "YoStarEN/Reclamation2SkipDay": "71324201d97fd85f5e5ef3c662255990df7cec2dfc05b4dd309ade7ba121e0c9",
+    "YoStarKR/Reclamation2SkipDay": "6e12fabbab1b91d8d71e3be27259c0c7e7b3455209ea8053e80e4ceaac6cd2a7",
+    "official/Reclamation2SkipTime": "2b2c8fec710feab99c16c6fe4c84f1cbe8aaff180d726b4a9dde4add8ab70967",
+    "official/Reclamation2SkipDay": "49634c9038dffaf92b22e4d1c9a89926b465e923f604c4215668da97e4baeab4"
 }
