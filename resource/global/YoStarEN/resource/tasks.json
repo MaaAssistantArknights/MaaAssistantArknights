@@ -2417,55 +2417,31 @@
     "Reclamation2BeginStage": {
         "text": ["Gathering Grounds", "Base Camp"]
     },
-    "Reclamation2BeginStageEnter": {
+    "Reclamation2StageEnter": {
         "text": ["Start"]
     },
-    "Reclamation2BeginStageLeaveConfirm": {
+    "Reclamation2StageLeaveConfirm": {
         "text": ["Are you sure you"]
     },
     "Reclamation2Birdland": {
         "text": ["Gathering of Feathers", "Hunting Zone"]
     },
-    "Reclamation2BirdlandClickDrop": {
+    "Reclamation2ClickDrop": {
         "text": ["MISSION RESULTS"]
     },
-    "Reclamation2BirdlandFight": {
+    "Reclamation2StageFight": {
         "text": ["Start"]
     },
-    "Reclamation2BirdlandFightConfirm": {
+    "Reclamation2StageFightConfirm": {
         "text": ["Confirm"]
-    },
-    "Reclamation2BirdlandStageEnter": {
-        "text": ["Start"]
-    },
-    "Reclamation2BirdlandStageLeaveConfirm": {
-        "text": ["Are you sure you"]
     },
     "Reclamation2CopiousCoppice": {
         "text": ["Shrubbery Galore", "Resource", "Zone"]
     },
-    "Reclamation2CopiousCoppiceClickDrop": {
-        "text": ["MISSION RESULTS"]
-    },
-    "Reclamation2CopiousCoppiceFight": {
-        "text": ["Start"]
-    },
-    "Reclamation2CopiousCoppiceFightConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2CopiousCoppiceStageEnter": {
-        "text": ["Start"]
-    },
-    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
-        "text": ["Are you sure you"]
-    },
     "Reclamation2DeleteArchiveEnterConfirm": {
         "text": ["Wipe Save"]
     },
-    "Reclamation2DeleteArchiveLastConfirm1": {
-        "text": ["Confirm Wipe"]
-    },
-    "Reclamation2DeleteArchiveLastConfirm2": {
+    "Reclamation2DeleteArchiveLastConfirm": {
         "text": ["Confirm Wipe"]
     },
     "Reclamation2ExAssemblyStationOcr": {
