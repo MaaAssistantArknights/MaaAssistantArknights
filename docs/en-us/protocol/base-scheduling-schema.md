@@ -31,7 +31,7 @@ As the JSON format does not support comments, please remove them when using the 
                                     // If this field does not exist, it will automatically switch to the next plan after each run.
                                     // Core does not process this field. If you are using interface integration with MAA, please implement this logic on your own
                 [
-                    "22:00",        // In the hh: mm format, currently only simple numerical comparison is used. If it crosses midnight, please refer to the example in this file
+                    "22:00",        // In the hh:mm format, currently only simple numerical comparison is used. If it crosses midnight, please refer to the example in this file
                     "23:59"
                 ],
                 [
