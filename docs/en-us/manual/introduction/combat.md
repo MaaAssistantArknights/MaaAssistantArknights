@@ -9,7 +9,7 @@ order: 3
 
 ## General Settings
 
-- Combat options include `Use Sanity Potion + Use Originium`, `Perform Battles` and `Material`, you can specify any of them. The combat tasks stop once one of the specifications is met.
+- Combat options include `Use Sanity Potion + Use Originium`, `Perform Battles` and `Material`, you can specify any of them. The combat task stops once one of the specifications is met.
 
   - `Use Sanity Potion` specifies the maximum used amount of sanity potions. Multiple potions may be used at a time.
   - `Use Originium` specifies the maximum used amount of Originium. It is used one at a time. The Originium will not be used when there are Sanity Potions in the depot.
