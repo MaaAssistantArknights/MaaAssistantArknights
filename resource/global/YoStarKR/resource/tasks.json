@@ -2246,14 +2246,29 @@
     "Reclamation2BeginStage": {
         "text": ["캠프", "만남", "광장"]
     },
+    "Reclamation2BeginStageEnter": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2BeginStageLeaveConfirm": {
+        "text": ["확인"]
+    },
     "Reclamation2Birdland": {
         "text": ["사냥터", "파울비스트의", "땅"]
     },
     "Reclamation2BirdlandClickDrop": {
         "text": ["작전", "종료"]
     },
-    "Reclamation2CopiousCoppiceClickDrop": {
-        "text": ["작전", "종료"]
+    "Reclamation2BirdlandFight": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2BirdlandFightConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2BirdlandStageEnter": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2BirdlandStageLeaveConfirm": {
+        "text": ["확인"]
     },
     "Reclamation2CopiousCoppice": {
         "text": ["채집터", "우거진", "숲"],
@@ -2262,32 +2277,29 @@
             [".*거진.*", "우거진숲"]
         ]
     },
-    "Reclamation2DeleteArchiveLastConfirm1": {
+    "Reclamation2CopiousCoppiceClickDrop": {
+        "text": ["작전", "종료"]
+    },
+    "Reclamation2CopiousCoppiceFight": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2CopiousCoppiceFightConfirm": {
         "text": ["확인"]
     },
-    "Reclamation2DeleteArchiveLastConfirm2": {
+    "Reclamation2CopiousCoppiceStageEnter": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
         "text": ["확인"]
     },
     "Reclamation2DeleteArchiveEnterConfirm": {
         "text": ["삭제", "하기"]
     },
-    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+    "Reclamation2DeleteArchiveLastConfirm1": {
         "text": ["확인"]
     },
-    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+    "Reclamation2DeleteArchiveLastConfirm2": {
         "text": ["확인"]
-    },
-    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
-        "text": ["삭제", "하기"]
-    },
-    "Reclamation2BeginStageEnter": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2CopiousCoppiceStageEnter": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2BirdlandStageEnter": {
-        "text": ["작전", "개시"]
     },
     "Reclamation2ExAssemblyStationOcr": {
         "text": ["작업대"]
@@ -2326,6 +2338,12 @@
         ],
         "text": ["형광봉"]
     },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["삭제", "하기"]
+    },
     "Reclamation2ExManufactureConfirm": {
         "text": ["제작", "하기"]
     },
@@ -2351,57 +2369,6 @@
     "Reclamation2ExReadArchiveSelectDayConfirm": {
         "text": ["확인"]
     },
-    "Reclamation2ExDeleteArchiveConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2ExDeleteArchiveEnter": {
-        "text": ["삭제", "하기"]
-    },
-    "Reclamation2CopiousCoppiceFight": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2BirdlandFight": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2BirdlandFightConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2CopiousCoppiceFightConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2BeginStageLeaveConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2CopiousCoppiceStageLeaveConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2BirdlandStageLeaveConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2SkipDay2SkipTime": {
-        "text": ["시간", "보내기"]
-    },
-    "Reclamation2SkipDay3SkipTime": {
-        "text": ["시간", "보내기"]
-    },
-    "Reclamation2SkipDay2SkipTimeConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2SkipDay3SkipTimeConfirm": {
-        "text": ["확인"]
-    },
-    "Reclamation2SkipDaysClickContinue": {
-        "text": ["탭하여", "계", "속"]
-    },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
-        "text": ["탭하여", "계", "속"]
-    },
-    "Reclamation2SkipDaysBeginNewDay": {
-        "text": ["시", "작", "하", "기"]
-    },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
-        "text": ["시", "작", "하", "기"]
-    },
     "Reclamation2ExSkipDays2ExSkipTime": {
         "text": ["시간", "보내기"]
     },
@@ -2413,5 +2380,38 @@
     },
     "Reclamation2ExSkipDaysBeginNewDay": {
         "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["삭제", "하기"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["확인"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["확인"]
+    },
+    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2SkipDay2SkipTime": {
+        "text": ["시간", "보내기"]
+    },
+    "Reclamation2SkipDay2SkipTimeConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2SkipDay3SkipTime": {
+        "text": ["시간", "보내기"]
+    },
+    "Reclamation2SkipDay3SkipTimeConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2SkipDaysBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2SkipDaysClickContinue": {
+        "text": ["탭하여", "계", "속"]
     }
 }
