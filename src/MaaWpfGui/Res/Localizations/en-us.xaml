@@ -373,7 +373,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="ScreenshotTest">Screenshot test</system:String>
     <system:String x:Key="MuMu12ExtrasEnabled">Enable MuMu's screenshot enhancement mode</system:String>
     <system:String x:Key="MuMu12ExtrasEnabledTip">
-        MuMu 12 3.8.13 and later is required, not supported by MuMu 12 Arknights edition/Global.\n
+        MuMu 12 V4.0.0 and later is required, not supported by MuMu 12 Global.\n
         It is strongly recommended to perform a screenshot test before using this feature for the first time after enabling it.\n\n
         Please fill in the following information:\n\n
         1. Emulator Path: (e.g., C:\\Program Files\\Netease\\MuMuPlayer-12.0)\n
