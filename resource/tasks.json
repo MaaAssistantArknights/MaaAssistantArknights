@@ -10144,13 +10144,14 @@
         "next": [
             "Reclamation2Begin",
             "Reclamation2BeginContinue",
-            "Reclamation2SkipDay",
-            "Reclamation2SkipTime",
             "Reclamation2BeginStage",
             "Reclamation2BeginStageTalk",
             "Reclamation2StageEnter",
             "Reclamation2StageFight",
             "Reclamation2StageLeave",
+            "Reclamation2SkipDay",
+            "Reclamation2SkipTime",
+            "Reclamation2ClickDrop",
             "Reclamation2ProsperityMax",
             "Reclamation2SkipDayClickContinue",
             "Reclamation2DeleteArchiveEnter"
@@ -10160,8 +10161,8 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开", "始"],
-        "roi": [844, 569, 436, 151],
-        "next": ["Reclamation2Begin", "Reclamation2BeginLoading"]
+        "roi": [1025, 569, 215, 151],
+        "next": ["Reclamation2Begin", "Reclamation2StageFightConfirm", "Reclamation2BeginLoading"]
     },
     "Reclamation2BeginContinue": {
         "algorithm": "OcrDetect",
@@ -10187,15 +10188,15 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开始", "行动"],
-        "roi": [1077, 499, 203, 146],
+        "roi": [1128, 540, 139, 69],
         "postDelay": 1000,
-        "next": ["Reclamation2StageFight", "Reclamation2BeginStageLoading"]
+        "next": ["Reclamation2StageFight", "Reclamation2StageFightConfirm", "Reclamation2BeginStageLoading"]
     },
     "Reclamation2StageFight": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开始", "行动"],
-        "roi": [1029, 646, 222, 58],
+        "roi": [1128, 645, 128, 58],
         "next": ["Reclamation2StageFightConfirm", "Reclamation2StageLeave"]
     },
     "Reclamation2StageFightConfirm": {
@@ -10204,7 +10205,7 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [646, 447, 631, 64],
-        "postDelay": 6000,
+        "postDelay": 5000,
         "next": ["Reclamation2StageLeave"]
     },
     "Reclamation2StageLeave": {
