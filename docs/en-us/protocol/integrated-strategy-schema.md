@@ -105,7 +105,7 @@ By default, only E1 Level 55 operators will be recruited
     | :--- | :--- | :--- |
     | Thorns | Thorns, Horn | Long-range melee, many maps have good spots |
     | Summoners | Kal'tsit, Ling, Scene | Melee blocking, some maps need deployment prioritization, summons can be used as blocks or fodder |
-    | Agent | Cantabile, Ines | Has DP recovery, deals DPS and its single block |
+    | Agent | Cantabile, Ines | Has DP recovery, deals DPS and is single block |
     | Skadi Alter | Skadi the Corrupting Heart | Low DP cost, special range, some maps have optimal spots |
     | Reed Alter | Reed the Flame Shadow | In Sami I.S. she's commonly used as an opening caster, DPS and healing, some maps have optimal spots |
     | SilverAsh | SilverAsh, Młynar | Ground operators with large range, very useful against bosses |
