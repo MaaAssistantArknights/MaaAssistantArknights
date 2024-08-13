@@ -6070,11 +6070,11 @@
             "Roguelike@GetDrops#next",
             "Roguelike@GetDropCompleted",
             "Roguelike@GetDropLeave",
+            "Roguelike@StageTraderLeave",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterSpecialClose",
             "Roguelike@EnterAfterRecruit",
-            "Roguelike@StageTraderLeave",
             "Roguelike@CloseEvent",
             "Roguelike@DialogSkip",
             "Roguelike@RecruitOther"
