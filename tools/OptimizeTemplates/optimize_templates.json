@@ -2726,5 +2726,9 @@
     "official/Fire@Reclamation@ExitAlgorithm": "6c41cbe42a6df095572c7311cbcba0c4da8bf74afedc4583a94a8c4fe30b2d55",
     "official/Fire@Reclamation@ConfirmStart": "4423d2a9a5ab346b491623d717a04a0a1e316c77e050b8d9b24b00b6843b5ca1",
     "official/Fire@Reclamation@StartActionConfirm": "80afd46fba72d39eb9754301e321220d9297edf9b6e8166d3b14aea8afa3b9c5",
-    "official/Fire@Reclamation@GiveupReportSkip": "7ae65f700ae4f6ee16048bf5da1df3773d6dcdfcae992def61453a9ee988a89d"
+    "official/Fire@Reclamation@GiveupReportSkip": "7ae65f700ae4f6ee16048bf5da1df3773d6dcdfcae992def61453a9ee988a89d",
+    "official/Reclamation2DeleteArchiveEnter": "dc2fb96b6ecf00f81b3542fe54d6ca577534dbb7de644bc44060ff42eed4f647",
+    "official/Reclamation2StageLeave": "e134eccfbfc14c95eb604ab8e87a7244615545bd5bb6034493deea2eacd9d84c",
+    "official/Reclamation2ProsperityMax": "17c4bd5faef50b9e1934d8334fcd9640e9c8dbe810ccfe6789c6269d7c9291b3",
+    "official/Reclamation2BeginStageTalk": "10dfd0b3244ef7f892c5f136fa8493193bd7e230265058c4e581549ce4ba31c9"
 }
