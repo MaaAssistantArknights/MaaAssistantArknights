@@ -10618,7 +10618,12 @@
         "maskRange": [1, 255],
         "templThreshold": 0.7,
         "postDelay": 10000,
-        "next": [ "Reclamation2SkipTime", "Reclamation2ProsperityMax", "Reclamation2SkipDayClickContinue", "Reclamation2SkipDay" ]
+        "next": [
+            "Reclamation2SkipTime",
+            "Reclamation2ProsperityMax",
+            "Reclamation2SkipDayClickContinue",
+            "Reclamation2SkipDay"
+        ]
     },
     "Reclamation2SkipTime": {
         "action": "ClickSelf",
