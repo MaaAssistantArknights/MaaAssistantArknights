@@ -5,7 +5,7 @@ icon: game-icons:prisoner
 
 # Security Presence Schema
 
-This document is machine-translated. If you have the ability, please take a look at the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
+This document is machine-translated. If you have the ability, please refer to the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
 
 ::: tip
 As the JSON format does not support comments, please remove them when using the examples below.
