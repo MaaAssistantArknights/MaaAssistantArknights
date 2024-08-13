@@ -10175,7 +10175,7 @@
     "Reclamation2BeginLoading": {
         "algorithm": "JustReturn",
         "postDelay": 8000,
-        "next": ["Reclamation2BeginStage", "Reclamation2Begin"]
+        "next": ["Reclamation2BeginStage", "Reclamation2StageLeave", "Reclamation2Begin", "Reclamation2BeginLoading"]
     },
     "Reclamation2BeginStage": {
         "algorithm": "OcrDetect",
@@ -10197,7 +10197,7 @@
         "action": "ClickSelf",
         "text": ["开始", "行动"],
         "roi": [1128, 645, 128, 58],
-        "next": ["Reclamation2StageFightConfirm", "Reclamation2StageLeave"]
+        "next": ["Reclamation2StageFightConfirm", "Reclamation2StageLoading"]
     },
     "Reclamation2StageFightConfirm": {
         "Doc": "没人的时候会有弹窗",
@@ -10205,15 +10205,20 @@
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [646, 447, 631, 64],
+        "next": ["Reclamation2StageLoading"]
+    },
+    "Reclamation2StageLoading": {
+        "Doc": "加载速度取决于性能",
+        "algorithm": "JustReturn",
         "postDelay": 5000,
-        "next": ["Reclamation2StageLeave"]
+        "next": ["Reclamation2StageLeave", "Reclamation2BeginStageTalk", "Reclamation2StageFightConfirm", "Reclamation2StageLoading"]
     },
     "Reclamation2StageLeave": {
         "action": "ClickSelf",
         "roi": [0, 0, 146, 154],
         "templThreshold": 0.7,
         "postDelay": 1000,
-        "next": ["Reclamation2StageLeaveConfirm", "Reclamation2StageLeave", "Reclamation2ClickDrop"]
+        "next": ["Reclamation2BeginStageTalk", "Reclamation2StageLeaveConfirm", "Reclamation2StageLeave", "Reclamation2ClickDrop"]
     },
     "Reclamation2StageLeaveConfirm": {
         "algorithm": "OcrDetect",
