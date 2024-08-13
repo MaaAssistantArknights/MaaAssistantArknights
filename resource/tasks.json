@@ -10189,7 +10189,7 @@
         "text": ["开始", "行动"],
         "roi": [1077, 499, 203, 146],
         "postDelay": 1000,
-        "next": ["Reclamation2Fight", "Reclamation2BeginStageLoading"]
+        "next": ["Reclamation2StageFight", "Reclamation2BeginStageLoading"]
     },
     "Reclamation2StageFight": {
         "algorithm": "OcrDetect",
