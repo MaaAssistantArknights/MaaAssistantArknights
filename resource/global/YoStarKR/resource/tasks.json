@@ -2243,6 +2243,9 @@
     "Reclamation2Begin": {
         "text": ["연", "산", "시", "작"]
     },
+    "Reclamation2BeginContinue": {
+        "text": ["계", "속", "하", "기"]
+    },
     "Reclamation2BeginStage": {
         "text": ["캠프", "만남", "광장"]
     },
