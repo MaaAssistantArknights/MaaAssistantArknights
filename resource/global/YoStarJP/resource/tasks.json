@@ -961,6 +961,10 @@
     "PRTS3": {
         "text": ["残り配置可能数"]
     },
+    "UsingMedicineCount": {
+        "specialParams_Doc": "日服缺少蓝色遮罩，导致图标过亮",
+        "specialParams": [250, 255]
+    },
     "MedicineExpiringTime": {
         "roi": [705, 345, 95, 30],
         "text": ["分", "時間", "1日"],
