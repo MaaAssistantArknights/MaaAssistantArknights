@@ -10147,9 +10147,9 @@
             "Reclamation2BeginStage",
             "Reclamation2BeginStageTalk",
             "Reclamation2SkipDay",
+            "Reclamation2SkipTime",
             "Reclamation2ProsperityMax",
             "Reclamation2SkipDayClickContinue",
-            "Reclamation2SkipTime",
             "Reclamation2DeleteArchiveEnter"
         ]
     },
@@ -10568,7 +10568,7 @@
     },
     "Reclamation2ProsperityMax": {
         "roi": [789, 475, 154, 122],
-        "next": ["Reclamation2ProsperityMaxSkipDaysClickContinue"]
+        "next": ["Reclamation2ProsperityMaxSkipDayClickContinue"]
     },
     "Reclamation2ProsperityMaxDeleteArchiveEnter": {
         "Doc": "删除存档",
@@ -10597,20 +10597,20 @@
         "text": ["确认", "删除"],
         "roi": [820, 406, 308, 146]
     },
-    "Reclamation2ProsperityMaxSkipDaysBeginNewDay": {
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开", "启", "今", "日"],
         "roi": [519, 525, 261, 144],
         "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter"]
     },
-    "Reclamation2ProsperityMaxSkipDaysClickContinue": {
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "roi": [506, 609, 272, 111],
         "text": ["点击", "任意处", "继续"],
         "postDelay": 4000,
-        "next": ["Reclamation2ProsperityMaxSkipDaysBeginNewDay"]
+        "next": ["Reclamation2ProsperityMaxSkipDayBeginNewDay"]
     },
     "Reclamation2SkipDay": {
         "action": "ClickSelf",
