@@ -26,7 +26,7 @@ Configuration changes in the main interface and settings are usually saved autom
 MAA supports automatic configuration switching through launch parameters by appending `--config <configuration name>` after the MAA process name.
 Example: `./MAA/MAA.exe --config Official`.
 
-Some symbols need to be changed, following Json conventions.
+Some symbols need to be escaped, following Json conventions.
 Example: when the configuration name is `"Official"`, the parameter should be `--config \"Official\"`.
 
 ## Pre/Post-Script
