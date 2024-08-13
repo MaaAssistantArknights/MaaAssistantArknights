@@ -10211,14 +10211,24 @@
         "Doc": "加载速度取决于性能",
         "algorithm": "JustReturn",
         "postDelay": 5000,
-        "next": ["Reclamation2StageLeave", "Reclamation2BeginStageTalk", "Reclamation2StageFightConfirm", "Reclamation2StageLoading"]
+        "next": [
+            "Reclamation2StageLeave",
+            "Reclamation2BeginStageTalk",
+            "Reclamation2StageFightConfirm",
+            "Reclamation2StageLoading"
+        ]
     },
     "Reclamation2StageLeave": {
         "action": "ClickSelf",
         "roi": [0, 0, 146, 154],
         "templThreshold": 0.7,
         "postDelay": 1000,
-        "next": ["Reclamation2BeginStageTalk", "Reclamation2StageLeaveConfirm", "Reclamation2StageLeave", "Reclamation2ClickDrop"]
+        "next": [
+            "Reclamation2BeginStageTalk",
+            "Reclamation2StageLeaveConfirm",
+            "Reclamation2StageLeave",
+            "Reclamation2ClickDrop"
+        ]
     },
     "Reclamation2StageLeaveConfirm": {
         "algorithm": "OcrDetect",
