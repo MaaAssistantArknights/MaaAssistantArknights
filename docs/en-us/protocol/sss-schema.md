@@ -5,10 +5,10 @@ icon: game-icons:prisoner
 
 # Security Presence Schema
 
-This document is machine-translated. If you have the ability, please refer to the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
+This document is machine-translated. If you have the ability, please take a look at the Chinese version. We would greatly appreciate any errors or suggestions for improvement.
 
 ::: tip
-As JSON format does not support comments, please remove the comments when using the examples below.
+As the JSON format does not support comments, please remove them when using the examples below.
 :::
 
 ```json
@@ -63,7 +63,7 @@ As JSON format does not support comments, please remove the comments when using 
         {
             "stage_name": "Swarm",          // Name of a single-level stage, required
                                            // Supports name, stageId, levelId, recommended stageId or levelId
-                                           // Please do not use codes (e.g. LT-1), which conflict with other preservation stages
+                                           // Please do not use codes (e.g. LT-1), that conflict with other preservation stages
 
 
             "strategies": [                // Required
