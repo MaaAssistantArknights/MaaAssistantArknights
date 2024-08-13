@@ -2249,23 +2249,11 @@
     "Reclamation2BeginStage": {
         "text": ["캠프", "만남", "광장"]
     },
-    "Reclamation2StageEnter": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2StageLeaveConfirm": {
-        "text": ["확인"]
-    },
     "Reclamation2Birdland": {
         "text": ["사냥터", "파울비스트의", "땅"]
     },
     "Reclamation2ClickDrop": {
         "text": ["작전", "종료"]
-    },
-    "Reclamation2StageFight": {
-        "text": ["작전", "개시"]
-    },
-    "Reclamation2StageFightConfirm": {
-        "text": ["확인"]
     },
     "Reclamation2CopiousCoppice": {
         "text": ["채집터", "우거진", "숲"],
@@ -2375,16 +2363,28 @@
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["탭하여", "계", "속"]
     },
+    "Reclamation2SkipDayBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
     "Reclamation2SkipTimeSkip": {
         "text": ["시간", "보내기"]
     },
     "Reclamation2SkipTimeSkipConfirm": {
         "text": ["확인"]
     },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["시", "작", "하", "기"]
+    "Reclamation2StageEnter": {
+        "text": ["작전", "개시"]
     },
-    "Reclamation2SkipDayClickContinue": {
-        "text": ["탭하여", "계", "속"]
+    "Reclamation2StageFight": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["확인"]
     }
 }

@@ -2612,23 +2612,11 @@
     "Reclamation2BeginStage": {
         "text": ["人々", "が集う", "集会場"]
     },
-    "Reclamation2StageEnter": {
-        "text": ["行動", "開始"]
-    },
-    "Reclamation2StageLeaveConfirm": {
-        "text": ["離脱する", "離脱"]
-    },
     "Reclamation2Birdland": {
         "text": ["羽獣", "集う地", "狩猟エリア"]
     },
     "Reclamation2ClickDrop": {
         "text": ["行動", "完了"]
-    },
-    "Reclamation2StageFight": {
-        "text": ["作戦", "開始"]
-    },
-    "Reclamation2StageFightConfirm": {
-        "text": ["確定"]
     },
     "Reclamation2CopiousCoppice": {
         "text": ["豊かな", "低木林", "資源エリア"],
@@ -2709,17 +2697,29 @@
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["タップ", "続く"]
     },
+    "Reclamation2SkipDayBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["タップ", "続く"]
+    },
     "Reclamation2SkipTimeSkip": {
         "text": ["時間", "経過"]
     },
     "Reclamation2SkipTimeSkipConfirm": {
         "text": ["確定"]
     },
-    "Reclamation2SkipDayBeginNewDay": {
-        "text": ["次へ"]
+    "Reclamation2StageEnter": {
+        "text": ["行動", "開始"]
     },
-    "Reclamation2SkipDayClickContinue": {
-        "text": ["タップ", "続く"]
+    "Reclamation2StageFight": {
+        "text": ["作戦", "開始"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["離脱する", "離脱"]
     },
     "Fire@Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],

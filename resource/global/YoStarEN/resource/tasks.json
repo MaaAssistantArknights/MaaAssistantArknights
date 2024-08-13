@@ -2417,23 +2417,11 @@
     "Reclamation2BeginStage": {
         "text": ["Gathering Grounds", "Base Camp"]
     },
-    "Reclamation2StageEnter": {
-        "text": ["Start"]
-    },
-    "Reclamation2StageLeaveConfirm": {
-        "text": ["Are you sure you"]
-    },
     "Reclamation2Birdland": {
         "text": ["Gathering of Feathers", "Hunting Zone"]
     },
     "Reclamation2ClickDrop": {
         "text": ["MISSION RESULTS"]
-    },
-    "Reclamation2StageFight": {
-        "text": ["Start"]
-    },
-    "Reclamation2StageFightConfirm": {
-        "text": ["Confirm"]
     },
     "Reclamation2CopiousCoppice": {
         "text": ["Shrubbery Galore", "Resource", "Zone"]
@@ -2511,17 +2499,29 @@
     "Reclamation2ProsperityMaxSkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]
     },
-    "Reclamation2SkipTimeSkipConfirm": {
-        "text": ["Confirm"]
-    },
-    "Reclamation2SkipTimeSkip": {
-        "text": ["Skip Day"]
-    },
     "Reclamation2SkipDayBeginNewDay": {
         "text": ["Start Today"]
     },
     "Reclamation2SkipDayClickContinue": {
         "text": ["Tap anywhere to continue"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["Skip Day"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["Start"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["Start"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["Confirm"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["Are you sure you"]
     },
     "Fire@Reclamation@BuyWaterProcedure": {
         "text": ["Skip", "Building materials", "Fresh Water", "Skip"]
