@@ -15,7 +15,7 @@ Currently, the support for Reclamation Algorithm is still in the early stages, a
 2. Cannot be used if there is already a save file. (just delete the existing save file)
 3. Cannot be used if there are operators in the R.A. squad. (just clear the current squad in R.A., especially after finishing a wave)
 
-## Manufacturing Points/Tech tree points?
+## Points farm through crafting
 
 1. You need to start on the page where you can see the base camp after entering R.A..
 2. If the item name is not filled in, the default is to craft Glow Sticks.
