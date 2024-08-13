@@ -4,8 +4,7 @@ order: 11
 
 # Others
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+::: important This page may be outdated.
 :::
 
 ## GPU-accelerated inference
@@ -44,6 +43,6 @@ In the Windows version, all MAA configurations are stored in the `gui.json` file
 
 - Tasks order can be changed on the UI. So can the shifting order in the infrastructure.
 - All clicking event is randomized within a region, following Poisson distribution (higher probability at the center, lower probability around).
-- Developed in C++, the core algorithm supports multi-level cache, in order to reduce CPU and memory usage as much as possible.
-- Our software supports auto-update ✿✿ ヽ(°▽°)ノ ✿ Beta-testers can try beta versions, which updates faster and less buggy (maybe).
+- Developed in C++, the core algorithm supports multi-level cache, to reduce CPU and memory usage as much as possible.
+- Our software supports auto-update ✿✿ ヽ(°▽°)ノ ✿ Beta-testers can try beta versions, which update faster and less buggy (maybe).
 - If auto-update fails, you can download the OTA package manually and put the ZIP file under the same directory. The update will start automatically.
