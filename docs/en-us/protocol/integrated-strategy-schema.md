@@ -226,7 +226,7 @@ So don't set the threshold number too high, it is recommended that the number of
 
 ### Basic I.S. fighting logic of MAA
 
-1. Perform basic combat operations based on the tileset of the map
+1. Perform basic combat operations based on the tile grid of the map
 
     - MAA performs basic combat operations based on whether the grid on the map is a blue or red box, whether it's a high platform or ground, and whether it can be deployed or not.
 
