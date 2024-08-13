@@ -19,6 +19,10 @@
         {
             "location": [1, 6],
             "direction": "up"
+        },
+        {
+            "location": [6, 6],
+            "direction": "up"
         }
     ],
     "deploy_plan": [
