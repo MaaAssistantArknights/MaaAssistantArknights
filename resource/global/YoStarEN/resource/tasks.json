@@ -2411,6 +2411,9 @@
     "Reclamation2Begin": {
         "text": ["Commence"]
     },
+    "Reclamation2BeginContinue": {
+        "text": ["Resume"]
+    },
     "Reclamation2BeginStage": {
         "text": ["Gathering Grounds", "Base Camp"]
     },
