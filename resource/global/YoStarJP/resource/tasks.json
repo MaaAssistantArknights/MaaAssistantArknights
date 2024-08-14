@@ -2607,7 +2607,10 @@
         ]
     },
     "Reclamation2Begin": {
-        "text": ["演", "算", "開", "始"]
+        "text": ["開", "始"]
+    },
+    "Reclamation2BeginContinue": {
+        "text": ["継", "続"]
     },
     "Reclamation2BeginStage": {
         "text": ["人々", "が集う", "集会場"]
@@ -2634,6 +2637,9 @@
     },
     "Reclamation2ExAssemblyStationOcr": {
         "text": ["組立台"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["継", "続"]
     },
     "Reclamation2ExClickProduct": {
         "ocrReplace": [["ケミカルライト", "荧光棒"]]
