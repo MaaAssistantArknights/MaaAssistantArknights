@@ -6199,6 +6199,17 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_183_sheltk": {
+            "name": "作战专用掩体",
+            "name_en": "作战专用掩体",
+            "name_jp": "作战专用掩体",
+            "name_kr": "作战专用掩体",
+            "name_tw": "作战专用掩体",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_400_xbfarm": {
             "name": "便携式种植槽",
             "name_en": "Portable Planting Trough",
@@ -7827,6 +7838,17 @@
             "rangeId": ["0-1", "0-1", "0-1"],
             "rarity": 1
         },
+        "trap_765_bmoney": {
+            "name": "无可置疑的罪证",
+            "name_en": "无可置疑的罪证",
+            "name_jp": "无可置疑的罪证",
+            "name_kr": "无可置疑的罪证",
+            "name_tw": "无可置疑的罪证",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
         "trap_766_duelwal": {
             "name": "狭路相逢",
             "name_en": "狭路相逢",
@@ -7847,6 +7869,105 @@
             "position": "NONE",
             "profession": "TRAP",
             "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_768_godch": {
+            "name": "保全人才合作协议",
+            "name_en": "保全人才合作协议",
+            "name_jp": "保全人才合作协议",
+            "name_kr": "保全人才合作协议",
+            "name_tw": "保全人才合作协议",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 1
+        },
+        "trap_769_godcha": {
+            "name": "加急许可条款",
+            "name_en": "加急许可条款",
+            "name_jp": "加急许可条款",
+            "name_kr": "加急许可条款",
+            "name_tw": "加急许可条款",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 1
+        },
+        "trap_770_godchb": {
+            "name": "临时任命条款",
+            "name_en": "临时任命条款",
+            "name_jp": "临时任命条款",
+            "name_kr": "临时任命条款",
+            "name_tw": "临时任命条款",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 1
+        },
+        "trap_771_bqrnge": {
+            "name": "皇家科学院望远镜",
+            "name_en": "皇家科学院望远镜",
+            "name_jp": "皇家科学院望远镜",
+            "name_kr": "皇家科学院望远镜",
+            "name_tw": "皇家科学院望远镜",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_772_bqrngea": {
+            "name": "专业显示模块",
+            "name_en": "专业显示模块",
+            "name_jp": "专业显示模块",
+            "name_kr": "专业显示模块",
+            "name_tw": "专业显示模块",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_773_bqrngeb": {
+            "name": "灵活架设模块",
+            "name_en": "灵活架设模块",
+            "name_jp": "灵活架设模块",
+            "name_kr": "灵活架设模块",
+            "name_tw": "灵活架设模块",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["0-1", "0-1", "0-1"],
+            "rarity": 1
+        },
+        "trap_774_bqmlee": {
+            "name": "攀云机",
+            "name_en": "攀云机",
+            "name_jp": "攀云机",
+            "name_kr": "攀云机",
+            "name_tw": "攀云机",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 1
+        },
+        "trap_775_bqmleea": {
+            "name": "加固扩存改装",
+            "name_en": "加固扩存改装",
+            "name_jp": "加固扩存改装",
+            "name_kr": "加固扩存改装",
+            "name_tw": "加固扩存改装",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["1-1", "1-1", "1-1"],
+            "rarity": 1
+        },
+        "trap_776_bqmleeb": {
+            "name": "长距增运改装",
+            "name_en": "长距增运改装",
+            "name_jp": "长距增运改装",
+            "name_kr": "长距增运改装",
+            "name_tw": "长距增运改装",
+            "position": "NONE",
+            "profession": "TRAP",
+            "rangeId": ["1-1", "1-1", "1-1"],
             "rarity": 1
         }
     },
