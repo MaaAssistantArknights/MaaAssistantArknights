@@ -1943,7 +1943,7 @@
             ["The Kind Puppet", "善良的木偶"],
             ["Teller of Tales", "讲故事的人"],
             ["Adventurer Comm[ission]*", "委托冒险者"],
-            ["Royal Rumble", "皇家争执"],
+            [".*Royal Rumble'?", "皇家争执"],
             ["Advance Squad", "先遣小队"],
             ["Gaulish Veteran", "高卢老兵"],
             ["Hallucinatory Candlelights", "迷幻烛火"],
