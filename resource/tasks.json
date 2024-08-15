@@ -3153,7 +3153,8 @@
     "Mall": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["采购", "购中", "中心"],
+        "ocrReplace": [["米购", "采购"]],
+        "text": ["采购", "购中", "中心", "到期"],
         "roi": [740, 440, 200, 100],
         "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
         "postDelay": 500
