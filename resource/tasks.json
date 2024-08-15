@@ -7908,12 +7908,10 @@
     },
     "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
         "doc": [
-            "————————————————————————————————————————————————————————————————",
             "RoguelikeCollapsalParadigmTaskPlugin用参数",
-            "————————————————————————————————————————————————————————————————",
-            "text: 坍缩范式加深时 banner 通知第一行的文字",
-            "sub: 在 SubTaskStart 时触发 banner check 的任务",
-            "next: 在 SubTaskCompleted 时触发 banner check 的任务"
+            "| text: 坍缩范式加深时 banner 通知第一行的文字",
+            "| sub: 在 SubTaskStart 时触发 banner check 的任务",
+            "| next: 在 SubTaskCompleted 时触发 banner check 的任务"
         ],
         "algorithm": "OcrDetect",
         "text": ["坍缩范式加深"],
@@ -7930,11 +7928,9 @@
     },
     "Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig": {
         "doc": [
-            "————————————————————————————————————————————————————————————————",
             "RoguelikeCollapsalParadigmTaskPlugin用参数",
-            "————————————————————————————————————————————————————————————————",
-            "sub: 在 SubTaskStart 时触发 panek check 的任务",
-            "ocrReplace: 从温度模版名到区域名的映射"
+            "| sub: 在 SubTaskStart 时触发 panek check 的任务",
+            "| ocrReplace: 从温度模版名到区域名的映射"
         ],
         "algorithm": "OcrDetect",
         "sub": [
@@ -9436,18 +9432,16 @@
     },
     "Sarkaz@Roguelike@RoutingConfig": {
         "doc": [
-            "————————————————————————————————————————————————————————————————",
             "RoguelikeRoutingTaskPlugin用参数",
-            "————————————————————————————————————————————————————————————————",
-            "specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
-            "specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
-            "specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
-            "specialParams[3]: 节点 Rect.width",
-            "specialParams[4]: 节点 Rect.height",
-            "specialParams[5]: 两列节点之间的距离",
-            "specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
-            "specialParams[7]: roi 时的 margin offset",
-            "specialParams[8]: 节点间连线方向判定的阈值"
+            "| specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "| specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
+            "| specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
+            "| specialParams[3]: 节点 Rect.width",
+            "| specialParams[4]: 节点 Rect.height",
+            "| specialParams[5]: 两列节点之间的距离",
+            "| specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+            "| specialParams[7]: roi 时的 margin offset",
+            "| specialParams[8]: 节点间连线方向判定的阈值"
         ],
         "template": "empty.png",
         "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
@@ -10136,11 +10130,7 @@
     },
     "Sarkaz@RoguelikeSettlementConfirm": {},
     "Reclamation2": {
-        "doc": [
-            "————————————————————————————————————————————————————————————————",
-            "生息演算：沙中遗闻",
-            "————————————————————————————————————————————————————————————————"
-        ],
+        "doc": "生息演算「沙洲遗闻」",
         "algorithm": "JustReturn",
         "Doc": "此处为cpp入口，出口直接将任务的next设为空即可",
         "next": [
@@ -10632,11 +10622,7 @@
         "next": ["Reclamation2StageSquadQuit", "Reclamation2DeleteArchiveEnter"]
     },
     "Fire@Reclamation": {
-        "doc": [
-            "————————————————————————————————————————————————————————————————",
-            "生息演算：沙中之火",
-            "————————————————————————————————————————————————————————————————"
-        ],
+        "doc": "生息演算「沙中之火」",
         "template": [
             "Terminal.png",
             "TerminalDark.png",
