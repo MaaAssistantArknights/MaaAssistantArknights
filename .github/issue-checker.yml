@@ -282,7 +282,9 @@ labels:
   # `module: core`
   - name: core
     content: "module: core"
-    regexes: "(?:开始唤醒|触控模式|连接模拟器|[Ss]tartup|[Tt]ouch [Mm]ode|[Aa]uto [Dd]etect [Cc]onnection|MaaCore(?!.dll)|GPU(?:\\s*加速|(?: for [Ii]nference)? [Aa]cceleration)|显卡加速)"
+    regexes: "(?:开始唤醒|触控模式|连接模拟器|(?:显卡|GPU\\s*)加速|\
+      [Ss]tartup|[Tt]ouch\\s*[Mm]ode|[Aa]uto [Dd]etect [Cc]onnection|GPU(?: for [Ii]nference)? [Aa]cceleration|\
+      MaaCore(?!.dll))"
     skip-if:
       - skip all
       - skip module
@@ -295,7 +297,8 @@ labels:
   # `module: others`
   - name: others
     content: "module: others"
-    regexes: "(?:信用|拜访|登录|账号切换|更新日志|(?:干员|仓库|视频)识别|[Vv]isit|[Ll]ogin|[Cc]redit|[Aa]ccount [Ss]witch|[Cc]hangelog)"
+    regexes: "(?:抽卡|采购中心|信用|拜访|登录|账号切换|更新日志|(?:干员|仓库|视频)识别|\
+      [Vv]isit|[Ll]ogin|[Cc]redit|[Aa]ccount [Ss]witch|[Cc]hangelog)"
     skip-if:
       - skip all
       - skip module
@@ -345,7 +348,8 @@ labels:
   # `WpfGui`
   - name: WpfGui
     content: "client: WpfGui"
-    regexes: '远程控制|外部通知|(?:自|自动|定时|软件)(?:下载|更新|启动|执行|检测)|图形化?界面|[Gg][Uu][Ii](?!\.)|[Aa]uto [Ss]tart|[Rr]emote [Cc]ontrol|[Ee]xternal [Nn]otifications|[Ss]chedule'
+    regexes: "远程控制|外部通知|(?:自|自动|定时|软件)(?:下载|更新|启动|执行|检测)|图形化?界面|\
+      [Gg][Uu][Ii](?!\\.)|[Aa]uto [Ss]tart|[Rr]emote [Cc]ontrol|[Ee]xternal [Nn]otifications|[Ss]chedule"
     skip-if:
       - skip all
       - skip client
@@ -489,24 +493,23 @@ labels:
 
   # `fixed`
   - name: fixed
-    regexes:
-      - "(?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
-        v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)\\s+)|\
-        \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
-        v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
-        (?:https?\\://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{40})\
-        \\s*fixed|[Ff]ixed (?:in|at|by)\\s*\
-        (?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\\s+\
-        v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))|\
-        \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
-        v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
-        (?:https?\\://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{40})"
+    regexes: "(?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
+      v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)\\s+)|\
+      \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
+      v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
+      (?:https?://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{8,40})\
+      \\s*fixed|[Ff]ixed (?:in|at|by)\\s*\
+      (?:(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\\s+\
+      v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))|\
+      \\[(?:`v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|)`|\
+      v\\d+\\.\\d+\\.\\d+(?:-(?:alpha|beta|rc)\\.\\d+|\\.\\d+|))\\]\\(\\S*\\)|\
+      (?:https?://(?:[^/\\s]+/){3}commit/|)[0-9a-z]{8,40})"
     mode:
       issue_comment: add
 
   # `duplicate`
   - name: duplicate
-    regexes: "[Dd]uplicate of\\s*\\[?`?(?:https?\\://(?:[^/\\s]+/){3}issues/|#)\\d+"
+    regexes: "[Dd]uplicate of\\s*\\[?`?(?:https?://(?:[^/\\s]+/){3}issues/|#)\\d+"
     mode:
       issue_comment: add
 
@@ -544,14 +547,12 @@ labels:
 
 comments:
   - name: Log upload failed
-    regexes:
-      - '\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\)'
+    regexes: '\[Uploading asst(?:.bak|)(?: - 副本|)(?:.log|)(?:.zip|)…\]\(\)'
     content: "你的日志没有上传成功，请重新上传。\n\n\
       Your log did not upload successfully, please re-upload it."
     mode: add
   - name: Upload failed
-    regexes:
-      - "^[^`]*(`[^`]+`[^`]*)*\\[Uploading[^\\]]*…\\]\\(\\)"
+    regexes: "^[^`]*(`[^`]+`[^`]*)*\\[Uploading[^\\]]*…\\]\\(\\)"
     content: "你有一些文件没有上传成功，请重新上传。\n\n\
       You have some files that did not upload successfully, please re-upload them."
     mode: add
