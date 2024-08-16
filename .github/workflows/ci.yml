@@ -308,7 +308,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          brew install ninja llvm@18
+          brew install ninja
 
       - name: Bootstrap MaaDeps
         run: |
@@ -319,9 +319,7 @@ jobs:
 
       - name: Configure MaaCore
         run: |
-          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}' \
-            -DCMAKE_C_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang \
-            -DCMAKE_CXX_COMPILER=/opt/homebrew/opt/llvm@18/bin/clang++
+          cmake -B build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES='${{ matrix.arch }}' -DMAA_VERSION='${{ needs.meta.outputs.tag }}'
 
       - name: Build MaaCore
         run: |
