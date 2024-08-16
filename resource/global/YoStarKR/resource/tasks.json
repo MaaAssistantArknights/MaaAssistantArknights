@@ -1143,11 +1143,11 @@
         "roi": [1020, 410, 170, 210]
     },
     "StageDrops-Quantity": {
+        "maskRange": [200, 255],
         "template": "empty.png",
         "templThreshold": 3,
         "templThreshold_Doc": "여기는 문자 간격 임계값으로 사용됩니다",
-        "roi": [62, 90, 46, 22],
-        "maskRange": [200, 255]
+        "roi": [62, 90, 46, 22]
     },
     "SSSBegin": {
         "ocrReplace": [["보안.*?작전.*?개.+", "보안작전개시"]],
