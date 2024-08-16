@@ -3838,16 +3838,21 @@
         "postDelay": 1500
     },
     "InfrastOperSelected": {
+        "Doc": "参考 InfrastOperImageAnalyzer",
         "template": "empty.png",
-        "templThreshold": 800,
-        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
-        "maskRange": [
+        "specialParams_Doc": "这个任务中作为数色个数阈值",
+        "specialParams": [800],
+        "specificRect_Doc": "selected_move",
+        "specificRect": [-18, -220, 10, 160],
+        "rectMove_Doc": "oper_move",
+        "rectMove": [18, 0, 10, 160],
+        "colorScales_Doc": "HSV的范围",
+        "colorScales": [
             [
                 [95, 0, 0],
                 [105, 255, 255]
             ]
-        ],
-        "rectMove": [-18, -220, 10, 160]
+        ]
     },
     "InfrastOperOnShift": {
         "template": "OnShift.png",
@@ -4682,11 +4687,11 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
+        "specialParams_Doc": "这个任务中作为数色个数阈值",
         "specialParams": [300],
-        "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [-68, 124, 114, 4],
-        "maskRange_Doc": "HSV的范围",
-        "maskRange": [
+        "colorScales_Doc": "HSV的范围",
+        "colorScales": [
             [
                 [0, 100, 0],
                 [20, 255, 150]
@@ -4779,7 +4784,7 @@
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialParams": [100],
         "specialParams_Doc": "基线长度阈值（不小于100）",
-        "maskRange": [45, 255],
+        "colorScales": [[45, 255]],
         "rectMove": [181, 40, 25, 0],
         "rectMove_Doc": "作为hsv阈值使用"
     },
@@ -4822,7 +4827,7 @@
         "templThreshold": 3,
         "templThreshold_Doc": "这里用来作为字间距阈值",
         "roi": [62, 90, 43, 22],
-        "maskRange": [110, 255]
+        "colorScales": [[110, 255]]
     },
     "StageDrops-StageCF-ItemMatch": {
         "template": "empty.png",
@@ -9550,7 +9555,7 @@
         "Doc": "思维边界",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [90, 2, 121],
                 [134, 142, 230]
@@ -9561,7 +9566,7 @@
     "Sarkaz@Roguelike@StageBoskyPassageEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [137, 150, 40],
                 [138, 180, 180]
@@ -9607,7 +9612,7 @@
     },
     "Sarkaz@Roguelike@StageCombatDps": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [127, 80, 50],
                 [136, 200, 180]
@@ -9623,7 +9628,7 @@
     },
     "Sarkaz@Roguelike@StageCombatDpsEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [130, 130, 40],
                 [131, 180, 180]
@@ -9669,7 +9674,7 @@
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [15, 1, 93],
                 [93, 129, 141]
@@ -9754,7 +9759,7 @@
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [23, 150, 40],
                 [25, 230, 150]
@@ -9815,7 +9820,7 @@
         "Doc": "命运所指",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [18, 1, 94],
                 [93, 173, 109]
@@ -9827,7 +9832,8 @@
         "action": "ClickSelf",
         "method": "RGBCount",
         "postDelay": 500,
-        "maskRange": [0, 200],
+        "colorScales": [[0, 200]],
+        "colorWithClose": false,
         "roi": [790, 130, 60, 144],
         "next": ["Sarkaz@Roguelike@StageRefreshConfirm", "Sarkaz@Roguelike@StageRefreshUpperLimit"]
     },
@@ -9874,7 +9880,7 @@
     },
     "Sarkaz@Roguelike@StageSafeHouseEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [106, 100, 50],
                 [107, 160, 180]
@@ -9913,7 +9919,7 @@
     },
     "Sarkaz@Roguelike@StageTraderEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [71, 150, 40],
                 [73, 180, 150]
@@ -9944,7 +9950,7 @@
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [18, 130, 155],
                 [20, 180, 180]

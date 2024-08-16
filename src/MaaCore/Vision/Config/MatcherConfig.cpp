@@ -39,21 +39,24 @@ void asst::MatcherConfig::set_threshold(std::vector<double> templ_thres) noexcep
     m_params.templ_thres = std::move(templ_thres);
 }
 
-void MatcherConfig::set_mask_range(int lower, int upper, bool mask_with_src, bool mask_with_close)
+void MatcherConfig::set_mask_range(int lower, int upper, bool mask_src, bool mask_close)
 {
-    m_params.mask_range = { { { lower }, { upper } } };
-    m_params.mask_with_src = mask_with_src;
-    m_params.mask_with_close = mask_with_close;
+    m_params.mask_ranges = { MatchTaskInfo::GrayRange { lower, upper } };
+    m_params.mask_src = mask_src;
+    m_params.mask_close = mask_close;
 }
 
-void MatcherConfig::set_mask_range(
-    std::vector<MatchTaskInfo::Range> mask_range,
-    bool mask_with_src,
-    bool mask_with_close)
+void MatcherConfig::set_mask_ranges(MatchTaskInfo::Ranges mask_ranges, bool mask_src, bool mask_close)
 {
-    m_params.mask_range = std::move(mask_range);
-    m_params.mask_with_src = mask_with_src;
-    m_params.mask_with_close = mask_with_close;
+    m_params.mask_ranges = std::move(mask_ranges);
+    m_params.mask_src = mask_src;
+    m_params.mask_close = mask_close;
+}
+
+void MatcherConfig::set_color_scales(MatchTaskInfo::Ranges color_scales, bool color_close)
+{
+    m_params.color_scales = std::move(color_scales);
+    m_params.color_close = color_close;
 }
 
 void MatcherConfig::set_method(MatchMethod method) noexcept
@@ -66,7 +69,9 @@ void MatcherConfig::_set_task_info(MatchTaskInfo task_info)
     m_params.templs.clear();
     ranges::copy(task_info.templ_names, std::back_inserter(m_params.templs));
     m_params.templ_thres = std::move(task_info.templ_thresholds);
-    m_params.mask_range = std::move(task_info.mask_range);
+    m_params.mask_ranges = std::move(task_info.mask_ranges);
+    m_params.color_scales = std::move(task_info.color_scales);
+    m_params.color_close = task_info.color_close;
     m_params.methods = std::move(task_info.methods);
 
     _set_roi(task_info.roi);

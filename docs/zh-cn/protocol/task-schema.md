@@ -15,7 +15,7 @@ icon: material-symbols:task
 
 ```json
 {
-    "TaskName" : {                          // 任务名，带 @ 时可能为特殊任务，字段默认值会有不同，详见下方特殊任务类型
+    "TaskName": {                           // 任务名，带 @ 时可能为特殊任务，字段默认值会有不同，详见下方特殊任务类型
 
         "baseTask": "xxx",                  // 以 xxx 任务为模板生成任务，详细见下方特殊任务类型中的 Base Task
 
@@ -33,7 +33,7 @@ icon: material-symbols:task
                                             //      - Stop:             停止当前任务
                                             //      - Swipe:            滑动，对应 specificRect 与 rectMove 字段
 
-        "sub": [ "SubTaskName1", "SubTaskName2" ],
+        "sub": ["SubTaskName1", "SubTaskName2"],
                                             // 可选项，子任务，不推荐使用。会在执行完当前任务后，依次执行每一个子任务
                                             // 可以套娃，子任务再套子任务。但要注意不要写出了死循环
 
@@ -42,7 +42,7 @@ icon: material-symbols:task
                                             // 为 false 时，若某个子任务出错，则不继续执行后续任务（相当于本任务出错了）
                                             // 为 true 时，子任务是否出错没有影响
 
-        "next": [ "OtherTaskName1", "OtherTaskName2" ],
+        "next": ["OtherTaskName1", "OtherTaskName2"],
                                             // 可选项，表示执行完当前任务和 sub 任务后，下一个要执行的任务
                                             // 会从前往后依次去识别，去执行第一个匹配上的
                                             // 不填写默认执行完当前任务直接停止
@@ -54,16 +54,16 @@ icon: material-symbols:task
                                             // 不填写时默认无穷大
                                             // 达到最大次数后，若存在 exceededNext 字段，则执行 exceededNext；否则直接任务停止
 
-        "exceededNext": [ "OtherTaskName1", "OtherTaskName2" ],
+        "exceededNext": ["OtherTaskName1", "OtherTaskName2"],
                                             // 可选项，表示达到了最大执行次数后要执行的任务
                                             // 不填写时，达到了最大执行次数则停止；填写后就执行这里的，而不是 next 里的
-        "onErrorNext": [ "OtherTaskName1", "OtherTaskName2" ],
+        "onErrorNext": ["OtherTaskName1", "OtherTaskName2"],
                                             // 可选项，表示执行出错时，后续要执行的任务
 
         "preDelay": 1000,                   // 可选项，表示识别到后延迟多久才执行 action，单位毫秒；不填写时默认 0
         "postDelay": 1000,                  // 可选项，表示 action 执行完后延迟多久才去识别 next, 单位毫秒；不填写时默认 0
 
-        "roi": [ 0, 0, 1280, 720 ],         // 可选项，表示识别的范围，格式为 [ x, y, width, height ]
+        "roi": [0, 0, 1280, 720],           // 可选项，表示识别的范围，格式为 [ x, y, width, height ]
                                             // 以 1280 * 720 为基准自动缩放；不填写时默认 [ 0, 0, 1280, 720 ]
                                             // 尽量填写，减小识别范围可以减少性能消耗，加快识别速度
 
@@ -71,21 +71,21 @@ icon: material-symbols:task
                                             // 第一次识别到后，以后永远只在第一次识别到的位置进行识别，开启可大幅节省性能
                                             // 但仅适用于待识别目标位置完全不会变的任务，若待识别目标位置会变请设为 false
 
-        "rectMove": [ 0, 0, 0, 0 ],         // 可选项，识别后的目标移动，不建议使用该选项。以 1280 * 720 为基准自动缩放
+        "rectMove": [0, 0, 0, 0],           // 可选项，识别后的目标移动，不建议使用该选项。以 1280 * 720 为基准自动缩放
                                             // 例如识别到了 A ，但实际要点击的是 A 下方 10 像素 5 * 2 区域的某个位置，
                                             // 则可填写[ 0, 10, 5, 2 ]，可以的话尽量直接识别要点击的位置，不建议使用该选项
                                             // 额外的，当 action 为 Swipe 时有效且必选，表示滑动终点。
 
-        "reduceOtherTimes": [ "OtherTaskName1", "OtherTaskName2" ],
+        "reduceOtherTimes": ["OtherTaskName1", "OtherTaskName2"],
                                             // 可选项，执行后减少其他任务的执行计数。
                                             // 例如执行了吃理智药，则说明上一次点击蓝色开始行动按钮没生效，所以蓝色开始行动要-1
 
-        "specificRect": [ 100, 100, 50, 50 ],
+        "specificRect": [100, 100, 50, 50],
                                             // 当 action 为 ClickRect 时有效且必选，表示指定的点击位置（范围内随机一点）。
                                             // 当 action 为 Swipe 时有效且必选，表示滑动起点。
                                             // 以 1280 * 720 为基准自动缩放
 
-        "specialParams": [ int, ... ],      // 某些特殊识别器需要的参数
+        "specialParams": [int, ...],        // 某些特殊识别器需要的参数
                                             // 额外的，当 action 为 Swipe 时可选，[0] 表示 duration，[1] 表示 是否启用额外滑动
 
         /* 以下字段仅当 algorithm 为 MatchTemplate 时有效 */
@@ -96,22 +96,29 @@ icon: material-symbols:task
         "templThreshold": 0.8,              // 可选项，图片模板匹配得分的阈值，超过阈值才认为识别到了，可以是数字或数字列表
                                             // 默认 0.8, 可根据日志查看实际得分是多少
 
-        "maskRange": [ 1, 255 ],            // 可选项，掩码范围。 array<int, 2> | list<array<array<int, 3>, 2>>
-                                            // 当为 array<int, 2> 时 是灰度掩码范围
-                                            //     例如将图片不需要识别的部分涂成黑色（灰度值为 0）
-                                            //     然后设置"maskRange"的范围为 [ 1, 255 ], 匹配的时候即忽略涂黑的部分
-                                            // 当为 list<array<array<int, 3>, 2>> 时
-                                            //     最内层代表一个颜色，由 method 决定它是 RGB 或 HSV；
-                                            //     中间一层是颜色范围的下限和上限；
-                                            //     最外层代表允许多个范围，最后取并集作为待识别区域。
+        "maskRange": [1, 255],              // 可选项，匹配时的灰度掩码范围。 array<int, 2>
+                                            // 例如将图片不需要识别的部分涂成黑色（灰度值为 0）
+                                            // 然后设置为 [ 1, 255 ], 匹配的时候即忽略涂黑的部分
+
+        "colorScales": [                    // 当 method 为 HSVCount 或 RGBCount 时有效且必选，数色掩码范围。 
+            [                               // list<array<array<int, 3>, 2> | array<int, 2>>
+                [23, 150, 40],              // 结构为 [[lower1, upper1], [lower2, upper2], ...]
+                [25, 230, 150]              //     内层为 int 时是灰度，
+            ],                              //     　　为 array<int, 3> 时是三通道颜色，method 决定其是 RGB 或 HSV；
+            ...                             //     中间一层的 array<*, 2> 是颜色（或灰度）下限与上限：
+        ],                                  //     最外层代表不同的颜色范围，待识别区域为它们对应在模板图片上掩码的并集。
+
+        "colorWithClose": true,             // 可选项，当 method 为 HSVCount 或 RGBCount 时有效，默认为 true
+                                            // 数色时是否先用闭运算处理掩码范围。
+                                            // 闭运算可以填补小黑点，一般会提高数色匹配效果，但若图片中包含文字建议设为 false
 
         "method": "Ccoeff",                 // 可选项，模板匹配算法，可以是列表
                                             // 不填写时默认为 Ccoeff
-                                            //      - Ccoeff:       对应 cv::TM_CCOEFF_NORMED
-                                            //      - RGBCount:     先将待匹配区域和模板图片依据 maskRange 二值化，
+                                            //      - Ccoeff:       对颜色不敏感的模板匹配算法，对应 cv::TM_CCOEFF_NORMED
+                                            //      - RGBCount:     对颜色敏感的模板匹配算法，
+                                            //                      先将待匹配区域和模板图片依据 maskRange 二值化，
                                             //                      以 F1-score 为指标计算 RGB 颜色空间内的相似度，
                                             //                      再将结果与 Ccoeff 的结果点积
-                                            //                      总之是一个颜色敏感的模板匹配算法
                                             //      - HSVCount:     类似 RGBCount，颜色空间换为 HSV
 
         /* 以下字段仅当 algorithm 为 OcrDetect 时有效 */
