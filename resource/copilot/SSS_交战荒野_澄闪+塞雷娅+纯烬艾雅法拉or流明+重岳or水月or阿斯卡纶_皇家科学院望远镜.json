@@ -9,16 +9,7 @@
         "details_color": "dark"
     },
     "buff": "皇家科学院望远镜",
-    "equipment": [
-        "A",
-        "A",
-        "A",
-        "A",
-        "A",
-        "B",
-        "B",
-        "B"
-    ],
+    "equipment": ["A", "A", "A", "A", "A", "B", "B", "B"],
     "strategy": "优选策略",
     "opers": [
         {
@@ -207,30 +198,21 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up"
                 },
                 {
@@ -238,10 +220,7 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        1,
-                        2
-                    ],
+                    "location": [1, 2],
                     "direction": "Up"
                 },
                 {
@@ -249,30 +228,21 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        7,
-                        4
-                    ],
+                    "location": [7, 4],
                     "direction": "None"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up"
                 },
                 {
@@ -280,10 +250,7 @@
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Down"
                 },
                 {
@@ -291,10 +258,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up"
                 },
                 {
@@ -302,10 +266,7 @@
                         "caster": 6,
                         "support": 3
                     },
-                    "location": [
-                        6,
-                        4
-                    ],
+                    "location": [6, 4],
                     "direction": "Up"
                 }
             ],
@@ -324,40 +285,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Left"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left"
                 },
                 {
@@ -365,20 +314,14 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        7,
-                        5
-                    ],
+                    "location": [7, 5],
                     "direction": "None"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
@@ -386,10 +329,7 @@
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        7,
-                        3
-                    ],
+                    "location": [7, 3],
                     "direction": "Left"
                 },
                 {
@@ -397,10 +337,7 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        6,
-                        2
-                    ],
+                    "location": [6, 2],
                     "direction": "Down"
                 },
                 {
@@ -408,10 +345,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        8,
-                        4
-                    ],
+                    "location": [8, 4],
                     "direction": "Left"
                 },
                 {
@@ -419,10 +353,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        8,
-                        1
-                    ],
+                    "location": [8, 1],
                     "direction": "Down"
                 },
                 {
@@ -431,10 +362,7 @@
                         "sniper": 2,
                         "support": 3
                     },
-                    "location": [
-                        8,
-                        2
-                    ],
+                    "location": [8, 2],
                     "direction": "Left"
                 }
             ],
@@ -446,10 +374,7 @@
                 {
                     "type": "Skill",
                     "name": "炸弹载荷点",
-                    "location": [
-                        1,
-                        5
-                    ],
+                    "location": [1, 5],
                     "kills": 15
                 }
             ],
@@ -462,40 +387,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 },
                 {
@@ -503,10 +416,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        4,
-                        1
-                    ],
+                    "location": [4, 1],
                     "direction": "None"
                 },
                 {
@@ -514,10 +424,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -525,10 +432,7 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 },
                 {
@@ -536,10 +440,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Up"
                 },
                 {
@@ -547,10 +448,7 @@
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 },
                 {
@@ -559,10 +457,7 @@
                         "sniper": 1,
                         "support": 6
                     },
-                    "location": [
-                        3,
-                        5
-                    ],
+                    "location": [3, 5],
                     "direction": "Right"
                 },
                 {
@@ -570,10 +465,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        2,
-                        1
-                    ],
+                    "location": [2, 1],
                     "direction": "Down",
                     "kills": 15
                 }
@@ -593,40 +485,28 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -634,10 +514,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "direction": "None"
                 },
                 {
@@ -645,10 +522,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        1
-                    ],
+                    "location": [3, 1],
                     "direction": "Down"
                 },
                 {
@@ -656,10 +530,7 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
@@ -667,40 +538,28 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -708,20 +567,14 @@
                         "caster": 6,
                         "support": 6
                     },
-                    "location": [
-                        3,
-                        2
-                    ],
+                    "location": [3, 2],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -729,10 +582,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        1,
-                        3
-                    ],
+                    "location": [1, 3],
                     "direction": "Right"
                 }
             ],
@@ -751,20 +601,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Down"
                 },
                 {
@@ -772,30 +616,21 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Up"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Right"
                 },
                 {
@@ -803,30 +638,21 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        4,
-                        4
-                    ],
+                    "location": [4, 4],
                     "direction": "None"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        1,
-                        5
-                    ],
+                    "location": [1, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "support": 1
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -834,10 +660,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        5,
-                        5
-                    ],
+                    "location": [5, 5],
                     "direction": "Right"
                 },
                 {
@@ -845,20 +668,14 @@
                     "tool_men": {
                         "tank": 2
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "support": 2
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -866,20 +683,14 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        3,
-                        4
-                    ],
+                    "location": [3, 4],
                     "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "caster": 5
                     },
-                    "location": [
-                        1,
-                        5
-                    ],
+                    "location": [1, 5],
                     "direction": "Right"
                 },
                 {
@@ -887,10 +698,7 @@
                         "support": 9,
                         "caster": 6
                     },
-                    "location": [
-                        5,
-                        3
-                    ],
+                    "location": [5, 3],
                     "direction": "Left"
                 },
                 {
@@ -898,10 +706,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right",
                     "kills": 20
                 }
@@ -914,37 +719,25 @@
                 {
                     "type": "Skill",
                     "name": "炸弹载荷点",
-                    "location": [
-                        5,
-                        6
-                    ],
+                    "location": [5, 6],
                     "kills": 5
                 },
                 {
                     "type": "Skill",
                     "name": "炸弹载荷点",
-                    "location": [
-                        11,
-                        4
-                    ],
+                    "location": [11, 4],
                     "kills": 25
                 },
                 {
                     "type": "Skill",
                     "name": "炸弹载荷点",
-                    "location": [ 
-                        6,
-                        0
-                    ],
+                    "location": [6, 0],
                     "kills": 49
                 },
                 {
                     "type": "Skill",
                     "name": "炸弹载荷点",
-                    "location": [
-                        4,
-                        3
-                    ],
+                    "location": [4, 3],
                     "kills": 49,
                     "pre_delay": 90000
                 }
@@ -958,30 +751,21 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
@@ -989,30 +773,21 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        2,
-                        5
-                    ],
+                    "location": [2, 5],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Right"
                 },
                 {
@@ -1020,10 +795,7 @@
                     "tool_men": {
                         "caster": 1
                     },
-                    "location": [
-                        1,
-                        4
-                    ],
+                    "location": [1, 4],
                     "direction": "Right"
                 },
                 {
@@ -1031,10 +803,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [
-                        1,
-                        1
-                    ],
+                    "location": [1, 1],
                     "direction": "None"
                 },
 
@@ -1043,10 +812,7 @@
                     "tool_men": {
                         "caster": 2
                     },
-                    "location": [
-                        2,
-                        4
-                    ],
+                    "location": [2, 4],
                     "direction": "Right"
                 },
                 {
@@ -1054,50 +820,35 @@
                     "tool_men": {
                         "pioneer": 2
                     },
-                    "location": [
-                        2,
-                        6
-                    ],
+                    "location": [2, 6],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        3
-                    ],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "tank": 1
                     },
-                    "location": [
-                        3,
-                        6
-                    ],
+                    "location": [3, 6],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "caster": 3
                     },
-                    "location": [
-                        2,
-                        2
-                    ],
+                    "location": [2, 2],
                     "direction": "Right"
                 },
                 {
@@ -1105,10 +856,7 @@
                         "pioneer": 4,
                         "tank": 2
                     },
-                    "location": [
-                        2,
-                        3
-                    ],
+                    "location": [2, 3],
                     "direction": "Right"
                 },
                 {
@@ -1116,10 +864,7 @@
                         "support": 13,
                         "caster": 13
                     },
-                    "location": [
-                        2,
-                        7
-                    ],
+                    "location": [2, 7],
                     "direction": "Right"
                 }
             ],
