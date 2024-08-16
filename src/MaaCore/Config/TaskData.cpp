@@ -603,7 +603,7 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
             const auto& lower = lower_item.as_array();
             const auto& upper = upper_item.as_array();
 
-            if (!ranges::all_of(lower, &json::value::is_number) || !ranges::all_of(upper, &json::value::is_number)) {
+            if (!ranges::all_of(std::array { lower, upper } | views::join, &json::value::is_number)) {
                 Log.error("Invalid color_range in task", name);
                 return nullptr;
             }
