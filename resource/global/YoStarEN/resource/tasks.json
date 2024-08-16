@@ -2123,6 +2123,7 @@
     },
     "Phantom@Roguelike@StrategyChange_mode0": {
         "text": ["_aggressive", "_pragmatic", "_default"],
+        "roi": [541, 5, 241, 71],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_aggressive"],
             ["Sunset Courtyard", "_aggressive"],
@@ -2134,6 +2135,7 @@
     },
     "Phantom@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit"],
+        "roi": [541, 5, 241, 71],
         "ocrReplace": [
             ["Mist-stricken Missteps", "_default"],
             ["Sunset Courtyard", "_default"],
