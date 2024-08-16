@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <climits>
 #include <cmath>
 #include <functional>
@@ -7,6 +8,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <variant>
 #include <vector>
 
 #include "Utils/StringMisc.hpp"
@@ -491,11 +493,16 @@ namespace asst
         constexpr MatchTaskInfo(MatchTaskInfo&&) noexcept = default;
         constexpr MatchTaskInfo& operator=(const MatchTaskInfo&) = default;
         constexpr MatchTaskInfo& operator=(MatchTaskInfo&&) noexcept = default;
-        using Range = std::pair<std::vector<int>, std::vector<int>>;
+        using GrayRange = std::pair<int, int>;
+        using ColorRange = std::pair<std::array<int, 3>, std::array<int, 3>>;
+        using Range = std::variant<GrayRange, ColorRange>;
+        using Ranges = std::vector<Range>;
         std::vector<std::string> templ_names; // 匹配模板图片文件名
         std::vector<double> templ_thresholds; // 模板匹配阈值
-        std::vector<Range> mask_range;        // 掩码的二值化范围
         std::vector<MatchMethod> methods;     // 匹配方法
+        Ranges mask_ranges;      // 匹配掩码范围，TaskData 仅允许 array<int, 2>，但保留彩色掩码支持
+        Ranges color_scales;     // 数色掩码范围
+        bool color_close = true; // 数色时是否使用闭运算处理
     };
     using MatchTaskPtr = std::shared_ptr<MatchTaskInfo>;
     using MatchTaskConstPtr = std::shared_ptr<const MatchTaskInfo>;

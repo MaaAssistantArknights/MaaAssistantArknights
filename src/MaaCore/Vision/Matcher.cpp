@@ -32,7 +32,11 @@ Matcher::ResultOpt Matcher::analyze() const
         if (m_log_tracing && max_val > 0.5 && max_val > threshold - 0.2) { // 得分太低的肯定不对，没必要打印
             Log.trace("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
         }
-
+#ifdef ASST_DEBUG
+        else {
+            Log.debug("match_templ |", templ_name, "score:", max_val, "rect:", rect, "roi:", m_roi);
+        }
+#endif
         if (max_val < threshold) {
             continue;
         }
@@ -95,40 +99,44 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
         }
 
         cv::Mat matched;
-        cv::Mat image_for_match;
-        cv::Mat templ_for_match;
-        cv::Mat image_for_count;
-        cv::Mat templ_for_count;
-        cv::cvtColor(image, image_for_match, cv::COLOR_BGR2RGB);
-        cv::cvtColor(templ, templ_for_match, cv::COLOR_BGR2RGB);
+        cv::Mat image_match, image_count, image_gray;
+        cv::Mat templ_match, templ_count, templ_gray;
+        cv::cvtColor(image, image_match, cv::COLOR_BGR2RGB);
+        cv::cvtColor(templ, templ_match, cv::COLOR_BGR2RGB);
+        cv::cvtColor(image, image_gray, cv::COLOR_BGR2GRAY);
+        cv::cvtColor(templ, templ_gray, cv::COLOR_BGR2GRAY);
         if (method == MatchMethod::HSVCount) {
-            cv::cvtColor(image, image_for_count, cv::COLOR_BGR2HSV);
-            cv::cvtColor(templ, templ_for_count, cv::COLOR_BGR2HSV);
+            cv::cvtColor(image, image_count, cv::COLOR_BGR2HSV);
+            cv::cvtColor(templ, templ_count, cv::COLOR_BGR2HSV);
         }
         else if (method == MatchMethod::RGBCount) {
-            image_for_count = image_for_match;
-            templ_for_count = templ_for_match;
+            image_count = image_match;
+            templ_count = templ_match;
         }
 
         // 目前所有的匹配都是用 TM_CCOEFF_NORMED
         int match_algorithm = cv::TM_CCOEFF_NORMED;
 
-        auto calc_mask = [&](const cv::Mat& templ_for_mask, bool with_close)->std::optional<cv::Mat> {
-            cv::Mat templ_for_gray_mask;
-            cv::cvtColor(templ_for_mask, templ_for_gray_mask, cv::COLOR_BGR2GRAY);
-
+        auto calc_mask = [&templ_name](
+                             const MatchTaskInfo::Ranges mask_ranges,
+                             const cv::Mat& templ,
+                             const cv::Mat& templ_gray,
+                             bool with_close)
+            -> std::optional<cv::Mat> {
             // Union all masks, not intersection
-            cv::Mat mask = cv::Mat::zeros(templ_for_gray_mask.size(), CV_8UC1);
-            for (const auto& range : params.mask_range) {
+            cv::Mat mask = cv::Mat::zeros(templ_gray.size(), CV_8UC1);
+            for (const auto& range : mask_ranges) {
                 cv::Mat current_mask;
-                if (range.first.size() == 1 && range.second.size() == 1) {
-                    cv::inRange(templ_for_gray_mask, range.first[0], range.second[0], current_mask);
+                if (std::holds_alternative<MatchTaskInfo::GrayRange>(range)) {
+                    const auto& gray_range = std::get<MatchTaskInfo::GrayRange>(range);
+                    cv::inRange(templ_gray, gray_range.first, gray_range.second, current_mask);
                 }
-                else if (range.first.size() == 3 && range.second.size() == 3) {
-                    cv::inRange(templ_for_mask, range.first, range.second, current_mask);
+                else if (std::holds_alternative<MatchTaskInfo::ColorRange>(range)) {
+                    const auto& color_range = std::get<MatchTaskInfo::ColorRange>(range);
+                    cv::inRange(templ, color_range.first, color_range.second, current_mask);
                 }
                 else {
-                    Log.error("Invalid mask range");
+                    Log.error("The task with template", templ_name, "holds invalid mask range");
                     return std::nullopt;
                 }
                 cv::bitwise_or(mask, current_mask, mask);
@@ -141,34 +149,30 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             return mask;
         };
 
-        if (params.mask_range.empty() || method == MatchMethod::RGBCount || method == MatchMethod::HSVCount) {
-            // workaround: 数色时的模板匹配忽略 maskRange
-            // TODO: 区分 maskRange 和 colorRange
-            cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm);
+        if (params.mask_ranges.empty()) {
+            cv::matchTemplate(image_match, templ_match, matched, match_algorithm);
         }
         else {
+            // match 时使用的 mask_range 当作 RGB 的
             auto mask_opt = calc_mask(
-                params.mask_with_src ? image_for_match : templ_for_match,
-                params.mask_with_close);
+                params.mask_ranges,
+                params.mask_src ? image_match : templ_match,
+                params.mask_src ? image_gray : templ_gray,
+                params.mask_close);
             if (!mask_opt) {
                 return {};
             }
-            cv::matchTemplate(image_for_match, templ_for_match, matched, match_algorithm, mask_opt.value());
+            cv::matchTemplate(image_match, templ_match, matched, match_algorithm, mask_opt.value());
         }
 
         if (method == MatchMethod::RGBCount || method == MatchMethod::HSVCount) {
-            auto templ_active_opt = calc_mask(templ_for_count, false);
-            auto image_active_opt = calc_mask(image_for_count, false);
+            auto templ_active_opt = calc_mask(params.color_scales, templ_count, templ_gray, params.color_close);
+            auto image_active_opt = calc_mask(params.color_scales, image_count, image_gray, params.color_close);
             if (!image_active_opt || !templ_active_opt) [[unlikely]] {
                 return {};
             }
             cv::Mat templ_active = std::move(templ_active_opt).value();
             cv::Mat image_active = std::move(image_active_opt).value();
-
-            // 闭运算填充小空洞，避免数色的得分过低 TODO: 或许可以做成可选的
-            cv::Mat kernel = cv::getStructuringElement(cv::MORPH_RECT, cv::Size(3, 3));
-            cv::morphologyEx(templ_active, templ_active, cv::MORPH_CLOSE, kernel);
-            cv::morphologyEx(image_active, image_active, cv::MORPH_CLOSE, kernel);
 
             cv::threshold(templ_active, templ_active, 1, 1, cv::THRESH_BINARY);
             cv::threshold(image_active, image_active, 1, 1, cv::THRESH_BINARY);
@@ -181,10 +185,9 @@ std::vector<Matcher::RawResult> Matcher::preproc_and_match(const cv::Mat& image,
             // TODO: 这里 TP+FP 是 image_active 的 count，可以消掉一个 matchtemplate
             cv::matchTemplate(image_active, templ_inactive, fp, cv::TM_CCORR);
             fp.convertTo(fp, CV_32S);
-            cv::Mat count_result; // 数色结果为 f1_score
-            cv::divide(2 * tp, tp + fp + tp_fn, count_result, 1, CV_32F);
-            // 返回的是数色和模板匹配的点积
-            cv::multiply(matched, count_result, matched);
+            cv::Mat count_result;
+            cv::divide(2 * tp, tp + fp + tp_fn, count_result, 1, CV_32F); // 数色结果为 f1_score
+            cv::multiply(matched, count_result, matched);                 // 最终结果是数色和模板匹配的点积
         }
         results.emplace_back(RawResult { .matched = matched, .templ = templ, .templ_name = templ_name });
     }
