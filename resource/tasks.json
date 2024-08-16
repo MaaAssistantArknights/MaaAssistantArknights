@@ -9833,6 +9833,7 @@
         "method": "RGBCount",
         "postDelay": 500,
         "colorScales": [[0, 200]],
+        "colorWithClose": false,
         "roi": [790, 130, 60, 144],
         "next": ["Sarkaz@Roguelike@StageRefreshConfirm", "Sarkaz@Roguelike@StageRefreshUpperLimit"]
     },
