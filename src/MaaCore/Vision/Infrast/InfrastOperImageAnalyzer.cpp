@@ -228,7 +228,7 @@ void asst::InfrastOperImageAnalyzer::skill_analyze()
 
     Matcher skill_analyzer(m_image);
 
-    skill_analyzer.set_mask_range(task_ptr->mask_range);
+    skill_analyzer.set_mask_ranges(task_ptr->mask_ranges);
     skill_analyzer.set_threshold(task_ptr->templ_thresholds.front());
     skill_analyzer.set_method(task_ptr->methods.front());
 
@@ -346,34 +346,28 @@ void asst::InfrastOperImageAnalyzer::selected_analyze()
     LogTraceFunction;
 
     const auto selected_task_ptr = Task.get<MatchTaskInfo>("InfrastOperSelected");
-    Rect rect_move = selected_task_ptr->rect_move;
+    const Rect selected_move = selected_task_ptr->specific_rect;
+    const Rect oper_move = selected_task_ptr->rect_move;
+
+    if (selected_task_ptr->color_scales.size() != 1 ||
+        !std::holds_alternative<MatchTaskInfo::ColorRange>(selected_task_ptr->color_scales.front())) {
+        Log.error(__FUNCTION__, "| color_scales in `InfrastOperSelected` is not a ColorRange");
+        return;
+    }
+    const auto& color_scale = std::get<MatchTaskInfo::ColorRange>(selected_task_ptr->color_scales.front());
 
     for (auto&& oper : m_result) {
-        Rect selected_rect = rect_move;
-        selected_rect.x += oper.smiley.rect.x;
-        selected_rect.y += oper.smiley.rect.y;
-
+        Rect selected_rect = oper.smiley.rect.move(selected_move);
         cv::Mat roi = m_image(make_rect<cv::Rect>(selected_rect));
+
         cv::Mat hsv, bin;
         cv::cvtColor(roi, hsv, cv::COLOR_BGR2HSV);
-        std::vector<cv::Mat> channels;
-        cv::split(hsv, channels);
-        int mask_lowb = selected_task_ptr->mask_range[0].first[0];
-        int mask_uppb = selected_task_ptr->mask_range[0].second[0];
+        cv::inRange(hsv, color_scale.first, color_scale.second, bin);
+        int count = cv::countNonZero(bin);
 
-        int count = 0;
-        auto& h_channel = channels.at(0);
-        for (int i = 0; i != h_channel.rows; ++i) {
-            for (int j = 0; j != h_channel.cols; ++j) {
-                cv::uint8_t value = h_channel.at<cv::uint8_t>(i, j);
-                if (mask_lowb < value && value < mask_uppb) {
-                    ++count;
-                }
-            }
-        }
         Log.trace("selected_analyze |", count);
-        oper.selected = count >= selected_task_ptr->templ_thresholds.front();
-        oper.rect = selected_rect.move({ 18, 0, 10, 160 }); // 先凑合用（
+        oper.selected = count >= selected_task_ptr->special_params.front();
+        oper.rect = selected_rect.move(oper_move);
     }
 }
 
