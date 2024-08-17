@@ -257,7 +257,17 @@ jobs:
         run: |
           pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
           cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-          echo -e "${{ inputs.release_body || '' }}\n\n${{ needs.build-win-nightly.outputs.changelog }}\n\n**Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)" > alpha_changelog.md
+          changelog="${{ needs.build-win-nightly.outputs.changelog }}"
+          release_body="${{ inputs.release_body || '' }}"
+
+          cat <<CUSTOM_END > alpha_changelog.md
+          $release_body
+
+          $changelog
+
+          **Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)
+          CUSTOM_END
+
           export r=$(cat alpha_changelog.md)
 
           # https://github.com/svenstaro/upload-release-action
