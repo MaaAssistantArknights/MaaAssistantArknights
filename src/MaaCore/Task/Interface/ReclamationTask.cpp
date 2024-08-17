@@ -1,90 +1,56 @@
-#include "Task/Interface/ReclamationTask.h"
+#include "ReclamationTask.h"
 
 #include "Common/AsstBattleDef.h"
-#include "Status.h"
 #include "Config/TaskData.h"
 #include "Task/ProcessTask.h"
-#include "Utils/Logger.hpp"
 
+// 通用配置及插件
+#include "Task/Reclamation/ReclamationConfig.h"
+
+// 尚未启用的配置及插件
 #include "Task/Reclamation/ReclamationBattlePlugin.h"
 #include "Task/Reclamation/ReclamationConclusionReportPlugin.h"
 #include "Task/Reclamation/ReclamationControlTask.h"
 
-auto asst::ReclamationTask::init_reclamation_fire_within_the_sand()
-{
-    auto ptr = std::make_shared<fire_within_the_sand_task>(m_callback, m_inst, TaskType);
-    ptr->register_plugin<ReclamationConclusionReportPlugin>();
-    m_subtasks = { ptr };
-    m_reclamation_task_ptr = ptr;
-    return ptr;
-}
+#include "Utils/Logger.hpp"
 
-auto asst::ReclamationTask::init_reclamation_tales_within_the_sand(const bool enable_ex)
-{
-    auto ptr = std::make_shared<tales_within_the_sand_task>(m_callback, m_inst, TaskType);
-    if (enable_ex) {
-        ptr->set_tasks({ "Reclamation2Ex" });
-    } else {
-        ptr->set_tasks({ "Reclamation2" });
-    }
-    m_subtasks = { ptr };
-    m_reclamation_task_ptr = ptr;
-    return ptr;
-}
-
-asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* inst)
-    : InterfaceTask(callback, inst, TaskType)
+asst::ReclamationTask::ReclamationTask(const AsstCallback& callback, Assistant* inst) :
+    InterfaceTask(callback, inst, TaskType),
+    m_reclamation_task_ptr(std::make_shared<ProcessTask>(callback, inst, TaskType)),
+    m_config_ptr(std::make_shared<ReclamationConfig>())
 {
     LogTraceFunction;
-    init_reclamation_tales_within_the_sand(false);
+
+    m_subtasks.emplace_back(m_reclamation_task_ptr);
 }
 
 bool asst::ReclamationTask::set_params(const json::value& params)
 {
     LogTraceFunction;
 
-    switch (int theme = params.get("theme", 1)) {
-    case 0: // 沙中之火
-    {
-        if (m_current_theme != TaskTheme::FireWithinTheSand) {
-            m_reclamation_task_ptr = init_reclamation_fire_within_the_sand();
-            m_current_theme = TaskTheme::FireWithinTheSand;
-        }
-        const auto ptr = std::static_pointer_cast<fire_within_the_sand_task>(m_reclamation_task_ptr);
-        // 0 - 刷分与建造点，进入战斗直接退出
-        // 1 - 刷赤金，联络员买水后基地锻造
-        switch (int mode = params.get("mode", 0)) {
-        case 0:
-            ptr->set_task_mode(ReclamationTaskMode::GiveupUponFight);
-            break;
-        case 1:
-            ptr->set_task_mode(ReclamationTaskMode::SmeltGold);
-            break;
-        default:
-            Log.error(__FUNCTION__, "| Unknown mode", mode);
-            return false;
-        }
-        break;
-    }
-    case 1: // 沙洲遗闻
-    {
-        const int enable_ex = params.get("mode", 0);
-        if (m_current_theme != TaskTheme::TalesWithinTheSand) {
-            m_current_theme = TaskTheme::TalesWithinTheSand;
-        }
-        m_reclamation_task_ptr = init_reclamation_tales_within_the_sand(enable_ex);
-        auto ptr = std::static_pointer_cast<tales_within_the_sand_task>(m_reclamation_task_ptr);
-        if (const std::string product = params.get("product", "荧光棒"); !product.empty()) {
-            Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { product };
-        }
-        else {
-            Task.get<OcrTaskInfo>("Reclamation2ExClickProduct")->text = { "荧光棒" };
-        }
-        break;
-    }
-    default:
-        Log.error(__FUNCTION__, "Unknown theme", theme);
+    if (!m_config_ptr->verify_and_load_params(params)) {
         return false;
     }
+
+    const std::string& theme = m_config_ptr->get_theme();
+    const ReclamationStrategy& strategy = m_config_ptr->get_strategy();
+
+    if (theme == ReclamationTheme::Fire) {
+        Log.info(__FUNCTION__, "Reclamation Algorithm theme", theme, "is no longer available");
+        m_reclamation_task_ptr->set_tasks({ "Stop" });
+        return true;
+    }
+
+    switch (strategy) {
+    case ReclamationStrategy::ProsperityNoSave:
+        m_reclamation_task_ptr->set_tasks({ theme + "@Reclamation@ProsperityNoSave" });
+        break;
+    case ReclamationStrategy::ProsperityInSave:
+        m_reclamation_task_ptr->set_tasks({ theme + "@Reclamation@ProsperityInSave" });
+        const std::string& tool_to_craft = m_config_ptr->get_tool_to_craft();
+        Task.get<OcrTaskInfo>(theme + "@Reclamation@ProsperityInSave@ClickTool")->text = { tool_to_craft };
+        break;
+    }
+
     return true;
 }
