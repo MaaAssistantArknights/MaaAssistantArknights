@@ -37,7 +37,7 @@ jobs:
       tag: ${{ steps.set_tag.outputs.tag }}
       pre_version: ${{ steps.set_tag.outputs.pre_version }}
       main_tag_name: ${{ steps.push_main_tag.outputs.main_tag_name }}
-      changelog: ${{ steps.generate_changelog.outputs.changelog }}
+      changelog: ${{ steps.read_changelog.outputs.content }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -97,12 +97,16 @@ jobs:
         id: generate_changelog
         run: |
           python3 tools/ChangelogGenerator/changelog_generator.py --latest "${{ steps.set_tag.outputs.latest_tag }}" --tag "${{ steps.set_tag.outputs.tag }}"
-          $content=$(((Get-Content .\changelog.md) | Select-Object -Skip 2) -join "\n\n")
-          echo "changelog=$content" >> $env:GITHUB_OUTPUT
-          echo $content
+          Get-Content .\changelog.md | Select-Object -Skip 2 | Out-File -FilePath changelog_notag.md -Encoding utf8
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYTHONIOENCODING: "utf-8"
+
+      - name: Read Changelog to variable
+        id: read_changelog
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ./changelog_notag.md
 
       - name: Cache .nuke/temp, ~/.nuget/packages
         id: cache-nuget
