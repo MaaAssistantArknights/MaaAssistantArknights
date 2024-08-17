@@ -270,9 +270,9 @@ jobs:
 
           # https://github.com/svenstaro/upload-release-action
           echo $r
-          echo "full_release_body<<CUSTOM_END" >> $GITHUB_OUTPUT
-          cat alpha_changelog.md
-          echo "CUSTOM_END" >> $GITHUB_OUTPUT
+          echo "full_release_body<<CUSTOM_END" >> $GITHUB_ENV
+          echo "$r" >> $GITHUB_ENV
+          echo "CUSTOM_END" >> $GITHUB_ENV
 
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
