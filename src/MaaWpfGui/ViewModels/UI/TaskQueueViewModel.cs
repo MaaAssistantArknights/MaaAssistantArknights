@@ -223,7 +223,7 @@ namespace MaaWpfGui.ViewModels.UI
                         60))
                 {
                     return;
-                }
+                } 
 
                 PowerManagement.Shutdown();
             }
