@@ -269,7 +269,6 @@ jobs:
           export r=$(cat alpha_changelog.md)
 
           # https://github.com/svenstaro/upload-release-action
-          r=$(printf '%s' "$changelog" | jq -Rs .)
           echo $r
           echo "full_release_body=$r" >> $GITHUB_OUTPUT
 
