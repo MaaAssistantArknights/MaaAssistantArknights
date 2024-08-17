@@ -257,13 +257,11 @@ jobs:
         run: |
           pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
           cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-          changelog="${{ needs.build-win-nightly.outputs.changelog }}"
-          release_body="${{ inputs.release_body || '' }}"
 
           cat <<CUSTOM_END > alpha_changelog.md
-          $release_body
+          ${{ inputs.release_body || '' }}
 
-          $changelog
+          ${{ needs.build-win-nightly.outputs.changelog }}
 
           **Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)
           CUSTOM_END
@@ -271,9 +269,7 @@ jobs:
           export r=$(cat alpha_changelog.md)
 
           # https://github.com/svenstaro/upload-release-action
-          r="${r//'%'/'%25'}"                               # Multiline escape sequences for %
-          r="${r//$'\n'/'%0A'}"                             # Multiline escape sequences for '\n'
-          r="${r//$'\r'/'%0D'}"                             # Multiline escape sequences for '\r'
+          r=$(printf '%s' "$changelog" | jq -Rs .)
           echo $r
           echo "full_release_body=$r" >> $GITHUB_OUTPUT
 
