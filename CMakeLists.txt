@@ -48,21 +48,10 @@ else ()
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 13)
         target_compile_options(MaaCore PRIVATE "-Wno-restrict")
     endif()
+    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 16)
+        target_compile_options(MaaCore PRIVATE "-fexperimental-library")
+    endif ()
 endif ()
-
-if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL "18.0")
-    execute_process(
-        COMMAND brew --prefix llvm
-        OUTPUT_VARIABLE LLVM_PREFIX
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-    message(STATUS "LLVM prefix=${LLVM_PREFIX}")
-    target_link_options(MaaCore PRIVATE
-        "-L${LLVM_PREFIX}/lib/c++"
-        "-L${LLVM_PREFIX}/lib"
-        "-lunwind"
-    )
-endif()
 
 if (WIN32)
     #注意：相比VS版本缺少了 -D_CONSOLE -D_WINDLL 两项
