@@ -14,12 +14,12 @@ on:
       limit:
         description: "Number of releases to fetch from MaaAssistantArknights"
         required: true
-        default: 30
+        default: "30"
         type: number
       limit_2:
         description: "Number of releases to fetch from MaaRelease"
         required: true
-        default: 30
+        default: "30"
         type: number
 
 jobs:
@@ -270,7 +270,9 @@ jobs:
 
           # https://github.com/svenstaro/upload-release-action
           echo $r
-          echo "full_release_body=$r" >> $GITHUB_OUTPUT
+          echo "full_release_body<<CUSTOM_END" >> $GITHUB_OUTPUT
+          cat alpha_changelog.md
+          echo "CUSTOM_END" >> $GITHUB_OUTPUT
 
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
