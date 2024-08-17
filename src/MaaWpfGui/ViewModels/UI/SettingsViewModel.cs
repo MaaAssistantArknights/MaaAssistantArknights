@@ -95,7 +95,7 @@ namespace MaaWpfGui.ViewModels.UI
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsViewModel"/> class.
         /// </summary>
-        public SettingsViewModel() 
+        public SettingsViewModel()
         {
             DisplayName = LocalizationHelper.GetString("Settings");
 
