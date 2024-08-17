@@ -251,29 +251,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Make release body
-        id: make_release_body
-        shell: bash
-        run: |
-          pre_version=${{ needs.build-win-nightly.outputs.pre_version }}
-          cur_version=${{ needs.build-win-nightly.outputs.main_tag_name }}
-
-          cat <<CUSTOM_END > alpha_changelog.md
-          ${{ inputs.release_body || '' }}
-
-          ${{ needs.build-win-nightly.outputs.changelog }}
-
-          **Full Changelog**: [$pre_version -> $cur_version](https://github.com/$GITHUB_REPOSITORY/compare/$pre_version...$cur_version)
-          CUSTOM_END
-
-          export r=$(cat alpha_changelog.md)
-
-          # https://github.com/svenstaro/upload-release-action
-          echo $r
-          echo "full_release_body<<CUSTOM_END" >> $GITHUB_ENV
-          echo "$r" >> $GITHUB_ENV
-          echo "CUSTOM_END" >> $GITHUB_ENV
-
       - name: Upload to MaaRelease
         uses: svenstaro/upload-release-action@v2
         with:
@@ -284,7 +261,12 @@ jobs:
           tag: ${{ env.release_tag }}
           prerelease: true
           overwrite: true
-          body: ${{ steps.make_release_body.outputs.full_release_body }}
+          body: |
+            ${{ inputs.release_body || '' }}
+
+            ${{ needs.build-win-nightly.outputs.changelog }}
+
+            **Full Changelog**: [${{ needs.build-win-nightly.outputs.pre_version }} -> ${{ needs.build-win-nightly.outputs.main_tag_name }}](https://github.com/$GITHUB_REPOSITORY/compare/${{ needs.build-win-nightly.outputs.pre_version }}...${{ needs.build-win-nightly.outputs.main_tag_name }})
 
       - name: Setup release mirror
         run: |
