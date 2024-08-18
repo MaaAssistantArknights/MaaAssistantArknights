@@ -198,6 +198,12 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     for (auto& strategy : m_sss_combat_data.strategies) {
+        // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
+        auto it = m_sss_combat_data.order.find(strategy.location);
+        if (*((it->second).begin()) != &strategy) {
+            continue;
+        }
+
         bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
@@ -207,6 +213,11 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 break;
             }
             m_all_cores.erase(strategy.core);
+
+            (it->second).erase((it->second).begin());
+            if ((it->second).empty()) {
+                m_sss_combat_data.order.erase(it);
+            }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
@@ -224,8 +235,17 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
             if (available_iter != tool_men.cend()) {
                 --quantity;
+
+                auto location = strategy.location;
+                auto direction = strategy.direction;
+                if (!quantity) {
+                    strategy.tool_men.erase(role);
+                    if (strategy.tool_men.empty() && strategy.core.empty()) {
+                        (it->second).erase((it->second).begin());
+                    }
+                }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-                return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
+                return deploy_oper(available_iter->name, location, direction) && update_deployment();
             }
 
             auto not_available_iter =

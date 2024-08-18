@@ -235,12 +235,15 @@ namespace asst::battle
             DeployDirection direction = DeployDirection::None;
         };
 
+        using StrategyOrderLock = std::unordered_map<Point, std::vector<Strategy*>>;
+
         struct CombatData : public copilot::CombatData
         {
             std::vector<Strategy> strategies;
             bool draw_as_possible = false;
             int retry_times = 0;
             std::vector<std::string> order_of_drops;
+            StrategyOrderLock order;
         };
 
         enum class EquipmentType
