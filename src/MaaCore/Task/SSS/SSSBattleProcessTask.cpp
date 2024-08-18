@@ -220,16 +220,18 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             Role role_for_lambda = role;
 
             // 如果有可用的干员，直接使用
-            auto available_iter = ranges::find_if(
-                tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
+            auto available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
+                return oper.available && oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
+            });
             if (available_iter != tool_men.cend()) {
                 --quantity;
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
                 return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
             }
 
-            auto not_available_iter =
-                ranges::find_if(tool_men, [&](const DeploymentOper& oper) { return oper.role == role_for_lambda; });
+            auto not_available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
+                return oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
+            });
             if (not_available_iter == tool_men.cend()) {
                 continue;
             }
