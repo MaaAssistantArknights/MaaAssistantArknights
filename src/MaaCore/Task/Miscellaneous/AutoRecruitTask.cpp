@@ -243,8 +243,9 @@ bool asst::AutoRecruitTask::_run()
     // m_cur_times means how many times has the confirm button been pressed, NOT expedited plans
     // used
     while (m_cur_times != m_max_times) {
-        auto start_rect = try_get_start_button(ctrler()->get_image());
-        if (start_rect) {
+        // 招募结束后有一瞬间还是原来的界面，有可能会点到放弃招募然后卡死
+        sleep(500);
+        if (auto start_rect = try_get_start_button(ctrler()->get_image())) {
             if (need_exit()) {
                 return false;
             }
