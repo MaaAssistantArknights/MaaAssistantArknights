@@ -415,7 +415,7 @@ Only supports Official(CN) and Bilibili server. Login account is not supported.<
     <system:String x:Key="Dark">Dark</system:String>
     <system:String x:Key="SyncWithOs">Sync with OS</system:String>
     <system:String x:Key="SelectAll">Select All</system:String>
-    <system:String x:Key="Inverse">Inverse</system:String>
+    <system:String x:Key="Inverse">Invert</system:String>
     <system:String x:Key="Clear">Clear</system:String>
     <system:String x:Key="PostActions">Then</system:String>
     <system:String x:Key="DoNothing">Do Nothing</system:String>
