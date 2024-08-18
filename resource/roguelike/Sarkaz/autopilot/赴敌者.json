@@ -10,7 +10,6 @@
             "direction": "left"
         }
     ],
-    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["投锋", "挡人先锋"],
@@ -42,6 +41,5 @@
             "location": [10, 2],
             "direction": "down"
         }
-    ],
-    "retreat_plan": []
+    ]
 }

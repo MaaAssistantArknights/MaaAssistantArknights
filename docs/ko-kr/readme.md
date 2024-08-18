@@ -9,7 +9,7 @@ dir:
 
 ::: center
 
-![MAA Logo](https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png =256x256)
+![MAA Logo](/image/maa-logo_512x512.png =256x256)
 
 <!-- markdownlint-restore -->
 
@@ -49,41 +49,24 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 말로만 설명하기보다는 사진으로 보여드리겠습니다!
 
-<!-- markdownlint-disable -->
-
-<div class="image-ko-kr">
-  <img src="/image/ko-kr/readme/1-light.png" />
-  <img src="/image/ko-kr/readme/2-light.png" />
-</div>
-
-<style>
-  .image-ko-kr {
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-
-  .image-ko-kr > img {
-     box-sizing: border-box;
-     width: 50% !important;
-     padding: 9px;
-     border-radius: 16px;
-  }
-
-  @media (max-width: 419px){
-    .image-ko-kr > img {
-      width: 100% !important;
+```component Image2
+{
+  "imageList": [
+    {
+      "light": "image/ko-kr/readme/1-light.png",
+      "dark": "image/ko-kr/readme/1-light.png"
+    },
+    {
+      "light": "image/ko-kr/readme/2-light.png",
+      "dark": "image/ko-kr/readme/2-light.png"
     }
-  }
-</style>
-
-<!-- markdownlint-restore -->
+  ]
+}
+```
 
 ## 다운로드
 
-[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)  
-[베타 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
 
 ## 사용 방법
 

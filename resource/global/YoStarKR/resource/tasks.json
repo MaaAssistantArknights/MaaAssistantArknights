@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "StartUpNotificationKR": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -26,6 +29,18 @@
     },
     "SideStoryReopen": {
         "text": ["재개방"]
+    },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-5": {
+        "sub": ["HS-Open", "HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["회서리", "이벤트", "개방중"]
@@ -105,6 +120,7 @@
             ["THRMEX", "THRM-EX"],
             ["Friston3", "Friston-3"],
             ["[JUu][O0o]f{0,2}icial", "U-Official"],
+            ["^w$", "W"],
             ["실버애.*", "银灰"],
             ["블레이즈", "煌"],
             ["^수*르트$", "史尔特尔"],
@@ -1127,11 +1143,11 @@
         "roi": [1020, 410, 170, 210]
     },
     "StageDrops-Quantity": {
+        "maskRange": [200, 255],
         "template": "empty.png",
         "templThreshold": 3,
         "templThreshold_Doc": "여기는 문자 간격 임계값으로 사용됩니다",
-        "roi": [62, 90, 46, 22],
-        "maskRange": [200, 255]
+        "roi": [62, 90, 46, 22]
     },
     "SSSBegin": {
         "ocrReplace": [["보안.*?작전.*?개.+", "보안작전개시"]],
@@ -1911,7 +1927,7 @@
             ["가장좋은친구", "最好的朋友"],
             ["심연입구", "深渊入口"],
             ["길조", "吉兆"],
-            ["^비.?$", "雨！"],
+            ["(^비.?$|^비!.*)", "雨！"],
             ["찾은사람이임자", "随到随取"],
             ["정기점검", "定期维护"],
             ["어두컴컴한방", "昏黑之室"],
@@ -1991,13 +2007,6 @@
             ["욕망의로비", "_exit"]
         ]
     },
-    "Mizuki@Roguelike@DataTraceback": {
-        "Doc": "이 작업은 YostarKR에서 DataTraceback 에서 정산 화면으로 넘어가지 않는 문제를 수정하기 위해 있습니다.",
-        "algorithm": "MatchTemplate",
-        "specificRect": [1160, 30, 90, 40],
-        "template": "Mizuki@Roguelike@DataTraceback.png",
-        "action": "ClickRect"
-    },
     "Mizuki@Roguelike@NextLevel": {
         "text": ["하늘빛해안", "연안외딴섬", "맹렬한파도", "은밀한온상", "신성한동굴", "심해의숲", "짙푸른요람"]
     },
@@ -2035,8 +2044,6 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
-        "action": "DoNothing",
-        "cache": false,
         "ocrReplace": [
             ["^수적붕괴$", "去量化"],
             ["수적붕괴심화", "去量深化"],
@@ -2058,62 +2065,22 @@
             ["안하무인", "睁眼瞎"],
             ["이미지에러", "图像损坏"],
             ["블랙아웃", "一抹黑"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": [
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "action": "DoNothing",
-        "cache": false,
-        "algorithm": "OcrDetect",
-        "text": ["正在提交反馈至神经"],
-        "ocrReplace": [
-            ["피드백", "正在提交反馈至神经"],
-            ["전달", "正在提交反馈至神经"]
-        ],
-        "roi": [720, 645, 355, 45]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
-        "action": "DoNothing",
-        "cache": false,
-        "doc": "The translations are not verified.",
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "ocrReplace": [
             ["붕괴패러다임심화", "坍缩范式加深"],
             ["붕괴패러다임약화", "坍缩范式消退"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": ["坍缩范式加深", "坍缩范式消退"],
-        "roi": [945, 60, 335, 660]
+        ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
-        "action": "DoNothing",
-        "cache": false,
-        "doc": "The translation is not verified.",
-        "ocrReplace": [["현재붕괴값", "当前坍缩值"]],
-        "algorithm": "OcrDetect",
-        "text": ["当前坍缩值"],
-        "roi": [350, 120, 310, 520]
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
+        "ocrReplace": [["붕괴수치", "当前坍缩值"]]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "ocrReplace": [
+            ["피드백", "正在提交反馈至神经"],
+            ["전달", "正在提交反馈至神经"]
+        ]
     },
     "Sami@Roguelike@Collapsal": {
         "text": ["선택적", "선택적무시", "이미지", "이미지에러"]
@@ -2273,5 +2240,152 @@
             [".*예견의구상", "_SKIP_"],
             [".*숨겨진비경", "_SKIP_"]
         ]
+    },
+    "Reclamation2Begin": {
+        "text": ["연", "산", "시", "작"]
+    },
+    "Reclamation2BeginContinue": {
+        "text": ["계", "속", "하", "기"]
+    },
+    "Reclamation2BeginStage": {
+        "text": ["캠프", "만남", "광장"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["사냥터", "파울비스트의", "땅"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["작전", "종료"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["채집터", "우거진", "숲"],
+        "ocrReplace": [
+            [".+터", "채집터"],
+            [".*거진.*", "우거진숲"]
+        ]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["삭제", "하기"]
+    },
+    "Reclamation2DeleteArchiveLastConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["작업대"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["계", "속", "하", "기"]
+    },
+    "Reclamation2ExClickProduct": {
+        "ocrReplace": [
+            ["메탈크랩펌프", "메탈 크랩 펌프"],
+            ["목재채집허브", "목재 채집 허브"],
+            ["석재채집허브", "석재 채집 허브"],
+            ["철광석채집허브", "철광석 채집 허브"],
+            ["^비스트트랩", "비스트 트랩"],
+            ["명징석채집허브", "명징석 채집 허브"],
+            ["고급비스트트랩", "고급 비스트 트랩"],
+            ["상자.*수상플랫폼", "상자: 수상 플랫폼"],
+            ["상자.*포그머신", "상자: 포그머신"],
+            ["얼음폭탄", "얼음 폭탄"],
+            ["상자.*오리지늄폭탄", "상자: 오리지늄 폭탄"],
+            ["상자.*슬리핑디퓨저", "상자: 슬리핑 디퓨저"],
+            ["상자.*럼블", "상자: 럼블"],
+            ["상자.*보급기", "상자: 보급기"],
+            ["상자.*실드컨트롤러", "상자: 실드 컨트롤러"],
+            ["긴급수리차", "긴급 수리차"],
+            ["^격려제Ⅱ.?$", "격려제 II"],
+            ["상자.*위장장치", "상자: 위장 장치"],
+            ["상자.*리프레시포션", "상자: 리프레시 포션"],
+            ["상자.*코일", "상자: 코일"],
+            ["상자.*지뢰세트", "상자: 지뢰세트"],
+            ["상자.*가스통", "상자: 가스통"],
+            ["상자.*구급키트", "상자: 구급키트"],
+            ["상자.*크레인", "상자: 크레인"],
+            ["^격려제Ⅲ.?$", "격려제 III"],
+            ["언밸런스디퓨저", "언밸런스 디퓨저"]
+        ],
+        "text": ["형광봉"]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["삭제", "하기"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "text": ["제작", "하기"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "text": ["불러", "오기"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["생존일"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "text": ["시간", "보내기"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "text": ["확인"]
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["삭제", "하기"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["확인"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["확인"]
+    },
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2SkipDayBeginNewDay": {
+        "text": ["시", "작", "하", "기"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["탭하여", "계", "속"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["시간", "보내기"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["작전", "개시"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["확인"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["확인"]
     }
 }

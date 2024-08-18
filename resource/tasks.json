@@ -298,7 +298,10 @@
         "isAscii": true,
         "text": [],
         "next": ["ClickedCorrectStageOrSwipe", "#self"],
-        "ocrReplace": [["-\\]", "-1"]]
+        "ocrReplace": [
+            ["-\\]", "-1"],
+            [".*?([A-Z]{2}-EX-\\d+)", "$1"]
+        ]
     },
     "StageNavigationSlowlySwipeLeft": {
         "baseTask": "ChapterSlowlySwipeToTheLeft",
@@ -324,9 +327,8 @@
             ["c", "C"],
             [":", ""],
             ["'", ""],
-            ["-2O", "-20"],
-            ["-1O", "-10"],
-            ["O-", "0-"]
+            ["(H\\d+)O(?=-)", "$010"],
+            ["(-\\d+)O", "$010"]
         ],
         "roi": [845, 72, 170, 50]
     },
@@ -750,7 +752,20 @@
     "ASChapterToAS": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["市民", "花园", "市民花园"],
+        "text": [
+            "市民花园",
+            "市民",
+            "民花",
+            "花园",
+            "丰获集会",
+            "丰获",
+            "获集",
+            "集会",
+            "藏珍宝库",
+            "藏珍",
+            "珍宝",
+            "宝库"
+        ],
         "preDelay": 3000,
         "roi": [1025, 381, 214, 149],
         "next": ["#self", "ChapterSwipeToTheRight"]
@@ -1888,6 +1903,7 @@
             ["[Uu]-[O0o]f{1,2}icial", "U-Official"],
             [".*威龙陈", "假日威龙陈"],
             ["^夕.*", "夕"],
+            ["^H$", "夕"],
             ["青积", "青枳"],
             [".*烬艾雅法.*", "纯烬艾雅法拉"],
             ["^山.+", "山"],
@@ -1918,7 +1934,10 @@
             [".*夹子.*", "“夹子”"],
             ["应泡普卡", "泡普卡"],
             ["特米米.+", "特米米"],
-            ["崖心.+", "崖心"]
+            ["崖心.+", "崖心"],
+            [".*芙利特$", "伊芙利特"],
+            ["^提非$", "提丰"],
+            ["^华琳$", "华法琳"]
         ]
     },
     "SwitchAccount@StartUpBegin": {
@@ -3137,9 +3156,11 @@
     "Mall": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["采购", "购中", "中心"],
+        "ocrReplace": [["米购", "采购"]],
+        "text": ["采购", "购中", "中心", "到期"],
         "roi": [740, 440, 200, 100],
-        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"]
+        "next": ["CreditStoreOcr", "Mall", "Mall@CloseAnnos#next"],
+        "postDelay": 500
     },
     "CreditStoreOcr": {
         "algorithm": "OcrDetect",
@@ -3305,6 +3326,8 @@
     "RecruitConfirm": {
         "action": "ClickSelf",
         "roi": [860, 540, 230, 80],
+        "postDelay": 500,
+        "postDelay_Doc": "招募结束后有一瞬间还是原来的界面，有可能会点到放弃招募然后卡死",
         "next": ["RecruitConfirm@LoadingText", "Recruit@OfflineConfirm", "RecruitFlag"]
     },
     "InfrastBegin": {
@@ -3820,16 +3843,21 @@
         "postDelay": 1500
     },
     "InfrastOperSelected": {
+        "Doc": "参考 InfrastOperImageAnalyzer",
         "template": "empty.png",
-        "templThreshold": 800,
-        "templThreshold_Doc": "这个任务中作为符合range的像素点数量阈值",
-        "maskRange": [
+        "specialParams_Doc": "这个任务中作为数色个数阈值",
+        "specialParams": [800],
+        "specificRect_Doc": "selected_move",
+        "specificRect": [-18, -220, 10, 160],
+        "rectMove_Doc": "oper_move",
+        "rectMove": [18, 0, 10, 160],
+        "colorScales_Doc": "HSV的范围",
+        "colorScales": [
             [
                 [95, 0, 0],
                 [105, 255, 255]
             ]
-        ],
-        "rectMove": [-18, -220, 10, 160]
+        ]
     },
     "InfrastOperOnShift": {
         "template": "OnShift.png",
@@ -4664,11 +4692,11 @@
     },
     "BattleOperCooling": {
         "template": "empty.png",
+        "specialParams_Doc": "这个任务中作为数色个数阈值",
         "specialParams": [300],
-        "specialParams_Doc": "这个任务中作为符合range的像素点数量阈值",
         "rectMove": [-68, 124, 114, 4],
-        "maskRange_Doc": "HSV的范围",
-        "maskRange": [
+        "colorScales_Doc": "HSV的范围",
+        "colorScales": [
             [
                 [0, 100, 0],
                 [20, 255, 150]
@@ -4761,7 +4789,7 @@
         "templThreshold_Doc": "这里用来作为基线间距阈值",
         "specialParams": [100],
         "specialParams_Doc": "基线长度阈值（不小于100）",
-        "maskRange": [45, 255],
+        "colorScales": [[45, 255]],
         "rectMove": [181, 40, 25, 0],
         "rectMove_Doc": "作为hsv阈值使用"
     },
@@ -4804,7 +4832,7 @@
         "templThreshold": 3,
         "templThreshold_Doc": "这里用来作为字间距阈值",
         "roi": [62, 90, 43, 22],
-        "maskRange": [110, 255]
+        "colorScales": [[110, 255]]
     },
     "StageDrops-StageCF-ItemMatch": {
         "template": "empty.png",
@@ -5922,10 +5950,10 @@
             "Roguelike@Stages#next",
             "Roguelike@GetDrops#next",
             "Roguelike@NextLevel",
-            "Roguelike@Continue",
             "Roguelike@ExitThenAbandon",
             "Roguelike@Abandon",
             "Roguelike@TodoEnter",
+            "Roguelike@Continue",
             "Roguelike@ReturnButtons#next",
             "Roguelike@ReturnConfirm",
             "Roguelike@StartUpThemes#next"
@@ -5978,13 +6006,14 @@
             "Roguelike@StageTraderLeave",
             "Roguelike@Stages#next",
             "Roguelike@StartUpThemes#next",
+            "Roguelike@StageTraderLeave",
             "Roguelike@ClickToDrops"
         ]
     },
     "Roguelike@ClickToStartPoint": {
         "algorithm": "JustReturn",
         "action": "ClickRect",
-        "specificRect": [600, 600, 50, 50],
+        "specificRect": [600, 600, 50, 10],
         "postDelay_Doc": "这个延迟保证不会识别到 StartExplore 之后又弹出 每月委托/解锁收藏品 等。 #7033",
         "postDelay": 800,
         "next": [
@@ -6052,11 +6081,11 @@
             "Roguelike@GetDrops#next",
             "Roguelike@GetDropCompleted",
             "Roguelike@GetDropLeave",
+            "Roguelike@StageTraderLeave",
             "Roguelike@Stages#next",
             "Roguelike@StageEncounterOptions#next",
             "Roguelike@StageEncounterSpecialClose",
             "Roguelike@EnterAfterRecruit",
-            "Roguelike@StageTraderLeave",
             "Roguelike@CloseEvent",
             "Roguelike@DialogSkip",
             "Roguelike@RecruitOther"
@@ -6962,6 +6991,9 @@
     "Roguelike@StrategyChange_mode1": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
+    "Roguelike@StrategyChange_mode10001": {
+        "baseTask": "Roguelike@StrategyChange_default"
+    },
     "Roguelike@StrategyChange_mode4": {
         "baseTask": "Roguelike@StrategyChange_default"
     },
@@ -7775,27 +7807,21 @@
             "一抹黑"
         ]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_banner": {
+    "Sami@Roguelike@CheckCollapsalParadigmsBanner": {
         "baseTask": "Sami@Roguelike@CheckCollapsalParadigms",
         "roi": [945, 60, 335, 660]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
-        "algorithm": "OcrDetect",
-        "text": ["正在提交反馈至神经"],
-        "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
-        "roi": [720, 645, 355, 45]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
         "algorithm": "OcrDetect",
         "text": ["坍缩范式加深", "坍缩范式消退"],
         "roi": [945, 60, 335, 660]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
         "algorithm": "OcrDetect",
         "text": ["当前坍缩值"],
         "roi": [350, 120, 310, 520]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_onStage": {
+    "Sami@Roguelike@CheckCollapsalParadigmsOnStage": {
         "template": [
             "Sami@Roguelike@OnStage_1",
             "Sami@Roguelike@OnStage_2",
@@ -7809,9 +7835,15 @@
         "templThreshold": 0.96,
         "roi": [590, 45, 45, 35]
     },
-    "Sami@Roguelike@CheckCollapsalParadigms_panel": {
+    "Sami@Roguelike@CheckCollapsalParadigmsPanel": {
         "baseTask": "Sami@Roguelike@CheckCollapsalParadigms",
         "roi": [350, 120, 310, 520]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigms_loading": {
+        "algorithm": "OcrDetect",
+        "text": ["正在提交反馈至神经"],
+        "ocrReplace": [["正在提交反馈神经", "正在提交反馈至神经"]],
+        "roi": [720, 645, 355, 45]
     },
     "Sami@Roguelike@ChooseDifficulty": {
         "roi": [1064, 294, 216, 170]
@@ -7883,11 +7915,17 @@
         "next": ["RoguelikeControlTaskPlugin-Stop"]
     },
     "Sami@Roguelike@CollapsalParadigmTaskBannerCheckConfig": {
-        "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "RoguelikeCollapsalParadigmTaskPlugin用参数",
+            "————————————————————————————————————————————————————————————————",
+            "text: 坍缩范式加深时 banner 通知第一行的文字",
+            "sub: 在 SubTaskStart 时触发 banner check 的任务",
+            "next: 在 SubTaskCompleted 时触发 banner check 的任务"
+        ],
         "algorithm": "OcrDetect",
-        "roi": [0, 0, 1280, 720],
-        "sub": ["Sami@Roguelike@MissionCompletedFlag"],
         "text": ["坍缩范式加深"],
+        "sub": ["Sami@Roguelike@MissionCompletedFlag"],
         "next": [
             "Sami@Roguelike@GetDrop1",
             "Sami@Roguelike@GetDrop2",
@@ -7899,12 +7937,14 @@
         ]
     },
     "Sami@Roguelike@CollapsalParadigmTaskPanelCheckConfig": {
-        "Doc": "RoguelikeCollapsalParadigmTaskPlugin用参数",
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "RoguelikeCollapsalParadigmTaskPlugin用参数",
+            "————————————————————————————————————————————————————————————————",
+            "sub: 在 SubTaskStart 时触发 panek check 的任务",
+            "ocrReplace: 从温度模版名到区域名的映射"
+        ],
         "algorithm": "OcrDetect",
-        "action": "Swipe",
-        "roi": [655, 20, 10, 10],
-        "specificRect": [640, 300, 0, 0],
-        "rectMove": [640, 0, 0, 0],
         "sub": [
             "Sami@Roguelike@StageCombatDps",
             "Sami@Roguelike@StageCombatDpsAI6",
@@ -7975,7 +8015,7 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["初霜湖泽", "密静林地", "昧明冻土", "积冰岩骸", "无瑕花园", "远见之构", "深埋迷境"],
-        "roi": [522, 431, 245, 144],
+        "roi": [522, 525, 245, 81],
         "next": ["Sami@Roguelike@Continue"]
     },
     "Sami@Roguelike@DialogSkipConfirm": {
@@ -8953,7 +8993,23 @@
             ["深埋迷境", "_SKIP_"]
         ]
     },
+    "Sami@Roguelike@SwipeCollapsalParadigmPanelUp": {
+        "doc": "向上滑动坍缩范式状态栏",
+        "algorithm": "JustReturn",
+        "action": "Swipe",
+        "specificRect": [640, 300, 0, 0],
+        "rectMove": [640, 0, 0, 0],
+        "specialParams": [500],
+        "postDelay": 500
+    },
     "Sami@Roguelike@TodoEnter": {},
+    "Sami@Roguelike@ToggleCollapsalParadigmPanel": {
+        "doc": "点击屏幕上方居中区域以展开坍缩范式状态栏",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [655, 20, 10, 10],
+        "postDelay": 500
+    },
     "Sami@Roguelike@TraderCheck": {
         "roi": [96, 210, 293, 236],
         "next": ["Sami@Roguelike@StageTraderEnter#next"]
@@ -9074,7 +9130,9 @@
             "Sarkaz@Roguelike@Stages#next",
             "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@CloseEvent",
-            "Sarkaz@Roguelike@ChooseOperFlag"
+            "Sarkaz@Roguelike@ChooseOperFlag",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
     },
     "Sarkaz@Roguelike@CloseCollectionContinue": {
@@ -9087,7 +9145,8 @@
             "Sarkaz@Roguelike@DropsFlag",
             "Sarkaz@Roguelike@CloseEvent",
             "Sarkaz@Roguelike@ChooseOperFlag",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
         ]
     },
     "Sarkaz@Roguelike@CloseEvent": {
@@ -9119,9 +9178,11 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenChaos",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenCheckChaos": {
@@ -9144,9 +9205,11 @@
         "templThreshold": 0.9,
         "action": "ClickSelf",
         "next": [
-            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1",
-            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2"
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation"
         ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1": {
@@ -9156,7 +9219,8 @@
         "specificRect": [1210, 120, 0, 0],
         "next": [
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
-            "Sarkaz@Roguelike@CloseCollection",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault1"
         ]
     },
@@ -9165,7 +9229,12 @@
         "templThreshold": 0.9,
         "action": "ClickRect",
         "specificRect": [1210, 120, 0, 0],
-        "next": ["Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2", "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"]
+        "next": [
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@DecreaseBurdenSwapUiToDefault2",
+            "Sarkaz@Roguelike@DecreaseBurdenUseTheFirst"
+        ]
     },
     "Sarkaz@Roguelike@DecreaseBurdenUse": {
         "roi": [734, 469, 168, 155],
@@ -9271,6 +9340,8 @@
     "Sarkaz@Roguelike@GetDropRecruit": {},
     "Sarkaz@Roguelike@GetDropSelect": {
         "next": [
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
             "Sarkaz@Roguelike@GetDropSelectRecruit",
             "Sarkaz@Roguelike@GetDropSelectReward",
             "Sarkaz@Roguelike@ChooseOperFlag",
@@ -9338,6 +9409,117 @@
         "template": "Sarkaz@Roguelike@LastRewardConfirm.png"
     },
     "Sarkaz@Roguelike@RolesDefault": {},
+    "Sarkaz@Roguelike@Routing": {
+        "template": [
+            "Sarkaz@Roguelike@StageCombatDps",
+            "Sarkaz@Roguelike@StageEmergencyDps",
+            "Sarkaz@Roguelike@StageDreadfulFoe",
+            "Sarkaz@Roguelike@StageDreadfulFoe-5",
+            "Sarkaz@Roguelike@StageEncounter",
+            "Sarkaz@Roguelike@StageBoons",
+            "Sarkaz@Roguelike@StageSafeHouse",
+            "Sarkaz@Roguelike@StageSafeHouseCR",
+            "Sarkaz@Roguelike@StageSafeHouseHD",
+            "Sarkaz@Roguelike@StageGambling",
+            "Sarkaz@Roguelike@StageTrader",
+            "Sarkaz@Roguelike@StageTraderCR",
+            "Sarkaz@Roguelike@StageTraderHD",
+            "Sarkaz@Roguelike@StageWindAndRain",
+            "Sarkaz@Roguelike@StageEmergencyTransportation",
+            "Sarkaz@Roguelike@StageBoskyPassage",
+            "Sarkaz@Roguelike@StageProphecy",
+            "Sarkaz@Roguelike@StageFilterTruth",
+            "Sarkaz@Roguelike@StageFilterTruthCR",
+            "Sarkaz@Roguelike@StageFilterTruthHD",
+            "Sarkaz@Roguelike@StageConfrontation"
+        ],
+        "next": ["Sarkaz@Roguelike@RoutingAction"]
+    },
+    "Sarkaz@Roguelike@RoutingAction": {
+        "algorithm": "JustReturn"
+    },
+    "Sarkaz@Roguelike@RoutingActionEncounter": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageEncounterEnter"]
+    },
+    "Sarkaz@Roguelike@RoutingActionRogueTrader": {
+        "algorithm": "JustReturn",
+        "next": ["Sarkaz@Roguelike@StageTraderEnter"]
+    },
+    "Sarkaz@Roguelike@RoutingConfig": {
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "RoguelikeRoutingTaskPlugin用参数",
+            "————————————————————————————————————————————————————————————————",
+            "(roi.x, roi.y): 生成地图时向左滑动起点",
+            "(roi.width, roi.height): 生成地图时向左滑动终点",
+            "specialParams[0]: 第一列节点的默认横坐标 (Rect.x)",
+            "specialParams[1]: 中间列节点的默认横坐标 (Rect.x)",
+            "specialParams[2]: 最后列节点的默认横坐标 (Rect.x)",
+            "specialParams[3]: 节点 Rect.width",
+            "specialParams[4]: 节点 Rect.height",
+            "specialParams[5]: 两列节点之间的距离",
+            "specialParams[6]: 节点 Rect 下边缘到节点铭牌下边缘的距离",
+            "specialParams[7]: roi 时的 margin offset",
+            "specialParams[8]: 节点间连线方向判定的阈值"
+        ],
+        "template": "empty.png",
+        "roi": [1000, 360, 570, 360],
+        "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
+    },
+    "Sarkaz@Roguelike@RoutingContinue": {
+        "template": "Sarkaz@Roguelike@Continue.png",
+        "roi": [1050, 550, 210, 100],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@Roguelike@RoutingContinueConfirm"]
+    },
+    "Sarkaz@Roguelike@RoutingContinueConfirm": {
+        "Doc": "next 里的 RoutingNodeAnalyze 是为了确保回到地图",
+        "algorithm": "JustReturn",
+        "action": "ClickRect",
+        "specificRect": [50, 360, 0, 0],
+        "next": ["Sarkaz@Roguelike@RoutingNodeAnalyze", "Sarkaz@Roguelike@RoutingContinueConfirm"]
+    },
+    "Sarkaz@Roguelike@RoutingExitThenContinue": {
+        "template": "Roguelike@ExitThenAbandon.png",
+        "roi": [18, 8, 53, 53],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@Roguelike@RoutingContinue"]
+    },
+    "Sarkaz@Roguelike@RoutingNodeAnalyze": {
+        "template": [
+            "Sarkaz@Roguelike@MapNodeCombatOps.png",
+            "Sarkaz@Roguelike@MapNodeCombatOpsGrey.png",
+            "Sarkaz@Roguelike@MapNodeEmergencyOps.png",
+            "Sarkaz@Roguelike@MapNodeEmergencyOpsGrey.png",
+            "Sarkaz@Roguelike@MapNodeEncounter.png",
+            "Sarkaz@Roguelike@MapNodeEncounterGrey.png",
+            "Sarkaz@Roguelike@MapNodeRogueTraderGrey.png"
+        ],
+        "roi": [246, 60, 288, 575],
+        "postDelay": 300
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNode": {
+        "roi": [796, 150, 50, 150],
+        "action": "ClickSelf",
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeConfirm"]
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeCompleted": {
+        "algorithm": "JustReturn"
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeConfirm": {
+        "algorithm": "OcrDetect",
+        "roi": [993, 472, 53, 26],
+        "text": ["确定"],
+        "action": "ClickSelf",
+        "postDelay": 300,
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
+    },
+    "Sarkaz@Roguelike@RoutingRefreshNodeWaiting": {
+        "baseTask": "LoadingText",
+        "postDelay": 300,
+        "next": ["Sarkaz@Roguelike@RoutingRefreshNodeWaiting", "Sarkaz@Roguelike@RoutingRefreshNodeCompleted"]
+    },
     "Sarkaz@Roguelike@SelectTheme": {
         "text": ["假说辑录"]
     },
@@ -9378,7 +9560,7 @@
         "Doc": "思维边界",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [90, 2, 121],
                 [134, 142, 230]
@@ -9389,7 +9571,7 @@
     "Sarkaz@Roguelike@StageBoskyPassageEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [137, 150, 40],
                 [138, 180, 180]
@@ -9435,7 +9617,7 @@
     },
     "Sarkaz@Roguelike@StageCombatDps": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [127, 80, 50],
                 [136, 200, 180]
@@ -9451,7 +9633,7 @@
     },
     "Sarkaz@Roguelike@StageCombatDpsEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [130, 130, 40],
                 [131, 180, 180]
@@ -9497,7 +9679,7 @@
         "Doc": "先行一步，拒绝可以获取2希望",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [15, 1, 93],
                 [93, 129, 141]
@@ -9582,7 +9764,7 @@
     "Sarkaz@Roguelike@StageFilterTruthEnter": {
         "baseTask": "Sarkaz@Roguelike@StageEnter",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [23, 150, 40],
                 [25, 230, 150]
@@ -9643,7 +9825,7 @@
         "Doc": "命运所指",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [18, 1, 94],
                 [93, 173, 109]
@@ -9655,7 +9837,8 @@
         "action": "ClickSelf",
         "method": "RGBCount",
         "postDelay": 500,
-        "maskRange": [0, 200],
+        "colorScales": [[0, 200]],
+        "colorWithClose": false,
         "roi": [790, 130, 60, 144],
         "next": ["Sarkaz@Roguelike@StageRefreshConfirm", "Sarkaz@Roguelike@StageRefreshUpperLimit"]
     },
@@ -9702,7 +9885,7 @@
     },
     "Sarkaz@Roguelike@StageSafeHouseEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [106, 100, 50],
                 [107, 160, 180]
@@ -9741,9 +9924,9 @@
     },
     "Sarkaz@Roguelike@StageTraderEnter": {
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
-                [72, 150, 40],
+                [71, 150, 40],
                 [73, 180, 150]
             ]
         ]
@@ -9772,7 +9955,7 @@
         "Doc": "失与得",
         "baseTask": "Sarkaz@Roguelike@Stage",
         "method": "HSVCount",
-        "maskRange": [
+        "colorScales": [
             [
                 [18, 130, 155],
                 [20, 180, 180]
@@ -9889,6 +10072,18 @@
             "Sarkaz@Roguelike@StageDreadfulFoe-5"
         ]
     },
+    "Sarkaz@Roguelike@Stages_routing": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Sarkaz@Roguelike@NextLevel",
+            "Sarkaz@Roguelike@CloseCollectionContinue",
+            "Sarkaz@Roguelike@CloseCollectionClose",
+            "Sarkaz@Roguelike@ChooseBurdenOperatorAtStart",
+            "Sarkaz@Roguelike@DecreaseBurdenChaos",
+            "Sarkaz@Roguelike@DecreaseBurdenRetardation",
+            "Sarkaz@Roguelike@Routing"
+        ]
+    },
     "Sarkaz@Roguelike@StartExplore": {
         "roi": [1014, 481, 266, 219]
     },
@@ -9921,6 +10116,18 @@
         "baseTask": "Sarkaz@Roguelike@StrategyChange_mode4",
         "Doc": "刷源石锭第二层就会退，这里借用第三层退的刷开局策略"
     },
+    "Sarkaz@Roguelike@StrategyChange_mode10001": {
+        "text": ["_routing", "_exit"],
+        "ocrReplace": [
+            ["熔魂之始", "_routing"],
+            ["锻铁根须", "_exit"],
+            ["灰铸迷城", "_exit"],
+            ["或然歧域", "_exit"],
+            ["虚实疆界", "_exit"],
+            ["辉光天顶", "_exit"],
+            ["诡谲断章", "_exit"]
+        ]
+    },
     "Sarkaz@Roguelike@StrategyChange_mode4": {
         "text": ["_default", "_exit"],
         "ocrReplace": [
@@ -9938,60 +10145,73 @@
         "template": "Roguelike@QuickFormation.png"
     },
     "Sarkaz@RoguelikeSettlementConfirm": {},
-    "Reclamation": {
-        "template": [
-            "Terminal.png",
-            "TerminalDark.png",
-            "TerminalSami.png",
-            "TerminalMistCity.png",
-            "TerminalSiege.png"
-        ],
-        "action": "ClickSelf",
-        "roi": [844, 58, 268, 272],
-        "next": ["Reclamation", "Reclamation@CloseAnnos#next", "Reclamation@TodoEnter"],
-        "postDelay": 1000
-    },
     "Reclamation2": {
-        "algorithm": "JustReturn",
-        "sub": [
-            "Reclamation2BeginPlotEnterLoading@Reclamation2Begin",
-            "Reclamation2CopiousCoppice",
-            "Reclamation2Birdland",
-            "Reclamation2SkipDays*3",
-            "Reclamation2DeleteArchive"
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "生息演算：沙中遗闻",
+            "————————————————————————————————————————————————————————————————"
         ],
-        "Doc": "现在是纯tasks实现的，先一直跑着",
-        "next": ["#self"]
+        "algorithm": "JustReturn",
+        "Doc": "此处为cpp入口，出口直接将任务的next设为空即可",
+        "next": [
+            "Reclamation2Begin",
+            "Reclamation2BeginContinue",
+            "Reclamation2BeginStage",
+            "Reclamation2BeginStageTalk",
+            "Reclamation2StageEnter",
+            "Reclamation2StageFight",
+            "Reclamation2StageLeave",
+            "Reclamation2SkipDay",
+            "Reclamation2SkipTime",
+            "Reclamation2ClickDrop",
+            "Reclamation2ProsperityMax",
+            "Reclamation2SkipDayClickContinue",
+            "Reclamation2DeleteArchiveEnter"
+        ]
     },
     "Reclamation2Begin": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开", "始", "演", "算"],
+        "text": ["开", "始"],
+        "roi": [1025, 569, 215, 151],
+        "next": ["Reclamation2Begin", "Reclamation2StageFightConfirm", "Reclamation2BeginLoading"]
+    },
+    "Reclamation2BeginContinue": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["继", "续"],
         "roi": [844, 569, 436, 151],
-        "next": ["#self", "#back"]
+        "postDelay": 4000,
+        "next": ["Reclamation2DeleteArchiveEnter", "Reclamation2BeginStage"]
     },
-    "Reclamation2BeginPlot": {
-        "Doc": "点指定区域，直到左上角出现退出",
-        "roi": [0, 0, 100, 100],
-        "sub": ["Reclamation2ClickBeginPlotTalk*10"],
-        "next": ["Reclamation2LeaveStage", "#self"]
+    "Reclamation2BeginLoading": {
+        "algorithm": "JustReturn",
+        "postDelay": 8000,
+        "next": ["Reclamation2BeginStage", "Reclamation2StageLeave", "Reclamation2Begin", "Reclamation2BeginLoading"]
     },
-    "Reclamation2BeginPlotEnter": {
+    "Reclamation2BeginStage": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["众人", "汇聚", "后舍"],
         "roi": [633, 239, 275, 156],
-        "next": ["#self", "Reclamation2BeginPlotLoading@Reclamation2EnterStage"]
+        "next": ["Reclamation2BeginStage", "Reclamation2StageEnter"]
     },
-    "Reclamation2BeginPlotEnterLoading": {
+    "Reclamation2BeginStageLoading": {
         "algorithm": "JustReturn",
         "postDelay": 8000,
-        "next": ["Reclamation2BeginPlotEnter", "Reclamation2Begin"]
+        "next": ["Reclamation2BeginStageTalk"]
     },
-    "Reclamation2BeginPlotLoading": {
+    "Reclamation2BeginStageTalk": {
+        "Doc": "点指定区域，直到左上角出现退出",
+        "roi": [0, 0, 100, 100],
+        "sub": ["Reclamation2BeginStageTalkClick*10"],
+        "next": ["Reclamation2StageLeave", "Reclamation2BeginStageTalk"]
+    },
+    "Reclamation2BeginStageTalkClick": {
+        "Doc": "点对话框区域",
         "algorithm": "JustReturn",
-        "postDelay": 8000,
-        "next": ["Reclamation2BeginPlot"]
+        "action": "ClickRect",
+        "specificRect": [1072, 431, 159, 27]
     },
     "Reclamation2Birdland": {
         "Doc": "进入聚羽之地，基地左下支线",
@@ -10000,26 +10220,17 @@
         "text": ["聚羽", "之地", "捕猎区"],
         "preDelay": 2000,
         "roi": [598, 510, 262, 156],
-        "next": ["#self", "Reclamation2BirdlandBegin"]
-    },
-    "Reclamation2BirdlandBegin": {
-        "algorithm": "JustReturn",
-        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"]
-    },
-    "Reclamation2ClickBeginPlotTalk": {
-        "Doc": "点对话框区域",
-        "algorithm": "JustReturn",
-        "action": "ClickRect",
-        "specificRect": [1072, 431, 159, 27],
-        "next": ["#back"]
+        "next": ["Reclamation2Birdland", "Reclamation2StageEnter"]
     },
     "Reclamation2ClickDrop": {
         "Doc": "点击收取掉落物品",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["行动", "结束"],
+        "roi": [0, 158, 456, 201],
         "preDelay": 2000,
-        "roi": [0, 158, 456, 201]
+        "postDelay": 2000,
+        "next": ["Reclamation2Birdland", "Reclamation2SkipDay"]
     },
     "Reclamation2CopiousCoppice": {
         "Doc": "进入丰饶灌木林，基地上方支线",
@@ -10029,44 +10240,27 @@
         "ocrReplace": [[".*源区", "资源区"]],
         "preDelay": 2000,
         "roi": [0, 171, 207, 144],
-        "next": ["#self", "Reclamation2CopiousCoppiceBegin"]
+        "next": ["Reclamation2CopiousCoppice", "Reclamation2StageEnter"]
     },
-    "Reclamation2CopiousCoppiceBegin": {
-        "algorithm": "JustReturn",
-        "sub": ["Reclamation2Fight@Reclamation2EnterStage", "Reclamation2LeaveStage", "Reclamation2ClickDrop"]
-    },
-    "Reclamation2DeleteArchive": {
+    "Reclamation2DeleteArchiveEnter": {
         "Doc": "删除存档",
         "action": "ClickSelf",
         "roi": [955, 611, 142, 109],
-        "preDelay": 500,
-        "next": ["Reclamation2DeleteArchiveEnter", "#self"]
+        "next": ["Reclamation2DeleteArchiveEnterConfirm", "Reclamation2DeleteArchiveEnter"]
     },
-    "Reclamation2DeleteArchiveConfirm": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认", "删除"],
-        "roi": [820, 406, 308, 146]
-    },
-    "Reclamation2DeleteArchiveEnter": {
+    "Reclamation2DeleteArchiveEnterConfirm": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["删除"],
         "roi": [1063, 550, 182, 123],
-        "sub": ["Reclamation2DeleteArchiveConfirm*2"]
+        "sub": ["Reclamation2DeleteArchiveLastConfirm"]
     },
-    "Reclamation2Enter": {
-        "Doc": "导航先不做了，跑起来再说",
-        "algorithm": "JustReturn",
-        "next": ["Reclamation2Begin"],
-        "postDelay": 1000
-    },
-    "Reclamation2EnterStage": {
+    "Reclamation2DeleteArchiveLastConfirm": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
-        "text": ["开始", "行动"],
-        "roi": [1077, 499, 203, 146],
-        "next": ["#back"]
+        "text": ["确认", "删除"],
+        "roi": [820, 406, 308, 146],
+        "next": ["Reclamation2DeleteArchiveLastConfirm", "Reclamation2Begin"]
     },
     "Reclamation2Ex": {
         "algorithm": "JustReturn",
@@ -10074,11 +10268,11 @@
             "Reclamation2ExAssemblyStation",
             "Reclamation2ExManufacture",
             "Reclamation2ExAssemblyStationBack",
-            "Reclamation2SkipDays*3",
+            "Reclamation2ExSkipDays*3",
             "Reclamation2ExReadArchive",
-            "Reclamation2SkipDaysBeginNewDay"
+            "Reclamation2ExSkipDaysBeginNewDay"
         ],
-        "Doc": "现在是纯tasks实现的，先一直跑着",
+        "Doc": "通过制造刷点数，仍为任务树；cpp入口，无任务完成出口",
         "next": ["#self"]
     },
     "Reclamation2ExAdd": {
@@ -10092,12 +10286,13 @@
     "Reclamation2ExAssemblyStation": {
         "Doc": "进入组装台",
         "action": "ClickSelf",
-        "roi": [564, 596, 155, 124],
+        "roi": [109, 642, 1111, 63],
         "next": ["Reclamation2ExAssemblyStationOcr", "#self"]
     },
     "Reclamation2ExAssemblyStationBack": {
         "baseTask": "Reclamation2ExAssemblyStationOcr",
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["#self", "Stop"]
     },
     "Reclamation2ExAssemblyStationOcr": {
         "Doc": "确认进入组装台",
@@ -10115,6 +10310,27 @@
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["荧光棒"]
+    },
+    "Reclamation2ExDeleteArchive": {
+        "Doc": "删除存档",
+        "template": "Reclamation2DeleteArchiveEnter.png",
+        "action": "ClickSelf",
+        "roi": [955, 611, 142, 109],
+        "preDelay": 500,
+        "next": ["Reclamation2ExDeleteArchiveEnter", "#self"]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认", "删除"],
+        "roi": [820, 406, 308, 146]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["删除"],
+        "roi": [1063, 550, 182, 123],
+        "sub": ["Reclamation2ExDeleteArchiveConfirm*2"]
     },
     "Reclamation2ExManufacture": {
         "algorithm": "JustReturn",
@@ -10145,8 +10361,10 @@
     },
     "Reclamation2ExReadArchive": {
         "Doc": "读取存档",
-        "template": "Reclamation2DeleteArchive.png",
-        "baseTask": "Reclamation2DeleteArchive",
+        "template": "Reclamation2DeleteArchiveEnter.png",
+        "action": "ClickSelf",
+        "roi": [955, 611, 142, 109],
+        "preDelay": 500,
         "next": ["Reclamation2ExReadArchiveEnter", "#self"]
     },
     "Reclamation2ExReadArchiveConfirm": {
@@ -10174,6 +10392,69 @@
         "text": ["点击", "确认"],
         "roi": [528, 480, 225, 142]
     },
+    "Reclamation2ExSkipDays": {
+        "algorithm": "JustReturn",
+        "postDelay": 1000,
+        "next": ["Reclamation2ExSkipDays1", "Reclamation2ExSkipDays2"]
+    },
+    "Reclamation2ExSkipDays1": {
+        "template": "Reclamation2SkipDay.png",
+        "action": "ClickSelf",
+        "roi": [1103, 1, 152, 182],
+        "maskRange": [1, 255],
+        "templThreshold": 0.7,
+        "preDelay": 2000,
+        "next": ["Reclamation2ExSkipDaysAward"]
+    },
+    "Reclamation2ExSkipDays2": {
+        "template": "Reclamation2SkipTime.png",
+        "action": "ClickSelf",
+        "roi": [1051, 0, 229, 184],
+        "maskRange": [1, 255],
+        "templThreshold": 0.7,
+        "preDelay": 2000,
+        "next": ["Reclamation2ExSkipDays2ExSkipTime", "#self"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["消磨", "时间"],
+        "roi": [1071, 104, 208, 124],
+        "sub": ["Reclamation2ExSkipDays2ExSkipTimeConfig", "Reclamation2ExSkipDays1"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "Doc": "消耗所有决断数",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [646, 447, 631, 64]
+    },
+    "Reclamation2ExSkipDaysAward": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "next": ["Reclamation2ExSkipDaysAward2", "Reclamation2ExSkipDaysAward1"]
+    },
+    "Reclamation2ExSkipDaysAward1": {
+        "algorithm": "JustReturn",
+        "Doc": "会自己消失",
+        "preDelay": 3000
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [506, 609, 272, 111],
+        "preDelay": 1000,
+        "postDelay": 4000,
+        "text": ["点击", "任意处", "继续"],
+        "next": ["Reclamation2ExSkipDaysBeginNewDay"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开", "启", "今", "日"],
+        "preDelay": 1000,
+        "roi": [519, 525, 261, 144]
+    },
     "Reclamation2ExSwipeAndClickProduct": {
         "algorithm": "JustReturn",
         "Doc": "寻找需要制作的物品，暂定荧光棒，后续可以增加参数指定",
@@ -10188,669 +10469,1106 @@
         "specialParams": [500, 0, 3, 0],
         "next": ["Reclamation2ExSwipeAndClickProduct#next"]
     },
-    "Reclamation2Fight": {
+    "Reclamation2ProsperityMax": {
+        "roi": [789, 475, 154, 122],
+        "next": ["Reclamation2ProsperityMaxSkipDayClickContinue"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnter": {
+        "Doc": "删除存档",
+        "template": "Reclamation2DeleteArchiveEnter.png",
+        "action": "ClickSelf",
+        "roi": [955, 611, 142, 109],
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnterConfirm", "Reclamation2ProsperityMaxDeleteArchiveEnter"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["删除"],
+        "roi": [1063, 550, 182, 123],
+        "sub": ["Reclamation2ProsperityMaxDeleteArchiveLastConfirm1"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认", "删除"],
+        "roi": [820, 406, 308, 146],
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveLastConfirm2"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认", "删除"],
+        "roi": [820, 406, 308, 146]
+    },
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开", "启", "今", "日"],
+        "roi": [519, 525, 261, 144],
+        "next": ["Reclamation2ProsperityMaxDeleteArchiveEnter"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [506, 609, 272, 111],
+        "text": ["点击", "任意处", "继续"],
+        "postDelay": 4000,
+        "next": ["Reclamation2ProsperityMaxSkipDayBeginNewDay"]
+    },
+    "Reclamation2SkipDay": {
+        "action": "ClickSelf",
+        "roi": [1103, 1, 152, 182],
+        "maskRange": [1, 255],
+        "templThreshold": 0.7,
+        "postDelay": 4000,
+        "next": ["Reclamation2ProsperityMax", "Reclamation2SkipDayClickContinue", "Reclamation2SkipDayWait"]
+    },
+    "Reclamation2SkipDayBeginNewDay": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开", "启", "今", "日"],
+        "roi": [519, 525, 261, 144],
+        "next": ["Reclamation2DeleteArchiveEnter"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "roi": [506, 609, 272, 111],
+        "text": ["点击", "任意处", "继续"],
+        "postDelay": 4000,
+        "next": ["Reclamation2SkipDayBeginNewDay"]
+    },
+    "Reclamation2SkipDayWait": {
+        "algorithm": "JustReturn",
+        "postDelay": 5000,
+        "next": ["Reclamation2SkipTime", "Reclamation2SkipDay"]
+    },
+    "Reclamation2SkipTime": {
+        "action": "ClickSelf",
+        "roi": [1051, 0, 229, 184],
+        "maskRange": [1, 255],
+        "templThreshold": 0.7,
+        "next": ["Reclamation2SkipTimeSkip", "Reclamation2SkipTime"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["消磨", "时间"],
+        "roi": [1071, 104, 208, 124],
+        "next": ["Reclamation2SkipTimeSkipConfirm", "Reclamation2SkipTimeSkip"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "Doc": "消耗所有决断数",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["确认"],
+        "roi": [646, 447, 631, 64],
+        "postDelay": 2000,
+        "next": ["Reclamation2SkipDay"]
+    },
+    "Reclamation2StageEnter": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["开始", "行动"],
-        "roi": [1029, 646, 222, 58],
-        "next": ["Reclamation2FightConfirm"]
+        "roi": [1128, 540, 139, 69],
+        "postDelay": 1000,
+        "next": ["Reclamation2StageFight", "Reclamation2StageFightConfirm", "Reclamation2BeginStageLoading"]
     },
-    "Reclamation2FightConfirm": {
+    "Reclamation2StageFight": {
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始", "行动"],
+        "roi": [1128, 645, 128, 58],
+        "next": ["Reclamation2StageFightConfirm", "Reclamation2StageLoading"]
+    },
+    "Reclamation2StageFightConfirm": {
         "Doc": "没人的时候会有弹窗",
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["确认"],
         "roi": [646, 447, 631, 64],
-        "postDelay": 5000,
-        "next": ["Stop"]
+        "next": ["Reclamation2StageLoading"]
     },
-    "Reclamation2LeaveStage": {
+    "Reclamation2StageLeave": {
         "action": "ClickSelf",
         "roi": [0, 0, 146, 154],
-        "templThreshold": [0.7],
+        "templThreshold": 0.7,
         "postDelay": 1000,
-        "next": ["Reclamation2LeaveStageConfirm", "#self"]
+        "next": [
+            "Reclamation2BeginStageTalk",
+            "Reclamation2StageLeaveConfirm",
+            "Reclamation2StageLeave",
+            "Reclamation2ClickDrop"
+        ]
     },
-    "Reclamation2LeaveStageConfirm": {
+    "Reclamation2StageLeaveConfirm": {
         "algorithm": "OcrDetect",
         "action": "ClickSelf",
         "text": ["确认", "离开"],
         "roi": [871, 407, 238, 146],
-        "next": ["#back"]
+        "postDelay": 4000,
+        "next": ["Reclamation2ClickDrop", "Reclamation2CopiousCoppice"]
     },
-    "Reclamation2SkipDays": {
-        "algorithm": "JustReturn",
-        "postDelay": 1000,
-        "next": ["Reclamation2SkipDays1", "Reclamation2SkipDays2"]
-    },
-    "Reclamation2SkipDays1": {
-        "action": "ClickSelf",
-        "roi": [1103, 1, 152, 182],
-        "maskRange": [1, 255],
-        "templThreshold": 0.7,
-        "preDelay": 2000,
-        "next": ["Reclamation2SkipDaysAward"]
-    },
-    "Reclamation2SkipDays2": {
-        "action": "ClickSelf",
-        "roi": [1051, 0, 229, 184],
-        "maskRange": [1, 255],
-        "templThreshold": 0.7,
-        "preDelay": 2000,
-        "next": ["Reclamation2SkipDays2SkipTime", "#self"]
-    },
-    "Reclamation2SkipDays2SkipTime": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["消磨", "时间"],
-        "roi": [1071, 104, 208, 124],
-        "sub": ["Reclamation2SkipDays2SkipTimeConfig", "Reclamation2SkipDays1"]
-    },
-    "Reclamation2SkipDays2SkipTimeConfig": {
-        "Doc": "消耗所有决断数",
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["确认"],
-        "roi": [646, 447, 631, 64]
-    },
-    "Reclamation2SkipDaysAward": {
+    "Reclamation2StageLoading": {
+        "Doc": "加载速度取决于性能",
         "algorithm": "JustReturn",
         "postDelay": 5000,
-        "next": ["Reclamation2SkipDaysAward2", "Reclamation2SkipDaysAward1"]
+        "next": [
+            "Reclamation2StageLeave",
+            "Reclamation2BeginStageTalk",
+            "Reclamation2StageFightConfirm",
+            "Reclamation2StageLoading"
+        ]
     },
-    "Reclamation2SkipDaysAward1": {
-        "algorithm": "JustReturn",
-        "Doc": "会自己消失",
-        "preDelay": 3000
-    },
-    "Reclamation2SkipDaysAward2": {
-        "algorithm": "OcrDetect",
+    "Fire@Reclamation": {
+        "doc": [
+            "————————————————————————————————————————————————————————————————",
+            "生息演算：沙中之火",
+            "————————————————————————————————————————————————————————————————"
+        ],
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
         "action": "ClickSelf",
-        "roi": [506, 609, 272, 111],
-        "preDelay": 1000,
-        "postDelay": 4000,
-        "text": ["点击", "任意处", "继续"],
-        "next": ["Reclamation2SkipDaysBeginNewDay"]
+        "roi": [844, 58, 268, 272],
+        "next": ["Fire@Reclamation", "Fire@Reclamation@CloseAnnos#next", "Fire@Reclamation@TodoEnter"],
+        "postDelay": 1000
     },
-    "Reclamation2SkipDaysBeginNewDay": {
-        "algorithm": "OcrDetect",
-        "action": "ClickSelf",
-        "text": ["开", "启", "今", "日"],
-        "preDelay": 1000,
-        "roi": [519, 525, 261, 144]
-    },
-    "Reclamation@AtCmdCenterFlag": {
+    "Fire@Reclamation@AtCmdCenterFlag": {
         "algorithm": "OcrDetect",
         "roi": [68, 0, 326, 137],
         "text": ["COM", "MAND", "ENTER"],
         "next": ["Stop"]
     },
-    "Reclamation@AtHomePageFlag": {
-        "Doc": "base_task",
+    "Fire@Reclamation@AtHomePageFlag": {
+        "doc": "base_task",
         "roi": [801, 98, 479, 309],
-        "next": ["Reclamation@Begin"]
+        "next": ["Fire@Reclamation@Begin"]
     },
-    "Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
-        "Doc": "base_task",
+    "Fire@Reclamation@AtMapFlag": {
+        "doc": "base_task",
+        "template": "Fire@Reclamation@ResetScope.png",
         "roi": [0, 605, 141, 115]
     },
-    "Reclamation@BalckMarketDialogOption": {
+    "Fire@Reclamation@BalckMarketDialogOption": {
         "algorithm": "OcrDetect",
         "roi": [721, 78, 543, 492],
         "text": [],
         "postDelay": 500
     },
-    "Reclamation@BattlePackIconTemplate": {
-        "template": "Reclamation@ClickExitLevel.png",
+    "Fire@Reclamation@BattleDefaultFormationStart@BattleStart": {
+        "baseTask": "Fire@Reclamation@BattleStart",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@BattleDefaultFormationStart@Begin": {
+        "algorithm": "JustReturn",
+        "next": ["Fire@Reclamation@BattleDefaultFormationStart@PrepareAction"]
+    },
+    "Fire@Reclamation@BattleDefaultFormationStart@PrepareAction": {
+        "baseTask": "Fire@Reclamation@PrepareAction",
+        "next": [
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionConfirm",
+            "Fire@Reclamation@BattleDefaultFormationStart@PrepareAction"
+        ]
+    },
+    "Fire@Reclamation@BattleDefaultFormationStart@StartActionConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionConfirm",
+        "template": "Fire@Reclamation@StartActionConfirm.png",
+        "next": [
+            "Fire@Reclamation@BattleDefaultFormationStart@BattleStart",
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm",
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionConfirm"
+        ]
+    },
+    "Fire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionPopupConfirm",
+        "template": "PopupConfirm.png",
+        "next": [
+            "Fire@Reclamation@BattleDefaultFormationStart@BattleStart",
+            "Fire@Reclamation@BattleDefaultFormationStart@StartActionPopupConfirm"
+        ]
+    },
+    "Fire@Reclamation@BattlePackIconTemplate": {
+        "template": "Fire@Reclamation@ClickExitLevel.png",
         "roi": [100, 0, 164, 166]
     },
-    "Reclamation@BattleSkillReadyOnClick": {
+    "Fire@Reclamation@BattleSkillReadyOnClick": {
         "baseTask": "BattleSkillReadyOnClick",
         "template": "BattleSkillReadyOnClick.png",
         "roi": [439, 76, 841, 644]
     },
-    "Reclamation@BattleStart": {
-        "baseTask": "Reclamation@BattlePackIconTemplate",
-        "template": "Reclamation@ClickExitLevel.png",
-        "next": ["Reclamation@LevelComplete"],
+    "Fire@Reclamation@BattleStart": {
+        "baseTask": "Fire@Reclamation@BattlePackIconTemplate",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
+        "next": ["Fire@Reclamation@LevelComplete"],
         "specialParams_Doc": "二次复核前的delay，网络不佳delay",
         "specialParams": [2000, 2000]
     },
-    "Reclamation@Begin": {
+    "Fire@Reclamation@Begin": {
         "algorithm": "JustReturn",
         "next": [
-            "Reclamation@GiveupAlgorithm",
-            "Reclamation@StartAlgorithm",
-            "Reclamation@ConfirmStart#next",
-            "Reclamation@ReturnButton#next",
-            "Reclamation@BattleStart#next",
-            "Reclamation@LevelComplete",
-            "Reclamation@GiveupReportSkip",
-            "Reclamation@GiveupSkipConfirm",
-            "Reclamation@GainReward",
-            "Reclamation@StartUpThemes#next",
-            "Reclamation@TodoEnter"
+            "Fire@Reclamation@GiveupAlgorithm",
+            "Fire@Reclamation@StartAlgorithm",
+            "Fire@Reclamation@ConfirmStart#next",
+            "Fire@Reclamation@ReturnButton#next",
+            "Fire@Reclamation@BattleStart#next",
+            "Fire@Reclamation@LevelComplete",
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupSkipConfirm",
+            "Fire@Reclamation@GainReward",
+            "Fire@Reclamation@StartUpThemes#next",
+            "Fire@Reclamation@TodoEnter"
         ]
     },
-    "Reclamation@BetweenDayFlag": {
+    "Fire@Reclamation@BetweenDayFlag": {
         "roi": [508, 142, 267, 283]
     },
-    "Reclamation@BuyWaterProcedure": {
+    "Fire@Reclamation@BuyWaterProcedure": {
         "algorithm": "OcrDetect",
         "text": ["Skip", "建材", "清水", "Skip"]
     },
-    "Reclamation@ClickAnyZoneOcr": {
+    "Fire@Reclamation@CheckEmergency@Emergency": {
+        "baseTask": "Fire@Reclamation@Emergency",
+        "template": "Fire@Reclamation@Emergency.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@CheckNextDay@NextDay": {
+        "baseTask": "Fire@Reclamation@NextDay",
+        "template": "Fire@Reclamation@NextDay.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@ClickAnyZone@Begin": {
+        "baseTask": "Fire@Reclamation@ClickAnyZoneOcr",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@ClickAnyZoneOcr": {
         "algorithm": "OcrDetect",
         "roi": [308, 73, 739, 567],
         "text": ["区", "Zone"],
         "postDelay": 500,
         "action": "ClickSelf",
-        "exceededNext": ["Reclamation@ResetScope"],
-        "next": ["Reclamation@StartActionEnter"]
+        "exceededNext": ["Fire@Reclamation@ResetScope"],
+        "next": ["Fire@Reclamation@StartActionEnter"]
     },
-    "Reclamation@ClickBlackMarket": {
+    "Fire@Reclamation@ClickBlackMarket": {
         "roi": [302, 28, 146, 126],
         "action": "ClickSelf"
     },
-    "Reclamation@ClickBlackMarketCorner": {
+    "Fire@Reclamation@ClickBlackMarketCorner": {
         "roi": [318, 40, 115, 113],
         "action": "ClickSelf"
     },
-    "Reclamation@ClickCenterBase": {
+    "Fire@Reclamation@ClickCenterBase": {
         "roi": [557, 281, 162, 155],
         "action": "ClickSelf",
         "postDelay": 1000,
-        "exceededNext": ["Reclamation@ResetScope"],
+        "exceededNext": ["Fire@Reclamation@ResetScope"],
         "next": [
-            "Reclamation@NextDay",
-            "Reclamation@ClickAnyZoneOcr",
-            "Reclamation@SkipAnnounce",
-            "Reclamation@SkipDailyReport",
-            "Reclamation@ClickCenterBase"
+            "Fire@Reclamation@NextDay",
+            "Fire@Reclamation@ClickAnyZoneOcr",
+            "Fire@Reclamation@SkipAnnounce",
+            "Fire@Reclamation@SkipDailyReport",
+            "Fire@Reclamation@ClickCenterBase"
         ]
     },
-    "Reclamation@ClickChooseInitUnits": {
+    "Fire@Reclamation@ClickCenterBase@Begin": {
+        "baseTask": "Fire@Reclamation@ClickCenterBase",
+        "template": "Fire@Reclamation@ClickCenterBase.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@ClickChooseInitUnits": {
         "roi": [1055, 0, 225, 178],
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
-            "Reclamation@EmptyInitUnits",
-            "Reclamation@InitSupplyAll",
-            "Reclamation@ClickChooseInitUnits",
-            "Reclamation@ReturnButtons#next"
+            "Fire@Reclamation@EmptyInitUnits",
+            "Fire@Reclamation@InitSupplyAll",
+            "Fire@Reclamation@ClickChooseInitUnits",
+            "Fire@Reclamation@ReturnButtons#next"
         ]
     },
-    "Reclamation@ClickCmdCenter": {
+    "Fire@Reclamation@ClickCmdCenter": {
         "roi": [0, 86, 156, 154],
         "action": "ClickSelf",
-        "next": ["Reclamation@AtCmdCenterFlag", "Reclamation@ClickCmdCenter"]
+        "next": ["Fire@Reclamation@AtCmdCenterFlag", "Fire@Reclamation@ClickCmdCenter"]
     },
-    "Reclamation@ClickExitLevel": {
+    "Fire@Reclamation@ClickExitLevel": {
         "action": "ClickRect",
-        "baseTask": "Reclamation@BattlePackIconTemplate",
+        "baseTask": "Fire@Reclamation@BattlePackIconTemplate",
         "specificRect": [49, 30, 58, 54]
     },
-    "Reclamation@CmdCenterSwipeLeft": {
+    "Fire@Reclamation@CmdCenterSwipeLeft": {
         "baseTask": "SwipeToTheLeft",
         "postDelay": 1000
     },
-    "Reclamation@CmdCenterSwipeRight": {
+    "Fire@Reclamation@CmdCenterSwipeRight": {
         "baseTask": "SwipeToTheRight",
         "postDelay": 1000
     },
-    "Reclamation@ConclusionReportBadgeIcon": {
-        "template": "Reclamation@Badge.png",
+    "Fire@Reclamation@ConclusionReportBadgeIcon": {
+        "template": "Fire@Reclamation@Badge.png",
         "roi": [560, 345, 552, 210]
     },
-    "Reclamation@ConfirmStart": {
+    "Fire@Reclamation@ConfirmStart": {
         "algorithm": "OcrDetect",
         "text": ["演算", "开始"],
         "roi": [790, 497, 465, 223],
         "action": "ClickSelf",
         "next": [
-            "Reclamation@SkipAnnounce",
-            "Reclamation@SkipDailyReport",
-            "Reclamation@Emergency",
-            "Reclamation@ClickCenterBase",
-            "Reclamation@ResetScope"
+            "Fire@Reclamation@SkipAnnounce",
+            "Fire@Reclamation@SkipDailyReport",
+            "Fire@Reclamation@Emergency",
+            "Fire@Reclamation@ClickCenterBase",
+            "Fire@Reclamation@ResetScope"
         ]
     },
-    "Reclamation@DialogSkip": {
-        "baseTask": "Reclamation@SkipAnnounce",
+    "Fire@Reclamation@DialogSkip": {
+        "baseTask": "Fire@Reclamation@SkipAnnounce",
         "next": []
     },
-    "Reclamation@DoManufacture": {
-        "baseTask": "Reclamation@ManufactureStatus",
+    "Fire@Reclamation@DoManufacture": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "action": "ClickSelf",
         "text": ["开", "始"],
         "postDelay": 1000
     },
-    "Reclamation@Emergency": {
+    "Fire@Reclamation@Emergency": {
         "templThreshold": 0.7,
         "roi": [1055, 0, 225, 181],
-        "next": ["Reclamation@ExitAlgorithm"]
+        "next": ["Fire@Reclamation@ExitAlgorithm"]
     },
-    "Reclamation@EmptyInitUnits": {
+    "Fire@Reclamation@EmptyInitUnits": {
         "algorithm": "OcrDetect",
         "roi": [592, 595, 336, 125],
         "text": ["请选择", "参加", "演算"],
-        "next": ["Reclamation@QuickFormation", "Reclamation@QuickFormationSelectOneUnit"]
+        "next": ["Fire@Reclamation@QuickFormation", "Fire@Reclamation@QuickFormationSelectOneUnit"]
     },
-    "Reclamation@EnterResearchLab": {
+    "Fire@Reclamation@EnterNextDay@Begin": {
+        "baseTask": "Fire@Reclamation@NextDay",
+        "template": "Fire@Reclamation@NextDay.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@EnterResearchLab": {
         "algorithm": "OcrDetect",
         "roi": [0, 79, 1280, 139],
         "text": ["研", "究", "所"],
         "action": "ClickSelf",
         "postDelay": 500
     },
-    "Reclamation@EnterSmeltGoldPage": {
+    "Fire@Reclamation@EnterSmeltGoldPage": {
         "algorithm": "OcrDetect",
         "roi": [0, 31, 1280, 175],
         "text": ["粗制", "赤金"],
         "action": "ClickSelf"
     },
-    "Reclamation@ExitAlgorithm": {
+    "Fire@Reclamation@ExitAlgorithm": {
         "roi": [0, 0, 160, 154],
         "action": "ClickSelf",
-        "next": ["Reclamation@GiveupAlgorithm", "Reclamation@ExitAlgorithm"]
+        "next": ["Fire@Reclamation@GiveupAlgorithm", "Fire@Reclamation@ExitAlgorithm"]
     },
-    "Reclamation@ExitLevelConfirm": {
+    "Fire@Reclamation@ExitLevelConfirm": {
         "algorithm": "OcrDetect",
         "roi": [856, 336, 371, 177],
         "text": ["确认", "离开"],
         "action": "ClickSelf"
     },
-    "Reclamation@FormationConfirmBase": {
-        "template": "Reclamation@FormationConfirm.png",
+    "Fire@Reclamation@FormationConfirmBase": {
+        "template": "Fire@Reclamation@FormationConfirm.png",
         "roi": [862, 604, 358, 116]
     },
-    "Reclamation@GainReward": {
+    "Fire@Reclamation@GainReward": {
         "roi": [556, 559, 179, 161],
         "postDelay": 1000,
         "action": "ClickSelf",
-        "next": ["Reclamation@Begin#next", "Reclamation@GainReward"]
+        "next": ["Fire@Reclamation@Begin#next", "Fire@Reclamation@GainReward"]
     },
-    "Reclamation@GiveupAlgorithm": {
+    "Fire@Reclamation@GiveupAlgorithm": {
         "algorithm": "OcrDetect",
         "text": ["放", "弃"],
         "roi": [684, 569, 273, 151],
         "action": "ClickSelf",
-        "next": ["Reclamation@GiveupAlgorithmConfirm", "Reclamation@GiveupAlgorithm"]
+        "next": ["Fire@Reclamation@GiveupAlgorithmConfirm", "Fire@Reclamation@GiveupAlgorithm"]
     },
-    "Reclamation@GiveupAlgorithmConfirm": {
-        "template": "PopupConfirm.png",
-        "baseTask": "Reclamation@ReturnConfirm",
+    "Fire@Reclamation@GiveupAlgorithm@AtHomePageFlag": {
+        "baseTask": "Fire@Reclamation@AtHomePageFlag",
+        "template": "Fire@Reclamation@AtHomePageFlag.png",
         "next": [
-            "Reclamation@GiveupReportSkip",
-            "Reclamation@GiveupCrossdomainPageFlag",
-            "Reclamation@GiveupAlgorithmConfirm"
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm",
+            "Stop"
         ]
     },
-    "Reclamation@GiveupCheckRemainItems": {
+    "Fire@Reclamation@GiveupAlgorithm@Begin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@AtHomePageFlag",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GainReward": {
+        "baseTask": "Fire@Reclamation@GainReward",
+        "template": "Fire@Reclamation@GainReward.png",
+        "next": ["Fire@Reclamation@GiveupAlgorithm@Begin#next", "Fire@Reclamation@GiveupAlgorithm@GainReward"]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithm",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithm"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithmConfirm",
+        "template": "PopupConfirm.png",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdomainPageFlag",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupAlgorithmConfirm"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems": {
+        "baseTask": "Fire@Reclamation@GiveupCheckRemainItems",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing#next"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit": {
+        "baseTask": "Fire@Reclamation@GiveupClickEmergencyExit",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCheckRemainItems",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdoaimSwipeRight",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupClickEmergencyExit",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupCrossdomainPageFlag": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdomainPageFlag",
+        "next": ["Fire@Reclamation@GiveupAlgorithm@GiveupCrossdoaimSwipeRight"]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip": {
+        "baseTask": "Fire@Reclamation@GiveupReportSkip",
+        "template": "Fire@Reclamation@GiveupReportSkip.png",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm#next"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupSkipConfirm",
+        "template": "Fire@Reclamation@GiveupSkipConfirm.png",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GainReward",
+            "Fire@Reclamation@GiveupAlgorithm@AtHomePageFlag",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupSkipConfirm"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothing",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothing"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothingConfirm",
+        "template": "PopupConfirm.png",
+        "next": [
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupReportSkip",
+            "Fire@Reclamation@GiveupAlgorithm@GiveupTakeNothingConfirm"
+        ]
+    },
+    "Fire@Reclamation@GiveupAlgorithmConfirm": {
+        "template": "PopupConfirm.png",
+        "baseTask": "Fire@Reclamation@ReturnConfirm",
+        "next": [
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupCrossdomainPageFlag",
+            "Fire@Reclamation@GiveupAlgorithmConfirm"
+        ]
+    },
+    "Fire@Reclamation@GiveupCheckRemainItems": {
         "algorithm": "OcrDetect",
         "roi": [729, 539, 337, 134],
         "action": "ClickSelf",
         "text": ["查看", "物品"],
         "next": [
-            "Reclamation@GiveupTakeNothing",
-            "Reclamation@GiveupCheckRemainItems",
-            "Reclamation@GiveupTakeNothing#next"
+            "Fire@Reclamation@GiveupTakeNothing",
+            "Fire@Reclamation@GiveupCheckRemainItems",
+            "Fire@Reclamation@GiveupTakeNothing#next"
         ]
     },
-    "Reclamation@GiveupClickEmergencyExit": {
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
         "algorithm": "OcrDetect",
         "roi": [500, 441, 780, 268],
         "action": "ClickSelf",
         "text": ["紧急", "撤退"],
-        "next": ["Reclamation@GiveupCheckRemainItems", "Reclamation@GiveupClickEmergencyExit"]
+        "next": ["Fire@Reclamation@GiveupCheckRemainItems", "Fire@Reclamation@GiveupClickEmergencyExit"]
     },
-    "Reclamation@GiveupCrossdoaimSwipeRight": {
+    "Fire@Reclamation@GiveupCrossdoaimSwipeRight": {
         "baseTask": "SwipeToTheRight",
         "postDelay": 1500,
-        "next": ["Reclamation@GiveupClickEmergencyExit", "Reclamation@GiveupCrossdoaimSwipeRight"]
+        "next": ["Fire@Reclamation@GiveupClickEmergencyExit", "Fire@Reclamation@GiveupCrossdoaimSwipeRight"]
     },
-    "Reclamation@GiveupCrossdomainPageFlag": {
+    "Fire@Reclamation@GiveupCrossdomainPageFlag": {
         "algorithm": "OcrDetect",
         "roi": [1016, 49, 264, 152],
         "text": ["确认", "带走", "紧急", "撤退"],
-        "next": ["Reclamation@GiveupCrossdoaimSwipeRight"]
+        "next": ["Fire@Reclamation@GiveupCrossdoaimSwipeRight"]
     },
-    "Reclamation@GiveupReportSkip": {
+    "Fire@Reclamation@GiveupReportSkip": {
         "roi": [1074, 537, 183, 180],
         "action": "ClickSelf",
-        "next": ["Reclamation@GiveupReportSkip", "Reclamation@GiveupSkipConfirm", "Reclamation@GiveupSkipConfirm#next"]
+        "next": [
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupSkipConfirm",
+            "Fire@Reclamation@GiveupSkipConfirm#next"
+        ]
     },
-    "Reclamation@GiveupSkipConfirm": {
+    "Fire@Reclamation@GiveupSkipConfirm": {
         "roi": [1082, 547, 198, 157],
         "action": "ClickSelf",
-        "next": ["Reclamation@GainReward", "Reclamation@AtHomePageFlag", "Reclamation@GiveupSkipConfirm"]
+        "next": ["Fire@Reclamation@GainReward", "Fire@Reclamation@AtHomePageFlag", "Fire@Reclamation@GiveupSkipConfirm"]
     },
-    "Reclamation@GiveupTakeNothing": {
+    "Fire@Reclamation@GiveupTakeNothing": {
         "algorithm": "OcrDetect",
         "roi": [729, 539, 337, 134],
         "action": "ClickSelf",
         "text": ["确认", "撤退"],
         "next": [
-            "Reclamation@GiveupTakeNothingConfirm",
-            "Reclamation@GiveupReportSkip",
-            "Reclamation@GiveupTakeNothing"
+            "Fire@Reclamation@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupTakeNothing"
         ]
     },
-    "Reclamation@GiveupTakeNothingConfirm": {
+    "Fire@Reclamation@GiveupTakeNothingConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "Reclamation@ReturnConfirm",
+        "baseTask": "Fire@Reclamation@ReturnConfirm",
         "next": [
-            "Reclamation@GiveupTakeNothingConfirm",
-            "Reclamation@GiveupReportSkip",
-            "Reclamation@GiveupTakeNothingConfirm"
+            "Fire@Reclamation@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@GiveupReportSkip",
+            "Fire@Reclamation@GiveupTakeNothingConfirm"
         ]
     },
-    "Reclamation@InitSupplyAll": {
+    "Fire@Reclamation@InitSupplyAll": {
         "roi": [862, 572, 418, 148],
         "action": "ClickSelf",
-        "next": ["Reclamation@ConfirmStart", "Reclamation@InitSupplyAll"]
+        "next": ["Fire@Reclamation@ConfirmStart", "Fire@Reclamation@InitSupplyAll"]
     },
-    "Reclamation@LabClickAssembleable": {
+    "Fire@Reclamation@LabClickAssembleable": {
         "algorithm": "OcrDetect",
         "roi": [0, 85, 161, 126],
         "action": "ClickSelf",
         "text": ["可", "组", "装"]
     },
-    "Reclamation@LabClickDetailView": {
+    "Fire@Reclamation@LabClickDetailView": {
         "algorithm": "OcrDetect",
         "roi": [1116, 416, 164, 134],
         "text": ["详", "情", "视", "图"],
         "postDelay": 500,
         "action": "ClickSelf"
     },
-    "Reclamation@LevelComplete": {
+    "Fire@Reclamation@LevelComplete": {
         "algorithm": "OcrDetect",
         "roi": [0, 197, 469, 224],
         "action": "ClickSelf",
         "postDelay": 1000,
         "text": ["结束", "MISSION", "RESULTS"],
-        "next": ["Reclamation@NextDay", "Reclamation@ResetScope", "Reclamation@LevelComplete"]
+        "next": ["Fire@Reclamation@NextDay", "Fire@Reclamation@ResetScope", "Fire@Reclamation@LevelComplete"]
     },
-    "Reclamation@LevelForceExit": {
-        "baseTask": "Reclamation@ClickExitLevel",
-        "template": "Reclamation@ClickExitLevel.png",
+    "Fire@Reclamation@LevelCompleteConfirm@AtMapFlag": {
+        "baseTask": "Fire@Reclamation@AtMapFlag",
+        "template": "Fire@Reclamation@ResetScope.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@LevelCompleteConfirm@LevelComplete": {
+        "baseTask": "Fire@Reclamation@LevelComplete",
+        "next": [
+            "Fire@Reclamation@LevelCompleteConfirm@AtMapFlag",
+            "Fire@Reclamation@LevelCompleteConfirm@LevelComplete"
+        ]
+    },
+    "Fire@Reclamation@LevelForceExit": {
+        "baseTask": "Fire@Reclamation@ClickExitLevel",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
         "postDelay": 3000,
-        "next": ["Reclamation@LevelForceExitConfirm", "Reclamation@LevelForceExit", "Reclamation@ReturnButton#next"]
+        "next": [
+            "Fire@Reclamation@LevelForceExitConfirm",
+            "Fire@Reclamation@LevelForceExit",
+            "Fire@Reclamation@ReturnButton#next"
+        ]
     },
-    "Reclamation@LevelForceExitConfirm": {
-        "baseTask": "Reclamation@ExitLevelConfirm",
-        "next": ["Reclamation@ReturnButton#next"]
+    "Fire@Reclamation@LevelForceExitConfirm": {
+        "baseTask": "Fire@Reclamation@ExitLevelConfirm",
+        "next": ["Fire@Reclamation@ReturnButton#next"]
     },
-    "Reclamation@Liaison": {
+    "Fire@Reclamation@Liaison": {
         "algorithm": "OcrDetect",
         "roi": [0, 141, 179, 130],
         "text": ["联络员"]
     },
-    "Reclamation@MainThemes": {
+    "Fire@Reclamation@MainThemes": {
         "next": [
-            "Reclamation",
-            "Reclamation@AtHomePageFlag",
-            "Reclamation@LevelForceExitConfirm",
-            "Reclamation@LevelForceExit",
-            "Reclamation@LevelComplete",
-            "Reclamation@ExitAlgorithm",
-            "Reclamation@SmallReturn",
-            "Reclamation@ReturnInFocus"
+            "Fire@Reclamation",
+            "Fire@Reclamation@AtHomePageFlag",
+            "Fire@Reclamation@LevelForceExitConfirm",
+            "Fire@Reclamation@LevelForceExit",
+            "Fire@Reclamation@LevelComplete",
+            "Fire@Reclamation@ExitAlgorithm",
+            "Fire@Reclamation@SmallReturn",
+            "Fire@Reclamation@ReturnInFocus"
         ]
     },
-    "Reclamation@ManufactureDecrease": {
-        "baseTask": "Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureDecrease": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "action": "ClickRect",
         "specificRect": [1096, 288, 139, 28],
         "text": ["材", "料", "不", "足"]
     },
-    "Reclamation@ManufactureIncrease": {
-        "baseTask": "Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureIncrease": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "action": "ClickRect",
         "specificRect": [1120, 86, 111, 26],
         "text": ["开", "始"]
     },
-    "Reclamation@ManufactureInsufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureInsufficientMaterial": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "text": ["材", "料", "不", "足"]
     },
-    "Reclamation@ManufactureStatus": {
+    "Fire@Reclamation@ManufactureStatus": {
         "Doc": "base_task",
         "algorithm": "OcrDetect",
         "roi": [1080, 320, 200, 146],
         "text": []
     },
-    "Reclamation@ManufactureSufficientMaterial": {
-        "baseTask": "Reclamation@ManufactureStatus",
+    "Fire@Reclamation@ManufactureSufficientMaterial": {
+        "baseTask": "Fire@Reclamation@ManufactureStatus",
         "text": ["开", "始"]
     },
-    "Reclamation@NextDay": {
+    "Fire@Reclamation@NavigateHome": {
+        "baseTask": "Fire@Reclamation",
+        "template": [
+            "Terminal.png",
+            "TerminalDark.png",
+            "TerminalSami.png",
+            "TerminalMistCity.png",
+            "TerminalSiege.png"
+        ],
+        "next": [
+            "Fire@Reclamation@NavigateHome",
+            "Fire@Reclamation@NavigateHome@CloseAnnos#next",
+            "Fire@Reclamation@NavigateHome@TodoEnter"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@AtHomePageFlag": {
+        "baseTask": "Fire@Reclamation@AtHomePageFlag",
+        "template": "Fire@Reclamation@AtHomePageFlag.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@NavigateHome@AtMapFlag": {
+        "baseTask": "Fire@Reclamation@AtMapFlag",
+        "template": "Fire@Reclamation@ResetScope.png",
+        "next": ["Fire@Reclamation@NavigateHome@Begin"]
+    },
+    "Fire@Reclamation@NavigateHome@BattleStart": {
+        "baseTask": "Fire@Reclamation@BattleStart",
+        "template": "Fire@Reclamation@ClickExitLevel.png",
+        "next": ["Fire@Reclamation@NavigateHome@LevelComplete"]
+    },
+    "Fire@Reclamation@NavigateHome@Begin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Fire@Reclamation@NavigateHome@AtHomePageFlag",
+            "Fire@Reclamation@NavigateHome@ReturnButton#next",
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@LevelComplete",
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm",
+            "Fire@Reclamation@NavigateHome@GainReward",
+            "Fire@Reclamation@NavigateHome@StartUpThemes#next",
+            "Fire@Reclamation@NavigateHome@TodoEnter"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@ClickAnyZoneOcr": {
+        "baseTask": "Fire@Reclamation@ClickAnyZoneOcr",
+        "exceededNext": ["Fire@Reclamation@NavigateHome@ResetScope"],
+        "next": ["Fire@Reclamation@NavigateHome@StartActionEnter"]
+    },
+    "Fire@Reclamation@NavigateHome@ClickCenterBase": {
+        "baseTask": "Fire@Reclamation@ClickCenterBase",
+        "template": "Fire@Reclamation@ClickCenterBase.png",
+        "next": [
+            "Fire@Reclamation@NavigateHome@NextDay",
+            "Fire@Reclamation@NavigateHome@ClickAnyZoneOcr",
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@ClickCenterBase"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@ConfirmStart": {
+        "baseTask": "Fire@Reclamation@ConfirmStart",
+        "next": [
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@Emergency",
+            "Fire@Reclamation@NavigateHome@ClickCenterBase",
+            "Fire@Reclamation@NavigateHome@ResetScope"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@Emergency": {
+        "baseTask": "Fire@Reclamation@Emergency",
+        "template": "Fire@Reclamation@Emergency.png",
+        "next": ["Fire@Reclamation@NavigateHome@ExitAlgorithm"]
+    },
+    "Fire@Reclamation@NavigateHome@ExitAlgorithm": {
+        "baseTask": "Fire@Reclamation@ExitAlgorithm",
+        "template": "Fire@Reclamation@ExitAlgorithm.png",
+        "next": ["Fire@Reclamation@NavigateHome@GiveupAlgorithm", "Fire@Reclamation@NavigateHome@ExitAlgorithm"]
+    },
+    "Fire@Reclamation@NavigateHome@GainReward": {
+        "baseTask": "Fire@Reclamation@GainReward",
+        "template": "Fire@Reclamation@GainReward.png",
+        "next": ["Fire@Reclamation@NavigateHome@Begin#next", "Fire@Reclamation@NavigateHome@GainReward"]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupAlgorithm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithm",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupAlgorithmConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupAlgorithm"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupAlgorithmConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupAlgorithmConfirm",
+        "template": "PopupConfirm.png",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupCrossdomainPageFlag",
+            "Fire@Reclamation@NavigateHome@GiveupAlgorithmConfirm"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupCheckRemainItems": {
+        "baseTask": "Fire@Reclamation@GiveupCheckRemainItems",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothing",
+            "Fire@Reclamation@NavigateHome@GiveupCheckRemainItems",
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothing#next"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupClickEmergencyExit": {
+        "baseTask": "Fire@Reclamation@GiveupClickEmergencyExit",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupCheckRemainItems",
+            "Fire@Reclamation@NavigateHome@GiveupClickEmergencyExit"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdoaimSwipeRight",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupClickEmergencyExit",
+            "Fire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupCrossdomainPageFlag": {
+        "baseTask": "Fire@Reclamation@GiveupCrossdomainPageFlag",
+        "next": ["Fire@Reclamation@NavigateHome@GiveupCrossdoaimSwipeRight"]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupReportSkip": {
+        "baseTask": "Fire@Reclamation@GiveupReportSkip",
+        "template": "Fire@Reclamation@GiveupReportSkip.png",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm#next"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupSkipConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupSkipConfirm",
+        "template": "Fire@Reclamation@GiveupSkipConfirm.png",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GainReward",
+            "Fire@Reclamation@NavigateHome@AtHomePageFlag",
+            "Fire@Reclamation@NavigateHome@GiveupSkipConfirm"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupTakeNothing": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothing",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothing"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm": {
+        "baseTask": "Fire@Reclamation@GiveupTakeNothingConfirm",
+        "template": "PopupConfirm.png",
+        "next": [
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm",
+            "Fire@Reclamation@NavigateHome@GiveupReportSkip",
+            "Fire@Reclamation@NavigateHome@GiveupTakeNothingConfirm"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@LevelComplete": {
+        "baseTask": "Fire@Reclamation@LevelComplete",
+        "next": [
+            "Fire@Reclamation@NavigateHome@NextDay",
+            "Fire@Reclamation@NavigateHome@ResetScope",
+            "Fire@Reclamation@NavigateHome@LevelComplete"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@NextDay": {
+        "baseTask": "Fire@Reclamation@NextDay",
+        "template": "Fire@Reclamation@NextDay.png",
+        "next": [
+            "Fire@Reclamation@NavigateHome@Emergency",
+            "Fire@Reclamation@NavigateHome@NextDay",
+            "Fire@Reclamation@NavigateHome@ConfirmStart#next"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@PrepareAction": {
+        "baseTask": "Fire@Reclamation@PrepareAction",
+        "next": ["Fire@Reclamation@NavigateHome@StartActionConfirm", "Fire@Reclamation@NavigateHome@PrepareAction"]
+    },
+    "Fire@Reclamation@NavigateHome@ResetScope": {
+        "baseTask": "Fire@Reclamation@ResetScope",
+        "template": "Fire@Reclamation@ResetScope.png",
+        "next": ["Fire@Reclamation@NavigateHome@Begin"]
+    },
+    "Fire@Reclamation@NavigateHome@SkipAnnounce": {
+        "baseTask": "Fire@Reclamation@SkipAnnounce",
+        "next": [
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@AtMapFlag"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@SkipDailyReport": {
+        "baseTask": "Fire@Reclamation@SkipDailyReport",
+        "next": [
+            "Fire@Reclamation@NavigateHome@SkipAnnounce",
+            "Fire@Reclamation@NavigateHome@SkipDailyReport",
+            "Fire@Reclamation@NavigateHome@AtMapFlag"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@StartActionConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionConfirm",
+        "template": "Fire@Reclamation@StartActionConfirm.png",
+        "next": [
+            "Fire@Reclamation@NavigateHome@BattleStart",
+            "Fire@Reclamation@NavigateHome@StartActionPopupConfirm",
+            "Fire@Reclamation@NavigateHome@StartActionConfirm"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@StartActionEnter": {
+        "baseTask": "Fire@Reclamation@StartActionEnter",
+        "next": [
+            "Fire@Reclamation@NavigateHome@PrepareAction",
+            "Fire@Reclamation@NavigateHome@StartActionEnter",
+            "Fire@Reclamation@NavigateHome@StartActionConfirm"
+        ]
+    },
+    "Fire@Reclamation@NavigateHome@StartActionPopupConfirm": {
+        "baseTask": "Fire@Reclamation@StartActionPopupConfirm",
+        "template": "PopupConfirm.png",
+        "next": ["Fire@Reclamation@NavigateHome@BattleStart", "Fire@Reclamation@NavigateHome@StartActionPopupConfirm"]
+    },
+    "Fire@Reclamation@NavigateHome@TodoEnter": {
+        "baseTask": "Fire@Reclamation@TodoEnter",
+        "next": ["Fire@Reclamation@NavigateHome@Begin"]
+    },
+    "Fire@Reclamation@NextDay": {
         "roi": [1055, 0, 225, 177],
         "action": "ClickSelf",
-        "next": ["Reclamation@Emergency", "Reclamation@NextDay", "Reclamation@ConfirmStart#next"]
+        "next": ["Fire@Reclamation@Emergency", "Fire@Reclamation@NextDay", "Fire@Reclamation@ConfirmStart#next"]
     },
-    "Reclamation@PrepareAction": {
+    "Fire@Reclamation@PrepareAction": {
         "algorithm": "OcrDetect",
         "roi": [996, 590, 254, 130],
         "text": ["行动准备"],
         "action": "ClickSelf",
-        "next": ["Reclamation@StartActionConfirm", "Reclamation@PrepareAction"]
+        "next": ["Fire@Reclamation@StartActionConfirm", "Fire@Reclamation@PrepareAction"]
     },
-    "Reclamation@QuickFormation": {
+    "Fire@Reclamation@QuickFormation": {
         "roi": [958, 0, 175, 144],
         "action": "ClickSelf",
-        "next": ["Reclamation@QuickFormationSelectOneUnit", "Reclamation@QuickFormation"]
+        "next": ["Fire@Reclamation@QuickFormationSelectOneUnit", "Fire@Reclamation@QuickFormation"]
     },
-    "Reclamation@QuickFormationConfirm": {
-        "baseTask": "Reclamation@FormationConfirmBase",
-        "template": "Reclamation@FormationConfirm.png",
+    "Fire@Reclamation@QuickFormationConfirm": {
+        "baseTask": "Fire@Reclamation@FormationConfirmBase",
+        "template": "Fire@Reclamation@FormationConfirm.png",
         "action": "ClickSelf",
-        "next": ["Reclamation@EmptyInitUnits", "Reclamation@InitSupplyAll", "Reclamation@ConfirmStart"]
+        "next": ["Fire@Reclamation@EmptyInitUnits", "Fire@Reclamation@InitSupplyAll", "Fire@Reclamation@ConfirmStart"]
     },
-    "Reclamation@QuickFormationSelectOneUnit": {
-        "baseTask": "Reclamation@FormationConfirmBase",
-        "template": "Reclamation@FormationConfirm.png",
+    "Fire@Reclamation@QuickFormationSelectOneUnit": {
+        "baseTask": "Fire@Reclamation@FormationConfirmBase",
+        "template": "Fire@Reclamation@FormationConfirm.png",
         "action": "ClickRect",
         "specificRect": [506, 116, 186, 57],
-        "next": ["Reclamation@QuickFormationConfirm"]
+        "next": ["Fire@Reclamation@QuickFormationConfirm"]
     },
-    "Reclamation@ReportBadgesOcr": {
+    "Fire@Reclamation@ReportBadgesOcr": {
         "template": "empty.png",
         "roi": [639, 392, 427, 102]
     },
-    "Reclamation@ReportConstructPointsOcr": {
+    "Fire@Reclamation@ReportConstructPointsOcr": {
         "template": "empty.png",
         "roi": [548, 580, 80, 60]
     },
-    "Reclamation@ResetScope": {
+    "Fire@Reclamation@ResetScope": {
         "roi": [0, 605, 141, 115],
         "action": "ClickSelf",
         "postDelay": 500,
         "next": [
-            "Reclamation@NextDay",
-            "Reclamation@ClickCenterBase",
-            "Reclamation@ClickChooseInitUnits",
-            "Reclamation@ResetScope"
+            "Fire@Reclamation@NextDay",
+            "Fire@Reclamation@ClickCenterBase",
+            "Fire@Reclamation@ClickChooseInitUnits",
+            "Fire@Reclamation@ResetScope"
         ]
     },
-    "Reclamation@ReturnConfirm": {
+    "Fire@Reclamation@ResetScope@Begin": {
+        "baseTask": "Fire@Reclamation@ResetScope",
+        "template": "Fire@Reclamation@ResetScope.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@ReturnConfirm": {
         "Doc": "base_task",
         "template": "PopupConfirm.png",
         "templThreshold": 0.7,
         "next": [
-            "Reclamation",
-            "Reclamation@ReturnButtons#next",
-            "Reclamation@ReturnConfirm",
-            "Reclamation@ReturnConfirm@LoadingIcon",
-            "Reclamation@ReturnConfirm@LoadingText"
+            "Fire@Reclamation",
+            "Fire@Reclamation@ReturnButtons#next",
+            "Fire@Reclamation@ReturnConfirm",
+            "Fire@Reclamation@ReturnConfirm@LoadingIcon",
+            "Fire@Reclamation@ReturnConfirm@LoadingText"
         ]
     },
-    "Reclamation@ReturnInFocus": {
+    "Fire@Reclamation@ReturnInFocus": {
         "roi": [0, 0, 147, 145],
         "templThreshold": 0.7,
         "action": "ClickSelf",
-        "next": ["Reclamation@ReturnButton#next"]
+        "next": ["Fire@Reclamation@ReturnButton#next"]
     },
-    "Reclamation@SkillReadyRoleOffset": {
+    "Fire@Reclamation@SkillReadyRoleOffset": {
         "Doc": "技能准备完成距离npc中心的偏移",
         "template": "empty.png",
         "specialParams": [100]
     },
-    "Reclamation@SkipAnnounce": {
+    "Fire@Reclamation@SkipAnnounce": {
         "algorithm": "OcrDetect",
         "roi": [1109, 0, 171, 151],
         "text": ["跳过"],
         "action": "ClickSelf",
-        "next": ["Reclamation@SkipAnnounce", "Reclamation@SkipDailyReport", "Reclamation@AtMapFlag"]
+        "next": ["Fire@Reclamation@SkipAnnounce", "Fire@Reclamation@SkipDailyReport", "Fire@Reclamation@AtMapFlag"]
     },
-    "Reclamation@SkipDailyReport": {
+    "Fire@Reclamation@SkipAnnounceReport@AtMapFlag": {
+        "baseTask": "Fire@Reclamation@AtMapFlag",
+        "template": "Fire@Reclamation@ResetScope.png",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@SkipAnnounceReport@Begin": {
+        "algorithm": "JustReturn",
+        "next": [
+            "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce",
+            "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport",
+            "Fire@Reclamation@SkipAnnounceReport@AtMapFlag"
+        ]
+    },
+    "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce": {
+        "baseTask": "Fire@Reclamation@SkipAnnounce",
+        "next": [
+            "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce",
+            "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport",
+            "Fire@Reclamation@SkipAnnounceReport@AtMapFlag"
+        ]
+    },
+    "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport": {
+        "baseTask": "Fire@Reclamation@SkipDailyReport",
+        "next": [
+            "Fire@Reclamation@SkipAnnounceReport@SkipAnnounce",
+            "Fire@Reclamation@SkipAnnounceReport@SkipDailyReport",
+            "Fire@Reclamation@SkipAnnounceReport@AtMapFlag"
+        ]
+    },
+    "Fire@Reclamation@SkipDailyReport": {
         "algorithm": "OcrDetect",
         "roi": [539, 39, 207, 134],
         "text": ["今日", "日报"],
         "action": "ClickRect",
         "specificRect": [1190, 651, 52, 48],
-        "next": ["Reclamation@SkipAnnounce", "Reclamation@SkipDailyReport", "Reclamation@AtMapFlag"]
+        "next": ["Fire@Reclamation@SkipAnnounce", "Fire@Reclamation@SkipDailyReport", "Fire@Reclamation@AtMapFlag"]
     },
-    "Reclamation@SmallReturn": {
+    "Fire@Reclamation@SmallReturn": {
         "roi": [0, 0, 148, 148],
         "templThreshold": 0.7,
         "action": "ClickSelf",
-        "next": ["Reclamation@ReturnButton#next"]
+        "next": ["Fire@Reclamation@ReturnButton#next"]
     },
-    "Reclamation@StartActionConfirm": {
+    "Fire@Reclamation@StartActionConfirm": {
         "roi": [962, 65, 311, 522],
         "action": "ClickSelf",
-        "next": ["Reclamation@BattleStart", "Reclamation@StartActionPopupConfirm", "Reclamation@StartActionConfirm"]
+        "next": [
+            "Fire@Reclamation@BattleStart",
+            "Fire@Reclamation@StartActionPopupConfirm",
+            "Fire@Reclamation@StartActionConfirm"
+        ]
     },
-    "Reclamation@StartActionEnter": {
+    "Fire@Reclamation@StartActionEnter": {
         "algorithm": "OcrDetect",
         "roi": [995, 550, 285, 130],
         "text": ["开始行动", "决断"],
         "action": "ClickSelf",
-        "next": ["Reclamation@PrepareAction", "Reclamation@StartActionEnter", "Reclamation@StartActionConfirm"]
+        "next": [
+            "Fire@Reclamation@PrepareAction",
+            "Fire@Reclamation@StartActionEnter",
+            "Fire@Reclamation@StartActionConfirm"
+        ]
     },
-    "Reclamation@StartActionPopupConfirm": {
+    "Fire@Reclamation@StartActionEnter@StartActionEnter": {
+        "baseTask": "Fire@Reclamation@StartActionEnter",
+        "next": ["Stop"]
+    },
+    "Fire@Reclamation@StartActionPopupConfirm": {
         "template": "PopupConfirm.png",
-        "baseTask": "Reclamation@ReturnConfirm",
+        "baseTask": "Fire@Reclamation@ReturnConfirm",
         "postDelay": 4000,
-        "next": ["Reclamation@BattleStart", "Reclamation@StartActionPopupConfirm"]
+        "next": ["Fire@Reclamation@BattleStart", "Fire@Reclamation@StartActionPopupConfirm"]
     },
-    "Reclamation@StartAlgorithm": {
+    "Fire@Reclamation@StartAlgorithm": {
         "Doc": "继续演算的图标也能match，所以就不单独写了",
         "roi": [844, 569, 436, 151],
         "action": "ClickSelf",
-        "next": ["Reclamation@ClickChooseInitUnits", "Reclamation@StartAlgorithm"]
+        "next": ["Fire@Reclamation@ClickChooseInitUnits", "Fire@Reclamation@StartAlgorithm"]
     },
-    "Reclamation@TodoEnter": {
+    "Fire@Reclamation@StartWithDefaultFormation@ConfirmStart": {
+        "baseTask": "Fire@Reclamation@ConfirmStart",
+        "next": []
+    },
+    "Fire@Reclamation@TodoEnter": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["WITHIN", "沙", "中", "之", "火"],
         "roi": [686, 164, 207, 133],
         "postDelay": 2000,
-        "next": ["Reclamation@Begin"]
+        "next": ["Fire@Reclamation@Begin"]
     },
-    "BattleDefaultFormationStart@Reclamation@BattleStart": {
-        "template": "Reclamation@ClickExitLevel.png",
-        "next": ["Stop"]
-    },
-    "BattleDefaultFormationStart@Reclamation@Begin": {
-        "next": ["BattleDefaultFormationStart@Reclamation@PrepareAction"]
-    },
-    "CheckEmergency@Reclamation@Emergency": {
-        "template": "Reclamation@Emergency.png",
-        "next": ["Stop"]
-    },
-    "CheckNextDay@Reclamation@NextDay": {
-        "template": "Reclamation@NextDay.png",
-        "next": ["Stop"]
-    },
-    "ClickAnyZone@Reclamation@Begin": {
-        "baseTask": "Reclamation@ClickAnyZoneOcr",
-        "next": ["Stop"]
-    },
-    "ClickCenterBase@Reclamation@Begin": {
-        "baseTask": "Reclamation@ClickCenterBase",
-        "template": "Reclamation@ClickCenterBase.png",
-        "next": ["Stop"]
-    },
-    "EnterNextDay@Reclamation@Begin": {
-        "baseTask": "Reclamation@NextDay",
-        "template": "Reclamation@NextDay.png",
-        "next": ["Stop"]
-    },
-    "GiveupAlgorithm@Reclamation@AtHomePageFlag": {
-        "template": "Reclamation@AtHomePageFlag.png",
-        "next": [
-            "GiveupAlgorithm@Reclamation@GiveupAlgorithmConfirm",
-            "GiveupAlgorithm@Reclamation@GiveupAlgorithm",
-            "Stop"
-        ]
-    },
-    "GiveupAlgorithm@Reclamation@Begin": {
-        "next": [
-            "GiveupAlgorithm@Reclamation@AtHomePageFlag",
-            "GiveupAlgorithm@Reclamation@GiveupAlgorithmConfirm",
-            "GiveupAlgorithm@Reclamation@GiveupAlgorithm"
-        ]
-    },
-    "LevelCompleteConfirm@Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
-        "next": ["Stop"]
-    },
-    "LevelCompleteConfirm@Reclamation@LevelComplete": {
-        "next": ["LevelCompleteConfirm@Reclamation@AtMapFlag", "LevelCompleteConfirm@Reclamation@LevelComplete"]
-    },
-    "NavigateHome@Reclamation@AtHomePageFlag": {
-        "template": "Reclamation@AtHomePageFlag.png",
-        "next": ["Stop"]
-    },
-    "NavigateHome@Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
-        "next": ["NavigateHome@Reclamation@Begin"]
-    },
-    "NavigateHome@Reclamation@Begin": {
-        "next": [
-            "NavigateHome@Reclamation@AtHomePageFlag",
-            "NavigateHome@Reclamation@ReturnButton#next",
-            "NavigateHome@Reclamation@SkipAnnounce",
-            "NavigateHome@Reclamation@SkipDailyReport",
-            "NavigateHome@Reclamation@LevelComplete",
-            "NavigateHome@Reclamation@GiveupReportSkip",
-            "NavigateHome@Reclamation@GiveupSkipConfirm",
-            "NavigateHome@Reclamation@GainReward",
-            "NavigateHome@Reclamation@StartUpThemes#next",
-            "NavigateHome@Reclamation@TodoEnter"
-        ]
-    },
-    "NavigateHome@Reclamation@ResetScope": {
-        "template": "Reclamation@ResetScope.png",
-        "next": ["NavigateHome@Reclamation@Begin"]
-    },
-    "ResetScope@Reclamation@Begin": {
-        "baseTask": "Reclamation@ResetScope",
-        "template": "Reclamation@ResetScope.png",
-        "next": ["Stop"]
-    },
-    "SkipAnnounceReport@Reclamation@AtMapFlag": {
-        "template": "Reclamation@ResetScope.png",
-        "next": ["Stop"]
-    },
-    "SkipAnnounceReport@Reclamation@Begin": {
-        "next": [
-            "SkipAnnounceReport@Reclamation@SkipAnnounce",
-            "SkipAnnounceReport@Reclamation@SkipDailyReport",
-            "SkipAnnounceReport@Reclamation@AtMapFlag"
-        ]
-    },
-    "StartActionEnter@Reclamation@StartActionEnter": {
-        "next": ["Stop"]
-    },
-    "StartWithDefaultFormation@Reclamation@ConfirmStart": {
-        "next": []
-    },
-    "WaitNextDayFlag@Reclamation@BetweenDayFlag": {
-        "template": "Reclamation@BetweenDayFlag.png",
+    "Fire@Reclamation@WaitNextDayFlag@BetweenDayFlag": {
+        "baseTask": "Fire@Reclamation@BetweenDayFlag",
+        "template": "Fire@Reclamation@BetweenDayFlag.png",
         "postDelay": 500,
         "next": ["Stop"]
     }

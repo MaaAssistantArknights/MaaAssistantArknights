@@ -110,6 +110,7 @@ bool asst::SSSBattleProcessTask::do_strategic_action(const cv::Mat& reusable)
     prev_frame_time = std::chrono::steady_clock::now();
 
     if (check_and_get_drops(image)) {
+        sleep(1000);
         return true;
     }
 

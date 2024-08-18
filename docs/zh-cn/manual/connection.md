@@ -156,11 +156,11 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 ### MuMu 截图增强模式
 
-需使用官版 MuMu 12 V3.8.13 或更新版本，并关闭 MuMu 后台保活。方舟专版、国际版等暂不支持。
+需使用官版或方舟专版 MuMu 12 V4.0.0 及更新版本，并关闭 MuMu 后台保活。国际版等暂不支持。<!-- V3.8.13 -->
 
 1. `设置` - `连接设置`，勾选 `启用 MuMu 截图增强模式`。
 
-2. `MuMu 模拟器路径` 填写 `MuMuPlayer-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMuPlayer-12.0`。
+2. `MuMu 模拟器路径` 填写 `MuMuPlayer-12.0` 或 `YXArkNights-12.0` 文件夹的路径，如 `C:\Program Files\Netease\MuMuPlayer-12.0`。
 
 3. `实例编号` 填写 MuMu 多开器内对应模拟器的序号，如主多开为 `0`。
 
@@ -186,7 +186,7 @@ MAA 现在会尝试从注册表中读取 `bluestacks.conf` 的存储位置，当
 
 推荐启用，但具体优缺点尚待反馈。~~帮我们做做测试 x2~~
 
-## 多开 MAA
+## MAA 和模拟器多开
 
 ::: info
 若需要多开模拟器同时操作，可将 MAA 文件夹复制多份，使用 **不同的 MAA**、**同一个 adb.exe**、**不同的连接地址** 来进行连接。
