@@ -1010,7 +1010,8 @@ namespace MaaWpfGui.Main
                             var missingOpers = details["details"]?["opers"]?.ToObject<List<List<string>>>();
                             if (missingOpers is not null)
                             {
-                                var missingOpersStr = "[" + string.Join("]; [", missingOpers.Select(opers => string.Join(", ", opers))) + "]";
+                                var missingOpersStr = "[" + string.Join("]; [", missingOpers.Select(opers =>
+                                    string.Join(", ", opers.Select(oper => DataHelper.GetLocalizedCharacterName(oper))))) + "]";
                                 Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("MissingOperators") + missingOpersStr, UiLogColor.Error);
                             }
                             else
@@ -1432,11 +1433,12 @@ namespace MaaWpfGui.Main
                     }
 
                 case "BattleFormation":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n" + JsonConvert.SerializeObject(subTaskDetails!["formation"]));
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormation") + "\n[" +
+                        string.Join(", ", subTaskDetails!["formation"]?.ToObject<List<string>>().Select(oper => DataHelper.GetLocalizedCharacterName(oper))) + "]");
                     break;
 
                 case "BattleFormationSelected":
-                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + subTaskDetails!["selected"]);
+                    Instances.CopilotViewModel.AddLog(LocalizationHelper.GetString("BattleFormationSelected") + DataHelper.GetLocalizedCharacterName(subTaskDetails!["selected"]?.ToString()));
                     break;
 
                 case "CopilotAction":

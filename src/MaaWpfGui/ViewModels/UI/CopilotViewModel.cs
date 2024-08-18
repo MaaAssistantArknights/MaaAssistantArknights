@@ -373,11 +373,15 @@ namespace MaaWpfGui.ViewModels.UI
                 }
 
                 AddLog(string.Empty, UiLogColor.Message, showTime: false);
+                AddLog("------------------------------------------------", UiLogColor.Message, showTime: false);
+                AddLog(string.Empty, UiLogColor.Message, showTime: false);
+
                 int count = 0;
                 foreach (var oper in json["opers"] ?? new JArray())
                 {
                     count++;
-                    AddLog($"{oper["name"]}, {oper["skill"]} 技能", UiLogColor.Message, showTime: false);
+                    var localizedName = DataHelper.GetLocalizedCharacterName((string?)oper["name"]);
+                    AddLog($"{localizedName}, {LocalizationHelper.GetString("CopilotSkill")} {oper["skill"]}", UiLogColor.Message, showTime: false);
                 }
 
                 if (json.TryGetValue("groups", out var groupsValue))
@@ -386,13 +390,14 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         count++;
                         string groupName = group["name"] + ": ";
-                        var operInfos = group["opers"]!.Cast<JObject>().Select(oper => $"{oper["name"]} {oper["skill"]}").ToList();
+                        var operInfos = group["opers"]!.Cast<JObject>()
+                            .Select(oper => $"{DataHelper.GetLocalizedCharacterName((string?)oper["name"])} {oper["skill"]}").ToList();
 
                         AddLog(groupName + string.Join(" / ", operInfos), UiLogColor.Message, showTime: false);
                     }
                 }
 
-                AddLog($"共 {count} 名干员", UiLogColor.Message, showTime: false);
+                AddLog(string.Format(LocalizationHelper.GetString("TotalOperatorsCount"), count), UiLogColor.Message, showTime: false);
 
                 if (json.TryGetValue("type", out var typeValue))
                 {
@@ -401,19 +406,28 @@ namespace MaaWpfGui.ViewModels.UI
                     {
                         _taskType = "SSSCopilot";
 
+                        if (json.TryGetValue("buff", out var buffValue))
+                        {
+                            string buffLog = LocalizationHelper.GetString("DirectiveECTerm");
+                            AddLog(buffLog + DataHelper.GetLocalizedCharacterName((string?)buffValue), UiLogColor.Message, showTime: false);
+                        }
+
                         if (json.TryGetValue("tool_men", out var toolMenValue))
                         {
-                            AddLog("编队工具人：\n" + toolMenValue, UiLogColor.Message, showTime: false);
+                            string toolMenLog = LocalizationHelper.GetString("OtherOperators");
+                            AddLog(toolMenLog + toolMenValue, UiLogColor.Message, showTime: false);
                         }
 
                         if (json.TryGetValue("equipment", out var equipmentValue) && equipmentValue is JArray equipmentJArray)
                         {
-                            AddLog("开局装备（横向）：\n" + string.Join('\n', equipmentJArray.Select(i => (string?)i).Chunk(4).Select(i => string.Join(",", i))), UiLogColor.Message, showTime: false);
+                            string equipmentLog = LocalizationHelper.GetString("InitialEquipmentHorizontal") + '\n';
+                            AddLog(equipmentLog + string.Join('\n', equipmentJArray.Select(i => (string?)i).Chunk(4).Select(i => string.Join(",", i))), UiLogColor.Message, showTime: false);
                         }
 
                         if (json.TryGetValue("strategy", out var strategyValue))
                         {
-                            AddLog("开局策略：" + strategyValue, UiLogColor.Message, showTime: false);
+                            string strategyLog = LocalizationHelper.GetString("InitialStrategy");
+                            AddLog(strategyLog + strategyValue, UiLogColor.Message, showTime: false);
                         }
                     }
                 }
