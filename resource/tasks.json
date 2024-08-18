@@ -3326,6 +3326,8 @@
     "RecruitConfirm": {
         "action": "ClickSelf",
         "roi": [860, 540, 230, 80],
+        "postDelay": 500,
+        "postDelay_Doc": "招募结束后有一瞬间还是原来的界面，有可能会点到放弃招募然后卡死",
         "next": ["RecruitConfirm@LoadingText", "Recruit@OfflineConfirm", "RecruitFlag"]
     },
     "InfrastBegin": {
