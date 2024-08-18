@@ -56,7 +56,8 @@
         <StackPanel
             Grid.Row="1"
             Grid.Column="0"
-            Orientation="Horizontal">
+            Orientation="Horizontal"
+            HorizontalAlignment="Center">
             <hc:TextBox
                 Width="420"
                 Height="30"
