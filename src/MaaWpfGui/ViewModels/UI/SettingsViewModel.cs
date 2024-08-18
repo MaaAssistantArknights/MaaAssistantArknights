@@ -4854,7 +4854,7 @@ namespace MaaWpfGui.ViewModels.UI
             get => _language;
             set
             {
-                if (!SetAndNotify(ref _language, value))
+                if (value == _language)
                 {
                     return;
                 }
@@ -4893,6 +4893,8 @@ namespace MaaWpfGui.ViewModels.UI
                 {
                     Bootstrapper.ShutdownAndRestartWithoutArgs();
                 }
+
+                SetAndNotify(ref _language, value);
 
                 return;
 
