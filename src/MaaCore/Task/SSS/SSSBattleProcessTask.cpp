@@ -212,12 +212,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            m_all_cores.erase(strategy.core);
+            // m_all_cores.erase(strategy.core);  全局保留core以备暴毙等情况
 
             (it->second).erase((it->second).begin());
-            if ((it->second).empty()) {
-                m_sss_combat_data.order.erase(it);
-            }
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
@@ -236,9 +233,6 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             });
             if (available_iter != tool_men.cend()) {
                 --quantity;
-
-                auto location = strategy.location;
-                auto direction = strategy.direction;
                 if (!quantity) {
                     strategy.tool_men.erase(role);
                     if (strategy.tool_men.empty() && strategy.core.empty()) {
@@ -246,7 +240,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                     }
                 }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
-                return deploy_oper(available_iter->name, location, direction) && update_deployment();
+                return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
             }
 
             auto not_available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
