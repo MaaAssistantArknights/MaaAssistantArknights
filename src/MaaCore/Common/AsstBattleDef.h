@@ -233,6 +233,7 @@ namespace asst::battle
             RoleCounts tool_men;
             Point location;
             DeployDirection direction = DeployDirection::None;
+            int index;
 
             bool operator==(const Strategy& other) const
             {
@@ -241,7 +242,7 @@ namespace asst::battle
             }
         };
 
-        using StrategyOrderLock = std::unordered_map<Point, std::vector<std::shared_ptr<Strategy>>, Point::Hash>;
+        using StrategyOrderLock = std::unordered_map<Point, std::vector<int>, Point::Hash>;
 
         struct CombatData : public copilot::CombatData
         {

@@ -200,7 +200,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     for (auto& strategy : m_sss_combat_data.strategies) {
         // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
         auto it = m_sss_combat_data.order.find(strategy.location);
-        if (*(it->second.front()) != strategy) {
+        if ((it->second.front()) != strategy.index) {
             continue;
         }
 
@@ -233,7 +233,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             });
             if (available_iter != tool_men.cend()) {
                 --quantity;
-                if (!quantity) {
+                if (quantity <= 0) {
                     strategy.tool_men.erase(role);
                     if (strategy.tool_men.empty() && strategy.core.empty()) {
                         (it->second).erase((it->second).begin());

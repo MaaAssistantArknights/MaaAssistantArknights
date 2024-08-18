@@ -66,6 +66,7 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
         stage_data.order_of_drops = m_data.order_of_drops;
         stage_data.retry_times = stage.get("retry_times", 0);
 
+        int index = 0;
         for (const auto& strategy_info : stage.at("strategies").as_array()) {
             Strategy strategy;
             strategy.core = strategy_info.get("core", std::string());
@@ -73,15 +74,17 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             strategy.location.x = strategy_info.at("location").at(0).as_integer();
             strategy.location.y = strategy_info.at("location").at(1).as_integer();
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));
+            strategy.index = index;
 
             // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
             if (auto it = stage_data.order.find(strategy.location); it != stage_data.order.cend()) {
-                it->second.emplace_back(std::make_shared<Strategy>(strategy));
+                it->second.emplace_back(index);
             }
             else {
-                std::vector<std::shared_ptr<Strategy>> strategy_list { std::make_shared<Strategy>(strategy) };
-                stage_data.order.emplace(strategy.location, strategy_list);
+                std::vector<int> strategy_index { index };
+                stage_data.order.emplace(strategy.location, strategy_index);
             }
+            index++;
             stage_data.strategies.emplace_back(std::move(strategy));
         }
         std::string ocr_code;
