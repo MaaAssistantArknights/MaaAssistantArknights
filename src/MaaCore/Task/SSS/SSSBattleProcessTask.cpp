@@ -200,7 +200,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     for (auto& strategy : m_sss_combat_data.strategies) {
         // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
         auto it = m_sss_combat_data.order.find(strategy.location);
-        if (*((it->second).begin()) != &strategy) {
+        if (*(it->second.front()) != strategy) {
             continue;
         }
 
