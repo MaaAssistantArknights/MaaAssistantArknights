@@ -274,7 +274,7 @@
                     "tool_men": {
                         "caster": 0
                     },
-                    "location": [1, 3],
+                    "location": [3, 1],
                     "direction": "Left"
                 }
             ],
@@ -406,14 +406,6 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "纯烬艾雅法拉",
-                    "tool_men": {
-                        "caster": 1
-                    },
-                    "location": [2, 4],
-                    "direction": "Right"
-                },
-                {
                     "tool_men": {
                         "tank": 1
                     },
@@ -429,19 +421,27 @@
                     "direction": "Right"
                 },
                 {
-                    "core": "塞雷娅",
-                    "tool_men": {
-                        "tank": 1
-                    },
-                    "location": [3, 3],
-                    "direction": "Right"
-                },
-                {
                     "core": "维什戴尔",
                     "tool_men": {
                         "caster": 1
                     },
                     "location": [4, 5],
+                    "direction": "Right"
+                },
+                {
+                    "core": "纯烬艾雅法拉",
+                    "tool_men": {
+                        "caster": 1
+                    },
+                    "location": [2, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "塞雷娅",
+                    "tool_men": {
+                        "tank": 1
+                    },
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -607,7 +607,7 @@
                         "pioneer": 1
                     },
                     "location": [7, 4],
-                    "direction": "Left"
+                    "direction": "Up"
                 },
                 {
                     "core": "澄闪",
@@ -622,7 +622,7 @@
                         "pioneer": 1
                     },
                     "location": [7, 4],
-                    "direction": "Left"
+                    "direction": "Up"
                 },
                 {
                     "tool_men": {
@@ -654,7 +654,7 @@
                         "pioneer": 1
                     },
                     "location": [7, 4],
-                    "direction": "Left"
+                    "direction": "Up"
                 },
                 {
                     "core": "维什戴尔",
