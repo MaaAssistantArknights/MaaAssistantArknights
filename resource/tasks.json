@@ -10289,7 +10289,8 @@
     },
     "Reclamation2ExAssemblyStationBack": {
         "baseTask": "Reclamation2ExAssemblyStationOcr",
-        "action": "ClickSelf"
+        "action": "ClickSelf",
+        "next": ["#self", "Stop"]
     },
     "Reclamation2ExAssemblyStationOcr": {
         "Doc": "确认进入组装台",
