@@ -28,52 +28,37 @@
         <StackPanel Grid.Row="0" Grid.Column="0">
             <CheckBox
                 Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
                 Content="{DynamicResource UseTray}"
                 IsChecked="{Binding UseTray}" />
             <CheckBox
                 Margin="10"
                 Visibility="{c:Binding UseTray,FalseToVisibility=Collapsed}"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
                 Content="{DynamicResource MinimizeToTray}"
                 IsChecked="{Binding MinimizeToTray}" />
             <CheckBox
                 Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
                 Content="{DynamicResource SystemNotification}"
                 IsChecked="{Binding UseNotify}" />
             <CheckBox
                 Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
                 Content="{DynamicResource HideCloseButton}"
                 IsChecked="{Binding HideCloseButton}" />
             <!--<CheckBox
                 Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
                 Content="{DynamicResource WindowTitleScrollable}"
                 IsChecked="{Binding WindowTitleScrollable}" />
             <CheckBox
                 Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
                 Content="{DynamicResource UseLogItemDateFormat}"
                 IsChecked="{Binding UseLogItemDateFormat}" />-->
             <CheckBox
                 Margin="10"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
                 Content="{DynamicResource WindowTitleScrollable}"
                 IsChecked="{Binding WindowTitleScrollable}" />
             <hc:CheckComboBox
                 x:Name="CheckComboBox"
                 Width="180"
                 Margin="10"
-                HorizontalAlignment="Right"
                 hc:ListBoxAttach.SelectedItems="{Binding WindowTitleSelectShowList}"
                 hc:TitleElement.Title="{DynamicResource TitleBarDisplayContent}"
                 ItemsSource="{Binding WindowTitleAllShowList}"
@@ -83,10 +68,7 @@
         <StackPanel Grid.Row="0" Grid.Column="1">
             <ComboBox
                 x:Name="LanguageSelector"
-                Width="180"
                 Margin="10,5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
                 hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding LanguageList}"
@@ -94,10 +76,7 @@
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
-                Width="180"
                 Margin="10,5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding OperNameLanguageModeList}"
@@ -105,10 +84,7 @@
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
-                Width="180"
                 Margin="10,5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource UiTheme}"
                 DisplayMemberPath="Display"
                 ItemsSource="{Binding DarkModeList}"
@@ -116,10 +92,7 @@
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
-                Width="180"
                 Margin="10,5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
                 DisplayMemberPath="Display"
                 IsHitTestVisible="{Binding Idle}"
@@ -128,10 +101,7 @@
                 SelectedValuePath="Value"
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
-                Width="180"
                 Margin="10,5"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
                 ItemsSource="{Binding LogItemDateFormatStringList}"
                 SelectedValue="{Binding LogItemDateFormatString}"
