@@ -197,7 +197,27 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
         }
     }
 
-    for (auto& strategy : m_sss_combat_data.strategies) {
+    for (size_t index = 0; index < m_sss_combat_data.strategies.size(); ++index) {
+        Strategy& strategy = m_sss_combat_data.strategies.at(index);
+
+       auto unfinished_strategy_in_loc = [&](const Strategy& s) {
+            if (s.location == strategy.location) {
+                if (ranges::any_of(s.tool_men, [](const auto& pair) { return pair.second > 0; })) {
+                    return true;
+                }
+                else if (!strategy.core.empty() && m_all_cores.contains(s.core)) {
+                    return true;
+                }
+            }
+            return false;
+        };
+        // TODO: 未来可能会希望所有这个位置的 strategy 被执行后，进入随机执行模式以防万一这个位置的干员去世
+
+        if (std::ranges::any_of(m_sss_combat_data.strategies | views::take(index), unfinished_strategy_in_loc))
+        {
+           continue;
+        };
+
         bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
