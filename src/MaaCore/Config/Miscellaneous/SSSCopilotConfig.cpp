@@ -73,7 +73,16 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             strategy.location.x = strategy_info.at("location").at(0).as_integer();
             strategy.location.y = strategy_info.at("location").at(1).as_integer();
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));
+
             stage_data.strategies.emplace_back(std::move(strategy));
+            // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
+            auto it = stage_data.order.find(strategy.location);
+            if (it != stage_data.order.cend()) {
+                it->second.emplace_back(&strategy);
+            }
+            else {
+                stage_data.order.emplace(strategy.location, &strategy);
+            }
         }
         std::string ocr_code;
         if (auto map_info = Tile.find(stage_data.info.stage_name); map_info) {
