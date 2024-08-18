@@ -28,9 +28,10 @@ asst::RoguelikeBattleTaskPlugin::RoguelikeBattleTaskPlugin(
     const AsstCallback& callback,
     Assistant* inst,
     std::string_view task_chain,
-    std::shared_ptr<RoguelikeConfig> roguelike_config_ptr)
-    : AbstractRoguelikeTaskPlugin(callback, inst, task_chain, roguelike_config_ptr)
-    , BattleHelper(inst)
+    const std::shared_ptr<RoguelikeConfig>& roguelike_config_ptr,
+    const std::shared_ptr<RoguelikeControlTaskPlugin>& control) :
+    AbstractRoguelikeTaskPlugin(callback, inst, task_chain, roguelike_config_ptr, control),
+    BattleHelper(inst)
 {
 }
 

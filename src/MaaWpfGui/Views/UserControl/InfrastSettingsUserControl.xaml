@@ -115,11 +115,37 @@
                         <StackPanel Orientation="Horizontal">
                             <!--<maa:TextBlock  Text="{Binding ID}" />
                             <maa:TextBlock  Text=". " />-->
-                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsChecked}" />
+                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsCheckedWithNull}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.Resources>
+                    <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type ListBox}">
+                        <EventSetter Event="PreviewMouseWheel" Handler="ListBox_PreviewMouseWheel" />
+                    </Style>
+                </ListBox.Resources>
             </ListBox>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Height="30"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Command="{s:Action InfrastItemSelectedAll}"
+                    Content="{DynamicResource SelectAll}"
+                    IsEnabled="{Binding Idle}" />
+                <Button
+                    Grid.Column="1"
+                    Height="30"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top"
+                    Command="{s:Action InfrastItemUnselectedAll}"
+                    Content="{DynamicResource Clear}"
+                    IsEnabled="{Binding Idle}" />
+            </Grid>
         </StackPanel>
 
         <!--  开自定义基建计划时，放在常规设置的部分  -->

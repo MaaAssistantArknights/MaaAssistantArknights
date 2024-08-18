@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img alt="LOGO" src="https://cdn.jsdelivr.net/gh/MaaAssistantArknights/design@main/logo/maa-logo_512x512.png" width="256" height="256" />
+<img alt="LOGO" src="./docs/.vuepress/public/image/maa-logo_512x512.png" width="256" height="256" />
 
 # MaaAssistantArknights
 
@@ -79,8 +79,7 @@ MAA 的意思是 MAA Assistant Arknights
 
 前往[官网](https://maa.plus)自动匹配镜像源并下载稳定版，或：
 
-- [稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
-- [内测版](https://github.com/MaaAssistantArknights/MaaRelease/releases)
+[稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 使用说明
 

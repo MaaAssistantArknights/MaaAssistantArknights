@@ -400,6 +400,12 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     m_baseline.clear();
 
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-BaseLine");
+    if (task_ptr->color_scales.size() != 1 ||
+        !std::holds_alternative<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front())) {
+        Log.error(__FUNCTION__, "| color_scales in `StageDrops-BaseLine` is not a GrayRange");
+        return false;
+    }
+    const auto& color_scale = std::get<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front());
 
     cv::Mat preprocessed_roi;
 
@@ -426,11 +432,7 @@ bool asst::StageDropsImageAnalyzer::analyze_baseline()
     }
 
     cv::Mat preprocessed_bin;
-    cv::inRange(
-        preprocessed_roi,
-        task_ptr->mask_range[0].first[0],
-        task_ptr->mask_range[0].second[0],
-        preprocessed_bin);
+    cv::inRange(preprocessed_roi, color_scale.first, color_scale.second, preprocessed_bin);
 
     cv::Rect bounding_rect = cv::boundingRect(preprocessed_bin);
     cv::Mat bounding = preprocessed_bin(bounding_rect);
@@ -594,7 +596,7 @@ std::string asst::StageDropsImageAnalyzer::match_item(const Rect& roi, StageDrop
 
     auto match_item_with_templs = [&](const std::vector<std::string>& templs_list) -> std::string {
         Matcher analyzer(m_image);
-        analyzer.set_mask_range(std::vector<MatchTaskInfo::Range> {}, false, true);
+        analyzer.set_mask_ranges({}, false, true);
         analyzer.set_task_info("StageDrops-Item");
         analyzer.set_roi(roi);
 
@@ -638,14 +640,19 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
                                                                                    bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
+    if (task_ptr->color_scales.size() != 1 ||
+        !std::holds_alternative<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front())) {
+        Log.error(__FUNCTION__, "| color_scales in `StageDrops-Quantity` is not a GrayRange");
+        return std::nullopt;
+    }
+    const auto& color_scale = std::get<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front());
 
     Rect quantity_roi = roi.move(task_ptr->roi);
     cv::Mat quantity_img = m_image(make_rect<cv::Rect>(quantity_roi));
 
-    cv::Mat gray;
+    cv::Mat gray, bin;
     cv::cvtColor(quantity_img, gray, cv::COLOR_BGR2GRAY);
-    cv::Mat bin;
-    cv::inRange(gray, task_ptr->mask_range[0].first[0], task_ptr->mask_range[0].second[0], bin);
+    cv::inRange(gray, color_scale.first, color_scale.second, bin);
 
     // split
     const int max_spacing = static_cast<int>(task_ptr->templ_thresholds.front());
@@ -693,7 +700,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     RegionOCRer analyzer(m_image);
     analyzer.set_task_info("NumberOcrReplace");
     analyzer.set_roi(Rect(quantity_roi.x + far_left, quantity_roi.y, far_right - far_left, quantity_roi.height));
-    analyzer.set_bin_threshold(task_ptr->mask_range[0].first[0], task_ptr->mask_range[0].second[0]);
+    analyzer.set_bin_threshold(color_scale.first, color_scale.second);
     analyzer.set_use_char_model(!use_word_model);
 
     if (!analyzer.analyze()) {
@@ -708,6 +715,12 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
                                                                                    bool use_word_model)
 {
     auto task_ptr = Task.get<MatchTaskInfo>("StageDrops-Quantity");
+    if (task_ptr->color_scales.size() != 1 ||
+        !std::holds_alternative<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front())) {
+        Log.error(__FUNCTION__, "| color_scales in `StageDrops-Quantity` is not a GrayRange");
+        return std::nullopt;
+    }
+    const auto& color_scale = std::get<MatchTaskInfo::GrayRange>(task_ptr->color_scales.front());
     auto templ = TemplResource::get_instance().get_templ(item).clone();
     if (templ.empty()) {
         Log.error("templ is empty: ", item);
@@ -763,7 +776,7 @@ std::optional<asst::TextRect> asst::StageDropsImageAnalyzer::match_quantity_stri
     Rect ocr_roi { new_roi.x + mask_rect.x, new_roi.y + mask_rect.y, mask_rect.width, mask_rect.height };
     ocr.set_roi(ocr_roi);
     ocr.set_use_char_model(!use_word_model);
-    ocr.set_bin_threshold(task_ptr->mask_range[0].first[0], task_ptr->mask_range[0].second[0]);
+    ocr.set_bin_threshold(color_scale.first, color_scale.second);
 
     if (!ocr.analyze()) {
         return std::nullopt;

@@ -10,7 +10,6 @@
             "direction": "down"
         }
     ],
-    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["奶盾", "重装", "地面阻挡", "地面远程"],
@@ -57,6 +56,5 @@
             "location": [8, 2],
             "direction": "down"
         }
-    ],
-    "retreat_plan": []
+    ]
 }

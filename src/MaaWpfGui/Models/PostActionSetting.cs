@@ -87,7 +87,7 @@ public class PostActionSetting : PropertyChangedBase
                 SaveActions();
             }
 
-            ActionTitle = value ? string.Format("{0} ({1})", LocalizationHelper.GetString("PostActions"), LocalizationHelper.GetString("Once")) : LocalizationHelper.GetString("PostActions");
+            ActionTitle = value ? $"{LocalizationHelper.GetString("PostActions")} ({LocalizationHelper.GetString("Once")})" : LocalizationHelper.GetString("PostActions");
             RefreshDescription();
         }
     }
@@ -273,6 +273,8 @@ public class PostActionSetting : PropertyChangedBase
         private set => SetAndNotify(ref _actionDescription, value);
     }
 
+    // UI 绑定的方法
+    // ReSharper disable once UnusedMember.Global
     public void PostActionsAndOnce(object sender, MouseButtonEventArgs e)
     {
         if (e.ChangedButton != MouseButton.Right)
@@ -280,9 +282,19 @@ public class PostActionSetting : PropertyChangedBase
             return;
         }
 
-        Once = !Once;
         CheckBox checkBox = (CheckBox)sender;
+        Once = !checkBox.IsChecked ?? false;
         checkBox.IsChecked = !checkBox.IsChecked;
+    }
+
+    // UI 绑定的方法
+    // ReSharper disable once UnusedMember.Global
+    public void PostActionsClear()
+    {
+        Once = false;
+        _postActions = PostActions.None;
+        SaveActions();
+        LoadPostActions();
     }
 
     private void RefreshDescription()

@@ -1,6 +1,6 @@
 name: MuMu 截图增强反馈（使用中文）
 description: 有关 MuMu 截图增强功能的集中反馈
-labels: ["mumu api"]
+labels: ["MuMu API"]
 body:
   - type: checkboxes
     id: checks
@@ -13,7 +13,7 @@ body:
           required: true
         - label: 我已检查了置顶议题（Pinned Issue），确认我的问题未被提及
           required: true
-        - label: 我正在使用最新的 MAA 内测版本和最新的**官版** MuMu 模拟器
+        - label: 我正在使用最新的 MAA 公测版本和最新的官版或方舟专版 MuMu 模拟器
           required: true
         - label: 我已参考文档确定安装路径、实例编号、屏幕编号填写正确，并确认在关闭截图增强模式后问题消失
           required: true
@@ -72,9 +72,9 @@ body:
   - type: textarea
     id: others
     attributes:
-      label: 还有别的吗？
+      label: 其他
       description: |
-        模拟器的分辨率和帧数？操作系统？相关的配置？GPU 加速推理是否开启？
-        任何能让我们对你所遇到的问题有更多了解的东西
+        GPU 加速推理是否开启？或者上传一下 MAA `config` 文件夹中的 `gui.json` 配置文件
+        亦或者任何能让我们对你所遇到的问题有更多了解的东西
     validations:
       required: false

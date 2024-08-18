@@ -415,7 +415,7 @@ namespace MaaWpfGui.ViewModels.UI
                     Id = id,
                     Name = ItemListHelper.GetItemName(id),
                     Image = ItemListHelper.GetItemImage(id),
-                    Count = (int)item["have"]
+                    Count = (int)item["have"],
                 };
                 DepotResult.Add(result);
             }

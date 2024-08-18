@@ -1,4 +1,7 @@
 {
+    "HS-Open": {
+        "baseTask": "SS-Open"
+    },
     "Mizuki@Roguelike@ChooseDifficultyConfirm": {
         "text": ["選択"]
     },
@@ -10,6 +13,18 @@
     },
     "ClickChapter3": {
         "text": ["残映"]
+    },
+    "HS-9": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-8": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-7": {
+        "sub": ["HS-Open", "HSChapterToHS"]
+    },
+    "HS-5": {
+        "sub": ["HS-Open", "HSChapterToHS"]
     },
     "HS-OpenOcr": {
         "text": ["懐黍離", "イベント開催中", "荒城中枢", "大江北岸", "ステージ開放中"]
@@ -945,6 +960,10 @@
     },
     "PRTS3": {
         "text": ["残り配置可能数"]
+    },
+    "UsingMedicineCount": {
+        "specialParams_Doc": "日服缺少蓝色遮罩，导致图标过亮",
+        "specialParams": [250, 255]
     },
     "MedicineExpiringTime": {
         "roi": [705, 345, 95, 30],
@@ -2239,7 +2258,7 @@
             ["宝埋もれし港湾", "藏宝港湾"],
             ["宝箱の舞", "宝箱之舞"],
             ["涙目の.?ッロー", "狗眼婆娑"],
-            ["涙目のペッロ$", "狗眼婆娑"],
+            ["涙目のペッロ.?$", "狗眼婆娑"],
             ["ダックパワーテスト", "鸭力测试"],
             [".*クパワーテスト", "鸭力测试"],
             ["暇潰し", "打发时间"],
@@ -2409,8 +2428,6 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
-        "action": "DoNothing",
-        "cache": false,
         "ocrReplace": [
             ["^数的崩壊", "去量化"],
             ["完全なる数的崩壊", "去量深化"],
@@ -2432,30 +2449,16 @@
             ["広域的認識不可", "睁眼瞎"],
             ["画像破損", "图像损坏"],
             ["ブラックアウト", "一抹黑"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": [
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
         ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
+        "ocrReplace": [
+            ["パラダイムロスト進行", "坍缩范式加深"],
+            ["パラダイムロスト減退", "坍缩范式消退"]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
+        "ocrReplace": [["現在の崩壊値", "当前坍缩值"]]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "action": "DoNothing",
@@ -2468,25 +2471,6 @@
             ["接続中", "正在提交反馈至神经"]
         ],
         "roi": [720, 645, 355, 45]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
-        "action": "DoNothing",
-        "cache": false,
-        "ocrReplace": [
-            ["パラダイムロスト進行", "坍缩范式加深"],
-            ["パラダイムロスト減退", "坍缩范式消退"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": ["坍缩范式加深", "坍缩范式消退"],
-        "roi": [945, 60, 335, 660]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
-        "action": "DoNothing",
-        "cache": false,
-        "ocrReplace": [["現在の崩壊値", "当前坍缩值"]],
-        "algorithm": "OcrDetect",
-        "text": ["当前坍缩值"],
-        "roi": [350, 120, 310, 520]
     },
     "Sami@Roguelike@ContinueClick": {
         "text": ["初霜の湖沼", "静謐な.*", "夜明けの凍.*", "凍てつく岩骸", "汚れなき花園", "遠見の巨構", "深埋の迷境"]
@@ -2622,71 +2606,192 @@
             ["深埋の迷境", "_SKIP_"]
         ]
     },
-    "Reclamation@ClickAnyZoneOcr": {
+    "Reclamation2Begin": {
+        "text": ["開", "始"]
+    },
+    "Reclamation2BeginContinue": {
+        "text": ["継", "続"]
+    },
+    "Reclamation2BeginStage": {
+        "text": ["人々", "が集う", "集会場"]
+    },
+    "Reclamation2Birdland": {
+        "text": ["羽獣", "集う地", "狩猟エリア"]
+    },
+    "Reclamation2ClickDrop": {
+        "text": ["行動", "完了"]
+    },
+    "Reclamation2CopiousCoppice": {
+        "text": ["豊かな", "低木林", "資源エリア"],
+        "ocrReplace": [
+            ["(予|青)原(工|正)", "資源エリア"],
+            ["夢方.?な", "豊かな"],
+            ["豊方", "豊かな"]
+        ]
+    },
+    "Reclamation2DeleteArchiveEnterConfirm": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2DeleteArchiveLastConfirm": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ExAssemblyStationOcr": {
+        "text": ["組立台"]
+    },
+    "Reclamation2ExBegin": {
+        "text": ["継", "続"]
+    },
+    "Reclamation2ExClickProduct": {
+        "ocrReplace": [["ケミカルライト", "荧光棒"]]
+    },
+    "Reclamation2ExDeleteArchiveConfirm": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ExDeleteArchiveEnter": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2ExManufactureConfirm": {
+        "ocrReplace": [["狙", "組"]],
+        "text": ["組立開始"]
+    },
+    "Reclamation2ExManufactureConfirmClickToContinue": {
+        "text": ["空白", "箇所", "タップ", "続ける"]
+    },
+    "Reclamation2ExReadArchiveConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2ExReadArchiveEnter": {
+        "doc": "Needs to be edited if confirmation window is removed later",
+        "docRef": "https://github.com/MaaAssistantArknights/MaaAssistantArknights/commit/bed66f2c7b8b3f6bd195659121a3d9a0acff8f8b",
+        "text": ["ロード"],
+        "sub": [
+            "Reclamation2ExReadArchiveConfirm*2",
+            "Reclamation2ExReadArchiveSelectDay",
+            "Reclamation2ExReadArchiveSelectDayConfirm"
+        ]
+    },
+    "Reclamation2ExReadArchiveSelectDay": {
+        "text": ["生息", "日"]
+    },
+    "Reclamation2ExReadArchiveSelectDayConfirm": {
+        "text": ["確認する", "確認"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTime": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2ExSkipDays2ExSkipTimeConfig": {
+        "text": ["確定"]
+    },
+    "Reclamation2ExSkipDaysAward2": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2ExSkipDaysBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveEnterConfirm": {
+        "text": ["データ", "削除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm1": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ProsperityMaxDeleteArchiveLastConfirm2": {
+        "text": ["削除する", "削除"]
+    },
+    "Reclamation2ProsperityMaxSkipDayBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2ProsperityMaxSkipDayClickContinue": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2SkipDayBeginNewDay": {
+        "text": ["次へ"]
+    },
+    "Reclamation2SkipDayClickContinue": {
+        "text": ["タップ", "続く"]
+    },
+    "Reclamation2SkipTimeSkip": {
+        "text": ["時間", "経過"]
+    },
+    "Reclamation2SkipTimeSkipConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2StageEnter": {
+        "text": ["行動", "開始"]
+    },
+    "Reclamation2StageFight": {
+        "text": ["作戦", "開始"]
+    },
+    "Reclamation2StageFightConfirm": {
+        "text": ["確定"]
+    },
+    "Reclamation2StageLeaveConfirm": {
+        "text": ["離脱する", "離脱"]
+    },
+    "Fire@Reclamation@ClickAnyZoneOcr": {
         "roi": [308, 73, 739, 567],
         "text": ["Zone", "狩猟エリア", "エリア", "資源エリア", "資源", "狩猟"]
     },
-    "Reclamation@ConfirmStart": {
+    "Fire@Reclamation@ConfirmStart": {
         "text": ["演算", "開始"]
     },
-    "Reclamation@EmptyInitUnits": {
+    "Fire@Reclamation@EmptyInitUnits": {
         "roi": [592, 595, 336, 125],
         "text": ["演算", "参加", "オペレーター"]
     },
-    "Reclamation@EnterResearchLab": {
+    "Fire@Reclamation@EnterResearchLab": {
         "text": ["研", "究", "所"]
     },
-    "Reclamation@EnterSmeltGoldPage": {
+    "Fire@Reclamation@EnterSmeltGoldPage": {
         "text": ["地金", "粗悪"]
     },
-    "Reclamation@ExitLevelConfirm": {
+    "Fire@Reclamation@ExitLevelConfirm": {
         "text": ["離れる"]
     },
-    "Reclamation@GiveupAlgorithm": {
+    "Fire@Reclamation@GiveupAlgorithm": {
         "text": ["撤", "退"]
     },
-    "Reclamation@GiveupCheckRemainItems": {
+    "Fire@Reclamation@GiveupCheckRemainItems": {
         "text": ["物資", "確認"]
     },
-    "Reclamation@GiveupClickEmergencyExit": {
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
         "text": ["緊急", "撤退"]
     },
-    "Reclamation@GiveupTakeNothing": {
+    "Fire@Reclamation@GiveupTakeNothing": {
         "text": ["確認", "撤退"]
     },
-    "Reclamation@LabClickAssembleable": {
+    "Fire@Reclamation@LabClickAssembleable": {
         "text": ["組立", "可"]
     },
-    "Reclamation@LabClickDetailView": {
+    "Fire@Reclamation@LabClickDetailView": {
         "text": ["詳細", "ビュー"]
     },
-    "Reclamation@LevelComplete": {
+    "Fire@Reclamation@LevelComplete": {
         "text": ["終了", "MISSION", "RESULTS"]
     },
-    "Reclamation@Liaison": {
+    "Fire@Reclamation@Liaison": {
         "text": ["聯絡員"]
     },
-    "Reclamation@ManufactureDecrease": {
+    "Fire@Reclamation@ManufactureDecrease": {
         "text": ["材料", "足り"]
     },
-    "Reclamation@ManufactureIncrease": {
+    "Fire@Reclamation@ManufactureIncrease": {
         "text": ["開始", "立開"]
     },
-    "Reclamation@PrepareAction": {
+    "Fire@Reclamation@PrepareAction": {
         "roi": [1014, 590, 234, 130],
         "text": ["行動", "凖備"]
     },
-    "Reclamation@SkipAnnounce": {
+    "Fire@Reclamation@SkipAnnounce": {
         "text": ["SKIP"]
     },
-    "Reclamation@SkipDailyReport": {
+    "Fire@Reclamation@SkipDailyReport": {
         "text": ["本日", "日報"]
     },
-    "Reclamation@StartActionEnter": {
+    "Fire@Reclamation@StartActionEnter": {
         "roi": [1100, 550, 150, 130],
         "text": ["行動開始", "決断"]
     },
-    "Reclamation@TodoEnter": {
+    "Fire@Reclamation@TodoEnter": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
         "text": ["WITHIN", "砂", "中", "の", "火"],

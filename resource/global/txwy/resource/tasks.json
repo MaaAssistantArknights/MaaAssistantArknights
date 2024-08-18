@@ -64,6 +64,16 @@
     "SideStoryReopen": {
         "text": ["復刻"]
     },
+    "CV-Open": {
+        "action": "ClickSelf",
+        "algorithm": "OcrDetect",
+        "text": ["黑色艦船", "黑色", "艦船", "關卡", "開啟"],
+        "postDelay": 2000,
+        "next": ["CVChapterToCV"]
+    },
+    "CVChapterToCV": {
+        "text": ["蒼白", "平台"]
+    },
     "SL-Open": {
         "action": "ClickSelf",
         "algorithm": "OcrDetect",
@@ -597,7 +607,16 @@
             ["液態激化插件", "液态激化插件"],
             ["超頻轉化模組", "超频转化模块"],
             ["聚能回收模組", "聚能回收模块"],
-            ["-斯卡蒂", "斯卡蒂"]
+            ["-斯卡蒂", "斯卡蒂"],
+            ["滌火潔西卡", "涤火杰西卡"],
+            ["戰場裝置LUD-99X", "战场装置LUD-99X"],
+            ["冰釀", "冰酿"],
+            ["機動盾牌", "机动盾牌"],
+            ["景觀巨蕈", "景观巨蕈"],
+            ["祭壇式雷達", "祭坛式雷达"],
+            ["R-45便攜式“留聲機”", "R-45便携式“留声机”"],
+            ["“二踢腳”型數據收集裝置", "“二踢脚”型数据收集装置"],
+            ["勘察用自走車", "勘察用自走车"]
         ]
     },
     "StartToWakeUpOCR": {
@@ -1745,8 +1764,6 @@
         ]
     },
     "Sami@Roguelike@CheckCollapsalParadigms": {
-        "action": "DoNothing",
-        "cache": false,
         "doc": "The translations are not verified.",
         "ocrReplace": [
             ["去量化", "去量化"],
@@ -1769,31 +1786,18 @@
             ["睜眼瞎", "睁眼瞎"],
             ["影像損壞", "图像损坏"],
             ["一抹黑", "一抹黑"]
-        ],
-        "roi": [945, 60, 335, 660],
-        "algorithm": "OcrDetect",
-        "text": [
-            "去量化",
-            "去量深化",
-            "实质性坍缩",
-            "蔓延性坍缩",
-            "非线性移动",
-            "非线性行动",
-            "情绪实体",
-            "恐怖实体",
-            "泛社会悖论",
-            "泛文明悖论",
-            "气压异常",
-            "气压失序",
-            "触发性损伤",
-            "触发性危殆",
-            "趋同性消耗",
-            "趋同性缺失",
-            "目空一些",
-            "睁眼瞎",
-            "图像损坏",
-            "一抹黑"
         ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnBanner": {
+        "doc": "The translations are not verified.",
+        "ocrReplace": [
+            ["坍縮範式加深", "坍缩范式加深"],
+            ["坍縮範式消退", "坍缩范式消退"]
+        ]
+    },
+    "Sami@Roguelike@CheckCollapsalParadigmsOnPanel": {
+        "doc": "The translations are not verified.",
+        "ocrReplace": [["當前坍縮值", "当前坍缩值"]]
     },
     "Sami@Roguelike@CheckCollapsalParadigms_loading": {
         "action": "DoNothing",
@@ -1802,27 +1806,6 @@
         "text": ["正在提交反馈至神经"],
         "ocrReplace": [["正在提交反饋至神經", "正在提交反馈至神经"]],
         "roi": [720, 645, 355, 45]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_onBanner": {
-        "action": "DoNothing",
-        "cache": false,
-        "doc": "The translations are not verified.",
-        "ocrReplace": [
-            ["坍縮範式加深", "坍缩范式加深"],
-            ["坍縮範式消退", "坍缩范式消退"]
-        ],
-        "algorithm": "OcrDetect",
-        "text": ["坍缩范式加深", "坍缩范式消退"],
-        "roi": [945, 60, 335, 660]
-    },
-    "Sami@Roguelike@CheckCollapsalParadigms_onPanel": {
-        "action": "DoNothing",
-        "cache": false,
-        "doc": "The translations are not verified.",
-        "ocrReplace": [["目前坍縮值", "当前坍缩值"]],
-        "algorithm": "OcrDetect",
-        "text": ["当前坍缩值"],
-        "roi": [350, 120, 310, 520]
     },
     "Sami@Roguelike@Collapsal": {
         "text": ["目空", "目空一些", "圖像", "圖像損壞"]
@@ -1935,64 +1918,64 @@
             ["深埋迷境", "_SKIP_"]
         ]
     },
-    "Reclamation@ClickAnyZoneOcr": {
+    "Fire@Reclamation@ClickAnyZoneOcr": {
         "text": ["區", "Zone"]
     },
-    "Reclamation@ConfirmStart": {
+    "Fire@Reclamation@ConfirmStart": {
         "text": ["演算", "開始"]
     },
-    "Reclamation@DoManufacture": {
+    "Fire@Reclamation@DoManufacture": {
         "text": ["開", "始"]
     },
-    "Reclamation@EmptyInitUnits": {
+    "Fire@Reclamation@EmptyInitUnits": {
         "text": ["請選擇", "参加", "演算"]
     },
-    "Reclamation@EnterSmeltGoldPage": {
+    "Fire@Reclamation@EnterSmeltGoldPage": {
         "text": ["粗製", "赤金"]
     },
-    "Reclamation@ExitLevelConfirm": {
+    "Fire@Reclamation@ExitLevelConfirm": {
         "text": ["確認", "離開"]
     },
-    "Reclamation@GiveupAlgorithm": {
+    "Fire@Reclamation@GiveupAlgorithm": {
         "text": ["放", "棄"]
     },
-    "Reclamation@GiveupClickEmergencyExit": {
+    "Fire@Reclamation@GiveupClickEmergencyExit": {
         "text": ["緊急", "撤退"]
     },
-    "Reclamation@GiveupCrossdomainPageFlag": {
+    "Fire@Reclamation@GiveupCrossdomainPageFlag": {
         "text": ["確認", "帶走", "緊急", "撤退"]
     },
-    "Reclamation@GiveupTakeNothing": {
+    "Fire@Reclamation@GiveupTakeNothing": {
         "text": ["確認", "撤退"]
     },
-    "Reclamation@LabClickAssembleable": {
+    "Fire@Reclamation@LabClickAssembleable": {
         "text": ["可", "組", "裝"]
     },
-    "Reclamation@LabClickDetailView": {
+    "Fire@Reclamation@LabClickDetailView": {
         "text": ["詳", "情", "視", "圖"]
     },
-    "Reclamation@LevelComplete": {
+    "Fire@Reclamation@LevelComplete": {
         "text": ["結束", "MISSION", "RESULTS"]
     },
-    "Reclamation@Liaison": {
+    "Fire@Reclamation@Liaison": {
         "text": ["聯絡員"]
     },
-    "Reclamation@ManufactureIncrease": {
+    "Fire@Reclamation@ManufactureIncrease": {
         "text": ["開", "始"]
     },
-    "Reclamation@ManufactureSufficientMaterial": {
+    "Fire@Reclamation@ManufactureSufficientMaterial": {
         "text": ["開", "始"]
     },
-    "Reclamation@PrepareAction": {
+    "Fire@Reclamation@PrepareAction": {
         "text": ["行動準備"]
     },
-    "Reclamation@SkipAnnounce": {
+    "Fire@Reclamation@SkipAnnounce": {
         "text": ["跳過", "SKIP"]
     },
-    "Reclamation@SkipDailyReport": {
+    "Fire@Reclamation@SkipDailyReport": {
         "text": ["今日", "日報"]
     },
-    "Reclamation@StartActionEnter": {
+    "Fire@Reclamation@StartActionEnter": {
         "text": ["開始行動", "決斷"]
     }
 }

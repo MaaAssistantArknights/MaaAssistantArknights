@@ -171,6 +171,17 @@ bool asst::TaskData::lazy_parse(const json::value& json)
             check_tasklist(task->exceeded_next, "exceeded_next", enable_justreturn_check);
             check_tasklist(task->on_error_next, "on_error_next", enable_justreturn_check);
             check_tasklist(task->reduce_other_times, "reduce_other_times");
+
+            static const std::unordered_set count_methods { MatchMethod::RGBCount, MatchMethod::HSVCount };
+            if (auto match_task = std::dynamic_pointer_cast<MatchTaskInfo>(task);
+                task->algorithm == AlgorithmType::MatchTemplate &&
+                ranges::find_if(match_task->methods, [&](MatchMethod m) { return count_methods.contains(m); }) !=
+                    match_task->methods.cend() &&
+                match_task->color_scales.empty()) {
+                // RGBCount 和 HSVCount 必须有 color_scales
+                Log.error("Task", name, "with Count method has empty color_scales");
+                validity = false;
+            }
         }
         if (checking_task_set.size() > MAX_CHECKING_SIZE) {
             // 生成超出上限一般是出现了会导致无限隐式生成的任务。比如 "#self@LoadingText". 这里给个警告.
@@ -523,70 +534,107 @@ asst::TaskPtr asst::TaskData::generate_match_task_info(std::string_view name, co
         return nullptr;
     }
 
-    auto mask_opt = task_json.find("maskRange");
-    if (!mask_opt) {
-        match_task_info_ptr->mask_range = default_ptr->mask_range;
+    if (auto mask_opt = task_json.find("maskRange"); !mask_opt) {
+        match_task_info_ptr->mask_ranges = default_ptr->mask_ranges;
     }
     else if (!mask_opt->is_array()) {
-        Log.error("Invalid mask type in task", name);
+        Log.error("Invalid mask_range type in task", name, ", should be `array<int, 2>`");
         return nullptr;
     }
-    else if (auto mask_opt_array = mask_opt->as_array(); mask_opt_array.size() == 2
-                                                         && mask_opt_array[0].is_number()
-                                                         && mask_opt_array[1].is_number()) {
-        match_task_info_ptr->mask_range.emplace_back(
-            std::vector { mask_opt_array[0].as_integer() },
-            std::vector { mask_opt_array[1].as_integer() });
+    else if (auto mask_array = mask_opt->as_array();
+             mask_array.size() == 2 && mask_array[0].is_number() && mask_array[1].is_number()) {
+        match_task_info_ptr->mask_ranges.emplace_back(
+            MatchTaskInfo::GrayRange { mask_array[0].as_integer(), mask_array[1].as_integer() });
+    }
+    else {
+        Log.error("Invalid mask_range in task", name);
+        return nullptr;
+    }
+
+    if (auto color_opt = task_json.find("colorScales"); !color_opt) {
+        match_task_info_ptr->color_scales = default_ptr->color_scales;
+    }
+    else if (!color_opt->is_array()) {
+        Log.error("Invalid color_scales type in task", name);
+        return nullptr;
+    }
+    else if (auto color_array = color_opt->as_array();
+             color_array.size() == 2 && color_array[0].is_number() && color_array[1].is_number()) {
+        // gray scale, color_array is array<int, 2>
+        Log.debug("Deprecated GrayRange color_scales in task", name, ", should be `list<pair<int, int>>`");
+        match_task_info_ptr->color_scales.emplace_back(
+            MatchTaskInfo::GrayRange { color_array[0].as_integer(), color_array[1].as_integer() });
     }
     else {
         /*  [
                 [[0, 0, 0], [0, 0, 255]],
                 [[0, 0, 0], [0, 255, 0]],
-                [[0, 0, 0], [255, 0, 0]]
+                [1, 255]
             ]
         */
-        match_task_info_ptr->mask_range.clear();
-        for (const auto& mask : mask_opt_array) {
-            if (!mask.is_array()) {
-                Log.error("Invalid mask in task", name);
+        match_task_info_ptr->color_scales.clear();
+        for (const auto& color_array_item : color_array) {
+            if (!color_array_item.is_array()) {
+                Log.error("Invalid color_range in task", name);
                 return nullptr;
             }
-            const auto& mask_range = mask.as_array();
-            if (mask_range.size() != 2) {
-                Log.error("Invalid mask in task", name);
+            const auto& color_range = color_array_item.as_array();
+            if (color_range.size() != 2) { // lower & upper, 2 elements
+                Log.error("Invalid color_range in task", name, ", should have 2 elements (lower & upper) in each array");
                 return nullptr;
             }
-            if (!mask_range[0].is_array() || !mask_range[1].is_array()) {
-                Log.error("Invalid mask in task", name);
-                return nullptr;
-            }
-            const auto& lower = mask_range[0].as_array();
-            const auto& upper = mask_range[1].as_array();
-            if (!ranges::all_of(lower, [](const json::value& v) { return v.is_number(); }) ||
-                !ranges::all_of(upper, [](const json::value& v) { return v.is_number(); })) {
-                Log.error("Invalid mask in task", name);
-                return nullptr;
-            }
-            if (lower.size() == 1 && upper.size() == 1) {
-                match_task_info_ptr->mask_range.emplace_back(
-                    std::vector { lower[0].as_integer() },
-                    std::vector { upper[0].as_integer() });
+
+            const auto& lower_item = color_range[0];
+            const auto& upper_item = color_range[1];
+
+            // gray scale, color_array_item is array<int, 2> (recommended)
+            if (lower_item.is_number() && upper_item.is_number()) {
+                match_task_info_ptr->color_scales.emplace_back(
+                    MatchTaskInfo::GrayRange { lower_item.as_integer(), upper_item.as_integer() });
                 continue;
             }
-            if (lower.size() == 3 && upper.size() == 3) {
-                match_task_info_ptr->mask_range.emplace_back(
-                    std::vector { lower[0].as_integer(),
-                                  lower[1].as_integer(),
-                                  lower[2].as_integer() },
-                    std::vector { upper[0].as_integer(),
-                                  upper[1].as_integer(),
-                                  upper[2].as_integer() });
+
+            if (!lower_item.is_array() || !upper_item.is_array()) {
+                Log.error("Invalid color_range in task", name);
+                return nullptr;
+            }
+
+            // color, color_array_item is array<array<int, 3>, 2>
+            const auto& lower = lower_item.as_array();
+            const auto& upper = upper_item.as_array();
+
+            if (!ranges::all_of(std::array { lower, upper } | views::join, &json::value::is_number)) {
+                Log.error("Invalid color_range in task", name);
+                return nullptr;
+            }
+            auto lower_number = lower | views::transform(&json::value::as_integer);
+            auto upper_number = upper | views::transform(&json::value::as_integer);
+
+            if (lower_number.size() == 1 && upper_number.size() == 1) {
+                // gray scale "[..., [[0], [255]], ...]"
+                Log.debug("Not recommended GrayRange color_scales in task", name, ", should be `list<pair<int, int>>`");
+                match_task_info_ptr->color_scales.emplace_back(
+                    MatchTaskInfo::GrayRange { lower_number[0], upper_number[0] });
                 continue;
             }
-            Log.error("Invalid mask in task", name);
+            if (lower_number.size() == 3 && upper_number.size() == 3) {
+                // color scale "[..., [[0, 0, 0], [0, 0, 255]], ...]"
+                match_task_info_ptr->color_scales.emplace_back(
+                    MatchTaskInfo::ColorRange { std::array { lower_number[0], lower_number[1], lower_number[2] },
+                                                std::array { upper_number[0], upper_number[1], upper_number[2] } });
+                continue;
+            }
+            Log.error("Invalid color_range in task", name);
             return nullptr;
         }
     }
+
+    utils::get_and_check_value_or(
+        name,
+        task_json,
+        "colorWithClose",
+        match_task_info_ptr->color_close,
+        default_ptr->color_close);
 
     return match_task_info_ptr;
 }
@@ -763,6 +811,9 @@ asst::MatchTaskConstPtr asst::TaskData::_default_match_task_info()
     match_task_info_ptr->templ_names = { "__INVALID__" };
     match_task_info_ptr->templ_thresholds = { TemplThresholdDefault };
     match_task_info_ptr->methods = { MatchMethod::Ccoeff };
+    match_task_info_ptr->mask_ranges = {};
+    match_task_info_ptr->color_scales = {};
+    match_task_info_ptr->color_close = true;
 
     return match_task_info_ptr;
 }
@@ -800,36 +851,40 @@ asst::TaskConstPtr asst::TaskData::_default_task_info()
 // 主要是处理是否包含未知键值的问题
 bool asst::TaskData::syntax_check(std::string_view task_name, const json::value& task_json)
 {
-    // clang-format off
     // 以下按字典序排序
+    // clang-format off
     static const std::unordered_map<AlgorithmType, std::unordered_set<std::string>> allowed_key_under_algorithm = {
-        { AlgorithmType::Invalid,
-          {
-              "action",      "algorithm",     "baseTask", "cache",           "exceededNext",     "fullMatch",
-              "isAscii",     "maskRange",     "maxTimes", "method",          "next",             "ocrReplace", 
-              "onErrorNext", "postDelay",     "preDelay", "rectMove",        "reduceOtherTimes", "replaceFull",
-              "roi",         "specialParams", "sub",      "subErrorIgnored", "templThreshold",   "template",
-              "text",        "withoutDet",
-          } },
+        { AlgorithmType::Invalid, {} },
         { AlgorithmType::MatchTemplate,
           {
-              "action",   "algorithm",        "baseTask", "cache",       "exceededNext",    "maskRange",
-              "maxTimes", "method",           "next",     "onErrorNext", "postDelay",       "preDelay",
-              "rectMove", "reduceOtherTimes", "roi",      "sub",         "subErrorIgnored", "templThreshold",
-              "template", "specialParams",
+              // common
+              "action",        "algorithm",     "baseTask",        "exceededNext",   "maxTimes",
+              "next",          "onErrorNext",   "postDelay",       "preDelay",       "reduceOtherTimes",
+              "specialParams", "sub",           "subErrorIgnored",
+
+              // specific
+              "cache",         "colorScales",   "colorWithClose",  "maskRange",      "method",
+              "rectMove",      "roi",           "specialParams",   "templThreshold", "template",
           } },
         { AlgorithmType::OcrDetect,
           {
-              "action",          "algorithm", "baseTask",         "cache",         "exceededNext", "fullMatch",
-              "isAscii",         "maxTimes",  "next",             "ocrReplace",    "onErrorNext",  "postDelay",
-              "preDelay",        "rectMove",  "reduceOtherTimes", "replaceFull",   "roi",          "sub",     
-              "subErrorIgnored", "text",      "withoutDet",       "specialParams",
+              // common
+              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
+              "specialParams", "sub",         "subErrorIgnored",
+
+              // specific
+              "cache",         "fullMatch",   "isAscii",         "ocrReplace",   "rectMove",
+              "replaceFull",   "roi",         "text",            "withoutDet",
           } },
         { AlgorithmType::JustReturn,
           {
-              "action",          "algorithm", "baseTask", "exceededNext",     "maxTimes",      "next",
-              "onErrorNext",     "postDelay", "preDelay", "reduceOtherTimes", "specialParams", "sub",
-              "subErrorIgnored",
+              // common
+              "action",        "algorithm",   "baseTask",        "exceededNext", "maxTimes",
+              "next",          "onErrorNext", "postDelay",       "preDelay",     "reduceOtherTimes",
+              "specialParams", "sub",         "subErrorIgnored",
+
+              // specific
           } },
     };
     // clang-format on

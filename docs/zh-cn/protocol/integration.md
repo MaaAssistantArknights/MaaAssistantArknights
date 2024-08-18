@@ -59,7 +59,9 @@ AsstTaskId ASSTAPI AsstAppendTask(AsstHandle handle, const char* type, const cha
 ```json
 // 对应的任务参数
 {
-    "enable": bool,              // 是否启用本任务，可选，默认为 true
+    "enable": bool,              // 是否启用本任务，可选，预设为 true
+    "client_type": string,       // 客户端版本，必选，填空则不执行
+                                 // 选项："Official" | "Bilibili" | "txwy" | "YoStarEN" | "YoStarJP" | "YoStarKR"
 }
 ```
 

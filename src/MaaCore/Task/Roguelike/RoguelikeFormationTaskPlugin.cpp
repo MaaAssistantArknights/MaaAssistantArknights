@@ -95,6 +95,7 @@ void asst::RoguelikeFormationTaskPlugin::clear_and_reselect()
     // 清空并退出游戏会自动按等级重新排序
     ProcessTask(*this, { "RoguelikeQuickFormationClearAndReselect" }).run();
 
+    m_last_detected_oper_names.clear();
     oper_list.clear();
     cur_page = 1;
 
@@ -166,6 +167,14 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
         return false;
     }
 
+    // 比较在新一页识别到的干员名 （detected_oper_names） 与 上一页识别到的干员名 (m_last_detected_oper_names)
+    // 若完全相同则认为已到达尾页
+    auto formation_analyze_result = formation_analyzer.get_result();
+    auto oper_name_view = formation_analyze_result | views::transform([&](auto oper) { return oper.name; });
+    std::vector<std::string> detected_oper_names(oper_name_view.begin(), oper_name_view.end());
+    const bool reach_last_column = (detected_oper_names == m_last_detected_oper_names);
+    m_last_detected_oper_names = std::move(detected_oper_names);
+
     auto unique_filter = views::filter([&](const auto& oper) {
         // TODO: 这里没考虑多个相同预备干员的情况，不过影响应该不大
         return !ranges::any_of(oper_list, [&](const auto& existing_oper) {
@@ -177,9 +186,9 @@ bool asst::RoguelikeFormationTaskPlugin::analyze()
         oper.page = cur_page;
         return oper;
     });
-    auto result_oper_list = formation_analyzer.get_result() | unique_filter | append_page_proj;
+    auto result_oper_list = formation_analyze_result | unique_filter | append_page_proj;
     ranges::move(result_oper_list, std::back_inserter(oper_list));
-    return !result_oper_list.empty(); // 希望OCR没识别错干员名，否则可能误判当前页面的干员情况
+    return reach_last_column;
 }
 
 bool asst::RoguelikeFormationTaskPlugin::select(RoguelikeFormationImageAnalyzer::FormationOper oper)

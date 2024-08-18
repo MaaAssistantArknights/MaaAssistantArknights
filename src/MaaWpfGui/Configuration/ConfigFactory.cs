@@ -18,6 +18,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 using MaaWpfGui.Helper;
 using ObservableCollections;
@@ -36,7 +37,9 @@ namespace MaaWpfGui.Configuration
 
         private static readonly ILogger _logger = Log.ForContext<ConfigurationHelper>();
 
-        private static readonly object _lock = new object();
+        private static readonly object _lock = new();
+
+        private static readonly SemaphoreSlim _semaphore = new(1, 1);
 
         public delegate void ConfigurationUpdateEventHandler(string key, object oldValue, object newValue);
 
@@ -181,7 +184,7 @@ namespace MaaWpfGui.Configuration
 
         private static async void OnPropertyChanged(string key, object oldValue, object newValue)
         {
-            var result = await Save();
+            var result = await SaveAsync();
             if (result)
             {
                 ConfigurationUpdateEvent?.Invoke(key, oldValue, newValue);
@@ -193,33 +196,51 @@ namespace MaaWpfGui.Configuration
             }
         }
 
-        private static async Task<bool> Save(string file = null)
+        private static bool Save(string file = null)
         {
-            return await Task.Run(() =>
+            lock (_lock)
             {
-                lock (_lock)
+                try
                 {
-                    try
-                    {
-                        File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(Root, _options));
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.Error(e, "Failed to save configuration file.");
-                        return false;
-                    }
-
-                    return true;
+                    File.WriteAllText(file ?? _configurationFile, JsonSerializer.Serialize(Root, _options));
                 }
-            });
+                catch (Exception e)
+                {
+                    _logger.Error(e, "Failed to save configuration file.");
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
+        private static async Task<bool> SaveAsync(string file = null)
+        {
+            await _semaphore.WaitAsync();
+            try
+            {
+                var filePath = file ?? _configurationFile;
+                var jsonString = JsonSerializer.Serialize(Root, _options);
+                await File.WriteAllTextAsync(filePath, jsonString);
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e, "Failed to save configuration file.");
+                return false;
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public static void Release()
         {
             lock (_lock)
             {
-                Save().Wait();
-                Save(_configurationBakFile).Wait();
+                Save();
+                Save(_configurationBakFile);
             }
         }
 
