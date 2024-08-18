@@ -174,6 +174,7 @@ namespace MaaWpfGui.Constants
         public const string CopilotLoopTimes = "Copilot.LoopTimes";
         public const string CopilotTaskList = "Copilot.CopilotTaskList";
         public const string UpdateProxy = "VersionUpdate.Proxy";
+        public const string ProxyType = "VersionUpdate.ProxyType";
         public const string VersionType = "VersionUpdate.VersionType";
         public const string UpdateCheck = "VersionUpdate.UpdateCheck";
         public const string UpdateAutoCheck = "VersionUpdate.ScheduledUpdateCheck";
