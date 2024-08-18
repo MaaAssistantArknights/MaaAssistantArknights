@@ -84,7 +84,7 @@
             <ComboBox
                 x:Name="LanguageSelector"
                 Width="180"
-                Margin="10"
+                Margin="10,5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 hc:InfoElement.Title="{Binding LanguageInfo, Mode=OneTime}"
@@ -95,7 +95,7 @@
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
                 Width="180"
-                Margin="10"
+                Margin="10,5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource OperNameLanguage}"
@@ -106,7 +106,7 @@
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
                 Width="180"
-                Margin="10"
+                Margin="10,5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource UiTheme}"
@@ -117,7 +117,7 @@
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
                 Width="180"
-                Margin="10"
+                Margin="10,5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource MainViewButtonFeature}"
@@ -129,7 +129,7 @@
                 Style="{StaticResource ComboBoxExtend}" />
             <ComboBox
                 Width="180"
-                Margin="10"
+                Margin="10,5"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 hc:InfoElement.Title="{DynamicResource LogItemDateFormatString}"
