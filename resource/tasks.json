@@ -2209,10 +2209,32 @@
         "roi": [700, 600, 300, 120],
         "next": ["LoadingText", "#next", "#back"]
     },
+    "RecogniseLoadingText": {
+        "baseTask": "LoadingText",
+        "next": ["AfterLoadingText"]
+    },
+    "AfterLoadingText": {
+        "algorithm": "JustReturn",
+        "next": ["RecogniseLoadingText", "#back"]
+    },
     "LoadingIcon": {
         "Doc": "开始唤醒最后阶段的黑色正三角加载画面",
         "roi": [480, 210, 320, 280],
         "next": ["LoadingIcon", "#next", "#back"]
+    },
+    "RecogniseLoadingIcon": {
+        "baseTask": "LoadingIcon",
+        "template": "LoadingIcon.png",
+        "next": ["AfterLoadingIcon"]
+    },
+    "AfterLoadingIcon": {
+        "algorithm": "JustReturn",
+        "next": ["RecogniseLoadingIcon", "#back"]
+    },
+    "AfterMerelyWaiting": {
+        "algorithm": "JustReturn",
+        "postDelay": 500,
+        "next": ["#back", "AfterMerelyWaiting"]
     },
     "ReturnButtons": {
         "algorithm": "JustReturn",
@@ -11549,5 +11571,357 @@
         "template": "Fire@Reclamation@BetweenDayFlag.png",
         "postDelay": 500,
         "next": ["Stop"]
+    },
+    "Tales@Reclamation@ProsperityNoSave": {
+        "doc": "生息演算「沙洲遗闻」无存档刷生息点数 <ProsperityNoSave> 任务入口",
+        "algorithm": "JustReturn",
+        "next": ["Tales@Reclamation@ProsperityNoSave@Commence", "Tales@Reclamation@ProsperityNoSave@Navigation"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@Navigation":{
+        "algorithm": "JustReturn",
+        "next": ["Tales@Reclamation@ProsperityNoSave"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@Commence": {
+        "doc": "在主题入口界面点击 <开始演算> 开启新游戏",
+        "algorithm": "OcrDetect",
+        "action": "ClickSelf",
+        "text": ["开始演算"],
+        "roi": [1084, 620, 131, 50],
+        "next": ["Tales@Reclamation@ProsperityNoSave@OpeningAnimation@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@OpeningAnimation": {
+        "doc": "等待开启新游戏后的过场动画",
+        "algorithm": "JustReturn",
+        "postDelay": 7500,
+        "next": ["Tales@Reclamation@ProsperityNoSave@ClickBaseCamp"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ClickBaseCamp": {
+        "doc": "点击 <后舍: 众人会聚之地>",
+        "algorithm": "OcrDetect",
+        "text": ["众人会聚之地"],
+        "roi": [732, 295, 127, 54],
+        "action": "ClickSelf",
+        "next": ["Tales@Reclamation@ProsperityNoSave@EnterBaseCamp"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@EnterBaseCamp": {
+        "doc": "点击 <后舍: 众人会聚之地> 后点击 <开始行动>",
+        "baseTask": "Tales@Reclamation@EnterNode",
+        "next": ["Tales@Reclamation@ProsperityNoSave@OpeningDialogue"]
+    },
+    "Tales@Reclamation@EnterNode": {
+        "doc": "模板任务: 点击区块节点后点击 <开始行动>",
+        "algorithm": "OcrDetect",
+        "text": ["开始行动"],
+        "roi": [956, 540, 304, 72],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@OpeningDialogue": {
+        "doc": "点击右下角对话选项位置，跳过引导对话",
+        "template": "DialogueLog",
+        "roi": [27, 14, 64, 51],
+        "action": "ClickRect",
+        "specificRect": [901, 422, 360, 51],
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@OpeningDialogue",
+            "Tales@Reclamation@ProsperityNoSave@LeaveBaseCamp"
+        ]
+    },
+    "Tales@Reclamation@ProsperityNoSave@LeaveBaseCamp": {
+        "doc": "在行动中点击左上角离开 <后舍: 众人会聚之地>",
+        "baseTask": "Tales@Reclamation@LeaveCurrentZone",
+        "template": "Tales@Reclamation@LeaveCurrentZone.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveBaseCamp"]
+    },
+    "Tales@Reclamation@LeaveCurrentZone": {
+        "doc": "模板任务: 在行动中点击左上角离开当前区块",
+        "roi": [41, 22, 78, 71],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveBaseCamp": {
+        "doc": "确认离开 <后舍: 众人会聚之地>",
+        "baseTask": "Tales@Reclamation@DialogConfirmYellow",
+        "template": "Tales@Reclamation@DialogConfirmYellow.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ClickShrubberyGalore@AfterLoadingIcon@AfterLoadingText"]
+    },
+    "Tales@Reclamation@DialogConfirmYellow": {
+        "doc": "模板任务: 在普通对话框点击确认图标",
+        "roi": [879, 457, 53, 52],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@ClickShrubberyGalore": {
+        "doc": "前往并点击 <资源区: 丰饶灌木林>, 未来改由 NavigateToZone 插件实现",
+        "algorithm": "JustReturn",
+        "sub": ["Tales@Reclamation@ReturnToOrigin", "Tales@Reclamation@NavigateToZone@ShrubberyGalore"],
+        "next": ["Tales@Reclamation@ProsperityNoSave@EnterShrubberyGalore"]
+    },
+    "Tales@Reclamation@ReturnToOrigin": {
+        "doc": "让地图视图重置到原始位置",
+        "baseTask": "Tales@Reclamation@ClickHeadquartersButton",
+        "template": "Tales@Reclamation@HeadquartersButton.png",
+        "postDelay": 500,
+        "next": [
+            "Tales@Reclamation@CancelEnterBuildMode",
+            "Tales@Reclamation@Origin",
+            "Tales@Reclamation@ReturnToOrigin"]
+    },
+    "Tales@Reclamation@ReturnToOrigin@CancelEnterBuildMode": {
+        "doc": "在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
+        "baseTask": "Tales@Reclamation@CancelEnterBuildMode",
+        "next": ["Tales@Reclamation@ReturnToOrigin"]
+    },
+    "Tales@Reclamation@ClickHeadquartersButton": {
+        "doc": "模板任务: 点击左下角驻扎地图标",
+        "template": "Tales@Reclamation@HeadquartersButton.png",
+        "roi": [36, 634, 68, 76],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@CancelEnterBuildMode": {
+        "doc": "模板任务: 在右下角存在 <进入建造> 按钮时点击左下角取消进入建造",
+        "algorithm": "OcrDetect",
+        "text": ["进入建造"],
+        "roi": [956, 540, 304, 72],
+        "action": "ClickRect",
+        "specificRect": [36, 634, 68, 76]
+    },
+    "Tales@Reclamation@Origin": {
+        "doc": "模板任务: 确认地图视图已经重置到原始位置",
+        "template": "Tales@Reclamation@Headquarters.png",
+        "roi": [559, 262, 162, 153]
+    },
+    "Tales@Reclamation@NavigateToZone@ShrubberyGalore": {
+        "doc": "模板任务: 点击 <资源区: 丰饶灌木林>",
+        "algorithm": "OcrDetect",
+        "text": ["丰饶灌木林"],
+        "ocrReplace": [["灌木林", "丰饶灌木林"]],
+        "roi": [223, 129, 114, 48],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@EnterShrubberyGalore": {
+        "doc": "点击 <资源区: 丰饶灌木林> 后点击 <开始行动>",
+        "baseTask": "Tales@Reclamation@EnterNode",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreConfirmSquad"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreConfirmSquad": {
+        "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动>",
+        "baseTask": "Tales@Reclamation@ConfirmSquad",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad"]
+    },
+    "Tales@Reclamation@ConfirmSquad": {
+        "doc": "模板任务: 在编队界面点击 <开始行动>",
+        "algorithm": "OcrDetect",
+        "text": ["开始行动"],
+        "roi": [1132, 654, 120, 45],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreDoubleCheckSquad": {
+        "doc": "在 <资源区: 丰饶灌木林> 编队界面点击 <开始行动> 后点击 <确认>",
+        "baseTask": "Tales@Reclamation@DialogConfirmRed",
+        "template": "Tales@Reclamation@DialogConfirmRed.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@LeaveShrubberyGalore@AfterMerelyWaiting@AfterLoadingText"]
+    },
+    "Tales@Reclamation@DialogConfirmRed": {
+        "doc": "模板任务: 在警告对话框点击确认图标",
+        "roi": [879, 457, 53, 52],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@LeaveShrubberyGalore": {
+        "doc": "在行动中点击左上角离开 <资源区: 丰饶灌木林>",
+        "baseTask": "Tales@Reclamation@LeaveCurrentZone",
+        "template": "Tales@Reclamation@LeaveCurrentZone.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveShrubberyGalore"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveShrubberyGalore": {
+        "doc": "确认离开 <资源区: 丰饶灌木林>",
+        "baseTask": "Tales@Reclamation@DialogConfirmYellow",
+        "template": "Tales@Reclamation@DialogConfirmYellow.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreMissionResults@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ShrubberyGaloreMissionResults": {
+        "doc": "在 <资源区: 丰饶灌木林> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
+        "baseTask": "Tales@Reclamation@MissionResults",
+        "template": "Tales@Reclamation@SentToWarehouse.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ClickGatheringOfFeathers@AfterLoadingIcon"]
+    },
+    "Tales@Reclamation@MissionResults": {
+        "doc": "模板任务: 在行动结束界面点击左下角 <物资将送往仓库> 图标返回",
+        "template": "Tales@Reclamation@SentToWarehouse.png",
+        "roi": [48, 469, 87, 51],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@ClickGatheringOfFeathers": {
+        "doc": "前往并点击 <捕猎区: 聚羽之地>, 未来改由 NavigateToZone 插件实现",
+        "algorithm": "JustReturn",
+        "sub": ["Tales@Reclamation@ReturnToOrigin", "Tales@Reclamation@NavigateToZone@GatheringOfFeathers"],
+        "next": ["Tales@Reclamation@ProsperityNoSave@EnterGatheringOfFeathers"]
+    },
+    "Tales@Reclamation@NavigateToZone@GatheringOfFeathers": {
+        "doc": "模板任务: 点击 <捕猎区: 聚羽之地>",
+        "algorithm": "OcrDetect",
+        "text": ["聚羽之地"],
+        "roi": [141, 337, 106, 56],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@EnterGatheringOfFeathers": {
+        "doc": "点击 <捕猎区: 聚羽之地> 后点击 <开始行动>",
+        "baseTask": "Tales@Reclamation@EnterNode",
+        "next": ["Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersConfirmSquad"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersConfirmSquad": {
+        "doc": "在 <捕猎区: 聚羽之地> 编队界面点击 <开始行动>",
+        "baseTask": "Tales@Reclamation@ConfirmSquad",
+        "next": ["Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersDoubleCheckSquad": {
+        "doc": "在 <捕猎区: 聚羽之地> 编队界面点击 <开始行动> 后点击 <确认>",
+        "baseTask": "Tales@Reclamation@DialogConfirmRed",
+        "template": "Tales@Reclamation@DialogConfirmRed.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@LeaveGatheringOfFeathers@AfterMerelyWaiting@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@LeaveGatheringOfFeathers": {
+        "doc": "在行动中点击左上角离开 <捕猎区: 聚羽之地>",
+        "baseTask": "Tales@Reclamation@LeaveCurrentZone",
+        "template": "Tales@Reclamation@LeaveCurrentZone.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveGatheringOfFeathers"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@ConfirmToLeaveGatheringOfFeathers": {
+        "doc": "确认离开 <捕猎区: 聚羽之地>",
+        "baseTask": "Tales@Reclamation@DialogConfirmYellow",
+        "template": "Tales@Reclamation@DialogConfirmYellow.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersMissionResults@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@GatheringOfFeathersMissionResults": {
+        "doc": "在 <捕猎区: 聚羽之地> 行动结束界面点击左下角 <物资将送往仓库> 图标返回",
+        "baseTask": "Tales@Reclamation@MissionResults",
+        "template": "Tales@Reclamation@SentToWarehouse.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@AfterLoadingIcon"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@SkipToCalculation": {
+        "doc": "跳到下一次量定结算",
+        "template": [
+            "Tales@Reclamation@ActsLeft2.png",
+            "Tales@Reclamation@ActsLeft1.png",
+            "Tales@Reclamation@NextDay.png"
+        ],
+        "roi": [1152, 45, 54, 98],
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NextDay",
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NonZeroActsLeft"
+        ]
+    },
+    "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NextDay": {
+        "doc": "点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
+        "baseTask": "Tales@Reclamation@NextDay",
+        "template": "Tales@Reclamation@NextDay.png",
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay@AfterLoadingText"
+        ]
+    },
+    "Tales@Reclamation@NextDay": {
+        "doc": "模板任务: 点击右上角箭头进入下一个生息日, 若在量定日则进行量定结算",
+        "roi": [1152, 45, 54, 98],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay": {
+        "doc": "等待, 可能进入量定结算或驻扎地产出结算, 若进入驻扎地产出结算则可能点击确认符号跳过等待",
+        "algorithm": "JustReturn",
+        "next": [
+            "Tales@Reclamation@ProsperityNoSave@FinishCalculation",
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@StartToday",
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation",
+            "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@CalculationOrNextDay"
+        ]
+    },
+    "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@StartToday": {
+        "doc": "在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@Reclamation@StartToday",
+        "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
+        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation"]
+    },
+    "Tales@Reclamation@StartToday": {
+        "doc": "模板任务: 在驻扎地产出结算界面点击确认符号开启今日",
+        "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
+        "roi": [568, 561, 112, 81],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NonZeroActsLeft": {
+        "doc": "点击右上角剩余决断次数",
+        "baseTask": "Tales@Reclamation@NonZeroActsLeft",
+        "template": ["Tales@Reclamation@ActsLeft2.png", "Tales@Reclamation@ActsLeft1.png"],
+        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@SkipDay"]
+    },
+    "Tales@Reclamation@NonZeroActsLeft": {
+        "doc": "模板任务: 点击右上角剩余决断次数",
+        "template": ["Tales@Reclamation@ActsLeft2.png", "Tales@Reclamation@ActsLeft1.png"],
+        "roi": [1152, 104, 47, 34],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@SkipDay": {
+        "doc": "点击右上角 <消磨时间> 箭头",
+        "baseTask": "Tales@Reclamation@SkipDay",
+        "template": "Tales@Reclamation@SkipDay.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@ConfirmToSkipDay"]
+    },
+    "Tales@Reclamation@SkipDay": {
+        "doc": "模板任务: 点击右上角 <消磨时间> 箭头",
+        "roi": [1194, 143, 37, 49],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@SkipToCalculation@ConfirmToSkipDay": {
+        "doc": "确认跳过这一日",
+        "baseTask": "Tales@Reclamation@DialogConfirmYellow",
+        "template": "Tales@Reclamation@DialogConfirmYellow.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@SkipToCalculation@NextDay@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@FinishCalculation": {
+        "doc": "已完成生存周期, 点击 <点击任意处继续> 文字位置",
+        "baseTask": "Tales@Reclamation@FinishCalculation",
+        "next": ["Tales@Reclamation@ProsperityNoSave@StartToday@AfterMerelyWaiting"]
+    },
+    "Tales@Reclamation@FinishCalculation": {
+        "doc": "模板任务: 已完成生存周期, 点击 <点击任意处继续> 文字位置",
+        "algorithm": "OcrDetect",
+        "text": ["点击任意处继续"],
+        "roi": [554, 657, 172, 41],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@StartToday": {
+        "doc": "在驻扎地产出结算界面点击确认符号开启今日",
+        "baseTask": "Tales@Reclamation@StartToday",
+        "template": ["Tales@Reclamation@StartTodayConfirmHollow.png", "Tales@Reclamation@StartTodayConfirmYellow.png"],
+        "next": ["Tales@Reclamation@ProsperityNoSave@Dots@AfterLoadingText"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@Dots": {
+        "doc": "点击右下角 Dots",
+        "baseTask": "Tales@Reclamation@Dots",
+        "template": "Tales@Reclamation@Dots.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@SwipeSave"]
+    },
+    "Tales@Reclamation@Dots": {
+        "doc": "模板任务: 点击右下角 Dots",
+        "roi": [1001, 658, 61, 28],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@SwipeSave": {
+        "doc": "点击右下角删除存档图标",
+        "baseTask": "Tales@Reclamation@SwipeSave",
+        "template": "Tales@Reclamation@SwipeSave.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@ConfirmToSwipeSave"]
+    },
+    "Tales@Reclamation@SwipeSave": {
+        "doc": "模板任务: 点击右下角删除存档图标, 仅支持驻扎地等级2及以下",
+        "roi": [1088, 550, 91, 50],
+        "action": "ClickSelf"
+    },
+    "Tales@Reclamation@ProsperityNoSave@ConfirmToSwipeSave": {
+        "doc": "确认删除存档",
+        "baseTask": "Tales@Reclamation@DialogConfirmRed",
+        "template": "Tales@Reclamation@DialogConfirmRed.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@SureToSwipeSave"]
+    },
+    "Tales@Reclamation@ProsperityNoSave@SureToSwipeSave": {
+        "doc": "仍要删除存档",
+        "baseTask": "Tales@Reclamation@DialogConfirmRed",
+        "template": "Tales@Reclamation@DialogConfirmRed.png",
+        "next": ["Tales@Reclamation@ProsperityNoSave@AfterLoadingText"]
     }
 }
