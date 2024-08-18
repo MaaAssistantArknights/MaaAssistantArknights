@@ -233,15 +233,7 @@ namespace asst::battle
             RoleCounts tool_men;
             Point location;
             DeployDirection direction = DeployDirection::None;
-
-            bool operator==(const Strategy& other) const
-            {
-                return core == other.core && tool_men == other.tool_men && location == other.location &&
-                       direction == other.direction;
-            }
         };
-
-        using StrategyOrderLock = std::unordered_map<Point, std::vector<std::shared_ptr<Strategy>>, Point::Hash>;
 
         struct CombatData : public copilot::CombatData
         {
@@ -249,7 +241,6 @@ namespace asst::battle
             bool draw_as_possible = false;
             int retry_times = 0;
             std::vector<std::string> order_of_drops;
-            StrategyOrderLock order;
         };
 
         enum class EquipmentType
