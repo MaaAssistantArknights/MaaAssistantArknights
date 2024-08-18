@@ -6,7 +6,6 @@
 * 增加SOCKS5支持 (#10061) @Linisdjxm
 * Mac GUI自动编队添加信赖干员 @hguandl
 * winapi 关机/睡眠/休眠 @ABA2396
-* ci 在 macOS 上使用 clang 18.1.8 (#10254) @Alan-Charred
 * 拆分 maskRange，允许禁用数色时闭运算 (#10250) @zzyyyl
 * 不義之財 導航更新 (#10249) @XuQingTW
 * 数色前先通过闭运算填充小空洞，避免数色的得分过低 @zzyyyl
@@ -19,14 +18,13 @@
 * YostarJP Reclamation2 (#10131) @Manicsteiner
 * visiting only once a day logic and gui (#10113) @Constrat
 * 基建列表增加 全/反选 按钮，列表区域可响应滚动 @ABA2396
-* 远程控制支持生息演算2（？ @ABA2396
+* 远程控制支持生息演算2 @ABA2396
 * 不要在酒吧里点酒吧 @ABA2396
 * 肉鸽适配新干员用法 (#10069) @Lancarus
 
 ### 改进 | Improved
 
 * 修改 版本更新 界面 @ABA2396
-* 更新 README @ABA2396
 * 使用 views::join @zzyyyl
 * 将生息演算：沙洲遗闻由任务树重构为任务环，以便使用出口、后续重构 (#10223) (#10229) (#10230) @Daydreamer114
 * 优化完成后动作仅一次提示文本的显示和描述 (#10182) @status102
@@ -41,9 +39,8 @@
 
 ### 修复 | Fix
 
-* 截图速度过快时可能卡在公招放弃界面 @status102
+* 截图速度过快时可能卡在公招放弃界面 @status102 @ABA2396
 * 获得导能元件时可能错误判断是否在战斗中 @ABA2396
-* 截图速度过快时可能卡在公招放弃界面 @ABA2396
 * 生息演算可能无法退出组装台 @ABA2396
 * 国服CharsNameOcrReplace (#10269) @Daydreamer114
 * 修复 "-MO-" 会被替换为 "-M0-" 导致的关卡识别错误 (#10263) @zzyyyl
@@ -59,7 +56,6 @@
 * 修复部分设备萨卡兹肉鸽商店 StageTraderEnter 得分过低 @zzyyyl
 * delay between Mall and CreditStoreOcr for refresh lag @Constrat
 * 在舍弃思绪过程中识别可关闭弹窗 (#10184) @Daydreamer114
-* 错误的判断条件 @ABA2396
 * YostarKR Reclamation2CopiousCoppice add ocrReplace @HX3N
 * 台服目前坍縮值改为當前坍縮值 (#10186) @Saratoga-Official
 * 不必要的重置连接 @ABA2396
@@ -67,7 +63,7 @@
 * 肉鸽探索失败后执行ClickToStartPointAfterFailed点进讲述者 (#10177) @Daydreamer114
 * wrong key in translation en-us @Constrat
 * validate filename before using it to avoid crash (#10138) @wangl-cc
-* gui_new.json 退出不报错，死锁问题 @ABA2396
+* gui_new.json 退出不保存，死锁问题 @ABA2396
 * Reclamation2EX Yostar confirmation window @HX3N
 * Reclamation2EX YostarKR specific notification @HX3N
 * 识别思绪太快导致无法点击驮兽归队 (#10109) @Daydreamer114
@@ -94,21 +90,11 @@
 
 * update maadeps to 2024-08-17 (#10268) @hguandl @dantmnf
 * 减少保全截图间隔 @ABA2396
-* Revert "fix: 截图速度过快时可能卡在公招放弃界面" @status102
 * 移动旧保全文件至old文件夹 @ABA2396
 * bump maa-cli to 0.4.11 (#10274) @wangl-cc
 * refactor(config) : reorganize settings loading (#10133) @Acture
 * add flag `-fexperimental-library` for clang < 16 (#10265) @wangl-cc
-* ci "(]"\"" @ABA2396
-* 移除不必要的引用 "()" @ABA2396
-* Revert "test: ci(123)" @ABA2396
-* ci @ABA2396
-* Revert "test: test ci(123)" @ABA2396
-* test ci @ABA2396
-* Revert "test: test ci" @ABA2396
-* test ci @ABA2396
 * 替換繁中服薩米肉鴿結算截圖 @nifaOwO
-* Revert "feat: ci 在 macOS 上使用 clang 18.1.8 (#10254)" @zzyyyl
 * YostarJP fix ocr 涙目のペッロー @Manicsteiner
 * YostarKR tweak ocrReplace 雨！ @HX3N
 * YostarJP reclamation2 continue @Manicsteiner
