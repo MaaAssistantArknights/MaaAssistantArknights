@@ -300,7 +300,7 @@ cpu_ocr = false
 gpu_ocr = 1
 
 [instance_options]
-touch_mode = "MAATouch"
+touch_mode = "MaaTouch"
 deployment_with_pause = false
 adb_lite_enabled = false
 kill_adb_on_exit = false
@@ -361,7 +361,7 @@ gpu_ocr = 1 # GPU OCR을 사용할 때 사용하는 GPU ID, 이 값이 비어 �
 
 ```toml
 [instance_options]
-touch_mode = "ADB" # 사용할 터치 모드, 가능한 값은 "ADB", "MiniTouch", "MAATouch", "MacPlayTools"
+touch_mode = "ADB" # 사용할 터치 모드, 가능한 값은 "ADB", "MiniTouch", "MaaTouch", "MacPlayTools"
 deployment_with_pause = false # 배포 시 게임을 일시 중지할지 여부
 adb_lite_enabled = false # adb-lite를 사용할지 여부
 kill_adb_on_exit = false # 종료 시 adb를 종료할지 여부
@@ -420,7 +420,6 @@ url = "https://github.com/MaaAssistantArknights/MaaResource.git"
 - 리소스 핫 업데이트는 Git을 통해 원격 저장소를 가져옵니다. 백엔드를 `git`으로 설정한 경우 `Git` 명령어 도구가 사용 가능해야 합니다.
 - SSH 프로토콜을 사용하여 원격 저장소를 가져오려면 `ssh_key` 필드를 설정해야 합니다. 이 필드는 SSH 개인 키를 가리키는 경로여야 합니다.
 - 원격 저장소의 `url` 설정은 최초 리소스 설치에만 유효합니다. 원격 저장소 주소를 변경하려면 Git 명령어 도구를 통해 수동으로 변경하거나 해당 저장소를 삭제해야 합니다. 저장소 위치는 `maa dir hot-update` 명령어로 확인할 수 있습니다.
-- 원격 저장소의 `url`은 시스템 언어에 따라 자동으로 설정됩니다. 언어가 간체 중국어인 경우 원격 저장소 `url`은 국내 미러 <https://git.maa-org.net/MAA/MaaResource.git>로 설정되며, 다른 경우 GitHub로 설정됩니다. 국내에서 간체 중국어가 아닌 언어를 사용하거나, 해외에서 간체 중국어를 사용하는 경우 최상의 경험을 위해 수동으로 설정해야 할 수 있습니다.
 
 ## 참고 설정
 
