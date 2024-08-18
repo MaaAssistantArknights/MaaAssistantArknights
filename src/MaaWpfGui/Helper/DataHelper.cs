@@ -100,7 +100,7 @@ namespace MaaWpfGui.Helper
                 return null;
             }
 
-            language ??= Instances.SettingsViewModel.Language;
+            language ??= Instances.SettingsViewModel.OperNameLocalization;
 
             return language switch
             {
