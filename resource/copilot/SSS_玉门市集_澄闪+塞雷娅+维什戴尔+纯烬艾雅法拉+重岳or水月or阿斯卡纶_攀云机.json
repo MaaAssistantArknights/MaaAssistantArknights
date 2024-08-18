@@ -5,7 +5,7 @@
     "doc": {
         "title": "玉门市集——澄闪+塞雷娅+维什戴尔+纯烬艾雅法拉+重岳or水月or阿斯卡纶_攀云机",
         "title_color": "dark",
-        "details": "作者：DL_君逸寒\n演示视频：BV1kJeGe7ETS\n如果觉得脚本还可以的话，请点进视频链接给个三连支持一波\n\n该脚本可完成攀云机任务、招募15术士任务\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n\n关卡中的注意事项：\n3关要拿到至少一个战备激活阀，没有就重开（高练也不可无视）\n\n【重点】\n如果中途明日方舟app闪退或想要手动停止maa再重新点开始，务必按照如下方法操作：\n关闭maa——打开任务管理器并结束adb.exe进程——重启maa并载入脚本——点击开始\n如若不然，容易出现坐标混乱、胡乱放人的问题，如不听劝告，出现任何问题不要找我反馈\n\n重岳3可以换成水月1或阿斯卡纶1\n\n截止到我写完脚本这一刻，地图站仍未更新地图，所有坐标都是数格子数出来的\n目前maa存在云梯上干员正常释放技能的bug，即便如此，依然一命应急\n\n脚本标题写的XXorXX，但是脚本里实际使用的都是XXorXX中最前面的干员，如果需要用其他干员，全选文本，ctrl+h替换成你想用的干员就好\n\n工具人（不包括核心）：\n先锋：5  尖兵分支（推荐）（且推荐开减费用模组）\n重装：3  选择防御力高的守护者或铁卫，但是不要选决战者分支和不屈者分支\n术士：6  扩散术士分支要上减费用模组\n辅助：1  塑心3>>铃兰3>>其余辅助带决战技或自动触发技能\n\n所有工具人的练度都建议精二30级起步，选能打的！\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能！\n详情可以打开视频链接观看并更改必要的设置\n\n导能原件：攀云机\n战术装备：狙击B医疗B特种B，其余A\n开局策略：优选策略\n\n请手动编队，阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 障目\n\n脚本参考：\n自己打的\n\n连接模式请使用minitouch或者maatouch，不建议使用ADB Input模式\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、不重开通过普通难度、通过应急难度\n\n刷材料不建议在应急模式刷，也不建议使用专门用来完成任务的脚本刷\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
+        "details": "作者：DL_君逸寒\n演示视频：BV1kJeGe7ETS\n如果觉得脚本还可以的话，请点进视频链接给个三连支持一波\n\n该脚本可完成攀云机任务、招募15术士任务\n\n该脚本适合坐拥黄金大队不缺核心干员的博士\n该脚本对术士池子深度要求很高，除满足编队要求的澄闪+6个工具人术士，还需在道中抓2个以上术士，如无法达到要求，建议使用其他脚本\n\n关卡中的注意事项：\n3关要拿到至少一个战备激活阀，没有就重开（高练也不可无视）\n\n【重点】\n如果中途明日方舟app闪退或想要手动停止maa再重新点开始，务必按照如下方法操作：\n关闭maa——打开任务管理器并结束adb.exe进程——重启maa并载入脚本——点击开始\n如若不然，容易出现坐标混乱、胡乱放人的问题，如不听劝告，出现任何问题不要找我反馈\n\n截止到我写完脚本这一刻，地图站仍未更新地图，所有坐标都是数格子数出来的\n目前maa存在部分云梯上的干员无法正常释放技能的bug，即便如此，依然一命应急\n\n重岳3可以换成水月1或阿斯卡纶1\n\n脚本标题写的XXorXX，但是脚本里实际使用的都是XXorXX中最前面的干员，如果需要用其他干员，全选文本，ctrl+h替换成你想用的干员就好\n\n工具人（不包括核心）：\n先锋：5  5星以上，尖兵分支（推荐）（且推荐开减费用模组）（推进之王用1技能），如实在凑不齐，可以用能自主产费且具有一定控制能力的执旗手分支干员，如琴柳3、极境2，千万不要选风笛伊内丝这种接敌才能回费的\n重装：3  5星以上，防御力高的守护者或铁卫，但是不要选决战者分支和不屈者分支\n术士：6  5星以上，本身有群攻或决战技有群攻的术士，扩散术士分支要上减费用模组\n辅助：1  塑心3>>铃兰3>>其余5星以上带决战技或自动触发技能的辅助\n\n所有工具人的练度都建议精二30级起步，选能打的！\n不要多带辅助！！！\n不要带小车！！！\n另外，注意一下干员们的默认技能！\n详情可以打开视频链接观看并更改必要的设置\n\n导能原件：攀云机\n战术装备：狙击B医疗B特种B，其余A\n开局策略：优选策略\n\n请手动编队，阵容确认后，在有具体的关卡名字的界面，再点击开始，如第一关：LT-1 障目\n\n脚本参考：\n自己打的\n\n连接模式请使用minitouch或者maatouch，不建议使用ADB Input模式\n\n温馨提示：保全有三个蚀刻章，获得条件分别是通过普通难度、不重开通过任意难度、通过应急难度\n\n刷材料不建议在应急模式刷，也不建议使用专门用来完成任务的脚本刷\n\n作者支持按照个人需求自行修改，但不支持修改后上传到作业站等平台，使用此脚本视为认同并将履行该协议",
         "details_color": "dark"
     },
     "buff": "攀云机",
@@ -48,15 +48,17 @@
     "drops": [
         "无需增调干员",
         "术士",
+        "辅助",
         "先锋",
         "重装",
-        "辅助",
         "狙击",
         "医疗",
         "近卫",
         "特种",
         "战备激活阀",
-        "加固扩存改装"
+        "加固扩存改装",
+        "临时任命条款",
+        "机密联络存储"
     ],
     "blacklist": [
         "缪尔赛思",
@@ -203,14 +205,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [1, 1],
-                    "direction": "Right"
+                    "location": [2, 1],
+                    "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [2, 1],
+                    "location": [1, 1],
                     "direction": "Right"
                 },
                 {
@@ -257,7 +259,7 @@
                         "tank": 1
                     },
                     "location": [2, 1],
-                    "direction": "Right"
+                    "direction": "Down"
                 },
                 {
                     "core": "纯烬艾雅法拉",
@@ -266,6 +268,14 @@
                     },
                     "location": [1, 2],
                     "direction": "Right"
+                },
+                {
+                    "core": "攀云机",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [1, 3],
+                    "direction": "Left"
                 }
             ],
             "draw_as_possible": true,
@@ -283,14 +293,14 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [3, 3],
+                    "location": [4, 3],
                     "direction": "Right"
                 },
                 {
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [4, 3],
+                    "location": [3, 3],
                     "direction": "Right"
                 },
                 {
@@ -353,6 +363,14 @@
                     },
                     "location": [4, 3],
                     "direction": "Right"
+                },
+                {
+                    "core": "攀云机",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [4, 1],
+                    "direction": "Down"
                 }
             ],
             "draw_as_possible": true,
@@ -421,7 +439,7 @@
                 {
                     "core": "维什戴尔",
                     "tool_men": {
-                        "caster": 2
+                        "caster": 1
                     },
                     "location": [4, 5],
                     "direction": "Right"
@@ -441,6 +459,14 @@
                         "support": 3
                     },
                     "location": [3, 4],
+                    "direction": "Right"
+                },
+                {
+                    "core": "攀云机",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [1, 4],
                     "direction": "Right"
                 }
             ],
@@ -520,7 +546,7 @@
                 {
                     "core": "维什戴尔",
                     "tool_men": {
-                        "caster": 3
+                        "caster": 2
                     },
                     "location": [8, 4],
                     "direction": "Left"
@@ -531,6 +557,14 @@
                         "caster": 0
                     },
                     "location": [8, 2],
+                    "direction": "Left"
+                },
+                {
+                    "core": "加固扩存改装",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [10, 4],
                     "direction": "Left"
                 },
                 {
@@ -558,8 +592,8 @@
                     "tool_men": {
                         "pioneer": 1
                     },
-                    "location": [7, 4],
-                    "direction": "Left"
+                    "location": [6, 4],
+                    "direction": "Up"
                 },
                 {
                     "tool_men": {
@@ -585,6 +619,13 @@
                 },
                 {
                     "tool_men": {
+                        "pioneer": 1
+                    },
+                    "location": [7, 4],
+                    "direction": "Left"
+                },
+                {
+                    "tool_men": {
                         "caster": 1,
                         "support": 1
                     },
@@ -602,7 +643,6 @@
                 {
                     "core": "塞雷娅",
                     "tool_men": {
-                        "pioneer": 1,
                         "tank": 2
                     },
                     "location": [6, 4],
@@ -619,7 +659,7 @@
                 {
                     "core": "维什戴尔",
                     "tool_men": {
-                        "caster": 3
+                        "caster": 2
                     },
                     "location": [8, 4],
                     "direction": "Left"
@@ -632,6 +672,14 @@
                     "location": [9, 3],
                     "direction": "Left",
                     "kills": 20
+                },
+                {
+                    "core": "加固扩存改装",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [8, 5],
+                    "direction": "Up"
                 },
                 {
                     "tool_men": {
@@ -659,7 +707,7 @@
                         "pioneer": 1
                     },
                     "location": [1, 2],
-                    "direction": "Up"
+                    "direction": "Down"
                 },
                 {
                     "tool_men": {
@@ -716,7 +764,7 @@
                 {
                     "core": "维什戴尔",
                     "tool_men": {
-                        "caster": 2
+                        "caster": 1
                     },
                     "location": [4, 2],
                     "direction": "Left"
@@ -726,7 +774,15 @@
                         "tank": 2
                     },
                     "location": [1, 2],
-                    "direction": "Up"
+                    "direction": "Down"
+                },
+                {
+                    "core": "加固扩存改装",
+                    "tool_men": {
+                        "caster": 0
+                    },
+                    "location": [2, 2],
+                    "direction": "Left"
                 },
                 {
                     "core": "重岳",
@@ -749,12 +805,19 @@
                         "tank": 2
                     },
                     "location": [1, 2],
-                    "direction": "Up"
+                    "direction": "Down"
+                },
+                {
+                    "tool_men": {
+                        "pioneer": 6
+                    },
+                    "location": [3, 4],
+                    "direction": "Down"
                 },
                 {
                     "tool_men": {
                         "support": 5,
-                        "caster": 5
+                        "caster": 7
                     },
                     "location": [1, 4],
                     "direction": "Right"
@@ -785,21 +848,35 @@
                     "name": "无可置疑的罪证",
                     "location": [2, 6],
                     "direction": "None",
-                    "kills": 42
+                    "kills": 40
                 },
                 {
                     "type": "Deploy",
                     "name": "无可置疑的罪证",
                     "location": [2, 6],
                     "direction": "None",
-                    "kills": 50
+                    "kills": 45
                 },
                 {
                     "type": "Deploy",
                     "name": "无可置疑的罪证",
                     "location": [2, 6],
                     "direction": "None",
-                    "kills": 58
+                    "kills": 48
+                },
+                {
+                    "type": "Deploy",
+                    "name": "无可置疑的罪证",
+                    "location": [2, 6],
+                    "direction": "None",
+                    "kills": 54
+                },
+                {
+                    "type": "Deploy",
+                    "name": "无可置疑的罪证",
+                    "location": [2, 6],
+                    "direction": "None",
+                    "kills": 60
                 }
             ],
             "retry_times": 27
