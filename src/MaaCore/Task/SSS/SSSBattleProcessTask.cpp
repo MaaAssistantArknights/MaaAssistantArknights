@@ -198,12 +198,6 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     for (auto& strategy : m_sss_combat_data.strategies) {
-        // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
-        auto it = m_sss_combat_data.order.find(strategy.location);
-        if ((it->second.front()) != strategy.index) {
-            continue;
-        }
-
         bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
@@ -212,9 +206,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            // m_all_cores.erase(strategy.core);  全局保留core以备暴毙等情况
-
-            (it->second).erase((it->second).begin());
+            m_all_cores.erase(strategy.core);
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
@@ -228,24 +220,16 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             Role role_for_lambda = role;
 
             // 如果有可用的干员，直接使用
-            auto available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
-                return oper.available && oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
-            });
+            auto available_iter = ranges::find_if(
+                tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
             if (available_iter != tool_men.cend()) {
                 --quantity;
-                if (quantity <= 0) {
-                    strategy.tool_men.erase(role);
-                    if (strategy.tool_men.empty() && strategy.core.empty()) {
-                        (it->second).erase((it->second).begin());
-                    }
-                }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
                 return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
             }
 
-            auto not_available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
-                return oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
-            });
+            auto not_available_iter =
+                ranges::find_if(tool_men, [&](const DeploymentOper& oper) { return oper.role == role_for_lambda; });
             if (not_available_iter == tool_men.cend()) {
                 continue;
             }
