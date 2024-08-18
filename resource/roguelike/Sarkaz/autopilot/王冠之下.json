@@ -56,6 +56,5 @@
             "location": [2, 6],
             "direction": "up"
         }
-    ],
-    "retreat_plan": []
+    ]
 }

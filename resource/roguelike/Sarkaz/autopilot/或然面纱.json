@@ -6,7 +6,6 @@
             "direction": "up"
         }
     ],
-    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["奶盾", "重装"],
@@ -43,6 +42,5 @@
             "location": [2, 3],
             "direction": "left"
         }
-    ],
-    "retreat_plan": []
+    ]
 }
