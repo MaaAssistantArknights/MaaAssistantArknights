@@ -6,7 +6,6 @@
             "direction": "right"
         }
     ],
-    "blacklist_location": [],
     "deploy_plan": [
         {
             "groups": ["情报官", "挡人先锋", "奶盾"],
@@ -43,6 +42,5 @@
             "location": [1, 2],
             "direction": "right"
         }
-    ],
-    "retreat_plan": []
+    ]
 }
