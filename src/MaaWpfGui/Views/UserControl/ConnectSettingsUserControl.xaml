@@ -34,8 +34,6 @@
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
@@ -55,7 +53,6 @@
         </StackPanel>
         <StackPanel
             Grid.Row="1"
-            Grid.Column="0"
             Orientation="Horizontal"
             HorizontalAlignment="Center">
             <hc:TextBox
@@ -67,8 +64,6 @@
                 IsEnabled="{c:Binding !AutoDetectConnection}"
                 Text="{Binding AdbPath}" />
             <Button
-                Grid.Row="1"
-                Grid.Column="1"
                 Width="60"
                 Height="30"
                 Margin="10"
@@ -80,7 +75,6 @@
 
         <hc:ComboBox
             Grid.Row="2"
-            Grid.Column="0"
             Width="300"
             Height="30"
             Margin="10"
@@ -114,7 +108,7 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </hc:ComboBox>
-        <StackPanel Grid.Row="3" Grid.Column="0">
+        <StackPanel Grid.Row="3">
             <hc:ComboBox
                 Width="300"
                 Height="30"
@@ -178,12 +172,9 @@
                     Visibility="{c:Binding 'TestLinkInfo!=&quot;&quot;'}" />
             </StackPanel>
         </StackPanel>
-        <WrapPanel
+        <StackPanel
             Grid.Row="4"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+            HorizontalAlignment="Center">
             <CheckBox
                 Margin="20,10"
                 Content="{DynamicResource RetryOnDisconnected}"
@@ -201,7 +192,7 @@
                 Margin="20,10"
                 Content="{DynamicResource AutoRestartOption}"
                 IsChecked="{Binding AutoRestartOnDrop}" />
-        </WrapPanel>
+        </StackPanel>
 
         <StackPanel
             Grid.Row="5"
@@ -226,9 +217,7 @@
         </StackPanel>
 
         <StackPanel
-            Grid.Row="6"
-            Grid.Column="0"
-            Grid.ColumnSpan="2">
+            Grid.Row="6">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <CheckBox
                     Margin="20,10"
@@ -257,8 +246,6 @@
 
         <hc:TextBox
             Grid.Row="7"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
             Width="300"
             Height="30"
             Margin="10"
@@ -270,8 +257,6 @@
             Text="{Binding StartsWithScript}" />
         <hc:TextBox
             Grid.Row="8"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
             Width="300"
             Height="30"
             Margin="10"
@@ -283,8 +268,6 @@
             Text="{Binding EndsWithScript}" />
         <WrapPanel
             Grid.Row="9"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <CheckBox
@@ -302,8 +285,6 @@
         </WrapPanel>
         <StackPanel
             Grid.Row="10"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Orientation="Horizontal">
