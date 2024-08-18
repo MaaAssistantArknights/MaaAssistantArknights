@@ -10,7 +10,10 @@ from pathlib import Path
 import shutil
 import http.client
 
-TARGET_TAG = "2024-05-30"
+TARGET_TAG = "2024-08-17"
+# FIXME: temporarily hold maadeps version for windows package
+if platform.system() == "Windows":
+    TARGET_TAG = "2024-05-30"
 basedir = Path(__file__).parent
 
 
