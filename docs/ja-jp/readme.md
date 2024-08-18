@@ -64,8 +64,7 @@ UIを見れば使い方もすぐ分かる！
 
 ## ダウンロードリンク
 
-- [安定版/パブリックベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
-- [ベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
+[安定版/パブリックベータ版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
 
 ## マニュアル
 

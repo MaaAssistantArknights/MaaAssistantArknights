@@ -75,7 +75,6 @@ MAA 的意思是 MAA Assistant Arknights
 前往[官网](https://maa.plus)自动匹配镜像源并下载稳定版，或：
 
 - [稳定版/公测版](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
-- [内测版](https://github.com/MaaAssistantArknights/MaaRelease/releases)
 
 ## 使用说明
 
