@@ -235,7 +235,7 @@ namespace asst::battle
             DeployDirection direction = DeployDirection::None;
         };
 
-        using StrategyOrderLock = std::unordered_map<Point, std::vector<Strategy*>>;
+        using StrategyOrderLock = std::unordered_map<const Point, std::vector<Strategy*>, Point::Hash>;
 
         struct CombatData : public copilot::CombatData
         {
