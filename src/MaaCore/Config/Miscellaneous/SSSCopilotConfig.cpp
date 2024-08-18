@@ -81,7 +81,9 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
                 it->second.emplace_back(&strategy);
             }
             else {
-                stage_data.order.emplace(strategy.location, &strategy);
+                std::vector<Strategy*> strategy_list;
+                strategy_list.emplace_back(&strategy);
+                stage_data.order.emplace(strategy.location, strategy_list);
             }
         }
         std::string ocr_code;
