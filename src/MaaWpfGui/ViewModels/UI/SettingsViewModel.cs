@@ -3555,13 +3555,13 @@ namespace MaaWpfGui.ViewModels.UI
             }
         }
 
-        public List<CombinedData> PorxyTypeList { get; } =
+        public List<CombinedData> ProxyTypeList { get; } =
             [
-                new() { Display = "HTTP proxy", Value = "http" },
-                new() { Display = "SOCKS5 proxy", Value = "socks5" },
+                new() { Display = "HTTP Proxy", Value = "http" },
+                new() { Display = "SOCKS5 Proxy", Value = "socks5" },
             ];
 
-        string _proxyType = "http";
+        private string _proxyType = "http";
 
         public string ProxyType
         {
