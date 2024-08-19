@@ -208,11 +208,29 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
+            // 全局保留core以备暴毙等情况
+            if (strategy.core_deployed) {
+                strategy.core_deployed = false;
+                for (auto& strategy_reset : m_sss_combat_data.strategies) {
+                    if (strategy.location == strategy_reset.location) {
+                        for (auto& same_location_strategy : (it->second)) {
+                            if ((*same_location_strategy).index == strategy_reset.index) {
+                                strategy_reset = *same_location_strategy;
+                                break;
+                            }
+                        }
+                    }
+                }
+                (it->second).emplace_back((it->second).front());
+                (it->second).erase((it->second).begin());
+                return false;
+            }
+
             if (!core.available) {
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            m_all_cores.erase(strategy.core);
+            // m_all_cores.erase(strategy.core); 保core，不进行删除操作
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
@@ -226,8 +244,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             Role role_for_lambda = role;
 
             // 如果有可用的干员，直接使用
-            auto available_iter = ranges::find_if(
-                tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
+            auto available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
+                return oper.available && oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
+            });
             if (available_iter != tool_men.cend()) {
                 --quantity;
                 // 每个tool_men用尽之后删除m_sss_combat_data.strategies中tool_men的当前元素
@@ -243,8 +262,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
             }
 
-            auto not_available_iter =
-                ranges::find_if(tool_men, [&](const DeploymentOper& oper) { return oper.role == role_for_lambda; });
+            auto not_available_iter = ranges::find_if(tool_men, [&](const DeploymentOper& oper) {
+                return oper.role == role_for_lambda && !m_all_cores.contains(oper.name);
+            });
             if (not_available_iter == tool_men.cend()) {
                 continue;
             }
