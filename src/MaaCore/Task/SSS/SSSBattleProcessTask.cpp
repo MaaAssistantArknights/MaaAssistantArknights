@@ -198,6 +198,12 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     }
 
     for (auto& strategy : m_sss_combat_data.strategies) {
+        // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
+        auto it = m_sss_combat_data.order.find(strategy.location);
+        if (*(it->second.front()) != strategy) {
+            continue;
+        }
+
         bool use_the_core = ranges::all_of(strategy.tool_men, [](const auto& pair) { return pair.second <= 0; }) &&
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
@@ -224,6 +230,15 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 tool_men, [&](const DeploymentOper& oper) { return oper.available && oper.role == role_for_lambda; });
             if (available_iter != tool_men.cend()) {
                 --quantity;
+                // 每个tool_men用尽之后删除m_sss_combat_data.strategies中tool_men的当前元素
+                // 重新执行该location所有策略时用m_sss_combat_data.order进行恢复
+                if (quantity <= 0) {
+                    strategy.tool_men.erase(role);
+                    if (strategy.tool_men.empty() && strategy.core.empty()) {
+                        (it->second).emplace_back((it->second).front());
+                        (it->second).erase((it->second).begin());
+                    }
+                }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
                 return deploy_oper(available_iter->name, strategy.location, strategy.direction) && update_deployment();
             }
