@@ -21,7 +21,10 @@ jobs:
             LAST_CHECKED_COMMIT=$(git rev-list --max-parents=0 HEAD)
           fi
 
+          echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT"
           COMMITS_BEHIND=$(git rev-list --count $LAST_CHECKED_COMMIT..HEAD)
+
+          echo "fetch_depth=$((COMMITS_BEHIND + 1))"
           echo "fetch_depth=$((COMMITS_BEHIND + 1))" >> $GITHUB_ENV
 
       - name: Checkout repository with calculated depth
