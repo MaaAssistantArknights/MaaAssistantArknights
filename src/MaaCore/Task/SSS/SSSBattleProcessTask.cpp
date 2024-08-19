@@ -251,6 +251,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
             });
             if (available_iter != tool_men.cend()) {
                 --quantity;
+                // 每个tool_men用尽之后删除m_sss_combat_data.strategies中tool_men的当前元素
+                // 重新执行该location所有策略时用m_sss_combat_data.order进行恢复
                 if (quantity <= 0) {
                     strategy.tool_men.erase(role);
                     if (strategy.tool_men.empty() && strategy.core.empty()) {

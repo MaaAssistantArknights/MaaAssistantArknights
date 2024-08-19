@@ -74,9 +74,8 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
             strategy.location.x = strategy_info.at("location").at(0).as_integer();
             strategy.location.y = strategy_info.at("location").at(1).as_integer();
             strategy.direction = CopilotConfig::string_to_direction(strategy_info.get("direction", "Right"));
-            strategy.index = index;
-
             // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
+            strategy.index = index;
             if (auto it = stage_data.order.find(strategy.location); it != stage_data.order.cend()) {
                 it->second.emplace_back(std::make_shared<Strategy>(strategy));
             }
