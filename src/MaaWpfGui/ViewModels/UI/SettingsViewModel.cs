@@ -3558,10 +3558,10 @@ namespace MaaWpfGui.ViewModels.UI
         public List<CombinedData> ProxyTypeList { get; } =
             [
                 new() { Display = "HTTP Proxy", Value = "http" },
-                new() { Display = "SOCKS5 Proxy", Value = "socks5" },
+                new() { Display = "Socks5 Proxy", Value = "socks5" },
             ];
 
-        private string _proxyType = "http";
+        private string _proxyType = ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http");
 
         public string ProxyType
         {
