@@ -60,7 +60,7 @@
 * Reclamation2EX YostarKR specific notification @HX3N
 
 ### 文档 | Docs
-
+* 生息演算2用户界面提醒 (#10281) @Daydreamer114
 * 更新备选关卡文档 @Rbqwow
 * 修改 README @ABA2396
 * 修改 mumu 截图增强模式支持版本 @ABA2396
@@ -71,6 +71,9 @@
 
 ### 其他 | Other
 
+* 去除干员 OCR 识别结果中的前导下划线 (#10280) @Constrat @wangl-cc
+* remove unneccesary Grid.Column fields @Constrat
+* english tweak @Constrat
 * 肉鸽招募设置 recruitment.json 文件维护工具 (#9700) @Alan-Charred
 * 优化 mumu 注册表路径读取 @ABA2396
 * 移除测试代码 @status102
