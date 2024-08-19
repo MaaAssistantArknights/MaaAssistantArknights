@@ -7926,7 +7926,6 @@
         ],
         "algorithm": "OcrDetect",
         "text": ["坍缩范式加深"],
-        "roi": [0, 0, 1280, 720],
         "sub": ["Sami@Roguelike@MissionCompletedFlag"],
         "next": [
             "Sami@Roguelike@GetDrop1",
@@ -9435,7 +9434,6 @@
             "Sarkaz@Roguelike@StageFilterTruthHD",
             "Sarkaz@Roguelike@StageConfrontation"
         ],
-        "roi": [0, 0, 1280, 720],
         "next": ["Sarkaz@Roguelike@RoutingAction"]
     },
     "Sarkaz@Roguelike@RoutingAction": {
@@ -9465,7 +9463,6 @@
             "specialParams[8]: 节点间连线方向判定的阈值"
         ],
         "template": "empty.png",
-        "roi": [0, 0, 1280, 720],
         "specialParams": [321, 341, 586, 138, 47, 450, 32, 15, 7]
     },
     "Sarkaz@Roguelike@RoutingSwipeRight": {
