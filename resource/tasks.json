@@ -10671,11 +10671,6 @@
         "template": "Fire@Reclamation@ClickExitLevel.png",
         "roi": [100, 0, 164, 166]
     },
-    "Fire@Reclamation@BattleSkillReadyOnClick": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick.png",
-        "roi": [439, 76, 841, 644]
-    },
     "Fire@Reclamation@BattleStart": {
         "baseTask": "Fire@Reclamation@BattlePackIconTemplate",
         "template": "Fire@Reclamation@ClickExitLevel.png",
