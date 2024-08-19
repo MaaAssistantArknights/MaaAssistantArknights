@@ -78,11 +78,11 @@ bool asst::SSSCopilotConfig::parse(const json::value& json)
 
             // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
             if (auto it = stage_data.order.find(strategy.location); it != stage_data.order.cend()) {
-                it->second.emplace_back(index);
+                it->second.emplace_back(std::make_shared<Strategy>(strategy));
             }
             else {
-                std::vector<int> strategy_index { index };
-                stage_data.order.emplace(strategy.location, strategy_index);
+                std::vector<std::shared_ptr<Strategy>> strategy_list { std::make_shared<Strategy>(strategy) };
+                stage_data.order.emplace(strategy.location, strategy_list);
             }
             index++;
             stage_data.strategies.emplace_back(std::move(strategy));

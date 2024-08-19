@@ -234,15 +234,15 @@ namespace asst::battle
             Point location;
             DeployDirection direction = DeployDirection::None;
             int index;
+            bool core_deployed = false; // 全局保core，再次识别到core则同location全部重置
 
             bool operator==(const Strategy& other) const
             {
-                return core == other.core && tool_men == other.tool_men && location == other.location &&
-                       direction == other.direction;
+                return index == other.index;
             }
         };
 
-        using StrategyOrderLock = std::unordered_map<Point, std::vector<int>, Point::Hash>;
+        using StrategyOrderLock = std::unordered_map<Point, std::vector<std::shared_ptr<Strategy>>, Point::Hash>;
 
         struct CombatData : public copilot::CombatData
         {

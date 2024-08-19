@@ -200,7 +200,7 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
     for (auto& strategy : m_sss_combat_data.strategies) {
         // 步骤(strategy)间锁，以部署位置为key，保证core不被顶替
         auto it = m_sss_combat_data.order.find(strategy.location);
-        if ((it->second.front()) != strategy.index) {
+        if (*(it->second.front()) != strategy) {
             continue;
         }
 
@@ -208,13 +208,32 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                             !strategy.core.empty() && exist_core.contains(strategy.core);
         if (use_the_core) {
             const auto& core = exist_core.at(strategy.core);
+            // 全局保留core以备暴毙等情况
+            if (strategy.core_deployed) {
+                strategy.core_deployed = false;
+                for (auto& strategy_reset : m_sss_combat_data.strategies) {
+                    if (strategy.location == strategy_reset.location) {
+                        for (auto& same_location_strategy : (it->second)) {
+                            if ((*same_location_strategy).index == strategy_reset.index) {
+                                strategy_reset = *same_location_strategy;
+                                break;
+                            }
+                        }
+                    }
+                }
+                auto& firstelement = (it->second).front();
+                (it->second).erase((it->second).begin());
+                (it->second).emplace_back(firstelement);
+                return false;
+            }
+
             if (!core.available) {
                 // 直接返回，等费用，等下次循环处理部署逻辑
                 break;
             }
-            // m_all_cores.erase(strategy.core);  全局保留core以备暴毙等情况
 
-            (it->second).erase((it->second).begin());
+            // (it->second).erase((it->second).begin());
+            strategy.core_deployed = true;
             // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
             return deploy_oper(strategy.core, strategy.location, strategy.direction) && update_deployment();
         }
@@ -236,7 +255,9 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 if (quantity <= 0) {
                     strategy.tool_men.erase(role);
                     if (strategy.tool_men.empty() && strategy.core.empty()) {
+                        auto& firstelement = (it->second).front();
                         (it->second).erase((it->second).begin());
+                        (it->second).emplace_back(firstelement);
                     }
                 }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
