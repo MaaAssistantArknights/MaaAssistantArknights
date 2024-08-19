@@ -75,7 +75,6 @@ namespace asst
         Point& operator=(const Point&) noexcept = default;
         Point& operator=(Point&&) noexcept = default;
         Point operator-() const noexcept { return { -x, -y }; }
-        bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
         std::string to_string() const { return "(" + std::to_string(x) + ", " + std::to_string(y) + ")"; }
         explicit operator std::string() const { return to_string(); }
         static constexpr Point right() { return { 1, 0 }; }
@@ -86,9 +85,20 @@ namespace asst
         bool empty() const noexcept { return x == 0 && y == 0; }
         // for std::map
         bool operator<(const Point& rhs) const noexcept { return x < rhs.x || (x == rhs.x && y < rhs.y); }
+        bool operator==(const Point& rhs) const noexcept { return x == rhs.x && y == rhs.y; }
 
         int x = 0;
         int y = 0;
+
+        struct Hash
+        {
+            size_t operator()(const Point& p) const noexcept
+            {
+                auto h1 = std::hash<int> {}(p.x);
+                auto h2 = std::hash<int> {}(p.y);
+                return h1 ^ (h2 << 1); // Combine hash values
+            }
+        };
 
         // clang-format off
 #define DEFINE_ASST_POINT_BINARY_OP_AND_ARG_ASSIGN(Op)                    \
