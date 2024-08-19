@@ -15,29 +15,12 @@ jobs:
 
       - name: Get last checked commit
         run: |
-          if [ -f .last-checked-commit ]; then
-            LAST_CHECKED_COMMIT=$(cat .last-checked-commit)
-          else
-            LAST_CHECKED_COMMIT=$(git rev-list --max-parents=0 HEAD)
-          fi
+          LAST_CHECKED_COMMIT=$(cat .last-checked-commit 2>/dev/null || git rev-parse --max-parents=0 HEAD)
+          echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT" >> $GITHUB_ENV
 
-          echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT"
-          COMMITS_BEHIND=$(git rev-list --count $LAST_CHECKED_COMMIT..HEAD)
-
-          echo "fetch_depth=$((COMMITS_BEHIND + 1))"
-          echo "fetch_depth=$((COMMITS_BEHIND + 1))" >> $GITHUB_ENV
-
-      - name: Checkout repository with calculated depth
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: ${{ env.fetch_depth }}
-          persist-credentials: false # Needed to bypass protection rules in Push changes
-
-      - name: Process commits and update blame ignore list
+      - name:  Process commits and update blame ignore list
         run: |
-          git log -n ${{ env.fetch_depth }} --pretty=format:"%H %s" --grep="\[blame ignore\]" > commits.txt
-
-          awk '{print $1}' commits.txt >> .git-blame-ignore-revs
+          git log ${{ env.LAST_CHECKED_COMMIT }}..HEAD --pretty=format:"%H %s" --grep="\[blame ignore\]" | awk '{print $1}' >> .git-blame-ignore-revs
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
