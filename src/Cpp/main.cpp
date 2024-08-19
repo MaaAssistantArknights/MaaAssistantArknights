@@ -96,15 +96,24 @@ int main([[maybe_unused]] int argc, char** argv)
     }
     )");
 
-    AsstAppendTask(ptr, "Award", nullptr);
+    AsstAppendTask(ptr, "Award", R"(
+    {
+        "award": true,
+        "mail": true,
+        "recruit": true,
+        "orundum": true,
+        "mining": true,
+        "specialaccess": true
+    }
+    )");
 
     AsstAppendTask(ptr, "Roguelike", R"(
-{
-    "squad": "突击战术分队",
-    "roles": "先手必胜",
-    "core_char": "棘刺"
-}
-)");
+    {
+        "squad": "突击战术分队",
+        "roles": "先手必胜",
+        "core_char": "棘刺"
+    }
+    )");
 
 #else
 
