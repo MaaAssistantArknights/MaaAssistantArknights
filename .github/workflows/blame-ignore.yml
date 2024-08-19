@@ -16,11 +16,7 @@ jobs:
 
       - name: Get last checked commit
         run: |
-          if [ -f .last-checked-commit ]; then
-            LAST_CHECKED_COMMIT=$(cat .last-checked-commit)
-          else
-            LAST_CHECKED_COMMIT=$(git rev-parse --max-parents=0 HEAD)
-          fi
+          LAST_CHECKED_COMMIT=$(cat .last-checked-commit 2>/dev/null || git rev-list --max-parents=0 HEAD)
           echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT" >> $GITHUB_ENV
 
       - name: Process commits and update blame ignore list
