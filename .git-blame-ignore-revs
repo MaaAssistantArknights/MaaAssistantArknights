@@ -22,6 +22,7 @@ a5daac889a55baf8895918d4964f20dad1938470
 206df466fd5e3d8ef80387049b0c5011fb58cada
 c9b5aa638a97397ab8666031ea646904527afc09
 559c913fca0dd0966896396e251be13f76ea3e52
+
 # Re-structure again.
 4b3b84df8f487be0ac86506c28dbebc4635f1282
 91abbb7f175b93a58368a136acf3799666f770d2
@@ -38,4 +39,7 @@ f0bdccdf0da7fac29f475951f0f43d3ab56a7ffe
 5f3730b76785b1168125eb3b5edbed399722f8f9
 bc3ad67a02cb3b8e154c06955cf17091c4265000
 
-# [blame ignore] automated workflow
+# usage: add "[blame ignore]" to the commit message
+# This file is managed by an automated workflow
+# Do not add or modify lines below this comment
+# as they are automatically appended
