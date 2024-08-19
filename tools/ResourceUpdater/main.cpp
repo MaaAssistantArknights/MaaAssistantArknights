@@ -285,6 +285,7 @@ bool update_items_data(const std::filesystem::path& input_dir, const std::filesy
             "renamingCard",         // 改名卡
             "ap_item_",             // 干员发邮件送的东西
             "ap_supply_lt_100_202", // 干员发邮件送的理智（注意前半段id是理智小样，不能全过滤）
+            "ap_supply_lt_120_202", // Same as above in size 120 sanity
             "clue_",                // 火蓝之心活动的扭蛋什么的
             "2020recruitment10",    // 周年自选券
             "2021recruitment10",

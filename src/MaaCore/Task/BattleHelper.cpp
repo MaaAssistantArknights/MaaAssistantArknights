@@ -158,9 +158,9 @@ bool asst::BattleHelper::update_deployment(bool init, const cv::Mat& reusable, b
             static const auto cooling_threshold =
                 Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->templ_thresholds.front();
             static const auto cooling_mask_range =
-                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_range;
+                Task.get<MatchTaskInfo>("BattleAvatarCoolingData")->mask_ranges;
             avatar_analyzer.set_threshold(cooling_threshold);
-            avatar_analyzer.set_mask_range(cooling_mask_range, true, true);
+            avatar_analyzer.set_mask_ranges(cooling_mask_range, true, true);
         }
         else {
             static const auto threshold =

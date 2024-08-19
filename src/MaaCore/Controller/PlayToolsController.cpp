@@ -102,7 +102,7 @@ bool asst::PlayToolsController::start_game(const std::string& client_type [[mayb
     return true;
 }
 
-bool asst::PlayToolsController::stop_game()
+bool asst::PlayToolsController::stop_game(const std::string& client_type [[maybe_unused]])
 {
     try {
         constexpr char request[6] = { 0, 4, 'T', 'E', 'R', 'M' };
@@ -145,7 +145,7 @@ bool asst::PlayToolsController::swipe(
     }
 
     Log.trace("PlayTools swipe", p1, p2, duration, extra_swipe, slope_in, slope_out);
-    
+
     toucher_down(p1);
 
     auto cubic_spline = [](double slope_0, double slope_1, double t) {

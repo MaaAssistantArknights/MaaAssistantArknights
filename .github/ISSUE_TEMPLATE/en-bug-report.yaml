@@ -52,13 +52,13 @@ body:
     attributes:
       label: Log files
       description: >-
-        **After closing the MAA, upload the `asst.log` and `gui.log` log file in the `debug` folder and**
+        **After closing MAA, upload the `asst.log` and `gui.log` log file in the `debug` folder and**
         **indicate the approximate point in time when the problem occurred.**
 
         **Please drag and drop the full file in, not your own cuttings or copies;**
         **compress it before uploading if too large.**
       placeholder: |
-        Please confirm that MAA is turned off when uploading files:
+        Please confirm that MAA is not running when uploading files.
     validations:
       required: true
   - type: textarea
@@ -66,10 +66,10 @@ body:
     attributes:
       label: Configuration information
       description: |
-        Emulator brand, emulator resolution, DPI (if using non-default DPI), frame rate;
-        Operating system (e.g., Windows__, MacOS);
-        Is MuMu Screenshot Enhancement enabled? (Only specify for Mumu12);
-        Is GPU accelerated inference enabled? GPU model (if enabled).
+        **After closing MAA, upload the `gui.json` config file in the `config` folder**
+        Also, please specify the operating system and version, emulator brand, emulator resolution, DPI, and frame rate;
+        If you are using MuMu 12, please specify whether MuMu Screenshot Enhancement is enabled;
+        Finally, please specify whether GPU accelerated inference is enabled, and if so, provide the GPU model.
     validations:
       required: true
   - type: textarea

@@ -43,10 +43,10 @@ After installing and configuring MaaCore, you can run tasks. maa-cli supports tw
 ### Predefined tasks
 
 - `maa startup [client]`: start the game client and enter the main screen, the `client` is the client type of game, leave it empty to don't start the game;
-- `maa closedown`: close the game client;
+- `maa closedown [client]`: close the game client, the `client` is the client type of game, default is `Official`;
 - `maa fight [stage]`: run a "fight" task, the `stage` is the stage to fight, like `1-7`, `CE-6`, etc.; if not given, the user will be prompted to input one;
 - `maa copilot <maa_uri>`: run a "copilot" task, the `maa_uri` is the URI of a copilot task; it can be `maa://1234` or local file path;
-- `maa roguelike [theme]`: run a "roguelike" task, the `theme` is the theme of roguelike, and available themes are `Phantom`, `Mizuki` and `Sami`.
+- `maa roguelike [theme]`: run a "roguelike" task, the `theme` is the theme of roguelike, and available themes are `Phantom`, `Mizuki`, `Sami` and `Sarkaz`.
 
 The above tasks accept some parameters, you can view the specific parameters by `maa <task> --help`.
 

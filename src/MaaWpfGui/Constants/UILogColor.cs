@@ -59,6 +59,11 @@ namespace MaaWpfGui.Constants
         /// </summary>
         public const string Download = "DownloadLogBrush";
 
+        /// <summary>
+        /// The recommended color for MuMu special screenshot.
+        /// </summary>
+        public const string MuMuSpecialScreenshot = "MuMuSpecialScreenshot";
+
         // 颜色在MaaWpfGui\Res\Themes中定义
         // Brush are defined in MaaWpfGui\Res\Themes
     }

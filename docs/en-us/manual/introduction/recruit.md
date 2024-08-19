@@ -4,11 +4,10 @@ order: 2
 
 # Recruit
 
-::: important Translation Required
-This page is outdated and maybe still in Simplified Chinese. Translation is needed.
+::: important This page may be outdated.
 :::
 
-Auto-recruitment and [recruitment recognition](./tools.md#recruitment-recognition) are two different features.
+The Recruit option in the 'Farming' tab and [recruitment recognition](./tools.md#recruitment-recognition) are two different features, though most options from the tool are in the recruit option as well.
 
 ## Auto-recruitment
 

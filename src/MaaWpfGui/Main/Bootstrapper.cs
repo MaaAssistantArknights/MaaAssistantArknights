@@ -15,7 +15,6 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows;
@@ -23,6 +22,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
 using GlobalHotKey;
+using MaaWpfGui.Configuration;
 using MaaWpfGui.Helper;
 using MaaWpfGui.Services;
 using MaaWpfGui.Services.HotKeys;
@@ -224,6 +224,7 @@ namespace MaaWpfGui.Main
             ToastNotification.Cleanup();
 
             ConfigurationHelper.Release();
+            ConfigFactory.Release();
 
             _logger.Information("MaaAssistantArknights GUI exited");
             _logger.Information(string.Empty);

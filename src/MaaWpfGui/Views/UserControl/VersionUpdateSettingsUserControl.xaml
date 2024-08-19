@@ -88,15 +88,20 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
 
-                    <controls:TextBlock
+                    <ComboBox
                         Grid.Row="0"
-                        Margin="1"
-                        VerticalAlignment="Center"
-                        Text="Http Proxy" />
+                        BorderThickness="0"
+                        Width="130"
+                        Margin="0,10,0,0"
+                        DisplayMemberPath="Display"
+                        HorizontalContentAlignment="Center"
+                        ItemsSource="{Binding ProxyTypeList}"
+                        SelectedValue="{Binding ProxyType}"
+                        SelectedValuePath="Value" />
                     <TextBox
                         Grid.Row="1"
                         Width="150"
-                        Margin="10"
+                        Margin="10,0,10,10"
                         VerticalAlignment="Center"
                         InputMethod.IsInputMethodEnabled="False"
                         Text="{Binding Proxy}" />
@@ -132,6 +137,7 @@
                     <StackPanel
                         Grid.Row="3"
                         Margin="5"
+                        Orientation="Horizontal"
                         VerticalAlignment="Center">
                         <Button
                             Margin="5"

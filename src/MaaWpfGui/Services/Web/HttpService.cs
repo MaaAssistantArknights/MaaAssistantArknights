@@ -43,7 +43,7 @@ namespace MaaWpfGui.Services.Web
                     return string.Empty;
                 }
 
-                return p.Contains("://") ? p : $"http://{p}";
+                return p.Contains("://") ? p : ConfigurationHelper.GetGlobalValue(ConfigurationKeys.ProxyType, "http") + $"://{p}";
             }
         }
 

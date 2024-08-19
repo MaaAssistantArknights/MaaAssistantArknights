@@ -13,7 +13,7 @@ body:
           required: true
         - label: 我已查看最新测试版本的更新内容，并未提及该 Bug 已被修复的情况
           required: true
-        - label: 我已检查了置顶议题（pinned issue），确认我的问题未被提及
+        - label: 我已检查了置顶议题（Pinned Issue），确认我的问题未被提及
           required: true
   - type: textarea
     id: describe
@@ -39,10 +39,10 @@ body:
     attributes:
       label: 日志文件
       description: |
-        **请在关闭MAA后，上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
+        **请在关闭 MAA 后，上传 `debug` 文件夹中的 `asst.log` 和 `gui.log` 日志文件，并说明问题出现的大致时间点**
         **请直接将完整的文件拖拽进来，而非自己裁切或复制的片段；若文件体积过大可压缩后再上传**
       placeholder: |
-        请确认上传文件时MAA已关闭:
+        请确认上传文件时已关闭 MAA
     validations:
       required: true
   - type: textarea
@@ -50,10 +50,10 @@ body:
     attributes:
       label: 配置信息
       description: |
-        模拟器品牌，模拟器分辨率、DPI(非默认dpi需写)、帧率；
-        操作系统 (如 Windows__, MacOS)；
-        MuMu截图增强是否开启 (Mumu12需写)；
-        GPU加速推理是否开启，GPU型号(若开启)。
+        **请在关闭MAA后，上传 `config` 文件夹中的 `gui.json` 配置文件**
+        同时请说明操作系统及版本、模拟器品牌、模拟器分辨率、DPI、帧率；
+        若正在使用 MuMu 12，请说明 MuMu 截图增强是否开启；
+        最后请说明 GPU 加速推理是否开启，若开启请提供 GPU 型号。
     validations:
       required: true
   - type: textarea

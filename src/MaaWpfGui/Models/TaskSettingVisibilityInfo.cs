@@ -54,7 +54,7 @@ namespace MaaWpfGui.Models
 
         public bool AfterAction { get => _afterAction; set => SetAndNotify(ref _afterAction, value); }
 
-        public static TaskSettingVisibilityInfo Current { get; } = new TaskSettingVisibilityInfo();
+        public static TaskSettingVisibilityInfo Current { get; } = new();
 
         public void Set(string taskName, bool enable)
         {
