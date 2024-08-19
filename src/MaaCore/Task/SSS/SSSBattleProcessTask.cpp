@@ -221,9 +221,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                         }
                     }
                 }
-                auto& firstelement = (it->second).front();
+                (it->second).emplace_back((it->second).front());
                 (it->second).erase((it->second).begin());
-                (it->second).emplace_back(firstelement);
                 return false;
             }
 
@@ -255,9 +254,8 @@ bool asst::SSSBattleProcessTask::check_and_do_strategy(const cv::Mat& reusable)
                 if (quantity <= 0) {
                     strategy.tool_men.erase(role);
                     if (strategy.tool_men.empty() && strategy.core.empty()) {
-                        auto& firstelement = (it->second).front();
+                        (it->second).emplace_back((it->second).front());
                         (it->second).erase((it->second).begin());
-                        (it->second).emplace_back(firstelement);
                     }
                 }
                 // 部署完，画面会发生变化，所以直接返回，后续逻辑交给下次循环处理
