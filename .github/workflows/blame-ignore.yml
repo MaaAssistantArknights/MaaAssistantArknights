@@ -29,7 +29,7 @@ jobs:
         with:
           fetch-depth: ${{ env.fetch_depth }}
           persist-credentials: false # Needed to bypass protection rules in Push changes
-  
+
       - name: Process commits and update blame ignore list
         run: |
           git log -n ${{ env.fetch_depth }} --pretty=format:"%H %s" --grep="\[blame ignore\]" > commits.txt
