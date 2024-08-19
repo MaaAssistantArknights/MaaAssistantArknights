@@ -16,10 +16,14 @@ jobs:
 
       - name: Get last checked commit
         run: |
-          LAST_CHECKED_COMMIT=$(cat .last-checked-commit 2>/dev/null || git rev-parse --max-parents=0 HEAD)
+          if [ -f .last-checked-commit ]; then
+            LAST_CHECKED_COMMIT=$(cat .last-checked-commit)
+          else
+            LAST_CHECKED_COMMIT=$(git rev-parse --max-parents=0 HEAD)
+          fi
           echo "LAST_CHECKED_COMMIT=$LAST_CHECKED_COMMIT" >> $GITHUB_ENV
 
-      - name:  Process commits and update blame ignore list
+      - name: Process commits and update blame ignore list
         run: |
           git log ${{ env.LAST_CHECKED_COMMIT }}..HEAD --pretty=format:"%H %s" --grep="\[blame ignore\]" | awk '{print $1}' >> .git-blame-ignore-revs
 
