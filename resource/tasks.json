@@ -2841,7 +2841,6 @@
         "onErrorNext": ["Stop"]
     },
     "OrundumActivitiesChoose": {
-        "action": "DoNothing",
         "algorithm": "OcrDetect",
         "text": ["请选择", "选择"],
         "roi": [1023, 504, 198, 81],
@@ -4636,20 +4635,16 @@
         "next": ["#self", "Stop"]
     },
     "BattleSkillReadyOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillReadyOnClick-SquareMap.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick-MiddleMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-MiddleMap.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleSkillStopOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick",
-        "template": "BattleSkillStopOnClick-SquareMap.png"
+        "baseTask": "BattleSkillReadyOnClick"
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
@@ -5704,7 +5699,6 @@
         "algorithm": "JustReturn",
         "action": "ClickRect",
         "specificRect": [525, 549, 16, 25],
-        "postDelay": 0,
         "next": ["RoguelikeRecruitLazyClick2"]
     },
     "RoguelikeRecruitLazyClick2": {
@@ -7572,7 +7566,6 @@
     "Mizuki@Roguelike@StageDreadfulFoe": {},
     "Mizuki@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "Mizuki@Roguelike@Stage",
-        "template": "Mizuki@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -8050,7 +8043,6 @@
     },
     "Sami@Roguelike@FoldartalGain": {
         "doc": "本任务注册插件RoguelikeFoldartalGain",
-        "template": "Sami@Roguelike@FoldartalGain.png",
         "action": "ClickRect",
         "specificRect": [611, 496, 60, 51],
         "postDelay": 500,
@@ -8296,10 +8288,8 @@
         "text": ["科考记录"]
     },
     "Sami@Roguelike@SpecialValRecognition": {
-        "algorithm": "OcrDetect",
         "Doc": "特殊值识别，如抗干扰值，需修改对应主题的roi",
-        "text": [],
-        "roi": [615, 0, 80, 45]
+        "text": []
     },
     "Sami@Roguelike@SquadConfirm": {
         "template": "Sami@Roguelike@LastRewardConfirm.png",
@@ -8371,7 +8361,6 @@
     "Sami@Roguelike@StageDreadfulFoe-5": {
         "Doc": "第五层的boss关卡",
         "baseTask": "Sami@Roguelike@Stage",
-        "template": "Sami@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -9525,7 +9514,6 @@
         "text": ["假说辑录"]
     },
     "Sarkaz@Roguelike@SpecialValRecognition": {
-        "algorithm": "OcrDetect",
         "Doc": "特殊值识别，构想数量",
         "text": [],
         "roi": [848, 686, 46, 26]
@@ -9650,7 +9638,6 @@
     "Sarkaz@Roguelike@StageDreadfulFoe": {},
     "Sarkaz@Roguelike@StageDreadfulFoe-5": {
         "baseTask": "Sarkaz@Roguelike@Stage",
-        "template": "Sarkaz@Roguelike@StageDreadfulFoe-5.png",
         "templThreshold": 0.85,
         "exceededNext": ["RoguelikeControlTaskPlugin-Stop"],
         "next": [
@@ -9740,7 +9727,6 @@
         "next": ["Sarkaz@Roguelike@StageFilterTruthChooseCollection", "Sarkaz@Roguelike@StageFilterTruthConfirm"]
     },
     "Sarkaz@Roguelike@StageFilterTruthCannotCombine": {
-        "action": "DoNothing",
         "templThreshold": 0.95,
         "roi": [279, 374, 155, 170],
         "next": ["Sarkaz@Roguelike@StageFilterTruthLeave"]
