@@ -4627,11 +4627,8 @@
         "rectMove": [-28, -140, 64, 64]
     },
     "BattleSkillReadyOnClick-TopView": {
-        "template": [
-            "BattleSkillReadyOnClick-TopView.png",
-            "BattleSkillStopOnClick-TopView.png"
-        ],
-        "templThreshold": [ 0.8, 0.8 ]
+        "template": ["BattleSkillReadyOnClick-TopView.png", "BattleSkillStopOnClick-TopView.png"],
+        "templThreshold": [0.8, 0.8]
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
