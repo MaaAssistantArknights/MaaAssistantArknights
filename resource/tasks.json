@@ -4626,25 +4626,12 @@
     "BattleSkillReady": {
         "rectMove": [-28, -140, 64, 64]
     },
-    "BattleSkillReadyOnClick": {
-        "roi": [748, 414, 210, 118],
-        "templThreshold": 0.7,
-        "action": "ClickSelf",
-        "rectMove": [0, -110, 90, 90],
-        "postDelay": 300,
-        "next": ["#self", "Stop"]
-    },
-    "BattleSkillReadyOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick"
-    },
-    "BattleSkillStopOnClick": {
-        "baseTask": "BattleSkillReadyOnClick"
-    },
-    "BattleSkillStopOnClick-MiddleMap": {
-        "baseTask": "BattleSkillReadyOnClick"
-    },
-    "BattleSkillStopOnClick-SquareMap": {
-        "baseTask": "BattleSkillReadyOnClick"
+    "BattleSkillReadyOnClick-TopView": {
+        "template": [
+            "BattleSkillReadyOnClick-TopView.png",
+            "BattleSkillStopOnClick-TopView.png"
+        ],
+        "templThreshold": [ 0.8, 0.8 ]
     },
     "BattleUseOper": {
         "algorithm": "JustReturn",
