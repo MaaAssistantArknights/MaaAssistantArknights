@@ -66,7 +66,7 @@ MAA는 MAA Assistant Arknights의 약자입니다
 
 ## 다운로드
 
-[안정 버전](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases/latest)
+[Releases](https://github.com/MaaAssistantArknights/MaaAssistantArknights/releases)
 
 ## 사용 방법
 
