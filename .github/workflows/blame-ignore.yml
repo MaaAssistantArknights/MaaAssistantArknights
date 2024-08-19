@@ -37,11 +37,14 @@ jobs:
               echo "$COMMIT_HASH" >> .git-blame-ignore-revs
             fi
           done < commits.txt
+
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
           git rev-parse HEAD > .last-checked-commit
-          git add .
-          git commit -m "chore: auto blame ignore"
+
+          git add .last-checked-commit .git-blame-ignore-revs
+          git commit -m "chore: auto blame ignore" -m "[skip changelog]"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
