@@ -14,36 +14,38 @@ jobs:
           persist-credentials: false # Needed to bypass protection rules in Push changes
 
       - name: Get last checked commit
-        id: get_last_checked_commit
         run: |
           if [ -f .last-checked-commit ]; then
             LAST_CHECKED_COMMIT=$(cat .last-checked-commit)
           else
             LAST_CHECKED_COMMIT=$(git rev-list --max-parents=0 HEAD)
           fi
-          echo "last_checked_commit=$LAST_CHECKED_COMMIT" >> $GITHUB_ENV
 
-      - name: Get new commit messages and hashes
-        id: get_commits
-        run: |
-          git log ${{ env.last_checked_commit }}..HEAD --pretty=format:"%H %s" > commits.txt
+          COMMITS_BEHIND=$(git rev-list --count $LAST_CHECKED_COMMIT..HEAD)
+          echo "fetch_depth=$((COMMITS_BEHIND + 1))" >> $GITHUB_ENV
 
-      - name: Check commit messages and update .git-blame-ignore-revs
+      - name: Checkout repository with calculated depth
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ env.fetch_depth }}
+          persist-credentials: false # Needed to bypass protection rules in Push changes
+  
+      - name: Process commits and update blame ignore list
         run: |
-          while IFS= read -r line; do
-            COMMIT_HASH=$(echo $line | cut -d' ' -f1)
-            COMMIT_MESSAGE=$(echo $line | cut -d' ' -f2-)
-            if [[ "$COMMIT_MESSAGE" == *"[blame ignore]"* ]]; then
-              echo "$COMMIT_HASH" >> .git-blame-ignore-revs
-            fi
-          done < commits.txt
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git log -n ${{ env.fetch_depth }} --pretty=format:"%H %s" --grep="\[blame ignore\]" > commits.txt
+
+          awk '{print $1}' commits.txt >> .git-blame-ignore-revs
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git rev-parse HEAD > .last-checked-commit
-          git add .
-          git commit -m "chore: auto blame ignore"
+
+          git add .last-checked-commit .git-blame-ignore-revs
+          git commit -m "chore: auto blame ignore" -m "[skip changelog]"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
+          branch: ${{ github.ref }}
           github_token: ${{ secrets.MAA_RESOURCE_SYNC }}
